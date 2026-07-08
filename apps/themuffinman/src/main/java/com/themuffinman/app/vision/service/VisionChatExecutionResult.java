@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -16,6 +18,8 @@ public class VisionChatExecutionResult {
     private boolean executed;
     private String blockingReason;
     private ChatConversationSummaryDTO conversation;
+    @Builder.Default
+    private List<VisionChatTargetCandidate> candidates = List.of();
 
     public static VisionChatExecutionResult executed(ChatConversationSummaryDTO conversation) {
         return VisionChatExecutionResult.builder()
@@ -28,6 +32,14 @@ public class VisionChatExecutionResult {
         return VisionChatExecutionResult.builder()
                 .executed(false)
                 .blockingReason(blockingReason)
+                .build();
+    }
+
+    public static VisionChatExecutionResult blocked(String blockingReason, List<VisionChatTargetCandidate> candidates) {
+        return VisionChatExecutionResult.builder()
+                .executed(false)
+                .blockingReason(blockingReason)
+                .candidates(candidates == null ? List.of() : List.copyOf(candidates))
                 .build();
     }
 }

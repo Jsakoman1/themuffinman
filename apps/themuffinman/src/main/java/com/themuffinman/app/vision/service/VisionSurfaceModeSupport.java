@@ -49,7 +49,9 @@ final class VisionSurfaceModeSupport {
                     ? "Conversation is active."
                     : "Next step: " + clarificationService.buildQuestion(conversation.getRequestedSlot());
             case REVIEW_READY -> "Ready for review and confirmation.";
-            case COMPLETED -> "Task finished.";
+            case COMPLETED -> "superseded".equals(conversation.getSlotData().get("conversation_outcome"))
+                    ? "Task closed when a newer task started."
+                    : "Task finished.";
             case BLOCKED -> "Conversation stopped until the user starts a supported task.";
         };
     }

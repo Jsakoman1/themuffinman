@@ -30,6 +30,7 @@ import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
+import com.themuffinman.app.vision.model.VisionIntent;
 import com.themuffinman.app.vision.model.VisionNextAction;
 import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
@@ -161,10 +162,49 @@ class VisionConversationServiceTest {
         lenient().when(visionCreateQuestExecutionAdapter.capabilityId()).thenReturn("create_quest");
         VisionCreateCircleExecutionAdapter visionCreateCircleExecutionAdapter =
                 new VisionCreateCircleExecutionAdapter(visionCapabilityPreviewService);
+        VisionCreateCircleRequestExecutionAdapter visionCreateCircleRequestExecutionAdapter =
+                new VisionCreateCircleRequestExecutionAdapter(visionCapabilityPreviewService);
+        VisionAcceptCircleRequestExecutionAdapter visionAcceptCircleRequestExecutionAdapter =
+                new VisionAcceptCircleRequestExecutionAdapter(visionCapabilityPreviewService);
+        VisionDeleteCircleRequestExecutionAdapter visionDeleteCircleRequestExecutionAdapter =
+                new VisionDeleteCircleRequestExecutionAdapter(visionCapabilityPreviewService);
+        VisionCreateApplicationExecutionAdapter visionCreateApplicationExecutionAdapter =
+                new VisionCreateApplicationExecutionAdapter(visionCapabilityPreviewService);
+        VisionUpdateApplicationExecutionAdapter visionUpdateApplicationExecutionAdapter =
+                new VisionUpdateApplicationExecutionAdapter(visionCapabilityPreviewService);
+        VisionWithdrawApplicationExecutionAdapter visionWithdrawApplicationExecutionAdapter =
+                new VisionWithdrawApplicationExecutionAdapter(visionCapabilityPreviewService);
+        VisionApproveApplicationExecutionAdapter visionApproveApplicationExecutionAdapter =
+                new VisionApproveApplicationExecutionAdapter(visionCapabilityPreviewService);
+        VisionDeclineApplicationExecutionAdapter visionDeclineApplicationExecutionAdapter =
+                new VisionDeclineApplicationExecutionAdapter(visionCapabilityPreviewService);
+        VisionUpdateCircleExecutionAdapter visionUpdateCircleExecutionAdapter =
+                new VisionUpdateCircleExecutionAdapter(visionCapabilityPreviewService);
+        VisionDeleteCircleExecutionAdapter visionDeleteCircleExecutionAdapter =
+                new VisionDeleteCircleExecutionAdapter(visionCapabilityPreviewService);
+        VisionUpdateProfileExecutionAdapter visionUpdateProfileExecutionAdapter =
+                new VisionUpdateProfileExecutionAdapter(visionCapabilityPreviewService);
+        VisionUpdateProfileLocationExecutionAdapter visionUpdateProfileLocationExecutionAdapter =
+                new VisionUpdateProfileLocationExecutionAdapter(visionCapabilityPreviewService);
         VisionExecutionService visionExecutionService = new VisionExecutionService(
                 new VisionSemanticRouteCatalogService(),
                 visionSurfacePolicy,
-                List.of(visionCreateQuestExecutionAdapter, visionCreateCircleExecutionAdapter)
+                List.of(
+                        visionCreateQuestExecutionAdapter,
+                        visionCreateCircleExecutionAdapter,
+                        visionCreateCircleRequestExecutionAdapter,
+                        visionAcceptCircleRequestExecutionAdapter,
+                        visionDeleteCircleRequestExecutionAdapter,
+                        visionCreateApplicationExecutionAdapter,
+                        visionUpdateApplicationExecutionAdapter,
+                        visionWithdrawApplicationExecutionAdapter,
+                        visionApproveApplicationExecutionAdapter,
+                        visionDeclineApplicationExecutionAdapter,
+                        visionUpdateCircleExecutionAdapter,
+                        visionDeleteCircleExecutionAdapter,
+                        visionUpdateProfileExecutionAdapter,
+                        visionUpdateProfileLocationExecutionAdapter
+                )
         );
         currentUser = TestFixtures.user(7L, "vision-user");
 
@@ -1333,6 +1373,175 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void updateProfileReviewEditCanRetargetDescription() {
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(64L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(VisionIntent.UPDATE_PROFILE);
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        conversation.setSlotData(new java.util.LinkedHashMap<>());
+        conversation.getSlotData().put("profile_username", "jsak");
+        conversation.getSlotData().put("profile_description", "Reliable mover");
+
+        when(visionConversationRepository.findByIdAndOwner(64L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(conversation)).thenReturn(5L, 5L, 6L, 6L);
+        when(visionCapabilityPreviewService.previewProfileDraft(currentUser, "jsak", "Trusted helper"))
+                .thenReturn(com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("update_profile")
+                        .title("Profile draft")
+                        .summary("Review 2 profile changes before confirmation.")
+                        .items(List.of(
+                                com.themuffinman.app.vision.dto.VisionSlotSummaryDTO.builder()
+                                        .slotId("profile_username")
+                                        .label("Username")
+                                        .value("jsak")
+                                        .build(),
+                                com.themuffinman.app.vision.dto.VisionSlotSummaryDTO.builder()
+                                        .slotId("profile_description")
+                                        .label("Profile description")
+                                        .value("Trusted helper")
+                                        .build()
+                        ))
+                        .tone("info")
+                        .build());
+
+        VisionConversationTurnResponseDTO editRequestResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(64L)
+                        .action("REQUEST_REVIEW_EDIT")
+                        .reviewTarget("PROFILE_DESCRIPTION")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("ASK_FOR_SLOT", editRequestResponse.getNextAction());
+        assertEquals("profile_description", editRequestResponse.getRequestedSlot());
+
+        VisionConversationTurnResponseDTO reviewResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(64L)
+                        .prompt("Trusted helper")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("SHOW_REVIEW", reviewResponse.getNextAction());
+        assertTrue(reviewResponse.getSlotSummaries().stream().anyMatch(slot ->
+                "profile_description".equals(slot.getSlotId()) && "Trusted helper".equals(slot.getValue())));
+    }
+
+    @Test
+    void createCircleRequestReviewEditCanRetargetRecipient() {
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(65L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(VisionIntent.CREATE_CIRCLE_REQUEST);
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        conversation.setSlotData(new java.util.LinkedHashMap<>());
+        conversation.getSlotData().put("target_user", "Josip");
+        conversation.getSlotData().put("circle_request_target_user_id", "12");
+        conversation.getSlotData().put("circle_request_target_username", "Josip");
+
+        when(visionConversationRepository.findByIdAndOwner(65L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(conversation)).thenReturn(3L, 3L, 4L, 4L);
+        when(visionCapabilityPreviewService.resolveCircleRequestRecipient(currentUser, "Maja"))
+                .thenReturn(VisionResolvedUserTarget.resolved(13L, "Maja"));
+        when(visionCapabilityPreviewService.previewCreateCircleRequestDraft("Maja"))
+                .thenReturn(com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("create_circle_request")
+                        .title("Circle request draft")
+                        .summary("Review the connection invite before confirmation.")
+                        .items(List.of())
+                        .tone("info")
+                        .build());
+
+        VisionConversationTurnResponseDTO editRequestResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(65L)
+                        .action("REQUEST_REVIEW_EDIT")
+                        .reviewTarget("TARGET_USER")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("ASK_FOR_SLOT", editRequestResponse.getNextAction());
+        assertEquals("target_user", editRequestResponse.getRequestedSlot());
+
+        VisionConversationTurnResponseDTO reviewResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(65L)
+                        .prompt("Maja")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("SHOW_REVIEW", reviewResponse.getNextAction());
+        assertTrue(reviewResponse.getSlotSummaries().stream().anyMatch(slot ->
+                "target_user".equals(slot.getSlotId()) && "Maja".equals(slot.getValue())));
+    }
+
+    @Test
+    void updateApplicationReviewEditCanRetargetPrice() {
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(66L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(VisionIntent.UPDATE_APPLICATION);
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        conversation.setSlotData(new java.util.LinkedHashMap<>());
+        conversation.getSlotData().put("application_quest_id", "55");
+        conversation.getSlotData().put("application_quest_title", "Move a sofa");
+        conversation.getSlotData().put("application_quest_creator", "anna");
+        conversation.getSlotData().put("application_price_required", "true");
+        conversation.getSlotData().put("application_existing_message", "Old message");
+        conversation.getSlotData().put("application_existing_proposed_price", "20");
+        conversation.getSlotData().put("application_message", "I can come earlier");
+        conversation.getSlotData().put("application_proposed_price", "25");
+
+        when(visionConversationRepository.findByIdAndOwner(66L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(conversation)).thenReturn(4L, 4L, 5L, 5L);
+        when(visionCapabilityPreviewService.previewUpdateApplicationDraft(
+                "Move a sofa",
+                "anna",
+                null,
+                true,
+                "Old message",
+                "20",
+                "I can come earlier",
+                "30"
+        )).thenReturn(com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                .capabilityId("update_application")
+                .title("Application update draft")
+                .summary("Review the application changes before confirmation. Unchanged values will be kept.")
+                .items(List.of())
+                .tone("info")
+                .build());
+
+        VisionConversationTurnResponseDTO editRequestResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(66L)
+                        .action("REQUEST_REVIEW_EDIT")
+                        .reviewTarget("APPLICATION_PRICE")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("ASK_FOR_SLOT", editRequestResponse.getNextAction());
+        assertEquals("application_proposed_price", editRequestResponse.getRequestedSlot());
+
+        VisionConversationTurnResponseDTO reviewResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(66L)
+                        .prompt("30")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("SHOW_REVIEW", reviewResponse.getNextAction());
+        assertTrue(reviewResponse.getSlotSummaries().stream().anyMatch(slot ->
+                "application_proposed_price".equals(slot.getSlotId()) && "30".equals(slot.getValue())));
+    }
+
+    @Test
     void updateProfileLocationPromptReachesReviewAndConfirmSavesLocation() {
         visionProperties.setExecutionEnabled(true);
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L, 2L);
@@ -1473,6 +1682,9 @@ class VisionConversationServiceTest {
     @Test
     void switchesConversationIntentWhenPromptChangesTaskType() {
         VisionConversation conversation = createQuestConversation(88L, "quest_title");
+        conversation.setLastUserPrompt("create a quest");
+        conversation.setLastNormalizedPrompt("create a quest");
+        conversation.setLastAssistantMessage("What should the new quest be called?");
         when(visionConversationRepository.findByIdAndOwner(88L, currentUser)).thenReturn(Optional.of(conversation));
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L);
 
@@ -1487,6 +1699,15 @@ class VisionConversationServiceTest {
         assertEquals("DISCOVER_QUESTS", response.getIntent());
         assertEquals("SHOW_RESULTS", response.getNextAction());
         assertNotEquals(88L, response.getConversationId());
+        assertEquals(VisionConversationStatus.COMPLETED, conversation.getStatus());
+        assertEquals("superseded", conversation.getSlotData().get("conversation_outcome"));
+        assertEquals("This vision task was left behind when a newer task started.", conversation.getLastAssistantMessage());
+        assertTrue(response.getRecentConversations().stream().anyMatch(summary ->
+                Long.valueOf(88L).equals(summary.getConversationId())
+                        && summary.isCompleted()
+                        && !summary.isResumable()
+                        && "Task closed when a newer task started.".equals(summary.getProgressLabel())
+        ));
     }
 
     @Test
@@ -1829,6 +2050,8 @@ class VisionConversationServiceTest {
                                 && "de-CH".equals(runtimeHints.getClientLocale())
                                 && "Europe/Zurich".equals(runtimeHints.getClientTimezone()))
         );
+        assertEquals("de-CH", conversation.getSlotData().get("client_locale"));
+        assertEquals("Europe/Zurich", conversation.getSlotData().get("client_timezone"));
     }
 
     @Test
@@ -2273,6 +2496,51 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void openChatAmbiguityCanBeResolvedByChoosingACandidateNumber() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionChatExecutionService.openChat(any(AppUser.class), any(String.class), any(VisionSemanticPlan.class)))
+                .thenReturn(VisionChatExecutionResult.blocked(
+                        "I found several possible chat contacts for \"jo\": Josip, Josipa. Say the exact username or email, or choose a numbered candidate.",
+                        List.of(
+                                VisionChatTargetCandidate.builder().value("Josip").label("Josip").build(),
+                                VisionChatTargetCandidate.builder().value("Josipa").label("Josipa").build()
+                        )))
+                .thenReturn(VisionChatExecutionResult.executed(ChatConversationSummaryDTO.builder()
+                        .conversationId(302L)
+                        .otherUserId(9L)
+                        .otherUsername("Josipa")
+                        .resolutionKey("conversation:302")
+                        .resolutionLabel("Chat with Josipa")
+                        .exactResolutionEligible(true)
+                        .build()));
+
+        VisionConversationTurnResponseDTO firstResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("chat with jo")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("OPEN_CHAT", firstResponse.getIntent());
+        assertEquals("ASK_FOR_SLOT", firstResponse.getNextAction());
+        assertEquals("target_user", firstResponse.getRequestedSlot());
+        assertTrue(firstResponse.getBlocks().stream().anyMatch(block ->
+                "field_request".equals(block.getType()) && block.getOptions().size() == 2));
+
+        VisionConversationTurnResponseDTO secondResponse = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .conversationId(firstResponse.getConversationId())
+                        .prompt("2")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("OPEN_CHAT", secondResponse.getIntent());
+        assertEquals("COMPLETE", secondResponse.getNextAction());
+        assertEquals("Chat opened with Josipa.", secondResponse.getMessage());
+    }
+
+    @Test
     void confirmedReviewExecutesQuestWhenExecutionIsEnabled() {
         visionProperties.setExecutionEnabled(true);
 
@@ -2417,6 +2685,24 @@ class VisionConversationServiceTest {
         assertEquals("completed", response.getItems().getFirst().getGroupKey());
         assertTrue(!response.getItems().getFirst().isResumable());
         assertTrue(response.getItems().getFirst().isCompleted());
+    }
+
+    @Test
+    void recentConversationSummaryMarksStaleActiveTaskAsNotResumable() {
+        VisionConversation conversation = createQuestConversation(110L, "reward_amount");
+        conversation.setLastAssistantMessage("What is the reward amount, or should this quest be free?");
+        conversation.setUpdatedAt(java.time.Instant.now().minus(java.time.Duration.ofHours(25)));
+        conversation.getSlotData().put("quest_title", "Old sofa task");
+
+        when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser)).thenReturn(List.of(conversation));
+
+        VisionConversationListResponseDTO response = visionConversationService.listRecentConversations(currentUser);
+
+        assertEquals(1, response.getItems().size());
+        assertEquals("Old sofa task", response.getItems().getFirst().getTitle());
+        assertTrue(response.getItems().getFirst().isStale());
+        assertTrue(!response.getItems().getFirst().isResumable());
+        assertTrue(!response.getItems().getFirst().isCompleted());
     }
 
     @Test

@@ -102,7 +102,11 @@ public class VisionCreateQuestExecutionAdapter implements VisionCapabilityExecut
 
         String scheduledDate = required(slotData, "scheduled_date");
         String scheduledTime = required(slotData, "scheduled_time");
-        String scheduledAt = visionScheduleParserService.deriveScheduledAt(scheduledDate, scheduledTime);
+        String scheduledAt = visionScheduleParserService.deriveScheduledAt(
+                scheduledDate,
+                scheduledTime,
+                slotData.get("client_timezone")
+        );
         if (scheduledAt == null || scheduledAt.isBlank()) {
             throw ServiceErrors.conflict("Missing required slot: scheduled_at");
         }

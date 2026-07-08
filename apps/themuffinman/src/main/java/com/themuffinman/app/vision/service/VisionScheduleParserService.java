@@ -189,10 +189,14 @@ public class VisionScheduleParserService {
     }
 
     public String deriveScheduledAt(String scheduledDate, String scheduledTime) {
+        return deriveScheduledAt(scheduledDate, scheduledTime, null);
+    }
+
+    public String deriveScheduledAt(String scheduledDate, String scheduledTime, String timezone) {
         if (scheduledDate == null || scheduledDate.isBlank() || scheduledTime == null || scheduledTime.isBlank()) {
             return null;
         }
-        return toInstant(parseDate(scheduledDate.trim()), scheduledTime.trim());
+        return toInstant(parseDate(scheduledDate.trim()), scheduledTime.trim(), timezone);
     }
 
     private String extractTime(String lower, String prompt) {
@@ -441,13 +445,13 @@ public class VisionScheduleParserService {
         return null;
     }
 
-    private String toInstant(LocalDate date, String rawTime) {
+    private String toInstant(LocalDate date, String rawTime, String timezone) {
         if (date == null) {
             return null;
         }
         try {
             LocalTime time = LocalTime.parse(rawTime);
-            return date.atTime(time).atZone(clock.getZone()).toInstant().toString();
+            return date.atTime(time).atZone(resolveZoneId(timezone)).toInstant().toString();
         } catch (DateTimeParseException ignored) {
             return null;
         }
@@ -458,6 +462,17 @@ public class VisionScheduleParserService {
             return null;
         }
         return date.atTime(time).atZone(clock.getZone()).toInstant().toString();
+    }
+
+    private ZoneId resolveZoneId(String timezone) {
+        if (timezone != null && !timezone.isBlank()) {
+            try {
+                return ZoneId.of(timezone.trim());
+            } catch (Exception ignored) {
+                return clock.getZone();
+            }
+        }
+        return clock.getZone();
     }
 
     @SuppressWarnings("unused")

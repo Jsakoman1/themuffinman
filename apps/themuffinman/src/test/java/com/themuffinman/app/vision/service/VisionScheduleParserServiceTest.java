@@ -183,6 +183,12 @@ class VisionScheduleParserServiceTest {
     }
 
     @Test
+    void derivesScheduledAtUsingProvidedTimezoneWhenAvailable() {
+        assertEquals("2026-07-07T12:30:00Z", parserService.deriveScheduledAt("2026-07-07", "14:30", "Europe/Berlin"));
+        assertEquals("2026-07-07T18:30:00Z", parserService.deriveScheduledAt("2026-07-07", "14:30", "America/New_York"));
+    }
+
+    @Test
     void returnsNullForUnparseablePrompt() {
         assertNull(parserService.extractScheduledAt(VisionSchedulePhrasePresets.INVALID_SOMETIME_LATER));
     }

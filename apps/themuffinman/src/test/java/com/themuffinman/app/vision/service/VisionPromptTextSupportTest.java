@@ -48,11 +48,18 @@ class VisionPromptTextSupportTest {
             "Josip",
             VisionPromptTextSupport.stripLeadingWords(
                     VisionPromptTextSupport.extractAfterAnyPrefix(
-                            "chat with user Josip",
+                        "chat with user Josip",
                             List.of("chat with", "open chat with")
                     ),
                     List.of("user", "users", "person", "people", "contact", "contacts", "member", "members")
             )
+        );
+        assertEquals(
+                "Josip please",
+                VisionPromptTextSupport.extractAfterAnyPrefix(
+                        "open conversation with Josip please",
+                        List.of("open conversation with", "start conversation with")
+                )
         );
     }
 

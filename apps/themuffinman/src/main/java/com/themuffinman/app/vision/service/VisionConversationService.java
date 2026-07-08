@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -215,6 +216,7 @@ public class VisionConversationService {
                 understanding,
                 existingConversation
         );
+        rememberRuntimeHints(conversation, runtimeHints);
         visionConversationMutationSupport.ensureTurnCapacity(conversation);
 
         String source = effectiveSource(dto);
@@ -403,6 +405,7 @@ public class VisionConversationService {
                 if (visionIntentSignalSupport.shouldKeepExistingConversation(normalizedPrompt, detectedIntent, semanticIntentConfidence)) {
                     return existingConversation;
                 }
+                retireConversationForTaskSwitch(existingConversation);
                 VisionConversation switchedConversation = new VisionConversation();
                 switchedConversation.setOwner(currentUser);
                 switchedConversation.setIntent(detectedIntent);
@@ -429,6 +432,41 @@ public class VisionConversationService {
                 : VisionConversationStatus.ACTIVE);
         conversation.setSlotData(new LinkedHashMap<>());
         return visionConversationRepository.save(conversation);
+    }
+
+    private void retireConversationForTaskSwitch(VisionConversation conversation) {
+        if (conversation == null || conversation.getStatus() == VisionConversationStatus.COMPLETED) {
+            return;
+        }
+
+        if (conversation.getSlotData() == null) {
+            conversation.setSlotData(new LinkedHashMap<>());
+        }
+        conversation.setRequestedSlot(null);
+        conversation.setStatus(VisionConversationStatus.COMPLETED);
+        conversation.getSlotData().put("conversation_outcome", "superseded");
+        String message = "This vision task was left behind when a newer task started.";
+        visionConversationMutationSupport.updateConversationMetadata(
+                conversation,
+                conversation.getLastUserPrompt() == null ? "" : conversation.getLastUserPrompt(),
+                conversation.getLastNormalizedPrompt() == null ? "" : conversation.getLastNormalizedPrompt(),
+                message,
+                conversation.isLastTranslationReliable()
+        );
+        visionConversationRepository.save(conversation);
+        visionConversationMutationSupport.createTurn(
+                conversation,
+                "system",
+                conversation.getLastUserPrompt() == null ? "" : conversation.getLastUserPrompt(),
+                conversation.getLastNormalizedPrompt() == null ? "" : conversation.getLastNormalizedPrompt(),
+                conversation.getIntent(),
+                VisionAgentState.COMPLETE,
+                VisionNextAction.COMPLETE,
+                null,
+                false,
+                conversation.isLastTranslationReliable(),
+                message
+        );
     }
 
     private VisionTurn handleConfirmReviewAction(
@@ -461,7 +499,10 @@ public class VisionConversationService {
             String source,
             VisionConversationTurnRequestDTO dto
     ) {
-        return visionQuestReviewSupport.handleReviewEditAction(conversation, understanding, source, dto);
+        if (conversation.getIntent() == VisionIntent.CREATE_QUEST) {
+            return visionQuestReviewSupport.handleReviewEditAction(conversation, understanding, source, dto);
+        }
+        return handleGenericReviewEditAction(conversation, understanding, source, dto);
     }
 
     private String effectiveSource(VisionConversationTurnRequestDTO dto) {
@@ -483,6 +524,96 @@ public class VisionConversationService {
 
     private VisionPromptUnderstandingResult emptyUnderstanding() {
         return VisionPromptUnderstandingResult.empty("");
+    }
+
+    private void rememberRuntimeHints(VisionConversation conversation, VisionSemanticRuntimeHints runtimeHints) {
+        if (conversation == null || runtimeHints == null) {
+            return;
+        }
+        if (conversation.getSlotData() == null) {
+            conversation.setSlotData(new LinkedHashMap<>());
+        }
+
+        String clientLocale = cleanRuntimeHint(runtimeHints.getClientLocale());
+        if (clientLocale != null) {
+            conversation.getSlotData().put("client_locale", clientLocale);
+        }
+        String clientTimezone = cleanRuntimeHint(runtimeHints.getClientTimezone());
+        if (clientTimezone != null) {
+            conversation.getSlotData().put("client_timezone", clientTimezone);
+        }
+    }
+
+    private String cleanRuntimeHint(String value) {
+        if (value == null) {
+            return null;
+        }
+        String cleaned = value.trim();
+        return cleaned.isBlank() ? null : cleaned;
+    }
+
+    private VisionTurn handleGenericReviewEditAction(
+            VisionConversation conversation,
+            VisionPromptUnderstandingResult understanding,
+            String source,
+            VisionConversationTurnRequestDTO dto
+    ) {
+        if (conversation.getStatus() != VisionConversationStatus.REVIEW_READY) {
+            throw ServiceErrors.conflict("Review editing requires a review-ready vision conversation");
+        }
+
+        VisionReviewTarget reviewTarget = VisionReviewTarget.from(dto == null ? null : dto.getReviewTarget());
+        if (reviewTarget == null) {
+            throw ServiceErrors.badRequest("Review target is required for typed review editing");
+        }
+        if (!supportsReviewTarget(conversation.getIntent(), reviewTarget)) {
+            throw ServiceErrors.conflict("Typed review editing is not supported for this review target on " + conversation.getIntent().name());
+        }
+
+        String editSlot = visionSemanticMapper.reviewTargetSlotId(reviewTarget);
+        visionSlotService.prepareForReviewEdit(conversation.getSlotData(), reviewTarget);
+        conversation.setRequestedSlot(editSlot);
+        conversation.setStatus(VisionConversationStatus.ACTIVE);
+        String message = visionClarificationService.buildQuestion(editSlot);
+        updateConversationMetadata(conversation, "", "", message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+
+        return createTurn(
+                conversation,
+                source,
+                "",
+                "",
+                conversation.getIntent(),
+                VisionAgentState.ASKING,
+                VisionNextAction.ASK_FOR_SLOT,
+                editSlot,
+                false,
+                understanding.isTranslationReliable(),
+                message
+        );
+    }
+
+    private boolean supportsReviewTarget(VisionIntent intent, VisionReviewTarget reviewTarget) {
+        if (intent == null || reviewTarget == null) {
+            return false;
+        }
+        return switch (intent) {
+            case CREATE_CIRCLE -> reviewTarget == VisionReviewTarget.CIRCLE_NAME;
+            case CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST -> reviewTarget == VisionReviewTarget.TARGET_USER;
+            case UPDATE_CIRCLE -> reviewTarget == VisionReviewTarget.TARGET_CIRCLE || reviewTarget == VisionReviewTarget.CIRCLE_NAME;
+            case DELETE_CIRCLE -> reviewTarget == VisionReviewTarget.TARGET_CIRCLE;
+            case CREATE_APPLICATION, UPDATE_APPLICATION -> reviewTarget == VisionReviewTarget.TARGET_QUEST
+                    || reviewTarget == VisionReviewTarget.APPLICATION_MESSAGE
+                    || reviewTarget == VisionReviewTarget.APPLICATION_PRICE;
+            case WITHDRAW_APPLICATION -> reviewTarget == VisionReviewTarget.TARGET_QUEST;
+            case APPROVE_APPLICATION, DECLINE_APPLICATION -> reviewTarget == VisionReviewTarget.TARGET_QUEST
+                    || reviewTarget == VisionReviewTarget.TARGET_USER;
+            case UPDATE_PROFILE -> reviewTarget == VisionReviewTarget.PROFILE_USERNAME
+                    || reviewTarget == VisionReviewTarget.PROFILE_DESCRIPTION;
+            case UPDATE_PROFILE_LOCATION -> reviewTarget == VisionReviewTarget.PROFILE_LOCATION_MODE
+                    || reviewTarget == VisionReviewTarget.PROFILE_LOCATION;
+            default -> false;
+        };
     }
 
     private VisionConversationTurnResponseDTO assembleConversationResponse(
@@ -780,19 +911,26 @@ public class VisionConversationService {
                         VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                         understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
             }
-            var createdRequest = visionCapabilityPreviewService.createCircleRequest(
-                    conversation.getOwner(),
-                    Long.parseLong(conversation.getSlotData().get("circle_request_target_user_id"))
-            );
-            conversation.getSlotData().put("circle_request_id", createdRequest.getId().toString());
-            conversation.getSlotData().put("conversation_outcome", "created_circle_request");
-            conversation.setRequestedSlot(null);
-            conversation.setStatus(VisionConversationStatus.COMPLETED);
-            String message = "Circle request sent successfully.";
+            VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+            if (executionResult.isExecuted()) {
+                if (executionResult.getCircleRequest() != null && executionResult.getCircleRequest().getId() != null) {
+                    conversation.getSlotData().put("circle_request_id", executionResult.getCircleRequest().getId().toString());
+                }
+                conversation.getSlotData().put("conversation_outcome", "created_circle_request");
+                conversation.setRequestedSlot(null);
+                conversation.setStatus(VisionConversationStatus.COMPLETED);
+                String message = "Circle request sent successfully.";
+                updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+                visionConversationRepository.save(conversation);
+                return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.CREATE_CIRCLE_REQUEST,
+                        VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                        understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+            }
+            String message = executionResult.getBlockingReason();
             updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
             visionConversationRepository.save(conversation);
             return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.CREATE_CIRCLE_REQUEST,
-                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                     understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
         }
 
@@ -864,19 +1002,26 @@ public class VisionConversationService {
                         VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                         understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
             }
-            var acceptedRequest = visionCapabilityPreviewService.acceptCircleRequest(
-                    conversation.getOwner(),
-                    Long.parseLong(conversation.getSlotData().get("circle_request_id"))
-            );
-            conversation.getSlotData().put("circle_request_id", acceptedRequest.getId().toString());
-            conversation.getSlotData().put("conversation_outcome", "accepted_circle_request");
-            conversation.setRequestedSlot(null);
-            conversation.setStatus(VisionConversationStatus.COMPLETED);
-            String message = "Circle request accepted successfully.";
+            VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+            if (executionResult.isExecuted()) {
+                if (executionResult.getCircleRequest() != null && executionResult.getCircleRequest().getId() != null) {
+                    conversation.getSlotData().put("circle_request_id", executionResult.getCircleRequest().getId().toString());
+                }
+                conversation.getSlotData().put("conversation_outcome", "accepted_circle_request");
+                conversation.setRequestedSlot(null);
+                conversation.setStatus(VisionConversationStatus.COMPLETED);
+                String message = "Circle request accepted successfully.";
+                updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+                visionConversationRepository.save(conversation);
+                return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.ACCEPT_CIRCLE_REQUEST,
+                        VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                        understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+            }
+            String message = executionResult.getBlockingReason();
             updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
             visionConversationRepository.save(conversation);
             return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.ACCEPT_CIRCLE_REQUEST,
-                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                     understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
         }
 
@@ -948,18 +1093,23 @@ public class VisionConversationService {
                         VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                         understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
             }
-            visionCapabilityPreviewService.deleteCircleRequest(
-                    conversation.getOwner(),
-                    Long.parseLong(conversation.getSlotData().get("circle_request_id"))
-            );
-            conversation.getSlotData().put("conversation_outcome", "deleted_circle_request");
-            conversation.setRequestedSlot(null);
-            conversation.setStatus(VisionConversationStatus.COMPLETED);
-            String message = "Circle request removed successfully.";
+            VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+            if (executionResult.isExecuted()) {
+                conversation.getSlotData().put("conversation_outcome", "deleted_circle_request");
+                conversation.setRequestedSlot(null);
+                conversation.setStatus(VisionConversationStatus.COMPLETED);
+                String message = "Circle request removed successfully.";
+                updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+                visionConversationRepository.save(conversation);
+                return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.DELETE_CIRCLE_REQUEST,
+                        VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                        understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+            }
+            String message = executionResult.getBlockingReason();
             updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
             visionConversationRepository.save(conversation);
             return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.DELETE_CIRCLE_REQUEST,
-                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                     understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
         }
 
@@ -1050,20 +1200,26 @@ public class VisionConversationService {
                         understanding.isTranslationApplied(), understanding.isTranslationReliable(),
                         "The circle rename review is ready, but execution is still disabled.");
             }
-            var updatedCircle = visionCapabilityPreviewService.updateCircle(
-                    conversation.getOwner(),
-                    Long.parseLong(conversation.getSlotData().get("resolved_circle_id")),
-                    conversation.getSlotData().get("circle_name")
-            );
-            conversation.getSlotData().put("resolved_circle_name", updatedCircle.getName());
-            conversation.getSlotData().put("conversation_outcome", "updated_circle");
-            conversation.setRequestedSlot(null);
-            conversation.setStatus(VisionConversationStatus.COMPLETED);
-            String message = "Circle updated successfully.";
+            VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+            if (executionResult.isExecuted()) {
+                if (executionResult.getCreatedCircle() != null && executionResult.getCreatedCircle().getName() != null) {
+                    conversation.getSlotData().put("resolved_circle_name", executionResult.getCreatedCircle().getName());
+                }
+                conversation.getSlotData().put("conversation_outcome", "updated_circle");
+                conversation.setRequestedSlot(null);
+                conversation.setStatus(VisionConversationStatus.COMPLETED);
+                String message = "Circle updated successfully.";
+                updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+                visionConversationRepository.save(conversation);
+                return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.UPDATE_CIRCLE,
+                        VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                        understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+            }
+            String message = executionResult.getBlockingReason();
             updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
             visionConversationRepository.save(conversation);
             return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.UPDATE_CIRCLE,
-                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                     understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
         }
 
@@ -1135,15 +1291,23 @@ public class VisionConversationService {
                         VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                         understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
             }
-            visionCapabilityPreviewService.deleteCircle(conversation.getOwner(), Long.parseLong(conversation.getSlotData().get("resolved_circle_id")));
-            conversation.getSlotData().put("conversation_outcome", "deleted_circle");
-            conversation.setRequestedSlot(null);
-            conversation.setStatus(VisionConversationStatus.COMPLETED);
-            String message = "Circle deleted successfully.";
+            VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+            if (executionResult.isExecuted()) {
+                conversation.getSlotData().put("conversation_outcome", "deleted_circle");
+                conversation.setRequestedSlot(null);
+                conversation.setStatus(VisionConversationStatus.COMPLETED);
+                String message = "Circle deleted successfully.";
+                updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+                visionConversationRepository.save(conversation);
+                return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.DELETE_CIRCLE,
+                        VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                        understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+            }
+            String message = executionResult.getBlockingReason();
             updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
             visionConversationRepository.save(conversation);
             return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.DELETE_CIRCLE,
-                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                     understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
         }
 
@@ -1316,18 +1480,22 @@ public class VisionConversationService {
                 agentState = VisionAgentState.REVIEW_READY;
                 message = "The application review is ready, but execution is still disabled.";
             } else {
-                var createdApplication = visionCapabilityPreviewService.createApplication(
-                        conversation.getOwner(),
-                        Long.parseLong(conversation.getSlotData().get("application_quest_id")),
-                        conversation.getSlotData().get("application_message"),
-                        conversation.getSlotData().get("application_proposed_price")
-                );
-                conversation.getSlotData().put("created_application_id", createdApplication.getId().toString());
-                conversation.getSlotData().put("conversation_outcome", "created_application");
-                status = VisionConversationStatus.COMPLETED;
-                nextAction = VisionNextAction.COMPLETE;
-                agentState = VisionAgentState.COMPLETE;
-                message = "Application sent successfully.";
+                VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+                if (executionResult.isExecuted()) {
+                    if (executionResult.getApplication() != null && executionResult.getApplication().getId() != null) {
+                        conversation.getSlotData().put("created_application_id", executionResult.getApplication().getId().toString());
+                    }
+                    conversation.getSlotData().put("conversation_outcome", "created_application");
+                    status = VisionConversationStatus.COMPLETED;
+                    nextAction = VisionNextAction.COMPLETE;
+                    agentState = VisionAgentState.COMPLETE;
+                    message = "Application sent successfully.";
+                } else {
+                    status = VisionConversationStatus.REVIEW_READY;
+                    nextAction = VisionNextAction.SHOW_REVIEW;
+                    agentState = VisionAgentState.REVIEW_READY;
+                    message = executionResult.getBlockingReason();
+                }
             }
         } else {
             status = VisionConversationStatus.REVIEW_READY;
@@ -1516,24 +1684,31 @@ public class VisionConversationService {
                 agentState = VisionAgentState.REVIEW_READY;
                 message = "The application update review is ready, but execution is still disabled.";
             } else {
-                var updatedApplication = visionCapabilityPreviewService.updateApplication(
-                        conversation.getOwner(),
-                        Long.parseLong(conversation.getSlotData().get("application_quest_id")),
-                        effectiveApplicationMessage(conversation),
-                        effectiveApplicationPrice(conversation)
-                );
-                conversation.getSlotData().put("application_existing_message", updatedApplication.getMessage());
-                conversation.getSlotData().put("application_existing_proposed_price",
-                        updatedApplication.getProposedPrice() == null ? "" : updatedApplication.getProposedPrice().stripTrailingZeros().toPlainString());
-                conversation.getSlotData().put("application_message", updatedApplication.getMessage());
-                conversation.getSlotData().put("application_proposed_price",
-                        updatedApplication.getProposedPrice() == null ? "" : updatedApplication.getProposedPrice().stripTrailingZeros().toPlainString());
-                conversation.getSlotData().put("updated_application_id", updatedApplication.getId().toString());
-                conversation.getSlotData().put("conversation_outcome", "updated_application");
-                status = VisionConversationStatus.COMPLETED;
-                nextAction = VisionNextAction.COMPLETE;
-                agentState = VisionAgentState.COMPLETE;
-                message = "Application updated successfully.";
+                VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+                if (executionResult.isExecuted()) {
+                    var updatedApplication = executionResult.getApplication();
+                    if (updatedApplication != null) {
+                        conversation.getSlotData().put("application_existing_message", updatedApplication.getMessage());
+                        conversation.getSlotData().put("application_existing_proposed_price",
+                                updatedApplication.getProposedPrice() == null ? "" : updatedApplication.getProposedPrice().stripTrailingZeros().toPlainString());
+                        conversation.getSlotData().put("application_message", updatedApplication.getMessage());
+                        conversation.getSlotData().put("application_proposed_price",
+                                updatedApplication.getProposedPrice() == null ? "" : updatedApplication.getProposedPrice().stripTrailingZeros().toPlainString());
+                        if (updatedApplication.getId() != null) {
+                            conversation.getSlotData().put("updated_application_id", updatedApplication.getId().toString());
+                        }
+                    }
+                    conversation.getSlotData().put("conversation_outcome", "updated_application");
+                    status = VisionConversationStatus.COMPLETED;
+                    nextAction = VisionNextAction.COMPLETE;
+                    agentState = VisionAgentState.COMPLETE;
+                    message = "Application updated successfully.";
+                } else {
+                    status = VisionConversationStatus.REVIEW_READY;
+                    nextAction = VisionNextAction.SHOW_REVIEW;
+                    agentState = VisionAgentState.REVIEW_READY;
+                    message = executionResult.getBlockingReason();
+                }
             }
         } else {
             status = VisionConversationStatus.REVIEW_READY;
@@ -1699,16 +1874,22 @@ public class VisionConversationService {
                 agentState = VisionAgentState.REVIEW_READY;
                 message = "The application withdrawal review is ready, but execution is still disabled.";
             } else {
-                var withdrawnApplication = visionCapabilityPreviewService.withdrawApplication(
-                        conversation.getOwner(),
-                        Long.parseLong(conversation.getSlotData().get("application_quest_id"))
-                );
-                conversation.getSlotData().put("withdrawn_application_id", withdrawnApplication.getId().toString());
-                conversation.getSlotData().put("conversation_outcome", "withdrawn_application");
-                status = VisionConversationStatus.COMPLETED;
-                nextAction = VisionNextAction.COMPLETE;
-                agentState = VisionAgentState.COMPLETE;
-                message = "Application withdrawn successfully.";
+                VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+                if (executionResult.isExecuted()) {
+                    if (executionResult.getApplication() != null && executionResult.getApplication().getId() != null) {
+                        conversation.getSlotData().put("withdrawn_application_id", executionResult.getApplication().getId().toString());
+                    }
+                    conversation.getSlotData().put("conversation_outcome", "withdrawn_application");
+                    status = VisionConversationStatus.COMPLETED;
+                    nextAction = VisionNextAction.COMPLETE;
+                    agentState = VisionAgentState.COMPLETE;
+                    message = "Application withdrawn successfully.";
+                } else {
+                    status = VisionConversationStatus.REVIEW_READY;
+                    nextAction = VisionNextAction.SHOW_REVIEW;
+                    agentState = VisionAgentState.REVIEW_READY;
+                    message = executionResult.getBlockingReason();
+                }
             }
         } else {
             status = VisionConversationStatus.REVIEW_READY;
@@ -1890,19 +2071,18 @@ public class VisionConversationService {
                         VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                         understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
             }
+            VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+            if (!executionResult.isExecuted()) {
+                String message = executionResult.getBlockingReason();
+                updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+                visionConversationRepository.save(conversation);
+                return createTurn(conversation, source, prompt, normalizedPrompt, intent,
+                        VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                        understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+            }
             if (approve) {
-                visionCapabilityPreviewService.approveManagedApplication(
-                        conversation.getOwner(),
-                        Long.parseLong(conversation.getSlotData().get("managed_application_quest_id")),
-                        Long.parseLong(conversation.getSlotData().get("managed_application_id"))
-                );
                 conversation.getSlotData().put("conversation_outcome", "approved_application");
             } else {
-                visionCapabilityPreviewService.declineManagedApplication(
-                        conversation.getOwner(),
-                        Long.parseLong(conversation.getSlotData().get("managed_application_quest_id")),
-                        Long.parseLong(conversation.getSlotData().get("managed_application_id"))
-                );
                 conversation.getSlotData().put("conversation_outcome", "declined_application");
             }
             conversation.setRequestedSlot(null);
@@ -2057,25 +2237,30 @@ public class VisionConversationService {
                         VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                         understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
             }
-            var updatedProfile = visionCapabilityPreviewService.updateProfileLocation(
-                    conversation.getOwner(),
-                    conversation.getSlotData().get("profile_location_mode"),
-                    conversation.getSlotData().get("profile_location_label")
-            );
-            if (updatedProfile.getLocationSettings() != null) {
-                conversation.getSlotData().put("profile_location_mode",
-                        updatedProfile.getLocationSettings().getMode() == null ? "" : updatedProfile.getLocationSettings().getMode().name());
-                conversation.getSlotData().put("profile_location_label",
-                        updatedProfile.getLocationSettings().getLabel() == null ? "" : updatedProfile.getLocationSettings().getLabel());
+            VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+            if (executionResult.isExecuted()) {
+                var updatedProfile = executionResult.getUpdatedProfile();
+                if (updatedProfile != null && updatedProfile.getLocationSettings() != null) {
+                    conversation.getSlotData().put("profile_location_mode",
+                            updatedProfile.getLocationSettings().getMode() == null ? "" : updatedProfile.getLocationSettings().getMode().name());
+                    conversation.getSlotData().put("profile_location_label",
+                            updatedProfile.getLocationSettings().getLabel() == null ? "" : updatedProfile.getLocationSettings().getLabel());
+                }
+                conversation.getSlotData().put("conversation_outcome", "updated_profile_location");
+                conversation.setRequestedSlot(null);
+                conversation.setStatus(VisionConversationStatus.COMPLETED);
+                String message = "Profile location updated successfully.";
+                updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+                visionConversationRepository.save(conversation);
+                return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.UPDATE_PROFILE_LOCATION,
+                        VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                        understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
             }
-            conversation.getSlotData().put("conversation_outcome", "updated_profile_location");
-            conversation.setRequestedSlot(null);
-            conversation.setStatus(VisionConversationStatus.COMPLETED);
-            String message = "Profile location updated successfully.";
+            String message = executionResult.getBlockingReason();
             updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
             visionConversationRepository.save(conversation);
             return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.UPDATE_PROFILE_LOCATION,
-                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
                     understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
         }
 
@@ -2119,19 +2304,25 @@ public class VisionConversationService {
                 agentState = VisionAgentState.REVIEW_READY;
                 message = "The profile review is ready, but execution is still disabled.";
             } else {
-                var updatedProfile = visionCapabilityPreviewService.updateProfile(
-                        conversation.getOwner(),
-                        conversation.getSlotData().get("profile_username"),
-                        conversation.getSlotData().get("profile_description")
-                );
-                conversation.getSlotData().put("profile_username", updatedProfile.getUsername());
-                conversation.getSlotData().put("profile_description",
-                        updatedProfile.getProfileDescription() == null ? "" : updatedProfile.getProfileDescription());
-                conversation.getSlotData().put("conversation_outcome", "updated_profile");
-                status = VisionConversationStatus.COMPLETED;
-                nextAction = VisionNextAction.COMPLETE;
-                agentState = VisionAgentState.COMPLETE;
-                message = "Profile updated successfully.";
+                VisionExecutionResult executionResult = visionExecutionService.execute(conversation);
+                if (executionResult.isExecuted()) {
+                    var updatedProfile = executionResult.getUpdatedProfile();
+                    if (updatedProfile != null) {
+                        conversation.getSlotData().put("profile_username", updatedProfile.getUsername());
+                        conversation.getSlotData().put("profile_description",
+                                updatedProfile.getProfileDescription() == null ? "" : updatedProfile.getProfileDescription());
+                    }
+                    conversation.getSlotData().put("conversation_outcome", "updated_profile");
+                    status = VisionConversationStatus.COMPLETED;
+                    nextAction = VisionNextAction.COMPLETE;
+                    agentState = VisionAgentState.COMPLETE;
+                    message = "Profile updated successfully.";
+                } else {
+                    status = VisionConversationStatus.REVIEW_READY;
+                    nextAction = VisionNextAction.SHOW_REVIEW;
+                    agentState = VisionAgentState.REVIEW_READY;
+                    message = executionResult.getBlockingReason();
+                }
             }
         } else {
             status = VisionConversationStatus.REVIEW_READY;
@@ -2279,10 +2470,20 @@ public class VisionConversationService {
             VisionPromptUnderstandingResult understanding,
             String source
     ) {
+        String selectedCandidate = resolvePendingChatCandidateSelection(conversation, normalizedPrompt);
+        VisionSemanticPlan semanticPlan = selectedCandidate == null
+                ? understanding.semanticPlanOrEmpty()
+                : VisionSemanticPlan.openChat(
+                        understanding.semanticPlanOrEmpty().getCandidateIntentConfidence() == null
+                                ? 0.85d
+                                : understanding.semanticPlanOrEmpty().getCandidateIntentConfidence(),
+                        understanding.semanticPlanOrEmpty().getPlanningNote(),
+                        selectedCandidate
+                );
         VisionChatExecutionResult result = visionChatExecutionService.openChat(
                 conversation.getOwner(),
                 normalizedPrompt,
-                understanding.semanticPlanOrEmpty()
+                semanticPlan
         );
 
         String message;
@@ -2291,6 +2492,7 @@ public class VisionConversationService {
         VisionConversationStatus status;
 
         if (result.isExecuted()) {
+            clearPendingChatCandidates(conversation);
             status = VisionConversationStatus.COMPLETED;
             nextAction = VisionNextAction.COMPLETE;
             agentState = VisionAgentState.COMPLETE;
@@ -2306,6 +2508,7 @@ public class VisionConversationService {
             agentState = VisionAgentState.ASKING;
             conversation.setRequestedSlot("target_user");
             message = result.getBlockingReason();
+            storePendingChatCandidates(conversation, result);
             if (message == null || message.isBlank()) {
                 message = "Who should I open chat with?";
             }
@@ -2329,6 +2532,63 @@ public class VisionConversationService {
         turn.setTranslationReliable(understanding.isTranslationReliable());
         turn.setAssistantMessage(message);
         return visionTurnRepository.save(turn);
+    }
+
+    private String resolvePendingChatCandidateSelection(VisionConversation conversation, String normalizedPrompt) {
+        if (conversation == null || conversation.getIntent() != VisionIntent.OPEN_CHAT || normalizedPrompt == null) {
+            return null;
+        }
+        String countValue = conversation.getSlotData().get("pending_chat_candidate_count");
+        if (countValue == null || countValue.isBlank()) {
+            return null;
+        }
+        String lower = normalizedPrompt.trim().toLowerCase(Locale.ROOT);
+        int selectedIndex = switch (lower) {
+            case "1", "candidate 1", "first", "first one" -> 1;
+            case "2", "candidate 2", "second", "second one" -> 2;
+            case "3", "candidate 3", "third", "third one" -> 3;
+            default -> 0;
+        };
+        if (selectedIndex <= 0) {
+            return null;
+        }
+        return conversation.getSlotData().get("pending_chat_candidate_" + selectedIndex + "_value");
+    }
+
+    private void storePendingChatCandidates(VisionConversation conversation, VisionChatExecutionResult result) {
+        clearPendingChatCandidates(conversation);
+        if (result == null || result.getCandidates() == null || result.getCandidates().isEmpty()) {
+            return;
+        }
+        conversation.getSlotData().put("pending_chat_candidate_count", Integer.toString(result.getCandidates().size()));
+        for (int index = 0; index < result.getCandidates().size(); index++) {
+            VisionChatTargetCandidate candidate = result.getCandidates().get(index);
+            String prefix = "pending_chat_candidate_" + (index + 1);
+            if (candidate.getValue() != null && !candidate.getValue().isBlank()) {
+                conversation.getSlotData().put(prefix + "_value", candidate.getValue());
+            }
+            if (candidate.getLabel() != null && !candidate.getLabel().isBlank()) {
+                conversation.getSlotData().put(prefix + "_label", candidate.getLabel());
+            }
+        }
+    }
+
+    private void clearPendingChatCandidates(VisionConversation conversation) {
+        if (conversation == null || conversation.getSlotData() == null) {
+            return;
+        }
+        String rawCount = conversation.getSlotData().remove("pending_chat_candidate_count");
+        int count = 0;
+        try {
+            count = rawCount == null ? 0 : Integer.parseInt(rawCount);
+        } catch (NumberFormatException ignored) {
+            count = 0;
+        }
+        for (int index = 1; index <= Math.max(count, 3); index++) {
+            String prefix = "pending_chat_candidate_" + index;
+            conversation.getSlotData().remove(prefix + "_value");
+            conversation.getSlotData().remove(prefix + "_label");
+        }
     }
 
     private VisionTurn handleViewUserProfileTurn(

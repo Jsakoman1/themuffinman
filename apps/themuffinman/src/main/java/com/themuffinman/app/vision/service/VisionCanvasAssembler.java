@@ -298,6 +298,15 @@ public class VisionCanvasAssembler {
                         .build());
                 return blocks;
             }
+            if ("superseded".equals(conversation.getSlotData().get("conversation_outcome"))) {
+                blocks.add(VisionCanvasBlockDTO.builder()
+                        .type("warning")
+                        .title("Task superseded")
+                        .body("A newer vision task replaced this draft before execution.")
+                        .tone("info")
+                        .build());
+                return blocks;
+            }
             String createdQuestId = conversation.getSlotData().get("created_quest_id");
             String createdQuestTitle = conversation.getSlotData().get("quest_title");
             blocks.add(VisionCanvasBlockDTO.builder()
@@ -594,8 +603,32 @@ public class VisionCanvasAssembler {
                     VisionOptionDTO.builder().id("exact").label("Exact").value("EXACT").build()
             );
             case "location_candidate_confirmation" -> locationCandidateOptions(slotData);
+            case "target_user" -> chatTargetOptions(slotData);
             default -> List.of();
         };
+    }
+
+    private List<VisionOptionDTO> chatTargetOptions(Map<String, String> slotData) {
+        List<VisionOptionDTO> options = new ArrayList<>();
+        int count = 0;
+        try {
+            count = Integer.parseInt(slotData.getOrDefault("pending_chat_candidate_count", "0"));
+        } catch (NumberFormatException ignored) {
+            count = 0;
+        }
+        for (int index = 1; index <= count; index++) {
+            String label = slotData.get("pending_chat_candidate_" + index + "_label");
+            String value = slotData.get("pending_chat_candidate_" + index + "_value");
+            if (label == null || label.isBlank() || value == null || value.isBlank()) {
+                continue;
+            }
+            options.add(VisionOptionDTO.builder()
+                    .id("chat_candidate_" + index)
+                    .label("Candidate " + index + ": " + label)
+                    .value(Integer.toString(index))
+                    .build());
+        }
+        return options;
     }
 
     private List<VisionOptionDTO> locationCandidateOptions(Map<String, String> slotData) {

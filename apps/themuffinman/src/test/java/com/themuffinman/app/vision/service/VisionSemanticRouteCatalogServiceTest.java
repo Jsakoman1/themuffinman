@@ -273,7 +273,25 @@ class VisionSemanticRouteCatalogServiceTest {
         }
 
         assertEquals(29, routes.size());
-        assertEquals(Set.of("create_quest", "create_circle"), new HashSet<>(new VisionSurfacePolicy(new com.themuffinman.app.config.VisionProperties()).supportedExecutionCapabilityIds()));
+        assertEquals(
+                Set.of(
+                        "create_quest",
+                        "create_circle",
+                        "create_circle_request",
+                        "accept_circle_request",
+                        "delete_circle_request",
+                        "create_application",
+                        "update_application",
+                        "withdraw_application",
+                        "approve_application",
+                        "decline_application",
+                        "update_circle",
+                        "delete_circle",
+                        "update_profile",
+                        "update_profile_location"
+                ),
+                new HashSet<>(new VisionSurfacePolicy(new com.themuffinman.app.config.VisionProperties()).supportedExecutionCapabilityIds())
+        );
     }
 
     @Test

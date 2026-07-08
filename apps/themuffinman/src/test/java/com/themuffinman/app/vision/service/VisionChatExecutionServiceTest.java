@@ -108,6 +108,37 @@ class VisionChatExecutionServiceTest {
     }
 
     @Test
+    void supportsBroaderConversationStylePromptVariants() {
+        ChatService chatService = mock(ChatService.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        AppUser currentUser = TestFixtures.user(7L, "vision-user");
+        AppUser targetUser = TestFixtures.user(8L, "Josip");
+
+        when(appUserRepository.searchByUsernameOrEmail("josip")).thenReturn(List.of(targetUser));
+        when(chatService.openConversation(any(), any(AppUser.class))).thenReturn(ChatConversationSummaryDTO.builder()
+                .conversationId(303L)
+                .otherUserId(targetUser.getId())
+                .otherUsername(targetUser.getUsername())
+                .resolutionKey("conversation:303")
+                .resolutionLabel("Chat with Josip")
+                .exactResolutionEligible(true)
+                .build());
+
+        VisionChatExecutionService executionService = new VisionChatExecutionService(chatService, appUserRepository);
+        VisionChatExecutionResult result = executionService.openChat(
+                currentUser,
+                "open conversation with Josip please",
+                VisionSemanticPlan.builder()
+                        .candidateIntent(VisionIntent.OPEN_CHAT.name())
+                        .capabilityId("open_chat")
+                        .build()
+        );
+
+        assertTrue(result.isExecuted());
+        assertEquals(303L, result.getConversation().getConversationId());
+    }
+
+    @Test
     void returnsDisambiguationSuggestionsWhenMultipleChatContactsMatch() {
         ChatService chatService = mock(ChatService.class);
         AppUserRepository appUserRepository = mock(AppUserRepository.class);
@@ -129,6 +160,8 @@ class VisionChatExecutionServiceTest {
         );
 
         assertFalse(result.isExecuted());
-        assertEquals("I found several possible chat contacts for \"jo\": Josip, Josipa. Say the exact username or email.", result.getBlockingReason());
+        assertEquals("I found several possible chat contacts for \"jo\": Josip, Josipa. Say the exact username or email, or choose a numbered candidate.", result.getBlockingReason());
+        assertEquals(2, result.getCandidates().size());
+        assertEquals("Josip", result.getCandidates().getFirst().getValue());
     }
 }

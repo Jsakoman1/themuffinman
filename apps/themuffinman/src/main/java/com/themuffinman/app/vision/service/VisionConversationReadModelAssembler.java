@@ -135,9 +135,9 @@ class VisionConversationReadModelAssembler {
                     ? "No pending prompt"
                     : "Waiting for " + conversation.getRequestedSlot();
         }
-        boolean completed = conversation.getStatus() == VisionConversationStatus.COMPLETED;
-        boolean resumable = conversation.getStatus() != VisionConversationStatus.COMPLETED;
         boolean stale = isStale(conversation);
+        boolean completed = conversation.getStatus() == VisionConversationStatus.COMPLETED;
+        boolean resumable = !completed && !stale;
         String topicSwitchHint = topicSwitchHint(entityFamily, previousEntityFamily);
         List<VisionSlotSummaryDTO> appliedSlotSummaries = visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)
                 .map(this::appliedSlotSummariesForTurn)

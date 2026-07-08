@@ -11,7 +11,22 @@ import java.util.Set;
 @Service
 public class VisionSurfacePolicy implements AgentSurfacePolicy {
 
-    private static final Set<String> EXECUTABLE_CAPABILITY_IDS = Set.of("create_quest", "create_circle");
+    private static final Set<String> EXECUTABLE_CAPABILITY_IDS = Set.of(
+            "create_quest",
+            "create_circle",
+            "create_circle_request",
+            "accept_circle_request",
+            "delete_circle_request",
+            "create_application",
+            "update_application",
+            "withdraw_application",
+            "approve_application",
+            "decline_application",
+            "update_circle",
+            "delete_circle",
+            "update_profile",
+            "update_profile_location"
+    );
 
     private final VisionProperties visionProperties;
 

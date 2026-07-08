@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.ArrayList;
 
 @Service
 public class VisionChatExecutionService {
@@ -36,7 +37,10 @@ public class VisionChatExecutionService {
             return VisionChatExecutionResult.blocked("I could not identify a chat contact for \"" + targetQuery + "\".");
         }
         if (matches.size() > 1) {
-            return VisionChatExecutionResult.blocked(buildAmbiguousTargetMessage(targetQuery, matches));
+            return VisionChatExecutionResult.blocked(
+                    buildAmbiguousTargetMessage(targetQuery, matches),
+                    buildCandidates(matches)
+            );
         }
 
         AppUser targetUser = matches.getFirst();
@@ -69,11 +73,18 @@ public class VisionChatExecutionService {
                         "chat with",
                         "open chat with",
                         "start chat with",
+                        "open conversation with",
+                        "start conversation with",
+                        "open dm with",
+                        "send dm to",
                         "message",
                         "send a message to",
+                        "send message to",
                         "dm",
                         "direct message",
-                        "talk to"
+                        "talk to",
+                        "write to",
+                        "text"
                 )
         );
         String query = stripped == null ? normalizedPrompt : stripped;
@@ -94,6 +105,8 @@ public class VisionChatExecutionService {
         return cleaned
                 .replaceAll("[,.;!?]", " ")
                 .replaceAll("\\s+", " ")
+                .trim()
+                .replaceAll("(?i)\\s+(please|profile|profiles|chat|conversation|dm|message|messages)$", "")
                 .trim();
     }
 
@@ -125,6 +138,23 @@ public class VisionChatExecutionService {
                 .reduce((left, right) -> left + ", " + right)
                 .orElse("matching contacts");
         return "I found several possible chat contacts for \"" + targetQuery + "\": " + suggestions
-                + ". Say the exact username or email.";
+                + ". Say the exact username or email, or choose a numbered candidate.";
+    }
+
+    private List<VisionChatTargetCandidate> buildCandidates(List<AppUser> matches) {
+        List<VisionChatTargetCandidate> candidates = new ArrayList<>();
+        for (AppUser candidate : matches) {
+            String value = candidate.getUsername() == null || candidate.getUsername().isBlank()
+                    ? candidate.getEmail()
+                    : candidate.getUsername();
+            if (value == null || value.isBlank()) {
+                continue;
+            }
+            candidates.add(VisionChatTargetCandidate.builder()
+                    .value(value)
+                    .label(value)
+                    .build());
+        }
+        return List.copyOf(candidates);
     }
 }

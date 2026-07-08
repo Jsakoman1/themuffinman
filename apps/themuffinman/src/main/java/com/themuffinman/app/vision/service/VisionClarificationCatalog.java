@@ -25,6 +25,8 @@ final class VisionClarificationCatalog {
     static final String SLOT_APPLICATION_UPDATE_FIELD = "application_update_field";
     static final String SLOT_TARGET_CIRCLE_QUERY = "target_circle_query";
     static final String SLOT_CIRCLE_NAME = "circle_name";
+    static final String SLOT_PROFILE_USERNAME = "profile_username";
+    static final String SLOT_PROFILE_DESCRIPTION = "profile_description";
 
     private static final List<String> CREATE_QUEST_SLOT_ORDER = List.of(
             SLOT_QUEST_TITLE,
@@ -77,9 +79,12 @@ final class VisionClarificationCatalog {
             Map.entry(SLOT_TARGET_QUEST_QUERY, "What quest should I apply to? Say the quest title or quest id."),
             Map.entry(SLOT_APPLICATION_MESSAGE, "What message should I send with your application?"),
             Map.entry(SLOT_APPLICATION_PROPOSED_PRICE, "What proposed price should I send for this paid quest?"),
+            Map.entry(SLOT_PROFILE_USERNAME, "What username should I save on your profile?"),
+            Map.entry(SLOT_PROFILE_DESCRIPTION, "What profile description should I save?"),
             Map.entry(SLOT_PROFILE_LOCATION_MODE, "Should I turn your profile location off, keep it approximate, or keep it exact?"),
             Map.entry(SLOT_PROFILE_LOCATION_LABEL, "What location or address should I save on your profile?"),
-            Map.entry(SLOT_APPLICATION_UPDATE_FIELD, "What should I change in your application? You can give a new message, a new price, or both.")
+            Map.entry(SLOT_APPLICATION_UPDATE_FIELD, "What should I change in your application? You can give a new message, a new price, or both."),
+            Map.entry(SLOT_CIRCLE_NAME, "What name should I use for this circle?")
     );
 
     private static final Map<String, String> RETRY_QUESTION_BY_SLOT = Map.ofEntries(
@@ -97,9 +102,12 @@ final class VisionClarificationCatalog {
             Map.entry(SLOT_TARGET_CIRCLE_QUERY, "I still need one exact circle target. Say the exact circle name or circle id."),
             Map.entry(SLOT_APPLICATION_MESSAGE, "I still need the application message you want to send."),
             Map.entry(SLOT_APPLICATION_PROPOSED_PRICE, "I still need a valid proposed price for this paid quest, for example 20 or 20.50."),
+            Map.entry(SLOT_PROFILE_USERNAME, "I still need a usable profile username."),
+            Map.entry(SLOT_PROFILE_DESCRIPTION, "I still need the profile description you want to save."),
             Map.entry(SLOT_PROFILE_LOCATION_MODE, "I still need the profile location mode. Say off, approximate, or exact."),
             Map.entry(SLOT_PROFILE_LOCATION_LABEL, "I still need a usable profile location or address."),
-            Map.entry(SLOT_APPLICATION_UPDATE_FIELD, "I still need at least one application change. Say a new message, a new price, or both.")
+            Map.entry(SLOT_APPLICATION_UPDATE_FIELD, "I still need at least one application change. Say a new message, a new price, or both."),
+            Map.entry(SLOT_CIRCLE_NAME, "I still need the circle name.")
     );
 
     private VisionClarificationCatalog() {

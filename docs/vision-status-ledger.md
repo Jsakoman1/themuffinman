@@ -7,12 +7,12 @@ It should stay short, factual, and updated when a vision batch materially change
 ## Done
 
 - persisted backend conversation state is the default interaction model for `/vision`
-- first executor scopes are `create_quest` and `create_circle`
+- first executor scopes started with `create_quest` and `create_circle`, and now also include `create_circle_request`, `accept_circle_request`, `delete_circle_request`, `create_application`, `update_application`, `withdraw_application`, `approve_application`, `decline_application`, `update_circle`, `delete_circle`, `update_profile`, and `update_profile_location`
 - text turns can drive stepwise slot collection and review assembly
 - voice-related architecture direction is OpenAI-based, while the conversation contract remains shared with text turns
 - the voice control caption now carries the visible speech state, while the debug rail no longer repeats a separate state row
 - create-quest review can retarget one field at a time instead of forcing full-form re-entry
-- review-confirmation execution now flows through a dedicated `VisionExecutionService` boundary that dispatches typed capability adapters for `create_quest` and `create_circle` instead of calling a single quest adapter directly from conversation orchestration
+- review-confirmation execution now flows through a dedicated `VisionExecutionService` boundary that dispatches typed capability adapters for `create_quest`, `create_circle`, `create_circle_request`, `accept_circle_request`, `delete_circle_request`, `create_application`, `update_application`, `withdraw_application`, `approve_application`, `decline_application`, `update_circle`, `delete_circle`, `update_profile`, and `update_profile_location` instead of keeping those confirmation writes inline inside conversation orchestration
 - read-only conversation fetches now use a dedicated query service, while reset and cancel remain on the lifecycle boundary so query and mutation paths stay separate
 - the execution service now rejects unsupported adapter registrations up front and the surface policy exposes the explicit executable capability set instead of hiding it in duplicated string checks
 - reset and cancel lifecycle actions exist
@@ -35,6 +35,8 @@ It should stay short, factual, and updated when a vision batch materially change
 - the modern vision frontend surface is split into a route shell, animated agent component, prompt dock, and backend-driven canvas renderer
 - review-ready quest corrections now use typed backend review-edit actions with explicit review targets instead of depending on frontend-generated natural-language edit prompts
 - review-ready backend turns no longer reinterpret free-text phrases like "change reward" as slot-edit commands; review edits must come through typed review actions
+- typed review-edit actions now also cover review-ready circle, application, and profile mutation flows for their explicit target fields instead of staying quest-only
+- typed review-edit coverage now also has regression-backed circle-request and application retargeting tests, so the remaining review-ready mutation families no longer rely only on audit assumptions
 - multi-candidate custom location clarification now exposes ranked candidate wording and an explicit keep-typed-location fallback so the user can understand why candidate choices differ
 - recent `/vision` task summaries now expose stage and progress metadata so the surface can distinguish resumable clarifications, review-ready tasks, blocked tasks, and completed tasks without frontend inference
 - the canvas mode and summary-mode labels now come from one shared backend support class, so clarification, review, results, complete, and blocked states share one testable definition
@@ -43,6 +45,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - the surface now uses the shared prompt-composer visibility computed state instead of hardcoding the renderer entry point, which keeps the composer rule in one place
 - the vision controllers now depend on vision-owned facade services for quest, application, dashboard, review, and news flows, so workmarket services stay behind a clearer boundary
 - recent `/vision` tasks are now grouped into active, review-ready, blocked, and completed sections, with stale markers and disabled resume for completed work
+- stale recent `/vision` tasks no longer stay resumable once they age past the backend staleness threshold, so the resume rail stops offering direct continuation for old drafts
 - the frontend canvas renderer now delegates review, field-request, result-summary, and shared status framing to focused block components instead of growing one monolithic renderer
 - the frontend vision shell now wraps state summary, execution candidate, canvas blocks, and prompt dock in one unified adaptive surface instead of exposing separate top-level panels
 - the shared Vision presentation maps for entity-family labels and preview field ordering now live in one frontend config module instead of being duplicated across the conversation composable and preview panel
@@ -70,10 +73,12 @@ It should stay short, factual, and updated when a vision batch materially change
 - create_quest review turns now surface a read-only execution candidate that describes readiness, blockers, and the next required field without introducing a new mutation path
 - `/vision` now also supports a read-only `DISCOVER_QUESTS` capability that can switch into ranked quest recommendations inside the same adaptive surface
 - intent switching now allows a prompt to start a new conversation when the active thread's intent no longer matches the user's current task
+- when a prompt clearly switches to a new task outside the current workspace family, the old non-completed thread is now closed as a `superseded` task instead of being left active in the recent-task rail
 - shared prompt semantics now power both Vision and Admin Playground normalization/classification without collapsing the authority boundary
 - read-only execution planning and the canvas execution candidate surface now exist above the create_quest review flow
 - the durable vision memory layer now has its own context gateway, decision record, failure memory, feature-slice checklist, generated-artifact policy, and status ledger
 - `OPEN_CHAT` is now a first-class routed vision capability and can open a chat with an explicit circle contact through the existing chat boundary
+- `OPEN_CHAT` now also supports broader conversation-style prompt variants plus numbered candidate follow-up when one short name matches more than one chat contact
 - quest and application detail entry points now have Vision-native routes, with legacy detail paths redirected into the Vision surface
 - `VIEW_QUEST_NEWS` is now a routed read-only Vision capability, with a dedicated quest-news preview and semantic route catalog entry for the authenticated user
 - `VIEW_NOTIFICATIONS` is now a routed read-only Vision capability, backed by the quest-news inbox read model and a dedicated notifications preview
@@ -103,6 +108,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - the first user context pack derives available locale and timezone hints from profile location data, including `CH` to `de-CH` and `Europe/Zurich`
 - backend sanitization now hard-rejects model-selected capabilities, focus slot ids, and extracted slot payloads that fall outside the published Vision route catalog and slot schema
 - the semantic request now also carries runtime client locale/timezone hints and records which backend source supplied the final locale and timezone values
+- `/vision` now persists client locale/timezone hints on the conversation state, and fixed quest execution uses the persisted client timezone when deriving `scheduled_at` at confirmation time instead of silently falling back to server timezone
 - `/vision` now has terminal-first read-only semantic routes for self profile, circles, and applications inside the same conversation surface
 - `/vision` now also has terminal-first read-only semantic routes for settings, user profile detail, circle detail, quest detail, and application detail, and the remaining route-level detail entry points now redirect into the shared conversation surface instead of dedicated page shells
 - `/vision/chat` now resolves through the shared conversation surface as a read-only chat workspace snapshot, while person-specific chat opening remains on the `open_chat` terminal flow
@@ -128,18 +134,14 @@ It should stay short, factual, and updated when a vision batch materially change
 
 ## In Progress
 
-- create-quest conversation hardening is still expanding around ambiguity wording, richer review editing, and executor confidence boundaries
-- additional capability expansion is being prepared behind the shared semantic boundary so it does not depend on raw string intent checks
-- open-chat resolution still needs broader prompt variants and a richer target-user disambiguation path before it feels as calm as create_quest
-- the semantic orchestration layer still needs broader route catalog coverage and integration tests against non-create_quest capability expansion
-- request-style and mutating capability expansion beyond `create_circle`, `create_circle_request`, `accept_circle_request`, `delete_circle_request`, `update_circle`, `delete_circle`, `create_application`, `update_application`, `withdraw_application`, `approve_application`, `decline_application`, `update_profile`, and `update_profile_location` still remains
+- create-quest hardening now mostly remains in ambiguity wording polish and confidence-tuning
+- open-chat resolution now covers broader conversation-style prompt variants and numbered candidate follow-up, but it still needs richer target matching beyond the current username-or-email search path
+- the semantic orchestration layer now covers a broad non-create_quest route set, but integration coverage can still deepen around ambiguous multi-capability prompts and follow-up turns
 
 ## Deferred
 
-- additional mutation executors beyond `create_quest` and `create_circle`
-- stale-task cleanup beyond passive marking and broader multi-task continuity rules
-- typed slot-edit intent models beyond the current create-quest review loop
-- stronger locale-aware schedule parsing and broader location normalization
+- broader multi-task continuity rules beyond stale resume gating and explicit superseded-thread closeout
+- broader location normalization and locale-aware schedule hardening beyond persisted client-timezone execution
 
 ## Blocked By Design
 
