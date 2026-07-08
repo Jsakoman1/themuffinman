@@ -7,13 +7,13 @@ import com.themuffinman.app.business.mapper.BusinessProfileMgr;
 import com.themuffinman.app.business.model.BusinessProfile;
 import com.themuffinman.app.business.repository.BusinessProfileRepository;
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.normalization.SlugNormalizer;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.identity.model.AppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +32,12 @@ public class BusinessProfileService {
     }
 
     public BusinessProfileResponseDTO getProfileBySlug(String slug) {
-        BusinessProfile profile = businessProfileRepository.findBySlug(normalizeSlug(slug))
+        BusinessProfile profile = businessProfileRepository.findBySlug(
+                        SlugNormalizer.normalizeSlug(
+                                slug,
+                                "Business slug is required",
+                                "Business slug must use lowercase letters, numbers, and hyphens"
+                        ))
                 .filter(BusinessProfile::isActive)
                 .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
         return businessProfileMgr.toDto(profile);
@@ -57,20 +62,27 @@ public class BusinessProfileService {
                     return created;
                 });
 
-        String businessName = normalizeRequired(dto.getBusinessName(), "Business name is required");
+        String businessName = TextValueNormalizer.requireTrimmed(dto.getBusinessName(), "Business name is required");
         String slug = dto.getSlug() == null || dto.getSlug().isBlank()
-                ? slugify(businessName)
-                : normalizeSlug(dto.getSlug());
+                ? SlugNormalizer.slugify(businessName, "Business slug could not be derived from the business name")
+                : SlugNormalizer.normalizeSlug(dto.getSlug(), "Business slug is required", "Business slug must use lowercase letters, numbers, and hyphens");
 
         validateSlugAvailable(slug, currentUser.getId(), profile.getId() == null);
 
         profile.setBusinessName(businessName);
         profile.setSlug(slug);
-        profile.setHeadline(normalizeOptional(dto.getHeadline()));
+        profile.setHeadline(TextValueNormalizer.trimToNull(dto.getHeadline()));
         profile.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));
-        profile.setContactEmail(normalizeOptional(dto.getContactEmail()));
-        profile.setContactPhone(normalizeOptional(dto.getContactPhone()));
-        profile.setWebsiteUrl(normalizeOptional(dto.getWebsiteUrl()));
+        profile.setContactEmail(TextValueNormalizer.trimToNull(dto.getContactEmail()));
+        profile.setContactPhone(TextValueNormalizer.trimToNull(dto.getContactPhone()));
+        profile.setWebsiteUrl(TextValueNormalizer.trimToNull(dto.getWebsiteUrl()));
+        profile.setTimezone(TextValueNormalizer.trimToNull(dto.getTimezone()));
+        profile.setBookingEnabled(dto.getBookingEnabled() != null && dto.getBookingEnabled());
+        profile.setPublicAddressLabel(TextValueNormalizer.trimToNull(dto.getPublicAddressLabel()));
+        profile.setLatitude(dto.getLatitude());
+        profile.setLongitude(dto.getLongitude());
+        profile.setContactWhatsapp(TextValueNormalizer.trimToNull(dto.getContactWhatsapp()));
+        profile.setHeroImageUrl(TextValueNormalizer.trimToNull(dto.getHeroImageUrl()));
         profile.setActive(dto.getActive() == null || dto.getActive());
 
         return businessProfileMgr.toDto(businessProfileRepository.save(profile));
@@ -85,37 +97,4 @@ public class BusinessProfileService {
         }
     }
 
-    private String normalizeRequired(String value, String message) {
-        String normalized = normalizeOptional(value);
-        if (normalized == null) {
-            throw ServiceErrors.badRequest(message);
-        }
-        return normalized;
-    }
-
-    private String normalizeOptional(String value) {
-        if (value == null) {
-            return null;
-        }
-        String normalized = value.trim();
-        return normalized.isEmpty() ? null : normalized;
-    }
-
-    private String normalizeSlug(String value) {
-        String normalized = normalizeRequired(value, "Business slug is required").toLowerCase(Locale.ROOT);
-        if (!normalized.matches("^[a-z0-9]+(?:-[a-z0-9]+)*$")) {
-            throw ServiceErrors.badRequest("Business slug must use lowercase letters, numbers, and hyphens");
-        }
-        return normalized;
-    }
-
-    private String slugify(String value) {
-        String slug = value.toLowerCase(Locale.ROOT)
-                .replaceAll("[^a-z0-9]+", "-")
-                .replaceAll("^-|-$", "");
-        if (slug.isBlank()) {
-            throw ServiceErrors.badRequest("Business slug could not be derived from the business name");
-        }
-        return slug;
-    }
 }

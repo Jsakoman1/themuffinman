@@ -518,10 +518,34 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java
   - id: business_profile_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java
+  - id: business_offering_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java
+  - id: business_booking_policy_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java
+  - id: business_availability_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - id: business_public_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  - id: business_booking_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java
+  - id: business_owner_dashboard_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java
+  - id: business_gallery_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java
   - id: business_profile_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java
   - id: business_profile_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java
+  - id: business_offering_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessOfferingMgr.java
+  - id: business_booking_policy_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessBookingPolicyMgr.java
+  - id: business_availability_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessAvailabilityMgr.java
+  - id: business_booking_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessBookingMgr.java
+  - id: business_gallery_image_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessGalleryImageMgr.java
   - id: business_profile_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java
   - id: business_profile_response_dto
@@ -3078,6 +3102,344 @@ mutating_intent_contracts:
   - slug conflict
   source_refs:
   - business_profile_service
+- intent_id: create_my_business_offering
+  preconditions:
+  - authenticated business owner
+  - validated offering payload
+  - existing owner business profile
+  state_changes:
+  - persist new business offering
+  side_effects:
+  - normalize or derive offering slug
+  - apply booking-mode defaults
+  notifications:
+  - none
+  blocking_conditions:
+  - missing owner business profile
+  - duplicate offering slug
+  - invalid offering payload
+  source_refs:
+  - business_profile_service
+- intent_id: update_my_business_offering
+  preconditions:
+  - authenticated business owner
+  - exact owned offering identity
+  - validated offering payload
+  state_changes:
+  - persist owned business offering changes
+  side_effects:
+  - preserve archival-safe offering history
+  notifications:
+  - none
+  blocking_conditions:
+  - offering not owned by caller
+  - invalid offering payload
+  source_refs:
+  - business_profile_service
+- intent_id: delete_my_business_offering
+  preconditions:
+  - authenticated business owner
+  - exact owned offering identity
+  state_changes:
+  - deactivate owned business offering
+  side_effects:
+  - preserve historical booking meaning through offering snapshots
+  notifications:
+  - none
+  blocking_conditions:
+  - offering not owned by caller
+  source_refs:
+  - business_profile_service
+- intent_id: save_my_business_booking_policy
+  preconditions:
+  - authenticated business owner
+  - validated booking policy payload
+  - existing owner business profile
+  state_changes:
+  - persist booking policy defaults
+  side_effects:
+  - create default policy row when missing
+  notifications:
+  - none
+  blocking_conditions:
+  - missing owner business profile
+  - invalid booking policy payload
+  source_refs:
+  - business_profile_service
+- intent_id: create_my_business_availability_rule
+  preconditions:
+  - authenticated business owner
+  - validated availability rule payload
+  - business timezone is configured
+  state_changes:
+  - persist new recurring availability rule
+  side_effects:
+  - scope rule to business or offering
+  notifications:
+  - none
+  blocking_conditions:
+  - missing business timezone
+  - invalid availability rule payload
+  source_refs:
+  - business_profile_service
+- intent_id: update_my_business_availability_rule
+  preconditions:
+  - authenticated business owner
+  - exact owned availability rule identity
+  - validated availability rule payload
+  state_changes:
+  - persist recurring availability rule changes
+  side_effects:
+  - preserve backend-owned time semantics
+  notifications:
+  - none
+  blocking_conditions:
+  - rule not owned by caller
+  - invalid availability rule payload
+  source_refs:
+  - business_profile_service
+- intent_id: delete_my_business_availability_rule
+  preconditions:
+  - authenticated business owner
+  - exact owned availability rule identity
+  state_changes:
+  - deactivate recurring availability rule
+  side_effects:
+  - keep booking history separate from availability changes
+  notifications:
+  - none
+  blocking_conditions:
+  - rule not owned by caller
+  source_refs:
+  - business_profile_service
+- intent_id: create_my_business_availability_exception
+  preconditions:
+  - authenticated business owner
+  - validated availability exception payload
+  - business timezone is configured
+  state_changes:
+  - persist new availability exception
+  side_effects:
+  - support block or replacement-capacity windows
+  notifications:
+  - none
+  blocking_conditions:
+  - missing business timezone
+  - invalid availability exception payload
+  source_refs:
+  - business_profile_service
+- intent_id: update_my_business_availability_exception
+  preconditions:
+  - authenticated business owner
+  - exact owned availability exception identity
+  - validated availability exception payload
+  state_changes:
+  - persist availability exception changes
+  side_effects:
+  - preserve backend-owned time semantics
+  notifications:
+  - none
+  blocking_conditions:
+  - exception not owned by caller
+  - invalid availability exception payload
+  source_refs:
+  - business_profile_service
+- intent_id: delete_my_business_availability_exception
+  preconditions:
+  - authenticated business owner
+  - exact owned availability exception identity
+  state_changes:
+  - delete owned availability exception
+  side_effects:
+  - release future availability override
+  notifications:
+  - none
+  blocking_conditions:
+  - exception not owned by caller
+  source_refs:
+  - business_profile_service
+- intent_id: create_business_booking
+  preconditions:
+  - authenticated customer
+  - validated booking payload
+  - active public business profile and offering
+  state_changes:
+  - persist new business booking with confirmed or pending status
+  side_effects:
+  - reserve capacity immediately
+  - write booking snapshots and audit event
+  notifications:
+  - future booking-created notification hook
+  blocking_conditions:
+  - self-booking attempt
+  - slot outside availability or policy window
+  - slot already full
+  source_refs:
+  - business_profile_service
+- intent_id: cancel_my_business_booking
+  preconditions:
+  - authenticated customer
+  - exact owned booking identity
+  - booking is still inside customer cancellation policy window
+  state_changes:
+  - transition booking to cancelled by customer
+  side_effects:
+  - write booking audit event
+  notifications:
+  - future booking-cancelled notification hook
+  blocking_conditions:
+  - booking not owned by caller
+  - cancellation window closed
+  - booking status does not allow customer cancellation
+  source_refs:
+  - business_profile_service
+- intent_id: create_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - validated owner booking payload
+  - exact customer identity
+  state_changes:
+  - persist owner-created confirmed booking
+  side_effects:
+  - reserve capacity immediately
+  - write booking snapshots and audit event
+  notifications:
+  - future booking-created notification hook
+  blocking_conditions:
+  - caller does not own target business
+  - slot outside availability or policy window
+  - slot already full
+  source_refs:
+  - business_profile_service
+- intent_id: confirm_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  - booking is pending confirmation
+  state_changes:
+  - transition booking to confirmed
+  side_effects:
+  - write booking audit event
+  notifications:
+  - future booking-confirmed notification hook
+  blocking_conditions:
+  - booking not owned by caller
+  - owner manual approval disabled
+  - booking not pending
+  source_refs:
+  - business_profile_service
+- intent_id: reject_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  - booking is pending confirmation
+  state_changes:
+  - transition booking to rejected
+  side_effects:
+  - write booking audit event
+  notifications:
+  - future booking-rejected notification hook
+  blocking_conditions:
+  - booking not owned by caller
+  - owner manual rejection disabled
+  - booking not pending
+  source_refs:
+  - business_profile_service
+- intent_id: cancel_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  state_changes:
+  - transition booking to cancelled by owner
+  side_effects:
+  - write booking audit event
+  notifications:
+  - future booking-cancelled notification hook
+  blocking_conditions:
+  - booking not owned by caller
+  - booking status does not allow owner cancellation
+  source_refs:
+  - business_profile_service
+- intent_id: complete_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  - booking end time has passed
+  state_changes:
+  - transition booking to completed
+  side_effects:
+  - write booking audit event
+  notifications:
+  - none
+  blocking_conditions:
+  - booking not owned by caller
+  - booking has not ended yet
+  - booking status does not allow completion
+  source_refs:
+  - business_profile_service
+- intent_id: mark_owner_business_booking_no_show
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  - booking start time has passed
+  state_changes:
+  - transition booking to no-show
+  side_effects:
+  - write booking audit event
+  notifications:
+  - none
+  blocking_conditions:
+  - booking not owned by caller
+  - booking has not started yet
+  - booking status does not allow no-show marking
+  source_refs:
+  - business_profile_service
+- intent_id: create_my_business_gallery_image
+  preconditions:
+  - authenticated business owner
+  - validated gallery image payload
+  - existing owner business profile
+  state_changes:
+  - persist business gallery image metadata row
+  side_effects:
+  - preserve gallery sort order and active flags
+  notifications:
+  - none
+  blocking_conditions:
+  - missing owner business profile
+  - invalid gallery image payload
+  source_refs:
+  - business_profile_service
+- intent_id: update_my_business_gallery_image
+  preconditions:
+  - authenticated business owner
+  - exact owned gallery image identity
+  - validated gallery image payload
+  state_changes:
+  - persist business gallery image metadata changes
+  side_effects:
+  - preserve gallery ordering semantics
+  notifications:
+  - none
+  blocking_conditions:
+  - gallery image not owned by caller
+  - invalid gallery image payload
+  source_refs:
+  - business_profile_service
+- intent_id: delete_my_business_gallery_image
+  preconditions:
+  - authenticated business owner
+  - exact owned gallery image identity
+  state_changes:
+  - delete owned gallery image metadata row
+  side_effects:
+  - remove image from public gallery reads
+  notifications:
+  - none
+  blocking_conditions:
+  - gallery image not owned by caller
+  source_refs:
+  - business_profile_service
 - intent_id: create_thing_listing
   preconditions:
   - authenticated owner
@@ -3183,6 +3545,22 @@ intent_safety_catalog:
     - browse_business_profiles
     - open_my_business_profile
     - open_business_profile_by_slug
+    - open_my_business_offerings
+    - open_my_business_booking_policy
+    - open_my_business_availability_rules
+    - open_my_business_availability_exceptions
+    - open_public_business_availability
+    - open_public_business_page
+    - open_public_business_offerings
+    - open_my_business_bookings
+    - open_my_business_booking
+    - open_owner_business_bookings
+    - open_owner_business_booking_schedule
+    - open_owner_business_booking_calendar
+    - open_owner_business_booking
+    - open_my_business_dashboard
+    - open_my_business_dashboard_schedule
+    - open_my_business_gallery
     - browse_thing_listings
     - open_my_thing_listings
     - browse_ride_offers
@@ -3233,6 +3611,25 @@ intent_safety_catalog:
     - request_owner_term_change
     - create_review
     - save_my_business_profile
+    - create_my_business_offering
+    - update_my_business_offering
+    - delete_my_business_offering
+    - save_my_business_booking_policy
+    - create_my_business_availability_rule
+    - update_my_business_availability_rule
+    - delete_my_business_availability_rule
+    - create_my_business_availability_exception
+    - update_my_business_availability_exception
+    - delete_my_business_availability_exception
+    - create_business_booking
+    - cancel_my_business_booking
+    - create_owner_business_booking
+    - cancel_owner_business_booking
+    - complete_owner_business_booking
+    - mark_owner_business_booking_no_show
+    - create_my_business_gallery_image
+    - update_my_business_gallery_image
+    - delete_my_business_gallery_image
     - create_thing_listing
     - request_borrow_thing
     - create_ride_offer
@@ -3249,6 +3646,8 @@ intent_safety_catalog:
     - accept_circle_connection
     - approve_application
     - decline_application
+    - confirm_owner_business_booking
+    - reject_owner_business_booking
     - confirm_quest_term_change
     - reject_quest_term_change
     - create_circle_only_quest_for_selected_people
@@ -5213,6 +5612,217 @@ service_workflow_inventory:
   - docs/agent-operating-model.md
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+- id: business_offering_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessOfferingService
+  service_methods:
+  - createMyOffering
+  - updateMyOffering
+  - deleteMyOffering
+  covered_intents:
+  - create_my_business_offering
+  - update_my_business_offering
+  - delete_my_business_offering
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_offering_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingServiceTest.java
+- id: business_booking_policy_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessBookingPolicyService
+  service_methods:
+  - saveMyPolicy
+  covered_intents:
+  - save_my_business_booking_policy
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_policy_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPolicyServiceTest.java
+- id: business_availability_rule_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessAvailabilityService
+  service_methods:
+  - createMyRule
+  - updateMyRule
+  - deleteMyRule
+  covered_intents:
+  - create_my_business_availability_rule
+  - update_my_business_availability_rule
+  - delete_my_business_availability_rule
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_availability_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java
+- id: business_availability_exception_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessAvailabilityService
+  service_methods:
+  - createMyException
+  - updateMyException
+  - deleteMyException
+  covered_intents:
+  - create_my_business_availability_exception
+  - update_my_business_availability_exception
+  - delete_my_business_availability_exception
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_availability_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java
+- id: business_booking_create_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCreateBookingUseCase
+  service_methods:
+  - createCustomerBooking
+  covered_intents:
+  - create_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: business_booking_customer_cancel_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCancelBookingUseCase
+  service_methods:
+  - cancelAsCustomer
+  covered_intents:
+  - cancel_my_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java
+- id: business_booking_owner_create_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCreateBookingUseCase
+  service_methods:
+  - createOwnerBooking
+  covered_intents:
+  - create_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: business_booking_owner_confirm_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessConfirmBookingUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - confirm_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: business_booking_owner_reject_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessRejectBookingUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - reject_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: business_booking_owner_cancel_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCancelBookingUseCase
+  service_methods:
+  - cancelAsOwner
+  covered_intents:
+  - cancel_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java
+- id: business_booking_owner_complete_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCompleteBookingUseCase
+  service_methods:
+  - complete
+  covered_intents:
+  - complete_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java
+- id: business_booking_owner_no_show_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessNoShowBookingUseCase
+  service_methods:
+  - markNoShow
+  covered_intents:
+  - mark_owner_business_booking_no_show
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java
+- id: business_gallery_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessGalleryService
+  service_methods:
+  - createMyGalleryImage
+  - updateMyGalleryImage
+  - deleteMyGalleryImage
+  covered_intents:
+  - create_my_business_gallery_image
+  - update_my_business_gallery_image
+  - delete_my_business_gallery_image
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_gallery_image_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPublicReadServiceTest.java
 - id: chat_admin_write_flows
   service_class: com.themuffinman.app.chat.service.ChatAdminService
   service_methods:
@@ -6711,6 +7321,191 @@ api:
     path: "/business/profiles/{slug}"
     controller_class: com.themuffinman.app.business.controller.BusinessProfileController
     handler_method: getProfileBySlug
+  - id: get_my_business_offerings
+    method: GET
+    path: "/business/offerings/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOfferingController
+    handler_method: getMyOfferings
+  - id: create_my_business_offering
+    method: POST
+    path: "/business/offerings/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOfferingController
+    handler_method: createMyOffering
+  - id: update_my_business_offering
+    method: PUT
+    path: "/business/offerings/{offeringId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOfferingController
+    handler_method: updateMyOffering
+  - id: delete_my_business_offering
+    method: DELETE
+    path: "/business/offerings/{offeringId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOfferingController
+    handler_method: deleteMyOffering
+  - id: get_my_business_booking_policy
+    method: GET
+    path: "/business/booking-policy/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingPolicyController
+    handler_method: getMyPolicy
+  - id: save_my_business_booking_policy
+    method: PUT
+    path: "/business/booking-policy/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingPolicyController
+    handler_method: saveMyPolicy
+  - id: get_my_business_availability_rules
+    method: GET
+    path: "/business/availability-rules/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: getMyRules
+  - id: create_my_business_availability_rule
+    method: POST
+    path: "/business/availability-rules/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: createMyRule
+  - id: update_my_business_availability_rule
+    method: PUT
+    path: "/business/availability-rules/{ruleId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: updateMyRule
+  - id: delete_my_business_availability_rule
+    method: DELETE
+    path: "/business/availability-rules/{ruleId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: deleteMyRule
+  - id: get_my_business_availability_exceptions
+    method: GET
+    path: "/business/availability-exceptions/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: getMyExceptions
+  - id: create_my_business_availability_exception
+    method: POST
+    path: "/business/availability-exceptions/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: createMyException
+  - id: update_my_business_availability_exception
+    method: PUT
+    path: "/business/availability-exceptions/{exceptionId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: updateMyException
+  - id: delete_my_business_availability_exception
+    method: DELETE
+    path: "/business/availability-exceptions/{exceptionId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: deleteMyException
+  - id: get_public_business_availability
+    method: GET
+    path: "/business/public/{slug}/availability"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: getPublicAvailability
+  - id: get_public_business_page
+    method: GET
+    path: "/business/public/{slug}"
+    controller_class: com.themuffinman.app.business.controller.BusinessPublicController
+    handler_method: getPublicBusinessPage
+  - id: get_public_business_offerings
+    method: GET
+    path: "/business/public/{slug}/offerings"
+    controller_class: com.themuffinman.app.business.controller.BusinessPublicController
+    handler_method: getPublicOfferings
+  - id: create_business_booking
+    method: POST
+    path: "/business/bookings"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: createBooking
+  - id: get_my_business_bookings
+    method: GET
+    path: "/business/bookings/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getMyBookings
+  - id: get_my_business_booking
+    method: GET
+    path: "/business/bookings/me/{bookingId}"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getMyBooking
+  - id: cancel_my_business_booking
+    method: POST
+    path: "/business/bookings/me/{bookingId}/cancel"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: cancelMyBooking
+  - id: create_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: createOwnerBooking
+  - id: get_owner_business_bookings
+    method: GET
+    path: "/business/bookings/owner"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getOwnerBookings
+  - id: get_owner_business_booking_schedule
+    method: GET
+    path: "/business/bookings/owner/schedule"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getOwnerSchedule
+  - id: get_owner_business_booking_calendar
+    method: GET
+    path: "/business/bookings/owner/calendar"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getOwnerCalendar
+  - id: get_owner_business_booking
+    method: GET
+    path: "/business/bookings/owner/{bookingId}"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getOwnerBooking
+  - id: confirm_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/confirm"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: confirmBooking
+  - id: reject_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/reject"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: rejectBooking
+  - id: cancel_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/cancel"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: cancelOwnerBooking
+  - id: complete_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/complete"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: completeBooking
+  - id: mark_owner_business_booking_no_show
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/mark-no-show"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: markNoShow
+  - id: get_my_business_dashboard
+    method: GET
+    path: "/business/dashboard/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOwnerDashboardController
+    handler_method: getMyDashboard
+  - id: get_my_business_dashboard_schedule
+    method: GET
+    path: "/business/dashboard/me/schedule"
+    controller_class: com.themuffinman.app.business.controller.BusinessOwnerDashboardController
+    handler_method: getMySchedule
+  - id: get_my_business_gallery
+    method: GET
+    path: "/business/gallery/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessGalleryController
+    handler_method: getMyGallery
+  - id: create_my_business_gallery_image
+    method: POST
+    path: "/business/gallery/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessGalleryController
+    handler_method: createMyGalleryImage
+  - id: update_my_business_gallery_image
+    method: PUT
+    path: "/business/gallery/me/{imageId}"
+    controller_class: com.themuffinman.app.business.controller.BusinessGalleryController
+    handler_method: updateMyGalleryImage
+  - id: delete_my_business_gallery_image
+    method: DELETE
+    path: "/business/gallery/me/{imageId}"
+    controller_class: com.themuffinman.app.business.controller.BusinessGalleryController
+    handler_method: deleteMyGalleryImage
   - id: get_thing_listings
     method: GET
     path: "/things/listings"
@@ -6972,6 +7767,567 @@ intents:
     source_refs:
     - app_user_controller
     - app_user_service
+- id: open_my_business_offerings
+  description: Open the current owner's business offering list.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the current owner's offerings through the business offering list endpoint.
+    endpoint_id: get_my_business_offerings
+    source_refs:
+    - business_offering_controller
+    - business_offering_mgr
+    - business_profile_service
+- id: create_my_business_offering
+  description: Create one offering under the authenticated owner's business profile.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - offering_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one business offering through the owner offering endpoint.
+    endpoint_id: create_my_business_offering
+    source_refs:
+    - business_offering_controller
+    - business_offering_mgr
+    - business_profile_service
+- id: update_my_business_offering
+  description: Update one offering owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - offering_id
+  - offering_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Update one owned offering through the owner offering endpoint.
+    endpoint_id: update_my_business_offering
+    source_refs:
+    - business_offering_controller
+    - business_profile_service
+- id: delete_my_business_offering
+  description: Deactivate one offering owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - offering_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Deactivate one owned offering through the owner offering delete endpoint.
+    endpoint_id: delete_my_business_offering
+    source_refs:
+    - business_offering_controller
+    - business_profile_service
+- id: open_my_business_booking_policy
+  description: Open the current owner's booking policy surface.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the current owner's booking policy through the policy endpoint.
+    endpoint_id: get_my_business_booking_policy
+    source_refs:
+    - business_booking_policy_controller
+    - business_booking_policy_mgr
+    - business_profile_service
+- id: save_my_business_booking_policy
+  description: Save the current owner's booking policy defaults.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_policy_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Save the owner's booking policy through the policy write endpoint.
+    endpoint_id: save_my_business_booking_policy
+    source_refs:
+    - business_booking_policy_controller
+    - business_profile_service
+- id: open_my_business_availability_rules
+  description: Open the current owner's recurring availability rules.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner's availability rules through the rules endpoint.
+    endpoint_id: get_my_business_availability_rules
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: create_my_business_availability_rule
+  description: Create one recurring availability rule for the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_rule_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one owner availability rule through the rule write endpoint.
+    endpoint_id: create_my_business_availability_rule
+    source_refs:
+    - business_availability_controller
+    - business_availability_mgr
+    - business_profile_service
+- id: update_my_business_availability_rule
+  description: Update one recurring availability rule owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_rule_id
+  - availability_rule_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Update one owner availability rule through the rule write endpoint.
+    endpoint_id: update_my_business_availability_rule
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: delete_my_business_availability_rule
+  description: Remove one recurring availability rule owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_rule_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Delete one owner availability rule through the rule delete endpoint.
+    endpoint_id: delete_my_business_availability_rule
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: open_my_business_availability_exceptions
+  description: Open the current owner's availability exception list.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner's availability exceptions through the exceptions endpoint.
+    endpoint_id: get_my_business_availability_exceptions
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: create_my_business_availability_exception
+  description: Create one availability exception for the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_exception_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one owner availability exception through the exception write endpoint.
+    endpoint_id: create_my_business_availability_exception
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: update_my_business_availability_exception
+  description: Update one availability exception owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_exception_id
+  - availability_exception_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Update one owner availability exception through the exception write endpoint.
+    endpoint_id: update_my_business_availability_exception
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: delete_my_business_availability_exception
+  description: Delete one availability exception owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_exception_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Delete one owner availability exception through the exception delete endpoint.
+    endpoint_id: delete_my_business_availability_exception
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: open_public_business_availability
+  description: Open public availability windows for one business slug and optional offering.
+  mutating: false
+  required_inputs:
+  - business_slug
+  - from
+  - to
+  optional_inputs:
+  - offering_id
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load public availability windows through the public availability endpoint.
+    endpoint_id: get_public_business_availability
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: open_public_business_page
+  description: Open one public business page by slug.
+  mutating: false
+  required_inputs:
+  - business_slug
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the public business page through the public page endpoint.
+    endpoint_id: get_public_business_page
+    source_refs:
+    - business_public_controller
+    - business_offering_mgr
+    - business_gallery_image_mgr
+    - business_profile_service
+- id: open_public_business_offerings
+  description: Open the public offering list for one business slug.
+  mutating: false
+  required_inputs:
+  - business_slug
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the public offering list through the public offerings endpoint.
+    endpoint_id: get_public_business_offerings
+    source_refs:
+    - business_public_controller
+    - business_profile_service
+- id: create_business_booking
+  description: Create one customer booking against a public business offering.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one booking through the customer booking endpoint.
+    endpoint_id: create_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_booking_mgr
+    - business_profile_service
+- id: open_my_business_bookings
+  description: Open the authenticated customer's booking list.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - booking_filters
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the current customer's booking list through the self booking endpoint.
+    endpoint_id: get_my_business_bookings
+    source_refs:
+    - business_booking_controller
+    - business_booking_mgr
+    - business_profile_service
+- id: open_my_business_booking
+  description: Open one booking owned by the authenticated customer.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load one current-customer booking through the self booking detail endpoint.
+    endpoint_id: get_my_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: cancel_my_business_booking
+  description: Cancel one booking owned by the authenticated customer.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Cancel one customer booking through the self cancellation endpoint.
+    endpoint_id: cancel_my_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: create_owner_business_booking
+  description: Create one owner-managed booking for the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - owner_booking_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one owner booking through the owner booking endpoint.
+    endpoint_id: create_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_owner_business_bookings
+  description: Open the owner-side booking list for the authenticated business owner.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - booking_filters
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner booking list through the owner bookings endpoint.
+    endpoint_id: get_owner_business_bookings
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_owner_business_booking_schedule
+  description: Open the owner schedule summary for the authenticated business owner.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner schedule summary through the owner schedule endpoint.
+    endpoint_id: get_owner_business_booking_schedule
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_owner_business_booking_calendar
+  description: Open the owner calendar projection for the authenticated business owner.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - from
+  - to
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner calendar projection through the owner calendar endpoint.
+    endpoint_id: get_owner_business_booking_calendar
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_owner_business_booking
+  description: Open one owner-visible booking detail.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load one owner-visible booking through the owner booking detail endpoint.
+    endpoint_id: get_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: confirm_owner_business_booking
+  description: Confirm one pending booking as the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Confirm one pending booking through the owner confirm endpoint.
+    endpoint_id: confirm_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: reject_owner_business_booking
+  description: Reject one pending booking as the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Reject one pending booking through the owner reject endpoint.
+    endpoint_id: reject_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: cancel_owner_business_booking
+  description: Cancel one owner-visible booking as the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Cancel one owner-visible booking through the owner cancellation endpoint.
+    endpoint_id: cancel_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: complete_owner_business_booking
+  description: Mark one owner-visible booking as completed.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Complete one owner-visible booking through the owner completion endpoint.
+    endpoint_id: complete_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: mark_owner_business_booking_no_show
+  description: Mark one owner-visible booking as no-show.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Mark one owner-visible booking as no-show through the owner no-show endpoint.
+    endpoint_id: mark_owner_business_booking_no_show
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_my_business_dashboard
+  description: Open the owner dashboard summary for the authenticated business owner.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner dashboard through the dashboard endpoint.
+    endpoint_id: get_my_business_dashboard
+    source_refs:
+    - business_owner_dashboard_controller
+    - business_profile_service
+- id: open_my_business_dashboard_schedule
+  description: Open the owner dashboard schedule summary surface.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner dashboard schedule summary through the dashboard schedule endpoint.
+    endpoint_id: get_my_business_dashboard_schedule
+    source_refs:
+    - business_owner_dashboard_controller
+    - business_profile_service
+- id: open_my_business_gallery
+  description: Open the current owner's business gallery metadata list.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner gallery list through the business gallery endpoint.
+    endpoint_id: get_my_business_gallery
+    source_refs:
+    - business_gallery_controller
+    - business_gallery_image_mgr
+    - business_profile_service
+- id: create_my_business_gallery_image
+  description: Create one business gallery image metadata row for the authenticated owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - gallery_image_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one owner gallery image through the gallery write endpoint.
+    endpoint_id: create_my_business_gallery_image
+    source_refs:
+    - business_gallery_controller
+    - business_profile_service
+- id: update_my_business_gallery_image
+  description: Update one business gallery image metadata row owned by the authenticated owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - image_id
+  - gallery_image_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Update one owner gallery image through the gallery write endpoint.
+    endpoint_id: update_my_business_gallery_image
+    source_refs:
+    - business_gallery_controller
+    - business_profile_service
+- id: delete_my_business_gallery_image
+  description: Delete one business gallery image metadata row owned by the authenticated owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - image_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Delete one owner gallery image through the gallery delete endpoint.
+    endpoint_id: delete_my_business_gallery_image
+    source_refs:
+    - business_gallery_controller
+    - business_profile_service
 - id: set_profile_location
   description: Set or clear the authenticated user's profile location through the
     self-update flow.

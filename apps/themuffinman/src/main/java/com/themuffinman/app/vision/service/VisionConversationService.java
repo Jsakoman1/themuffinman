@@ -3,6 +3,7 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
@@ -32,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -286,6 +286,8 @@ public class VisionConversationService {
             case VIEW_CHAT_WORKSPACE -> visionReadOnlyConversationTurnHandler.handleViewChatWorkspaceTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_PROFILE -> visionReadOnlyConversationTurnHandler.handleViewProfileTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_SETTINGS -> visionReadOnlyConversationTurnHandler.handleViewSettingsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_BUSINESS -> visionReadOnlyConversationTurnHandler.handleViewBusinessTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_BUSINESS_AVAILABILITY -> visionReadOnlyConversationTurnHandler.handleViewBusinessAvailabilityTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_USER_PROFILE -> handleViewUserProfileTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_CIRCLES -> visionReadOnlyConversationTurnHandler.handleViewCirclesTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_CIRCLE_DETAIL -> handleViewCircleDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
@@ -2542,7 +2544,7 @@ public class VisionConversationService {
         if (countValue == null || countValue.isBlank()) {
             return null;
         }
-        String lower = normalizedPrompt.trim().toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(normalizedPrompt);
         int selectedIndex = switch (lower) {
             case "1", "candidate 1", "first", "first one" -> 1;
             case "2", "candidate 2", "second", "second one" -> 2;

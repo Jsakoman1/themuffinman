@@ -200,6 +200,77 @@ Cross-module contract note:
 - Vision create-quest execution now writes through `WorkmarketQuestService` directly, and the old dashboard/quest/application compatibility runtime path has been removed.
 - Vision preview ownership now stays explicit inside `vision` through `VisionCapabilityPreviewService`, `VisionSocialPreviewRenderer`, `VisionSocialMutationAdapter`, `VisionProfilePreviewRenderer`, `VisionProfileMutationAdapter`, `VisionIdentityPreviewRenderer`, `VisionFeedPreviewRenderer`, `VisionWorkmarketPreviewRenderer`, and `VisionWorkmarketApplicationMutationAdapter`, instead of hiding social/profile/workmarket preview shaping and mutation handoff inside one oversized preview facade.
 
+### `business`
+
+Subdomains:
+- `profile identity and public page`
+- `service catalog and booking policy`
+- `availability rules and exceptions`
+- `booking workflow and audit`
+- `owner schedule and dashboard`
+- `gallery metadata`
+
+Core files:
+- `src/main/java/com/themuffinman/app/business/README.md`
+- `src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java`
+- `src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java`
+- `src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java`
+- `src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java`
+- `src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java`
+- `src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java`
+- `src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java`
+- `src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessOfferingService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessBookingPolicyService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessPublicReadService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessConfirmBookingUseCase.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessRejectBookingUseCase.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCase.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessCompleteBookingUseCase.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessNoShowBookingUseCase.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessGalleryService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessBookingPrimitiveService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessBookingPresentationService.java`
+- `src/main/java/com/themuffinman/app/business/service/BusinessBookingAuditService.java`
+- `src/main/java/com/themuffinman/app/business/model/BusinessProfile.java`
+- `src/main/java/com/themuffinman/app/business/model/BusinessOffering.java`
+- `src/main/java/com/themuffinman/app/business/model/BusinessBookingPolicy.java`
+- `src/main/java/com/themuffinman/app/business/model/BusinessAvailabilityRule.java`
+- `src/main/java/com/themuffinman/app/business/model/BusinessAvailabilityException.java`
+- `src/main/java/com/themuffinman/app/business/model/BusinessBooking.java`
+- `src/main/java/com/themuffinman/app/business/model/BusinessBookingAuditEvent.java`
+- `src/main/java/com/themuffinman/app/business/model/BusinessGalleryImage.java`
+- `src/main/java/com/themuffinman/app/business/repository/BusinessProfileRepository.java`
+- `src/main/java/com/themuffinman/app/business/repository/BusinessOfferingRepository.java`
+- `src/main/java/com/themuffinman/app/business/repository/BusinessBookingPolicyRepository.java`
+- `src/main/java/com/themuffinman/app/business/repository/BusinessAvailabilityRuleRepository.java`
+- `src/main/java/com/themuffinman/app/business/repository/BusinessAvailabilityExceptionRepository.java`
+- `src/main/java/com/themuffinman/app/business/repository/BusinessBookingRepository.java`
+- `src/main/java/com/themuffinman/app/business/repository/BusinessBookingAuditEventRepository.java`
+- `src/main/java/com/themuffinman/app/business/repository/BusinessGalleryImageRepository.java`
+- `src/main/java/com/themuffinman/app/business/event/BusinessBookingCreatedEvent.java`
+- `src/main/java/com/themuffinman/app/business/event/BusinessBookingStatusChangedEvent.java`
+- `src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java`
+
+Primary schema migrations:
+- `V31__create_business_profile_table.sql`
+- `V44__extend_business_profile_for_booking.sql`
+- `V45__create_business_offering_table.sql`
+- `V46__create_business_booking_policy_table.sql`
+- `V47__create_business_availability_tables.sql`
+- `V48__create_business_booking_table.sql`
+- `V49__create_business_booking_audit_event_table.sql`
+- `V50__create_business_gallery_image_table.sql`
+- `V51__tighten_business_booking_constraints.sql`
+
 ### `location`
 
 Subdomains:

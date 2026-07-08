@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T08:20:24Z",
+  "generated_at": "2026-07-08T08:58:09Z",
   "registry_entries": 69,
   "tracked_outputs": 26,
   "templated_outputs": 13,
@@ -650,7 +650,7 @@
     },
     {
       "path": "docs/generated/local-tooling/audit-documentation-summary.md",
-      "mtime": "2026-07-05T09:46:55Z",
+      "mtime": "2026-07-08T08:54:15Z",
       "bytes": 141
     },
     {
@@ -669,19 +669,29 @@
       "bytes": 1136
     },
     {
+      "path": "docs/generated/local-tooling/closeout-autofill/chat_prod_ready-summary.md",
+      "mtime": "2026-07-08T08:55:31Z",
+      "bytes": 335
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-reports/chat_prod_ready-summary.md",
+      "mtime": "2026-07-08T08:58:07Z",
+      "bytes": 886
+    },
+    {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-08T08:20:14Z",
+      "mtime": "2026-07-08T08:55:54Z",
       "bytes": 1628
     },
     {
       "path": "docs/generated/local-tooling/diff-summary.md",
-      "mtime": "2026-07-08T08:20:13Z",
-      "bytes": 1313
+      "mtime": "2026-07-08T08:58:08Z",
+      "bytes": 1241
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
-      "mtime": "2026-07-05T09:23:05Z",
-      "bytes": 2154
+      "mtime": "2026-07-08T08:54:15Z",
+      "bytes": 2224
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
@@ -699,6 +709,11 @@
       "bytes": 611
     },
     {
+      "path": "docs/generated/local-tooling/domain-packs/chat-summary.md",
+      "mtime": "2026-07-08T08:55:54Z",
+      "bytes": 614
+    },
+    {
       "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
       "mtime": "2026-07-07T06:38:39Z",
       "bytes": 26
@@ -707,6 +722,11 @@
       "path": "docs/generated/local-tooling/dto-usage-packs/adminuserdetaildto-summary.md",
       "mtime": "2026-07-08T06:23:20Z",
       "bytes": 1294
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/chatconversationsummarydto-summary.md",
+      "mtime": "2026-07-08T08:58:09Z",
+      "bytes": 2250
     },
     {
       "path": "docs/generated/local-tooling/dto-usage-packs/dashboardresponsedto-summary.md",
@@ -815,8 +835,8 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-08T08:20:15Z",
-      "bytes": 1039
+      "mtime": "2026-07-08T08:56:09Z",
+      "bytes": 732
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
@@ -842,6 +862,11 @@
       "path": "docs/generated/local-tooling/plan-completion/backend-drift-remediation-master-plan-summary.md",
       "mtime": "2026-07-06T05:41:50Z",
       "bytes": 242
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/chat-prod-ready-plan-summary.md",
+      "mtime": "2026-07-08T08:58:07Z",
+      "bytes": 363
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/control-system-final-polish-plan-summary.md",
@@ -909,6 +934,11 @@
       "bytes": 288
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/platform-final-polish-master-plan-summary.md",
+      "mtime": "2026-07-08T08:21:44Z",
+      "bytes": 338
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/platform-last-mile-ten-master-plan-summary.md",
       "mtime": "2026-07-08T08:10:25Z",
       "bytes": 313
@@ -947,6 +977,11 @@
       "path": "docs/generated/local-tooling/plan-completion/vision-final-legacy-removal-master-plan-summary.md",
       "mtime": "2026-07-07T20:35:44Z",
       "bytes": 246
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-final-polish-plan-summary.md",
+      "mtime": "2026-07-08T08:20:31Z",
+      "bytes": 320
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/vision-final-quest-helper-cleanup-plan-summary.md",
@@ -1130,7 +1165,7 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-08T08:20:24Z",
+      "mtime": "2026-07-08T08:58:07Z",
       "bytes": 232
     },
     {
@@ -1157,6 +1192,11 @@
       "path": "docs/generated/local-tooling/symbol-test-links/appusercontroller-summary.md",
       "mtime": "2026-07-07T18:43:36Z",
       "bytes": 2034
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/chatcontroller-summary.md",
+      "mtime": "2026-07-08T08:55:54Z",
+      "bytes": 1097
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/dashboardcontroller-summary.md",
@@ -1225,8 +1265,8 @@
     },
     {
       "path": "docs/generated/local-tooling/targeted-tests-summary.md",
-      "mtime": "2026-07-07T16:32:21Z",
-      "bytes": 2688
+      "mtime": "2026-07-08T08:36:19Z",
+      "bytes": 1019
     },
     {
       "path": "docs/generated/local-tooling/temp-work-product-closeout/agents-control-system-maintenance-plan-md-summary.md",
@@ -1240,12 +1280,12 @@
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
-      "mtime": "2026-07-04T10:02:52Z",
+      "mtime": "2026-07-08T08:55:52Z",
       "bytes": 777
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
-      "mtime": "2026-07-07T15:38:07Z",
+      "mtime": "2026-07-08T08:54:01Z",
       "bytes": 1147
     },
     {
@@ -1255,7 +1295,7 @@
     },
     {
       "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
-      "mtime": "2026-07-08T06:23:20Z",
+      "mtime": "2026-07-08T08:55:54Z",
       "bytes": 720
     }
   ],

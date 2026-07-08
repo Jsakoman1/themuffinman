@@ -1,12 +1,10 @@
 package com.themuffinman.app.common.normalization;
 
-import java.util.Locale;
-
 public final class UserInputNormalizer {
     private UserInputNormalizer() {
     }
 
     public static String normalizeEmail(String email) {
-        return email == null ? null : email.trim().toLowerCase(Locale.ROOT);
+        return TextValueNormalizer.lowerTrimToNull(email);
     }
 }

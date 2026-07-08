@@ -1,5 +1,6 @@
 package com.themuffinman.app.vision.service;
 
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -11,7 +12,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +58,7 @@ public class VisionScheduleParserService {
     }
 
     public boolean suggestsFixedSchedule(String normalizedPrompt) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(normalizedPrompt);
         return lower.contains("fixed")
                 || lower.contains("exact time")
                 || lower.contains("specific time")
@@ -112,7 +112,7 @@ public class VisionScheduleParserService {
 
     public String extractScheduledDate(String normalizedPrompt) {
         String prompt = normalizedPrompt.trim();
-        String lower = prompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
 
         Matcher explicitIsoDateTime = ISO_DATE_TIME_PATTERN.matcher(prompt);
         if (explicitIsoDateTime.find()) {
@@ -138,7 +138,7 @@ public class VisionScheduleParserService {
 
     public String extractScheduledTime(String normalizedPrompt) {
         String prompt = normalizedPrompt.trim();
-        String lower = prompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
 
         Matcher explicitIsoDateTime = ISO_DATE_TIME_PATTERN.matcher(prompt);
         if (explicitIsoDateTime.find()) {
@@ -209,7 +209,7 @@ public class VisionScheduleParserService {
         if (amPmMatcher.find()) {
             int hour = Integer.parseInt(amPmMatcher.group(1));
             int minute = amPmMatcher.group(2) == null ? 0 : Integer.parseInt(amPmMatcher.group(2));
-            String marker = amPmMatcher.group(3).toLowerCase(Locale.ROOT);
+            String marker = TextValueNormalizer.lowerTrimToEmpty(amPmMatcher.group(3));
             if (hour == 12) {
                 hour = "am".equals(marker) ? 0 : 12;
             } else if ("pm".equals(marker)) {
@@ -515,7 +515,7 @@ public class VisionScheduleParserService {
         if (rawValue == null || rawValue.isBlank()) {
             return null;
         }
-        String normalized = rawValue.trim().toLowerCase(Locale.ROOT);
+        String normalized = TextValueNormalizer.lowerTrimToEmpty(rawValue);
         return switch (normalized) {
             case "ujutro" -> "morning";
             case "popodne" -> "afternoon";
@@ -529,7 +529,7 @@ public class VisionScheduleParserService {
         if (rawValue == null || rawValue.isBlank()) {
             return null;
         }
-        String normalized = rawValue.trim().toLowerCase(Locale.ROOT);
+        String normalized = TextValueNormalizer.lowerTrimToEmpty(rawValue);
         return switch (normalized) {
             case "one", "a", "an", "jedan", "jedna" -> 1;
             case "two", "dva", "dvije" -> 2;
@@ -565,7 +565,7 @@ public class VisionScheduleParserService {
         if (rawValue == null || rawValue.isBlank()) {
             return null;
         }
-        String normalized = rawValue.trim().toLowerCase(Locale.ROOT);
+        String normalized = TextValueNormalizer.lowerTrimToEmpty(rawValue);
         return switch (normalized) {
             case "one" -> 1;
             case "two" -> 2;

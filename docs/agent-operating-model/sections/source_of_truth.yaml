@@ -505,10 +505,34 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleViewAssembler.java
   - id: business_profile_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java
+  - id: business_offering_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java
+  - id: business_booking_policy_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java
+  - id: business_availability_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - id: business_public_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  - id: business_booking_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java
+  - id: business_owner_dashboard_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java
+  - id: business_gallery_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java
   - id: business_profile_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java
   - id: business_profile_mgr
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java
+  - id: business_offering_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessOfferingMgr.java
+  - id: business_booking_policy_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessBookingPolicyMgr.java
+  - id: business_availability_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessAvailabilityMgr.java
+  - id: business_booking_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessBookingMgr.java
+  - id: business_gallery_image_mgr
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessGalleryImageMgr.java
   - id: business_profile_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java
   - id: business_profile_response_dto

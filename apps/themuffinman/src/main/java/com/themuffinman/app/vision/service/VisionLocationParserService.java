@@ -1,9 +1,9 @@
 package com.themuffinman.app.vision.service;
 
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,7 +147,7 @@ public class VisionLocationParserService {
         if (normalized == null) {
             return false;
         }
-        String lower = normalized.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(normalized);
         return STREET_AND_NUMBER_PATTERN.matcher(normalized).matches()
                 || normalized.matches(".*\\d.*")
                 || lower.contains("street")
@@ -179,7 +179,7 @@ public class VisionLocationParserService {
         if (cleaned.isBlank()) {
             return null;
         }
-        String lower = cleaned.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(cleaned);
         if (lower.equals("custom") || lower.equals("custom place") || lower.equals("custom address")) {
             return null;
         }

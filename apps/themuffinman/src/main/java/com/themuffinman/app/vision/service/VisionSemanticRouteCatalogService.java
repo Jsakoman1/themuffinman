@@ -3,6 +3,7 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.semantic.SemanticEntityFamily;
 import com.themuffinman.app.vision.model.VisionIntent;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class VisionSemanticRouteCatalogService {
                 viewChatWorkspaceRoute(),
                 viewProfileRoute(),
                 viewSettingsRoute(),
+                viewBusinessRoute(),
+                viewBusinessAvailabilityRoute(),
                 viewUserProfileRoute(),
                 viewCirclesRoute(),
                 viewCircleDetailRoute(),
@@ -131,6 +134,7 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_USER_PROFILE, OPEN_CHAT -> SemanticEntityFamily.USER;
             case VIEW_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> SemanticEntityFamily.PROFILE;
             case VIEW_SETTINGS -> SemanticEntityFamily.SETTINGS;
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> SemanticEntityFamily.BUSINESS;
             case VIEW_THINGS -> SemanticEntityFamily.UNKNOWN;
             case SEARCH -> SemanticEntityFamily.UNKNOWN;
             default -> SemanticEntityFamily.UNKNOWN;
@@ -173,6 +177,8 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_PROFILE -> "AppUserResponseDTO";
             case VIEW_USER_PROFILE -> "UserProfileViewDTO";
             case VIEW_SETTINGS -> "AppUserResponseDTO";
+            case VIEW_BUSINESS -> "BusinessPublicPageDTO";
+            case VIEW_BUSINESS_AVAILABILITY -> "BusinessOwnerDashboardDTO";
             case VIEW_CIRCLES -> "CircleGroupResponseDTO";
             case VIEW_CIRCLE_DETAIL -> "CircleGroupResponseDTO";
             case VIEW_QUEST_DETAIL -> "QuestDetailResponseDTO";
@@ -189,14 +195,14 @@ public class VisionSemanticRouteCatalogService {
         if (intent == null) {
             return "none";
         }
-        return intent.name().toLowerCase(Locale.ROOT) + "_validator";
+        return TextValueNormalizer.lowerToEmpty(intent.name()) + "_validator";
     }
 
     public String executorKeyForIntent(VisionIntent intent) {
         if (intent == null) {
             return "none";
         }
-        return intent.name().toLowerCase(Locale.ROOT) + "_executor";
+        return TextValueNormalizer.lowerToEmpty(intent.name()) + "_executor";
     }
 
     public double minimumConfidenceForIntent(VisionIntent intent) {
@@ -208,6 +214,7 @@ public class VisionSemanticRouteCatalogService {
                     UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
                     APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> 0.85d;
             case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> 0.70d;
             case VIEW_THINGS -> 0.70d;
             default -> 0.75d;
         };
@@ -240,6 +247,7 @@ public class VisionSemanticRouteCatalogService {
             case OPEN_CHAT, VIEW_USER_PROFILE, VIEW_CIRCLE_DETAIL, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> 0.75d;
             case SEARCH -> 0.75d;
             case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> 0.70d;
             case VIEW_THINGS -> 0.70d;
             default -> 0.75d;
         };
@@ -687,6 +695,42 @@ public class VisionSemanticRouteCatalogService {
                 .examples(List.of(
                         example("show settings", Map.of()),
                         example("open settings", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewBusinessRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_business")
+                .entityType("business")
+                .intent("VIEW_BUSINESS")
+                .capabilityId("view_business")
+                .dtoType("BusinessPublicPageDTO")
+                .purpose("Read-only business page snapshot for the authenticated owner inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .examples(List.of(
+                        example("show my business", Map.of()),
+                        example("open business page", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewBusinessAvailabilityRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_business_availability")
+                .entityType("business")
+                .intent("VIEW_BUSINESS_AVAILABILITY")
+                .capabilityId("view_business_availability")
+                .dtoType("BusinessOwnerDashboardDTO")
+                .purpose("Read-only business availability and owner schedule snapshot inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .examples(List.of(
+                        example("show business schedule", Map.of()),
+                        example("open business availability", Map.of())
                 ))
                 .slots(List.of())
                 .build();

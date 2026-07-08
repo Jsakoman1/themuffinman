@@ -1,6 +1,7 @@
 package com.themuffinman.app.things.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.things.dto.ThingBorrowRequestDTO;
@@ -85,10 +86,10 @@ public class ThingSharingService {
     }
 
     private void applyListingInput(ThingListing listing, ThingListingRequestDTO dto) {
-        String title = normalizeRequired(dto.getTitle(), "Thing title is required");
+        String title = TextValueNormalizer.requireTrimmed(dto.getTitle(), "Thing title is required");
         listing.setTitle(title);
         listing.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));
-        listing.setConditionNote(normalizeOptional(dto.getConditionNote()));
+        listing.setConditionNote(TextValueNormalizer.trimToNull(dto.getConditionNote()));
         listing.setAvailable(dto.getAvailable() == null || dto.getAvailable());
     }
 
@@ -101,19 +102,4 @@ public class ThingSharingService {
                 .collect(Collectors.toMap(request -> request.getListing().getId(), ThingBorrowRequest::getId));
     }
 
-    private String normalizeRequired(String value, String message) {
-        String normalized = normalizeOptional(value);
-        if (normalized == null) {
-            throw ServiceErrors.badRequest(message);
-        }
-        return normalized;
-    }
-
-    private String normalizeOptional(String value) {
-        if (value == null) {
-            return null;
-        }
-        String normalized = value.trim();
-        return normalized.isEmpty() ? null : normalized;
-    }
 }

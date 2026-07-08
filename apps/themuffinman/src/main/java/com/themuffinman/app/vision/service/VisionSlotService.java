@@ -2,6 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionReviewTarget;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -258,7 +259,7 @@ public class VisionSlotService {
         if (visibility == null || visibility.isBlank()) {
             return;
         }
-        String normalized = visibility.trim().toUpperCase(Locale.ROOT);
+        String normalized = TextValueNormalizer.upperTrimToEmpty(visibility);
         if ("PUBLIC".equals(normalized) || "CIRCLES".equals(normalized)) {
             merged.put("visibility", normalized);
         }
@@ -268,7 +269,7 @@ public class VisionSlotService {
         if (shouldAcceptSemanticSlot(merged, understanding, "schedule_mode")) {
             String scheduleMode = semanticSlotValue(understanding, "schedule_mode");
             if (scheduleMode != null && !scheduleMode.isBlank()) {
-                String normalized = scheduleMode.trim().toLowerCase(Locale.ROOT);
+                String normalized = TextValueNormalizer.lowerTrimToEmpty(scheduleMode);
                 if ("agreement".equals(normalized) || "fixed".equals(normalized)) {
                     merged.put("schedule_mode", normalized);
                 }
@@ -298,7 +299,7 @@ public class VisionSlotService {
         if (shouldAcceptSemanticSlot(merged, understanding, "location_mode")) {
             String locationMode = semanticSlotValue(understanding, "location_mode");
             if (locationMode != null && !locationMode.isBlank()) {
-                String normalized = locationMode.trim().toLowerCase(Locale.ROOT);
+                String normalized = TextValueNormalizer.lowerTrimToEmpty(locationMode);
                 if ("off".equals(normalized) || "profile".equals(normalized) || "custom".equals(normalized)) {
                     merged.put("location_mode", normalized);
                     if (!"custom".equals(normalized)) {
@@ -325,7 +326,7 @@ public class VisionSlotService {
         if (shouldAcceptSemanticSlot(merged, understanding, "location_candidate_confirmation")) {
             String locationCandidateConfirmation = semanticSlotValue(understanding, "location_candidate_confirmation");
             if (locationCandidateConfirmation != null && !locationCandidateConfirmation.isBlank()) {
-                merged.put("location_candidate_confirmation", locationCandidateConfirmation.trim().toLowerCase(Locale.ROOT));
+                merged.put("location_candidate_confirmation", TextValueNormalizer.lowerTrimToEmpty(locationCandidateConfirmation));
             }
         }
     }
@@ -344,7 +345,7 @@ public class VisionSlotService {
         if (focusSlotId != null && "visibility".equals(focusSlotId)) {
             return true;
         }
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         return containsAny(lower, "public", "circles", "friends only", "everyone", "private");
     }
 
@@ -357,7 +358,7 @@ public class VisionSlotService {
             return true;
         }
         return visionScheduleParserService.suggestsFixedSchedule(normalizedPrompt)
-                || containsAny(normalizedPrompt.toLowerCase(Locale.ROOT), "agreement", "arrange", "flexible", "any time", "anytime", "by agreement");
+                || containsAny(TextValueNormalizer.lowerToEmpty(normalizedPrompt), "agreement", "arrange", "flexible", "any time", "anytime", "by agreement");
     }
 
     private boolean shouldAutoFillLocation(String normalizedPrompt, String focusSlotId) {
@@ -372,7 +373,7 @@ public class VisionSlotService {
     }
 
     private void applyRewardAnswer(Map<String, String> merged, String normalizedPrompt, String requestedSlot, String focusSlotId) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         if (!containsRewardSignals(lower)
                 && (focusSlotId == null || !"reward_amount".equals(focusSlotId))
                 && (requestedSlot == null || !"reward_amount".equals(requestedSlot))) {
@@ -421,7 +422,7 @@ public class VisionSlotService {
     }
 
     private String extractVisibility(String normalizedPrompt) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         if (containsAny(lower, "everyone", "public", "open to all", "anyone")) {
             return "PUBLIC";
         }
@@ -602,7 +603,7 @@ public class VisionSlotService {
     }
 
     private String extractScheduleMode(String normalizedPrompt) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         if (containsAny(lower, "agreement", "arrange", "flexible", "any time", "anytime", "dogovor", "po dogovoru")) {
             return "agreement";
         }
@@ -621,7 +622,7 @@ public class VisionSlotService {
     }
 
     private String extractLocationMode(String normalizedPrompt) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         if (containsAny(lower, "hide", "hidden", "off", "no location", "without location")) {
             return "off";
         }
@@ -646,7 +647,7 @@ public class VisionSlotService {
                 .replaceAll("(?i)^address\\s+", "")
                 .replaceAll("(?i)^at\\s+", "")
                 .trim();
-        String normalized = cleaned.toLowerCase(Locale.ROOT);
+        String normalized = TextValueNormalizer.lowerTrimToEmpty(cleaned);
         if (cleaned.isBlank()
                 || normalized.equals("custom")
                 || normalized.equals("place")
@@ -659,7 +660,7 @@ public class VisionSlotService {
     }
 
     private String extractLocationCandidateDecision(String normalizedPrompt) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         if (lower.matches(".*\\bcandidate\\s+[1-3]\\b.*") || lower.matches(".*\\boption\\s+[1-3]\\b.*")) {
             return "resolved";
         }
@@ -709,7 +710,7 @@ public class VisionSlotService {
     }
 
     private String extractLocationCandidateKey(Map<String, String> slotData, String normalizedPrompt) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         Matcher matcher = Pattern.compile("\\b(?:candidate|option|choice)\\s+([1-3])\\b").matcher(lower);
         if (matcher.find()) {
             return "pending_location_candidate_" + matcher.group(1);
@@ -821,9 +822,9 @@ public class VisionSlotService {
         }
 
         String firstSentence = cleaned.split("[.!?\\n]")[0].trim();
-        int rewardMarker = indexOfAny(firstSentence.toLowerCase(Locale.ROOT), " for ", " with ", " paying ", " pay ");
-        int scheduleMarker = indexOfAny(firstSentence.toLowerCase(Locale.ROOT), " next ", " tomorrow", " today", " tonight");
-        int locationMarker = indexOfAny(firstSentence.toLowerCase(Locale.ROOT), " at ", " near ", " address ", " location ");
+        int rewardMarker = indexOfAny(TextValueNormalizer.lowerToEmpty(firstSentence), " for ", " with ", " paying ", " pay ");
+        int scheduleMarker = indexOfAny(TextValueNormalizer.lowerToEmpty(firstSentence), " next ", " tomorrow", " today", " tonight");
+        int locationMarker = indexOfAny(TextValueNormalizer.lowerToEmpty(firstSentence), " at ", " near ", " address ", " location ");
         int boundary = earliestPositiveIndex(rewardMarker, scheduleMarker, locationMarker);
         if (boundary > 10) {
             firstSentence = firstSentence.substring(0, boundary).trim();
@@ -836,12 +837,12 @@ public class VisionSlotService {
     }
 
     private boolean containsRewardSignals(String normalizedPrompt) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         return containsAny(lower, "free", "no pay", "without pay", "unpaid", "reward", "euros", "euro", "eur", "kn", "pay", "compensation", "amount", "price");
     }
 
     private boolean containsLocationSignals(String normalizedPrompt) {
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         return containsAny(lower, "location", "address", "current location", "my location", "hide location", "place", "street", "square", "near")
                 || containsLocationAtSignal(lower);
     }
@@ -872,7 +873,7 @@ public class VisionSlotService {
     }
 
     private boolean isGenericCreateQuestCommand(String prompt) {
-        String lower = prompt.toLowerCase(Locale.ROOT).trim();
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
         return lower.equals("create a quest")
                 || lower.equals("create quest")
                 || lower.equals("new quest")
@@ -909,6 +910,6 @@ public class VisionSlotService {
             return input;
         }
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFKC);
-        return normalized.substring(0, 1).toUpperCase(Locale.ROOT) + normalized.substring(1);
+        return TextValueNormalizer.upperToEmpty(normalized.substring(0, 1)) + normalized.substring(1);
     }
 }

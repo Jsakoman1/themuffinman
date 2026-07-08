@@ -3,12 +3,12 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
 import com.themuffinman.app.chat.dto.ChatOpenConversationRequestDTO;
 import com.themuffinman.app.chat.service.ChatService;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.ArrayList;
 
 @Service
@@ -111,7 +111,7 @@ public class VisionChatExecutionService {
     }
 
     private List<AppUser> resolveTargetUserMatches(AppUser currentUser, String targetQuery) {
-        String normalizedTargetQuery = targetQuery.toLowerCase(Locale.ROOT).trim();
+        String normalizedTargetQuery = TextValueNormalizer.lowerTrimToEmpty(targetQuery);
         List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery).stream()
                 .filter(candidate -> candidate != null && !candidate.getId().equals(currentUser.getId()))
                 .toList();

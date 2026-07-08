@@ -2,6 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.vision.model.VisionIntent;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
@@ -24,7 +25,7 @@ public class VisionIntentRouter {
     }
 
     public VisionIntent detectIntent(String prompt, VisionPromptUnderstandingResult understanding) {
-        String lower = prompt == null ? "" : prompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
         VisionIntent semanticIntent = understanding == null
                 ? VisionIntent.UNSUPPORTED
                 : understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported();
@@ -87,6 +88,8 @@ public class VisionIntentRouter {
                  VIEW_SETTINGS,
                  VIEW_USER_PROFILE,
                  VIEW_PROFILE,
+                 VIEW_BUSINESS,
+                 VIEW_BUSINESS_AVAILABILITY,
                  VIEW_CIRCLE_DETAIL,
                  VIEW_QUEST_DETAIL,
                  VIEW_NOTIFICATIONS,
@@ -155,6 +158,12 @@ public class VisionIntentRouter {
         }
         if (visionIntentSignalSupport.containsQuestNewsSignals(lower)) {
             return VisionIntent.VIEW_QUEST_NEWS;
+        }
+        if (visionIntentSignalSupport.containsBusinessAvailabilitySignals(lower)) {
+            return VisionIntent.VIEW_BUSINESS_AVAILABILITY;
+        }
+        if (visionIntentSignalSupport.containsBusinessPageSignals(lower)) {
+            return VisionIntent.VIEW_BUSINESS;
         }
         if (visionIntentSignalSupport.containsProfileSignals(lower)) {
             return VisionIntent.VIEW_PROFILE;

@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.config.VisionProperties;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.vision.dto.VisionLearningExplainabilityDTO;
 import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.model.VisionUserPreference;
@@ -265,10 +266,6 @@ final class VisionPreferenceConfidenceSupport {
     }
 
     private static String clean(String value) {
-        if (value == null) {
-            return null;
-        }
-        String trimmed = value.trim();
-        return trimmed.isEmpty() ? null : trimmed.toLowerCase(Locale.ROOT);
+        return TextValueNormalizer.lowerTrimToNull(value);
     }
 }

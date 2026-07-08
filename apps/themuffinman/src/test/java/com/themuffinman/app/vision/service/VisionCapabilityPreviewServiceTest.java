@@ -1,6 +1,14 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.chat.service.ChatService;
+import com.themuffinman.app.business.dto.BusinessGalleryImageResponseDTO;
+import com.themuffinman.app.business.dto.BusinessOfferingResponseDTO;
+import com.themuffinman.app.business.dto.BusinessOwnerDashboardDTO;
+import com.themuffinman.app.business.dto.BusinessOwnerScheduleItemDTO;
+import com.themuffinman.app.business.dto.BusinessOwnerScheduleSummaryDTO;
+import com.themuffinman.app.business.dto.BusinessPublicPageDTO;
+import com.themuffinman.app.business.service.BusinessOwnerDashboardReadService;
+import com.themuffinman.app.business.service.BusinessPublicReadService;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
@@ -34,9 +42,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 import java.util.List;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -90,6 +100,12 @@ class VisionCapabilityPreviewServiceTest {
     @Mock
     private SemanticAliasRegistry semanticAliasRegistry;
 
+    @Mock
+    private BusinessPublicReadService businessPublicReadService;
+
+    @Mock
+    private BusinessOwnerDashboardReadService businessOwnerDashboardReadService;
+
     private VisionCapabilityPreviewService service;
 
     @BeforeEach
@@ -107,6 +123,10 @@ class VisionCapabilityPreviewServiceTest {
                 questNewsMgr,
                 dashboardNotificationAssembler,
                 thingSharingService
+        );
+        VisionBusinessPreviewRenderer businessPreviewRenderer = new VisionBusinessPreviewRenderer(
+                businessPublicReadService,
+                businessOwnerDashboardReadService
         );
         VisionSocialPreviewRenderer socialPreviewRenderer = new VisionSocialPreviewRenderer(circleReadService);
         VisionSocialMutationAdapter socialMutationAdapter = new VisionSocialMutationAdapter(circleService);
@@ -147,6 +167,7 @@ class VisionCapabilityPreviewServiceTest {
                 profileMutationAdapter,
                 identityPreviewRenderer,
                 feedPreviewRenderer,
+                businessPreviewRenderer,
                 entityResolutionSupport,
                 workmarketPreviewRenderer,
                 workmarketApplicationMutationAdapter
@@ -271,6 +292,94 @@ class VisionCapabilityPreviewServiceTest {
         assertEquals("1", preview.getItems().get(0).getValue());
         assertEquals("Move my sofa", preview.getItems().get(3).getLabel());
         assertEquals("Pending · edit", preview.getItems().get(3).getValue());
+    }
+
+    @Test
+    void previewBusinessUsesPublicPageAndOfferings() {
+        AppUser currentUser = new AppUser();
+        BusinessOwnerDashboardDTO dashboard = BusinessOwnerDashboardDTO.builder()
+                .businessName("Dog Groomer")
+                .slug("dog-groomer")
+                .bookingEnabled(true)
+                .build();
+        when(businessOwnerDashboardReadService.getMyDashboard(currentUser)).thenReturn(dashboard);
+        when(businessPublicReadService.getPublicBusinessPage("dog-groomer")).thenReturn(BusinessPublicPageDTO.builder()
+                .businessName("Dog Groomer")
+                .slug("dog-groomer")
+                .headline("Calm grooming for local dogs")
+                .description("Bath, trim, and coat care.")
+                .publicAddressLabel("Main Street 1, Zurich")
+                .timezone("Europe/Zurich")
+                .bookingEnabled(true)
+                .contactEmail("hello@example.com")
+                .contactPhone("+41 44 000 00 00")
+                .websiteUrl("https://dog-groomer.example")
+                .offerings(List.of(BusinessOfferingResponseDTO.builder()
+                        .id(9L)
+                        .title("Full groom")
+                        .summary("Bath and trim")
+                        .basePriceAmount(java.math.BigDecimal.valueOf(45))
+                        .basePriceCurrency("CHF")
+                        .defaultDurationMinutes(60)
+                        .slotCapacity(1)
+                        .requiresOwnerConfirmation(true)
+                        .build()))
+                .galleryImages(List.of(BusinessGalleryImageResponseDTO.builder()
+                        .id(3L)
+                        .altText("Front desk")
+                        .imageUrl("https://example.com/front.jpg")
+                        .build()))
+                .build());
+
+        VisionCapabilityPreviewDTO preview = service.previewBusiness(currentUser);
+
+        assertNotNull(preview);
+        assertEquals("view_business", preview.getCapabilityId());
+        assertEquals("Business", preview.getTitle());
+        assertTrue(preview.getSummary().contains("Dog Groomer"));
+        assertTrue(preview.getItems().stream().anyMatch(item -> "business_name".equals(item.getSlotId()) && "Dog Groomer".equals(item.getValue())));
+        assertTrue(preview.getItems().stream().anyMatch(item -> "business_offering_9".equals(item.getSlotId()) && item.getValue().contains("CHF")));
+        assertTrue(preview.getItems().stream().anyMatch(item -> "business_gallery_3".equals(item.getSlotId()) && "https://example.com/front.jpg".equals(item.getValue())));
+    }
+
+    @Test
+    void previewBusinessAvailabilityUsesDashboardSummary() {
+        AppUser currentUser = new AppUser();
+        BusinessOwnerScheduleSummaryDTO scheduleSummary = BusinessOwnerScheduleSummaryDTO.builder()
+                .timezone("Europe/Zurich")
+                .todayCount(3)
+                .pendingConfirmationCount(1)
+                .upcomingCount(5)
+                .nextItems(List.of(BusinessOwnerScheduleItemDTO.builder()
+                        .bookingId(12L)
+                        .businessOfferingTitle("Full groom")
+                        .customerUsername("Marta")
+                        .startsAt(Instant.parse("2026-07-08T08:00:00Z"))
+                        .endsAt(Instant.parse("2026-07-08T09:00:00Z"))
+                        .timezone("Europe/Zurich")
+                        .statusLabel("Pending")
+                        .build()))
+                .build();
+        when(businessOwnerDashboardReadService.getMyDashboard(currentUser)).thenReturn(BusinessOwnerDashboardDTO.builder()
+                .businessName("Dog Groomer")
+                .slug("dog-groomer")
+                .bookingEnabled(true)
+                .activeOfferingCount(2)
+                .pendingConfirmationCount(1)
+                .todayCount(3)
+                .upcomingCount(5)
+                .staleThresholdMinutes(30)
+                .scheduleSummary(scheduleSummary)
+                .build());
+
+        VisionCapabilityPreviewDTO preview = service.previewBusinessAvailability(currentUser);
+
+        assertNotNull(preview);
+        assertEquals("view_business_availability", preview.getCapabilityId());
+        assertEquals("Business availability", preview.getTitle());
+        assertTrue(preview.getSummary().contains("3 today"));
+        assertTrue(preview.getItems().stream().anyMatch(item -> "active_offering_count".equals(item.getSlotId()) && "2".equals(item.getValue())));
+        assertTrue(preview.getItems().stream().anyMatch(item -> "business_booking_12".equals(item.getSlotId()) && item.getValue().contains("Full groom")));
     }
 
     @Test

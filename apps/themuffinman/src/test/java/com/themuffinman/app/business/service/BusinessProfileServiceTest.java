@@ -50,6 +50,10 @@ class BusinessProfileServiceTest {
                 .businessName("Blue Bakery")
                 .headline("Morning bread")
                 .description("<p>Fresh</p>")
+                .timezone("Europe/Zurich")
+                .bookingEnabled(true)
+                .publicAddressLabel("Main Square 1")
+                .contactWhatsapp("+385123456")
                 .active(true)
                 .build(), owner);
 
@@ -57,6 +61,9 @@ class BusinessProfileServiceTest {
         assertEquals("Blue Bakery", result.getBusinessName());
         assertEquals("blue-bakery", result.getSlug());
         assertEquals(owner.getUsername(), result.getOwnerUsername());
+        assertEquals("Europe/Zurich", result.getTimezone());
+        assertEquals("Main Square 1", result.getPublicAddressLabel());
+        assertEquals("+385123456", result.getContactWhatsapp());
     }
 
     @Test

@@ -3,6 +3,8 @@ package com.themuffinman.app.rides.service;
 import com.themuffinman.app.common.concepts.CircleVisibilitySelection;
 import com.themuffinman.app.common.concepts.SchedulingWindow;
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
+import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.rides.dto.RideOfferListResponseDTO;
@@ -50,14 +52,14 @@ public class RideOfferService {
         if (dto == null) {
             throw ServiceErrors.badRequest("Ride offer request is required");
         }
-        if (new SchedulingWindow(dto.getDepartureAt(), null).startsBefore(java.time.Instant.now())) {
+        if (new SchedulingWindow(dto.getDepartureAt(), null).startsBefore(TimeSupport.now())) {
             throw ServiceErrors.badRequest("Ride departure time must be in the future");
         }
 
         RideOffer offer = new RideOffer();
         offer.setDriver(currentUser);
-        offer.setOrigin(normalizeRequired(dto.getOrigin(), "Ride origin is required"));
-        offer.setDestination(normalizeRequired(dto.getDestination(), "Ride destination is required"));
+        offer.setOrigin(TextValueNormalizer.requireTrimmed(dto.getOrigin(), "Ride origin is required"));
+        offer.setDestination(TextValueNormalizer.requireTrimmed(dto.getDestination(), "Ride destination is required"));
         offer.setDepartureAt(dto.getDepartureAt());
         offer.setSeats(dto.getSeats() == null ? 1 : dto.getSeats());
         offer.setNote(RichTextInputValidator.sanitize(dto.getNote()));
@@ -77,12 +79,5 @@ public class RideOfferService {
             throw ServiceErrors.badRequest("Ride visibility circles must be owned by the driver");
         }
         return circles;
-    }
-
-    private String normalizeRequired(String value, String message) {
-        if (value == null || value.trim().isEmpty()) {
-            throw ServiceErrors.badRequest(message);
-        }
-        return value.trim();
     }
 }

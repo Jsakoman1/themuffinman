@@ -13,7 +13,7 @@ Owns `/vision` conversation orchestration, semantic understanding, slot validati
 - Semantic and review support: `service/VisionPromptUnderstandingService.java`, `service/VisionSemanticRouteCatalogService.java`, `service/VisionSemanticEnvelopeSupport.java`, `service/VisionQuestReviewSupport.java`
 - Execution boundaries: `service/VisionExecutionService.java`, `service/VisionSurfacePolicy.java`, `service/VisionCapabilityExecutionAdapter.java`
 - Canvas assembly and presentation helpers: `service/VisionCanvasAssembler.java`, `service/VisionConversationSnapshotSupport.java`
-- Preview and adapter helpers: `service/VisionCapabilityPreviewService.java`, `service/VisionSocialPreviewRenderer.java`, `service/VisionSocialMutationAdapter.java`, `service/VisionProfilePreviewRenderer.java`, `service/VisionProfileMutationAdapter.java`, `service/VisionIdentityPreviewRenderer.java`, `service/VisionFeedPreviewRenderer.java`, `service/VisionWorkmarketPreviewRenderer.java`, `service/VisionWorkmarketApplicationMutationAdapter.java`
+- Preview and adapter helpers: `service/VisionCapabilityPreviewService.java`, `service/VisionSocialPreviewRenderer.java`, `service/VisionSocialMutationAdapter.java`, `service/VisionProfilePreviewRenderer.java`, `service/VisionProfileMutationAdapter.java`, `service/VisionIdentityPreviewRenderer.java`, `service/VisionFeedPreviewRenderer.java`, `service/VisionBusinessPreviewRenderer.java`, `service/VisionWorkmarketPreviewRenderer.java`, `service/VisionWorkmarketApplicationMutationAdapter.java`
 
 ## Tests
 

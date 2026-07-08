@@ -3,6 +3,7 @@ package com.themuffinman.app.workmarket.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.config.RetentionProperties;
 import com.themuffinman.app.chat.service.ChatRealtimeService;
+import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestNewsItem;
@@ -37,7 +38,7 @@ public class WorkmarketQuestNewsService {
 
     @Transactional
     public void markMyNewsAsRead(AppUser currentUser) {
-        questNewsRepository.markAllAsRead(currentUser.getId(), Instant.now());
+        questNewsRepository.markAllAsRead(currentUser.getId(), TimeSupport.now());
         notifyUnreadCountChanged(currentUser.getId(), currentUser.getId(), "news_marked_read");
     }
 
@@ -50,7 +51,7 @@ public class WorkmarketQuestNewsService {
             return;
         }
 
-        item.setReadAt(Instant.now());
+        item.setReadAt(TimeSupport.now());
         questNewsRepository.save(item);
         notifyUnreadCountChanged(currentUser.getId(), currentUser.getId(), "news_item_marked_read");
     }
@@ -191,7 +192,7 @@ public class WorkmarketQuestNewsService {
     @Transactional
     public int deleteExpiredNews() {
         int retentionDays = Math.max(retentionProperties.getNotifications().getDays(), 1);
-        Instant cutoff = Instant.now().minusSeconds(retentionDays * 86_400L);
+        Instant cutoff = TimeSupport.daysAgo(retentionDays);
         return questNewsRepository.deleteByCreatedAtBefore(cutoff);
     }
 

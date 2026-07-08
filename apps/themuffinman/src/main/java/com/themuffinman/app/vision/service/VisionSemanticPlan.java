@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.prompt.PromptSemanticPlan;
 import com.themuffinman.app.vision.model.VisionIntent;
 import lombok.AllArgsConstructor;
@@ -285,7 +286,7 @@ public class VisionSemanticPlan {
             return VisionIntent.UNSUPPORTED;
         }
         try {
-            return VisionIntent.valueOf(candidateIntent.trim().toUpperCase(java.util.Locale.ROOT));
+            return VisionIntent.valueOf(TextValueNormalizer.upperTrimToEmpty(candidateIntent));
         } catch (IllegalArgumentException ignored) {
             return VisionIntent.UNSUPPORTED;
         }

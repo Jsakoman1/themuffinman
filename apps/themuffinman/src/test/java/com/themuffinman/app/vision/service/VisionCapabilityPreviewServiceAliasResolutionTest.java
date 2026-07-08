@@ -1,6 +1,8 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.chat.service.ChatService;
+import com.themuffinman.app.business.service.BusinessOwnerDashboardReadService;
+import com.themuffinman.app.business.service.BusinessPublicReadService;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
@@ -72,6 +74,10 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
     private DashboardNotificationAssembler dashboardNotificationAssembler;
     @Mock
     private ThingSharingService thingSharingService;
+    @Mock
+    private BusinessPublicReadService businessPublicReadService;
+    @Mock
+    private BusinessOwnerDashboardReadService businessOwnerDashboardReadService;
 
     private VisionCapabilityPreviewService service;
 
@@ -91,6 +97,10 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 questNewsMgr,
                 dashboardNotificationAssembler,
                 thingSharingService
+        );
+        VisionBusinessPreviewRenderer businessPreviewRenderer = new VisionBusinessPreviewRenderer(
+                businessPublicReadService,
+                businessOwnerDashboardReadService
         );
         VisionSocialPreviewRenderer socialPreviewRenderer = new VisionSocialPreviewRenderer(circleReadService);
         VisionSocialMutationAdapter socialMutationAdapter = new VisionSocialMutationAdapter(circleService);
@@ -131,6 +141,7 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
                 profileMutationAdapter,
                 identityPreviewRenderer,
                 feedPreviewRenderer,
+                businessPreviewRenderer,
                 entityResolutionSupport,
                 workmarketPreviewRenderer,
                 workmarketApplicationMutationAdapter

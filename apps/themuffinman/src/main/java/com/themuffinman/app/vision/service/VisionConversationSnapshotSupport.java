@@ -97,6 +97,8 @@ final class VisionConversationSnapshotSupport {
             case VIEW_CHAT_WORKSPACE -> visionCapabilityPreviewService.previewChatWorkspace(currentUser);
             case VIEW_PROFILE -> visionCapabilityPreviewService.previewProfile(currentUser);
             case VIEW_SETTINGS -> visionCapabilityPreviewService.previewSettings(currentUser);
+            case VIEW_BUSINESS -> visionCapabilityPreviewService.previewBusiness(currentUser);
+            case VIEW_BUSINESS_AVAILABILITY -> visionCapabilityPreviewService.previewBusinessAvailability(currentUser);
             case VIEW_USER_PROFILE -> hasText(conversation.getSlotData().get("resolved_profile_user_id"))
                     ? visionCapabilityPreviewService.previewUserProfile(currentUser, Long.parseLong(conversation.getSlotData().get("resolved_profile_user_id")))
                     : null;
@@ -130,6 +132,8 @@ final class VisionConversationSnapshotSupport {
             case VIEW_NOTIFICATIONS -> "Notifications.";
             case VIEW_QUEST_NEWS -> "Quest news.";
             case VIEW_CHAT_WORKSPACE -> "Chat.";
+            case VIEW_BUSINESS -> "Business.";
+            case VIEW_BUSINESS_AVAILABILITY -> "Business availability.";
             case VIEW_QUEST_DETAIL -> "Quest.";
             case VIEW_THINGS -> "Things.";
             default -> "Vision snapshot.";
@@ -138,7 +142,7 @@ final class VisionConversationSnapshotSupport {
 
     static String resetReadOnlySnapshotMessage(VisionIntent intent) {
         return switch (intent) {
-            case VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_APPLICATIONS, VIEW_CHAT_WORKSPACE, VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS, VIEW_THINGS ->
+            case VIEW_PROFILE, VIEW_SETTINGS, VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_CIRCLES, VIEW_APPLICATIONS, VIEW_CHAT_WORKSPACE, VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS, VIEW_THINGS ->
                     "The current view was reset. " + readOnlySnapshotMessage(intent);
             default -> "The current view was reset.";
         };

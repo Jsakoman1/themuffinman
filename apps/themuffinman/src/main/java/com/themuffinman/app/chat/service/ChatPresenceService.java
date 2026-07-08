@@ -2,6 +2,7 @@ package com.themuffinman.app.chat.service;
 
 import com.themuffinman.app.chat.model.ChatPresence;
 import com.themuffinman.app.chat.repository.ChatPresenceRepository;
+import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.config.ChatProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class ChatPresenceService {
                     created.setUser(currentUser);
                     return created;
                 });
-        presence.setLastActiveAt(Instant.now());
+        presence.setLastActiveAt(TimeSupport.now());
         chatPresenceRepository.save(presence);
     }
 
@@ -37,7 +38,7 @@ public class ChatPresenceService {
                     created.setUser(currentUser);
                     return created;
                 });
-        presence.setLastActiveAt(Instant.now().minusSeconds(chatProperties.getPresence().getOnlineWindowSeconds() + 5));
+        presence.setLastActiveAt(TimeSupport.now().minusSeconds(chatProperties.getPresence().getOnlineWindowSeconds() + 5));
         chatPresenceRepository.save(presence);
     }
 

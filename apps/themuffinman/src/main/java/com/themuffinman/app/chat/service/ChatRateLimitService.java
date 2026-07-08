@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.themuffinman.app.chat.model.ChatAuditEventType;
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class ChatRateLimitService {
         if (limit <= 0) {
             return;
         }
-        String normalizedActorKey = actorKey == null || actorKey.isBlank() ? "anonymous" : actorKey.trim().toLowerCase();
+        String normalizedActorKey = actorKey == null || actorKey.isBlank() ? "anonymous" : TextValueNormalizer.lowerTrimToEmpty(actorKey);
         String cacheKey = actionKey + "::" + normalizedActorKey;
         AtomicInteger counter = perMinuteCounters.get(cacheKey, ignored -> new AtomicInteger());
         int current = counter.incrementAndGet();

@@ -30,6 +30,228 @@
     "path": "/business/profiles/{slug}"
   },
   {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
+    "handlerMethod": "getMyOfferings",
+    "httpMethod": "GET",
+    "path": "/business/offerings/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
+    "handlerMethod": "createMyOffering",
+    "httpMethod": "POST",
+    "path": "/business/offerings/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
+    "handlerMethod": "updateMyOffering",
+    "httpMethod": "PUT",
+    "path": "/business/offerings/{offeringId}/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
+    "handlerMethod": "deleteMyOffering",
+    "httpMethod": "DELETE",
+    "path": "/business/offerings/{offeringId}/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingPolicyController",
+    "handlerMethod": "getMyPolicy",
+    "httpMethod": "GET",
+    "path": "/business/booking-policy/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingPolicyController",
+    "handlerMethod": "saveMyPolicy",
+    "httpMethod": "PUT",
+    "path": "/business/booking-policy/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "getMyRules",
+    "httpMethod": "GET",
+    "path": "/business/availability-rules/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "createMyRule",
+    "httpMethod": "POST",
+    "path": "/business/availability-rules/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "updateMyRule",
+    "httpMethod": "PUT",
+    "path": "/business/availability-rules/{ruleId}/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "deleteMyRule",
+    "httpMethod": "DELETE",
+    "path": "/business/availability-rules/{ruleId}/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "getMyExceptions",
+    "httpMethod": "GET",
+    "path": "/business/availability-exceptions/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "createMyException",
+    "httpMethod": "POST",
+    "path": "/business/availability-exceptions/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "updateMyException",
+    "httpMethod": "PUT",
+    "path": "/business/availability-exceptions/{exceptionId}/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "deleteMyException",
+    "httpMethod": "DELETE",
+    "path": "/business/availability-exceptions/{exceptionId}/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
+    "handlerMethod": "getPublicAvailability",
+    "httpMethod": "GET",
+    "path": "/business/public/{slug}/availability"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessPublicController",
+    "handlerMethod": "getPublicBusinessPage",
+    "httpMethod": "GET",
+    "path": "/business/public/{slug}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessPublicController",
+    "handlerMethod": "getPublicOfferings",
+    "httpMethod": "GET",
+    "path": "/business/public/{slug}/offerings"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "createBooking",
+    "httpMethod": "POST",
+    "path": "/business/bookings"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "getMyBookings",
+    "httpMethod": "GET",
+    "path": "/business/bookings/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "getMyBooking",
+    "httpMethod": "GET",
+    "path": "/business/bookings/me/{bookingId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "cancelMyBooking",
+    "httpMethod": "POST",
+    "path": "/business/bookings/me/{bookingId}/cancel"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "createOwnerBooking",
+    "httpMethod": "POST",
+    "path": "/business/bookings/owner"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "getOwnerBookings",
+    "httpMethod": "GET",
+    "path": "/business/bookings/owner"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "getOwnerSchedule",
+    "httpMethod": "GET",
+    "path": "/business/bookings/owner/schedule"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "getOwnerCalendar",
+    "httpMethod": "GET",
+    "path": "/business/bookings/owner/calendar"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "getOwnerBooking",
+    "httpMethod": "GET",
+    "path": "/business/bookings/owner/{bookingId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "confirmBooking",
+    "httpMethod": "POST",
+    "path": "/business/bookings/owner/{bookingId}/confirm"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "rejectBooking",
+    "httpMethod": "POST",
+    "path": "/business/bookings/owner/{bookingId}/reject"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "cancelOwnerBooking",
+    "httpMethod": "POST",
+    "path": "/business/bookings/owner/{bookingId}/cancel"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "completeBooking",
+    "httpMethod": "POST",
+    "path": "/business/bookings/owner/{bookingId}/complete"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
+    "handlerMethod": "markNoShow",
+    "httpMethod": "POST",
+    "path": "/business/bookings/owner/{bookingId}/mark-no-show"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOwnerDashboardController",
+    "handlerMethod": "getMyDashboard",
+    "httpMethod": "GET",
+    "path": "/business/dashboard/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOwnerDashboardController",
+    "handlerMethod": "getMySchedule",
+    "httpMethod": "GET",
+    "path": "/business/dashboard/me/schedule"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessGalleryController",
+    "handlerMethod": "getMyGallery",
+    "httpMethod": "GET",
+    "path": "/business/gallery/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessGalleryController",
+    "handlerMethod": "createMyGalleryImage",
+    "httpMethod": "POST",
+    "path": "/business/gallery/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessGalleryController",
+    "handlerMethod": "updateMyGalleryImage",
+    "httpMethod": "PUT",
+    "path": "/business/gallery/me/{imageId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessGalleryController",
+    "handlerMethod": "deleteMyGalleryImage",
+    "httpMethod": "DELETE",
+    "path": "/business/gallery/me/{imageId}"
+  },
+  {
     "controllerClass": "com.themuffinman.app.chat.controller.ChatAdminController",
     "handlerMethod": "getAuditEvents",
     "httpMethod": "GET",

@@ -74,6 +74,7 @@ public class VisionSemanticMapper {
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
                     WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> "business";
             case VIEW_THINGS -> "things";
             case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
             default -> null;

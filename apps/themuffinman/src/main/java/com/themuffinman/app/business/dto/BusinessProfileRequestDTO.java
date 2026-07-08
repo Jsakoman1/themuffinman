@@ -41,5 +41,23 @@ public class BusinessProfileRequestDTO {
     @Size(max = 300, message = "Business website URL must be 300 characters or less")
     private String websiteUrl;
 
+    @Size(max = 80, message = "Business timezone must be 80 characters or less")
+    private String timezone;
+
+    private Boolean bookingEnabled;
+
+    @Size(max = 240, message = "Business address label must be 240 characters or less")
+    private String publicAddressLabel;
+
+    private Double latitude;
+
+    private Double longitude;
+
+    @Size(max = 80, message = "Business WhatsApp contact must be 80 characters or less")
+    private String contactWhatsapp;
+
+    @Size(max = 500, message = "Business hero image URL must be 500 characters or less")
+    private String heroImageUrl;
+
     private Boolean active;
 }

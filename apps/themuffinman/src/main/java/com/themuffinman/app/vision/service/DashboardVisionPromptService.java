@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.dto.DashboardVisionPromptRequestDTO;
 import com.themuffinman.app.workmarket.dto.DashboardVisionPromptResponseDTO;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 @Service
@@ -40,7 +40,7 @@ public class DashboardVisionPromptService implements WorkmarketDashboardVisionPr
 
         VisionSemanticPlan semanticPlan = understanding.semanticPlanOrEmpty();
         if (semanticPlan.candidateIntentOrUnsupported() != com.themuffinman.app.vision.model.VisionIntent.UNSUPPORTED) {
-            matchedSignals.add("semantic_intent_" + semanticPlan.candidateIntentOrUnsupported().name().toLowerCase(Locale.ROOT));
+            matchedSignals.add("semantic_intent_" + TextValueNormalizer.lowerTrimToEmpty(semanticPlan.candidateIntentOrUnsupported().name()));
             if (semanticPlan.getCapabilityId() != null && !semanticPlan.getCapabilityId().isBlank()) {
                 matchedSignals.add("semantic_capability_" + semanticPlan.getCapabilityId());
             }
@@ -67,7 +67,7 @@ public class DashboardVisionPromptService implements WorkmarketDashboardVisionPr
     }
 
     private String deriveActiveFilter(String prompt, Set<String> matchedSignals) {
-        String lower = prompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
         if (containsAny(lower, "nearby", "near me", "close to home", "close by", "local", "around me")) {
             matchedSignals.add("filter_nearby");
             return "nearby";
@@ -83,7 +83,7 @@ public class DashboardVisionPromptService implements WorkmarketDashboardVisionPr
     }
 
     private String deriveSurfaceMode(String prompt, Set<String> matchedSignals) {
-        String lower = prompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
         if (containsAny(lower, "compare", "versus", "vs", "different options", "side by side")) {
             matchedSignals.add("mode_compare");
             return "compare";

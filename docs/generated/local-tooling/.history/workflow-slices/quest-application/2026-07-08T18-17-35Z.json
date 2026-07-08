@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T06:31:06Z",
+  "generated_at": "2026-07-08T08:55:54Z",
   "workflow": "quest-application",
   "state_machine": {
     "id": "quest_application_lifecycle",
@@ -7,7 +7,7 @@
     "owner": "QuestApplicationWorkflowSupport",
     "stateSource": {
       "type": "enum",
-      "javaClass": "com.themuffinman.app.vision.model.QuestApplicationStatus"
+      "javaClass": "com.themuffinman.app.workmarket.model.QuestApplicationStatus"
     },
     "states": [
       "PENDING",
@@ -83,12 +83,6 @@
   },
   "service_files": [
     {
-      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/QuestApplicationWorkflowSupport.java",
-      "category": "backend_service",
-      "domain": "shared",
-      "lines": 128
-    },
-    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationWorkflowSupport.java",
       "category": "backend_service",
       "domain": "workmarket",
@@ -126,15 +120,11 @@
     }
   ],
   "tests": [
-    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestUseCaseContractTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationUseCaseContractTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestApplicationServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestQueryServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestNewsServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/DashboardVisionPromptServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java",
@@ -145,23 +135,24 @@
       "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "lines": 1711
+      "lines": 1768
     }
   ],
   "docs_refs": [
     "docs/agent-operating-model.yaml",
     "docs/agent-operating-model/sections/source_of_truth.yaml",
     "docs/domain-technical.md",
+    "docs/generated/local-tooling/plan-completion/vision-quest-application-compatibility-service-shutdown-plan-summary.md",
+    "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
     "docs/source-of-truth-inventory.md",
     "docs/workflow-state-machines.md",
     "docs/workflow-state-machines.yaml"
   ],
   "recommended_commands": [
-    "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest,QuestApplicationUseCaseContractTest,QuestApplicationServiceTest,DashboardServiceTest,QuestQueryServiceTest,QuestNewsServiceTest,AgentOperatingModelValidationTest",
-    "cd apps/themuffinman && ./mvnw test -Dtest=QuestUseCaseContractTest,QuestWorkflowScenarioTest",
-    "cd apps/themuffinman && ./mvnw test -Dtest=QuestApplicationUseCaseContractTest,QuestApplicationServiceTest",
-    "cd apps/themuffinman && ./mvnw test -Dtest=DashboardServiceTest",
-    "cd apps/themuffinman && ./mvnw test -Dtest=QuestQueryServiceTest,QuestNewsServiceTest,DashboardServiceTest"
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest,VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest,AgentOperatingModelValidationTest,VisionConversationServiceTest,VisionSemanticAuditMatrixTest,VisionSemanticContractSanitizerTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest"
   ],
   "residual_risk": [
 

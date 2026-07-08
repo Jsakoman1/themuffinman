@@ -2,6 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.config.VoiceProperties;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.dto.VisionLearningExplainabilityDTO;
 import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
@@ -23,7 +24,6 @@ import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
@@ -183,7 +183,7 @@ public class VisionSemanticOrchestrationContextService {
         if (countryCode == null || countryCode.isBlank()) {
             return DEFAULT_TIMEZONE;
         }
-        return COUNTRY_TIMEZONES.getOrDefault(countryCode.trim().toUpperCase(Locale.ROOT), DEFAULT_TIMEZONE);
+        return COUNTRY_TIMEZONES.getOrDefault(TextValueNormalizer.upperTrimToEmpty(countryCode), DEFAULT_TIMEZONE);
     }
 
     private ResolvedLocale resolveLocale(String countryCode, VisionSemanticRuntimeHints runtimeHints) {
@@ -708,7 +708,7 @@ public class VisionSemanticOrchestrationContextService {
 
     private String normalizeCountryCode(String countryCode) {
         String cleaned = clean(countryCode);
-        return cleaned == null ? "" : cleaned.toUpperCase(Locale.ROOT);
+        return TextValueNormalizer.upperTrimToEmpty(cleaned);
     }
 
     private String normalizeLocale(String locale) {
@@ -719,9 +719,9 @@ public class VisionSemanticOrchestrationContextService {
         String normalized = cleaned.replace('_', '-');
         String[] parts = normalized.split("-");
         if (parts.length == 1) {
-            return parts[0].toLowerCase(Locale.ROOT);
+            return TextValueNormalizer.lowerToEmpty(parts[0]);
         }
-        return parts[0].toLowerCase(Locale.ROOT) + "-" + parts[1].toUpperCase(Locale.ROOT);
+        return TextValueNormalizer.lowerToEmpty(parts[0]) + "-" + TextValueNormalizer.upperToEmpty(parts[1]);
     }
 
     private String normalizeTimezone(String timezone) {

@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.vision.model.VisionIntent;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 
 import java.util.regex.Pattern;
 
@@ -54,6 +55,22 @@ final class VisionIntentSignalSupport {
             if (containsProfileUpdateSignals(lower)) {
                 return VisionIntent.UPDATE_PROFILE;
             }
+        }
+        if (semanticIntent == VisionIntent.VIEW_BUSINESS || semanticIntent == VisionIntent.VIEW_BUSINESS_AVAILABILITY) {
+            if (containsBusinessAvailabilitySignals(lower)) {
+                return VisionIntent.VIEW_BUSINESS_AVAILABILITY;
+            }
+            if (containsBusinessPageSignals(lower)) {
+                return VisionIntent.VIEW_BUSINESS;
+            }
+        }
+        if ((semanticIntent == VisionIntent.VIEW_PROFILE || semanticIntent == VisionIntent.VIEW_SETTINGS)
+                && containsBusinessAvailabilitySignals(lower)) {
+            return VisionIntent.VIEW_BUSINESS_AVAILABILITY;
+        }
+        if ((semanticIntent == VisionIntent.VIEW_PROFILE || semanticIntent == VisionIntent.VIEW_SETTINGS)
+                && containsBusinessPageSignals(lower)) {
+            return VisionIntent.VIEW_BUSINESS;
         }
         if (semanticIntent == VisionIntent.VIEW_CHAT_WORKSPACE && containsChatSignals(lower)) {
             return VisionIntent.OPEN_CHAT;
@@ -155,6 +172,45 @@ final class VisionIntentSignalSupport {
                 "open settings",
                 "my settings",
                 "account settings");
+    }
+
+    boolean containsBusinessPageSignals(String value) {
+        return containsAny(value,
+                "my business",
+                "show my business",
+                "open my business",
+                "show business",
+                "open business",
+                "view business",
+                "business page",
+                "business profile",
+                "business details",
+                "business info",
+                "business offerings",
+                "business services",
+                "business gallery",
+                "business contacts",
+                "business address");
+    }
+
+    boolean containsBusinessAvailabilitySignals(String value) {
+        return containsAny(value,
+                "show business availability",
+                "open business availability",
+                "view business availability",
+                "business availability",
+                "business schedule",
+                "business calendar",
+                "business hours",
+                "opening hours",
+                "owner dashboard",
+                "owner schedule",
+                "owner calendar",
+                "booking calendar",
+                "booking schedule",
+                "my bookings",
+                "business bookings",
+                "availability rules");
     }
 
     boolean containsUserProfileDetailSignals(String value) {
@@ -401,7 +457,7 @@ final class VisionIntentSignalSupport {
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return true;
         }
-        String lower = normalizedPrompt.toLowerCase(java.util.Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         if (containsExplicitEntityFamilySignal(lower, detectedIntent)) {
             return false;
         }
@@ -425,6 +481,7 @@ final class VisionIntentSignalSupport {
             case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
                  DECLINE_APPLICATION, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL -> containsAny(value, "application", "applications");
             case UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_PROFILE, VIEW_USER_PROFILE -> containsAny(value, "profile", "username", "bio", "location", "settings");
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> containsAny(value, "business", "page", "profile", "schedule", "availability", "hours", "dashboard", "bookings");
             case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> containsAny(value, "chat", "message", "dm", "talk");
             default -> false;
         };
@@ -457,6 +514,7 @@ final class VisionIntentSignalSupport {
         return switch (intent) {
             case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> "profile";
             case VIEW_NOTIFICATIONS -> "notifications";
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> "business";
             case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,

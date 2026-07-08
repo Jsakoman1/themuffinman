@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-07-08T18:17:35Z",
+  "symbol": "BusinessProfileRequestDTO",
+  "symbol_files": [
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "lines": 1935
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "business",
+      "lines": 63
+    }
+  ],
+  "direct_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+  ],
+  "nearby_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/controller/BusinessBookingControllerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPolicyServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPresentationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadSupportTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessGalleryServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPublicReadServiceTest.java"
+  ],
+  "scenario_hits": [
+    {
+      "id": "business-profile-public-directory",
+      "domain": "business",
+      "risk": "medium",
+      "scenario": "Business profiles must derive stable slugs, reject duplicate slugs, expose active directory entries, and hide inactive public profiles.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=BusinessProfileServiceTest"
+      ]
+    }
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=BusinessProfileServiceTest,BusinessBookingControllerTest,BusinessAvailabilityComputationServiceTest,BusinessBookingPolicyServiceTest,BusinessBookingPresentationServiceTest,BusinessBookingReadServiceTest,BusinessBookingReadSupportTest,BusinessBookingValidationServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=BusinessProfileServiceTest"
+  ],
+  "residual_risk": [
+
+  ]
+}

@@ -211,6 +211,567 @@ intents:
     source_refs:
     - app_user_controller
     - app_user_service
+- id: open_my_business_offerings
+  description: Open the current owner's business offering list.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the current owner's offerings through the business offering list endpoint.
+    endpoint_id: get_my_business_offerings
+    source_refs:
+    - business_offering_controller
+    - business_offering_mgr
+    - business_profile_service
+- id: create_my_business_offering
+  description: Create one offering under the authenticated owner's business profile.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - offering_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one business offering through the owner offering endpoint.
+    endpoint_id: create_my_business_offering
+    source_refs:
+    - business_offering_controller
+    - business_offering_mgr
+    - business_profile_service
+- id: update_my_business_offering
+  description: Update one offering owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - offering_id
+  - offering_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Update one owned offering through the owner offering endpoint.
+    endpoint_id: update_my_business_offering
+    source_refs:
+    - business_offering_controller
+    - business_profile_service
+- id: delete_my_business_offering
+  description: Deactivate one offering owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - offering_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Deactivate one owned offering through the owner offering delete endpoint.
+    endpoint_id: delete_my_business_offering
+    source_refs:
+    - business_offering_controller
+    - business_profile_service
+- id: open_my_business_booking_policy
+  description: Open the current owner's booking policy surface.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the current owner's booking policy through the policy endpoint.
+    endpoint_id: get_my_business_booking_policy
+    source_refs:
+    - business_booking_policy_controller
+    - business_booking_policy_mgr
+    - business_profile_service
+- id: save_my_business_booking_policy
+  description: Save the current owner's booking policy defaults.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_policy_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Save the owner's booking policy through the policy write endpoint.
+    endpoint_id: save_my_business_booking_policy
+    source_refs:
+    - business_booking_policy_controller
+    - business_profile_service
+- id: open_my_business_availability_rules
+  description: Open the current owner's recurring availability rules.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner's availability rules through the rules endpoint.
+    endpoint_id: get_my_business_availability_rules
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: create_my_business_availability_rule
+  description: Create one recurring availability rule for the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_rule_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one owner availability rule through the rule write endpoint.
+    endpoint_id: create_my_business_availability_rule
+    source_refs:
+    - business_availability_controller
+    - business_availability_mgr
+    - business_profile_service
+- id: update_my_business_availability_rule
+  description: Update one recurring availability rule owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_rule_id
+  - availability_rule_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Update one owner availability rule through the rule write endpoint.
+    endpoint_id: update_my_business_availability_rule
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: delete_my_business_availability_rule
+  description: Remove one recurring availability rule owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_rule_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Delete one owner availability rule through the rule delete endpoint.
+    endpoint_id: delete_my_business_availability_rule
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: open_my_business_availability_exceptions
+  description: Open the current owner's availability exception list.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner's availability exceptions through the exceptions endpoint.
+    endpoint_id: get_my_business_availability_exceptions
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: create_my_business_availability_exception
+  description: Create one availability exception for the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_exception_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one owner availability exception through the exception write endpoint.
+    endpoint_id: create_my_business_availability_exception
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: update_my_business_availability_exception
+  description: Update one availability exception owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_exception_id
+  - availability_exception_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Update one owner availability exception through the exception write endpoint.
+    endpoint_id: update_my_business_availability_exception
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: delete_my_business_availability_exception
+  description: Delete one availability exception owned by the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - availability_exception_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Delete one owner availability exception through the exception delete endpoint.
+    endpoint_id: delete_my_business_availability_exception
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: open_public_business_availability
+  description: Open public availability windows for one business slug and optional offering.
+  mutating: false
+  required_inputs:
+  - business_slug
+  - from
+  - to
+  optional_inputs:
+  - offering_id
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load public availability windows through the public availability endpoint.
+    endpoint_id: get_public_business_availability
+    source_refs:
+    - business_availability_controller
+    - business_profile_service
+- id: open_public_business_page
+  description: Open one public business page by slug.
+  mutating: false
+  required_inputs:
+  - business_slug
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the public business page through the public page endpoint.
+    endpoint_id: get_public_business_page
+    source_refs:
+    - business_public_controller
+    - business_offering_mgr
+    - business_gallery_image_mgr
+    - business_profile_service
+- id: open_public_business_offerings
+  description: Open the public offering list for one business slug.
+  mutating: false
+  required_inputs:
+  - business_slug
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the public offering list through the public offerings endpoint.
+    endpoint_id: get_public_business_offerings
+    source_refs:
+    - business_public_controller
+    - business_profile_service
+- id: create_business_booking
+  description: Create one customer booking against a public business offering.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one booking through the customer booking endpoint.
+    endpoint_id: create_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_booking_mgr
+    - business_profile_service
+- id: open_my_business_bookings
+  description: Open the authenticated customer's booking list.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - booking_filters
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the current customer's booking list through the self booking endpoint.
+    endpoint_id: get_my_business_bookings
+    source_refs:
+    - business_booking_controller
+    - business_booking_mgr
+    - business_profile_service
+- id: open_my_business_booking
+  description: Open one booking owned by the authenticated customer.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load one current-customer booking through the self booking detail endpoint.
+    endpoint_id: get_my_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: cancel_my_business_booking
+  description: Cancel one booking owned by the authenticated customer.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Cancel one customer booking through the self cancellation endpoint.
+    endpoint_id: cancel_my_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: create_owner_business_booking
+  description: Create one owner-managed booking for the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - owner_booking_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one owner booking through the owner booking endpoint.
+    endpoint_id: create_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_owner_business_bookings
+  description: Open the owner-side booking list for the authenticated business owner.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - booking_filters
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner booking list through the owner bookings endpoint.
+    endpoint_id: get_owner_business_bookings
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_owner_business_booking_schedule
+  description: Open the owner schedule summary for the authenticated business owner.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner schedule summary through the owner schedule endpoint.
+    endpoint_id: get_owner_business_booking_schedule
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_owner_business_booking_calendar
+  description: Open the owner calendar projection for the authenticated business owner.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - from
+  - to
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner calendar projection through the owner calendar endpoint.
+    endpoint_id: get_owner_business_booking_calendar
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_owner_business_booking
+  description: Open one owner-visible booking detail.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load one owner-visible booking through the owner booking detail endpoint.
+    endpoint_id: get_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: confirm_owner_business_booking
+  description: Confirm one pending booking as the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Confirm one pending booking through the owner confirm endpoint.
+    endpoint_id: confirm_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: reject_owner_business_booking
+  description: Reject one pending booking as the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Reject one pending booking through the owner reject endpoint.
+    endpoint_id: reject_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: cancel_owner_business_booking
+  description: Cancel one owner-visible booking as the authenticated business owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Cancel one owner-visible booking through the owner cancellation endpoint.
+    endpoint_id: cancel_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: complete_owner_business_booking
+  description: Mark one owner-visible booking as completed.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Complete one owner-visible booking through the owner completion endpoint.
+    endpoint_id: complete_owner_business_booking
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: mark_owner_business_booking_no_show
+  description: Mark one owner-visible booking as no-show.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - booking_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Mark one owner-visible booking as no-show through the owner no-show endpoint.
+    endpoint_id: mark_owner_business_booking_no_show
+    source_refs:
+    - business_booking_controller
+    - business_profile_service
+- id: open_my_business_dashboard
+  description: Open the owner dashboard summary for the authenticated business owner.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner dashboard through the dashboard endpoint.
+    endpoint_id: get_my_business_dashboard
+    source_refs:
+    - business_owner_dashboard_controller
+    - business_profile_service
+- id: open_my_business_dashboard_schedule
+  description: Open the owner dashboard schedule summary surface.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner dashboard schedule summary through the dashboard schedule endpoint.
+    endpoint_id: get_my_business_dashboard_schedule
+    source_refs:
+    - business_owner_dashboard_controller
+    - business_profile_service
+- id: open_my_business_gallery
+  description: Open the current owner's business gallery metadata list.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Load the owner gallery list through the business gallery endpoint.
+    endpoint_id: get_my_business_gallery
+    source_refs:
+    - business_gallery_controller
+    - business_gallery_image_mgr
+    - business_profile_service
+- id: create_my_business_gallery_image
+  description: Create one business gallery image metadata row for the authenticated owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - gallery_image_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Create one owner gallery image through the gallery write endpoint.
+    endpoint_id: create_my_business_gallery_image
+    source_refs:
+    - business_gallery_controller
+    - business_profile_service
+- id: update_my_business_gallery_image
+  description: Update one business gallery image metadata row owned by the authenticated owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - image_id
+  - gallery_image_payload
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Update one owner gallery image through the gallery write endpoint.
+    endpoint_id: update_my_business_gallery_image
+    source_refs:
+    - business_gallery_controller
+    - business_profile_service
+- id: delete_my_business_gallery_image
+  description: Delete one business gallery image metadata row owned by the authenticated owner.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - image_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Delete one owner gallery image through the gallery delete endpoint.
+    endpoint_id: delete_my_business_gallery_image
+    source_refs:
+    - business_gallery_controller
+    - business_profile_service
 - id: set_profile_location
   description: Set or clear the authenticated user's profile location through the self-update flow.
   mutating: true

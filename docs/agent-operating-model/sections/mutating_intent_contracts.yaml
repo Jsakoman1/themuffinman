@@ -1174,6 +1174,344 @@ mutating_intent_contracts:
   - slug conflict
   source_refs:
   - business_profile_service
+- intent_id: create_my_business_offering
+  preconditions:
+  - authenticated business owner
+  - validated offering payload
+  - existing owner business profile
+  state_changes:
+  - persist new business offering
+  side_effects:
+  - normalize or derive offering slug
+  - apply booking-mode defaults
+  notifications:
+  - none
+  blocking_conditions:
+  - missing owner business profile
+  - duplicate offering slug
+  - invalid offering payload
+  source_refs:
+  - business_profile_service
+- intent_id: update_my_business_offering
+  preconditions:
+  - authenticated business owner
+  - exact owned offering identity
+  - validated offering payload
+  state_changes:
+  - persist owned business offering changes
+  side_effects:
+  - preserve archival-safe offering history
+  notifications:
+  - none
+  blocking_conditions:
+  - offering not owned by caller
+  - invalid offering payload
+  source_refs:
+  - business_profile_service
+- intent_id: delete_my_business_offering
+  preconditions:
+  - authenticated business owner
+  - exact owned offering identity
+  state_changes:
+  - deactivate owned business offering
+  side_effects:
+  - preserve historical booking meaning through offering snapshots
+  notifications:
+  - none
+  blocking_conditions:
+  - offering not owned by caller
+  source_refs:
+  - business_profile_service
+- intent_id: save_my_business_booking_policy
+  preconditions:
+  - authenticated business owner
+  - validated booking policy payload
+  - existing owner business profile
+  state_changes:
+  - persist booking policy defaults
+  side_effects:
+  - create default policy row when missing
+  notifications:
+  - none
+  blocking_conditions:
+  - missing owner business profile
+  - invalid booking policy payload
+  source_refs:
+  - business_profile_service
+- intent_id: create_my_business_availability_rule
+  preconditions:
+  - authenticated business owner
+  - validated availability rule payload
+  - business timezone is configured
+  state_changes:
+  - persist new recurring availability rule
+  side_effects:
+  - scope rule to business or offering
+  notifications:
+  - none
+  blocking_conditions:
+  - missing business timezone
+  - invalid availability rule payload
+  source_refs:
+  - business_profile_service
+- intent_id: update_my_business_availability_rule
+  preconditions:
+  - authenticated business owner
+  - exact owned availability rule identity
+  - validated availability rule payload
+  state_changes:
+  - persist recurring availability rule changes
+  side_effects:
+  - preserve backend-owned time semantics
+  notifications:
+  - none
+  blocking_conditions:
+  - rule not owned by caller
+  - invalid availability rule payload
+  source_refs:
+  - business_profile_service
+- intent_id: delete_my_business_availability_rule
+  preconditions:
+  - authenticated business owner
+  - exact owned availability rule identity
+  state_changes:
+  - deactivate recurring availability rule
+  side_effects:
+  - keep booking history separate from availability changes
+  notifications:
+  - none
+  blocking_conditions:
+  - rule not owned by caller
+  source_refs:
+  - business_profile_service
+- intent_id: create_my_business_availability_exception
+  preconditions:
+  - authenticated business owner
+  - validated availability exception payload
+  - business timezone is configured
+  state_changes:
+  - persist new availability exception
+  side_effects:
+  - support block or replacement-capacity windows
+  notifications:
+  - none
+  blocking_conditions:
+  - missing business timezone
+  - invalid availability exception payload
+  source_refs:
+  - business_profile_service
+- intent_id: update_my_business_availability_exception
+  preconditions:
+  - authenticated business owner
+  - exact owned availability exception identity
+  - validated availability exception payload
+  state_changes:
+  - persist availability exception changes
+  side_effects:
+  - preserve backend-owned time semantics
+  notifications:
+  - none
+  blocking_conditions:
+  - exception not owned by caller
+  - invalid availability exception payload
+  source_refs:
+  - business_profile_service
+- intent_id: delete_my_business_availability_exception
+  preconditions:
+  - authenticated business owner
+  - exact owned availability exception identity
+  state_changes:
+  - delete owned availability exception
+  side_effects:
+  - release future availability override
+  notifications:
+  - none
+  blocking_conditions:
+  - exception not owned by caller
+  source_refs:
+  - business_profile_service
+- intent_id: create_business_booking
+  preconditions:
+  - authenticated customer
+  - validated booking payload
+  - active public business profile and offering
+  state_changes:
+  - persist new business booking with confirmed or pending status
+  side_effects:
+  - reserve capacity immediately
+  - write booking snapshots and audit event
+  notifications:
+  - future booking-created notification hook
+  blocking_conditions:
+  - self-booking attempt
+  - slot outside availability or policy window
+  - slot already full
+  source_refs:
+  - business_profile_service
+- intent_id: cancel_my_business_booking
+  preconditions:
+  - authenticated customer
+  - exact owned booking identity
+  - booking is still inside customer cancellation policy window
+  state_changes:
+  - transition booking to cancelled by customer
+  side_effects:
+  - write booking audit event
+  notifications:
+  - future booking-cancelled notification hook
+  blocking_conditions:
+  - booking not owned by caller
+  - cancellation window closed
+  - booking status does not allow customer cancellation
+  source_refs:
+  - business_profile_service
+- intent_id: create_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - validated owner booking payload
+  - exact customer identity
+  state_changes:
+  - persist owner-created confirmed booking
+  side_effects:
+  - reserve capacity immediately
+  - write booking snapshots and audit event
+  notifications:
+  - future booking-created notification hook
+  blocking_conditions:
+  - caller does not own target business
+  - slot outside availability or policy window
+  - slot already full
+  source_refs:
+  - business_profile_service
+- intent_id: confirm_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  - booking is pending confirmation
+  state_changes:
+  - transition booking to confirmed
+  side_effects:
+  - write booking audit event
+  notifications:
+  - future booking-confirmed notification hook
+  blocking_conditions:
+  - booking not owned by caller
+  - owner manual approval disabled
+  - booking not pending
+  source_refs:
+  - business_profile_service
+- intent_id: reject_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  - booking is pending confirmation
+  state_changes:
+  - transition booking to rejected
+  side_effects:
+  - write booking audit event
+  notifications:
+  - future booking-rejected notification hook
+  blocking_conditions:
+  - booking not owned by caller
+  - owner manual rejection disabled
+  - booking not pending
+  source_refs:
+  - business_profile_service
+- intent_id: cancel_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  state_changes:
+  - transition booking to cancelled by owner
+  side_effects:
+  - write booking audit event
+  notifications:
+  - future booking-cancelled notification hook
+  blocking_conditions:
+  - booking not owned by caller
+  - booking status does not allow owner cancellation
+  source_refs:
+  - business_profile_service
+- intent_id: complete_owner_business_booking
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  - booking end time has passed
+  state_changes:
+  - transition booking to completed
+  side_effects:
+  - write booking audit event
+  notifications:
+  - none
+  blocking_conditions:
+  - booking not owned by caller
+  - booking has not ended yet
+  - booking status does not allow completion
+  source_refs:
+  - business_profile_service
+- intent_id: mark_owner_business_booking_no_show
+  preconditions:
+  - authenticated business owner
+  - exact owned booking identity
+  - booking start time has passed
+  state_changes:
+  - transition booking to no-show
+  side_effects:
+  - write booking audit event
+  notifications:
+  - none
+  blocking_conditions:
+  - booking not owned by caller
+  - booking has not started yet
+  - booking status does not allow no-show marking
+  source_refs:
+  - business_profile_service
+- intent_id: create_my_business_gallery_image
+  preconditions:
+  - authenticated business owner
+  - validated gallery image payload
+  - existing owner business profile
+  state_changes:
+  - persist business gallery image metadata row
+  side_effects:
+  - preserve gallery sort order and active flags
+  notifications:
+  - none
+  blocking_conditions:
+  - missing owner business profile
+  - invalid gallery image payload
+  source_refs:
+  - business_profile_service
+- intent_id: update_my_business_gallery_image
+  preconditions:
+  - authenticated business owner
+  - exact owned gallery image identity
+  - validated gallery image payload
+  state_changes:
+  - persist business gallery image metadata changes
+  side_effects:
+  - preserve gallery ordering semantics
+  notifications:
+  - none
+  blocking_conditions:
+  - gallery image not owned by caller
+  - invalid gallery image payload
+  source_refs:
+  - business_profile_service
+- intent_id: delete_my_business_gallery_image
+  preconditions:
+  - authenticated business owner
+  - exact owned gallery image identity
+  state_changes:
+  - delete owned gallery image metadata row
+  side_effects:
+  - remove image from public gallery reads
+  notifications:
+  - none
+  blocking_conditions:
+  - gallery image not owned by caller
+  source_refs:
+  - business_profile_service
 - intent_id: create_thing_listing
   preconditions:
   - authenticated owner

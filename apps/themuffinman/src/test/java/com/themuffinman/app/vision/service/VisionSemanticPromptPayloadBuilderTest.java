@@ -69,6 +69,7 @@ class VisionSemanticPromptPayloadBuilderTest {
 
         assertTrue(input.contains("semanticHints"));
         assertTrue(input.contains("familyAliases"));
+        assertTrue(input.contains("business"));
         assertTrue(input.contains("show application #42"));
         assertTrue(input.contains("target_application_query"));
         assertTrue(input.contains("Europe/Zurich"));

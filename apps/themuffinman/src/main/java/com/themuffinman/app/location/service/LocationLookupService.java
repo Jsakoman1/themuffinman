@@ -1,6 +1,7 @@
 package com.themuffinman.app.location.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.themuffinman.app.identity.repository.AppUserRepository;
@@ -201,7 +202,7 @@ public class LocationLookupService {
     }
 
     private void assertWithinRateLimit(Cache<String, AtomicInteger> cache, String actorKey, int limit, String actionLabel) {
-        String normalizedActorKey = actorKey == null || actorKey.isBlank() ? "anonymous" : actorKey.trim().toLowerCase();
+        String normalizedActorKey = actorKey == null || actorKey.isBlank() ? "anonymous" : TextValueNormalizer.lowerTrimToEmpty(actorKey);
         AtomicInteger counter = cache.get(normalizedActorKey, key -> new AtomicInteger());
         int current = counter.incrementAndGet();
         if (current <= limit) {

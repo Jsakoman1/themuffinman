@@ -416,6 +416,217 @@ service_workflow_inventory:
   - docs/agent-operating-model.md
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+- id: business_offering_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessOfferingService
+  service_methods:
+  - createMyOffering
+  - updateMyOffering
+  - deleteMyOffering
+  covered_intents:
+  - create_my_business_offering
+  - update_my_business_offering
+  - delete_my_business_offering
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_offering_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingServiceTest.java
+- id: business_booking_policy_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessBookingPolicyService
+  service_methods:
+  - saveMyPolicy
+  covered_intents:
+  - save_my_business_booking_policy
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_policy_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPolicyServiceTest.java
+- id: business_availability_rule_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessAvailabilityService
+  service_methods:
+  - createMyRule
+  - updateMyRule
+  - deleteMyRule
+  covered_intents:
+  - create_my_business_availability_rule
+  - update_my_business_availability_rule
+  - delete_my_business_availability_rule
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_availability_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java
+- id: business_availability_exception_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessAvailabilityService
+  service_methods:
+  - createMyException
+  - updateMyException
+  - deleteMyException
+  covered_intents:
+  - create_my_business_availability_exception
+  - update_my_business_availability_exception
+  - delete_my_business_availability_exception
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_availability_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java
+- id: business_booking_create_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCreateBookingUseCase
+  service_methods:
+  - createCustomerBooking
+  covered_intents:
+  - create_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: business_booking_customer_cancel_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCancelBookingUseCase
+  service_methods:
+  - cancelAsCustomer
+  covered_intents:
+  - cancel_my_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java
+- id: business_booking_owner_create_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCreateBookingUseCase
+  service_methods:
+  - createOwnerBooking
+  covered_intents:
+  - create_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: business_booking_owner_confirm_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessConfirmBookingUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - confirm_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: business_booking_owner_reject_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessRejectBookingUseCase
+  service_methods:
+  - execute
+  covered_intents:
+  - reject_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: business_booking_owner_cancel_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCancelBookingUseCase
+  service_methods:
+  - cancelAsOwner
+  covered_intents:
+  - cancel_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java
+- id: business_booking_owner_complete_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessCompleteBookingUseCase
+  service_methods:
+  - complete
+  covered_intents:
+  - complete_owner_business_booking
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java
+- id: business_booking_owner_no_show_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessNoShowBookingUseCase
+  service_methods:
+  - markNoShow
+  covered_intents:
+  - mark_owner_business_booking_no_show
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_booking_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java
+- id: business_gallery_write_flows
+  service_class: com.themuffinman.app.business.service.BusinessGalleryService
+  service_methods:
+  - createMyGalleryImage
+  - updateMyGalleryImage
+  - deleteMyGalleryImage
+  covered_intents:
+  - create_my_business_gallery_image
+  - update_my_business_gallery_image
+  - delete_my_business_gallery_image
+  automation_relevant: true
+  source_refs:
+  - business_profile_service
+  - business_gallery_image_mgr
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPublicReadServiceTest.java
 - id: chat_admin_write_flows
   service_class: com.themuffinman.app.chat.service.ChatAdminService
   service_methods:

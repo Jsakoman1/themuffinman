@@ -98,6 +98,16 @@ public class SemanticAliasRegistry {
                 "account", "user",
                 "accounts", "user"
         ));
+        aliases.put(SemanticEntityFamily.BUSINESS, aliasMap(
+                "business", "business",
+                "biz", "business",
+                "company", "business",
+                "companys", "business",
+                "shop", "business",
+                "store", "business",
+                "service", "business",
+                "services", "business"
+        ));
         return Collections.unmodifiableMap(aliases);
     }
 

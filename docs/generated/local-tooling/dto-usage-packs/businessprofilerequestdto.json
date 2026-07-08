@@ -1,0 +1,114 @@
+{
+  "generated_at": "2026-07-08T18:17:35Z",
+  "dto": "BusinessProfileRequestDTO",
+  "dto_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "business",
+      "lines": 63
+    }
+  ],
+  "controller_methods": [
+    {
+      "method": "GET",
+      "path": "/business/profiles",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "dtos": [
+        "BusinessProfileListResponseDTO",
+        "BusinessProfileResponseDTO",
+        "BusinessProfileRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/profiles/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "dtos": [
+        "BusinessProfileListResponseDTO",
+        "BusinessProfileResponseDTO",
+        "BusinessProfileRequestDTO"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/business/profiles/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "dtos": [
+        "BusinessProfileResponseDTO",
+        "BusinessProfileRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/profiles/{slug}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "dtos": [
+        "BusinessProfileListResponseDTO",
+        "BusinessProfileResponseDTO",
+        "BusinessProfileRequestDTO"
+      ]
+    }
+  ],
+  "backend_refs": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 47
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "business",
+      "lines": 63
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 128
+    }
+  ],
+  "frontend_refs": [
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "lines": 1935
+    }
+  ],
+  "tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+  ],
+  "docs_refs": [
+    "docs/agent-operating-model.yaml",
+    "docs/agent-operating-model/sections/source_of_truth.yaml",
+    "docs/domain-technical.md",
+    "docs/generated/local-tooling/diff-summary.md",
+    "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
+    "docs/generated/local-tooling/symbol-test-links/businessprofilerequestdto-summary.md"
+  ],
+  "generated_contract_refs": [
+    "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+    "docs/generated/automation-read-model-inventory.json",
+    "docs/generated/backend-audit-inventory.json",
+    "docs/generated/local-tooling/api-contract-snapshot.json",
+    "docs/generated/local-tooling/backend-dependency-graph.json",
+    "docs/generated/local-tooling/diff-summary.json",
+    "docs/generated/local-tooling/endpoint-contract-packs/business.json",
+    "docs/generated/local-tooling/repo-map.json",
+    "docs/generated/local-tooling/symbol-index.json",
+    "docs/generated/local-tooling/symbol-test-links/businessprofilerequestdto.json"
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=BusinessProfileServiceTest",
+    "make audit-api-contract-drift",
+    "make endpoint-contract-packs",
+    "npm --prefix apps/themuffinman/frontend run type-check",
+    "npm --prefix apps/themuffinman/frontend run build"
+  ],
+  "residual_risk": [
+
+  ]
+}

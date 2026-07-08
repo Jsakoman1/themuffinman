@@ -25,17 +25,22 @@ class VisionSemanticRouteCatalogServiceTest {
 
         var routes = service.allowedRoutes(user);
 
-        assertEquals(29, routes.size());
+        assertEquals(31, routes.size());
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals(SemanticEntityFamily.NOTIFICATIONS, service.entityFamilyForIntent(VisionIntent.VIEW_NOTIFICATIONS));
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.VIEW_QUEST_NEWS));
+        assertEquals(SemanticEntityFamily.BUSINESS, service.entityFamilyForIntent(VisionIntent.VIEW_BUSINESS));
+        assertEquals(SemanticEntityFamily.BUSINESS, service.entityFamilyForIntent(VisionIntent.VIEW_BUSINESS_AVAILABILITY));
         assertEquals("QuestRequestDTO", service.dtoTypeForIntent(VisionIntent.CREATE_QUEST));
         assertEquals("DashboardNotificationsSectionDTO", service.dtoTypeForIntent(VisionIntent.VIEW_NOTIFICATIONS));
         assertEquals("ThingListingListResponseDTO", service.dtoTypeForIntent(VisionIntent.VIEW_THINGS));
+        assertEquals("BusinessPublicPageDTO", service.dtoTypeForIntent(VisionIntent.VIEW_BUSINESS));
+        assertEquals("BusinessOwnerDashboardDTO", service.dtoTypeForIntent(VisionIntent.VIEW_BUSINESS_AVAILABILITY));
         assertEquals("create_quest_validator", service.validatorKeyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals("create_quest_executor", service.executorKeyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals(0.85d, service.minimumConfidenceForIntent(VisionIntent.CREATE_QUEST));
         assertEquals(0.70d, service.minimumConfidenceForIntent(VisionIntent.VIEW_NOTIFICATIONS));
+        assertEquals(0.70d, service.minimumConfidenceForIntent(VisionIntent.VIEW_BUSINESS));
         assertEquals(0.70d, service.minimumConfidenceForIntent(VisionIntent.VIEW_THINGS));
         assertEquals(0.75d, service.minimumConfidenceForIntent(VisionIntent.SEARCH));
         assertTrue(service.requiresTargetEntityResolution(VisionIntent.CREATE_CIRCLE_REQUEST));
@@ -70,6 +75,8 @@ class VisionSemanticRouteCatalogServiceTest {
                         "VIEW_CHAT_WORKSPACE",
                         "VIEW_PROFILE",
                         "VIEW_SETTINGS",
+                        "VIEW_BUSINESS",
+                        "VIEW_BUSINESS_AVAILABILITY",
                         "VIEW_USER_PROFILE",
                         "VIEW_CIRCLES",
                         "VIEW_CIRCLE_DETAIL",
@@ -105,6 +112,8 @@ class VisionSemanticRouteCatalogServiceTest {
                         "view_chat_workspace",
                         "view_profile",
                         "view_settings",
+                        "view_business",
+                        "view_business_availability",
                         "view_user_profile",
                         "view_circles",
                         "view_circle_detail",
@@ -211,6 +220,14 @@ class VisionSemanticRouteCatalogServiceTest {
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_settings")
                 && !route.isMutating()
                 && route.getSlots().isEmpty()));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_business")
+                && !route.isMutating()
+                && route.getSlots().isEmpty()
+                && "BusinessPublicPageDTO".equals(route.getDtoType())));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_business_availability")
+                && !route.isMutating()
+                && route.getSlots().isEmpty()
+                && "BusinessOwnerDashboardDTO".equals(route.getDtoType())));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_settings")
                 && "view_settings".equals(route.getCapabilityId())
                 && "settings".equals(route.getEntityType())));
@@ -272,7 +289,7 @@ class VisionSemanticRouteCatalogServiceTest {
             }
         }
 
-        assertEquals(29, routes.size());
+        assertEquals(31, routes.size());
         assertEquals(
                 Set.of(
                         "create_quest",

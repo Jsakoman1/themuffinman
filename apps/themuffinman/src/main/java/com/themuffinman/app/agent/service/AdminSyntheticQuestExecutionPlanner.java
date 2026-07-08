@@ -1,5 +1,6 @@
 package com.themuffinman.app.agent.service;
 
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class AdminSyntheticQuestExecutionPlanner {
 
     public AdminSyntheticQuestExecutionPlan plan(AdminAgentPromptTranslation translation) {
         String translatedPrompt = translation.getTranslatedPrompt() == null ? "" : translation.getTranslatedPrompt().trim();
-        String normalizedPrompt = translatedPrompt.toLowerCase(Locale.ROOT);
+        String normalizedPrompt = TextValueNormalizer.lowerToEmpty(translatedPrompt);
         List<String> blockingReasons = new ArrayList<>();
 
         if (!mentionsSyntheticQuestBatch(normalizedPrompt)) {

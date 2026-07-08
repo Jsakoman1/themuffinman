@@ -2,6 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
 import com.themuffinman.app.location.service.LocationLookupService;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -134,7 +135,7 @@ public class VisionLocationResolutionService {
         if (value == null || value.isBlank()) {
             return null;
         }
-        return value.trim().toLowerCase();
+        return TextValueNormalizer.lowerTrimToEmpty(value);
     }
 
     private void clearPendingCandidate(Map<String, String> slotData) {

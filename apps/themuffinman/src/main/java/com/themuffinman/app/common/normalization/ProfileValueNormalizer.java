@@ -10,21 +10,12 @@ public final class ProfileValueNormalizer {
     }
 
     public static String normalizeText(String value) {
-        if (value == null) {
-            return null;
-        }
-
-        String normalized = value.trim();
-        return normalized.isEmpty() ? null : normalized;
+        return TextValueNormalizer.trimToNull(value);
     }
 
     public static String normalizeAvatarDataUrl(String value) {
-        if (value == null) {
-            return null;
-        }
-
-        String normalized = value.trim();
-        if (normalized.isEmpty()) {
+        String normalized = TextValueNormalizer.trimToNull(value);
+        if (normalized == null) {
             return null;
         }
 

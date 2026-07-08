@@ -1,6 +1,6 @@
 package com.themuffinman.app.vision.service;
 
-import java.util.Locale;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 
 final class VisionReviewInteractionSupport {
 
@@ -11,7 +11,7 @@ final class VisionReviewInteractionSupport {
         if (prompt == null || prompt.isBlank()) {
             return false;
         }
-        String lower = prompt.toLowerCase(Locale.ROOT).trim();
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
         return lower.equals("confirm")
                 || lower.equals("yes")
                 || lower.equals("yes confirm")

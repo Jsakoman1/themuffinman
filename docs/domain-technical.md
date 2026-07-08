@@ -7,13 +7,14 @@ This document is the technical source of truth for core product behavior. It sho
 - `identity`: users, authentication, roles, and profile data
 - `social`: circles, memberships, requests, blocking, and relation lookup
 - `workmarket`: quests, applications, quest news, dashboards, reviews
-- `business`: business profiles, directory, and mini-site profile read models
+- `business`: business profiles, public pages, service catalog, availability, bookings, gallery, and owner dashboard reads
 - `things`: lending listings and borrower request workflow
 - `rides`: voluntary ride offers with optional circle-scoped visibility
 - `chat`: direct conversations, group threads, context-owned rooms, messages, presence, realtime updates
 - `location`: user location settings, quest location visibility, lookup events
 - `common.event`: lightweight domain event publishing through Spring application events
 - `common.concepts`: shared actor identity, module ownership, circle visibility selection, and scheduling-window primitives
+- `common.normalization`, `common.pagination`, `common.time`, `common.search`: shared backend helpers for text cleanup, slugging, pagination windows, and timezone-aware date calculations
 - `internal sandbox`: synthetic test-data orchestration kept separate from production-like user actions
 
 Domain capsules:
@@ -213,23 +214,114 @@ Technical notes:
 
 Primary files:
 - `business/controller/BusinessProfileController.java`
+- `business/controller/BusinessOfferingController.java`
+- `business/controller/BusinessBookingPolicyController.java`
+- `business/controller/BusinessAvailabilityController.java`
+- `business/controller/BusinessPublicController.java`
+- `business/controller/BusinessBookingController.java`
+- `business/controller/BusinessOwnerDashboardController.java`
+- `business/controller/BusinessGalleryController.java`
 - `business/model/BusinessProfile.java`
+- `business/model/BusinessOffering.java`
+- `business/model/BusinessBookingPolicy.java`
+- `business/model/BusinessAvailabilityRule.java`
+- `business/model/BusinessAvailabilityException.java`
+- `business/model/BusinessBooking.java`
+- `business/model/BusinessBookingAuditEvent.java`
+- `business/model/BusinessGalleryImage.java`
 - `business/repository/BusinessProfileRepository.java`
+- `business/repository/BusinessOfferingRepository.java`
+- `business/repository/BusinessBookingPolicyRepository.java`
+- `business/repository/BusinessAvailabilityRuleRepository.java`
+- `business/repository/BusinessAvailabilityExceptionRepository.java`
+- `business/repository/BusinessBookingRepository.java`
+- `business/repository/BusinessBookingAuditEventRepository.java`
+- `business/repository/BusinessGalleryImageRepository.java`
 - `business/service/BusinessProfileService.java`
+- `business/service/BusinessOfferingService.java`
+- `business/service/BusinessBookingPolicyService.java`
+- `business/service/BusinessAvailabilityService.java`
+- `business/service/BusinessAvailabilityReadService.java`
+- `business/service/BusinessPublicReadService.java`
+- `business/service/BusinessCreateBookingUseCase.java`
+- `business/service/BusinessConfirmBookingUseCase.java`
+- `business/service/BusinessRejectBookingUseCase.java`
+- `business/service/BusinessCancelBookingUseCase.java`
+- `business/service/BusinessCompleteBookingUseCase.java`
+- `business/service/BusinessNoShowBookingUseCase.java`
+- `business/service/BusinessBookingReadService.java`
+- `business/service/BusinessBookingReadSupport.java`
+- `business/service/BusinessOwnerScheduleReadService.java`
+- `business/service/BusinessOwnerCalendarReadService.java`
+- `business/service/BusinessOwnerDashboardReadService.java`
+- `business/service/BusinessGalleryService.java`
+- `business/service/BusinessBookingValidationService.java`
+- `business/service/BusinessBookingPrimitiveService.java`
+- `business/service/BusinessBookingPresentationService.java`
+- `business/service/BusinessBookingAuditService.java`
+- `business/event/BusinessBookingCreatedEvent.java`
+- `business/event/BusinessBookingStatusChangedEvent.java`
+- `business/event/BusinessBookingEventHandler.java`
 - `business/mapper/BusinessProfileMgr.java`
+- `business/mapper/BusinessOfferingMgr.java`
+- `business/mapper/BusinessBookingPolicyMgr.java`
+- `business/mapper/BusinessAvailabilityMgr.java`
+- `business/mapper/BusinessBookingMgr.java`
+- `business/mapper/BusinessGalleryImageMgr.java`
 - `business/dto/BusinessProfileRequestDTO.java`
 - `business/dto/BusinessProfileResponseDTO.java`
 - `business/dto/BusinessProfileListResponseDTO.java`
-- `frontend/src/modules/business/api/businessApi.ts`
-- `frontend/src/modules/business/views/BusinessHubView.vue`
+- `business/dto/BusinessOfferingRequestDTO.java`
+- `business/dto/BusinessOfferingResponseDTO.java`
+- `business/dto/BusinessBookingPolicyRequestDTO.java`
+- `business/dto/BusinessBookingPolicyResponseDTO.java`
+- `business/dto/BusinessAvailabilityRuleRequestDTO.java`
+- `business/dto/BusinessAvailabilityExceptionRequestDTO.java`
+- `business/dto/BusinessPublicPageDTO.java`
+- `business/dto/BusinessBookingRequestDTO.java`
+- `business/dto/BusinessBookingResponseDTO.java`
+- `business/dto/BusinessBookingListResponseDTO.java`
+- `business/dto/BusinessOwnerCalendarProjectionDTO.java`
+- `business/dto/BusinessOwnerCalendarDayDTO.java`
+- `business/dto/BusinessOwnerCalendarItemDTO.java`
+- `business/dto/BusinessBookingQueryDTO.java`
+- `business/dto/BusinessOwnerScheduleSummaryDTO.java`
+- `business/dto/BusinessOwnerDashboardDTO.java`
+- `business/dto/BusinessGalleryImageRequestDTO.java`
+- `business/dto/BusinessGalleryImageResponseDTO.java`
 
 Primary migrations:
 - `V31__create_business_profile_table.sql`
+- `V44__extend_business_profile_for_booking.sql`
+- `V45__create_business_offering_table.sql`
+- `V46__create_business_booking_policy_table.sql`
+- `V47__create_business_availability_tables.sql`
+- `V48__create_business_booking_table.sql`
+- `V49__create_business_booking_audit_event_table.sql`
+- `V50__create_business_gallery_image_table.sql`
+- `V51__tighten_business_booking_constraints.sql`
 
 Technical notes:
-- Business Hub currently implements the first business-profile slice: one profile per owner account, active profile directory, public slug lookup, and current-user profile editing.
-- `BusinessProfileService` owns profile validation, slug normalization, active-directory visibility, and rich-text description sanitization.
-- Slugs are unique across all business profiles; inactive profiles remain available to the owner through `/business/profiles/me` but are hidden from the active directory and public slug endpoint.
+- `business_profile` is the public business identity root and still enforces one profile per owner account plus global slug uniqueness.
+- `BusinessProfileService` owns profile validation, slug normalization, active-directory visibility, booking-enabled flags, timezone/contact fields, and rich-text description sanitization.
+- `business_offering` is the bookable service root. Offerings are archival-safe and should be deactivated instead of destructively removing the meaning of historical bookings.
+- `business_booking_policy` centralizes owner defaults such as lead time, max advance horizon, cancellation window, and manual-approval switches through typed `app.business.*` config-backed defaults.
+- `business_availability_rule` stores recurring local-time availability windows and optional offering scope. `business_availability_exception` stores blocking windows and replacement-capacity overrides.
+- Availability input is local business time, but `business_booking` persists absolute `starts_at` and `ends_at` timestamps plus timezone context for DTO consumers.
+- `BusinessAvailabilityComputationService` is the shared availability derivation source for public slot reads and booking validation, which keeps public availability and booking writes aligned.
+- `business_booking` stores booking status, source, idempotency key, customer notes, owner notes, offering snapshots, and duration snapshots.
+- `PENDING_CONFIRMATION` and `CONFIRMED` both consume capacity. `INSTANT` offerings create `CONFIRMED` bookings immediately, while `REQUEST` offerings create `PENDING_CONFIRMATION`.
+- `BusinessBookingPrimitiveService` serializes create flows on the offering row and owns the shared occupancy-count primitive used by capacity validation.
+- `BusinessBookingValidationService` owns lead-time, advance-horizon, duration, availability-coverage, capacity, and cancellation-window rules.
+- Booking DTOs are backend-prepared through `BusinessBookingPresentationService` and include `allowedActions`, `statusLabel`, and `blockingReason` so clients do not derive workflow rules locally.
+- `BusinessBookingPresentationService` resolves effective booking policy without mutating state, while write flows remain responsible for creating missing policy rows.
+- `BusinessBookingReadService` exposes separate owner and customer surfaces with pagination and filter contracts from the start.
+- `BusinessBookingReadSupport` centralizes safe page, safe size, and normalized query handling for booking read surfaces so owner and customer list contracts stay aligned.
+- `BusinessOwnerCalendarReadService` exposes a backend-prepared owner calendar projection grouped by the business timezone's local day, with per-day booking buckets and booking presentation metadata for mobile and web clients.
+- Owner schedule and owner dashboard read models are separate services, but both read from the same owner schedule summary interpretation so list and dashboard semantics do not drift.
+- `/vision` business previews reuse `BusinessPublicReadService` and `BusinessOwnerDashboardReadService` through `VisionBusinessPreviewRenderer`, so business page and availability snapshots stay backend-prepared and share the same business read model.
+- `business_booking_audit_event` persists transition history through synchronous domain events owned by the `business` package.
+- `business_gallery_image` keeps public gallery metadata separate from profile description and remains modular with the storage layer.
 
 ## Thing Sharing Source Map
 

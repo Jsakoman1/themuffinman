@@ -24,6 +24,8 @@ class VisionConversationSnapshotSupportTest {
     @Test
     void rendersReadOnlySnapshotMessages() {
         assertEquals("Profile.", VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_PROFILE));
+        assertEquals("Business.", VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_BUSINESS));
+        assertEquals("Business availability.", VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_BUSINESS_AVAILABILITY));
         assertEquals("The current view was reset. Chat.", VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_CHAT_WORKSPACE));
         assertEquals("The current view was reset.", VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_CIRCLE_DETAIL));
     }
@@ -41,6 +43,23 @@ class VisionConversationSnapshotSupportTest {
                 .summary("Profile.")
                 .build();
         when(visionCapabilityPreviewService.previewProfile(currentUser)).thenReturn(preview);
+
+        assertEquals(preview, VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService));
+    }
+
+    @Test
+    void delegatesCapabilityPreviewForBusinessViews() {
+        AppUser currentUser = new AppUser();
+        VisionConversation conversation = new VisionConversation();
+        conversation.setIntent(VisionIntent.VIEW_BUSINESS);
+        conversation.setSlotData(Map.of());
+
+        VisionCapabilityPreviewDTO preview = VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_business")
+                .title("Business")
+                .summary("Business.")
+                .build();
+        when(visionCapabilityPreviewService.previewBusiness(currentUser)).thenReturn(preview);
 
         assertEquals(preview, VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService));
     }

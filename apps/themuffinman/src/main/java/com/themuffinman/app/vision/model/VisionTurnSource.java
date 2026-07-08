@@ -1,5 +1,7 @@
 package com.themuffinman.app.vision.model;
 
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
+
 public enum VisionTurnSource {
     TEXT,
     VOICE;
@@ -9,7 +11,7 @@ public enum VisionTurnSource {
             return TEXT;
         }
         try {
-            return VisionTurnSource.valueOf(value.trim().toUpperCase(java.util.Locale.ROOT));
+            return VisionTurnSource.valueOf(TextValueNormalizer.upperTrimToEmpty(value));
         } catch (IllegalArgumentException exception) {
             return TEXT;
         }

@@ -5,6 +5,7 @@ import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.model.VisionIntent;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -39,7 +40,7 @@ public class VisionExecutionPlanner {
             return null;
         }
         String capabilityId = semanticPlan.getCapabilityId() == null || semanticPlan.getCapabilityId().isBlank()
-                ? candidateIntent.name().toLowerCase(java.util.Locale.ROOT)
+                ? TextValueNormalizer.lowerToEmpty(candidateIntent.name())
                 : semanticPlan.getCapabilityId();
         double confidence = semanticPlan.getCandidateIntentConfidence() == null
                 ? 0.0d

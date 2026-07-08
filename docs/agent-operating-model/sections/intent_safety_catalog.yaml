@@ -56,6 +56,22 @@ intent_safety_catalog:
     - browse_business_profiles
     - open_my_business_profile
     - open_business_profile_by_slug
+    - open_my_business_offerings
+    - open_my_business_booking_policy
+    - open_my_business_availability_rules
+    - open_my_business_availability_exceptions
+    - open_public_business_availability
+    - open_public_business_page
+    - open_public_business_offerings
+    - open_my_business_bookings
+    - open_my_business_booking
+    - open_owner_business_bookings
+    - open_owner_business_booking_schedule
+    - open_owner_business_booking_calendar
+    - open_owner_business_booking
+    - open_my_business_dashboard
+    - open_my_business_dashboard_schedule
+    - open_my_business_gallery
     - browse_thing_listings
     - open_my_thing_listings
     - browse_ride_offers
@@ -106,6 +122,25 @@ intent_safety_catalog:
     - request_owner_term_change
     - create_review
     - save_my_business_profile
+    - create_my_business_offering
+    - update_my_business_offering
+    - delete_my_business_offering
+    - save_my_business_booking_policy
+    - create_my_business_availability_rule
+    - update_my_business_availability_rule
+    - delete_my_business_availability_rule
+    - create_my_business_availability_exception
+    - update_my_business_availability_exception
+    - delete_my_business_availability_exception
+    - create_business_booking
+    - cancel_my_business_booking
+    - create_owner_business_booking
+    - cancel_owner_business_booking
+    - complete_owner_business_booking
+    - mark_owner_business_booking_no_show
+    - create_my_business_gallery_image
+    - update_my_business_gallery_image
+    - delete_my_business_gallery_image
     - create_thing_listing
     - request_borrow_thing
     - create_ride_offer
@@ -122,6 +157,8 @@ intent_safety_catalog:
     - accept_circle_connection
     - approve_application
     - decline_application
+    - confirm_owner_business_booking
+    - reject_owner_business_booking
     - confirm_quest_term_change
     - reject_quest_term_change
     - create_circle_only_quest_for_selected_people

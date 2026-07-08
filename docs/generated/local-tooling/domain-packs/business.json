@@ -1,0 +1,309 @@
+{
+  "generated_at": "2026-07-08T18:17:35Z",
+  "domain": "business",
+  "file_count": 98,
+  "categories": [
+    "backend_controller",
+    "backend_dto",
+    "backend_mapper",
+    "backend_model",
+    "backend_repository",
+    "backend_service",
+    "other"
+  ],
+  "key_services": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 137
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 52
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 145
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityValidationService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 57
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingAuditService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 61
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPolicyService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 106
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPresentationService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 194
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPrimitiveService.java",
+      "category": "backend_service",
+      "domain": "business",
+      "lines": 50
+    }
+  ],
+  "key_controllers": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 100
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 160
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 35
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 56
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 53
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 31
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 47
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java",
+      "category": "backend_controller",
+      "domain": "business",
+      "lines": 28
+    }
+  ],
+  "key_repositories": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessAvailabilityExceptionRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "lines": 53
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessAvailabilityRuleRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "lines": 55
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingAuditEventRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "lines": 7
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingPolicyRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "lines": 19
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "lines": 129
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessGalleryImageRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "lines": 40
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessOfferingRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "lines": 56
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessProfileRepository.java",
+      "category": "backend_repository",
+      "domain": "business",
+      "lines": 24
+    }
+  ],
+  "key_models": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessAvailabilityException.java",
+      "category": "backend_model",
+      "domain": "business",
+      "lines": 79
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessAvailabilityExceptionType.java",
+      "category": "backend_model",
+      "domain": "business",
+      "lines": 6
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessAvailabilityRule.java",
+      "category": "backend_model",
+      "domain": "business",
+      "lines": 80
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java",
+      "category": "backend_model",
+      "domain": "business",
+      "lines": 100
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingAuditEvent.java",
+      "category": "backend_model",
+      "domain": "business",
+      "lines": 62
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingAuditEventType.java",
+      "category": "backend_model",
+      "domain": "business",
+      "lines": 11
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingPolicy.java",
+      "category": "backend_model",
+      "domain": "business",
+      "lines": 77
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingSource.java",
+      "category": "backend_model",
+      "domain": "business",
+      "lines": 6
+    }
+  ],
+  "dto_groups": [
+    {
+      "group": "other",
+      "count": 10,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityWindowDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingAllowedActionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPresentationDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingQueryDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerCalendarDayDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerCalendarItemDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerCalendarProjectionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerDashboardDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerScheduleItemDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessPublicPageDTO.java"
+      ]
+    },
+    {
+      "group": "read-models",
+      "count": 1,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerScheduleSummaryDTO.java"
+      ]
+    },
+    {
+      "group": "request-response",
+      "count": 22,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityWindowListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingListResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPolicyRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPolicyResponseDTO.java"
+      ]
+    }
+  ],
+  "frontend_surfaces": [
+
+  ],
+  "workflows": [
+
+  ],
+  "docs": [
+    "docs/business-logic.md",
+    "docs/domain-technical.md",
+    "docs/agent-operating-model.md"
+  ],
+  "tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/controller/BusinessBookingControllerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPolicyServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPresentationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadSupportTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessGalleryServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPublicReadServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java"
+  ],
+  "scenario_catalog": [
+    {
+      "id": "business-profile-public-directory",
+      "risk": "medium",
+      "scenario": "Business profiles must derive stable slugs, reject duplicate slugs, expose active directory entries, and hide inactive public profiles.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=BusinessProfileServiceTest"
+      ]
+    }
+  ],
+  "first_commands": [
+    "./mvnw test",
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "cd apps/themuffinman && ./mvnw test -Dtest=BusinessBookingControllerTest,BusinessAvailabilityComputationServiceTest,BusinessBookingPolicyServiceTest,BusinessBookingPresentationServiceTest,BusinessBookingReadServiceTest,BusinessBookingReadSupportTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=BusinessProfileServiceTest",
+    "make audit-doc-sync-preflight files=apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java,apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java,apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java,apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java,apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java,apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java,apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java,apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java"
+  ],
+  "residual_risk": [
+
+  ]
+}

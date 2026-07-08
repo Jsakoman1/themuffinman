@@ -15,12 +15,12 @@ import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,7 +44,7 @@ final class VisionCapabilityEntityResolutionSupport {
             return VisionResolvedUserTarget.unresolved("Who should receive the circle request? Say a username, email, or name fragment.");
         }
 
-        String normalizedTargetQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
+        String normalizedTargetQuery = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.USER, query));
         List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery).stream()
                 .filter(candidate -> candidate != null && currentUser != null && !candidate.getId().equals(currentUser.getId()))
                 .toList();
@@ -140,7 +140,7 @@ final class VisionCapabilityEntityResolutionSupport {
             }
         }
 
-        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.QUEST, query).toLowerCase(Locale.ROOT);
+        String normalizedQuery = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.QUEST, query));
         List<QuestResponseDTO> candidates = questReadService.getAllQuestResponses(currentUser).stream()
                 .filter(quest -> quest.getAllowedActions() != null && quest.getAllowedActions().contains(QuestAllowedActionDTO.APPLY))
                 .filter(quest -> matchesQuestQuery(quest, normalizedQuery))
@@ -184,7 +184,7 @@ final class VisionCapabilityEntityResolutionSupport {
             return VisionResolvedManagedApplicationTarget.unresolved("Who is the applicant? Say the applicant username.");
         }
 
-        String normalizedApplicantQuery = SearchQueryNormalizer.normalize(applicantQuery).toLowerCase(Locale.ROOT);
+        String normalizedApplicantQuery = TextValueNormalizer.lowerTrimToEmpty(SearchQueryNormalizer.normalize(applicantQuery));
         List<QuestApplicationResponseDTO> candidates = questApplicationReadService.getApplicationsForQuest(questTarget.questId(), currentUser).stream()
                 .filter(application -> application.getAllowedActions() != null && application.getAllowedActions().contains(requiredAction))
                 .filter(application -> matchesApplicantQuery(application, applicantQuery, normalizedApplicantQuery))
@@ -317,7 +317,7 @@ final class VisionCapabilityEntityResolutionSupport {
             }
         }
 
-        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.QUEST, query).toLowerCase(Locale.ROOT);
+        String normalizedQuery = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.QUEST, query));
         List<QuestResponseDTO> candidates = questReadService.getAllQuestResponses(currentUser).stream()
                 .filter(quest -> matchesQuestQuery(quest, normalizedQuery))
                 .toList();
@@ -363,7 +363,7 @@ final class VisionCapabilityEntityResolutionSupport {
             }
         }
 
-        String normalizedTargetQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
+        String normalizedTargetQuery = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.USER, query));
         List<AppUser> matches = appUserRepository.searchByUsernameOrEmail(normalizedTargetQuery);
         if (matches.isEmpty()) {
             return VisionResolvedUserTarget.unresolved("I could not identify one profile for \"" + query.trim() + "\".");
@@ -394,7 +394,7 @@ final class VisionCapabilityEntityResolutionSupport {
         List<CircleRequestResponseDTO> requests = incoming
                 ? circleReadService.getIncomingRequests(currentUser)
                 : circleReadService.getOutgoingRequests(currentUser);
-        String normalizedQuery = normalizeEntityQuery(SemanticEntityFamily.USER, query).toLowerCase(Locale.ROOT);
+        String normalizedQuery = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.USER, query));
         List<CircleRequestResponseDTO> matches = requests.stream()
                 .filter(request -> request.getAcceptedAt() == null)
                 .filter(request -> matchesCircleRequestQuery(request, query, normalizedQuery))
@@ -426,11 +426,10 @@ final class VisionCapabilityEntityResolutionSupport {
         if (!hasText(rawQuery)) {
             return false;
         }
-        String haystack = String.join(" ",
+        String haystack = TextValueNormalizer.lowerToEmpty(String.join(" ",
                 nullToEmpty(request.getCounterpartUsername()),
                 nullToEmpty(request.getRequesterUsername()),
-                nullToEmpty(request.getRecipientUsername()))
-                .toLowerCase(Locale.ROOT);
+                nullToEmpty(request.getRecipientUsername())));
         return haystack.contains(normalizedQuery);
     }
 
@@ -450,11 +449,10 @@ final class VisionCapabilityEntityResolutionSupport {
         if (circleId != null) {
             return circleId.equals(circle.getId());
         }
-        String query = normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery).toLowerCase(Locale.ROOT);
-        String haystack = String.join(" ",
+        String query = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.CIRCLE, rawQuery));
+        String haystack = TextValueNormalizer.lowerToEmpty(String.join(" ",
                 nullToEmpty(circle.getName()),
-                nullToEmpty(circle.getMemberPreviewLabel()))
-                .toLowerCase(Locale.ROOT);
+                nullToEmpty(circle.getMemberPreviewLabel())));
         return haystack.contains(query);
     }
 
@@ -530,11 +528,10 @@ final class VisionCapabilityEntityResolutionSupport {
         if (!hasText(query)) {
             return false;
         }
-        String haystack = String.join(" ",
+        String haystack = TextValueNormalizer.lowerToEmpty(String.join(" ",
                 nullToEmpty(quest.getTitle()),
                 nullToEmpty(quest.getDescription()),
-                nullToEmpty(quest.getCreatorUsername()))
-                .toLowerCase(Locale.ROOT);
+                nullToEmpty(quest.getCreatorUsername())));
         return haystack.contains(query);
     }
 
@@ -545,12 +542,11 @@ final class VisionCapabilityEntityResolutionSupport {
         if (questId != null) {
             return questId.equals(application.getQuestId());
         }
-        String query = normalizeEntityQuery(SemanticEntityFamily.APPLICATION, rawQuery).toLowerCase(Locale.ROOT);
-        String haystack = String.join(" ",
+        String query = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.APPLICATION, rawQuery));
+        String haystack = TextValueNormalizer.lowerToEmpty(String.join(" ",
                 nullToEmpty(application.getQuestTitle()),
                 nullToEmpty(application.getQuestDescription()),
-                nullToEmpty(application.getQuestCreatorUsername()))
-                .toLowerCase(Locale.ROOT);
+                nullToEmpty(application.getQuestCreatorUsername())));
         return haystack.contains(query);
     }
 
@@ -562,13 +558,12 @@ final class VisionCapabilityEntityResolutionSupport {
         if (applicationId != null) {
             return applicationId.equals(application.getId());
         }
-        String query = normalizeEntityQuery(SemanticEntityFamily.APPLICATION, rawQuery).toLowerCase(Locale.ROOT);
-        String haystack = String.join(" ",
+        String query = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.APPLICATION, rawQuery));
+        String haystack = TextValueNormalizer.lowerToEmpty(String.join(" ",
                 nullToEmpty(application.getQuestTitle()),
                 nullToEmpty(application.getQuestDescription()),
                 nullToEmpty(application.getQuestCreatorUsername()),
-                "#" + application.getId())
-                .toLowerCase(Locale.ROOT);
+                "#" + application.getId()));
         return haystack.contains(query);
     }
 
@@ -576,10 +571,9 @@ final class VisionCapabilityEntityResolutionSupport {
         if (application == null || !hasText(rawQuery)) {
             return false;
         }
-        String haystack = String.join(" ",
+        String haystack = TextValueNormalizer.lowerToEmpty(String.join(" ",
                 nullToEmpty(application.getApplicantUsername()),
-                nullToEmpty(application.getApplicantProfileDescription()))
-                .toLowerCase(Locale.ROOT);
+                nullToEmpty(application.getApplicantProfileDescription())));
         return haystack.contains(normalizedQuery);
     }
 
@@ -622,7 +616,7 @@ final class VisionCapabilityEntityResolutionSupport {
         if (questId != null) {
             return questId.equals(quest.getId());
         }
-        String query = normalizeEntityQuery(SemanticEntityFamily.QUEST, rawQuery).toLowerCase(Locale.ROOT);
+        String query = TextValueNormalizer.lowerTrimToEmpty(normalizeEntityQuery(SemanticEntityFamily.QUEST, rawQuery));
         return matchesQuestQuery(quest, query);
     }
 

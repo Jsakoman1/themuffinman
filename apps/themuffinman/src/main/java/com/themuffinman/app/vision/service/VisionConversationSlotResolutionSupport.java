@@ -1,9 +1,9 @@
 package com.themuffinman.app.vision.service;
 
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.vision.model.VisionConversation;
 
 import java.util.List;
-import java.util.Locale;
 
 final class VisionConversationSlotResolutionSupport {
 
@@ -351,12 +351,12 @@ final class VisionConversationSlotResolutionSupport {
             VisionPromptUnderstandingResult understanding
     ) {
         if (shouldUseSemanticSlotValue(conversation, understanding, SLOT_PROFILE_LOCATION_MODE)) {
-            return semanticSlotValue(understanding, SLOT_PROFILE_LOCATION_MODE).trim().toUpperCase(Locale.ROOT);
+            return TextValueNormalizer.upperTrimToEmpty(semanticSlotValue(understanding, SLOT_PROFILE_LOCATION_MODE));
         }
         if (normalizedPrompt == null || normalizedPrompt.isBlank()) {
             return null;
         }
-        String lower = normalizedPrompt.trim().toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(normalizedPrompt);
         if (conversation != null && SLOT_PROFILE_LOCATION_MODE.equals(conversation.getRequestedSlot())) {
             if (lower.contains("off") || lower.contains("hide")) {
                 return "OFF";
@@ -497,7 +497,7 @@ final class VisionConversationSlotResolutionSupport {
         if (prompt == null) {
             return false;
         }
-        String lower = prompt.trim().toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
         return PROFILE_DESCRIPTION_INSTRUCTION_PREFIXES.stream().anyMatch(lower::startsWith);
     }
 
@@ -505,7 +505,7 @@ final class VisionConversationSlotResolutionSupport {
         if (prompt == null) {
             return false;
         }
-        String lower = prompt.trim().toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(prompt);
         return lower.equals("update my profile")
                 || lower.equals("edit my profile")
                 || lower.equals("change my profile");

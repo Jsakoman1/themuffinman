@@ -2,7 +2,8 @@ package com.themuffinman.app.vision.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
+
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 
 final class VisionPromptTextSupport {
 
@@ -46,12 +47,12 @@ final class VisionPromptTextSupport {
         boolean changed;
         do {
             changed = false;
-            String lower = current.toLowerCase(Locale.ROOT);
+            String lower = TextValueNormalizer.lowerTrimToEmpty(current);
             for (String word : words) {
                 if (word == null || word.isBlank()) {
                     continue;
                 }
-                String normalizedWord = word.trim().toLowerCase(Locale.ROOT);
+                String normalizedWord = TextValueNormalizer.lowerTrimToEmpty(word);
                 if (lower.equals(normalizedWord)) {
                     return null;
                 }
@@ -80,13 +81,13 @@ final class VisionPromptTextSupport {
         }
 
         String normalized = normalizeWhitespace(value);
-        String lower = normalized.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(normalized);
         int cutIndex = -1;
         for (String connector : connectors) {
             if (connector == null || connector.isBlank()) {
                 continue;
             }
-            int index = lower.indexOf(connector.toLowerCase(Locale.ROOT));
+            int index = lower.indexOf(TextValueNormalizer.lowerTrimToEmpty(connector));
             if (index > 0 && (cutIndex < 0 || index < cutIndex)) {
                 cutIndex = index;
             }
@@ -125,13 +126,13 @@ final class VisionPromptTextSupport {
     }
 
     private static String findLongestPrefix(String value, Collection<String> prefixes) {
-        String lower = value.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerTrimToEmpty(value);
         String matchedPrefix = null;
         for (String prefix : prefixes) {
             if (prefix == null || prefix.isBlank()) {
                 continue;
             }
-            String normalizedPrefix = normalizeWhitespace(prefix).toLowerCase(Locale.ROOT);
+            String normalizedPrefix = TextValueNormalizer.lowerTrimToEmpty(normalizeWhitespace(prefix));
             if (!lower.startsWith(normalizedPrefix)) {
                 continue;
             }

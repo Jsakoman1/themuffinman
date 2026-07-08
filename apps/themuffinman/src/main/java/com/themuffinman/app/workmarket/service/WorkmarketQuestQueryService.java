@@ -1,7 +1,10 @@
 package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.common.pagination.PageWindow;
+import com.themuffinman.app.common.pagination.PaginationSupport;
+import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.location.service.LocationGeoService;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestAudience;
@@ -43,10 +46,10 @@ public class WorkmarketQuestQueryService {
             Integer size,
             int defaultSize
     ) {
-        String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
-        int safeSize = size == null || size < 1 ? defaultSize : size;
-        int safePage = page == null || page < 0 ? 0 : page;
-        Instant now = Instant.now();
+        String normalizedQuery = TextValueNormalizer.lowerTrimToEmpty(SearchQueryNormalizer.normalize(query));
+        int safeSize = PaginationSupport.safeSize(size, defaultSize, Integer.MAX_VALUE);
+        int safePage = PaginationSupport.safePage(page);
+        Instant now = TimeSupport.now();
 
         List<Quest> quests = sourceQuests.stream()
                 .filter(quest -> audience == null || quest.getAudience() == audience)
@@ -161,7 +164,7 @@ public class WorkmarketQuestQueryService {
             BigDecimal originLongitude,
             Instant now
     ) {
-        String normalizedSort = sort == null ? "recommended" : sort.trim().toLowerCase(Locale.ROOT);
+        String normalizedSort = sort == null ? "recommended" : TextValueNormalizer.lowerTrimToEmpty(sort);
 
         return switch (normalizedSort) {
             case "newest" -> Comparator
@@ -303,6 +306,6 @@ public class WorkmarketQuestQueryService {
     }
 
     private String safeLower(String value) {
-        return value == null ? "" : value.toLowerCase(Locale.ROOT);
+        return TextValueNormalizer.lowerTrimToEmpty(value);
     }
 }

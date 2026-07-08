@@ -8,6 +8,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.dto.LocationReverseLookupRequestDTO;
 import com.themuffinman.app.location.service.LocationLookupService;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +47,7 @@ public class LocationLookupController {
             return "anonymous";
         }
 
-        return authentication.getName().trim().toLowerCase();
+        return TextValueNormalizer.lowerTrimToEmpty(authentication.getName());
     }
 
     private void validateAdmin(AppUser currentUser) {

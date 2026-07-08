@@ -2,6 +2,7 @@ package com.themuffinman.app.agent.service;
 
 import com.themuffinman.app.prompt.PromptSemanticPlan;
 import com.themuffinman.app.prompt.PromptSemanticsSupport;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.semantic.SemanticEnvelope;
 import com.themuffinman.app.vision.model.VisionIntent;
 import com.themuffinman.app.vision.service.VisionSemanticRouteCatalogService;
@@ -25,7 +26,7 @@ public class AdminAgentPromptPreparationService {
 
     public AdminAgentPromptTranslation preparePrompt(String prompt) {
         String normalizedPrompt = prompt == null ? "" : prompt.trim().replaceAll("\\s+", " ");
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         boolean englishPrompt = isLikelyEnglish(lower);
         PromptSemanticPlan semanticPlan = promptSemanticsSupport.inferPlan(normalizedPrompt);
         SemanticEnvelope semanticEnvelope = SemanticEnvelope.builder()
@@ -90,7 +91,7 @@ public class AdminAgentPromptPreparationService {
             return VisionIntent.UNSUPPORTED;
         }
         try {
-            return VisionIntent.valueOf(semanticPlan.getCandidateIntent().trim().toUpperCase(Locale.ROOT));
+            return VisionIntent.valueOf(TextValueNormalizer.upperTrimToEmpty(semanticPlan.getCandidateIntent()));
         } catch (IllegalArgumentException exception) {
             return VisionIntent.UNSUPPORTED;
         }

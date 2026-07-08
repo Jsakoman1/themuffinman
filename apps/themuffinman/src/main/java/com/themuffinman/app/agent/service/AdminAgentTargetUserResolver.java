@@ -1,12 +1,12 @@
 package com.themuffinman.app.agent.service;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class AdminAgentTargetUserResolver {
@@ -49,7 +49,7 @@ public class AdminAgentTargetUserResolver {
             normalized = normalized.substring(1);
         }
         normalized = normalized.replace("\"", "").replace("'", "");
-        return normalized.isBlank() ? null : normalized.toLowerCase(Locale.ROOT);
+        return normalized.isBlank() ? null : TextValueNormalizer.lowerToEmpty(normalized);
     }
 
     private String rawLabel(String value) {

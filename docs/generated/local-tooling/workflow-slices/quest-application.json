@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T08:55:54Z",
+  "generated_at": "2026-07-08T18:17:35Z",
   "workflow": "quest-application",
   "state_machine": {
     "id": "quest_application_lifecycle",
@@ -101,10 +101,22 @@
       "lines": 507
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionApproveApplicationExecutionAdapter.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 44
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java",
       "category": "backend_service",
       "domain": "shared",
-      "lines": 150
+      "lines": 154
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionDeclineApplicationExecutionAdapter.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 44
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java",
@@ -116,7 +128,13 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java",
       "category": "backend_service",
       "domain": "shared",
-      "lines": 878
+      "lines": 921
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSurfacePolicy.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 65
     }
   ],
   "tests": [
@@ -126,6 +144,7 @@
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java",
     "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java"
@@ -135,7 +154,7 @@
       "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "lines": 1768
+      "lines": 1935
     }
   ],
   "docs_refs": [
@@ -149,7 +168,7 @@
     "docs/workflow-state-machines.yaml"
   ],
   "recommended_commands": [
-    "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest,VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest,AgentOperatingModelValidationTest,VisionConversationServiceTest,VisionSemanticAuditMatrixTest,VisionSemanticContractSanitizerTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest,VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest,AgentOperatingModelValidationTest,VisionConversationServiceTest,VisionExecutionServiceTest,VisionSemanticAuditMatrixTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest",
     "cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest"

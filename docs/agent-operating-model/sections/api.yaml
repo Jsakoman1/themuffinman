@@ -576,6 +576,191 @@ api:
     path: "/business/profiles/{slug}"
     controller_class: com.themuffinman.app.business.controller.BusinessProfileController
     handler_method: getProfileBySlug
+  - id: get_my_business_offerings
+    method: GET
+    path: "/business/offerings/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOfferingController
+    handler_method: getMyOfferings
+  - id: create_my_business_offering
+    method: POST
+    path: "/business/offerings/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOfferingController
+    handler_method: createMyOffering
+  - id: update_my_business_offering
+    method: PUT
+    path: "/business/offerings/{offeringId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOfferingController
+    handler_method: updateMyOffering
+  - id: delete_my_business_offering
+    method: DELETE
+    path: "/business/offerings/{offeringId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOfferingController
+    handler_method: deleteMyOffering
+  - id: get_my_business_booking_policy
+    method: GET
+    path: "/business/booking-policy/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingPolicyController
+    handler_method: getMyPolicy
+  - id: save_my_business_booking_policy
+    method: PUT
+    path: "/business/booking-policy/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingPolicyController
+    handler_method: saveMyPolicy
+  - id: get_my_business_availability_rules
+    method: GET
+    path: "/business/availability-rules/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: getMyRules
+  - id: create_my_business_availability_rule
+    method: POST
+    path: "/business/availability-rules/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: createMyRule
+  - id: update_my_business_availability_rule
+    method: PUT
+    path: "/business/availability-rules/{ruleId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: updateMyRule
+  - id: delete_my_business_availability_rule
+    method: DELETE
+    path: "/business/availability-rules/{ruleId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: deleteMyRule
+  - id: get_my_business_availability_exceptions
+    method: GET
+    path: "/business/availability-exceptions/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: getMyExceptions
+  - id: create_my_business_availability_exception
+    method: POST
+    path: "/business/availability-exceptions/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: createMyException
+  - id: update_my_business_availability_exception
+    method: PUT
+    path: "/business/availability-exceptions/{exceptionId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: updateMyException
+  - id: delete_my_business_availability_exception
+    method: DELETE
+    path: "/business/availability-exceptions/{exceptionId}/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: deleteMyException
+  - id: get_public_business_availability
+    method: GET
+    path: "/business/public/{slug}/availability"
+    controller_class: com.themuffinman.app.business.controller.BusinessAvailabilityController
+    handler_method: getPublicAvailability
+  - id: get_public_business_page
+    method: GET
+    path: "/business/public/{slug}"
+    controller_class: com.themuffinman.app.business.controller.BusinessPublicController
+    handler_method: getPublicBusinessPage
+  - id: get_public_business_offerings
+    method: GET
+    path: "/business/public/{slug}/offerings"
+    controller_class: com.themuffinman.app.business.controller.BusinessPublicController
+    handler_method: getPublicOfferings
+  - id: create_business_booking
+    method: POST
+    path: "/business/bookings"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: createBooking
+  - id: get_my_business_bookings
+    method: GET
+    path: "/business/bookings/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getMyBookings
+  - id: get_my_business_booking
+    method: GET
+    path: "/business/bookings/me/{bookingId}"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getMyBooking
+  - id: cancel_my_business_booking
+    method: POST
+    path: "/business/bookings/me/{bookingId}/cancel"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: cancelMyBooking
+  - id: create_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: createOwnerBooking
+  - id: get_owner_business_bookings
+    method: GET
+    path: "/business/bookings/owner"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getOwnerBookings
+  - id: get_owner_business_booking_schedule
+    method: GET
+    path: "/business/bookings/owner/schedule"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getOwnerSchedule
+  - id: get_owner_business_booking_calendar
+    method: GET
+    path: "/business/bookings/owner/calendar"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getOwnerCalendar
+  - id: get_owner_business_booking
+    method: GET
+    path: "/business/bookings/owner/{bookingId}"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: getOwnerBooking
+  - id: confirm_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/confirm"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: confirmBooking
+  - id: reject_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/reject"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: rejectBooking
+  - id: cancel_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/cancel"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: cancelOwnerBooking
+  - id: complete_owner_business_booking
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/complete"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: completeBooking
+  - id: mark_owner_business_booking_no_show
+    method: POST
+    path: "/business/bookings/owner/{bookingId}/mark-no-show"
+    controller_class: com.themuffinman.app.business.controller.BusinessBookingController
+    handler_method: markNoShow
+  - id: get_my_business_dashboard
+    method: GET
+    path: "/business/dashboard/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessOwnerDashboardController
+    handler_method: getMyDashboard
+  - id: get_my_business_dashboard_schedule
+    method: GET
+    path: "/business/dashboard/me/schedule"
+    controller_class: com.themuffinman.app.business.controller.BusinessOwnerDashboardController
+    handler_method: getMySchedule
+  - id: get_my_business_gallery
+    method: GET
+    path: "/business/gallery/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessGalleryController
+    handler_method: getMyGallery
+  - id: create_my_business_gallery_image
+    method: POST
+    path: "/business/gallery/me"
+    controller_class: com.themuffinman.app.business.controller.BusinessGalleryController
+    handler_method: createMyGalleryImage
+  - id: update_my_business_gallery_image
+    method: PUT
+    path: "/business/gallery/me/{imageId}"
+    controller_class: com.themuffinman.app.business.controller.BusinessGalleryController
+    handler_method: updateMyGalleryImage
+  - id: delete_my_business_gallery_image
+    method: DELETE
+    path: "/business/gallery/me/{imageId}"
+    controller_class: com.themuffinman.app.business.controller.BusinessGalleryController
+    handler_method: deleteMyGalleryImage
   - id: get_thing_listings
     method: GET
     path: "/things/listings"

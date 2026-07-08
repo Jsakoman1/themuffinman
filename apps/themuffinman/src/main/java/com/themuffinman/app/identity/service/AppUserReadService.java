@@ -3,7 +3,7 @@ package com.themuffinman.app.identity.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.identity.repository.AppUserRepository;
-import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
+import com.themuffinman.app.common.search.SearchTextSupport;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.mapper.WorkmarketQuestMgr;
 import com.themuffinman.app.workmarket.model.QuestStatus;
@@ -27,7 +27,7 @@ public class AppUserReadService {
 
     @Transactional(readOnly = true)
     public List<AppUser> getAllAppUsers(String query) {
-        String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase();
+        String normalizedQuery = SearchTextSupport.normalizeQuery(query);
 
         return appUserRepository.findAll().stream()
                 .filter(appUser -> matchesUserQuery(appUser, normalizedQuery))
@@ -59,19 +59,11 @@ public class AppUserReadService {
             return true;
         }
 
-        return normalizedHaystack(
+        return SearchTextSupport.containsAnyNormalized(normalizedQuery,
                 appUser.getUsername(),
                 appUser.getEmail(),
                 appUser.getRole() == null ? AppUserRole.USER.name() : appUser.getRole().name(),
                 appUser.getProfileDescription()
-        ).contains(normalizedQuery);
-    }
-
-    private String normalizedHaystack(String... values) {
-        return java.util.Arrays.stream(values)
-                .map(value -> value == null ? "" : value)
-                .reduce((left, right) -> left + " " + right)
-                .orElse("")
-                .toLowerCase();
+        );
     }
 }

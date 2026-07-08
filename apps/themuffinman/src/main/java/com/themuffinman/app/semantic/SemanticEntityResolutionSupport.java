@@ -1,7 +1,7 @@
 package com.themuffinman.app.semantic;
 
 import java.util.List;
-import java.util.Locale;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 
 public final class SemanticEntityResolutionSupport {
 
@@ -80,7 +80,7 @@ public final class SemanticEntityResolutionSupport {
         if (ambiguityReason == null || ambiguityReason.isBlank()) {
             return false;
         }
-        String normalized = ambiguityReason.toLowerCase(Locale.ROOT);
+        String normalized = TextValueNormalizer.lowerToEmpty(ambiguityReason);
         return normalized.contains("several")
                 || normalized.contains("multiple")
                 || normalized.contains("ambiguous");
@@ -90,6 +90,6 @@ public final class SemanticEntityResolutionSupport {
         if (value == null || value.isBlank()) {
             return null;
         }
-        return value.trim().toLowerCase(Locale.ROOT);
+        return TextValueNormalizer.lowerTrimToEmpty(value);
     }
 }

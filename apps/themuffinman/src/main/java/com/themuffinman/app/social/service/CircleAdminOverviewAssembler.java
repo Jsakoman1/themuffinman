@@ -1,6 +1,6 @@
 package com.themuffinman.app.social.service;
 
-import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
+import com.themuffinman.app.common.search.SearchTextSupport;
 import com.themuffinman.app.social.dto.AdminCircleGroupResponseDTO;
 import com.themuffinman.app.social.dto.AdminCircleOverviewDTO;
 import com.themuffinman.app.social.dto.AdminCircleRelationRowDTO;
@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class CircleAdminOverviewAssembler {
             List<CircleRequest> relations,
             String query
     ) {
-        String normalizedQuery = normalizeSearchQuery(query);
+        String normalizedQuery = SearchTextSupport.normalizeQuery(query);
         return AdminCircleOverviewDTO.builder()
                 .circles(circles.stream()
                         .filter(circle -> matchesAdminCircleQuery(circle, normalizedQuery))
@@ -59,7 +58,7 @@ public class CircleAdminOverviewAssembler {
         if (normalizedQuery.isBlank()) {
             return true;
         }
-        return containsNormalized(normalizedQuery,
+        return SearchTextSupport.containsAnyNormalized(normalizedQuery,
                 circle.getName(),
                 circle.getOwnerUsername(),
                 circle.getMemberPreviewLabel()
@@ -70,25 +69,10 @@ public class CircleAdminOverviewAssembler {
         if (normalizedQuery.isBlank()) {
             return true;
         }
-        return containsNormalized(normalizedQuery,
+        return SearchTextSupport.containsAnyNormalized(normalizedQuery,
                 relation.getRequester().getUsername(),
                 relation.getRecipient().getUsername()
         );
-    }
-
-    private String normalizeSearchQuery(String query) {
-        return SearchQueryNormalizer.normalize(query).toLowerCase();
-    }
-
-    private boolean containsNormalized(String normalizedQuery, String... values) {
-        return normalizedHaystack(values).contains(normalizedQuery);
-    }
-
-    private String normalizedHaystack(String... values) {
-        return java.util.Arrays.stream(values)
-                .map(value -> value == null ? "" : value)
-                .collect(Collectors.joining(" "))
-                .toLowerCase();
     }
 
     private enum AdminRelationType {

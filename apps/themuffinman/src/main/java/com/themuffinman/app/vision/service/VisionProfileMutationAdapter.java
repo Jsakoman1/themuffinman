@@ -9,10 +9,9 @@ import com.themuffinman.app.identity.service.AppUserService;
 import com.themuffinman.app.location.dto.UserLocationSettingsDTO;
 import com.themuffinman.app.location.dto.UserLocationSettingsRequestDTO;
 import com.themuffinman.app.location.model.UserLocationMode;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Locale;
 
 @RequiredArgsConstructor
 @Service
@@ -52,7 +51,7 @@ class VisionProfileMutationAdapter {
         UserLocationSettingsDTO currentSettings = appUserMgr.toDto(existingUser).getLocationSettings();
         UserLocationMode mode = locationMode == null || locationMode.isBlank()
                 ? currentSettings == null || currentSettings.getMode() == null ? UserLocationMode.OFF : currentSettings.getMode()
-                : UserLocationMode.valueOf(locationMode.trim().toUpperCase(Locale.ROOT));
+                : UserLocationMode.valueOf(TextValueNormalizer.upperTrimToEmpty(locationMode));
         AppUserRequestDTO request = AppUserRequestDTO.builder()
                 .email(existingUser.getEmail())
                 .username(existingUser.getUsername())

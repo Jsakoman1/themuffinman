@@ -17,6 +17,7 @@ import com.themuffinman.app.vision.repository.VisionMemoryFeedbackEventRepositor
 import com.themuffinman.app.vision.repository.VisionMemorySummaryRepository;
 import com.themuffinman.app.vision.repository.VisionUserPreferenceRepository;
 import com.themuffinman.app.config.VisionProperties;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -249,7 +250,7 @@ public class VisionLearningService {
             parts.add("requestedSlot=" + turn.getRequestedSlot());
         }
         if (turn.getSource() != null) {
-            parts.add("source=" + turn.getSource().name().toLowerCase(Locale.ROOT));
+            parts.add("source=" + TextValueNormalizer.lowerToEmpty(turn.getSource().name()));
         }
         if (turn.getNormalizedPrompt() != null && !turn.getNormalizedPrompt().isBlank()) {
             parts.add("normalizedPrompt=" + turn.getNormalizedPrompt());
@@ -293,8 +294,8 @@ public class VisionLearningService {
         }
         if (!feedbackEvents.isEmpty()) {
             summaryParts.add("Recent feedback: " + feedbackEvents.stream()
-                    .limit(Math.max(1, feedbackWindow))
-                    .map(event -> event.getFeedbackType() == null ? "unknown" : event.getFeedbackType().name().toLowerCase(Locale.ROOT))
+                .limit(Math.max(1, feedbackWindow))
+                    .map(event -> event.getFeedbackType() == null ? "unknown" : TextValueNormalizer.lowerToEmpty(event.getFeedbackType().name()))
                     .toList());
         }
         return String.join(" | ", summaryParts);
@@ -361,7 +362,7 @@ public class VisionLearningService {
         if (value == null || value.isBlank()) {
             return null;
         }
-        return value.trim().toLowerCase(Locale.ROOT);
+        return TextValueNormalizer.lowerTrimToEmpty(value);
     }
 
 }

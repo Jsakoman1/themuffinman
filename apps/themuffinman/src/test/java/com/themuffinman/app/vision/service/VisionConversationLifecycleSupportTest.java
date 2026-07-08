@@ -51,4 +51,12 @@ class VisionConversationLifecycleSupportTest {
         assertEquals(VisionNextAction.SHOW_RESULTS, turn.getNextAction());
         assertEquals("Conversation resumed.", turn.getAssistantMessage());
     }
+
+    @Test
+    void resetMessageSupportsBusinessViews() {
+        assertEquals(
+                "The current view was reset. Business.",
+                VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_BUSINESS)
+        );
+    }
 }

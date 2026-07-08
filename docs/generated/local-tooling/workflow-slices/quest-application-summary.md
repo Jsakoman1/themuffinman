@@ -1,6 +1,6 @@
 # Workflow Slice quest-application
 
-- Next action: `cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest,VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest,AgentOperatingModelValidationTest,VisionConversationServiceTest,VisionSemanticAuditMatrixTest,VisionSemanticContractSanitizerTest`, `cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest`, `cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest`
+- Next action: `cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest,VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest,AgentOperatingModelValidationTest,VisionConversationServiceTest,VisionExecutionServiceTest,VisionSemanticAuditMatrixTest`, `cd apps/themuffinman && ./mvnw test -Dtest=QuestWorkflowScenarioTest`, `cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,DashboardVisionPromptServiceTest`
 
 ## Details
 

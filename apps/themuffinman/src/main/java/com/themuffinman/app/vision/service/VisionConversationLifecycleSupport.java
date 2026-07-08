@@ -11,7 +11,7 @@ import com.themuffinman.app.vision.model.VisionTurn;
 import com.themuffinman.app.vision.model.VisionTurnSource;
 import com.themuffinman.app.vision.repository.VisionConversationRepository;
 
-import java.util.Locale;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 
 final class VisionConversationLifecycleSupport {
 
@@ -34,7 +34,7 @@ final class VisionConversationLifecycleSupport {
             return false;
         }
 
-        String normalizedPrompt = prompt.trim().toLowerCase(Locale.ROOT)
+        String normalizedPrompt = TextValueNormalizer.lowerTrimToEmpty(prompt)
                 .replaceAll("[.!?]+$", "");
         return normalizedPrompt.equals("cancel")
                 || normalizedPrompt.equals("cancel quest")
@@ -138,6 +138,10 @@ final class VisionConversationLifecycleSupport {
                 ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_PROFILE)
                 : intent == VisionIntent.VIEW_SETTINGS
                 ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_SETTINGS)
+                : intent == VisionIntent.VIEW_BUSINESS
+                ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_BUSINESS)
+                : intent == VisionIntent.VIEW_BUSINESS_AVAILABILITY
+                ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_BUSINESS_AVAILABILITY)
                 : intent == VisionIntent.VIEW_USER_PROFILE
                 ? "The current user profile view was reset. What profile should I open?"
                 : intent == VisionIntent.VIEW_CIRCLES
@@ -161,6 +165,8 @@ final class VisionConversationLifecycleSupport {
                 || intent == VisionIntent.VIEW_CHAT_WORKSPACE
                 || intent == VisionIntent.VIEW_PROFILE
                 || intent == VisionIntent.VIEW_SETTINGS
+                || intent == VisionIntent.VIEW_BUSINESS
+                || intent == VisionIntent.VIEW_BUSINESS_AVAILABILITY
                 || intent == VisionIntent.VIEW_CIRCLES
                 || intent == VisionIntent.VIEW_NOTIFICATIONS
                 || intent == VisionIntent.VIEW_APPLICATIONS;
@@ -238,6 +244,7 @@ final class VisionConversationLifecycleSupport {
             case UPDATE_PROFILE -> "profile_username";
             case UPDATE_PROFILE_LOCATION -> "profile_location_mode";
             case VIEW_CHAT_WORKSPACE -> null;
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> null;
             case VIEW_USER_PROFILE -> "target_user";
             case VIEW_CIRCLES -> null;
             case VIEW_CIRCLE_DETAIL -> "target_circle_query";

@@ -1,7 +1,8 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.common.normalization.SearchQueryNormalizer;
 import com.themuffinman.app.common.pagination.PageResponseFactory;
+import com.themuffinman.app.common.pagination.PaginationSupport;
+import com.themuffinman.app.common.search.SearchTextSupport;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 @Service("workmarketQuestApplicationAdminQueryService")
 @RequiredArgsConstructor
@@ -41,9 +41,9 @@ public class WorkmarketQuestApplicationAdminQueryService {
     ) {
         workflowSupport.validateAdmin(currentUser);
 
-        String normalizedQuery = SearchQueryNormalizer.normalize(query).toLowerCase(Locale.ROOT);
-        int safeSize = size == null || size < 1 ? 20 : size;
-        int safePage = page == null || page < 0 ? 0 : page;
+        String normalizedQuery = SearchTextSupport.normalizeQuery(query);
+        int safeSize = PaginationSupport.safeSize(size, 20, Integer.MAX_VALUE);
+        int safePage = PaginationSupport.safePage(page);
 
         List<QuestApplicationResponseDTO> filtered = questApplicationRepository.findForAdminApplicationList().stream()
                 .map(this::toManagementResponse)
@@ -70,15 +70,13 @@ public class WorkmarketQuestApplicationAdminQueryService {
             return true;
         }
 
-        return containsNormalized(application.getQuestTitle(), normalizedQuery)
-                || containsNormalized(application.getQuestCreatorUsername(), normalizedQuery)
-                || containsNormalized(application.getApplicantUsername(), normalizedQuery)
-                || containsNormalized(application.getQuestStatus().name(), normalizedQuery)
-                || containsNormalized(application.getStatus().name(), normalizedQuery)
-                || containsNormalized(application.getMessage(), normalizedQuery);
-    }
-
-    private boolean containsNormalized(String value, String normalizedQuery) {
-        return value != null && value.toLowerCase(Locale.ROOT).contains(normalizedQuery);
+        return SearchTextSupport.containsAnyNormalized(normalizedQuery,
+                application.getQuestTitle(),
+                application.getQuestCreatorUsername(),
+                application.getApplicantUsername(),
+                application.getQuestStatus().name(),
+                application.getStatus().name(),
+                application.getMessage()
+        );
     }
 }

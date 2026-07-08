@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-08T08:20:26Z",
+  "generated_at": "2026-07-08T18:17:32Z",
   "registry_entries": 69,
-  "tracked_outputs": 26,
+  "tracked_outputs": 27,
   "templated_outputs": 13,
-  "missing_outputs": 30,
+  "missing_outputs": 29,
   "registry": [
     {
       "target": "audit-change-impact-preflight",
@@ -504,7 +504,7 @@
       "target": "api-contract-snapshot",
       "script": "scripts/audits/generate-api-contract-snapshot.rb",
       "output": "docs/generated/local-tooling/api-contract-snapshot-summary.md",
-      "output_exists": false,
+      "output_exists": true,
       "output_mode": "static",
       "surface_class": "extended_support",
       "operator_default": false
@@ -644,13 +644,18 @@
       "bytes": 2221
     },
     {
+      "path": "docs/generated/local-tooling/api-contract-snapshot-summary.md",
+      "mtime": "2026-07-08T12:18:55Z",
+      "bytes": 1210
+    },
+    {
       "path": "docs/generated/local-tooling/architecture-drift-summary.md",
       "mtime": "2026-07-05T10:41:54Z",
       "bytes": 3932
     },
     {
       "path": "docs/generated/local-tooling/audit-documentation-summary.md",
-      "mtime": "2026-07-05T09:46:55Z",
+      "mtime": "2026-07-08T09:29:51Z",
       "bytes": 141
     },
     {
@@ -669,19 +674,34 @@
       "bytes": 1136
     },
     {
+      "path": "docs/generated/local-tooling/closeout-autofill/chat_prod_ready-summary.md",
+      "mtime": "2026-07-08T08:55:31Z",
+      "bytes": 335
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-reports/chat_advanced_hardening-summary.md",
+      "mtime": "2026-07-08T09:32:17Z",
+      "bytes": 896
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-reports/chat_prod_ready-summary.md",
+      "mtime": "2026-07-08T08:58:45Z",
+      "bytes": 924
+    },
+    {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-08T08:20:14Z",
+      "mtime": "2026-07-08T08:58:10Z",
       "bytes": 1628
     },
     {
       "path": "docs/generated/local-tooling/diff-summary.md",
-      "mtime": "2026-07-08T08:20:25Z",
-      "bytes": 1313
+      "mtime": "2026-07-08T08:58:08Z",
+      "bytes": 1241
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
-      "mtime": "2026-07-05T09:23:05Z",
-      "bytes": 2154
+      "mtime": "2026-07-08T08:54:15Z",
+      "bytes": 2224
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
@@ -699,6 +719,11 @@
       "bytes": 611
     },
     {
+      "path": "docs/generated/local-tooling/domain-packs/chat-summary.md",
+      "mtime": "2026-07-08T08:55:54Z",
+      "bytes": 614
+    },
+    {
       "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
       "mtime": "2026-07-07T06:38:39Z",
       "bytes": 26
@@ -707,6 +732,11 @@
       "path": "docs/generated/local-tooling/dto-usage-packs/adminuserdetaildto-summary.md",
       "mtime": "2026-07-08T06:23:20Z",
       "bytes": 1294
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/chatconversationsummarydto-summary.md",
+      "mtime": "2026-07-08T08:58:09Z",
+      "bytes": 2250
     },
     {
       "path": "docs/generated/local-tooling/dto-usage-packs/dashboardresponsedto-summary.md",
@@ -725,8 +755,8 @@
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
-      "mtime": "2026-07-03T14:48:12Z",
-      "bytes": 745
+      "mtime": "2026-07-08T10:09:51Z",
+      "bytes": 757
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/agent-summary.md",
@@ -735,38 +765,38 @@
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/app_users-summary.md",
-      "mtime": "2026-07-03T14:48:12Z",
-      "bytes": 1071
+      "mtime": "2026-07-08T10:09:51Z",
+      "bytes": 1083
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/applications-summary.md",
-      "mtime": "2026-07-03T14:48:12Z",
-      "bytes": 301
+      "mtime": "2026-07-08T10:09:51Z",
+      "bytes": 305
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/auth-summary.md",
-      "mtime": "2026-07-03T14:48:12Z",
+      "mtime": "2026-07-08T10:09:51Z",
       "bytes": 626
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
+      "mtime": "2026-07-08T10:09:51Z",
       "bytes": 1052
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
-      "bytes": 1247
+      "mtime": "2026-07-08T10:09:51Z",
+      "bytes": 1409
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
+      "mtime": "2026-07-08T10:09:52Z",
       "bytes": 1141
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/dashboard-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
-      "bytes": 1296
+      "mtime": "2026-07-08T10:09:52Z",
+      "bytes": 1316
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/index-summary.md",
@@ -775,32 +805,32 @@
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/location-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
+      "mtime": "2026-07-08T10:09:52Z",
       "bytes": 754
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/news-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
-      "bytes": 799
+      "mtime": "2026-07-08T10:09:52Z",
+      "bytes": 815
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/quests-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
-      "bytes": 1141
+      "mtime": "2026-07-08T10:09:52Z",
+      "bytes": 1161
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/rides-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
+      "mtime": "2026-07-08T10:09:52Z",
       "bytes": 697
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/things-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
+      "mtime": "2026-07-08T10:09:52Z",
       "bytes": 1042
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/vision-summary.md",
-      "mtime": "2026-07-03T14:48:13Z",
+      "mtime": "2026-07-08T10:09:52Z",
       "bytes": 1334
     },
     {
@@ -815,8 +845,8 @@
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-08T08:20:15Z",
-      "bytes": 1039
+      "mtime": "2026-07-08T08:58:10Z",
+      "bytes": 732
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
@@ -842,6 +872,11 @@
       "path": "docs/generated/local-tooling/plan-completion/backend-drift-remediation-master-plan-summary.md",
       "mtime": "2026-07-06T05:41:50Z",
       "bytes": 242
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/chat-prod-ready-plan-summary.md",
+      "mtime": "2026-07-08T08:58:07Z",
+      "bytes": 363
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/control-system-final-polish-plan-summary.md",
@@ -909,6 +944,11 @@
       "bytes": 288
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/platform-final-polish-master-plan-summary.md",
+      "mtime": "2026-07-08T08:21:44Z",
+      "bytes": 338
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/platform-last-mile-ten-master-plan-summary.md",
       "mtime": "2026-07-08T08:10:25Z",
       "bytes": 313
@@ -947,6 +987,11 @@
       "path": "docs/generated/local-tooling/plan-completion/vision-final-legacy-removal-master-plan-summary.md",
       "mtime": "2026-07-07T20:35:44Z",
       "bytes": 246
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/vision-final-polish-plan-summary.md",
+      "mtime": "2026-07-08T08:20:31Z",
+      "bytes": 320
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/vision-final-quest-helper-cleanup-plan-summary.md",
@@ -1130,8 +1175,8 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-08T08:20:24Z",
-      "bytes": 232
+      "mtime": "2026-07-08T18:17:32Z",
+      "bytes": 3469
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
@@ -1157,6 +1202,11 @@
       "path": "docs/generated/local-tooling/symbol-test-links/appusercontroller-summary.md",
       "mtime": "2026-07-07T18:43:36Z",
       "bytes": 2034
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/chatcontroller-summary.md",
+      "mtime": "2026-07-08T08:55:54Z",
+      "bytes": 1097
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/dashboardcontroller-summary.md",
@@ -1225,8 +1275,8 @@
     },
     {
       "path": "docs/generated/local-tooling/targeted-tests-summary.md",
-      "mtime": "2026-07-07T16:32:21Z",
-      "bytes": 2688
+      "mtime": "2026-07-08T08:36:19Z",
+      "bytes": 1019
     },
     {
       "path": "docs/generated/local-tooling/temp-work-product-closeout/agents-control-system-maintenance-plan-md-summary.md",
@@ -1240,12 +1290,12 @@
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
-      "mtime": "2026-07-04T10:02:52Z",
+      "mtime": "2026-07-08T08:55:52Z",
       "bytes": 777
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
-      "mtime": "2026-07-07T15:38:07Z",
+      "mtime": "2026-07-08T09:32:06Z",
       "bytes": 1147
     },
     {
@@ -1255,7 +1305,7 @@
     },
     {
       "path": "docs/generated/local-tooling/workflow-slices/quest-application-summary.md",
-      "mtime": "2026-07-08T06:23:20Z",
+      "mtime": "2026-07-08T08:55:54Z",
       "bytes": 720
     }
   ],

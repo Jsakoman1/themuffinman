@@ -1,6 +1,7 @@
 package com.themuffinman.app.storage;
 
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.config.ObjectStorageProperties;
 import jakarta.annotation.PreDestroy;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -83,7 +84,7 @@ public class S3ObjectStorageService implements ObjectStorageService {
             return new ObjectStorageAccess(properties.getProvider(), storageKey, baseUrl + "/" + storageKey, null);
         }
         long ttlSeconds = Math.max(properties.getPresignedUrlTtlSeconds(), 60);
-        Instant expiresAt = Instant.now().plusSeconds(ttlSeconds);
+        Instant expiresAt = TimeSupport.now().plusSeconds(ttlSeconds);
         try {
             String url = s3Presigner.presignGetObject(GetObjectPresignRequest.builder()
                             .signatureDuration(Duration.ofSeconds(ttlSeconds))

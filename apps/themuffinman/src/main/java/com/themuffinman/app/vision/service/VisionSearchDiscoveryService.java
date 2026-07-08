@@ -14,6 +14,7 @@ import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryItemDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionIntent;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class VisionSearchDiscoveryService {
@@ -235,7 +235,7 @@ public class VisionSearchDiscoveryService {
         if (query == null || query.isBlank()) {
             return true;
         }
-        String normalizedQuery = query.trim().toLowerCase(Locale.ROOT);
+        String normalizedQuery = TextValueNormalizer.lowerTrimToEmpty(query);
         if (contains(left, normalizedQuery) || contains(right, normalizedQuery)) {
             return true;
         }
@@ -255,14 +255,14 @@ public class VisionSearchDiscoveryService {
         if (value == null || value.isBlank() || query == null || query.isBlank()) {
             return false;
         }
-        return value.toLowerCase(Locale.ROOT).contains(query);
+        return TextValueNormalizer.lowerTrimToEmpty(value).contains(query);
     }
 
     private boolean containsToken(String value, String token) {
         if (value == null || value.isBlank() || token == null || token.isBlank()) {
             return false;
         }
-        return value.toLowerCase(Locale.ROOT).contains(token);
+        return TextValueNormalizer.lowerTrimToEmpty(value).contains(token);
     }
 
     private int familyPriority(VisionSearchDiscoveryItemDTO item) {
@@ -316,7 +316,7 @@ public class VisionSearchDiscoveryService {
         if (value == null || value.isBlank() || query == null || query.isBlank()) {
             return 0;
         }
-        String normalizedValue = value.toLowerCase(Locale.ROOT);
+        String normalizedValue = TextValueNormalizer.lowerTrimToEmpty(value);
         if (normalizedValue.equals(query)) {
             return exactBoost;
         }
@@ -330,9 +330,9 @@ public class VisionSearchDiscoveryService {
         if (value == null || value.isBlank() || query == null || query.isBlank()) {
             return 0;
         }
-        String[] queryTokens = query.toLowerCase(Locale.ROOT).split("\\s+");
+        String[] queryTokens = TextValueNormalizer.lowerTrimToEmpty(query).split("\\s+");
         int overlap = 0;
-        String normalizedValue = value.toLowerCase(Locale.ROOT);
+        String normalizedValue = TextValueNormalizer.lowerTrimToEmpty(value);
         for (String token : queryTokens) {
             if (token.length() < 2) {
                 continue;
@@ -348,7 +348,7 @@ public class VisionSearchDiscoveryService {
         if (query == null) {
             return "";
         }
-        return query.toLowerCase(Locale.ROOT)
+        return TextValueNormalizer.lowerTrimToEmpty(query)
                 .replaceAll("\\b(find|search|browse|discover|recommend|show|available|anything|something|me|for|please|look|look for|who|what|people|person|someone|anyone|can|could|help|help me|nearby|around)\\b", " ")
                 .replaceAll("\\s+", " ")
                 .trim();

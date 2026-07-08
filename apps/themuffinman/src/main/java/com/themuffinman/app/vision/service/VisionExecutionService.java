@@ -3,10 +3,10 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionConversationStatus;
 import com.themuffinman.app.vision.model.VisionIntent;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
@@ -55,7 +55,7 @@ public class VisionExecutionService {
         VisionSemanticRouteDescriptor route = visionSemanticRouteCatalogService == null
                 ? null
                 : visionSemanticRouteCatalogService.routeForIntent(intent.name());
-        String capabilityId = route == null ? intent.name().toLowerCase(Locale.ROOT) : route.getCapabilityId();
+        String capabilityId = route == null ? TextValueNormalizer.lowerTrimToEmpty(intent.name()) : route.getCapabilityId();
         if (!visionSurfacePolicy.canExecuteCapability(capabilityId)) {
             return VisionExecutionResult.blocked("Execution is disabled by configuration.");
         }

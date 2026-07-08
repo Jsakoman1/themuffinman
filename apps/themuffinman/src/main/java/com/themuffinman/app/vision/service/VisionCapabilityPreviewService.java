@@ -46,12 +46,21 @@ public class VisionCapabilityPreviewService {
     private final VisionProfileMutationAdapter visionProfileMutationAdapter;
     private final VisionIdentityPreviewRenderer visionIdentityPreviewRenderer;
     private final VisionFeedPreviewRenderer visionFeedPreviewRenderer;
+    private final VisionBusinessPreviewRenderer visionBusinessPreviewRenderer;
     private final VisionCapabilityEntityResolutionSupport visionCapabilityEntityResolutionSupport;
     private final VisionWorkmarketPreviewRenderer visionWorkmarketPreviewRenderer;
     private final VisionWorkmarketApplicationMutationAdapter visionWorkmarketApplicationMutationAdapter;
 
     public VisionCapabilityPreviewDTO previewProfile(AppUser currentUser) {
         return visionIdentityPreviewRenderer.previewProfile(currentUser);
+    }
+
+    public VisionCapabilityPreviewDTO previewBusiness(AppUser currentUser) {
+        return visionBusinessPreviewRenderer.previewBusiness(currentUser);
+    }
+
+    public VisionCapabilityPreviewDTO previewBusinessAvailability(AppUser currentUser) {
+        return visionBusinessPreviewRenderer.previewBusinessAvailability(currentUser);
     }
 
     public VisionCapabilityPreviewDTO previewSettings(AppUser currentUser) {

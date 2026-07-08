@@ -83,6 +83,8 @@ class VisionIntentRouterTest {
         assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("notification center"));
         assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("notification hub"));
         assertEquals(VisionIntent.VIEW_NOTIFICATIONS, router.detectIntent("alerts inbox"));
+        assertEquals(VisionIntent.VIEW_BUSINESS, router.detectIntent("show my business"));
+        assertEquals(VisionIntent.VIEW_BUSINESS_AVAILABILITY, router.detectIntent("show business schedule"));
         assertEquals(VisionIntent.VIEW_QUEST_NEWS, router.detectIntent("show my news"));
         assertEquals(VisionIntent.VIEW_APPLICATION_DETAIL, router.detectIntent("show application #42"));
         assertEquals(VisionIntent.VIEW_THINGS, router.detectIntent("show available listings"));

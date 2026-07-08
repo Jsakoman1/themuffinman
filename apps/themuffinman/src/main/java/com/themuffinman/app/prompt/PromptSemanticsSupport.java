@@ -2,7 +2,7 @@ package com.themuffinman.app.prompt;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Locale;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 
 @Component
 public class PromptSemanticsSupport {
@@ -13,7 +13,7 @@ public class PromptSemanticsSupport {
         }
 
         String normalizedPrompt = normalizePrompt(prompt);
-        String lower = normalizedPrompt.toLowerCase(Locale.ROOT);
+        String lower = TextValueNormalizer.lowerToEmpty(normalizedPrompt);
         if (containsApplicationApproveSignals(lower)) {
             return PromptSemanticPlan.approveApplication(0.8d, "Local prompt signals match approve_application.", inferApprovalTarget(normalizedPrompt));
         }
@@ -110,7 +110,7 @@ public class PromptSemanticsSupport {
             return "";
         }
 
-        String extracted = prompt.toLowerCase(Locale.ROOT)
+        String extracted = TextValueNormalizer.lowerToEmpty(prompt)
                 .replace("show me open quests for", " ")
                 .replace("show open quests for", " ")
                 .replace("show me quests for", " ")

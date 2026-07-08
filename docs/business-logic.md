@@ -698,14 +698,20 @@ Current covered modules:
 ### What the module does
 
 - Business Hub lets an authenticated user publish one business profile tied to their account.
-- Active business profiles appear in a directory and can be opened as a simple mini-site style profile.
-- Appointment booking, calendars, and service catalogs are not implemented in this first slice yet.
+- Active business profiles appear in a directory and can be opened as a public business page.
+- A business may also publish bookable offerings, availability rules, booking policy defaults, gallery images, and owner schedule reads.
+- Booking workflow is backend-owned so the same contract can later support web, iPhone, and `/vision` clients without duplicating rules in the UI.
 
 ### Main surfaces
 
 - Business directory
-- Public business mini-site profile
+- Public business page
 - Current user's business profile editor
+- Current user's offering list and booking policy editor
+- Current user's availability editor
+- Public availability read and customer booking flow
+- Owner booking list, owner booking actions, and owner dashboard summary
+- Owner calendar projection for backend-prepared day-by-day schedule review
 
 ### Business profile rules
 
@@ -714,6 +720,32 @@ Current covered modules:
 - Slug is unique across business profiles and may be auto-generated from the business name when left blank.
 - Inactive profiles stay editable by their owner but do not appear in the public directory or public slug lookup.
 - Business descriptions are sanitized before being returned.
+- Booking can be enabled or disabled per business profile.
+- Business timezone is required before owner availability or real bookings can be used.
+
+### Business booking rules
+
+- A business offering is the actual bookable service root, not the profile row itself.
+- Offerings may be fixed-duration, customer-selected duration, or all-day offerings.
+- Offerings may allow one booking per slot or shared-capacity booking with multiple parallel reservations.
+- Availability is entered in the local business timezone through recurring rules plus exception rows.
+- Booking persistence stores absolute `startsAt` and `endsAt` timestamps and still returns timezone context in DTOs.
+- DST handling belongs to the backend availability and booking rules, not to frontend-only logic.
+- `INSTANT` offerings create `CONFIRMED` bookings immediately.
+- `REQUEST` offerings create `PENDING_CONFIRMATION` bookings that still reserve capacity immediately.
+- Customer booking create supports idempotency keys so retries do not easily create duplicate reservations.
+- Customer and owner booking lists start with backend pagination and filter contracts even before the UI needs the full surface.
+- Booking DTOs return backend-prepared `allowedActions`, `statusLabel`, and optional `blockingReason`.
+- Booking presentation and read paths stay side-effect-free; missing policy rows are created only by mutation flows.
+- Customer cancellation depends on business policy and the configured cancellation window.
+- Owner confirmation, rejection, cancellation, completion, and no-show marking are explicit backend transitions.
+- Historical bookings keep offering title, price, duration, and timezone snapshots so later offering edits do not rewrite history.
+- Offering removal is archival-safe deactivation rather than destructive history loss.
+- Owner schedule data can also be projected into a calendar-shaped backend read model that groups bookings by the business's local day so owner dashboards, booking lists, and mobile clients do not derive their own schedule buckets.
+- Gallery images are business-owned metadata rows and can be shown on the public page without changing booking workflow rules.
+- Owner dashboard and owner booking list both rely on the same owner schedule summary read-model so "what is happening today" stays consistent.
+- Future notification vocabulary is reserved around booking created, confirmed, rejected, cancelled, and reminder-style follow-up events.
+- `/vision` consumes business capabilities such as `view_business` and `view_business_availability` from the same backend-owned business model, and future booking mutations should reuse the same business policy, availability, and snapshot rules.
 
 ## Thing Sharing
 

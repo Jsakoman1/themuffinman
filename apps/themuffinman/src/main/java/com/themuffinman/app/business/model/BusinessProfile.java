@@ -52,6 +52,27 @@ public class BusinessProfile {
     @Column(name = "website_url", length = 300)
     private String websiteUrl;
 
+    @Column(length = 80)
+    private String timezone;
+
+    @Column(name = "booking_enabled", nullable = false)
+    private boolean bookingEnabled;
+
+    @Column(name = "public_address_label", length = 240)
+    private String publicAddressLabel;
+
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
+    @Column(name = "contact_whatsapp", length = 80)
+    private String contactWhatsapp;
+
+    @Column(name = "hero_image_url", length = 500)
+    private String heroImageUrl;
+
     @Column(nullable = false)
     private boolean active = true;
 

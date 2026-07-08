@@ -1,10 +1,10 @@
 # Audit Summary Index
 
 - Registry entries: 69
-- Tracked outputs: 26
+- Tracked outputs: 27
 - On-demand templates: 13
-- Missing outputs: 30
-- Summary files: 134
+- Missing outputs: 29
+- Summary files: 139
 - Operator-core targets: 10
 - Focused review targets: 12
 - Diagnostic targets: 11
@@ -41,16 +41,16 @@
 - `docs/generated/dead-code-audit/backend-unused-summary.md` | 2026-07-03T09:17:28Z | 3877 bytes
 - `docs/generated/dead-code-audit/dead-code-summary-summary.md` | 2026-07-03T09:17:28Z | 1298 bytes
 - `docs/generated/dead-code-audit/frontend-unused-summary.md` | 2026-07-03T09:17:21Z | 2221 bytes
+- `docs/generated/local-tooling/api-contract-snapshot-summary.md` | 2026-07-08T12:18:55Z | 1210 bytes
 - `docs/generated/local-tooling/architecture-drift-summary.md` | 2026-07-05T10:41:54Z | 3932 bytes
-- `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-08T08:54:15Z | 141 bytes
+- `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-08T09:29:51Z | 141 bytes
 - `docs/generated/local-tooling/audit-registry-artifacts-summary.md` | 2026-07-03T14:48:12Z | 142 bytes
 - `docs/generated/local-tooling/audit-router-summary.md` | 2026-07-07T16:32:18Z | 709 bytes
 - `docs/generated/local-tooling/backend-dependency-graph-summary.md` | 2026-07-05T09:11:22Z | 1136 bytes
 - `docs/generated/local-tooling/closeout-autofill/chat_prod_ready-summary.md` | 2026-07-08T08:55:31Z | 335 bytes
-- `docs/generated/local-tooling/closeout-reports/chat_prod_ready-summary.md` | 2026-07-08T08:58:07Z | 886 bytes
-- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-08T08:55:54Z | 1628 bytes
-- `docs/generated/local-tooling/diff-summary.md` | 2026-07-08T08:58:08Z | 1241 bytes
-- ... and 122 more
+- `docs/generated/local-tooling/closeout-reports/chat_advanced_hardening-summary.md` | 2026-07-08T09:32:17Z | 896 bytes
+- `docs/generated/local-tooling/closeout-reports/chat_prod_ready-summary.md` | 2026-07-08T08:58:45Z | 924 bytes
+- ... and 127 more
 
 ## Archive Policy
 

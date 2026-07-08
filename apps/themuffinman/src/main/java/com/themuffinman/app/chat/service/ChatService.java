@@ -23,6 +23,7 @@ import com.themuffinman.app.chat.dto.ChatMessageUpdateRequestDTO;
 import com.themuffinman.app.chat.dto.ChatOpenConversationRequestDTO;
 import com.themuffinman.app.chat.dto.ChatReceiptRequestDTO;
 import com.themuffinman.app.chat.dto.ChatWorkspaceDTO;
+import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.chat.model.ChatAttachmentUpload;
 import com.themuffinman.app.chat.model.ChatConversation;
 import com.themuffinman.app.chat.model.ChatConversationContextType;
@@ -1811,11 +1812,11 @@ public class ChatService {
             throw ServiceErrors.badRequest("Chat image must be a valid image data URL");
         }
         String metadata = normalized.substring(5, separatorIndex);
-        String mimeType = metadata.split(";")[0].trim().toLowerCase();
+        String mimeType = TextValueNormalizer.lowerTrimToEmpty(metadata.split(";")[0]);
         if (!chatProperties.getAttachments().getAllowedImageMimeTypes().contains(mimeType)) {
             throw ServiceErrors.badRequest("Chat image type is not allowed");
         }
-        if (!metadata.toLowerCase().contains(";base64")) {
+        if (!TextValueNormalizer.lowerToEmpty(metadata).contains(";base64")) {
             throw ServiceErrors.badRequest("Chat image must be base64 encoded");
         }
         byte[] decodedBytes;
