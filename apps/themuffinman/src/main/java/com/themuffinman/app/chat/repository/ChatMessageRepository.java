@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 
@@ -27,11 +28,43 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
     List<ChatMessage> findDetailedByConversationId(Long conversationId);
 
     @Query("""
+            select message from ChatMessage message
+            join fetch message.sender
+            where message.conversation.id = :conversationId
+              and (:beforeMessageId is null or message.id < :beforeMessageId)
+            order by message.id desc
+            """)
+    List<ChatMessage> findDetailedPageByConversationId(Long conversationId, Long beforeMessageId, Pageable pageable);
+
+    @Query("""
+            select message from ChatMessage message
+            join fetch message.sender
+            where message.id = :messageId
+            """)
+    Optional<ChatMessage> findDetailedById(Long messageId);
+
+    @Query("""
+            select message from ChatMessage message
+            join fetch message.sender
+            where message.attachmentStorageKey = :storageKey
+            """)
+    Optional<ChatMessage> findDetailedByAttachmentStorageKey(String storageKey);
+
+    @Query("""
+            select message from ChatMessage message
+            join fetch message.sender
+            where message.conversation.id = :conversationId
+              and message.sender.id = :senderUserId
+              and message.clientMessageId = :clientMessageId
+            """)
+    Optional<ChatMessage> findByConversationIdAndSenderIdAndClientMessageId(Long conversationId, Long senderUserId, String clientMessageId);
+
+    @Query("""
             select message.conversation.id as conversationId, count(message) as unreadCount
             from ChatMessage message
             where message.conversation.id in :conversationIds
               and message.sender.id <> :userId
-              and message.readAt is null
+              and message.seenAt is null
             group by message.conversation.id
             """)
     List<UnreadCountRow> findUnreadCountsByConversationIds(List<Long> conversationIds, Long userId);
@@ -40,9 +73,27 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
             select message from ChatMessage message
             where message.conversation.id = :conversationId
               and message.sender.id <> :userId
-              and message.readAt is null
+              and message.seenAt is null
             """)
     List<ChatMessage> findUnreadIncomingByConversationId(Long conversationId, Long userId);
+
+    @Query("""
+            select message from ChatMessage message
+            where message.conversation.id = :conversationId
+              and message.sender.id <> :userId
+              and message.seenAt is null
+              and (:upToMessageId is null or message.id <= :upToMessageId)
+            """)
+    List<ChatMessage> findUnreadIncomingByConversationIdUpToMessageId(Long conversationId, Long userId, Long upToMessageId);
+
+    @Query("""
+            select message from ChatMessage message
+            where message.conversation.id = :conversationId
+              and message.sender.id <> :userId
+              and message.deliveredAt is null
+              and (:upToMessageId is null or message.id <= :upToMessageId)
+            """)
+    List<ChatMessage> findUndeliveredIncomingByConversationIdUpToMessageId(Long conversationId, Long userId, Long upToMessageId);
 
     @Query("""
             select distinct message.conversation.id from ChatMessage message
@@ -84,4 +135,15 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
             order by message.createdAt desc
             """)
     List<ChatMessage> findLatestDetailedByConversationId(@Param("conversationId") Long conversationId, Pageable pageable);
+
+    @Query("""
+            select message from ChatMessage message
+            join fetch message.sender
+            where message.conversation.id = :conversationId
+              and (:afterMessageId is null or message.id > :afterMessageId)
+            order by message.id asc
+            """)
+    List<ChatMessage> findDetailedSinceMessageIdByConversationId(@Param("conversationId") Long conversationId,
+                                                                 @Param("afterMessageId") Long afterMessageId,
+                                                                 Pageable pageable);
 }

@@ -226,8 +226,21 @@ permission_matrix:
   - id: chat_write_permissions
     intent_ids:
     - open_chat_conversation
+    - create_group_chat_conversation
+    - rename_group_chat_conversation
+    - add_group_chat_participants
+    - update_group_chat_participant_role
+    - remove_group_chat_participant
+    - leave_group_chat_conversation
+    - upload_chat_attachment
     - send_chat_message
+    - add_chat_message_reaction
+    - remove_chat_message_reaction
+    - update_chat_conversation_state
+    - mark_chat_conversation_delivered
     - mark_chat_conversation_read
+    - update_chat_message
+    - delete_chat_message
     - heartbeat_chat_presence
     allowed_actors:
     - connected_user
@@ -237,9 +250,33 @@ permission_matrix:
     - blocked_user
     endpoint_ids:
     - open_chat_conversation
+    - create_group_chat_conversation
+    - rename_group_chat_conversation
+    - add_group_chat_participants
+    - update_group_chat_participant_role
+    - remove_group_chat_participant
+    - leave_group_chat_conversation
+    - upload_chat_attachment
     - send_chat_message
+    - add_chat_message_reaction
+    - remove_chat_message_reaction
+    - update_chat_conversation_state
+    - mark_chat_conversation_delivered
     - mark_chat_conversation_read
+    - update_chat_message
+    - delete_chat_message
     - chat_presence_heartbeat
+    - upload_chat_attachment
+  - id: chat_admin_write_permissions
+    intent_ids:
+    - admin_remove_chat_message
+    allowed_actors:
+    - admin
+    forbidden_actors:
+    - anonymous
+    - blocked_user
+    endpoint_ids:
+    - admin_remove_chat_message
   - id: review_creation_permissions
     intent_ids:
     - create_review

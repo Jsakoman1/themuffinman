@@ -406,26 +406,156 @@ api:
     path: "/chat/workspace"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: getWorkspace
+  - id: list_chat_conversations
+    method: GET
+    path: "/chat/conversations"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: listConversations
   - id: open_chat_conversation
     method: POST
     path: "/chat/conversations/open"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: openConversation
+  - id: create_group_chat_conversation
+    method: POST
+    path: "/chat/conversations/groups"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: createGroupConversation
+  - id: rename_group_chat_conversation
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/group"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: renameGroupConversation
+  - id: add_group_chat_participants
+    method: POST
+    path: "/chat/conversations/{conversationId}/participants"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: addGroupParticipants
+  - id: update_group_chat_participant_role
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/participants/{participantUserId}/role"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: updateGroupParticipantRole
+  - id: remove_group_chat_participant
+    method: DELETE
+    path: "/chat/conversations/{conversationId}/participants/{participantUserId}"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: removeGroupParticipant
+  - id: leave_group_chat_conversation
+    method: DELETE
+    path: "/chat/conversations/{conversationId}/participants/me"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: leaveConversation
+  - id: open_circle_room_chat
+    method: POST
+    path: "/chat/circles/{circleId}/room"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: openCircleRoom
+  - id: get_circle_room_chat
+    method: GET
+    path: "/chat/circles/{circleId}/room"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getCircleRoom
+  - id: open_quest_thread_chat
+    method: POST
+    path: "/chat/quests/{questId}/thread"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: openQuestThread
+  - id: get_quest_thread_chat
+    method: GET
+    path: "/chat/quests/{questId}/thread"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getQuestThread
+  - id: open_application_thread_chat
+    method: POST
+    path: "/chat/applications/{applicationId}/thread"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: openApplicationThread
+  - id: get_application_thread_chat
+    method: GET
+    path: "/chat/applications/{applicationId}/thread"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getApplicationThread
   - id: send_chat_message
     method: POST
     path: "/chat/conversations/{conversationId}/messages"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: sendMessage
+  - id: add_chat_message_reaction
+    method: POST
+    path: "/chat/conversations/{conversationId}/messages/{messageId}/reactions"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: addReaction
+  - id: remove_chat_message_reaction
+    method: DELETE
+    path: "/chat/conversations/{conversationId}/messages/{messageId}/reactions/{emoji}"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: removeReaction
+  - id: update_chat_message
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/messages/{messageId}"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: updateMessage
+  - id: delete_chat_message
+    method: DELETE
+    path: "/chat/conversations/{conversationId}/messages/{messageId}"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: deleteMessage
   - id: get_chat_conversation_messages
     method: GET
     path: "/chat/conversations/{conversationId}/messages"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: getConversationMessages
+  - id: get_chat_conversation_sync
+    method: GET
+    path: "/chat/conversations/{conversationId}/sync"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getConversationSync
+  - id: upload_chat_attachment
+    method: POST
+    path: "/chat/attachments"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: uploadAttachment
+  - id: get_chat_attachment_storage_status
+    method: GET
+    path: "/chat/attachments/storage-status"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getAttachmentStorageStatus
+  - id: get_chat_attachment_object
+    method: GET
+    path: "/chat/attachments/object"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getAttachmentObject
   - id: mark_chat_conversation_read
     method: PATCH
     path: "/chat/conversations/{conversationId}/read"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: markConversationRead
+  - id: update_chat_conversation_state
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/state"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: updateConversationState
+  - id: mark_chat_conversation_delivered
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/delivery"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: markConversationDelivered
+  - id: get_chat_audit_events
+    method: GET
+    path: "/chat/admin/audit-events"
+    controller_class: com.themuffinman.app.chat.controller.ChatAdminController
+    handler_method: getAuditEvents
+  - id: get_chat_admin_conversation_support_view
+    method: GET
+    path: "/chat/admin/conversations/{conversationId}/support-view"
+    controller_class: com.themuffinman.app.chat.controller.ChatAdminController
+    handler_method: getConversationSupportView
+  - id: admin_remove_chat_message
+    method: DELETE
+    path: "/chat/admin/conversations/{conversationId}/messages/{messageId}"
+    controller_class: com.themuffinman.app.chat.controller.ChatAdminController
+    handler_method: moderateDeleteMessage
   - id: get_business_profiles
     method: GET
     path: "/business/profiles"

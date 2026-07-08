@@ -10,7 +10,7 @@ This document is the technical source of truth for core product behavior. It sho
 - `business`: business profiles, directory, and mini-site profile read models
 - `things`: lending listings and borrower request workflow
 - `rides`: voluntary ride offers with optional circle-scoped visibility
-- `chat`: direct conversations, messages, presence, realtime updates
+- `chat`: direct conversations, group threads, context-owned rooms, messages, presence, realtime updates
 - `location`: user location settings, quest location visibility, lookup events
 - `common.event`: lightweight domain event publishing through Spring application events
 - `common.concepts`: shared actor identity, module ownership, circle visibility selection, and scheduling-window primitives
@@ -541,21 +541,29 @@ Technical notes:
 Primary files:
 - `chat/controller/ChatController.java`
 - `chat/model/ChatConversation.java`
+- `chat/model/ChatConversationParticipant.java`
 - `chat/model/ChatMessage.java`
 - `chat/model/ChatPresence.java`
 - `chat/service/ChatService.java`
 - `chat/service/ChatPresenceService.java`
 - `chat/service/ChatRealtimeService.java`
+- `chat/service/ChatRateLimitService.java`
 - `chat/service/ChatRetentionService.java`
 - `chat/repository/ChatConversationRepository.java`
+- `chat/repository/ChatConversationParticipantRepository.java`
 - `chat/repository/ChatMessageRepository.java`
 - `chat/repository/ChatPresenceRepository.java`
 - `chat/websocket/ChatWebSocketHandler.java`
 - `chat/websocket/ChatWebSocketAuthInterceptor.java`
 - `chat/dto/ChatWorkspaceDTO.java`
 - `chat/dto/ChatConversationSummaryDTO.java`
+- `chat/dto/ChatConversationParticipantDTO.java`
+- `chat/dto/ChatCreateGroupConversationRequestDTO.java`
 - `chat/dto/ChatMessageDTO.java`
+- `chat/dto/ChatMessagePageDTO.java`
 - `chat/dto/ChatMessageRequestDTO.java`
+- `chat/dto/ChatMessageUpdateRequestDTO.java`
+- `chat/dto/ChatMarkReadRequestDTO.java`
 - `chat/dto/ChatOpenConversationRequestDTO.java`
 - `chat/dto/ChatSocketEventDTO.java`
 - `chat/dto/ChatSocketClientMessageDTO.java`
@@ -564,6 +572,9 @@ Primary files:
 
 Primary migrations:
 - `V22__create_chat_tables.sql`
+- `V38__harden_chat_tables.sql`
+- `V39__extend_chat_state_and_audit.sql`
+- `V40__add_chat_thread_context_model.sql`
 
 ## Chat subdomain map
 
@@ -572,7 +583,21 @@ Primary migrations:
 Primary files:
 - `chat/service/ChatService.java`
 - `chat/model/ChatConversation.java`
+- `chat/model/ChatConversationParticipant.java`
 - `chat/repository/ChatConversationRepository.java`
+- `chat/repository/ChatConversationParticipantRepository.java`
+
+Technical notes:
+- `ChatConversation` now acts as the canonical chat thread entity for direct chats, manual group chats, circle rooms, quest threads, and application threads.
+- `ChatConversationParticipant` is the explicit membership and role boundary for multi-participant chat; direct chat keeps legacy `left/right` columns only as backward-compatible lookup support.
+- `ChatConversation` now also carries `conversationType`, optional `contextType`, optional `contextId`, optional `title`, and optional owner/creator references so backend policy can tell whether the thread belongs to a circle, quest, application, or to an ad hoc conversation.
+- `ChatMessage` now also carries optional `replyToMessageId`, `attachmentName`, and `attachmentMimeType` metadata so backend consumers can render reply chains and lightweight non-image attachment hints without inventing client-only schema.
+- `ChatMessage` now also persists optional `attachmentStorageProvider`, `attachmentStorageKey`, and `attachmentSizeBytes` so attachment delivery is backed by external object storage instead of inline database payloads.
+- `ChatAttachmentUpload` is the backend-owned staging boundary between multipart upload and message creation; it binds one uploaded object to one user until the upload is consumed by a chat message.
+- `ChatMessageReaction` is the append/delete reaction boundary keyed by `(message_id, user_id, emoji)` and feeds both realtime message updates and admin support reads.
+- Circle-room access requires circle ownership or current circle membership.
+- Quest-thread access requires quest management authority or one approved application on that quest.
+- Application-thread access requires the same application-detail visibility rule as the application detail surface itself.
 
 ### Message flow
 
@@ -580,6 +605,9 @@ Primary files:
 - `chat/service/ChatService.java`
 - `chat/model/ChatMessage.java`
 - `chat/repository/ChatMessageRepository.java`
+- `chat/dto/ChatMessagePageDTO.java`
+- `chat/dto/ChatMessageUpdateRequestDTO.java`
+- `chat/dto/ChatMarkReadRequestDTO.java`
 
 ### Workspace and contact read model
 
@@ -1342,17 +1370,27 @@ Admin filtering behavior:
 ## Chat Core Entities
 
 `ChatConversation` currently stores:
-- normalized left participant
-- normalized right participant
+- optional normalized left participant for legacy direct-chat lookup
+- optional normalized right participant for legacy direct-chat lookup
+- conversation type
+- optional context type
+- optional context id
+- optional title
+- optional owner user
+- optional creator user
 - created timestamp
 - last message timestamp
 - last message preview
 - last message sender
 - last-message-has-image flag
+- last-message-deleted flag
+- participant membership rows
 
 Technical rules:
-- one unique pair per normalized participant ids
-- participants are ordered by user id for uniqueness
+- direct chat keeps one unique normalized participant pair
+- context-owned rooms are resolved by one `(contextType, contextId)` pair
+- participant membership is the canonical access boundary for all thread types
+- participant rows carry one role enum per user and are ordered by user id in read models
 
 `ChatMessage` currently stores:
 - conversation
@@ -1381,13 +1419,22 @@ Access rules:
 - self-chat is rejected
 - counterpart must currently be connected through accepted social relation
 - Pending circle requests do not create chat eligibility.
-- accessing existing conversation messages requires that the current user is one of the two participants
+- accessing existing conversation messages requires that the current user is a current participant
 - even for an existing conversation, chat access is denied if the social connection no longer exists
 - Existing conversation history does not preserve chat access after the accepted relation is lost.
+- manual participant management is only allowed for `GROUP` conversations
+- `OWNER` and `ADMIN` can rename a group and manage membership
+- only the current owner can transfer ownership or change another admin role
+- owner leave uses deterministic transfer priority: another admin first, then the lowest-id remaining member
+- circle-room, quest-thread, and application-thread membership is derived from the owning circle, quest, or application scope and is not manually editable through chat APIs
 
 Lifecycle behavior:
 - `openConversation` reuses an existing normalized pair when present
 - otherwise it creates a new conversation with participants ordered by id
+- `createGroupConversation` creates an ad hoc `GROUP` thread with explicit participant rows
+- `openCircleRoom`, `openQuestThread`, and `openApplicationThread` upsert one canonical context-owned thread and re-sync participant rows from the owning record
+- `getCircleRoom`, `getQuestThread`, and `getApplicationThread` are read-only lookups that return the already-created canonical thread without mutating membership or creating a missing thread
+- `listConversations` is the read-only discovery surface for optional `conversationType`, `contextType`, `contextId`, archive-visibility, and text-query filtering over the caller's currently accessible thread set
 - conversation ordering in workspace uses `coalesce(lastMessageAt, createdAt)` descending
 
 ## Chat Message Flow
@@ -1411,8 +1458,14 @@ Read behavior:
 - read operation notifies realtime listeners only when something changed
 
 Response contracts:
-- `ChatMessageDTO` exposes sender snapshot, timestamps, message payload, and `ownMessage`
-- `ChatConversationSummaryDTO` exposes counterpart snapshot, presence snapshot, last message summary, and unread count
+- `ChatMessageDTO` exposes sender snapshot, timestamps, idempotency key, edit/delete state, message payload, reply/attachment metadata, reactions, and `ownMessage`
+- `ChatConversationSummaryDTO` exposes counterpart snapshot, presence snapshot, last message summary, last-message lifecycle hints, and unread count
+- `ChatMessagePageDTO` exposes one paginated chat history slice with limit, has-more flag, and next-before-message cursor
+- `ChatConversationListDTO` exposes filtered conversation rows plus page and has-more metadata for backend-driven browsing
+- `ChatConversationSyncDTO` exposes one reconnect/resync slice with current conversation summary, incremental messages, latest message cursor, and active typing user ids
+- `ChatAttachmentUploadDTO` exposes one backend-owned staged upload with object-storage metadata and a resolved attachment access URL returned from the multipart upload boundary
+- `ChatAdminConversationSupportViewDTO` exposes one admin-only support surface that combines conversation summary, recent messages, and recent audit rows
+- `ChatAdminService` now also owns one admin-only message moderation delete action that soft-deletes the target message and records an audit event
 
 ## Chat Workspace and Contact Model
 
@@ -1422,9 +1475,11 @@ Response contracts:
 - circles
 - unread conversation count
 - online contact count
+- conversation limit
 
 Workspace assembly behavior:
 - conversation unread counts are aggregated repository-side by conversation id
+- archived conversations are hidden by default unless `includeArchived=true`
 - contact list is built from current user's owned circle memberships plus any conversation counterpart not already present
 - Chat workspace only includes current accepted circle contacts.
 - pending or stale relations must be filtered out of chat workspace contacts and conversations
@@ -1432,20 +1487,24 @@ Workspace assembly behavior:
 - contacts are sorted by username
 - owned circles are sorted by circle name
 - conversation summaries include whether the last message was sent by the current user
+- workspace can cap returned conversations through a backend limit parameter without changing contact shaping
 
 ## Presence and Realtime
 
 Presence behavior:
-- online window is 120 seconds
+- online window is configuration-backed through `app.chat.presence.online-window-seconds`
 - `markActive` creates a presence row if needed and sets `lastActiveAt = now`
 - `markInactive` moves `lastActiveAt` outside the online window
-- `isOnline` compares `lastActiveAt` against `now - 120s`
+- `isOnline` compares `lastActiveAt` against `now - onlineWindowSeconds`
 
 Websocket auth behavior:
-- websocket handshake requires `token` query parameter
+- websocket handshake accepts `Authorization: Bearer <token>`
+- websocket handshake also accepts `Sec-WebSocket-Protocol` bearer fallback values such as `bearer, <token>` and `token.<token>`
+- websocket handshake still supports the legacy `token` query parameter fallback
 - token email is extracted through `JwtService`
 - handshake user is resolved by email lookup
 - invalid or missing token yields unauthorized handshake
+- successful handshakes now also capture remote address and user-agent into session attributes for downstream audit logging
 
 Realtime event behavior:
 - `chat.workspace.updated` is emitted for conversation, presence, and workspace-affecting changes
@@ -1453,9 +1512,10 @@ Realtime event behavior:
 - registering a websocket session marks the user active and notifies accepted circle contacts of presence change
 - unregistering the last websocket session marks the user inactive and notifies accepted circle contacts of presence change
 - websocket client ping type `chat.presence.ping` refreshes activity only
+- websocket client types `chat.receipts.delivered` and `chat.receipts.seen` route into the backend receipt lifecycle
 
 Socket event contract:
-- `ChatSocketEventDTO` currently carries event type plus optional conversation id, actor user id, reason, and unread news count
+- `ChatSocketEventDTO` currently carries event type plus optional conversation id, actor user id, reason, unread news count, conversation summary payload, message payload, and read-up-to message id
 - `ChatSocketClientMessageDTO` currently uses `type` and optional `conversationId`
 
 ## Chat Retention and Cleanup
@@ -1470,6 +1530,22 @@ Retention behavior:
 Operational behavior:
 - scheduled cleanup cron comes from `app.retention.chat.cleanup-cron` with default `0 45 3 * * *`
 - image retention days and message retention days come from retention config
+
+## Chat Production Hardening Additions
+
+Message lifecycle behavior:
+- `client_message_id` allows idempotent sender retries inside one conversation
+- message reads can page backward with `beforeMessageId` and `limit`
+- message delivery can advance through an explicit `upToMessageId` receipt
+- message edit persists `updatedAt` and `editedAt`
+- soft delete persists `deletedAt`, clears body and image payload, and preserves timeline continuity
+- conversation summaries keep `lastMessageId` and `lastMessageDeleted` so clients can render terminal-state previews
+
+Operational controls:
+- `ChatProperties` now owns presence timing, heartbeat rate limits, message pagination defaults, open/send/delivery/read rate limits, edit/delete windows, deleted-message placeholder text, allowed image mime types, and max decoded image bytes
+- chat open-conversation, send, delivery, read, and heartbeat paths now use a backend in-memory per-minute rate limiter
+- participant-scoped conversation state now persists archive, mute-until, last-opened, last-delivered-message, and last-seen-message markers
+- append-only audit storage now captures websocket auth failures, websocket lifecycle events, invalid payload attempts, and chat rate-limit violations
 - requester
 - recipient
 - creation timestamp

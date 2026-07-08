@@ -1,6 +1,9 @@
 package com.themuffinman.app.testing;
 
 import com.themuffinman.app.chat.model.ChatConversation;
+import com.themuffinman.app.chat.model.ChatConversationParticipant;
+import com.themuffinman.app.chat.model.ChatConversationParticipantRole;
+import com.themuffinman.app.chat.model.ChatConversationType;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.model.ExactLocationVisibilityScope;
@@ -89,12 +92,23 @@ public final class TestFixtures {
     public static ChatConversation conversation(Long id, AppUser leftParticipant, AppUser rightParticipant) {
         ChatConversation conversation = new ChatConversation();
         conversation.setId(id);
+        conversation.setConversationType(ChatConversationType.DIRECT);
         conversation.setLeftParticipant(leftParticipant);
         conversation.setRightParticipant(rightParticipant);
         conversation.setCreatedAt(Instant.parse("2026-01-01T00:00:00Z"));
         conversation.setLastMessageAt(Instant.parse("2026-01-01T00:01:00Z"));
         conversation.setLastMessagePreview("Hello");
         conversation.setLastMessageSender(leftParticipant);
+        ChatConversationParticipant left = new ChatConversationParticipant();
+        left.setConversation(conversation);
+        left.setUser(leftParticipant);
+        left.setRole(ChatConversationParticipantRole.OWNER);
+        ChatConversationParticipant right = new ChatConversationParticipant();
+        right.setConversation(conversation);
+        right.setUser(rightParticipant);
+        right.setRole(ChatConversationParticipantRole.MEMBER);
+        conversation.getParticipants().add(left);
+        conversation.getParticipants().add(right);
         return conversation;
     }
 }

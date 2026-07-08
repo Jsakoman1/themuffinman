@@ -186,6 +186,84 @@ mutating_intent_contracts:
   - invalid circle payload
   source_refs:
   - circle_service
+- intent_id: add_chat_message_reaction
+  preconditions:
+  - authenticated user can access selected conversation
+  - selected message belongs to selected conversation
+  - validated emoji payload
+  state_changes:
+  - persist or reuse caller-owned reaction row
+  side_effects:
+  - normalize emoji payload
+  - write chat audit row
+  notifications:
+  - broadcast updated chat message to current participants
+  blocking_conditions:
+  - missing conversation or message identity
+  - emoji is blank
+  - message is outside selected conversation
+  source_refs:
+  - chat_service
+  - chat_message_reaction_repository
+  - chat_audit_service
+- intent_id: remove_chat_message_reaction
+  preconditions:
+  - authenticated user can access selected conversation
+  - selected message belongs to selected conversation
+  - normalized emoji payload
+  state_changes:
+  - delete caller-owned reaction row when it exists
+  side_effects:
+  - write chat audit row
+  notifications:
+  - broadcast updated chat message to current participants
+  blocking_conditions:
+  - missing conversation or message identity
+  - emoji is blank
+  - message is outside selected conversation
+  source_refs:
+  - chat_service
+  - chat_message_reaction_repository
+  - chat_audit_service
+- intent_id: upload_chat_attachment
+  preconditions:
+  - authenticated user
+  - non-empty uploaded file
+  - supported attachment mime type
+  state_changes:
+  - create one staged chat attachment upload record
+  side_effects:
+  - read multipart bytes
+  - normalize filename and mime type
+  - store attachment object through the configured storage provider
+  - emit staged upload metadata and one resolved attachment URL
+  notifications:
+  - none
+  blocking_conditions:
+  - file missing
+  - file empty
+  - unsupported mime type
+  - file too large
+  source_refs:
+  - chat_service
+- intent_id: admin_remove_chat_message
+  preconditions:
+  - admin authority
+  - exact conversation identity
+  - exact message identity inside selected conversation
+  state_changes:
+  - persist soft-delete marker and clear message payload
+  side_effects:
+  - refresh latest conversation preview
+  - write chat audit row
+  notifications:
+  - none
+  blocking_conditions:
+  - missing admin authority
+  - ambiguous conversation or message target
+  - message outside selected conversation
+  source_refs:
+  - chat_admin_service
 - intent_id: update_circle
   preconditions:
   - exact owned circle identity
@@ -551,6 +629,185 @@ mutating_intent_contracts:
   - missing accepted relation
   source_refs:
   - chat_service
+- intent_id: create_group_chat_conversation
+  preconditions:
+  - authenticated actor
+  - normalized title
+  - at least two other distinct participants
+  - every target user is a current accepted contact
+  state_changes:
+  - persist one new group chat thread when validation passes
+  - persist participant membership rows for the creator and selected contacts
+  side_effects:
+  - expose the group thread in each participant workspace
+  notifications:
+  - none
+  blocking_conditions:
+  - missing title
+  - missing participant list
+  - fewer than two other distinct participants
+  - target user outside the accepted contact graph
+  source_refs:
+  - chat_service
+- intent_id: rename_group_chat_conversation
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - normalized title
+  - owner or admin participant role
+  state_changes:
+  - persist one updated group title
+  side_effects:
+  - broadcast refreshed conversation summary to current participants
+  notifications:
+  - participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - missing title
+  - inaccessible conversation
+  - non-group conversation
+  - actor lacks owner or admin role
+  source_refs:
+  - chat_service
+- intent_id: add_group_chat_participants
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - owner or admin participant role
+  - at least one new participant id
+  - every added user is a current accepted contact of the actor
+  state_changes:
+  - persist new participant membership rows for the group thread
+  side_effects:
+  - expose the group thread in each newly added participant workspace
+  notifications:
+  - participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - missing participant list
+  - inaccessible conversation
+  - non-group conversation
+  - actor lacks owner or admin role
+  - all selected users already belong to the thread
+  - target user outside the accepted contact graph
+  source_refs:
+  - chat_service
+- intent_id: update_group_chat_participant_role
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - owner or admin participant role
+  - exact target participant identity
+  - supported participant role
+  state_changes:
+  - persist one participant-role change and optional owner transfer
+  side_effects:
+  - demote the previous owner to admin when ownership transfers
+  notifications:
+  - participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - missing participant user id
+  - missing role
+  - inaccessible conversation
+  - non-group conversation
+  - unsupported role
+  - non-owner actor tries to transfer ownership or grant admin role
+  source_refs:
+  - chat_service
+- intent_id: remove_group_chat_participant
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - owner or admin participant role
+  - exact removable target participant identity
+  state_changes:
+  - remove one participant membership row from the group thread
+  side_effects:
+  - invalidate the removed participant workspace view for that thread
+  notifications:
+  - remaining participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - missing participant user id
+  - inaccessible conversation
+  - non-group conversation
+  - actor tries to remove themself through the manager endpoint
+  - target participant is the current owner
+  - removal would leave fewer than two participants
+  source_refs:
+  - chat_service
+- intent_id: leave_group_chat_conversation
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - actor is a current participant
+  state_changes:
+  - remove the actor membership row from the group thread
+  - transfer ownership when the actor is the current owner
+  side_effects:
+  - invalidate the leaving participant workspace view for that thread
+  notifications:
+  - remaining participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - inaccessible conversation
+  - non-group conversation
+  - leaving would leave fewer than two participants
+  source_refs:
+  - chat_service
+- intent_id: open_circle_room_chat
+  preconditions:
+  - authenticated actor
+  - exact circle identity
+  - circle ownership or current circle membership
+  state_changes:
+  - persist the canonical circle room thread if it does not already exist
+  - sync current circle members into participant membership rows
+  side_effects:
+  - remove stale participant membership when circle membership changed
+  notifications:
+  - none
+  blocking_conditions:
+  - missing circle id
+  - inaccessible circle
+  source_refs:
+  - chat_service
+- intent_id: open_quest_thread_chat
+  preconditions:
+  - authenticated actor
+  - exact quest identity
+  - quest management authority or one approved application on the quest
+  state_changes:
+  - persist the canonical quest thread if it does not already exist
+  - sync the quest owner plus approved applicants into participant membership rows
+  side_effects:
+  - keep pending applicants out of the shared quest thread
+  notifications:
+  - none
+  blocking_conditions:
+  - missing quest id
+  - inaccessible quest
+  - no approved participant authority for non-owner actor
+  source_refs:
+  - chat_service
+- intent_id: open_application_thread_chat
+  preconditions:
+  - authenticated actor
+  - exact application identity
+  - application detail visibility for the actor
+  state_changes:
+  - persist the canonical application thread if it does not already exist
+  - sync the quest owner plus the one applicant into participant membership rows
+  side_effects:
+  - keep the application thread scoped to the quest owner and that applicant only
+  notifications:
+  - none
+  blocking_conditions:
+  - missing application id
+  - inaccessible application
+  source_refs:
+  - chat_service
 - intent_id: send_chat_message
   preconditions:
   - exact accessible conversation identity
@@ -572,14 +829,82 @@ mutating_intent_contracts:
   preconditions:
   - exact accessible conversation identity
   state_changes:
-  - persist read marker for selected conversation
+  - persist seen marker for selected conversation messages
   side_effects:
   - clear unread message indicators for actor
+  - backfill delivered timestamps for newly seen messages
   notifications:
   - none
   blocking_conditions:
   - ambiguous conversation target
   - conversation inaccessible
+  source_refs:
+  - chat_service
+- intent_id: update_chat_conversation_state
+  preconditions:
+  - exact accessible conversation identity
+  - at least one archive-or-mute field
+  state_changes:
+  - persist participant-scoped archive or mute state
+  side_effects:
+  - reopen conversation from archive only when the actor explicitly opens it again
+  notifications:
+  - participants get chat conversation state event
+  blocking_conditions:
+  - conversation inaccessible
+  - empty state payload
+  - invalid mute timestamp
+  source_refs:
+  - chat_service
+  - chat_conversation_state_service
+- intent_id: mark_chat_conversation_delivered
+  preconditions:
+  - exact accessible conversation identity
+  state_changes:
+  - persist delivered marker for selected conversation messages
+  side_effects:
+  - update participant delivery receipt cursor
+  notifications:
+  - none
+  blocking_conditions:
+  - ambiguous conversation target
+  - conversation inaccessible
+  source_refs:
+  - chat_service
+  - chat_conversation_state_service
+- intent_id: update_chat_message
+  preconditions:
+  - exact accessible conversation identity
+  - authenticated sender owns the target message
+  - target message remains inside the edit window
+  state_changes:
+  - persist edited message body and edit timestamps
+  side_effects:
+  - update conversation preview when the edited message is the latest visible message
+  notifications:
+  - participants get chat update event
+  blocking_conditions:
+  - conversation inaccessible
+  - missing ownership
+  - expired edit window
+  - deleted message
+  source_refs:
+  - chat_service
+- intent_id: delete_chat_message
+  preconditions:
+  - exact accessible conversation identity
+  - authenticated sender owns the target message
+  - target message remains inside the delete window
+  state_changes:
+  - persist soft-delete marker and clear message payload
+  side_effects:
+  - update conversation preview when the deleted message is the latest visible message
+  notifications:
+  - participants get chat delete event
+  blocking_conditions:
+  - conversation inaccessible
+  - missing ownership
+  - expired delete window
   source_refs:
   - chat_service
 - intent_id: heartbeat_chat_presence

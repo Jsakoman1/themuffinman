@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-05T09:23:05Z",
-  "phrase_count": 14,
+  "generated_at": "2026-07-08T08:54:15Z",
+  "phrase_count": 15,
   "phrases": [
     {
       "phrase": "docs/codex-fast-path.md is the compact execution entrypoint for most feature",
@@ -30,8 +30,19 @@
       "present_in": [
         "docs/agent-operating-model.md",
         "docs/change-completion-checklist.md",
+        "docs/codex-fast-path.md",
         "docs/documentation-sync-policy.md",
+        "docs/feature-delivery-workflow.md",
         "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
+      ]
+    },
+    {
+      "phrase": "Never mark a plan, child plan, or master plan complete unless the work it covers",
+      "present_in": [
+        "docs/agent-operating-model.md",
+        "docs/change-completion-checklist.md",
+        "docs/codex-fast-path.md",
+        "docs/feature-delivery-workflow.md"
       ]
     },
     {

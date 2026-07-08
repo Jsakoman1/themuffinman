@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-03T14:48:12Z",
+  "generated_at": "2026-07-08T10:09:51Z",
   "endpoint_family": "app_users",
   "endpoints": [
     {
@@ -8,7 +8,7 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
       "dtos": [
         "AppUserResponseDTO",
-        "VisionOptionsDTO"
+        "WorkmarketOptionsDTO"
       ]
     },
     {
@@ -19,7 +19,7 @@
         "ActionResultDTO",
         "AppUserRequestDTO",
         "AppUserResponseDTO",
-        "VisionOptionsDTO"
+        "WorkmarketOptionsDTO"
       ]
     },
     {
@@ -28,7 +28,7 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
       "dtos": [
         "AppUserResponseDTO",
-        "VisionOptionsDTO"
+        "WorkmarketOptionsDTO"
       ]
     },
     {
@@ -47,7 +47,7 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
       "dtos": [
         "AppUserResponseDTO",
-        "VisionOptionsDTO"
+        "WorkmarketOptionsDTO"
       ]
     },
     {
@@ -66,7 +66,7 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
       "dtos": [
         "AppUserResponseDTO",
-        "VisionOptionsDTO"
+        "WorkmarketOptionsDTO"
       ]
     },
     {
@@ -85,7 +85,7 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
       "dtos": [
         "AppUserResponseDTO",
-        "VisionOptionsDTO"
+        "WorkmarketOptionsDTO"
       ]
     },
     {
@@ -94,7 +94,7 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
       "dtos": [
         "AppUserResponseDTO",
-        "VisionOptionsDTO"
+        "WorkmarketOptionsDTO"
       ]
     }
   ],
@@ -102,7 +102,7 @@
     "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserRequestDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionOptionsDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkmarketOptionsDTO.java"
   ],
   "frontend_callsites": [
     {
@@ -232,6 +232,18 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPresentation.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPreviewSupport.ts",
       "matched_paths": [
         "me"
       ]

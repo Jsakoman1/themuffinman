@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-07-08T08:36:19Z",
+  "original_file_count": 13,
+  "filtered_file_count": 12,
+  "excluded_file_count": 12,
+  "excluded_files_sample": [
+    {
+      "path": "docs/generated/local-tooling/audit-summary-index.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/audit-summary-index.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-index-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-index.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/targeted-tests-summary.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/targeted-tests.json",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-ready-closeout-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-ready-master-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-ready-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-realtime-lifecycle-hardening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/audit-summary-index/2026-07-08T08-36-19Z.json",
+      "excluded": true,
+      "reasons": [
+        "historical_archive",
+        "generated"
+      ]
+    },
+    {
+      "path": "docs/generated/local-tooling/.history/targeted-tests/2026-07-08T08-36-19Z.json",
+      "excluded": true,
+      "reasons": [
+        "historical_archive",
+        "generated"
+      ]
+    }
+  ],
+  "changed_file_count": 1,
+  "groups": [
+    {
+      "domain": "shared",
+      "category": "other",
+      "count": 1,
+      "files": [
+        {
+          "status": "??",
+          "path": ".agents/feature-manifests/chat-prod-ready-manifest.yaml"
+        }
+      ]
+    }
+  ],
+  "recommended_audits": [
+    "make audit-doc-sync-preflight",
+    "make audit-doc-sync-required-surfaces",
+    "make audit-documentation",
+    "make audit-doc-canonical-phrases",
+    "make audit-test-gap-recommendations",
+    "make audit-summary-index"
+  ]
+}

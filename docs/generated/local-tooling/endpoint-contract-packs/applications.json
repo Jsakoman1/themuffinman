@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-03T14:48:12Z",
+  "generated_at": "2026-07-08T10:09:51Z",
   "endpoint_family": "applications",
   "endpoints": [
     {
       "method": "GET",
       "path": "/applications/{applicationId}/detail",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestApplicationController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
       "dtos": [
         "QuestApplicationResponseDTO",
         "QuestApplicationsViewDTO"
@@ -13,8 +13,8 @@
     }
   ],
   "dto_files": [
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestApplicationsViewDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationsViewDTO.java"
   ],
   "frontend_callsites": [
     {
@@ -36,13 +36,13 @@
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
         "detail"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPresentation.ts",
       "matched_paths": [
         "detail"
       ]

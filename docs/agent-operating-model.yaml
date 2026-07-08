@@ -558,18 +558,60 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java
   - id: chat_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
+  - id: chat_admin_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java
   - id: chat_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - id: chat_admin_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatAdminService.java
   - id: chat_circle_option_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCircleOptionDTO.java
+  - id: chat_attachment_upload_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentUploadDTO.java
+  - id: chat_attachment_storage_status_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentStorageStatusDTO.java
   - id: chat_contact_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java
+  - id: chat_conversation_list_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java
+  - id: chat_conversation_participant_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationParticipantDTO.java
+  - id: chat_conversation_participants_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationParticipantsRequestDTO.java
+  - id: chat_conversation_sync_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSyncDTO.java
+  - id: chat_conversation_role_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationRoleRequestDTO.java
   - id: chat_conversation_summary_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java
+  - id: chat_conversation_state_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationStateRequestDTO.java
+  - id: chat_conversation_title_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationTitleRequestDTO.java
   - id: chat_message_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageDTO.java
+  - id: chat_message_reaction_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageReactionDTO.java
+  - id: chat_message_reaction_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageReactionRequestDTO.java
+  - id: chat_message_page_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessagePageDTO.java
   - id: chat_message_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageRequestDTO.java
+  - id: chat_audit_event_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAuditEventDTO.java
+  - id: chat_audit_event_list_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAuditEventListDTO.java
+  - id: chat_admin_conversation_support_view_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAdminConversationSupportViewDTO.java
+  - id: chat_receipt_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatReceiptRequestDTO.java
+  - id: chat_create_group_conversation_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCreateGroupConversationRequestDTO.java
+  - id: chat_message_update_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageUpdateRequestDTO.java
+  - id: chat_mark_read_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMarkReadRequestDTO.java
   - id: chat_open_conversation_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatOpenConversationRequestDTO.java
   - id: chat_socket_client_message_dto
@@ -578,6 +620,26 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java
   - id: chat_workspace_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatWorkspaceDTO.java
+  - id: chat_conversation_member_state
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatConversationMemberState.java
+  - id: chat_audit_event
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAuditEvent.java
+  - id: chat_audit_event_type
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAuditEventType.java
+  - id: chat_message_reaction
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatMessageReaction.java
+  - id: chat_conversation_member_state_repository
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatConversationMemberStateRepository.java
+  - id: chat_audit_event_repository
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatAuditEventRepository.java
+  - id: chat_message_reaction_repository
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageReactionRepository.java
+  - id: chat_realtime_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java
+  - id: chat_conversation_state_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatConversationStateService.java
+  - id: chat_audit_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatAuditService.java
   - id: admin_circle_group_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleGroupResponseDTO.java
   - id: admin_circle_overview_dto
@@ -829,6 +891,7 @@ backend_audit_coverage:
     - apps/themuffinman/src/main/java/com/themuffinman/app/repository/
     - apps/themuffinman/src/main/java/com/themuffinman/app/security/
     - apps/themuffinman/src/main/java/com/themuffinman/app/service/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/storage/
   tiers:
   - id: executor_critical
     description: Files that directly control agent-safe execution, mutation entrypoints,
@@ -896,6 +959,10 @@ backend_audit_coverage:
     tier: internal_support
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/semantic/
+  - id: internal_support_storage_surface
+    tier: internal_support
+    path_prefixes:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/storage/
   - id: executor_tracked_service_surface
     tier: executor_critical
     file_names:
@@ -2021,6 +2088,84 @@ mutating_intent_contracts:
   - invalid circle payload
   source_refs:
   - circle_service
+- intent_id: add_chat_message_reaction
+  preconditions:
+  - authenticated user can access selected conversation
+  - selected message belongs to selected conversation
+  - validated emoji payload
+  state_changes:
+  - persist or reuse caller-owned reaction row
+  side_effects:
+  - normalize emoji payload
+  - write chat audit row
+  notifications:
+  - broadcast updated chat message to current participants
+  blocking_conditions:
+  - missing conversation or message identity
+  - emoji is blank
+  - message is outside selected conversation
+  source_refs:
+  - chat_service
+  - chat_message_reaction_repository
+  - chat_audit_service
+- intent_id: remove_chat_message_reaction
+  preconditions:
+  - authenticated user can access selected conversation
+  - selected message belongs to selected conversation
+  - normalized emoji payload
+  state_changes:
+  - delete caller-owned reaction row when it exists
+  side_effects:
+  - write chat audit row
+  notifications:
+  - broadcast updated chat message to current participants
+  blocking_conditions:
+  - missing conversation or message identity
+  - emoji is blank
+  - message is outside selected conversation
+  source_refs:
+  - chat_service
+  - chat_message_reaction_repository
+  - chat_audit_service
+- intent_id: upload_chat_attachment
+  preconditions:
+  - authenticated user
+  - non-empty uploaded file
+  - supported attachment mime type
+  state_changes:
+  - create one staged chat attachment upload record
+  side_effects:
+  - read multipart bytes
+  - normalize filename and mime type
+  - store attachment object through the configured storage provider
+  - emit staged upload metadata and one resolved attachment URL
+  notifications:
+  - none
+  blocking_conditions:
+  - file missing
+  - file empty
+  - unsupported mime type
+  - file too large
+  source_refs:
+  - chat_service
+- intent_id: admin_remove_chat_message
+  preconditions:
+  - admin authority
+  - exact conversation identity
+  - exact message identity inside selected conversation
+  state_changes:
+  - persist soft-delete marker and clear message payload
+  side_effects:
+  - refresh latest conversation preview
+  - write chat audit row
+  notifications:
+  - none
+  blocking_conditions:
+  - missing admin authority
+  - ambiguous conversation or message target
+  - message outside selected conversation
+  source_refs:
+  - chat_admin_service
 - intent_id: update_circle
   preconditions:
   - exact owned circle identity
@@ -2387,6 +2532,185 @@ mutating_intent_contracts:
   - missing accepted relation
   source_refs:
   - chat_service
+- intent_id: create_group_chat_conversation
+  preconditions:
+  - authenticated actor
+  - normalized title
+  - at least two other distinct participants
+  - every target user is a current accepted contact
+  state_changes:
+  - persist one new group chat thread when validation passes
+  - persist participant membership rows for the creator and selected contacts
+  side_effects:
+  - expose the group thread in each participant workspace
+  notifications:
+  - none
+  blocking_conditions:
+  - missing title
+  - missing participant list
+  - fewer than two other distinct participants
+  - target user outside the accepted contact graph
+  source_refs:
+  - chat_service
+- intent_id: rename_group_chat_conversation
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - normalized title
+  - owner or admin participant role
+  state_changes:
+  - persist one updated group title
+  side_effects:
+  - broadcast refreshed conversation summary to current participants
+  notifications:
+  - participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - missing title
+  - inaccessible conversation
+  - non-group conversation
+  - actor lacks owner or admin role
+  source_refs:
+  - chat_service
+- intent_id: add_group_chat_participants
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - owner or admin participant role
+  - at least one new participant id
+  - every added user is a current accepted contact of the actor
+  state_changes:
+  - persist new participant membership rows for the group thread
+  side_effects:
+  - expose the group thread in each newly added participant workspace
+  notifications:
+  - participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - missing participant list
+  - inaccessible conversation
+  - non-group conversation
+  - actor lacks owner or admin role
+  - all selected users already belong to the thread
+  - target user outside the accepted contact graph
+  source_refs:
+  - chat_service
+- intent_id: update_group_chat_participant_role
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - owner or admin participant role
+  - exact target participant identity
+  - supported participant role
+  state_changes:
+  - persist one participant-role change and optional owner transfer
+  side_effects:
+  - demote the previous owner to admin when ownership transfers
+  notifications:
+  - participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - missing participant user id
+  - missing role
+  - inaccessible conversation
+  - non-group conversation
+  - unsupported role
+  - non-owner actor tries to transfer ownership or grant admin role
+  source_refs:
+  - chat_service
+- intent_id: remove_group_chat_participant
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - owner or admin participant role
+  - exact removable target participant identity
+  state_changes:
+  - remove one participant membership row from the group thread
+  side_effects:
+  - invalidate the removed participant workspace view for that thread
+  notifications:
+  - remaining participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - missing participant user id
+  - inaccessible conversation
+  - non-group conversation
+  - actor tries to remove themself through the manager endpoint
+  - target participant is the current owner
+  - removal would leave fewer than two participants
+  source_refs:
+  - chat_service
+- intent_id: leave_group_chat_conversation
+  preconditions:
+  - authenticated actor
+  - exact accessible group conversation identity
+  - actor is a current participant
+  state_changes:
+  - remove the actor membership row from the group thread
+  - transfer ownership when the actor is the current owner
+  side_effects:
+  - invalidate the leaving participant workspace view for that thread
+  notifications:
+  - remaining participants get chat conversation state event
+  blocking_conditions:
+  - missing conversation id
+  - inaccessible conversation
+  - non-group conversation
+  - leaving would leave fewer than two participants
+  source_refs:
+  - chat_service
+- intent_id: open_circle_room_chat
+  preconditions:
+  - authenticated actor
+  - exact circle identity
+  - circle ownership or current circle membership
+  state_changes:
+  - persist the canonical circle room thread if it does not already exist
+  - sync current circle members into participant membership rows
+  side_effects:
+  - remove stale participant membership when circle membership changed
+  notifications:
+  - none
+  blocking_conditions:
+  - missing circle id
+  - inaccessible circle
+  source_refs:
+  - chat_service
+- intent_id: open_quest_thread_chat
+  preconditions:
+  - authenticated actor
+  - exact quest identity
+  - quest management authority or one approved application on the quest
+  state_changes:
+  - persist the canonical quest thread if it does not already exist
+  - sync the quest owner plus approved applicants into participant membership rows
+  side_effects:
+  - keep pending applicants out of the shared quest thread
+  notifications:
+  - none
+  blocking_conditions:
+  - missing quest id
+  - inaccessible quest
+  - no approved participant authority for non-owner actor
+  source_refs:
+  - chat_service
+- intent_id: open_application_thread_chat
+  preconditions:
+  - authenticated actor
+  - exact application identity
+  - application detail visibility for the actor
+  state_changes:
+  - persist the canonical application thread if it does not already exist
+  - sync the quest owner plus the one applicant into participant membership rows
+  side_effects:
+  - keep the application thread scoped to the quest owner and that applicant only
+  notifications:
+  - none
+  blocking_conditions:
+  - missing application id
+  - inaccessible application
+  source_refs:
+  - chat_service
 - intent_id: send_chat_message
   preconditions:
   - exact accessible conversation identity
@@ -2408,14 +2732,82 @@ mutating_intent_contracts:
   preconditions:
   - exact accessible conversation identity
   state_changes:
-  - persist read marker for selected conversation
+  - persist seen marker for selected conversation messages
   side_effects:
   - clear unread message indicators for actor
+  - backfill delivered timestamps for newly seen messages
   notifications:
   - none
   blocking_conditions:
   - ambiguous conversation target
   - conversation inaccessible
+  source_refs:
+  - chat_service
+- intent_id: update_chat_conversation_state
+  preconditions:
+  - exact accessible conversation identity
+  - at least one archive-or-mute field
+  state_changes:
+  - persist participant-scoped archive or mute state
+  side_effects:
+  - reopen conversation from archive only when the actor explicitly opens it again
+  notifications:
+  - participants get chat conversation state event
+  blocking_conditions:
+  - conversation inaccessible
+  - empty state payload
+  - invalid mute timestamp
+  source_refs:
+  - chat_service
+  - chat_conversation_state_service
+- intent_id: mark_chat_conversation_delivered
+  preconditions:
+  - exact accessible conversation identity
+  state_changes:
+  - persist delivered marker for selected conversation messages
+  side_effects:
+  - update participant delivery receipt cursor
+  notifications:
+  - none
+  blocking_conditions:
+  - ambiguous conversation target
+  - conversation inaccessible
+  source_refs:
+  - chat_service
+  - chat_conversation_state_service
+- intent_id: update_chat_message
+  preconditions:
+  - exact accessible conversation identity
+  - authenticated sender owns the target message
+  - target message remains inside the edit window
+  state_changes:
+  - persist edited message body and edit timestamps
+  side_effects:
+  - update conversation preview when the edited message is the latest visible message
+  notifications:
+  - participants get chat update event
+  blocking_conditions:
+  - conversation inaccessible
+  - missing ownership
+  - expired edit window
+  - deleted message
+  source_refs:
+  - chat_service
+- intent_id: delete_chat_message
+  preconditions:
+  - exact accessible conversation identity
+  - authenticated sender owns the target message
+  - target message remains inside the delete window
+  state_changes:
+  - persist soft-delete marker and clear message payload
+  side_effects:
+  - update conversation preview when the deleted message is the latest visible message
+  notifications:
+  - participants get chat delete event
+  blocking_conditions:
+  - conversation inaccessible
+  - missing ownership
+  - expired delete window
   source_refs:
   - chat_service
 - intent_id: heartbeat_chat_presence
@@ -2776,8 +3168,17 @@ intent_safety_catalog:
     - open_quest_applications
     - open_quest_record
     - open_user_profile
+    - list_chat_conversations
     - resolve_chat_conversation
     - open_chat_conversation_messages
+    - open_chat_conversation_sync
+    - open_chat_attachment_storage_status
+    - open_chat_attachment_object
+    - open_chat_audit_events
+    - open_chat_admin_conversation_support_view
+    - get_circle_room_chat
+    - get_quest_thread_chat
+    - get_application_thread_chat
     - open_location_debug_status
     - browse_business_profiles
     - open_my_business_profile
@@ -2806,8 +3207,24 @@ intent_safety_catalog:
     - update_my_application
     - set_profile_current_location
     - open_chat_conversation
+    - create_group_chat_conversation
+    - rename_group_chat_conversation
+    - add_group_chat_participants
+    - update_group_chat_participant_role
+    - remove_group_chat_participant
+    - leave_group_chat_conversation
+    - open_circle_room_chat
+    - open_quest_thread_chat
+    - open_application_thread_chat
     - send_chat_message
+    - upload_chat_attachment
+    - add_chat_message_reaction
+    - remove_chat_message_reaction
+    - update_chat_conversation_state
+    - mark_chat_conversation_delivered
     - mark_chat_conversation_read
+    - update_chat_message
+    - delete_chat_message
     - heartbeat_chat_presence
     - mark_all_news_read
     - mark_news_item_read
@@ -2827,6 +3244,7 @@ intent_safety_catalog:
     - withdraw_my_application
     - delete_admin_application
     - delete_quest
+    - admin_remove_chat_message
     multi_actor_write:
     - accept_circle_connection
     - approve_application
@@ -2931,6 +3349,22 @@ intent_safety_catalog:
     - resolve_user_candidate
     ambiguity_policy: fail_closed
   - intent_id: mark_chat_conversation_read
+    resolution_workflows:
+    - resolve_chat_conversation
+    ambiguity_policy: fail_closed
+  - intent_id: update_chat_conversation_state
+    resolution_workflows:
+    - resolve_chat_conversation
+    ambiguity_policy: fail_closed
+  - intent_id: mark_chat_conversation_delivered
+    resolution_workflows:
+    - resolve_chat_conversation
+    ambiguity_policy: fail_closed
+  - intent_id: update_chat_message
+    resolution_workflows:
+    - resolve_chat_conversation
+    ambiguity_policy: fail_closed
+  - intent_id: delete_chat_message
     resolution_workflows:
     - resolve_chat_conversation
     ambiguity_policy: fail_closed
@@ -3055,11 +3489,30 @@ documentation_coverage:
     - admin_agent_execution_response_dto
   - id: chat_contract_dtos
     source_refs:
+    - chat_attachment_upload_dto
+    - chat_attachment_storage_status_dto
+    - chat_admin_conversation_support_view_dto
+    - chat_audit_event_dto
+    - chat_audit_event_list_dto
     - chat_circle_option_dto
     - chat_contact_dto
+    - chat_conversation_list_dto
+    - chat_conversation_participant_dto
+    - chat_conversation_participants_request_dto
+    - chat_conversation_role_request_dto
     - chat_conversation_summary_dto
+    - chat_conversation_sync_dto
+    - chat_conversation_state_request_dto
+    - chat_conversation_title_request_dto
+    - chat_create_group_conversation_request_dto
     - chat_message_dto
+    - chat_message_page_dto
     - chat_message_request_dto
+    - chat_receipt_request_dto
+    - chat_message_update_request_dto
+    - chat_mark_read_request_dto
+    - chat_message_reaction_dto
+    - chat_message_reaction_request_dto
     - chat_open_conversation_request_dto
     - chat_socket_client_message_dto
     - chat_socket_event_dto
@@ -4001,6 +4454,14 @@ backend_contract_snapshots:
   java_class: com.themuffinman.app.chat.dto.ChatConversationSummaryDTO
   declared_fields:
   - conversationId
+  - conversationType
+  - contextType
+  - contextId
+  - title
+  - ownerUserId
+  - participantCount
+  - canManageParticipants
+  - participants
   - otherUserId
   - otherUsername
   - resolutionKey
@@ -4010,24 +4471,330 @@ backend_contract_snapshots:
   - otherUserAvatarDataUrl
   - otherUserOnline
   - otherUserLastActiveAt
+  - lastMessageId
   - lastMessagePreview
   - lastMessageAt
   - lastMessageFromCurrentUser
   - lastMessageHasImage
+  - lastMessageDeleted
+  - muted
+  - mutedUntil
+  - archived
+  - archivedAt
+  - lastDeliveredMessageId
+  - lastSeenMessageId
   - unreadCount
   semantic_required_fields:
   - conversationId
-  - otherUserId
-  - otherUsername
+  - conversationType
+  - participantCount
+  - participants
   - resolutionKey
   - resolutionLabel
   - exactResolutionEligible
-  - otherUserOnline
   - unreadCount
   source_refs:
   - chat_service
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageDTO
+  declared_fields:
+  - id
+  - conversationId
+  - conversationType
+  - senderUserId
+  - senderUsername
+  - senderAvatarDataUrl
+  - messageBody
+  - imageDataUrl
+  - attachmentName
+  - attachmentMimeType
+  - attachmentStorageProvider
+  - attachmentStorageKey
+  - attachmentUrl
+  - attachmentUrlExpiresAt
+  - attachmentSizeBytes
+  - replyToMessageId
+  - clientMessageId
+  - createdAt
+  - updatedAt
+  - editedAt
+  - deletedAt
+  - readAt
+  - deliveredAt
+  - seenAt
+  - reactions
+  - edited
+  - deleted
+  - ownMessage
+  semantic_required_fields:
+  - id
+  - conversationId
+  - conversationType
+  - senderUserId
+  - senderUsername
+  - createdAt
+  - updatedAt
+  - ownMessage
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_reaction_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageReactionDTO
+  declared_fields:
+  - id
+  - userId
+  - username
+  - emoji
+  - createdAt
+  - ownReaction
+  semantic_required_fields:
+  - id
+  - userId
+  - emoji
+  - createdAt
+  source_refs:
+  - chat_service
+  - chat_admin_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_page_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessagePageDTO
+  declared_fields:
+  - messages
+  - limit
+  - hasMore
+  - nextBeforeMessageId
+  semantic_required_fields:
+  - messages
+  - limit
+  - hasMore
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_workspace_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatWorkspaceDTO
+  declared_fields:
+  - conversations
+  - contacts
+  - circles
+  - unreadConversationCount
+  - onlineContactCount
+  - conversationLimit
+  semantic_required_fields:
+  - conversations
+  - contacts
+  - circles
+  - unreadConversationCount
+  - onlineContactCount
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_conversation_list_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatConversationListDTO
+  declared_fields:
+  - conversations
+  - filteredCount
+  - limit
+  - page
+  - hasMore
+  - includeArchived
+  - conversationType
+  - contextType
+  - contextId
+  - query
+  semantic_required_fields:
+  - conversations
+  - filteredCount
+  - limit
+  - includeArchived
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageRequestDTO
+  declared_fields:
+  - CHAT_IMAGE_MAX_LENGTH
+  - messageBody
+  - imageDataUrl
+  - clientMessageId
+  - attachmentName
+  - attachmentMimeType
+  - attachmentUploadId
+  - replyToMessageId
+  semantic_required_fields:
+  - messageBody
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_update_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageUpdateRequestDTO
+  declared_fields:
+  - messageBody
+  semantic_required_fields:
+  - messageBody
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_attachment_upload_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatAttachmentUploadDTO
+  declared_fields:
+  - uploadId
+  - attachmentName
+  - attachmentMimeType
+  - attachmentSizeBytes
+  - attachmentStorageProvider
+  - attachmentStorageKey
+  - attachmentUrl
+  - attachmentUrlExpiresAt
+  semantic_required_fields:
+  - uploadId
+  - attachmentName
+  - attachmentMimeType
+  - attachmentSizeBytes
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_conversation_sync_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatConversationSyncDTO
+  declared_fields:
+  - conversation
+  - messages
+  - afterMessageId
+  - latestMessageId
+  - activeTypingUserIds
+  - typingTimeoutSeconds
+  semantic_required_fields:
+  - conversation
+  - messages
+  - latestMessageId
+  - activeTypingUserIds
+  - typingTimeoutSeconds
+  source_refs:
+  - chat_service
+  - chat_realtime_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_mark_read_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMarkReadRequestDTO
+  declared_fields:
+  - upToMessageId
+  semantic_required_fields:
+  - upToMessageId
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_conversation_state_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatConversationStateRequestDTO
+  declared_fields:
+  - archived
+  - mutedUntil
+  semantic_required_fields:
+  - archived
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_receipt_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatReceiptRequestDTO
+  declared_fields:
+  - upToMessageId
+  semantic_required_fields:
+  - upToMessageId
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_reaction_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageReactionRequestDTO
+  declared_fields:
+  - emoji
+  semantic_required_fields:
+  - emoji
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_audit_event_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatAuditEventDTO
+  declared_fields:
+  - id
+  - eventType
+  - userId
+  - username
+  - conversationId
+  - conversationType
+  - sessionId
+  - remoteAddress
+  - userAgent
+  - detailsJson
+  - createdAt
+  semantic_required_fields:
+  - id
+  - eventType
+  - createdAt
+  source_refs:
+  - chat_admin_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatAdminControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_audit_event_list_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatAuditEventListDTO
+  declared_fields:
+  - events
+  - limit
+  - eventType
+  - userId
+  - conversationId
+  semantic_required_fields:
+  - events
+  - limit
+  source_refs:
+  - chat_admin_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatAdminControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_admin_conversation_support_view_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatAdminConversationSupportViewDTO
+  declared_fields:
+  - conversation
+  - recentMessages
+  - recentAuditEvents
+  - recentMessagesLimit
+  - recentAuditLimit
+  semantic_required_fields:
+  - conversation
+  - recentMessages
+  - recentAuditEvents
+  source_refs:
+  - chat_admin_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatAdminControllerTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
 service_workflow_inventory:
 - id: identity_user_write_flows
@@ -4388,22 +5155,81 @@ service_workflow_inventory:
   service_class: com.themuffinman.app.chat.service.ChatService
   service_methods:
   - openConversation
+  - createGroupConversation
+  - renameGroupConversation
+  - addGroupParticipants
+  - updateGroupParticipantRole
+  - removeGroupParticipant
+  - leaveConversation
+  - openCircleRoom
+  - openQuestThread
+  - openApplicationThread
+  - uploadAttachment
   - sendMessage
+  - addReaction
+  - removeReaction
+  - updateConversationState
+  - markConversationDelivered
   - markConversationRead
+  - updateMessage
+  - deleteMessage
   - heartbeat
+  - updateTypingState
   covered_intents:
   - open_chat_conversation
+  - create_group_chat_conversation
+  - rename_group_chat_conversation
+  - add_group_chat_participants
+  - update_group_chat_participant_role
+  - remove_group_chat_participant
+  - leave_group_chat_conversation
+  - open_circle_room_chat
+  - open_quest_thread_chat
+  - open_application_thread_chat
+  - upload_chat_attachment
   - send_chat_message
+  - add_chat_message_reaction
+  - remove_chat_message_reaction
+  - update_chat_conversation_state
+  - mark_chat_conversation_delivered
   - mark_chat_conversation_read
+  - update_chat_message
+  - delete_chat_message
   - heartbeat_chat_presence
   automation_relevant: true
   source_refs:
   - chat_service
+  - chat_message_reaction
+  - chat_message_reaction_repository
+  - chat_conversation_state_service
+  - chat_conversation_member_state
+  - chat_conversation_member_state_repository
+  - chat_audit_service
+  - chat_audit_event
+  - chat_audit_event_type
+  - chat_audit_event_repository
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+- id: chat_admin_write_flows
+  service_class: com.themuffinman.app.chat.service.ChatAdminService
+  service_methods:
+  - moderateDeleteMessage
+  covered_intents:
+  - admin_remove_chat_message
+  automation_relevant: true
+  source_refs:
+  - chat_admin_service
+  - chat_audit_service
+  - chat_audit_event
+  - chat_audit_event_type
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatAdminControllerTest.java
 - id: news_write_flows
   service_class: com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService
   service_methods:
@@ -4661,8 +5487,21 @@ permission_matrix:
   - id: chat_write_permissions
     intent_ids:
     - open_chat_conversation
+    - create_group_chat_conversation
+    - rename_group_chat_conversation
+    - add_group_chat_participants
+    - update_group_chat_participant_role
+    - remove_group_chat_participant
+    - leave_group_chat_conversation
+    - upload_chat_attachment
     - send_chat_message
+    - add_chat_message_reaction
+    - remove_chat_message_reaction
+    - update_chat_conversation_state
+    - mark_chat_conversation_delivered
     - mark_chat_conversation_read
+    - update_chat_message
+    - delete_chat_message
     - heartbeat_chat_presence
     allowed_actors:
     - connected_user
@@ -4672,9 +5511,33 @@ permission_matrix:
     - blocked_user
     endpoint_ids:
     - open_chat_conversation
+    - create_group_chat_conversation
+    - rename_group_chat_conversation
+    - add_group_chat_participants
+    - update_group_chat_participant_role
+    - remove_group_chat_participant
+    - leave_group_chat_conversation
+    - upload_chat_attachment
     - send_chat_message
+    - add_chat_message_reaction
+    - remove_chat_message_reaction
+    - update_chat_conversation_state
+    - mark_chat_conversation_delivered
     - mark_chat_conversation_read
+    - update_chat_message
+    - delete_chat_message
     - chat_presence_heartbeat
+    - upload_chat_attachment
+  - id: chat_admin_write_permissions
+    intent_ids:
+    - admin_remove_chat_message
+    allowed_actors:
+    - admin
+    forbidden_actors:
+    - anonymous
+    - blocked_user
+    endpoint_ids:
+    - admin_remove_chat_message
   - id: review_creation_permissions
     intent_ids:
     - create_review
@@ -5678,26 +6541,156 @@ api:
     path: "/chat/workspace"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: getWorkspace
+  - id: list_chat_conversations
+    method: GET
+    path: "/chat/conversations"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: listConversations
   - id: open_chat_conversation
     method: POST
     path: "/chat/conversations/open"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: openConversation
+  - id: create_group_chat_conversation
+    method: POST
+    path: "/chat/conversations/groups"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: createGroupConversation
+  - id: rename_group_chat_conversation
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/group"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: renameGroupConversation
+  - id: add_group_chat_participants
+    method: POST
+    path: "/chat/conversations/{conversationId}/participants"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: addGroupParticipants
+  - id: update_group_chat_participant_role
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/participants/{participantUserId}/role"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: updateGroupParticipantRole
+  - id: remove_group_chat_participant
+    method: DELETE
+    path: "/chat/conversations/{conversationId}/participants/{participantUserId}"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: removeGroupParticipant
+  - id: leave_group_chat_conversation
+    method: DELETE
+    path: "/chat/conversations/{conversationId}/participants/me"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: leaveConversation
+  - id: open_circle_room_chat
+    method: POST
+    path: "/chat/circles/{circleId}/room"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: openCircleRoom
+  - id: get_circle_room_chat
+    method: GET
+    path: "/chat/circles/{circleId}/room"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getCircleRoom
+  - id: open_quest_thread_chat
+    method: POST
+    path: "/chat/quests/{questId}/thread"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: openQuestThread
+  - id: get_quest_thread_chat
+    method: GET
+    path: "/chat/quests/{questId}/thread"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getQuestThread
+  - id: open_application_thread_chat
+    method: POST
+    path: "/chat/applications/{applicationId}/thread"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: openApplicationThread
+  - id: get_application_thread_chat
+    method: GET
+    path: "/chat/applications/{applicationId}/thread"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getApplicationThread
   - id: send_chat_message
     method: POST
     path: "/chat/conversations/{conversationId}/messages"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: sendMessage
+  - id: add_chat_message_reaction
+    method: POST
+    path: "/chat/conversations/{conversationId}/messages/{messageId}/reactions"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: addReaction
+  - id: remove_chat_message_reaction
+    method: DELETE
+    path: "/chat/conversations/{conversationId}/messages/{messageId}/reactions/{emoji}"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: removeReaction
+  - id: update_chat_message
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/messages/{messageId}"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: updateMessage
+  - id: delete_chat_message
+    method: DELETE
+    path: "/chat/conversations/{conversationId}/messages/{messageId}"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: deleteMessage
   - id: get_chat_conversation_messages
     method: GET
     path: "/chat/conversations/{conversationId}/messages"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: getConversationMessages
+  - id: get_chat_conversation_sync
+    method: GET
+    path: "/chat/conversations/{conversationId}/sync"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getConversationSync
+  - id: upload_chat_attachment
+    method: POST
+    path: "/chat/attachments"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: uploadAttachment
+  - id: get_chat_attachment_storage_status
+    method: GET
+    path: "/chat/attachments/storage-status"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getAttachmentStorageStatus
+  - id: get_chat_attachment_object
+    method: GET
+    path: "/chat/attachments/object"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: getAttachmentObject
   - id: mark_chat_conversation_read
     method: PATCH
     path: "/chat/conversations/{conversationId}/read"
     controller_class: com.themuffinman.app.chat.controller.ChatController
     handler_method: markConversationRead
+  - id: update_chat_conversation_state
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/state"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: updateConversationState
+  - id: mark_chat_conversation_delivered
+    method: PATCH
+    path: "/chat/conversations/{conversationId}/delivery"
+    controller_class: com.themuffinman.app.chat.controller.ChatController
+    handler_method: markConversationDelivered
+  - id: get_chat_audit_events
+    method: GET
+    path: "/chat/admin/audit-events"
+    controller_class: com.themuffinman.app.chat.controller.ChatAdminController
+    handler_method: getAuditEvents
+  - id: get_chat_admin_conversation_support_view
+    method: GET
+    path: "/chat/admin/conversations/{conversationId}/support-view"
+    controller_class: com.themuffinman.app.chat.controller.ChatAdminController
+    handler_method: getConversationSupportView
+  - id: admin_remove_chat_message
+    method: DELETE
+    path: "/chat/admin/conversations/{conversationId}/messages/{messageId}"
+    controller_class: com.themuffinman.app.chat.controller.ChatAdminController
+    handler_method: moderateDeleteMessage
   - id: get_business_profiles
     method: GET
     path: "/business/profiles"
@@ -8100,6 +9093,300 @@ intents:
     fail_if:
     - no currently accessible conversation matches the intended target
     - multiple conversations still match the intended target
+- id: list_chat_conversations
+  description: List currently accessible chat conversations with optional type, context,
+    and text filters.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - conversation_type
+  - context_type
+  - context_id
+  - query
+  - limit
+  - page
+  - include_archived
+  defaults:
+  - field: page
+    value: 0
+  - field: include_archived
+    value: false
+  workflow:
+  - step: 1
+    action: Load the acting user's currently accessible conversation set and optionally
+      filter it by conversation type, context scope, archive visibility, and normalized
+      search text.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - context_id is provided without context_type
+    - conversation_type is unsupported
+    - context_type is unsupported
+  - step: 2
+    action: Return the filtered conversation list through the dedicated conversation-list
+      endpoint.
+    endpoint_id: list_chat_conversations
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: add_chat_message_reaction
+  description: Add one emoji reaction to one accessible chat message.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  - emoji
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require an accessible conversation, a message inside that conversation,
+      and one normalized emoji value.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - message_id is missing
+    - emoji is missing or blank
+    - message does not belong to the selected conversation
+  - step: 2
+    action: Add or reuse the caller's reaction through the dedicated reaction endpoint
+      and broadcast the updated message surface.
+    endpoint_id: add_chat_message_reaction
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: remove_chat_message_reaction
+  description: Remove one caller-owned emoji reaction from one accessible chat message.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  - emoji
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require an accessible conversation, a message inside that conversation,
+      and one normalized emoji value.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - message_id is missing
+    - emoji is missing or blank
+    - message does not belong to the selected conversation
+  - step: 2
+    action: Remove the caller-owned reaction through the dedicated reaction-delete
+      endpoint and broadcast the updated message surface.
+    endpoint_id: remove_chat_message_reaction
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_chat_audit_events
+  description: Read chat audit events through the admin-only moderation surface.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - event_type
+  - user_id
+  - conversation_id
+  - limit
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require admin authority and optional audit filters with supported event
+      type values.
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+    - service_errors
+    fail_if:
+    - authenticated user is not admin
+    - event_type is unsupported
+  - step: 2
+    action: Return the filtered audit feed through the admin audit-events endpoint.
+    endpoint_id: get_chat_audit_events
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+- id: open_chat_admin_conversation_support_view
+  description: Read one admin support view that combines a conversation summary with
+    recent messages and audit events.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require admin authority and one existing conversation id.
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+    - service_errors
+    fail_if:
+    - authenticated user is not admin
+    - conversation_id is missing
+    - conversation does not exist
+  - step: 2
+    action: Load the combined support view through the admin conversation support
+      endpoint.
+    endpoint_id: get_chat_admin_conversation_support_view
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+- id: open_chat_conversation_sync
+  description: Read one conversation sync slice with messages after a cursor plus
+    active typing snapshot.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs:
+  - after_message_id
+  - limit
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require one accessible conversation and an optional message cursor for
+      incremental sync.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - conversation is inaccessible
+  - step: 2
+    action: Return the current conversation summary, incremental message slice, and
+      active typing ids through the sync endpoint.
+    endpoint_id: get_chat_conversation_sync
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: upload_chat_attachment
+  description: Validate one chat attachment upload, store it in external object storage,
+    and return one backend-owned staged upload reference for message creation.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - file
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require one non-empty uploaded file, supported mime type, and size inside
+      configured attachment limits.
+    source_refs:
+    - chat_controller
+    - chat_service
+    - service_errors
+    fail_if:
+    - uploaded file is missing
+    - uploaded file is empty
+    - mime type is unsupported
+    - file exceeds attachment size limit
+  - step: 2
+    action: Return one staged upload reference with storage metadata and one resolved
+      attachment URL through the upload endpoint so the caller can pass the upload
+      id into message creation.
+    endpoint_id: upload_chat_attachment
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_chat_attachment_storage_status
+  description: Read the current chat attachment storage mode for the authenticated
+    caller's environment.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require one authenticated caller before exposing the active chat attachment
+      storage mode.
+    source_refs:
+    - chat_controller
+    - chat_service
+    - service_errors
+    fail_if:
+    - authenticated user is missing
+  - step: 2
+    action: Return the enabled flag, provider, mode, and local or external endpoint
+      hints through the storage-status endpoint.
+    endpoint_id: get_chat_attachment_storage_status
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_chat_attachment_object
+  description: Read one chat attachment object through the backend proxy when the
+    caller is allowed to access the referenced chat upload or message.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - storage_key
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require one non-blank storage key and verify that the caller either owns
+      the staged upload or can access a conversation that references the attachment
+      object.
+    source_refs:
+    - chat_controller
+    - chat_service
+    - service_errors
+    fail_if:
+    - authenticated user is missing
+    - storage key is missing
+    - storage key is blank
+    - attachment object is missing
+    - caller cannot access the referenced attachment object
+  - step: 2
+    action: Load the attachment bytes through the active object-storage provider and
+      stream them through the attachment-object endpoint.
+    endpoint_id: get_chat_attachment_object
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: admin_remove_chat_message
+  description: Remove one chat message through the admin moderation surface.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require admin authority plus one existing message that belongs to the
+      selected conversation.
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+    - service_errors
+    fail_if:
+    - authenticated user is not admin
+    - conversation_id is missing
+    - message_id is missing
+    - message does not belong to the selected conversation
+  - step: 2
+    action: Soft-delete the target message and refresh the thread preview through
+      the admin moderation endpoint.
+    endpoint_id: admin_remove_chat_message
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
 - id: open_chat_conversation
   description: Open one chat conversation with a current accepted contact.
   mutating: true
@@ -8121,6 +9408,328 @@ intents:
   - step: 2
     action: Open or create the conversation through the chat open endpoint.
     endpoint_id: open_chat_conversation
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: create_group_chat_conversation
+  description: Create one manual group chat with more than two participants.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - title
+  - participant_user_ids
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require at least two other distinct participants and keep all of them
+      inside the actor's currently accepted contact graph.
+    source_refs:
+    - chat_service
+    - circle_relation_service
+    - service_errors
+    fail_if:
+    - title is missing
+    - participant_user_ids is missing
+    - fewer than two other distinct participants remain after normalization
+    - one or more target users are not current accepted contacts
+  - step: 2
+    action: Create the group thread through the dedicated group-chat endpoint.
+    endpoint_id: create_group_chat_conversation
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: rename_group_chat_conversation
+  description: Rename one manageable manual group chat.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - title
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation and owner-or-admin
+      authority.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - title is missing
+    - conversation is not a manageable group thread for the actor
+  - step: 2
+    action: Persist the updated group title through the dedicated group-management
+      endpoint.
+    endpoint_id: rename_group_chat_conversation
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: add_group_chat_participants
+  description: Add one or more new participants to one manageable manual group chat.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - participant_user_ids
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation, owner-or-admin authority,
+      and new participant ids that still belong to the actor's accepted contact graph.
+    source_refs:
+    - chat_service
+    - circle_relation_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - participant_user_ids is missing
+    - conversation is not a manageable group thread for the actor
+    - every requested participant is already in the thread
+    - one or more target users are not current accepted contacts of the actor
+  - step: 2
+    action: Persist the membership expansion through the participant-add endpoint.
+    endpoint_id: add_group_chat_participants
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: update_group_chat_participant_role
+  description: Change one participant role inside one manageable manual group chat.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - participant_user_id
+  - role
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation, owner-or-admin authority,
+      and a valid participant role transition.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - participant_user_id is missing
+    - role is missing
+    - conversation is not a manageable group thread for the actor
+    - requested role is unsupported
+    - non-owner actor attempts ownership transfer or admin-role escalation
+  - step: 2
+    action: Persist the participant role update through the dedicated role endpoint.
+    endpoint_id: update_group_chat_participant_role
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: remove_group_chat_participant
+  description: Remove one other participant from one manageable manual group chat.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - participant_user_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation, owner-or-admin authority,
+      a removable target participant, and at least two participants remaining after
+      removal.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - participant_user_id is missing
+    - conversation is not a manageable group thread for the actor
+    - actor tries to remove themself through the manager endpoint
+    - target participant is the current owner
+    - removal would leave fewer than two participants
+  - step: 2
+    action: Persist the participant removal through the dedicated remove endpoint.
+    endpoint_id: remove_group_chat_participant
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: leave_group_chat_conversation
+  description: Leave one manual group chat as the authenticated participant.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation and at least two participants
+      remaining after the actor leaves.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - conversation is not a manual group thread
+    - leaving would leave fewer than two participants
+  - step: 2
+    action: Remove the current participant through the leave-group endpoint and transfer
+      ownership when the leaving actor is the current owner.
+    endpoint_id: leave_group_chat_conversation
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_circle_room_chat
+  description: Open the canonical chat room for one circle.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - circle_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require circle ownership or current circle membership for the target circle.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - circle_id is missing
+    - actor does not own the circle and is not a current member
+  - step: 2
+    action: Open or create the canonical circle room through the circle-room endpoint.
+    endpoint_id: open_circle_room_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: get_circle_room_chat
+  description: Read one already-created canonical chat room for one circle.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - circle_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require circle ownership or current circle membership for the target circle
+      and require an already-created canonical room.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - circle_id is missing
+    - actor does not own the circle and is not a current member
+    - canonical room does not exist yet
+  - step: 2
+    action: Load the canonical circle room through the read-only room endpoint.
+    endpoint_id: get_circle_room_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_quest_thread_chat
+  description: Open the canonical chat thread for one quest.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - quest_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require quest management authority or one approved application on the
+      quest.
+    source_refs:
+    - chat_service
+    - quest_access_policy_service
+    - service_errors
+    fail_if:
+    - quest_id is missing
+    - actor cannot manage the quest and has no approved application on it
+  - step: 2
+    action: Open or create the canonical quest thread through the quest-thread endpoint.
+    endpoint_id: open_quest_thread_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: get_quest_thread_chat
+  description: Read one already-created canonical chat thread for one quest.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - quest_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require quest management authority or one approved application on the
+      quest and require an already-created canonical thread.
+    source_refs:
+    - chat_service
+    - quest_access_policy_service
+    - service_errors
+    fail_if:
+    - quest_id is missing
+    - actor cannot manage the quest and has no approved application on it
+    - canonical thread does not exist yet
+  - step: 2
+    action: Load the canonical quest thread through the read-only quest-thread endpoint.
+    endpoint_id: get_quest_thread_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_application_thread_chat
+  description: Open the canonical chat thread for one quest application.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - application_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require the same application-detail visibility that already governs the
+      application detail surface.
+    source_refs:
+    - chat_service
+    - quest_access_policy_service
+    - service_errors
+    fail_if:
+    - application_id is missing
+    - actor cannot view the target application
+  - step: 2
+    action: Open or create the canonical application thread through the application-thread
+      endpoint.
+    endpoint_id: open_application_thread_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: get_application_thread_chat
+  description: Read one already-created canonical chat thread for one quest application.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - application_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require the same application-detail visibility that already governs the
+      application detail surface and require an already-created canonical thread.
+    source_refs:
+    - chat_service
+    - quest_access_policy_service
+    - service_errors
+    fail_if:
+    - application_id is missing
+    - actor cannot view the target application
+    - canonical thread does not exist yet
+  - step: 2
+    action: Load the canonical application thread through the read-only application-thread
+      endpoint.
+    endpoint_id: get_application_thread_chat
     source_refs:
     - chat_controller
     - chat_service
@@ -8152,7 +9761,7 @@ intents:
     - chat_controller
     - chat_service
 - id: mark_chat_conversation_read
-  description: Mark one currently accessible chat conversation as read.
+  description: Mark one currently accessible chat conversation as seen.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -8169,8 +9778,123 @@ intents:
     - conversation_id is missing
     - conversation is not currently accessible through accepted contact eligibility
   - step: 2
-    action: Mark unread incoming messages as read through the chat read endpoint.
+    action: Mark unread incoming messages as seen through the chat read endpoint.
     endpoint_id: mark_chat_conversation_read
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: update_chat_conversation_state
+  description: Update one authenticated participant's chat conversation archive or
+    mute state.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs:
+  - archived
+  - muted_until
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a current accessible conversation id for the acting user and at
+      least one archive-or-mute field.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - conversation is not currently accessible through accepted contact eligibility
+    - archived and muted_until are both missing
+  - step: 2
+    action: Persist the participant-specific conversation state through the chat state
+      endpoint.
+    endpoint_id: update_chat_conversation_state
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: mark_chat_conversation_delivered
+  description: Mark one currently accessible chat conversation as delivered up to
+    one optional message id.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs:
+  - up_to_message_id
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a current accessible conversation id for the acting user.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - conversation is not currently accessible through accepted contact eligibility
+  - step: 2
+    action: Persist delivery receipts through the chat delivery endpoint.
+    endpoint_id: mark_chat_conversation_delivered
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: update_chat_message
+  description: Edit one of the authenticated sender's currently accessible chat messages
+    inside the active edit window.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  - message_body
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a current accessible conversation, require message ownership,
+      reject deleted messages, and reject updates outside the configured edit window.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - message_id is missing
+    - message_body is blank
+    - conversation is not currently accessible through accepted contact eligibility
+    - message is not owned by the acting user
+    - message is already deleted
+    - edit window has expired
+  - step: 2
+    action: Persist the edited message through the chat update-message endpoint.
+    endpoint_id: update_chat_message
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: delete_chat_message
+  description: Soft-delete one of the authenticated sender's currently accessible
+    chat messages inside the active delete window.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a current accessible conversation, require message ownership,
+      and reject deletes outside the configured delete window.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - message_id is missing
+    - conversation is not currently accessible through accepted contact eligibility
+    - message is not owned by the acting user
+    - delete window has expired
+  - step: 2
+    action: Soft-delete the message through the chat delete-message endpoint.
+    endpoint_id: delete_chat_message
     source_refs:
     - chat_controller
     - chat_service

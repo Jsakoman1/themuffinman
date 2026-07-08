@@ -4,8 +4,8 @@
 - Why: stale artifacts=0
 - Evidence: artifacts=8
 
-- `agent_endpoint_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java`
-- `automation_read_model_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java`
-- `source_of_truth_audit` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java`
-- `backend_audit_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java`
-- `frontend_generated_contract` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java`
+- `agent_endpoint_inventory` `fresh` source=`docs/agent-operating-model/sections/intents.yaml`
+- `automation_read_model_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java`
+- `source_of_truth_audit` `fresh` source=`apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java`
+- `backend_audit_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java`
+- `frontend_generated_contract` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java`

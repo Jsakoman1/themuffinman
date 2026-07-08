@@ -219,6 +219,14 @@ backend_contract_snapshots:
   java_class: com.themuffinman.app.chat.dto.ChatConversationSummaryDTO
   declared_fields:
   - conversationId
+  - conversationType
+  - contextType
+  - contextId
+  - title
+  - ownerUserId
+  - participantCount
+  - canManageParticipants
+  - participants
   - otherUserId
   - otherUsername
   - resolutionKey
@@ -228,22 +236,328 @@ backend_contract_snapshots:
   - otherUserAvatarDataUrl
   - otherUserOnline
   - otherUserLastActiveAt
+  - lastMessageId
   - lastMessagePreview
   - lastMessageAt
   - lastMessageFromCurrentUser
   - lastMessageHasImage
+  - lastMessageDeleted
+  - muted
+  - mutedUntil
+  - archived
+  - archivedAt
+  - lastDeliveredMessageId
+  - lastSeenMessageId
   - unreadCount
   semantic_required_fields:
   - conversationId
-  - otherUserId
-  - otherUsername
+  - conversationType
+  - participantCount
+  - participants
   - resolutionKey
   - resolutionLabel
   - exactResolutionEligible
-  - otherUserOnline
   - unreadCount
   source_refs:
   - chat_service
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageDTO
+  declared_fields:
+  - id
+  - conversationId
+  - conversationType
+  - senderUserId
+  - senderUsername
+  - senderAvatarDataUrl
+  - messageBody
+  - imageDataUrl
+  - attachmentName
+  - attachmentMimeType
+  - attachmentStorageProvider
+  - attachmentStorageKey
+  - attachmentUrl
+  - attachmentUrlExpiresAt
+  - attachmentSizeBytes
+  - replyToMessageId
+  - clientMessageId
+  - createdAt
+  - updatedAt
+  - editedAt
+  - deletedAt
+  - readAt
+  - deliveredAt
+  - seenAt
+  - reactions
+  - edited
+  - deleted
+  - ownMessage
+  semantic_required_fields:
+  - id
+  - conversationId
+  - conversationType
+  - senderUserId
+  - senderUsername
+  - createdAt
+  - updatedAt
+  - ownMessage
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_reaction_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageReactionDTO
+  declared_fields:
+  - id
+  - userId
+  - username
+  - emoji
+  - createdAt
+  - ownReaction
+  semantic_required_fields:
+  - id
+  - userId
+  - emoji
+  - createdAt
+  source_refs:
+  - chat_service
+  - chat_admin_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_page_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessagePageDTO
+  declared_fields:
+  - messages
+  - limit
+  - hasMore
+  - nextBeforeMessageId
+  semantic_required_fields:
+  - messages
+  - limit
+  - hasMore
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_workspace_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatWorkspaceDTO
+  declared_fields:
+  - conversations
+  - contacts
+  - circles
+  - unreadConversationCount
+  - onlineContactCount
+  - conversationLimit
+  semantic_required_fields:
+  - conversations
+  - contacts
+  - circles
+  - unreadConversationCount
+  - onlineContactCount
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_conversation_list_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatConversationListDTO
+  declared_fields:
+  - conversations
+  - filteredCount
+  - limit
+  - page
+  - hasMore
+  - includeArchived
+  - conversationType
+  - contextType
+  - contextId
+  - query
+  semantic_required_fields:
+  - conversations
+  - filteredCount
+  - limit
+  - includeArchived
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageRequestDTO
+  declared_fields:
+  - CHAT_IMAGE_MAX_LENGTH
+  - messageBody
+  - imageDataUrl
+  - clientMessageId
+  - attachmentName
+  - attachmentMimeType
+  - attachmentUploadId
+  - replyToMessageId
+  semantic_required_fields:
+  - messageBody
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_update_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageUpdateRequestDTO
+  declared_fields:
+  - messageBody
+  semantic_required_fields:
+  - messageBody
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_attachment_upload_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatAttachmentUploadDTO
+  declared_fields:
+  - uploadId
+  - attachmentName
+  - attachmentMimeType
+  - attachmentSizeBytes
+  - attachmentStorageProvider
+  - attachmentStorageKey
+  - attachmentUrl
+  - attachmentUrlExpiresAt
+  semantic_required_fields:
+  - uploadId
+  - attachmentName
+  - attachmentMimeType
+  - attachmentSizeBytes
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_conversation_sync_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatConversationSyncDTO
+  declared_fields:
+  - conversation
+  - messages
+  - afterMessageId
+  - latestMessageId
+  - activeTypingUserIds
+  - typingTimeoutSeconds
+  semantic_required_fields:
+  - conversation
+  - messages
+  - latestMessageId
+  - activeTypingUserIds
+  - typingTimeoutSeconds
+  source_refs:
+  - chat_service
+  - chat_realtime_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_mark_read_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMarkReadRequestDTO
+  declared_fields:
+  - upToMessageId
+  semantic_required_fields:
+  - upToMessageId
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_conversation_state_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatConversationStateRequestDTO
+  declared_fields:
+  - archived
+  - mutedUntil
+  semantic_required_fields:
+  - archived
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_receipt_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatReceiptRequestDTO
+  declared_fields:
+  - upToMessageId
+  semantic_required_fields:
+  - upToMessageId
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_message_reaction_request_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatMessageReactionRequestDTO
+  declared_fields:
+  - emoji
+  semantic_required_fields:
+  - emoji
+  source_refs:
+  - chat_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_audit_event_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatAuditEventDTO
+  declared_fields:
+  - id
+  - eventType
+  - userId
+  - username
+  - conversationId
+  - conversationType
+  - sessionId
+  - remoteAddress
+  - userAgent
+  - detailsJson
+  - createdAt
+  semantic_required_fields:
+  - id
+  - eventType
+  - createdAt
+  source_refs:
+  - chat_admin_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatAdminControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_audit_event_list_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatAuditEventListDTO
+  declared_fields:
+  - events
+  - limit
+  - eventType
+  - userId
+  - conversationId
+  semantic_required_fields:
+  - events
+  - limit
+  source_refs:
+  - chat_admin_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatAdminControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+- id: chat_admin_conversation_support_view_snapshot
+  java_class: com.themuffinman.app.chat.dto.ChatAdminConversationSupportViewDTO
+  declared_fields:
+  - conversation
+  - recentMessages
+  - recentAuditEvents
+  - recentMessagesLimit
+  - recentAuditLimit
+  semantic_required_fields:
+  - conversation
+  - recentMessages
+  - recentAuditEvents
+  source_refs:
+  - chat_admin_service
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatAdminControllerTest.java
   - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java

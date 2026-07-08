@@ -1,42 +1,19 @@
 {
-  "generated_at": "2026-07-07T16:32:21Z",
-  "original_file_count": 18,
+  "generated_at": "2026-07-08T08:36:19Z",
+  "original_file_count": 1,
   "filtered_file_count": 0,
   "excluded_file_count": 0,
   "files_considered": [
-    ".agents/implementation-system-improvement-master-plan-next.md",
-    ".agents/templates/feature-implementation-plan.template.md",
-    ".agents/templates/god-plan.template.yaml",
-    ".agents/templates/master-plan.template.md",
-    "AGENTS.md",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
-    "docs/agent-operating-model.md",
-    "docs/agent-operating-model.yaml",
-    "docs/agent-operating-model/sections/documentation_sync.yaml",
-    "docs/agent-operating-model/sections/policies.yaml",
-    "docs/change-completion-checklist.md",
-    "docs/codex-fast-path.md",
-    "docs/documentation-sync-policy.md",
-    "docs/feature-delivery-workflow.md",
-    "docs/program-planning-model.md",
-    "scripts/audits/local_tooling_extended_tools.rb",
-    "scripts/implementation-batch.sh",
-    ".agents/tmp/implementation-system-master-plan-analysis.yaml"
+    ".agents/feature-manifests/chat-prod-ready-manifest.yaml"
   ],
   "domains": [
-    "agent",
     "shared"
   ],
   "categories": [
-    "docs",
-    "other",
-    "script"
+    "other"
   ],
   "direct_tests": [
-    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationServiceTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java",
-    "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java"
+
   ],
   "recommended_commands": [
     {
@@ -44,18 +21,7 @@
       "reason": "Docs, plans, or agent artifacts changed.",
       "confidence": "high",
       "covers": [
-        ".agents/implementation-system-improvement-master-plan-next.md",
-        ".agents/templates/feature-implementation-plan.template.md",
-        ".agents/templates/god-plan.template.yaml",
-        ".agents/templates/master-plan.template.md",
-        "docs/agent-operating-model.md",
-        "docs/agent-operating-model.yaml",
-        "docs/agent-operating-model/sections/documentation_sync.yaml",
-        "docs/agent-operating-model/sections/policies.yaml",
-        "docs/change-completion-checklist.md",
-        "docs/codex-fast-path.md",
-        "docs/documentation-sync-policy.md",
-        "docs/feature-delivery-workflow.md"
+        ".agents/feature-manifests/chat-prod-ready-manifest.yaml"
       ],
       "uncovered": [
 
@@ -66,58 +32,15 @@
       "reason": "Protected documentation wording may be affected by docs or agent-safety edits.",
       "confidence": "medium",
       "covers": [
-        "docs/agent-operating-model.md",
-        "docs/agent-operating-model.yaml",
-        "docs/agent-operating-model/sections/documentation_sync.yaml",
-        "docs/agent-operating-model/sections/policies.yaml",
-        "docs/change-completion-checklist.md",
-        "docs/codex-fast-path.md",
-        "docs/documentation-sync-policy.md",
-        "docs/feature-delivery-workflow.md",
-        "docs/program-planning-model.md"
+
       ],
       "uncovered": [
         "Does not validate Java-side agent operating model tests."
       ]
-    },
-    {
-      "command": "make audit-generated-artifact-freshness",
-      "reason": "Generated artifacts, generation scripts, or Make targets changed.",
-      "confidence": "high",
-      "covers": [
-        "scripts/audits/local_tooling_extended_tools.rb",
-        "scripts/implementation-batch.sh"
-      ],
-      "uncovered": [
-
-      ]
-    },
-    {
-      "command": "make audit-generated-commit-scope",
-      "reason": "Classifies changed generated artifacts before closeout.",
-      "confidence": "medium",
-      "covers": [
-
-      ],
-      "uncovered": [
-        "Advisory only; reviewer still chooses which generated files belong in the changeset."
-      ]
-    },
-    {
-      "command": "cd apps/themuffinman && ./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest",
-      "reason": "Regression scenario `agent-exact-target-fail-closed` covers Admin-agent mutating prompts must fail closed until exact target resolution and required confirmation exist.",
-      "confidence": "high",
-      "covers": [
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminAgentExecutionServiceTest.java",
-        "apps/themuffinman/src/test/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlannerTest.java"
-      ],
-      "uncovered": [
-
-      ]
     }
   ],
   "residual_risk": [
-    "Multiple domains changed; targeted commands do not prove cross-domain integration."
+
   ],
   "notes": [
     "This is a targeted recommendation report, not a replacement for full validation.",

@@ -27,4 +27,8 @@ public final class ServiceErrors {
     public static ResponseStatusException unauthorized(String message) {
         return new ResponseStatusException(HttpStatus.UNAUTHORIZED, message);
     }
+
+    public static ResponseStatusException serviceUnavailable(String message) {
+        return new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, message);
+    }
 }

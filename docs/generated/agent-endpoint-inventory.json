@@ -30,10 +30,34 @@
     "path": "/business/profiles/{slug}"
   },
   {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatAdminController",
+    "handlerMethod": "getAuditEvents",
+    "httpMethod": "GET",
+    "path": "/chat/admin/audit-events"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatAdminController",
+    "handlerMethod": "getConversationSupportView",
+    "httpMethod": "GET",
+    "path": "/chat/admin/conversations/{conversationId}/support-view"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatAdminController",
+    "handlerMethod": "moderateDeleteMessage",
+    "httpMethod": "DELETE",
+    "path": "/chat/admin/conversations/{conversationId}/messages/{messageId}"
+  },
+  {
     "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
     "handlerMethod": "getWorkspace",
     "httpMethod": "GET",
     "path": "/chat/workspace"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "listConversations",
+    "httpMethod": "GET",
+    "path": "/chat/conversations"
   },
   {
     "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
@@ -43,15 +67,147 @@
   },
   {
     "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "createGroupConversation",
+    "httpMethod": "POST",
+    "path": "/chat/conversations/groups"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "renameGroupConversation",
+    "httpMethod": "PATCH",
+    "path": "/chat/conversations/{conversationId}/group"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "addGroupParticipants",
+    "httpMethod": "POST",
+    "path": "/chat/conversations/{conversationId}/participants"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "updateGroupParticipantRole",
+    "httpMethod": "PATCH",
+    "path": "/chat/conversations/{conversationId}/participants/{participantUserId}/role"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "removeGroupParticipant",
+    "httpMethod": "DELETE",
+    "path": "/chat/conversations/{conversationId}/participants/{participantUserId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "leaveConversation",
+    "httpMethod": "DELETE",
+    "path": "/chat/conversations/{conversationId}/participants/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "openCircleRoom",
+    "httpMethod": "POST",
+    "path": "/chat/circles/{circleId}/room"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "getCircleRoom",
+    "httpMethod": "GET",
+    "path": "/chat/circles/{circleId}/room"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "openQuestThread",
+    "httpMethod": "POST",
+    "path": "/chat/quests/{questId}/thread"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "getQuestThread",
+    "httpMethod": "GET",
+    "path": "/chat/quests/{questId}/thread"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "openApplicationThread",
+    "httpMethod": "POST",
+    "path": "/chat/applications/{applicationId}/thread"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "getApplicationThread",
+    "httpMethod": "GET",
+    "path": "/chat/applications/{applicationId}/thread"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
     "handlerMethod": "getConversationMessages",
     "httpMethod": "GET",
     "path": "/chat/conversations/{conversationId}/messages"
   },
   {
     "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "getConversationSync",
+    "httpMethod": "GET",
+    "path": "/chat/conversations/{conversationId}/sync"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "uploadAttachment",
+    "httpMethod": "POST",
+    "path": "/chat/attachments"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "getAttachmentStorageStatus",
+    "httpMethod": "GET",
+    "path": "/chat/attachments/storage-status"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "getAttachmentObject",
+    "httpMethod": "GET",
+    "path": "/chat/attachments/object"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
     "handlerMethod": "sendMessage",
     "httpMethod": "POST",
     "path": "/chat/conversations/{conversationId}/messages"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "addReaction",
+    "httpMethod": "POST",
+    "path": "/chat/conversations/{conversationId}/messages/{messageId}/reactions"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "removeReaction",
+    "httpMethod": "DELETE",
+    "path": "/chat/conversations/{conversationId}/messages/{messageId}/reactions/{emoji}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "updateMessage",
+    "httpMethod": "PATCH",
+    "path": "/chat/conversations/{conversationId}/messages/{messageId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "deleteMessage",
+    "httpMethod": "DELETE",
+    "path": "/chat/conversations/{conversationId}/messages/{messageId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "updateConversationState",
+    "httpMethod": "PATCH",
+    "path": "/chat/conversations/{conversationId}/state"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.chat.controller.ChatController",
+    "handlerMethod": "markConversationDelivered",
+    "httpMethod": "PATCH",
+    "path": "/chat/conversations/{conversationId}/delivery"
   },
   {
     "controllerClass": "com.themuffinman.app.chat.controller.ChatController",

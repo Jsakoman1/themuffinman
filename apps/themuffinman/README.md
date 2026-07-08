@@ -90,7 +90,11 @@ Important notes:
 - for local development, run with `SPRING_PROFILES_ACTIVE=dev`
 - `make dev` and `make backend-dev` provide local JWT/CORS defaults
 - `make dev` auto-loads values from `.env.backend.dev` and `.env.backend.dev.local` and skips starting another backend if port `8080` is already in use
+- `make dev` also skips starting another frontend if port `5173` is already in use
 - `make backend-dev` also auto-loads values from `.env.backend.dev` and `.env.backend.dev.local`
+- when `SIDEQUEST_OBJECT_STORAGE_ENABLED=true` and `SIDEQUEST_OBJECT_STORAGE_PROVIDER=s3`, `make dev` and `make backend-dev` auto-start local MinIO from `docker-compose.object-storage.dev.yaml`
+- `make dev-storage` starts local MinIO manually and `make dev-storage-down` stops it
+- `make dev-doctor` prints the active local storage mode, required envs, Docker availability, and whether ports `8080`, `5173`, `9000`, and `9001` are already occupied
 - production should not run with the `dev` profile
 
 ### Frontend
@@ -150,6 +154,13 @@ Backend + frontend together:
 ```bash
 cd apps/themuffinman
 make dev
+```
+
+Optional local S3-compatible storage:
+
+```bash
+cd apps/themuffinman
+make dev-storage
 ```
 
 Equivalent shortcut:

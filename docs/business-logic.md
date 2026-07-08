@@ -344,19 +344,34 @@ Current covered modules:
 - Users cannot start a chat with themselves.
 - Pending circle requests do not create chat eligibility.
 - Conversation pairs are normalized so one pair of users maps to one conversation.
+- Opening a conversation now also goes through a backend per-user rate limit.
+- Each participant now keeps their own conversation state for archive and mute without changing the counterpart's view.
+- Opening a conversation clears that participant's archive state and refreshes their last-opened marker.
 - Losing circle eligibility also removes effective chat access to the conversation.
 - Existing conversation history does not preserve chat access after the accepted relation is lost.
 
 ### Message flow
 
 - A chat message can contain text, an image, or both.
+- Message history is paginated instead of forcing the whole conversation timeline into one response.
+- Send-message supports an optional client message id so safe client retries do not create duplicate messages.
+- Image uploads are still carried in the current data URL payload, but the backend now enforces allowed image types and decoded byte limits.
 - Sending a message updates the conversation summary fields immediately.
+- Message delivery and seen receipts are now tracked per message instead of relying only on one conversation-level read cutoff.
+- Open-conversation, send-message, read-tracking, and presence heartbeat now enforce backend rate limits.
+- Delivery receipt updates are also rate-limited on the backend.
 - Read tracking only applies to incoming unread messages for the current viewer.
+- Read tracking can stop at a specific message id instead of always marking the whole thread.
+- Delivery tracking can also stop at a specific message id, which lets mobile or web clients acknowledge partial history safely.
+- Users can edit only their own non-deleted messages inside the configured edit window.
+- Users can soft-delete only their own messages inside the configured delete window.
+- Deleted messages no longer expose their original body or image payload through read DTOs.
 - Image-only messages fall back to a generated preview label instead of raw empty text.
 
 ### Workspace and contact read model
 
 - Workspace combines recent conversations, contact list, owned circles, unread conversation count, and online contact count.
+- Workspace now excludes archived conversations by default and can explicitly include them when the caller asks for archived state.
 - Contacts are derived from the current user's circle memberships plus existing conversation counterparts.
 - Chat workspace only includes current accepted circle contacts.
 - Contact and conversation read models now expose deterministic resolution hints for future agent-safe chat targeting.
@@ -366,8 +381,12 @@ Current covered modules:
 ### Presence and realtime
 
 - Presence is activity-window based, not permanent online state.
+- The online window is configuration-backed instead of a hardcoded constant.
 - Websocket connect and disconnect events update presence and notify connected circle contacts.
-- Realtime events notify users when conversations, presence, or unread news state changes.
+- Websocket auth accepts the bearer token from the standard authorization header, websocket subprotocol fallback, or legacy query-token fallback.
+- Websocket clients can now send explicit delivered and seen receipt acknowledgements in addition to presence pings.
+- Realtime events now carry richer chat payloads for message create, update, delete, and read transitions in addition to workspace invalidation.
+- Chat now also stores durable websocket auth-failure, connect, disconnect, ping, invalid-payload, and rate-limit audit events for operational abuse review.
 
 ### Retention and cleanup
 
@@ -791,9 +810,26 @@ Current covered modules:
 
 ### Chat
 
-- Chat is a private conversation between two users.
-- A chat conversation can only exist between users who are in the same circle relationship graph.
-- Chat is currently designed for direct, ongoing coordination around work and social connections.
+- Chat now supports direct chats, manual group chats, circle-wide rooms, quest threads, and application threads.
+- Direct chat still requires an accepted circle relationship between the two users.
+- Group chat can include more than two participants, and the backend keeps explicit membership and role data for each participant in the thread.
+- Group chat participant roles are `OWNER`, `ADMIN`, and `MEMBER`.
+- Group chat owners and admins can rename the thread and manage membership, but only the owner can transfer ownership.
+- Removing or leaving a group chat never mutates circle room, quest thread, or application thread membership because those context-owned threads are synced from their parent record.
+- When a group owner leaves, ownership transfers automatically to an existing admin first and otherwise to another remaining participant.
+- Circle room chat belongs to one circle and includes the circle owner plus the current circle members.
+- Quest thread chat belongs to one quest and includes the quest owner plus the currently approved applicants for that quest.
+- Application thread chat belongs to one quest application and includes the quest owner plus that one applicant.
+- Canonical context-owned threads can now also be read through dedicated non-mutating backend routes when the thread already exists, while the existing open endpoints still create the thread on demand.
+- The backend now also exposes a filtered conversation-list surface so clients or agents can browse only direct chats, group chats, or one specific context-owned thread family without reconstructing that filter from the whole workspace payload.
+- Conversation-list responses now expose page and has-more metadata so backend consumers can page large chat sets without loading the full workspace surface.
+- Messages now support optional reply linkage, attachment metadata, and per-message emoji reactions.
+- Chat attachments can now be pre-validated through a dedicated backend upload endpoint before message creation.
+- Conversations now expose a dedicated sync surface so reconnecting clients can fetch message deltas and current typing participants after a websocket gap.
+- Chat now emits lightweight typing events over websocket for already authorized conversation participants.
+- Admin support tooling now exposes filtered chat audit events plus one conversation support view with recent messages and recent moderation history.
+- Admin tooling can now also remove one chat message through the backend moderation surface.
+- Every chat thread now carries backend context ownership metadata so the system can tell whether the thread belongs to a circle, quest, application, or to an ad hoc direct/group conversation.
 
 ## Current Quest Rules
 

@@ -24,5 +24,23 @@ public class ChatSocketEventDTO {
     private String reason;
     @ContractOptional
     @Nullable
+    private ChatConversationSummaryDTO conversation;
+    @ContractOptional
+    @Nullable
+    private ChatMessageDTO message;
+    @ContractOptional
+    @Nullable
+    private Long readUpToMessageId;
+    @ContractOptional
+    @Nullable
+    private Long deliveredUpToMessageId;
+    @ContractOptional
+    @Nullable
+    private Long seenUpToMessageId;
+    @ContractOptional
+    @Nullable
     private Long unreadNewsCount;
+    @ContractOptional
+    @Nullable
+    private Boolean typing;
 }

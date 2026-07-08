@@ -39,9 +39,48 @@ public class ChatMessage {
     @Column(name = "image_data_url", columnDefinition = "TEXT")
     private String imageDataUrl;
 
+    @Column(name = "attachment_name", length = 255)
+    private String attachmentName;
+
+    @Column(name = "attachment_mime_type", length = 120)
+    private String attachmentMimeType;
+
+    @Column(name = "attachment_data_url", columnDefinition = "TEXT")
+    private String attachmentDataUrl;
+
+    @Column(name = "attachment_size_bytes")
+    private Integer attachmentSizeBytes;
+
+    @Column(name = "attachment_storage_provider", length = 40)
+    private String attachmentStorageProvider;
+
+    @Column(name = "attachment_storage_key", length = 500)
+    private String attachmentStorageKey;
+
+    @Column(name = "reply_to_message_id")
+    private Long replyToMessageId;
+
+    @Column(name = "client_message_id", length = 80)
+    private String clientMessageId;
+
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt = Instant.now();
+
+    @Column(name = "edited_at")
+    private Instant editedAt;
+
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
+
     @Column(name = "read_at")
     private Instant readAt;
+
+    @Column(name = "delivered_at")
+    private Instant deliveredAt;
+
+    @Column(name = "seen_at")
+    private Instant seenAt;
 }

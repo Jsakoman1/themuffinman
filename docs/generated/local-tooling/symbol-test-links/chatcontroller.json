@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-07-08T08:55:54Z",
+  "symbol": "ChatController",
+  "symbol_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "category": "backend_controller",
+      "domain": "chat",
+      "lines": 107
+    }
+  ],
+  "direct_tests": [
+
+  ],
+  "nearby_tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java"
+  ],
+  "scenario_hits": [
+    {
+      "id": "social-chat-relation-access",
+      "domain": "social",
+      "risk": "high",
+      "scenario": "Circle membership, accepted relation state, blocking, discovery, and chat eligibility must not leak pending or stale contacts.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/social/service/CircleRelationServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=CircleServiceTest,CircleRelationServiceTest,ChatServiceTest"
+      ]
+    }
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=ChatServiceTest,VisionChatExecutionServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=CircleServiceTest,CircleRelationServiceTest,ChatServiceTest"
+  ],
+  "residual_risk": [
+    "No direct test references were found for the symbol.",
+    "Only nearby tests were found; symbol-level coverage may still be indirect."
+  ]
+}

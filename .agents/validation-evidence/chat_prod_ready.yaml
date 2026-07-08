@@ -1,0 +1,14 @@
+changeId: chat_prod_ready
+status: in_progress
+recordedAt: '2026-07-08T08:56:24Z'
+summary:
+- Recorded validation evidence for .agents/feature-manifests/chat-prod-ready-manifest.yaml.
+commands:
+- command: make audit-agent-safety
+  scope: agent-safety
+  result: failed
+  ranAt: '2026-07-08T08:56:24Z'
+  durationSeconds: 3.336
+  summary: Copying 3 resources from src/test/resources to target/test-classes
+generatedArtifacts: []
+skippedChecks: []

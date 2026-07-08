@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-08T08:20:41Z",
+  "generatedAt": "2026-07-08T09:25:56Z",
   "summary": {
-    "candidateCount": 193,
+    "candidateCount": 198,
     "domainCounts": {
       "agent": 25,
       "business": 2,
-      "chat": 11,
+      "chat": 16,
       "common": 5,
       "identity": 15,
       "location": 15,
@@ -18,7 +18,7 @@
     "ownerCounts": {
       "agent_platform": 25,
       "business_domain": 2,
-      "chat_domain": 11,
+      "chat_domain": 16,
       "platform_core": 10,
       "identity_domain": 15,
       "location_domain": 15,
@@ -253,11 +253,31 @@
       "serviceWorkflowCovered": null
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationStateRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_conversation_state_request_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "chat",
       "ownerId": "chat_domain",
       "sourceRefId": "chat_conversation_summary_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMarkReadRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_mark_read_request_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
@@ -273,6 +293,16 @@
       "serviceWorkflowCovered": null
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessagePageDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_message_page_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageRequestDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "chat",
@@ -283,11 +313,31 @@
       "serviceWorkflowCovered": null
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageUpdateRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_message_update_request_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatOpenConversationRequestDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "chat",
       "ownerId": "chat_domain",
       "sourceRefId": "chat_open_conversation_request_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatReceiptRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_receipt_request_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null

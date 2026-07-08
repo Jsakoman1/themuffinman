@@ -1,0 +1,168 @@
+{
+  "generated_at": "2026-07-08T08:55:54Z",
+  "domain": "chat",
+  "file_count": 26,
+  "categories": [
+    "backend_controller",
+    "backend_dto",
+    "backend_model",
+    "backend_repository",
+    "backend_service",
+    "other"
+  ],
+  "key_services": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatPresenceService.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "lines": 49
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRateLimitService.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "lines": 36
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "lines": 172
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRetentionService.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "lines": 32
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "lines": 605
+    }
+  ],
+  "key_controllers": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "category": "backend_controller",
+      "domain": "chat",
+      "lines": 107
+    }
+  ],
+  "key_repositories": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatConversationRepository.java",
+      "category": "backend_repository",
+      "domain": "chat",
+      "lines": 33
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageRepository.java",
+      "category": "backend_repository",
+      "domain": "chat",
+      "lines": 122
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatPresenceRepository.java",
+      "category": "backend_repository",
+      "domain": "chat",
+      "lines": 19
+    }
+  ],
+  "key_models": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatConversation.java",
+      "category": "backend_model",
+      "domain": "chat",
+      "lines": 60
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatMessage.java",
+      "category": "backend_model",
+      "domain": "chat",
+      "lines": 59
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatPresence.java",
+      "category": "backend_model",
+      "domain": "chat",
+      "lines": 37
+    }
+  ],
+  "dto_groups": [
+    {
+      "group": "enum-like",
+      "count": 1,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCircleOptionDTO.java"
+      ]
+    },
+    {
+      "group": "other",
+      "count": 6,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessagePageDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketClientMessageDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatWorkspaceDTO.java"
+      ]
+    },
+    {
+      "group": "read-models",
+      "count": 1,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java"
+      ]
+    },
+    {
+      "group": "request-response",
+      "count": 4,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMarkReadRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageUpdateRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatOpenConversationRequestDTO.java"
+      ]
+    }
+  ],
+  "frontend_surfaces": [
+
+  ],
+  "workflows": [
+    {
+      "id": "chat_conversation_access_lifecycle",
+      "owner": "ChatService",
+      "states": 2,
+      "transitions": 2
+    }
+  ],
+  "docs": [
+    "docs/business-logic.md",
+    "docs/domain-technical.md",
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml"
+  ],
+  "tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+  ],
+  "scenario_catalog": [
+
+  ],
+  "first_commands": [
+    "./mvnw test",
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "cd apps/themuffinman && ./mvnw test -Dtest=ChatServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest,VisionCapabilityPreviewServiceTest,VisionChatExecutionServiceTest,VisionConversationServiceTest",
+    "make audit-doc-sync-preflight files=apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java,apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCircleOptionDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMarkReadRequestDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessagePageDTO.java,apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageRequestDTO.java"
+  ],
+  "residual_risk": [
+
+  ]
+}

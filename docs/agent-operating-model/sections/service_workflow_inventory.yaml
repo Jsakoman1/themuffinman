@@ -358,22 +358,81 @@ service_workflow_inventory:
   service_class: com.themuffinman.app.chat.service.ChatService
   service_methods:
   - openConversation
+  - createGroupConversation
+  - renameGroupConversation
+  - addGroupParticipants
+  - updateGroupParticipantRole
+  - removeGroupParticipant
+  - leaveConversation
+  - openCircleRoom
+  - openQuestThread
+  - openApplicationThread
+  - uploadAttachment
   - sendMessage
+  - addReaction
+  - removeReaction
+  - updateConversationState
+  - markConversationDelivered
   - markConversationRead
+  - updateMessage
+  - deleteMessage
   - heartbeat
+  - updateTypingState
   covered_intents:
   - open_chat_conversation
+  - create_group_chat_conversation
+  - rename_group_chat_conversation
+  - add_group_chat_participants
+  - update_group_chat_participant_role
+  - remove_group_chat_participant
+  - leave_group_chat_conversation
+  - open_circle_room_chat
+  - open_quest_thread_chat
+  - open_application_thread_chat
+  - upload_chat_attachment
   - send_chat_message
+  - add_chat_message_reaction
+  - remove_chat_message_reaction
+  - update_chat_conversation_state
+  - mark_chat_conversation_delivered
   - mark_chat_conversation_read
+  - update_chat_message
+  - delete_chat_message
   - heartbeat_chat_presence
   automation_relevant: true
   source_refs:
   - chat_service
+  - chat_message_reaction
+  - chat_message_reaction_repository
+  - chat_conversation_state_service
+  - chat_conversation_member_state
+  - chat_conversation_member_state_repository
+  - chat_audit_service
+  - chat_audit_event
+  - chat_audit_event_type
+  - chat_audit_event_repository
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
   verification_tests:
   - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+- id: chat_admin_write_flows
+  service_class: com.themuffinman.app.chat.service.ChatAdminService
+  service_methods:
+  - moderateDeleteMessage
+  covered_intents:
+  - admin_remove_chat_message
+  automation_relevant: true
+  source_refs:
+  - chat_admin_service
+  - chat_audit_service
+  - chat_audit_event
+  - chat_audit_event_type
+  doc_paths:
+  - docs/domain-technical.md
+  - docs/agent-operating-model.md
+  verification_tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatAdminControllerTest.java
 - id: news_write_flows
   service_class: com.themuffinman.app.workmarket.service.WorkmarketQuestNewsService
   service_methods:

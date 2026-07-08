@@ -102,6 +102,7 @@ backend_audit_coverage:
     - apps/themuffinman/src/main/java/com/themuffinman/app/repository/
     - apps/themuffinman/src/main/java/com/themuffinman/app/security/
     - apps/themuffinman/src/main/java/com/themuffinman/app/service/
+    - apps/themuffinman/src/main/java/com/themuffinman/app/storage/
   tiers:
   - id: executor_critical
     description: Files that directly control agent-safe execution, mutation entrypoints, source mappings, or deterministic workflow behavior.
@@ -164,6 +165,10 @@ backend_audit_coverage:
     tier: internal_support
     path_prefixes:
     - apps/themuffinman/src/main/java/com/themuffinman/app/semantic/
+  - id: internal_support_storage_surface
+    tier: internal_support
+    path_prefixes:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/storage/
   - id: executor_tracked_service_surface
     tier: executor_critical
     file_names:

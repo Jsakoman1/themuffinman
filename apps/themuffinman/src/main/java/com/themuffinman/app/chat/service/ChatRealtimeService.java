@@ -3,8 +3,11 @@ package com.themuffinman.app.chat.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
+import com.themuffinman.app.chat.dto.ChatMessageDTO;
 import com.themuffinman.app.chat.dto.ChatSocketEventDTO;
 import com.themuffinman.app.chat.model.ChatConversation;
+import com.themuffinman.app.config.ChatProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.model.CircleRequest;
 import com.themuffinman.app.social.repository.CircleRequestRepository;
@@ -19,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +30,14 @@ public class ChatRealtimeService {
 
     private static final String WORKSPACE_UPDATED = "chat.workspace.updated";
     private static final String NEWS_UPDATED = "news.updated";
+    private static final String TYPING_UPDATED = "chat.typing.updated";
 
     private final ChatPresenceService chatPresenceService;
     private final CircleRequestRepository circleRequestRepository;
+    private final ChatProperties chatProperties;
 
     private final Map<Long, Set<WebSocketSession>> sessionsByUserId = new ConcurrentHashMap<>();
+    private final Map<Long, Map<Long, Instant>> typingExpiryByConversationId = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
 
     public void register(AppUser currentUser, WebSocketSession session) {
@@ -55,9 +62,57 @@ public class ChatRealtimeService {
         chatPresenceService.markActive(currentUser);
     }
 
-    public void notifyConversationChanged(ChatConversation conversation, Long actorUserId, String reason) {
-        notifyWorkspaceChanged(conversation.getLeftParticipant().getId(), conversation.getId(), actorUserId, reason);
-        notifyWorkspaceChanged(conversation.getRightParticipant().getId(), conversation.getId(), actorUserId, reason);
+    public void notifyMessageCreated(
+            ChatConversation conversation,
+            Long actorUserId,
+            Map<Long, ChatConversationSummaryDTO> summariesByUserId,
+            Map<Long, ChatMessageDTO> messagesByUserId
+    ) {
+        notifyConversationEvent(conversation, actorUserId, "message_created", summariesByUserId, messagesByUserId, null, null);
+    }
+
+    public void notifyMessageUpdated(
+            ChatConversation conversation,
+            Long actorUserId,
+            Map<Long, ChatConversationSummaryDTO> summariesByUserId,
+            Map<Long, ChatMessageDTO> messagesByUserId
+    ) {
+        notifyConversationEvent(conversation, actorUserId, "message_updated", summariesByUserId, messagesByUserId, null, null);
+    }
+
+    public void notifyMessageDeleted(
+            ChatConversation conversation,
+            Long actorUserId,
+            Map<Long, ChatConversationSummaryDTO> summariesByUserId,
+            Map<Long, ChatMessageDTO> messagesByUserId
+    ) {
+        notifyConversationEvent(conversation, actorUserId, "message_deleted", summariesByUserId, messagesByUserId, null, null);
+    }
+
+    public void notifyConversationStateUpdated(
+            ChatConversation conversation,
+            Long actorUserId,
+            Map<Long, ChatConversationSummaryDTO> summariesByUserId
+    ) {
+        notifyConversationEvent(conversation, actorUserId, "conversation_state_updated", summariesByUserId, Map.of(), null, null);
+    }
+
+    public void notifyConversationDelivered(
+            ChatConversation conversation,
+            Long actorUserId,
+            Map<Long, ChatConversationSummaryDTO> summariesByUserId,
+            Long deliveredUpToMessageId
+    ) {
+        notifyConversationEvent(conversation, actorUserId, "conversation_delivered", summariesByUserId, Map.of(), deliveredUpToMessageId, null);
+    }
+
+    public void notifyConversationSeen(
+            ChatConversation conversation,
+            Long actorUserId,
+            Map<Long, ChatConversationSummaryDTO> summariesByUserId,
+            Long seenUpToMessageId
+    ) {
+        notifyConversationEvent(conversation, actorUserId, "conversation_seen", summariesByUserId, Map.of(), null, seenUpToMessageId);
     }
 
     public void notifyWorkspaceChanged(Long userId, Long conversationId, Long actorUserId, String reason) {
@@ -76,6 +131,61 @@ public class ChatRealtimeService {
                 .reason(reason)
                 .unreadNewsCount(unreadNewsCount)
                 .build());
+    }
+
+    public void notifyTypingChanged(ChatConversation conversation, Long actorUserId, boolean typing) {
+        Map<Long, Instant> typingByUserId = typingExpiryByConversationId.computeIfAbsent(conversation.getId(), ignored -> new ConcurrentHashMap<>());
+        if (typing) {
+            typingByUserId.put(actorUserId, Instant.now().plusSeconds(chatProperties.getTyping().getTimeoutSeconds()));
+        } else {
+            typingByUserId.remove(actorUserId);
+        }
+        conversation.getParticipants().stream()
+                .filter(participant -> !participant.getUser().getId().equals(actorUserId))
+                .forEach(participant -> sendToUser(participant.getUser().getId(), ChatSocketEventDTO.builder()
+                        .type(TYPING_UPDATED)
+                        .conversationId(conversation.getId())
+                        .actorUserId(actorUserId)
+                        .reason("typing_changed")
+                        .typing(typing)
+                        .build()));
+    }
+
+    public List<Long> getActiveTypingUserIds(Long conversationId, Long excludedUserId, int timeoutSeconds) {
+        Map<Long, Instant> typingByUserId = typingExpiryByConversationId.get(conversationId);
+        if (typingByUserId == null || typingByUserId.isEmpty()) {
+            return List.of();
+        }
+        Instant fallbackCutoff = Instant.now().minusSeconds(Math.max(timeoutSeconds, 1));
+        typingByUserId.entrySet().removeIf(entry -> entry.getValue() == null || entry.getValue().isBefore(fallbackCutoff));
+        return typingByUserId.entrySet().stream()
+                .filter(entry -> entry.getValue() != null && entry.getValue().isAfter(Instant.now()))
+                .map(Map.Entry::getKey)
+                .filter(userId -> excludedUserId == null || !excludedUserId.equals(userId))
+                .sorted()
+                .toList();
+    }
+
+    private void notifyConversationEvent(
+            ChatConversation conversation,
+            Long actorUserId,
+            String reason,
+            Map<Long, ChatConversationSummaryDTO> summariesByUserId,
+            Map<Long, ChatMessageDTO> messagesByUserId,
+            Long deliveredUpToMessageId,
+            Long seenUpToMessageId
+    ) {
+        conversation.getParticipants().forEach(participant -> sendToUser(participant.getUser().getId(), ChatSocketEventDTO.builder()
+                .type(WORKSPACE_UPDATED)
+                .conversationId(conversation.getId())
+                .actorUserId(actorUserId)
+                .reason(reason)
+                .conversation(summariesByUserId.get(participant.getUser().getId()))
+                .message(messagesByUserId.get(participant.getUser().getId()))
+                .readUpToMessageId(seenUpToMessageId)
+                .deliveredUpToMessageId(deliveredUpToMessageId)
+                .seenUpToMessageId(seenUpToMessageId)
+                .build()));
     }
 
     private void notifyPresenceChanged(AppUser actor, String reason) {

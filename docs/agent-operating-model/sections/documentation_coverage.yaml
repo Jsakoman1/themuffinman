@@ -103,11 +103,30 @@ documentation_coverage:
     - admin_agent_execution_response_dto
   - id: chat_contract_dtos
     source_refs:
+    - chat_attachment_upload_dto
+    - chat_attachment_storage_status_dto
+    - chat_admin_conversation_support_view_dto
+    - chat_audit_event_dto
+    - chat_audit_event_list_dto
     - chat_circle_option_dto
     - chat_contact_dto
+    - chat_conversation_list_dto
+    - chat_conversation_participant_dto
+    - chat_conversation_participants_request_dto
+    - chat_conversation_role_request_dto
     - chat_conversation_summary_dto
+    - chat_conversation_sync_dto
+    - chat_conversation_state_request_dto
+    - chat_conversation_title_request_dto
+    - chat_create_group_conversation_request_dto
     - chat_message_dto
+    - chat_message_page_dto
     - chat_message_request_dto
+    - chat_receipt_request_dto
+    - chat_message_update_request_dto
+    - chat_mark_read_request_dto
+    - chat_message_reaction_dto
+    - chat_message_reaction_request_dto
     - chat_open_conversation_request_dto
     - chat_socket_client_message_dto
     - chat_socket_event_dto

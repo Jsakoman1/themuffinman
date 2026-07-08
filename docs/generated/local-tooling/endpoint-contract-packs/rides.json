@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-03T14:48:13Z",
+  "generated_at": "2026-07-08T10:09:52Z",
   "endpoint_family": "rides",
   "endpoints": [
     {
@@ -161,6 +161,18 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPresentation.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPreviewSupport.ts",
       "matched_paths": [
         "me"
       ]

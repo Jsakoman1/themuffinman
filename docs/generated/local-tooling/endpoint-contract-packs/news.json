@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-03T14:48:13Z",
+  "generated_at": "2026-07-08T10:09:52Z",
   "endpoint_family": "news",
   "endpoints": [
     {
       "method": "GET",
       "path": "/news/me",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
       "dtos": [
         "QuestNewsItemResponseDTO",
         "ActionResultDTO"
@@ -14,7 +14,7 @@
     {
       "method": "PATCH",
       "path": "/news/me/read",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
       "dtos": [
         "ActionResultDTO"
       ]
@@ -22,7 +22,7 @@
     {
       "method": "GET",
       "path": "/news/me/unread-count",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
       "dtos": [
         "QuestNewsItemResponseDTO",
         "ActionResultDTO"
@@ -31,7 +31,7 @@
     {
       "method": "PATCH",
       "path": "/news/me/{id}/read",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/QuestNewsController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
       "dtos": [
         "ActionResultDTO"
       ]
@@ -39,7 +39,8 @@
   ],
   "dto_files": [
     "apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ActionResultDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsItemResponseDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/QuestNewsItemResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java"
   ],
   "frontend_callsites": [
     {
@@ -168,12 +169,24 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
       "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPresentation.ts",
+      "matched_paths": [
         "me",
         "read"
       ]
     },
     {
-      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPreviewSupport.ts",
       "matched_paths": [
         "me"
       ]

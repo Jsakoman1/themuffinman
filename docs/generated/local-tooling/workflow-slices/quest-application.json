@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T06:23:20Z",
+  "generated_at": "2026-07-08T08:55:54Z",
   "workflow": "quest-application",
   "state_machine": {
     "id": "quest_application_lifecycle",
@@ -135,7 +135,7 @@
       "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "category": "frontend_contract",
       "domain": "shared",
-      "lines": 1740
+      "lines": 1768
     }
   ],
   "docs_refs": [

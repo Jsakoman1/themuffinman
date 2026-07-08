@@ -41,8 +41,17 @@ intent_safety_catalog:
     - open_quest_applications
     - open_quest_record
     - open_user_profile
+    - list_chat_conversations
     - resolve_chat_conversation
     - open_chat_conversation_messages
+    - open_chat_conversation_sync
+    - open_chat_attachment_storage_status
+    - open_chat_attachment_object
+    - open_chat_audit_events
+    - open_chat_admin_conversation_support_view
+    - get_circle_room_chat
+    - get_quest_thread_chat
+    - get_application_thread_chat
     - open_location_debug_status
     - browse_business_profiles
     - open_my_business_profile
@@ -71,8 +80,24 @@ intent_safety_catalog:
     - update_my_application
     - set_profile_current_location
     - open_chat_conversation
+    - create_group_chat_conversation
+    - rename_group_chat_conversation
+    - add_group_chat_participants
+    - update_group_chat_participant_role
+    - remove_group_chat_participant
+    - leave_group_chat_conversation
+    - open_circle_room_chat
+    - open_quest_thread_chat
+    - open_application_thread_chat
     - send_chat_message
+    - upload_chat_attachment
+    - add_chat_message_reaction
+    - remove_chat_message_reaction
+    - update_chat_conversation_state
+    - mark_chat_conversation_delivered
     - mark_chat_conversation_read
+    - update_chat_message
+    - delete_chat_message
     - heartbeat_chat_presence
     - mark_all_news_read
     - mark_news_item_read
@@ -92,6 +117,7 @@ intent_safety_catalog:
     - withdraw_my_application
     - delete_admin_application
     - delete_quest
+    - admin_remove_chat_message
     multi_actor_write:
     - accept_circle_connection
     - approve_application
@@ -196,6 +222,22 @@ intent_safety_catalog:
     - resolve_user_candidate
     ambiguity_policy: fail_closed
   - intent_id: mark_chat_conversation_read
+    resolution_workflows:
+    - resolve_chat_conversation
+    ambiguity_policy: fail_closed
+  - intent_id: update_chat_conversation_state
+    resolution_workflows:
+    - resolve_chat_conversation
+    ambiguity_policy: fail_closed
+  - intent_id: mark_chat_conversation_delivered
+    resolution_workflows:
+    - resolve_chat_conversation
+    ambiguity_policy: fail_closed
+  - intent_id: update_chat_message
+    resolution_workflows:
+    - resolve_chat_conversation
+    ambiguity_policy: fail_closed
+  - intent_id: delete_chat_message
     resolution_workflows:
     - resolve_chat_conversation
     ambiguity_policy: fail_closed

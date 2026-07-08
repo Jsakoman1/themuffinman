@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-03T14:48:13Z",
+  "generated_at": "2026-07-08T10:09:52Z",
   "endpoint_family": "dashboard",
   "endpoints": [
     {
       "method": "GET",
       "path": "/dashboard/me",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "dtos": [
         "DashboardResponseDTO",
         "DashboardSummaryDTO",
@@ -17,7 +17,7 @@
     {
       "method": "GET",
       "path": "/dashboard/me/summary",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "dtos": [
         "DashboardResponseDTO",
         "DashboardSummaryDTO",
@@ -29,7 +29,7 @@
     {
       "method": "POST",
       "path": "/dashboard/me/vision/prompt",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "dtos": [
         "DashboardVisionPromptResponseDTO",
         "DashboardVisionPromptRequestDTO",
@@ -40,7 +40,7 @@
     {
       "method": "GET",
       "path": "/dashboard/me/voice-config",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "dtos": [
         "DashboardResponseDTO",
         "DashboardSummaryDTO",
@@ -52,7 +52,7 @@
     {
       "method": "POST",
       "path": "/dashboard/me/voice/speak",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "dtos": [
         "DashboardVisionPromptResponseDTO",
         "DashboardVisionPromptRequestDTO",
@@ -63,7 +63,7 @@
     {
       "method": "POST",
       "path": "/dashboard/me/voice/transcribe",
-      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/DashboardController.java",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
       "dtos": [
         "DashboardVisionPromptResponseDTO",
         "DashboardVisionPromptRequestDTO",
@@ -73,13 +73,13 @@
     }
   ],
   "dto_files": [
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardSummaryDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVisionPromptRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVisionPromptResponseDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceConfigDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceSpeechRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/DashboardVoiceTranscriptionDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardSummaryDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVisionPromptResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceConfigDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceSpeechRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/DashboardVoiceTranscriptionDTO.java"
   ],
   "frontend_callsites": [
     {
@@ -191,6 +191,7 @@
       "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "matched_paths": [
         "me",
+        "summary",
         "prompt"
       ]
     },
@@ -228,6 +229,19 @@
       "matched_paths": [
         "me",
         "prompt"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPresentation.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPreviewSupport.ts",
+      "matched_paths": [
+        "me",
+        "summary"
       ]
     },
     {

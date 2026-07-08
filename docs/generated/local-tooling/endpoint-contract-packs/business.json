@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-03T14:48:12Z",
+  "generated_at": "2026-07-08T10:09:51Z",
   "endpoint_family": "business",
   "endpoints": [
     {
@@ -148,7 +148,6 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
       "matched_paths": [
-        "profiles",
         "me"
       ]
     },
@@ -172,6 +171,19 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPresentation.ts",
+      "matched_paths": [
+        "profiles",
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/visionPreviewSupport.ts",
       "matched_paths": [
         "me"
       ]

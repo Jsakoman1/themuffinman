@@ -1,0 +1,182 @@
+{
+  "generated_at": "2026-07-08T08:55:54Z",
+  "dto": "ChatConversationSummaryDTO",
+  "dto_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java",
+      "category": "backend_dto",
+      "domain": "chat",
+      "lines": 37
+    }
+  ],
+  "controller_methods": [
+    {
+      "method": "POST",
+      "path": "/chat/conversations/open",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatConversationSummaryDTO",
+        "ChatOpenConversationRequestDTO",
+        "ChatMessagePageDTO",
+        "ChatMessageDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/conversations/{conversationId}/messages",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationSummaryDTO",
+        "ChatOpenConversationRequestDTO",
+        "ChatMessagePageDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/chat/conversations/{conversationId}/messages",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatConversationSummaryDTO",
+        "ChatOpenConversationRequestDTO",
+        "ChatMessagePageDTO",
+        "ChatMessageDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/chat/presence/heartbeat",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatConversationSummaryDTO",
+        "ChatOpenConversationRequestDTO",
+        "ChatMessagePageDTO",
+        "ChatMessageDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/workspace",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationSummaryDTO",
+        "ChatOpenConversationRequestDTO",
+        "ChatMessagePageDTO"
+      ]
+    }
+  ],
+  "backend_refs": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "category": "backend_controller",
+      "domain": "chat",
+      "lines": 107
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java",
+      "category": "backend_dto",
+      "domain": "chat",
+      "lines": 37
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java",
+      "category": "backend_dto",
+      "domain": "chat",
+      "lines": 37
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatWorkspaceDTO.java",
+      "category": "backend_dto",
+      "domain": "chat",
+      "lines": 21
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "lines": 172
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "lines": 605
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 508
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionResult.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 33
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 130
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIdentityPreviewRenderer.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 158
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 878
+    }
+  ],
+  "frontend_refs": [
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "lines": 1768
+    }
+  ],
+  "tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+  ],
+  "docs_refs": [
+    "docs/agent-operating-model.yaml",
+    "docs/agent-operating-model/sections/automation_read_models.yaml",
+    "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+    "docs/agent-operating-model/sections/source_of_truth.yaml",
+    "docs/domain-technical.md",
+    "docs/generated/local-tooling/diff-summary.md",
+    "docs/generated/local-tooling/domain-packs/chat-summary.md",
+    "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md"
+  ],
+  "generated_contract_refs": [
+    "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+    "docs/generated/automation-read-model-inventory.json",
+    "docs/generated/backend-audit-inventory.json",
+    "docs/generated/local-tooling/backend-dependency-graph.json",
+    "docs/generated/local-tooling/closeout-autofill/chat_prod_ready.json",
+    "docs/generated/local-tooling/diff-summary.json",
+    "docs/generated/local-tooling/domain-packs/chat.json",
+    "docs/generated/local-tooling/endpoint-contract-packs/chat.json",
+    "docs/generated/local-tooling/repo-map.json",
+    "docs/generated/local-tooling/symbol-index.json",
+    "docs/generated/source-of-truth-audit.json"
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionChatExecutionServiceTest,VisionConversationServiceTest",
+    "make audit-api-contract-drift",
+    "make endpoint-contract-packs",
+    "npm --prefix apps/themuffinman/frontend run type-check",
+    "npm --prefix apps/themuffinman/frontend run build"
+  ],
+  "residual_risk": [
+
+  ]
+}

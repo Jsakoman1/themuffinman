@@ -2224,6 +2224,273 @@ intents:
     fail_if:
     - no currently accessible conversation matches the intended target
     - multiple conversations still match the intended target
+- id: list_chat_conversations
+  description: List currently accessible chat conversations with optional type, context, and text filters.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - conversation_type
+  - context_type
+  - context_id
+  - query
+  - limit
+  - page
+  - include_archived
+  defaults:
+  - field: page
+    value: 0
+  - field: include_archived
+    value: false
+  workflow:
+  - step: 1
+    action: Load the acting user's currently accessible conversation set and optionally filter it by conversation type, context scope, archive visibility, and normalized search text.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - context_id is provided without context_type
+    - conversation_type is unsupported
+    - context_type is unsupported
+  - step: 2
+    action: Return the filtered conversation list through the dedicated conversation-list endpoint.
+    endpoint_id: list_chat_conversations
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: add_chat_message_reaction
+  description: Add one emoji reaction to one accessible chat message.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  - emoji
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require an accessible conversation, a message inside that conversation, and one normalized emoji value.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - message_id is missing
+    - emoji is missing or blank
+    - message does not belong to the selected conversation
+  - step: 2
+    action: Add or reuse the caller's reaction through the dedicated reaction endpoint and broadcast the updated message surface.
+    endpoint_id: add_chat_message_reaction
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: remove_chat_message_reaction
+  description: Remove one caller-owned emoji reaction from one accessible chat message.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  - emoji
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require an accessible conversation, a message inside that conversation, and one normalized emoji value.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - message_id is missing
+    - emoji is missing or blank
+    - message does not belong to the selected conversation
+  - step: 2
+    action: Remove the caller-owned reaction through the dedicated reaction-delete endpoint and broadcast the updated message surface.
+    endpoint_id: remove_chat_message_reaction
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_chat_audit_events
+  description: Read chat audit events through the admin-only moderation surface.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs:
+  - event_type
+  - user_id
+  - conversation_id
+  - limit
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require admin authority and optional audit filters with supported event type values.
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+    - service_errors
+    fail_if:
+    - authenticated user is not admin
+    - event_type is unsupported
+  - step: 2
+    action: Return the filtered audit feed through the admin audit-events endpoint.
+    endpoint_id: get_chat_audit_events
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+- id: open_chat_admin_conversation_support_view
+  description: Read one admin support view that combines a conversation summary with recent messages and audit events.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require admin authority and one existing conversation id.
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+    - service_errors
+    fail_if:
+    - authenticated user is not admin
+    - conversation_id is missing
+    - conversation does not exist
+  - step: 2
+    action: Load the combined support view through the admin conversation support endpoint.
+    endpoint_id: get_chat_admin_conversation_support_view
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+- id: open_chat_conversation_sync
+  description: Read one conversation sync slice with messages after a cursor plus active typing snapshot.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs:
+  - after_message_id
+  - limit
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require one accessible conversation and an optional message cursor for incremental sync.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - conversation is inaccessible
+  - step: 2
+    action: Return the current conversation summary, incremental message slice, and active typing ids through the sync endpoint.
+    endpoint_id: get_chat_conversation_sync
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: upload_chat_attachment
+  description: Validate one chat attachment upload, store it in external object storage, and return one backend-owned staged upload reference for message creation.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - file
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require one non-empty uploaded file, supported mime type, and size inside configured attachment limits.
+    source_refs:
+    - chat_controller
+    - chat_service
+    - service_errors
+    fail_if:
+    - uploaded file is missing
+    - uploaded file is empty
+    - mime type is unsupported
+    - file exceeds attachment size limit
+  - step: 2
+    action: Return one staged upload reference with storage metadata and one resolved attachment URL through the upload endpoint so the caller can pass the upload id into message creation.
+    endpoint_id: upload_chat_attachment
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_chat_attachment_storage_status
+  description: Read the current chat attachment storage mode for the authenticated caller's environment.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require one authenticated caller before exposing the active chat attachment storage mode.
+    source_refs:
+    - chat_controller
+    - chat_service
+    - service_errors
+    fail_if:
+    - authenticated user is missing
+  - step: 2
+    action: Return the enabled flag, provider, mode, and local or external endpoint hints through the storage-status endpoint.
+    endpoint_id: get_chat_attachment_storage_status
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_chat_attachment_object
+  description: Read one chat attachment object through the backend proxy when the caller is allowed to access the referenced chat upload or message.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - storage_key
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require one non-blank storage key and verify that the caller either owns the staged upload or can access a conversation that references the attachment object.
+    source_refs:
+    - chat_controller
+    - chat_service
+    - service_errors
+    fail_if:
+    - authenticated user is missing
+    - storage key is missing
+    - storage key is blank
+    - attachment object is missing
+    - caller cannot access the referenced attachment object
+  - step: 2
+    action: Load the attachment bytes through the active object-storage provider and stream them through the attachment-object endpoint.
+    endpoint_id: get_chat_attachment_object
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: admin_remove_chat_message
+  description: Remove one chat message through the admin moderation surface.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require admin authority plus one existing message that belongs to the selected conversation.
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
+    - service_errors
+    fail_if:
+    - authenticated user is not admin
+    - conversation_id is missing
+    - message_id is missing
+    - message does not belong to the selected conversation
+  - step: 2
+    action: Soft-delete the target message and refresh the thread preview through the admin moderation endpoint.
+    endpoint_id: admin_remove_chat_message
+    source_refs:
+    - chat_admin_controller
+    - chat_admin_service
 - id: open_chat_conversation
   description: Open one chat conversation with a current accepted contact.
   mutating: true
@@ -2245,6 +2512,312 @@ intents:
   - step: 2
     action: Open or create the conversation through the chat open endpoint.
     endpoint_id: open_chat_conversation
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: create_group_chat_conversation
+  description: Create one manual group chat with more than two participants.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - title
+  - participant_user_ids
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require at least two other distinct participants and keep all of them inside the actor's currently accepted contact graph.
+    source_refs:
+    - chat_service
+    - circle_relation_service
+    - service_errors
+    fail_if:
+    - title is missing
+    - participant_user_ids is missing
+    - fewer than two other distinct participants remain after normalization
+    - one or more target users are not current accepted contacts
+  - step: 2
+    action: Create the group thread through the dedicated group-chat endpoint.
+    endpoint_id: create_group_chat_conversation
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: rename_group_chat_conversation
+  description: Rename one manageable manual group chat.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - title
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation and owner-or-admin authority.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - title is missing
+    - conversation is not a manageable group thread for the actor
+  - step: 2
+    action: Persist the updated group title through the dedicated group-management endpoint.
+    endpoint_id: rename_group_chat_conversation
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: add_group_chat_participants
+  description: Add one or more new participants to one manageable manual group chat.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - participant_user_ids
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation, owner-or-admin authority, and new participant ids that still belong to the actor's accepted contact graph.
+    source_refs:
+    - chat_service
+    - circle_relation_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - participant_user_ids is missing
+    - conversation is not a manageable group thread for the actor
+    - every requested participant is already in the thread
+    - one or more target users are not current accepted contacts of the actor
+  - step: 2
+    action: Persist the membership expansion through the participant-add endpoint.
+    endpoint_id: add_group_chat_participants
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: update_group_chat_participant_role
+  description: Change one participant role inside one manageable manual group chat.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - participant_user_id
+  - role
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation, owner-or-admin authority, and a valid participant role transition.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - participant_user_id is missing
+    - role is missing
+    - conversation is not a manageable group thread for the actor
+    - requested role is unsupported
+    - non-owner actor attempts ownership transfer or admin-role escalation
+  - step: 2
+    action: Persist the participant role update through the dedicated role endpoint.
+    endpoint_id: update_group_chat_participant_role
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: remove_group_chat_participant
+  description: Remove one other participant from one manageable manual group chat.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - participant_user_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation, owner-or-admin authority, a removable target participant, and at least two participants remaining after removal.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - participant_user_id is missing
+    - conversation is not a manageable group thread for the actor
+    - actor tries to remove themself through the manager endpoint
+    - target participant is the current owner
+    - removal would leave fewer than two participants
+  - step: 2
+    action: Persist the participant removal through the dedicated remove endpoint.
+    endpoint_id: remove_group_chat_participant
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: leave_group_chat_conversation
+  description: Leave one manual group chat as the authenticated participant.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a currently accessible `GROUP` conversation and at least two participants remaining after the actor leaves.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - conversation is not a manual group thread
+    - leaving would leave fewer than two participants
+  - step: 2
+    action: Remove the current participant through the leave-group endpoint and transfer ownership when the leaving actor is the current owner.
+    endpoint_id: leave_group_chat_conversation
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_circle_room_chat
+  description: Open the canonical chat room for one circle.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - circle_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require circle ownership or current circle membership for the target circle.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - circle_id is missing
+    - actor does not own the circle and is not a current member
+  - step: 2
+    action: Open or create the canonical circle room through the circle-room endpoint.
+    endpoint_id: open_circle_room_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: get_circle_room_chat
+  description: Read one already-created canonical chat room for one circle.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - circle_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require circle ownership or current circle membership for the target circle and require an already-created canonical room.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - circle_id is missing
+    - actor does not own the circle and is not a current member
+    - canonical room does not exist yet
+  - step: 2
+    action: Load the canonical circle room through the read-only room endpoint.
+    endpoint_id: get_circle_room_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_quest_thread_chat
+  description: Open the canonical chat thread for one quest.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - quest_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require quest management authority or one approved application on the quest.
+    source_refs:
+    - chat_service
+    - quest_access_policy_service
+    - service_errors
+    fail_if:
+    - quest_id is missing
+    - actor cannot manage the quest and has no approved application on it
+  - step: 2
+    action: Open or create the canonical quest thread through the quest-thread endpoint.
+    endpoint_id: open_quest_thread_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: get_quest_thread_chat
+  description: Read one already-created canonical chat thread for one quest.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - quest_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require quest management authority or one approved application on the quest and require an already-created canonical thread.
+    source_refs:
+    - chat_service
+    - quest_access_policy_service
+    - service_errors
+    fail_if:
+    - quest_id is missing
+    - actor cannot manage the quest and has no approved application on it
+    - canonical thread does not exist yet
+  - step: 2
+    action: Load the canonical quest thread through the read-only quest-thread endpoint.
+    endpoint_id: get_quest_thread_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: open_application_thread_chat
+  description: Open the canonical chat thread for one quest application.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - application_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require the same application-detail visibility that already governs the application detail surface.
+    source_refs:
+    - chat_service
+    - quest_access_policy_service
+    - service_errors
+    fail_if:
+    - application_id is missing
+    - actor cannot view the target application
+  - step: 2
+    action: Open or create the canonical application thread through the application-thread endpoint.
+    endpoint_id: open_application_thread_chat
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: get_application_thread_chat
+  description: Read one already-created canonical chat thread for one quest application.
+  mutating: false
+  required_inputs:
+  - authenticated_user
+  - application_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require the same application-detail visibility that already governs the application detail surface and require an already-created canonical thread.
+    source_refs:
+    - chat_service
+    - quest_access_policy_service
+    - service_errors
+    fail_if:
+    - application_id is missing
+    - actor cannot view the target application
+    - canonical thread does not exist yet
+  - step: 2
+    action: Load the canonical application thread through the read-only application-thread endpoint.
+    endpoint_id: get_application_thread_chat
     source_refs:
     - chat_controller
     - chat_service
@@ -2275,7 +2848,7 @@ intents:
     - chat_controller
     - chat_service
 - id: mark_chat_conversation_read
-  description: Mark one currently accessible chat conversation as read.
+  description: Mark one currently accessible chat conversation as seen.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -2292,8 +2865,115 @@ intents:
     - conversation_id is missing
     - conversation is not currently accessible through accepted contact eligibility
   - step: 2
-    action: Mark unread incoming messages as read through the chat read endpoint.
+    action: Mark unread incoming messages as seen through the chat read endpoint.
     endpoint_id: mark_chat_conversation_read
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: update_chat_conversation_state
+  description: Update one authenticated participant's chat conversation archive or mute state.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs:
+  - archived
+  - muted_until
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a current accessible conversation id for the acting user and at least one archive-or-mute field.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - conversation is not currently accessible through accepted contact eligibility
+    - archived and muted_until are both missing
+  - step: 2
+    action: Persist the participant-specific conversation state through the chat state endpoint.
+    endpoint_id: update_chat_conversation_state
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: mark_chat_conversation_delivered
+  description: Mark one currently accessible chat conversation as delivered up to one optional message id.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  optional_inputs:
+  - up_to_message_id
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a current accessible conversation id for the acting user.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - conversation is not currently accessible through accepted contact eligibility
+  - step: 2
+    action: Persist delivery receipts through the chat delivery endpoint.
+    endpoint_id: mark_chat_conversation_delivered
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: update_chat_message
+  description: Edit one of the authenticated sender's currently accessible chat messages inside the active edit window.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  - message_body
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a current accessible conversation, require message ownership, reject deleted messages, and reject updates outside the configured edit window.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - message_id is missing
+    - message_body is blank
+    - conversation is not currently accessible through accepted contact eligibility
+    - message is not owned by the acting user
+    - message is already deleted
+    - edit window has expired
+  - step: 2
+    action: Persist the edited message through the chat update-message endpoint.
+    endpoint_id: update_chat_message
+    source_refs:
+    - chat_controller
+    - chat_service
+- id: delete_chat_message
+  description: Soft-delete one of the authenticated sender's currently accessible chat messages inside the active delete window.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - conversation_id
+  - message_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require a current accessible conversation, require message ownership, and reject deletes outside the configured delete window.
+    source_refs:
+    - chat_service
+    - service_errors
+    fail_if:
+    - conversation_id is missing
+    - message_id is missing
+    - conversation is not currently accessible through accepted contact eligibility
+    - message is not owned by the acting user
+    - delete window has expired
+  - step: 2
+    action: Soft-delete the message through the chat delete-message endpoint.
+    endpoint_id: delete_chat_message
     source_refs:
     - chat_controller
     - chat_service

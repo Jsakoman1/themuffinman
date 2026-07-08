@@ -14,4 +14,8 @@ public class ChatSocketClientMessageDTO {
     private String type;
     @ContractOptional
     private Long conversationId;
+    @ContractOptional
+    private Long upToMessageId;
+    @ContractOptional
+    private Boolean typing;
 }

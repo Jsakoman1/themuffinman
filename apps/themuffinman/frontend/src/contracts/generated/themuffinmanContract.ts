@@ -16,6 +16,18 @@ export type AppUserRole = typeof APP_USER_ROLE_VALUES[number]
 export const BULK_CIRCLE_MEMBERSHIP_ACTION_DTO_VALUES = ["ADD", "REMOVE"] as const
 export type BulkCircleMembershipActionDTO = typeof BULK_CIRCLE_MEMBERSHIP_ACTION_DTO_VALUES[number]
 
+export const CHAT_AUDIT_EVENT_TYPE_VALUES = ["GROUP_CONVERSATION_CREATED", "GROUP_CONVERSATION_RENAMED", "GROUP_PARTICIPANTS_ADDED", "GROUP_PARTICIPANT_ROLE_UPDATED", "GROUP_PARTICIPANT_REMOVED", "GROUP_PARTICIPANT_LEFT", "GROUP_OWNERSHIP_TRANSFERRED", "MESSAGE_REACTION_ADDED", "MESSAGE_REACTION_REMOVED", "ADMIN_MESSAGE_REMOVED", "WEBSOCKET_AUTH_FAILED", "WEBSOCKET_CONNECTED", "WEBSOCKET_DISCONNECTED", "WEBSOCKET_PING", "WEBSOCKET_TYPING_UPDATED", "WEBSOCKET_INVALID_PAYLOAD", "RATE_LIMIT_EXCEEDED"] as const
+export type ChatAuditEventType = typeof CHAT_AUDIT_EVENT_TYPE_VALUES[number]
+
+export const CHAT_CONVERSATION_CONTEXT_TYPE_VALUES = ["CIRCLE", "QUEST", "APPLICATION"] as const
+export type ChatConversationContextType = typeof CHAT_CONVERSATION_CONTEXT_TYPE_VALUES[number]
+
+export const CHAT_CONVERSATION_PARTICIPANT_ROLE_VALUES = ["OWNER", "ADMIN", "MEMBER"] as const
+export type ChatConversationParticipantRole = typeof CHAT_CONVERSATION_PARTICIPANT_ROLE_VALUES[number]
+
+export const CHAT_CONVERSATION_TYPE_VALUES = ["DIRECT", "GROUP", "CIRCLE_ROOM", "QUEST_THREAD", "APPLICATION_THREAD"] as const
+export type ChatConversationType = typeof CHAT_CONVERSATION_TYPE_VALUES[number]
+
 export const CIRCLE_RELATION_STATUS_DTO_VALUES = ["NONE", "CIRCLE", "INCOMING_REQUEST", "OUTGOING_REQUEST", "BLOCKED"] as const
 export type CircleRelationStatusDTO = typeof CIRCLE_RELATION_STATUS_DTO_VALUES[number]
 
@@ -340,6 +352,56 @@ export interface BusinessProfileResponseDTO {
   updatedAt: string
 }
 
+export interface ChatAdminConversationSupportViewDTO {
+  conversation: ChatConversationSummaryDTO
+  recentMessages: ChatMessageDTO[]
+  recentAuditEvents: ChatAuditEventDTO[]
+  recentMessagesLimit: number
+  recentAuditLimit: number
+}
+
+export interface ChatAttachmentStorageStatusDTO {
+  enabled: boolean
+  provider: string
+  mode: string
+  endpoint: string
+  bucket: string
+  localBasePath: string
+}
+
+export interface ChatAttachmentUploadDTO {
+  uploadId: number
+  attachmentName: string
+  attachmentMimeType: string
+  attachmentSizeBytes: number
+  attachmentStorageProvider: string
+  attachmentStorageKey: string
+  attachmentUrl: string
+  attachmentUrlExpiresAt: string
+}
+
+export interface ChatAuditEventDTO {
+  id: number
+  eventType: string
+  userId: number | null
+  username: string | null
+  conversationId: number | null
+  conversationType: string | null
+  sessionId: string | null
+  remoteAddress: string | null
+  userAgent: string | null
+  detailsJson: string | null
+  createdAt: string
+}
+
+export interface ChatAuditEventListDTO {
+  events: ChatAuditEventDTO[]
+  limit: number
+  eventType: string | null
+  userId: number | null
+  conversationId: number | null
+}
+
 export interface ChatCircleOptionDTO {
   id: number
   name: string
@@ -359,8 +421,51 @@ export interface ChatContactDTO {
   lastActiveAt: string | null
 }
 
+export interface ChatConversationListDTO {
+  conversations: ChatConversationSummaryDTO[]
+  filteredCount: number
+  limit: number
+  page: number
+  hasMore: boolean
+  includeArchived: boolean
+  conversationType: string | null
+  contextType: string | null
+  contextId: number | null
+  query: string | null
+}
+
+export interface ChatConversationParticipantDTO {
+  userId: number
+  username: string
+  role: string
+  avatarDataUrl: string | null
+  online: boolean
+  lastActiveAt: string | null
+}
+
+export interface ChatConversationParticipantsRequestDTO {
+  participantUserIds: number[]
+}
+
+export interface ChatConversationRoleRequestDTO {
+  role: string
+}
+
+export interface ChatConversationStateRequestDTO {
+  archived: boolean | null
+  mutedUntil: string | null
+}
+
 export interface ChatConversationSummaryDTO {
   conversationId: number
+  conversationType: string
+  contextType: string | null
+  contextId: number | null
+  title: string | null
+  ownerUserId: number | null
+  participantCount: number
+  canManageParticipants: boolean
+  participants: ChatConversationParticipantDTO[]
   otherUserId: number
   otherUsername: string
   resolutionKey: string
@@ -370,38 +475,121 @@ export interface ChatConversationSummaryDTO {
   otherUserAvatarDataUrl: string | null
   otherUserOnline: boolean
   otherUserLastActiveAt: string | null
+  lastMessageId: number | null
   lastMessagePreview: string | null
   lastMessageAt: string | null
   lastMessageFromCurrentUser: boolean
   lastMessageHasImage: boolean
+  lastMessageDeleted: boolean
+  muted: boolean
+  mutedUntil: string | null
+  archived: boolean
+  archivedAt: string | null
+  lastDeliveredMessageId: number | null
+  lastSeenMessageId: number | null
   unreadCount: number
+}
+
+export interface ChatConversationSyncDTO {
+  conversation: ChatConversationSummaryDTO
+  messages: ChatMessageDTO[]
+  afterMessageId: number
+  latestMessageId: number
+  activeTypingUserIds: number[]
+  typingTimeoutSeconds: number
+}
+
+export interface ChatConversationTitleRequestDTO {
+  title: string
+}
+
+export interface ChatCreateGroupConversationRequestDTO {
+  title: string
+  participantUserIds: number[]
+}
+
+export interface ChatMarkReadRequestDTO {
+  upToMessageId?: number
 }
 
 export interface ChatMessageDTO {
   id: number
   conversationId: number
+  conversationType: string
   senderUserId: number
   senderUsername: string
   senderAvatarDataUrl: string | null
   messageBody: string | null
   imageDataUrl: string | null
+  attachmentName: string | null
+  attachmentMimeType: string | null
+  attachmentStorageProvider: string | null
+  attachmentStorageKey: string | null
+  attachmentUrl: string | null
+  attachmentUrlExpiresAt: string | null
+  attachmentSizeBytes: number | null
+  replyToMessageId: number | null
+  clientMessageId: string | null
   createdAt: string
+  updatedAt: string
+  editedAt: string | null
+  deletedAt: string | null
   readAt: string | null
+  deliveredAt: string | null
+  seenAt: string | null
+  reactions: ChatMessageReactionDTO[]
+  edited: boolean
+  deleted: boolean
   ownMessage: boolean
+}
+
+export interface ChatMessagePageDTO {
+  messages: ChatMessageDTO[]
+  limit: number
+  hasMore: boolean
+  nextBeforeMessageId: number
+}
+
+export interface ChatMessageReactionDTO {
+  id: number
+  userId: number
+  username: string
+  emoji: string
+  createdAt: string
+  ownReaction: boolean
+}
+
+export interface ChatMessageReactionRequestDTO {
+  emoji: string
 }
 
 export interface ChatMessageRequestDTO {
   messageBody?: string
   imageDataUrl?: string
+  clientMessageId?: string
+  attachmentName?: string
+  attachmentMimeType?: string
+  attachmentUploadId?: number
+  replyToMessageId?: number
+}
+
+export interface ChatMessageUpdateRequestDTO {
+  messageBody: string
 }
 
 export interface ChatOpenConversationRequestDTO {
   otherUserId: number
 }
 
+export interface ChatReceiptRequestDTO {
+  upToMessageId: number | null
+}
+
 export interface ChatSocketClientMessageDTO {
   type: string
   conversationId?: number
+  upToMessageId?: number
+  typing?: boolean
 }
 
 export interface ChatSocketEventDTO {
@@ -409,7 +597,13 @@ export interface ChatSocketEventDTO {
   conversationId?: number | null
   actorUserId?: number | null
   reason?: string | null
+  conversation?: ChatConversationSummaryDTO | null
+  message?: ChatMessageDTO | null
+  readUpToMessageId?: number | null
+  deliveredUpToMessageId?: number | null
+  seenUpToMessageId?: number | null
   unreadNewsCount?: number | null
+  typing?: boolean | null
 }
 
 export interface ChatWorkspaceDTO {
@@ -418,6 +612,7 @@ export interface ChatWorkspaceDTO {
   circles: ChatCircleOptionDTO[]
   unreadConversationCount: number
   onlineContactCount: number
+  conversationLimit: number
 }
 
 export interface CircleBlockCreateDTO {
@@ -1727,14 +1922,14 @@ export type UserRatingSummary = UserRatingSummaryDTO
 export type UserReview = UserReviewResponseDTO
 export type UserReviewRequest = UserReviewRequestDTO
 export type VisionOptions = WorkmarketOptionsDTO
-export const AGENT_INTENT_IDS = ["accept_circle_connection", "apply_to_quest", "approve_application", "assign_circle_members", "authenticate_user", "block_user", "browse_business_profiles", "browse_ride_offers", "browse_thing_listings", "cancel_circle_request", "cancel_vision_conversation", "complete_quest", "confirm_quest_term_change", "create_circle", "create_circle_connection", "create_circle_only_quest_for_selected_people", "create_quest", "create_review", "create_ride_offer", "create_thing_listing", "create_user", "create_user_as_admin", "create_user_with_quests", "decline_application", "delete_admin_application", "delete_circle", "delete_circle_as_admin", "delete_quest", "delete_user_as_admin", "execute_admin_agent_capability", "find_admin_application_candidates", "find_my_pending_application_candidates", "find_owned_quest_candidates", "heartbeat_chat_presence", "inspect_owned_quest_pending_applications", "mark_all_news_read", "mark_chat_conversation_read", "mark_news_item_read", "open_admin_circle_overview", "open_admin_user_detail", "open_app_user_options", "open_application_detail", "open_auth_identity", "open_business_profile_by_slug", "open_chat_conversation", "open_chat_conversation_messages", "open_circle_candidates", "open_circle_overview", "open_circle_relation", "open_current_user_account", "open_dashboard", "open_dashboard_summary", "open_dashboard_voice_config", "open_location_debug_status", "open_my_business_profile", "open_my_circle_relations", "open_my_ride_offers", "open_my_thing_listings", "open_news_feed", "open_news_unread_count", "open_quest_applications", "open_quest_feed", "open_quest_preset", "open_quest_record", "open_quest_summary_record", "open_recent_vision_conversations", "open_user_profile", "open_user_record", "open_vision_conversation", "prepare_circle_only_quest_flow_to_start", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_quest_term_change", "request_borrow_thing", "request_owner_term_change", "reset_vision_conversation", "resolve_chat_conversation", "resolve_circle_candidate", "resolve_circle_recipient", "resolve_current_location_input", "resolve_news_item_candidate", "resolve_outgoing_circle_request", "resolve_user_candidate", "save_my_business_profile", "search_nearby_users", "select_oldest_pending_application", "send_chat_message", "set_profile_current_location", "set_profile_details", "set_profile_location", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_circle", "update_my_application", "update_quest", "update_user_as_admin", "voice_prepare_scheduled_circle_only_quest_for_selected_people", "withdraw_my_application"] as const
+export const AGENT_INTENT_IDS = ["accept_circle_connection", "add_chat_message_reaction", "add_group_chat_participants", "admin_remove_chat_message", "apply_to_quest", "approve_application", "assign_circle_members", "authenticate_user", "block_user", "browse_business_profiles", "browse_ride_offers", "browse_thing_listings", "cancel_circle_request", "cancel_vision_conversation", "complete_quest", "confirm_quest_term_change", "create_circle", "create_circle_connection", "create_circle_only_quest_for_selected_people", "create_group_chat_conversation", "create_quest", "create_review", "create_ride_offer", "create_thing_listing", "create_user", "create_user_as_admin", "create_user_with_quests", "decline_application", "delete_admin_application", "delete_chat_message", "delete_circle", "delete_circle_as_admin", "delete_quest", "delete_user_as_admin", "execute_admin_agent_capability", "find_admin_application_candidates", "find_my_pending_application_candidates", "find_owned_quest_candidates", "get_application_thread_chat", "get_circle_room_chat", "get_quest_thread_chat", "heartbeat_chat_presence", "inspect_owned_quest_pending_applications", "leave_group_chat_conversation", "list_chat_conversations", "mark_all_news_read", "mark_chat_conversation_delivered", "mark_chat_conversation_read", "mark_news_item_read", "open_admin_circle_overview", "open_admin_user_detail", "open_app_user_options", "open_application_detail", "open_application_thread_chat", "open_auth_identity", "open_business_profile_by_slug", "open_chat_admin_conversation_support_view", "open_chat_attachment_object", "open_chat_attachment_storage_status", "open_chat_audit_events", "open_chat_conversation", "open_chat_conversation_messages", "open_chat_conversation_sync", "open_circle_candidates", "open_circle_overview", "open_circle_relation", "open_circle_room_chat", "open_current_user_account", "open_dashboard", "open_dashboard_summary", "open_dashboard_voice_config", "open_location_debug_status", "open_my_business_profile", "open_my_circle_relations", "open_my_ride_offers", "open_my_thing_listings", "open_news_feed", "open_news_unread_count", "open_quest_applications", "open_quest_feed", "open_quest_preset", "open_quest_record", "open_quest_summary_record", "open_quest_thread_chat", "open_recent_vision_conversations", "open_user_profile", "open_user_record", "open_vision_conversation", "prepare_circle_only_quest_flow_to_start", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_quest_term_change", "remove_chat_message_reaction", "remove_group_chat_participant", "rename_group_chat_conversation", "request_borrow_thing", "request_owner_term_change", "reset_vision_conversation", "resolve_chat_conversation", "resolve_circle_candidate", "resolve_circle_recipient", "resolve_current_location_input", "resolve_news_item_candidate", "resolve_outgoing_circle_request", "resolve_user_candidate", "save_my_business_profile", "search_nearby_users", "select_oldest_pending_application", "send_chat_message", "set_profile_current_location", "set_profile_details", "set_profile_location", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_chat_conversation_state", "update_chat_message", "update_circle", "update_group_chat_participant_role", "update_my_application", "update_quest", "update_user_as_admin", "upload_chat_attachment", "voice_prepare_scheduled_circle_only_quest_for_selected_people", "withdraw_my_application"] as const
 export type AgentIntentId = typeof AGENT_INTENT_IDS[number]
 
-export const AGENT_ENDPOINT_IDS = ["accept_circle_request", "apply_to_quest", "approve_application", "auth_login", "auth_me", "auth_register", "block_user", "cancel_circle_request", "cancel_vision_conversation", "chat_presence_heartbeat", "complete_quest", "confirm_quest_term_change", "create_circle", "create_circle_request", "create_or_update_review", "create_quest", "create_ride_offer", "create_thing_listing", "create_user_as_admin", "decline_application", "delete_admin_application", "delete_circle", "delete_circle_as_admin", "delete_quest", "delete_user_as_admin", "get_admin_applications", "get_admin_circle_overview", "get_admin_user_detail", "get_all_app_users", "get_all_quests", "get_app_user", "get_app_user_options", "get_application_detail", "get_blocked_users", "get_business_profile_by_slug", "get_business_profiles", "get_chat_conversation_messages", "get_chat_workspace", "get_circle_candidates", "get_circle_connections", "get_circle_overview", "get_circle_relation", "get_circles", "get_current_user", "get_dashboard", "get_dashboard_summary", "get_dashboard_voice_config", "get_incoming_circle_requests", "get_location_debug_status", "get_my_business_profile", "get_my_circle_relations", "get_my_news", "get_my_quest_applications", "get_my_ride_offers", "get_my_thing_listings", "get_nearby_users", "get_news_unread_count", "get_outgoing_circle_requests", "get_profile_view", "get_quest_applications", "get_quest_applications_view", "get_quest_by_id", "get_quest_detail", "get_quest_preset", "get_recent_vision_conversations", "get_ride_offers", "get_thing_listings", "get_vision_conversation", "lookup_location", "mark_all_news_read", "mark_chat_conversation_read", "mark_news_item_read", "open_chat_conversation", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_quest_term_change", "request_borrow_thing", "reset_vision_conversation", "reverse_lookup_location", "run_admin_agent_execution", "save_my_business_profile", "search_circle_users", "search_quests", "send_chat_message", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_circle", "update_connection_circles", "update_connection_circles_bulk", "update_current_user", "update_my_application", "update_quest", "update_user_as_admin", "withdraw_my_application"] as const
+export const AGENT_ENDPOINT_IDS = ["accept_circle_request", "add_chat_message_reaction", "add_group_chat_participants", "admin_remove_chat_message", "apply_to_quest", "approve_application", "auth_login", "auth_me", "auth_register", "block_user", "cancel_circle_request", "cancel_vision_conversation", "chat_presence_heartbeat", "complete_quest", "confirm_quest_term_change", "create_circle", "create_circle_request", "create_group_chat_conversation", "create_or_update_review", "create_quest", "create_ride_offer", "create_thing_listing", "create_user_as_admin", "decline_application", "delete_admin_application", "delete_chat_message", "delete_circle", "delete_circle_as_admin", "delete_quest", "delete_user_as_admin", "get_admin_applications", "get_admin_circle_overview", "get_admin_user_detail", "get_all_app_users", "get_all_quests", "get_app_user", "get_app_user_options", "get_application_detail", "get_application_thread_chat", "get_blocked_users", "get_business_profile_by_slug", "get_business_profiles", "get_chat_admin_conversation_support_view", "get_chat_attachment_object", "get_chat_attachment_storage_status", "get_chat_audit_events", "get_chat_conversation_messages", "get_chat_conversation_sync", "get_chat_workspace", "get_circle_candidates", "get_circle_connections", "get_circle_overview", "get_circle_relation", "get_circle_room_chat", "get_circles", "get_current_user", "get_dashboard", "get_dashboard_summary", "get_dashboard_voice_config", "get_incoming_circle_requests", "get_location_debug_status", "get_my_business_profile", "get_my_circle_relations", "get_my_news", "get_my_quest_applications", "get_my_ride_offers", "get_my_thing_listings", "get_nearby_users", "get_news_unread_count", "get_outgoing_circle_requests", "get_profile_view", "get_quest_applications", "get_quest_applications_view", "get_quest_by_id", "get_quest_detail", "get_quest_preset", "get_quest_thread_chat", "get_recent_vision_conversations", "get_ride_offers", "get_thing_listings", "get_vision_conversation", "leave_group_chat_conversation", "list_chat_conversations", "lookup_location", "mark_all_news_read", "mark_chat_conversation_delivered", "mark_chat_conversation_read", "mark_news_item_read", "open_application_thread_chat", "open_chat_conversation", "open_circle_room_chat", "open_quest_thread_chat", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_quest_term_change", "remove_chat_message_reaction", "remove_group_chat_participant", "rename_group_chat_conversation", "request_borrow_thing", "reset_vision_conversation", "reverse_lookup_location", "run_admin_agent_execution", "save_my_business_profile", "search_circle_users", "search_quests", "send_chat_message", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_chat_conversation_state", "update_chat_message", "update_circle", "update_connection_circles", "update_connection_circles_bulk", "update_current_user", "update_group_chat_participant_role", "update_my_application", "update_quest", "update_user_as_admin", "upload_chat_attachment", "withdraw_my_application"] as const
 export type AgentEndpointId = typeof AGENT_ENDPOINT_IDS[number]
 
 export const ADMIN_AGENT_SAFETY_FLAG_IDS = ["translation_unreliable", "ambiguity", "destructive_confirmation", "multi_actor", "current_location", "simulation_not_safe"] as const
 export type AdminAgentSafetyFlagIdGenerated = typeof ADMIN_AGENT_SAFETY_FLAG_IDS[number]
 
-export const AGENT_REQUIRED_UNRESOLVED_INPUTS = ["application_id", "application_query", "assignment_mode", "audio_clip", "authenticated_user", "base_email", "business_name", "circle_id", "circle_name", "circle_query", "conversation_id", "conversation_query", "departure_at", "description", "destination", "destructive_confirmation", "email", "latitude", "listing_id", "location_mode", "longitude", "message", "name", "news_id", "news_query", "origin", "other_user_id", "owner_user", "password", "preset", "prompt", "prompt_text", "quest_count", "quest_id", "quest_payload", "quest_payload_template", "quest_query", "quest_templates", "recipient_id", "recipient_query", "request_id", "requester_time_zone", "reviewed_user_id", "reward_amount", "scheduled_at", "scheduling_request", "selected_people", "slug", "stars", "text_prompt", "title", "user_id", "user_query", "username"] as const
+export const AGENT_REQUIRED_UNRESOLVED_INPUTS = ["application_id", "application_query", "assignment_mode", "audio_clip", "authenticated_user", "base_email", "business_name", "circle_id", "circle_name", "circle_query", "conversation_id", "conversation_query", "departure_at", "description", "destination", "destructive_confirmation", "email", "emoji", "file", "latitude", "listing_id", "location_mode", "longitude", "message", "message_body", "message_id", "name", "news_id", "news_query", "origin", "other_user_id", "owner_user", "participant_user_id", "participant_user_ids", "password", "preset", "prompt", "prompt_text", "quest_count", "quest_id", "quest_payload", "quest_payload_template", "quest_query", "quest_templates", "recipient_id", "recipient_query", "request_id", "requester_time_zone", "reviewed_user_id", "reward_amount", "role", "scheduled_at", "scheduling_request", "selected_people", "slug", "stars", "storage_key", "text_prompt", "title", "user_id", "user_query", "username"] as const
 export type AgentRequiredUnresolvedInput = typeof AGENT_REQUIRED_UNRESOLVED_INPUTS[number]

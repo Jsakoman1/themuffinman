@@ -130,6 +130,66 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatAdminConversationSupportViewDTO",
+    "fields": [
+      "conversation",
+      "recentMessages",
+      "recentAuditEvents",
+      "recentMessagesLimit",
+      "recentAuditLimit"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatAttachmentStorageStatusDTO",
+    "fields": [
+      "enabled",
+      "provider",
+      "mode",
+      "endpoint",
+      "bucket",
+      "localBasePath"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatAttachmentUploadDTO",
+    "fields": [
+      "uploadId",
+      "attachmentName",
+      "attachmentMimeType",
+      "attachmentSizeBytes",
+      "attachmentStorageProvider",
+      "attachmentStorageKey",
+      "attachmentUrl",
+      "attachmentUrlExpiresAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatAuditEventDTO",
+    "fields": [
+      "id",
+      "eventType",
+      "userId",
+      "username",
+      "conversationId",
+      "conversationType",
+      "sessionId",
+      "remoteAddress",
+      "userAgent",
+      "detailsJson",
+      "createdAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatAuditEventListDTO",
+    "fields": [
+      "events",
+      "limit",
+      "eventType",
+      "userId",
+      "conversationId"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.chat.dto.ChatCircleOptionDTO",
     "fields": [
       "id",
@@ -153,9 +213,62 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatConversationListDTO",
+    "fields": [
+      "conversations",
+      "filteredCount",
+      "limit",
+      "page",
+      "hasMore",
+      "includeArchived",
+      "conversationType",
+      "contextType",
+      "contextId",
+      "query"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatConversationParticipantDTO",
+    "fields": [
+      "userId",
+      "username",
+      "role",
+      "avatarDataUrl",
+      "online",
+      "lastActiveAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatConversationParticipantsRequestDTO",
+    "fields": [
+      "participantUserIds"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatConversationRoleRequestDTO",
+    "fields": [
+      "role"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatConversationStateRequestDTO",
+    "fields": [
+      "archived",
+      "mutedUntil"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.chat.dto.ChatConversationSummaryDTO",
     "fields": [
       "conversationId",
+      "conversationType",
+      "contextType",
+      "contextId",
+      "title",
+      "ownerUserId",
+      "participantCount",
+      "canManageParticipants",
+      "participants",
       "otherUserId",
       "otherUsername",
       "resolutionKey",
@@ -165,11 +278,49 @@
       "otherUserAvatarDataUrl",
       "otherUserOnline",
       "otherUserLastActiveAt",
+      "lastMessageId",
       "lastMessagePreview",
       "lastMessageAt",
       "lastMessageFromCurrentUser",
       "lastMessageHasImage",
+      "lastMessageDeleted",
+      "muted",
+      "mutedUntil",
+      "archived",
+      "archivedAt",
+      "lastDeliveredMessageId",
+      "lastSeenMessageId",
       "unreadCount"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatConversationSyncDTO",
+    "fields": [
+      "conversation",
+      "messages",
+      "afterMessageId",
+      "latestMessageId",
+      "activeTypingUserIds",
+      "typingTimeoutSeconds"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatConversationTitleRequestDTO",
+    "fields": [
+      "title"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatCreateGroupConversationRequestDTO",
+    "fields": [
+      "title",
+      "participantUserIds"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatMarkReadRequestDTO",
+    "fields": [
+      "upToMessageId"
     ]
   },
   {
@@ -177,21 +328,76 @@
     "fields": [
       "id",
       "conversationId",
+      "conversationType",
       "senderUserId",
       "senderUsername",
       "senderAvatarDataUrl",
       "messageBody",
       "imageDataUrl",
+      "attachmentName",
+      "attachmentMimeType",
+      "attachmentStorageProvider",
+      "attachmentStorageKey",
+      "attachmentUrl",
+      "attachmentUrlExpiresAt",
+      "attachmentSizeBytes",
+      "replyToMessageId",
+      "clientMessageId",
       "createdAt",
+      "updatedAt",
+      "editedAt",
+      "deletedAt",
       "readAt",
+      "deliveredAt",
+      "seenAt",
+      "reactions",
+      "edited",
+      "deleted",
       "ownMessage"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatMessagePageDTO",
+    "fields": [
+      "messages",
+      "limit",
+      "hasMore",
+      "nextBeforeMessageId"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatMessageReactionDTO",
+    "fields": [
+      "id",
+      "userId",
+      "username",
+      "emoji",
+      "createdAt",
+      "ownReaction"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatMessageReactionRequestDTO",
+    "fields": [
+      "emoji"
     ]
   },
   {
     "javaClass": "com.themuffinman.app.chat.dto.ChatMessageRequestDTO",
     "fields": [
       "messageBody",
-      "imageDataUrl"
+      "imageDataUrl",
+      "clientMessageId",
+      "attachmentName",
+      "attachmentMimeType",
+      "attachmentUploadId",
+      "replyToMessageId"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatMessageUpdateRequestDTO",
+    "fields": [
+      "messageBody"
     ]
   },
   {
@@ -201,10 +407,18 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.chat.dto.ChatReceiptRequestDTO",
+    "fields": [
+      "upToMessageId"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.chat.dto.ChatSocketClientMessageDTO",
     "fields": [
       "type",
-      "conversationId"
+      "conversationId",
+      "upToMessageId",
+      "typing"
     ]
   },
   {
@@ -214,7 +428,13 @@
       "conversationId",
       "actorUserId",
       "reason",
-      "unreadNewsCount"
+      "conversation",
+      "message",
+      "readUpToMessageId",
+      "deliveredUpToMessageId",
+      "seenUpToMessageId",
+      "unreadNewsCount",
+      "typing"
     ]
   },
   {
@@ -224,7 +444,8 @@
       "contacts",
       "circles",
       "unreadConversationCount",
-      "onlineContactCount"
+      "onlineContactCount",
+      "conversationLimit"
     ]
   },
   {

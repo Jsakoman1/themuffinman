@@ -545,18 +545,60 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferListResponseDTO.java
   - id: chat_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
+  - id: chat_admin_controller
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java
   - id: chat_service
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - id: chat_admin_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatAdminService.java
   - id: chat_circle_option_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCircleOptionDTO.java
+  - id: chat_attachment_upload_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentUploadDTO.java
+  - id: chat_attachment_storage_status_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentStorageStatusDTO.java
   - id: chat_contact_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatContactDTO.java
+  - id: chat_conversation_list_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java
+  - id: chat_conversation_participant_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationParticipantDTO.java
+  - id: chat_conversation_participants_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationParticipantsRequestDTO.java
+  - id: chat_conversation_sync_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSyncDTO.java
+  - id: chat_conversation_role_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationRoleRequestDTO.java
   - id: chat_conversation_summary_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java
+  - id: chat_conversation_state_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationStateRequestDTO.java
+  - id: chat_conversation_title_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationTitleRequestDTO.java
   - id: chat_message_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageDTO.java
+  - id: chat_message_reaction_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageReactionDTO.java
+  - id: chat_message_reaction_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageReactionRequestDTO.java
+  - id: chat_message_page_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessagePageDTO.java
   - id: chat_message_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageRequestDTO.java
+  - id: chat_audit_event_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAuditEventDTO.java
+  - id: chat_audit_event_list_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAuditEventListDTO.java
+  - id: chat_admin_conversation_support_view_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAdminConversationSupportViewDTO.java
+  - id: chat_receipt_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatReceiptRequestDTO.java
+  - id: chat_create_group_conversation_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCreateGroupConversationRequestDTO.java
+  - id: chat_message_update_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageUpdateRequestDTO.java
+  - id: chat_mark_read_request_dto
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMarkReadRequestDTO.java
   - id: chat_open_conversation_request_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatOpenConversationRequestDTO.java
   - id: chat_socket_client_message_dto
@@ -565,6 +607,26 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java
   - id: chat_workspace_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatWorkspaceDTO.java
+  - id: chat_conversation_member_state
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatConversationMemberState.java
+  - id: chat_audit_event
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAuditEvent.java
+  - id: chat_audit_event_type
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAuditEventType.java
+  - id: chat_message_reaction
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatMessageReaction.java
+  - id: chat_conversation_member_state_repository
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatConversationMemberStateRepository.java
+  - id: chat_audit_event_repository
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatAuditEventRepository.java
+  - id: chat_message_reaction_repository
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/repository/ChatMessageReactionRepository.java
+  - id: chat_realtime_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java
+  - id: chat_conversation_state_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatConversationStateService.java
+  - id: chat_audit_service
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatAuditService.java
   - id: admin_circle_group_response_dto
     path: apps/themuffinman/src/main/java/com/themuffinman/app/social/dto/AdminCircleGroupResponseDTO.java
   - id: admin_circle_overview_dto

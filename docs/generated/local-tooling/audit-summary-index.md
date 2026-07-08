@@ -4,7 +4,7 @@
 - Tracked outputs: 26
 - On-demand templates: 13
 - Missing outputs: 30
-- Summary files: 128
+- Summary files: 134
 - Operator-core targets: 10
 - Focused review targets: 12
 - Diagnostic targets: 11
@@ -42,15 +42,15 @@
 - `docs/generated/dead-code-audit/dead-code-summary-summary.md` | 2026-07-03T09:17:28Z | 1298 bytes
 - `docs/generated/dead-code-audit/frontend-unused-summary.md` | 2026-07-03T09:17:21Z | 2221 bytes
 - `docs/generated/local-tooling/architecture-drift-summary.md` | 2026-07-05T10:41:54Z | 3932 bytes
-- `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-05T09:46:55Z | 141 bytes
+- `docs/generated/local-tooling/audit-documentation-summary.md` | 2026-07-08T08:54:15Z | 141 bytes
 - `docs/generated/local-tooling/audit-registry-artifacts-summary.md` | 2026-07-03T14:48:12Z | 142 bytes
 - `docs/generated/local-tooling/audit-router-summary.md` | 2026-07-07T16:32:18Z | 709 bytes
 - `docs/generated/local-tooling/backend-dependency-graph-summary.md` | 2026-07-05T09:11:22Z | 1136 bytes
-- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-08T08:20:51Z | 1628 bytes
-- `docs/generated/local-tooling/diff-summary.md` | 2026-07-08T08:21:45Z | 1314 bytes
-- `docs/generated/local-tooling/doc-canonical-phrases-summary.md` | 2026-07-05T09:23:05Z | 2154 bytes
-- `docs/generated/local-tooling/doc-sync-preflight-summary.md` | 2026-07-07T16:32:19Z | 711 bytes
-- ... and 116 more
+- `docs/generated/local-tooling/closeout-autofill/chat_prod_ready-summary.md` | 2026-07-08T08:55:31Z | 335 bytes
+- `docs/generated/local-tooling/closeout-reports/chat_prod_ready-summary.md` | 2026-07-08T08:58:07Z | 886 bytes
+- `docs/generated/local-tooling/control-start-summary.md` | 2026-07-08T08:55:54Z | 1628 bytes
+- `docs/generated/local-tooling/diff-summary.md` | 2026-07-08T08:58:08Z | 1241 bytes
+- ... and 122 more
 
 ## Archive Policy
 

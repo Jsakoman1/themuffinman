@@ -17,4 +17,5 @@ public class ChatWorkspaceDTO {
     private List<ChatCircleOptionDTO> circles;
     private long unreadConversationCount;
     private long onlineContactCount;
+    private int conversationLimit;
 }
