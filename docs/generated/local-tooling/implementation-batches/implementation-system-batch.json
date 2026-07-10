@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-07T16:46:40Z",
+  "generatedAt": "2026-07-10T13:54:40Z",
   "topic": "implementation-system",
   "filesCsv": "",
   "manifest": "",
@@ -7,6 +7,7 @@
   "planCompletion": "skipped",
   "controlStart": "docs/generated/local-tooling/control-start.json",
   "codexContext": "docs/generated/local-tooling/codex-context/latest.review.md",
+  "generatedHistoryCleanup": "docs/generated/local-tooling/cleanup-generated-history-summary.md",
   "generatedArtifactHygiene": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
   "docSyncPreflight": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
   "docSyncRequiredSurfaces": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",

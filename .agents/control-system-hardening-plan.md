@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Control System Hardening Plan
-machine_goal: Reduce planning and generated-artifact noise while preserving the current safety guarantees around implementation tracking, validation evidence, and closeout correctness.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Workmarket Compatibility Model Elimination Plan
-machine_goal: Remove entity, repository, and mapper coupling that still keeps workmarket and legacy vision marketplace types alive in parallel.
+machine_goal: Remove entity, repository, and mapper coupling that still keeps `workmarket`
+  and legacy `vision` marketplace types alive in parallel.
 ---
 
 # Vision Workmarket Compatibility Model Elimination Plan

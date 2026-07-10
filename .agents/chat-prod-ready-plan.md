@@ -2,7 +2,6 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Chat Prod Ready Plan
-machine_goal: Establish a production-ready baseline for shared chat schema and API behavior with stronger pagination, idempotency, message lifecycle, and operational controls.
 ---
 
 # Chat Prod Ready Plan

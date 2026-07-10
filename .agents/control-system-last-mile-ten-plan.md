@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Control System Last Mile Ten Plan
-machine_goal: Remove the last operator-core heaviness so the control system stays strict, low-noise, and easier to maintain at scale.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

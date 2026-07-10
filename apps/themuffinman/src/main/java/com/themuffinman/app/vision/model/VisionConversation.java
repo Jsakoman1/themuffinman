@@ -61,6 +61,9 @@ public class VisionConversation {
     @Column(name = "last_assistant_message")
     private String lastAssistantMessage;
 
+    @Column(name = "last_client_request_id", length = 120)
+    private String lastClientRequestId;
+
     @Column(name = "last_translation_reliable", nullable = false)
     private boolean lastTranslationReliable = true;
 

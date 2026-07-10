@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: proposed
+machine_status: complete
 machine_title: Business Booking Public Read Plan
 machine_goal: Deliver the public business read surface for mini-site profile, offering catalog, and availability preview using backend-prepared DTOs before reservation mutation workflows are introduced.
 ---
@@ -9,7 +9,7 @@ machine_goal: Deliver the public business read surface for mini-site profile, of
 
 ## Status
 
-Proposed.
+Complete.
 
 ## Goal
 

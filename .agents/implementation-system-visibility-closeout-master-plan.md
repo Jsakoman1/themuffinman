@@ -1,8 +1,10 @@
 ---
 machine_kind: master-plan
- machine_status: complete
+machine_status: complete
 machine_title: Implementation System Visibility and Closeout Master Plan
-machine_goal: Improve the implementation system so control snapshots, Codex context, and plan closeout all surface layered analysis and temporary work-product lifecycle state without extra manual rediscovery.
+machine_goal: Improve the implementation system so control snapshots, Codex context,
+  and plan closeout all surface layered analysis and temporary work-product lifecycle
+  state without extra manual rediscovery.
 ---
 
 # Implementation System Visibility and Closeout Master Plan

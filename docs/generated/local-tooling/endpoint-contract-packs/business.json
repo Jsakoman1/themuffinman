@@ -1,7 +1,341 @@
 {
-  "generated_at": "2026-07-08T10:09:51Z",
+  "generated_at": "2026-07-10T08:21:25Z",
   "endpoint_family": "business",
   "endpoints": [
+    {
+      "method": "GET",
+      "path": "/business/availability-exceptions/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityRuleListResponseDTO",
+        "BusinessAvailabilityRuleResponseDTO",
+        "BusinessAvailabilityRuleRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/availability-exceptions/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityRuleResponseDTO",
+        "BusinessAvailabilityRuleRequestDTO"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/business/availability-exceptions/{exceptionId}/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityExceptionListResponseDTO",
+        "BusinessAvailabilityExceptionResponseDTO",
+        "BusinessAvailabilityExceptionRequestDTO"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/business/availability-exceptions/{exceptionId}/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityRuleResponseDTO",
+        "BusinessAvailabilityRuleRequestDTO",
+        "BusinessAvailabilityExceptionListResponseDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/availability-rules/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityRuleListResponseDTO",
+        "BusinessAvailabilityRuleResponseDTO",
+        "BusinessAvailabilityRuleRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/availability-rules/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityRuleResponseDTO",
+        "BusinessAvailabilityRuleRequestDTO"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/business/availability-rules/{ruleId}/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityExceptionListResponseDTO",
+        "BusinessAvailabilityExceptionResponseDTO",
+        "BusinessAvailabilityExceptionRequestDTO"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/business/availability-rules/{ruleId}/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityRuleResponseDTO",
+        "BusinessAvailabilityRuleRequestDTO",
+        "BusinessAvailabilityExceptionListResponseDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/booking-policy/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java",
+      "dtos": [
+        "BusinessBookingPolicyResponseDTO",
+        "BusinessBookingPolicyRequestDTO"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/business/booking-policy/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java",
+      "dtos": [
+        "BusinessBookingPolicyResponseDTO",
+        "BusinessBookingPolicyRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/bookings",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingResponseDTO",
+        "BusinessBookingRequestDTO",
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/bookings/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO",
+        "BusinessBookingResponseDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/bookings/me/{bookingId}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO",
+        "BusinessBookingResponseDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/bookings/me/{bookingId}/cancel",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingResponseDTO",
+        "BusinessBookingRequestDTO",
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/bookings/owner",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO",
+        "BusinessBookingResponseDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/bookings/owner",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingResponseDTO",
+        "BusinessBookingRequestDTO",
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/bookings/owner/calendar",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO",
+        "BusinessBookingResponseDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/bookings/owner/schedule",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO",
+        "BusinessBookingResponseDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/bookings/owner/{bookingId}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO",
+        "BusinessBookingResponseDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/bookings/owner/{bookingId}/cancel",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingResponseDTO",
+        "BusinessBookingRequestDTO",
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/bookings/owner/{bookingId}/complete",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingResponseDTO",
+        "BusinessBookingRequestDTO",
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/bookings/owner/{bookingId}/confirm",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingResponseDTO",
+        "BusinessBookingRequestDTO",
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/bookings/owner/{bookingId}/mark-no-show",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingResponseDTO",
+        "BusinessBookingRequestDTO",
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/bookings/owner/{bookingId}/reject",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "dtos": [
+        "BusinessBookingResponseDTO",
+        "BusinessBookingRequestDTO",
+        "BusinessBookingListResponseDTO",
+        "BusinessBookingQueryDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/dashboard/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java",
+      "dtos": [
+        "BusinessOwnerDashboardDTO",
+        "BusinessOwnerScheduleSummaryDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/dashboard/me/schedule",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java",
+      "dtos": [
+        "BusinessOwnerDashboardDTO",
+        "BusinessOwnerScheduleSummaryDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/gallery/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "dtos": [
+        "BusinessGalleryImageListResponseDTO",
+        "BusinessGalleryImageResponseDTO",
+        "BusinessGalleryImageRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/gallery/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "dtos": [
+        "BusinessGalleryImageResponseDTO",
+        "BusinessGalleryImageRequestDTO"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/business/gallery/me/{imageId}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "dtos": [
+
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/business/gallery/me/{imageId}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "dtos": [
+        "BusinessGalleryImageResponseDTO",
+        "BusinessGalleryImageRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/offerings/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "dtos": [
+        "BusinessOfferingListResponseDTO",
+        "BusinessOfferingResponseDTO",
+        "BusinessOfferingRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/business/offerings/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "dtos": [
+        "BusinessOfferingResponseDTO",
+        "BusinessOfferingRequestDTO"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/business/offerings/{offeringId}/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "dtos": [
+
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/business/offerings/{offeringId}/me",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "dtos": [
+        "BusinessOfferingResponseDTO",
+        "BusinessOfferingRequestDTO"
+      ]
+    },
     {
       "method": "GET",
       "path": "/business/profiles",
@@ -40,12 +374,61 @@
         "BusinessProfileResponseDTO",
         "BusinessProfileRequestDTO"
       ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/public/{slug}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java",
+      "dtos": [
+        "BusinessPublicPageDTO",
+        "BusinessOfferingListResponseDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/public/{slug}/availability",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "dtos": [
+        "BusinessAvailabilityRuleListResponseDTO",
+        "BusinessAvailabilityRuleResponseDTO",
+        "BusinessAvailabilityRuleRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/business/public/{slug}/offerings",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java",
+      "dtos": [
+        "BusinessPublicPageDTO",
+        "BusinessOfferingListResponseDTO"
+      ]
     }
   ],
   "dto_files": [
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionListResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleListResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingListResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPolicyRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPolicyResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingQueryDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessGalleryImageListResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessGalleryImageRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessGalleryImageResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingListResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerDashboardDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerScheduleSummaryDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileListResponseDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java",
-    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java"
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessPublicPageDTO.java"
   ],
   "frontend_callsites": [
     {
@@ -63,7 +446,8 @@
     {
       "file": "apps/themuffinman/frontend/src/api/httpClient.ts",
       "matched_paths": [
-        "me"
+        "me",
+        "reject"
       ]
     },
     {
@@ -93,8 +477,14 @@
     {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
-        "profiles",
-        "me"
+        "me",
+        "cancel",
+        "owner",
+        "schedule",
+        "complete",
+        "confirm",
+        "reject",
+        "profiles"
       ]
     },
     {
@@ -116,9 +506,16 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+      "matched_paths": [
+        "complete"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
       "matched_paths": [
-        "me"
+        "me",
+        "complete"
       ]
     },
     {
@@ -130,7 +527,11 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
       "matched_paths": [
-        "me"
+        "me",
+        "cancel",
+        "schedule",
+        "complete",
+        "confirm"
       ]
     },
     {
@@ -142,19 +543,24 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "matched_paths": [
-        "me"
+        "me",
+        "cancel",
+        "schedule",
+        "confirm"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionIntentPreviewPanel.vue",
       "matched_paths": [
-        "me"
+        "me",
+        "complete"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionTypingText.vue",
       "matched_paths": [
-        "me"
+        "me",
+        "complete"
       ]
     },
     {
@@ -166,26 +572,35 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
       "matched_paths": [
-        "me"
+        "me",
+        "cancel",
+        "complete",
+        "confirm"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
       "matched_paths": [
-        "me"
+        "me",
+        "cancel",
+        "confirm"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/visionPresentation.ts",
       "matched_paths": [
-        "profiles",
-        "me"
+        "me",
+        "schedule",
+        "confirm",
+        "profiles"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/visionPreviewSupport.ts",
       "matched_paths": [
-        "me"
+        "me",
+        "schedule",
+        "complete"
       ]
     },
     {

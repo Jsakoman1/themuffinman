@@ -1,0 +1,85 @@
+{
+  "generated_at": "2026-07-10T14:01:47Z",
+  "plan_path": ".agents/chat-prod-ready-plan.md",
+  "manifest_path": ".agents/feature-manifests/chat-prod-ready-manifest.yaml",
+  "changed_files": [
+
+  ],
+  "generated_artifact_freshness": [
+
+  ],
+  "plan_report": {
+    "blockers": [
+
+    ],
+    "warnings": [
+
+    ],
+    "machine_status": "complete",
+    "top_level_status": "Complete.",
+    "completion_status": "complete",
+    "open_tasks": 0,
+    "child_plans": 0,
+    "temp_work_products": [
+
+    ]
+  },
+  "archive_only_evidence": [
+
+  ],
+  "status": "passed",
+  "steps": [
+    {
+      "label": "generated-artifact-freshness",
+      "command": "make audit-generated-artifact-freshness",
+      "status": "passed",
+      "stdout": "/Library/Developer/CommandLineTools/usr/bin/make validate-frontend-contracts\nGenerated frontend contract is fresh.\nGenerated artifact freshness audit\nartifacts checked: 8\nstale: 0\n- agent_endpoint_inventory: fresh (newest source: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java)\n- automation_read_model_inventory: fresh (newest source: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java)\n- source_of_truth_audit: fresh (newest source: docs/agent-operating-model/sections/source_of_truth.yaml)\n- backend_audit_inventory: fresh (newest source: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java)\n- frontend_generated_contract: fresh (newest source: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java)",
+      "stderr": ""
+    },
+    {
+      "label": "cleanup-generated-history",
+      "command": "make cleanup-generated-history",
+      "status": "passed",
+      "stdout": "Generated History Cleanup\ncount: n/a\njson: docs/generated/local-tooling/cleanup-generated-history.json\nsummary: docs/generated/local-tooling/cleanup-generated-history-summary.md",
+      "stderr": ""
+    },
+    {
+      "label": "temp-work-product-closeout",
+      "command": "make temp-work-product-closeout plan=.agents/chat-prod-ready-plan.md",
+      "status": "passed",
+      "stdout": "/bin/zsh scripts/temp-work-product-closeout.sh \".agents/chat-prod-ready-plan.md\" \"delete\"\nTemp Work Product Closeout .agents/chat-prod-ready-plan.md\ncount: n/a\njson: docs/generated/local-tooling/temp-work-product-closeout/agents-chat-prod-ready-plan-md.json\nsummary: docs/generated/local-tooling/temp-work-product-closeout/agents-chat-prod-ready-plan-md-summary.md",
+      "stderr": ""
+    },
+    {
+      "label": "autofill-feature-closeout",
+      "command": "make autofill-feature-closeout manifest=.agents/feature-manifests/chat-prod-ready-manifest.yaml ready=true",
+      "status": "passed",
+      "stdout": "Closeout Autofill chat_prod_ready\ncount: 317\njson: docs/generated/local-tooling/closeout-autofill/chat_prod_ready.json\nsummary: docs/generated/local-tooling/closeout-autofill/chat_prod_ready-summary.md",
+      "stderr": ""
+    },
+    {
+      "label": "audit-plan-completion",
+      "command": "make audit-plan-completion plan=.agents/chat-prod-ready-plan.md manifest=.agents/feature-manifests/chat-prod-ready-manifest.yaml",
+      "status": "passed",
+      "stdout": "/Library/Developer/CommandLineTools/usr/bin/make control-refresh-core\n/Library/Developer/CommandLineTools/usr/bin/make plan-index\nPlan Index\ncount: n/a\njson: docs/generated/local-tooling/plan-index.json\nsummary: docs/generated/local-tooling/plan-index-summary.md\n/Library/Developer/CommandLineTools/usr/bin/make generate-audit-registry-artifacts\nAudit Summary Index\ncount: n/a\njson: docs/generated/local-tooling/audit-summary-index.json\nsummary: docs/generated/local-tooling/audit-summary-index.md\nAudit Registry Artifacts\ncount: 71\njson: docs/generated/local-tooling/audit-registry-artifacts.json\nsummary: docs/generated/local-tooling/audit-registry-artifacts-summary.md\n/Library/Developer/CommandLineTools/usr/bin/make diff-summary\nDiff Summary\ncount: 88\njson: docs/generated/local-tooling/diff-summary.json\nsummary: docs/generated/local-tooling/diff-summary.md",
+      "stderr": ""
+    },
+    {
+      "label": "feature-closeout-audit",
+      "command": "make feature-closeout-audit manifest=.agents/feature-manifests/chat-prod-ready-manifest.yaml",
+      "status": "passed",
+      "stdout": "/bin/zsh scripts/feature-closeout-audit.sh \".agents/feature-manifests/chat-prod-ready-manifest.yaml\"\nGenerated History Cleanup\ncount: n/a\njson: docs/generated/local-tooling/cleanup-generated-history.json\nsummary: docs/generated/local-tooling/cleanup-generated-history-summary.md\nFeature close-out audit\nManifest: /Users/jsakoman/Desktop/themuffinman/.agents/feature-manifests/chat-prod-ready-manifest.yaml\nPlan: /Users/jsakoman/Desktop/themuffinman/.agents/chat-prod-ready-plan.md\nStatus: complete\nRisk: high\nProfiles: backend-logic\nEvidence: 11 command(s)\nFeature close-out audit passed\nValidation Memory Drift\ncount: 0\njson: docs/generated/local-tooling/validation-memory-drift.json\nsummary: docs/generated/local-tooling/validation-memory-drift-summary.md\nPersistent backlog audit\nOpen backlog items: 0\nInline TODO/FIXME references: 0",
+      "stderr": ""
+    },
+    {
+      "label": "closeout-report",
+      "command": "make closeout-report manifest=.agents/feature-manifests/chat-prod-ready-manifest.yaml",
+      "status": "passed",
+      "stdout": "Closeout report\nfeature: chat_prod_ready\njson: docs/generated/local-tooling/closeout-reports/chat_prod_ready.json\nsummary: docs/generated/local-tooling/closeout-reports/chat_prod_ready-summary.md",
+      "stderr": ""
+    }
+  ],
+  "errors": [
+
+  ]
+}

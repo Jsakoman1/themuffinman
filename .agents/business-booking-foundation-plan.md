@@ -1,15 +1,17 @@
 ---
 machine_kind: plan
-machine_status: proposed
+machine_status: complete
 machine_title: Business Booking Foundation Plan
-machine_goal: Establish the booking-ready business root by extending business profiles and introducing owner-managed offerings and booking policy defaults without opening real reservations yet.
+machine_goal: Establish the booking-ready business root by extending `business_profile`
+  and introducing owner-managed `business_offering` plus `business_booking_policy`
+  ownership so later availability and reservation phases have a stable domain base.
 ---
 
 # Business Booking Foundation Plan
 
 ## Status
 
-Proposed.
+Complete.
 
 ## Goal
 

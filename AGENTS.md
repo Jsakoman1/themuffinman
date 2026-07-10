@@ -92,6 +92,7 @@ Planned modules:
   high-complexity, or spans unrelated implementation surfaces; stop only for required approval, destructive action,
   direct conflicts with user changes, or genuinely unsafe ambiguity.
 - make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
+- make implementation-batch topic=<topic> also runs generated-history cleanup so archive-only report history does not keep polluting broad-batch closeout.
 - Even during autonomous sessions, do not commit or push unless the user explicitly includes commit or push in the task.
 
 ## Living Documentation
@@ -157,7 +158,9 @@ Planned modules:
 - Broad batches should expect `make control-start`, `make codex-context`, and `make context-pack` to surface layered-analysis artifacts before deeper repository search.
 - Treat the operator-core local-tooling surfaces as the default routing path and open focused review packs only when the compact operator surfaces do not answer the question.
 - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
+- Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` paths as live closeout evidence in plans, manifests, or generated-artifact refreshed-path lists.
 - Use `make control-refresh-full` when a batch also needs the slower generated-artifact freshness pass.
+- `make control-refresh-full` also prunes generated local-tooling history so archive-only snapshots stay compact.
 - Use `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, recommendations, and closeout if a plan exists.
 - Use `make temp-work-product-closeout plan=<plan-file>` when an owning plan still has temp work products that must be deleted or archived before closeout.
 - Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs scope-filtered generated-artifact noise reduction before the global freshness pass.

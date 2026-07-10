@@ -1,179 +1,99 @@
 {
-  "generated_at": "2026-07-08T18:17:32Z",
-  "total_count": 149,
-  "open_count": 19,
-  "master_plan_count": 33,
+  "generated_at": "2026-07-10T14:09:09Z",
+  "total_count": 177,
+  "open_count": 10,
+  "master_plan_count": 36,
   "god_plan_count": 1,
   "open_master_plans": [
-    {
-      "path": ".agents/vision-open-items-implementation-master-plan.md",
-      "kind": "master-plan",
-      "status": "active",
-      "title": "Vision Open Items Implementation Master Plan",
-      "goal": "Implement the current open `/vision` hardening items in safe slices while keeping backend-owned orchestration and review behavior explicit.",
-      "child_plans": 9,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/business-booking-implementation-master-plan.md",
-      "kind": "master-plan",
-      "status": "proposed",
-      "title": "Business Booking Implementation Master Plan",
-      "goal": "Implement the business booking backend as a modular service-booking domain built on top of the current business profile root while reusing the repository's existing backend-centric layering patterns.",
-      "child_plans": 5,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/chat-advanced-hardening-master-plan.md",
-      "kind": "master-plan",
-      "status": "unknown",
-      "title": "Chat Advanced Hardening Master Plan",
-      "goal": "Extend the shared chat backend toward a more production-ready lifecycle with:",
-      "child_plans": 0,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/chat-next-master-plan.md",
-      "kind": "master-plan",
-      "status": "unknown",
-      "title": "Chat Next Master Plan",
-      "goal": "Turn the current flexible chat foundation into an operationally strong, scalable, feature-complete backend suitable for production growth across direct chat, group chat, circle rooms, quest threads, and application threads.",
-      "child_plans": 5,
-      "open_tasks": 0
-    }
+
   ],
   "open_plans": [
     {
-      "path": ".agents/business-booking-availability-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Availability Plan",
-      "goal": "Introduce recurring availability rules and exceptions plus a backend-owned availability computation surface without creating customer bookings yet.",
-      "child_plans": 0,
-      "open_tasks": 5
-    },
-    {
-      "path": ".agents/business-booking-foundation-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Foundation Plan",
-      "goal": "Establish the booking-ready business root by extending business profiles and introducing owner-managed offerings and booking policy defaults without opening real reservations yet.",
-      "child_plans": 0,
-      "open_tasks": 7
-    },
-    {
-      "path": ".agents/business-booking-hardening-and-integrations-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Hardening And Integrations Plan",
-      "goal": "Harden the business booking domain with audit history, public media support, event hooks, operational reads, and integration-ready boundaries after the core reservation workflow is stable.",
-      "child_plans": 0,
-      "open_tasks": 8
-    },
-    {
-      "path": ".agents/business-booking-public-read-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Public Read Plan",
-      "goal": "Deliver the public business read surface for mini-site profile, offering catalog, and availability preview using backend-prepared DTOs before reservation mutation workflows are introduced.",
-      "child_plans": 0,
-      "open_tasks": 5
-    },
-    {
-      "path": ".agents/business-booking-workflow-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Workflow Plan",
-      "goal": "Implement real reservation writes and lifecycle transitions for customers and owners using capacity-aware validation, explicit status changes, and separate read surfaces for customer and owner workflows.",
-      "child_plans": 0,
-      "open_tasks": 7
-    },
-    {
-      "path": ".agents/chat-compliance-ops-plan.md",
+      "path": ".agents/control-system-maintenance-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Compliance Ops Plan",
-      "goal": "Prepare chat for retention, support, and abuse-handling requirements.",
-      "child_plans": 0,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/chat-conversation-state-plan.md",
-      "kind": "plan",
-      "status": "unknown",
-      "title": "Chat Conversation State Plan",
+      "title": "Control System Maintenance Plan",
       "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-governance-observability-plan.md",
+      "path": ".agents/control-system-rebuild-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Governance Observability Plan",
-      "goal": "Make chat actions traceable, reviewable, and moderation-ready.",
-      "child_plans": 0,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/chat-message-receipts-plan.md",
-      "kind": "plan",
-      "status": "unknown",
-      "title": "Chat Message Receipts Plan",
+      "title": "Control System Rebuild Plan",
       "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-object-storage-plan.md",
+      "path": ".agents/control-system-validation-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "",
+      "title": "Control System Validation Plan",
       "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-prod-hardening-followup-plan.md",
+      "path": ".agents/her-like-learning-plan.md",
       "kind": "plan",
-      "status": "unknown",
-      "title": "Chat Prod Hardening Follow-up Plan",
-      "goal": "Extend the current chat backend with the next production-facing API surfaces that are still missing:",
+      "status": "- phases 1-6 implemented in code and validated",
+      "title": "Her-like Learning Loop",
+      "goal": "Design a target architecture for a Her-like assistant that can:",
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-realtime-reliability-plan.md",
+      "path": ".agents/vision-capability-expansion-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Realtime Reliability Plan",
-      "goal": "Improve realtime quality and reduce unnecessary event fan-out.",
+      "title": "Vision Capability Expansion Plan",
+      "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-rich-messaging-plan.md",
+      "path": ".agents/vision-search-expansion-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Rich Messaging Plan",
-      "goal": "Expand chat beyond plain text plus one image data URL.",
+      "title": "Vision Search Expansion Plan",
+      "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-scale-discovery-plan.md",
+      "path": ".agents/vision-semantic-hardening-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Scale Discovery Plan",
-      "goal": "Remove early scalability bottlenecks from workspace and conversation discovery.",
+      "title": "Vision Semantic Hardening Plan",
+      "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-telemetry-audit-plan.md",
+      "path": ".agents/vision-surface-simplification-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Telemetry Audit Plan",
+      "title": "Vision Surface Simplification Plan",
+      "goal": null,
+      "child_plans": 0,
+      "open_tasks": 0
+    },
+    {
+      "path": ".agents/vision-validation-reintegration-plan.md",
+      "kind": "plan",
+      "status": "unknown",
+      "title": "Vision Validation Reintegration Plan",
+      "goal": null,
+      "child_plans": 0,
+      "open_tasks": 0
+    },
+    {
+      "path": ".agents/workflow-continuation-plan.md",
+      "kind": "plan",
+      "status": "unknown",
+      "title": "Workflow Continuation Policy Hardening",
       "goal": null,
       "child_plans": 0,
       "open_tasks": 0
@@ -181,172 +101,91 @@
   ],
   "entries": [
     {
-      "path": ".agents/vision-open-items-implementation-master-plan.md",
-      "kind": "master-plan",
-      "status": "active",
-      "title": "Vision Open Items Implementation Master Plan",
-      "goal": "Implement the current open `/vision` hardening items in safe slices while keeping backend-owned orchestration and review behavior explicit.",
-      "child_plans": 9,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/business-booking-implementation-master-plan.md",
-      "kind": "master-plan",
-      "status": "proposed",
-      "title": "Business Booking Implementation Master Plan",
-      "goal": "Implement the business booking backend as a modular service-booking domain built on top of the current business profile root while reusing the repository's existing backend-centric layering patterns.",
-      "child_plans": 5,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/chat-advanced-hardening-master-plan.md",
-      "kind": "master-plan",
-      "status": "unknown",
-      "title": "Chat Advanced Hardening Master Plan",
-      "goal": "Extend the shared chat backend toward a more production-ready lifecycle with:",
-      "child_plans": 0,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/chat-next-master-plan.md",
-      "kind": "master-plan",
-      "status": "unknown",
-      "title": "Chat Next Master Plan",
-      "goal": "Turn the current flexible chat foundation into an operationally strong, scalable, feature-complete backend suitable for production growth across direct chat, group chat, circle rooms, quest threads, and application threads.",
-      "child_plans": 5,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/business-booking-availability-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Availability Plan",
-      "goal": "Introduce recurring availability rules and exceptions plus a backend-owned availability computation surface without creating customer bookings yet.",
-      "child_plans": 0,
-      "open_tasks": 5
-    },
-    {
-      "path": ".agents/business-booking-foundation-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Foundation Plan",
-      "goal": "Establish the booking-ready business root by extending business profiles and introducing owner-managed offerings and booking policy defaults without opening real reservations yet.",
-      "child_plans": 0,
-      "open_tasks": 7
-    },
-    {
-      "path": ".agents/business-booking-hardening-and-integrations-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Hardening And Integrations Plan",
-      "goal": "Harden the business booking domain with audit history, public media support, event hooks, operational reads, and integration-ready boundaries after the core reservation workflow is stable.",
-      "child_plans": 0,
-      "open_tasks": 8
-    },
-    {
-      "path": ".agents/business-booking-public-read-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Public Read Plan",
-      "goal": "Deliver the public business read surface for mini-site profile, offering catalog, and availability preview using backend-prepared DTOs before reservation mutation workflows are introduced.",
-      "child_plans": 0,
-      "open_tasks": 5
-    },
-    {
-      "path": ".agents/business-booking-workflow-plan.md",
-      "kind": "plan",
-      "status": "proposed",
-      "title": "Business Booking Workflow Plan",
-      "goal": "Implement real reservation writes and lifecycle transitions for customers and owners using capacity-aware validation, explicit status changes, and separate read surfaces for customer and owner workflows.",
-      "child_plans": 0,
-      "open_tasks": 7
-    },
-    {
-      "path": ".agents/chat-compliance-ops-plan.md",
+      "path": ".agents/control-system-maintenance-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Compliance Ops Plan",
-      "goal": "Prepare chat for retention, support, and abuse-handling requirements.",
-      "child_plans": 0,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/chat-conversation-state-plan.md",
-      "kind": "plan",
-      "status": "unknown",
-      "title": "Chat Conversation State Plan",
+      "title": "Control System Maintenance Plan",
       "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-governance-observability-plan.md",
+      "path": ".agents/control-system-rebuild-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Governance Observability Plan",
-      "goal": "Make chat actions traceable, reviewable, and moderation-ready.",
-      "child_plans": 0,
-      "open_tasks": 0
-    },
-    {
-      "path": ".agents/chat-message-receipts-plan.md",
-      "kind": "plan",
-      "status": "unknown",
-      "title": "Chat Message Receipts Plan",
+      "title": "Control System Rebuild Plan",
       "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-object-storage-plan.md",
+      "path": ".agents/control-system-validation-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "",
+      "title": "Control System Validation Plan",
       "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-prod-hardening-followup-plan.md",
+      "path": ".agents/her-like-learning-plan.md",
       "kind": "plan",
-      "status": "unknown",
-      "title": "Chat Prod Hardening Follow-up Plan",
-      "goal": "Extend the current chat backend with the next production-facing API surfaces that are still missing:",
+      "status": "- phases 1-6 implemented in code and validated",
+      "title": "Her-like Learning Loop",
+      "goal": "Design a target architecture for a Her-like assistant that can:",
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-realtime-reliability-plan.md",
+      "path": ".agents/vision-capability-expansion-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Realtime Reliability Plan",
-      "goal": "Improve realtime quality and reduce unnecessary event fan-out.",
+      "title": "Vision Capability Expansion Plan",
+      "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-rich-messaging-plan.md",
+      "path": ".agents/vision-search-expansion-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Rich Messaging Plan",
-      "goal": "Expand chat beyond plain text plus one image data URL.",
+      "title": "Vision Search Expansion Plan",
+      "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-scale-discovery-plan.md",
+      "path": ".agents/vision-semantic-hardening-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Scale Discovery Plan",
-      "goal": "Remove early scalability bottlenecks from workspace and conversation discovery.",
+      "title": "Vision Semantic Hardening Plan",
+      "goal": null,
       "child_plans": 0,
       "open_tasks": 0
     },
     {
-      "path": ".agents/chat-telemetry-audit-plan.md",
+      "path": ".agents/vision-surface-simplification-plan.md",
       "kind": "plan",
       "status": "unknown",
-      "title": "Chat Telemetry Audit Plan",
+      "title": "Vision Surface Simplification Plan",
+      "goal": null,
+      "child_plans": 0,
+      "open_tasks": 0
+    },
+    {
+      "path": ".agents/vision-validation-reintegration-plan.md",
+      "kind": "plan",
+      "status": "unknown",
+      "title": "Vision Validation Reintegration Plan",
+      "goal": null,
+      "child_plans": 0,
+      "open_tasks": 0
+    },
+    {
+      "path": ".agents/workflow-continuation-plan.md",
+      "kind": "plan",
+      "status": "unknown",
+      "title": "Workflow Continuation Policy Hardening",
       "goal": null,
       "child_plans": 0,
       "open_tasks": 0

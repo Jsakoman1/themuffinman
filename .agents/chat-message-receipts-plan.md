@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Chat Message Receipts Plan
+---
+
 # Chat Message Receipts Plan
 
 Status: complete

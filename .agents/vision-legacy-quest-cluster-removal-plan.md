@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Legacy Quest Cluster Removal Plan
-machine_goal: Remove the remaining dead legacy vision quest/application cluster and then delete the now-unused vision location compatibility overloads.
+machine_goal: Remove the remaining dead legacy `vision` quest/application cluster
+  and then delete the now-unused vision location compatibility overloads.
 ---
 
 # Vision Legacy Quest Cluster Removal Plan

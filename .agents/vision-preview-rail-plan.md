@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Preview Rail Plan
+machine_goal: Keep the `/vision` preview rail compact and contextual so it supports
+  drafts, review-ready states, and resolved details without becoming a second form
+  system.
+---
+
 # Vision Preview Rail Plan
 
 ## Status

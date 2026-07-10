@@ -2,7 +2,9 @@
 machine_kind: master-plan
 machine_status: complete
 machine_title: Vision Ledger TODO Refresh Master Plan
-machine_goal: Refresh the open `/vision` ledger items so they match the current implemented capability and test surface.
+machine_goal: Refresh `docs/vision-status-ledger.md` so the open `In Progress` and
+  `Deferred` items reflect the real `/vision` codebase instead of older capability-expansion
+  wording.
 ---
 
 # Vision Ledger TODO Refresh Master Plan

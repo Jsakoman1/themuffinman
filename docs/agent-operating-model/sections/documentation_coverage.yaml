@@ -79,6 +79,12 @@ documentation_coverage:
     - circle_membership_service
     - circle_view_assembler
     - chat_service
+    - business_create_booking_use_case
+    - business_cancel_booking_use_case
+    - business_confirm_booking_use_case
+    - business_complete_booking_use_case
+    - business_reject_booking_use_case
+    - business_no_show_booking_use_case
   - id: automation_docs
     source_refs:
     - business_logic_doc

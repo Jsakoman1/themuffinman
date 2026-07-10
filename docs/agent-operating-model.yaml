@@ -528,6 +528,18 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
   - id: business_booking_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java
+  - id: business_cancel_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCase.java
+  - id: business_create_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - id: business_confirm_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessConfirmBookingUseCase.java
+  - id: business_complete_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCompleteBookingUseCase.java
+  - id: business_reject_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRejectBookingUseCase.java
+  - id: business_no_show_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessNoShowBookingUseCase.java
   - id: business_owner_dashboard_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java
   - id: business_gallery_controller
@@ -1316,6 +1328,8 @@ policies:
     - plan exists
     - plan has a Completion Evidence section
     - completion status is final
+    - completed plans keep changed files, validation evidence, and doc delta summary
+      out of placeholder states
     - open task checkboxes are complete or explicitly deferred to a stable backlog
       ID
     - master-plan child rows are complete or explicitly deferred
@@ -1349,15 +1363,21 @@ policies:
       and targeted-tests summaries.'
     - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/`
       as archive-only support material instead of current control state.
+    - Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`,
+      or `.agents/archive/` as live closeout evidence in plans, manifests, or refreshed
+      generated-artifact lists.
     - make control-refresh-full performs the same snapshot flow and then runs the
-      slower generated-artifact freshness pass.
+      slower generated-artifact freshness pass plus generated-history cleanup.
     - make implementation-batch topic=<topic> runs the deterministic implementation
       wrapper for discovery, docs-sync preflight, manifest routing, validation preset
-      selection, recommendations, and closeout hints when a plan exists.
+      selection, recommendations, generated-history cleanup, and closeout hints when
+      a plan exists.
     - make temp-work-product-closeout plan=<plan-file> deletes or archives lingering
       temp work products owned by a plan before closeout.
     - make audit-generated-artifact-hygiene files=<csv> provides a scope-filtered
       generated-artifact noise check before the global freshness pass.
+    - make cleanup-generated-history prunes archive-only generated local-tooling history
+      before closeout-sensitive review.
     closeout_rule: Temporary machine-readable work products must be deleted, promoted
       into durable docs, or explicitly archived when the owning plan closes.
   implementation_checkpoints:
@@ -3864,6 +3884,12 @@ documentation_coverage:
     - circle_membership_service
     - circle_view_assembler
     - chat_service
+    - business_create_booking_use_case
+    - business_cancel_booking_use_case
+    - business_confirm_booking_use_case
+    - business_complete_booking_use_case
+    - business_reject_booking_use_case
+    - business_no_show_booking_use_case
   - id: automation_docs
     source_refs:
     - business_logic_doc
@@ -5011,6 +5037,8 @@ backend_contract_snapshots:
   - contextType
   - contextId
   - query
+  - nextBeforeLastMessageAt
+  - nextBeforeConversationId
   semantic_required_fields:
   - conversations
   - filteredCount
@@ -5694,6 +5722,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_create_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -5709,6 +5738,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_cancel_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -5724,6 +5754,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_create_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -5739,6 +5770,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_confirm_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -5754,6 +5786,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_reject_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -5769,6 +5802,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_cancel_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -5784,6 +5818,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_complete_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -5799,6 +5834,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_no_show_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -7776,7 +7812,8 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Load the current owner's offerings through the business offering list endpoint.
+    action: Load the current owner's offerings through the business offering list
+      endpoint.
     endpoint_id: get_my_business_offerings
     source_refs:
     - business_offering_controller
@@ -7874,7 +7911,8 @@ intents:
     - business_availability_controller
     - business_profile_service
 - id: create_my_business_availability_rule
-  description: Create one recurring availability rule for the authenticated business owner.
+  description: Create one recurring availability rule for the authenticated business
+    owner.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -7890,7 +7928,8 @@ intents:
     - business_availability_mgr
     - business_profile_service
 - id: update_my_business_availability_rule
-  description: Update one recurring availability rule owned by the authenticated business owner.
+  description: Update one recurring availability rule owned by the authenticated business
+    owner.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -7906,7 +7945,8 @@ intents:
     - business_availability_controller
     - business_profile_service
 - id: delete_my_business_availability_rule
-  description: Remove one recurring availability rule owned by the authenticated business owner.
+  description: Remove one recurring availability rule owned by the authenticated business
+    owner.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -7950,7 +7990,8 @@ intents:
     - business_availability_controller
     - business_profile_service
 - id: update_my_business_availability_exception
-  description: Update one availability exception owned by the authenticated business owner.
+  description: Update one availability exception owned by the authenticated business
+    owner.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -7966,7 +8007,8 @@ intents:
     - business_availability_controller
     - business_profile_service
 - id: delete_my_business_availability_exception
-  description: Delete one availability exception owned by the authenticated business owner.
+  description: Delete one availability exception owned by the authenticated business
+    owner.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -7981,7 +8023,8 @@ intents:
     - business_availability_controller
     - business_profile_service
 - id: open_public_business_availability
-  description: Open public availability windows for one business slug and optional offering.
+  description: Open public availability windows for one business slug and optional
+    offering.
   mutating: false
   required_inputs:
   - business_slug
@@ -8262,7 +8305,8 @@ intents:
   defaults: []
   workflow:
   - step: 1
-    action: Load the owner dashboard schedule summary through the dashboard schedule endpoint.
+    action: Load the owner dashboard schedule summary through the dashboard schedule
+      endpoint.
     endpoint_id: get_my_business_dashboard_schedule
     source_refs:
     - business_owner_dashboard_controller
@@ -8283,7 +8327,8 @@ intents:
     - business_gallery_image_mgr
     - business_profile_service
 - id: create_my_business_gallery_image
-  description: Create one business gallery image metadata row for the authenticated owner.
+  description: Create one business gallery image metadata row for the authenticated
+    owner.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -8298,7 +8343,8 @@ intents:
     - business_gallery_controller
     - business_profile_service
 - id: update_my_business_gallery_image
-  description: Update one business gallery image metadata row owned by the authenticated owner.
+  description: Update one business gallery image metadata row owned by the authenticated
+    owner.
   mutating: true
   required_inputs:
   - authenticated_user
@@ -8314,7 +8360,8 @@ intents:
     - business_gallery_controller
     - business_profile_service
 - id: delete_my_business_gallery_image
-  description: Delete one business gallery image metadata row owned by the authenticated owner.
+  description: Delete one business gallery image metadata row owned by the authenticated
+    owner.
   mutating: true
   required_inputs:
   - authenticated_user

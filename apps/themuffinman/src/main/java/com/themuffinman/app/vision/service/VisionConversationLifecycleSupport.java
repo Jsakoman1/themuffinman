@@ -142,6 +142,8 @@ final class VisionConversationLifecycleSupport {
                 ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_BUSINESS)
                 : intent == VisionIntent.VIEW_BUSINESS_AVAILABILITY
                 ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_BUSINESS_AVAILABILITY)
+                : intent == VisionIntent.VIEW_BUSINESS_BOOKINGS
+                ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_BUSINESS_BOOKINGS)
                 : intent == VisionIntent.VIEW_USER_PROFILE
                 ? "The current user profile view was reset. What profile should I open?"
                 : intent == VisionIntent.VIEW_CIRCLES
@@ -167,6 +169,7 @@ final class VisionConversationLifecycleSupport {
                 || intent == VisionIntent.VIEW_SETTINGS
                 || intent == VisionIntent.VIEW_BUSINESS
                 || intent == VisionIntent.VIEW_BUSINESS_AVAILABILITY
+                || intent == VisionIntent.VIEW_BUSINESS_BOOKINGS
                 || intent == VisionIntent.VIEW_CIRCLES
                 || intent == VisionIntent.VIEW_NOTIFICATIONS
                 || intent == VisionIntent.VIEW_APPLICATIONS;
@@ -244,7 +247,7 @@ final class VisionConversationLifecycleSupport {
             case UPDATE_PROFILE -> "profile_username";
             case UPDATE_PROFILE_LOCATION -> "profile_location_mode";
             case VIEW_CHAT_WORKSPACE -> null;
-            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> null;
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> null;
             case VIEW_USER_PROFILE -> "target_user";
             case VIEW_CIRCLES -> null;
             case VIEW_CIRCLE_DETAIL -> "target_circle_query";

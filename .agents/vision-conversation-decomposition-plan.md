@@ -2,7 +2,6 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Vision Conversation Decomposition Plan
-machine_goal: Split repeated conversation orchestration and snapshot handling out of VisionConversationService so the coordinator stays thin.
 ---
 
 # Vision Conversation Decomposition Plan

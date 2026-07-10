@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Quest Application Compatibility Service Shutdown Plan
-machine_goal: Remove the remaining runtime need for QuestService and QuestApplicationService after dashboard migration.
+machine_goal: Remove the remaining runtime need for `QuestService` and `QuestApplicationService`
+  after dashboard migration.
 ---
 
 # Vision Quest Application Compatibility Service Shutdown Plan

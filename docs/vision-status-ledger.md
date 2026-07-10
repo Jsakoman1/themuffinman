@@ -33,6 +33,9 @@ It should stay short, factual, and updated when a vision batch materially change
 - create-quest review now stays in clarification mode when the semantic intent confidence is still too weak, even after the visible slots are otherwise complete, so noisy prompts do not jump straight into review
 - the semantic audit matrix now explicitly covers the settings snapshot and chat workspace routes alongside the other non-quest read surfaces
 - the modern vision frontend surface is split into a route shell, animated agent component, prompt dock, and backend-driven canvas renderer
+- the modern Vision shell now also exposes backend-owned runtime context and a compact route navigator so users can jump to Home, Work, Chat, Calendar, Business, or Profile without leaving the guided surface language
+- business read surfaces now stay backend-owned through the owner dashboard schedule summary, public business page projection, and booking availability read model instead of frontend-derived summary logic
+- business bookings now have a dedicated read-only Vision surface that combines the owner dashboard summary with the owner booking list so review and capacity context stay backend-prepared
 - review-ready quest corrections now use typed backend review-edit actions with explicit review targets instead of depending on frontend-generated natural-language edit prompts
 - review-ready backend turns no longer reinterpret free-text phrases like "change reward" as slot-edit commands; review edits must come through typed review actions
 - typed review-edit actions now also cover review-ready circle, application, and profile mutation flows for their explicit target fields instead of staying quest-only
@@ -53,6 +56,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - the route shell now auto-reveals state context for review, blocked, and complete modes while staying quiet in routine clarification mode
 - the route shell now pulls surface-state calculations into a reusable composable so the view stays thinner and closer to a true shell
 - `VisionConversationSummaryDTO` now acts as the compact long-session memory source for resume, recent-task grouping, stage/progress labels, stale marking, and pending-slot context instead of forcing the frontend to rebuild state from raw turn text
+- first-submit retries now replay the persisted `/vision` turn by `clientRequestId` even before the browser has received a conversation id, so duplicate initial actions do not create a second thread
 - the animated agent surface now uses layered drift, halo, and spark motion to read as a living presence instead of a flat indicator
 - the blank `/vision` state now uses the inline prompt surface as the primary entry point instead of reserving a separate idle hero or launcher step
 - the blank-canvas hero heading now steps aside once the backend has real response content so the canvas can dominate active states

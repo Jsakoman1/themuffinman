@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Workmarket Ten Out Of Ten Plan
-machine_goal: Reduce internal marketplace complexity until workmarket is not only the correct runtime owner, but also a visibly clean and maintainable owner.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

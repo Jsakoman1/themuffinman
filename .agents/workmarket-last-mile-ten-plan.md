@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Workmarket Last Mile Ten Plan
-machine_goal: Remove the last oversized internal workmarket read and query boundaries so marketplace ownership is clean, narrow, and easy to evolve.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

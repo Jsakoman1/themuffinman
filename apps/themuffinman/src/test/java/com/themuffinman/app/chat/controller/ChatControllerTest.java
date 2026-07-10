@@ -226,7 +226,7 @@ class ChatControllerTest {
     @Test
     void listConversationsPassesFiltersToService() throws Exception {
         authenticateCurrentUser();
-        when(chatService.listConversations(currentUser, "GROUP", "QUEST", 21L, "fix", 10, 1, true))
+        when(chatService.listConversations(currentUser, "GROUP", "QUEST", 21L, "fix", 10, 1, null, null, true))
                 .thenReturn(ChatConversationListDTO.builder()
                         .conversations(List.of())
                         .filteredCount(0)
@@ -257,6 +257,28 @@ class ChatControllerTest {
                 .andExpect(jsonPath("$.contextType").value("QUEST"))
                 .andExpect(jsonPath("$.contextId").value(21))
                 .andExpect(jsonPath("$.query").value("fix"));
+    }
+
+    @Test
+    void listConversationsPassesCursorToService() throws Exception {
+        authenticateCurrentUser();
+        when(chatService.listConversations(currentUser, null, null, null, null, 10, null, "2026-07-10T10:00:00Z", 42L, false))
+                .thenReturn(ChatConversationListDTO.builder()
+                        .conversations(List.of())
+                        .filteredCount(0)
+                        .limit(10)
+                        .page(0)
+                        .hasMore(false)
+                        .includeArchived(false)
+                        .build());
+
+        mockMvc.perform(get("/chat/conversations")
+                        .param("limit", "10")
+                        .param("beforeLastMessageAt", "2026-07-10T10:00:00Z")
+                        .param("beforeConversationId", "42"))
+                .andExpect(status().isOk());
+
+        verify(chatService).listConversations(currentUser, null, null, null, null, 10, null, "2026-07-10T10:00:00Z", 42L, false);
     }
 
     @Test

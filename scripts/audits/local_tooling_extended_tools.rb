@@ -75,11 +75,13 @@ module LocalToolingExtendedTools
     ["audit-doc-canonical-phrases", "scripts/audits/audit-doc-canonical-phrases.rb", "docs/generated/local-tooling/doc-canonical-phrases-summary.md"],
     ["audit-validation-memory-drift", "scripts/audits/audit-validation-memory-drift.rb", "docs/generated/local-tooling/validation-memory-drift-summary.md"],
     ["validation-memory-closeout-card", "scripts/audits/generate-validation-memory-closeout-card.rb", "docs/generated/local-tooling/validation-memory-closeout-card-summary.md"],
+    ["cleanup-generated-history", "scripts/audits/cleanup-generated-history.rb", "docs/generated/local-tooling/cleanup-generated-history-summary.md"],
     ["audit-sandbox-data-coverage-pack", "scripts/audits/audit-sandbox-data-coverage-pack.rb", "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md"],
     ["smoke-local-authenticated", "scripts/audits/smoke-local-authenticated.rb", "docs/generated/local-tooling/smoke/local-authenticated-latest.json"],
     ["smoke-local-dashboard", "scripts/audits/smoke-local-dashboard.rb", "docs/generated/local-tooling/smoke/local-dashboard-latest.json"],
     ["closeout-bundle", "scripts/audits/generate-closeout-bundle.rb", "docs/generated/local-tooling/closeout-bundle-summary.md"],
     ["closeout-report", "scripts/audits/generate-closeout-report.rb", "docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md"],
+    ["closeout-driver", "scripts/audits/closeout-driver.rb", "docs/generated/local-tooling/closeout-driver/<plan-id>-summary.md"],
     ["autofill-feature-closeout", "scripts/audits/autofill-feature-closeout.rb", "docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md"],
     ["enforce-feature-closeout", "scripts/audits/enforce-feature-closeout.rb", "docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md"],
     ["post-merge-retrospective", "scripts/audits/generate-post-merge-retrospective.rb", "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md"],
@@ -132,6 +134,8 @@ module LocalToolingExtendedTools
     failure-knowledge-base
     closeout-report
     closeout-bundle
+    closeout-driver
+    cleanup-generated-history
     autofill-feature-closeout
     enforce-feature-closeout
     post-merge-retrospective
@@ -1281,6 +1285,55 @@ module LocalToolingExtendedTools
     write_report("temp-work-product-closeout/#{slug(plan_path)}", "Temp Work Product Closeout #{plan_path}", report)
   end
 
+  def run_cleanup_generated_history(argv)
+    options = parse_key_values(argv)
+    limit = options["limit"].to_i
+    limit = HISTORY_RETENTION_LIMIT if limit <= 0
+
+    history_root = abs("#{OUT}/.history")
+    audit_dirs = Dir.exist?(history_root) ? Dir.glob(File.join(history_root, "*")).select { |path| File.directory?(path) }.sort : []
+    deleted_paths = []
+    retained_paths = []
+
+    audit_dirs.each do |audit_dir|
+      snapshots = Dir.glob(File.join(audit_dir, "*.json")).sort_by { |path| File.exist?(path) ? File.mtime(path) : Time.at(0) }
+      next if snapshots.empty?
+
+      keep_count = [snapshots.size, limit].min
+      keep = snapshots.last(keep_count)
+      delete = snapshots - keep
+      delete.each do |path|
+        FileUtils.rm_f(path)
+        deleted_paths << path.delete_prefix("#{REPO_ROOT}/")
+      end
+      retained_paths.concat(keep.map { |path| path.delete_prefix("#{REPO_ROOT}/") })
+    end
+
+    if Dir.exist?(history_root)
+      Dir.glob(File.join(history_root, "**/*")).sort.reverse.each do |path|
+        next unless File.directory?(path)
+
+        begin
+          Dir.rmdir(path)
+        rescue StandardError
+          nil
+        end
+      end
+    end
+
+    report = {
+      generated_at: now,
+      history_root: history_root.delete_prefix("#{REPO_ROOT}/"),
+      retention_limit: limit,
+      audit_directory_count: audit_dirs.size,
+      retained_snapshot_count: retained_paths.size,
+      deleted_snapshot_count: deleted_paths.size,
+      retained_snapshot_paths: retained_paths.first(200),
+      deleted_snapshot_paths: deleted_paths.first(200)
+    }
+    write_report("cleanup-generated-history", "Generated History Cleanup", report)
+  end
+
   def audit_summary_index_markdown(payload)
     registry = Array(payload[:registry])
     summaries = Array(payload[:summaries])
@@ -1531,10 +1584,10 @@ module LocalToolingExtendedTools
       end
     changed_files_for_closeout = snapshot[:all_changed_files]
     doc_rows = doc_sync_rows_for(changed_files_for_closeout)
-    generated_paths = csv_list(options["generated"]) + changed_files_for_closeout.select { |path| LocalToolingCommon.generated_path?(path) }
-    doc_paths = csv_list(options["docs"]) + changed_files_for_closeout.select do |path|
+    generated_paths = (csv_list(options["generated"]) + changed_files_for_closeout.select { |path| LocalToolingCommon.generated_path?(path) }).reject { |path| LocalToolingCommon.archive_path?(path) }
+    doc_paths = (csv_list(options["docs"]) + changed_files_for_closeout.select do |path|
       path.start_with?("docs/") || path.start_with?(".agents/") || path == "AGENTS.md"
-    end
+    end).reject { |path| LocalToolingCommon.archive_path?(path) }
     plan_file = manifest["planFile"].to_s
     plan_open_tasks = plan_file.empty? || !File.exist?(abs(plan_file)) ? 0 : File.readlines(abs(plan_file)).count { |line| line.start_with?("- [ ]") }
     command_results = Array(manifest.dig("validationEvidence", "commands"))
@@ -1590,7 +1643,13 @@ module LocalToolingExtendedTools
       manifest["closeoutDecision"]["reason"] ||= "Autofill updated evidence and artifact paths; review before final closeout."
     end
 
-    LocalToolingCommon.write_text(manifest_path, YAML.dump(manifest).sub(/\A---\n/, ""))
+    manifest_write_skipped = false
+    begin
+      LocalToolingCommon.write_text(manifest_path, YAML.dump(manifest).sub(/\A---\n/, ""))
+    rescue Errno::EPERM, Errno::EACCES => e
+      manifest_write_skipped = true
+      manifest["closeoutDecision"]["reason"] = "#{manifest['closeoutDecision']['reason']} Manifest write skipped in this environment: #{e.class}."
+    end
     feature_id = manifest["featureId"].to_s.empty? ? File.basename(manifest_path, ".yaml").sub(/-manifest\z/, "") : manifest["featureId"].to_s
     report = {
       generated_at: now,
@@ -1602,7 +1661,8 @@ module LocalToolingExtendedTools
       required_generated_artifacts: doc_rows.flat_map { |row| Array(row[:generated_artifacts]) }.uniq.sort,
       plan_open_tasks: plan_open_tasks,
       closeout_status: manifest.dig("closeoutDecision", "status"),
-      validation_command_count: command_results.size
+      validation_command_count: command_results.size,
+      manifest_write_skipped: manifest_write_skipped
     }
     write_report("closeout-autofill/#{slug(feature_id)}", "Closeout Autofill #{feature_id}", report)
   end

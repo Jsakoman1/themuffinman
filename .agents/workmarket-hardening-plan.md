@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Workmarket Hardening Plan
-machine_goal: Consolidate and simplify the separated marketplace domain so workmarket stays the clear owner of marketplace behavior without carrying unnecessary read-model, mapper, or DTO complexity.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

@@ -46,7 +46,10 @@ The machine-readable source of truth is:
 - `make control-start`, `make codex-context`, and `make context-pack` should surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
 - Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries.
 - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
+- Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence in plans, manifests, or refreshed generated-artifact lists.
 - `make implementation-batch topic=<topic>` should act as the deterministic broad-work wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout hints when a plan exists.
+- `make implementation-batch topic=<topic>` should also run generated-history cleanup before closeout-sensitive review so archive-only report history stays out of the live evidence path.
+- `make closeout-driver plan=<plan-file> manifest=<manifest-file>` should be the deterministic final closeout entrypoint when the batch needs one fail-fast sequence.
 - Treat parameterized local-tooling outputs such as DTO packs, symbol-test links, workflow slices, plan-completion reports, and other `<placeholder>` outputs as on-demand templates rather than as missing default operator surfaces.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
@@ -239,6 +242,7 @@ Self-test matrix:
 - Risk tiers and change profiles map to minimum validation tiers so low-risk changes can stay focused while high-risk and executor-critical work still requires broad validation.
 - `AgentOperatingModelValidationTest` reports all missing canonical documentation phrases per document path in one failure so workflow drift is easier to fix in a single pass.
 - `make audit-plan-completion` treats completed master plans with pending, draft, or in_progress child statuses as a closeout failure.
+- Completed plans should also fail closeout if the completion evidence leaves changed files, validation evidence, or doc delta summary at placeholder strength.
 
 Tiered workflow routing:
 - Tier 1 tiny changes use compact context, no manifest by default, targeted validation, and `make audit-todo`.

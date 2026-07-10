@@ -93,6 +93,373 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessAvailabilityExceptionListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessAvailabilityExceptionRequestDTO",
+    "fields": [
+      "businessOfferingId",
+      "exceptionType",
+      "startAt",
+      "endAt",
+      "replacementCapacity",
+      "replacementStartTimeLocal",
+      "replacementEndTimeLocal",
+      "reason"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessAvailabilityExceptionResponseDTO",
+    "fields": [
+      "id",
+      "businessProfileId",
+      "businessOfferingId",
+      "businessOfferingTitle",
+      "exceptionType",
+      "startAt",
+      "endAt",
+      "replacementCapacity",
+      "replacementStartTimeLocal",
+      "replacementEndTimeLocal",
+      "reason",
+      "timezone",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessAvailabilityRuleListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessAvailabilityRuleRequestDTO",
+    "fields": [
+      "businessOfferingId",
+      "dayOfWeek",
+      "startTimeLocal",
+      "endTimeLocal",
+      "slotGranularityMinutes",
+      "capacityOverride",
+      "validFrom",
+      "validUntil",
+      "active"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessAvailabilityRuleResponseDTO",
+    "fields": [
+      "id",
+      "businessProfileId",
+      "businessOfferingId",
+      "businessOfferingTitle",
+      "dayOfWeek",
+      "startTimeLocal",
+      "endTimeLocal",
+      "slotGranularityMinutes",
+      "capacityOverride",
+      "validFrom",
+      "validUntil",
+      "active",
+      "timezone",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessAvailabilityWindowDTO",
+    "fields": [
+      "businessProfileId",
+      "businessOfferingId",
+      "businessOfferingTitle",
+      "startsAt",
+      "endsAt",
+      "timezone",
+      "effectiveCapacity"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessAvailabilityWindowListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessBookingListResponseDTO",
+    "fields": [
+      "items",
+      "page",
+      "size",
+      "totalItems",
+      "totalPages"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessBookingPolicyRequestDTO",
+    "fields": [
+      "leadTimeMinutes",
+      "maxAdvanceDays",
+      "customerCancellationWindowMinutes",
+      "ownerRescheduleWindowMinutes",
+      "requiresOwnerConfirmationDefault",
+      "allowCustomerCancellation",
+      "allowOwnerManualApproval",
+      "allowOwnerManualRejection",
+      "allowWaitlist"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessBookingPolicyResponseDTO",
+    "fields": [
+      "id",
+      "businessProfileId",
+      "leadTimeMinutes",
+      "maxAdvanceDays",
+      "customerCancellationWindowMinutes",
+      "ownerRescheduleWindowMinutes",
+      "requiresOwnerConfirmationDefault",
+      "allowCustomerCancellation",
+      "allowOwnerManualApproval",
+      "allowOwnerManualRejection",
+      "allowWaitlist",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessBookingPresentationDTO",
+    "fields": [
+      "statusLabel",
+      "blockingReason"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessBookingQueryDTO",
+    "fields": [
+      "q",
+      "status",
+      "from",
+      "to",
+      "page",
+      "size"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessBookingRequestDTO",
+    "fields": [
+      "businessOfferingId",
+      "startsAt",
+      "endsAt",
+      "customerNote",
+      "idempotencyKey"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessBookingResponseDTO",
+    "fields": [
+      "id",
+      "businessProfileId",
+      "businessSlug",
+      "businessName",
+      "businessOfferingId",
+      "businessOfferingSlug",
+      "businessOfferingTitle",
+      "customerUserId",
+      "customerUsername",
+      "customerEmail",
+      "status",
+      "source",
+      "startsAt",
+      "endsAt",
+      "timezone",
+      "customerNote",
+      "ownerNote",
+      "offeringTitleSnapshot",
+      "priceSnapshotAmount",
+      "priceSnapshotCurrency",
+      "durationSnapshotMinutes",
+      "idempotencyKey",
+      "allowedActions",
+      "statusLabel",
+      "blockingReason",
+      "presentation",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessGalleryImageListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessGalleryImageRequestDTO",
+    "fields": [
+      "imageUrl",
+      "altText",
+      "sortOrder",
+      "active"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessGalleryImageResponseDTO",
+    "fields": [
+      "id",
+      "businessProfileId",
+      "imageUrl",
+      "altText",
+      "sortOrder",
+      "active",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOfferingListResponseDTO",
+    "fields": [
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOfferingRequestDTO",
+    "fields": [
+      "title",
+      "slug",
+      "summary",
+      "description",
+      "pricingType",
+      "basePriceAmount",
+      "basePriceCurrency",
+      "durationMode",
+      "defaultDurationMinutes",
+      "minDurationMinutes",
+      "maxDurationMinutes",
+      "capacityMode",
+      "slotCapacity",
+      "bookingMode",
+      "requiresOwnerConfirmation",
+      "bufferBeforeMinutes",
+      "bufferAfterMinutes",
+      "active",
+      "sortOrder"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOfferingResponseDTO",
+    "fields": [
+      "id",
+      "businessProfileId",
+      "businessSlug",
+      "title",
+      "slug",
+      "summary",
+      "description",
+      "pricingType",
+      "basePriceAmount",
+      "basePriceCurrency",
+      "durationMode",
+      "defaultDurationMinutes",
+      "minDurationMinutes",
+      "maxDurationMinutes",
+      "capacityMode",
+      "slotCapacity",
+      "bookingMode",
+      "requiresOwnerConfirmation",
+      "bufferBeforeMinutes",
+      "bufferAfterMinutes",
+      "active",
+      "sortOrder",
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOwnerBookingCreateRequestDTO",
+    "fields": [
+      "businessOfferingId",
+      "customerUserId",
+      "startsAt",
+      "endsAt",
+      "ownerNote",
+      "idempotencyKey"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOwnerCalendarDayDTO",
+    "fields": [
+      "date",
+      "bookingCount",
+      "items"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOwnerCalendarItemDTO",
+    "fields": [
+      "bookingId",
+      "businessOfferingTitle",
+      "customerUsername",
+      "startsAt",
+      "endsAt",
+      "timezone",
+      "status",
+      "statusLabel",
+      "blockingReason",
+      "allowedActions"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOwnerCalendarProjectionDTO",
+    "fields": [
+      "timezone",
+      "from",
+      "to",
+      "totalBookings",
+      "days"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOwnerDashboardDTO",
+    "fields": [
+      "businessProfileId",
+      "businessName",
+      "slug",
+      "bookingEnabled",
+      "activeOfferingCount",
+      "pendingConfirmationCount",
+      "todayCount",
+      "upcomingCount",
+      "staleThresholdMinutes",
+      "scheduleSummary"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOwnerScheduleItemDTO",
+    "fields": [
+      "bookingId",
+      "businessOfferingTitle",
+      "customerUsername",
+      "startsAt",
+      "endsAt",
+      "timezone",
+      "statusLabel"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessOwnerScheduleSummaryDTO",
+    "fields": [
+      "timezone",
+      "todayCount",
+      "pendingConfirmationCount",
+      "upcomingCount",
+      "nextItems"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.business.dto.BusinessProfileListResponseDTO",
     "fields": [
       "items"
@@ -108,6 +475,13 @@
       "contactEmail",
       "contactPhone",
       "websiteUrl",
+      "timezone",
+      "bookingEnabled",
+      "publicAddressLabel",
+      "latitude",
+      "longitude",
+      "contactWhatsapp",
+      "heroImageUrl",
       "active"
     ]
   },
@@ -124,9 +498,38 @@
       "contactEmail",
       "contactPhone",
       "websiteUrl",
+      "timezone",
+      "bookingEnabled",
+      "publicAddressLabel",
+      "latitude",
+      "longitude",
+      "contactWhatsapp",
+      "heroImageUrl",
       "active",
       "createdAt",
       "updatedAt"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.business.dto.BusinessPublicPageDTO",
+    "fields": [
+      "businessProfileId",
+      "businessName",
+      "slug",
+      "headline",
+      "description",
+      "publicAddressLabel",
+      "latitude",
+      "longitude",
+      "contactEmail",
+      "contactPhone",
+      "contactWhatsapp",
+      "websiteUrl",
+      "heroImageUrl",
+      "timezone",
+      "bookingEnabled",
+      "offerings",
+      "galleryImages"
     ]
   },
   {
@@ -224,7 +627,9 @@
       "conversationType",
       "contextType",
       "contextId",
-      "query"
+      "query",
+      "nextBeforeLastMessageAt",
+      "nextBeforeConversationId"
     ]
   },
   {
@@ -1183,6 +1588,8 @@
       "clientStateVersion",
       "clientLocale",
       "clientTimezone",
+      "clientDeviceRole",
+      "clientRequestId",
       "selectedOptionId",
       "fieldValue",
       "confirmation",
@@ -1205,6 +1612,7 @@
       "translationApplied",
       "translationReliable",
       "executionEnabled",
+      "runtimeContext",
       "executionCandidate",
       "questDiscovery",
       "searchDiscovery",
@@ -1330,6 +1738,30 @@
     ]
   },
   {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionRuntimeContextDTO",
+    "fields": [
+      "inputType",
+      "deviceRole",
+      "attentionState",
+      "sessionAnchor",
+      "actionHints",
+      "audioCue",
+      "hapticCue",
+      "consentRequired",
+      "consentReason",
+      "resumeAvailable",
+      "resumeHint",
+      "watchFriendly"
+    ]
+  },
+  {
+    "javaClass": "com.themuffinman.app.vision.dto.VisionRuntimeCueDTO",
+    "fields": [
+      "type",
+      "message"
+    ]
+  },
+  {
     "javaClass": "com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO",
     "fields": [
       "capabilityId",
@@ -1433,6 +1865,7 @@
       "inputType",
       "clientLocale",
       "clientTimezone",
+      "clientDeviceRole",
       "clientCapabilities",
       "clientStateVersion",
       "routeKey",

@@ -1,3 +1,11 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Chat Advanced Hardening Master Plan
+machine_goal: 'Extend the shared chat backend toward a more production-ready lifecycle
+  with:'
+---
+
 # Chat Advanced Hardening Master Plan
 
 Status: complete

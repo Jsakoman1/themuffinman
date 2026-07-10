@@ -39,7 +39,7 @@ class VisionChatExecutionServiceTest {
         );
 
         assertFalse(result.isExecuted());
-        assertEquals("I could not identify a chat contact for \"Josip\".", result.getBlockingReason());
+        assertEquals("I could not identify a chat contact for \"Josip\". I won't open a chat without a clear person.", result.getBlockingReason());
     }
 
     @Test
@@ -160,7 +160,7 @@ class VisionChatExecutionServiceTest {
         );
 
         assertFalse(result.isExecuted());
-        assertEquals("I found several possible chat contacts for \"jo\": Josip, Josipa. Say the exact username or email, or choose a numbered candidate.", result.getBlockingReason());
+        assertEquals("I found several possible chat contacts for \"jo\": Josip, Josipa. Say the exact username or email, or choose a numbered candidate before I contact anyone.", result.getBlockingReason());
         assertEquals(2, result.getCandidates().size());
         assertEquals("Josip", result.getCandidates().getFirst().getValue());
     }

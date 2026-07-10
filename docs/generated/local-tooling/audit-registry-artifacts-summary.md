@@ -1,5 +1,5 @@
 # Audit Registry Artifacts
 
-- Generated At: `2026-07-03T14:48:12Z`
-- Audit Count: `69`
+- Generated At: `2026-07-10T13:39:18Z`
+- Audit Count: `71`
 - Registry Path: `docs/tooling/codex-local-audits.yml`

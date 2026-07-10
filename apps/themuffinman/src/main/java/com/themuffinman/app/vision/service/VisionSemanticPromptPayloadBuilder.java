@@ -49,7 +49,7 @@ final class VisionSemanticPromptPayloadBuilder {
                 Always return normalizedPrompt in English, even if the user spoke another language or used broken grammar.
                 If the prompt is vague or slot-follow-up, prefer the current session entity family unless the user clearly changes topic.
                 If required slots are missing or the target entity is ambiguous, set clarificationRequired to true and list missingRequiredSlotIds.
-                Supported intents: CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, DISCOVER_QUESTS, SEARCH, OPEN_CHAT, VIEW_PROFILE, VIEW_SETTINGS, VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, VIEW_THINGS, UNSUPPORTED.
+                Supported intents: CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, DISCOVER_QUESTS, SEARCH, OPEN_CHAT, VIEW_PROFILE, VIEW_SETTINGS, VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, VIEW_THINGS, UNSUPPORTED.
                 For CREATE_QUEST, keep questTitle, questDescription, visibility, reward.amount, reward.freeQuest, schedule.mode, schedule.scheduledDate, schedule.scheduledTime, location.mode, and location.label separate.
                 For circle, application, profile, chat, search, things, notifications, and discover intents, fill only the matching slot family and leave unrelated slots null.
                 Use the userContext timezone when interpreting dates and times.
@@ -188,6 +188,7 @@ final class VisionSemanticPromptPayloadBuilder {
         compact.put("inputType", context.getInputType());
         compact.put("clientLocale", context.getClientLocale());
         compact.put("clientTimezone", context.getClientTimezone());
+        compact.put("clientDeviceRole", context.getClientDeviceRole());
         return compact;
     }
 

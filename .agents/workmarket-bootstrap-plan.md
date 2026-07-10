@@ -2,7 +2,8 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Workmarket Bootstrap Plan
-machine_goal: Establish the first real workmarket HTTP entrypoints and align the layering contract with the extracted workmarket service boundary.
+machine_goal: Establish the first real `com.themuffinman.app.workmarket` HTTP entrypoints
+  and align the layering contract with the extracted workmarket service boundary.
 ---
 
 # Workmarket Bootstrap Plan

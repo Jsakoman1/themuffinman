@@ -53,13 +53,17 @@ module LocalToolingCommon
   def atomic_write(absolute_path, content)
     dir = File.dirname(absolute_path)
     basename = File.basename(absolute_path)
-    Tempfile.create([basename, ".tmp"], dir) do |tmp|
+    tmp_path = File.join(dir, "#{basename}.tmp.#{$$}.#{Thread.current.object_id.to_s(36)}")
+
+    File.open(tmp_path, "w") do |tmp|
       tmp.write(content)
       tmp.flush
       tmp.fsync
-      tmp.close
-      FileUtils.mv(tmp.path, absolute_path)
     end
+
+    File.rename(tmp_path, absolute_path)
+  ensure
+    FileUtils.rm_f(tmp_path) if tmp_path && File.exist?(tmp_path)
   end
 
   def clean_text_output(text, max_lines: 80, aggressive: false)

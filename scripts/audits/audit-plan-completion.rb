@@ -50,8 +50,18 @@ def completion_status(section)
   section[/^\s*-\s*Status:\s*(.+?)\s*$/i, 1]&.strip
 end
 
+def completion_field(section, label)
+  return nil unless section
+
+  section[/^\s*-\s*#{Regexp.escape(label)}:\s*(.+?)\s*$/i, 1]&.strip
+end
+
 def weak_status?(status)
   status.nil? || status.empty? || status.match?(/\A(TBD|draft|not started|unknown)\z/i)
+end
+
+def weak_completion_value?(value)
+  value.to_s.strip.empty? || value.to_s.match?(/\A(?:TBD|draft|pending|unknown|none|n\/a|not started)\z/i)
 end
 
 def open_task_lines(content)
@@ -93,7 +103,7 @@ end
 
 def final_status?(status)
   normalized = status.to_s.strip.downcase.gsub(/[.\s]+\z/, "")
-  normalized.match?(/\A(?:complete|completed|done|deferred|skipped|n\/a|not applicable)\z/i)
+  normalized.match?(/\A(?:complete|completed|done|deferred|blocked|skipped|n\/a|not applicable)\z/i)
 end
 
 def child_plan_section_status_issues(content)
@@ -189,6 +199,9 @@ def analyze_plan(plan_path, nested: false)
   status_section_value = top_level_status(status_section(content))
   section = completion_section(content)
   status = completion_status(section)
+  changed_files_value = completion_field(section, "Changed files")
+  validation_evidence_value = completion_field(section, "Validation evidence")
+  doc_delta_value = completion_field(section, "Doc delta summary")
   open_tasks = open_task_lines(content)
   child_rows = child_plan_rows(content)
   child_status_issues = child_plan_section_status_issues(content)
@@ -205,6 +218,9 @@ def analyze_plan(plan_path, nested: false)
   if finalized
     issues << "machine_status is not final: #{machine_status}" unless final_status?(machine_status)
     issues << "top-level status is not final: #{status_section_value}" unless final_status?(status_section_value)
+    issues << "completion evidence changed files are missing or weak" if weak_completion_value?(changed_files_value)
+    issues << "completion evidence validation evidence is missing or weak" if weak_completion_value?(validation_evidence_value)
+    issues << "completion evidence doc delta summary is missing or weak" if weak_completion_value?(doc_delta_value)
   end
 
   unresolved_tasks = open_tasks.reject { |task| deferred_task?(task[:text]) }
@@ -251,6 +267,9 @@ def analyze_plan(plan_path, nested: false)
     top_level_status: status_section_value,
     completion_evidence: !!section,
     completion_status: status,
+    completion_changed_files: changed_files_value,
+    completion_validation_evidence: validation_evidence_value,
+    completion_doc_delta_summary: doc_delta_value,
     open_tasks: open_tasks,
     unresolved_open_tasks: unresolved_tasks,
     child_plans: children,

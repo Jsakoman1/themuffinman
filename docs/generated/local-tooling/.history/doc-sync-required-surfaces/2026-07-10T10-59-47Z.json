@@ -1,0 +1,546 @@
+{
+  "generated_at": "2026-07-10T10:54:53Z",
+  "original_file_count": 11,
+  "filtered_file_count": 0,
+  "excluded_file_count": 0,
+  "excluded_files_sample": [
+
+  ],
+  "changed_file_count": 11,
+  "files": [
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRuntimeHints.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "docs/domain-technical.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/product-vision.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/vision-architecture-patterns.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    }
+  ],
+  "required_docs": [
+    "docs/agent-operating-model.yaml"
+  ],
+  "required_generated_artifacts": [
+    "docs/generated/local-tooling/manifest-path-resolution.json"
+  ],
+  "required_validation_commands": [
+    "./mvnw test",
+    "make audit-doc-canonical-phrases",
+    "make audit-documentation",
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "make generate-agent-artifacts",
+    "npm run build",
+    "npm run type-check"
+  ],
+  "recommended_audits": [
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "make audit-mapper-usage",
+    "make audit-doc-sync-preflight",
+    "make audit-doc-sync-required-surfaces",
+    "make audit-documentation",
+    "make audit-doc-canonical-phrases",
+    "make audit-test-gap-recommendations",
+    "make audit-summary-index"
+  ],
+  "manifest_decision": {
+    "decision": "required",
+    "manifest_required": true,
+    "skip_allowed": false,
+    "skip_reason": null,
+    "rules": [
+      {
+        "id": "workflow_expansion_change",
+        "file_count": 3,
+        "files": [
+          "docs/domain-technical.md",
+          "docs/product-vision.md",
+          "docs/vision-architecture-patterns.md"
+        ],
+        "reason": "Workflow or scenario surfaces require scenario evidence and docs synchronization."
+      }
+    ],
+    "changed_file_count": 11,
+    "categories": [
+      "backend_dto",
+      "backend_service",
+      "docs"
+    ],
+    "domains": [
+
+    ],
+    "meaningful_surfaces": [
+      "backend_runtime",
+      "docs"
+    ]
+  },
+  "manifest_resolution": {
+    "decision": "resolved",
+    "manifest_path": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
+    "feature_id": "frontend_user_shell_navigation",
+    "title": "Frontend user shell navigation",
+    "confidence": "high",
+    "reasons": [
+      "Manifest file itself is in the current changeset.",
+      "Referenced plan file is in the current changeset.",
+      "Changed files overlap manifest artifact lists (.agents/frontend-user-shell-navigation-master-plan.md, .agents/frontend-user-shell-ia-plan.md, .agents/frontend-shared-shell-foundation-plan.md, .agents/frontend-home-and-work-entry-plan.md, .agents/frontend-chat-calendar-business-circles-profile-entry-plan.md).",
+      "Changed paths include feature/plan tokens: plan, master, frontend, user, shell, navigation."
+    ],
+    "candidates": [
+      {
+        "manifest_path": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
+        "feature_id": "frontend_user_shell_navigation",
+        "title": "Frontend user shell navigation",
+        "plan_file": ".agents/frontend-user-shell-navigation-master-plan.md",
+        "score": 32,
+        "reasons": [
+          "Manifest file itself is in the current changeset.",
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (.agents/frontend-user-shell-navigation-master-plan.md, .agents/frontend-user-shell-ia-plan.md, .agents/frontend-shared-shell-foundation-plan.md, .agents/frontend-home-and-work-entry-plan.md, .agents/frontend-chat-calendar-business-circles-profile-entry-plan.md).",
+          "Changed paths include feature/plan tokens: plan, master, frontend, user, shell, navigation."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/her-like-learning-manifest.yaml",
+        "feature_id": "her-like-learning",
+        "title": "Her-like learning loop",
+        "plan_file": ".agents/her-like-learning-plan.md",
+        "score": 20,
+        "reasons": [
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java, docs/domain-technical.md, docs/product-vision.md).",
+          "Changed paths include feature/plan tokens: plan, her, like, learning, manifest."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/chat-advanced-hardening-manifest.yaml",
+        "feature_id": "chat_advanced_hardening",
+        "title": "Chat Advanced Hardening",
+        "plan_file": ".agents/chat-advanced-hardening-master-plan.md",
+        "score": 19,
+        "reasons": [
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (.agents/chat-advanced-hardening-master-plan.md, .agents/chat-conversation-state-plan.md, .agents/chat-message-receipts-plan.md, .agents/chat-telemetry-audit-plan.md, docs/domain-technical.md).",
+          "Changed paths include feature/plan tokens: plan, master, chat, advanced, hardening, manifest."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/chat-prod-ready-manifest.yaml",
+        "feature_id": "chat_prod_ready",
+        "title": "Chat Prod Ready",
+        "plan_file": ".agents/chat-prod-ready-plan.md",
+        "score": 18,
+        "reasons": [
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (.agents/chat-prod-ready-closeout-plan.md, .agents/chat-prod-ready-plan.md, .agents/chat-realtime-lifecycle-hardening-plan.md, docs/domain-technical.md).",
+          "Changed paths include feature/plan tokens: prod, plan, chat, ready, manifest."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/control-system-maintenance-manifest.yaml",
+        "feature_id": "control-system-maintenance",
+        "title": "Control system maintenance",
+        "plan_file": ".agents/control-system-maintenance-plan.md",
+        "score": 16,
+        "reasons": [
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/domain-technical.md, .agents/control-system-maintenance-plan.md).",
+          "Changed paths include feature/plan tokens: plan, control, system, maintenance, manifest."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/control-system-rebuild-manifest.yaml",
+        "feature_id": "control-system-rebuild",
+        "title": "Control system rebuild",
+        "plan_file": ".agents/control-system-rebuild-plan.md",
+        "score": 16,
+        "reasons": [
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/domain-technical.md, .agents/control-system-rebuild-plan.md).",
+          "Changed paths include feature/plan tokens: plan, control, system, rebuild, manifest."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/control-system-validation-manifest.yaml",
+        "feature_id": "control-system-validation",
+        "title": "Control system validation",
+        "plan_file": ".agents/control-system-validation-plan.md",
+        "score": 16,
+        "reasons": [
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/domain-technical.md, .agents/control-system-validation-plan.md).",
+          "Changed paths include feature/plan tokens: plan, control, system, validation, manifest."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/vision-semantic-hardening-manifest.yaml",
+        "feature_id": "vision-semantic-hardening",
+        "title": "Vision semantic hardening",
+        "plan_file": ".agents/vision-semantic-hardening-plan.md",
+        "score": 15,
+        "reasons": [
+          "Referenced plan file is in the current changeset.",
+          "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+          "Changed paths include feature/plan tokens: vision, semantic, plan, hardening, manifest."
+        ]
+      }
+    ]
+  },
+  "validation_preset": {
+    "preset": "manifest-required",
+    "reasons": [
+      "Manifest decision is `required`.",
+      "Changed files span 3 categories.",
+      "Changed files span 1 domains.",
+      "Preset `manifest-required` keeps validation selection deterministic for 11 files."
+    ],
+    "commands": [
+      "make recommend-targeted-tests",
+      "make closeout-bundle manifest=.agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
+      "make feature-closeout-audit manifest=.agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
+      "cd apps/themuffinman && ./mvnw test -Dtest=VisionCanvasAssemblerTest,VisionConversationLifecycleSupportTest,VisionConversationMutationSupportTest,VisionConversationReadModelAssemblerTest,VisionConversationServiceTest,VisionConversationSnapshotSupportTest,VisionSemanticOrchestrationContextServiceTest,VisionSemanticPromptPayloadBuilderTest",
+      "make audit-documentation",
+      "make audit-doc-canonical-phrases",
+      "make audit-agent-safety",
+      "./mvnw test",
+      "./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest",
+      "make audit-todo",
+      "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
+    ],
+    "supporting_reports": [
+      "docs/generated/local-tooling/targeted-tests-summary.md",
+      "docs/generated/local-tooling/audit-router-summary.md",
+      "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+      "docs/generated/local-tooling/closeout-bundle-summary.md"
+    ],
+    "manifest_decision": "required",
+    "manifest_resolution": {
+      "decision": "resolved",
+      "manifest_path": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
+      "feature_id": "frontend_user_shell_navigation",
+      "title": "Frontend user shell navigation",
+      "confidence": "high",
+      "reasons": [
+        "Manifest file itself is in the current changeset.",
+        "Referenced plan file is in the current changeset.",
+        "Changed files overlap manifest artifact lists (.agents/frontend-user-shell-navigation-master-plan.md, .agents/frontend-user-shell-ia-plan.md, .agents/frontend-shared-shell-foundation-plan.md, .agents/frontend-home-and-work-entry-plan.md, .agents/frontend-chat-calendar-business-circles-profile-entry-plan.md).",
+        "Changed paths include feature/plan tokens: plan, master, frontend, user, shell, navigation."
+      ],
+      "candidates": [
+        {
+          "manifest_path": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
+          "feature_id": "frontend_user_shell_navigation",
+          "title": "Frontend user shell navigation",
+          "plan_file": ".agents/frontend-user-shell-navigation-master-plan.md",
+          "score": 32,
+          "reasons": [
+            "Manifest file itself is in the current changeset.",
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (.agents/frontend-user-shell-navigation-master-plan.md, .agents/frontend-user-shell-ia-plan.md, .agents/frontend-shared-shell-foundation-plan.md, .agents/frontend-home-and-work-entry-plan.md, .agents/frontend-chat-calendar-business-circles-profile-entry-plan.md).",
+            "Changed paths include feature/plan tokens: plan, master, frontend, user, shell, navigation."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/her-like-learning-manifest.yaml",
+          "feature_id": "her-like-learning",
+          "title": "Her-like learning loop",
+          "plan_file": ".agents/her-like-learning-plan.md",
+          "score": 20,
+          "reasons": [
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java, docs/domain-technical.md, docs/product-vision.md).",
+            "Changed paths include feature/plan tokens: plan, her, like, learning, manifest."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/chat-advanced-hardening-manifest.yaml",
+          "feature_id": "chat_advanced_hardening",
+          "title": "Chat Advanced Hardening",
+          "plan_file": ".agents/chat-advanced-hardening-master-plan.md",
+          "score": 19,
+          "reasons": [
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (.agents/chat-advanced-hardening-master-plan.md, .agents/chat-conversation-state-plan.md, .agents/chat-message-receipts-plan.md, .agents/chat-telemetry-audit-plan.md, docs/domain-technical.md).",
+            "Changed paths include feature/plan tokens: plan, master, chat, advanced, hardening, manifest."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/chat-prod-ready-manifest.yaml",
+          "feature_id": "chat_prod_ready",
+          "title": "Chat Prod Ready",
+          "plan_file": ".agents/chat-prod-ready-plan.md",
+          "score": 18,
+          "reasons": [
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (.agents/chat-prod-ready-closeout-plan.md, .agents/chat-prod-ready-plan.md, .agents/chat-realtime-lifecycle-hardening-plan.md, docs/domain-technical.md).",
+            "Changed paths include feature/plan tokens: prod, plan, chat, ready, manifest."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/control-system-maintenance-manifest.yaml",
+          "feature_id": "control-system-maintenance",
+          "title": "Control system maintenance",
+          "plan_file": ".agents/control-system-maintenance-plan.md",
+          "score": 16,
+          "reasons": [
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/domain-technical.md, .agents/control-system-maintenance-plan.md).",
+            "Changed paths include feature/plan tokens: plan, control, system, maintenance, manifest."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/control-system-rebuild-manifest.yaml",
+          "feature_id": "control-system-rebuild",
+          "title": "Control system rebuild",
+          "plan_file": ".agents/control-system-rebuild-plan.md",
+          "score": 16,
+          "reasons": [
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/domain-technical.md, .agents/control-system-rebuild-plan.md).",
+            "Changed paths include feature/plan tokens: plan, control, system, rebuild, manifest."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/control-system-validation-manifest.yaml",
+          "feature_id": "control-system-validation",
+          "title": "Control system validation",
+          "plan_file": ".agents/control-system-validation-plan.md",
+          "score": 16,
+          "reasons": [
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/domain-technical.md, .agents/control-system-validation-plan.md).",
+            "Changed paths include feature/plan tokens: plan, control, system, validation, manifest."
+          ]
+        },
+        {
+          "manifest_path": ".agents/feature-manifests/vision-semantic-hardening-manifest.yaml",
+          "feature_id": "vision-semantic-hardening",
+          "title": "Vision semantic hardening",
+          "plan_file": ".agents/vision-semantic-hardening-plan.md",
+          "score": 15,
+          "reasons": [
+            "Referenced plan file is in the current changeset.",
+            "Changed files overlap manifest artifact lists (docs/domain-technical.md).",
+            "Changed paths include feature/plan tokens: vision, semantic, plan, hardening, manifest."
+          ]
+        }
+      ]
+    },
+    "categories": [
+      "backend_dto",
+      "backend_service",
+      "docs"
+    ],
+    "domains": [
+      "shared"
+    ],
+    "changed_file_count": 11
+  },
+  "residual_risk": [
+    "Agent-facing logic changes may also require manifest and closeout updates."
+  ]
+}

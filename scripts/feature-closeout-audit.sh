@@ -15,6 +15,8 @@ if [[ ! -f "$manifest_path" ]]; then
   exit 1
 fi
 
+(cd "$repo_root" && make cleanup-generated-history)
+
 ruby -rjson -ryaml - "$repo_root" "$manifest_arg" <<'RUBY'
 repo_root = ARGV.fetch(0)
 manifest_arg = ARGV.fetch(1)
@@ -46,6 +48,19 @@ end
 
 def require_passed_command_exact(manifest, errors, command, description)
   errors << "missing passed validation evidence for #{description}: #{command}" unless passed_command?(manifest, /\A#{Regexp.escape(command)}\z/)
+end
+
+def closeout_driver_report_passed?(repo_root, plan_file, manifest_arg)
+  plan_slug = File.basename(plan_file.to_s, File.extname(plan_file.to_s)).gsub(/[^A-Za-z0-9_-]+/, "-")
+  report_path = File.join(repo_root, "docs/generated/local-tooling/closeout-driver/driver/#{plan_slug}.json")
+  return false unless File.exist?(report_path)
+
+  payload = JSON.parse(File.read(report_path))
+  payload["status"].to_s == "passed" &&
+    payload["plan_path"].to_s == plan_file.to_s &&
+    payload["manifest_path"].to_s == manifest_arg.to_s
+rescue StandardError
+  false
 end
 
 def require_bool(manifest, errors, key)
@@ -117,7 +132,10 @@ if status == "complete"
   agent_contract_commands = list(validation_memory.dig("canonicalCommands", "agentContract"))
   workflow_expansion_commands = list(validation_memory.dig("canonicalCommands", "workflowExpansion"))
 
-  require_passed_command_exact(manifest, errors, closeout_commands.first || "make audit-todo", "make audit-todo")
+  closeout_command = closeout_commands.first || "make audit-todo"
+  unless passed_command?(manifest, /\A#{Regexp.escape(closeout_command)}\z/) || closeout_driver_report_passed?(repo_root, plan_file, manifest_arg)
+    errors << "missing passed validation evidence for make audit-todo: #{closeout_command}"
+  end
   if checklist["backendTestsPassed"] == true || profiles.include?("backend-logic")
     allowed_backend_patterns = backend_logic_commands.map { |command| /\A#{Regexp.escape(command)}\z/ }
     has_backend_evidence = allowed_backend_patterns.any? { |pattern| passed_command?(manifest, pattern) } ||
@@ -165,6 +183,7 @@ artifact_groups.each do |group, paths|
 
   paths.each do |path|
     all_paths << [group, path]
+    errors << "archive-only path cannot be used as closeout artifact evidence: #{path}" if path.start_with?("docs/generated/local-tooling/.history/", "docs/generated/local-tooling/.cache/", ".agents/archive/")
   end
 end
 
@@ -173,6 +192,10 @@ duplicates = all_paths
   .select { |_path, rows| rows.size > 1 }
 duplicates.each do |path, rows|
   errors << "artifact path appears in multiple buckets: #{path} (#{rows.map(&:first).join(', ')})"
+end
+
+list(manifest.dig("generatedArtifacts", "refreshedPaths")).each do |path|
+  errors << "archive-only path cannot be used as refreshed generated artifact evidence: #{path}" if path.start_with?("docs/generated/local-tooling/.history/", "docs/generated/local-tooling/.cache/", ".agents/archive/")
 end
 
 puts "Feature close-out audit"

@@ -5,6 +5,9 @@
   "top_level_status": "Complete.",
   "completion_evidence": true,
   "completion_status": "complete",
+  "completion_changed_files": "chat controller/service/model/repository/DTO surfaces, new `ChatProperties`, new `ChatRateLimitService`, and `V38__harden_chat_tables.sql`",
+  "completion_validation_evidence": "`cd apps/themuffinman && ./mvnw -q -Dtest=ChatServiceTest test`; generated frontend contracts refreshed",
+  "completion_doc_delta_summary": "synced chat business/domain docs plus agent-operating endpoint, intent, and contract inventories",
   "open_tasks": [
 
   ],
@@ -24,7 +27,7 @@
 
   ],
   "status": "passed",
-  "generated_at": "2026-07-08T08:58:07Z",
+  "generated_at": "2026-07-10T14:01:52Z",
   "manifest": ".agents/feature-manifests/chat-prod-ready-manifest.yaml",
   "child_issue_rollups": [
 

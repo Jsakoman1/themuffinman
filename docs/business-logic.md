@@ -75,6 +75,7 @@ Current covered modules:
 - `/vision` can now also update the current user's own profile username and profile description through the same conversation flow, while preserving the stored email, avatar, and location settings behind the backend mutation boundary.
 - Voice recording and speech playback use backend-provided limits so long recordings, oversized audio uploads, and overly long speech synthesis text fail early instead of exhausting local memory.
 - `/vision` now also has a dedicated persisted conversation backend foundation at `POST /vision/conversations/turns`, so the system can ask one missing field at a time and keep the same task state across turns.
+- `/vision` now also replays a retried first submit by `clientRequestId` even before a browser has received a conversation id, so transient network failures do not duplicate the first action.
 - `/vision/conversations/turns` now uses a versioned request shape with `inputType`, `text`, `clientCapabilities`, and `clientStateVersion`, so the frontend can declare what it can do instead of relying only on legacy prompt fields.
 - The active `/vision` surface should prefer that persisted conversation path for stepwise task guidance, treat `cancel`, `stop`, and `reset` as immediate conversation-control shortcuts that short-circuit to the lifecycle flow, and allow `Esc` as a local cancel shortcut in the composer while exposing recent task resume behavior and keeping the older dashboard prompt endpoint as a compatibility/planning path during transition.
 - The active `/vision` surface should treat compact backend summaries as the memory source for resume and recent-task continuity, rather than reconstructing the current state from older transcript text.
@@ -735,8 +736,16 @@ Current covered modules:
 - `REQUEST` offerings create `PENDING_CONFIRMATION` bookings that still reserve capacity immediately.
 - Customer booking create supports idempotency keys so retries do not easily create duplicate reservations.
 - Customer and owner booking lists start with backend pagination and filter contracts even before the UI needs the full surface.
+- The booking write surfaces are implemented by these backend use cases:
+  - `business/service/BusinessCreateBookingUseCase.java`
+  - `business/service/BusinessCancelBookingUseCase.java`
+  - `business/service/BusinessConfirmBookingUseCase.java`
+  - `business/service/BusinessCompleteBookingUseCase.java`
+  - `business/service/BusinessRejectBookingUseCase.java`
+  - `business/service/BusinessNoShowBookingUseCase.java`
 - Booking DTOs return backend-prepared `allowedActions`, `statusLabel`, and optional `blockingReason`.
 - Booking presentation and read paths stay side-effect-free; missing policy rows are created only by mutation flows.
+- Vision's `view_business_bookings` surface is a read-only guidance entry for business booking review, booking requests, and capacity-aware next steps; it must not invent booking state on the client.
 - Customer cancellation depends on business policy and the configured cancellation window.
 - Owner confirmation, rejection, cancellation, completion, and no-show marking are explicit backend transitions.
 - Historical bookings keep offering title, price, duration, and timezone snapshots so later offering edits do not rewrite history.
@@ -803,16 +812,26 @@ Current covered modules:
 ### Route and page model
 
 - `/login` and `/register` are the only unauthenticated entry pages.
-- `/vision` is the primary authenticated user surface.
+- The authenticated frontend now uses a shared shell entry model with `/home`, `/work`, `/chat`, `/calendar`, `/business`, `/circles`, and `/profile` as stable user-facing navigation routes.
+- The shared shell now uses one standard entry grammar across those routes: header and actions in the hero, shared metric strip, shared list-row vocabulary, and calm desktop/mobile navigation chrome.
+- `Home` currently stays intentionally thin and only consumes the backend-prepared dashboard summary instead of assembling a cross-module frontend dashboard.
+- `Work` now reads from the existing dashboard read model for discover, my quests, and applications while keeping quest and application detail canonical under `/vision/quests/:id` and `/vision/applications/:id`.
+- `Chat` now owns deterministic workspace browsing under `/chat` and `/chat/:conversationId`, while Vision remains the semantic handoff path when the user starts from intent instead of a known thread.
+- `Calendar` now acts as a coordination index over backend-prepared work planner and owner booking calendar sections instead of becoming a new detail owner.
+- `Business`, `Circles`, and `Profile` now each render stable backend-owned entry surfaces instead of placeholder shell chrome.
+- `/vision` remains the premium authenticated deep-work surface for guided, semantic, review-gated, and cross-module tasks.
 - Vision-native quest and application detail routes carry the main detail flows.
 - Vision-native profile, settings, circles, and chat routes carry the user-scoped continuation flows.
 - Admin capability work is currently accessed through the Vision surface rather than a separate dedicated frontend route.
-- Logged-in users land on `/vision`.
-- Legacy route-era user entry routes such as `/work`, `/quests`, `/app-users`, `/business`, `/things`, and `/rides` are no longer active product entry points.
+- Logged-in users now land on `/home` for orientation, while `/vision` stays available as the guided assistant route.
+- In the first shared-shell phase, `Work` owns deterministic browse entry while quest and application detail still route directly to their canonical Vision-native detail paths instead of introducing parallel `/work/.../:id` detail routes.
+- Settings stays nested under `/profile/settings`, and applications stay nested under `Work` instead of becoming top-level navigation.
+- Shell-to-Vision handoff now uses one explicit route-query contract with `prompt`, `autorun`, `context`, `source`, and `returnTo`, so quick launches, contextual launches, and route return links stay typed instead of ad hoc.
 
 ### API client model
 
 - `authApi` owns login, register, and current-session lookup.
+- `userShellApi` is a thin authenticated entry-surface client that reads existing backend summaries for dashboard, chat workspace, circles, business owner surfaces, and profile views without adding a frontend business-logic layer.
 - `visionApi` is the primary frontend gateway and combines the conversation, quest, application, dashboard, news, user, circle, and location clients used by Vision routes.
 - Each underlying client is endpoint-focused and mostly forwards server DTOs directly to the page or composable layer.
 - The remaining backend `workmarket` domain stays available through the Vision-facing client layer.
@@ -859,7 +878,7 @@ Current covered modules:
 - Application thread chat belongs to one quest application and includes the quest owner plus that one applicant.
 - Canonical context-owned threads can now also be read through dedicated non-mutating backend routes when the thread already exists, while the existing open endpoints still create the thread on demand.
 - The backend now also exposes a filtered conversation-list surface so clients or agents can browse only direct chats, group chats, or one specific context-owned thread family without reconstructing that filter from the whole workspace payload.
-- Conversation-list responses now expose page and has-more metadata so backend consumers can page large chat sets without loading the full workspace surface.
+- Conversation-list responses now expose page, cursor, and has-more metadata so backend consumers can page large chat sets without loading the full workspace surface.
 - Messages now support optional reply linkage, attachment metadata, and per-message emoji reactions.
 - Chat attachments can now be pre-validated through a dedicated backend upload endpoint before message creation.
 - Conversations now expose a dedicated sync surface so reconnecting clients can fetch message deltas and current typing participants after a websocket gap.

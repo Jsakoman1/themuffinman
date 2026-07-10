@@ -2,7 +2,6 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Chat Realtime Lifecycle Hardening Plan
-machine_goal: Harden chat realtime delivery, presence semantics, read-state behavior, and message lifecycle boundaries after the schema and API baseline is in place.
 ---
 
 # Chat Realtime Lifecycle Hardening Plan

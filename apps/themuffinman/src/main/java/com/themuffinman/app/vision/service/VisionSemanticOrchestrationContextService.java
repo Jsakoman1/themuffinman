@@ -174,6 +174,7 @@ public class VisionSemanticOrchestrationContextService {
                 .inputType(clean(runtimeHints.getInputType()) == null ? "text" : clean(runtimeHints.getInputType()))
                 .clientLocale(normalizeLocale(runtimeHints.getClientLocale()))
                 .clientTimezone(normalizeTimezone(runtimeHints.getClientTimezone()))
+                .clientDeviceRole(normalizeDeviceRole(runtimeHints.getClientDeviceRole()))
                 .clientCapabilities(runtimeHints.getClientCapabilities() == null ? List.of() : runtimeHints.getClientCapabilities())
                 .clientStateVersion(clean(runtimeHints.getClientStateVersion()))
                 .build();
@@ -232,6 +233,19 @@ public class VisionSemanticOrchestrationContextService {
         }
         int separator = locale.indexOf('-');
         return separator > 0 ? locale.substring(0, separator) : locale;
+    }
+
+    private String normalizeDeviceRole(String value) {
+        String normalized = clean(value);
+        if (normalized == null) {
+            return "desktop";
+        }
+        String upper = TextValueNormalizer.upperTrimToEmpty(normalized);
+        return switch (upper) {
+            case "MOBILE" -> "mobile";
+            case "WATCH" -> "watch";
+            default -> "desktop";
+        };
     }
 
     private VisionSemanticUserMemoryContext buildUserMemoryContext(AppUser user, VisionConversation conversation) {

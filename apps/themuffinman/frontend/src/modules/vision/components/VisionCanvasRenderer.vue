@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import {computed, nextTick, onMounted, ref, watch} from "vue"
+import {RouterLink} from "vue-router"
 import {currentUser} from "../../identity/auth.ts"
-import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionReviewTarget} from "../api/visionConversationApi.ts"
+import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionReviewTarget, VisionRuntimeContext} from "../api/visionConversationApi.ts"
 import type {VisionVoiceState} from "../composables/useVisionConversation.ts"
 import {formatVisionFlowLine} from "../visionPresentation.ts"
+import {resolveVisionEntityRoute} from "../../app-shell/visionHandoff.ts"
 import VisionTerminalRow from "./VisionTerminalRow.vue"
 import VisionVoiceControl from "./VisionVoiceControl.vue"
 import VisionTypingText from "./VisionTypingText.vue"
 
 const props = defineProps<{
   response: VisionConversationTurnResponse | null
+  runtimeContext: VisionRuntimeContext | null
   displayBlocks: VisionCanvasBlock[]
   lastTranscript: string
   isLoading: boolean
@@ -53,6 +56,14 @@ type TerminalRow = {
   meta: string
   sub: string
   actionValue?: string
+  routeTo?: import("vue-router").RouteLocationRaw | null
+  routeLabel?: string
+}
+
+type StatusPill = {
+  key: string
+  label: string
+  tone: "muted" | "strong" | "accent"
 }
 
 const isNonEmptyText = (value: string | null | undefined): value is string => !!value && value.trim().length > 0
@@ -60,6 +71,69 @@ const isNonEmptyText = (value: string | null | undefined): value is string => !!
 const username = computed(() => currentUser.value?.username ?? "there")
 const questionBlock = computed(() => props.displayBlocks.find((block) => block.type === "field_request") ?? null)
 const activeFlowLabel = computed(() => props.activeEntityContextLabel.trim() || props.activeEntityFamilyLabel.trim())
+
+const runtimeStatusLabel = computed(() => {
+  if (!props.runtimeContext) {
+    return ""
+  }
+
+  const parts: string[] = [
+    props.runtimeContext.deviceRole.toUpperCase(),
+    props.runtimeContext.attentionState.replaceAll("_", " ")
+  ]
+
+  if (props.runtimeContext.watchFriendly) {
+    parts.push("watch friendly")
+  }
+
+  return parts.join(" · ")
+})
+
+const runtimePills = computed<StatusPill[]>(() => {
+  if (!props.runtimeContext) {
+    return []
+  }
+
+  const pills: StatusPill[] = [
+    {
+      key: "device",
+      label: props.runtimeContext.deviceRole,
+      tone: "strong"
+    },
+    {
+      key: "attention",
+      label: props.runtimeContext.attentionState.toLowerCase().replaceAll("_", " "),
+      tone: "muted"
+    }
+  ]
+
+  if (props.runtimeContext.sessionAnchor.trim()) {
+    pills.push({
+      key: "anchor",
+      label: props.runtimeContext.sessionAnchor,
+      tone: "accent"
+    })
+  }
+
+  if (props.runtimeContext.watchFriendly) {
+    pills.push({
+      key: "watch",
+      label: "watch friendly",
+      tone: "accent"
+    })
+  }
+
+  return pills
+})
+
+const runtimeHintItems = computed(() => props.runtimeContext?.actionHints.slice(0, 4) ?? [])
+
+const cueLabel = (cue: VisionRuntimeContext["audioCue"] | VisionRuntimeContext["hapticCue"]) => {
+  if (!cue) {
+    return ""
+  }
+  return `${cue.type.toLowerCase().replaceAll("_", " ")} · ${cue.message}`
+}
 
 const headerLine = computed(() => {
   const segments: string[] = []
@@ -92,7 +166,9 @@ const terminalRows = computed<TerminalRow[]>(() => props.displayBlocks.flatMap<T
         item.creatorUsername ? `by ${item.creatorUsername}` : "",
         item.scheduledAt ?? ""
       ].filter(isNonEmptyText).join(" · "),
-      actionValue: item.title
+      actionValue: item.title,
+      routeTo: resolveVisionEntityRoute("quest", item.questId),
+      routeLabel: "Open detail"
     }))
   }
 
@@ -107,7 +183,9 @@ const terminalRows = computed<TerminalRow[]>(() => props.displayBlocks.flatMap<T
         item.matchSummary
       ].filter(isNonEmptyText).join(" · "),
       sub: item.summary ?? "",
-      actionValue: item.title
+      actionValue: item.title,
+      routeTo: resolveVisionEntityRoute(item.entityFamily, item.targetId),
+      routeLabel: "Open route"
     }))
   }
 
@@ -229,6 +307,42 @@ onMounted(() => {
 <template>
   <section class="vision-console">
     <div class="vision-console__paper">
+      <header v-if="runtimeStatusLabel || runtimePills.length || runtimeHintItems.length || props.runtimeContext?.consentRequired" class="vision-console__runtime">
+        <div class="vision-console__runtime-copy">
+          <p v-if="runtimeStatusLabel" class="vision-console__runtime-label">{{ runtimeStatusLabel }}</p>
+          <div v-if="runtimePills.length" class="vision-console__runtime-pills">
+            <span
+              v-for="pill in runtimePills"
+              :key="pill.key"
+              class="vision-console__runtime-pill"
+              :class="`vision-console__runtime-pill--${pill.tone}`"
+            >
+              {{ pill.label }}
+            </span>
+          </div>
+        </div>
+
+        <div class="vision-console__runtime-guidance">
+          <p v-if="props.runtimeContext?.consentRequired" class="vision-console__runtime-note">
+            Consent required{{ props.runtimeContext.consentReason ? `: ${props.runtimeContext.consentReason}` : "." }}
+          </p>
+          <p v-if="props.runtimeContext?.resumeHint" class="vision-console__runtime-note">
+            Resume: {{ props.runtimeContext.resumeHint }}
+          </p>
+          <p v-if="props.runtimeContext?.audioCue" class="vision-console__runtime-note">
+            Audio: {{ cueLabel(props.runtimeContext.audioCue) }}
+          </p>
+          <p v-if="props.runtimeContext?.hapticCue" class="vision-console__runtime-note">
+            Haptic: {{ cueLabel(props.runtimeContext.hapticCue) }}
+          </p>
+        </div>
+      </header>
+
+      <div v-if="runtimeHintItems.length" class="vision-console__hint-rail" aria-label="Vision action hints">
+        <span class="vision-console__hint-label">Next</span>
+        <span v-for="hint in runtimeHintItems" :key="hint" class="vision-console__hint-pill">{{ hint }}</span>
+      </div>
+
       <div class="vision-console__lines">
         <p v-for="(line, index) in feedLines" :key="`${line.kind}-${index}`" class="vision-console__line" :class="`vision-console__line--${line.kind}`">
           <span v-if="line.kind === 'greeting'" class="vision-console__text">
@@ -277,16 +391,21 @@ onMounted(() => {
           </span>
         </p>
 
-        <VisionTerminalRow
-          v-for="row in terminalRows"
-          :key="row.key"
-          class="vision-console__row"
-          :label="row.kind === 'choice' ? 'Option' : row.title"
-          :value="row.kind === 'choice' ? [row.meta, row.sub].filter(Boolean).join(' · ') : row.meta"
-          :clickable="row.kind === 'choice'"
-          :tone="row.kind === 'choice' ? 'strong' : 'muted'"
-          @click="choose(row.actionValue ?? row.title)"
-        />
+        <div v-for="row in terminalRows" :key="row.key" class="vision-console__row-group">
+          <VisionTerminalRow
+            class="vision-console__row"
+            :label="row.kind === 'choice' ? 'Option' : row.title"
+            :value="row.kind === 'choice' ? [row.meta, row.sub].filter(Boolean).join(' · ') : row.meta"
+            :clickable="row.kind === 'choice'"
+            :tone="row.kind === 'choice' ? 'strong' : 'muted'"
+            @click="choose(row.actionValue ?? row.title)"
+          />
+          <div v-if="row.routeTo" class="vision-console__row-actions">
+            <RouterLink :to="row.routeTo" class="vision-console__route-link">
+              {{ row.routeLabel ?? "Open route" }}
+            </RouterLink>
+          </div>
+        </div>
 
         <div v-if="questionBlock && questionBlock.options.length" class="vision-console__choices">
           <VisionTerminalRow
@@ -316,13 +435,129 @@ onMounted(() => {
   width: 100%;
   min-height: 100%;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: 0.85rem;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 0.7rem;
   padding: 1rem 0.7rem 0.75rem;
   border-radius: 0;
   border: 0;
   background: transparent;
   box-shadow: none;
+}
+
+.vision-console__runtime {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.2rem 0 0.15rem;
+}
+
+.vision-console__runtime-copy {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.vision-console__runtime-label {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(24, 36, 47, 0.45);
+}
+
+.vision-console__runtime-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.vision-console__runtime-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(24, 36, 47, 0.08);
+  background: rgba(255, 255, 255, 0.76);
+  color: rgba(24, 36, 47, 0.75);
+}
+
+.vision-console__runtime-pill--strong {
+  background: rgba(35, 58, 92, 0.08);
+  color: #244a7a;
+}
+
+.vision-console__runtime-pill--accent {
+  background: rgba(36, 74, 122, 0.1);
+  color: #1d5c49;
+}
+
+.vision-console__runtime-guidance {
+  display: grid;
+  gap: 0.24rem;
+  justify-items: end;
+  text-align: right;
+  min-width: min(100%, 15rem);
+}
+
+.vision-console__runtime-note {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: rgba(24, 36, 47, 0.62);
+}
+
+.vision-console__hint-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+  align-items: center;
+  padding: 0.05rem 0 0.15rem;
+}
+
+.vision-console__hint-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(24, 36, 47, 0.42);
+}
+
+.vision-console__hint-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.6rem;
+  padding: 0.18rem 0.48rem;
+  border-radius: 999px;
+  border: 1px solid rgba(24, 36, 47, 0.08);
+  background: rgba(247, 249, 243, 0.86);
+  color: rgba(24, 36, 47, 0.72);
+  font-size: 0.74rem;
+}
+
+.vision-console__row-group {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.vision-console__row-actions {
+  padding-left: 0.1rem;
+}
+
+.vision-console__route-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(24, 36, 47, 0.1);
+  background: rgba(255, 255, 255, 0.7);
+  color: rgba(24, 36, 47, 0.78);
+  font-size: 0.78rem;
 }
 
 .vision-console__lines {
@@ -441,6 +676,18 @@ onMounted(() => {
 .vision-console__input::placeholder {
   color: rgba(24, 36, 47, 0.22);
   transform: translateY(0.3rem);
+}
+
+@media (max-width: 980px) {
+  .vision-console__runtime {
+    flex-direction: column;
+  }
+
+  .vision-console__runtime-guidance {
+    justify-items: start;
+    text-align: left;
+    min-width: 0;
+  }
 }
 
 </style>

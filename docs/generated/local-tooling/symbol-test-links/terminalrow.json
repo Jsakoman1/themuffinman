@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-07-10T10:39:10Z",
+  "symbol": "TerminalRow",
+  "symbol_files": [
+    {
+      "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "category": "other",
+      "domain": "shared",
+      "lines": 481
+    }
+  ],
+  "direct_tests": [
+
+  ],
+  "nearby_tests": [
+
+  ],
+  "scenario_hits": [
+
+  ],
+  "recommended_commands": [
+
+  ],
+  "residual_risk": [
+    "No direct test references were found for the symbol.",
+    "No regression scenario catalog entry matched the symbol domain."
+  ]
+}

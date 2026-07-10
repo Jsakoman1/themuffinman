@@ -16,6 +16,33 @@ export type AppUserRole = typeof APP_USER_ROLE_VALUES[number]
 export const BULK_CIRCLE_MEMBERSHIP_ACTION_DTO_VALUES = ["ADD", "REMOVE"] as const
 export type BulkCircleMembershipActionDTO = typeof BULK_CIRCLE_MEMBERSHIP_ACTION_DTO_VALUES[number]
 
+export const BUSINESS_AVAILABILITY_EXCEPTION_TYPE_VALUES = ["BLOCK", "REPLACE_WINDOW"] as const
+export type BusinessAvailabilityExceptionType = typeof BUSINESS_AVAILABILITY_EXCEPTION_TYPE_VALUES[number]
+
+export const BUSINESS_BOOKING_ALLOWED_ACTION_DTO_VALUES = ["CANCEL", "CONFIRM", "REJECT", "COMPLETE", "MARK_NO_SHOW", "CANCEL_AS_OWNER"] as const
+export type BusinessBookingAllowedActionDTO = typeof BUSINESS_BOOKING_ALLOWED_ACTION_DTO_VALUES[number]
+
+export const BUSINESS_BOOKING_AUDIT_EVENT_TYPE_VALUES = ["CREATED", "CONFIRMED", "REJECTED", "CANCELLED_BY_CUSTOMER", "CANCELLED_BY_OWNER", "COMPLETED", "NO_SHOW"] as const
+export type BusinessBookingAuditEventType = typeof BUSINESS_BOOKING_AUDIT_EVENT_TYPE_VALUES[number]
+
+export const BUSINESS_BOOKING_SOURCE_VALUES = ["CUSTOMER", "OWNER_CREATED"] as const
+export type BusinessBookingSource = typeof BUSINESS_BOOKING_SOURCE_VALUES[number]
+
+export const BUSINESS_BOOKING_STATUS_VALUES = ["PENDING_CONFIRMATION", "CONFIRMED", "REJECTED", "CANCELLED_BY_CUSTOMER", "CANCELLED_BY_OWNER", "COMPLETED", "NO_SHOW"] as const
+export type BusinessBookingStatus = typeof BUSINESS_BOOKING_STATUS_VALUES[number]
+
+export const BUSINESS_OFFERING_BOOKING_MODE_VALUES = ["INSTANT", "REQUEST"] as const
+export type BusinessOfferingBookingMode = typeof BUSINESS_OFFERING_BOOKING_MODE_VALUES[number]
+
+export const BUSINESS_OFFERING_CAPACITY_MODE_VALUES = ["SINGLE", "SHARED"] as const
+export type BusinessOfferingCapacityMode = typeof BUSINESS_OFFERING_CAPACITY_MODE_VALUES[number]
+
+export const BUSINESS_OFFERING_DURATION_MODE_VALUES = ["FIXED", "CUSTOMER_SELECTS", "ALL_DAY"] as const
+export type BusinessOfferingDurationMode = typeof BUSINESS_OFFERING_DURATION_MODE_VALUES[number]
+
+export const BUSINESS_OFFERING_PRICING_TYPE_VALUES = ["FIXED", "FROM", "CUSTOM_QUOTE", "FREE"] as const
+export type BusinessOfferingPricingType = typeof BUSINESS_OFFERING_PRICING_TYPE_VALUES[number]
+
 export const CHAT_AUDIT_EVENT_TYPE_VALUES = ["GROUP_CONVERSATION_CREATED", "GROUP_CONVERSATION_RENAMED", "GROUP_PARTICIPANTS_ADDED", "GROUP_PARTICIPANT_ROLE_UPDATED", "GROUP_PARTICIPANT_REMOVED", "GROUP_PARTICIPANT_LEFT", "GROUP_OWNERSHIP_TRANSFERRED", "MESSAGE_REACTION_ADDED", "MESSAGE_REACTION_REMOVED", "ADMIN_MESSAGE_REMOVED", "WEBSOCKET_AUTH_FAILED", "WEBSOCKET_CONNECTED", "WEBSOCKET_DISCONNECTED", "WEBSOCKET_PING", "WEBSOCKET_TYPING_UPDATED", "WEBSOCKET_INVALID_PAYLOAD", "RATE_LIMIT_EXCEEDED"] as const
 export type ChatAuditEventType = typeof CHAT_AUDIT_EVENT_TYPE_VALUES[number]
 
@@ -85,7 +112,7 @@ export type QuestViewerRelationDTO = typeof QUEST_VIEWER_RELATION_DTO_VALUES[num
 export const REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
 export type ReviewRole = typeof REVIEW_ROLE_VALUES[number]
 
-export const SEMANTIC_ENTITY_FAMILY_VALUES = ["QUEST", "NOTIFICATIONS", "CIRCLE", "USER", "APPLICATION", "CHAT", "PROFILE", "SETTINGS", "UNKNOWN"] as const
+export const SEMANTIC_ENTITY_FAMILY_VALUES = ["QUEST", "NOTIFICATIONS", "CIRCLE", "USER", "APPLICATION", "CHAT", "PROFILE", "SETTINGS", "BUSINESS", "UNKNOWN"] as const
 export type SemanticEntityFamily = typeof SEMANTIC_ENTITY_FAMILY_VALUES[number]
 
 export const SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES = ["RESOLVED", "AMBIGUOUS", "NOT_FOUND"] as const
@@ -103,13 +130,19 @@ export type UserLocationMode = typeof USER_LOCATION_MODE_VALUES[number]
 export const VISION_AGENT_STATE_VALUES = ["ASKING", "RECOMMENDING", "REVIEW_READY", "COMPLETE", "BLOCKED"] as const
 export type VisionAgentState = typeof VISION_AGENT_STATE_VALUES[number]
 
+export const VISION_ATTENTION_STATE_DTO_VALUES = ["FOCUSED", "COORDINATING", "REVIEWING", "PASSIVE", "BLOCKED"] as const
+export type VisionAttentionStateDTO = typeof VISION_ATTENTION_STATE_DTO_VALUES[number]
+
 export const VISION_CONVERSATION_ACTION_VALUES = ["SUBMIT_PROMPT", "CONFIRM_REVIEW", "REQUEST_REVIEW_EDIT"] as const
 export type VisionConversationAction = typeof VISION_CONVERSATION_ACTION_VALUES[number]
 
 export const VISION_CONVERSATION_STATUS_VALUES = ["ACTIVE", "REVIEW_READY", "COMPLETED", "BLOCKED"] as const
 export type VisionConversationStatus = typeof VISION_CONVERSATION_STATUS_VALUES[number]
 
-export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_CHAT_WORKSPACE", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_QUEST_DETAIL", "VIEW_NOTIFICATIONS", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "VIEW_THINGS", "SEARCH", "UNSUPPORTED"] as const
+export const VISION_DEVICE_ROLE_DTO_VALUES = ["DESKTOP", "MOBILE", "WATCH"] as const
+export type VisionDeviceRoleDTO = typeof VISION_DEVICE_ROLE_DTO_VALUES[number]
+
+export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_CHAT_WORKSPACE", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_BUSINESS", "VIEW_BUSINESS_AVAILABILITY", "VIEW_BUSINESS_BOOKINGS", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_QUEST_DETAIL", "VIEW_NOTIFICATIONS", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "VIEW_THINGS", "SEARCH", "UNSUPPORTED"] as const
 export type VisionIntent = typeof VISION_INTENT_VALUES[number]
 
 export const VISION_MEMORY_FEEDBACK_TYPE_VALUES = ["INTERACTION", "CLARIFICATION", "CORRECTION", "CONFIRMATION", "EXECUTED", "BLOCKED", "CANCELLED"] as const
@@ -321,6 +354,317 @@ export interface BulkCircleMembershipUpdateDTO {
   action: BulkCircleMembershipActionDTO
 }
 
+export interface BusinessAvailabilityExceptionListResponseDTO {
+  items: BusinessAvailabilityExceptionResponseDTO[]
+}
+
+export interface BusinessAvailabilityExceptionRequestDTO {
+  businessOfferingId: number
+  exceptionType: BusinessAvailabilityExceptionType
+  startAt: string
+  endAt: string
+  replacementCapacity: number
+  replacementStartTimeLocal: string
+  replacementEndTimeLocal: string
+  reason: string
+}
+
+export interface BusinessAvailabilityExceptionResponseDTO {
+  id: number
+  businessProfileId: number
+  businessOfferingId: number
+  businessOfferingTitle: string
+  exceptionType: BusinessAvailabilityExceptionType
+  startAt: string
+  endAt: string
+  replacementCapacity: number
+  replacementStartTimeLocal: string
+  replacementEndTimeLocal: string
+  reason: string
+  timezone: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BusinessAvailabilityRuleListResponseDTO {
+  items: BusinessAvailabilityRuleResponseDTO[]
+}
+
+export interface BusinessAvailabilityRuleRequestDTO {
+  businessOfferingId: number
+  dayOfWeek: number
+  startTimeLocal: string
+  endTimeLocal: string
+  slotGranularityMinutes: number
+  capacityOverride: number
+  validFrom: string
+  validUntil: string
+  active: boolean
+}
+
+export interface BusinessAvailabilityRuleResponseDTO {
+  id: number
+  businessProfileId: number
+  businessOfferingId: number
+  businessOfferingTitle: string
+  dayOfWeek: number
+  startTimeLocal: string
+  endTimeLocal: string
+  slotGranularityMinutes: number
+  capacityOverride: number
+  validFrom: string
+  validUntil: string
+  active: boolean
+  timezone: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BusinessAvailabilityWindowDTO {
+  businessProfileId: number
+  businessOfferingId: number
+  businessOfferingTitle: string
+  startsAt: string
+  endsAt: string
+  timezone: string
+  effectiveCapacity: number
+}
+
+export interface BusinessAvailabilityWindowListResponseDTO {
+  items: BusinessAvailabilityWindowDTO[]
+}
+
+export interface BusinessBookingListResponseDTO {
+  items: BusinessBookingResponseDTO[]
+  page: number
+  size: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface BusinessBookingPolicyRequestDTO {
+  leadTimeMinutes: number
+  maxAdvanceDays: number
+  customerCancellationWindowMinutes: number
+  ownerRescheduleWindowMinutes: number
+  requiresOwnerConfirmationDefault: boolean
+  allowCustomerCancellation: boolean
+  allowOwnerManualApproval: boolean
+  allowOwnerManualRejection: boolean
+  allowWaitlist: boolean
+}
+
+export interface BusinessBookingPolicyResponseDTO {
+  id: number
+  businessProfileId: number
+  leadTimeMinutes: number
+  maxAdvanceDays: number
+  customerCancellationWindowMinutes: number
+  ownerRescheduleWindowMinutes: number
+  requiresOwnerConfirmationDefault: boolean
+  allowCustomerCancellation: boolean
+  allowOwnerManualApproval: boolean
+  allowOwnerManualRejection: boolean
+  allowWaitlist: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BusinessBookingPresentationDTO {
+  statusLabel: string
+  blockingReason: string
+}
+
+export interface BusinessBookingQueryDTO {
+  q: string
+  status: BusinessBookingStatus
+  from: string
+  to: string
+  page: number
+  size: number
+}
+
+export interface BusinessBookingRequestDTO {
+  businessOfferingId: number
+  startsAt: string
+  endsAt: string
+  customerNote: string
+  idempotencyKey: string
+}
+
+export interface BusinessBookingResponseDTO {
+  id: number
+  businessProfileId: number
+  businessSlug: string
+  businessName: string
+  businessOfferingId: number
+  businessOfferingSlug: string
+  businessOfferingTitle: string
+  customerUserId: number
+  customerUsername: string
+  customerEmail: string
+  status: BusinessBookingStatus
+  source: BusinessBookingSource
+  startsAt: string
+  endsAt: string
+  timezone: string
+  customerNote: string
+  ownerNote: string
+  offeringTitleSnapshot: string
+  priceSnapshotAmount: number
+  priceSnapshotCurrency: string
+  durationSnapshotMinutes: number
+  idempotencyKey: string
+  allowedActions: BusinessBookingAllowedActionDTO[]
+  statusLabel: string
+  blockingReason: string
+  presentation: BusinessBookingPresentationDTO
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BusinessGalleryImageListResponseDTO {
+  items: BusinessGalleryImageResponseDTO[]
+}
+
+export interface BusinessGalleryImageRequestDTO {
+  imageUrl: string
+  altText: string
+  sortOrder: number
+  active: boolean
+}
+
+export interface BusinessGalleryImageResponseDTO {
+  id: number
+  businessProfileId: number
+  imageUrl: string
+  altText: string
+  sortOrder: number
+  active: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BusinessOfferingListResponseDTO {
+  items: BusinessOfferingResponseDTO[]
+}
+
+export interface BusinessOfferingRequestDTO {
+  title: string
+  slug: string
+  summary: string
+  description: string
+  pricingType: BusinessOfferingPricingType
+  basePriceAmount: number
+  basePriceCurrency: string
+  durationMode: BusinessOfferingDurationMode
+  defaultDurationMinutes: number
+  minDurationMinutes: number
+  maxDurationMinutes: number
+  capacityMode: BusinessOfferingCapacityMode
+  slotCapacity: number
+  bookingMode: BusinessOfferingBookingMode
+  requiresOwnerConfirmation: boolean
+  bufferBeforeMinutes: number
+  bufferAfterMinutes: number
+  active: boolean
+  sortOrder: number
+}
+
+export interface BusinessOfferingResponseDTO {
+  id: number
+  businessProfileId: number
+  businessSlug: string
+  title: string
+  slug: string
+  summary: string
+  description: string
+  pricingType: BusinessOfferingPricingType
+  basePriceAmount: number
+  basePriceCurrency: string
+  durationMode: BusinessOfferingDurationMode
+  defaultDurationMinutes: number
+  minDurationMinutes: number
+  maxDurationMinutes: number
+  capacityMode: BusinessOfferingCapacityMode
+  slotCapacity: number
+  bookingMode: BusinessOfferingBookingMode
+  requiresOwnerConfirmation: boolean
+  bufferBeforeMinutes: number
+  bufferAfterMinutes: number
+  active: boolean
+  sortOrder: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface BusinessOwnerBookingCreateRequestDTO {
+  businessOfferingId: number
+  customerUserId: number
+  startsAt: string
+  endsAt: string
+  ownerNote: string
+  idempotencyKey: string
+}
+
+export interface BusinessOwnerCalendarDayDTO {
+  date: string
+  bookingCount: number
+  items: BusinessOwnerCalendarItemDTO[]
+}
+
+export interface BusinessOwnerCalendarItemDTO {
+  bookingId: number
+  businessOfferingTitle: string
+  customerUsername: string
+  startsAt: string
+  endsAt: string
+  timezone: string
+  status: BusinessBookingStatus
+  statusLabel: string
+  blockingReason: string
+  allowedActions: BusinessBookingAllowedActionDTO[]
+}
+
+export interface BusinessOwnerCalendarProjectionDTO {
+  timezone: string
+  from: string
+  to: string
+  totalBookings: number
+  days: BusinessOwnerCalendarDayDTO[]
+}
+
+export interface BusinessOwnerDashboardDTO {
+  businessProfileId: number
+  businessName: string
+  slug: string
+  bookingEnabled: boolean
+  activeOfferingCount: number
+  pendingConfirmationCount: number
+  todayCount: number
+  upcomingCount: number
+  staleThresholdMinutes: number
+  scheduleSummary: BusinessOwnerScheduleSummaryDTO
+}
+
+export interface BusinessOwnerScheduleItemDTO {
+  bookingId: number
+  businessOfferingTitle: string
+  customerUsername: string
+  startsAt: string
+  endsAt: string
+  timezone: string
+  statusLabel: string
+}
+
+export interface BusinessOwnerScheduleSummaryDTO {
+  timezone: string
+  todayCount: number
+  pendingConfirmationCount: number
+  upcomingCount: number
+  nextItems: BusinessOwnerScheduleItemDTO[]
+}
+
 export interface BusinessProfileListResponseDTO {
   items: BusinessProfileResponseDTO[]
 }
@@ -333,6 +677,13 @@ export interface BusinessProfileRequestDTO {
   contactEmail: string
   contactPhone: string
   websiteUrl: string
+  timezone: string
+  bookingEnabled: boolean
+  publicAddressLabel: string
+  latitude: number
+  longitude: number
+  contactWhatsapp: string
+  heroImageUrl: string
   active: boolean
 }
 
@@ -347,9 +698,36 @@ export interface BusinessProfileResponseDTO {
   contactEmail: string
   contactPhone: string
   websiteUrl: string
+  timezone: string
+  bookingEnabled: boolean
+  publicAddressLabel: string
+  latitude: number
+  longitude: number
+  contactWhatsapp: string
+  heroImageUrl: string
   active: boolean
   createdAt: string
   updatedAt: string
+}
+
+export interface BusinessPublicPageDTO {
+  businessProfileId: number
+  businessName: string
+  slug: string
+  headline: string
+  description: string
+  publicAddressLabel: string
+  latitude: number
+  longitude: number
+  contactEmail: string
+  contactPhone: string
+  contactWhatsapp: string
+  websiteUrl: string
+  heroImageUrl: string
+  timezone: string
+  bookingEnabled: boolean
+  offerings: BusinessOfferingResponseDTO[]
+  galleryImages: BusinessGalleryImageResponseDTO[]
 }
 
 export interface ChatAdminConversationSupportViewDTO {
@@ -432,6 +810,8 @@ export interface ChatConversationListDTO {
   contextType: string | null
   contextId: number | null
   query: string | null
+  nextBeforeLastMessageAt: string | null
+  nextBeforeConversationId: number | null
 }
 
 export interface ChatConversationParticipantDTO {
@@ -1685,6 +2065,8 @@ export interface VisionConversationTurnRequestDTO {
   clientStateVersion: string
   clientLocale: string
   clientTimezone: string
+  clientDeviceRole: string
+  clientRequestId: string
   selectedOptionId: string
   fieldValue: string
   confirmation: boolean
@@ -1705,6 +2087,7 @@ export interface VisionConversationTurnResponseDTO {
   translationApplied: boolean
   translationReliable: boolean
   executionEnabled: boolean
+  runtimeContext: VisionRuntimeContextDTO
   executionCandidate: VisionExecutionCandidateDTO
   questDiscovery: VisionQuestDiscoveryDTO
   searchDiscovery: VisionSearchDiscoveryDTO
@@ -1809,6 +2192,26 @@ export interface VisionQuestReviewDTO {
   visibility: string
   schedule: string
   location: string
+}
+
+export interface VisionRuntimeContextDTO {
+  inputType: string
+  deviceRole: VisionDeviceRoleDTO
+  attentionState: VisionAttentionStateDTO
+  sessionAnchor: string
+  actionHints: string[]
+  audioCue: VisionRuntimeCueDTO
+  hapticCue: VisionRuntimeCueDTO
+  consentRequired: boolean
+  consentReason: string
+  resumeAvailable: boolean
+  resumeHint: string
+  watchFriendly: boolean
+}
+
+export interface VisionRuntimeCueDTO {
+  type: string
+  message: string
 }
 
 export interface VisionSearchDiscoveryDTO {
@@ -1922,14 +2325,14 @@ export type UserRatingSummary = UserRatingSummaryDTO
 export type UserReview = UserReviewResponseDTO
 export type UserReviewRequest = UserReviewRequestDTO
 export type VisionOptions = WorkmarketOptionsDTO
-export const AGENT_INTENT_IDS = ["accept_circle_connection", "add_chat_message_reaction", "add_group_chat_participants", "admin_remove_chat_message", "apply_to_quest", "approve_application", "assign_circle_members", "authenticate_user", "block_user", "browse_business_profiles", "browse_ride_offers", "browse_thing_listings", "cancel_circle_request", "cancel_vision_conversation", "complete_quest", "confirm_quest_term_change", "create_circle", "create_circle_connection", "create_circle_only_quest_for_selected_people", "create_group_chat_conversation", "create_quest", "create_review", "create_ride_offer", "create_thing_listing", "create_user", "create_user_as_admin", "create_user_with_quests", "decline_application", "delete_admin_application", "delete_chat_message", "delete_circle", "delete_circle_as_admin", "delete_quest", "delete_user_as_admin", "execute_admin_agent_capability", "find_admin_application_candidates", "find_my_pending_application_candidates", "find_owned_quest_candidates", "get_application_thread_chat", "get_circle_room_chat", "get_quest_thread_chat", "heartbeat_chat_presence", "inspect_owned_quest_pending_applications", "leave_group_chat_conversation", "list_chat_conversations", "mark_all_news_read", "mark_chat_conversation_delivered", "mark_chat_conversation_read", "mark_news_item_read", "open_admin_circle_overview", "open_admin_user_detail", "open_app_user_options", "open_application_detail", "open_application_thread_chat", "open_auth_identity", "open_business_profile_by_slug", "open_chat_admin_conversation_support_view", "open_chat_attachment_object", "open_chat_attachment_storage_status", "open_chat_audit_events", "open_chat_conversation", "open_chat_conversation_messages", "open_chat_conversation_sync", "open_circle_candidates", "open_circle_overview", "open_circle_relation", "open_circle_room_chat", "open_current_user_account", "open_dashboard", "open_dashboard_summary", "open_dashboard_voice_config", "open_location_debug_status", "open_my_business_profile", "open_my_circle_relations", "open_my_ride_offers", "open_my_thing_listings", "open_news_feed", "open_news_unread_count", "open_quest_applications", "open_quest_feed", "open_quest_preset", "open_quest_record", "open_quest_summary_record", "open_quest_thread_chat", "open_recent_vision_conversations", "open_user_profile", "open_user_record", "open_vision_conversation", "prepare_circle_only_quest_flow_to_start", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_quest_term_change", "remove_chat_message_reaction", "remove_group_chat_participant", "rename_group_chat_conversation", "request_borrow_thing", "request_owner_term_change", "reset_vision_conversation", "resolve_chat_conversation", "resolve_circle_candidate", "resolve_circle_recipient", "resolve_current_location_input", "resolve_news_item_candidate", "resolve_outgoing_circle_request", "resolve_user_candidate", "save_my_business_profile", "search_nearby_users", "select_oldest_pending_application", "send_chat_message", "set_profile_current_location", "set_profile_details", "set_profile_location", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_chat_conversation_state", "update_chat_message", "update_circle", "update_group_chat_participant_role", "update_my_application", "update_quest", "update_user_as_admin", "upload_chat_attachment", "voice_prepare_scheduled_circle_only_quest_for_selected_people", "withdraw_my_application"] as const
+export const AGENT_INTENT_IDS = ["accept_circle_connection", "add_chat_message_reaction", "add_group_chat_participants", "admin_remove_chat_message", "apply_to_quest", "approve_application", "assign_circle_members", "authenticate_user", "block_user", "browse_business_profiles", "browse_ride_offers", "browse_thing_listings", "cancel_circle_request", "cancel_my_business_booking", "cancel_owner_business_booking", "cancel_vision_conversation", "complete_owner_business_booking", "complete_quest", "confirm_owner_business_booking", "confirm_quest_term_change", "create_business_booking", "create_circle", "create_circle_connection", "create_circle_only_quest_for_selected_people", "create_group_chat_conversation", "create_my_business_availability_exception", "create_my_business_availability_rule", "create_my_business_gallery_image", "create_my_business_offering", "create_owner_business_booking", "create_quest", "create_review", "create_ride_offer", "create_thing_listing", "create_user", "create_user_as_admin", "create_user_with_quests", "decline_application", "delete_admin_application", "delete_chat_message", "delete_circle", "delete_circle_as_admin", "delete_my_business_availability_exception", "delete_my_business_availability_rule", "delete_my_business_gallery_image", "delete_my_business_offering", "delete_quest", "delete_user_as_admin", "execute_admin_agent_capability", "find_admin_application_candidates", "find_my_pending_application_candidates", "find_owned_quest_candidates", "get_application_thread_chat", "get_circle_room_chat", "get_quest_thread_chat", "heartbeat_chat_presence", "inspect_owned_quest_pending_applications", "leave_group_chat_conversation", "list_chat_conversations", "mark_all_news_read", "mark_chat_conversation_delivered", "mark_chat_conversation_read", "mark_news_item_read", "mark_owner_business_booking_no_show", "open_admin_circle_overview", "open_admin_user_detail", "open_app_user_options", "open_application_detail", "open_application_thread_chat", "open_auth_identity", "open_business_profile_by_slug", "open_chat_admin_conversation_support_view", "open_chat_attachment_object", "open_chat_attachment_storage_status", "open_chat_audit_events", "open_chat_conversation", "open_chat_conversation_messages", "open_chat_conversation_sync", "open_circle_candidates", "open_circle_overview", "open_circle_relation", "open_circle_room_chat", "open_current_user_account", "open_dashboard", "open_dashboard_summary", "open_dashboard_voice_config", "open_location_debug_status", "open_my_business_availability_exceptions", "open_my_business_availability_rules", "open_my_business_booking", "open_my_business_booking_policy", "open_my_business_bookings", "open_my_business_dashboard", "open_my_business_dashboard_schedule", "open_my_business_gallery", "open_my_business_offerings", "open_my_business_profile", "open_my_circle_relations", "open_my_ride_offers", "open_my_thing_listings", "open_news_feed", "open_news_unread_count", "open_owner_business_booking", "open_owner_business_booking_calendar", "open_owner_business_booking_schedule", "open_owner_business_bookings", "open_public_business_availability", "open_public_business_offerings", "open_public_business_page", "open_quest_applications", "open_quest_feed", "open_quest_preset", "open_quest_record", "open_quest_summary_record", "open_quest_thread_chat", "open_recent_vision_conversations", "open_user_profile", "open_user_record", "open_vision_conversation", "prepare_circle_only_quest_flow_to_start", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_owner_business_booking", "reject_quest_term_change", "remove_chat_message_reaction", "remove_group_chat_participant", "rename_group_chat_conversation", "request_borrow_thing", "request_owner_term_change", "reset_vision_conversation", "resolve_chat_conversation", "resolve_circle_candidate", "resolve_circle_recipient", "resolve_current_location_input", "resolve_news_item_candidate", "resolve_outgoing_circle_request", "resolve_user_candidate", "save_my_business_booking_policy", "save_my_business_profile", "search_nearby_users", "select_oldest_pending_application", "send_chat_message", "set_profile_current_location", "set_profile_details", "set_profile_location", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_chat_conversation_state", "update_chat_message", "update_circle", "update_group_chat_participant_role", "update_my_application", "update_my_business_availability_exception", "update_my_business_availability_rule", "update_my_business_gallery_image", "update_my_business_offering", "update_quest", "update_user_as_admin", "upload_chat_attachment", "voice_prepare_scheduled_circle_only_quest_for_selected_people", "withdraw_my_application"] as const
 export type AgentIntentId = typeof AGENT_INTENT_IDS[number]
 
-export const AGENT_ENDPOINT_IDS = ["accept_circle_request", "add_chat_message_reaction", "add_group_chat_participants", "admin_remove_chat_message", "apply_to_quest", "approve_application", "auth_login", "auth_me", "auth_register", "block_user", "cancel_circle_request", "cancel_vision_conversation", "chat_presence_heartbeat", "complete_quest", "confirm_quest_term_change", "create_circle", "create_circle_request", "create_group_chat_conversation", "create_or_update_review", "create_quest", "create_ride_offer", "create_thing_listing", "create_user_as_admin", "decline_application", "delete_admin_application", "delete_chat_message", "delete_circle", "delete_circle_as_admin", "delete_quest", "delete_user_as_admin", "get_admin_applications", "get_admin_circle_overview", "get_admin_user_detail", "get_all_app_users", "get_all_quests", "get_app_user", "get_app_user_options", "get_application_detail", "get_application_thread_chat", "get_blocked_users", "get_business_profile_by_slug", "get_business_profiles", "get_chat_admin_conversation_support_view", "get_chat_attachment_object", "get_chat_attachment_storage_status", "get_chat_audit_events", "get_chat_conversation_messages", "get_chat_conversation_sync", "get_chat_workspace", "get_circle_candidates", "get_circle_connections", "get_circle_overview", "get_circle_relation", "get_circle_room_chat", "get_circles", "get_current_user", "get_dashboard", "get_dashboard_summary", "get_dashboard_voice_config", "get_incoming_circle_requests", "get_location_debug_status", "get_my_business_profile", "get_my_circle_relations", "get_my_news", "get_my_quest_applications", "get_my_ride_offers", "get_my_thing_listings", "get_nearby_users", "get_news_unread_count", "get_outgoing_circle_requests", "get_profile_view", "get_quest_applications", "get_quest_applications_view", "get_quest_by_id", "get_quest_detail", "get_quest_preset", "get_quest_thread_chat", "get_recent_vision_conversations", "get_ride_offers", "get_thing_listings", "get_vision_conversation", "leave_group_chat_conversation", "list_chat_conversations", "lookup_location", "mark_all_news_read", "mark_chat_conversation_delivered", "mark_chat_conversation_read", "mark_news_item_read", "open_application_thread_chat", "open_chat_conversation", "open_circle_room_chat", "open_quest_thread_chat", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_quest_term_change", "remove_chat_message_reaction", "remove_group_chat_participant", "rename_group_chat_conversation", "request_borrow_thing", "reset_vision_conversation", "reverse_lookup_location", "run_admin_agent_execution", "save_my_business_profile", "search_circle_users", "search_quests", "send_chat_message", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_chat_conversation_state", "update_chat_message", "update_circle", "update_connection_circles", "update_connection_circles_bulk", "update_current_user", "update_group_chat_participant_role", "update_my_application", "update_quest", "update_user_as_admin", "upload_chat_attachment", "withdraw_my_application"] as const
+export const AGENT_ENDPOINT_IDS = ["accept_circle_request", "add_chat_message_reaction", "add_group_chat_participants", "admin_remove_chat_message", "apply_to_quest", "approve_application", "auth_login", "auth_me", "auth_register", "block_user", "cancel_circle_request", "cancel_my_business_booking", "cancel_owner_business_booking", "cancel_vision_conversation", "chat_presence_heartbeat", "complete_owner_business_booking", "complete_quest", "confirm_owner_business_booking", "confirm_quest_term_change", "create_business_booking", "create_circle", "create_circle_request", "create_group_chat_conversation", "create_my_business_availability_exception", "create_my_business_availability_rule", "create_my_business_gallery_image", "create_my_business_offering", "create_or_update_review", "create_owner_business_booking", "create_quest", "create_ride_offer", "create_thing_listing", "create_user_as_admin", "decline_application", "delete_admin_application", "delete_chat_message", "delete_circle", "delete_circle_as_admin", "delete_my_business_availability_exception", "delete_my_business_availability_rule", "delete_my_business_gallery_image", "delete_my_business_offering", "delete_quest", "delete_user_as_admin", "get_admin_applications", "get_admin_circle_overview", "get_admin_user_detail", "get_all_app_users", "get_all_quests", "get_app_user", "get_app_user_options", "get_application_detail", "get_application_thread_chat", "get_blocked_users", "get_business_profile_by_slug", "get_business_profiles", "get_chat_admin_conversation_support_view", "get_chat_attachment_object", "get_chat_attachment_storage_status", "get_chat_audit_events", "get_chat_conversation_messages", "get_chat_conversation_sync", "get_chat_workspace", "get_circle_candidates", "get_circle_connections", "get_circle_overview", "get_circle_relation", "get_circle_room_chat", "get_circles", "get_current_user", "get_dashboard", "get_dashboard_summary", "get_dashboard_voice_config", "get_incoming_circle_requests", "get_location_debug_status", "get_my_business_availability_exceptions", "get_my_business_availability_rules", "get_my_business_booking", "get_my_business_booking_policy", "get_my_business_bookings", "get_my_business_dashboard", "get_my_business_dashboard_schedule", "get_my_business_gallery", "get_my_business_offerings", "get_my_business_profile", "get_my_circle_relations", "get_my_news", "get_my_quest_applications", "get_my_ride_offers", "get_my_thing_listings", "get_nearby_users", "get_news_unread_count", "get_outgoing_circle_requests", "get_owner_business_booking", "get_owner_business_booking_calendar", "get_owner_business_booking_schedule", "get_owner_business_bookings", "get_profile_view", "get_public_business_availability", "get_public_business_offerings", "get_public_business_page", "get_quest_applications", "get_quest_applications_view", "get_quest_by_id", "get_quest_detail", "get_quest_preset", "get_quest_thread_chat", "get_recent_vision_conversations", "get_ride_offers", "get_thing_listings", "get_vision_conversation", "leave_group_chat_conversation", "list_chat_conversations", "lookup_location", "mark_all_news_read", "mark_chat_conversation_delivered", "mark_chat_conversation_read", "mark_news_item_read", "mark_owner_business_booking_no_show", "open_application_thread_chat", "open_chat_conversation", "open_circle_room_chat", "open_quest_thread_chat", "process_dashboard_vision_prompt", "process_vision_conversation_turn", "reject_owner_business_booking", "reject_quest_term_change", "remove_chat_message_reaction", "remove_group_chat_participant", "rename_group_chat_conversation", "request_borrow_thing", "reset_vision_conversation", "reverse_lookup_location", "run_admin_agent_execution", "save_my_business_booking_policy", "save_my_business_profile", "search_circle_users", "search_quests", "send_chat_message", "speak_dashboard_voice", "start_quest", "transcribe_dashboard_voice", "unblock_user", "update_admin_application", "update_chat_conversation_state", "update_chat_message", "update_circle", "update_connection_circles", "update_connection_circles_bulk", "update_current_user", "update_group_chat_participant_role", "update_my_application", "update_my_business_availability_exception", "update_my_business_availability_rule", "update_my_business_gallery_image", "update_my_business_offering", "update_quest", "update_user_as_admin", "upload_chat_attachment", "withdraw_my_application"] as const
 export type AgentEndpointId = typeof AGENT_ENDPOINT_IDS[number]
 
 export const ADMIN_AGENT_SAFETY_FLAG_IDS = ["translation_unreliable", "ambiguity", "destructive_confirmation", "multi_actor", "current_location", "simulation_not_safe"] as const
 export type AdminAgentSafetyFlagIdGenerated = typeof ADMIN_AGENT_SAFETY_FLAG_IDS[number]
 
-export const AGENT_REQUIRED_UNRESOLVED_INPUTS = ["application_id", "application_query", "assignment_mode", "audio_clip", "authenticated_user", "base_email", "business_name", "circle_id", "circle_name", "circle_query", "conversation_id", "conversation_query", "departure_at", "description", "destination", "destructive_confirmation", "email", "emoji", "file", "latitude", "listing_id", "location_mode", "longitude", "message", "message_body", "message_id", "name", "news_id", "news_query", "origin", "other_user_id", "owner_user", "participant_user_id", "participant_user_ids", "password", "preset", "prompt", "prompt_text", "quest_count", "quest_id", "quest_payload", "quest_payload_template", "quest_query", "quest_templates", "recipient_id", "recipient_query", "request_id", "requester_time_zone", "reviewed_user_id", "reward_amount", "role", "scheduled_at", "scheduling_request", "selected_people", "slug", "stars", "storage_key", "text_prompt", "title", "user_id", "user_query", "username"] as const
+export const AGENT_REQUIRED_UNRESOLVED_INPUTS = ["application_id", "application_query", "assignment_mode", "audio_clip", "authenticated_user", "availability_exception_id", "availability_exception_payload", "availability_rule_id", "availability_rule_payload", "base_email", "booking_id", "booking_payload", "booking_policy_payload", "business_name", "business_slug", "circle_id", "circle_name", "circle_query", "conversation_id", "conversation_query", "departure_at", "description", "destination", "destructive_confirmation", "email", "emoji", "file", "from", "gallery_image_payload", "image_id", "latitude", "listing_id", "location_mode", "longitude", "message", "message_body", "message_id", "name", "news_id", "news_query", "offering_id", "offering_payload", "origin", "other_user_id", "owner_booking_payload", "owner_user", "participant_user_id", "participant_user_ids", "password", "preset", "prompt", "prompt_text", "quest_count", "quest_id", "quest_payload", "quest_payload_template", "quest_query", "quest_templates", "recipient_id", "recipient_query", "request_id", "requester_time_zone", "reviewed_user_id", "reward_amount", "role", "scheduled_at", "scheduling_request", "selected_people", "slug", "stars", "storage_key", "text_prompt", "title", "to", "user_id", "user_query", "username"] as const
 export type AgentRequiredUnresolvedInput = typeof AGENT_REQUIRED_UNRESOLVED_INPUTS[number]

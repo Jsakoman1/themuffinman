@@ -1,8 +1,10 @@
 ---
-machine_kind: master_plan
-machine_status: completed
+machine_kind: master-plan
+machine_status: complete
 machine_title: Vision Workmarket Post Runtime Separation Master Plan
-machine_goal: Remove the remaining legacy vision marketplace compatibility layers after runtime ownership has already moved into workmarket.
+machine_goal: Remove the remaining legacy `vision` marketplace compatibility layers
+  after runtime quest, application, dashboard, news, and review ownership has already
+  moved into `workmarket`.
 ---
 
 # Vision Workmarket Post Runtime Separation Master Plan

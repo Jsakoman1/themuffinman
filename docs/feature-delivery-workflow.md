@@ -120,8 +120,9 @@ Full flow is mandatory:
    - validation and closeout preparation
 6. Record validation evidence as commands run.
    - Use `make clean-text-noise max_lines=80` when raw build or audit output is too noisy for a concise evidence summary.
-7. Autofill the closeout state.
-8. Run the required closeout audits before the final response.
+7. Prune archive-only generated history and clear plan-owned temp work products before the first final closeout pass.
+8. Autofill the closeout state.
+9. Run the required closeout audits before the final response.
 
 When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
@@ -144,6 +145,9 @@ Typical evidence helpers:
 
 Required closeout:
 
+- `make cleanup-generated-history`
+- `make closeout-driver plan=<plan-file> manifest=<manifest-file>`
+- `make temp-work-product-closeout plan=<plan-file>` when the plan owns temp work products
 - `make autofill-feature-closeout manifest=<manifest-file> files=<csv> generated=<csv> docs=<csv>`
 - `make audit-todo`
 - `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`
@@ -152,6 +156,7 @@ Required closeout:
 - `make feature-closeout-audit manifest=<manifest-file>`
 - `make closeout-report manifest=<manifest-file>`
 - Completed master plans must not keep child rows marked `pending`, `draft`, or `in_progress`; `make audit-plan-completion` treats that as a closeout failure.
+- Archive-only paths under `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, and `.agents/archive/` must not be recorded as live closeout evidence.
 
 ### Tier 4: Agent, tooling, or workflow change
 
@@ -200,6 +205,8 @@ This tier is intentionally strict:
 - `make codex-context` also writes `docs/generated/local-tooling/codex-context/latest.execution.json`, the canonical machine-readable batch manifest for read order, evidence, and next actions, with schema `docs/codex-context-execution-manifest.schema.json`.
 - `make control-start` writes `docs/generated/local-tooling/control-start.json` and `docs/generated/local-tooling/control-start-summary.md`, the compact control-system snapshot for plan and audit discovery.
 - `make control-refresh-full` performs the same snapshot work and then runs the slower generated-artifact freshness audit.
+- `make cleanup-generated-history` prunes archive-only generated local-tooling history to the configured retention window before closeout-sensitive review.
+- `make closeout-driver plan=<plan-file> manifest=<manifest-file>` is the canonical fail-fast entrypoint for the full closeout sequence.
 - `make control-start`, `make codex-context`, and `make context-pack` surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
 - Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries.
 - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of live control state.

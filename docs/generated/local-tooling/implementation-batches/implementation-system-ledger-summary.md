@@ -1,0 +1,65 @@
+# Implementation Batch Ledger implementation-system
+
+- Generated At: `2026-07-10T13:54:40Z`
+- Topic: `implementation-system`
+- Plan Path: `/Users/jsakoman/Desktop/themuffinman/.agents/implementation-system-plan.md`
+- Manifest: `none`
+- Plan Completion: `skipped`
+- Executed: `52`
+- Deferred: `0`
+- Blocked: `0`
+
+## Entries
+
+- `executed` control-start: make control-start
+- `executed` codex-context: make codex-context topic=implementation-system intent=implementation batch for implementation-system
+- `executed` cleanup-generated-history: make cleanup-generated-history
+- `executed` audit-router: make audit-router
+- `executed` audit-generated-artifact-freshness: make audit-generated-artifact-freshness
+- `executed` audit-doc-sync-preflight: make audit-doc-sync-preflight
+- `executed` audit-doc-sync-required-surfaces: make audit-doc-sync-required-surfaces
+- `executed` audit-manifest-decision: make audit-manifest-decision
+- `executed` resolve-manifest-path: make resolve-manifest-path
+- `executed` recommend-validation-preset: make recommend-validation-preset
+- `executed` recommend-feature-slices: make recommend-feature-slices topic=implementation-system
+- `executed` recommend-targeted-tests: make recommend-targeted-tests
+- `executed` audit-todo: make audit-todo
+- `executed` control-start: make control-start
+- `executed` codex-context: make codex-context topic=implementation-system intent=implementation batch for implementation-system
+- `executed` cleanup-generated-history: make cleanup-generated-history
+- `executed` audit-router: make audit-router
+- `executed` audit-generated-artifact-freshness: make audit-generated-artifact-freshness
+- `executed` audit-doc-sync-preflight: make audit-doc-sync-preflight
+- `executed` audit-doc-sync-required-surfaces: make audit-doc-sync-required-surfaces
+- `executed` audit-manifest-decision: make audit-manifest-decision
+- `executed` resolve-manifest-path: make resolve-manifest-path
+- `executed` recommend-validation-preset: make recommend-validation-preset
+- `executed` recommend-feature-slices: make recommend-feature-slices topic=implementation-system
+- `executed` recommend-targeted-tests: make recommend-targeted-tests
+- `executed` audit-todo: make audit-todo
+- `executed` control-start: make control-start
+- `executed` codex-context: make codex-context topic=implementation-system intent=implementation batch for implementation-system
+- `executed` cleanup-generated-history: make cleanup-generated-history
+- `executed` audit-router: make audit-router
+- `executed` audit-generated-artifact-freshness: make audit-generated-artifact-freshness
+- `executed` audit-doc-sync-preflight: make audit-doc-sync-preflight
+- `executed` audit-doc-sync-required-surfaces: make audit-doc-sync-required-surfaces
+- `executed` audit-manifest-decision: make audit-manifest-decision
+- `executed` resolve-manifest-path: make resolve-manifest-path
+- `executed` recommend-validation-preset: make recommend-validation-preset
+- `executed` recommend-feature-slices: make recommend-feature-slices topic=implementation-system
+- `executed` recommend-targeted-tests: make recommend-targeted-tests
+- `executed` audit-todo: make audit-todo
+- `executed` control-start: make control-start
+- `executed` codex-context: make codex-context topic=implementation-system intent=implementation batch for implementation-system
+- `executed` cleanup-generated-history: make cleanup-generated-history
+- `executed` audit-router: make audit-router
+- `executed` audit-generated-artifact-freshness: make audit-generated-artifact-freshness
+- `executed` audit-doc-sync-preflight: make audit-doc-sync-preflight
+- `executed` audit-doc-sync-required-surfaces: make audit-doc-sync-required-surfaces
+- `executed` audit-manifest-decision: make audit-manifest-decision
+- `executed` resolve-manifest-path: make resolve-manifest-path
+- `executed` recommend-validation-preset: make recommend-validation-preset
+- `executed` recommend-feature-slices: make recommend-feature-slices topic=implementation-system
+- `executed` recommend-targeted-tests: make recommend-targeted-tests
+- `executed` audit-todo: make audit-todo

@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
-machine_status: complete
+machine_status: unknown
 machine_title: Control System Rebuild Plan
-machine_goal: Rebuild the minimal planning lifecycle and active-plan discovery path.
 ---
 
 # Control System Rebuild Plan

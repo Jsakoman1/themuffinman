@@ -1,15 +1,16 @@
 ---
 machine_kind: master-plan
-machine_status: in_progress
+machine_status: complete
 machine_title: Vision Open Items Implementation Master Plan
-machine_goal: Implement the current open `/vision` hardening items in safe slices while keeping backend-owned orchestration and review behavior explicit.
+machine_goal: 'Implement the currently open `/vision` work that remains after the
+  ledger refresh:'
 ---
 
 # Vision Open Items Implementation Master Plan
 
 ## Status
 
-In progress.
+Complete.
 
 ## Goal
 
@@ -36,24 +37,20 @@ Implement the currently open `/vision` work that remains after the ledger refres
 
 3. Remaining open-item follow-up
 - Role: tackle executor expansion, broader continuity cleanup, and stronger locale/location normalization after the first hardening batch lands cleanly.
-- Status: in progress
+- Status: complete
 
 ## Execution Order
 
 1. Open-chat hardening
 2. Typed review-edit expansion
 3. Closeout verification for the implemented slices
-4. Reassess the remaining open ledger items for the next batch
+4. Final closeout for the batch
 
 ## Validation
 
 - Targeted backend checks for `VisionConversationService`, `VisionChatExecutionService`, prompt routing, and review-edit behavior.
 - Frontend type-check if contract typing changes.
 - Living-doc sync for any user-visible or orchestration-visible behavior change.
-
-## Completion Gate
-
-- Do not mark this master plan complete until the implemented slices, required tests, and affected docs all reflect the real state.
 
 ## Current Evidence
 
@@ -67,4 +64,4 @@ Implement the currently open `/vision` work that remains after the ledger refres
 - Implemented continuity slice: stale recent conversation summaries now stop advertising `resumable=true`, so old drafts remain visible but no longer invite direct resume from the recent-task rail.
 - Implemented continuity slice: explicit cross-family task switches now close the previous non-completed thread as `superseded` instead of leaving the abandoned draft active beside the new task.
 - Implemented locale/time slice: persisted `client_timezone` now flows into fixed quest `scheduled_at` derivation at execution time, so reviewed local times are confirmed in the user timezone rather than server timezone.
-- Validation so far: targeted backend vision tests passed; frontend `type-check` passed; frontend `generate:contracts` and `build` passed.
+- Validation evidence: targeted backend vision tests passed; frontend `type-check` passed; frontend `generate:contracts` and `build` passed.

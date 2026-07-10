@@ -25,7 +25,7 @@ class VisionSemanticRouteCatalogServiceTest {
 
         var routes = service.allowedRoutes(user);
 
-        assertEquals(31, routes.size());
+        assertEquals(32, routes.size());
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals(SemanticEntityFamily.NOTIFICATIONS, service.entityFamilyForIntent(VisionIntent.VIEW_NOTIFICATIONS));
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.VIEW_QUEST_NEWS));
@@ -77,6 +77,7 @@ class VisionSemanticRouteCatalogServiceTest {
                         "VIEW_SETTINGS",
                         "VIEW_BUSINESS",
                         "VIEW_BUSINESS_AVAILABILITY",
+                        "VIEW_BUSINESS_BOOKINGS",
                         "VIEW_USER_PROFILE",
                         "VIEW_CIRCLES",
                         "VIEW_CIRCLE_DETAIL",
@@ -114,6 +115,7 @@ class VisionSemanticRouteCatalogServiceTest {
                         "view_settings",
                         "view_business",
                         "view_business_availability",
+                        "view_business_bookings",
                         "view_user_profile",
                         "view_circles",
                         "view_circle_detail",
@@ -228,6 +230,10 @@ class VisionSemanticRouteCatalogServiceTest {
                 && !route.isMutating()
                 && route.getSlots().isEmpty()
                 && "BusinessOwnerDashboardDTO".equals(route.getDtoType())));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_business_bookings")
+                && !route.isMutating()
+                && route.getSlots().isEmpty()
+                && "BusinessBookingListResponseDTO".equals(route.getDtoType())));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_settings")
                 && "view_settings".equals(route.getCapabilityId())
                 && "settings".equals(route.getEntityType())));
@@ -289,7 +295,7 @@ class VisionSemanticRouteCatalogServiceTest {
             }
         }
 
-        assertEquals(31, routes.size());
+        assertEquals(32, routes.size());
         assertEquals(
                 Set.of(
                         "create_quest",

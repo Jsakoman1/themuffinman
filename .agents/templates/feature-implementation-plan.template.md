@@ -23,6 +23,7 @@ Draft.
 - Manifest path: TBD
 - Master plan: TBD when the change is broad enough to need ordered child plans
 - Use one durable Plan instead of introducing a Master Plan when the work still fits one bounded implementation surface and one validation story.
+- Supported machine statuses: `draft`, `active`, `blocked`, `deferred`, `complete`
 
 ## Routing Snapshot
 

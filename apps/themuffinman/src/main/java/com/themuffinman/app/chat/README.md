@@ -14,7 +14,7 @@ Owns shared chat conversations, messages, presence, WebSocket delivery, retentio
 ## Tests
 
 - `src/test/java/com/themuffinman/app/chat/`
-- Add service-level tests for retention, visibility, and conversation access changes.
+- Add service-level tests for retention, visibility, conversation access, and conversation-list cursor changes.
 
 ## Living Docs
 

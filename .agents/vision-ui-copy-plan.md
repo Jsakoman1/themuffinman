@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision UI Copy Plan
+machine_goal: Reduce explanatory text in `/vision` and standardize terminal lines,
+  transcript labels, and helper copy so the interface feels concise and action-oriented.
+---
+
 # Vision UI Copy Plan
 
 ## Status

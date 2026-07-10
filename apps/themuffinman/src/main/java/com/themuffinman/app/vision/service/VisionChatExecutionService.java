@@ -29,12 +29,12 @@ public class VisionChatExecutionService {
 
         String targetQuery = resolveTargetQuery(prompt, semanticPlan);
         if (targetQuery.isBlank()) {
-            return VisionChatExecutionResult.blocked("Who should I open chat with?");
+            return VisionChatExecutionResult.blocked("Who should I open chat with? I won't guess on another person's behalf.");
         }
 
         List<AppUser> matches = resolveTargetUserMatches(currentUser, targetQuery);
         if (matches.isEmpty()) {
-            return VisionChatExecutionResult.blocked("I could not identify a chat contact for \"" + targetQuery + "\".");
+            return VisionChatExecutionResult.blocked("I could not identify a chat contact for \"" + targetQuery + "\". I won't open a chat without a clear person.");
         }
         if (matches.size() > 1) {
             return VisionChatExecutionResult.blocked(
@@ -138,7 +138,7 @@ public class VisionChatExecutionService {
                 .reduce((left, right) -> left + ", " + right)
                 .orElse("matching contacts");
         return "I found several possible chat contacts for \"" + targetQuery + "\": " + suggestions
-                + ". Say the exact username or email, or choose a numbered candidate.";
+                + ". Say the exact username or email, or choose a numbered candidate before I contact anyone.";
     }
 
     private List<VisionChatTargetCandidate> buildCandidates(List<AppUser> matches) {

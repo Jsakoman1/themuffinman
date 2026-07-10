@@ -1,8 +1,10 @@
 ---
 machine_kind: master-plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Final Legacy Removal Master Plan
-machine_goal: Remove the remaining legacy vision work compatibility layer by migrating the last dashboard read-model island, then deleting compatibility services and their leftover helper surfaces only after all live callers are gone.
+machine_goal: Remove the remaining legacy `vision` work compatibility layer by migrating
+  the last dashboard read-model island, then deleting compatibility services and their
+  leftover helper surfaces only after all live callers are gone.
 ---
 
 # Vision Final Legacy Removal Master Plan

@@ -34,8 +34,9 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 7. If the task is manifest-backed, closeout-sensitive, or agent/workflow-heavy, read `docs/validation-memory.md` and `docs/validation-memory.json` before broad validation so canonical command strings and manifest evidence expectations are explicit up front.
 8. Run compact context first:
    - `make control-start` when you want the current plan and audit discovery state in one compact snapshot before broader search
-   - `make control-refresh-full` when you want the same compact snapshot plus the slower generated-artifact freshness pass
-   - `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, docs-sync preflight, manifest and validation preset routing, targeted recommendations, and closeout if a plan exists
+   - `make control-refresh-full` when you want the same compact snapshot plus the slower generated-artifact freshness pass and generated-history pruning
+   - `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, docs-sync preflight, manifest and validation preset routing, targeted recommendations, generated-history cleanup, and closeout if a plan exists
+   - `make closeout-driver plan=<plan-file> manifest=<manifest-file>` when you are at the final closeout boundary and want one deterministic fail-fast entrypoint
    - `make codex-context topic=<topic> intent='<intent>'`
    - `make recommend-targeted-tests`
    - `make clean-text-noise max_lines=80` when you need to strip Maven, audit, or generated log noise before summarizing evidence.
@@ -49,6 +50,7 @@ When the task spans several existing master plans or long-running program direct
 For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
 Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 Never mark a plan, child plan, or master plan complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
+Do not treat `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence; they are archive-only support paths.
 
 When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
@@ -144,6 +146,8 @@ Validation evidence:
 
 Closeout:
 
+- `make cleanup-generated-history`
+- `make closeout-driver plan=<plan-file> manifest=<manifest-file>`
 - `make autofill-feature-closeout manifest=<manifest-file> files=<csv> generated=<csv> docs=<csv>`
 - `make audit-todo`
 - `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`

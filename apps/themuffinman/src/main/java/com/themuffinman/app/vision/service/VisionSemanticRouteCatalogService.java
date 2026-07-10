@@ -48,6 +48,7 @@ public class VisionSemanticRouteCatalogService {
                 viewSettingsRoute(),
                 viewBusinessRoute(),
                 viewBusinessAvailabilityRoute(),
+                viewBusinessBookingsRoute(),
                 viewUserProfileRoute(),
                 viewCirclesRoute(),
                 viewCircleDetailRoute(),
@@ -134,7 +135,7 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_USER_PROFILE, OPEN_CHAT -> SemanticEntityFamily.USER;
             case VIEW_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> SemanticEntityFamily.PROFILE;
             case VIEW_SETTINGS -> SemanticEntityFamily.SETTINGS;
-            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> SemanticEntityFamily.BUSINESS;
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> SemanticEntityFamily.BUSINESS;
             case VIEW_THINGS -> SemanticEntityFamily.UNKNOWN;
             case SEARCH -> SemanticEntityFamily.UNKNOWN;
             default -> SemanticEntityFamily.UNKNOWN;
@@ -179,6 +180,7 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_SETTINGS -> "AppUserResponseDTO";
             case VIEW_BUSINESS -> "BusinessPublicPageDTO";
             case VIEW_BUSINESS_AVAILABILITY -> "BusinessOwnerDashboardDTO";
+            case VIEW_BUSINESS_BOOKINGS -> "BusinessBookingListResponseDTO";
             case VIEW_CIRCLES -> "CircleGroupResponseDTO";
             case VIEW_CIRCLE_DETAIL -> "CircleGroupResponseDTO";
             case VIEW_QUEST_DETAIL -> "QuestDetailResponseDTO";
@@ -214,7 +216,7 @@ public class VisionSemanticRouteCatalogService {
                     UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
                     APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> 0.85d;
             case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
-            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> 0.70d;
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> 0.70d;
             case VIEW_THINGS -> 0.70d;
             default -> 0.75d;
         };
@@ -247,7 +249,7 @@ public class VisionSemanticRouteCatalogService {
             case OPEN_CHAT, VIEW_USER_PROFILE, VIEW_CIRCLE_DETAIL, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> 0.75d;
             case SEARCH -> 0.75d;
             case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
-            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> 0.70d;
+            case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> 0.70d;
             case VIEW_THINGS -> 0.70d;
             default -> 0.75d;
         };
@@ -731,6 +733,24 @@ public class VisionSemanticRouteCatalogService {
                 .examples(List.of(
                         example("show business schedule", Map.of()),
                         example("open business availability", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewBusinessBookingsRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_business_bookings")
+                .entityType("business")
+                .intent("VIEW_BUSINESS_BOOKINGS")
+                .capabilityId("view_business_bookings")
+                .dtoType("BusinessBookingListResponseDTO")
+                .purpose("Read-only booking list and booking request snapshot inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .examples(List.of(
+                        example("show my bookings", Map.of()),
+                        example("open business appointments", Map.of())
                 ))
                 .slots(List.of())
                 .build();

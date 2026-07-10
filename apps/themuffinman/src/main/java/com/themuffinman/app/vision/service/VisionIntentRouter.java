@@ -90,6 +90,7 @@ public class VisionIntentRouter {
                  VIEW_PROFILE,
                  VIEW_BUSINESS,
                  VIEW_BUSINESS_AVAILABILITY,
+                 VIEW_BUSINESS_BOOKINGS,
                  VIEW_CIRCLE_DETAIL,
                  VIEW_QUEST_DETAIL,
                  VIEW_NOTIFICATIONS,
@@ -161,6 +162,9 @@ public class VisionIntentRouter {
         }
         if (visionIntentSignalSupport.containsBusinessAvailabilitySignals(lower)) {
             return VisionIntent.VIEW_BUSINESS_AVAILABILITY;
+        }
+        if (visionIntentSignalSupport.containsBusinessBookingSignals(lower)) {
+            return VisionIntent.VIEW_BUSINESS_BOOKINGS;
         }
         if (visionIntentSignalSupport.containsBusinessPageSignals(lower)) {
             return VisionIntent.VIEW_BUSINESS;

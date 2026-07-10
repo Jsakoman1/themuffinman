@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: proposed
+machine_status: complete
 machine_title: Business Booking Hardening And Integrations Plan
 machine_goal: Harden the business booking domain with audit history, public media support, event hooks, operational reads, and integration-ready boundaries after the core reservation workflow is stable.
 ---
@@ -9,7 +9,7 @@ machine_goal: Harden the business booking domain with audit history, public medi
 
 ## Status
 
-Proposed.
+Complete.
 
 ## Goal
 

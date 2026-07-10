@@ -1,3 +1,11 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision UI Validation Plan
+machine_goal: Validate the terminal-first `/vision` UI refactor with frontend gates
+  and focused rendering review.
+---
+
 # Vision UI Validation Plan
 
 ## Status

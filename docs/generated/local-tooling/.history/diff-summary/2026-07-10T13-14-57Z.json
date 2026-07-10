@@ -1,0 +1,496 @@
+{
+  "generated_at": "2026-07-10T12:22:46Z",
+  "original_file_count": 230,
+  "filtered_file_count": 178,
+  "excluded_file_count": 178,
+  "excluded_files_sample": [
+    {
+      "path": ".agents/business-booking-availability-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/business-booking-foundation-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/business-booking-hardening-and-integrations-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/business-booking-implementation-master-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/business-booking-improvement-master-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/business-booking-public-read-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/business-booking-workflow-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-advanced-hardening-master-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-compliance-ops-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-conversation-state-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-governance-observability-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-message-receipts-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-next-master-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-hardening-followup-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-ready-closeout-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-ready-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-realtime-lifecycle-hardening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-realtime-reliability-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-rich-messaging-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-scale-discovery-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-telemetry-audit-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-thread-context-closeout-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-thread-context-schema-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/control-system-hardening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/control-system-last-mile-ten-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    }
+  ],
+  "changed_file_count": 52,
+  "groups": [
+    {
+      "domain": "shared",
+      "category": "frontend_script",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_api",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "other",
+      "count": 5,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/router.ts"
+        },
+        {
+          "status": "??",
+          "path": ".agents/tmp/vision-next-experience-analysis.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/app-shell/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/resources/db/migration/V52__add_vision_conversation_last_client_request_id.sql"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_composable",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_view",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_dto",
+      "count": 6,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionAttentionStateDTO.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionDeviceRoleDTO.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeContextDTO.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeCueDTO.java"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_model",
+      "count": 2,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_repository",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionConversationRepository.java"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_service",
+      "count": 27,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleSupport.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionEntityFamilySupport.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticMapper.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRuntimeHints.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionClarificationServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupportTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCanvasAssemblerTest.java"
+        }
+      ]
+    },
+    {
+      "domain": "business",
+      "category": "backend_service",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "docs",
+      "count": 5,
+      "files": [
+        {
+          "status": "M",
+          "path": "docs/business-logic.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/domain-technical.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/product-vision.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/vision-architecture-patterns.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/vision-status-ledger.md"
+        }
+      ]
+    },
+    {
+      "domain": "identity",
+      "category": "other",
+      "count": 1,
+      "files": [
+        {
+          "status": "??",
+          "path": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml"
+        }
+      ]
+    }
+  ],
+  "recommended_audits": [
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "make audit-mapper-usage",
+    "make audit-api-contract-drift",
+    "make audit-endpoint-callsite-linker",
+    "make endpoint-contract-packs",
+    "make audit-frontend-route-surfaces",
+    "make audit-async-mutation-flow",
+    "make audit-frontend-usage-graph",
+    "make audit-doc-sync-preflight",
+    "make audit-doc-sync-required-surfaces",
+    "make audit-documentation",
+    "make audit-doc-canonical-phrases",
+    "make audit-migration-entity-drift",
+    "make audit-test-gap-recommendations",
+    "make audit-summary-index"
+  ]
+}

@@ -2,7 +2,6 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Chat Thread Context Schema Plan
-machine_goal: Introduce the backend thread, participant, role, and context ownership model needed for multi-user chat and context-bound rooms.
 ---
 
 # Chat Thread Context Schema Plan

@@ -56,9 +56,12 @@ final class VisionIntentSignalSupport {
                 return VisionIntent.UPDATE_PROFILE;
             }
         }
-        if (semanticIntent == VisionIntent.VIEW_BUSINESS || semanticIntent == VisionIntent.VIEW_BUSINESS_AVAILABILITY) {
+        if (semanticIntent == VisionIntent.VIEW_BUSINESS || semanticIntent == VisionIntent.VIEW_BUSINESS_AVAILABILITY || semanticIntent == VisionIntent.VIEW_BUSINESS_BOOKINGS) {
             if (containsBusinessAvailabilitySignals(lower)) {
                 return VisionIntent.VIEW_BUSINESS_AVAILABILITY;
+            }
+            if (containsBusinessBookingSignals(lower)) {
+                return VisionIntent.VIEW_BUSINESS_BOOKINGS;
             }
             if (containsBusinessPageSignals(lower)) {
                 return VisionIntent.VIEW_BUSINESS;
@@ -211,6 +214,22 @@ final class VisionIntentSignalSupport {
                 "my bookings",
                 "business bookings",
                 "availability rules");
+    }
+
+    boolean containsBusinessBookingSignals(String value) {
+        return containsAny(value,
+                "booking requests",
+                "booking request",
+                "appointment",
+                "appointments",
+                "appointment list",
+                "appointment requests",
+                "booking list",
+                "bookings list",
+                "booking overview",
+                "appointment overview",
+                "owner bookings",
+                "customer bookings");
     }
 
     boolean containsUserProfileDetailSignals(String value) {

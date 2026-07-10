@@ -1,0 +1,712 @@
+{
+  "generated_at": "2026-07-10T08:56:15Z",
+  "route_count": 26,
+  "surface_route_count": 18,
+  "redirect_route_count": 1,
+  "placeholder_route_count": 0,
+  "routes": [
+    {
+      "route_path": "/",
+      "redirect": "/home",
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "component_symbol": "AuthenticatedShellView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "home",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "component_symbol": "HomeHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "work",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "work/quests",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "work/applications",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "chat",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "chat/:conversationId",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "calendar",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "business",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "business/profile",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "business/bookings",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "business/calendar",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "circles",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "profile",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "profile/settings",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "component_symbol": "SectionHubView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/login",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+      "component_symbol": "LoginView",
+      "requires_auth": false,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+        "authApi.login"
+      ],
+      "backend_endpoints": [
+        "POST /auth/login"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /auth/login",
+          "backend_controller": "AuthController",
+          "backend_method": "login",
+          "client_object": "authApi",
+          "client_method": "login",
+          "client_file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue"
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/register",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+      "component_symbol": "RegisterView",
+      "requires_auth": false,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+        "authApi.register"
+      ],
+      "backend_endpoints": [
+        "POST /auth/register"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "POST /auth/register",
+          "backend_controller": "AuthController",
+          "backend_method": "register",
+          "client_object": "authApi",
+          "client_method": "register",
+          "client_file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue"
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/vision",
+      "redirect": null,
+      "surface_file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "component_symbol": "VisionSurfaceModernView",
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+        "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+      ],
+      "api_clients": [
+        "dashboardApi.getDashboardVoiceConfig",
+        "dashboardApi.speakVoiceText",
+        "dashboardApi.transcribeVoiceAudio",
+        "visionConversationApi.cancelConversation",
+        "visionConversationApi.getConversation",
+        "visionConversationApi.getRecentConversations",
+        "visionConversationApi.processConversationTurn",
+        "visionConversationApi.resetConversation"
+      ],
+      "backend_endpoints": [
+        "GET /dashboard/me/voice-config",
+        "GET /vision/conversations/:param",
+        "GET /vision/conversations/recent",
+        "POST /dashboard/me/voice/speak",
+        "POST /dashboard/me/voice/transcribe",
+        "POST /vision/conversations/:param/cancel",
+        "POST /vision/conversations/:param/reset",
+        "POST /vision/conversations/turns"
+      ],
+      "endpoint_links": [
+        {
+          "endpoint_id": "GET /dashboard/me/voice-config",
+          "backend_controller": "DashboardController",
+          "backend_method": "getMyVoiceConfig",
+          "client_object": "dashboardApi",
+          "client_method": "getDashboardVoiceConfig",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /dashboard/me/voice/speak",
+          "backend_controller": "DashboardController",
+          "backend_method": "speakVoice",
+          "client_object": "dashboardApi",
+          "client_method": "speakVoiceText",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /dashboard/me/voice/transcribe",
+          "backend_controller": "DashboardController",
+          "backend_method": "transcribeVoice",
+          "client_object": "dashboardApi",
+          "client_method": "transcribeVoiceAudio",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "caller_file": null,
+          "ui_surfaces": [
+
+          ]
+        },
+        {
+          "endpoint_id": "POST /vision/conversations/:param/cancel",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "cancelConversation",
+          "client_object": "visionConversationApi",
+          "client_method": "cancelConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /vision/conversations/:param",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "getConversation",
+          "client_object": "visionConversationApi",
+          "client_method": "getConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "GET /vision/conversations/recent",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "getRecentConversations",
+          "client_object": "visionConversationApi",
+          "client_method": "getRecentConversations",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "POST /vision/conversations/turns",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "processTurn",
+          "client_object": "visionConversationApi",
+          "client_method": "processConversationTurn",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        },
+        {
+          "endpoint_id": "POST /vision/conversations/:param/reset",
+          "backend_controller": "VisionConversationController",
+          "backend_method": "resetConversation",
+          "client_object": "visionConversationApi",
+          "client_method": "resetConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "caller_file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+          "ui_surfaces": [
+            "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+          ]
+        }
+      ]
+    },
+    {
+      "route_path": "/vision/users/:id",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/vision/profile",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/vision/settings",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/vision/circles",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/vision/chat",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/vision/quests/:id",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/vision/applications/:id",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
+    {
+      "route_path": "/vision/applications",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": true,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    }
+  ]
+}

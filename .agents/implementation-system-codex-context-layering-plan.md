@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
- machine_status: complete
+machine_status: complete
 machine_title: Implementation System Codex Context Layering
-machine_goal: Surface the layered-analysis pattern in codex-context and the topic context pack so the first read already includes the analysis artifact.
+machine_goal: Surface the layered-analysis pattern in codex-context and the topic
+  context pack so the first read already includes the analysis artifact.
 ---
 
 # Implementation System Codex Context Layering

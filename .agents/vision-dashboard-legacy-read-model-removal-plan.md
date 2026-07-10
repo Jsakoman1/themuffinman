@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Dashboard Legacy Read Model Removal Plan
-machine_goal: Migrate the last dashboard read-model island off legacy vision quest/application compatibility services and models.
+machine_goal: Migrate the last dashboard read-model island off legacy `vision` quest/application
+  compatibility services and models.
 ---
 
 # Vision Dashboard Legacy Read Model Removal Plan

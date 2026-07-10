@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T09:32:06Z",
+  "generated_at": "2026-07-10T14:01:58Z",
   "markdown": "docs/validation-memory.md",
   "json": "docs/validation-memory.json",
   "issue_count": 0,
@@ -48,6 +48,16 @@
       "label": "workflow expansion canonical commands",
       "status": "ok",
       "detail": "./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest"
+    },
+    {
+      "label": "closeout canonical commands",
+      "status": "ok",
+      "detail": "make closeout-driver plan=<plan-file> manifest=<manifest-file>"
+    },
+    {
+      "label": "closeout canonical commands",
+      "status": "ok",
+      "detail": "make cleanup-generated-history"
     },
     {
       "label": "closeout canonical commands",

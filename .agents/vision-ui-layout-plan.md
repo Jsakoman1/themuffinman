@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision UI Layout Plan
+machine_goal: Convert the `/vision` surface into a true two-column desktop layout
+  with the terminal on the left and a contextual preview rail on the right, while
+  preserving a clean stacked fallback on smaller screens.
+---
+
 # Vision UI Layout Plan
 
 ## Status

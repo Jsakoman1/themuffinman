@@ -2,7 +2,8 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Workmarket Final Polish Plan
-machine_goal: Extract the remaining preset-selection and quest-response assembly responsibilities out of WorkmarketQuestReadService.
+machine_goal: Extract the remaining preset-selection and quest-response assembly responsibilities
+  out of `WorkmarketQuestReadService`.
 ---
 
 # Workmarket Final Polish Plan

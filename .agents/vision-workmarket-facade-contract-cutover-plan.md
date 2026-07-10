@@ -1,8 +1,10 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Workmarket Facade Contract Cutover Plan
-machine_goal: Shrink or remove the remaining vision marketplace facade contract layer so /vision orchestration no longer carries duplicate marketplace DTO ownership without a justified compatibility need.
+machine_goal: Shrink or remove the remaining `vision` marketplace facade contract
+  layer so `/vision` orchestration no longer carries duplicate marketplace DTO ownership
+  without a justified compatibility need.
 ---
 
 # Vision Workmarket Facade Contract Cutover Plan

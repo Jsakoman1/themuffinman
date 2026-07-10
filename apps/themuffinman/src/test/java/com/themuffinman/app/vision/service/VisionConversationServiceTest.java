@@ -66,6 +66,7 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -249,6 +250,31 @@ class VisionConversationServiceTest {
                         return Optional.empty();
                     }
                     return Optional.of(conversation);
+                });
+
+        lenient().when(visionConversationRepository.findFirstByOwnerAndLastClientRequestIdOrderByUpdatedAtDesc(any(AppUser.class), any()))
+                .thenAnswer(invocation -> {
+                    AppUser owner = invocation.getArgument(0);
+                    String clientRequestId = invocation.getArgument(1);
+                    if (owner == null || clientRequestId == null) {
+                        return Optional.empty();
+                    }
+                    return savedConversations.values().stream()
+                            .filter(conversation -> conversation.getOwner() != null
+                                    && owner.getId().equals(conversation.getOwner().getId())
+                                    && clientRequestId.equals(conversation.getLastClientRequestId()))
+                            .max((left, right) -> {
+                                if (left.getUpdatedAt() == null && right.getUpdatedAt() == null) {
+                                    return 0;
+                                }
+                                if (left.getUpdatedAt() == null) {
+                                    return -1;
+                                }
+                                if (right.getUpdatedAt() == null) {
+                                    return 1;
+                                }
+                                return left.getUpdatedAt().compareTo(right.getUpdatedAt());
+                            });
                 });
 
         lenient().when(visionTurnRepository.save(any(VisionTurn.class))).thenAnswer(invocation -> {
@@ -1971,6 +1997,7 @@ class VisionConversationServiceTest {
         );
 
         assertEquals("reward_amount", descriptionResponse.getRequestedSlot());
+        assertEquals("Should this quest be free, or what reward amount should I use?", descriptionResponse.getMessage());
 
         VisionConversationTurnResponseDTO rewardResponse = visionConversationService.processTurn(
                 VisionConversationTurnRequestDTO.builder()
@@ -2500,7 +2527,7 @@ class VisionConversationServiceTest {
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
         when(visionChatExecutionService.openChat(any(AppUser.class), any(String.class), any(VisionSemanticPlan.class)))
                 .thenReturn(VisionChatExecutionResult.blocked(
-                        "I found several possible chat contacts for \"jo\": Josip, Josipa. Say the exact username or email, or choose a numbered candidate.",
+                        "I found several possible chat contacts for \"jo\": Josip, Josipa. Say the exact username or email, or choose a numbered candidate before I contact anyone.",
                         List.of(
                                 VisionChatTargetCandidate.builder().value("Josip").label("Josip").build(),
                                 VisionChatTargetCandidate.builder().value("Josipa").label("Josipa").build()
@@ -2624,6 +2651,45 @@ class VisionConversationServiceTest {
         assertEquals("cancelled", savedConversations.get(response.getConversationId()).getSlotData().get("conversation_outcome"));
         assertEquals("The current vision task was cancelled. Start a new task when you want to continue.", response.getMessage());
         verify(visionPromptUnderstandingService, never()).understandPrompt(any(), any(), any(), any());
+    }
+
+    @Test
+    void duplicateClientRequestReplaysExistingTurnWithoutCreatingAnotherOne() {
+        VisionConversation conversation = createQuestConversation(91L, "quest_title");
+
+        when(visionConversationRepository.findByIdAndOwner(91L, currentUser)).thenReturn(Optional.of(conversation));
+        when(visionTurnRepository.countByConversation(conversation)).thenReturn(0L, 0L, 0L, 0L);
+
+        VisionConversationTurnRequestDTO request = VisionConversationTurnRequestDTO.builder()
+                .conversationId(91L)
+                .prompt("Create a structured quest")
+                .clientRequestId("request-91")
+                .build();
+
+        VisionConversationTurnResponseDTO firstResponse = visionConversationService.processTurn(request, currentUser);
+        VisionConversationTurnResponseDTO secondResponse = visionConversationService.processTurn(request, currentUser);
+
+        assertEquals(firstResponse.getTurnId(), secondResponse.getTurnId());
+        assertEquals(1, lastSavedTurns.size());
+        verify(visionPromptUnderstandingService, times(2)).understandPrompt(any(), any(), any(), any());
+    }
+
+    @Test
+    void duplicateClientRequestReplaysInitialTurnWithoutConversationId() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 0L, 0L, 0L);
+
+        VisionConversationTurnRequestDTO request = VisionConversationTurnRequestDTO.builder()
+                .prompt("Create a structured quest")
+                .clientRequestId("request-92")
+                .build();
+
+        VisionConversationTurnResponseDTO firstResponse = visionConversationService.processTurn(request, currentUser);
+        VisionConversationTurnResponseDTO secondResponse = visionConversationService.processTurn(request, currentUser);
+
+        assertEquals(firstResponse.getConversationId(), secondResponse.getConversationId());
+        assertEquals(firstResponse.getTurnId(), secondResponse.getTurnId());
+        assertEquals(1, lastSavedTurns.size());
+        verify(visionPromptUnderstandingService, times(2)).understandPrompt(any(), any(), any(), any());
     }
 
     @Test

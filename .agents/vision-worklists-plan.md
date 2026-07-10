@@ -1,3 +1,12 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Vision Worklists Plan
+machine_goal: Standardize how `/vision` presents quest-related work so "find work",
+  "my quests", and "applied quests" all read as one simple, scannable system instead
+  of separate ad hoc list designs.
+---
+
 # Vision Worklists Plan
 
 ## Status

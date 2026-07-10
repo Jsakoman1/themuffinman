@@ -2,7 +2,10 @@
 machine_kind: master-plan
 machine_status: complete
 machine_title: Business Booking Improvement Master Plan
-machine_goal: Harden and extend the business booking domain after the core backend implementation by sequencing the remaining work into must-have, should-have, and nice-to-have slices.
+machine_goal: Harden and extend the business booking domain after the core backend
+  implementation by sequencing the remaining work into `must-have`, `should-have`,
+  and `nice-to-have` slices that stay backend-centric and reuse the existing modular
+  architecture.
 ---
 
 # Business Booking Improvement Master Plan

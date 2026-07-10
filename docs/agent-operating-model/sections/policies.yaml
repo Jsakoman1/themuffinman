@@ -119,6 +119,7 @@ policies:
     - plan exists
     - plan has a Completion Evidence section
     - completion status is final
+    - completed plans keep changed files, validation evidence, and doc delta summary out of placeholder states
     - open task checkboxes are complete or explicitly deferred to a stable backlog ID
     - master-plan child rows are complete or explicitly deferred
     - completed master plans do not retain child rows with pending, draft, or in_progress status
@@ -141,10 +142,13 @@ policies:
     - "make control-start, make codex-context, and make context-pack surface the topic's layered-analysis artifact and temp work-product inventory when they exist."
     - "Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries."
     - "Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state."
-    - "make control-refresh-full performs the same snapshot flow and then runs the slower generated-artifact freshness pass."
-    - "make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists."
+    - "Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence in plans, manifests, or refreshed generated-artifact lists."
+    - "make control-refresh-full performs the same snapshot flow and then runs the slower generated-artifact freshness pass plus generated-history cleanup."
+    - "make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, generated-history cleanup, and closeout hints when a plan exists."
     - "make temp-work-product-closeout plan=<plan-file> deletes or archives lingering temp work products owned by a plan before closeout."
     - "make audit-generated-artifact-hygiene files=<csv> provides a scope-filtered generated-artifact noise check before the global freshness pass."
+    - "make cleanup-generated-history prunes archive-only generated local-tooling history before closeout-sensitive review."
+    - "make closeout-driver plan=<plan-file> manifest=<manifest-file> is the deterministic fail-fast entrypoint for final closeout."
     closeout_rule: Temporary machine-readable work products must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
   implementation_checkpoints:
     broad_change_trigger: Use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes.

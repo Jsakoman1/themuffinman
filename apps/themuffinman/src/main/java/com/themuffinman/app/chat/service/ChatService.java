@@ -225,6 +225,8 @@ public class ChatService {
             String requestedQuery,
             Integer requestedLimit,
             Integer requestedPage,
+            String requestedBeforeLastMessageAt,
+            Long requestedBeforeConversationId,
             boolean includeArchived
     ) {
         ChatConversationType conversationType = parseConversationType(requestedConversationType);
@@ -232,6 +234,7 @@ public class ChatService {
         if (contextType == null && requestedContextId != null) {
             throw ServiceErrors.badRequest("Context type is required when context id is provided");
         }
+        ConversationCursor cursor = parseConversationCursor(requestedBeforeLastMessageAt, requestedBeforeConversationId);
 
         List<ChatConversation> activeConversations = chatConversationRepository.findDetailedByParticipantId(currentUser.getId()).stream()
                 .filter(conversation -> canAccessConversation(currentUser, conversation))
@@ -247,6 +250,8 @@ public class ChatService {
         List<ChatConversation> visibleConversations = activeConversations.stream()
                 .filter(conversation -> includeArchived || !chatConversationStateService.isArchived(stateByConversationId.get(conversation.getId())))
                 .filter(conversation -> matchesConversationQuery(conversation, currentUser, normalizedQuery))
+                .sorted(this::compareConversationSummaries)
+                .filter(conversation -> cursor == null || isAfterCursor(conversation, cursor))
                 .toList();
 
         int limit = normalizeConversationLimit(requestedLimit);
@@ -293,6 +298,8 @@ public class ChatService {
                 .contextType(contextType == null ? null : contextType.name())
                 .contextId(requestedContextId)
                 .query(normalizedQuery)
+                .nextBeforeLastMessageAt(hasMore && !limitedConversations.isEmpty() ? conversationOrderingKey(limitedConversations.getLast()).toString() : null)
+                .nextBeforeConversationId(hasMore && !limitedConversations.isEmpty() ? limitedConversations.getLast().getId() : null)
                 .build();
     }
 
@@ -1802,6 +1809,43 @@ public class ChatService {
         return requestedPage == null ? 0 : Math.max(requestedPage, 0);
     }
 
+    private ConversationCursor parseConversationCursor(String requestedBeforeLastMessageAt, Long requestedBeforeConversationId) {
+        if (requestedBeforeLastMessageAt == null && requestedBeforeConversationId == null) {
+            return null;
+        }
+        if (requestedBeforeLastMessageAt == null || requestedBeforeConversationId == null) {
+            throw ServiceErrors.badRequest("Conversation cursor requires both beforeLastMessageAt and beforeConversationId");
+        }
+        try {
+            return new ConversationCursor(Instant.parse(requestedBeforeLastMessageAt), requestedBeforeConversationId);
+        } catch (Exception exception) {
+            throw ServiceErrors.badRequest("Conversation cursor timestamp is invalid");
+        }
+    }
+
+    private int compareConversationSummaries(ChatConversation left, ChatConversation right) {
+        Instant leftKey = conversationOrderingKey(left);
+        Instant rightKey = conversationOrderingKey(right);
+        int comparison = rightKey.compareTo(leftKey);
+        if (comparison != 0) {
+            return comparison;
+        }
+        return Long.compare(right.getId(), left.getId());
+    }
+
+    private boolean isAfterCursor(ChatConversation conversation, ConversationCursor cursor) {
+        Instant conversationKey = conversationOrderingKey(conversation);
+        int comparison = conversationKey.compareTo(cursor.beforeLastMessageAt());
+        if (comparison != 0) {
+            return comparison < 0;
+        }
+        return conversation.getId() < cursor.beforeConversationId();
+    }
+
+    private Instant conversationOrderingKey(ChatConversation conversation) {
+        return conversation.getLastMessageAt() != null ? conversation.getLastMessageAt() : conversation.getCreatedAt();
+    }
+
     private void validateImagePayload(String imageDataUrl) {
         String normalized = normalizeText(imageDataUrl);
         if (normalized == null) {
@@ -2019,6 +2063,9 @@ public class ChatService {
     }
 
     private record ValidatedAttachment(String name, String mimeType, byte[] bytes, int sizeBytes) {
+    }
+
+    private record ConversationCursor(Instant beforeLastMessageAt, Long beforeConversationId) {
     }
 
     private record ResolvedMessageAttachment(

@@ -65,6 +65,40 @@ class VisionConversationSnapshotSupportTest {
     }
 
     @Test
+    void delegatesCapabilityPreviewForBusinessAvailabilityViews() {
+        AppUser currentUser = new AppUser();
+        VisionConversation conversation = new VisionConversation();
+        conversation.setIntent(VisionIntent.VIEW_BUSINESS_AVAILABILITY);
+        conversation.setSlotData(Map.of());
+
+        VisionCapabilityPreviewDTO preview = VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_business_availability")
+                .title("Business availability")
+                .summary("Business availability.")
+                .build();
+        when(visionCapabilityPreviewService.previewBusinessAvailability(currentUser)).thenReturn(preview);
+
+        assertEquals(preview, VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService));
+    }
+
+    @Test
+    void delegatesCapabilityPreviewForBusinessBookingsViews() {
+        AppUser currentUser = new AppUser();
+        VisionConversation conversation = new VisionConversation();
+        conversation.setIntent(VisionIntent.VIEW_BUSINESS_BOOKINGS);
+        conversation.setSlotData(Map.of());
+
+        VisionCapabilityPreviewDTO preview = VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_business_bookings")
+                .title("Business bookings")
+                .summary("Business bookings.")
+                .build();
+        when(visionCapabilityPreviewService.previewBusinessBookings(currentUser)).thenReturn(preview);
+
+        assertEquals(preview, VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService));
+    }
+
+    @Test
     void returnsNullWhenPreviewCannotBeBuilt() {
         VisionConversation conversation = new VisionConversation();
         conversation.setIntent(VisionIntent.DISCOVER_QUESTS);

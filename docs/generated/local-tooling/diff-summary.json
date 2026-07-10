@@ -1,58 +1,9 @@
 {
-  "generated_at": "2026-07-08T18:17:34Z",
-  "original_file_count": 182,
-  "filtered_file_count": 23,
-  "excluded_file_count": 23,
+  "generated_at": "2026-07-10T14:02:57Z",
+  "original_file_count": 322,
+  "filtered_file_count": 235,
+  "excluded_file_count": 235,
   "excluded_files_sample": [
-    {
-      "path": "docs/generated/agent-endpoint-inventory.json",
-      "excluded": true,
-      "reasons": [
-        "generated"
-      ]
-    },
-    {
-      "path": "docs/generated/local-tooling/audit-summary-index.json",
-      "excluded": true,
-      "reasons": [
-        "generated"
-      ]
-    },
-    {
-      "path": "docs/generated/local-tooling/audit-summary-index.md",
-      "excluded": true,
-      "reasons": [
-        "generated"
-      ]
-    },
-    {
-      "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "excluded": true,
-      "reasons": [
-        "generated"
-      ]
-    },
-    {
-      "path": "docs/generated/local-tooling/plan-index.json",
-      "excluded": true,
-      "reasons": [
-        "generated"
-      ]
-    },
-    {
-      "path": ".agents/business-booking-api-contract-observability-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
-      "path": ".agents/business-booking-archival-time-semantics-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
     {
       "path": ".agents/business-booking-availability-plan.md",
       "excluded": true,
@@ -61,28 +12,7 @@
       ]
     },
     {
-      "path": ".agents/business-booking-concurrency-hardening-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
-      "path": ".agents/business-booking-docs-validation-closeout-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
       "path": ".agents/business-booking-foundation-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
-      "path": ".agents/business-booking-future-hooks-plan.md",
       "excluded": true,
       "reasons": [
         "agent_transient"
@@ -110,42 +40,7 @@
       ]
     },
     {
-      "path": ".agents/business-booking-operational-contract-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
-      "path": ".agents/business-booking-owner-calendar-projection-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
       "path": ".agents/business-booking-public-read-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
-      "path": ".agents/business-booking-read-contract-reuse-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
-      "path": ".agents/business-booking-read-model-contract-plan.md",
-      "excluded": true,
-      "reasons": [
-        "agent_transient"
-      ]
-    },
-    {
-      "path": ".agents/business-booking-surface-refinement-master-plan.md",
       "excluded": true,
       "reasons": [
         "agent_transient"
@@ -159,513 +54,313 @@
       ]
     },
     {
-      "path": "docs/generated/local-tooling/.history/audit-summary-index/2026-07-08T18-17-32Z.json",
+      "path": ".agents/chat-advanced-hardening-master-plan.md",
       "excluded": true,
       "reasons": [
-        "historical_archive",
-        "generated"
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-compliance-ops-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-conversation-state-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-governance-observability-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-message-receipts-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-next-master-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-object-storage-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-hardening-followup-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-ready-closeout-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-prod-ready-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-realtime-lifecycle-hardening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-realtime-reliability-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-rich-messaging-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-scale-discovery-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-telemetry-audit-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-thread-context-closeout-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/chat-thread-context-schema-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
+      ]
+    },
+    {
+      "path": ".agents/control-system-hardening-plan.md",
+      "excluded": true,
+      "reasons": [
+        "agent_transient"
       ]
     }
   ],
-  "changed_file_count": 159,
+  "changed_file_count": 87,
   "groups": [
     {
-      "domain": "business",
+      "domain": "shared",
       "category": "other",
+      "count": 9,
+      "files": [
+        {
+          "status": "M",
+          "path": ".agents/feature-manifests/chat-prod-ready-manifest.yaml"
+        },
+        {
+          "status": "M",
+          "path": ".agents/templates/feature-implementation-plan.template.md"
+        },
+        {
+          "status": "M",
+          "path": "AGENTS.md"
+        },
+        {
+          "status": "M",
+          "path": "Makefile"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/router.ts"
+        },
+        {
+          "status": "??",
+          "path": ".agents/tmp/vision-next-experience-analysis.md"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/frontend/src/modules/app-shell/"
+        },
+        {
+          "status": "??",
+          "path": "apps/themuffinman/src/main/resources/db/migration/V52__add_vision_conversation_last_client_request_id.sql"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_script",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_api",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_composable",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "frontend_view",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+        }
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "other",
+      "count": 1,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/README.md"
+        }
+      ]
+    },
+    {
+      "domain": "chat",
+      "category": "backend_controller",
       "count": 2,
       "files": [
         {
           "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/README.md"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java"
         },
         {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/event/"
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java"
         }
       ]
     },
     {
-      "domain": "business",
+      "domain": "chat",
       "category": "backend_dto",
-      "count": 32,
+      "count": 1,
       "files": [
         {
           "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileRequestDTO.java"
-        },
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessProfileResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionListResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionRequestDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityExceptionResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleListResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleRequestDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityWindowDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityWindowListResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingAllowedActionDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingListResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPolicyRequestDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPolicyResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPresentationDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingQueryDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingRequestDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessGalleryImageListResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessGalleryImageRequestDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessGalleryImageResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingListResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingRequestDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingResponseDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerBookingCreateRequestDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerCalendarDayDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerCalendarItemDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerCalendarProjectionDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerDashboardDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerScheduleItemDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerScheduleSummaryDTO.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessPublicPageDTO.java"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java"
         }
       ]
     },
     {
-      "domain": "business",
-      "category": "backend_mapper",
+      "domain": "chat",
+      "category": "backend_service",
+      "count": 2,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_dto",
       "count": 6,
       "files": [
         {
           "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessProfileMgr.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessAvailabilityMgr.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessBookingMgr.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessBookingPolicyMgr.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessGalleryImageMgr.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessOfferingMgr.java"
-        }
-      ]
-    },
-    {
-      "domain": "business",
-      "category": "backend_model",
-      "count": 16,
-      "files": [
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessProfile.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessAvailabilityException.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessAvailabilityExceptionType.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessAvailabilityRule.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingAuditEvent.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingAuditEventType.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingPolicy.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingSource.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingStatus.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessGalleryImage.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOffering.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingBookingMode.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingCapacityMode.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingDurationMode.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingPricingType.java"
-        }
-      ]
-    },
-    {
-      "domain": "business",
-      "category": "backend_service",
-      "count": 38,
-      "files": [
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java"
         },
         {
           "status": "M",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessProfileServiceTest.java"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java"
         },
         {
           "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionAttentionStateDTO.java"
         },
         {
           "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionDeviceRoleDTO.java"
         },
         {
           "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityService.java"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeContextDTO.java"
         },
         {
           "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityValidationService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingAuditService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPolicyService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPresentationService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPrimitiveService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadSupport.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCase.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCompleteBookingUseCase.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessConfirmBookingUseCase.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessGalleryService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessNoShowBookingUseCase.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOfferingService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPublicReadService.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRejectBookingUseCase.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPolicyServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPresentationServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadSupportTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCaseTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessGalleryServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadServiceTest.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPublicReadServiceTest.java"
-        }
-      ]
-    },
-    {
-      "domain": "identity",
-      "category": "backend_service",
-      "count": 1,
-      "files": [
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserReadService.java"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeCueDTO.java"
         }
       ]
     },
     {
       "domain": "shared",
-      "category": "other",
-      "count": 12,
-      "files": [
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticAliasRegistry.java"
-        },
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/semantic/SemanticEntityFamily.java"
-        },
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/README.md"
-        },
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/resources/application.properties"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/resources/db/migration/V44__extend_business_profile_for_booking.sql"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/resources/db/migration/V45__create_business_offering_table.sql"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/resources/db/migration/V46__create_business_booking_policy_table.sql"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/resources/db/migration/V47__create_business_availability_tables.sql"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/resources/db/migration/V48__create_business_booking_table.sql"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/resources/db/migration/V49__create_business_booking_audit_event_table.sql"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/resources/db/migration/V50__create_business_gallery_image_table.sql"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/resources/db/migration/V51__tighten_business_booking_constraints.sql"
-        }
-      ]
-    },
-    {
-      "domain": "social",
-      "category": "backend_service",
+      "category": "backend_model",
       "count": 2,
       "files": [
         {
           "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleAdminOverviewAssembler.java"
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java"
         },
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleSearchQueryService.java"
-        }
-      ]
-    },
-    {
-      "domain": "shared",
-      "category": "backend_model",
-      "count": 1,
-      "files": [
         {
           "status": "M",
           "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java"
@@ -674,12 +369,39 @@
     },
     {
       "domain": "shared",
-      "category": "backend_service",
-      "count": 20,
+      "category": "backend_repository",
+      "count": 1,
       "files": [
         {
           "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionConversationRepository.java"
+        }
+      ]
+    },
+    {
+      "domain": "shared",
+      "category": "backend_service",
+      "count": 28,
+      "files": [
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java"
+        },
+        {
+          "status": "M",
           "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java"
         },
         {
           "status": "M",
@@ -711,7 +433,19 @@
         },
         {
           "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java"
+        },
+        {
+          "status": "M",
           "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticMapper.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java"
         },
         {
           "status": "M",
@@ -723,6 +457,10 @@
         },
         {
           "status": "M",
+          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRuntimeHints.java"
+        },
+        {
+          "status": "M",
           "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java"
         },
         {
@@ -731,7 +469,15 @@
         },
         {
           "status": "M",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationLifecycleSupportTest.java"
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionClarificationServiceTest.java"
+        },
+        {
+          "status": "M",
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
         },
         {
           "status": "M",
@@ -739,15 +485,7 @@
         },
         {
           "status": "M",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java"
-        },
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentSignalSupportTest.java"
-        },
-        {
-          "status": "M",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilderTest.java"
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java"
         },
         {
           "status": "M",
@@ -755,45 +493,49 @@
         },
         {
           "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java"
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCanvasAssemblerTest.java"
         }
       ]
     },
     {
-      "domain": "workmarket",
+      "domain": "business",
       "category": "backend_service",
       "count": 1,
       "files": [
         {
           "status": "M",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationAdminQueryService.java"
+          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java"
         }
       ]
     },
     {
       "domain": "agent",
       "category": "docs",
-      "count": 7,
+      "count": 8,
       "files": [
+        {
+          "status": "M",
+          "path": "docs/agent-improvement-backlog.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/agent-operating-model.md"
+        },
         {
           "status": "M",
           "path": "docs/agent-operating-model.yaml"
         },
         {
           "status": "M",
-          "path": "docs/agent-operating-model/sections/api.yaml"
+          "path": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml"
         },
         {
           "status": "M",
-          "path": "docs/agent-operating-model/sections/intent_safety_catalog.yaml"
+          "path": "docs/agent-operating-model/sections/documentation_coverage.yaml"
         },
         {
           "status": "M",
-          "path": "docs/agent-operating-model/sections/intents.yaml"
-        },
-        {
-          "status": "M",
-          "path": "docs/agent-operating-model/sections/mutating_intent_contracts.yaml"
+          "path": "docs/agent-operating-model/sections/policies.yaml"
         },
         {
           "status": "M",
@@ -808,7 +550,7 @@
     {
       "domain": "shared",
       "category": "docs",
-      "count": 3,
+      "count": 13,
       "files": [
         {
           "status": "M",
@@ -816,104 +558,101 @@
         },
         {
           "status": "M",
+          "path": "docs/change-completion-checklist.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/codex-fast-path.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/documentation-sync-policy.md"
+        },
+        {
+          "status": "M",
           "path": "docs/domain-technical.md"
         },
         {
           "status": "M",
-          "path": "docs/source-of-truth-inventory.md"
+          "path": "docs/feature-delivery-workflow.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/product-vision.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/program-planning-model.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/tooling/codex-local-audits.yml"
+        },
+        {
+          "status": "M",
+          "path": "docs/validation-memory.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/validation-memory.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/vision-architecture-patterns.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/vision-status-ledger.md"
         }
       ]
     },
     {
-      "domain": "business",
-      "category": "backend_controller",
+      "domain": "shared",
+      "category": "script",
       "count": 8,
       "files": [
         {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java"
+          "status": "M",
+          "path": "scripts/audits/audit-plan-completion.rb"
+        },
+        {
+          "status": "M",
+          "path": "scripts/audits/enforce-feature-closeout.rb"
+        },
+        {
+          "status": "M",
+          "path": "scripts/audits/local_tooling_extended_tools.rb"
+        },
+        {
+          "status": "M",
+          "path": "scripts/feature-closeout-audit.sh"
+        },
+        {
+          "status": "M",
+          "path": "scripts/implementation-batch.sh"
+        },
+        {
+          "status": "M",
+          "path": "scripts/local_tooling_common.rb"
         },
         {
           "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java"
+          "path": "scripts/audits/cleanup-generated-history.rb"
         },
         {
           "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/business/controller/"
+          "path": "scripts/audits/closeout-driver.rb"
         }
       ]
     },
     {
-      "domain": "business",
-      "category": "backend_repository",
-      "count": 7,
-      "files": [
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessAvailabilityExceptionRepository.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessAvailabilityRuleRepository.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingAuditEventRepository.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingPolicyRepository.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingRepository.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessGalleryImageRepository.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessOfferingRepository.java"
-        }
-      ]
-    },
-    {
-      "domain": "common",
+      "domain": "identity",
       "category": "other",
-      "count": 3,
+      "count": 1,
       "files": [
         {
           "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/common/search/"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/main/java/com/themuffinman/app/config/BusinessProperties.java"
-        },
-        {
-          "status": "??",
-          "path": "apps/themuffinman/src/test/java/com/themuffinman/app/common/search/"
+          "path": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml"
         }
       ]
     }
@@ -925,6 +664,9 @@
     "make audit-api-contract-drift",
     "make audit-endpoint-callsite-linker",
     "make endpoint-contract-packs",
+    "make audit-frontend-route-surfaces",
+    "make audit-async-mutation-flow",
+    "make audit-frontend-usage-graph",
     "make audit-doc-sync-preflight",
     "make audit-doc-sync-required-surfaces",
     "make audit-documentation",

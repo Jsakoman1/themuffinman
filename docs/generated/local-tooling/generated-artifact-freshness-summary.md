@@ -4,8 +4,8 @@
 - Why: stale artifacts=0
 - Evidence: artifacts=8
 
-- `agent_endpoint_inventory` `fresh` source=`docs/agent-operating-model/sections/intents.yaml`
-- `automation_read_model_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java`
-- `source_of_truth_audit` `fresh` source=`apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java`
+- `agent_endpoint_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java`
+- `automation_read_model_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java`
+- `source_of_truth_audit` `fresh` source=`docs/agent-operating-model/sections/source_of_truth.yaml`
 - `backend_audit_inventory` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java`
 - `frontend_generated_contract` `fresh` source=`apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java`

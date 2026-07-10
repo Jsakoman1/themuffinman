@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
- machine_status: complete
+machine_status: complete
 machine_title: Implementation System Control Start Visibility
-machine_goal: Surface layered-analysis and temporary work-product inventory in the compact control snapshot.
+machine_goal: Surface layered-analysis and temporary work-product inventory in the
+  compact control snapshot.
 ---
 
 # Implementation System Control Start Visibility

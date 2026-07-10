@@ -377,6 +377,8 @@ backend_contract_snapshots:
   - contextType
   - contextId
   - query
+  - nextBeforeLastMessageAt
+  - nextBeforeConversationId
   semantic_required_fields:
   - conversations
   - filteredCount

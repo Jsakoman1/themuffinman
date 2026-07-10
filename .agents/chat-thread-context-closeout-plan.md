@@ -2,7 +2,6 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Chat Thread Context Closeout Plan
-machine_goal: Close the chat thread-context backend slice with synced docs, generated artifacts, and validation evidence.
 ---
 
 # Chat Thread Context Closeout Plan

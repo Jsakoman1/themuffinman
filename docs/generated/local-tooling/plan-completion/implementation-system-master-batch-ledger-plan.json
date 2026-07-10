@@ -1,0 +1,35 @@
+{
+  "plan": ".agents/implementation-system-master-batch-ledger-plan.md",
+  "exists": true,
+  "machine_status": "complete",
+  "top_level_status": "Complete.",
+  "completion_evidence": true,
+  "completion_status": "complete",
+  "completion_changed_files": "`scripts/implementation-batch.sh`, `docs/generated/local-tooling/implementation-batches/implementation-system-ledger.json`, `docs/generated/local-tooling/implementation-batches/implementation-system-ledger.jsonl`, `docs/generated/local-tooling/implementation-batches/implementation-system-ledger-summary.md`",
+  "completion_validation_evidence": "`make implementation-batch topic=implementation-system`",
+  "completion_doc_delta_summary": "the implementation batch wrapper now emits a durable machine-readable slice ledger and summary, recording each step as executed, deferred, or blocked.",
+  "open_tasks": [
+
+  ],
+  "unresolved_open_tasks": [
+
+  ],
+  "child_plans": [
+
+  ],
+  "temp_work_products": [
+
+  ],
+  "issues": [
+
+  ],
+  "warnings": [
+
+  ],
+  "status": "passed",
+  "generated_at": "2026-07-10T14:08:38Z",
+  "manifest": null,
+  "child_issue_rollups": [
+
+  ]
+}

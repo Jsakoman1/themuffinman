@@ -1,11 +1,14 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.business.dto.BusinessOfferingResponseDTO;
+import com.themuffinman.app.business.dto.BusinessBookingListResponseDTO;
+import com.themuffinman.app.business.dto.BusinessBookingResponseDTO;
 import com.themuffinman.app.business.dto.BusinessOwnerDashboardDTO;
 import com.themuffinman.app.business.dto.BusinessOwnerScheduleItemDTO;
 import com.themuffinman.app.business.dto.BusinessOwnerScheduleSummaryDTO;
 import com.themuffinman.app.business.dto.BusinessPublicPageDTO;
 import com.themuffinman.app.business.dto.BusinessGalleryImageResponseDTO;
+import com.themuffinman.app.business.service.BusinessBookingReadService;
 import com.themuffinman.app.business.service.BusinessOwnerDashboardReadService;
 import com.themuffinman.app.business.service.BusinessPublicReadService;
 import com.themuffinman.app.common.time.TimeSupport;
@@ -28,6 +31,7 @@ class VisionBusinessPreviewRenderer {
 
     private final BusinessPublicReadService businessPublicReadService;
     private final BusinessOwnerDashboardReadService businessOwnerDashboardReadService;
+    private final BusinessBookingReadService businessBookingReadService;
 
     VisionCapabilityPreviewDTO previewBusiness(AppUser currentUser) {
         if (currentUser == null) {
@@ -98,6 +102,60 @@ class VisionBusinessPreviewRenderer {
         return VisionCapabilityPreviewDTO.builder()
                 .capabilityId("view_business_availability")
                 .title("Business availability")
+                .summary(summary)
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    VisionCapabilityPreviewDTO previewBusinessBookings(AppUser currentUser) {
+        if (currentUser == null) {
+            return null;
+        }
+
+        BusinessOwnerDashboardDTO dashboard = businessOwnerDashboardReadService.getMyDashboard(currentUser);
+        BusinessOwnerScheduleSummaryDTO schedule = dashboard == null ? null : dashboard.getScheduleSummary();
+        BusinessBookingListResponseDTO bookings = businessBookingReadService.getOwnerBookings(null, currentUser);
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        VisionCapabilityPreviewSupport.addItem(items, "business_name", "Business name",
+                dashboard == null ? null : dashboard.getBusinessName());
+        VisionCapabilityPreviewSupport.addItem(items, "booking_enabled", "Booking enabled",
+                dashboard == null ? null : booleanLabel(dashboard.isBookingEnabled()));
+        VisionCapabilityPreviewSupport.addItem(items, "pending_confirmation_count", "Pending confirmations",
+                dashboard == null ? null : String.valueOf(dashboard.getPendingConfirmationCount()));
+        VisionCapabilityPreviewSupport.addItem(items, "today_count", "Today",
+                dashboard == null ? null : String.valueOf(dashboard.getTodayCount()));
+        VisionCapabilityPreviewSupport.addItem(items, "upcoming_count", "Upcoming",
+                dashboard == null ? null : String.valueOf(dashboard.getUpcomingCount()));
+        VisionCapabilityPreviewSupport.addItem(items, "schedule_timezone", "Timezone",
+                schedule == null ? null : schedule.getTimezone());
+        VisionCapabilityPreviewSupport.addItem(items, "bookings_total", "Bookings", String.valueOf(bookings.getTotalItems()));
+        VisionCapabilityPreviewSupport.addItem(items, "bookings_page", "Page", bookings.getPage() + " of " + Math.max(bookings.getTotalPages(), 1));
+        for (int index = 0; index < Math.min(bookings.getItems().size(), 5); index++) {
+            BusinessBookingResponseDTO booking = bookings.getItems().get(index);
+            if (booking == null) {
+                continue;
+            }
+            VisionCapabilityPreviewSupport.addItem(
+                    items,
+                    "business_booking_" + booking.getId(),
+                    booking.getCustomerUsername(),
+                    formatBookingValue(booking)
+            );
+        }
+
+        String summary = bookings.getItems().isEmpty()
+                ? "No bookings found."
+                : (dashboard == null
+                ? bookings.getTotalItems() + " booking" + (bookings.getTotalItems() == 1 ? "" : "s") + " in the owner list."
+                : dashboard.getBusinessName() + ": "
+                + dashboard.getPendingConfirmationCount() + " pending, "
+                + dashboard.getTodayCount() + " today, "
+                + dashboard.getUpcomingCount() + " upcoming.");
+
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_business_bookings")
+                .title("Business bookings")
                 .summary(summary)
                 .items(items)
                 .tone("info")
@@ -225,6 +283,20 @@ class VisionBusinessPreviewRenderer {
         }
         if (item.getStatusLabel() != null && !item.getStatusLabel().isBlank()) {
             parts.add(item.getStatusLabel().trim());
+        }
+        return parts.isEmpty() ? null : String.join(" · ", parts);
+    }
+
+    private String formatBookingValue(BusinessBookingResponseDTO booking) {
+        List<String> parts = new ArrayList<>();
+        if (booking.getBusinessOfferingTitle() != null && !booking.getBusinessOfferingTitle().isBlank()) {
+            parts.add(booking.getBusinessOfferingTitle().trim());
+        }
+        if (booking.getStatusLabel() != null && !booking.getStatusLabel().isBlank()) {
+            parts.add(booking.getStatusLabel().trim());
+        }
+        if (booking.getStartsAt() != null) {
+            parts.add(BUSINESS_TIME_FORMAT.withZone(ZoneId.of(booking.getTimezone() == null || booking.getTimezone().isBlank() ? "UTC" : booking.getTimezone())).format(booking.getStartsAt()));
         }
         return parts.isEmpty() ? null : String.join(" · ", parts);
     }

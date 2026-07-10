@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
-machine_status: complete
+machine_status: unknown
 machine_title: Vision Semantic Hardening Plan
-machine_goal: Tighten the semantic envelope, entity resolution, and multilingual handling.
 ---
 
 # Vision Semantic Hardening Plan

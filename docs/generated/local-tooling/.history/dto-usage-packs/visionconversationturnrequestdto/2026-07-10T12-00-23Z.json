@@ -1,0 +1,120 @@
+{
+  "generated_at": "2026-07-10T11:46:02Z",
+  "dto": "VisionConversationTurnRequestDTO",
+  "dto_files": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 54
+    }
+  ],
+  "controller_methods": [
+    {
+      "method": "POST",
+      "path": "/vision/conversations/turns",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "dtos": [
+        "VisionConversationTurnResponseDTO",
+        "VisionConversationTurnRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/vision/conversations/{conversationId}/cancel",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "dtos": [
+        "VisionConversationTurnResponseDTO",
+        "VisionConversationTurnRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/vision/conversations/{conversationId}/reset",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "dtos": [
+        "VisionConversationTurnResponseDTO",
+        "VisionConversationTurnRequestDTO"
+      ]
+    }
+  ],
+  "backend_refs": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "category": "backend_controller",
+      "domain": "shared",
+      "lines": 67
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "lines": 54
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 3278
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestReviewSupport.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "lines": 168
+    }
+  ],
+  "frontend_refs": [
+    {
+      "path": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "category": "frontend_contract",
+      "domain": "shared",
+      "lines": 2336
+    }
+  ],
+  "tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java"
+  ],
+  "docs_refs": [
+    "docs/agent-operating-model.yaml",
+    "docs/agent-operating-model/sections/source_of_truth.yaml",
+    "docs/domain-technical.md",
+    "docs/generated/local-tooling/codex-context/latest.review.md",
+    "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+    "docs/generated/local-tooling/dto-usage-packs/visionconversationturnrequestdto-summary.md",
+    "docs/generated/local-tooling/dto-usage-packs/visionconversationturnresponsedto-summary.md",
+    "docs/generated/local-tooling/endpoint-contract-packs/vision-summary.md"
+  ],
+  "generated_contract_refs": [
+    "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+    "docs/generated/automation-read-model-inventory.json",
+    "docs/generated/backend-audit-inventory.json",
+    "docs/generated/local-tooling/api-contract-snapshot.json",
+    "docs/generated/local-tooling/backend-dependency-graph.json",
+    "docs/generated/local-tooling/codex-context/latest.execution.json",
+    "docs/generated/local-tooling/codex-context/latest.machine.json",
+    "docs/generated/local-tooling/codex-context/packs/ast-diff.json",
+    "docs/generated/local-tooling/codex-context/packs/audit-delta.json",
+    "docs/generated/local-tooling/codex-context/packs/audit-summary-index.json",
+    "docs/generated/local-tooling/codex-context/packs/backend-dependency.json",
+    "docs/generated/local-tooling/codex-context/packs/codebase-capsule.json",
+    "docs/generated/local-tooling/codex-context/packs/control-start.json",
+    "docs/generated/local-tooling/codex-context/packs/domain-pack.json",
+    "docs/generated/local-tooling/codex-context/packs/dto-endpoint-frontend.json",
+    "docs/generated/local-tooling/codex-context/packs/endpoint-contract.json",
+    "docs/generated/local-tooling/codex-context/packs/frontend-usage.json",
+    "docs/generated/local-tooling/codex-context/packs/git-diff.json",
+    "docs/generated/local-tooling/codex-context/packs/hotspots.json",
+    "docs/generated/local-tooling/codex-context/packs/intent.json"
+  ],
+  "recommended_commands": [
+    "cd apps/themuffinman && ./mvnw test -Dtest=VisionConversationServiceTest",
+    "make audit-api-contract-drift",
+    "make endpoint-contract-packs",
+    "npm --prefix apps/themuffinman/frontend run type-check",
+    "npm --prefix apps/themuffinman/frontend run build"
+  ],
+  "residual_risk": [
+
+  ]
+}

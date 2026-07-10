@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
-machine_status: complete
+machine_status: unknown
 machine_title: Workflow Continuation Policy Hardening
-machine_goal: Reduce unnecessary interruption points in master-plan and God Plan batches by making continuation expectations explicit in workflow docs.
 ---
 
 # Workflow Continuation Policy Hardening

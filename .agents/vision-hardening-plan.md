@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Vision Hardening Plan
-machine_goal: Keep vision strictly focused on orchestration, conversation, and semantic capability consumption so domain behavior and transport ownership do not drift back into the module.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

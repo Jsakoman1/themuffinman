@@ -159,6 +159,7 @@ class VisionSearchDiscoveryServiceTest {
         assertTrue(result.getItems().stream().anyMatch(item -> "application".equals(item.getEntityFamily())));
         assertTrue(result.getItems().stream().anyMatch(item -> "thing".equals(item.getEntityFamily())));
         assertTrue(result.getSummary().contains("move sofa"));
+        assertTrue(result.getSummary().contains("narrow it"));
     }
 
     @Test

@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Final Quest Helper Cleanup Plan
-machine_goal: Remove or explicitly justify the last legacy quest/application helper and compatibility-overload surfaces after service shutdown.
+machine_goal: Remove or explicitly justify the last legacy quest/application helper
+  and compatibility-overload surfaces after service shutdown.
 ---
 
 # Vision Final Quest Helper Cleanup Plan

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-08T18:17:36Z",
-  "registry_entries": 69,
-  "tracked_outputs": 27,
-  "templated_outputs": 13,
+  "generated_at": "2026-07-10T14:09:09Z",
+  "registry_entries": 71,
+  "tracked_outputs": 28,
+  "templated_outputs": 14,
   "missing_outputs": 29,
   "registry": [
     {
@@ -537,6 +537,15 @@
       "operator_default": false
     },
     {
+      "target": "cleanup-generated-history",
+      "script": "scripts/audits/cleanup-generated-history.rb",
+      "output": "docs/generated/local-tooling/cleanup-generated-history-summary.md",
+      "output_exists": true,
+      "output_mode": "static",
+      "surface_class": "diagnostic",
+      "operator_default": false
+    },
+    {
       "target": "audit-sandbox-data-coverage-pack",
       "script": "scripts/audits/audit-sandbox-data-coverage-pack.rb",
       "output": "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md",
@@ -576,6 +585,15 @@
       "target": "closeout-report",
       "script": "scripts/audits/generate-closeout-report.rb",
       "output": "docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md",
+      "output_exists": false,
+      "output_mode": "template",
+      "surface_class": "diagnostic",
+      "operator_default": false
+    },
+    {
+      "target": "closeout-driver",
+      "script": "scripts/audits/closeout-driver.rb",
+      "output": "docs/generated/local-tooling/closeout-driver/<plan-id>-summary.md",
       "output_exists": false,
       "output_mode": "template",
       "surface_class": "diagnostic",
@@ -655,18 +673,18 @@
     },
     {
       "path": "docs/generated/local-tooling/audit-documentation-summary.md",
-      "mtime": "2026-07-08T09:29:51Z",
+      "mtime": "2026-07-10T11:46:35Z",
       "bytes": 141
     },
     {
       "path": "docs/generated/local-tooling/audit-registry-artifacts-summary.md",
-      "mtime": "2026-07-03T14:48:12Z",
+      "mtime": "2026-07-10T13:39:18Z",
       "bytes": 142
     },
     {
       "path": "docs/generated/local-tooling/audit-router-summary.md",
-      "mtime": "2026-07-07T16:32:18Z",
-      "bytes": 709
+      "mtime": "2026-07-10T13:52:49Z",
+      "bytes": 672
     },
     {
       "path": "docs/generated/local-tooling/backend-dependency-graph-summary.md",
@@ -674,9 +692,24 @@
       "bytes": 1136
     },
     {
+      "path": "docs/generated/local-tooling/cleanup-generated-history-summary.md",
+      "mtime": "2026-07-10T14:08:45Z",
+      "bytes": 1019
+    },
+    {
       "path": "docs/generated/local-tooling/closeout-autofill/chat_prod_ready-summary.md",
-      "mtime": "2026-07-08T08:55:31Z",
-      "bytes": 335
+      "mtime": "2026-07-10T14:01:52Z",
+      "bytes": 524
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-driver/driver/chat-prod-ready-plan-summary.md",
+      "mtime": "2026-07-10T14:01:59Z",
+      "bytes": 1226
+    },
+    {
+      "path": "docs/generated/local-tooling/closeout-driver/preflight/chat-prod-ready-plan-summary.md",
+      "mtime": "2026-07-10T14:01:47Z",
+      "bytes": 502
     },
     {
       "path": "docs/generated/local-tooling/closeout-reports/chat_advanced_hardening-summary.md",
@@ -685,18 +718,18 @@
     },
     {
       "path": "docs/generated/local-tooling/closeout-reports/chat_prod_ready-summary.md",
-      "mtime": "2026-07-08T08:58:45Z",
-      "bytes": 924
+      "mtime": "2026-07-10T14:01:59Z",
+      "bytes": 909
     },
     {
       "path": "docs/generated/local-tooling/control-start-summary.md",
-      "mtime": "2026-07-08T08:58:10Z",
-      "bytes": 1628
+      "mtime": "2026-07-10T14:08:44Z",
+      "bytes": 2624
     },
     {
       "path": "docs/generated/local-tooling/diff-summary.md",
-      "mtime": "2026-07-08T18:17:34Z",
-      "bytes": 1503
+      "mtime": "2026-07-10T14:02:57Z",
+      "bytes": 946
     },
     {
       "path": "docs/generated/local-tooling/doc-canonical-phrases-summary.md",
@@ -705,13 +738,13 @@
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
-      "mtime": "2026-07-07T16:32:19Z",
-      "bytes": 711
+      "mtime": "2026-07-10T13:52:52Z",
+      "bytes": 705
     },
     {
       "path": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
-      "mtime": "2026-07-07T16:46:44Z",
-      "bytes": 1636
+      "mtime": "2026-07-10T13:54:55Z",
+      "bytes": 1676
     },
     {
       "path": "docs/generated/local-tooling/domain-packs/agent-summary.md",
@@ -729,6 +762,11 @@
       "bytes": 614
     },
     {
+      "path": "docs/generated/local-tooling/domain-packs/identity-summary.md",
+      "mtime": "2026-07-10T08:21:26Z",
+      "bytes": 720
+    },
+    {
       "path": "docs/generated/local-tooling/domain-packs/workmarket-summary.md",
       "mtime": "2026-07-07T06:38:39Z",
       "bytes": 26
@@ -742,6 +780,11 @@
       "path": "docs/generated/local-tooling/dto-usage-packs/businessprofilerequestdto-summary.md",
       "mtime": "2026-07-08T18:17:35Z",
       "bytes": 2167
+    },
+    {
+      "path": "docs/generated/local-tooling/dto-usage-packs/chatconversationlistdto-summary.md",
+      "mtime": "2026-07-10T13:53:27Z",
+      "bytes": 2063
     },
     {
       "path": "docs/generated/local-tooling/dto-usage-packs/chatconversationsummarydto-summary.md",
@@ -759,9 +802,19 @@
       "bytes": 1249
     },
     {
+      "path": "docs/generated/local-tooling/dto-usage-packs/visionconversationturnrequestdto-summary.md",
+      "mtime": "2026-07-10T12:00:23Z",
+      "bytes": 2214
+    },
+    {
       "path": "docs/generated/local-tooling/dto-usage-packs/visionconversationturnresponsedto-summary.md",
       "mtime": "2026-07-05T09:25:42Z",
       "bytes": 2217
+    },
+    {
+      "path": "docs/generated/local-tooling/endpoint-callsite-linker-summary.md",
+      "mtime": "2026-07-10T08:21:25Z",
+      "bytes": 2005
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/admin-summary.md",
@@ -790,13 +843,13 @@
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/business-summary.md",
-      "mtime": "2026-07-08T10:09:51Z",
-      "bytes": 1052
+      "mtime": "2026-07-10T08:21:25Z",
+      "bytes": 1601
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/chat-summary.md",
-      "mtime": "2026-07-08T10:09:51Z",
-      "bytes": 1409
+      "mtime": "2026-07-10T08:21:26Z",
+      "bytes": 1263
     },
     {
       "path": "docs/generated/local-tooling/endpoint-contract-packs/circles-summary.md",
@@ -845,18 +898,23 @@
     },
     {
       "path": "docs/generated/local-tooling/feature-slices/implementation-system-summary.md",
-      "mtime": "2026-07-07T16:32:21Z",
-      "bytes": 1930
+      "mtime": "2026-07-10T13:53:00Z",
+      "bytes": 7385
+    },
+    {
+      "path": "docs/generated/local-tooling/frontend-route-surface-inventory-summary.md",
+      "mtime": "2026-07-10T08:56:15Z",
+      "bytes": 1939
     },
     {
       "path": "docs/generated/local-tooling/frontend-usage-graph-summary.md",
-      "mtime": "2026-07-05T09:11:21Z",
+      "mtime": "2026-07-10T08:21:25Z",
       "bytes": 553
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-freshness-summary.md",
-      "mtime": "2026-07-08T08:58:10Z",
-      "bytes": 732
+      "mtime": "2026-07-10T14:08:45Z",
+      "bytes": 747
     },
     {
       "path": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
@@ -865,18 +923,23 @@
     },
     {
       "path": "docs/generated/local-tooling/implementation-batches/implementation-system-batch-summary.md",
-      "mtime": "2026-07-07T16:46:47Z",
-      "bytes": 1145
+      "mtime": "2026-07-10T13:55:04Z",
+      "bytes": 1242
+    },
+    {
+      "path": "docs/generated/local-tooling/implementation-batches/implementation-system-ledger-summary.md",
+      "mtime": "2026-07-10T13:55:05Z",
+      "bytes": 4112
     },
     {
       "path": "docs/generated/local-tooling/manifest-decision-summary.md",
-      "mtime": "2026-07-07T16:46:44Z",
-      "bytes": 900
+      "mtime": "2026-07-10T13:54:55Z",
+      "bytes": 1157
     },
     {
       "path": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
-      "mtime": "2026-07-07T16:32:20Z",
-      "bytes": 1390
+      "mtime": "2026-07-10T13:52:56Z",
+      "bytes": 2256
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/backend-drift-remediation-master-plan-summary.md",
@@ -885,7 +948,7 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/chat-prod-ready-plan-summary.md",
-      "mtime": "2026-07-08T08:58:07Z",
+      "mtime": "2026-07-10T14:01:52Z",
       "bytes": 363
     },
     {
@@ -934,6 +997,31 @@
       "bytes": 202
     },
     {
+      "path": "docs/generated/local-tooling/plan-completion/frontend-user-shell-navigation-master-plan-summary.md",
+      "mtime": "2026-07-10T10:39:39Z",
+      "bytes": 356
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/frontend-user-shell-validation-and-docs-plan-summary.md",
+      "mtime": "2026-07-10T10:39:09Z",
+      "bytes": 360
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/implementation-system-closeout-driver-plan-summary.md",
+      "mtime": "2026-07-10T14:08:38Z",
+      "bytes": 356
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/implementation-system-closeout-hardening-master-plan-summary.md",
+      "mtime": "2026-07-10T14:09:09Z",
+      "bytes": 376
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/implementation-system-closeout-hygiene-plan-summary.md",
+      "mtime": "2026-07-10T13:16:04Z",
+      "bytes": 358
+    },
+    {
       "path": "docs/generated/local-tooling/plan-completion/implementation-system-fast-path-batch-automation-master-plan-summary.md",
       "mtime": "2026-07-05T09:26:44Z",
       "bytes": 288
@@ -942,6 +1030,11 @@
       "path": "docs/generated/local-tooling/plan-completion/implementation-system-improvement-master-plan-next-summary.md",
       "mtime": "2026-07-07T17:14:19Z",
       "bytes": 268
+    },
+    {
+      "path": "docs/generated/local-tooling/plan-completion/implementation-system-master-batch-ledger-plan-summary.md",
+      "mtime": "2026-07-10T14:08:38Z",
+      "bytes": 364
     },
     {
       "path": "docs/generated/local-tooling/plan-completion/implementation-system-plan-completion-child-status-audit-fix-plan-summary.md",
@@ -1185,8 +1278,8 @@
     },
     {
       "path": "docs/generated/local-tooling/plan-index-summary.md",
-      "mtime": "2026-07-08T18:17:32Z",
-      "bytes": 3469
+      "mtime": "2026-07-10T14:09:09Z",
+      "bytes": 1228
     },
     {
       "path": "docs/generated/local-tooling/repo-map-summary.md",
@@ -1212,6 +1305,11 @@
       "path": "docs/generated/local-tooling/symbol-test-links/appusercontroller-summary.md",
       "mtime": "2026-07-07T18:43:36Z",
       "bytes": 2034
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/authenticatedshellview-summary.md",
+      "mtime": "2026-07-10T09:00:21Z",
+      "bytes": 169
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/businessprofilerequestdto-summary.md",
@@ -1244,6 +1342,11 @@
       "bytes": 697
     },
     {
+      "path": "docs/generated/local-tooling/symbol-test-links/terminalrow-summary.md",
+      "mtime": "2026-07-10T10:39:10Z",
+      "bytes": 33
+    },
+    {
       "path": "docs/generated/local-tooling/symbol-test-links/visioncapabilitypreviewservice-summary.md",
       "mtime": "2026-07-08T08:20:14Z",
       "bytes": 2789
@@ -1257,6 +1360,11 @@
       "path": "docs/generated/local-tooling/symbol-test-links/visiondashboardfacadeservice-summary.md",
       "mtime": "2026-07-07T18:35:02Z",
       "bytes": 50
+    },
+    {
+      "path": "docs/generated/local-tooling/symbol-test-links/visiondevicerole-summary.md",
+      "mtime": "2026-07-10T11:23:16Z",
+      "bytes": 163
     },
     {
       "path": "docs/generated/local-tooling/symbol-test-links/visionproperties-summary.md",
@@ -1290,8 +1398,13 @@
     },
     {
       "path": "docs/generated/local-tooling/targeted-tests-summary.md",
-      "mtime": "2026-07-08T08:36:19Z",
-      "bytes": 1019
+      "mtime": "2026-07-10T13:53:02Z",
+      "bytes": 3708
+    },
+    {
+      "path": "docs/generated/local-tooling/temp-work-product-closeout/agents-chat-prod-ready-plan-md-summary.md",
+      "mtime": "2026-07-10T13:40:21Z",
+      "bytes": 231
     },
     {
       "path": "docs/generated/local-tooling/temp-work-product-closeout/agents-control-system-maintenance-plan-md-summary.md",
@@ -1310,12 +1423,12 @@
     },
     {
       "path": "docs/generated/local-tooling/validation-memory-drift-summary.md",
-      "mtime": "2026-07-08T09:32:06Z",
-      "bytes": 1147
+      "mtime": "2026-07-10T14:01:58Z",
+      "bytes": 1317
     },
     {
       "path": "docs/generated/local-tooling/validation-preset-summary.md",
-      "mtime": "2026-07-07T16:32:20Z",
+      "mtime": "2026-07-10T13:52:58Z",
       "bytes": 361
     },
     {
@@ -1573,6 +1686,15 @@
       "operator_default": false
     },
     {
+      "target": "cleanup-generated-history",
+      "script": "scripts/audits/cleanup-generated-history.rb",
+      "output": "docs/generated/local-tooling/cleanup-generated-history-summary.md",
+      "output_exists": true,
+      "output_mode": "static",
+      "surface_class": "diagnostic",
+      "operator_default": false
+    },
+    {
       "target": "closeout-bundle",
       "script": "scripts/audits/generate-closeout-bundle.rb",
       "output": "docs/generated/local-tooling/closeout-bundle-summary.md",
@@ -1585,6 +1707,15 @@
       "target": "closeout-report",
       "script": "scripts/audits/generate-closeout-report.rb",
       "output": "docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md",
+      "output_exists": false,
+      "output_mode": "template",
+      "surface_class": "diagnostic",
+      "operator_default": false
+    },
+    {
+      "target": "closeout-driver",
+      "script": "scripts/audits/closeout-driver.rb",
+      "output": "docs/generated/local-tooling/closeout-driver/<plan-id>-summary.md",
       "output_exists": false,
       "output_mode": "template",
       "surface_class": "diagnostic",

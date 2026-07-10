@@ -2,7 +2,6 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Chat Prod Ready Closeout Plan
-machine_goal: Complete documentation sync, generated artifact refresh, validation evidence capture, and final closeout for the chat hardening batch.
 ---
 
 # Chat Prod Ready Closeout Plan

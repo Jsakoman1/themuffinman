@@ -515,6 +515,18 @@ source_of_truth:
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
   - id: business_booking_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java
+  - id: business_cancel_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCase.java
+  - id: business_create_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - id: business_confirm_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessConfirmBookingUseCase.java
+  - id: business_complete_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCompleteBookingUseCase.java
+  - id: business_reject_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRejectBookingUseCase.java
+  - id: business_no_show_booking_use_case
+    path: apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessNoShowBookingUseCase.java
   - id: business_owner_dashboard_controller
     path: apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java
   - id: business_gallery_controller

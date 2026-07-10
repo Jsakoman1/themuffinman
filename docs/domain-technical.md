@@ -23,6 +23,14 @@ Domain capsules:
 - `docs/cross-domain-glossary.md` defines shared terms such as users, actors, circles, visibility, consent, messaging, quests, applications, reviews, bookings, and synthetic data before deeper domain-specific rules.
 
 Frontend vision surface note:
+- `apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue` now provides the shared authenticated shell for stable route entry across `/home`, `/work`, `/chat`, `/calendar`, `/business`, `/circles`, and `/profile`.
+- `apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue` now locks the first shared entry-surface UI contract for hero actions, metric strip, section headers, list rows, and badge vocabulary so module entry routes do not drift into separate grammars.
+- `apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts` now assembles shell entry surfaces from existing backend-prepared read models, with `Home` intentionally limited to dashboard summary data while `Work`, `Chat`, `Calendar`, `Business`, `Circles`, and `Profile` consume their own existing module reads.
+- The first shell phase keeps `/vision` outside that route family as the premium deep-work surface so the blank-canvas route does not inherit module chrome by default.
+- The first shell phase also keeps quest and application detail ownership on the existing Vision-native routes, so `Work` can become a stable browse surface without introducing parallel detail stacks.
+- `apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts` now defines the typed shell-to-Vision handoff query contract with `prompt`, `autorun`, `context`, `source`, and `returnTo`, and `VisionSurfaceModernView.vue` preserves that metadata so route-to-Vision and Vision-to-route transitions stay explicit.
+- `apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java` now carries an optional `clientDeviceRole` hint, and `VisionConversationTurnResponseDTO` now exposes a backend-owned `runtimeContext` with device role, attention state, session anchor, action hints, and audio or haptic cues so mobile and voice clients do not have to infer turn density locally.
+- `VisionConversationTurnRequestDTO` also carries an optional `clientRequestId`, and `VisionConversationService` persists that request id on the conversation row so the backend can replay the latest turn when the same request reaches the backend again, even on the first submit before the client has a conversation id.
 - `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue` is the experimental authenticated route for the long-term adaptive canvas direction.
 - The `/vision` route is the focused adaptive surface for text and voice prompt intake, and the older vision shell has been removed from the app.
 - The surface now keeps its prompt composer and canvas content in one inline flow instead of a separate floating dock, so the adaptive stage can expand or contract around the current state.
@@ -316,6 +324,7 @@ Technical notes:
 - Booking DTOs are backend-prepared through `BusinessBookingPresentationService` and include `allowedActions`, `statusLabel`, and `blockingReason` so clients do not derive workflow rules locally.
 - `BusinessBookingPresentationService` resolves effective booking policy without mutating state, while write flows remain responsible for creating missing policy rows.
 - `BusinessBookingReadService` exposes separate owner and customer surfaces with pagination and filter contracts from the start.
+- Vision's `view_business_bookings` route consumes the owner booking read surface together with the owner dashboard summary so booking review, pending confirmations, and capacity context stay backend-prepared.
 - `BusinessBookingReadSupport` centralizes safe page, safe size, and normalized query handling for booking read surfaces so owner and customer list contracts stay aligned.
 - `BusinessOwnerCalendarReadService` exposes a backend-prepared owner calendar projection grouped by the business timezone's local day, with per-day booking buckets and booking presentation metadata for mobile and web clients.
 - Owner schedule and owner dashboard read models are separate services, but both read from the same owner schedule summary interpretation so list and dashboard semantics do not drift.
@@ -1557,7 +1566,7 @@ Response contracts:
 - `ChatMessageDTO` exposes sender snapshot, timestamps, idempotency key, edit/delete state, message payload, reply/attachment metadata, reactions, and `ownMessage`
 - `ChatConversationSummaryDTO` exposes counterpart snapshot, presence snapshot, last message summary, last-message lifecycle hints, and unread count
 - `ChatMessagePageDTO` exposes one paginated chat history slice with limit, has-more flag, and next-before-message cursor
-- `ChatConversationListDTO` exposes filtered conversation rows plus page and has-more metadata for backend-driven browsing
+- `ChatConversationListDTO` exposes filtered conversation rows plus page, cursor, and has-more metadata for backend-driven browsing
 - `ChatConversationSyncDTO` exposes one reconnect/resync slice with current conversation summary, incremental messages, latest message cursor, and active typing user ids
 - `ChatAttachmentUploadDTO` exposes one backend-owned staged upload with object-storage metadata and a resolved attachment access URL returned from the multipart upload boundary
 - `ChatAdminConversationSupportViewDTO` exposes one admin-only support surface that combines conversation summary, recent messages, and recent audit rows
@@ -1752,9 +1761,9 @@ Common-platform coupling:
 
 Route guards:
 - `/login` and `/register` are public routes
-- all authenticated user interactions now resolve through `/vision`
+- authenticated user entry now resolves through the shared shell route family rooted at `/home`, while `/vision` remains the premium deep-work route
 - admin-capability actions are surfaced through Vision rather than through a separate frontend route tree
-- logged-in users are redirected away from auth screens to `/vision`
+- logged-in users are redirected away from auth screens to `/home`
 
 Frontend transport contract:
 - `API_BASE_URL` defaults to `http://localhost:8080`
@@ -1765,6 +1774,7 @@ Frontend transport contract:
 Contract-shape model:
 - `frontend/src/contracts/generated/themuffinmanContract.ts` is the generated DTO source
 - `frontend/src/contracts/index.ts` re-exports generated contract types for app use
+- `frontend/src/modules/app-shell/api/userShellApi.ts` is a thin route-entry client that consumes existing backend read models for shell routes without owning workflow logic locally
 - `frontend/src/modules/vision/api/contracts.ts` aliases generated DTOs into Vision-facing names and adds a few frontend-side request refinements
 - `visionApi` aggregates endpoint clients so surviving Vision screens can consume user, circle, location, quest, and application contracts through one import surface
 - the generated frontend contract namespaces enum exports by backend domain when Java models reuse the same simple enum name in more than one package

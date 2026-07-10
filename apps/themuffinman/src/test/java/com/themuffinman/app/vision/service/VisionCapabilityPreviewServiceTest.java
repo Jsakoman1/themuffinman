@@ -7,7 +7,12 @@ import com.themuffinman.app.business.dto.BusinessOwnerDashboardDTO;
 import com.themuffinman.app.business.dto.BusinessOwnerScheduleItemDTO;
 import com.themuffinman.app.business.dto.BusinessOwnerScheduleSummaryDTO;
 import com.themuffinman.app.business.dto.BusinessPublicPageDTO;
+import com.themuffinman.app.business.dto.BusinessBookingListResponseDTO;
+import com.themuffinman.app.business.dto.BusinessBookingResponseDTO;
+import com.themuffinman.app.business.model.BusinessBookingSource;
+import com.themuffinman.app.business.model.BusinessBookingStatus;
 import com.themuffinman.app.business.service.BusinessOwnerDashboardReadService;
+import com.themuffinman.app.business.service.BusinessBookingReadService;
 import com.themuffinman.app.business.service.BusinessPublicReadService;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
@@ -106,6 +111,9 @@ class VisionCapabilityPreviewServiceTest {
     @Mock
     private BusinessOwnerDashboardReadService businessOwnerDashboardReadService;
 
+    @Mock
+    private BusinessBookingReadService businessBookingReadService;
+
     private VisionCapabilityPreviewService service;
 
     @BeforeEach
@@ -126,7 +134,8 @@ class VisionCapabilityPreviewServiceTest {
         );
         VisionBusinessPreviewRenderer businessPreviewRenderer = new VisionBusinessPreviewRenderer(
                 businessPublicReadService,
-                businessOwnerDashboardReadService
+                businessOwnerDashboardReadService,
+                businessBookingReadService
         );
         VisionSocialPreviewRenderer socialPreviewRenderer = new VisionSocialPreviewRenderer(circleReadService);
         VisionSocialMutationAdapter socialMutationAdapter = new VisionSocialMutationAdapter(circleService);
@@ -380,6 +389,57 @@ class VisionCapabilityPreviewServiceTest {
         assertTrue(preview.getSummary().contains("3 today"));
         assertTrue(preview.getItems().stream().anyMatch(item -> "active_offering_count".equals(item.getSlotId()) && "2".equals(item.getValue())));
         assertTrue(preview.getItems().stream().anyMatch(item -> "business_booking_12".equals(item.getSlotId()) && item.getValue().contains("Full groom")));
+    }
+
+    @Test
+    void previewBusinessBookingsUsesOwnerBookingList() {
+        AppUser currentUser = new AppUser();
+        when(businessOwnerDashboardReadService.getMyDashboard(currentUser)).thenReturn(BusinessOwnerDashboardDTO.builder()
+                .businessName("Dog Groomer")
+                .slug("dog-groomer")
+                .bookingEnabled(true)
+                .activeOfferingCount(2)
+                .pendingConfirmationCount(1)
+                .todayCount(2)
+                .upcomingCount(5)
+                .staleThresholdMinutes(30)
+                .scheduleSummary(BusinessOwnerScheduleSummaryDTO.builder()
+                        .timezone("Europe/Zurich")
+                        .todayCount(2)
+                        .pendingConfirmationCount(1)
+                        .upcomingCount(5)
+                        .nextItems(List.of())
+                        .build())
+                .build());
+        when(businessBookingReadService.getOwnerBookings(null, currentUser)).thenReturn(BusinessBookingListResponseDTO.builder()
+                .items(List.of(
+                        BusinessBookingResponseDTO.builder()
+                                .id(88L)
+                                .businessName("Dog Groomer")
+                                .businessOfferingTitle("Full groom")
+                                .customerUsername("Marta")
+                                .status(BusinessBookingStatus.PENDING_CONFIRMATION)
+                                .source(BusinessBookingSource.CUSTOMER)
+                                .statusLabel("Pending confirmation")
+                                .timezone("Europe/Zurich")
+                                .startsAt(Instant.parse("2026-07-08T08:00:00Z"))
+                                .build()
+                ))
+                .page(0)
+                .size(10)
+                .totalItems(1)
+                .totalPages(1)
+                .build());
+
+        VisionCapabilityPreviewDTO preview = service.previewBusinessBookings(currentUser);
+
+        assertNotNull(preview);
+        assertEquals("view_business_bookings", preview.getCapabilityId());
+        assertEquals("Business bookings", preview.getTitle());
+        assertTrue(preview.getSummary().contains("1 pending"));
+        assertTrue(preview.getSummary().contains("2 today"));
+        assertTrue(preview.getItems().stream().anyMatch(item -> "business_booking_88".equals(item.getSlotId()) && item.getValue().contains("Full groom")));
+        assertTrue(preview.getItems().stream().anyMatch(item -> "pending_confirmation_count".equals(item.getSlotId()) && "1".equals(item.getValue())));
     }
 
     @Test

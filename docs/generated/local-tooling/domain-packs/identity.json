@@ -1,0 +1,208 @@
+{
+  "generated_at": "2026-07-10T08:21:26Z",
+  "domain": "identity",
+  "file_count": 30,
+  "categories": [
+    "backend_controller",
+    "backend_dto",
+    "backend_mapper",
+    "backend_model",
+    "backend_repository",
+    "backend_service",
+    "frontend_api",
+    "frontend_view",
+    "other"
+  ],
+  "key_services": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AdminUserDetailService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "lines": 53
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserLookupService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "lines": 23
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserReadService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "lines": 69
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "lines": 163
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "lines": 60
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssembler.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "lines": 25
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java",
+      "category": "backend_service",
+      "domain": "identity",
+      "lines": 68
+    }
+  ],
+  "key_controllers": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "category": "backend_controller",
+      "domain": "identity",
+      "lines": 106
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
+      "category": "backend_controller",
+      "domain": "identity",
+      "lines": 35
+    }
+  ],
+  "key_repositories": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/repository/AppUserRepository.java",
+      "category": "backend_repository",
+      "domain": "identity",
+      "lines": 35
+    }
+  ],
+  "key_models": [
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUser.java",
+      "category": "backend_model",
+      "domain": "identity",
+      "lines": 112
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppUserRole.java",
+      "category": "backend_model",
+      "domain": "identity",
+      "lines": 6
+    }
+  ],
+  "dto_groups": [
+    {
+      "group": "other",
+      "count": 2,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/ProfilePrimaryActionDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/UserProfileViewDTO.java"
+      ]
+    },
+    {
+      "group": "read-models",
+      "count": 1,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AdminUserDetailDTO.java"
+      ]
+    },
+    {
+      "group": "request-response",
+      "count": 5,
+      "files": [
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/AppUserResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/AuthResponseDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/LoginRequestDTO.java",
+        "apps/themuffinman/src/main/java/com/themuffinman/app/identity/dto/auth/RegisterRequestDTO.java"
+      ]
+    }
+  ],
+  "frontend_surfaces": [
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+      "category": "frontend_api",
+      "domain": "identity",
+      "lines": 18
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+      "category": "frontend_view",
+      "domain": "identity",
+      "lines": 161
+    },
+    {
+      "path": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+      "category": "frontend_view",
+      "domain": "identity",
+      "lines": 170
+    }
+  ],
+  "workflows": [
+
+  ],
+  "docs": [
+    "docs/business-logic.md",
+    "docs/domain-technical.md",
+    "docs/agent-operating-model.md"
+  ],
+  "tests": [
+    "apps/themuffinman/src/test/java/com/themuffinman/app/common/controller/GlobalExceptionHandlerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/mapper/AppUserMgrTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtAuthFilterTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/security/JwtServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AuthServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/dto/RequestDtoValidationTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+    "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java"
+  ],
+  "scenario_catalog": [
+    {
+      "id": "identity-admin-account-safety",
+      "risk": "high",
+      "scenario": "Account creation, deletion, role changes, duplicate email checks, profile sanitization, and admin detail access must stay fail-closed.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AdminUserDetailServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/controller/AuthControllerTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=AppUserServiceTest,AdminUserDetailServiceTest,AuthControllerTest"
+      ]
+    },
+    {
+      "id": "identity-profile-read-model",
+      "risk": "medium",
+      "scenario": "Profile view must stay role-aware, preserve edit and relation actions, and keep public summary assembly aligned with the backend read model.",
+      "test_files": [
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/UserProfileViewServiceTest.java",
+        "apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/IdentityUserSummaryAssemblerTest.java"
+      ],
+      "commands": [
+        "cd apps/themuffinman && ./mvnw test -Dtest=UserProfileViewServiceTest,IdentityUserSummaryAssemblerTest"
+      ]
+    }
+  ],
+  "first_commands": [
+    "./mvnw test",
+    "make audit-read-surface-inventory",
+    "make audit-repository-fetch",
+    "npm --prefix apps/themuffinman/frontend run type-check",
+    "npm --prefix apps/themuffinman/frontend run build",
+    "cd apps/themuffinman && ./mvnw test -Dtest=GlobalExceptionHandlerTest,AuthControllerTest,AppUserMgrTest,JwtAuthFilterTest,JwtServiceTest,AdminUserDetailServiceTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=AppUserServiceTest,AdminUserDetailServiceTest,AuthControllerTest",
+    "cd apps/themuffinman && ./mvnw test -Dtest=UserProfileViewServiceTest,IdentityUserSummaryAssemblerTest"
+  ],
+  "residual_risk": [
+
+  ]
+}

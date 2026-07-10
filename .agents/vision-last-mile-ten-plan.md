@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Vision Last Mile Ten Plan
-machine_goal: Remove the last mixed helper weight inside vision so the module reads consistently as an orchestration and adapter boundary.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

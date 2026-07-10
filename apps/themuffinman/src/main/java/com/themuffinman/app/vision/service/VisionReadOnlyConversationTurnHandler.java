@@ -62,6 +62,17 @@ final class VisionReadOnlyConversationTurnHandler {
         return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_BUSINESS_AVAILABILITY);
     }
 
+    VisionTurn handleViewBusinessBookingsTurn(
+            VisionConversationService service,
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_BUSINESS_BOOKINGS);
+    }
+
     VisionTurn handleViewCirclesTurn(
             VisionConversationService service,
             VisionConversation conversation,

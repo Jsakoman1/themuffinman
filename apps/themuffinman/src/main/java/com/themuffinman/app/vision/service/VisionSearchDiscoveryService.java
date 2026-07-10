@@ -408,11 +408,16 @@ public class VisionSearchDiscoveryService {
         if (query == null || query.isBlank()) {
             return items.isEmpty()
                     ? "No matches."
-                    : "Showing matches across " + familySummary(items) + ".";
+                    : "Showing matches across " + familySummary(items) + ". Say quests, circles, users, applications, or things to narrow it.";
         }
-        return items.isEmpty()
-                ? "No matches for \"" + query.trim() + "\"."
-                : "Showing " + items.size() + " matches for \"" + query.trim() + "\".";
+        String families = familySummary(items);
+        boolean multipleFamilies = families.contains(",");
+        if (items.isEmpty()) {
+            return "No matches for \"" + query.trim() + "\".";
+        }
+        return multipleFamilies
+                ? "Showing " + items.size() + " matches for \"" + query.trim() + "\" across " + families + ". Say one family to narrow it."
+                : "Showing " + items.size() + " matches for \"" + query.trim() + "\" in " + families + ".";
     }
 
     private String familySummary(List<VisionSearchDiscoveryItemDTO> items) {

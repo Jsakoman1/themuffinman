@@ -27,4 +27,8 @@ public class ChatConversationListDTO {
     private Long contextId;
     @Nullable
     private String query;
+    @Nullable
+    private String nextBeforeLastMessageAt;
+    @Nullable
+    private Long nextBeforeConversationId;
 }

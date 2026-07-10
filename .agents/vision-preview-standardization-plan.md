@@ -2,7 +2,6 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Vision Preview Standardization Plan
-machine_goal: Extract shared preview-formatting helpers from VisionCapabilityPreviewService so new capability previews can be assembled through smaller reusable pieces.
 ---
 
 # Vision Preview Standardization Plan

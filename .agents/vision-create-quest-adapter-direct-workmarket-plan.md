@@ -2,7 +2,8 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Vision Create Quest Adapter Direct Workmarket Plan
-machine_goal: Remove the remaining runtime dependency from VisionCreateQuestExecutionAdapter to the legacy QuestService compatibility adapter.
+machine_goal: Remove the remaining runtime dependency from `VisionCreateQuestExecutionAdapter`
+  to the legacy `QuestService` compatibility adapter.
 ---
 
 # Vision Create Quest Adapter Direct Workmarket Plan

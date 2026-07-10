@@ -11,6 +11,7 @@ public class VisionSemanticRuntimeHints {
     private String inputType;
     private String clientLocale;
     private String clientTimezone;
+    private String clientDeviceRole;
     private List<String> clientCapabilities;
     private String clientStateVersion;
 }

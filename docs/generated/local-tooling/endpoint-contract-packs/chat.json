@@ -1,7 +1,42 @@
 {
-  "generated_at": "2026-07-08T10:09:51Z",
+  "generated_at": "2026-07-10T08:21:25Z",
   "endpoint_family": "chat",
   "endpoints": [
+    {
+      "method": "GET",
+      "path": "/chat/admin/audit-events",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java",
+      "dtos": [
+        "ChatAuditEventListDTO",
+        "ChatAdminConversationSupportViewDTO"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/chat/admin/conversations/{conversationId}/messages/{messageId}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java",
+      "dtos": [
+        "ActionResultDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/admin/conversations/{conversationId}/support-view",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java",
+      "dtos": [
+        "ChatAuditEventListDTO",
+        "ChatAdminConversationSupportViewDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/applications/{applicationId}/thread",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationListDTO"
+      ]
+    },
     {
       "method": "POST",
       "path": "/chat/applications/{applicationId}/thread",
@@ -15,6 +50,44 @@
     },
     {
       "method": "POST",
+      "path": "/chat/attachments",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatConversationSummaryDTO",
+        "ChatOpenConversationRequestDTO",
+        "ChatCreateGroupConversationRequestDTO",
+        "ChatConversationTitleRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/attachments/object",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationListDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/attachments/storage-status",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationListDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/circles/{circleId}/room",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationListDTO"
+      ]
+    },
+    {
+      "method": "POST",
       "path": "/chat/circles/{circleId}/room",
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
       "dtos": [
@@ -22,6 +95,15 @@
         "ChatOpenConversationRequestDTO",
         "ChatCreateGroupConversationRequestDTO",
         "ChatConversationTitleRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/conversations",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationListDTO"
       ]
     },
     {
@@ -72,8 +154,7 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
       "dtos": [
         "ChatWorkspaceDTO",
-        "ChatConversationSummaryDTO",
-        "ChatOpenConversationRequestDTO"
+        "ChatConversationListDTO"
       ]
     },
     {
@@ -104,6 +185,26 @@
         "ChatConversationSummaryDTO",
         "ChatConversationTitleRequestDTO",
         "ChatConversationParticipantsRequestDTO"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/chat/conversations/{conversationId}/messages/{messageId}/reactions",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatConversationSummaryDTO",
+        "ChatOpenConversationRequestDTO",
+        "ChatCreateGroupConversationRequestDTO",
+        "ChatConversationTitleRequestDTO"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/chat/conversations/{conversationId}/messages/{messageId}/reactions/{emoji}",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatConversationSummaryDTO",
+        "ActionResultDTO"
       ]
     },
     {
@@ -166,6 +267,15 @@
       ]
     },
     {
+      "method": "GET",
+      "path": "/chat/conversations/{conversationId}/sync",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationListDTO"
+      ]
+    },
+    {
       "method": "POST",
       "path": "/chat/presence/heartbeat",
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
@@ -174,6 +284,15 @@
         "ChatOpenConversationRequestDTO",
         "ChatCreateGroupConversationRequestDTO",
         "ChatConversationTitleRequestDTO"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/chat/quests/{questId}/thread",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "dtos": [
+        "ChatWorkspaceDTO",
+        "ChatConversationListDTO"
       ]
     },
     {
@@ -193,12 +312,14 @@
       "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
       "dtos": [
         "ChatWorkspaceDTO",
-        "ChatConversationSummaryDTO",
-        "ChatOpenConversationRequestDTO"
+        "ChatConversationListDTO"
       ]
     }
   ],
   "dto_files": [
+    "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAdminConversationSupportViewDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAuditEventListDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationParticipantsRequestDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSummaryDTO.java",
     "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationTitleRequestDTO.java",
@@ -211,12 +332,14 @@
     {
       "file": "apps/themuffinman/frontend/src/App.vue",
       "matched_paths": [
-        "me"
+        "me",
+        "sync"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/api/apiErrors.ts",
       "matched_paths": [
+        "object",
         "me"
       ]
     },
@@ -230,7 +353,8 @@
       "file": "apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts",
       "matched_paths": [
         "me",
-        "state"
+        "state",
+        "sync"
       ]
     },
     {
@@ -246,6 +370,18 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/composables/useMountedAsync.ts",
+      "matched_paths": [
+        "sync"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/composables/usePaginatedResults.ts",
+      "matched_paths": [
+        "sync"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/composables/useTimedBanner.ts",
       "matched_paths": [
         "me"
@@ -255,13 +391,13 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
         "thread",
+        "object",
         "room",
+        "conversations",
         "open",
         "group",
         "messages",
-        "participants",
-        "me",
-        "role"
+        "reactions"
       ]
     },
     {
@@ -273,6 +409,7 @@
     {
       "file": "apps/themuffinman/frontend/src/httpDebug.ts",
       "matched_paths": [
+        "object",
         "me",
         "role"
       ]
@@ -286,7 +423,8 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "matched_paths": [
-        "me"
+        "me",
+        "sync"
       ]
     },
     {
@@ -298,28 +436,33 @@
     {
       "file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
       "matched_paths": [
-        "open"
+        "open",
+        "sync"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
       "matched_paths": [
         "me",
-        "read"
+        "read",
+        "sync"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
       "matched_paths": [
-        "me"
+        "me",
+        "sync"
       ]
     },
     {
       "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
       "matched_paths": [
+        "conversations",
         "open",
         "group",
-        "me"
+        "me",
+        "sync"
       ]
     },
     {
@@ -333,7 +476,8 @@
       "matched_paths": [
         "open",
         "me",
-        "state"
+        "state",
+        "sync"
       ]
     },
     {
@@ -359,7 +503,8 @@
       "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
       "matched_paths": [
         "open",
-        "me"
+        "me",
+        "sync"
       ]
     },
     {
@@ -367,7 +512,8 @@
       "matched_paths": [
         "open",
         "me",
-        "state"
+        "state",
+        "sync"
       ]
     },
     {

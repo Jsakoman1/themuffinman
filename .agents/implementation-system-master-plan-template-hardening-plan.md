@@ -1,8 +1,9 @@
 ---
-machine_kind: plan
+machine_kind: master-plan
 machine_status: complete
 machine_title: Master Plan Template Hardening
-machine_goal: Improve the master-plan template so scope, phases, and validation expectations are explicit from the start.
+machine_goal: Improve the master-plan template so scope, phases, and validation expectations
+  are explicit from the start.
 ---
 
 # Master Plan Template Hardening

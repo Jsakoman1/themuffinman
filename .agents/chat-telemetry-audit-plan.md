@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Chat Telemetry Audit Plan
+---
+
 # Chat Telemetry Audit Plan
 
 Status: complete

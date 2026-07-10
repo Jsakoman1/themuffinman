@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Control System Ten Out Of Ten Plan
-machine_goal: Tighten the control and implementation system until the operator-core path is compact, deterministic, low-noise, and resistant to false green closeouts.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

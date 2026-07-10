@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-07T16:32:19Z",
+  "generated_at": "2026-07-10T13:52:52Z",
   "files": [
     {
-      "file": ".agents/implementation-system-improvement-master-plan-next.md",
+      "file": ".agents/feature-manifests/chat-prod-ready-manifest.yaml",
       "category": "other",
       "domain": "shared",
       "likely_docs": [
@@ -36,40 +36,6 @@
       ]
     },
     {
-      "file": ".agents/templates/god-plan.template.yaml",
-      "category": "other",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/manifest-path-resolution.json"
-      ],
-      "validation_commands": [
-
-      ],
-      "residual_risk": [
-        "Agent-facing logic changes may also require manifest and closeout updates."
-      ]
-    },
-    {
-      "file": ".agents/templates/master-plan.template.md",
-      "category": "other",
-      "domain": "shared",
-      "likely_docs": [
-        "docs/feature-delivery-workflow.md"
-      ],
-      "generated_artifacts": [
-        "docs/generated/local-tooling/manifest-path-resolution.json"
-      ],
-      "validation_commands": [
-
-      ],
-      "residual_risk": [
-        "Agent-facing logic changes may also require manifest and closeout updates."
-      ]
-    },
-    {
       "file": "AGENTS.md",
       "category": "other",
       "domain": "shared",
@@ -87,7 +53,61 @@
       ]
     },
     {
-      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java",
+      "file": "Makefile",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+        "docs/tooling/codex-local-audits.yml"
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path.",
+        "Script or Makefile changes can invalidate generated audit registry outputs."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs",
+      "category": "frontend_script",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+      "category": "frontend_api",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-api-contract-drift"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "category": "other",
       "domain": "shared",
       "likely_docs": [
@@ -101,6 +121,842 @@
       ],
       "residual_risk": [
         "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+      "category": "frontend_composable",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-async-mutation-flow"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue",
+      "category": "frontend_view",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "npm run type-check",
+        "npm run build",
+        "make audit-frontend-route-surfaces"
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/router.ts",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/README.md",
+      "category": "other",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "category": "backend_controller",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make generate-agent-artifacts",
+        "make audit-api-contract-drift"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java",
+      "category": "backend_dto",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversation.java",
+      "category": "backend_model",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-migration-entity-drift"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java",
+      "category": "backend_model",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-migration-entity-drift"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionConversationRepository.java",
+      "category": "backend_repository",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleSupport.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionEntityFamilySupport.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticMapper.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRuntimeHints.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java",
+      "category": "backend_service",
+      "domain": "business",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java",
+      "category": "backend_controller",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make generate-agent-artifacts",
+        "make audit-api-contract-drift"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java",
+      "category": "backend_service",
+      "domain": "chat",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionClarificationServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupportTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "docs/agent-improvement-backlog.md",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
       ]
     },
     {
@@ -146,7 +1002,28 @@
       ]
     },
     {
-      "file": "docs/agent-operating-model/sections/documentation_sync.yaml",
+      "file": "docs/agent-operating-model/sections/backend_contract_snapshots.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/documentation_coverage.yaml",
       "category": "docs",
       "domain": "agent",
       "likely_docs": [
@@ -174,6 +1051,67 @@
         "docs/agent-operating-model.md",
         "docs/agent-operating-model.yaml",
         "docs/domain-technical.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/service_workflow_inventory.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/agent-operating-model/sections/source_of_truth.yaml",
+      "category": "docs",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/business-logic.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
       ],
       "generated_artifacts": [
         "docs/generated/local-tooling/manifest-path-resolution.json"
@@ -246,7 +1184,45 @@
       ]
     },
     {
+      "file": "docs/domain-technical.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
       "file": "docs/feature-delivery-workflow.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/product-vision.md",
       "category": "docs",
       "domain": "shared",
       "likely_docs": [
@@ -284,7 +1260,166 @@
       ]
     },
     {
+      "file": "docs/tooling/codex-local-audits.yml",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/feature-delivery-workflow.md",
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/validation-memory.json",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/validation-memory.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/vision-architecture-patterns.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "docs/vision-status-ledger.md",
+      "category": "docs",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-documentation",
+        "make audit-doc-canonical-phrases"
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "scripts/audits/audit-plan-completion.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md",
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/codex-context/latest.machine.json",
+        "docs/generated/local-tooling/codex-context/latest.review.md",
+        "docs/tooling/codex-local-audits.yml"
+      ],
+      "validation_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "residual_risk": [
+        "Script or Makefile changes can invalidate generated audit registry outputs."
+      ]
+    },
+    {
+      "file": "scripts/audits/enforce-feature-closeout.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md",
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/codex-context/latest.machine.json",
+        "docs/generated/local-tooling/codex-context/latest.review.md",
+        "docs/tooling/codex-local-audits.yml"
+      ],
+      "validation_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "residual_risk": [
+        "Script or Makefile changes can invalidate generated audit registry outputs."
+      ]
+    },
+    {
       "file": "scripts/audits/local_tooling_extended_tools.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md",
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/codex-context/latest.machine.json",
+        "docs/generated/local-tooling/codex-context/latest.review.md",
+        "docs/tooling/codex-local-audits.yml"
+      ],
+      "validation_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "residual_risk": [
+        "Script or Makefile changes can invalidate generated audit registry outputs."
+      ]
+    },
+    {
+      "file": "scripts/feature-closeout-audit.sh",
       "category": "script",
       "domain": "shared",
       "likely_docs": [
@@ -326,7 +1461,48 @@
       ]
     },
     {
-      "file": ".agents/tmp/implementation-system-master-plan-analysis.yaml",
+      "file": "scripts/local_tooling_common.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md",
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/codex-context/latest.machine.json",
+        "docs/generated/local-tooling/codex-context/latest.review.md",
+        "docs/tooling/codex-local-audits.yml"
+      ],
+      "validation_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "residual_risk": [
+        "Script or Makefile changes can invalidate generated audit registry outputs."
+      ]
+    },
+    {
+      "file": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
+      "category": "other",
+      "domain": "identity",
+      "likely_docs": [
+        "docs/business-logic.md",
+        "docs/domain-technical.md",
+        "docs/agent-operating-model.md",
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": ".agents/tmp/implementation-system-closeout-hardening-analysis.md",
       "category": "other",
       "domain": "shared",
       "likely_docs": [
@@ -341,11 +1517,204 @@
       "residual_risk": [
         "Agent-facing logic changes may also require manifest and closeout updates."
       ]
+    },
+    {
+      "file": ".agents/tmp/vision-next-experience-analysis.md",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/manifest-path-resolution.json"
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "Agent-facing logic changes may also require manifest and closeout updates."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionAttentionStateDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionDeviceRoleDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeContextDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeCueDTO.java",
+      "category": "backend_dto",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "npm run type-check",
+        "npm run build",
+        "make generate-agent-artifacts"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/main/resources/db/migration/V52__add_vision_conversation_last_client_request_id.sql",
+      "category": "other",
+      "domain": "shared",
+      "likely_docs": [
+
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+        "No likely docs were resolved for this path."
+      ]
+    },
+    {
+      "file": "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCanvasAssemblerTest.java",
+      "category": "backend_service",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/agent-operating-model.yaml"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+        "./mvnw test",
+        "make audit-read-surface-inventory",
+        "make audit-repository-fetch"
+      ],
+      "residual_risk": [
+
+      ]
+    },
+    {
+      "file": "scripts/audits/cleanup-generated-history.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md",
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/codex-context/latest.machine.json",
+        "docs/generated/local-tooling/codex-context/latest.review.md",
+        "docs/tooling/codex-local-audits.yml"
+      ],
+      "validation_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "residual_risk": [
+        "Script or Makefile changes can invalidate generated audit registry outputs."
+      ]
+    },
+    {
+      "file": "scripts/audits/closeout-driver.rb",
+      "category": "script",
+      "domain": "shared",
+      "likely_docs": [
+        "docs/codex-local-tooling-todo.md",
+        "docs/feature-delivery-workflow.md"
+      ],
+      "generated_artifacts": [
+        "docs/generated/local-tooling/codex-context/latest.machine.json",
+        "docs/generated/local-tooling/codex-context/latest.review.md",
+        "docs/tooling/codex-local-audits.yml"
+      ],
+      "validation_commands": [
+        "ruby -c <script>",
+        "make audit-summary-index"
+      ],
+      "residual_risk": [
+        "Script or Makefile changes can invalidate generated audit registry outputs."
+      ]
     }
   ],
   "unique_docs": [
     "docs/agent-operating-model.md",
     "docs/agent-operating-model.yaml",
+    "docs/business-logic.md",
     "docs/codex-local-tooling-todo.md",
     "docs/domain-technical.md",
     "docs/feature-delivery-workflow.md"

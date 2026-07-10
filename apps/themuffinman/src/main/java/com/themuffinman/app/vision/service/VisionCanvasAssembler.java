@@ -5,9 +5,13 @@ import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionCanvasBlockDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
+import com.themuffinman.app.vision.dto.VisionAttentionStateDTO;
 import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
 import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
+import com.themuffinman.app.vision.dto.VisionDeviceRoleDTO;
 import com.themuffinman.app.vision.dto.VisionOptionDTO;
+import com.themuffinman.app.vision.dto.VisionRuntimeContextDTO;
+import com.themuffinman.app.vision.dto.VisionRuntimeCueDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestReviewDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
@@ -56,6 +60,7 @@ public class VisionCanvasAssembler {
                 .translationApplied(turn.isTranslationApplied())
                 .translationReliable(turn.isTranslationReliable())
                 .executionEnabled(visionProperties.isExecutionEnabled())
+                .runtimeContext(runtimeContext(conversation, turn))
                 .executionCandidate(executionCandidate)
                 .questDiscovery(questDiscovery)
                 .searchDiscovery(searchDiscovery)
@@ -320,6 +325,178 @@ public class VisionCanvasAssembler {
         }
 
         return blocks;
+    }
+
+    private VisionRuntimeContextDTO runtimeContext(VisionConversation conversation, VisionTurn turn) {
+        return VisionRuntimeContextDTO.builder()
+                .inputType(turn.getSource() == null ? "text" : turn.getSource().name().toLowerCase())
+                .deviceRole(deviceRoleFor(conversation))
+                .attentionState(attentionStateFor(turn))
+                .sessionAnchor(sessionAnchorFor(conversation, turn))
+                .actionHints(actionHintsFor(conversation, turn))
+                .audioCue(runtimeCueFor(turn, "audio"))
+                .hapticCue(runtimeCueFor(turn, "haptic"))
+                .consentRequired(consentRequiredFor(conversation))
+                .consentReason(consentReasonFor(conversation))
+                .resumeAvailable(resumeAvailableFor(conversation))
+                .resumeHint(resumeHintFor(conversation, turn))
+                .watchFriendly(true)
+                .build();
+    }
+
+    private VisionDeviceRoleDTO deviceRoleFor(VisionConversation conversation) {
+        String deviceRole = conversation.getSlotData() == null ? null : conversation.getSlotData().get("client_device_role");
+        if (deviceRole == null || deviceRole.isBlank()) {
+            return VisionDeviceRoleDTO.DESKTOP;
+        }
+        return switch (deviceRole.trim().toLowerCase()) {
+            case "mobile" -> VisionDeviceRoleDTO.MOBILE;
+            case "watch" -> VisionDeviceRoleDTO.WATCH;
+            default -> VisionDeviceRoleDTO.DESKTOP;
+        };
+    }
+
+    private VisionAttentionStateDTO attentionStateFor(VisionTurn turn) {
+        if (turn == null || turn.getAgentState() == null) {
+            return VisionAttentionStateDTO.PASSIVE;
+        }
+        return switch (turn.getAgentState()) {
+            case ASKING -> VisionAttentionStateDTO.FOCUSED;
+            case RECOMMENDING -> VisionAttentionStateDTO.COORDINATING;
+            case REVIEW_READY -> VisionAttentionStateDTO.REVIEWING;
+            case COMPLETE -> VisionAttentionStateDTO.PASSIVE;
+            case BLOCKED -> VisionAttentionStateDTO.BLOCKED;
+        };
+    }
+
+    private String sessionAnchorFor(VisionConversation conversation, VisionTurn turn) {
+        if (conversation == null) {
+            return "vision:conversation:unknown";
+        }
+        if (turn == null || turn.getId() == null) {
+            return "vision:conversation:" + conversation.getId();
+        }
+        return "vision:conversation:" + conversation.getId() + ":turn:" + turn.getId();
+    }
+
+    private List<String> actionHintsFor(VisionConversation conversation, VisionTurn turn) {
+        if (turn == null) {
+            return List.of();
+        }
+
+        return switch (turn.getNextAction()) {
+            case ASK_FOR_SLOT -> List.of(
+                    "Fill " + runtimeSlotLabel(turn.getRequestedSlot()),
+                    "Open Vision from this surface"
+            );
+            case SHOW_RESULTS -> List.of(
+                    "Review the results",
+                    "Continue with Vision"
+            );
+            case SHOW_REVIEW -> List.of(
+                    "Confirm the review",
+                    "Edit the current field"
+            );
+            case COMPLETE -> List.of(
+                    "Return to the entry surface",
+                    "Start another guided turn"
+            );
+            case BLOCKED -> List.of(
+                    "Read the blocking reason",
+                    "Return to the previous surface"
+            );
+        };
+    }
+
+    private String runtimeSlotLabel(String slotId) {
+        if (slotId == null || slotId.isBlank()) {
+            return "the current field";
+        }
+        return labelForSlot(slotId);
+    }
+
+    private VisionRuntimeCueDTO runtimeCueFor(VisionTurn turn, String channel) {
+        if (turn == null) {
+            return null;
+        }
+
+        String type = switch (turn.getNextAction()) {
+            case ASK_FOR_SLOT -> "prompt";
+            case SHOW_RESULTS -> "summary";
+            case SHOW_REVIEW -> "review";
+            case COMPLETE -> "complete";
+            case BLOCKED -> "blocked";
+        };
+        String message = turn.getAssistantMessage();
+        if (message == null || message.isBlank()) {
+            message = turn.getNormalizedPrompt();
+        }
+        if (message == null || message.isBlank()) {
+            message = "Vision turn updated.";
+        }
+        if ("haptic".equals(channel) && turn.getNextAction() == com.themuffinman.app.vision.model.VisionNextAction.COMPLETE) {
+            message = "Complete.";
+        }
+        return VisionRuntimeCueDTO.builder()
+                .type(type)
+                .message(message)
+                .build();
+    }
+
+    private boolean consentRequiredFor(VisionConversation conversation) {
+        if (conversation == null || conversation.getIntent() == null) {
+            return false;
+        }
+
+        return switch (conversation.getIntent()) {
+            case OPEN_CHAT,
+                 CREATE_CIRCLE_REQUEST,
+                 ACCEPT_CIRCLE_REQUEST,
+                 DELETE_CIRCLE_REQUEST,
+                 CREATE_APPLICATION,
+                 UPDATE_APPLICATION,
+                 WITHDRAW_APPLICATION,
+                 APPROVE_APPLICATION,
+                 DECLINE_APPLICATION,
+                 VIEW_USER_PROFILE -> true;
+            default -> false;
+        };
+    }
+
+    private String consentReasonFor(VisionConversation conversation) {
+        if (!consentRequiredFor(conversation) || conversation == null || conversation.getIntent() == null) {
+            return null;
+        }
+
+        return switch (conversation.getIntent()) {
+            case OPEN_CHAT -> "This turn can contact another person.";
+            case CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST -> "This turn affects a shared circle request.";
+            case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION -> "This turn affects a shared application record.";
+            case APPROVE_APPLICATION, DECLINE_APPLICATION -> "This turn changes another person's application status.";
+            case VIEW_USER_PROFILE -> "This turn opens another person's profile.";
+            default -> null;
+        };
+    }
+
+    private boolean resumeAvailableFor(VisionConversation conversation) {
+        return conversation != null && conversation.getStatus() != null && conversation.getStatus() != com.themuffinman.app.vision.model.VisionConversationStatus.COMPLETED;
+    }
+
+    private String resumeHintFor(VisionConversation conversation, VisionTurn turn) {
+        if (!resumeAvailableFor(conversation)) {
+            return "Start a new Vision turn.";
+        }
+        if (turn != null && turn.getNextAction() == com.themuffinman.app.vision.model.VisionNextAction.SHOW_REVIEW) {
+            return "Resume the review for this turn.";
+        }
+        String requestedSlot = conversation == null || conversation.getRequestedSlot() == null
+                ? (turn == null ? null : turn.getRequestedSlot())
+                : conversation.getRequestedSlot();
+        if (requestedSlot == null) {
+            return "Resume the current Vision conversation.";
+        }
+        String slotLabel = runtimeSlotLabel(requestedSlot);
+        return "Resume by filling " + slotLabel + ".";
     }
 
     private List<VisionSlotSummaryDTO> toSlotSummaries(Map<String, String> slotData) {

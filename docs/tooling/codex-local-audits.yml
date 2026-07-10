@@ -295,6 +295,11 @@ audits:
   primaryOutput: docs/generated/local-tooling/validation-memory-closeout-card-summary.md
   surfaceClass: extended_support
   operatorDefault: false
+- target: cleanup-generated-history
+  script: scripts/audits/cleanup-generated-history.rb
+  primaryOutput: docs/generated/local-tooling/cleanup-generated-history-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
 - target: audit-sandbox-data-coverage-pack
   script: scripts/audits/audit-sandbox-data-coverage-pack.rb
   primaryOutput: docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md
@@ -318,6 +323,11 @@ audits:
 - target: closeout-report
   script: scripts/audits/generate-closeout-report.rb
   primaryOutput: docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md
+  surfaceClass: diagnostic
+  operatorDefault: false
+- target: closeout-driver
+  script: scripts/audits/closeout-driver.rb
+  primaryOutput: docs/generated/local-tooling/closeout-driver/<plan-id>-summary.md
   surfaceClass: diagnostic
   operatorDefault: false
 - target: autofill-feature-closeout

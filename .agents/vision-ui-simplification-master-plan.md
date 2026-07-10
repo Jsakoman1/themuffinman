@@ -1,3 +1,12 @@
+---
+machine_kind: master-plan
+machine_status: complete
+machine_title: Vision UI Simplification Master Plan
+machine_goal: Rework the `/vision` UI into a simpler terminal-first experience with
+  a stable left-side terminal, a right-side contextual preview rail, and a standardized
+  way to present quests, applications, and discovery results for end users.
+---
+
 # Vision UI Simplification Master Plan
 
 ## Status

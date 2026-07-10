@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-06",
+  "updatedAt": "2026-07-10",
   "purpose": "Canonical machine-readable validation, manifest, and closeout memory for future Codex sessions.",
   "readWhen": [
     "manifest-backed",
@@ -30,6 +30,8 @@
       "./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest"
     ],
     "closeout": [
+      "make closeout-driver plan=<plan-file> manifest=<manifest-file>",
+      "make cleanup-generated-history",
       "make audit-todo",
       "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
     ],
@@ -91,9 +93,11 @@
       "id": "plan_manifest_drift",
       "symptom": "Manifest was marked complete before plan checkboxes or child plans were closed.",
       "fix": [
-        "close child plans first",
-        "close master plan second",
-        "run audit-plan-completion before final manifest closeout"
+      "close child plans first",
+      "close master plan second",
+      "prefer closeout-driver for the full batch",
+      "prune archive-only history and close plan-owned temp work products",
+      "run audit-plan-completion before final manifest closeout"
       ]
     }
   ],

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-08T09:25:56Z",
+  "generatedAt": "2026-07-10T13:14:44Z",
   "summary": {
-    "candidateCount": 198,
+    "candidateCount": 231,
     "domainCounts": {
       "agent": 25,
-      "business": 2,
-      "chat": 16,
+      "business": 20,
+      "chat": 31,
       "common": 5,
       "identity": 15,
       "location": 15,
@@ -17,8 +17,8 @@
     },
     "ownerCounts": {
       "agent_platform": 25,
-      "business_domain": 2,
-      "chat_domain": 16,
+      "business_domain": 20,
+      "chat_domain": 31,
       "platform_core": 10,
       "identity_domain": 15,
       "location_domain": 15,
@@ -203,11 +203,131 @@
       "serviceWorkflowCovered": null
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_availability_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_booking_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_booking_policy_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_gallery_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_offering_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_owner_dashboard_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
       "candidateType": "backend_executor_critical",
       "domainId": "business",
       "ownerId": "business_domain",
       "sourceRefId": "business_profile_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_public_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessAvailabilityMgr.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_availability_mgr",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessBookingMgr.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_booking_mgr",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessBookingPolicyMgr.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_booking_policy_mgr",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessGalleryImageMgr.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_gallery_image_mgr",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/mapper/BusinessOfferingMgr.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_offering_mgr",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
@@ -223,11 +343,131 @@
       "serviceWorkflowCovered": null
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCancelBookingUseCase.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_cancel_booking_use_case",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCompleteBookingUseCase.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_complete_booking_use_case",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessConfirmBookingUseCase.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_confirm_booking_use_case",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_create_booking_use_case",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessNoShowBookingUseCase.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_no_show_booking_use_case",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRejectBookingUseCase.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "business",
+      "ownerId": "business_domain",
+      "sourceRefId": "business_reject_booking_use_case",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": true,
+      "serviceWorkflowCovered": true
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_admin_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
       "candidateType": "backend_executor_critical",
       "domainId": "chat",
       "ownerId": "chat_domain",
       "sourceRefId": "chat_controller",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAdminConversationSupportViewDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_admin_conversation_support_view_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentStorageStatusDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_attachment_storage_status_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentUploadDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_attachment_upload_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAuditEventDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_audit_event_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAuditEventListDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_audit_event_list_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
@@ -253,6 +493,46 @@
       "serviceWorkflowCovered": null
     },
     {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_conversation_list_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationParticipantDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_conversation_participant_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationParticipantsRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_conversation_participants_request_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationRoleRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_conversation_role_request_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationStateRequestDTO.java",
       "candidateType": "backend_executor_critical",
       "domainId": "chat",
@@ -268,6 +548,36 @@
       "domainId": "chat",
       "ownerId": "chat_domain",
       "sourceRefId": "chat_conversation_summary_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationSyncDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_conversation_sync_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationTitleRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_conversation_title_request_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatCreateGroupConversationRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_create_group_conversation_request_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null
@@ -298,6 +608,26 @@
       "domainId": "chat",
       "ownerId": "chat_domain",
       "sourceRefId": "chat_message_page_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageReactionDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_message_reaction_dto",
+      "documentationCovered": true,
+      "mutatingServiceCandidate": false,
+      "serviceWorkflowCovered": null
+    },
+    {
+      "path": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageReactionRequestDTO.java",
+      "candidateType": "backend_executor_critical",
+      "domainId": "chat",
+      "ownerId": "chat_domain",
+      "sourceRefId": "chat_message_reaction_request_dto",
       "documentationCovered": true,
       "mutatingServiceCandidate": false,
       "serviceWorkflowCovered": null

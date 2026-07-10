@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
-machine_status: complete
+machine_status: unknown
 machine_title: Control System Validation Plan
-machine_goal: Reintroduce the minimal checks that keep the planning system honest.
 ---
 
 # Control System Validation Plan

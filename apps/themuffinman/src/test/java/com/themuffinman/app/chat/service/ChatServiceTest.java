@@ -64,6 +64,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -474,6 +475,8 @@ class ChatServiceTest {
                 "sink",
                 10,
                 0,
+                null,
+                null,
                 false
         );
 
@@ -500,6 +503,8 @@ class ChatServiceTest {
                 null,
                 10,
                 0,
+                null,
+                null,
                 false
         ));
     }
@@ -534,6 +539,8 @@ class ChatServiceTest {
                 null,
                 1,
                 2,
+                null,
+                null,
                 false
         );
 
@@ -542,6 +549,49 @@ class ChatServiceTest {
         assertEquals(7L, result.getConversations().getFirst().getConversationId());
         assertEquals(2, result.getPage());
         assertFalse(result.isHasMore());
+    }
+
+    @Test
+    void listConversationsSupportsCursorPaging() {
+        AppUser currentUser = createUser(1L, "mia");
+        AppUser participantOne = createUser(2L, "john");
+        AppUser participantTwo = createUser(3L, "lea");
+        AppUser participantThree = createUser(4L, "mark");
+
+        ChatConversation first = createConversation(5L, currentUser, participantOne);
+        first.setLastMessageAt(Instant.parse("2026-07-10T10:00:00Z"));
+        ChatConversation second = createConversation(6L, currentUser, participantTwo);
+        second.setLastMessageAt(Instant.parse("2026-07-10T09:00:00Z"));
+        ChatConversation third = createConversation(7L, currentUser, participantThree);
+        third.setLastMessageAt(Instant.parse("2026-07-10T08:00:00Z"));
+
+        when(chatConversationRepository.findDetailedByParticipantId(currentUser.getId()))
+                .thenReturn(List.of(first, second, third));
+        when(circleRelationService.isCircleBetween(currentUser, participantOne)).thenReturn(true);
+        when(circleRelationService.isCircleBetween(currentUser, participantTwo)).thenReturn(true);
+        when(circleRelationService.isCircleBetween(currentUser, participantThree)).thenReturn(true);
+        when(chatPresenceRepository.findByUserIds(any())).thenReturn(List.of());
+        when(chatMessageRepository.findUnreadCountsByConversationIds(List.of(6L), currentUser.getId())).thenReturn(List.of());
+
+        ChatConversationListDTO result = chatService.listConversations(
+                currentUser,
+                null,
+                null,
+                null,
+                null,
+                1,
+                0,
+                "2026-07-10T10:00:00Z",
+                5L,
+                false
+        );
+
+        assertEquals(2, result.getFilteredCount());
+        assertEquals(1, result.getConversations().size());
+        assertEquals(6L, result.getConversations().getFirst().getConversationId());
+        assertEquals("2026-07-10T09:00:00Z", result.getNextBeforeLastMessageAt());
+        assertEquals(6L, result.getNextBeforeConversationId());
+        assertTrue(result.isHasMore());
     }
 
     @Test

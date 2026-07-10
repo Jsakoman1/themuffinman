@@ -95,6 +95,41 @@ export const useVisionConversation = () => {
     return "UTC"
   })
 
+  const playHapticCue = (cueType?: string | null) => {
+    if (typeof navigator === "undefined" || typeof navigator.vibrate !== "function") {
+      return
+    }
+
+    switch ((cueType ?? "").toUpperCase()) {
+      case "CONFIRM":
+      case "SUCCESS":
+        navigator.vibrate([40, 20, 40])
+        return
+      case "CONSENT":
+      case "REVIEW":
+        navigator.vibrate([20, 20, 20, 20, 60])
+        return
+      case "ERROR":
+      case "BLOCKED":
+        navigator.vibrate([80, 40, 80])
+        return
+      default:
+        navigator.vibrate(30)
+    }
+  }
+
+  const clientDeviceRole = computed<"desktop" | "mobile" | "watch">(() => {
+    if (typeof window === "undefined") {
+      return "desktop"
+    }
+
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      return "mobile"
+    }
+
+    return "desktop"
+  })
+
   const clientCapabilities = computed(() => {
     const capabilities = ["text_input"]
     if (speechRecognitionSupported.value) {
@@ -316,6 +351,10 @@ export const useVisionConversation = () => {
       return
     }
 
+    const clientRequestId = typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`
+
     voiceRuntimeError.value = ""
 
     try {
@@ -328,6 +367,8 @@ export const useVisionConversation = () => {
         clientStateVersion,
         clientLocale: clientLocale.value,
         clientTimezone: clientTimezone.value,
+        clientDeviceRole: clientDeviceRole.value,
+        clientRequestId,
         selectedOptionId,
         fieldValue,
         confirmation,
@@ -342,6 +383,10 @@ export const useVisionConversation = () => {
         lastTranscript.value = ""
       }
       composerExpanded.value = true
+
+      if (next.runtimeContext?.hapticCue) {
+        playHapticCue(next.runtimeContext.hapticCue.type)
+      }
 
       if (voiceConfig.value?.autoSpeakResponses && voiceEnabled.value && textToSpeechEnabled.value) {
         await speakVoiceText(next.message)

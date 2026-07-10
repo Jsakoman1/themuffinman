@@ -164,6 +164,9 @@ def add_artifact_issues(manifest, manifest_path, issues)
   ARTIFACT_BUCKETS.each do |group|
     list(artifact_groups[group]).each { |path| all_paths << [group, path] }
   end
+  all_paths.each do |_group, path|
+    issues << "archive-only path cannot be used as closeout artifact evidence: #{path}" if LocalToolingCommon.archive_path?(path)
+  end
   all_paths.group_by { |_group, path| path }.select { |_path, rows| rows.size > 1 }.each do |path, rows|
     issues << "artifact path appears in multiple buckets: #{path} (#{rows.map(&:first).join(', ')})"
   end
@@ -172,7 +175,9 @@ def add_artifact_issues(manifest, manifest_path, issues)
   refreshed = list(manifest.dig("generatedArtifacts", "refreshedPaths"))
   refreshed.each do |path|
     full_path = abs(path)
-    if !File.exist?(full_path)
+    if LocalToolingCommon.archive_path?(path)
+      issues << "archive-only path cannot be used as refreshed generated artifact evidence: #{path}"
+    elsif !File.exist?(full_path)
       issues << "generated artifact path is missing: #{path}"
     elsif File.mtime(full_path) < manifest_mtime
       issues << "generated artifact path is older than manifest: #{path}"

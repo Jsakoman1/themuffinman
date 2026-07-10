@@ -129,6 +129,9 @@ The key rule is that the surface should match the user's current need rather tha
 - The visual layer should make speech understandable even when the user is in a noisy or attention-split environment.
 - Pure audio should not be the primary model because background noise, low concentration, and recognition ambiguity still make voice-only interaction too fragile.
 - Parallel audio and visual feedback is the preferred mode because the user can hear the response, verify what was recognized, and understand complex structures that are easier to show than to narrate.
+- The runtime contract should tell the client whether the current turn is better treated as focused, coordinating, reviewing, passive, or blocked, so the UI can stay calm instead of guessing the interaction density.
+- The runtime contract should also expose device role, session anchor, action hints, and lightweight audio or haptic cues so mobile and voice clients can present the same turn at different densities without inventing local rules.
+- Retry and replay on the same turn should stay idempotent from the user perspective, so a repeated submit or transport retry does not duplicate the task.
 - The system should explicitly show what it heard from the user so recognition errors can be caught immediately.
 - The system should also show which active slot the transcript is being mapped into, so the user can see the semantic target instead of only the raw text.
 - The semantic mapping layer should expose one focus slot for the turn, so a spoken or typed utterance does not collapse into the wrong field by default.

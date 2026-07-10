@@ -1,0 +1,32 @@
+{
+  "plan": ".agents/frontend-user-shell-validation-and-docs-plan.md",
+  "exists": true,
+  "machine_status": "complete",
+  "top_level_status": "Complete.",
+  "completion_evidence": true,
+  "completion_status": "in progress",
+  "open_tasks": [
+
+  ],
+  "unresolved_open_tasks": [
+
+  ],
+  "child_plans": [
+
+  ],
+  "temp_work_products": [
+
+  ],
+  "issues": [
+
+  ],
+  "warnings": [
+
+  ],
+  "status": "passed",
+  "generated_at": "2026-07-10T10:39:09Z",
+  "manifest": null,
+  "child_issue_rollups": [
+
+  ]
+}

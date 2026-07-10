@@ -11,8 +11,11 @@ For `codex-context` and related workflow changes, confirm that `docs/generated/l
 `make control-start` stays on the fast path.
 `make control-refresh-full` regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
 Use `make implementation-batch topic=<topic>` when a broad implementation batch needs one deterministic wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout hints.
+`make implementation-batch topic=<topic>` also runs generated-history cleanup so archive-only local-tooling snapshots do not leak into closeout evidence.
 Use `make temp-work-product-closeout plan=<plan-file>` when you need to delete or archive lingering temp work products owned by a plan before closeout.
 Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs generated-artifact noise filtered to the implementation scope before consulting the global freshness audit.
+Use `make cleanup-generated-history` before closeout-sensitive review when archive-only local-tooling history has grown noisy.
+Use `make closeout-driver plan=<plan-file> manifest=<manifest-file>` when the change is at the final closeout boundary and should fail fast on the first drift.
 
 Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 
@@ -109,10 +112,11 @@ Default path:
 ## Canonical Closeout Order
 
 1. Refresh the plan and control snapshots.
-2. Close or archive plan-owned temporary work products.
-3. Confirm the docs and generated artifacts affected by the change.
-4. Record validation evidence with canonical command strings.
-5. Run closeout audits and backlog audits before calling the work done.
+2. Prune archive-only generated history.
+3. Close or archive plan-owned temporary work products.
+4. Confirm the docs and generated artifacts affected by the change.
+5. Record validation evidence with canonical command strings.
+6. Run closeout audits and backlog audits before calling the work done.
 
 ## Checklist
 
@@ -128,6 +132,7 @@ Default path:
 - If the change touches workflow or agent behavior, confirm the machine-readable source of truth before editing human-readable summaries.
 - If the change touches plan files or generated control outputs, refresh `make plan-index` and `make control-start` before closeout.
 - If the change affects local-tooling routing, keep the operator-core surfaces clear and do not treat `.history` or `.cache` outputs as current control state.
+- Do not record archive-only paths under `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence.
 
 3. Plan
 - Tier 2, Tier 3, and Tier 4 work has a current plan in `.agents/`.
@@ -144,12 +149,14 @@ Default path:
 - During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 - Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.
 - If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.
+- Completed plans need non-placeholder completion evidence for changed files, validation evidence, and doc delta summary before they can close cleanly.
 
 4. Manifest decision
 - Manifest is required for high-risk business logic, invoice-critical behavior, DB migrations, frontend/backend contract changes, generated artifact changes, agent/tooling/workflow changes, 3+ meaningful surfaces, broad autonomous changes, and resolver-required changes.
 - Manifest is optional for single backend service changes, single frontend component changes, small bugfixes, small test-only changes, small docs-only corrections, and small internal refactors without behavior, contract, DB, generated-artifact, or agent-safety impact.
 - If a non-trivial change skips the manifest, the plan or final closeout records a one-line reason.
 - If a plan owns temporary work products, call `make temp-work-product-closeout plan=<plan-file>` before the final closeout evidence pass.
+- If closeout touched generated local-tooling outputs repeatedly, call `make cleanup-generated-history` before the final evidence pass.
 
 5. Business meaning
 - Update `docs/business-logic.md` if user-facing behavior, permissions, or workflow meaning changed.
@@ -189,8 +196,10 @@ Default path:
 - Tier 1: run `make audit-todo`.
 - Tier 2: run `make audit-todo` and `make audit-plan-completion plan=<plan-file>`.
 - `make audit-plan-completion` now triggers the shared control refresh path automatically after a successful closeout.
+- `make control-refresh-full` now also prunes generated local-tooling history after the freshness pass.
 - Completed master plans must not keep child rows marked `pending`, `draft`, or `in_progress`; `make audit-plan-completion` treats that as a failure.
 - Tier 3 and Tier 4 manifest-backed work:
+  `make cleanup-generated-history`
   `make autofill-feature-closeout manifest=<manifest-file> ...`
   `make audit-todo`
   `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`

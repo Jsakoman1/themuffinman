@@ -41,11 +41,13 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - Use `docs/validation-memory.md` and `docs/validation-memory.json` when manifest-backed validation or closeout evidence is in scope so canonical command and evidence rules are applied consistently.
 - Use `make control-start` as the one-shot broad-work snapshot before broad repository search.
 - Use `make control-refresh-full` when the broad snapshot must also include the slower generated-artifact freshness pass.
-- Use `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to drive discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout if a plan exists.
+- Use `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to drive discovery, docs-sync preflight, manifest routing, validation preset selection, generated-history cleanup, and closeout if a plan exists.
+- Use `make closeout-driver plan=<plan-file> manifest=<manifest-file>` when you want one fail-fast entrypoint for the final closeout boundary.
 - Use `make codex-context topic=<topic> intent='<intent>'` when the task needs topic-specific file context after the broad snapshot.
 - `make control-start`, `make codex-context`, and `make context-pack` should surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
 - Treat operator-core local-tooling surfaces as the default routing path and open focused review packs only when the compact operator surfaces do not answer the question.
 - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
+- Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence in plans, manifests, or refreshed generated-artifact lists.
 - When `codex-context` changes, keep the workflow docs, `docs/generated/local-tooling/codex-context/latest.execution.json`, and `docs/codex-context-execution-manifest.schema.json` aligned so the machine-readable batch manifest remains discoverable.
 - Use `docs/feature-delivery-workflow.md` only when the tier or resolver requires the full workflow.
 
@@ -140,6 +142,8 @@ If a non-trivial change does not use a manifest, the temporary plan or final clo
 - Plan closeout should also fail if the owning plan still has undeleted temp work products at completion time.
 - Use `make temp-work-product-closeout plan=<plan-file>` to deterministically delete or archive temp work products owned by a plan before closeout.
 - Use `make audit-generated-artifact-hygiene files=<csv>` for batch-scoped generated-artifact noise checks before widening to the global freshness audit.
+- Use `make cleanup-generated-history` to prune archive-only generated local-tooling history before closeout-sensitive review.
+- Use `make closeout-driver plan=<plan-file> manifest=<manifest-file>` as the canonical fail-fast batch closeout path.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.

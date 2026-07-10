@@ -71,7 +71,11 @@ Route-shell behavior should also stay blank-canvas oriented:
 - avoid persistent page headers and module chrome when the task does not need them
 - reveal status, memory, and support context through one compact contextual control only when useful
 - keep the animated agent and prompt dock as the dominant anchors in the default state
+- keep a compact route navigator available for stable module entry without turning the canvas into a dashboard
+- treat shared-shell launches into `/vision` as typed handoffs rather than free-form redirects; the current shell contract uses route query fields for prompt, source, context label, and return target so the adaptive surface can explain where the handoff came from and how to get back
 - auto-reveal state context when the backend enters review, blocked, or complete modes, because those are the moments when the user needs summary context most
+- treat the backend runtime contract as the source of truth for device role, attention state, action hints, and audio or haptic cues so mobile and voice clients stay thin while still adapting their density
+- treat the request id as the replay boundary for turn submission retries so the backend can safely return the last persisted turn without minting a duplicate conversation step
 - treat `create_quest` as the gold-standard interaction pattern for both the terminal feed and the preview model: reveal only the next useful line, keep capability entry points inline and contextual, and avoid separate launcher surfaces that compete with the primary canvas
 - extend the same terminal-first pattern to circles, applications, profile, chat, and request-style entity flows so they read like one evolving conversation surface rather than separate dashboard pages
 - keep narrow self-profile mutations on the same terminal-first path by using backend-owned patch adapters that preserve unchanged identity and location state instead of sending sparse DTOs directly into broader profile-update services

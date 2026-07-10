@@ -31,6 +31,8 @@ before falling back to markdown headings.
 
 - Use `draft` for planned work that has not started.
 - Use `active` for work that is currently in progress.
+- Use `blocked` for work that has a real blocker and cannot progress yet.
+- Use `deferred` for work that is intentionally postponed but still tracked.
 - Use `complete` for finished work.
 - Do not mix `completed` and `complete` in the machine-readable status field.
 

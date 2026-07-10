@@ -498,6 +498,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_create_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -513,6 +514,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_cancel_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -528,6 +530,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_create_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -543,6 +546,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_confirm_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -558,6 +562,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_reject_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -573,6 +578,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_cancel_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -588,6 +594,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_complete_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md
@@ -603,6 +610,7 @@ service_workflow_inventory:
   source_refs:
   - business_profile_service
   - business_booking_mgr
+  - business_no_show_booking_use_case
   doc_paths:
   - docs/domain-technical.md
   - docs/agent-operating-model.md

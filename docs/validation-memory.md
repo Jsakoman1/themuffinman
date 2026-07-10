@@ -82,6 +82,8 @@ When the manifest declares `workflow-expansion`:
 
 Completed manifest-backed changes should also record:
 
+- `make closeout-driver plan=<plan-file> manifest=<manifest-file>`
+- `make cleanup-generated-history`
 - `make audit-todo`
 - `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
 - for control-system plan hygiene, also record `make plan-index` and `make control-start` so the routing snapshot matches the active master-plan set
@@ -99,6 +101,7 @@ The standard closeout-sensitive audit loop should also rerun:
 
 These prove that backlog drift, unfinished plan checkboxes, and manifest-plan mismatch are closed.
 Completed master plans also need their child statuses to be final; pending, draft, or in_progress child rows are a closeout failure.
+Archive-only paths under `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, and `.agents/archive/` are not valid live closeout evidence.
 
 ## Manifest Heuristics That Recur
 
@@ -152,6 +155,7 @@ Fix:
 
 - update child plans first
 - update master plan second
+- prune archive-only history and close plan-owned temp work products
 - run `make audit-plan-completion`
 - only then keep the manifest at `complete`
 

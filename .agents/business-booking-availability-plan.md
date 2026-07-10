@@ -1,15 +1,17 @@
 ---
 machine_kind: plan
-machine_status: proposed
+machine_status: complete
 machine_title: Business Booking Availability Plan
-machine_goal: Introduce recurring availability rules and exceptions plus a backend-owned availability computation surface without creating customer bookings yet.
+machine_goal: Introduce recurring availability rules and exceptions plus a backend-owned
+  availability computation surface so the system can derive bookable windows for offerings
+  before real reservation writes begin.
 ---
 
 # Business Booking Availability Plan
 
 ## Status
 
-Proposed.
+Complete.
 
 ## Goal
 

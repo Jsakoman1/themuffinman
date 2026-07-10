@@ -67,10 +67,12 @@ public class ChatController {
             @RequestParam(value = "query", required = false) String query,
             @RequestParam(value = "limit", required = false) Integer limit,
             @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "beforeLastMessageAt", required = false) String beforeLastMessageAt,
+            @RequestParam(value = "beforeConversationId", required = false) Long beforeConversationId,
             @RequestParam(value = "includeArchived", defaultValue = "false") boolean includeArchived,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return chatService.listConversations(currentUser, conversationType, contextType, contextId, query, limit, page, includeArchived);
+        return chatService.listConversations(currentUser, conversationType, contextType, contextId, query, limit, page, beforeLastMessageAt, beforeConversationId, includeArchived);
     }
 
     @PostMapping("/conversations/open")

@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
-machine_status: completed
+machine_status: complete
 machine_title: Vision Workmarket Notification And Fixture Ownership Plan
-machine_goal: Move the last cross-domain notification and fixture ownership from legacy vision marketplace types into workmarket-owned surfaces.
+machine_goal: Move the last cross-domain notification and fixture ownership from legacy
+  `vision` marketplace types into `workmarket`-owned surfaces.
 ---
 
 # Vision Workmarket Notification And Fixture Ownership Plan

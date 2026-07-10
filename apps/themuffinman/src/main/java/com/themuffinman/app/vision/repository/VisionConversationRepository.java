@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface VisionConversationRepository extends JpaRepository<VisionConversation, Long> {
     Optional<VisionConversation> findByIdAndOwner(Long id, AppUser owner);
+    Optional<VisionConversation> findFirstByOwnerAndLastClientRequestIdOrderByUpdatedAtDesc(AppUser owner, String lastClientRequestId);
     List<VisionConversation> findTop5ByOwnerOrderByUpdatedAtDesc(AppUser owner);
 }

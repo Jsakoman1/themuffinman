@@ -63,6 +63,10 @@ public class VisionCapabilityPreviewService {
         return visionBusinessPreviewRenderer.previewBusinessAvailability(currentUser);
     }
 
+    public VisionCapabilityPreviewDTO previewBusinessBookings(AppUser currentUser) {
+        return visionBusinessPreviewRenderer.previewBusinessBookings(currentUser);
+    }
+
     public VisionCapabilityPreviewDTO previewSettings(AppUser currentUser) {
         return visionIdentityPreviewRenderer.previewSettings(currentUser);
     }

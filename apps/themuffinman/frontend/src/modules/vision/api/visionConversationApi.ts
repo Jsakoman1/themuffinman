@@ -24,6 +24,28 @@ export type VisionReviewTarget =
   | "PROFILE_LOCATION"
 
 export type VisionInputType = "text" | "voice"
+export type VisionDeviceRole = "desktop" | "mobile" | "watch"
+export type VisionAttentionState = "FOCUSED" | "COORDINATING" | "REVIEWING" | "PASSIVE" | "BLOCKED"
+
+export type VisionRuntimeCue = {
+  type: string
+  message: string
+}
+
+export type VisionRuntimeContext = {
+  inputType: VisionInputType
+  deviceRole: VisionDeviceRole
+  attentionState: VisionAttentionState
+  sessionAnchor: string
+  actionHints: string[]
+  audioCue: VisionRuntimeCue | null
+  hapticCue: VisionRuntimeCue | null
+  consentRequired: boolean
+  consentReason: string | null
+  resumeAvailable: boolean
+  resumeHint: string | null
+  watchFriendly: boolean
+}
 
 export type VisionConversationTurnRequest = {
   conversationId?: number | null
@@ -33,6 +55,8 @@ export type VisionConversationTurnRequest = {
   clientStateVersion: string
   clientLocale: string
   clientTimezone: string
+  clientDeviceRole: VisionDeviceRole
+  clientRequestId?: string | null
   selectedOptionId?: string | null
   fieldValue?: string | null
   confirmation?: boolean | null
@@ -183,6 +207,7 @@ export type VisionConversationTurnResponse = {
   translationApplied: boolean
   translationReliable: boolean
   executionEnabled: boolean
+  runtimeContext: VisionRuntimeContext | null
   executionCandidate: VisionExecutionCandidate | null
   questDiscovery: VisionQuestDiscovery | null
   memoryTrail: VisionMemoryTrail | null
@@ -210,6 +235,8 @@ export const visionConversationApi = {
       clientStateVersion: request.clientStateVersion,
       clientLocale: request.clientLocale,
       clientTimezone: request.clientTimezone,
+      clientDeviceRole: request.clientDeviceRole,
+      clientRequestId: request.clientRequestId ?? undefined,
       selectedOptionId: request.selectedOptionId ?? undefined,
       fieldValue: request.fieldValue ?? undefined,
       confirmation: request.confirmation ?? undefined,

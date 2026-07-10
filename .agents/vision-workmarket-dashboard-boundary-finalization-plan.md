@@ -2,7 +2,9 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Vision Workmarket Dashboard Boundary Finalization Plan
-machine_goal: Remove the remaining workmarket to vision dashboard prompt and voice compile-time dependency while preserving the existing dashboard prompt and voice behavior.
+machine_goal: Remove the remaining `workmarket -> vision` dashboard prompt and voice
+  compile-time dependency while preserving the existing `/dashboard/me/vision/*` and
+  `/dashboard/me/voice/*` behavior.
 ---
 
 # Vision Workmarket Dashboard Boundary Finalization Plan

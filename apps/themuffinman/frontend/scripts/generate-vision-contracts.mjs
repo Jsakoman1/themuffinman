@@ -324,6 +324,7 @@ const SIMPLE_TYPE_MAP = new Map([
   ["BigDecimal", "number"],
   ["Instant", "string"],
   ["LocalDate", "string"],
+  ["LocalTime", "string"],
   ["LocalDateTime", "string"],
   ["OffsetDateTime", "string"],
   ["UUID", "string"],

@@ -1,3 +1,9 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Chat Conversation State Plan
+---
+
 # Chat Conversation State Plan
 
 Status: complete

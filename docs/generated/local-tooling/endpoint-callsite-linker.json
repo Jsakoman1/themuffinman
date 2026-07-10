@@ -1,0 +1,2023 @@
+{
+  "generated_at": "2026-07-10T08:21:25Z",
+  "endpoint_count": 157,
+  "frontend_client_method_count": 11,
+  "linked_endpoint_count": 11,
+  "unlinked_endpoint_count": 146,
+  "endpoints": [
+    {
+      "endpoint_id": "POST /admin/agent/execute",
+      "domain": "agent",
+      "backend_controller": "AdminAgentController",
+      "backend_method": "runExecution",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java",
+      "http_method": "POST",
+      "full_path": "/admin/agent/execute",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /admin/applications",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "getAllApplicationsForAdmin",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "GET",
+      "full_path": "/admin/applications",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /admin/applications/:param",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "deleteApplicationForAdmin",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "DELETE",
+      "full_path": "/admin/applications/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /admin/applications/:param",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "updateApplicationForAdmin",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "PUT",
+      "full_path": "/admin/applications/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /app_users",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "getAllAppUsers",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "GET",
+      "full_path": "/app_users",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /app_users",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "createAppUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "POST",
+      "full_path": "/app_users",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /app_users/:param",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "deleteAppUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "DELETE",
+      "full_path": "/app_users/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /app_users/:param",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "getAppUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "GET",
+      "full_path": "/app_users/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /app_users/:param",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "updateAppUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "PUT",
+      "full_path": "/app_users/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /app_users/:param/admin-detail",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "getAdminUserDetail",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "GET",
+      "full_path": "/app_users/:param/admin-detail",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /app_users/:param/profile-view",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "getProfileView",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "GET",
+      "full_path": "/app_users/:param/profile-view",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /app_users/me",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "getCurrentAppUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "GET",
+      "full_path": "/app_users/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /app_users/me",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "updateCurrentAppUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "PUT",
+      "full_path": "/app_users/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /app_users/options",
+      "domain": "identity",
+      "backend_controller": "AppUserController",
+      "backend_method": "getAppUserOptions",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java",
+      "http_method": "GET",
+      "full_path": "/app_users/options",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /applications/:param/detail",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "getApplicationDetail",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "GET",
+      "full_path": "/applications/:param/detail",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /business/availability-exceptions/:param/me",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "deleteMyException",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "DELETE",
+      "full_path": "/business/availability-exceptions/:param/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /business/availability-exceptions/:param/me",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "updateMyException",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "PUT",
+      "full_path": "/business/availability-exceptions/:param/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/availability-exceptions/me",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "getMyExceptions",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "GET",
+      "full_path": "/business/availability-exceptions/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/availability-exceptions/me",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "createMyException",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "POST",
+      "full_path": "/business/availability-exceptions/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /business/availability-rules/:param/me",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "deleteMyRule",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "DELETE",
+      "full_path": "/business/availability-rules/:param/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /business/availability-rules/:param/me",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "updateMyRule",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "PUT",
+      "full_path": "/business/availability-rules/:param/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/availability-rules/me",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "getMyRules",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "GET",
+      "full_path": "/business/availability-rules/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/availability-rules/me",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "createMyRule",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "POST",
+      "full_path": "/business/availability-rules/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/booking-policy/me",
+      "domain": "business",
+      "backend_controller": "BusinessBookingPolicyController",
+      "backend_method": "getMyPolicy",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java",
+      "http_method": "GET",
+      "full_path": "/business/booking-policy/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /business/booking-policy/me",
+      "domain": "business",
+      "backend_controller": "BusinessBookingPolicyController",
+      "backend_method": "saveMyPolicy",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingPolicyController.java",
+      "http_method": "PUT",
+      "full_path": "/business/booking-policy/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/bookings",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "createBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "POST",
+      "full_path": "/business/bookings",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/bookings/me",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "getMyBookings",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "GET",
+      "full_path": "/business/bookings/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/bookings/me/:param",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "getMyBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "GET",
+      "full_path": "/business/bookings/me/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/bookings/me/:param/cancel",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "cancelMyBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "POST",
+      "full_path": "/business/bookings/me/:param/cancel",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/bookings/owner",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "getOwnerBookings",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "GET",
+      "full_path": "/business/bookings/owner",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/bookings/owner",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "createOwnerBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "POST",
+      "full_path": "/business/bookings/owner",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/bookings/owner/:param",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "getOwnerBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "GET",
+      "full_path": "/business/bookings/owner/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/bookings/owner/:param/cancel",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "cancelOwnerBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "POST",
+      "full_path": "/business/bookings/owner/:param/cancel",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/bookings/owner/:param/complete",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "completeBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "POST",
+      "full_path": "/business/bookings/owner/:param/complete",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/bookings/owner/:param/confirm",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "confirmBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "POST",
+      "full_path": "/business/bookings/owner/:param/confirm",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/bookings/owner/:param/mark-no-show",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "markNoShow",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "POST",
+      "full_path": "/business/bookings/owner/:param/mark-no-show",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/bookings/owner/:param/reject",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "rejectBooking",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "POST",
+      "full_path": "/business/bookings/owner/:param/reject",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/bookings/owner/calendar",
+      "domain": "business",
+      "backend_controller": "BusinessBookingController",
+      "backend_method": "getOwnerCalendar",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java",
+      "http_method": "GET",
+      "full_path": "/business/bookings/owner/calendar",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/dashboard/me",
+      "domain": "business",
+      "backend_controller": "BusinessOwnerDashboardController",
+      "backend_method": "getMyDashboard",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java",
+      "http_method": "GET",
+      "full_path": "/business/dashboard/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/dashboard/me/schedule",
+      "domain": "business",
+      "backend_controller": "BusinessOwnerDashboardController",
+      "backend_method": "getMySchedule",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java",
+      "http_method": "GET",
+      "full_path": "/business/dashboard/me/schedule",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/gallery/me",
+      "domain": "business",
+      "backend_controller": "BusinessGalleryController",
+      "backend_method": "getMyGallery",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "http_method": "GET",
+      "full_path": "/business/gallery/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/gallery/me",
+      "domain": "business",
+      "backend_controller": "BusinessGalleryController",
+      "backend_method": "createMyGalleryImage",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "http_method": "POST",
+      "full_path": "/business/gallery/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /business/gallery/me/:param",
+      "domain": "business",
+      "backend_controller": "BusinessGalleryController",
+      "backend_method": "deleteMyGalleryImage",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "http_method": "DELETE",
+      "full_path": "/business/gallery/me/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /business/gallery/me/:param",
+      "domain": "business",
+      "backend_controller": "BusinessGalleryController",
+      "backend_method": "updateMyGalleryImage",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java",
+      "http_method": "PUT",
+      "full_path": "/business/gallery/me/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /business/offerings/:param/me",
+      "domain": "business",
+      "backend_controller": "BusinessOfferingController",
+      "backend_method": "deleteMyOffering",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "http_method": "DELETE",
+      "full_path": "/business/offerings/:param/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /business/offerings/:param/me",
+      "domain": "business",
+      "backend_controller": "BusinessOfferingController",
+      "backend_method": "updateMyOffering",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "http_method": "PUT",
+      "full_path": "/business/offerings/:param/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/offerings/me",
+      "domain": "business",
+      "backend_controller": "BusinessOfferingController",
+      "backend_method": "getMyOfferings",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "http_method": "GET",
+      "full_path": "/business/offerings/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /business/offerings/me",
+      "domain": "business",
+      "backend_controller": "BusinessOfferingController",
+      "backend_method": "createMyOffering",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java",
+      "http_method": "POST",
+      "full_path": "/business/offerings/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/profiles",
+      "domain": "business",
+      "backend_controller": "BusinessProfileController",
+      "backend_method": "getDirectory",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "http_method": "GET",
+      "full_path": "/business/profiles",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/profiles/:param",
+      "domain": "business",
+      "backend_controller": "BusinessProfileController",
+      "backend_method": "getProfileBySlug",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "http_method": "GET",
+      "full_path": "/business/profiles/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/profiles/me",
+      "domain": "business",
+      "backend_controller": "BusinessProfileController",
+      "backend_method": "getMyProfile",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "http_method": "GET",
+      "full_path": "/business/profiles/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /business/profiles/me",
+      "domain": "business",
+      "backend_controller": "BusinessProfileController",
+      "backend_method": "saveMyProfile",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessProfileController.java",
+      "http_method": "PUT",
+      "full_path": "/business/profiles/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/public/:param",
+      "domain": "business",
+      "backend_controller": "BusinessPublicController",
+      "backend_method": "getPublicBusinessPage",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java",
+      "http_method": "GET",
+      "full_path": "/business/public/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/public/:param/availability",
+      "domain": "business",
+      "backend_controller": "BusinessAvailabilityController",
+      "backend_method": "getPublicAvailability",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java",
+      "http_method": "GET",
+      "full_path": "/business/public/:param/availability",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /business/public/:param/offerings",
+      "domain": "business",
+      "backend_controller": "BusinessPublicController",
+      "backend_method": "getPublicOfferings",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java",
+      "http_method": "GET",
+      "full_path": "/business/public/:param/offerings",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/admin/audit-events",
+      "domain": "chat",
+      "backend_controller": "ChatAdminController",
+      "backend_method": "getAuditEvents",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java",
+      "http_method": "GET",
+      "full_path": "/chat/admin/audit-events",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /chat/admin/conversations/:param/messages/:param",
+      "domain": "chat",
+      "backend_controller": "ChatAdminController",
+      "backend_method": "moderateDeleteMessage",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java",
+      "http_method": "DELETE",
+      "full_path": "/chat/admin/conversations/:param/messages/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/admin/conversations/:param/support-view",
+      "domain": "chat",
+      "backend_controller": "ChatAdminController",
+      "backend_method": "getConversationSupportView",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatAdminController.java",
+      "http_method": "GET",
+      "full_path": "/chat/admin/conversations/:param/support-view",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/applications/:param/thread",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "getApplicationThread",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/applications/:param/thread",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/applications/:param/thread",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "openApplicationThread",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/applications/:param/thread",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/attachments",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "uploadAttachment",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/attachments",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/attachments/object",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "getAttachmentObject",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/attachments/object",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/attachments/storage-status",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "getAttachmentStorageStatus",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/attachments/storage-status",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/circles/:param/room",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "getCircleRoom",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/circles/:param/room",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/circles/:param/room",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "openCircleRoom",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/circles/:param/room",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/conversations",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "listConversations",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/conversations",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /chat/conversations/:param/delivery",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "markConversationDelivered",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "PATCH",
+      "full_path": "/chat/conversations/:param/delivery",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /chat/conversations/:param/group",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "renameGroupConversation",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "PATCH",
+      "full_path": "/chat/conversations/:param/group",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/conversations/:param/messages",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "getConversationMessages",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/conversations/:param/messages",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/conversations/:param/messages",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "sendMessage",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/conversations/:param/messages",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /chat/conversations/:param/messages/:param",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "deleteMessage",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "DELETE",
+      "full_path": "/chat/conversations/:param/messages/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /chat/conversations/:param/messages/:param",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "updateMessage",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "PATCH",
+      "full_path": "/chat/conversations/:param/messages/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/conversations/:param/messages/:param/reactions",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "addReaction",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/conversations/:param/messages/:param/reactions",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /chat/conversations/:param/messages/:param/reactions/:param",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "removeReaction",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "DELETE",
+      "full_path": "/chat/conversations/:param/messages/:param/reactions/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/conversations/:param/participants",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "addGroupParticipants",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/conversations/:param/participants",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /chat/conversations/:param/participants/:param",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "removeGroupParticipant",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "DELETE",
+      "full_path": "/chat/conversations/:param/participants/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /chat/conversations/:param/participants/:param/role",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "updateGroupParticipantRole",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "PATCH",
+      "full_path": "/chat/conversations/:param/participants/:param/role",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /chat/conversations/:param/participants/me",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "leaveConversation",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "DELETE",
+      "full_path": "/chat/conversations/:param/participants/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /chat/conversations/:param/read",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "markConversationRead",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "PATCH",
+      "full_path": "/chat/conversations/:param/read",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /chat/conversations/:param/state",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "updateConversationState",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "PATCH",
+      "full_path": "/chat/conversations/:param/state",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/conversations/:param/sync",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "getConversationSync",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/conversations/:param/sync",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/conversations/groups",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "createGroupConversation",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/conversations/groups",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/conversations/open",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "openConversation",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/conversations/open",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/presence/heartbeat",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "heartbeat",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/presence/heartbeat",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/quests/:param/thread",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "getQuestThread",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/quests/:param/thread",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /chat/quests/:param/thread",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "openQuestThread",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "POST",
+      "full_path": "/chat/quests/:param/thread",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /chat/workspace",
+      "domain": "chat",
+      "backend_controller": "ChatController",
+      "backend_method": "getWorkspace",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java",
+      "http_method": "GET",
+      "full_path": "/chat/workspace",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /circles/admin/groups/:param",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "deleteCircleAsAdmin",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "DELETE",
+      "full_path": "/circles/admin/groups/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/admin/overview",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getAdminOverview",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/admin/overview",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/blocked",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getBlockedUsers",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/blocked",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /circles/blocks",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "blockCircleUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "POST",
+      "full_path": "/circles/blocks",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /circles/blocks/:param",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "unblockCircleUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "DELETE",
+      "full_path": "/circles/blocks/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/candidates",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getInviteCandidates",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/candidates",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/connections",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getConnections",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/connections",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /circles/connections/:param/circles",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "updateConnectionCircles",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "PUT",
+      "full_path": "/circles/connections/:param/circles",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /circles/connections/circles/bulk",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "updateConnectionCirclesBulk",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "PUT",
+      "full_path": "/circles/connections/circles/bulk",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /circles/groups",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "createCircle",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "POST",
+      "full_path": "/circles/groups",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /circles/groups/:param",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "deleteCircle",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "DELETE",
+      "full_path": "/circles/groups/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /circles/groups/:param",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "updateCircle",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "PUT",
+      "full_path": "/circles/groups/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/me/overview",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getOverview",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/me/overview",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/nearby",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getNearbyUsers",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/nearby",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/relations/:param",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getRelationWithUser",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/relations/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /circles/requests",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "createCircleRequest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "POST",
+      "full_path": "/circles/requests",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /circles/requests/:param",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "deleteCircleRequest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "DELETE",
+      "full_path": "/circles/requests/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /circles/requests/:param/accept",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "acceptCircleRequest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "PATCH",
+      "full_path": "/circles/requests/:param/accept",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/requests/incoming",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getIncomingRequests",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/requests/incoming",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/requests/outgoing",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "getOutgoingRequests",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/requests/outgoing",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /circles/search",
+      "domain": "social",
+      "backend_controller": "CircleController",
+      "backend_method": "searchCircleUsers",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/social/controller/CircleController.java",
+      "http_method": "GET",
+      "full_path": "/circles/search",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /dashboard/me",
+      "domain": "workmarket",
+      "backend_controller": "DashboardController",
+      "backend_method": "getMyDashboard",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "http_method": "GET",
+      "full_path": "/dashboard/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /dashboard/me/summary",
+      "domain": "workmarket",
+      "backend_controller": "DashboardController",
+      "backend_method": "getMySummary",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "http_method": "GET",
+      "full_path": "/dashboard/me/summary",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /dashboard/me/vision/prompt",
+      "domain": "workmarket",
+      "backend_controller": "DashboardController",
+      "backend_method": "processVisionPrompt",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "http_method": "POST",
+      "full_path": "/dashboard/me/vision/prompt",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /location/admin/status",
+      "domain": "location",
+      "backend_controller": "LocationLookupController",
+      "backend_method": "getDebugStatus",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "http_method": "GET",
+      "full_path": "/location/admin/status",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /location/lookup",
+      "domain": "location",
+      "backend_controller": "LocationLookupController",
+      "backend_method": "lookup",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "http_method": "POST",
+      "full_path": "/location/lookup",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /location/reverse-lookup",
+      "domain": "location",
+      "backend_controller": "LocationLookupController",
+      "backend_method": "reverseLookup",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java",
+      "http_method": "POST",
+      "full_path": "/location/reverse-lookup",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /news/me",
+      "domain": "workmarket",
+      "backend_controller": "QuestNewsController",
+      "backend_method": "getMyNews",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "http_method": "GET",
+      "full_path": "/news/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /news/me/:param/read",
+      "domain": "workmarket",
+      "backend_controller": "QuestNewsController",
+      "backend_method": "markMyNewsItemAsRead",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "http_method": "PATCH",
+      "full_path": "/news/me/:param/read",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /news/me/read",
+      "domain": "workmarket",
+      "backend_controller": "QuestNewsController",
+      "backend_method": "markMyNewsAsRead",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "http_method": "PATCH",
+      "full_path": "/news/me/read",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /news/me/unread-count",
+      "domain": "workmarket",
+      "backend_controller": "QuestNewsController",
+      "backend_method": "getUnreadCount",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestNewsController.java",
+      "http_method": "GET",
+      "full_path": "/news/me/unread-count",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /quests",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "getAllQuests",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "GET",
+      "full_path": "/quests",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /quests",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "createQuest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "POST",
+      "full_path": "/quests",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "DELETE /quests/:param",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "deleteQuest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "DELETE",
+      "full_path": "/quests/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /quests/:param",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "getQuestById",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "GET",
+      "full_path": "/quests/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /quests/:param",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "updateQuest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "PUT",
+      "full_path": "/quests/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /quests/:param/applications",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "getApplicationsForQuest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "GET",
+      "full_path": "/quests/:param/applications",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /quests/:param/applications",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "applyForQuest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "POST",
+      "full_path": "/quests/:param/applications",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /quests/:param/applications/:param/approve",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "approveApplication",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "PATCH",
+      "full_path": "/quests/:param/applications/:param/approve",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /quests/:param/applications/:param/decline",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "declineApplication",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "PATCH",
+      "full_path": "/quests/:param/applications/:param/decline",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PUT /quests/:param/applications/me",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "updateMyApplication",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "PUT",
+      "full_path": "/quests/:param/applications/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /quests/:param/applications/me/withdraw",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "withdrawMyApplication",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "PATCH",
+      "full_path": "/quests/:param/applications/me/withdraw",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /quests/:param/applications/view",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "getApplicationsViewForQuest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "GET",
+      "full_path": "/quests/:param/applications/view",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /quests/:param/complete",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "completeQuest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "PATCH",
+      "full_path": "/quests/:param/complete",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /quests/:param/detail",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "getQuestDetailById",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "GET",
+      "full_path": "/quests/:param/detail",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /quests/:param/reviews",
+      "domain": "workmarket",
+      "backend_controller": "UserReviewController",
+      "backend_method": "createOrUpdateReview",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/UserReviewController.java",
+      "http_method": "POST",
+      "full_path": "/quests/:param/reviews",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /quests/:param/start",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "startQuest",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "PATCH",
+      "full_path": "/quests/:param/start",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /quests/:param/term/confirm",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "confirmQuestTermChange",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "PATCH",
+      "full_path": "/quests/:param/term/confirm",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "PATCH /quests/:param/term/reject",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "rejectQuestTermChange",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "PATCH",
+      "full_path": "/quests/:param/term/reject",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /quests/applications/me",
+      "domain": "workmarket",
+      "backend_controller": "QuestApplicationController",
+      "backend_method": "getMyApplications",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java",
+      "http_method": "GET",
+      "full_path": "/quests/applications/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /quests/presets/:param",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "getQuestPreset",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "GET",
+      "full_path": "/quests/presets/:param",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /quests/search",
+      "domain": "workmarket",
+      "backend_controller": "QuestController",
+      "backend_method": "searchQuests",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestController.java",
+      "http_method": "GET",
+      "full_path": "/quests/search",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /rides/offers",
+      "domain": "rides",
+      "backend_controller": "RideOfferController",
+      "backend_method": "getVisibleOffers",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "http_method": "GET",
+      "full_path": "/rides/offers",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /rides/offers",
+      "domain": "rides",
+      "backend_controller": "RideOfferController",
+      "backend_method": "createOffer",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "http_method": "POST",
+      "full_path": "/rides/offers",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /rides/offers/me",
+      "domain": "rides",
+      "backend_controller": "RideOfferController",
+      "backend_method": "getMyOffers",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java",
+      "http_method": "GET",
+      "full_path": "/rides/offers/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /things/listings",
+      "domain": "things",
+      "backend_controller": "ThingSharingController",
+      "backend_method": "getAvailableListings",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "http_method": "GET",
+      "full_path": "/things/listings",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /things/listings",
+      "domain": "things",
+      "backend_controller": "ThingSharingController",
+      "backend_method": "createListing",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "http_method": "POST",
+      "full_path": "/things/listings",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /things/listings/:param/borrow-requests",
+      "domain": "things",
+      "backend_controller": "ThingSharingController",
+      "backend_method": "requestBorrow",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "http_method": "POST",
+      "full_path": "/things/listings/:param/borrow-requests",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "GET /things/listings/me",
+      "domain": "things",
+      "backend_controller": "ThingSharingController",
+      "backend_method": "getMyListings",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/things/controller/ThingSharingController.java",
+      "http_method": "GET",
+      "full_path": "/things/listings/me",
+      "frontend_matches": [
+
+      ]
+    },
+    {
+      "endpoint_id": "POST /auth/login",
+      "domain": "identity",
+      "backend_controller": "AuthController",
+      "backend_method": "login",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
+      "http_method": "POST",
+      "full_path": "/auth/login",
+      "frontend_matches": [
+        {
+          "client_object": "authApi",
+          "client_method": "login",
+          "client_file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+          "client_path": "/auth/login",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /auth/me",
+      "domain": "identity",
+      "backend_controller": "AuthController",
+      "backend_method": "me",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
+      "http_method": "GET",
+      "full_path": "/auth/me",
+      "frontend_matches": [
+        {
+          "client_object": "authApi",
+          "client_method": "me",
+          "client_file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+          "client_path": "/auth/me",
+          "callsites": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /auth/register",
+      "domain": "identity",
+      "backend_controller": "AuthController",
+      "backend_method": "register",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java",
+      "http_method": "POST",
+      "full_path": "/auth/register",
+      "frontend_matches": [
+        {
+          "client_object": "authApi",
+          "client_method": "register",
+          "client_file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
+          "client_path": "/auth/register",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue",
+              "category": "frontend_view",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/identity/views/RegisterView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /dashboard/me/voice-config",
+      "domain": "workmarket",
+      "backend_controller": "DashboardController",
+      "backend_method": "getMyVoiceConfig",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "http_method": "GET",
+      "full_path": "/dashboard/me/voice-config",
+      "frontend_matches": [
+        {
+          "client_object": "dashboardApi",
+          "client_method": "getDashboardVoiceConfig",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "client_path": "/dashboard/me/voice-config",
+          "callsites": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /dashboard/me/voice/speak",
+      "domain": "workmarket",
+      "backend_controller": "DashboardController",
+      "backend_method": "speakVoice",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "http_method": "POST",
+      "full_path": "/dashboard/me/voice/speak",
+      "frontend_matches": [
+        {
+          "client_object": "dashboardApi",
+          "client_method": "speakVoiceText",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "client_path": "/dashboard/me/voice/speak",
+          "callsites": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /dashboard/me/voice/transcribe",
+      "domain": "workmarket",
+      "backend_controller": "DashboardController",
+      "backend_method": "transcribeVoice",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/DashboardController.java",
+      "http_method": "POST",
+      "full_path": "/dashboard/me/voice/transcribe",
+      "frontend_matches": [
+        {
+          "client_object": "dashboardApi",
+          "client_method": "transcribeVoiceAudio",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/clients/dashboardApi.ts",
+          "client_path": "/dashboard/me/voice/transcribe",
+          "callsites": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /vision/conversations/:param",
+      "domain": "vision",
+      "backend_controller": "VisionConversationController",
+      "backend_method": "getConversation",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "http_method": "GET",
+      "full_path": "/vision/conversations/:param",
+      "frontend_matches": [
+        {
+          "client_object": "visionConversationApi",
+          "client_method": "getConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "client_path": "/vision/conversations/:param",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+              "category": "frontend_composable",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /vision/conversations/:param/cancel",
+      "domain": "vision",
+      "backend_controller": "VisionConversationController",
+      "backend_method": "cancelConversation",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "http_method": "POST",
+      "full_path": "/vision/conversations/:param/cancel",
+      "frontend_matches": [
+        {
+          "client_object": "visionConversationApi",
+          "client_method": "cancelConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "client_path": "/vision/conversations/:param/cancel",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+              "category": "frontend_composable",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /vision/conversations/:param/reset",
+      "domain": "vision",
+      "backend_controller": "VisionConversationController",
+      "backend_method": "resetConversation",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "http_method": "POST",
+      "full_path": "/vision/conversations/:param/reset",
+      "frontend_matches": [
+        {
+          "client_object": "visionConversationApi",
+          "client_method": "resetConversation",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "client_path": "/vision/conversations/:param/reset",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+              "category": "frontend_composable",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "GET /vision/conversations/recent",
+      "domain": "vision",
+      "backend_controller": "VisionConversationController",
+      "backend_method": "getRecentConversations",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "http_method": "GET",
+      "full_path": "/vision/conversations/recent",
+      "frontend_matches": [
+        {
+          "client_object": "visionConversationApi",
+          "client_method": "getRecentConversations",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "client_path": "/vision/conversations/recent",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+              "category": "frontend_composable",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint_id": "POST /vision/conversations/turns",
+      "domain": "vision",
+      "backend_controller": "VisionConversationController",
+      "backend_method": "processTurn",
+      "backend_file": "apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java",
+      "http_method": "POST",
+      "full_path": "/vision/conversations/turns",
+      "frontend_matches": [
+        {
+          "client_object": "visionConversationApi",
+          "client_method": "processConversationTurn",
+          "client_file": "apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts",
+          "client_path": "/vision/conversations/turns",
+          "callsites": [
+            {
+              "file": "apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts",
+              "category": "frontend_composable",
+              "ui_surfaces": [
+                "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

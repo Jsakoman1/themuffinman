@@ -1,6 +1,13 @@
+---
+machine_kind: plan
+machine_status: complete
+machine_title: Chat Governance Observability Plan
+machine_goal: Make chat actions traceable, reviewable, and moderation-ready.
+---
+
 # Chat Governance Observability Plan
 
-Status: pending
+Status: complete
 Parent: `.agents/chat-next-master-plan.md`
 
 ## Goal
@@ -20,3 +27,9 @@ Make chat actions traceable, reviewable, and moderation-ready.
 - `ChatService` audit integration for management mutations
 - Audit filtering/query surface
 - Documentation and validation updates
+
+## Completion Evidence
+
+- Status: complete
+- Outcome: group rename, participant add/remove, role change, owner transfer, leave, and admin moderation actions are already audited.
+- Validation evidence: chat service/controller/admin tests plus backend validation already cover the implemented audit and support surfaces.

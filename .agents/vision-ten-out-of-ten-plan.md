@@ -1,8 +1,7 @@
 ---
 machine_kind: plan
 machine_status: complete
-machine_title: Vision Ten Out Of Ten Plan
-machine_goal: Keep vision strictly orchestration-focused while making every remaining dependency, preview path, and contract translation simpler and more explicit.
+machine_title: Feature Implementation Plan
 ---
 
 # Feature Implementation Plan

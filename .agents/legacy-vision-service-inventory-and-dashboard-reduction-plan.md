@@ -2,7 +2,8 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Legacy Vision Service Inventory And Dashboard Reduction Plan
-machine_goal: Record the remaining legacy vision service dependency graph and reduce DashboardService to a compatibility adapter over workmarket-owned dashboard services.
+machine_goal: Record the remaining legacy vision service dependency graph and reduce
+  `DashboardService` to a compatibility adapter over workmarket-owned dashboard services.
 ---
 
 # Legacy Vision Service Inventory And Dashboard Reduction Plan

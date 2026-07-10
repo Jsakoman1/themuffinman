@@ -6,66 +6,6 @@
     "path": "/admin/agent/execute"
   },
   {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
-    "handlerMethod": "getDirectory",
-    "httpMethod": "GET",
-    "path": "/business/profiles"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
-    "handlerMethod": "getMyProfile",
-    "httpMethod": "GET",
-    "path": "/business/profiles/me"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
-    "handlerMethod": "saveMyProfile",
-    "httpMethod": "PUT",
-    "path": "/business/profiles/me"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
-    "handlerMethod": "getProfileBySlug",
-    "httpMethod": "GET",
-    "path": "/business/profiles/{slug}"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
-    "handlerMethod": "getMyOfferings",
-    "httpMethod": "GET",
-    "path": "/business/offerings/me"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
-    "handlerMethod": "createMyOffering",
-    "httpMethod": "POST",
-    "path": "/business/offerings/me"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
-    "handlerMethod": "updateMyOffering",
-    "httpMethod": "PUT",
-    "path": "/business/offerings/{offeringId}/me"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
-    "handlerMethod": "deleteMyOffering",
-    "httpMethod": "DELETE",
-    "path": "/business/offerings/{offeringId}/me"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingPolicyController",
-    "handlerMethod": "getMyPolicy",
-    "httpMethod": "GET",
-    "path": "/business/booking-policy/me"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingPolicyController",
-    "handlerMethod": "saveMyPolicy",
-    "httpMethod": "PUT",
-    "path": "/business/booking-policy/me"
-  },
-  {
     "controllerClass": "com.themuffinman.app.business.controller.BusinessAvailabilityController",
     "handlerMethod": "getMyRules",
     "httpMethod": "GET",
@@ -118,18 +58,6 @@
     "handlerMethod": "getPublicAvailability",
     "httpMethod": "GET",
     "path": "/business/public/{slug}/availability"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessPublicController",
-    "handlerMethod": "getPublicBusinessPage",
-    "httpMethod": "GET",
-    "path": "/business/public/{slug}"
-  },
-  {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessPublicController",
-    "handlerMethod": "getPublicOfferings",
-    "httpMethod": "GET",
-    "path": "/business/public/{slug}/offerings"
   },
   {
     "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingController",
@@ -216,16 +144,16 @@
     "path": "/business/bookings/owner/{bookingId}/mark-no-show"
   },
   {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessOwnerDashboardController",
-    "handlerMethod": "getMyDashboard",
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingPolicyController",
+    "handlerMethod": "getMyPolicy",
     "httpMethod": "GET",
-    "path": "/business/dashboard/me"
+    "path": "/business/booking-policy/me"
   },
   {
-    "controllerClass": "com.themuffinman.app.business.controller.BusinessOwnerDashboardController",
-    "handlerMethod": "getMySchedule",
-    "httpMethod": "GET",
-    "path": "/business/dashboard/me/schedule"
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessBookingPolicyController",
+    "handlerMethod": "saveMyPolicy",
+    "httpMethod": "PUT",
+    "path": "/business/booking-policy/me"
   },
   {
     "controllerClass": "com.themuffinman.app.business.controller.BusinessGalleryController",
@@ -250,6 +178,78 @@
     "handlerMethod": "deleteMyGalleryImage",
     "httpMethod": "DELETE",
     "path": "/business/gallery/me/{imageId}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
+    "handlerMethod": "getMyOfferings",
+    "httpMethod": "GET",
+    "path": "/business/offerings/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
+    "handlerMethod": "createMyOffering",
+    "httpMethod": "POST",
+    "path": "/business/offerings/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
+    "handlerMethod": "updateMyOffering",
+    "httpMethod": "PUT",
+    "path": "/business/offerings/{offeringId}/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOfferingController",
+    "handlerMethod": "deleteMyOffering",
+    "httpMethod": "DELETE",
+    "path": "/business/offerings/{offeringId}/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOwnerDashboardController",
+    "handlerMethod": "getMyDashboard",
+    "httpMethod": "GET",
+    "path": "/business/dashboard/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessOwnerDashboardController",
+    "handlerMethod": "getMySchedule",
+    "httpMethod": "GET",
+    "path": "/business/dashboard/me/schedule"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
+    "handlerMethod": "getDirectory",
+    "httpMethod": "GET",
+    "path": "/business/profiles"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
+    "handlerMethod": "getMyProfile",
+    "httpMethod": "GET",
+    "path": "/business/profiles/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
+    "handlerMethod": "saveMyProfile",
+    "httpMethod": "PUT",
+    "path": "/business/profiles/me"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessProfileController",
+    "handlerMethod": "getProfileBySlug",
+    "httpMethod": "GET",
+    "path": "/business/profiles/{slug}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessPublicController",
+    "handlerMethod": "getPublicBusinessPage",
+    "httpMethod": "GET",
+    "path": "/business/public/{slug}"
+  },
+  {
+    "controllerClass": "com.themuffinman.app.business.controller.BusinessPublicController",
+    "handlerMethod": "getPublicOfferings",
+    "httpMethod": "GET",
+    "path": "/business/public/{slug}/offerings"
   },
   {
     "controllerClass": "com.themuffinman.app.chat.controller.ChatAdminController",

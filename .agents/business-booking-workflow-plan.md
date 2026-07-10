@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: proposed
+machine_status: complete
 machine_title: Business Booking Workflow Plan
 machine_goal: Implement real reservation writes and lifecycle transitions for customers and owners using capacity-aware validation, explicit status changes, and separate read surfaces for customer and owner workflows.
 ---
@@ -9,7 +9,7 @@ machine_goal: Implement real reservation writes and lifecycle transitions for cu
 
 ## Status
 
-Proposed.
+Complete.
 
 ## Goal
 

@@ -33,4 +33,20 @@ class VisionClarificationServiceTest {
                 service.buildCreateQuestConfidenceQuestion(userMemory)
         );
     }
+
+    @Test
+    void buildsQuestGuidanceQuestionForRewardAmount() {
+        assertEquals(
+                "Should this quest be free, or what reward amount should I use?",
+                service.buildCreateQuestGuidanceQuestion("reward_amount", null)
+        );
+    }
+
+    @Test
+    void buildsQuestRetryGuidanceQuestionForDescription() {
+        assertEquals(
+                "I still need a short description of the task.",
+                service.buildCreateQuestRetryGuidanceQuestion("quest_description", null)
+        );
+    }
 }

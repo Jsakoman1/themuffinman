@@ -1,15 +1,15 @@
 # Audit Router
 
-- Next action: `./mvnw test`, `make audit-documentation`, `make audit-doc-canonical-phrases`
+- Next action: `./mvnw test`, `make generate-agent-artifacts`, `make audit-api-contract-drift`
 
 ## Details
 
-- Original File Count: 18
+- Original File Count: 88
 - Filtered File Count: 0
 - Excluded File Count: 0
-- Recommended audits: make audit-doc-sync-preflight | make audit-doc-sync-required-surfaces | make audit-documentation | make audit-doc-canonical-phrases | make audit-test-gap-recommendations
-- Recommended audits more: 1
-- Recommended commands: make audit-documentation | make audit-doc-canonical-phrases | make audit-summary-index
-- Recommended commands more: 2
-- Files: .agents/implementation-system-improvement-master-plan-next.md | .agents/templates/feature-implementation-plan.template.md
-- Files more: 16
+- Recommended audits: make audit-read-surface-inventory | make audit-repository-fetch | make audit-mapper-usage | make audit-api-contract-drift | make audit-endpoint-callsite-linker
+- Recommended audits more: 11
+- Recommended commands: make generate-agent-artifacts | make audit-api-contract-drift
+- Recommended commands more: 12
+- Files: .agents/feature-manifests/chat-prod-ready-manifest.yaml | .agents/templates/feature-implementation-plan.template.md
+- Files more: 86

@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-07-10T14:01:47Z",
+  "plan_path": ".agents/chat-prod-ready-plan.md",
+  "manifest_path": ".agents/feature-manifests/chat-prod-ready-manifest.yaml",
+  "changed_files": [
+
+  ],
+  "generated_artifact_freshness": [
+
+  ],
+  "plan_report": {
+    "blockers": [
+
+    ],
+    "warnings": [
+
+    ],
+    "machine_status": "complete",
+    "top_level_status": "Complete.",
+    "completion_status": "complete",
+    "open_tasks": 0,
+    "child_plans": 0,
+    "temp_work_products": [
+
+    ]
+  },
+  "archive_only_evidence": [
+
+  ],
+  "status": "passed",
+  "steps": [
+    {
+      "label": "generated-artifact-freshness",
+      "command": "make audit-generated-artifact-freshness",
+      "status": "passed",
+      "stdout": "/Library/Developer/CommandLineTools/usr/bin/make validate-frontend-contracts\nGenerated frontend contract is fresh.\nGenerated artifact freshness audit\nartifacts checked: 8\nstale: 0\n- agent_endpoint_inventory: fresh (newest source: apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java)\n- automation_read_model_inventory: fresh (newest source: apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatConversationListDTO.java)\n- source_of_truth_audit: fresh (newest source: docs/agent-operating-model/sections/source_of_truth.yaml)\n- backend_audit_inventory: fresh (newest source: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java)\n- frontend_generated_contract: fresh (newest source: apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java)",
+      "stderr": ""
+    }
+  ],
+  "errors": [
+
+  ]
+}

@@ -1,15 +1,18 @@
 ---
 machine_kind: master-plan
-machine_status: proposed
+machine_status: complete
 machine_title: Business Booking Implementation Master Plan
-machine_goal: Implement the business booking backend as a modular service-booking domain built on top of the current business profile root while reusing the repository's existing backend-centric layering patterns.
+machine_goal: Implement the business booking backend as a modular service-booking
+  domain built on top of the current `business_profile` root while reusing the repository's
+  existing backend-centric layering patterns from `workmarket`, `identity`, and other
+  module boundaries.
 ---
 
 # Business Booking Implementation Master Plan
 
 ## Status
 
-Proposed.
+Complete.
 
 ## Goal
 
@@ -36,6 +39,20 @@ Implement the business booking backend as a modular service-booking domain built
 - Future admin/ops support will likely need search hooks by customer, business, and date window, so the plan should preserve room for those queries.
 - Future notification/event vocabulary should be named early even if delivery is deferred.
 - Business booking should eventually gain docs-as-contract scenario coverage because its policy rules are too dense to rely on code intent alone.
+
+## Implemented Snapshot
+
+The repository now already contains the core business-booking implementation that this master plan originally aimed to deliver:
+
+- `business_profile` now carries booking-facing identity fields such as `bookingEnabled` and timezone context.
+- `business_offering` exists as the bookable service root with owner CRUD and booking-mode semantics.
+- `business_booking_policy` exists as the owner policy row with typed operational defaults.
+- Rule-based availability and exceptions are implemented as backend-owned schedule truth.
+- Public booking reads exist for the business mini-site, active offerings, availability preview, and gallery images.
+- Reservation writes exist for customer and owner flows, including confirm/reject/cancel/complete/no-show transitions.
+- Booking DTOs are backend-prepared with allowed actions, labels, timezone context, and snapshot semantics.
+- Owner schedule, calendar, dashboard, audit, and event hooks are present as separate read and integration surfaces.
+- The business README and domain docs already describe the implemented backend capsule rather than only the proposal.
 
 ## Pre-Implementation Decisions Still To Lock
 
@@ -286,6 +303,23 @@ Sequence note:
 - Audit and event hooks are modular and do not require core services to call downstream side effects directly.
 - Living docs reflect the real implemented state rather than the proposal only.
 - The master plan is not complete until every child phase in the declared order is either implemented and validated or explicitly blocked by a real blocking condition.
+
+## Completion Evidence
+
+- Status: complete
+- Child plan status:
+  - foundation complete
+  - availability complete
+  - public read complete
+  - workflow complete
+  - hardening and integrations complete
+- Validation:
+  - `./mvnw -q -Dtest=BusinessProfileServiceTest,BusinessOfferingServiceTest,BusinessBookingPolicyServiceTest,BusinessAvailabilityComputationServiceTest,BusinessPublicReadServiceTest,BusinessCreateBookingUseCaseTest,BusinessBookingValidationServiceTest,BusinessCancelBookingUseCaseTest,BusinessBookingReadServiceTest,BusinessOwnerScheduleReadServiceTest,BusinessOwnerCalendarReadServiceTest,BusinessGalleryServiceTest,BusinessBookingControllerTest test`
+  - `make control-start`
+  - `ruby scripts/audits/audit-generated-artifact-freshness.rb`
+- Doc delta summary:
+  - The business capsule already owns the profile, offering, availability, booking, gallery, dashboard, and audit boundaries documented here.
+  - The plan now records the shipped implementation state instead of only the initial rollout proposal.
 
 ## Expected Outcome
 

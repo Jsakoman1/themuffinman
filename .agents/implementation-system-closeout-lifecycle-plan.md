@@ -1,8 +1,9 @@
 ---
 machine_kind: plan
- machine_status: complete
+machine_status: complete
 machine_title: Implementation System Closeout Lifecycle
-machine_goal: Teach plan-completion and closeout tooling to notice, report, and clean up temporary work products owned by the plan.
+machine_goal: Teach plan-completion and closeout tooling to notice, report, and clean
+  up temporary work products owned by the plan.
 ---
 
 # Implementation System Closeout Lifecycle

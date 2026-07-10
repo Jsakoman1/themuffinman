@@ -2,7 +2,8 @@
 machine_kind: plan
 machine_status: complete
 machine_title: Vision Final Polish Plan
-machine_goal: Extract social mutations out of VisionCapabilityPreviewService so the facade stays preview-and-routing oriented.
+machine_goal: Extract social mutations out of `VisionCapabilityPreviewService` so
+  the facade stays preview-and-routing oriented.
 ---
 
 # Vision Final Polish Plan

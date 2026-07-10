@@ -69,6 +69,44 @@ public class VisionClarificationService {
         return buildCreateQuestConfidenceRetryQuestion();
     }
 
+    public String buildCreateQuestGuidanceQuestion(String slotId, VisionSemanticUserMemoryContext userMemory) {
+        if (slotId == null || slotId.isBlank()) {
+            return buildCreateQuestConfidenceQuestion(userMemory);
+        }
+        return switch (slotId) {
+            case VisionClarificationCatalog.SLOT_QUEST_TITLE -> buildQuestion(slotId);
+            case VisionClarificationCatalog.SLOT_QUEST_DESCRIPTION -> "What should people know to complete this quest?";
+            case VisionClarificationCatalog.SLOT_REWARD_AMOUNT -> "Should this quest be free, or what reward amount should I use?";
+            case VisionClarificationCatalog.SLOT_VISIBILITY -> "Should this quest be public or visible only to your circles?";
+            case VisionClarificationCatalog.SLOT_SCHEDULE_MODE -> "Should this quest happen at a fixed time or be arranged by agreement?";
+            case VisionClarificationCatalog.SLOT_SCHEDULED_DATE -> "What day should I use for the quest?";
+            case VisionClarificationCatalog.SLOT_SCHEDULED_TIME -> "What time should I use for the quest?";
+            case VisionClarificationCatalog.SLOT_LOCATION_MODE -> "Should I use your profile location, hide the location, or use a custom place?";
+            case VisionClarificationCatalog.SLOT_LOCATION_LABEL -> "What custom place or address should I use for this quest?";
+            case VisionClarificationCatalog.SLOT_LOCATION_CANDIDATE_CONFIRMATION -> "I found a more precise place match. Should I use the resolved place or keep the location exactly as you typed it?";
+            default -> buildQuestion(slotId);
+        };
+    }
+
+    public String buildCreateQuestRetryGuidanceQuestion(String slotId, VisionSemanticUserMemoryContext userMemory) {
+        if (slotId == null || slotId.isBlank()) {
+            return buildCreateQuestConfidenceRetryQuestion(userMemory);
+        }
+        return switch (slotId) {
+            case VisionClarificationCatalog.SLOT_QUEST_TITLE -> buildRetryQuestion(slotId);
+            case VisionClarificationCatalog.SLOT_QUEST_DESCRIPTION -> "I still need a short description of the task.";
+            case VisionClarificationCatalog.SLOT_REWARD_AMOUNT -> "I still need the reward amount, or you can say this quest should be free.";
+            case VisionClarificationCatalog.SLOT_VISIBILITY -> "I still need the visibility. Say public or circles only.";
+            case VisionClarificationCatalog.SLOT_SCHEDULE_MODE -> "I still need the schedule type. Say fixed time or by agreement.";
+            case VisionClarificationCatalog.SLOT_SCHEDULED_DATE -> "I still need the day for the quest.";
+            case VisionClarificationCatalog.SLOT_SCHEDULED_TIME -> "I still need the time. Use a format like 14:30, 2 pm, noon, or this evening.";
+            case VisionClarificationCatalog.SLOT_LOCATION_MODE -> "I still need the location type. Say use profile, hide location, or custom place.";
+            case VisionClarificationCatalog.SLOT_LOCATION_LABEL -> "I still need a real custom place or address, not just 'custom place'.";
+            case VisionClarificationCatalog.SLOT_LOCATION_CANDIDATE_CONFIRMATION -> "Choose one: use resolved place, or keep typed location.";
+            default -> buildRetryQuestion(slotId);
+        };
+    }
+
     private boolean prefersVoice(VisionSemanticUserMemoryContext userMemory) {
         if (userMemory == null || userMemory.getPreferredInputType() == null) {
             return false;

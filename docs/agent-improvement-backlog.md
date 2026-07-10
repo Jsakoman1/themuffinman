@@ -49,6 +49,7 @@ Completed plans and master plans should stay out of this file; keep their histor
 - Validation evidence records now require `ranAt` on commands and generated-artifact entries, and `make audit-validation-evidence-quality` rejects vague generated-artifact evidence or skipped entries without concrete reasons.
 - Documentation sync policy wording now keeps protected canonical phrases in complete authoritative rules instead of duplicate or fragmentary bullets.
 - Plan completion is now machine-checkable through `make audit-plan-completion plan=<plan-file>`, and feature closeout fails completed manifests whose referenced plan lacks completion evidence.
+- Closeout now prunes archive-only generated history through `make cleanup-generated-history`, rejects archive-only paths as live evidence, and requires non-placeholder changed-files, validation-evidence, and doc-delta plan completion fields before a completed plan can close cleanly.
 - Closeout reports can now be generated with `make closeout-report manifest=<manifest-file>` from manifest evidence, changed files, docs delta, generated artifacts, backlog delta, validation commands, and residual risks.
 - Critical regression scenarios are cataloged by domain in `docs/regression-scenario-catalog.yaml` and summarized in `docs/regression-scenario-catalog.md`.
 - Selected living-document sections are promoted into contract-like slices in `docs/docs-as-contract-slices.yaml` and summarized in `docs/docs-as-contract-slices.md`.

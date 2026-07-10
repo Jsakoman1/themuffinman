@@ -2,14 +2,16 @@
 machine_kind: master-plan
 machine_status: complete
 machine_title: Vision Backend Standardization Master Plan
-machine_goal: Standardize and simplify the Vision backend service layer so new features can be added through smaller reusable components instead of expanding monolithic services.
+machine_goal: Standardize and simplify the Vision backend service layer so new features
+  can be added through smaller reusable components instead of expanding monolithic
+  services.
 ---
 
 # Vision Backend Standardization Master Plan
 
 ## Status
 
-Active.
+Complete.
 
 ## Goal
 
@@ -27,9 +29,10 @@ Standardize and simplify the Vision backend service layer so new features can be
 
 ## Current State
 
-- The backend works, but several Vision services still mix orchestration, formatting, routing, and entity-specific branching in large classes.
-- `VisionConversationService`, `VisionCapabilityPreviewService`, `VisionIntentRouter`, and `VisionPromptUnderstandingService` remain the main places where adding a new capability still risks adding more branching instead of a reusable component.
-- Shared helper extraction has already started, so this plan should continue that direction rather than introduce another layer of ad hoc logic.
+- The backend now uses focused support classes for the previously large Vision flows.
+- `VisionCapabilityPreviewService` delegates repeated formatting into `VisionCapabilityPreviewSupport`, `VisionFeedPreviewRenderer`, and `VisionIdentityPreviewRenderer`.
+- `VisionConversationService` delegates repeated turn and snapshot handling into `VisionConversationSnapshotSupport` and `VisionDetailConversationTurnSupport`.
+- Shared helper extraction is complete for the preview and conversation slices, and the remaining backend work should build on those smaller seams rather than reopen the old monolith pattern.
 
 ## Desired State
 

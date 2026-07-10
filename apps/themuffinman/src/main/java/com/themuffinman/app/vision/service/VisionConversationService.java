@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class VisionConversationService {
@@ -200,6 +201,7 @@ public class VisionConversationService {
                 ? visionConversationLifecycleSupport.loadExistingConversation(dto.getConversationId(), currentUser)
                 : null;
         String prompt = action == VisionConversationAction.SUBMIT_PROMPT ? requirePrompt(dto) : "";
+        String clientRequestId = clientRequestId(dto);
         VisionSemanticRuntimeHints runtimeHints = runtimeHints(dto);
         VisionPromptUnderstandingResult understanding = action == VisionConversationAction.SUBMIT_PROMPT
                 ? visionPromptUnderstandingService.understandPrompt(prompt, existingConversation, currentUser, runtimeHints)
@@ -214,13 +216,29 @@ public class VisionConversationService {
                 normalizedPrompt,
                 action,
                 understanding,
-                existingConversation
+                existingConversation,
+                clientRequestId
         );
+        if (action == VisionConversationAction.SUBMIT_PROMPT
+                && dto != null
+                && dto.getConversationId() == null
+                && clientRequestId != null
+                && isConversationReplayCandidate(conversation, clientRequestId)) {
+            VisionTurn lastTurn = visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)
+                    .orElseGet(() -> visionConversationLifecycleSupport.snapshotTurn(conversation));
+            return replayConversation(conversation, lastTurn, currentUser, understanding);
+        }
         rememberRuntimeHints(conversation, runtimeHints);
+        if (isDuplicateClientRequest(conversation, clientRequestId)) {
+            VisionTurn lastTurn = visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)
+                    .orElseThrow(() -> ServiceErrors.conflict("Vision conversation retry state was not found"));
+            return replayConversation(conversation, lastTurn, currentUser, understanding);
+        }
         visionConversationMutationSupport.ensureTurnCapacity(conversation);
 
         String source = effectiveSource(dto);
         VisionTurn turn = handleConversationTurn(action, conversation, prompt, normalizedPrompt, understanding, source, dto);
+        rememberClientRequestId(conversation, clientRequestId);
 
         if (visionLearningService != null) {
             visionLearningService.recordTurnOutcome(
@@ -288,6 +306,7 @@ public class VisionConversationService {
             case VIEW_SETTINGS -> visionReadOnlyConversationTurnHandler.handleViewSettingsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_BUSINESS -> visionReadOnlyConversationTurnHandler.handleViewBusinessTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_BUSINESS_AVAILABILITY -> visionReadOnlyConversationTurnHandler.handleViewBusinessAvailabilityTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_BUSINESS_BOOKINGS -> visionReadOnlyConversationTurnHandler.handleViewBusinessBookingsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_USER_PROFILE -> handleViewUserProfileTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_CIRCLES -> visionReadOnlyConversationTurnHandler.handleViewCirclesTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_CIRCLE_DETAIL -> handleViewCircleDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
@@ -380,7 +399,8 @@ public class VisionConversationService {
             String normalizedPrompt,
             VisionConversationAction action,
             VisionPromptUnderstandingResult understanding,
-            VisionConversation existingConversation
+            VisionConversation existingConversation,
+            String clientRequestId
     ) {
         VisionIntent semanticIntent = understanding == null
                 ? VisionIntent.UNSUPPORTED
@@ -422,6 +442,13 @@ public class VisionConversationService {
         if (conversationId != null) {
             return visionConversationLifecycleSupport.loadExistingConversation(conversationId, currentUser);
         }
+        if (clientRequestId != null) {
+            Optional<VisionConversation> replayConversation =
+                    visionConversationRepository.findFirstByOwnerAndLastClientRequestIdOrderByUpdatedAtDesc(currentUser, clientRequestId);
+            if (replayConversation.isPresent()) {
+                return replayConversation.get();
+            }
+        }
         if (action != VisionConversationAction.SUBMIT_PROMPT) {
             throw ServiceErrors.badRequest("Conversation action requires an existing conversation");
         }
@@ -434,6 +461,21 @@ public class VisionConversationService {
                 : VisionConversationStatus.ACTIVE);
         conversation.setSlotData(new LinkedHashMap<>());
         return visionConversationRepository.save(conversation);
+    }
+
+    private VisionConversationTurnResponseDTO replayConversation(
+            VisionConversation conversation,
+            VisionTurn turn,
+            AppUser currentUser,
+            VisionPromptUnderstandingResult understanding
+    ) {
+        return assembleConversationResponse(
+                conversation,
+                turn,
+                currentUser,
+                understanding,
+                visionExecutionPlanner.plan(conversation, understanding)
+        );
     }
 
     private void retireConversationForTaskSwitch(VisionConversation conversation) {
@@ -519,6 +561,7 @@ public class VisionConversationService {
                 .inputType(dto.getInputType())
                 .clientLocale(dto.getClientLocale())
                 .clientTimezone(dto.getClientTimezone())
+                .clientDeviceRole(dto.getClientDeviceRole())
                 .clientCapabilities(dto.getClientCapabilities())
                 .clientStateVersion(dto.getClientStateVersion())
                 .build();
@@ -543,6 +586,10 @@ public class VisionConversationService {
         String clientTimezone = cleanRuntimeHint(runtimeHints.getClientTimezone());
         if (clientTimezone != null) {
             conversation.getSlotData().put("client_timezone", clientTimezone);
+        }
+        String clientDeviceRole = cleanRuntimeHint(runtimeHints.getClientDeviceRole());
+        if (clientDeviceRole != null) {
+            conversation.getSlotData().put("client_device_role", clientDeviceRole);
         }
     }
 
@@ -637,6 +684,45 @@ public class VisionConversationService {
         );
     }
 
+    private String clientRequestId(VisionConversationTurnRequestDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        return cleanRuntimeHint(dto.getClientRequestId());
+    }
+
+    private boolean isDuplicateClientRequest(VisionConversation conversation, String clientRequestId) {
+        if (conversation == null || clientRequestId == null) {
+            return false;
+        }
+        if (clientRequestId.equals(conversation.getLastClientRequestId())) {
+            return true;
+        }
+        return conversation.getSlotData() != null
+                && clientRequestId.equals(conversation.getSlotData().get("last_client_request_id"));
+    }
+
+    private boolean isConversationReplayCandidate(VisionConversation conversation, String clientRequestId) {
+        if (conversation == null || clientRequestId == null) {
+            return false;
+        }
+        return clientRequestId.equals(conversation.getLastClientRequestId())
+                || (conversation.getSlotData() != null
+                && clientRequestId.equals(conversation.getSlotData().get("last_client_request_id")));
+    }
+
+    private void rememberClientRequestId(VisionConversation conversation, String clientRequestId) {
+        if (conversation == null || clientRequestId == null) {
+            return;
+        }
+        if (conversation.getSlotData() == null) {
+            conversation.setSlotData(new LinkedHashMap<>());
+        }
+        conversation.setLastClientRequestId(clientRequestId);
+        conversation.getSlotData().put("last_client_request_id", clientRequestId);
+        visionConversationRepository.save(conversation);
+    }
+
     private VisionTurn handleCreateQuestReviewTurn(
             VisionConversation conversation,
             String prompt,
@@ -689,8 +775,8 @@ public class VisionConversationService {
             nextAction = VisionNextAction.ASK_FOR_SLOT;
             agentState = VisionAgentState.ASKING;
             message = missingSlot.equals(conversation.getRequestedSlot())
-                    ? visionClarificationService.buildRetryQuestion(missingSlot)
-                    : visionClarificationService.buildQuestion(missingSlot);
+                    ? visionClarificationService.buildCreateQuestRetryGuidanceQuestion(missingSlot, visionConversationLifecycleSupport.userMemoryFor(conversation))
+                    : visionClarificationService.buildCreateQuestGuidanceQuestion(missingSlot, visionConversationLifecycleSupport.userMemoryFor(conversation));
         }
 
         conversation.setSlotData(mergedSlots);

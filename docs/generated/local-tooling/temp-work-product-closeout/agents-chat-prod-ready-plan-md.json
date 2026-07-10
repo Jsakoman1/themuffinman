@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-07-10T13:40:21Z",
+  "plan": ".agents/chat-prod-ready-plan.md",
+  "action": "delete",
+  "matched_count": 0,
+  "deleted": [
+
+  ],
+  "archived": [
+
+  ],
+  "remaining": [
+
+  ]
+}
