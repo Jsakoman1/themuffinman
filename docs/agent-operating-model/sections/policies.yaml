@@ -31,7 +31,7 @@ policies:
       - ruby scripts/audits/audit-generated-artifact-freshness.rb
       - make audit-local-tooling-incremental
     - id: full_validation
-      purpose: Full backend, frontend, docs, agent-safety, and local-tooling checks for high-risk, executor-critical, broad, or master-plan-driven changes.
+      purpose: Full backend, frontend, docs, agent-safety, and local-tooling checks for high-risk, executor-critical, broad, or sequenced-batch-driven changes.
       example_commands:
       - "./mvnw test"
       - npm run type-check
@@ -114,33 +114,32 @@ policies:
     - final closeout summary
     completion_rule: Closeout must state what behavior changed, which living docs or agent artifacts were updated, and what related surfaces were intentionally left unchanged.
   plan_completion_audit:
-    applies_to: Temporary plans, master plans, and completed manifest-backed changes when plan completion evidence is part of the closeout boundary.
+    applies_to: Temporary batches and completed manifest-backed changes when evidence-based closeout is part of the boundary.
     required_evidence:
-    - plan exists
-    - plan has a Completion Evidence section
+    - batch exists
+    - batch has a Completion Evidence section
     - completion status is final
     - completed plans keep changed files, validation evidence, and doc delta summary out of placeholder states
     - open task checkboxes are complete or explicitly deferred to a stable backlog ID
-    - master-plan child rows are complete or explicitly deferred
-    - completed master plans do not retain child rows with pending, draft, or in_progress status
     - completed manifests do not reference incomplete plan evidence
-    audit_command: make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]
-    completion_rule: A plan-backed change is not ready for closeout while its referenced plan has incomplete task checkboxes, missing completion evidence, a child plan without an explicit deferred backlog ID, or a completed master plan that still lists non-final child statuses.
+    audit_command: make audit-validation-evidence-quality
+    completion_rule: A batch-backed change is not ready for closeout while its referenced batch has incomplete task checkboxes, missing completion evidence, or unresolved evidence placeholders.
   program_planning_hierarchy:
-    applies_to: Broad work that spans several master plans, durable product directions, or long-running agent/control-system programs.
+    applies_to: Broad work that spans several plans, durable product directions, or long-running agent/control-system programs.
     source_doc: docs/program-planning-model.md
     hierarchy:
-    - God Plan
-    - Master Plan
+    - Master plan
     - Plan
+    - Checkbox
+    - Analysis record
     - Temporary work product
     rules:
-    - God Plans live under `.agents/god-plans/` and coordinate related Master Plans.
-    - Master Plans coordinate ordered child Plans and final closeout evidence.
+    - Master plans coordinate ordered plans and final closeout evidence.
     - Plans execute concrete implementation or analysis slices.
-    - Temporary machine-readable work products live under `.agents/tmp/` only while their owning Plan needs them.
+    - Each plan should use checkbox-based implementation steps and close only when all checkboxes are complete.
+    - Temporary machine-readable work products live under `.agents/tmp/` only while their owning plan needs them.
     - "make control-start, make codex-context, and make context-pack surface the topic's layered-analysis artifact and temp work-product inventory when they exist."
-    - "Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries."
+    - "Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries."
     - "Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state."
     - "Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence in plans, manifests, or refreshed generated-artifact lists."
     - "make control-refresh-full performs the same snapshot flow and then runs the slower generated-artifact freshness pass plus generated-history cleanup."
@@ -148,15 +147,14 @@ policies:
     - "make temp-work-product-closeout plan=<plan-file> deletes or archives lingering temp work products owned by a plan before closeout."
     - "make audit-generated-artifact-hygiene files=<csv> provides a scope-filtered generated-artifact noise check before the global freshness pass."
     - "make cleanup-generated-history prunes archive-only generated local-tooling history before closeout-sensitive review."
-    - "make closeout-driver plan=<plan-file> manifest=<manifest-file> is the deterministic fail-fast entrypoint for final closeout."
     closeout_rule: Temporary machine-readable work products must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
   implementation_checkpoints:
-    broad_change_trigger: Use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes.
+    broad_change_trigger: Use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or sequenced-batch-driven changes.
     default_rule: Complete each checkpoint in order and record the result in the temporary plan before continuing to the next slice.
     checkpoints:
     - id: plan
       required_evidence:
-      - temporary plan or master child plan exists
+      - temporary analysis record exists
       - scope, risk, affected surfaces, and expected validation are listed
       - approval needs are front-loaded before autonomous work begins
       - when AGENTS.md records a standing autonomous continuation preference, safe offered follow-up slices continue without waiting for option-selection input
@@ -185,7 +183,7 @@ policies:
     - id: commit_boundary
       required_evidence:
       - backlog item is removed only after implementation and validation are complete
-      - temporary plan and master plan status match the actual state
+      - temporary batch status matches the actual state
       - commit or push is skipped unless the user explicitly requested it
       completion_rule: Close the slice only after scope, backlog, docs, generated artifacts, and validation evidence agree.
   uniqueness:

@@ -25,6 +25,11 @@ The machine-readable source of truth is:
   layer.
 - Treat `docs/codex-fast-path.md` as the compact execution entrypoint for most feature work.
 - `docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
+- For broad work, use the program planning model in `docs/program-planning-model.md`: master plans coordinate plans, plans execute checkbox-based slices, and temporary work products live under `.agents/tmp/` only while their owning plan needs them.
+For broad, long-running, or high-complexity work, prefer a sequenced batch with explicit slices instead of treating the entire task as one flat edit.
+For broad, long-running, or high-complexity work, prefer a sequenced batch that coordinates a group of narrower implementation slices in explicit sequence instead of treating the entire task as one flat block.
+Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final validation pass.
+Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
 - For product-direction, UX, adaptive-surface, or Social Useful Network sessions, read `docs/product-memory.md` and `docs/product-vision.md` first so future reasoning starts from durable lessons and the canonical product direction instead of from backlog noise.
 - For `/vision` implementation work, read `docs/vision-architecture-patterns.md` before backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
 - Treat `agent-operating-model.yaml` as the machine-operational contract for high-impact workflows.
@@ -35,27 +40,28 @@ The machine-readable source of truth is:
 - Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 - Treat the section files under `docs/agent-operating-model/sections/` as the editable source for that machine contract and regenerate the combined YAML after changes.
 - Treat `docs/implementation-backlog.md` and `docs/agent-improvement-backlog.md` as the persistent open-work registries for deferred implementation and deferred control-system work.
-- Treat `docs/program-planning-model.md` as the hierarchy contract for God Plans, Master Plans, Plans, and temporary machine-readable work products.
+- Treat `.agents/tmp/` and persistent backlog records as the temporary and durable control surfaces for broad batches and work slices.
 - For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
 - Keep workflows procedural, explicit, and dependency-ordered.
-- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
-- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
-- Never mark a plan, child plan, or master plan complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
-- For work that spans several master plans, use a God Plan under `.agents/god-plans/` to coordinate implementation state, pros, cons, risks, decisions, and child Master Plans.
+- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower plans in explicit sequence instead of treating the entire task as one flat block.
+- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger program auditable through one final closeout pass.
+- Never mark a plan complete unless all of its checkboxes are complete, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
+- Never mark a master plan complete unless every plan it coordinates is complete and the completion evidence matches the real state.
+- Never mark a batch complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
+- For work that spans several related programs, keep the coordination notes in a durable `.agents/tmp/` analysis record or a persistent backlog item so implementation state, risks, and decisions stay explicit.
 - Temporary machine-readable work products belong under `.agents/tmp/`, must name their owning plan, and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
 - `make control-start`, `make codex-context`, and `make context-pack` should surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
-- Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `plan-index`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries.
+- Treat the operator-core local-tooling surfaces as the default session path: `control-start`, `audit-summary-index`, `codex-context/latest.*`, and targeted-tests summaries.
 - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
 - Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence in plans, manifests, or refreshed generated-artifact lists.
 - `make implementation-batch topic=<topic>` should act as the deterministic broad-work wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout hints when a plan exists.
 - `make implementation-batch topic=<topic>` should also run generated-history cleanup before closeout-sensitive review so archive-only report history stays out of the live evidence path.
-- `make closeout-driver plan=<plan-file> manifest=<manifest-file>` should be the deterministic final closeout entrypoint when the batch needs one fail-fast sequence.
-- Treat parameterized local-tooling outputs such as DTO packs, symbol-test links, workflow slices, plan-completion reports, and other `<placeholder>` outputs as on-demand templates rather than as missing default operator surfaces.
+- Treat parameterized local-tooling outputs such as DTO packs, symbol-test links, workflow slices, closeout summaries, and other `<placeholder>` outputs as on-demand templates rather than as missing default operator surfaces.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
-- In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
+- In a safe active batch, do not ask the user whether to continue between slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
 - When `AGENTS.md` records the standing follow-up capture preference, record discovered safe improvements and repeated failure patterns in the appropriate follow-up or backlog surface during the active slice and continue with the best sequenced follow-up slice after the current slice closes.
-- During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+- During a safe batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the batch only after the final closeout pass.
 - During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 - Prefer hard failure over implicit fallback when the spec does not define a safe next step.
 - Every workflow step should point to concrete source files or concrete endpoint contracts.
@@ -76,7 +82,7 @@ The machine-readable source of truth is:
 - Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.
 - Deferred implementation or control-system follow-ups must use stable backlog IDs, and matching inline `TODO(<ID>):` or `FIXME(<ID>):` notes must not outlive the open backlog item they reference.
 - `scripts/todo-audit.rb` must keep persistent backlog IDs traceable to plans, feature manifests, docs, code surfaces, or inline `TODO(<ID>):` and `FIXME(<ID>):` references.
-- After a completed plan or master plan, append durable lessons to `docs/product-memory.md` and run the standard post-plan control loop so stable memory, failure knowledge, and source-of-truth docs stay aligned.
+- After a completed batch, append durable lessons to `docs/product-memory.md` and run the standard post-batch control loop so stable memory, failure knowledge, and source-of-truth docs stay aligned.
 - Do not paraphrase, shorten, reorder, or partially restate protected canonical wording.
 
 Unified clarification contract:
@@ -241,12 +247,11 @@ Self-test matrix:
 - `policies.self_test_matrix` defines validation tiers for syntax-only, targeted unit, domain scenario, contract/type-check, generated-artifact validation, and full validation.
 - Risk tiers and change profiles map to minimum validation tiers so low-risk changes can stay focused while high-risk and executor-critical work still requires broad validation.
 - `AgentOperatingModelValidationTest` reports all missing canonical documentation phrases per document path in one failure so workflow drift is easier to fix in a single pass.
-- `make audit-plan-completion` treats completed master plans with pending, draft, or in_progress child statuses as a closeout failure.
-- Completed plans should also fail closeout if the completion evidence leaves changed files, validation evidence, or doc delta summary at placeholder strength.
+- Validation and closeout checks treat completed batches with missing evidence, pending task checkboxes, or placeholder summaries as a closeout failure.
 
 Tiered workflow routing:
 - Tier 1 tiny changes use compact context, no manifest by default, targeted validation, and `make audit-todo`.
-- Tier 2 normal features require a short plan, use resolver-driven manifest decisions, and close through `make audit-plan-completion`.
+- Tier 2 normal features require a short implementation note, use resolver-driven manifest decisions, and close through the standard validation and evidence checks.
 - Tier 3 high-risk or multi-layer features require plan, manifest, validation evidence, `make validation-memory-closeout-card`, and full closeout.
 - Tier 4 agent, tooling, or workflow changes keep the strictest path because they affect future Codex behavior.
 - Final responses must state what changed, what was validated, and any remaining risks or not-run checks.
@@ -268,16 +273,16 @@ Context-first session workflow:
 - fall back to broad `rg` exploration only after the compact context path is insufficient
 
 Broad implementation checkpoints:
-- use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or master-plan-driven changes
-- if the work spans several master plans, update the relevant God Plan before changing child plan status
-- plan checkpoint: create the temporary plan or master child plan, list scope, risk, affected surfaces, expected validation, and any up-front approval needs before substantial edits
+- use these checkpoints for broad, long-running, high-complexity, multi-layer, high-risk, or sequenced-batch-driven changes
+- if the work spans several related batches, update the durable batch analysis record before changing status
+- plan checkpoint: create the temporary batch analysis record, list scope, risk, affected surfaces, expected validation, and any up-front approval needs before substantial edits
 - plan checkpoint: include machine-readable plan metadata at the top of the plan file when the template or migration path supports it so status can be parsed before markdown fallback
 - first backend slice checkpoint: when backend is in scope, complete the smallest meaningful backend behavior, contract, or generated-artifact edit and record a targeted backend check or not-applicable reason before broadening backend edits
 - first frontend slice checkpoint: when frontend is in scope, complete the smallest meaningful frontend contract, state, route, or component edit and record type-check, build, contract validation, or a not-applicable reason before broadening frontend edits
 - docs/artifacts sync checkpoint: update affected living docs and regenerate affected generated artifacts before treating behavior, contract, workflow, or automation-assumption changes as complete
 - validation checkpoint: record exact targeted checks plus any required full checks or concrete skipped-check reasons before marking the slice complete
 - validation checkpoint: when a manifest is in scope, prefer canonical validator-facing command strings in recorded evidence instead of only equivalent shell variants
-- commit boundary checkpoint: remove the persistent backlog item only after implementation and validation are complete, align temporary and master plan status with reality, and skip commit or push unless the user explicitly requested it
+- commit boundary checkpoint: remove the persistent backlog item only after implementation and validation are complete, align temporary batch status with reality, and skip commit or push unless the user explicitly requested it
 
 Current mutation execution pattern:
 - controllers stay transport-only and delegate to backend services

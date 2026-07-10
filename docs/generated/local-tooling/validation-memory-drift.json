@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-10T14:01:58Z",
+  "generated_at": "2026-07-10T20:44:36Z",
   "markdown": "docs/validation-memory.md",
   "json": "docs/validation-memory.json",
   "issue_count": 0,
@@ -52,11 +52,6 @@
     {
       "label": "closeout canonical commands",
       "status": "ok",
-      "detail": "make closeout-driver plan=<plan-file> manifest=<manifest-file>"
-    },
-    {
-      "label": "closeout canonical commands",
-      "status": "ok",
       "detail": "make cleanup-generated-history"
     },
     {
@@ -67,7 +62,12 @@
     {
       "label": "closeout canonical commands",
       "status": "ok",
-      "detail": "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
+      "detail": "make audit-validation-memory-drift"
+    },
+    {
+      "label": "closeout canonical commands",
+      "status": "ok",
+      "detail": "make validation-memory-closeout-card"
     },
     {
       "label": "primary human doc",

@@ -16,6 +16,7 @@ import type {
 } from "../../contracts/index.ts"
 import {currentUser} from "../identity/auth.ts"
 import {getAppSurfaceConfig, type AppSurfaceId} from "./shellDefinitions.ts"
+import {resolveSurfaceDetailRoute} from "./shellRouteRegistry.ts"
 import {userShellApi} from "./api/userShellApi.ts"
 import {buildSurfaceVisionRoute} from "./visionHandoff.ts"
 
@@ -93,9 +94,9 @@ const describeQuestTerm = (quest: QuestResponseDTO) => {
   return quest.presentation.timeTypeLabel
 }
 
-const questRoute = (questId: number): RouteLocationRaw => ({path: `/vision/quests/${questId}`})
-const applicationRoute = (applicationId: number): RouteLocationRaw => ({path: `/vision/applications/${applicationId}`})
-const chatRoute = (conversationId: number): RouteLocationRaw => ({path: `/chat/${conversationId}`})
+const questRoute = (questId: number): RouteLocationRaw => resolveSurfaceDetailRoute("work-quests", questId) ?? {path: `/vision/quests/${questId}`}
+const applicationRoute = (applicationId: number): RouteLocationRaw => resolveSurfaceDetailRoute("work-applications", applicationId) ?? {path: `/vision/applications/${applicationId}`}
+const chatRoute = (conversationId: number): RouteLocationRaw => resolveSurfaceDetailRoute("chat-conversation", conversationId) ?? {path: `/chat/${conversationId}`}
 
 const createQuestRow = (quest: QuestResponseDTO): ShellSurfaceRow => ({
   id: `quest-${quest.id}`,

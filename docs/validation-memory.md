@@ -78,30 +78,18 @@ When the manifest declares `workflow-expansion`:
 - record passed evidence for a scenario or use-case contract command, for example:
   - `./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest`
 
-### Closeout and backlog hygiene
+### Batch completion and backlog hygiene
 
 Completed manifest-backed changes should also record:
 
-- `make closeout-driver plan=<plan-file> manifest=<manifest-file>`
 - `make cleanup-generated-history`
 - `make audit-todo`
-- `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
-- for control-system plan hygiene, also record `make plan-index` and `make control-start` so the routing snapshot matches the active master-plan set
-
-Control-system closeout should use these canonical commands when routing or status hygiene changes:
-
-- `make plan-index`
-- `make control-start`
-- `make audit-plan-completion plan=<plan-file>`
-
-The standard closeout-sensitive audit loop should also rerun:
-
 - `make audit-validation-memory-drift`
 - `make validation-memory-closeout-card`
 
-These prove that backlog drift, unfinished plan checkboxes, and manifest-plan mismatch are closed.
-Completed master plans also need their child statuses to be final; pending, draft, or in_progress child rows are a closeout failure.
-Archive-only paths under `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, and `.agents/archive/` are not valid live closeout evidence.
+The standard completion loop should also rerun any generated-artifact refresh and documentation-sync checks that the current change requires.
+
+Archive-only paths under `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, and `.agents/archive/` are not valid live evidence.
 
 ## Manifest Heuristics That Recur
 
@@ -118,7 +106,7 @@ For complete manifest-backed work, prefer a compact evidence set like:
 
 1. targeted backend or frontend checks for the changed slice
 2. canonical validator-facing commands for the change profile
-3. plan completion and backlog closeout audits
+3. batch completion and backlog hygiene audits
 4. generated-artifact refresh commands when machine-readable docs or inventories changed
 
 This keeps evidence minimal while still satisfying the validator.
@@ -147,24 +135,23 @@ Fix:
 
 ### Plan-manifest drift
 
-- child plans were implemented but not marked complete
-- master plan still showed open checkboxes
+- completion evidence was recorded too early
+- backlog items were left unresolved
 - manifest was marked complete before plan audits passed
 
 Fix:
 
-- update child plans first
-- update master plan second
-- prune archive-only history and close plan-owned temp work products
-- run `make audit-plan-completion`
+- update code and docs first
+- prune archive-only history
+- run `make audit-validation-memory-drift`
 - only then keep the manifest at `complete`
 
 ## Recommended Read Order During Closeout
 
 1. `docs/codex-fast-path.md`
 2. this file
-3. the active plan or master plan
-4. the active manifest
+3. the active manifest or batch evidence
+4. the generated audit summary
 5. `docs/generated/local-tooling/audit-summary-index.md` when a failure needs a smaller focused audit; treat it as a
    routing aid, not as authoritative current state
 

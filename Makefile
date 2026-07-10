@@ -1,7 +1,5 @@
 SHELL := /bin/zsh
 
-.PHONY: dev dev-doctor dev-storage dev-storage-down backend-dev backend-test backend-package backend-bootstrap-example generate-frontend-contracts validate-frontend-contracts audit-agent-safety audit-todo audit-validation-evidence-quality audit-plan-completion audit-generated-commit-scope changeset-risk audit-change-impact-preflight audit-read-surface-inventory audit-mapper-usage audit-generated-artifact-freshness audit-api-contract-drift audit-repository-fetch audit-endpoint-callsite-linker audit-frontend-route-surfaces audit-frontend-stale-surfaces audit-frontend-state-logic-duplication audit-duplicate-logic audit-permission-rule-duplication audit-frontend-dead-code audit-backend-dead-code audit-dead-code audit-state-transition-coverage audit-docs-to-code-drift audit-doc-staleness-scoring audit-architecture-drift architecture-decision-index audit-doc-coverage-gap audit-automation-readiness-gap audit-agent-model-feature-coverage audit-sandbox-generation-coverage audit-domain-ownership-inventory audit-config-sprawl audit-naming-consistency audit-dormant-code audit-manual-cleanup-candidate-report audit-file-relation-graph audit-test-surface-inventory audit-test-fixture-duplication audit-mutation-safety audit-docs-as-tests audit-error-pattern audit-rich-text-safety audit-async-mutation-flow audit-style-token-usage audit-feature-intro-check audit-make-target-index audit-documentation codex-context codex-context-explain codex-context-clean context-pack recommend-feature-slices recommend-targeted-tests audit-router repo-map symbol-index endpoint-contract-packs validation-matrix changeset-playbook resolve-manifest-path link-symbol-to-tests dto-usage-pack workflow-slice-pack plan-code-map rank-changeset-hotspots domain-pack recommend-validation-preset audit-delta-report audit-doc-sync-preflight audit-doc-sync-required-surfaces audit-doc-template-coverage audit-doc-sync-duplicates audit-migration-entity-drift audit-test-gap-recommendations audit-contract-test-gaps audit-frontend-usage-graph audit-backend-dependency-graph diff-summary session-handoff plan-index control-refresh control-refresh-core control-refresh-full control-start normalize-plan-metadata audit-summary-index generate-audit-registry-artifacts fast-check api-contract-snapshot audit-doc-canonical-phrases audit-validation-memory-drift validation-memory-closeout-card audit-sandbox-data-coverage-pack smoke-local-authenticated smoke-local-dashboard closeout-bundle closeout-report closeout-driver autofill-feature-closeout post-merge-retrospective failure-knowledge-base test-history-summary codebase-capsule diagnose-backend-test diagnose-frontend-type-check diagnose-frontend-build audit-local-tooling audit-local-tooling-incremental bootstrap-feature-work implementation-batch cleanup-generated-history temp-work-product-closeout feature-closeout-audit enforce-feature-closeout record-validation audit-manifest-decision clean-text-noise generate-agent-operating-model generate-agent-artifacts post-plan-memory-update
-
 dev:
 	$(MAKE) -C apps/themuffinman dev
 
@@ -43,10 +41,6 @@ audit-todo:
 
 audit-validation-evidence-quality:
 	ruby scripts/audits/audit-validation-evidence-quality.rb
-
-audit-plan-completion:
-	@if [ -z "$(plan)" ]; then echo "usage: make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"; exit 1; fi
-	ruby scripts/audits/audit-plan-completion.rb plan="$(plan)" $(if $(manifest),manifest="$(manifest)",)
 
 audit-generated-commit-scope:
 	ruby scripts/audits/audit-generated-commit-scope.rb
@@ -237,10 +231,6 @@ workflow-slice-pack:
 	@if [ -z "$(workflow)" ]; then echo "usage: make workflow-slice-pack workflow=<workflow-id>"; exit 1; fi
 	ruby scripts/audits/generate-workflow-slice-pack.rb workflow="$(workflow)"
 
-plan-code-map:
-	@if [ -z "$(plan)" ]; then echo "usage: make plan-code-map plan=<plan-file>"; exit 1; fi
-	ruby scripts/audits/generate-plan-code-map.rb plan="$(plan)"
-
 rank-changeset-hotspots:
 	ruby scripts/audits/rank-changeset-hotspots.rb files="$(files)"
 
@@ -297,29 +287,6 @@ session-handoff:
 audit-summary-index:
 	ruby scripts/audits/generate-audit-summary-index.rb
 
-plan-index:
-	ruby scripts/audits/generate-plan-index.rb
-
-control-refresh-core:
-	$(MAKE) plan-index
-	$(MAKE) generate-audit-registry-artifacts
-	$(MAKE) diff-summary
-	$(MAKE) codex-context topic=control-system intent='refresh control system outputs'
-	$(MAKE) audit-summary-index
-	ruby scripts/audits/generate-control-start.rb
-
-control-refresh:
-	$(MAKE) control-refresh-core
-	$(MAKE) audit-generated-artifact-freshness
-
-control-refresh-full: control-refresh
-	$(MAKE) cleanup-generated-history
-
-control-start: control-refresh-core
-
-normalize-plan-metadata:
-	ruby scripts/audits/normalize-plan-metadata.rb
-
 generate-audit-registry-artifacts:
 	ruby scripts/audits/generate-audit-registry-artifacts.rb
 
@@ -347,37 +314,11 @@ smoke-local-authenticated:
 smoke-local-dashboard:
 	ruby scripts/audits/smoke-local-dashboard.rb
 
-closeout-bundle:
-	ruby scripts/audits/generate-closeout-bundle.rb manifest="$(manifest)" files="$(files)"
-
-closeout-report:
-	@if [ -z "$(manifest)" ]; then echo "usage: make closeout-report manifest=<manifest-file>"; exit 1; fi
-	ruby scripts/audits/generate-closeout-report.rb manifest="$(manifest)"
-
-closeout-driver:
-	@if [ -z "$(plan)" ] || [ -z "$(manifest)" ]; then echo "usage: make closeout-driver plan=<plan-file> manifest=<manifest-file> [files=<csv>]"; exit 1; fi
-	ruby scripts/audits/closeout-driver.rb plan="$(plan)" manifest="$(manifest)" $(if $(files),files="$(files)",)
-
-autofill-feature-closeout:
-	@if [ -z "$(manifest)" ]; then echo "usage: make autofill-feature-closeout manifest=<manifest-file> [files=<csv>] [generated=<csv>] [docs=<csv>] [ready=true]"; exit 1; fi
-	ruby scripts/audits/autofill-feature-closeout.rb manifest="$(manifest)" files="$(files)" generated="$(generated)" docs="$(docs)" $(if $(ready),ready="$(ready)",)
-
 post-merge-retrospective:
 	ruby scripts/audits/generate-post-merge-retrospective.rb topic="$(topic)" files="$(files)"
 
 failure-knowledge-base:
 	ruby scripts/audits/update-failure-knowledge-base.rb source="$(source)"
-
-post-plan-memory-update:
-	@if [ -z "$(plan)" ]; then echo "usage: make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]"; exit 1; fi
-	$(MAKE) audit-plan-completion plan="$(plan)" $(if $(manifest),manifest="$(manifest)",)
-	$(MAKE) audit-todo
-	$(MAKE) failure-knowledge-base $(if $(source),source="$(source)",)
-	$(MAKE) audit-make-target-index
-	$(MAKE) audit-documentation
-	$(MAKE) audit-doc-canonical-phrases
-	$(MAKE) audit-summary-index
-	$(MAKE) audit-doc-staleness-scoring
 
 test-history-summary:
 	ruby scripts/audits/generate-test-history-summary.rb
@@ -393,107 +334,6 @@ diagnose-frontend-type-check:
 
 diagnose-frontend-build:
 	ruby scripts/audits/diagnose-frontend-build.rb
-
-audit-local-tooling:
-	$(MAKE) audit-change-impact-preflight
-	$(MAKE) changeset-risk
-	$(MAKE) audit-read-surface-inventory
-	$(MAKE) audit-mapper-usage
-	$(MAKE) audit-generated-artifact-freshness
-	$(MAKE) audit-generated-commit-scope
-	$(MAKE) audit-api-contract-drift
-	$(MAKE) audit-repository-fetch
-	$(MAKE) audit-endpoint-callsite-linker
-	$(MAKE) audit-frontend-route-surfaces
-	$(MAKE) audit-frontend-stale-surfaces
-	$(MAKE) audit-frontend-state-logic-duplication
-	$(MAKE) audit-duplicate-logic
-	$(MAKE) audit-permission-rule-duplication
-	$(MAKE) audit-frontend-dead-code
-	$(MAKE) audit-backend-dead-code
-	$(MAKE) audit-dead-code
-	$(MAKE) audit-state-transition-coverage
-	$(MAKE) audit-docs-to-code-drift
-	$(MAKE) audit-doc-staleness-scoring
-	$(MAKE) audit-architecture-drift
-	$(MAKE) architecture-decision-index
-	$(MAKE) audit-doc-coverage-gap
-	$(MAKE) audit-automation-readiness-gap
-	$(MAKE) audit-agent-model-feature-coverage
-	$(MAKE) audit-sandbox-generation-coverage
-	$(MAKE) audit-domain-ownership-inventory
-	$(MAKE) audit-config-sprawl
-	$(MAKE) audit-naming-consistency
-	$(MAKE) audit-dormant-code
-	$(MAKE) audit-manual-cleanup-candidate-report
-	$(MAKE) audit-file-relation-graph
-	$(MAKE) audit-test-surface-inventory
-	$(MAKE) audit-test-fixture-duplication
-	$(MAKE) audit-mutation-safety
-	$(MAKE) audit-docs-as-tests
-	$(MAKE) audit-error-pattern
-	$(MAKE) audit-rich-text-safety
-	$(MAKE) audit-async-mutation-flow
-	$(MAKE) audit-style-token-usage
-	$(MAKE) audit-feature-intro-check
-	$(MAKE) audit-make-target-index
-	$(MAKE) audit-documentation
-	$(MAKE) repo-map
-	$(MAKE) symbol-index
-	$(MAKE) endpoint-contract-packs
-	$(MAKE) validation-matrix
-	$(MAKE) changeset-playbook
-	$(MAKE) resolve-manifest-path
-	$(MAKE) link-symbol-to-tests symbol=QuestService
-	$(MAKE) dto-usage-pack dto=DashboardSectionsDTO
-	$(MAKE) workflow-slice-pack workflow=quest-application
-	$(MAKE) plan-code-map plan=.agents/todo-plans/86-codex-local-manifest-path-resolver.md
-	$(MAKE) rank-changeset-hotspots
-	$(MAKE) domain-pack domain=workmarket
-	$(MAKE) recommend-validation-preset
-	$(MAKE) recommend-targeted-tests
-	$(MAKE) audit-doc-sync-preflight
-	$(MAKE) audit-doc-template-coverage
-	$(MAKE) audit-doc-sync-duplicates
-	$(MAKE) audit-manifest-decision
-	$(MAKE) audit-migration-entity-drift
-	$(MAKE) audit-test-gap-recommendations
-	$(MAKE) audit-contract-test-gaps
-	$(MAKE) audit-frontend-usage-graph
-	$(MAKE) audit-backend-dependency-graph
-	$(MAKE) diff-summary
-	$(MAKE) audit-delta-report audit=diff-summary
-	$(MAKE) audit-doc-canonical-phrases
-	$(MAKE) audit-sandbox-data-coverage-pack
-	$(MAKE) api-contract-snapshot
-	$(MAKE) failure-knowledge-base
-	$(MAKE) test-history-summary
-	$(MAKE) codebase-capsule
-	$(MAKE) audit-summary-index
-
-audit-local-tooling-incremental:
-	$(MAKE) audit-local-tooling
-
-bootstrap-feature-work:
-	@if [ -z "$(topic)" ]; then echo "usage: make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>] [mode=<tiny|normal|feature|agent-workflow|small-change|major-change>] [impact=<cosmetic|contract-neutral-refactor|logic-drift>] [profiles=<csv>] [tier=<workflow-tier|auto>] [manifest=<required|optional|resolver_review|auto>]"; exit 1; fi
-	/bin/zsh scripts/bootstrap-feature-work.sh "$(topic)" "$(if $(risk),$(risk),medium)" "$(if $(mode),$(mode),normal)" "$(if $(impact),$(impact),logic-drift)" "$(if $(profiles),$(profiles),backend-logic)" "$(if $(tier),$(tier),auto)" "$(if $(manifest),$(manifest),auto)"
-	@if [ "$(discover)" = "true" ]; then ruby scripts/audits/generate-plan-scaffold-discovery.rb topic="$(topic)"; fi
-
-implementation-batch:
-	@if [ -z "$(topic)" ]; then echo "usage: make implementation-batch topic=<short-topic> [files=<csv>] [manifest=<manifest-file>]"; exit 1; fi
-	/bin/zsh scripts/implementation-batch.sh "$(topic)" "$(if $(files),$(files),)" "$(if $(manifest),$(manifest),)"
-
-temp-work-product-closeout:
-	@if [ -z "$(plan)" ]; then echo "usage: make temp-work-product-closeout plan=<plan-file> [action=delete|archive]"; exit 1; fi
-	/bin/zsh scripts/temp-work-product-closeout.sh "$(plan)" "$(if $(action),$(action),delete)"
-
-feature-closeout-audit:
-	@if [ -z "$(manifest)" ]; then echo "usage: make feature-closeout-audit manifest=<manifest-file>"; exit 1; fi
-	/bin/zsh scripts/feature-closeout-audit.sh "$(manifest)"
-
-enforce-feature-closeout:
-	@if [ -z "$(manifest)" ]; then echo "usage: make enforce-feature-closeout manifest=<manifest-file>"; exit 1; fi
-	ruby scripts/audits/enforce-feature-closeout.rb manifest="$(manifest)"
 
 record-validation:
 	@if [ -z "$(manifest)" ] || [ -z "$(command)" ]; then echo "usage: make record-validation manifest=<manifest-file> command='<command>'"; exit 1; fi

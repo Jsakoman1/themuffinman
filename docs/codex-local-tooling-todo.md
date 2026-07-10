@@ -300,18 +300,6 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - `docs/generated/local-tooling/architecture-drift.json`
   - `docs/generated/local-tooling/architecture-drift-summary.md`
 
-- `CODEX-LOCAL-PLAN-COMPLETION-AUDIT`
-  Entrypoints:
-  - `ruby scripts/audits/audit-plan-completion.rb plan=<plan-file> [manifest=<manifest-file>]`
-  - `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
-  Outputs:
-  - `docs/generated/local-tooling/plan-completion/<plan-id>.json`
-  - `docs/generated/local-tooling/plan-completion/<plan-id>-summary.md`
-  Notes:
-  - Fails incomplete task checkboxes unless they are explicitly deferred to a stable backlog ID.
-  - Fails completed manifests when their referenced plan lacks completion evidence.
-  - Checks master-plan child rows when a master plan is passed as the target plan.
-
 - `CODEX-LOCAL-CLOSEOUT-REPORT-GENERATOR`
   Entrypoints:
   - `ruby scripts/audits/generate-closeout-report.rb manifest=<manifest-file>`
@@ -580,14 +568,6 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - Include current goal, touched files, open risks, required docs, validations run/not run, and next concrete steps.
   - This should reduce token usage when a later Codex session resumes work.
 
-- [x] CODEX-LOCAL-PLAN-SCAFFOLD-FROM-TOPIC: Extend `make bootstrap-feature-work` with optional local discovery so it can pre-fill implementation plans with likely files, audits, docs, validations, and generated-artifact updates.
-  Proposed entrypoints:
-  - `make bootstrap-feature-work topic=<topic> discover=true`
-  - Shared implementation can consume context packs, repo map, endpoint contract packs, and validation matrix.
-  Proposed outputs:
-  - `.agents/<topic>-plan.md`
-  - Optional `.agents/feature-manifests/<topic>-manifest.yaml`
-  - Temporary `.agents/tmp/<topic>-layered-analysis.yaml` when discovery is enabled.
   Notes:
   - Keep generated plan text conservative and editable.
   - Do not mark checklist items complete automatically.
@@ -678,16 +658,6 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   Notes:
   - Keep this explicitly opt-in because it depends on local services and data.
   - Do not mix this with deterministic static audits.
-
-- [x] CODEX-LOCAL-CI-LIKE-CLOSEOUT-BUNDLE: Add one command that runs generated-artifact refresh, router-selected audits, required validation matrix commands, and a final feature-closeout audit when a manifest is provided.
-  Proposed entrypoints:
-  - `make closeout-bundle manifest=<manifest-file> [files=<csv>]`
-  Proposed outputs:
-  - `docs/generated/local-tooling/closeout-bundle.json`
-  - `docs/generated/local-tooling/closeout-bundle-summary.md`
-  Notes:
-  - This should not hide failures; it should aggregate them into one readable report.
-  - Useful for large multi-layer changes where Codex otherwise spends many tokens coordinating closeout steps.
 
 - [x] CODEX-LOCAL-FAILURE-KNOWLEDGE-BASE: Capture recurring validation failures and their fixes into a compact local troubleshooting index.
   Proposed entrypoints:
@@ -809,13 +779,6 @@ Use it for tooling that should produce compact outputs Codex can consume instead
   - Start with workflow states, permissions, visibility, and sandbox/production separation.
   - Keep extraction conservative to avoid false precision.
 
-- [x] CODEX-LOCAL-FEATURE-CLOSEOUT-ENFORCER: Replace advisory closeout output with a local hard-fail auditor that validates manifest schema, checklist completion, validation evidence, artifact paths, duplicate artifact buckets, backlog links, and plan completion.
-  Proposed entrypoints:
-  - `ruby scripts/audits/enforce-feature-closeout.rb manifest=<manifest-file>`
-  - `make enforce-feature-closeout manifest=<manifest-file>`
-  Proposed outputs:
-  - `docs/generated/local-tooling/closeout-enforcement/<feature-id>.json`
-  - `docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md`
   Required checks:
   - Fail if `status: complete` is missing for final closeout.
   - Fail if any required checklist field is false without an allowed `not_applicable` evidence record.

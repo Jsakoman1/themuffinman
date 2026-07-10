@@ -1,4 +1,8 @@
 import type {RouteLocationRaw} from "vue-router"
+import {
+  buildAppPrimaryNavItems,
+  topLevelNavigationPromotionPolicy
+} from "./shellRouteRegistry.ts"
 
 export type AppPrimaryNavId =
   | "home"
@@ -56,6 +60,8 @@ export type AppPrimaryNavItem = {
   to: RouteLocationRaw
 }
 
+export {topLevelNavigationPromotionPolicy}
+
 const visionRoute = (prompt?: string): RouteLocationRaw => {
   if (!prompt) {
     return {path: "/vision"}
@@ -70,50 +76,7 @@ const visionRoute = (prompt?: string): RouteLocationRaw => {
   }
 }
 
-export const appPrimaryNavItems: AppPrimaryNavItem[] = [
-  {
-    id: "home",
-    label: "Home",
-    description: "Orientation and next actions.",
-    to: {path: "/home"}
-  },
-  {
-    id: "work",
-    label: "Work",
-    description: "Browse quests and applications.",
-    to: {path: "/work"}
-  },
-  {
-    id: "chat",
-    label: "Chat",
-    description: "Conversations and coordination.",
-    to: {path: "/chat"}
-  },
-  {
-    id: "calendar",
-    label: "Calendar",
-    description: "Time across work and business.",
-    to: {path: "/calendar"}
-  },
-  {
-    id: "business",
-    label: "Business",
-    description: "Owner profile, bookings, calendar.",
-    to: {path: "/business"}
-  },
-  {
-    id: "circles",
-    label: "Circles",
-    description: "Trust, requests, and visibility.",
-    to: {path: "/circles"}
-  },
-  {
-    id: "profile",
-    label: "Profile",
-    description: "Identity, settings, and preferences.",
-    to: {path: "/profile"}
-  }
-]
+export const appPrimaryNavItems: AppPrimaryNavItem[] = buildAppPrimaryNavItems()
 
 const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   home: {

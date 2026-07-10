@@ -1,56 +1,55 @@
-# Master Plan Template
+---
+machine_kind: plan
+machine_status: draft
+machine_title: Master Plan Template
+machine_goal: TBD
+---
 
-Use this as the compact structure for a durable coordination plan.
-For shared planning rules, read `docs/program-planning-model.md` first.
-Use a normal Plan instead when one bounded implementation slice can carry the work without ordered child plans.
+# Master Plan Template
 
 ## Status
 
 Draft.
 
-## Goal
+## Master Plan Frame
 
-TBD. Keep the goal to one durable coordination outcome, not a shopping list.
+- Purpose: TBD
+- Shared context: TBD
+- Plan inventory: TBD
+- Ordering and dependencies: TBD
+- Final review gate: TBD
 
-## Parent God Plan
+## Initial Analysis
 
-- God Plan: TBD
-- Machine-readable path: TBD
+- Problem statement: TBD
+- Local audits and docs reviewed: TBD
+- Key ideas and tradeoffs: TBD
+- Risks or constraints: TBD
 
-## Scope
+## Plan Breakdown
 
-- Included: TBD
-- Excluded: TBD
+- [ ] Plan 1: TBD
+- [ ] Plan 2: TBD
+- [ ] Plan 3: TBD
+- [ ] Plan 4: TBD
 
-## Child Plans
+## Cross-Plan Consistency Review
 
-1. `.agents/example-child-plan.md`
-- Role: TBD
-- Status: draft
+- Shared assumptions: TBD
+- Overlaps or conflicts: TBD
+- Simplifications or follow-up ideas: TBD
 
-## Improvement Checklist
+## Closeout Gates
 
-- [ ] Define one ordered child plan per concrete improvement slice.
-- [ ] Confirm that a Master Plan is really needed and that one durable Plan would not be clearer.
-- [ ] Keep the child-plan order stable unless the implementation sequence changes.
-- [ ] Include a short validation and closeout path for the whole batch.
-- [ ] Record any deferred follow-up items in a persistent backlog.
-- [ ] Do not mark the master plan complete until every child plan row is complete or explicitly deferred.
-
-## Dependencies
-
-- TBD
-
-## Validation
-
-- Targeted checks: TBD
-- Broader checks: TBD
-- Closeout checks: TBD
+- Required closeout checks: all plan files complete, implementation evidence recorded, validation evidence recorded, docs synced, and final consistency review complete
+- Final response evidence: TBD
+- Backlog follow-up rule: keep the master plan open until every plan is complete
 
 ## Completion Evidence
 
 - Status: draft
-- Child plan status: TBD
+- Changed files: TBD
 - Validation evidence: TBD
 - Doc delta summary: TBD
-- Deferred work: TBD
+- Backlog update: TBD
+- Residual risk: TBD

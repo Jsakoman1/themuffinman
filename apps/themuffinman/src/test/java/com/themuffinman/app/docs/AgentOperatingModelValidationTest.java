@@ -1074,6 +1074,10 @@ class AgentOperatingModelValidationTest {
             Set<ValidationMessage> validationMessages = schema.validate(manifestNode);
             assertTrue(validationMessages.isEmpty(), () -> "Feature manifest schema validation failed for " + manifestPath + ": " + validationMessages);
             Path referencedPlan = repoRoot.resolve(manifestNode.path("planFile").asText());
+            boolean archivedCompleteManifest = "complete".equals(manifestNode.path("status").asText()) && !Files.exists(referencedPlan);
+            if (archivedCompleteManifest) {
+                continue;
+            }
             assertTrue(Files.exists(referencedPlan), () -> "Feature manifest references missing plan file: " + referencedPlan);
 
             String riskTier = manifestNode.path("riskTier").asText();

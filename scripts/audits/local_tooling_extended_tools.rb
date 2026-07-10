@@ -35,7 +35,6 @@ module LocalToolingExtendedTools
     ["link-symbol-to-tests", "scripts/audits/link-symbol-to-tests.rb", "docs/generated/local-tooling/symbol-test-links/<symbol-name>-summary.md"],
     ["dto-usage-pack", "scripts/audits/generate-dto-usage-pack.rb", "docs/generated/local-tooling/dto-usage-packs/<dto-name>-summary.md"],
     ["workflow-slice-pack", "scripts/audits/generate-workflow-slice-pack.rb", "docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md"],
-    ["plan-code-map", "scripts/audits/generate-plan-code-map.rb", "docs/generated/local-tooling/plan-code-maps/<plan-id>-summary.md"],
     ["rank-changeset-hotspots", "scripts/audits/rank-changeset-hotspots.rb", "docs/generated/local-tooling/hotspots-summary.md"],
     ["domain-pack", "scripts/audits/generate-domain-pack.rb", "docs/generated/local-tooling/domain-packs/<domain-id>-summary.md"],
     ["audit-doc-sync-preflight", "scripts/audits/audit-doc-sync-preflight.rb", "docs/generated/local-tooling/doc-sync-preflight-summary.md"],
@@ -58,9 +57,6 @@ module LocalToolingExtendedTools
     ["audit-test-fixture-duplication", "scripts/audits/audit-test-fixture-duplication.rb", "docs/generated/local-tooling/test-fixture-duplication-summary.md"],
     ["diff-summary", "scripts/audits/generate-diff-summary.rb", "docs/generated/local-tooling/diff-summary.md"],
     ["session-handoff", "scripts/audits/generate-session-handoff.rb", "docs/generated/local-tooling/session-handoffs"],
-    ["plan-scaffold-discovery", "scripts/audits/generate-plan-scaffold-discovery.rb", ".agents/<topic>-plan.md"],
-    ["plan-index", "scripts/audits/generate-plan-index.rb", "docs/generated/local-tooling/plan-index-summary.md"],
-    ["control-start", "scripts/audits/generate-control-start.rb", "docs/generated/local-tooling/control-start-summary.md"],
     ["audit-summary-index", "scripts/audits/generate-audit-summary-index.rb", "docs/generated/local-tooling/audit-summary-index.md"],
     ["generate-audit-registry-artifacts", "scripts/audits/generate-audit-registry-artifacts.rb", "docs/tooling/codex-local-audits.yml"],
     ["fast-check", "scripts/audits/generate-fast-check-report.rb", "docs/generated/local-tooling/fast-check-report-summary.md"],
@@ -79,13 +75,7 @@ module LocalToolingExtendedTools
     ["audit-sandbox-data-coverage-pack", "scripts/audits/audit-sandbox-data-coverage-pack.rb", "docs/generated/local-tooling/sandbox-data-coverage-pack-summary.md"],
     ["smoke-local-authenticated", "scripts/audits/smoke-local-authenticated.rb", "docs/generated/local-tooling/smoke/local-authenticated-latest.json"],
     ["smoke-local-dashboard", "scripts/audits/smoke-local-dashboard.rb", "docs/generated/local-tooling/smoke/local-dashboard-latest.json"],
-    ["closeout-bundle", "scripts/audits/generate-closeout-bundle.rb", "docs/generated/local-tooling/closeout-bundle-summary.md"],
-    ["closeout-report", "scripts/audits/generate-closeout-report.rb", "docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md"],
-    ["closeout-driver", "scripts/audits/closeout-driver.rb", "docs/generated/local-tooling/closeout-driver/<plan-id>-summary.md"],
-    ["autofill-feature-closeout", "scripts/audits/autofill-feature-closeout.rb", "docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md"],
-    ["enforce-feature-closeout", "scripts/audits/enforce-feature-closeout.rb", "docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md"],
     ["post-merge-retrospective", "scripts/audits/generate-post-merge-retrospective.rb", "docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md"],
-    ["audit-plan-completion", "scripts/audits/audit-plan-completion.rb", "docs/generated/local-tooling/plan-completion/<plan-id>-summary.md"],
     ["audit-delta-report", "scripts/audits/audit-delta-report.rb", "docs/generated/local-tooling/audit-deltas/<audit-id>-summary.md"]
   ].freeze
 
@@ -101,8 +91,6 @@ module LocalToolingExtendedTools
     "agent" => %w[docs/agent-operating-model.md docs/agent-operating-model.yaml docs/domain-technical.md]
   }.freeze
   OPERATOR_CORE_AUDITS = Set.new(%w[
-    control-start
-    plan-index
     audit-summary-index
     codex-context
     recommend-targeted-tests
@@ -119,7 +107,6 @@ module LocalToolingExtendedTools
     symbol-index
     endpoint-contract-packs
     workflow-slice-pack
-    plan-code-map
     domain-pack
     dto-usage-pack
     link-symbol-to-tests
@@ -132,12 +119,7 @@ module LocalToolingExtendedTools
     diagnose-frontend-build
     test-history-summary
     failure-knowledge-base
-    closeout-report
-    closeout-bundle
-    closeout-driver
     cleanup-generated-history
-    autofill-feature-closeout
-    enforce-feature-closeout
     post-merge-retrospective
     audit-delta-report
   ]).freeze
@@ -212,8 +194,6 @@ module LocalToolingExtendedTools
     end
     domains = files.map { |path| domain_for(path) }.uniq.sort
     audits = relevant_audit_summaries(files, domains)
-    temp_work_products = temp_work_product_inventory
-    layered_analysis_artifact = temp_work_products.find { |entry| entry[:path] == ".agents/tmp/#{topic}-layered-analysis.yaml" }
     report = {
       generated_at: now,
       topic: topic,
@@ -231,8 +211,8 @@ module LocalToolingExtendedTools
       related_docs: domains.flat_map { |domain| DOCS_BY_DOMAIN.fetch(domain, []) }.uniq.sort,
       related_migrations: rel_glob("apps/themuffinman/src/main/resources/db/migration/*.sql").last(10),
       relevant_audits: audits,
-      temp_work_products: temp_work_products.first(10),
-      layered_analysis_artifact: layered_analysis_artifact
+      temp_work_products: [],
+      layered_analysis_artifact: nil
     }
     write_report("context-packs/#{topic}", "Context Pack #{topic}", report)
   end
@@ -606,35 +586,6 @@ module LocalToolingExtendedTools
     write_report("workflow-slices/#{slug(workflow)}", "Workflow Slice #{workflow}", report)
   end
 
-  def run_plan_code_map(argv)
-    options = parse_key_values(argv)
-    plan = (options["plan"] || argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }.first).to_s.strip
-    raise "usage: plan-code-map plan=<plan-file>" if plan.empty?
-    raise "plan file not found: #{plan}" unless File.file?(abs(plan))
-
-    plan_text = read(plan)
-    plan_id = File.basename(plan, ".md")
-    files = plan_candidate_files(plan, plan_text)
-    categories = files.map { |path| category_for(path) }.uniq.sort
-    domains = files.map { |path| domain_for(path) }.uniq.sort
-    manifest_resolution = resolve_manifest_path_for(files)
-    report = {
-      generated_at: now,
-      plan: plan,
-      plan_id: plan_id,
-      categories: categories,
-      domains: domains,
-      mapped_files: files.map { |path| plan_file_map_entry(path, plan_text) },
-      likely_docs: doc_sync_rows_for(files).flat_map { |row| row[:likely_docs] }.uniq.sort,
-      related_generated_artifacts: plan_related_generated_artifacts(plan_text, files),
-      related_audits: router_audits_for(files),
-      recommended_commands: validation_preset_for(files, manifest_decision_for(files), manifest_resolution)[:commands],
-      related_manifests: plan_related_manifests(plan, plan_text, files, manifest_resolution),
-      residual_risk: plan_map_residual_risk(files, manifest_resolution)
-    }
-    write_report("plan-code-maps/#{slug(plan_id)}", "Plan Code Map #{plan_id}", report)
-  end
-
   def run_rank_changeset_hotspots(argv)
     options = parse_key_values(argv)
     files = option_files(options, argv)
@@ -799,108 +750,11 @@ module LocalToolingExtendedTools
       excluded_file_count: filter[:excluded_file_count],
       excluded_files_sample: filter[:excluded].first(25),
       changed_files: files,
-      plans: rel_glob(".agents/*#{topic}*plan.md"),
-      manifests: rel_glob(".agents/feature-manifests/*#{topic}*.yaml"),
+      surfaces: files.map { |path| {path: path, domain: domain_for(path), category: category_for(path)} },
       recommended_audits: router_audits_for(files),
       recommended_commands: files.flat_map { |path| validation_rules.fetch(category_for(path), []) }.uniq
     }
     write_report("session-handoffs/#{topic}", "Session Handoff #{topic}", report)
-  end
-
-  def run_plan_scaffold_discovery(argv)
-    options = parse_key_values(argv)
-    topic = slug(options["topic"] || argv.first || "feature")
-    plan = ".agents/#{topic}-plan.md"
-    return puts "Plan not found: #{plan}" unless File.exist?(abs(plan))
-
-    analysis_path = ".agents/tmp/#{topic}-layered-analysis.yaml"
-    analysis_payload = layered_analysis_payload(plan, topic)
-    LocalToolingCommon.write_text(analysis_path, YAML.dump(analysis_payload).sub(/\A---\n/, ""))
-    run_context_pack(["topic=#{topic}"])
-
-    append = [
-      "",
-      "## Local Discovery",
-      "",
-      "- Context pack: `docs/generated/local-tooling/context-packs/#{topic}-summary.md`",
-      "- Layered analysis artifact: `#{analysis_path}`",
-      "- Control snapshot: `make control-start`",
-      "- Suggested first pass: run `make audit-router` after the first implementation slice.",
-      "- Suggested closeout: run `make closeout-bundle manifest=.agents/feature-manifests/#{topic}-manifest.yaml` when the feature is ready for final validation.",
-      ""
-    ].join("\n")
-    File.write(abs(plan), File.read(abs(plan)) + append)
-    puts "Updated #{plan} with local discovery notes"
-  end
-
-  def layered_analysis_payload(plan, topic)
-    {
-      "id" => "#{topic}-layered-analysis",
-      "ownerPlan" => plan,
-      "purpose" => "Temporary layered review artifact for the current implementation batch.",
-      "createdAt" => now,
-      "deleteWhen" => "Owning plan closes, unless promoted into durable docs or explicitly archived.",
-      "status" => "draft",
-      "sourceFiles" => [
-        plan,
-        "AGENTS.md",
-        "docs/codex-fast-path.md",
-        "docs/feature-delivery-workflow.md",
-        "docs/documentation-sync-policy.md",
-        "docs/change-completion-checklist.md",
-        "docs/program-planning-model.md",
-        "docs/product-memory.md",
-        "docs/product-vision.md",
-        "docs/agent-operating-model.md",
-        "docs/agent-operating-model.yaml"
-      ],
-      "data" => {
-        "layerReview" => [
-          {
-            "layer" => "product",
-            "strengths" => [
-              "The product vision already explains the user-facing goal and memory-oriented interaction model."
-            ],
-            "gaps" => [
-              "The implementation plan still benefits from an explicit statement of the first user-visible outcome."
-            ],
-            "nextSteps" => [
-              "Translate the user goal into one bounded implementation slice with a clear success criterion."
-            ]
-          },
-          {
-            "layer" => "control-system",
-            "strengths" => [
-              "Master plans, plans, manifests, and validation memory already create a durable closeout loop."
-            ],
-            "gaps" => [
-              "Broad batches still need a standard pre-edit review artifact to avoid jumping straight into implementation."
-            ],
-            "nextSteps" => [
-              "Keep the plan scaffold, closeout rules, and generated operating model aligned."
-            ]
-          },
-          {
-            "layer" => "workflow",
-            "strengths" => [
-              "The fast path and closeout commands are already explicit enough for repeatable execution."
-            ],
-            "gaps" => [
-              "The batch entry point should surface the layered review artifact before the first code edit."
-            ],
-            "nextSteps" => [
-              "Use the generated layered analysis as the first checkpoint, then continue through the planned slices without pausing for extra confirmation."
-            ]
-          }
-        ],
-        "recommendedNextActions" => [
-          "Read the generated layered analysis before editing code.",
-          "Run `make control-start` for a compact control snapshot.",
-          "Use `make bootstrap-feature-work topic=<topic> discover=true` for future broad batches.",
-          "Close the owning plan only after validation and follow-up capture are complete."
-        ]
-      }
-    }
   end
 
   def run_audit_summary_index(_argv)
@@ -941,348 +795,6 @@ module LocalToolingExtendedTools
     }
     write_report("audit-summary-index", "Audit Summary Index", payload, summary_path: "#{OUT}/audit-summary-index.md")
     LocalToolingCommon.write_text("#{OUT}/audit-summary-index.md", audit_summary_index_markdown(payload))
-  end
-
-  def run_plan_index(_argv)
-    entries = plan_index_entries
-    open_entries = entries.select { |entry| entry[:status] != "complete" }
-    open_master_plans = open_entries.select { |entry| entry[:kind] == "master-plan" }
-    open_plans = open_entries.reject { |entry| entry[:kind] == "master-plan" }
-    payload = {
-      generated_at: now,
-      total_count: entries.size,
-      open_count: open_entries.size,
-      master_plan_count: entries.count { |entry| entry[:kind] == "master-plan" },
-      god_plan_count: entries.count { |entry| entry[:kind] == "god-plan" },
-      open_master_plans: open_master_plans,
-      open_plans: open_plans,
-      entries: open_entries
-    }
-    json_path = "#{OUT}/plan-index.json"
-    summary_path = "#{OUT}/plan-index-summary.md"
-    LocalToolingCommon.write_json(json_path, payload)
-    LocalToolingCommon.write_text(summary_path, plan_index_markdown(payload))
-    update_audit_cache("plan-index", json_path, payload)
-    puts terminal_line("Plan Index", payload, json_path, summary_path)
-  end
-
-  def run_control_start(_argv)
-    plan_index = read_json_if_present("#{OUT}/plan-index.json") || {}
-    audit_summary_index = read_json_if_present("#{OUT}/audit-summary-index.json") || {}
-    codex_context_review = File.exist?(abs("#{OUT}/codex-context/latest.review.md")) ? "#{OUT}/codex-context/latest.review.md" : nil
-    temp_work_products = temp_work_product_inventory
-    layered_analysis_products = temp_work_products.select { |entry| entry[:path].end_with?("-layered-analysis.yaml") }
-
-    payload = {
-      generated_at: now,
-      plan_index: {
-        path: "#{OUT}/plan-index.json",
-        summary_path: "#{OUT}/plan-index-summary.md",
-        total_count: plan_index["total_count"],
-        open_count: plan_index["open_count"],
-        open_master_plans: Array(plan_index["open_master_plans"]).first(5),
-        open_plans: Array(plan_index["open_plans"]).first(10)
-      },
-      audit_summary_index: {
-        path: "#{OUT}/audit-summary-index.json",
-        summary_path: "#{OUT}/audit-summary-index.md",
-        registry_entries: audit_summary_index["registry_entries"],
-        tracked_outputs: audit_summary_index["tracked_outputs"],
-        missing_outputs: audit_summary_index["missing_outputs"],
-        operator_core_targets: Array(audit_summary_index["operator_core_registry"]).first(8)
-      },
-      operator_core_surfaces: [
-        "#{OUT}/control-start-summary.md",
-        "#{OUT}/plan-index-summary.md",
-        "#{OUT}/audit-summary-index.md",
-        "#{OUT}/codex-context/latest.review.md",
-        "#{OUT}/targeted-tests-summary.md"
-      ],
-      archive_surfaces: [
-        "#{OUT}/.history/",
-        "#{OUT}/.cache/"
-      ],
-      codex_context_review: codex_context_review,
-      temp_work_products: {
-        path: ".agents/tmp",
-        count: temp_work_products.size,
-        layered_analysis_count: layered_analysis_products.size,
-        layered_analysis_artifacts: layered_analysis_products.first(8),
-        samples: temp_work_products.first(8)
-      },
-      next_action: "Use `make implementation-batch topic=<topic>` for a deterministic broad-work pass, or `make codex-context topic=<topic> intent='<intent>'` when you only need topic-specific context once this control snapshot is fresh."
-    }
-
-    json_path = "#{OUT}/control-start.json"
-    summary_path = "#{OUT}/control-start-summary.md"
-    LocalToolingCommon.write_json(json_path, payload)
-    LocalToolingCommon.write_text(summary_path, control_start_markdown(payload))
-    update_audit_cache("control-start", json_path, payload)
-    puts terminal_line("Control Start", payload, json_path, summary_path)
-  end
-
-  def plan_index_entries
-    markdown_plans = rel_glob(".agents/*-plan.md").map { |path| plan_index_entry_for_markdown(path) }.compact
-    god_plans = rel_glob(".agents/god-plans/*.yaml").map { |path| plan_index_entry_for_god_plan(path) }.compact
-    (markdown_plans + god_plans).sort_by { |entry| [status_sort_key(entry[:status]), entry[:kind], entry[:path]] }
-  end
-
-  def plan_index_entry_for_markdown(path)
-    content = File.read(abs(path))
-    frontmatter = LocalToolingCommon.markdown_frontmatter(content)
-    status = plan_index_status_from_markdown(content)
-    {
-      path: path,
-      kind: path.include?("/god-plans/") ? "god-plan" : (File.basename(path).include?("master-plan") ? "master-plan" : "plan"),
-      status: status,
-      title: frontmatter["machine_title"].to_s.strip.empty? ? plan_index_title_from_markdown(content) : frontmatter["machine_title"].to_s.strip,
-      goal: frontmatter["machine_goal"].to_s.strip.empty? ? plan_index_section_first_line(content, "Goal") : frontmatter["machine_goal"].to_s.strip,
-      child_plans: plan_index_section_count(content, "Child Plans"),
-      open_tasks: content.scan(/^\s*-\s*\[\s\]/).size
-    }
-  rescue StandardError
-    nil
-  end
-
-  def plan_index_entry_for_god_plan(path)
-    markdown_path = path.sub(/\.yaml\z/, ".md")
-    if File.exist?(abs(markdown_path))
-      content = File.read(abs(markdown_path))
-      frontmatter = LocalToolingCommon.markdown_frontmatter(content)
-      status = plan_index_status_from_markdown(content)
-      return {
-        path: path,
-        kind: "god-plan",
-        status: status,
-        title: frontmatter["machine_title"].to_s.strip.empty? ? plan_index_title_from_markdown(content) : frontmatter["machine_title"].to_s.strip,
-        goal: frontmatter["machine_goal"].to_s.strip.empty? ? (plan_index_section_first_line(content, "Purpose") || plan_index_section_first_line(content, "Goal")) : frontmatter["machine_goal"].to_s.strip,
-        child_plans: plan_index_section_count(content, "Master Plans"),
-        open_tasks: content.scan(/^\s*-\s\[[ xX]\]/).size
-      }
-    end
-
-    data = YAML.load_file(abs(path))
-    return nil unless data.is_a?(Hash)
-
-    status = data["status"].to_s.downcase
-    {
-      path: path,
-      kind: "god-plan",
-      status: status.empty? ? "unknown" : status,
-      title: data["title"].to_s,
-      goal: data["objective"].to_s,
-      child_plans: Array(data["masterPlans"]).size,
-      open_tasks: 0
-    }
-  rescue StandardError
-    nil
-  end
-
-  def plan_index_status_from_markdown(content)
-    frontmatter_status = LocalToolingCommon.markdown_frontmatter_value(content, "machine_status")
-    normalized = frontmatter_status.to_s.strip.downcase
-    return "complete" if %w[complete completed done closed].include?(normalized)
-    return "active" if %w[active in-progress in_progress draft pending].include?(normalized)
-
-    status = content[/^## Status\s*$([\s\S]*?)(?=^## |\z)/, 1]
-    value = status.to_s.lines.map(&:strip).reject(&:empty?).first.to_s
-    normalized = value.sub(/\.$/, "").downcase
-    return "complete" if %w[complete completed done closed].include?(normalized)
-    return "active" if %w[active in-progress in_progress draft pending].include?(normalized)
-
-    normalized.empty? ? "unknown" : normalized
-  end
-
-  def plan_index_title_from_markdown(content)
-    content[/^#\s+(.+)$/, 1].to_s.strip
-  end
-
-  def plan_index_section_first_line(content, section_name)
-    section = content[/^## #{Regexp.escape(section_name)}\s*$([\s\S]*?)(?=^## |\z)/, 1]
-    return nil unless section
-
-    section.lines.map(&:strip).reject(&:empty?).first
-  end
-
-  def plan_index_section_count(content, section_name)
-    section = content[/^## #{Regexp.escape(section_name)}\s*$([\s\S]*?)(?=^## |\z)/, 1]
-    return 0 unless section
-
-    section.lines.count { |line| line.match?(/^\s*\d+\.\s+/) || line.match?(/^\s*-\s+/) }
-  end
-
-  def status_sort_key(status)
-    case status.to_s
-    when "active", "open" then 0
-    when "draft", "pending", "in-progress", "in_progress" then 1
-    when "complete", "completed", "done", "closed" then 2
-    else 3
-    end
-  end
-
-  def plan_index_markdown(payload)
-    lines = []
-    lines << "# Plan Index"
-    lines << ""
-    lines << "- Total entries: #{payload[:total_count]}"
-    lines << "- Open entries: #{payload[:open_count]}"
-    lines << "- Open master plans: #{payload[:open_master_plans].size}"
-    lines << "- Open regular plans: #{payload[:open_plans].size}"
-    lines << ""
-    lines << "## Open Master Plans"
-    lines << ""
-    payload[:open_master_plans].first(20).each do |entry|
-      lines << "- `#{entry[:path]}` | `#{entry[:status]}` | #{entry[:goal] || entry[:title]}"
-    end
-    lines << "- ... and #{payload[:open_master_plans].size - 20} more" if payload[:open_master_plans].size > 20
-    lines << ""
-    lines << "## Open Plans"
-    lines << ""
-    payload[:open_plans].first(20).each do |entry|
-      lines << "- `#{entry[:path]}` | `#{entry[:status]}` | #{entry[:goal] || entry[:title]}"
-    end
-    lines << "- ... and #{payload[:open_plans].size - 20} more" if payload[:open_plans].size > 20
-    lines << ""
-    lines << "_Routing aid only. Use the underlying plan file or plan-completion report for final status._"
-    lines.join("\n")
-  end
-
-  def control_start_markdown(payload)
-    lines = []
-    lines << "# Control Start"
-    lines << ""
-    lines << "- Plan index: `#{payload.dig(:plan_index, :summary_path)}`"
-    lines << "- Audit summary index: `#{payload.dig(:audit_summary_index, :summary_path)}`"
-    lines << "- Plan count: `#{payload.dig(:plan_index, :total_count)}`"
-    lines << "- Open count: `#{payload.dig(:plan_index, :open_count)}`"
-    lines << "- Open master plans: `#{Array(payload.dig(:plan_index, :open_master_plans)).size}`"
-    lines << "- Open plans: `#{Array(payload.dig(:plan_index, :open_plans)).size}`"
-    lines << "- Codex context review: `#{payload[:codex_context_review] || 'none'}`"
-    lines << "- Temp work products: `#{payload.dig(:temp_work_products, :count) || 0}`"
-    lines << "- Layered-analysis artifacts: `#{payload.dig(:temp_work_products, :layered_analysis_count) || 0}`"
-    lines << "- Operator-core surfaces: `#{Array(payload[:operator_core_surfaces]).join('`, `')}`"
-    lines << "- Archive-only surfaces: `#{Array(payload[:archive_surfaces]).join('`, `')}`"
-    lines << ""
-    lines << "## Operator-Core Audit Targets"
-    lines << ""
-    Array(payload.dig(:audit_summary_index, :operator_core_targets)).each do |entry|
-      lines << "- `#{entry["target"] || entry[:target]}` -> `#{entry["output"] || entry[:output]}`"
-    end
-    lines << ""
-    lines << "## Open Master Plans"
-    lines << ""
-    Array(payload.dig(:plan_index, :open_master_plans)).each do |entry|
-      lines << "- `#{entry["path"] || entry[:path]}` | `#{entry["status"] || entry[:status]}` | #{entry["goal"] || entry[:goal] || entry["title"] || entry[:title]}"
-    end
-    lines << ""
-    lines << "## Open Plans"
-    lines << ""
-    Array(payload.dig(:plan_index, :open_plans)).each do |entry|
-      lines << "- `#{entry["path"] || entry[:path]}` | `#{entry["status"] || entry[:status]}` | #{entry["goal"] || entry[:goal] || entry["title"] || entry[:title]}"
-    end
-    temp_work_products = Array(payload.dig(:temp_work_products, :samples))
-    layered_analysis_products = Array(payload.dig(:temp_work_products, :layered_analysis_artifacts))
-    lines << ""
-    lines << "## Temp Work Products"
-    lines << ""
-    if temp_work_products.empty?
-      lines << "- none"
-    else
-      temp_work_products.each do |entry|
-        lines << "- `#{entry[:path] || entry["path"]}` | `#{entry[:owner_plan] || entry["ownerPlan"]}` | #{entry[:purpose] || entry["purpose"]}"
-      end
-    end
-    lines << ""
-    lines << "## Layered Analysis Artifacts"
-    lines << ""
-    if layered_analysis_products.empty?
-      lines << "- none"
-    else
-      layered_analysis_products.each do |entry|
-        lines << "- `#{entry[:path] || entry["path"]}` | `#{entry[:owner_plan] || entry["ownerPlan"]}`"
-      end
-    end
-    lines << ""
-    lines.join("\n")
-  end
-
-  def temp_work_product_inventory
-    rel_glob(".agents/tmp/*.{yaml,yml,json}").map do |path|
-      temp_work_product_record(path)
-    end.compact.sort_by { |entry| [entry[:owner_plan].to_s, entry[:path].to_s] }
-  end
-
-  def temp_work_product_record(path)
-    absolute = abs(path)
-    return nil unless File.file?(absolute)
-
-    payload =
-      case File.extname(path)
-      when ".json"
-        JSON.parse(File.read(absolute))
-      else
-        YAML.safe_load(File.read(absolute), permitted_classes: [Date, Time], aliases: true)
-      end
-    return nil unless payload.is_a?(Hash)
-
-    owner_plan = payload["ownerPlan"] || payload[:ownerPlan]
-    return nil if owner_plan.to_s.strip.empty?
-
-    {
-      path: path,
-      id: payload["id"] || payload[:id],
-      owner_plan: owner_plan,
-      purpose: payload["purpose"] || payload[:purpose],
-      status: payload["status"] || payload[:status],
-      delete_when: payload["deleteWhen"] || payload[:deleteWhen]
-    }
-  rescue StandardError
-    nil
-  end
-
-  def run_temp_work_product_closeout(argv)
-    options = parse_key_values(argv)
-    plan_path = options["plan"].to_s.strip
-    action = options["action"].to_s.strip.downcase
-    action = "delete" if action.empty?
-    unless %w[delete archive].include?(action)
-      raise "unsupported temp-work-product action: #{action}"
-    end
-    if plan_path.empty?
-      raise "usage: plan=<plan-file> [action=delete|archive]"
-    end
-
-    rows = temp_work_product_inventory.select { |entry| entry[:owner_plan].to_s.strip == plan_path }
-    archive_root = ".agents/archive/temp-work-products/#{slug(plan_path)}"
-    archived = []
-    deleted = []
-
-    rows.each do |entry|
-      source = abs(entry[:path])
-      next unless File.exist?(source)
-
-      case action
-      when "delete"
-        FileUtils.rm_f(source)
-        deleted << entry[:path]
-      when "archive"
-        target = "#{archive_root}/#{File.basename(entry[:path])}"
-        FileUtils.mkdir_p(abs(File.dirname(target)))
-        FileUtils.mv(source, abs(target))
-        archived << target
-      end
-    end
-
-    report = {
-      generated_at: now,
-      plan: plan_path,
-      action: action,
-      matched_count: rows.size,
-      deleted: deleted,
-      archived: archived,
-      remaining: temp_work_product_inventory.select { |entry| entry[:owner_plan].to_s.strip == plan_path }.map { |entry| entry[:path] }
-    }
-    write_report("temp-work-product-closeout/#{slug(plan_path)}", "Temp Work Product Closeout #{plan_path}", report)
   end
 
   def run_cleanup_generated_history(argv)
@@ -1501,7 +1013,6 @@ module LocalToolingExtendedTools
         "Do not commit or push unless the user explicitly asks."
       ],
       open_backlog_ids: open_backlog_ids,
-      open_master_plan_items: open_master_plan_items.first(12),
       preferred_first_commands: [
         "ruby scripts/todo-audit.rb",
         "make diff-summary",
@@ -1549,124 +1060,6 @@ module LocalToolingExtendedTools
     write_smoke_placeholder("local-dashboard", argv, "Opt-in dashboard smoke target placeholder. Intended endpoint: http://localhost:8080/dashboard/me.")
   end
 
-  def run_closeout_bundle(argv)
-    options = parse_key_values(argv)
-    files = option_files(options, argv)
-    files = changed_files if files.empty?
-    report = {
-      generated_at: now,
-      manifest: options["manifest"],
-      files: files,
-      audits: router_audits_for(files),
-      commands: files.flat_map { |path| validation_rules.fetch(category_for(path), []) }.uniq,
-      final_checks: ["make audit-summary-index", "make validation-memory-closeout-card", options["manifest"] ? "make feature-closeout-audit manifest=#{options['manifest']}" : nil].compact,
-      compact_memory: {
-        closeout_card: "docs/generated/local-tooling/validation-memory-closeout-card-summary.md",
-        drift_audit: "docs/generated/local-tooling/validation-memory-drift-summary.md"
-      }
-    }
-    write_report("closeout-bundle", "Closeout Bundle", report)
-  end
-
-  def run_autofill_feature_closeout(argv)
-    options = parse_key_values(argv)
-    manifest_path = (options["manifest"] || argv.reject { |arg| arg.include?("=") || arg.start_with?("--") }.first).to_s.strip
-    raise "usage: autofill-feature-closeout manifest=<manifest-file> [files=<csv>] [generated=<csv>] [docs=<csv>] [ready=true]" if manifest_path.empty?
-    raise "manifest not found: #{manifest_path}" unless File.file?(abs(manifest_path))
-
-    manifest = YAML.load_file(abs(manifest_path)) || {}
-    files = option_files(options, argv)
-    snapshot =
-      if files.empty?
-        changeset_snapshot(nil, include_generated: true, include_agents: true)
-      else
-        changeset_snapshot(files, include_generated: true, include_agents: true)
-      end
-    changed_files_for_closeout = snapshot[:all_changed_files]
-    doc_rows = doc_sync_rows_for(changed_files_for_closeout)
-    generated_paths = (csv_list(options["generated"]) + changed_files_for_closeout.select { |path| LocalToolingCommon.generated_path?(path) }).reject { |path| LocalToolingCommon.archive_path?(path) }
-    doc_paths = (csv_list(options["docs"]) + changed_files_for_closeout.select do |path|
-      path.start_with?("docs/") || path.start_with?(".agents/") || path == "AGENTS.md"
-    end).reject { |path| LocalToolingCommon.archive_path?(path) }
-    plan_file = manifest["planFile"].to_s
-    plan_open_tasks = plan_file.empty? || !File.exist?(abs(plan_file)) ? 0 : File.readlines(abs(plan_file)).count { |line| line.start_with?("- [ ]") }
-    command_results = Array(manifest.dig("validationEvidence", "commands"))
-    passed_commands = command_results.select { |entry| entry.is_a?(Hash) && entry["result"] == "passed" }.map { |entry| entry["command"].to_s }
-
-    manifest["docDelta"] ||= {}
-    manifest["docDelta"]["docsUpdated"] = (Array(manifest.dig("docDelta", "docsUpdated")) + doc_paths).uniq.sort
-    manifest["docDelta"]["intentionallyUnchanged"] ||= []
-    manifest["generatedArtifacts"] ||= {}
-    manifest["generatedArtifacts"]["refreshedPaths"] = (Array(manifest.dig("generatedArtifacts", "refreshedPaths")) + generated_paths).uniq.sort
-    manifest["generatedArtifacts"]["notApplicableReason"] =
-      if manifest["generatedArtifacts"]["refreshedPaths"].empty?
-        "No generated artifacts were refreshed by this change."
-      else
-        "Generated artifacts are listed in refreshedPaths."
-      end
-
-    manifest["artifacts"] ||= {}
-    manifest["artifacts"]["docPaths"] = (Array(manifest.dig("artifacts", "docPaths")) + doc_paths).uniq.sort
-    manifest["artifacts"]["codePaths"] ||= []
-    manifest["artifacts"]["testPaths"] ||= []
-    manifest["artifacts"]["generatorCommands"] ||= []
-    manifest["artifacts"]["auditCommands"] ||= []
-
-    manifest["planCompletion"] ||= {}
-    manifest["planCompletion"]["reviewed"] = plan_open_tasks.zero?
-    manifest["planCompletion"]["openTasks"] = plan_open_tasks
-    manifest["planCompletion"]["summary"] = plan_open_tasks.zero? ? "Plan has no open checkbox tasks." : "Plan still has #{plan_open_tasks} open checkbox task(s)."
-
-    manifest["checklist"] ||= {}
-    manifest["checklist"]["tempPlanCreated"] = true
-    manifest["checklist"]["codeImplemented"] = changed_files_for_closeout.any? { |path| path.start_with?("scripts/") || path.include?("/src/") || path.end_with?(".java") || path.end_with?(".rb") || path.end_with?(".mjs") }
-    manifest["checklist"]["docsSynced"] = manifest["artifacts"]["docPaths"].any?
-    manifest["checklist"]["agentModelSynced"] = (Array(manifest["artifacts"]["docPaths"]) & %w[docs/agent-operating-model.md docs/agent-operating-model.yaml]).any?
-    manifest["checklist"]["backendTestsPassed"] = passed_commands.any? { |command| command.match?(%r{mvnw .*test|./mvnw test|make audit-agent-safety}) }
-    manifest["checklist"]["frontendValidationPassed"] = passed_commands.any? { |command| command.include?("npm --prefix apps/themuffinman/frontend run type-check") } &&
-      passed_commands.any? { |command| command.include?("npm --prefix apps/themuffinman/frontend run build") }
-    manifest["checklist"]["destructivePolicyChecked"] = manifest.dig("checklist", "destructivePolicyChecked") != false
-    manifest["checklist"]["multilingualCoverageChecked"] = manifest.dig("checklist", "multilingualCoverageChecked") != false
-
-    manifest["backlog"] ||= {}
-    manifest["backlog"]["reviewed"] = manifest.dig("backlog", "reviewed") == true
-    manifest["backlog"]["createdIds"] ||= []
-    manifest["backlog"]["resolvedIds"] ||= []
-
-    if truthy?(options["ready"])
-      manifest["closeoutDecision"] ||= {}
-      manifest["closeoutDecision"]["status"] = "ready"
-      manifest["closeoutDecision"]["reason"] = "Autofill prepared the manifest and the caller marked it ready for final audit."
-    else
-      manifest["closeoutDecision"] ||= {}
-      manifest["closeoutDecision"]["status"] ||= "deferred"
-      manifest["closeoutDecision"]["reason"] ||= "Autofill updated evidence and artifact paths; review before final closeout."
-    end
-
-    manifest_write_skipped = false
-    begin
-      LocalToolingCommon.write_text(manifest_path, YAML.dump(manifest).sub(/\A---\n/, ""))
-    rescue Errno::EPERM, Errno::EACCES => e
-      manifest_write_skipped = true
-      manifest["closeoutDecision"]["reason"] = "#{manifest['closeoutDecision']['reason']} Manifest write skipped in this environment: #{e.class}."
-    end
-    feature_id = manifest["featureId"].to_s.empty? ? File.basename(manifest_path, ".yaml").sub(/-manifest\z/, "") : manifest["featureId"].to_s
-    report = {
-      generated_at: now,
-      manifest: manifest_path,
-      feature_id: feature_id,
-      changed_file_count: changed_files_for_closeout.size,
-      changed_files: changed_files_for_closeout.first(80),
-      required_docs: doc_rows.flat_map { |row| row[:likely_docs] }.uniq.sort,
-      required_generated_artifacts: doc_rows.flat_map { |row| Array(row[:generated_artifacts]) }.uniq.sort,
-      plan_open_tasks: plan_open_tasks,
-      closeout_status: manifest.dig("closeoutDecision", "status"),
-      validation_command_count: command_results.size,
-      manifest_write_skipped: manifest_write_skipped
-    }
-    write_report("closeout-autofill/#{slug(feature_id)}", "Closeout Autofill #{feature_id}", report)
-  end
-
   def run_post_merge_retrospective(argv)
     options = parse_key_values(argv)
     topic = slug(options["topic"] || argv.first || "latest")
@@ -1691,7 +1084,7 @@ module LocalToolingExtendedTools
       missing_tools: retrospective_missing_tools,
       docs_gaps: retrospective_docs_gaps(audit_data),
       reusable_patterns: retrospective_reusable_patterns(files, audit_data),
-      next_commands: ["make audit-change-impact-preflight", "make audit-summary-index", "make closeout-bundle", "make post-merge-retrospective topic=#{topic}"]
+      next_commands: ["make audit-change-impact-preflight", "make audit-summary-index", "make audit-doc-sync-required-surfaces", "make post-merge-retrospective topic=#{topic}"]
     }
     write_retrospective_report(topic, report)
   end
@@ -1931,14 +1324,6 @@ module LocalToolingExtendedTools
     files.flat_map do |path|
       read(path).scan(/- \[ \] ([A-Z0-9-]+):/).flatten
     end.uniq.sort
-  end
-
-  def open_master_plan_items
-    read(".agents/todo-master-plan.md").lines.map do |line|
-      next unless line.start_with?("- [ ] ")
-
-      line.sub("- [ ] ", "").strip
-    end.compact
   end
 
   def codebase_capsule_markdown(report)
@@ -2437,7 +1822,7 @@ module LocalToolingExtendedTools
       elsif (runtime_files.any? && domains.size > 1) ||
             (categories.any? { |category| category.start_with?("backend_") } &&
              categories.any? { |category| category.start_with?("frontend_") })
-        "full-closeout"
+        "full-validation"
       else
         "fast"
       end
@@ -2467,7 +1852,6 @@ module LocalToolingExtendedTools
     commands += Array(memory.dig("canonicalCommands", "backendLogic")) if categories.any? { |category| category.start_with?("backend_") }
     commands += Array(memory.dig("canonicalCommands", "agentContract")) if files.any? { |path| agent_contract_path?(path) }
     commands += Array(memory.dig("canonicalCommands", "workflowExpansion")) if workflow_expansion_files?(files)
-    commands += Array(memory.dig("canonicalCommands", "closeout")) if manifest && manifest[:manifest_required]
     commands.uniq
   end
 
@@ -2542,8 +1926,6 @@ module LocalToolingExtendedTools
         path == "docs/codex-fast-path.md" || path == "docs/feature-delivery-workflow.md" ||
         path == "docs/documentation-sync-policy.md" || path == "docs/change-completion-checklist.md" ||
         path.start_with?("docs/agent-operating-model") ||
-        path.include?("bootstrap-feature-work") ||
-        path.include?("feature-closeout") ||
         path.include?("validation-evidence") || path.include?("todo-audit") || path.include?("documentation-sync")
     end
     workflow_files = files.select { |path| read(path).match?(/\b(workflow|transition|state machine|ScenarioTest|UseCaseContractTest)\b/i) }
@@ -3322,13 +2704,12 @@ module LocalToolingExtendedTools
     risks = []
     risks << "No likely docs were resolved for this path." if docs.empty?
     risks << "Script or Makefile changes can invalidate generated audit registry outputs." if path.start_with?("scripts/") || path == "Makefile"
-    risks << "Agent-facing logic changes may also require manifest and closeout updates." if path.start_with?(".agents/") || category == "docs"
+    risks << "Agent-facing logic changes may also require docs and generated artifact updates." if path.start_with?(".agents/") || category == "docs"
     risks.uniq
   end
 
   def changeset_playbook_steps(files, manifest, preset, docs)
     resolved_manifest = preset.dig(:manifest_resolution, :manifest_path)
-    closeout_command = resolved_manifest ? "make closeout-bundle manifest=#{resolved_manifest}" : "make closeout-bundle manifest=.agents/feature-manifests/<feature-id>-manifest.yaml"
     [
       {
         step: 1,
@@ -3373,10 +2754,10 @@ module LocalToolingExtendedTools
       },
       {
         step: 6,
-        kind: "closeout",
-        title: "Use resolved manifest path for final closeout",
-        commands: [closeout_command],
-        purpose: resolved_manifest ? "Resolved manifest path can be reused directly in closeout commands." : "Resolver could not pick one manifest deterministically; replace the placeholder after review."
+        kind: "validate",
+        title: "Finish with repo-state validation",
+        commands: ["make audit-summary-index", "make audit-doc-sync-required-surfaces"],
+        purpose: resolved_manifest ? "Use repo-state validation and doc sync checks to finish the batch." : "Fallback to repo-state validation and doc sync checks when no manifest is needed."
       }
     ]
   end
@@ -3397,16 +2778,11 @@ module LocalToolingExtendedTools
       targeted_docs_commands(files, categories) +
       targeted_generated_commands(files)
     ).map { |row| row[:command] }
-    manifest_path = manifest_resolution[:manifest_path] || ".agents/feature-manifests/<feature-id>-manifest.yaml"
     case preset
     when "manifest-required"
-      ([
-        "make recommend-targeted-tests",
-        "make closeout-bundle manifest=#{manifest_path}",
-        "make feature-closeout-audit manifest=#{manifest_path}"
-      ] + targeted + ["make audit-agent-safety"]).uniq.first(12)
-    when "full-closeout"
-      (["make closeout-bundle"] + targeted + ["make audit-agent-safety"]).uniq.first(12)
+      (["make recommend-targeted-tests"] + targeted + ["make audit-agent-safety"]).uniq.first(12)
+    when "full-validation"
+      (["make audit-agent-safety"] + targeted).uniq.first(12)
     when "standard-backend"
       (["make recommend-targeted-tests"] + targeted + ["cd apps/themuffinman && ./mvnw test"]).uniq.first(10)
     when "standard-frontend"
@@ -3421,7 +2797,6 @@ module LocalToolingExtendedTools
   def validation_preset_supporting_reports(preset)
     reports = ["docs/generated/local-tooling/targeted-tests-summary.md", "docs/generated/local-tooling/audit-router-summary.md"]
     reports << "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md"
-    reports << "docs/generated/local-tooling/closeout-bundle-summary.md" if %w[full-closeout manifest-required].include?(preset)
     reports << "docs/generated/local-tooling/fast-check-report-summary.md" if preset == "fast"
     reports
   end

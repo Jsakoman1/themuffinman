@@ -5,7 +5,6 @@ This file is the persistent source of truth for open implementation and product-
 It complements `docs/agent-improvement-backlog.md`, which stays focused on agent-safety, audit tightening, and control-system work.
 
 Keep only currently open items here. When an item is implemented, remove it from the open backlog in the same change and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references.
-Completed plans and master plans belong in plan-completion or retrospective artifacts, not as open backlog items in this file.
 
 ## Open Items
 

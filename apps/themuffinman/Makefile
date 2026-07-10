@@ -1,6 +1,6 @@
 SHELL := /bin/zsh
 
-.PHONY: dev dev-doctor dev-storage dev-storage-down backend-dev backend-test backend-package backend-bootstrap-example audit-agent-safety bootstrap-feature-work feature-closeout-audit generate-agent-operating-model generate-agent-artifacts
+.PHONY: dev dev-doctor dev-storage dev-storage-down backend-dev backend-test backend-package backend-bootstrap-example audit-agent-safety generate-agent-operating-model generate-agent-artifacts
 
 dev:
 	@set -a; \
@@ -128,14 +128,6 @@ audit-agent-safety:
 	cd frontend && npm run type-check
 	cd frontend && npm run validate:admin-agent-ui
 	cd frontend && npm run build
-
-bootstrap-feature-work:
-	@if [ -z "$(topic)" ]; then echo "usage: make bootstrap-feature-work topic=<short-feature-topic> [risk=<tier>] [mode=<small-change|major-change>] [impact=<cosmetic|contract-neutral-refactor|logic-drift>] [profiles=<csv>]"; exit 1; fi
-	/bin/zsh ../../scripts/bootstrap-feature-work.sh "$(topic)" "$(if $(risk),$(risk),medium)" "$(if $(mode),$(mode),major-change)" "$(if $(impact),$(impact),logic-drift)" "$(if $(profiles),$(profiles),backend-logic)"
-
-feature-closeout-audit:
-	@if [ -z "$(manifest)" ]; then echo "usage: make feature-closeout-audit manifest=<manifest-file>"; exit 1; fi
-	/bin/zsh ../../scripts/feature-closeout-audit.sh "$(manifest)"
 
 generate-agent-operating-model:
 	ruby ../../scripts/generate-agent-operating-model.rb

@@ -8,25 +8,28 @@ Use the full workflow only when the change is high-risk, multi-layer, agent/tool
 
 For `codex-context` and related workflow changes, confirm that `docs/generated/local-tooling/codex-context/latest.execution.json` exists, matches the current batch state, and still conforms to `docs/codex-context-execution-manifest.schema.json` before closeout.
 
-`make control-start` stays on the fast path.
-`make control-refresh-full` regenerates plan-index, audit registry, codex-context, audit summary index, control-start, and freshness outputs after successful plan completion.
-Use `make implementation-batch topic=<topic>` when a broad implementation batch needs one deterministic wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, and closeout hints.
-`make implementation-batch topic=<topic>` also runs generated-history cleanup so archive-only local-tooling snapshots do not leak into closeout evidence.
-Use `make temp-work-product-closeout plan=<plan-file>` when you need to delete or archive lingering temp work products owned by a plan before closeout.
+`make codex-context` stays on the fast path.
+Use `make audit-summary-index` and `make audit-generated-artifact-freshness` when the batch needs broader generated-output context.
+Use `make cleanup-generated-history` when archive-only local-tooling snapshots have grown noisy.
 Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs generated-artifact noise filtered to the implementation scope before consulting the global freshness audit.
 Use `make cleanup-generated-history` before closeout-sensitive review when archive-only local-tooling history has grown noisy.
-Use `make closeout-driver plan=<plan-file> manifest=<manifest-file>` when the change is at the final closeout boundary and should fail fast on the first drift.
-
 Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
 
 It does not replace `AGENTS.md`, `docs/documentation-sync-policy.md`, or the agent-operating model.
 
-For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
+## Program Planning Model
 
-Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
-Never mark a plan, child plan, or master plan complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
+For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower plans in explicit sequence instead of treating the entire task as one flat plan.
 
-For work that spans several master plans, use `docs/program-planning-model.md` and keep the relevant `.agents/god-plans/*.yaml` file aligned with the active Master Plans, Plans, pros, cons, decisions, and risks.
+Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger program auditable through one final closeout pass.
+For broad, long-running, or high-complexity work, prefer a sequenced batch with explicit slices instead of treating the entire task as one flat plan.
+For broad, long-running, or high-complexity work, prefer a sequenced batch that coordinates a group of narrower implementation slices in explicit sequence instead of treating the entire task as one flat block.
+Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final validation pass.
+Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+In a safe active batch, do not ask the user whether to continue between slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
+During a safe batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the batch only after the final closeout pass.
+When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
+Never mark a batch complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
 
 ## Pick The Tier First
 
@@ -64,7 +67,7 @@ Default path:
 - manifest optional, based on resolver decision
 - targeted validation required
 - `make audit-todo`
-- `make audit-plan-completion plan=<plan-file>`
+- `make audit-validation-evidence-quality`
 
 ### Tier 3: High-risk or multi-layer feature
 
@@ -103,7 +106,7 @@ Use for:
 
 Default path:
 
-- plan required, master plan if broad
+- batch note required, sequenced batch if broad
 - manifest required
 - docs sync required
 - machine-operational validation required when affected
@@ -130,32 +133,28 @@ Default path:
 - Any required docs or generated artifacts are identified before the first closeout pass.
 - If the change touches entity resolution, capture the canonical aliases, ambiguity cases, and confidence thresholds up front.
 - If the change touches workflow or agent behavior, confirm the machine-readable source of truth before editing human-readable summaries.
-- If the change touches plan files or generated control outputs, refresh `make plan-index` and `make control-start` before closeout.
+- If the change touches generated control outputs, refresh the relevant generated-artifact audits before closeout.
 - If the change affects local-tooling routing, keep the operator-core surfaces clear and do not treat `.history` or `.cache` outputs as current control state.
 - Do not record archive-only paths under `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence.
 
 3. Plan
-- Tier 2, Tier 3, and Tier 4 work has a current plan in `.agents/`.
-- Broad work uses a master plan plus child plans when that keeps the batch auditable.
-- Program-level work that spans several master plans has a God Plan under `.agents/god-plans/`.
-- Temporary machine-readable work products under `.agents/tmp/` name their owning plan and have a closeout deletion, promotion, or archive decision.
-- `make audit-plan-completion` should surface lingering temp work products owned by the plan so closeout can clear them explicitly.
-- Plan files use `machine_status` values `draft`, `active`, or `complete`; do not mix `completed` and `complete` in the machine-readable field.
-- Number child plans in execution order and keep the numbering stable unless the plan sequence changes.
+- Broad work keeps a short implementation note or batch note so it stays auditable.
+- Broad work should start with a master plan and then split into narrower plans with concrete checkboxes before implementation begins.
+- Temporary machine-readable work products under `.agents/tmp/` must name their owning batch and have a deletion, promotion, or archive decision.
+- Batch notes use `machine_status` values `draft`, `active`, or `complete`.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
-- In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
-- When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
-- During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+- In a safe active batch, do not ask the user whether to continue between slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
+- When the user asks for a broad safe batch, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
+- During a safe batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence and close the batch only after the final validation pass.
 - During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
-- Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the plan starts from the diff summary, audit summary index, and the most relevant audit.
+- Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the batch starts from the diff summary, audit summary index, and the most relevant audit.
 - If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.
-- Completed plans need non-placeholder completion evidence for changed files, validation evidence, and doc delta summary before they can close cleanly.
+- Completed batches need non-placeholder completion evidence for changed files, validation evidence, and doc delta summary before they can close cleanly.
 
 4. Manifest decision
 - Manifest is required for high-risk business logic, invoice-critical behavior, DB migrations, frontend/backend contract changes, generated artifact changes, agent/tooling/workflow changes, 3+ meaningful surfaces, broad autonomous changes, and resolver-required changes.
 - Manifest is optional for single backend service changes, single frontend component changes, small bugfixes, small test-only changes, small docs-only corrections, and small internal refactors without behavior, contract, DB, generated-artifact, or agent-safety impact.
-- If a non-trivial change skips the manifest, the plan or final closeout records a one-line reason.
-- If a plan owns temporary work products, call `make temp-work-product-closeout plan=<plan-file>` before the final closeout evidence pass.
+- If a non-trivial change skips the manifest, the batch note or final closeout records a one-line reason.
 - If closeout touched generated local-tooling outputs repeatedly, call `make cleanup-generated-history` before the final evidence pass.
 
 5. Business meaning
@@ -174,7 +173,7 @@ Default path:
 
 8. Workflow docs
 - Update `AGENTS.md`, `docs/codex-fast-path.md`, `docs/feature-delivery-workflow.md`, `docs/documentation-sync-policy.md`, and this file when startup routing, manifest policy, tier policy, or closeout flow changed.
-- Keep `docs/control-surface-map.md` aligned with the active hierarchy when a file moves between live truth, generated control, or archive.
+- Keep `docs/control-surface-map.md` aligned when a file moves between live truth, generated control, or archive.
 - Keep `docs/tooling/codex-local-audits.yml` aligned when audit surfaces change class between operator-core, focused review, diagnostic, or archive-only support.
 
 9. Generated artifacts and schema
@@ -190,25 +189,20 @@ Default path:
 - Backend changes keep `./mvnw test` or the required targeted backend suite passing.
 - Agent-contract changes record `make generate-agent-operating-model`, `make generate-agent-artifacts`, and `make audit-agent-safety` when the machine-operational surface changed.
 - Workflow-expansion manifests include at least one `*ScenarioTest` in `testPaths` plus passed scenario or use-case contract evidence.
-- Control-system closeout should also record `make plan-index`, `make control-start`, and `make audit-plan-completion plan=<plan-file>` when plan routing or status hygiene changed.
+- Control-system closeout should also record `make audit-summary-index`, `make codex-context`, and `make audit-validation-memory-drift` when routing or status hygiene changed.
 
 11. Closeout
 - Tier 1: run `make audit-todo`.
-- Tier 2: run `make audit-todo` and `make audit-plan-completion plan=<plan-file>`.
-- `make audit-plan-completion` now triggers the shared control refresh path automatically after a successful closeout.
+- Tier 2: run `make audit-todo` and the required validation checks.
 - `make control-refresh-full` now also prunes generated local-tooling history after the freshness pass.
-- Completed master plans must not keep child rows marked `pending`, `draft`, or `in_progress`; `make audit-plan-completion` treats that as a failure.
 - Tier 3 and Tier 4 manifest-backed work:
   `make cleanup-generated-history`
-  `make autofill-feature-closeout manifest=<manifest-file> ...`
   `make audit-todo`
-  `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`
   `make audit-validation-evidence-quality`
   `make validation-memory-closeout-card`
-  `make feature-closeout-audit manifest=<manifest-file>`
-  `make closeout-report manifest=<manifest-file>` when a compact final review summary helps
-- For control-system hygiene work, include `make plan-index` and `make control-start` before the final `make audit-plan-completion` pass so the routing snapshot is fresh.
-- After each completed plan or master plan, run `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]` to refresh durable lessons, failure memory, and the standard control loop.
+-  `make audit-validation-memory-drift`
+- For control-system hygiene work, include `make audit-summary-index` and `make codex-context` before the final validation pass so the routing snapshot is fresh.
+- After each completed batch, refresh durable lessons, failure memory, and the standard control loop in the same change.
 - For product-direction work, confirm that `docs/product-memory.md` and `docs/product-vision.md` were the first canonical reference points before broader business or technical docs were expanded.
 - For `/vision` implementation work, confirm that `docs/vision-architecture-patterns.md` was read before implementation decisions were made.
 

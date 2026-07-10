@@ -72,8 +72,7 @@ Planned modules:
 
 - Do not commit or push changes unless explicitly asked.
 - Keep code, comments, docs, API text, and user-facing copy in English.
-- The user allows routine file creation and file edits inside the workspace, including temporary planning files under
-  `.agents/`, without per-file confirmation.
+- The user allows routine file creation and file edits inside the workspace without per-file confirmation.
 - Ask only when a command needs sandbox escalation, external side effects, or some other higher-risk approval outside
   normal workspace editing.
 - If the user asks for a push/merge workflow in the style of "napravi push i merge na main" or "create branch push and merge on main", treat it as a known shortcut: gather the current relevant changes, commit if needed, push to `origin`, and merge to `main` when that is the active release path, without extra questions unless there is a real blocker, conflict, or approval need.
@@ -81,18 +80,9 @@ Planned modules:
   a large TODO/backlog batch, front-load any required approval requests that can be identified safely, then continue
   through all safe implementation, documentation, generated-artifact, and validation phases without waiting for
   additional user signals.
-- When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
-- In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
-- During autonomous implementation, when Codex notices a likely improvement, repeated failure pattern, or safe follow-up slice that should not interrupt the current batch, record it in the appropriate follow-up or backlog surface during the current slice and continue implementing it automatically after the current slice closes unless the user narrows scope, approval is required, or a real blocker appears.
-- When a master plan is active and the work is safe to continue, carry it through all child plans and the final closeout
-  pass before asking for new user input. Only stop early for a real blocker, conflicting user changes, destructive
-  approval needs, or unsafe ambiguity.
+- During autonomous implementation, when Codex notices a likely improvement, repeated failure pattern, or safe follow-up slice that should not interrupt the current batch, record it in the appropriate backlog surface during the current slice and continue implementing it automatically after the current slice closes unless the user narrows scope, approval is required, or a real blocker appears.
 - When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
-- For those autonomous sessions, use a master plan plus narrower child plans whenever the work is broad, long-running,
-  high-complexity, or spans unrelated implementation surfaces; stop only for required approval, destructive action,
-  direct conflicts with user changes, or genuinely unsafe ambiguity.
-- make implementation-batch topic=<topic> runs the deterministic implementation wrapper for discovery, docs-sync preflight, manifest routing, validation preset selection, recommendations, and closeout hints when a plan exists.
-- make implementation-batch topic=<topic> also runs generated-history cleanup so archive-only report history does not keep polluting broad-batch closeout.
+- Keep implementation batches direct and linear: make the change, validate it, update docs, and stop only for a real blocker or required approval.
 - Even during autonomous sessions, do not commit or push unless the user explicitly includes commit or push in the task.
 
 ## Living Documentation
@@ -100,14 +90,12 @@ Planned modules:
 - Maintain two living documentation files in `docs/`:
     - `docs/business-logic.md` for product behavior, rules, and FAQ-style explanations
     - `docs/domain-technical.md` for entities, relations, validations, permissions, workflows, and invariants
-- For active operational state, planning state, validation state, and automation-facing rules, prefer machine-readable
+- For active operational state, validation state, and automation-facing rules, prefer machine-readable
   sources first:
     - `docs/agent-operating-model.yaml`
     - `docs/regression-scenario-catalog.yaml`
     - `docs/validation-memory.json`
     - `docs/source-of-truth-inventory.md`
-    - `.agents/god-plans/*.yaml`
-    - active `.agents/feature-manifests/*.yaml`
     - generated inventories and audit outputs when they mirror the current control surface
 - Use human-readable docs as canonical only when they define product meaning, domain meaning, or the curated narrative
   around that state; do not let markdown summaries become the only durable record of active control facts.
@@ -135,39 +123,25 @@ Planned modules:
   technical docs.
 - For `/vision` implementation work, also read `docs/vision-architecture-patterns.md` before changing backend
   orchestration, API contracts, frontend canvas rendering, prompt handling, or execution behavior.
-- For multi-file, multi-layer, or high-risk logical changes, create a temporary implementation plan in `.agents/` before
-  substantial edits.
 - Read `AGENTS.md` first for every task.
 - For feature implementation, use `docs/codex-fast-path.md` as the default compact workflow entrypoint.
 - `docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
 - Use `docs/feature-delivery-workflow.md` only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
 - Use the full workflow only when the change is high-risk, multi-layer, agent/tooling/workflow-related, or when a resolver requires it.
 - Manifest usage is tier-driven and conditional instead of being the default for every non-trivial backend change.
-- Prefer the filename pattern `.agents/<short-feature-topic>-plan.md`.
-- If a requested change is too large for one safe pass, split it into sequential implementation phases instead of
-  forcing one oversized batch.
-- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
-- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
-- Never mark a plan, child plan, or master plan complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
-- A master plan should name the child plans explicitly, define execution order, and include a final closeout pass that
-  verifies implementation, documentation, and validation status across the whole batch.
-- During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+- For broad, long-running, or high-complexity work, start with a master plan, then split the work into narrower plans with concrete checkboxes instead of treating the entire task as one flat block.
+- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger program auditable through one final closeout pass.
+- For broad, long-running, or high-complexity work, prefer a sequenced batch that coordinates a group of narrower implementation slices in explicit sequence instead of treating the entire task as one flat block.
+- Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+- When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
+- In a safe active batch, do not ask the user whether to continue between slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
+- During a safe batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the batch only after the final closeout pass.
 - During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
-- For work that spans several master plans, use the God Plan hierarchy from `docs/program-planning-model.md`: God Plans live under `.agents/god-plans/`, Master Plans coordinate child plans, Plans execute concrete slices, and temporary machine-readable work products live under `.agents/tmp/` only while their owning plan needs them.
-- Temporary machine-readable work products must name their owning plan and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
-- Broad batches should expect `make control-start`, `make codex-context`, and `make context-pack` to surface layered-analysis artifacts before deeper repository search.
+- Never mark a batch complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
 - Treat the operator-core local-tooling surfaces as the default routing path and open focused review packs only when the compact operator surfaces do not answer the question.
-- Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
-- Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` paths as live closeout evidence in plans, manifests, or generated-artifact refreshed-path lists.
-- Use `make control-refresh-full` when a batch also needs the slower generated-artifact freshness pass.
-- `make control-refresh-full` also prunes generated local-tooling history so archive-only snapshots stay compact.
-- Use `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to run discovery, recommendations, and closeout if a plan exists.
-- Use `make temp-work-product-closeout plan=<plan-file>` when an owning plan still has temp work products that must be deleted or archived before closeout.
 - Use `make audit-generated-artifact-hygiene files=<csv>` when a batch needs scope-filtered generated-artifact noise reduction before the global freshness pass.
-- Reusable templates for temporary plans and feature completion manifests live under `.agents/templates/`.
 - When business rules, domain models, permissions, validations, workflows, endpoint contracts, or automation assumptions
   change, update all affected living docs in the same change unless the edit is purely cosmetic.
-- When the implementation workflow, planning workflow, context gateway workflow, evidence capture path, manifest workflow, closeout commands, or tier decision rules change, update `docs/codex-fast-path.md`, `docs/feature-delivery-workflow.md`, `docs/documentation-sync-policy.md`, `docs/change-completion-checklist.md`, `docs/agent-operating-model.md`, `docs/agent-operating-model.yaml` when machine-operational rules changed, and `AGENTS.md` when startup behavior changed.
 - When a new feature or logical expansion changes what entities, workflows, validations, or states exist, also review
   and extend affected admin or sandbox generation flows in the agent-operating docs instead of leaving generation
   capabilities stale.
@@ -183,13 +157,12 @@ Planned modules:
   truth.
 - Treat `docs/agent-operating-model.yaml` as an operational safety artifact for future automation and voice agents. Keep
   it deterministic, explicit, and free of guessed behavior.
+- For work that spans several master plans, use the program planning model from `docs/program-planning-model.md`: master plans coordinate plans, plans execute concrete checkbox-based slices, and temporary machine-readable work products live under `.agents/tmp/` only while their owning plan needs them.
 - Keep `apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java` passing
   whenever the agent-operating docs or referenced workflow contracts change.
 - Keep `docs/documentation-sync-policy.md` aligned with the actual propagation process and protected rules.
 - Keep `docs/change-completion-checklist.md` aligned with the actual completion workflow and do not let it drift away
   from the stronger source rules.
-- Keep machine-readable feature completion manifests aligned with the actual implementation state when that workflow is
-  used for a change.
 - For protected documentation-sync phrases, copy the exact canonical sentence verbatim into every required file.
 - For any phrase protected by `docs/agent-operating-model.yaml` `documentation_sync.rules[*].must_contain_all`, copy
   the exact canonical text verbatim into every required target file.

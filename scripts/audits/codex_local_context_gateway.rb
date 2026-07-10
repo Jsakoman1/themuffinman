@@ -45,10 +45,8 @@ module CodexLocalContextGateway
       "session-handoff" => true,
       "link-symbol-to-tests" => true,
       "audit-summary-index" => true,
-      "control-start" => true,
       "dto-usage-pack" => true,
       "workflow-slice-pack" => true,
-      "plan-code-map" => true,
       "rank-changeset-hotspots" => true,
       "domain-pack" => true,
       "audit-delta-report" => true,
@@ -61,7 +59,6 @@ module CodexLocalContextGateway
     "symbol-index" => "docs/generated/local-tooling/symbol-index.json",
     "recommend-targeted-tests" => "docs/generated/local-tooling/targeted-tests.json",
     "audit-summary-index" => "docs/generated/local-tooling/audit-summary-index.json",
-    "control-start" => "docs/generated/local-tooling/control-start.json",
     "endpoint-contract-packs" => "docs/generated/local-tooling/endpoint-contract-packs/index.json",
     "audit-frontend-usage-graph" => "docs/generated/local-tooling/frontend-usage-graph.json",
     "audit-backend-dependency-graph" => "docs/generated/local-tooling/backend-dependency-graph.json",
@@ -97,7 +94,6 @@ module CodexLocalContextGateway
     symbol-index
     hotspots
     codebase-capsule
-    plan-code-map
   ].freeze
 
   def run(argv = ARGV)

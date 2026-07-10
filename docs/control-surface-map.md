@@ -12,6 +12,7 @@ These files should be treated as the primary editable source for current behavio
 
 - `docs/agent-operating-model.yaml`
 - `docs/agent-operating-model/sections/*.yaml`
+- `docs/program-planning-model.md`
 - `docs/business-logic.md`
 - `docs/domain-technical.md`
 - `docs/regression-scenario-catalog.yaml`
@@ -22,6 +23,21 @@ These files should be treated as the primary editable source for current behavio
 - `docs/implementation-backlog.md`
 - `docs/agent-improvement-backlog.md`
 - active `.agents/feature-manifests/*.yaml`
+- `docs/batch-shell-model.md`
+
+### Batch Shell Model
+
+Use these files as the live inventory for the new batch-shell model:
+
+- `apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts`
+- `apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts`
+- `apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts`
+- `apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts`
+- `apps/themuffinman/frontend/src/router.ts`
+
+The batch-shell model treats `batch-plan.md` files as the durable planning surface for in-flight work when such plans
+exist. At the moment there are no active batch-plan files, so the live planning surface is effectively empty.
+Older planning artifacts may still exist in historical outputs, but they are not the live operational source of truth.
 
 ## Generated Control
 
@@ -38,7 +54,8 @@ These outputs are useful for audits, validation, and local tooling, but they are
 - `docs/generated/local-tooling/docs-as-tests.*`
 - `docs/generated/local-tooling/diagnostics/*`
 - `docs/generated/local-tooling/workflow-slices/*`
-- `docs/generated/local-tooling/plan-code-maps/*`
+- `.agents/templates/master-plan.template.md`
+- `.agents/templates/feature-implementation-plan.template.md`
 
 Treat these as generated operational aids. They may drive routing, audits, or closeout checks, but they do not replace
 the live truth and they are not all equally important during day-to-day work.
@@ -47,8 +64,6 @@ the live truth and they are not all equally important during day-to-day work.
 
 These are the default compact entry surfaces for everyday work:
 
-- `docs/generated/local-tooling/control-start.*`
-- `docs/generated/local-tooling/plan-index.*`
 - `docs/generated/local-tooling/audit-summary-index.*`
 - `docs/generated/local-tooling/codex-context/latest.*`
 - `docs/generated/local-tooling/targeted-tests.*`
@@ -61,7 +76,6 @@ Open these only when the compact operator-core surfaces do not answer the questi
 - `docs/generated/local-tooling/domain-packs/*`
 - `docs/generated/local-tooling/endpoint-contract-packs/*`
 - `docs/generated/local-tooling/workflow-slices/*`
-- `docs/generated/local-tooling/plan-code-maps/*`
 - `docs/generated/local-tooling/dto-usage-packs/*`
 - `docs/generated/local-tooling/symbol-test-links/*`
 

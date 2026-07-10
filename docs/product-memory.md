@@ -45,7 +45,7 @@ When a lesson is added, record it in a short, factual form:
 
 ## After-Plan Update Protocol
 
-After every completed plan or master plan:
+After every completed implementation batch:
 
 1. Check whether the change produced a durable lesson, repeated pattern, or product principle.
 2. Append the lesson here if it is stable and reusable.
@@ -63,8 +63,8 @@ After every completed plan or master plan:
 - Voice-first interaction should default to parallel audio and visual feedback because voice-only interaction is still too fragile for precision, noisy environments, and complex information structures.
 - Speech features should still be backend-governed through a typed capability contract even when the actual STT/TTS runtime is browser-native.
 - Manifest-backed validation is easiest to keep stable when canonical validator-facing command strings are recorded exactly as expected instead of only as equivalent path-prefixed variants.
-- Workflow-expansion and agent-contract closeout should be treated as evidence-shape problems as much as code problems, because missing scenario coverage or canonical audit commands can block otherwise-correct implementations.
-- Repeated validation and closeout rules are worth keeping in one machine-readable cheat sheet and auto-including in local context when manifest-backed work is detected, because that reduces rediscovery and validator churn.
+- Workflow-expansion and agent-contract validation should be treated as evidence-shape problems as much as code problems, because missing scenario coverage or canonical audit commands can block otherwise-correct implementations.
+- Repeated validation rules are worth keeping in one machine-readable cheat sheet and auto-including in local context when manifest-backed work is detected, because that reduces rediscovery and validator churn.
 - Future `/vision` implementation work should start from `docs/product-vision.md` for product direction and `docs/vision-architecture-patterns.md` for backend, API, frontend canvas, prompt-handling, and executor patterns before borrowing from legacy module screens.
 - Future `/vision` execution work should treat `create_quest` as the first mutation scope, keep conversation continuity backend-persisted across text and voice turns, and gate real execution behind typed backend `vision.*` feature flags until the new orchestration layer proves stable.
 - Future `/vision` work should keep a compact repo-persistent memory layer for context, decision records, failure classes, generated-artifact policy, and current delivery status so sessions do not rediscover the same architecture and closeout rules from scratch.

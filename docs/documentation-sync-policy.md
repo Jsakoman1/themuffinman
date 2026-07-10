@@ -32,6 +32,18 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - Treat admin-generation or sandbox-generation coverage for entities and workflows as part of the same maintenance surface as backend logic and agent-safety rules.
 - synthetic admin-generation flows must be kept current with newly introduced feature logic, validations, and edge cases
 
+## Program Planning Model
+
+- Broad work should start with a master plan, then split into narrower plans with concrete checkboxes.
+- The master plan holds the shared context, plan inventory, ordering, and final consistency review.
+- Each plan owns one bounded slice and should not rely on another plan to explain its own checklist.
+- Plan completion should not be inferred from the master plan.
+- Master plan completion should only happen after every plan is complete and the final consistency review passes.
+For broad, long-running, or high-complexity work, prefer a sequenced batch with explicit slices instead of treating the entire task as one flat plan.
+For broad, long-running, or high-complexity work, prefer a sequenced batch that coordinates a group of narrower implementation slices in explicit sequence instead of treating the entire task as one flat block.
+Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final validation pass.
+Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+
 ## Workflow Entry
 
 - Read `AGENTS.md` first.
@@ -39,17 +51,17 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - When a task touches active behavior or control state, start from the machine-readable source surfaces listed in
   `docs/control-surface-map.md` before broadening into human-readable summaries.
 - Use `docs/validation-memory.md` and `docs/validation-memory.json` when manifest-backed validation or closeout evidence is in scope so canonical command and evidence rules are applied consistently.
-- Use `make control-start` as the one-shot broad-work snapshot before broad repository search.
-- Use `make control-refresh-full` when the broad snapshot must also include the slower generated-artifact freshness pass.
-- Use `make implementation-batch topic=<topic>` when you want the deterministic implementation wrapper to drive discovery, docs-sync preflight, manifest routing, validation preset selection, generated-history cleanup, and closeout if a plan exists.
-- Use `make closeout-driver plan=<plan-file> manifest=<manifest-file>` when you want one fail-fast entrypoint for the final closeout boundary.
 - Use `make codex-context topic=<topic> intent='<intent>'` when the task needs topic-specific file context after the broad snapshot.
-- `make control-start`, `make codex-context`, and `make context-pack` should surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
+- `make codex-context` and `make context-pack` should surface the topic's layered-analysis artifact and temp work-product inventory when they exist.
 - Treat operator-core local-tooling surfaces as the default routing path and open focused review packs only when the compact operator surfaces do not answer the question.
 - Treat `docs/generated/local-tooling/.history/` and `docs/generated/local-tooling/.cache/` as archive-only support material instead of current control state.
 - Do not record `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence in plans, manifests, or refreshed generated-artifact lists.
 - When `codex-context` changes, keep the workflow docs, `docs/generated/local-tooling/codex-context/latest.execution.json`, and `docs/codex-context-execution-manifest.schema.json` aligned so the machine-readable batch manifest remains discoverable.
 - Use `docs/feature-delivery-workflow.md` only when the tier or resolver requires the full workflow.
+- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower plans in explicit sequence instead of treating the entire task as one flat block.
+- Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
+- In a safe active batch, do not ask the user whether to continue between slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
+- During a safe batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the batch only after the final closeout pass.
 
 ## Tier Policy
 
@@ -80,7 +92,6 @@ Default expectations:
 Required closeout:
 
 - `make audit-todo`
-- `make audit-plan-completion plan=<plan-file>`
 
 ### Tier 3: High-risk or multi-layer feature
 
@@ -97,7 +108,7 @@ Default expectations:
 
 Default expectations:
 
-- plan required, master plan if broad
+- batch note required, sequenced batch if broad
 - manifest required
 - docs sync required
 - generated artifacts required when machine-operational rules change
@@ -132,23 +143,17 @@ If a non-trivial change does not use a manifest, the temporary plan or final clo
 ## Plan Rule
 
 - For multi-file, multi-layer, or high-risk logical changes, create a temporary implementation plan in `.agents/` before substantial edits.
-- Prefer `make bootstrap-feature-work` when the change is large enough to justify the plan-driven workflow.
-- Use `docs/program-planning-model.md` when work spans several master plans or durable program directions.
-- God Plans live under `.agents/god-plans/` and coordinate related Master Plans without replacing child plan completion evidence.
-- For broad, long-running, or high-complexity work, prefer a master plan that coordinates a group of narrower `.agents/*-plan.md` files in explicit sequence instead of treating the entire task as one flat plan.
-- Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final closeout pass.
-- Never mark a plan, child plan, or master plan `complete` unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
-- Temporary machine-readable work products live under `.agents/tmp/`, must name their owning plan, and must be deleted, promoted into durable docs, or explicitly archived when the owning plan closes.
-- Plan closeout should also fail if the owning plan still has undeleted temp work products at completion time.
-- Use `make temp-work-product-closeout plan=<plan-file>` to deterministically delete or archive temp work products owned by a plan before closeout.
+- For broad, long-running, or high-complexity work, prefer a master plan with explicit plan files and checkboxes instead of treating the entire task as one flat plan.
+- Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final validation pass.
+- Never mark a batch `complete` unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
+- Temporary machine-readable work products should be deleted, promoted into durable docs, or explicitly archived when the owning batch closes.
 - Use `make audit-generated-artifact-hygiene files=<csv>` for batch-scoped generated-artifact noise checks before widening to the global freshness audit.
-- Use `make cleanup-generated-history` to prune archive-only generated local-tooling history before closeout-sensitive review.
-- Use `make closeout-driver plan=<plan-file> manifest=<manifest-file>` as the canonical fail-fast batch closeout path.
+- Use `make cleanup-generated-history` to prune archive-only generated local-tooling history before validation-sensitive review.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
-- In a safe active master plan, do not ask the user whether to continue between child slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
+- In a safe active batch, do not ask the user whether to continue between slices or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - When the user asks for a broad safe batch, such as many improvements or an entire workstream, assemble the full safe slice list up front and execute it in order without asking after each slice, unless a real blocker, scope change, or required approval appears.
 - When `AGENTS.md` records the standing follow-up capture preference, record discovered safe improvements and repeated failure patterns in the appropriate follow-up or backlog surface during the active slice and continue with the best sequenced follow-up slice after the current slice closes.
-- During a safe master-plan or plan batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the plan only after the final closeout pass.
+- During a safe batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the batch only after the final validation pass.
 - During broad implementation work, review the product, control-system, and implementation-workflow layers before substantial edits, and capture the review in a temporary analysis artifact when the batch is broad or high-risk.
 
 ## Backlog Rule
@@ -159,13 +164,11 @@ If a non-trivial change does not use a manifest, the temporary plan or final clo
 ## Validation And Closeout
 
 - Tiny changes usually stop at `make audit-todo`.
-- Normal features must close the short plan through `make audit-plan-completion`.
-- Manifest-backed work must pass `make feature-closeout-audit manifest=<manifest-file>`.
-- Completed manifest-backed changes must keep structured validation evidence for every required profile check, completed plan evidence, and a ready closeout decision.
+- Normal features must close through the required validation and docs-sync audits.
+- Manifest-backed work must pass the required validation evidence checks.
+- Completed manifest-backed changes must keep structured validation evidence for every required profile check and a ready completion decision.
 - Validation evidence must name exact commands, scopes, `ranAt`, generated-artifact actions, and concrete skipped-check reasons, and pass `make audit-validation-evidence-quality`.
-- Manifest-backed closeout should refresh `make validation-memory-closeout-card`, and `make feature-closeout-audit` should also rerun the validation-memory drift sub-check.
-- Manifest-backed closeout summaries can be generated with `make closeout-report manifest=<manifest-file>`.
-- Completed master plans must not keep child rows marked `pending`, `draft`, or `in_progress`; `make audit-plan-completion` treats that as a closeout failure.
+- Completion should refresh `make validation-memory-closeout-card`, and validation-memory drift should rerun when validation-sensitive rules change.
 
 ## Maintenance Propagation
 
@@ -176,7 +179,6 @@ If the implementation workflow, planning workflow, context gateway workflow, evi
 - `docs/validation-memory.md`
 - `docs/validation-memory.json`
 - `docs/validation-memory.schema.json`
-- `docs/program-planning-model.md`
 - `docs/documentation-sync-policy.md`
 - `docs/change-completion-checklist.md`
 - `docs/agent-operating-model.md`

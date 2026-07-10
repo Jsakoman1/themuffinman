@@ -2178,12 +2178,12 @@
         "manifest_path": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
         "feature_id": "frontend_user_shell_navigation",
         "title": "Frontend user shell navigation",
-        "plan_file": ".agents/frontend-user-shell-navigation-master-plan.md",
+        "plan_file": ".agents/frontend-user-shell-navigation-batch-plan.md",
         "score": 32,
         "reasons": [
           "Manifest file itself is in the current changeset.",
           "Referenced plan file is in the current changeset.",
-          "Changed files overlap manifest artifact lists (apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue, .agents/frontend-user-shell-navigation-master-plan.md, .agents/frontend-user-shell-ia-plan.md, .agents/frontend-shared-shell-foundation-plan.md).",
+          "Changed files overlap manifest artifact lists (apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue, .agents/frontend-user-shell-navigation-batch-plan.md, .agents/frontend-user-shell-ia-plan.md, .agents/frontend-shared-shell-foundation-plan.md).",
           "Changed paths include feature/plan tokens: manifest, plan, frontend, user, shell, navigation."
         ]
       },
@@ -2327,12 +2327,12 @@
           "manifest_path": ".agents/feature-manifests/frontend-user-shell-navigation-manifest.yaml",
           "feature_id": "frontend_user_shell_navigation",
           "title": "Frontend user shell navigation",
-          "plan_file": ".agents/frontend-user-shell-navigation-master-plan.md",
+          "plan_file": ".agents/frontend-user-shell-navigation-batch-plan.md",
           "score": 32,
           "reasons": [
             "Manifest file itself is in the current changeset.",
             "Referenced plan file is in the current changeset.",
-            "Changed files overlap manifest artifact lists (apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue, .agents/frontend-user-shell-navigation-master-plan.md, .agents/frontend-user-shell-ia-plan.md, .agents/frontend-shared-shell-foundation-plan.md).",
+            "Changed files overlap manifest artifact lists (apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue, .agents/frontend-user-shell-navigation-batch-plan.md, .agents/frontend-user-shell-ia-plan.md, .agents/frontend-shared-shell-foundation-plan.md).",
             "Changed paths include feature/plan tokens: manifest, plan, frontend, user, shell, navigation."
           ]
         },

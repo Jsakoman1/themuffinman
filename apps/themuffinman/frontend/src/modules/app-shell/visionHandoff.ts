@@ -1,4 +1,6 @@
 import type {RouteLocationRaw} from "vue-router"
+import type {AppSurfaceId} from "./shellDefinitions.ts"
+import {getSurfaceVisionPrompt, resolveSurfaceDetailRoute, surfaceOwnershipMatrix} from "./shellRouteRegistry.ts"
 
 type VisionLaunchOptions = {
   prompt?: string
@@ -38,41 +40,11 @@ export const buildVisionRoute = (options: VisionLaunchOptions = {}): RouteLocati
     : {path: "/vision"}
 }
 
-export const buildSurfaceVisionPrompt = (surfaceId: string) => {
-  switch (surfaceId) {
-    case "home":
-      return "summarize what needs attention today"
-    case "work":
-      return "help me find the best side jobs and work opportunities right now"
-    case "work-quests":
-      return "review my active quests, help me create a new quest, and suggest the next action"
-    case "work-applications":
-      return "review my applications and tell me which need attention"
-    case "chat":
-    case "chat-conversation":
-      return "help me navigate my conversations and outreach priorities"
-    case "calendar":
-      return "plan my schedule across work and business"
-    case "business":
-      return "review my business bookings, appointments, and availability"
-    case "business-profile":
-      return "help me improve my business profile"
-    case "business-bookings":
-      return "review my bookings, booking requests, and booking capacity, then highlight what needs action"
-    case "business-calendar":
-      return "help me plan my business calendar and appointment availability"
-    case "circles":
-      return "help me manage my circles, requests, and outreach"
-    case "profile":
-      return "review my profile and suggest improvements"
-    case "profile-settings":
-      return "help me review my settings"
-    default:
-      return "help me continue from here"
-  }
+export const buildSurfaceVisionPrompt = (surfaceId: AppSurfaceId) => {
+  return getSurfaceVisionPrompt(surfaceId)
 }
 
-export const buildSurfaceVisionRoute = (surfaceId: string, currentPath: string, contextLabel: string) => {
+export const buildSurfaceVisionRoute = (surfaceId: AppSurfaceId, currentPath: string, contextLabel: string) => {
   return buildVisionRoute({
     prompt: buildSurfaceVisionPrompt(surfaceId),
     context: contextLabel,
@@ -85,22 +57,22 @@ export const resolveVisionEntityRoute = (entityFamily: string, targetId: number)
   const normalized = entityFamily.trim().toLowerCase()
 
   if (normalized === "quest") {
-    return {path: `/vision/quests/${targetId}`}
+    return resolveSurfaceDetailRoute("work-quests", targetId)
   }
   if (normalized === "application") {
-    return {path: `/vision/applications/${targetId}`}
+    return resolveSurfaceDetailRoute("work-applications", targetId)
   }
   if (normalized === "user" || normalized === "profile" || normalized === "person") {
     return {path: `/vision/users/${targetId}`}
   }
   if (normalized === "circle" || normalized === "circles") {
-    return {path: "/circles"}
+    return surfaceOwnershipMatrix.circles.canonicalEntryRoute
   }
   if (normalized === "chat" || normalized === "conversation") {
-    return {path: "/chat"}
+    return surfaceOwnershipMatrix.chat.canonicalEntryRoute
   }
   if (normalized === "business") {
-    return {path: "/business"}
+    return surfaceOwnershipMatrix.business.canonicalEntryRoute
   }
 
   return null

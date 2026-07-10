@@ -5,7 +5,7 @@ This file is the persistent forward-looking backlog for agent-safety, backend au
 It is not the execution source of truth for a single change. Active implementation details should still live in temporary plans under `.agents/`.
 
 Use this file to preserve what remains worth tightening across sessions.
-Completed plans and master plans should stay out of this file; keep their history in plan-completion or retrospective artifacts instead.
+Completed implementation batches should stay out of this file; keep their history in retrospective artifacts instead.
 
 ## Current State
 
@@ -44,13 +44,13 @@ Completed plans and master plans should stay out of this file; keep their histor
 - Compact implementation examples now live in `docs/example-scenario-library.md`.
 - Self-test tiers by risk and change profile now live in `policies.self_test_matrix`.
 - Validation evidence quality now has a strict local audit at `make audit-validation-evidence-quality`.
-- Feature closeout is now hard-fail enforced by `make feature-closeout-audit manifest=<manifest-file>` for completed manifests, including structured validation evidence, plan completion, profile-specific required commands, and duplicate artifact bucket checks.
+- Manifest-backed validation is now hard-fail enforced by the validation-memory and audit toolchain for completed manifests, including structured validation evidence, profile-specific required commands, and duplicate artifact bucket checks.
 - Feature manifest decisions now distinguish required, optional, and skipped-with-reason cases in the completion checklist and documentation sync policy.
 - Validation evidence records now require `ranAt` on commands and generated-artifact entries, and `make audit-validation-evidence-quality` rejects vague generated-artifact evidence or skipped entries without concrete reasons.
 - Documentation sync policy wording now keeps protected canonical phrases in complete authoritative rules instead of duplicate or fragmentary bullets.
-- Plan completion is now machine-checkable through `make audit-plan-completion plan=<plan-file>`, and feature closeout fails completed manifests whose referenced plan lacks completion evidence.
-- Closeout now prunes archive-only generated history through `make cleanup-generated-history`, rejects archive-only paths as live evidence, and requires non-placeholder changed-files, validation-evidence, and doc-delta plan completion fields before a completed plan can close cleanly.
-- Closeout reports can now be generated with `make closeout-report manifest=<manifest-file>` from manifest evidence, changed files, docs delta, generated artifacts, backlog delta, validation commands, and residual risks.
+- Batch completion is now machine-checkable through structured validation evidence and docs/history cleanup rules.
+- Generated history cleanup now prunes archive-only outputs through `make cleanup-generated-history`, rejects archive-only paths as live evidence, and requires non-placeholder changed-files, validation-evidence, and doc-delta fields before a completed batch can close cleanly.
+- Completion reports can now be generated from manifest evidence, changed files, docs delta, generated artifacts, backlog delta, validation commands, and residual risks.
 - Critical regression scenarios are cataloged by domain in `docs/regression-scenario-catalog.yaml` and summarized in `docs/regression-scenario-catalog.md`.
 - Selected living-document sections are promoted into contract-like slices in `docs/docs-as-contract-slices.yaml` and summarized in `docs/docs-as-contract-slices.md`.
 - Architecture drift now has a report-first audit at `make audit-architecture-drift`.

@@ -250,7 +250,7 @@ else:
         "docs/agent-operating-model.yaml",
     ]
     expected_artifacts = ["Generated agent-operating-model and resolver-reported artifacts."]
-    open_questions = ["If the batch is broad, split it into a master plan and narrower child plans before substantial edits."]
+    open_questions = ["If the work is broad, start with a master plan and then split it into narrower plans before substantial edits."]
     implementation_slices = [
         "Confirm workflow and machine-operational scope before changing any rules.",
         "Update the operating-model and any referenced generated artifacts together.",

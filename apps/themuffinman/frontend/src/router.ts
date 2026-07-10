@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 import {isLoggedIn} from "./auth.ts";
+import {visionBridgeRouteDefinitions} from "./modules/app-shell/shellRouteRegistry.ts";
 
 const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
@@ -7,6 +8,18 @@ const AuthenticatedShellView = () => import("./modules/app-shell/views/Authentic
 const HomeHubView = () => import("./modules/app-shell/views/HomeHubView.vue");
 const SectionHubView = () => import("./modules/app-shell/views/SectionHubView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
+
+const visionBridgeRoutes = visionBridgeRouteDefinitions.map((definition) => ({
+    path: definition.path,
+    redirect: (to: any) => ({
+        path: '/vision',
+        query: {
+            prompt: typeof definition.prompt === "function" ? definition.prompt(to) : definition.prompt,
+            autorun: '1'
+        }
+    }),
+    meta: {requiresAuth: true}
+}));
 
 
 const routes = [
@@ -118,46 +131,7 @@ const routes = [
         component: VisionSurfaceModernView,
         meta: {requiresAuth: true}
     },
-    {
-        path: '/vision/users/:id',
-        redirect: (to: any) => ({path: '/vision', query: {prompt: `show user #${to.params.id}`, autorun: '1'}}),
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/vision/profile',
-        redirect: {path: '/vision', query: {prompt: 'show profile', autorun: '1'}},
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/vision/settings',
-        redirect: {path: '/vision', query: {prompt: 'show settings', autorun: '1'}},
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/vision/circles',
-        redirect: {path: '/vision', query: {prompt: 'show circles', autorun: '1'}},
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/vision/chat',
-        redirect: {path: '/vision', query: {prompt: 'show chat', autorun: '1'}},
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/vision/quests/:id',
-        redirect: (to: any) => ({path: '/vision', query: {prompt: `show quest #${to.params.id}`, autorun: '1'}}),
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/vision/applications/:id',
-        redirect: (to: any) => ({path: '/vision', query: {prompt: `show application #${to.params.id}`, autorun: '1'}}),
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/vision/applications',
-        redirect: {path: '/vision', query: {prompt: 'show applications', autorun: '1'}},
-        meta: {requiresAuth: true}
-    }
+    ...visionBridgeRoutes
 ];
 
 export const router = createRouter({

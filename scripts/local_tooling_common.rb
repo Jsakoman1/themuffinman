@@ -24,11 +24,7 @@ module LocalToolingCommon
     "docs/generated/local-tooling/.cache/",
     ".agents/archive/"
   ].freeze
-  AGENT_TRANSIENT_PATTERNS = [
-    %r{\A\.agents/todo-plans/},
-    %r{\A\.agents/validation-evidence/},
-    %r{\A\.agents/.+-plan\.md\z}
-  ].freeze
+  AGENT_TRANSIENT_PATTERNS = [].freeze
 
   module_function
 

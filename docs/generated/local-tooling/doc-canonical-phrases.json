@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T08:54:15Z",
+  "generated_at": "2026-07-10T20:43:24Z",
   "phrase_count": 15,
   "phrases": [
     {
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "phrase": "For broad, long-running, or high-complexity work, prefer a master plan that",
+      "phrase": "For broad, long-running, or high-complexity work, prefer a sequenced batch that",
       "present_in": [
         "docs/agent-operating-model.md",
         "docs/change-completion-checklist.md",
@@ -37,12 +37,11 @@
       ]
     },
     {
-      "phrase": "Never mark a plan, child plan, or master plan complete unless the work it covers",
+      "phrase": "Never mark a batch complete unless the work it covers is actually implemented,",
       "present_in": [
-        "docs/agent-operating-model.md",
         "docs/change-completion-checklist.md",
-        "docs/codex-fast-path.md",
-        "docs/feature-delivery-workflow.md"
+        "docs/feature-delivery-workflow.md",
+        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
       ]
     },
     {
@@ -76,8 +75,7 @@
       "phrase": "synthetic admin-generation flows must be kept current with newly introduced",
       "present_in": [
         "docs/agent-operating-model.md",
-        "docs/documentation-sync-policy.md",
-        "docs/generated/local-tooling/doc-canonical-phrases-summary.md"
+        "docs/documentation-sync-policy.md"
       ]
     },
     {

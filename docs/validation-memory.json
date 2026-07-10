@@ -1,10 +1,9 @@
 {
   "schemaVersion": 1,
   "updatedAt": "2026-07-10",
-  "purpose": "Canonical machine-readable validation, manifest, and closeout memory for future Codex sessions.",
+  "purpose": "Canonical machine-readable validation and evidence memory for future Codex sessions.",
   "readWhen": [
     "manifest-backed",
-    "closeout-sensitive",
     "agent-contract",
     "workflow-expansion",
     "frontend-contract",
@@ -30,15 +29,15 @@
       "./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest"
     ],
     "closeout": [
-      "make closeout-driver plan=<plan-file> manifest=<manifest-file>",
       "make cleanup-generated-history",
       "make audit-todo",
-      "make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"
+      "make audit-validation-memory-drift",
+      "make validation-memory-closeout-card"
     ],
     "controlSystem": [
-      "make plan-index",
-      "make control-start",
-      "make audit-plan-completion plan=<plan-file>"
+      "make audit-summary-index",
+      "make audit-router files=<csv>",
+      "make audit-doc-sync-required-surfaces files=<csv>"
     ]
   },
   "manifestRules": {
@@ -61,16 +60,16 @@
     ],
     "completedManifestRequires": [
       "exact-command-evidence",
-      "plan-completion-aligned",
+      "batch-completion-aligned",
       "canonical-profile-validation",
-      "closeout-decision-ready"
+      "evidence-decision-ready"
     ]
   },
   "heuristics": {
     "workflowExpansionRequiresScenarioTest": true,
     "agentContractRequiresGeneratedModelEvidence": true,
     "canonicalCommandStringsMatter": true,
-    "planMustCloseBeforeManifestComplete": true
+    "batchMustBeConsistentBeforeManifestComplete": true
   },
   "commonFailures": [
     {
@@ -91,20 +90,18 @@
     },
     {
       "id": "plan_manifest_drift",
-      "symptom": "Manifest was marked complete before plan checkboxes or child plans were closed.",
+      "symptom": "Manifest was marked complete before evidence, docs, or generated artifacts were finalized.",
       "fix": [
-      "close child plans first",
-      "close master plan second",
-      "prefer closeout-driver for the full batch",
-      "prune archive-only history and close plan-owned temp work products",
-      "run audit-plan-completion before final manifest closeout"
+      "finalize code and docs first",
+      "prune archive-only history",
+      "run the validation-memory drift audit before final manifest completion"
       ]
     }
   ],
   "gatewayHints": {
     "autoIncludeWhen": [
       "manifest decision is required",
-      "topic or intent contains closeout or manifest wording",
+      "topic or intent contains manifest or validation wording",
       "files touch .agents, scripts, workflow docs, or agent-operating docs"
     ],
     "primaryHumanDoc": "docs/validation-memory.md"

@@ -95,11 +95,6 @@ audits:
   primaryOutput: docs/generated/local-tooling/workflow-slices/<workflow-id>-summary.md
   surfaceClass: focused_review
   operatorDefault: false
-- target: plan-code-map
-  script: scripts/audits/generate-plan-code-map.rb
-  primaryOutput: docs/generated/local-tooling/plan-code-maps/<plan-id>-summary.md
-  surfaceClass: focused_review
-  operatorDefault: false
 - target: rank-changeset-hotspots
   script: scripts/audits/rank-changeset-hotspots.rb
   primaryOutput: docs/generated/local-tooling/hotspots-summary.md
@@ -210,21 +205,6 @@ audits:
   primaryOutput: docs/generated/local-tooling/session-handoffs
   surfaceClass: extended_support
   operatorDefault: false
-- target: plan-scaffold-discovery
-  script: scripts/audits/generate-plan-scaffold-discovery.rb
-  primaryOutput: .agents/<topic>-plan.md
-  surfaceClass: extended_support
-  operatorDefault: false
-- target: plan-index
-  script: scripts/audits/generate-plan-index.rb
-  primaryOutput: docs/generated/local-tooling/plan-index-summary.md
-  surfaceClass: operator_core
-  operatorDefault: true
-- target: control-start
-  script: scripts/audits/generate-control-start.rb
-  primaryOutput: docs/generated/local-tooling/control-start-summary.md
-  surfaceClass: operator_core
-  operatorDefault: true
 - target: audit-summary-index
   script: scripts/audits/generate-audit-summary-index.rb
   primaryOutput: docs/generated/local-tooling/audit-summary-index.md
@@ -315,40 +295,10 @@ audits:
   primaryOutput: docs/generated/local-tooling/smoke/local-dashboard-latest.json
   surfaceClass: extended_support
   operatorDefault: false
-- target: closeout-bundle
-  script: scripts/audits/generate-closeout-bundle.rb
-  primaryOutput: docs/generated/local-tooling/closeout-bundle-summary.md
-  surfaceClass: diagnostic
-  operatorDefault: false
-- target: closeout-report
-  script: scripts/audits/generate-closeout-report.rb
-  primaryOutput: docs/generated/local-tooling/closeout-reports/<feature-id>-summary.md
-  surfaceClass: diagnostic
-  operatorDefault: false
-- target: closeout-driver
-  script: scripts/audits/closeout-driver.rb
-  primaryOutput: docs/generated/local-tooling/closeout-driver/<plan-id>-summary.md
-  surfaceClass: diagnostic
-  operatorDefault: false
-- target: autofill-feature-closeout
-  script: scripts/audits/autofill-feature-closeout.rb
-  primaryOutput: docs/generated/local-tooling/closeout-autofill/<feature-id>-summary.md
-  surfaceClass: diagnostic
-  operatorDefault: false
-- target: enforce-feature-closeout
-  script: scripts/audits/enforce-feature-closeout.rb
-  primaryOutput: docs/generated/local-tooling/closeout-enforcement/<feature-id>-summary.md
-  surfaceClass: diagnostic
-  operatorDefault: false
 - target: post-merge-retrospective
   script: scripts/audits/generate-post-merge-retrospective.rb
   primaryOutput: docs/generated/local-tooling/post-merge-retrospectives/latest-summary.md
   surfaceClass: diagnostic
-  operatorDefault: false
-- target: audit-plan-completion
-  script: scripts/audits/audit-plan-completion.rb
-  primaryOutput: docs/generated/local-tooling/plan-completion/<plan-id>-summary.md
-  surfaceClass: extended_support
   operatorDefault: false
 - target: audit-delta-report
   script: scripts/audits/audit-delta-report.rb
