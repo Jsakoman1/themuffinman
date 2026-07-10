@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: unknown
+machine_status: complete
 machine_title: Control System Rebuild Plan
 ---
 

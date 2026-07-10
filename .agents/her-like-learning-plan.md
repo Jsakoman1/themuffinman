@@ -1,6 +1,6 @@
 ---
 machine_kind: plan
-machine_status: "- phases 1-6 implemented in code and validated"
+machine_status: complete
 machine_title: Her-like Learning Loop
 machine_goal: 'Design a target architecture for a Her-like assistant that can:'
 ---
