@@ -59,6 +59,7 @@ Completed implementation batches should stay out of this file; keep their histor
 
 ## Open Items
 
+
 ## Operating Rule
 
 - Prefer small, low-noise strict slices over whole-tier tightening.

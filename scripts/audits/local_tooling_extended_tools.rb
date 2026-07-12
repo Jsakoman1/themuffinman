@@ -57,6 +57,7 @@ module LocalToolingExtendedTools
     ["audit-test-fixture-duplication", "scripts/audits/audit-test-fixture-duplication.rb", "docs/generated/local-tooling/test-fixture-duplication-summary.md"],
     ["diff-summary", "scripts/audits/generate-diff-summary.rb", "docs/generated/local-tooling/diff-summary.md"],
     ["session-handoff", "scripts/audits/generate-session-handoff.rb", "docs/generated/local-tooling/session-handoffs"],
+    ["control-start", "scripts/audits/generate-control-start.rb", "docs/generated/local-tooling/control-start-summary.md"],
     ["audit-summary-index", "scripts/audits/generate-audit-summary-index.rb", "docs/generated/local-tooling/audit-summary-index.md"],
     ["generate-audit-registry-artifacts", "scripts/audits/generate-audit-registry-artifacts.rb", "docs/tooling/codex-local-audits.yml"],
     ["fast-check", "scripts/audits/generate-fast-check-report.rb", "docs/generated/local-tooling/fast-check-report-summary.md"],
@@ -91,6 +92,7 @@ module LocalToolingExtendedTools
     "agent" => %w[docs/agent-operating-model.md docs/agent-operating-model.yaml docs/domain-technical.md]
   }.freeze
   OPERATOR_CORE_AUDITS = Set.new(%w[
+    control-start
     audit-summary-index
     codex-context
     recommend-targeted-tests
@@ -175,6 +177,12 @@ module LocalToolingExtendedTools
 
   def run(mode, argv = ARGV)
     public_send("run_#{mode.tr('-', '_')}", argv)
+  end
+
+  def run_control_start(_argv)
+    require_relative "./generate-control-start"
+
+    GenerateControlStart.run
   end
 
   def run_context_pack(argv)

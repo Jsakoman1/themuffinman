@@ -1,8 +1,8 @@
 #!/bin/zsh
 set -euo pipefail
 
-if [[ $# -lt 1 || $# -gt 3 ]]; then
-  echo "usage: scripts/implementation-batch.sh <topic> [comma-separated-files] [manifest-file]" >&2
+if [[ $# -lt 1 || $# -gt 5 ]]; then
+  echo "usage: scripts/implementation-batch.sh <topic> [comma-separated-files] [manifest-file] [plan-file] [closeout=true|false]" >&2
   exit 1
 fi
 
@@ -10,7 +10,16 @@ topic="$1"
 files_csv="${2:-}"
 manifest="${3:-}"
 repo_root="$(cd "$(dirname "$0")/.." && pwd)"
-plan_path="$repo_root/.agents/${topic}-plan.md"
+plan_input="${4:-.agents/${topic}-plan.md}"
+plan_path="$repo_root/$plan_input"
+closeout_requested="${5:-false}"
+case "$closeout_requested" in
+  true|false) ;;
+  *)
+    echo "closeout must be true or false" >&2
+    exit 1
+    ;;
+esac
 intent="implementation batch for ${topic}"
 generated_root="$repo_root/docs/generated/local-tooling/implementation-batches"
 batch_slug="${topic:l}"
@@ -23,7 +32,10 @@ ledger_jsonl_path="$generated_root/${batch_slug}-ledger.jsonl"
 ledger_json_path="$generated_root/${batch_slug}-ledger.json"
 ledger_summary_path="$generated_root/${batch_slug}-ledger-summary.md"
 created_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-plan_completion="skipped"
+run_id="${created_at//[-:]/}"
+run_id="${run_id/. /}"
+run_id="${run_id//./}"
+plan_completion="not_requested"
 ledger_entries=()
 
 run_make() {
@@ -37,7 +49,7 @@ append_ledger_entry() {
   local note="${4:-}"
   local recorded_at
   recorded_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  ruby -rjson -e 'puts JSON.generate({"label" => ARGV[0], "status" => ARGV[1], "command" => ARGV[2], "note" => ARGV[3], "recordedAt" => ARGV[4]})' "$label" "$entry_status" "$command_text" "$note" "$recorded_at" >> "$ledger_jsonl_path"
+  ruby -rjson -e 'puts JSON.generate({"runId" => ARGV[0], "label" => ARGV[1], "status" => ARGV[2], "command" => ARGV[3], "note" => ARGV[4], "recordedAt" => ARGV[5]})' "$run_id" "$label" "$entry_status" "$command_text" "$note" "$recorded_at" >> "$ledger_jsonl_path"
 }
 
 run_recorded_make() {
@@ -55,26 +67,33 @@ run_recorded_make() {
 
 write_ledger_outputs() {
   ruby -rjson -e '
-    ledger_jsonl_path, ledger_json_path, ledger_summary_path, created_at, topic, plan_path, manifest, plan_completion = ARGV
-    entries = File.exist?(ledger_jsonl_path) ? File.readlines(ledger_jsonl_path).map(&:strip).reject(&:empty?).map { |line| JSON.parse(line) } : []
+    ledger_jsonl_path, ledger_json_path, ledger_summary_path, run_json_path, created_at, run_id, topic, plan_path, manifest, plan_completion, closeout_requested = ARGV
+    history_entries = File.exist?(ledger_jsonl_path) ? File.readlines(ledger_jsonl_path).map(&:strip).reject(&:empty?).map { |line| JSON.parse(line) } : []
+    entries = history_entries.select { |entry| entry["runId"] == run_id }
     payload = {
       "generatedAt" => created_at,
+      "runId" => run_id,
       "topic" => topic,
       "manifest" => manifest,
       "planPath" => plan_path,
       "planCompletion" => plan_completion,
-      "entries" => entries
+      "closeoutRequested" => closeout_requested == "true",
+      "entries" => entries,
+      "historyEntryCount" => history_entries.size
     }
     File.write(ledger_json_path, JSON.pretty_generate(payload) + "\n")
+    File.write(run_json_path, JSON.pretty_generate(payload) + "\n")
     counts = entries.group_by { |entry| entry["status"] }.transform_values(&:count)
     lines = []
     lines << "# Implementation Batch Ledger #{topic}"
     lines << ""
     lines << "- Generated At: `#{created_at}`"
+    lines << "- Run ID: `#{run_id}`"
     lines << "- Topic: `#{topic}`"
     lines << "- Plan Path: `#{plan_path}`"
     lines << "- Manifest: `#{manifest.empty? ? "none" : manifest}`"
     lines << "- Plan Completion: `#{plan_completion}`"
+    lines << "- Closeout Requested: `#{closeout_requested}`"
     lines << "- Executed: `#{counts.fetch(%q{executed}, 0)}`"
     lines << "- Deferred: `#{counts.fetch(%q{deferred}, 0)}`"
     lines << "- Blocked: `#{counts.fetch(%q{blocked}, 0)}`"
@@ -86,14 +105,13 @@ write_ledger_outputs() {
       lines << "- `#{entry["status"]}` #{entry["label"]}: #{entry["command"]}#{note}"
     end
     File.write(ledger_summary_path, lines.join("\n") + "\n")
-  ' "$ledger_jsonl_path" "$ledger_json_path" "$ledger_summary_path" "$created_at" "$topic" "$plan_path" "$manifest" "$plan_completion"
+  ' "$ledger_jsonl_path" "$ledger_json_path" "$ledger_summary_path" "$generated_root/runs/${run_id}.json" "$created_at" "$run_id" "$topic" "$plan_path" "$manifest" "$plan_completion" "$closeout_requested"
 }
 
-mkdir -p "$generated_root"
+mkdir -p "$generated_root/runs"
 
 run_recorded_make control-start control-start
 run_recorded_make codex-context codex-context topic="$topic" intent="$intent"
-run_recorded_make cleanup-generated-history cleanup-generated-history
 
 if [[ -n "$files_csv" ]]; then
   run_recorded_make audit-router audit-router files="$files_csv"
@@ -121,33 +139,45 @@ else
   run_recorded_make recommend-targeted-tests recommend-targeted-tests
 fi
 
-if [[ -f "$plan_path" ]]; then
-  if [[ -n "$manifest" ]]; then
-    run_recorded_make audit-plan-completion audit-plan-completion plan="$plan_path" manifest="$manifest"
-  else
-    run_recorded_make audit-plan-completion audit-plan-completion plan="$plan_path"
+if [[ "$closeout_requested" == "true" ]]; then
+  if [[ ! -f "$plan_path" ]]; then
+    echo "closeout requires an existing plan: $plan_input" >&2
+    exit 1
   fi
-  plan_completion="attempted"
+  if [[ -z "$manifest" ]]; then
+    echo "closeout requires manifest=<manifest-file>" >&2
+    exit 1
+  fi
+  run_recorded_make cleanup-generated-history cleanup-generated-history
+  run_recorded_make audit-plan-completion audit-plan-completion plan="$plan_input" manifest="$manifest"
+  run_recorded_make feature-closeout-audit feature-closeout-audit manifest="$manifest"
+  plan_completion="passed"
 fi
 
 run_recorded_make audit-todo audit-todo
 
 generated_artifact_hygiene_summary="docs/generated/local-tooling/generated-artifact-freshness-summary.md"
+generated_history_cleanup_summary="not run during preparation"
 if [[ -n "$files_csv" ]]; then
   generated_artifact_hygiene_summary="docs/generated/local-tooling/generated-artifact-hygiene-summary.md"
+fi
+if [[ "$closeout_requested" == "true" ]]; then
+  generated_history_cleanup_summary="docs/generated/local-tooling/cleanup-generated-history-summary.md"
 fi
 
 cat >"$json_path" <<EOF
 {
   "generatedAt": "$created_at",
+  "runId": "$run_id",
   "topic": "$topic",
   "filesCsv": "${files_csv}",
   "manifest": "${manifest}",
-  "planPath": "${plan_path}",
+  "planPath": "${plan_input}",
   "planCompletion": "${plan_completion}",
+  "closeoutRequested": ${closeout_requested},
   "controlStart": "docs/generated/local-tooling/control-start.json",
   "codexContext": "docs/generated/local-tooling/codex-context/latest.review.md",
-  "generatedHistoryCleanup": "docs/generated/local-tooling/cleanup-generated-history-summary.md",
+  "generatedHistoryCleanup": "$generated_history_cleanup_summary",
   "generatedArtifactHygiene": "$generated_artifact_hygiene_summary",
   "docSyncPreflight": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
   "docSyncRequiredSurfaces": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
@@ -156,7 +186,8 @@ cat >"$json_path" <<EOF
   "validationPreset": "docs/generated/local-tooling/validation-preset-summary.md",
   "featureSlices": "docs/generated/local-tooling/feature-slices/${batch_slug}.json",
   "targetedTests": "docs/generated/local-tooling/targeted-tests.json",
-  "closeoutStatus": "audit-todo"
+  "runLedger": "docs/generated/local-tooling/implementation-batches/runs/${run_id}.json",
+  "closeoutStatus": "${plan_completion}"
 }
 EOF
 
@@ -164,14 +195,16 @@ cat >"$summary_path" <<EOF
 # Implementation Batch ${topic}
 
 - Generated At: \`$created_at\`
+- Run ID: \`$run_id\`
 - Topic: \`$topic\`
 - Files CSV: \`$files_csv\`
 - Manifest: \`${manifest:-none}\`
-- Plan Path: \`$plan_path\`
+- Plan Path: \`$plan_input\`
 - Plan Completion: \`$plan_completion\`
+- Closeout Requested: \`$closeout_requested\`
 - Control Start: \`docs/generated/local-tooling/control-start.json\`
 - Codex Context: \`docs/generated/local-tooling/codex-context/latest.review.md\`
-- Generated History Cleanup: \`docs/generated/local-tooling/cleanup-generated-history-summary.md\`
+- Generated History Cleanup: \`$generated_history_cleanup_summary\`
 - Doc Sync Preflight: \`docs/generated/local-tooling/doc-sync-preflight-summary.md\`
 - Doc Sync Required Surfaces: \`docs/generated/local-tooling/doc-sync-required-surfaces-summary.md\`
 - Manifest Decision: \`docs/generated/local-tooling/manifest-decision-summary.md\`
@@ -180,7 +213,8 @@ cat >"$summary_path" <<EOF
 - Generated Artifact Hygiene: \`$generated_artifact_hygiene_summary\`
 - Feature Slices: \`docs/generated/local-tooling/feature-slices/${batch_slug}.json\`
 - Targeted Tests: \`docs/generated/local-tooling/targeted-tests.json\`
-- Closeout Status: \`audit-todo\`
+- Run Ledger: \`docs/generated/local-tooling/implementation-batches/runs/${run_id}.json\`
+- Closeout Status: \`$plan_completion\`
 EOF
 
 write_ledger_outputs

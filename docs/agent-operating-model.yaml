@@ -1330,13 +1330,17 @@ policies:
     - completion status is final
     - completed plans keep changed files, validation evidence, and doc delta summary
       out of placeholder states
-    - open task checkboxes are complete or explicitly deferred to a stable backlog
-      ID
+    - version 2 implementation plans record a valid pre-implementation Git baseline,
+      repeat that exact baseline in completion evidence, and declare a runtime or
+      tooling code path shared by plan evidence, manifest codePaths, and the Git diff
+      after that baseline
+    - open task checkboxes are complete; deferred work moves to a stable backlog ID
+      before closeout
     - completed manifests do not reference incomplete plan evidence
-    audit_command: make audit-validation-evidence-quality
+    audit_command: make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]
     completion_rule: A batch-backed change is not ready for closeout while its referenced
-      batch has incomplete task checkboxes, missing completion evidence, or unresolved
-      evidence placeholders.
+      batch has incomplete task checkboxes, missing completion evidence, unresolved
+      evidence placeholders, or no baseline-backed implementation proof.
   program_planning_hierarchy:
     applies_to: Broad work that spans several plans, durable product directions, or
       long-running agent/control-system programs.
@@ -1351,7 +1355,9 @@ policies:
     - Master plans coordinate ordered plans and final closeout evidence.
     - Plans execute concrete implementation or analysis slices.
     - Each plan should use checkbox-based implementation steps and close only when
-      all checkboxes are complete.
+      all checkboxes are complete and its evidence-backed completion audit passes.
+    - A master plan closes only after every explicit child plan path exists and passes
+      the completion audit.
     - Temporary machine-readable work products live under `.agents/tmp/` only while
       their owning plan needs them.
     - make control-start, make codex-context, and make context-pack surface the topic's
@@ -1366,10 +1372,14 @@ policies:
       generated-artifact lists.
     - make control-refresh-full performs the same snapshot flow and then runs the
       slower generated-artifact freshness pass plus generated-history cleanup.
-    - make implementation-batch topic=<topic> runs the deterministic implementation
-      wrapper for discovery, docs-sync preflight, manifest routing, validation preset
-      selection, recommendations, generated-history cleanup, and closeout hints when
-      a plan exists.
+    - make implementation-batch topic=<topic> runs the deterministic preparation wrapper
+      for discovery, docs-sync preflight, manifest routing, validation preset selection,
+      and recommendations. It runs closeout only when `closeout=true` is explicit
+      and both plan and manifest paths are supplied.
+    - Run root-owned `make implementation-batch`, `make closeout-preflight`, `make
+      audit-plan-completion`, and `make feature-closeout-audit` targets from the repository
+      root. Use `make closeout-preflight manifest=<manifest-file>` to validate closeout
+      readiness without generated-history cleanup.
     - make temp-work-product-closeout plan=<plan-file> deletes or archives lingering
       temp work products owned by a plan before closeout.
     - make audit-generated-artifact-hygiene files=<csv> provides a scope-filtered

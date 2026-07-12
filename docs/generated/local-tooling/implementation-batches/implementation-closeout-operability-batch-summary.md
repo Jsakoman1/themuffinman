@@ -1,0 +1,23 @@
+# Implementation Batch implementation-closeout-operability
+
+- Generated At: `2026-07-12T09:17:19Z`
+- Run ID: `20260712T091719Z`
+- Topic: `implementation-closeout-operability`
+- Files CSV: `Makefile,scripts/audits/audit-plan-completion.rb,scripts/audits/test-audit-plan-completion.rb,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,.agents/templates/master-plan.template.md,docs/codex-fast-path.md,docs/agent-operating-model/sections/policies.yaml`
+- Manifest: `.agents/feature-manifests/implementation-closeout-operability-manifest.yaml`
+- Plan Path: `.agents/implementation-closeout-operability-plan.md`
+- Plan Completion: `not_requested`
+- Closeout Requested: `false`
+- Control Start: `docs/generated/local-tooling/control-start.json`
+- Codex Context: `docs/generated/local-tooling/codex-context/latest.review.md`
+- Generated History Cleanup: `not run during preparation`
+- Doc Sync Preflight: `docs/generated/local-tooling/doc-sync-preflight-summary.md`
+- Doc Sync Required Surfaces: `docs/generated/local-tooling/doc-sync-required-surfaces-summary.md`
+- Manifest Decision: `docs/generated/local-tooling/manifest-decision-summary.md`
+- Manifest Resolution: `docs/generated/local-tooling/manifest-path-resolution-summary.md`
+- Validation Preset: `docs/generated/local-tooling/validation-preset-summary.md`
+- Generated Artifact Hygiene: `docs/generated/local-tooling/generated-artifact-hygiene-summary.md`
+- Feature Slices: `docs/generated/local-tooling/feature-slices/implementation-closeout-operability.json`
+- Targeted Tests: `docs/generated/local-tooling/targeted-tests.json`
+- Run Ledger: `docs/generated/local-tooling/implementation-batches/runs/20260712T091719Z.json`
+- Closeout Status: `not_requested`

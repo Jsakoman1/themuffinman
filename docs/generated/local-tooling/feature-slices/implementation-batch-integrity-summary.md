@@ -1,0 +1,38 @@
+# Feature Slices implementation-batch-integrity
+
+- Generated At: `2026-07-12T09:02:16Z`
+- Topic: `implementation-batch-integrity`
+## `domains`
+
+- `agent`
+- `shared`
+
+## `categories`
+
+- `docs`
+- `other`
+- `script`
+
+- Original File Count: `7`
+- Filtered File Count: `0`
+## `files_considered`
+
+- `Makefile`
+- `scripts/audits/audit-plan-completion.rb`
+- `scripts/bootstrap-feature-work.sh`
+- `scripts/feature-closeout-audit.sh`
+- `scripts/implementation-batch.sh`
+- `docs/program-planning-model.md`
+- `docs/agent-operating-model/sections/policies.yaml`
+
+## `slices`
+
+- `{:id: "docs-and-artifacts", :purpose: "Update living docs and generated artifacts that move with the implementation.", :files: ["docs/program-planning-model.md", "docs/agent-operating-model/sections/policies.yaml", "docs/agent-operating-model.md", "docs/agent-operating-model.yaml", "docs/domain-technical.md"], :validation: ["make audit-documentation", "make audit-generated-artifact-freshness"]}`
+- `{:id: "final-validation", :purpose: "Run focused and broad validation after implementation slices are complete.", :files: [], :validation: ["ruby -c <script>", "make audit-summary-index", "./mvnw test", "make audit-documentation", "make audit-doc-canonical-phrases"]}`
+
+## `read_next`
+
+- `Run `make context-pack topic=implementation-batch-integrity` before editing if more file context is needed.`
+- `Run `make audit-router files=<csv>` after the first implementation slice.`
+- `Keep slices sequential; avoid mixing backend, frontend, generated artifacts, and final validation in one edit pass unless the change is tiny.`
+

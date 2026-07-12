@@ -1,0 +1,130 @@
+featureId: codex_context_control_start_repair
+title: Codex context control-start repair
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+status: complete
+riskTier: medium
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+planFile: .agents/codex-context-control-start-repair-plan.md
+summary:
+  - Restore the compact control-start snapshot required by the Codex context gateway.
+validationEvidence:
+  commands:
+    - command: ruby -c scripts/audits/generate-control-start.rb
+      scope: local-tooling
+      result: passed
+      ranAt: 2026-07-12T10:37:14+02:00
+      summary: The new control-start generator passed Ruby syntax validation.
+    - command: make control-start
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T10:40:53+02:00
+      summary: Generated the plan index and compact control-start snapshot without invoking codex-context.
+    - command: make generate-audit-registry-artifacts
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T10:38:25+02:00
+      summary: Registered the control-start generator in the local audit registry and refreshed the audit summary index.
+    - command: make generate-agent-operating-model
+      scope: agent-safety
+      result: passed
+      ranAt: 2026-07-12T10:39:50+02:00
+      summary: Regenerated the machine-operational model against the restored documented control-start contract.
+    - command: make codex-context topic=vision-support-ux-master-plan intent='Analyze voice-first automation-first vision UX, support frontend clutter, and a minimal iPhone/watch-first plus web shell strategy; produce master plan only.' budget=12000 refresh=true
+      scope: local-tooling
+      result: passed
+      ranAt: 2026-07-12T10:40:53+02:00
+      summary: Re-ran the originally failing context command; it generated the review and execution manifests with zero provider failures.
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      ranAt: 2026-07-12T10:39:57+02:00
+      summary: Passed the agent operating-model validation, focused backend suite, frontend type-check, frontend build, validation-evidence audit, validation-memory audit, and TODO audit.
+    - command: make audit-documentation
+      scope: docs
+      result: passed
+      ranAt: 2026-07-12T10:40:03+02:00
+      summary: Documentation audit passed after the local-tooling contract update.
+    - command: make audit-doc-canonical-phrases
+      scope: docs
+      result: passed
+      ranAt: 2026-07-12T10:40:07+02:00
+      summary: Protected documentation phrase audit passed.
+    - command: make audit-todo
+      scope: local-tooling
+      result: passed
+      ranAt: 2026-07-12T10:42:48+02:00
+      summary: The completed repair plan has no open tasks and the deferred implementation-batch follow-up is traceable in the persistent backlog.
+    - command: make audit-generated-artifact-freshness files=Makefile,scripts/audits/codex_local_context_gateway.rb,scripts/audits/generate-control-start.rb,scripts/audits/local_tooling_extended_tools.rb,docs/codex-local-tooling-todo.md,docs/domain-technical.md
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T10:41:00+02:00
+      summary: Scoped freshness audit reported zero stale artifacts.
+generatedArtifacts:
+  refreshedPaths:
+    - docs/generated/local-tooling/control-start.json
+    - docs/generated/local-tooling/control-start-summary.md
+    - docs/generated/local-tooling/plan-index.json
+    - docs/generated/local-tooling/plan-index-summary.md
+    - docs/generated/local-tooling/codex-context/latest.machine.json
+    - docs/generated/local-tooling/codex-context/latest.review.md
+    - docs/generated/local-tooling/codex-context/latest.execution.json
+    - docs/tooling/codex-local-audits.yml
+  notApplicableReason: Generated outputs are listed in refreshedPaths.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: All repair-plan checkboxes are complete and backed by the restored context command.
+closeoutDecision:
+  status: ready
+  reason: The control-start snapshot, gateway registration, documentation, generated registry, and validation evidence are complete.
+docDelta:
+  behaviorChanged:
+    - The Codex context gateway will regain its documented control-start input surface.
+  docsUpdated:
+    - docs/codex-local-tooling-todo.md
+    - docs/domain-technical.md
+    - docs/agent-improvement-backlog.md
+    - docs/tooling/codex-local-audits.yml
+  intentionallyUnchanged:
+    - Product behavior, domain workflows, and public APIs are not affected.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds:
+    - TOOLING-IMPLEMENTATION-BATCH-001
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - Makefile
+    - scripts/audits/codex_local_context_gateway.rb
+    - scripts/audits/generate-control-start.rb
+    - scripts/audits/local_tooling_extended_tools.rb
+  docPaths:
+    - .agents/codex-context-control-start-repair-plan.md
+    - .agents/feature-manifests/codex-context-control-start-repair-manifest.yaml
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/codex-local-tooling-todo.md
+    - docs/agent-improvement-backlog.md
+  testPaths: []
+  generatorCommands:
+    - make control-start
+    - make generate-audit-registry-artifacts
+    - make generate-agent-operating-model
+  auditCommands:
+    - make audit-agent-safety
+    - make audit-documentation
+    - make audit-todo

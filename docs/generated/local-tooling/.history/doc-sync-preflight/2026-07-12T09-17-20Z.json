@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-07-12T09:02:13Z",
+  "files": [
+    {
+      "file": "Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "category": "other",
+      "domain": "agent",
+      "likely_docs": [
+        "docs/agent-operating-model.md",
+        "docs/agent-operating-model.yaml",
+        "docs/domain-technical.md"
+      ],
+      "generated_artifacts": [
+
+      ],
+      "validation_commands": [
+
+      ],
+      "residual_risk": [
+
+      ]
+    }
+  ],
+  "unique_docs": [
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml",
+    "docs/domain-technical.md"
+  ]
+}

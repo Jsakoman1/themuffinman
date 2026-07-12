@@ -47,6 +47,7 @@ For broad, long-running, or high-complexity work, prefer a master plan that coor
 Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger program auditable through one final validation pass.
 Use the master-plan pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger program auditable through one final closeout pass.
 Never mark a plan complete unless all of its checkboxes are complete, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
+For a version 2 implementation plan, require `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]` to pass against its recorded Git baseline before changing the plan status to complete.
 Never mark a batch complete unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
 Do not treat `docs/generated/local-tooling/.history/`, `docs/generated/local-tooling/.cache/`, or `.agents/archive/` as live closeout evidence; they are archive-only support paths.
 
@@ -56,8 +57,22 @@ Do not treat `docs/generated/local-tooling/.history/`, `docs/generated/local-too
 - The master plan holds the shared context, plan inventory, ordering, and final consistency review.
 - Each plan covers one bounded slice and should list the actual implementation steps as checkboxes.
 - When a broad task is safe to continue, do not stop between plans or ask for continuation unless a real blocker appears.
-- Close a plan only when its checkboxes are complete and the evidence is real.
-- Close the master plan only when every plan is complete.
+- Close a plan only when its checkboxes are complete, its evidence is real, and its completion audit passes.
+- Close the master plan only when every explicitly listed child plan passes the completion audit.
+
+`make implementation-batch topic=<topic>` prepares context and routing. It does not close plans unless `closeout=true` is explicitly supplied with both `plan` and `manifest`.
+
+## Command Ownership
+
+Run cross-repository planning and closeout targets from the repository root `Makefile`:
+
+- `make implementation-batch`
+- `make closeout-preflight`
+- `make audit-plan-completion`
+- `make feature-closeout-audit`
+- `make cleanup-generated-history`
+
+`apps/themuffinman/Makefile` owns application-local backend and frontend targets. Use the root wrappers such as `make audit-agent-safety` when a workflow requires both product and control-system validation.
 
 For broad, long-running, or high-complexity work, prefer a sequenced batch with explicit slices instead of treating the entire task as one flat edit.
 For broad, long-running, or high-complexity work, prefer a sequenced batch that coordinates a group of narrower implementation slices in explicit sequence instead of treating the entire task as one flat block.

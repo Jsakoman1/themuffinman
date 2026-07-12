@@ -1,13 +1,18 @@
 #!/bin/zsh
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo "usage: scripts/feature-closeout-audit.sh <manifest-file>" >&2
+if [[ $# -lt 1 || $# -gt 2 ]]; then
+  echo "usage: scripts/feature-closeout-audit.sh <manifest-file> [--preflight]" >&2
   exit 1
 fi
 
 repo_root="$(cd "$(dirname "$0")/.." && pwd)"
 manifest_arg="$1"
+mode="${2:-closeout}"
+if [[ "$mode" != "closeout" && "$mode" != "--preflight" ]]; then
+  echo "unsupported closeout mode: $mode" >&2
+  exit 1
+fi
 manifest_path="$repo_root/$manifest_arg"
 
 if [[ ! -f "$manifest_path" ]]; then
@@ -15,11 +20,21 @@ if [[ ! -f "$manifest_path" ]]; then
   exit 1
 fi
 
-(cd "$repo_root" && make cleanup-generated-history)
+plan_file="$(ruby -ryaml -e 'manifest = YAML.load_file(ARGV.fetch(0)) || {}; print manifest.fetch("planFile", "")' "$manifest_path")"
+if [[ -z "$plan_file" ]]; then
+  echo "manifest is missing planFile: $manifest_path" >&2
+  exit 1
+fi
 
-ruby -rjson -ryaml - "$repo_root" "$manifest_arg" <<'RUBY'
+(cd "$repo_root" && make audit-plan-completion plan="$plan_file" manifest="$manifest_arg")
+if [[ "$mode" == "closeout" ]]; then
+  (cd "$repo_root" && make cleanup-generated-history)
+fi
+
+ruby -rjson -ryaml - "$repo_root" "$manifest_arg" "$mode" <<'RUBY'
 repo_root = ARGV.fetch(0)
 manifest_arg = ARGV.fetch(1)
+mode = ARGV.fetch(2)
 manifest_path = File.join(repo_root, manifest_arg)
 manifest = YAML.load_file(manifest_path)
 validation_memory_path = File.join(repo_root, "docs/validation-memory.json")
@@ -48,19 +63,6 @@ end
 
 def require_passed_command_exact(manifest, errors, command, description)
   errors << "missing passed validation evidence for #{description}: #{command}" unless passed_command?(manifest, /\A#{Regexp.escape(command)}\z/)
-end
-
-def closeout_driver_report_passed?(repo_root, plan_file, manifest_arg)
-  plan_slug = File.basename(plan_file.to_s, File.extname(plan_file.to_s)).gsub(/[^A-Za-z0-9_-]+/, "-")
-  report_path = File.join(repo_root, "docs/generated/local-tooling/closeout-driver/driver/#{plan_slug}.json")
-  return false unless File.exist?(report_path)
-
-  payload = JSON.parse(File.read(report_path))
-  payload["status"].to_s == "passed" &&
-    payload["plan_path"].to_s == plan_file.to_s &&
-    payload["manifest_path"].to_s == manifest_arg.to_s
-rescue StandardError
-  false
 end
 
 def require_bool(manifest, errors, key)
@@ -133,8 +135,8 @@ if status == "complete"
   workflow_expansion_commands = list(validation_memory.dig("canonicalCommands", "workflowExpansion"))
 
   closeout_command = closeout_commands.first || "make audit-todo"
-  unless passed_command?(manifest, /\A#{Regexp.escape(closeout_command)}\z/) || closeout_driver_report_passed?(repo_root, plan_file, manifest_arg)
-    errors << "missing passed validation evidence for make audit-todo: #{closeout_command}"
+  unless passed_command?(manifest, /\A#{Regexp.escape(closeout_command)}\z/)
+    errors << "missing passed validation evidence for closeout command: #{closeout_command}"
   end
   if checklist["backendTestsPassed"] == true || profiles.include?("backend-logic")
     allowed_backend_patterns = backend_logic_commands.map { |command| /\A#{Regexp.escape(command)}\z/ }
@@ -198,7 +200,7 @@ list(manifest.dig("generatedArtifacts", "refreshedPaths")).each do |path|
   errors << "archive-only path cannot be used as refreshed generated artifact evidence: #{path}" if path.start_with?("docs/generated/local-tooling/.history/", "docs/generated/local-tooling/.cache/", ".agents/archive/")
 end
 
-puts "Feature close-out audit"
+puts mode == "--preflight" ? "Feature close-out preflight" : "Feature close-out audit"
 puts "  Manifest: #{manifest_path}"
 puts "  Plan:     #{plan_path}"
 puts "  Status:   #{status.empty? ? 'unknown' : status}"
@@ -212,8 +214,10 @@ if errors.any?
   exit 1
 end
 
-puts "Feature close-out audit passed"
+puts mode == "--preflight" ? "Feature close-out preflight passed" : "Feature close-out audit passed"
 RUBY
 
-ruby "$repo_root/scripts/audits/audit-validation-memory-drift.rb"
-ruby "$repo_root/scripts/todo-audit.rb" --manifest "$manifest_arg"
+if [[ "$mode" == "closeout" ]]; then
+  ruby "$repo_root/scripts/audits/audit-validation-memory-drift.rb"
+  ruby "$repo_root/scripts/todo-audit.rb" --manifest "$manifest_arg"
+fi

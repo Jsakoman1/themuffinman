@@ -1,49 +1,30 @@
 {
-  "generated_at": "2026-07-05T09:22:55Z",
+  "generated_at": "2026-07-12T09:17:23Z",
   "scope_files": [
     "Makefile",
-    "scripts/audits/audit-generated-artifact-freshness.rb",
+    "scripts/audits/audit-plan-completion.rb",
+    "scripts/audits/test-audit-plan-completion.rb",
+    "scripts/feature-closeout-audit.sh",
     "scripts/implementation-batch.sh",
-    "scripts/audits/local_tooling_extended_tools.rb",
-    "scripts/audits/audit-plan-completion.rb"
+    ".agents/templates/master-plan.template.md",
+    "docs/codex-fast-path.md",
+    "docs/agent-operating-model/sections/policies.yaml"
   ],
   "scoped": true,
-  "artifact_count": 3,
-  "stale_count": 1,
-  "ignored_stale_count": 3,
+  "artifact_count": 1,
+  "stale_count": 0,
+  "ignored_stale_count": 2,
   "artifacts": [
     {
       "label": "codex_context_execution_manifest",
       "artifact": "docs/generated/local-tooling/codex-context/latest.execution.json",
       "status": "fresh",
       "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:22:54Z",
+      "artifact_mtime": "2026-07-12T09:17:20Z",
       "newest_source": "docs/feature-delivery-workflow.md",
-      "newest_source_mtime": "2026-07-05T09:22:13Z",
+      "newest_source_mtime": "2026-07-12T09:16:52Z",
       "source_count": 13,
       "regenerate_command": "make codex-context topic=<topic> intent='<intent>'"
-    },
-    {
-      "label": "control_start_summary",
-      "artifact": "docs/generated/local-tooling/control-start-summary.md",
-      "status": "stale",
-      "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:22:53Z",
-      "newest_source": "docs/generated/local-tooling/codex-context/latest.review.md",
-      "newest_source_mtime": "2026-07-05T09:22:54Z",
-      "source_count": 7,
-      "regenerate_command": "make control-start"
-    },
-    {
-      "label": "plan_index",
-      "artifact": "docs/generated/local-tooling/plan-index.json",
-      "status": "fresh",
-      "artifact_exists": true,
-      "artifact_mtime": "2026-07-05T09:22:52Z",
-      "newest_source": "docs/tooling/codex-local-audits.md",
-      "newest_source_mtime": "2026-07-05T09:22:32Z",
-      "source_count": 32,
-      "regenerate_command": "make plan-index"
     }
   ]
 }

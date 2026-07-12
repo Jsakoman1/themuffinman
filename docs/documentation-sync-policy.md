@@ -38,7 +38,7 @@ Manifest usage is tier-driven and conditional instead of being the default for e
 - The master plan holds the shared context, plan inventory, ordering, and final consistency review.
 - Each plan owns one bounded slice and should not rely on another plan to explain its own checklist.
 - Plan completion should not be inferred from the master plan.
-- Master plan completion should only happen after every plan is complete and the final consistency review passes.
+- Master plan completion should only happen after every explicitly listed child plan passes `make audit-plan-completion` and the final consistency review passes.
 For broad, long-running, or high-complexity work, prefer a sequenced batch with explicit slices instead of treating the entire task as one flat plan.
 For broad, long-running, or high-complexity work, prefer a sequenced batch that coordinates a group of narrower implementation slices in explicit sequence instead of treating the entire task as one flat block.
 Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final validation pass.
@@ -146,6 +146,8 @@ If a non-trivial change does not use a manifest, the temporary plan or final clo
 - For broad, long-running, or high-complexity work, prefer a master plan with explicit plan files and checkboxes instead of treating the entire task as one flat plan.
 - Use the sequenced-batch pattern when it safely reduces unnecessary human interaction, increases automation, or makes a larger batch auditable through one final validation pass.
 - Never mark a batch `complete` unless the work it covers is actually implemented, the required validation has passed or been explicitly skipped with a recorded reason, and the completion evidence matches the real state.
+- For version 2 implementation plans, the completion audit also requires a valid Git baseline and an implemented runtime or tooling code path that changed after that baseline.
+- `make implementation-batch` is preparation-only unless `closeout=true` is explicit and both `plan` and `manifest` are supplied; it must not infer completion from the existence of a plan file.
 - Temporary machine-readable work products should be deleted, promoted into durable docs, or explicitly archived when the owning batch closes.
 - Use `make audit-generated-artifact-hygiene files=<csv>` for batch-scoped generated-artifact noise checks before widening to the global freshness audit.
 - Use `make cleanup-generated-history` to prune archive-only generated local-tooling history before validation-sensitive review.

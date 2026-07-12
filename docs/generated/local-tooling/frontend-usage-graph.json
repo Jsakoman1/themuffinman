@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-10T08:21:25Z",
-  "node_count": 40,
-  "edge_count": 81,
+  "generated_at": "2026-07-12T08:29:48Z",
+  "node_count": 49,
+  "edge_count": 119,
   "nodes": [
     {
       "file": "apps/themuffinman/frontend/src/App.vue",
@@ -90,6 +90,51 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/main.ts",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts",
+      "category": "frontend_api",
+      "domain": "identity"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "category": "other",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "category": "frontend_view",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "category": "frontend_view",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "category": "frontend_view",
+      "domain": "shared"
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
       "category": "other",
       "domain": "shared"
     },
@@ -298,6 +343,146 @@
       "to": "./router"
     },
     {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts",
+      "to": "../../../api/httpClient.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts",
+      "to": "../../../contracts/index.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "to": "../shellDefinitions.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "to": "../shellSurfaceData.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "to": "./shellRouteRegistry.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "to": "./shellDefinitions.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "to": "../../contracts/index.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "to": "../identity/auth.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "to": "./shellDefinitions.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "to": "./shellRouteRegistry.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "to": "./api/userShellApi.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "to": "./visionHandoff.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "to": "../../identity/auth.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "to": "../shellDefinitions.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "to": "../visionHandoff.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "to": "../shellDefinitions.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "to": "../shellSurfaceData.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "to": "../components/SurfaceContentView.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "to": "vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "to": "../components/SurfaceContentView.vue"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "to": "../shellDefinitions.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "to": "../shellSurfaceData.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
+      "to": "./shellDefinitions.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
+      "to": "./shellRouteRegistry.ts"
+    },
+    {
       "from": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "to": "../../../api/httpClient.ts"
     },
@@ -383,6 +568,10 @@
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "vue-router"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "to": "../../identity/auth.ts"
     },
     {
@@ -396,6 +585,10 @@
     {
       "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "to": "../visionPresentation.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
+      "to": "../../app-shell/visionHandoff.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
@@ -520,6 +713,10 @@
     {
       "from": "apps/themuffinman/frontend/src/router.ts",
       "to": "./auth.ts"
+    },
+    {
+      "from": "apps/themuffinman/frontend/src/router.ts",
+      "to": "./modules/app-shell/shellRouteRegistry.ts"
     },
     {
       "from": "apps/themuffinman/frontend/src/services/sessionService.ts",

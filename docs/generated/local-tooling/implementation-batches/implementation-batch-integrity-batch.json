@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-07-12T09:06:11Z",
+  "topic": "implementation-batch-integrity",
+  "filesCsv": "Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+  "manifest": ".agents/feature-manifests/implementation-batch-integrity-manifest.yaml",
+  "planPath": ".agents/implementation-batch-integrity-plan.md",
+  "planCompletion": "passed",
+  "closeoutRequested": true,
+  "controlStart": "docs/generated/local-tooling/control-start.json",
+  "codexContext": "docs/generated/local-tooling/codex-context/latest.review.md",
+  "generatedHistoryCleanup": "docs/generated/local-tooling/cleanup-generated-history-summary.md",
+  "generatedArtifactHygiene": "docs/generated/local-tooling/generated-artifact-hygiene-summary.md",
+  "docSyncPreflight": "docs/generated/local-tooling/doc-sync-preflight-summary.md",
+  "docSyncRequiredSurfaces": "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md",
+  "manifestDecision": "docs/generated/local-tooling/manifest-decision-summary.md",
+  "manifestResolution": "docs/generated/local-tooling/manifest-path-resolution-summary.md",
+  "validationPreset": "docs/generated/local-tooling/validation-preset-summary.md",
+  "featureSlices": "docs/generated/local-tooling/feature-slices/implementation-batch-integrity.json",
+  "targetedTests": "docs/generated/local-tooling/targeted-tests.json",
+  "closeoutStatus": "passed"
+}

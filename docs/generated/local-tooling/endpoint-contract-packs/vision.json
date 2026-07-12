@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T10:09:52Z",
+  "generated_at": "2026-07-12T08:38:36Z",
   "endpoint_family": "vision",
   "endpoints": [
     {
@@ -72,6 +72,25 @@
       "file": "apps/themuffinman/frontend/src/contracts/index.ts",
       "matched_paths": [
         "reset"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts",
+      "matched_paths": [
+        "{conversationId}"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "matched_paths": [
+        "recent",
+        "{conversationId}"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "matched_paths": [
+        "turns"
       ]
     },
     {

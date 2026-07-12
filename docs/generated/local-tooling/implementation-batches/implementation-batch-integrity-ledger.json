@@ -1,0 +1,297 @@
+{
+  "generatedAt": "2026-07-12T09:06:11Z",
+  "topic": "implementation-batch-integrity",
+  "manifest": ".agents/feature-manifests/implementation-batch-integrity-manifest.yaml",
+  "planPath": "/Users/jsakoman/Desktop/themuffinman/.agents/implementation-batch-integrity-plan.md",
+  "planCompletion": "passed",
+  "closeoutRequested": true,
+  "entries": [
+    {
+      "label": "control-start",
+      "status": "executed",
+      "command": "make control-start",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:11Z"
+    },
+    {
+      "label": "codex-context",
+      "status": "executed",
+      "command": "make codex-context topic=implementation-batch-integrity intent=implementation batch for implementation-batch-integrity",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:12Z"
+    },
+    {
+      "label": "audit-router",
+      "status": "executed",
+      "command": "make audit-router files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:12Z"
+    },
+    {
+      "label": "audit-doc-sync-preflight",
+      "status": "executed",
+      "command": "make audit-doc-sync-preflight files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:13Z"
+    },
+    {
+      "label": "audit-doc-sync-required-surfaces",
+      "status": "executed",
+      "command": "make audit-doc-sync-required-surfaces files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:14Z"
+    },
+    {
+      "label": "audit-manifest-decision",
+      "status": "executed",
+      "command": "make audit-manifest-decision files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:14Z"
+    },
+    {
+      "label": "resolve-manifest-path",
+      "status": "executed",
+      "command": "make resolve-manifest-path files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:14Z"
+    },
+    {
+      "label": "recommend-validation-preset",
+      "status": "executed",
+      "command": "make recommend-validation-preset files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:15Z"
+    },
+    {
+      "label": "audit-generated-artifact-hygiene",
+      "status": "executed",
+      "command": "make audit-generated-artifact-hygiene files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:16Z"
+    },
+    {
+      "label": "recommend-feature-slices",
+      "status": "executed",
+      "command": "make recommend-feature-slices topic=implementation-batch-integrity files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:16Z"
+    },
+    {
+      "label": "recommend-targeted-tests",
+      "status": "executed",
+      "command": "make recommend-targeted-tests files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:16Z"
+    },
+    {
+      "label": "audit-todo",
+      "status": "executed",
+      "command": "make audit-todo",
+      "note": "",
+      "recordedAt": "2026-07-12T09:02:17Z"
+    },
+    {
+      "label": "control-start",
+      "status": "executed",
+      "command": "make control-start",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:38Z"
+    },
+    {
+      "label": "codex-context",
+      "status": "executed",
+      "command": "make codex-context topic=implementation-batch-integrity intent=implementation batch for implementation-batch-integrity",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:39Z"
+    },
+    {
+      "label": "audit-router",
+      "status": "executed",
+      "command": "make audit-router files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:40Z"
+    },
+    {
+      "label": "audit-doc-sync-preflight",
+      "status": "executed",
+      "command": "make audit-doc-sync-preflight files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:40Z"
+    },
+    {
+      "label": "audit-doc-sync-required-surfaces",
+      "status": "executed",
+      "command": "make audit-doc-sync-required-surfaces files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:41Z"
+    },
+    {
+      "label": "audit-manifest-decision",
+      "status": "executed",
+      "command": "make audit-manifest-decision files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:41Z"
+    },
+    {
+      "label": "resolve-manifest-path",
+      "status": "executed",
+      "command": "make resolve-manifest-path files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:42Z"
+    },
+    {
+      "label": "recommend-validation-preset",
+      "status": "executed",
+      "command": "make recommend-validation-preset files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:43Z"
+    },
+    {
+      "label": "audit-generated-artifact-hygiene",
+      "status": "executed",
+      "command": "make audit-generated-artifact-hygiene files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:43Z"
+    },
+    {
+      "label": "recommend-feature-slices",
+      "status": "executed",
+      "command": "make recommend-feature-slices topic=implementation-batch-integrity files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:44Z"
+    },
+    {
+      "label": "recommend-targeted-tests",
+      "status": "executed",
+      "command": "make recommend-targeted-tests files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:44Z"
+    },
+    {
+      "label": "cleanup-generated-history",
+      "status": "executed",
+      "command": "make cleanup-generated-history",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:44Z"
+    },
+    {
+      "label": "audit-plan-completion",
+      "status": "executed",
+      "command": "make audit-plan-completion plan=.agents/implementation-batch-integrity-plan.md manifest=.agents/feature-manifests/implementation-batch-integrity-manifest.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:05:44Z"
+    },
+    {
+      "label": "feature-closeout-audit",
+      "status": "blocked",
+      "command": "make feature-closeout-audit manifest=.agents/feature-manifests/implementation-batch-integrity-manifest.yaml",
+      "note": "command failed",
+      "recordedAt": "2026-07-12T09:05:45Z"
+    },
+    {
+      "label": "control-start",
+      "status": "executed",
+      "command": "make control-start",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:11Z"
+    },
+    {
+      "label": "codex-context",
+      "status": "executed",
+      "command": "make codex-context topic=implementation-batch-integrity intent=implementation batch for implementation-batch-integrity",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:13Z"
+    },
+    {
+      "label": "audit-router",
+      "status": "executed",
+      "command": "make audit-router files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:13Z"
+    },
+    {
+      "label": "audit-doc-sync-preflight",
+      "status": "executed",
+      "command": "make audit-doc-sync-preflight files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:13Z"
+    },
+    {
+      "label": "audit-doc-sync-required-surfaces",
+      "status": "executed",
+      "command": "make audit-doc-sync-required-surfaces files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:14Z"
+    },
+    {
+      "label": "audit-manifest-decision",
+      "status": "executed",
+      "command": "make audit-manifest-decision files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:14Z"
+    },
+    {
+      "label": "resolve-manifest-path",
+      "status": "executed",
+      "command": "make resolve-manifest-path files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:15Z"
+    },
+    {
+      "label": "recommend-validation-preset",
+      "status": "executed",
+      "command": "make recommend-validation-preset files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:15Z"
+    },
+    {
+      "label": "audit-generated-artifact-hygiene",
+      "status": "executed",
+      "command": "make audit-generated-artifact-hygiene files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:16Z"
+    },
+    {
+      "label": "recommend-feature-slices",
+      "status": "executed",
+      "command": "make recommend-feature-slices topic=implementation-batch-integrity files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:16Z"
+    },
+    {
+      "label": "recommend-targeted-tests",
+      "status": "executed",
+      "command": "make recommend-targeted-tests files=Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:17Z"
+    },
+    {
+      "label": "cleanup-generated-history",
+      "status": "executed",
+      "command": "make cleanup-generated-history",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:17Z"
+    },
+    {
+      "label": "audit-plan-completion",
+      "status": "executed",
+      "command": "make audit-plan-completion plan=.agents/implementation-batch-integrity-plan.md manifest=.agents/feature-manifests/implementation-batch-integrity-manifest.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:17Z"
+    },
+    {
+      "label": "feature-closeout-audit",
+      "status": "executed",
+      "command": "make feature-closeout-audit manifest=.agents/feature-manifests/implementation-batch-integrity-manifest.yaml",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:18Z"
+    },
+    {
+      "label": "audit-todo",
+      "status": "executed",
+      "command": "make audit-todo",
+      "note": "",
+      "recordedAt": "2026-07-12T09:06:19Z"
+    }
+  ]
+}

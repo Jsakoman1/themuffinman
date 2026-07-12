@@ -18,8 +18,8 @@ This document defines the durable planning model for broad implementation work i
 4. Expand each plan into checkbox-based implementation steps with the specific tools, guardrails, and evidence that matter for that slice.
 5. Review the full master plan and all plan files together before implementation starts.
 6. Execute the plans in order without asking for confirmation between safe slices.
-7. Close each plan only when all checkboxes are complete and the required evidence is recorded.
-8. Close the master plan only when every plan is complete and the final consistency review is satisfied.
+7. Close each implementation plan only when all checkboxes are complete, the required evidence is recorded, and `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]` passes.
+8. Close the master plan only when every explicitly listed child plan passes the same audit and the final consistency review is satisfied.
 
 ## Master Plan Responsibilities
 
@@ -27,7 +27,7 @@ This document defines the durable planning model for broad implementation work i
 - List all plan files explicitly.
 - Describe ordering, dependencies, and any cross-plan constraints.
 - Record the final consistency review before implementation begins.
-- Stay open until all plan files are complete.
+- Stay open until all plan files are complete and have evidence-backed completion audits.
 
 ## Plan Responsibilities
 
@@ -35,12 +35,15 @@ This document defines the durable planning model for broad implementation work i
 - Keep its own local context, tools, validation, and evidence.
 - Use checkboxes for the actual work.
 - Mark each checkbox complete as soon as the step is implemented and verified.
-- Stay open until all checkboxes are done and the plan evidence is no longer placeholder text.
+- Stay open until all checkboxes are done, the plan evidence is no longer placeholder text, and its baseline-backed implementation evidence passes the completion audit.
 
 ## Planning Rules
 
 - Broad work should not start from a flat mega-plan.
 - Broad work should start with a master plan and then split into narrower plans.
 - Each plan should be detailed enough that another session can continue without guessing.
+- A version 2 implementation plan records the Git baseline that predates the implementation and concrete runtime or tooling code paths changed after that baseline.
+- A master plan must name every child plan as an explicit `.agents/<child>-plan.md` path; a checked-off prose label is not child completion evidence.
+- `make implementation-batch` prepares routing and discovery only. It may run closeout only when `closeout=true` is explicitly supplied with both plan and manifest paths.
 - The final review should look for missing checks, overlap, conflicting assumptions, and simpler implementation options.
 - Archive-only planning history is traceability, not live operational state.

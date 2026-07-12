@@ -1,0 +1,132 @@
+featureId: implementation_closeout_operability
+title: Implementation closeout operability improvements
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+manifestRequirement: required
+closeoutContractVersion: 2
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+planFile: .agents/implementation-closeout-operability-plan.md
+summary:
+  - Make closeout execution location-aware, run-scoped, testable, and explicit for master plans.
+validationEvidence:
+  commands:
+    - command: make cleanup-generated-history
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:18:49+02:00
+      summary: Pruned archive-only generated history before final closeout.
+    - command: make audit-todo
+      scope: local-tooling
+      result: passed
+      ranAt: 2026-07-12T11:18:49+02:00
+      summary: The operability plan has no remaining tasks and the persistent backlog has no open items.
+    - command: make audit-validation-evidence-quality
+      scope: manifest
+      result: passed
+      ranAt: 2026-07-12T11:18:49+02:00
+      summary: Validation evidence records contain no vague or invalid entries.
+    - command: make generate-agent-operating-model
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:18:20+02:00
+      summary: Regenerated machine-operational policy output after command-ownership updates.
+    - command: make validation-memory-closeout-card
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:18:20+02:00
+      summary: Regenerated the compact closeout command card.
+    - command: make audit-validation-memory-drift
+      scope: docs
+      result: passed
+      ranAt: 2026-07-12T11:18:20+02:00
+      summary: Validation memory remains aligned with its machine-readable command set.
+    - command: make test-plan-completion-audit
+      scope: local-tooling
+      result: passed
+      ranAt: 2026-07-12T11:18:20+02:00
+      summary: Fixture tests covered passing linkage, baseline mismatch, path mismatch, and explicit master inventory behavior.
+    - command: make closeout-preflight manifest=.agents/feature-manifests/implementation-closeout-hardening-manifest.yaml
+      scope: manifest
+      result: passed
+      ranAt: 2026-07-12T11:18:20+02:00
+      summary: Read-only preflight passed for a completed manifest without generated-history cleanup.
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      ranAt: 2026-07-12T11:18:30+02:00
+      summary: Agent safety, focused backend tests, frontend validation and build, validation evidence, validation-memory drift, and TODO audit passed.
+    - command: make audit-plan-completion plan=.agents/implementation-closeout-operability-plan.md manifest=.agents/feature-manifests/implementation-closeout-operability-manifest.yaml
+      scope: manifest
+      result: passed
+      ranAt: 2026-07-12T11:18:59+02:00
+      summary: Final completion audit passed with explicit child inventory, linked evidence, and run-scoped ledger implementation.
+generatedArtifacts:
+  refreshedPaths:
+    - docs/agent-operating-model.yaml
+    - docs/generated/local-tooling/validation-memory-closeout-card.json
+    - docs/generated/local-tooling/validation-memory-closeout-card-summary.md
+    - docs/generated/local-tooling/implementation-batches/implementation-closeout-operability-batch.json
+  notApplicableReason: All generated artifacts required by the operability change are listed in refreshedPaths.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: All operability plan checkboxes are complete and final completion audit is required at closeout.
+closeoutDecision:
+  status: ready
+  reason: Root target ownership, preflight, run ledger, fixture coverage, and master-plan contract are implemented and validated.
+docDelta:
+  behaviorChanged:
+    - Root closeout targets now have documented ownership and a read-only preflight command.
+    - Batch ledgers now expose a unique run identifier and per-run JSON, while master child discovery uses explicit sections only.
+  docsUpdated:
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/validation-memory.md
+    - docs/domain-technical.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+  intentionallyUnchanged:
+    - Product application behavior, APIs, schema, and existing plan lifecycle requirements are unchanged.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - Makefile
+    - scripts/audits/audit-plan-completion.rb
+    - scripts/implementation-batch.sh
+    - scripts/feature-closeout-audit.sh
+  docPaths:
+    - .agents/implementation-closeout-operability-plan.md
+    - .agents/feature-manifests/implementation-closeout-operability-manifest.yaml
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/change-completion-checklist.md
+    - docs/codex-fast-path.md
+    - docs/domain-technical.md
+    - docs/feature-delivery-workflow.md
+    - docs/validation-memory.md
+  testPaths:
+    - scripts/audits/test-audit-plan-completion.rb
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+  auditCommands:
+    - make audit-agent-safety
+    - make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]
+    - make feature-closeout-audit manifest=<manifest-file>

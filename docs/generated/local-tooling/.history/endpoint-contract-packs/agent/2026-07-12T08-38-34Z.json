@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-07-03T14:48:12Z",
+  "endpoint_family": "agent",
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/admin/agent/execute",
+      "controller": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java",
+      "dtos": [
+        "AdminAgentExecutionResponseDTO",
+        "AdminAgentExecutionRequestDTO"
+      ]
+    }
+  ],
+  "dto_files": [
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionRequestDTO.java",
+    "apps/themuffinman/src/main/java/com/themuffinman/app/agent/dto/AdminAgentExecutionResponseDTO.java"
+  ],
+  "frontend_callsites": [
+    {
+      "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "matched_paths": [
+        "execute"
+      ]
+    }
+  ],
+  "docs": [
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml",
+    "docs/domain-technical.md"
+  ]
+}

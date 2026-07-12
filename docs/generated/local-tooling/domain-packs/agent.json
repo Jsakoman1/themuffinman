@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T09:09:31Z",
+  "generated_at": "2026-07-12T08:38:34Z",
   "domain": "agent",
   "file_count": 20,
   "categories": [
@@ -19,7 +19,7 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptPreparationService.java",
       "category": "backend_service",
       "domain": "agent",
-      "lines": 98
+      "lines": 99
     },
     {
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java",
@@ -49,7 +49,7 @@
       "path": "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminSyntheticQuestExecutionPlanner.java",
       "category": "backend_service",
       "domain": "agent",
-      "lines": 75
+      "lines": 76
     }
   ],
   "key_controllers": [

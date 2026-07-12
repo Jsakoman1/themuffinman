@@ -1,7 +1,7 @@
 # Symbol Index
 
-- Generated At: `2026-07-03T14:48:13Z`
-- Symbol Count: `770`
+- Generated At: `2026-07-12T08:38:36Z`
+- Symbol Count: `1151`
 ## `symbols`
 
 - `{:symbol: "AdminAgentController", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java", :category: "backend_controller", :domain: "agent", :methods: ["runExecution"], :refs: 1}`
@@ -12,5 +12,5 @@
 - `{:symbol: "AdminAgentPromptTranslation", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentPromptTranslation.java", :category: "backend_service", :domain: "agent", :methods: ["semanticPlanOrEmpty", "semanticEnvelopeOrEmpty", "withSemanticPlan"], :refs: 6}`
 - `{:symbol: "AdminAgentSurfacePolicy", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentSurfacePolicy.java", :category: "backend_service", :domain: "agent", :methods: ["surfaceId", "authority", "canExecuteCapability", "allowsCrossUserTargeting", "requiresExplicitConfirmation"], :refs: 5}`
 - `{:symbol: "AdminAgentTargetUserResolver", :kind: "java", :file: "apps/themuffinman/src/main/java/com/themuffinman/app/agent/service/AdminAgentTargetUserResolver.java", :category: "backend_service", :domain: "agent", :methods: ["resolveExactUser", "resolveExactUsername", "normalize", "rawLabel"], :refs: 4}`
-- `... 762 more`
+- `... 1143 more`
 

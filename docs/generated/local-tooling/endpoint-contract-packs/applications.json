@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T10:09:51Z",
+  "generated_at": "2026-07-12T08:38:35Z",
   "endpoint_family": "applications",
   "endpoints": [
     {
@@ -24,7 +24,43 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "matched_paths": [
+        "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "matched_paths": [
+        "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "matched_paths": [
+        "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "matched_paths": [
+        "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "matched_paths": [
+        "detail"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/identity/views/LoginView.vue",
+      "matched_paths": [
+        "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "matched_paths": [
         "detail"
       ]

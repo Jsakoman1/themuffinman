@@ -150,6 +150,9 @@ Default path:
 - Use `make codex-context topic=<topic> intent='<intent>'` before broad discovery so the batch starts from the diff summary, audit summary index, and the most relevant audit.
 - If a manifest is in scope, read `docs/validation-memory.md` and `docs/validation-memory.json` before finalizing evidence so canonical command strings and manifest bucket rules are explicit.
 - Completed batches need non-placeholder completion evidence for changed files, validation evidence, and doc delta summary before they can close cleanly.
+- Version 2 implementation plans also need a valid pre-implementation Git baseline, concrete implemented code paths changed after that baseline, and a passing `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]` result.
+- The plan's `Baseline ref`, declared implemented code paths, manifest `codePaths`, and Git diff must share the same implementation evidence; do not treat separate unlinked lists as proof.
+- A master plan cannot close while an explicitly listed child plan is missing, incomplete, unchecked, or fails its completion audit.
 
 4. Manifest decision
 - Manifest is required for high-risk business logic, invoice-critical behavior, DB migrations, frontend/backend contract changes, generated artifact changes, agent/tooling/workflow changes, 3+ meaningful surfaces, broad autonomous changes, and resolver-required changes.
@@ -200,7 +203,9 @@ Default path:
   `make audit-todo`
   `make audit-validation-evidence-quality`
   `make validation-memory-closeout-card`
--  `make audit-validation-memory-drift`
+  `make audit-validation-memory-drift`
+  `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`
+  `make feature-closeout-audit manifest=<manifest-file>`
 - For control-system hygiene work, include `make audit-summary-index` and `make codex-context` before the final validation pass so the routing snapshot is fresh.
 - After each completed batch, refresh durable lessons, failure memory, and the standard control loop in the same change.
 - For product-direction work, confirm that `docs/product-memory.md` and `docs/product-vision.md` were the first canonical reference points before broader business or technical docs were expanded.

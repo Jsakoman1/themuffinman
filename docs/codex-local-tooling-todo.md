@@ -13,6 +13,18 @@ Use it for tooling that should produce compact outputs Codex can consume instead
 
 ## Available Local Audits
 
+- `CODEX-LOCAL-CONTROL-START`
+  Entrypoints:
+  - `ruby scripts/audits/generate-control-start.rb`
+  - `make control-start`
+  Outputs:
+  - `docs/generated/local-tooling/plan-index.json`
+  - `docs/generated/local-tooling/plan-index-summary.md`
+  - `docs/generated/local-tooling/control-start.json`
+  - `docs/generated/local-tooling/control-start-summary.md`
+  Purpose:
+  - Produces the compact plan, audit, and temporary-work-product snapshot consumed by `make codex-context` for plan and tooling work.
+
 - `CODEX-LOCAL-CHANGE-IMPACT-PREFLIGHT`
   Entrypoints:
   - `ruby scripts/audits/audit-change-impact-preflight.rb [files...]`

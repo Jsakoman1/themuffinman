@@ -1,0 +1,21 @@
+# Implementation Batch implementation-batch-integrity
+
+- Generated At: `2026-07-12T09:06:11Z`
+- Topic: `implementation-batch-integrity`
+- Files CSV: `Makefile,scripts/audits/audit-plan-completion.rb,scripts/bootstrap-feature-work.sh,scripts/feature-closeout-audit.sh,scripts/implementation-batch.sh,docs/program-planning-model.md,docs/agent-operating-model/sections/policies.yaml`
+- Manifest: `.agents/feature-manifests/implementation-batch-integrity-manifest.yaml`
+- Plan Path: `.agents/implementation-batch-integrity-plan.md`
+- Plan Completion: `passed`
+- Closeout Requested: `true`
+- Control Start: `docs/generated/local-tooling/control-start.json`
+- Codex Context: `docs/generated/local-tooling/codex-context/latest.review.md`
+- Generated History Cleanup: `docs/generated/local-tooling/cleanup-generated-history-summary.md`
+- Doc Sync Preflight: `docs/generated/local-tooling/doc-sync-preflight-summary.md`
+- Doc Sync Required Surfaces: `docs/generated/local-tooling/doc-sync-required-surfaces-summary.md`
+- Manifest Decision: `docs/generated/local-tooling/manifest-decision-summary.md`
+- Manifest Resolution: `docs/generated/local-tooling/manifest-path-resolution-summary.md`
+- Validation Preset: `docs/generated/local-tooling/validation-preset-summary.md`
+- Generated Artifact Hygiene: `docs/generated/local-tooling/generated-artifact-hygiene-summary.md`
+- Feature Slices: `docs/generated/local-tooling/feature-slices/implementation-batch-integrity.json`
+- Targeted Tests: `docs/generated/local-tooling/targeted-tests.json`
+- Closeout Status: `passed`

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T10:09:52Z",
+  "generated_at": "2026-07-12T08:38:36Z",
   "endpoint_family": "location",
   "endpoints": [
     {
@@ -64,6 +64,24 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/httpDebug.ts",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "matched_paths": [
+        "status"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
       "matched_paths": [
         "status"
       ]

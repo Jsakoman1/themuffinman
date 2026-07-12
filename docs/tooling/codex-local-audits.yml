@@ -205,6 +205,11 @@ audits:
   primaryOutput: docs/generated/local-tooling/session-handoffs
   surfaceClass: extended_support
   operatorDefault: false
+- target: control-start
+  script: scripts/audits/generate-control-start.rb
+  primaryOutput: docs/generated/local-tooling/control-start-summary.md
+  surfaceClass: operator_core
+  operatorDefault: true
 - target: audit-summary-index
   script: scripts/audits/generate-audit-summary-index.rb
   primaryOutput: docs/generated/local-tooling/audit-summary-index.md

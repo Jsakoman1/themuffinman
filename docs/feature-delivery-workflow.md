@@ -266,11 +266,13 @@ Use resolver outputs instead of guessing propagation scope from memory.
 
 7. Final closeout
 
+Run `make closeout-preflight manifest=<manifest-file>` from the repository root before the mutating closeout command. The preflight uses the same evidence rules but does not prune generated history or refresh generated review outputs.
+
 - tiny changes: `make audit-todo`
 - normal features: `make audit-todo` and `make audit-validation-evidence-quality`
 - `make audit-validation-evidence-quality` reports evidence gaps so closeout can clean them up before completion.
 - `make audit-generated-artifact-hygiene files=<csv>` reports only the generated-artifact noise that overlaps the batch scope before the wider freshness pass.
-- manifest-backed work: run the full closeout bundle, including `make validation-memory-closeout-card` and the validation-memory drift sub-check inside `make feature-closeout-audit`
+- manifest-backed work: run the full closeout bundle, including `make audit-plan-completion plan=<plan-file> manifest=<manifest-file>`, `make feature-closeout-audit manifest=<manifest-file>`, `make validation-memory-closeout-card`, and the validation-memory drift sub-check
 - In a safe active batch, do not ask the user whether to continue between slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - During a safe batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the batch only after the final closeout pass.
 
@@ -309,11 +311,11 @@ Routing:
 Closeout and evidence:
 
 - `make record-validation manifest=<manifest-file> command='<command>'`
-- `make autofill-feature-closeout manifest=<manifest-file>`
+- `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
 - `make audit-validation-evidence-quality`
 - `make audit-validation-evidence-quality`
 - `make validation-memory-closeout-card`
-- `make feature-closeout-audit manifest=<manifest-file>`
+- `make implementation-batch topic=<topic> plan=<plan-file> manifest=<manifest-file> closeout=true`
 - `make validation-memory-closeout-card`
 - `docs/validation-memory.md`
 - `docs/validation-memory.json`

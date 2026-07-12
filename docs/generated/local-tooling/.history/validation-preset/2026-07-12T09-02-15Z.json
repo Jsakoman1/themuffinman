@@ -1,0 +1,123 @@
+{
+  "preset": "manifest-required",
+  "reasons": [
+    "Manifest decision is `required`.",
+    "Changed files span 2 categories.",
+    "Changed files span 2 domains.",
+    "Preset `manifest-required` keeps validation selection deterministic for 6 files."
+  ],
+  "commands": [
+    "make recommend-targeted-tests",
+    "make audit-documentation",
+    "make audit-doc-canonical-phrases",
+    "make audit-generated-artifact-freshness",
+    "make audit-generated-commit-scope",
+    "make audit-agent-safety",
+    "make generate-agent-operating-model",
+    "make generate-agent-artifacts",
+    "./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest"
+  ],
+  "supporting_reports": [
+    "docs/generated/local-tooling/targeted-tests-summary.md",
+    "docs/generated/local-tooling/audit-router-summary.md",
+    "docs/generated/local-tooling/doc-sync-required-surfaces-summary.md"
+  ],
+  "manifest_decision": "required",
+  "manifest_resolution": {
+    "decision": "review",
+    "manifest_path": null,
+    "feature_id": null,
+    "title": null,
+    "confidence": "low",
+    "reasons": [
+      "More than one manifest candidate matched the current files. Review the candidate list before closeout."
+    ],
+    "candidates": [
+      {
+        "manifest_path": ".agents/feature-manifests/chat-prod-ready-manifest.yaml",
+        "feature_id": "chat_prod_ready",
+        "title": "Chat Prod Ready",
+        "plan_file": ".agents/chat-prod-ready-plan.md",
+        "score": 6,
+        "reasons": [
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml, docs/agent-operating-model/sections/policies.yaml, docs/codex-fast-path.md).",
+          "Changed paths include feature/plan tokens: plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/chat-advanced-hardening-manifest.yaml",
+        "feature_id": "chat_advanced_hardening",
+        "title": "Chat Advanced Hardening",
+        "plan_file": ".agents/chat-advanced-hardening-master-plan.md",
+        "score": 5,
+        "reasons": [
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.yaml).",
+          "Changed paths include feature/plan tokens: master, plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/control-system-maintenance-manifest.yaml",
+        "feature_id": "control-system-maintenance",
+        "title": "Control system maintenance",
+        "plan_file": ".agents/control-system-maintenance-plan.md",
+        "score": 4,
+        "reasons": [
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml).",
+          "Changed paths include feature/plan tokens: plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/control-system-rebuild-manifest.yaml",
+        "feature_id": "control-system-rebuild",
+        "title": "Control system rebuild",
+        "plan_file": ".agents/control-system-rebuild-plan.md",
+        "score": 4,
+        "reasons": [
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml).",
+          "Changed paths include feature/plan tokens: plan."
+        ]
+      },
+      {
+        "manifest_path": ".agents/feature-manifests/control-system-validation-manifest.yaml",
+        "feature_id": "control-system-validation",
+        "title": "Control system validation",
+        "plan_file": ".agents/control-system-validation-plan.md",
+        "score": 4,
+        "reasons": [
+          "Changed files overlap manifest artifact lists (docs/agent-operating-model.md, docs/agent-operating-model.yaml).",
+          "Changed paths include feature/plan tokens: plan."
+        ]
+      }
+    ]
+  },
+  "categories": [
+    "docs",
+    "script"
+  ],
+  "domains": [
+    "agent",
+    "shared"
+  ],
+  "changed_file_count": 6,
+  "generated_at": "2026-07-12T08:35:17Z",
+  "original_file_count": 7,
+  "filtered_file_count": 1,
+  "excluded_file_count": 1,
+  "excluded_files_sample": [
+    {
+      "path": "docs/generated/README.md",
+      "excluded": true,
+      "reasons": [
+        "generated"
+      ]
+    }
+  ],
+  "files_considered": [
+    "scripts/audits/codex_local_context_gateway.rb",
+    "scripts/implementation-batch.sh",
+    "docs/codex-fast-path.md",
+    "docs/agent-operating-model.md",
+    "docs/agent-operating-model.yaml",
+    "docs/agent-operating-model/sections/policies.yaml"
+  ]
+}

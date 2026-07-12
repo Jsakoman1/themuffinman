@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T10:09:52Z",
+  "generated_at": "2026-07-12T08:38:36Z",
   "endpoint_family": "news",
   "endpoints": [
     {
@@ -106,6 +106,63 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "matched_paths": [
+        "me",
+        "read"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "matched_paths": [
+        "me",
+        "read"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "matched_paths": [
+        "me",
+        "read"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
       "matched_paths": [
         "me"
       ]

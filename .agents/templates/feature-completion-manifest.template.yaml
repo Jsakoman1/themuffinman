@@ -3,6 +3,7 @@ title: Sample feature completion manifest
 workflowTier: tier3-high-risk-multi-layer
 manifestDecision: required
 manifestRequirement: required
+closeoutContractVersion: 2
 status: draft
 riskTier: medium
 changeMode: major-change

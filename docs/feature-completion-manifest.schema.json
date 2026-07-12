@@ -15,6 +15,14 @@
       "type": "string",
       "enum": ["required", "optional", "resolver_review"]
     },
+    "manifestRequirement": {
+      "type": "string",
+      "enum": ["required", "optional", "resolver_review"]
+    },
+    "closeoutContractVersion": {
+      "type": "integer",
+      "enum": [2]
+    },
     "status": {"type": "string", "enum": ["draft", "in_progress", "complete"]},
     "riskTier": {"type": "string", "enum": ["low", "medium", "high", "executor-critical"]},
     "changeMode": {"type": "string", "enum": ["small-change", "major-change"]},

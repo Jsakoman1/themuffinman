@@ -1,6 +1,6 @@
 # Validation Matrix
 
-- Generated At: `2026-07-03T14:48:12Z`
+- Generated At: `2026-07-12T08:38:34Z`
 ## `categories`
 
 - `{:category: "backend_controller", :commands: ["./mvnw test", "make generate-agent-artifacts", "make audit-api-contract-drift"]}`

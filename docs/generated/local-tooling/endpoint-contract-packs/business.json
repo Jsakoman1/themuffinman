@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-10T08:21:25Z",
+  "generated_at": "2026-07-12T08:38:35Z",
   "endpoint_family": "business",
   "endpoints": [
     {
@@ -478,13 +478,13 @@
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
       "matched_paths": [
         "me",
+        "bookings",
         "cancel",
         "owner",
+        "calendar",
         "schedule",
         "complete",
-        "confirm",
-        "reject",
-        "profiles"
+        "confirm"
       ]
     },
     {
@@ -495,6 +495,86 @@
     },
     {
       "file": "apps/themuffinman/frontend/src/lib/dialogFlow.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts",
+      "matched_paths": [
+        "me",
+        "/business/bookings",
+        "bookings",
+        "/business/bookings/owner",
+        "owner",
+        "/business/bookings/owner/calendar",
+        "calendar",
+        "/business/dashboard/me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "matched_paths": [
+        "me",
+        "/business/bookings",
+        "bookings",
+        "owner",
+        "calendar",
+        "schedule",
+        "availability"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "matched_paths": [
+        "me",
+        "/business/bookings",
+        "bookings",
+        "owner",
+        "calendar",
+        "schedule",
+        "availability"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "matched_paths": [
+        "me",
+        "bookings",
+        "owner",
+        "calendar",
+        "schedule",
+        "complete",
+        "confirm",
+        "offerings"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
       "matched_paths": [
         "me"
       ]
@@ -583,6 +663,7 @@
       "matched_paths": [
         "me",
         "cancel",
+        "calendar",
         "confirm"
       ]
     },
@@ -606,7 +687,9 @@
     {
       "file": "apps/themuffinman/frontend/src/router.ts",
       "matched_paths": [
-        "me"
+        "me",
+        "bookings",
+        "calendar"
       ]
     },
     {

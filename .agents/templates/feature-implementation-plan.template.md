@@ -1,6 +1,9 @@
 ---
 machine_kind: plan
 machine_status: draft
+machine_closeout_contract: 2
+machine_baseline_ref: TBD
+machine_delivery_mode: implementation
 machine_title: Feature Implementation Plan
 machine_goal: TBD
 ---
@@ -24,6 +27,7 @@ Draft.
 - Master plan: TBD when the work is broad enough to need shared context and multiple plans
 - Plan context: TBD
 - Sequenced batch: TBD when the change needs ordered implementation steps
+- Closeout contract: version 2 requires a valid Git baseline and evidence-backed completion audit.
 - Use one plan for one bounded implementation surface and one validation story.
 - Supported machine statuses: `draft`, `active`, `blocked`, `deferred`, `complete`
 
@@ -63,6 +67,7 @@ Draft.
 - Final response evidence: TBD
 - Backlog follow-up rule: TBD
 - Do not mark the plan complete until every checkbox is complete, the scope is actually implemented, the required validation has passed or been explicitly skipped with a reason, and the completion evidence matches reality.
+- A version 2 implementation plan must identify implemented runtime or tooling code paths that changed after `machine_baseline_ref`.
 
 ## Open Questions
 
@@ -72,6 +77,8 @@ Draft.
 ## Completion Evidence
 
 - Status: draft
+- Baseline ref: TBD
+- Implemented code paths: TBD
 - Changed files: TBD
 - Validation evidence: TBD
 - Doc delta summary: TBD

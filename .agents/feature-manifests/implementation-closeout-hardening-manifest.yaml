@@ -1,0 +1,115 @@
+featureId: implementation_closeout_hardening
+title: Implementation closeout hardening
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+manifestRequirement: required
+closeoutContractVersion: 2
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+planFile: .agents/implementation-closeout-hardening-plan.md
+summary:
+  - Tighten evidence linkage and remove a legacy closeout bypass.
+validationEvidence:
+  commands:
+    - command: make cleanup-generated-history
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:11:42+02:00
+      summary: Pruned archive-only generated history before final closeout.
+    - command: make audit-todo
+      scope: local-tooling
+      result: passed
+      ranAt: 2026-07-12T11:11:42+02:00
+      summary: The hardening plan is the only completed work in this slice and the persistent backlog has no open items.
+    - command: make generate-agent-operating-model
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:10:31+02:00
+      summary: Regenerated the machine-operational policy after strengthening completion evidence rules.
+    - command: make validation-memory-closeout-card
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:11:10+02:00
+      summary: Refreshed the compact closeout command card from validation memory.
+    - command: make audit-validation-memory-drift
+      scope: docs
+      result: passed
+      ranAt: 2026-07-12T11:11:10+02:00
+      summary: Validation memory markdown and JSON command sets remain aligned.
+    - command: ./mvnw test -Dtest=AgentOperatingModelValidationTest
+      scope: backend
+      result: passed
+      ranAt: 2026-07-12T11:11:01+02:00
+      summary: Documentation and manifest validation passed after the hardening changes.
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      ranAt: 2026-07-12T11:11:13+02:00
+      summary: Agent safety, focused backend tests, frontend validation and build, validation-evidence quality, validation-memory drift, and TODO audit passed.
+    - command: make audit-plan-completion plan=.agents/implementation-closeout-hardening-plan.md manifest=.agents/feature-manifests/implementation-closeout-hardening-manifest.yaml
+      scope: manifest
+      result: passed
+      ranAt: 2026-07-12T11:11:52+02:00
+      summary: Final completion audit passed after confirming shared plan, manifest, and baseline-diff code paths.
+generatedArtifacts:
+  refreshedPaths:
+    - docs/agent-operating-model.yaml
+    - docs/generated/local-tooling/validation-memory-closeout-card.json
+    - docs/generated/local-tooling/validation-memory-closeout-card-summary.md
+  notApplicableReason: All generated artifacts required by the hardening change are listed in refreshedPaths.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: All hardening checkboxes are complete and final completion audit is required at closeout.
+closeoutDecision:
+  status: ready
+  reason: The hardening changes and required validation are complete.
+docDelta:
+  behaviorChanged:
+    - Completion now requires one shared declared code path across plan evidence, manifest code paths, and the baseline diff.
+    - Completion evidence baseline must match the machine baseline and cannot fall back to stale closeout-driver reports.
+  docsUpdated:
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/change-completion-checklist.md
+    - docs/domain-technical.md
+    - docs/validation-memory.md
+  intentionallyUnchanged:
+    - Product application behavior, APIs, database schema, and batch ledger output are unchanged.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds: []
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - scripts/audits/audit-plan-completion.rb
+    - scripts/feature-closeout-audit.sh
+  docPaths:
+    - .agents/implementation-closeout-hardening-plan.md
+    - .agents/feature-manifests/implementation-closeout-hardening-manifest.yaml
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/change-completion-checklist.md
+    - docs/domain-technical.md
+    - docs/validation-memory.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+  auditCommands:
+    - make audit-agent-safety
+    - make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]
+    - make feature-closeout-audit manifest=<manifest-file>

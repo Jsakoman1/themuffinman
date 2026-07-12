@@ -179,6 +179,9 @@ audit-make-target-index:
 audit-documentation:
 	ruby scripts/audits/audit-documentation.rb
 
+control-start:
+	ruby scripts/audits/generate-control-start.rb
+
 codex-context:
 	ruby scripts/audits/codex-context.rb collect mode="$(if $(mode),$(mode),implementation)" budget="$(if $(budget),$(budget),6000)" topic="$(topic)" files="$(files)" intent="$(intent)" $(if $(refresh),refresh="$(refresh)",) $(if $(include_generated),include_generated="$(include_generated)",) $(if $(include_agents),include_agents="$(include_agents)",)
 
@@ -338,6 +341,25 @@ diagnose-frontend-build:
 record-validation:
 	@if [ -z "$(manifest)" ] || [ -z "$(command)" ]; then echo "usage: make record-validation manifest=<manifest-file> command='<command>'"; exit 1; fi
 	ruby scripts/audits/record-validation-evidence.rb manifest="$(manifest)" command="$(command)"
+
+audit-plan-completion:
+	@if [ -z "$(plan)" ]; then echo "usage: make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]"; exit 1; fi
+	ruby scripts/audits/audit-plan-completion.rb plan="$(plan)" $(if $(manifest),manifest="$(manifest)",)
+
+feature-closeout-audit:
+	@if [ -z "$(manifest)" ]; then echo "usage: make feature-closeout-audit manifest=<manifest-file>"; exit 1; fi
+	/bin/zsh scripts/feature-closeout-audit.sh "$(manifest)"
+
+closeout-preflight:
+	@if [ -z "$(manifest)" ]; then echo "usage: make closeout-preflight manifest=<manifest-file>"; exit 1; fi
+	/bin/zsh scripts/feature-closeout-audit.sh "$(manifest)" --preflight
+
+test-plan-completion-audit:
+	ruby scripts/audits/test-audit-plan-completion.rb
+
+implementation-batch:
+	@if [ -z "$(topic)" ]; then echo "usage: make implementation-batch topic=<topic> [files=<csv>] [plan=<plan-file>] [manifest=<manifest-file>] [closeout=true]"; exit 1; fi
+	/bin/zsh scripts/implementation-batch.sh "$(topic)" "$(if $(files),$(files),)" "$(if $(manifest),$(manifest),)" "$(if $(plan),$(plan),)" "$(if $(closeout),$(closeout),false)"
 
 generate-agent-operating-model:
 	ruby scripts/generate-agent-operating-model.rb

@@ -1,10 +1,32 @@
 {
-  "generated_at": "2026-07-10T08:56:15Z",
-  "route_count": 26,
+  "generated_at": "2026-07-12T09:33:33Z",
+  "route_count": 19,
   "surface_route_count": 18,
   "redirect_route_count": 1,
   "placeholder_route_count": 0,
   "routes": [
+    {
+      "route_path": "/vision",
+      "redirect": null,
+      "surface_file": null,
+      "component_symbol": null,
+      "requires_auth": false,
+      "requires_admin": false,
+      "placeholder_module": false,
+      "module_key": null,
+      "primary_composables": [
+
+      ],
+      "api_clients": [
+
+      ],
+      "backend_endpoints": [
+
+      ],
+      "endpoint_links": [
+
+      ]
+    },
     {
       "route_path": "/",
       "redirect": "/home",
@@ -530,182 +552,6 @@
             "apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue"
           ]
         }
-      ]
-    },
-    {
-      "route_path": "/vision/users/:id",
-      "redirect": null,
-      "surface_file": null,
-      "component_symbol": null,
-      "requires_auth": true,
-      "requires_admin": false,
-      "placeholder_module": false,
-      "module_key": null,
-      "primary_composables": [
-
-      ],
-      "api_clients": [
-
-      ],
-      "backend_endpoints": [
-
-      ],
-      "endpoint_links": [
-
-      ]
-    },
-    {
-      "route_path": "/vision/profile",
-      "redirect": null,
-      "surface_file": null,
-      "component_symbol": null,
-      "requires_auth": true,
-      "requires_admin": false,
-      "placeholder_module": false,
-      "module_key": null,
-      "primary_composables": [
-
-      ],
-      "api_clients": [
-
-      ],
-      "backend_endpoints": [
-
-      ],
-      "endpoint_links": [
-
-      ]
-    },
-    {
-      "route_path": "/vision/settings",
-      "redirect": null,
-      "surface_file": null,
-      "component_symbol": null,
-      "requires_auth": true,
-      "requires_admin": false,
-      "placeholder_module": false,
-      "module_key": null,
-      "primary_composables": [
-
-      ],
-      "api_clients": [
-
-      ],
-      "backend_endpoints": [
-
-      ],
-      "endpoint_links": [
-
-      ]
-    },
-    {
-      "route_path": "/vision/circles",
-      "redirect": null,
-      "surface_file": null,
-      "component_symbol": null,
-      "requires_auth": true,
-      "requires_admin": false,
-      "placeholder_module": false,
-      "module_key": null,
-      "primary_composables": [
-
-      ],
-      "api_clients": [
-
-      ],
-      "backend_endpoints": [
-
-      ],
-      "endpoint_links": [
-
-      ]
-    },
-    {
-      "route_path": "/vision/chat",
-      "redirect": null,
-      "surface_file": null,
-      "component_symbol": null,
-      "requires_auth": true,
-      "requires_admin": false,
-      "placeholder_module": false,
-      "module_key": null,
-      "primary_composables": [
-
-      ],
-      "api_clients": [
-
-      ],
-      "backend_endpoints": [
-
-      ],
-      "endpoint_links": [
-
-      ]
-    },
-    {
-      "route_path": "/vision/quests/:id",
-      "redirect": null,
-      "surface_file": null,
-      "component_symbol": null,
-      "requires_auth": true,
-      "requires_admin": false,
-      "placeholder_module": false,
-      "module_key": null,
-      "primary_composables": [
-
-      ],
-      "api_clients": [
-
-      ],
-      "backend_endpoints": [
-
-      ],
-      "endpoint_links": [
-
-      ]
-    },
-    {
-      "route_path": "/vision/applications/:id",
-      "redirect": null,
-      "surface_file": null,
-      "component_symbol": null,
-      "requires_auth": true,
-      "requires_admin": false,
-      "placeholder_module": false,
-      "module_key": null,
-      "primary_composables": [
-
-      ],
-      "api_clients": [
-
-      ],
-      "backend_endpoints": [
-
-      ],
-      "endpoint_links": [
-
-      ]
-    },
-    {
-      "route_path": "/vision/applications",
-      "redirect": null,
-      "surface_file": null,
-      "component_symbol": null,
-      "requires_auth": true,
-      "requires_admin": false,
-      "placeholder_module": false,
-      "module_key": null,
-      "primary_composables": [
-
-      ],
-      "api_clients": [
-
-      ],
-      "backend_endpoints": [
-
-      ],
-      "endpoint_links": [
-
       ]
     }
   ]

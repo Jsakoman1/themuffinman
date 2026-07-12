@@ -84,6 +84,7 @@ cp "$plan_template" "$plan_path"
 
 python3 - "$plan_path" "$manifest_template" "$manifest_path" "$slug" "$risk_tier" "$change_mode" "$input_mode" "$change_impact" "$change_profiles" "$workflow_tier" "$manifest_decision" <<'PY'
 from pathlib import Path
+import subprocess
 import sys
 
 plan_path = Path(sys.argv[1])
@@ -154,7 +155,7 @@ if workflow_tier == "tier1-tiny-change":
     targeted_checks = ["make recommend-targeted-tests"]
     broader_checks = ["none by default"]
     validation_commands = ["make recommend-targeted-tests", "make clean-text-noise max_lines=80", "make audit-todo"]
-    closeout_commands = ["make audit-todo"]
+    closeout_commands = ["make audit-todo", f"make audit-plan-completion plan=.agents/{slug}-plan.md"]
     expected_docs = ["Usually none beyond directly changed docs unless meaning changed."]
     expected_artifacts = ["None by default."]
     open_questions = ["If meaning, contracts, or generated artifacts changed, escalate to a higher tier."]
@@ -200,12 +201,9 @@ elif workflow_tier == "tier3-high-risk-multi-layer":
         f"make record-validation manifest=.agents/feature-manifests/{slug}-manifest.yaml command='<command>'",
     ]
     closeout_commands = [
-        f"make autofill-feature-closeout manifest=.agents/feature-manifests/{slug}-manifest.yaml files=<csv> generated=<csv> docs=<csv>",
         "make audit-todo",
-        f"make audit-plan-completion plan=.agents/{slug}-plan.md manifest=.agents/feature-manifests/{slug}-manifest.yaml",
         "make audit-validation-evidence-quality",
-        f"make feature-closeout-audit manifest=.agents/feature-manifests/{slug}-manifest.yaml",
-        f"make closeout-report manifest=.agents/feature-manifests/{slug}-manifest.yaml",
+        f"make implementation-batch topic={slug} plan=.agents/{slug}-plan.md manifest=.agents/feature-manifests/{slug}-manifest.yaml closeout=true",
     ]
     expected_docs = ["Use audit-doc-sync-required-surfaces output.", "Expect workflow and closeout docs to move when process rules changed."]
     expected_artifacts = ["Manifest-backed evidence, generated artifacts, and resolver-reported outputs."]
@@ -233,12 +231,9 @@ else:
         "make recommend-validation-preset files=<csv>",
     ]
     closeout_commands = [
-        f"make autofill-feature-closeout manifest=.agents/feature-manifests/{slug}-manifest.yaml files=<csv> generated=<csv> docs=<csv>",
         "make audit-todo",
-        f"make audit-plan-completion plan=.agents/{slug}-plan.md manifest=.agents/feature-manifests/{slug}-manifest.yaml",
         "make audit-validation-evidence-quality",
-        f"make feature-closeout-audit manifest=.agents/feature-manifests/{slug}-manifest.yaml",
-        f"make closeout-report manifest=.agents/feature-manifests/{slug}-manifest.yaml",
+        f"make implementation-batch topic={slug} plan=.agents/{slug}-plan.md manifest=.agents/feature-manifests/{slug}-manifest.yaml closeout=true",
     ]
     expected_docs = [
         "AGENTS.md",
@@ -265,8 +260,12 @@ manifest_path_text = (
 )
 
 plan_text = plan_path.read_text()
+baseline_ref = subprocess.check_output(
+    ["git", "-C", str(plan_path.parents[1]), "rev-parse", "HEAD"], text=True
+).strip()
 plan_text = plan_text.replace("# Feature Implementation Plan", f"# {title} Plan")
 plan_text = plan_text.replace("machine_title: Feature Implementation Plan", f"machine_title: {title} Plan")
+plan_text = plan_text.replace("machine_baseline_ref: TBD", f"machine_baseline_ref: {baseline_ref}")
 plan_text = plan_text.replace("- Feature tier: TBD", f"- Feature tier: {workflow_tier}")
 plan_text = plan_text.replace("- Scope: TBD", f"- Scope: {scope}")
 plan_text = plan_text.replace("- Out of scope: TBD", f"- Out of scope: {out_of_scope}")

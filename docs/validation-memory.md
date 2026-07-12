@@ -86,6 +86,14 @@ Completed manifest-backed changes should also record:
 - `make audit-todo`
 - `make audit-validation-memory-drift`
 - `make validation-memory-closeout-card`
+- `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
+- `make feature-closeout-audit manifest=<manifest-file>`
+
+`make implementation-batch` does not close a plan during normal discovery. Closeout is an explicit operation that requires `closeout=true`, a plan path, and a manifest path.
+
+Run root-owned closeout targets from the repository root, not from `apps/themuffinman`: `make closeout-preflight`, `make audit-plan-completion`, and `make feature-closeout-audit`. Use `make closeout-preflight manifest=<manifest-file>` to test closeout readiness without generated-history cleanup.
+
+For version 2 closeout, the evidence baseline must exactly match `machine_baseline_ref`, and at least one runtime or tooling path must appear in the plan evidence, manifest `codePaths`, and the Git diff after that baseline. A stale generated driver report is not closeout evidence.
 
 The standard completion loop should also rerun any generated-artifact refresh and documentation-sync checks that the current change requires.
 
@@ -145,6 +153,7 @@ Fix:
 - prune archive-only history
 - run `make audit-validation-memory-drift`
 - only then keep the manifest at `complete`
+- use the version 2 completion audit to verify the plan baseline and declared implemented code paths before setting final status
 
 ## Recommended Read Order During Closeout
 

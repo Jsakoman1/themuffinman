@@ -19,6 +19,8 @@
 - `ok` closeout canonical commands: `make audit-todo`
 - `ok` closeout canonical commands: `make audit-validation-memory-drift`
 - `ok` closeout canonical commands: `make validation-memory-closeout-card`
+- `ok` closeout canonical commands: `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
+- `ok` closeout canonical commands: `make feature-closeout-audit manifest=<manifest-file>`
 - `ok` primary human doc: `docs/validation-memory.md`
 - `ok` schema reference: `docs/validation-memory.schema.json`
 - `ok` gateway auto-include note: `auto-include`

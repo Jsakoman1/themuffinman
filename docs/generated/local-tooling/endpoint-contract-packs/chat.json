@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-10T08:21:25Z",
+  "generated_at": "2026-07-12T08:38:36Z",
   "endpoint_family": "chat",
   "endpoints": [
     {
@@ -421,6 +421,82 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts",
+      "matched_paths": [
+        "/chat/conversations",
+        "conversations",
+        "me",
+        "sync",
+        "/chat/workspace",
+        "workspace"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "matched_paths": [
+        "me",
+        "state"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "matched_paths": [
+        "thread",
+        "open",
+        "me",
+        "read",
+        "state",
+        "workspace"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "matched_paths": [
+        "thread",
+        "conversations",
+        "me",
+        "read"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "matched_paths": [
+        "thread",
+        "conversations",
+        "open",
+        "messages",
+        "participants",
+        "me",
+        "role",
+        "read"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "matched_paths": [
+        "me",
+        "sync"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "matched_paths": [
         "me",
@@ -475,6 +551,7 @@
       "file": "apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue",
       "matched_paths": [
         "open",
+        "group",
         "me",
         "state",
         "sync"

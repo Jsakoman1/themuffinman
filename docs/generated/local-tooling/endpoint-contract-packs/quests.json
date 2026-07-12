@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T10:09:52Z",
+  "generated_at": "2026-07-12T08:38:36Z",
   "endpoint_family": "quests",
   "endpoints": [
     {
@@ -286,6 +286,88 @@
       ]
     },
     {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts",
+      "matched_paths": [
+        "quests",
+        "me",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue",
+      "matched_paths": [
+        "me",
+        "detail",
+        "start"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "matched_paths": [
+        "/quests",
+        "quests",
+        "me",
+        "search",
+        "detail",
+        "start",
+        "applications",
+        "withdraw"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "matched_paths": [
+        "/quests",
+        "quests",
+        "me",
+        "search",
+        "detail",
+        "applications",
+        "view"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "matched_paths": [
+        "/quests",
+        "quests",
+        "me",
+        "complete",
+        "detail",
+        "start",
+        "confirm",
+        "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue",
+      "matched_paths": [
+        "me",
+        "start"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue",
+      "matched_paths": [
+        "me"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue",
+      "matched_paths": [
+        "me",
+        "detail"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
+      "matched_paths": [
+        "quests",
+        "me",
+        "applications"
+      ]
+    },
+    {
       "file": "apps/themuffinman/frontend/src/modules/identity/api/authApi.ts",
       "matched_paths": [
         "me"
@@ -335,6 +417,7 @@
       "matched_paths": [
         "me",
         "search",
+        "detail",
         "start",
         "confirm",
         "view"

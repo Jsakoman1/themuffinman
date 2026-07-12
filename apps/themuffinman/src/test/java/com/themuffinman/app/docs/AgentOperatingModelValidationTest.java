@@ -1025,6 +1025,8 @@ class AgentOperatingModelValidationTest {
         Path templatePath = repoRoot.resolve(".agents/templates/feature-completion-manifest.template.yaml");
         Path planTemplatePath = repoRoot.resolve(".agents/templates/feature-implementation-plan.template.md");
         Path bootstrapScriptPath = repoRoot.resolve("scripts/bootstrap-feature-work.sh");
+        Path planCompletionAuditScriptPath = repoRoot.resolve("scripts/audits/audit-plan-completion.rb");
+        Path planCompletionAuditTestPath = repoRoot.resolve("scripts/audits/test-audit-plan-completion.rb");
         Path closeoutAuditScriptPath = repoRoot.resolve("scripts/feature-closeout-audit.sh");
         Path todoAuditScriptPath = repoRoot.resolve("scripts/todo-audit.rb");
         Map<String, String> openBacklogEntries = readOpenBacklogEntries(repoRoot);
@@ -1033,12 +1035,31 @@ class AgentOperatingModelValidationTest {
         assertTrue(Files.exists(templatePath), "feature completion manifest template must exist");
         assertTrue(Files.exists(planTemplatePath), "feature implementation plan template must exist");
         assertTrue(Files.exists(bootstrapScriptPath), "bootstrap-feature-work.sh must exist");
+        assertTrue(Files.exists(planCompletionAuditScriptPath), "audit-plan-completion.rb must exist");
+        assertTrue(Files.exists(planCompletionAuditTestPath), "audit-plan-completion fixture test must exist");
         assertTrue(Files.exists(closeoutAuditScriptPath), "feature-closeout-audit.sh must exist");
         assertTrue(Files.exists(todoAuditScriptPath), "todo-audit.rb must exist");
         assertTrue(Files.isDirectory(manifestsDir), ".agents/feature-manifests must exist");
         String planTemplateContent = Files.readString(planTemplatePath);
         assertTrue(planTemplateContent.contains("Doc delta summary"),
                 "feature implementation plan template must request doc delta summary evidence");
+        assertTrue(planTemplateContent.contains("machine_closeout_contract: 2"),
+                "feature implementation plan template must declare closeout contract version 2");
+        assertTrue(planTemplateContent.contains("machine_baseline_ref: TBD"),
+                "feature implementation plan template must request a Git baseline");
+        String bootstrapScriptContent = Files.readString(bootstrapScriptPath);
+        assertFalse(bootstrapScriptContent.contains("autofill-feature-closeout") || bootstrapScriptContent.contains("closeout-report"),
+                "bootstrap script must not emit removed closeout commands");
+        String planCompletionAuditContent = Files.readString(planCompletionAuditScriptPath);
+        assertTrue(planCompletionAuditContent.contains("machine_baseline_ref")
+                        && planCompletionAuditContent.contains("implemented_paths")
+                        && planCompletionAuditContent.contains("code_paths & implemented_paths & changed_paths"),
+                "plan completion audit must link baseline, plan evidence, manifest code paths, and changed files");
+        String closeoutAuditContent = Files.readString(closeoutAuditScriptPath);
+        assertFalse(closeoutAuditContent.contains("closeout_driver_report_passed?"),
+                "feature closeout audit must not retain legacy driver-report bypasses");
+        assertTrue(Files.readString(repoRoot.resolve("Makefile")).contains("closeout-preflight:"),
+                "root Makefile must expose a read-only closeout preflight target");
 
         JsonNode schemaNode = JSON_MAPPER.readTree(Files.readString(schemaPath));
         JsonSchema schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(schemaNode);
@@ -1212,6 +1233,17 @@ class AgentOperatingModelValidationTest {
                         .toList();
                 assertTrue(openPlanTasks.isEmpty(),
                         () -> "Completed manifest must not reference a plan with open tasks: " + manifestPath);
+                if (manifestNode.path("closeoutContractVersion").asInt() == 2) {
+                    String planContent = Files.readString(referencedPlan);
+                    assertFalse(codePaths.isEmpty(),
+                            () -> "Version 2 completed manifest must declare implemented code paths: " + manifestPath);
+                    assertTrue(planContent.contains("machine_closeout_contract: 2"),
+                            () -> "Version 2 completed manifest must reference a version 2 plan: " + manifestPath);
+                    assertTrue(planContent.contains("machine_baseline_ref:") && !planContent.contains("machine_baseline_ref: TBD"),
+                            () -> "Version 2 completed plan must record a Git baseline: " + referencedPlan);
+                    assertTrue(planContent.contains("Implemented code paths:") && !planContent.contains("Implemented code paths: TBD"),
+                            () -> "Version 2 completed plan must record implemented code paths: " + referencedPlan);
+                }
             }
 
             if ("major-change".equals(changeMode)) {

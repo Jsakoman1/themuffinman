@@ -1,13 +1,17 @@
 # Validation Memory Closeout Card
 
 - Source: `docs/validation-memory.json`
-- Generated at: `2026-07-08T08:55:52Z`
+- Generated at: `2026-07-12T09:18:21Z`
 
 ## Recommended Read Order During Closeout
 
 ## Default Closeout
+- `make cleanup-generated-history`
 - `make audit-todo`
+- `make audit-validation-memory-drift`
+- `make validation-memory-closeout-card`
 - `make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]`
+- `make feature-closeout-audit manifest=<manifest-file>`
 
 ## Add By Change Profile
 - Backend logic: `./mvnw test`, `make audit-agent-safety`

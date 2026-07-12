@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T10:09:51Z",
+  "generated_at": "2026-07-12T08:38:34Z",
   "endpoint_family": "admin",
   "endpoints": [
     {
@@ -40,6 +40,31 @@
   "frontend_callsites": [
     {
       "file": "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts",
+      "matched_paths": [
+        "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts",
+      "matched_paths": [
+        "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts",
+      "matched_paths": [
+        "applications"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts",
+      "matched_paths": [
+        "applications",
+        "{applicationId}"
+      ]
+    },
+    {
+      "file": "apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts",
       "matched_paths": [
         "applications"
       ]

@@ -1,0 +1,158 @@
+featureId: implementation_batch_integrity
+title: Implementation batch integrity repair
+workflowTier: tier4-agent-tooling-workflow
+manifestDecision: required
+manifestRequirement: required
+closeoutContractVersion: 2
+status: complete
+riskTier: high
+changeMode: major-change
+changeImpact: logic-drift
+changeProfiles:
+  - agent-contract
+  - workflow-expansion
+planFile: .agents/implementation-batch-integrity-plan.md
+summary:
+  - Prevent plan and master-plan closeout without verified implementation evidence.
+validationEvidence:
+  commands:
+    - command: make cleanup-generated-history
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:04:31+02:00
+      summary: Pruned archive-only generated history before the final evidence review.
+    - command: make audit-todo
+      scope: local-tooling
+      result: passed
+      ranAt: 2026-07-12T11:04:31+02:00
+      summary: The repaired plan has no open tasks and the persistent backlog has no open implementation-batch item.
+    - command: make audit-validation-evidence-quality
+      scope: manifest
+      result: passed
+      ranAt: 2026-07-12T11:04:31+02:00
+      summary: Existing validation evidence records contain no vague or invalid evidence.
+    - command: make validation-memory-closeout-card
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:00:21+02:00
+      summary: Regenerated the compact closeout command card from validation memory.
+    - command: make audit-plan-completion plan=.agents/implementation-batch-integrity-plan.md manifest=.agents/feature-manifests/implementation-batch-integrity-manifest.yaml
+      scope: manifest
+      result: passed
+      ranAt: 2026-07-12T11:04:54+02:00
+      summary: The completed version 2 implementation plan passed baseline, code-path, checklist, evidence, and manifest alignment checks.
+    - command: make generate-agent-operating-model
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:00:21+02:00
+      summary: Regenerated the machine-operational model after adding the version 2 completion policy.
+    - command: make generate-agent-artifacts
+      scope: generated-artifact
+      result: passed
+      ranAt: 2026-07-12T11:00:21+02:00
+      summary: Refreshed generated backend, endpoint, automation, and source-of-truth inventories.
+    - command: ./mvnw test -Dtest=AgentOperatingModelValidationTest
+      scope: backend
+      result: passed
+      ranAt: 2026-07-12T11:07:15+02:00
+      summary: The documentation and manifest validator passed with the completed version 2 manifest and resolved backlog trace.
+    - command: ./mvnw test -Dtest=QuestWorkflowScenarioTest
+      scope: backend
+      result: passed
+      ranAt: 2026-07-12T11:02:57+02:00
+      summary: The selected workflow scenario suite passed with six tests.
+    - command: ./mvnw test -Dtest=AdminAgentExecutionServiceTest,AdminSyntheticQuestExecutionPlannerTest
+      scope: backend
+      result: passed
+      ranAt: 2026-07-12T11:05:54+02:00
+      summary: The canonical workflow-expansion test command passed with four tests.
+    - command: make audit-agent-safety
+      scope: agent-safety
+      result: passed
+      ranAt: 2026-07-12T11:03:31+02:00
+      summary: Agent safety, focused backend tests, frontend validation and build, validation evidence quality, validation-memory drift, and TODO audit passed.
+    - command: make audit-validation-memory-drift
+      scope: docs
+      result: passed
+      ranAt: 2026-07-12T11:03:16+02:00
+      summary: Validation memory markdown and JSON canonical command sets are aligned.
+generatedArtifacts:
+  refreshedPaths:
+    - docs/agent-operating-model.yaml
+    - docs/generated/agent-endpoint-inventory.json
+    - docs/generated/automation-read-model-inventory.json
+    - docs/generated/backend-audit-inventory.json
+    - docs/generated/source-of-truth-audit.json
+    - docs/generated/local-tooling/validation-memory-closeout-card.json
+    - docs/generated/local-tooling/validation-memory-closeout-card-summary.md
+  notApplicableReason: All generated artifacts required by the control-system change are listed in refreshedPaths.
+planCompletion:
+  reviewed: true
+  openTasks: 0
+  summary: All implementation plan checkboxes are complete and the final plan completion audit passed.
+closeoutDecision:
+  status: ready
+  reason: The implementation batch now separates preparation from explicit, evidence-backed closeout and all required validation is recorded.
+docDelta:
+  behaviorChanged:
+    - Implementation batches no longer infer plan completion from a plan file existing during discovery.
+    - Version 2 implementation plans and master plans now require auditable implementation and child-plan evidence before closeout.
+  docsUpdated:
+    - docs/program-planning-model.md
+    - docs/codex-fast-path.md
+    - docs/feature-delivery-workflow.md
+    - docs/documentation-sync-policy.md
+    - docs/change-completion-checklist.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/domain-technical.md
+    - docs/validation-memory.md
+    - docs/validation-memory.json
+  intentionallyUnchanged:
+    - Product application workflows, persistence schema, and public APIs are not affected by this local tooling repair.
+backlog:
+  reviewed: true
+  createdIds: []
+  resolvedIds:
+    - TOOLING-IMPLEMENTATION-BATCH-001
+checklist:
+  tempPlanCreated: true
+  codeImplemented: true
+  backendTestsPassed: true
+  frontendValidationPassed: false
+  docsSynced: true
+  agentModelSynced: true
+  destructivePolicyChecked: true
+  multilingualCoverageChecked: true
+artifacts:
+  codePaths:
+    - Makefile
+    - scripts/audits/audit-plan-completion.rb
+    - scripts/bootstrap-feature-work.sh
+    - scripts/feature-closeout-audit.sh
+    - scripts/implementation-batch.sh
+  docPaths:
+    - .agents/implementation-batch-integrity-plan.md
+    - .agents/feature-manifests/implementation-batch-integrity-manifest.yaml
+    - docs/agent-improvement-backlog.md
+    - docs/agent-operating-model.md
+    - docs/agent-operating-model.yaml
+    - docs/change-completion-checklist.md
+    - docs/codex-fast-path.md
+    - docs/documentation-sync-policy.md
+    - docs/domain-technical.md
+    - docs/feature-completion-manifest.schema.json
+    - docs/feature-delivery-workflow.md
+    - docs/program-planning-model.md
+    - docs/validation-memory.json
+    - docs/validation-memory.md
+  testPaths:
+    - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+    - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/QuestWorkflowScenarioTest.java
+  generatorCommands:
+    - make generate-agent-operating-model
+    - make generate-agent-artifacts
+  auditCommands:
+    - make audit-agent-safety
+    - make audit-plan-completion plan=<plan-file> [manifest=<manifest-file>]
+    - make feature-closeout-audit manifest=<manifest-file>
