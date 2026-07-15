@@ -79,15 +79,6 @@ const routePrompt = computed(() => {
   return typeof prompt === "string" ? prompt.trim() : ""
 })
 
-const surfaceNavigator = [
-  {label: "Home", to: "/home"},
-  {label: "Work", to: "/work"},
-  {label: "Chat", to: "/chat"},
-  {label: "Calendar", to: "/calendar"},
-  {label: "Business", to: "/business"},
-  {label: "Profile", to: "/profile"}
-]
-
 const shouldAutorunRoutePrompt = computed(() => route.query.autorun === "1" && routePrompt.value.length > 0)
 
 const clearRoutePrompt = async () => {
@@ -153,34 +144,6 @@ watch(
     <main
       class="vision-surface__stage"
     >
-      <div v-if="handoffContext || handoffReturnTo" class="vision-surface__handoff">
-        <div class="vision-surface__handoff-copy">
-          <p class="vision-surface__handoff-label">Vision Handoff</p>
-          <p class="vision-surface__handoff-context">{{ handoffContext || "Shell" }}</p>
-          <p v-if="handoffSource" class="vision-surface__handoff-source">Source: {{ handoffSource }}</p>
-        </div>
-
-        <div class="vision-surface__handoff-actions">
-          <RouterLink v-if="handoffReturnTo" :to="handoffReturnTo" class="vision-surface__handoff-link">
-            Return to route
-          </RouterLink>
-          <RouterLink to="/vision" class="vision-surface__handoff-link vision-surface__handoff-link--vision">
-            Vision
-          </RouterLink>
-        </div>
-      </div>
-
-      <div class="vision-surface__navigator" aria-label="Surface navigation">
-        <RouterLink
-          v-for="item in surfaceNavigator"
-          :key="item.to"
-          :to="item.to"
-          class="vision-surface__navigator-link"
-        >
-          {{ item.label }}
-        </RouterLink>
-      </div>
-
       <div class="vision-surface__layout" :class="{ 'vision-surface__layout--preview': showDebugRail }">
         <section class="vision-surface__console">
           <VisionCanvasRenderer
@@ -263,90 +226,6 @@ watch(
   position: relative;
 }
 
-.vision-surface__handoff {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.85rem;
-  align-items: center;
-  margin-bottom: 0.7rem;
-  padding: 0.85rem 1rem;
-  border-radius: 1.1rem;
-  border: 1px solid rgba(23, 34, 26, 0.08);
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 14px 30px rgba(23, 34, 26, 0.06);
-}
-
-.vision-surface__handoff-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  justify-content: flex-end;
-}
-
-.vision-surface__handoff-copy {
-  display: grid;
-  gap: 0.18rem;
-}
-
-.vision-surface__handoff-label,
-.vision-surface__handoff-context,
-.vision-surface__handoff-source {
-  margin: 0;
-}
-
-.vision-surface__handoff-label {
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.72rem;
-  color: rgba(23, 34, 26, 0.44);
-}
-
-.vision-surface__handoff-context {
-  font-weight: 600;
-  letter-spacing: -0.03em;
-}
-
-.vision-surface__handoff-source {
-  color: rgba(23, 34, 26, 0.6);
-  font-size: 0.92rem;
-}
-
-.vision-surface__handoff-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.5rem;
-  padding: 0.55rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(23, 34, 26, 0.12);
-  background: rgba(247, 249, 243, 0.92);
-}
-
-.vision-surface__handoff-link--vision {
-  background: rgba(23, 34, 26, 0.96);
-  color: #f8f8f4;
-}
-
-.vision-surface__navigator {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-bottom: 0.75rem;
-}
-
-.vision-surface__navigator-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.2rem;
-  padding: 0.42rem 0.8rem;
-  border-radius: 999px;
-  border: 1px solid rgba(23, 34, 26, 0.08);
-  background: rgba(255, 255, 255, 0.7);
-  color: rgba(23, 34, 26, 0.78);
-  font-size: 0.84rem;
-}
-
 .vision-surface__layout {
   min-width: 0;
   min-height: 0;
@@ -381,22 +260,9 @@ watch(
 }
 
 @media (max-width: 980px) {
-  .vision-surface__handoff {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .vision-surface__handoff-actions {
-    justify-content: flex-start;
-  }
-
   .vision-surface__layout,
   .vision-surface__layout--preview {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .vision-surface__navigator {
-    gap: 0.4rem;
   }
 }
 </style>

@@ -7,6 +7,9 @@ const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
 const AuthenticatedShellView = () => import("./modules/app-shell/views/AuthenticatedShellView.vue");
 const HomeHubView = () => import("./modules/app-shell/views/HomeHubView.vue");
 const SectionHubView = () => import("./modules/app-shell/views/WorkspaceSurfaceView.vue");
+const WorkDiscoveryView = () => import("./modules/app-shell/views/WorkDiscoveryView.vue");
+const WorkApplicationsView = () => import("./modules/app-shell/views/WorkApplicationsView.vue");
+const ChatSurfaceView = () => import("./modules/app-shell/views/ChatSurfaceView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
 
 const visionBridgeRoutes = visionBridgeRouteDefinitions.map((definition) => ({
@@ -41,31 +44,31 @@ const routes = [
             {
                 path: 'work',
                 name: 'work',
-                component: SectionHubView,
+                component: WorkDiscoveryView,
                 meta: {requiresAuth: true, surfaceId: 'work'}
             },
             {
                 path: 'work/quests',
                 name: 'work-quests',
-                component: SectionHubView,
+                component: WorkDiscoveryView,
                 meta: {requiresAuth: true, surfaceId: 'work-quests'}
             },
             {
                 path: 'work/applications',
                 name: 'work-applications',
-                component: SectionHubView,
+                component: WorkApplicationsView,
                 meta: {requiresAuth: true, surfaceId: 'work-applications'}
             },
             {
                 path: 'chat',
                 name: 'chat',
-                component: SectionHubView,
+                component: ChatSurfaceView,
                 meta: {requiresAuth: true, surfaceId: 'chat'}
             },
             {
                 path: 'chat/:conversationId',
                 name: 'chat-conversation',
-                component: SectionHubView,
+                component: ChatSurfaceView,
                 meta: {requiresAuth: true, surfaceId: 'chat-conversation'}
             },
             {

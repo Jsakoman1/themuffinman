@@ -69,11 +69,13 @@ public class VisionSearchDiscoveryService {
         candidates.addAll(discoverUsers(currentUser, query));
         candidates.addAll(discoverApplications(currentUser, query));
         candidates.addAll(discoverThings(currentUser, query));
-        List<VisionSearchDiscoveryItemDTO> items = candidates.stream()
+        List<SearchCandidate> sortedCandidates = candidates.stream()
                 .sorted(Comparator
                         .comparingInt(SearchCandidate::score).reversed()
                         .thenComparingInt(candidate -> familyPriority(candidate.item()))
                         .thenComparing(candidate -> candidate.item().getTitle() == null ? "" : candidate.item().getTitle(), String.CASE_INSENSITIVE_ORDER))
+                .toList();
+        List<VisionSearchDiscoveryItemDTO> items = sortedCandidates.stream()
                 .limit(8)
                 .map(SearchCandidate::item)
                 .toList();
@@ -84,7 +86,8 @@ public class VisionSearchDiscoveryService {
                 .query(query)
                 .sort("relevance")
                 .summary(summary)
-                .totalItems(items.size())
+                .totalItems(sortedCandidates.size())
+                .hasMore(sortedCandidates.size() > items.size())
                 .items(items)
                 .build();
     }

@@ -60,8 +60,12 @@ public class QuestApplicationController {
     }
 
     @GetMapping("/quests/applications/me")
-    public List<QuestApplicationResponseDTO> getMyApplications(@AuthenticationPrincipal AppUser currentUser) {
-        return questApplicationReadService.getApplicationsForApplicant(currentUser);
+    public QuestApplicationListResponseDTO getMyApplications(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "20") Integer size,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return questApplicationReadService.getApplicationsForApplicantPage(currentUser, page, size);
     }
 
     @GetMapping("/applications/{applicationId}/detail")

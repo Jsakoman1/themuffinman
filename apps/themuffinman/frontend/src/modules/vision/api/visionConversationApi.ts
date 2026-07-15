@@ -45,6 +45,10 @@ export type VisionRuntimeContext = {
   resumeAvailable: boolean
   resumeHint: string | null
   watchFriendly: boolean
+  presentationArchetype: string
+  density: "glance" | "scan" | "inspect"
+  primaryActionLabel: string | null
+  visibleFields: string[]
 }
 
 export type VisionConversationTurnRequest = {
@@ -96,6 +100,7 @@ export type VisionQuestDiscovery = {
   sort: string
   summary: string
   totalItems: number
+  hasMore: boolean
   items: VisionQuestDiscoveryItem[]
 }
 
@@ -116,6 +121,7 @@ export type VisionSearchDiscovery = {
   sort: string
   summary: string
   totalItems: number
+  hasMore: boolean
   items: VisionSearchDiscoveryItem[]
 }
 

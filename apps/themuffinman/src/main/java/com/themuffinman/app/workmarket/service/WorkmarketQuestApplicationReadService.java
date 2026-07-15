@@ -7,6 +7,7 @@ import com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationDetailSectionsDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
 import com.themuffinman.app.workmarket.dto.QuestAllowedActionDTO;
 import com.themuffinman.app.workmarket.dto.QuestViewerRelationDTO;
@@ -18,6 +19,8 @@ import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepo
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.Comparator;
 import java.util.List;
@@ -106,6 +109,22 @@ public class WorkmarketQuestApplicationReadService {
                 .stream()
                 .map(this::toApplicantResponse)
                 .toList();
+    }
+
+    public QuestApplicationListResponseDTO getApplicationsForApplicantPage(AppUser currentUser, Integer page, Integer size) {
+        int safePage = Math.max(page == null ? 0 : page, 0);
+        int safeSize = Math.min(Math.max(size == null ? 20 : size, 1), 50);
+        var result = questApplicationRepository.findForApplicantDashboard(
+                currentUser.getId(),
+                PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "createdAt").and(Sort.by(Sort.Direction.DESC, "id")))
+        );
+        return QuestApplicationListResponseDTO.builder()
+                .items(result.getContent().stream().map(this::toApplicantResponse).toList())
+                .page(result.getNumber())
+                .size(result.getSize())
+                .totalItems(result.getTotalElements())
+                .totalPages(result.getTotalPages())
+                .build();
     }
 
     public QuestApplicationResponseDTO toApplicantResponse(QuestApplication application) {

@@ -1,0 +1,139 @@
+kind: work
+version: 1
+id: modern-mobile-watch-quality
+title: Close mobile, Watch, accessibility, and visual quality gates
+status: verified
+baseline: b3a130c
+tasks:
+- id: phone-density
+  title: Validate phone-first hierarchy, touch targets, keyboard/inset behavior, loading,
+    empty, error, and offline recovery states
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: watch-handoff
+  title: Validate Watch glance, acknowledge, confirm, decline, voice capture, and
+    phone-handoff limits against the backend contract
+  type: validation
+  status: done
+  paths:
+  - docs/vision-presentation-contract.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeContextDTO.java
+  validation: cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest
+- id: visual-cleanliness
+  title: Add a measurable default-screen clutter audit for visible descriptions, duplicated
+    labels, card count, and primary-action count
+  type: validation
+  status: done
+  paths:
+  - docs/modern-minimal-product-assessment.md
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  validation: make audit-docs && git diff --check
+- id: final-closeout
+  title: Run full backend/frontend validation and verify every child checkbox against
+    real route-level evidence
+  type: validation
+  status: done
+  paths:
+  - docs/work/modern-minimal-adaptive-product.yaml
+  validation: cd apps/themuffinman && ./mvnw test && cd ../../ && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+evidence:
+- task: phone-density
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-15T18:52:33Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  output: |+
+    dist/assets/VisionSurfaceModernView-CVOaApOQ.css    12.60 kB │ gzip:  2.92 kB
+    dist/assets/_plugin-vue_export-helper-B67ILkmu.js    0.08 kB │ gzip:  0.09 kB
+    dist/assets/rolldown-runtime-lhHHWwHU.js             0.15 kB │ gzip:  0.15 kB
+    dist/assets/HomeHubView-CDFxn6ai.js                  0.52 kB │ gzip:  0.34 kB
+    dist/assets/WorkspaceSurfaceView-C26Pua_L.js         0.68 kB │ gzip:  0.42 kB
+    dist/assets/visionHandoff-ZW2lB335.js                0.79 kB │ gzip:  0.44 kB
+    dist/assets/userShellApi-D7LwffIn.js                 1.53 kB │ gzip:  0.52 kB
+    dist/assets/LoginView-Bv9sVI9Z.js                    1.88 kB │ gzip:  0.91 kB
+    dist/assets/RegisterView-DmHyOdhA.js                 2.18 kB │ gzip:  0.96 kB
+    dist/assets/shellDefinitions-B2MbUAYm.js             2.55 kB │ gzip:  0.65 kB
+    dist/assets/AuthenticatedShellView-BQ6SyGUZ.js       3.08 kB │ gzip:  1.32 kB
+    dist/assets/WorkDiscoveryView-CIQgz8pl.js            4.06 kB │ gzip:  1.86 kB
+    dist/assets/index-Ls98gXZB.js                       13.93 kB │ gzip:  4.39 kB
+    dist/assets/SurfaceContentView-Bsz_E3-k.js          21.91 kB │ gzip:  6.03 kB
+    dist/assets/vue-core-Pi4dzDQH.js                    24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-BlrAQ4w9.js     35.86 kB │ gzip: 10.84 kB
+    dist/assets/vendor-D0x-eQIR.js                     105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 244ms
+
+- task: watch-handoff
+  command: cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest
+  ranAt: '2026-07-15T18:52:35Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeContextDTO.java
+  output: "[INFO] --- surefire:3.5.5:test (default-test) @ themuffinman ---\n[INFO]
+    Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO]
+    \n[INFO] -------------------------------------------------------\n[INFO]  T E
+    S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.docs.AgentOperatingModelValidationTest\n[INFO] Tests
+    run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.130 s -- in com.themuffinman.app.docs.AgentOperatingModelValidationTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  1.518 s\n[INFO] Finished at: 2026-07-15T20:52:37+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: visual-cleanliness
+  command: make audit-docs && git diff --check
+  ranAt: '2026-07-15T18:52:37Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - docs/modern-minimal-product-assessment.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 166
+      review needed: 0
+      high priority: 0
+
+- task: final-closeout
+  command: cd apps/themuffinman && ./mvnw test && cd ../../ && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-15T18:52:39Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/modern-minimal-adaptive-product.yaml
+  output: |+
+    dist/assets/VisionSurfaceModernView-CVOaApOQ.css    12.60 kB │ gzip:  2.92 kB
+    dist/assets/_plugin-vue_export-helper-B67ILkmu.js    0.08 kB │ gzip:  0.09 kB
+    dist/assets/rolldown-runtime-lhHHWwHU.js             0.15 kB │ gzip:  0.15 kB
+    dist/assets/HomeHubView-CDFxn6ai.js                  0.52 kB │ gzip:  0.34 kB
+    dist/assets/WorkspaceSurfaceView-C26Pua_L.js         0.68 kB │ gzip:  0.42 kB
+    dist/assets/visionHandoff-ZW2lB335.js                0.79 kB │ gzip:  0.44 kB
+    dist/assets/userShellApi-D7LwffIn.js                 1.53 kB │ gzip:  0.52 kB
+    dist/assets/LoginView-Bv9sVI9Z.js                    1.88 kB │ gzip:  0.91 kB
+    dist/assets/RegisterView-DmHyOdhA.js                 2.18 kB │ gzip:  0.96 kB
+    dist/assets/shellDefinitions-B2MbUAYm.js             2.55 kB │ gzip:  0.65 kB
+    dist/assets/AuthenticatedShellView-BQ6SyGUZ.js       3.08 kB │ gzip:  1.32 kB
+    dist/assets/WorkDiscoveryView-CIQgz8pl.js            4.06 kB │ gzip:  1.86 kB
+    dist/assets/index-Ls98gXZB.js                       13.93 kB │ gzip:  4.39 kB
+    dist/assets/SurfaceContentView-Bsz_E3-k.js          21.91 kB │ gzip:  6.03 kB
+    dist/assets/vue-core-Pi4dzDQH.js                    24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-BlrAQ4w9.js     35.86 kB │ gzip: 10.84 kB
+    dist/assets/vendor-D0x-eQIR.js                     105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 226ms
+

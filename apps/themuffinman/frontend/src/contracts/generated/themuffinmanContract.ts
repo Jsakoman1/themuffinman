@@ -1627,12 +1627,20 @@ export interface QuestDetailTermChangeSectionDTO {
   pendingTermFixed: boolean | null
 }
 
+export interface QuestListPresentationDTO {
+  archetype: string
+  density: string
+  primaryActionLabel: string
+  visibleFields: string[]
+}
+
 export interface QuestListResponseDTO {
   items: QuestResponseDTO[]
   page: number
   size: number
   totalItems: number
   totalPages: number
+  presentation: QuestListPresentationDTO
 }
 
 export interface QuestLocationVisibilityOptionDTO {
@@ -2169,6 +2177,7 @@ export interface VisionQuestDiscoveryDTO {
   sort: string
   summary: string
   totalItems: number
+  hasMore: boolean
   items: VisionQuestDiscoveryItemDTO[]
 }
 
@@ -2207,6 +2216,10 @@ export interface VisionRuntimeContextDTO {
   resumeAvailable: boolean
   resumeHint: string
   watchFriendly: boolean
+  presentationArchetype: string
+  density: string
+  primaryActionLabel: string
+  visibleFields: string[]
 }
 
 export interface VisionRuntimeCueDTO {
@@ -2220,6 +2233,7 @@ export interface VisionSearchDiscoveryDTO {
   sort: string
   summary: string
   totalItems: number
+  hasMore: boolean
   items: VisionSearchDiscoveryItemDTO[]
 }
 

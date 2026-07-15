@@ -929,6 +929,10 @@ Current covered modules:
 
 ## Current FAQ Draft
 
+### How do long lists work?
+
+Work applications and chat conversations load in bounded pages. The user can request more items without losing the current context, while Vision presents a compact first result set and exposes whether additional matches exist.
+
 ### What is a quest?
 
 A quest is a task posted by one user so other users can apply, coordinate, and complete it.

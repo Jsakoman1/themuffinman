@@ -27,14 +27,6 @@ const shellTitle = computed(() => {
   return getAppSurfaceConfig(currentSurfaceId.value).title
 })
 
-const shellDescription = computed(() => {
-  if (!currentSurfaceId.value) {
-    return "Adaptive social utility network."
-  }
-
-  return getAppSurfaceConfig(currentSurfaceId.value).description
-})
-
 const currentContextLabel = computed(() => {
   if (!currentSurfaceId.value) {
     return "Shell"
@@ -89,8 +81,7 @@ const handleLogout = () => {
   <div class="app-shell">
     <aside class="app-shell__rail" aria-label="Primary navigation">
       <div class="app-shell__brand">
-        <p class="app-shell__brand-mark">TheMuffinMan</p>
-        <p class="app-shell__brand-copy">One calm entry. Guided work stays in Vision.</p>
+        <p class="app-shell__brand-mark" aria-label="TheMuffinMan">TM</p>
       </div>
 
       <nav class="app-shell__nav">
@@ -102,14 +93,12 @@ const handleLogout = () => {
           :class="{ 'app-shell__nav-link--active': activeNavId === item.id }"
         >
           <span class="app-shell__nav-label">{{ item.label }}</span>
-          <span class="app-shell__nav-description">{{ item.description }}</span>
         </RouterLink>
       </nav>
 
       <div class="app-shell__rail-footer">
         <RouterLink :to="contextualVisionRoute" class="app-shell__vision-link">
-          <span class="app-shell__vision-label">Vision</span>
-          <span class="app-shell__vision-copy">Open guided deep-work mode from this surface.</span>
+          <span class="app-shell__vision-label">Ask Vision</span>
         </RouterLink>
       </div>
     </aside>
@@ -117,9 +106,7 @@ const handleLogout = () => {
     <div class="app-shell__frame">
       <header class="app-shell__header">
         <div class="app-shell__context">
-          <p class="app-shell__eyebrow">Authenticated Shell</p>
           <h1 class="app-shell__title">{{ shellTitle }}</h1>
-          <p class="app-shell__description">{{ shellDescription }}</p>
         </div>
 
         <div class="app-shell__header-actions">
@@ -132,12 +119,8 @@ const handleLogout = () => {
             >
             <button type="submit" class="app-shell__header-vision">Ask Vision</button>
           </form>
-          <p class="app-shell__vision-hint">
-            Guided help starts from {{ currentContextLabel }} and returns you here.
-          </p>
 
           <div class="app-shell__account">
-            <RouterLink :to="contextualVisionRoute" class="app-shell__contextual-link">Guided from here</RouterLink>
             <span class="app-shell__account-label">{{ currentUser?.username ?? "Account" }}</span>
             <button type="button" class="app-shell__logout" @click="handleLogout">Log out</button>
           </div>
@@ -195,15 +178,10 @@ const handleLogout = () => {
 }
 
 .app-shell__brand-mark,
-.app-shell__eyebrow,
 .app-shell__title,
-.app-shell__description,
 .app-shell__nav-label,
-.app-shell__nav-description,
 .app-shell__vision-label,
-.app-shell__vision-copy,
-.app-shell__account-label,
-.app-shell__contextual-link {
+.app-shell__account-label {
   margin: 0;
 }
 
@@ -216,13 +194,6 @@ const handleLogout = () => {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.04em;
-}
-
-.app-shell__brand-copy {
-  margin: 0;
-  color: rgba(23, 34, 26, 0.62);
-  font-size: 0.92rem;
-  line-height: 1.45;
 }
 
 .app-shell__nav {
@@ -243,8 +214,7 @@ const handleLogout = () => {
 .app-shell__nav-link:hover,
 .app-shell__vision-link:hover,
 .app-shell__header-vision:hover,
-.app-shell__logout:hover,
-.app-shell__contextual-link:hover {
+.app-shell__logout:hover {
   transform: translateY(-1px);
 }
 
@@ -266,13 +236,6 @@ const handleLogout = () => {
   letter-spacing: -0.03em;
 }
 
-.app-shell__nav-description,
-.app-shell__vision-copy,
-.app-shell__description {
-  color: rgba(23, 34, 26, 0.62);
-  line-height: 1.45;
-}
-
 .app-shell__rail-footer {
   margin-top: auto;
 }
@@ -281,10 +244,6 @@ const handleLogout = () => {
 .app-shell__mobile-vision {
   background: rgba(23, 34, 26, 0.96);
   color: #f8f8f4;
-}
-
-.app-shell__vision-copy {
-  color: rgba(248, 248, 244, 0.74);
 }
 
 .app-shell__frame {
@@ -342,8 +301,7 @@ const handleLogout = () => {
 
 .app-shell__vision-input,
 .app-shell__header-vision,
-.app-shell__logout,
-.app-shell__contextual-link {
+.app-shell__logout {
   border-radius: 999px;
   border: 1px solid rgba(23, 34, 26, 0.12);
   background: rgba(255, 255, 255, 0.82);
@@ -363,10 +321,6 @@ const handleLogout = () => {
 .app-shell__account-label {
   font-size: 0.9rem;
   color: rgba(23, 34, 26, 0.76);
-}
-
-.app-shell__contextual-link {
-  font-size: 0.88rem;
 }
 
 .app-shell__logout {

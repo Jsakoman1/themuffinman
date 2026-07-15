@@ -70,6 +70,7 @@ public class VisionQuestDiscoveryService {
                 .sort("recommended")
                 .summary(summary)
                 .totalItems(questList.getTotalItems())
+                .hasMore(questList.getTotalItems() > items.size())
                 .items(items)
                 .build();
     }

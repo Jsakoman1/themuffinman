@@ -19,5 +19,6 @@ public class VisionSearchDiscoveryDTO {
     private String sort;
     private String summary;
     private long totalItems;
+    private boolean hasMore;
     private List<VisionSearchDiscoveryItemDTO> items;
 }

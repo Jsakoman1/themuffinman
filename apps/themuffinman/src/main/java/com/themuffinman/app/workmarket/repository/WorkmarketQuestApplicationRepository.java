@@ -2,6 +2,8 @@ package com.themuffinman.app.workmarket.repository;
 
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,6 +17,9 @@ public interface WorkmarketQuestApplicationRepository extends JpaRepository<Ques
 
     @Query("select qa from WorkmarketQuestApplication qa join fetch qa.quest q join fetch q.creator join fetch qa.applicant where qa.applicant.id = :applicantId")
     List<QuestApplication> findForApplicantDashboard(Long applicantId);
+
+    @Query("select qa from WorkmarketQuestApplication qa join fetch qa.quest q join fetch q.creator join fetch qa.applicant where qa.applicant.id = :applicantId")
+    Page<QuestApplication> findForApplicantDashboard(Long applicantId, Pageable pageable);
 
     @Query("select qa from WorkmarketQuestApplication qa join fetch qa.quest q join fetch q.creator join fetch qa.applicant where qa.quest.id = :questId and qa.applicant.id = :applicantId")
     Optional<QuestApplication> findForViewerApplication(Long questId, Long applicantId);

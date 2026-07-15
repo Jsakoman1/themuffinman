@@ -1,0 +1,73 @@
+kind: master
+version: 1
+id: modern-minimal-adaptive-product
+title: Modern minimal adaptive product system
+status: verified
+baseline: b3a130c
+assessment: docs/modern-minimal-product-assessment.md
+objective: Transform the authenticated product from a verbose generic dashboard into
+  a quiet, modern, minimal, intuitive adaptive surface while keeping voice and Vision
+  as the primary command layer, moving business meaning into backend read models,
+  and making the same semantic contracts usable by web, iPhone, and Watch clients.
+goals:
+- Remove default explanatory copy, duplicated navigation meaning, and internal implementation
+  language from user-facing screens.
+- Give Work, Chat, Calendar, Business, Circles, Profile, and Vision distinct interaction
+  archetypes.
+- Make high-volume Work discovery visual, searchable, filterable, paginated, and easy
+  to compare.
+- Keep prompt and voice as the fastest path while adding compact visual confirmation,
+  review, selection, and progress feedback.
+- Standardize backend-owned state, permissions, action availability, pagination, density,
+  and device handoff contracts.
+- Make mobile and Watch clients consumers of the same semantic model instead of future
+  frontend rewrites.
+non_negotiables:
+- No planning or internal ownership explanations in default user-facing UI.
+- No frontend reimplementation of permissions, ranking, workflow state, or business
+  rules.
+- No route is considered complete because it merely renders the shared component;
+  route-level interaction acceptance is required.
+- Voice actions always have visible listening, processing, result, review, completion,
+  and recovery states.
+- Default surfaces reveal detail progressively instead of rendering every available
+  field.
+children:
+- docs/work/modern-shell-navigation.yaml
+- docs/work/modern-surface-archetypes.yaml
+- docs/work/modern-work-discovery.yaml
+- docs/work/modern-chat-calendar-business.yaml
+- docs/work/modern-vision-command-surface.yaml
+- docs/work/modern-backend-surface-contracts.yaml
+- docs/work/modern-mobile-watch-quality.yaml
+dependencies:
+- docs/work/modern-backend-surface-contracts.yaml -> docs/work/modern-surface-archetypes.yaml
+- docs/work/modern-backend-surface-contracts.yaml -> docs/work/modern-work-discovery.yaml
+- docs/work/modern-shell-navigation.yaml -> docs/work/modern-surface-archetypes.yaml
+- docs/work/modern-surface-archetypes.yaml -> docs/work/modern-work-discovery.yaml
+- docs/work/modern-surface-archetypes.yaml -> docs/work/modern-chat-calendar-business.yaml
+- docs/work/modern-surface-archetypes.yaml -> docs/work/modern-vision-command-surface.yaml
+- docs/work/modern-work-discovery.yaml -> docs/work/modern-mobile-watch-quality.yaml
+- docs/work/modern-chat-calendar-business.yaml -> docs/work/modern-mobile-watch-quality.yaml
+- docs/work/modern-vision-command-surface.yaml -> docs/work/modern-mobile-watch-quality.yaml
+exit_criteria:
+- All seven child plans are verified with route-level evidence and matching validation
+  output.
+- Default desktop and mobile surfaces contain only compact labels, current-state feedback,
+  primary actions, and user-requested detail.
+- Work discovery uses the existing backend search capabilities through a real paginated
+  visual surface rather than dashboard truncation.
+- Voice, prompt, visual review, and route handoff share one backend-owned state contract.
+- The full backend suite, frontend type-check/build, contract freshness, accessibility
+  checks, and route acceptance checks pass.
+evidence:
+- verifiedAt: '2026-07-15T18:56:46Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  children:
+  - docs/work/modern-shell-navigation.yaml
+  - docs/work/modern-surface-archetypes.yaml
+  - docs/work/modern-work-discovery.yaml
+  - docs/work/modern-chat-calendar-business.yaml
+  - docs/work/modern-vision-command-surface.yaml
+  - docs/work/modern-backend-surface-contracts.yaml
+  - docs/work/modern-mobile-watch-quality.yaml

@@ -23,6 +23,7 @@ Domain capsules:
 - Frontend module roots under `apps/themuffinman/frontend/src/modules/*/README.md` provide the same first-read capsule for route and UI work.
 - `docs/cross-domain-glossary.md` defines shared terms such as users, actors, circles, visibility, consent, messaging, quests, applications, reviews, bookings, and synthetic data before deeper domain-specific rules.
 - `docs/vision-presentation-contract.yaml` is the machine-readable presentation contract for Vision state, device density, field visibility, and shell handoff ownership.
+- Backend-owned adaptive presentation metadata is exposed through `VisionRuntimeContextDTO` for command/review/result state and through `QuestListPresentationDTO` for Work focus-list density, visible fields, and primary action labels. Web, phone, and Watch clients consume these hints without re-deriving workflow or permission meaning.
 
 Frontend vision surface note:
 - `apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue` now provides the shared authenticated shell for stable route entry across `/home`, `/work`, `/chat`, `/calendar`, `/business`, `/circles`, and `/profile`.
@@ -1762,6 +1763,15 @@ Primary files:
 - `config/WebSocketConfig.java`
 
 ## Update Rule
+
+## Adaptive Surface Read Rules
+
+- Work discovery owns server-side search, filtering, sorting, and page boundaries; the web client must not derive a smaller preview by slicing the response.
+- Applications use the authenticated applicant read endpoint rather than a dashboard preview so the Work applications surface is not silently capped by home-screen density.
+- Chat workspace, conversation sync, and business owner booking reads accept explicit scan limits; clients may request a bounded scan window but must not discard returned records locally.
+- Calendar projections are read by their backend-defined date window and rendered as a timeline; detail remains owned by the source work, chat, or business route.
+- Presentation descriptions and planning explanations are not part of the default visual surface. They may remain in internal read models for compatibility, but renderers consume title, badge, metadata, actions, and state only.
+- `npm run validate:modern-surface` is the lightweight acceptance guard for route ownership, list pagination controls, request cancellation, and the no-local-truncation invariant; browser screenshot testing remains a separate environment concern.
 
 - Treat this file as a technical contract.
 - When entity fields, relations, validations, permission checks, or workflow rules change, update this file in the same change.

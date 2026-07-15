@@ -1,0 +1,50 @@
+<script setup lang="ts">
+import {computed, onMounted, ref} from "vue"
+import {RouterLink} from "vue-router"
+import type {QuestApplicationResponseDTO} from "../../../contracts/index.ts"
+import {userShellApi} from "../api/userShellApi.ts"
+import {resolveSurfaceDetailRoute} from "../shellRouteRegistry.ts"
+
+const items = ref<QuestApplicationResponseDTO[]>([])
+const page = ref(0)
+const totalItems = ref(0)
+const isLoading = ref(true)
+const isLoadingMore = ref(false)
+const error = ref("")
+const hasMore = computed(() => items.value.length < totalItems.value)
+const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric"}).format(new Date(value)) : "No date"
+
+const load = async (reset = true) => {
+  if (reset) { isLoading.value = true; page.value = 0; items.value = [] } else { isLoadingMore.value = true }
+  error.value = ""
+  try {
+    const response = await userShellApi.getMyApplications(page.value, 20)
+    items.value = reset ? response.items : [...items.value, ...response.items]
+    totalItems.value = response.totalItems
+    page.value = response.page
+  } catch { error.value = "Could not load applications." }
+  finally { isLoading.value = false; isLoadingMore.value = false }
+}
+const loadMore = async () => { if (!hasMore.value || isLoadingMore.value) return; page.value += 1; await load(false) }
+onMounted(() => void load())
+</script>
+
+<template>
+  <section class="applications-surface">
+    <header class="applications-surface__header"><div><p class="applications-surface__eyebrow">Work / Applications</p><h1>Applications</h1></div><span class="applications-surface__count">{{ totalItems }} total</span></header>
+    <div v-if="isLoading" class="applications-surface__status" role="status">Loading.</div>
+    <div v-else-if="error" class="applications-surface__status applications-surface__status--error" role="alert">{{ error }} <button type="button" @click="load()">Retry</button></div>
+    <div v-else-if="items.length === 0" class="applications-surface__status">No applications yet.</div>
+    <div v-else class="applications-surface__list">
+      <article v-for="application in items" :key="application.id" class="applications-surface__row">
+        <div><RouterLink :to="resolveSurfaceDetailRoute('work-applications', application.id) ?? `/vision/applications/${application.id}`" class="applications-surface__title">{{ application.questTitle }}</RouterLink><span class="applications-surface__meta">{{ application.presentation.statusLabel }} · {{ application.questCreatorUsername }} · {{ formatDate(application.createdAt) }}</span></div>
+        <RouterLink :to="resolveSurfaceDetailRoute('work-applications', application.id) ?? `/vision/applications/${application.id}`" class="applications-surface__open">Open</RouterLink>
+      </article>
+    </div>
+    <button v-if="hasMore" type="button" class="applications-surface__more" :disabled="isLoadingMore" @click="loadMore">{{ isLoadingMore ? "Loading" : "Load more" }}</button>
+  </section>
+</template>
+
+<style scoped>
+.applications-surface{display:grid;gap:1rem}.applications-surface__header{display:flex;justify-content:space-between;align-items:end;gap:1rem}.applications-surface__eyebrow{margin:0 0 .3rem;color:rgba(23,34,26,.55);font-size:.76rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font-size:clamp(1.55rem,2.5vw,2.3rem);letter-spacing:-.075em}.applications-surface__count,.applications-surface__meta{color:rgba(23,34,26,.58);font-size:.84rem}.applications-surface__list{display:grid;gap:.45rem}.applications-surface__row{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.85rem 0;border-bottom:1px solid rgba(23,34,26,.08)}.applications-surface__row>div{display:grid;gap:.28rem;min-width:0}.applications-surface__title{font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.applications-surface__meta{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.applications-surface__open,.applications-surface__more{display:inline-flex;align-items:center;justify-content:center;min-height:2.25rem;border:1px solid rgba(23,34,26,.12);border-radius:999px;padding:.45rem .8rem;font-size:.82rem;font-weight:650;white-space:nowrap}.applications-surface__more{justify-self:start;background:#17221a;color:#f8f8f4}.applications-surface__status{padding:1rem 0;color:rgba(23,34,26,.65)}.applications-surface__status--error{color:#8d2f25}.applications-surface__status button{margin-left:.6rem;border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer}@media(max-width:620px){.applications-surface__row{align-items:start}.applications-surface__meta{white-space:normal}}
+</style>

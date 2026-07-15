@@ -26,4 +26,8 @@ public class VisionRuntimeContextDTO {
     private boolean resumeAvailable;
     private String resumeHint;
     private boolean watchFriendly;
+    private String presentationArchetype;
+    private String density;
+    private String primaryActionLabel;
+    private List<String> visibleFields;
 }

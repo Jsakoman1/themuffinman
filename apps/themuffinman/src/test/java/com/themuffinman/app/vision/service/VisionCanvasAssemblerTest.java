@@ -79,5 +79,9 @@ class VisionCanvasAssemblerTest {
         assertEquals("This turn can contact another person.", runtimeContext.getConsentReason());
         assertTrue(runtimeContext.isResumeAvailable());
         assertEquals("Resume by filling Person.", runtimeContext.getResumeHint());
+        assertEquals("command", runtimeContext.getPresentationArchetype());
+        assertEquals("scan", runtimeContext.getDensity());
+        assertEquals("Continue", runtimeContext.getPrimaryActionLabel());
+        assertTrue(runtimeContext.getVisibleFields().contains("next_action"));
     }
 }

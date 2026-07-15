@@ -10,7 +10,8 @@
     "generate:contracts": "node ./scripts/generate-vision-contracts.mjs",
     "validate:contracts": "node ./scripts/generate-vision-contracts.mjs --check",
     "type-check": "vue-tsc --noEmit",
-    "validate:admin-agent-ui": "node ./scripts/validate-admin-agent-ui-scenarios.mjs"
+    "validate:admin-agent-ui": "node ./scripts/validate-admin-agent-ui-scenarios.mjs",
+    "validate:modern-surface": "node ./scripts/validate-modern-surface-contract.mjs"
   },
   "dependencies": {
     "@tiptap/extension-image": "^3.7.2",

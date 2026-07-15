@@ -19,4 +19,5 @@ public class QuestListResponseDTO {
     private int size;
     private long totalItems;
     private int totalPages;
+    private QuestListPresentationDTO presentation;
 }

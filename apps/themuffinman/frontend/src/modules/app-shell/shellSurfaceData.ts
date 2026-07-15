@@ -271,15 +271,18 @@ const loadHomeData = async (): Promise<ShellSurfaceViewModel> => {
 }
 
 const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
-  const dashboard = await userShellApi.getDashboard()
+  const [dashboard, applications] = await Promise.all([
+    userShellApi.getDashboard(),
+    surfaceId === "work-applications" ? safeRequest(() => userShellApi.getMyApplications()) : Promise.resolve(null)
+  ])
 
-  const discoverRows = dashboard.availableQuests.slice(0, 4).map(createQuestRow)
+  const discoverRows = dashboard.availableQuests.map(createQuestRow)
   const myQuestRows = (dashboard.sections.recentMyQuests.length > 0
     ? dashboard.sections.recentMyQuests
-    : dashboard.myQuests).slice(0, 4).map(createQuestRow)
-  const applicationRows = (dashboard.sections.recentMyApplications.length > 0
+    : dashboard.myQuests).map(createQuestRow)
+  const applicationRows = (applications?.items ?? (dashboard.sections.recentMyApplications.length > 0
     ? dashboard.sections.recentMyApplications
-    : dashboard.myApplications).slice(0, 4).map(createApplicationRow)
+    : dashboard.myApplications)).map(createApplicationRow)
 
   if (surfaceId === "work-quests") {
     return {
@@ -387,13 +390,13 @@ const loadChatData = async (route: RouteLocationNormalizedLoaded): Promise<Shell
       title: "Inbox",
       description: "Chat owns deterministic thread browsing.",
       emptyState: "No conversations are available right now.",
-      rows: workspace.conversations.slice(0, 6).map(createChatRow)
+      rows: workspace.conversations.map(createChatRow)
     },
     {
       title: "Contacts",
       description: "People you can coordinate with directly.",
       emptyState: "No contacts are available right now.",
-      rows: workspace.contacts.slice(0, 4).map((contact) => ({
+      rows: workspace.contacts.map((contact) => ({
         id: `chat-contact-${contact.userId}`,
         title: contact.username,
         description: contact.profileDescription || "No profile description yet.",
@@ -408,7 +411,7 @@ const loadChatData = async (route: RouteLocationNormalizedLoaded): Promise<Shell
       title: "Current conversation",
       description: "Stable thread route remains chat-owned.",
       emptyState: "No messages are available yet.",
-      rows: conversationSync.messages.slice(-5).reverse().map(createMessageRow)
+      rows: [...conversationSync.messages].reverse().map(createMessageRow)
     })
   }
 
@@ -485,8 +488,8 @@ const loadBusinessData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVi
     : []
 
   const profileRows = profile ? createBusinessProfileRows(profile, dashboard) : []
-  const bookingRows = bookings?.items.slice(0, 4).map(createBookingRow) ?? []
-  const calendarRows = calendar?.days.flatMap((day) => day.items.slice(0, 2)).slice(0, 4).map(createCalendarRow) ?? []
+  const bookingRows = bookings?.items.map(createBookingRow) ?? []
+  const calendarRows = calendar?.days.flatMap((day) => day.items).map(createCalendarRow) ?? []
 
   if (surfaceId === "business-profile") {
     return {
@@ -578,9 +581,9 @@ const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
     safeRequest(() => userShellApi.getBusinessOwnerCalendar())
   ])
 
-  const plannerRows = dashboard?.sections.planner.scheduledItems.slice(0, 4).map(createPlannerRow) ?? []
-  const flexibleRows = dashboard?.sections.planner.flexibleItems.slice(0, 3).map(createPlannerRow) ?? []
-  const businessRows = businessCalendar?.days.flatMap((day) => day.items.slice(0, 2)).slice(0, 4).map(createCalendarRow) ?? []
+  const plannerRows = dashboard?.sections.planner.scheduledItems.map(createPlannerRow) ?? []
+  const flexibleRows = dashboard?.sections.planner.flexibleItems.map(createPlannerRow) ?? []
+  const businessRows = businessCalendar?.days.flatMap((day) => day.items).map(createCalendarRow) ?? []
 
   const metrics: ShellSurfaceMetric[] = [
     {
@@ -696,7 +699,7 @@ const loadProfileData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVie
   ]
 
   const actionRows = profileView ? createProfileActionRow(profileView) : []
-  const reviewRows = profileView?.recentReviews.slice(0, 3).map((review) => ({
+  const reviewRows = profileView?.recentReviews.map((review) => ({
     id: `review-${review.id}`,
     title: `${review.reviewerUsername} · ${review.stars}/5`,
     description: review.comment || "No written comment.",

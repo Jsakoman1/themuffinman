@@ -1,0 +1,110 @@
+kind: work
+version: 1
+id: modern-shell-navigation
+title: Replace explanatory shell chrome with calm navigation
+status: verified
+baseline: b3a130c
+tasks:
+- id: navigation-simplification
+  title: Reduce desktop and mobile navigation to labels, active location, and one
+    Vision command entry
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: header-hierarchy
+  title: Remove duplicated shell descriptions and establish one current-location header
+    with one primary action
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  validation: npm --prefix apps/themuffinman/frontend run build
+- id: mobile-navigation
+  title: Define compact mobile navigation, safe-area behavior, keyboard behavior,
+    and accessible current-route state
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+evidence:
+- task: navigation-simplification
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-15T18:48:16Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: header-hierarchy
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-15T18:48:17Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  output: |+
+    dist/assets/VisionSurfaceModernView-DbTwp74y.css    12.60 kB │ gzip:  2.92 kB
+    dist/assets/_plugin-vue_export-helper-B67ILkmu.js    0.08 kB │ gzip:  0.09 kB
+    dist/assets/rolldown-runtime-lhHHWwHU.js             0.15 kB │ gzip:  0.15 kB
+    dist/assets/HomeHubView-CGEub2uB.js                  0.52 kB │ gzip:  0.34 kB
+    dist/assets/WorkspaceSurfaceView-BxVMpDYP.js         0.68 kB │ gzip:  0.42 kB
+    dist/assets/visionHandoff-D-cZIyAp.js                0.79 kB │ gzip:  0.44 kB
+    dist/assets/userShellApi-DIBPASsH.js                 1.53 kB │ gzip:  0.51 kB
+    dist/assets/LoginView-Ntx6OY8a.js                    1.88 kB │ gzip:  0.91 kB
+    dist/assets/RegisterView-C8lcEVs5.js                 2.18 kB │ gzip:  0.96 kB
+    dist/assets/shellDefinitions-mYRSyrkc.js             2.55 kB │ gzip:  0.65 kB
+    dist/assets/AuthenticatedShellView-CuSF-IN8.js       3.08 kB │ gzip:  1.32 kB
+    dist/assets/WorkDiscoveryView-TLzzqLug.js            4.02 kB │ gzip:  1.85 kB
+    dist/assets/index-CAiYXeZ1.js                       13.93 kB │ gzip:  4.40 kB
+    dist/assets/SurfaceContentView-CpKCf0VO.js          21.91 kB │ gzip:  6.03 kB
+    dist/assets/vue-core-Pi4dzDQH.js                    24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-BfWG6ARn.js     36.38 kB │ gzip: 11.01 kB
+    dist/assets/vendor-D0x-eQIR.js                     105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 251ms
+
+- task: mobile-navigation
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-15T18:48:18Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  output: |+
+    dist/assets/VisionSurfaceModernView-DbTwp74y.css    12.60 kB │ gzip:  2.92 kB
+    dist/assets/_plugin-vue_export-helper-B67ILkmu.js    0.08 kB │ gzip:  0.09 kB
+    dist/assets/rolldown-runtime-lhHHWwHU.js             0.15 kB │ gzip:  0.15 kB
+    dist/assets/HomeHubView-CGEub2uB.js                  0.52 kB │ gzip:  0.34 kB
+    dist/assets/WorkspaceSurfaceView-BxVMpDYP.js         0.68 kB │ gzip:  0.42 kB
+    dist/assets/visionHandoff-D-cZIyAp.js                0.79 kB │ gzip:  0.44 kB
+    dist/assets/userShellApi-DIBPASsH.js                 1.53 kB │ gzip:  0.51 kB
+    dist/assets/LoginView-Ntx6OY8a.js                    1.88 kB │ gzip:  0.91 kB
+    dist/assets/RegisterView-C8lcEVs5.js                 2.18 kB │ gzip:  0.96 kB
+    dist/assets/shellDefinitions-mYRSyrkc.js             2.55 kB │ gzip:  0.65 kB
+    dist/assets/AuthenticatedShellView-CuSF-IN8.js       3.08 kB │ gzip:  1.32 kB
+    dist/assets/WorkDiscoveryView-TLzzqLug.js            4.02 kB │ gzip:  1.85 kB
+    dist/assets/index-CAiYXeZ1.js                       13.93 kB │ gzip:  4.40 kB
+    dist/assets/SurfaceContentView-CpKCf0VO.js          21.91 kB │ gzip:  6.03 kB
+    dist/assets/vue-core-Pi4dzDQH.js                    24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-BfWG6ARn.js     36.38 kB │ gzip: 11.01 kB
+    dist/assets/vendor-D0x-eQIR.js                     105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 202ms
+

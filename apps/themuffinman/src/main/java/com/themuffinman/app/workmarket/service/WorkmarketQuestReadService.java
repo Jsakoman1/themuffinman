@@ -9,6 +9,7 @@ import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestListPresentationDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
@@ -214,6 +215,12 @@ public class WorkmarketQuestReadService {
                 .size(window.size())
                 .totalItems(window.totalItems())
                 .totalPages(window.totalPages())
+                .presentation(QuestListPresentationDTO.builder()
+                        .archetype("focus-list")
+                        .density("scan")
+                        .primaryActionLabel("Open")
+                        .visibleFields(List.of("title", "awardAmount", "scheduledAt", "locationLabel", "status"))
+                        .build())
                 .build());
     }
 

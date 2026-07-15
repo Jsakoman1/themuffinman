@@ -341,7 +341,52 @@ public class VisionCanvasAssembler {
                 .resumeAvailable(resumeAvailableFor(conversation))
                 .resumeHint(resumeHintFor(conversation, turn))
                 .watchFriendly(true)
+                .presentationArchetype(presentationArchetype(turn))
+                .density(densityFor(deviceRoleFor(conversation)))
+                .primaryActionLabel(primaryActionLabel(turn))
+                .visibleFields(visibleFieldsFor(turn))
                 .build();
+    }
+
+    private String presentationArchetype(VisionTurn turn) {
+        if (turn == null || turn.getNextAction() == null) {
+            return "command";
+        }
+        return switch (turn.getNextAction()) {
+            case SHOW_RESULTS -> "focus-list";
+            case SHOW_REVIEW -> "review";
+            case COMPLETE -> "result";
+            case BLOCKED -> "blocked";
+            case ASK_FOR_SLOT -> "command";
+        };
+    }
+
+    private String densityFor(VisionDeviceRoleDTO deviceRole) {
+        return switch (deviceRole) {
+            case WATCH -> "glance";
+            case MOBILE -> "scan";
+            case DESKTOP -> "inspect";
+        };
+    }
+
+    private String primaryActionLabel(VisionTurn turn) {
+        if (turn == null || turn.getNextAction() == null) {
+            return null;
+        }
+        return switch (turn.getNextAction()) {
+            case ASK_FOR_SLOT -> "Continue";
+            case SHOW_RESULTS -> "Choose result";
+            case SHOW_REVIEW -> "Review changes";
+            case COMPLETE -> "Done";
+            case BLOCKED -> "Resolve issue";
+        };
+    }
+
+    private List<String> visibleFieldsFor(VisionTurn turn) {
+        if (turn == null || turn.getRequestedSlot() == null || turn.getRequestedSlot().isBlank()) {
+            return List.of("title", "status", "next_action");
+        }
+        return List.of("title", turn.getRequestedSlot(), "next_action");
     }
 
     private VisionDeviceRoleDTO deviceRoleFor(VisionConversation conversation) {

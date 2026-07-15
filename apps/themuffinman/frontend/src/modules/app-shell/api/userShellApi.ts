@@ -5,13 +5,16 @@ import type {
   BusinessOwnerCalendarProjectionDTO,
   BusinessOwnerDashboardDTO,
   BusinessProfileResponseDTO,
+  ChatConversationListDTO,
   ChatConversationSyncDTO,
+  ChatMessagePageDTO,
   ChatWorkspaceDTO,
   CircleContactListResponseDTO,
   CircleOverviewDTO,
   CircleRequestListResponseDTO,
   DashboardResponseDTO,
   DashboardSummaryDTO,
+  QuestListResponseDTO,
   UserProfileViewDTO
 } from "../../../contracts/index.ts"
 
@@ -24,12 +27,53 @@ export const userShellApi = {
     return (await api.get<DashboardSummaryDTO>("/dashboard/me/summary", withAuth())).data
   },
 
+  async searchQuests(query: {
+    q?: string
+    preset?: "AVAILABLE" | "MY_ACTIVE"
+    sort?: string
+    page?: number
+    size?: number
+    scheduledOnly?: boolean
+    signal?: AbortSignal
+  } = {}): Promise<QuestListResponseDTO> {
+    const params = {
+      q: query.q || undefined,
+      sort: query.sort || undefined,
+      page: query.page ?? 0,
+      size: query.size ?? 12,
+      scheduledOnly: query.scheduledOnly || undefined
+    }
+    const path = query.preset ? `/quests/presets/${query.preset}` : "/quests/search"
+    return (await api.get<QuestListResponseDTO>(path, {params, signal: query.signal, ...withAuth()})).data
+  },
+
+  async getMyApplications(page = 0, size = 20): Promise<import("../../../contracts/index.ts").QuestApplicationListResponseDTO> {
+    return (await api.get<import("../../../contracts/index.ts").QuestApplicationListResponseDTO>("/quests/applications/me", {
+      params: {page, size},
+      ...withAuth()
+    })).data
+  },
+
   async getChatWorkspace(): Promise<ChatWorkspaceDTO> {
-    return (await api.get<ChatWorkspaceDTO>("/chat/workspace", {params: {conversationLimit: 8}, ...withAuth()})).data
+    return (await api.get<ChatWorkspaceDTO>("/chat/workspace", {params: {conversationLimit: 50}, ...withAuth()})).data
+  },
+
+  async getChatConversations(page = 0, limit = 20, beforeLastMessageAt?: string | null, beforeConversationId?: number | null): Promise<ChatConversationListDTO> {
+    return (await api.get<ChatConversationListDTO>("/chat/conversations", {
+      params: {page, limit, beforeLastMessageAt: beforeLastMessageAt || undefined, beforeConversationId: beforeConversationId || undefined},
+      ...withAuth()
+    })).data
   },
 
   async getChatConversationSync(conversationId: number): Promise<ChatConversationSyncDTO> {
-    return (await api.get<ChatConversationSyncDTO>(`/chat/conversations/${conversationId}/sync`, withAuth())).data
+    return (await api.get<ChatConversationSyncDTO>(`/chat/conversations/${conversationId}/sync`, {params: {limit: 50}, ...withAuth()})).data
+  },
+
+  async getChatMessages(conversationId: number, limit = 30, beforeMessageId?: number | null): Promise<ChatMessagePageDTO> {
+    return (await api.get<ChatMessagePageDTO>(`/chat/conversations/${conversationId}/messages`, {
+      params: {limit, beforeMessageId: beforeMessageId || undefined},
+      ...withAuth()
+    })).data
   },
 
   async getBusinessDashboard(): Promise<BusinessOwnerDashboardDTO> {
@@ -42,7 +86,7 @@ export const userShellApi = {
 
   async getBusinessOwnerBookings(): Promise<BusinessBookingListResponseDTO> {
     return (await api.get<BusinessBookingListResponseDTO>("/business/bookings/owner", {
-      params: {page: 0, size: 6},
+      params: {page: 0, size: 50},
       ...withAuth()
     })).data
   },
@@ -57,14 +101,14 @@ export const userShellApi = {
 
   async getIncomingCircleRequests(): Promise<CircleRequestListResponseDTO> {
     return (await api.get<CircleRequestListResponseDTO>("/circles/requests/incoming", {
-      params: {page: 0, size: 4},
+      params: {page: 0, size: 50},
       ...withAuth()
     })).data
   },
 
   async getCircleConnections(): Promise<CircleContactListResponseDTO> {
     return (await api.get<CircleContactListResponseDTO>("/circles/connections", {
-      params: {page: 0, size: 4},
+      params: {page: 0, size: 50},
       ...withAuth()
     })).data
   },

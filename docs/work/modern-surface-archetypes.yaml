@@ -1,0 +1,129 @@
+kind: work
+version: 1
+id: modern-surface-archetypes
+title: Implement real minimal surface archetypes
+status: verified
+baseline: b3a130c
+tasks:
+- id: backend-free-config
+  title: Remove internal planning copy from shell configuration and keep only compact
+    route metadata
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - docs/modern-minimal-product-assessment.md
+  validation: '! rg -n "Phase-one|canonical detail|route proves|placeholder route|supportingText"
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts'
+- id: archetype-components
+  title: Split the generic surface renderer into command, focus-list, inbox-detail,
+    timeline, operations, profile, and review primitives
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: progressive-disclosure
+  title: Make row detail, descriptions, metadata, and secondary actions reveal on
+    selection or explicit request
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: surface-acceptance
+  title: Add route-level acceptance checks proving Work, Chat, Calendar, Business,
+    Circles, and Profile do not render the same default hierarchy
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/router.ts
+  validation: npm --prefix apps/themuffinman/frontend run build
+evidence:
+- task: backend-free-config
+  command: '! rg -n "Phase-one|canonical detail|route proves|placeholder route|supportingText"
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts'
+  ranAt: '2026-07-15T18:55:46Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - docs/modern-minimal-product-assessment.md
+  output: "\n"
+- task: archetype-components
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-15T18:55:46Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  output: |+
+    dist/assets/VisionSurfaceModernView-CVOaApOQ.css    12.60 kB │ gzip:  2.92 kB
+    dist/assets/_plugin-vue_export-helper-B67ILkmu.js    0.08 kB │ gzip:  0.09 kB
+    dist/assets/rolldown-runtime-lhHHWwHU.js             0.15 kB │ gzip:  0.15 kB
+    dist/assets/HomeHubView-Dk9lFCuI.js                  0.52 kB │ gzip:  0.34 kB
+    dist/assets/WorkspaceSurfaceView-Ci4iUtNF.js         0.68 kB │ gzip:  0.42 kB
+    dist/assets/visionHandoff-DxAuXjFE.js                0.79 kB │ gzip:  0.44 kB
+    dist/assets/userShellApi-Cj2OgC6q.js                 1.53 kB │ gzip:  0.51 kB
+    dist/assets/LoginView-B3iCNWYa.js                    1.88 kB │ gzip:  0.90 kB
+    dist/assets/RegisterView-mZpt0Dj7.js                 2.18 kB │ gzip:  0.96 kB
+    dist/assets/shellDefinitions-TZxAnEcX.js             2.55 kB │ gzip:  0.65 kB
+    dist/assets/AuthenticatedShellView-BtIBcidq.js       3.08 kB │ gzip:  1.32 kB
+    dist/assets/WorkDiscoveryView-DhVrUxrC.js            4.10 kB │ gzip:  1.87 kB
+    dist/assets/index-DTdsPVwM.js                       13.93 kB │ gzip:  4.40 kB
+    dist/assets/SurfaceContentView-CLDG79MJ.js          21.95 kB │ gzip:  6.02 kB
+    dist/assets/vue-core-Pi4dzDQH.js                    24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-By-Atoc9.js     35.86 kB │ gzip: 10.84 kB
+    dist/assets/vendor-D0x-eQIR.js                     105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 243ms
+
+- task: progressive-disclosure
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-15T18:55:48Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: surface-acceptance
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-15T18:55:49Z'
+  revision: b3a130c4b76d2efba45f2d0079a4142380e6ef1c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/router.ts
+  output: |+
+    dist/assets/VisionSurfaceModernView-CVOaApOQ.css    12.60 kB │ gzip:  2.92 kB
+    dist/assets/_plugin-vue_export-helper-B67ILkmu.js    0.08 kB │ gzip:  0.09 kB
+    dist/assets/rolldown-runtime-lhHHWwHU.js             0.15 kB │ gzip:  0.15 kB
+    dist/assets/HomeHubView-Dk9lFCuI.js                  0.52 kB │ gzip:  0.34 kB
+    dist/assets/WorkspaceSurfaceView-Ci4iUtNF.js         0.68 kB │ gzip:  0.42 kB
+    dist/assets/visionHandoff-DxAuXjFE.js                0.79 kB │ gzip:  0.44 kB
+    dist/assets/userShellApi-Cj2OgC6q.js                 1.53 kB │ gzip:  0.51 kB
+    dist/assets/LoginView-B3iCNWYa.js                    1.88 kB │ gzip:  0.90 kB
+    dist/assets/RegisterView-mZpt0Dj7.js                 2.18 kB │ gzip:  0.96 kB
+    dist/assets/shellDefinitions-TZxAnEcX.js             2.55 kB │ gzip:  0.65 kB
+    dist/assets/AuthenticatedShellView-BtIBcidq.js       3.08 kB │ gzip:  1.32 kB
+    dist/assets/WorkDiscoveryView-DhVrUxrC.js            4.10 kB │ gzip:  1.87 kB
+    dist/assets/index-DTdsPVwM.js                       13.93 kB │ gzip:  4.40 kB
+    dist/assets/SurfaceContentView-CLDG79MJ.js          21.95 kB │ gzip:  6.02 kB
+    dist/assets/vue-core-Pi4dzDQH.js                    24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-By-Atoc9.js     35.86 kB │ gzip: 10.84 kB
+    dist/assets/vendor-D0x-eQIR.js                     105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 203ms
+

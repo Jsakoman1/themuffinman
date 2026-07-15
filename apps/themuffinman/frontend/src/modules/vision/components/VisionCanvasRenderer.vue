@@ -60,80 +60,14 @@ type TerminalRow = {
   routeLabel?: string
 }
 
-type StatusPill = {
-  key: string
-  label: string
-  tone: "muted" | "strong" | "accent"
-}
-
 const isNonEmptyText = (value: string | null | undefined): value is string => !!value && value.trim().length > 0
 
 const username = computed(() => currentUser.value?.username ?? "there")
 const questionBlock = computed(() => props.displayBlocks.find((block) => block.type === "field_request") ?? null)
 const activeFlowLabel = computed(() => props.activeEntityContextLabel.trim() || props.activeEntityFamilyLabel.trim())
 
-const runtimeStatusLabel = computed(() => {
-  if (!props.runtimeContext) {
-    return ""
-  }
-
-  const parts: string[] = [
-    props.runtimeContext.deviceRole.toUpperCase(),
-    props.runtimeContext.attentionState.replaceAll("_", " ")
-  ]
-
-  if (props.runtimeContext.watchFriendly) {
-    parts.push("watch friendly")
-  }
-
-  return parts.join(" · ")
-})
-
-const runtimePills = computed<StatusPill[]>(() => {
-  if (!props.runtimeContext) {
-    return []
-  }
-
-  const pills: StatusPill[] = [
-    {
-      key: "device",
-      label: props.runtimeContext.deviceRole,
-      tone: "strong"
-    },
-    {
-      key: "attention",
-      label: props.runtimeContext.attentionState.toLowerCase().replaceAll("_", " "),
-      tone: "muted"
-    }
-  ]
-
-  if (props.runtimeContext.sessionAnchor.trim()) {
-    pills.push({
-      key: "anchor",
-      label: props.runtimeContext.sessionAnchor,
-      tone: "accent"
-    })
-  }
-
-  if (props.runtimeContext.watchFriendly) {
-    pills.push({
-      key: "watch",
-      label: "watch friendly",
-      tone: "accent"
-    })
-  }
-
-  return pills
-})
-
-const runtimeHintItems = computed(() => props.runtimeContext?.actionHints.slice(0, 4) ?? [])
-
-const cueLabel = (cue: VisionRuntimeContext["audioCue"] | VisionRuntimeContext["hapticCue"]) => {
-  if (!cue) {
-    return ""
-  }
-  return `${cue.type.toLowerCase().replaceAll("_", " ")} · ${cue.message}`
-}
+const runtimeActionLabel = computed(() => props.runtimeContext?.primaryActionLabel ?? "Ready")
+const runtimeDensityLabel = computed(() => props.runtimeContext?.density ?? "inspect")
 
 const headerLine = computed(() => {
   const segments: string[] = []
@@ -153,7 +87,7 @@ const terminalRows = computed<TerminalRow[]>(() => props.displayBlocks.flatMap<T
   }
 
   if (block.type === "quest_discovery" && block.questDiscovery) {
-    return (block.questDiscovery.items ?? []).slice(0, 6).map((item, itemIndex) => ({
+    return (block.questDiscovery.items ?? []).map((item, itemIndex) => ({
       key: `quest-${blockIndex}-${item.questId}-${item.rank}-${itemIndex}`,
       kind: "choice",
       title: item.title,
@@ -173,7 +107,7 @@ const terminalRows = computed<TerminalRow[]>(() => props.displayBlocks.flatMap<T
   }
 
   if (block.type === "search_discovery" && block.searchDiscovery) {
-    return (block.searchDiscovery.items ?? []).slice(0, 8).map((item, itemIndex) => ({
+    return (block.searchDiscovery.items ?? []).map((item, itemIndex) => ({
       key: `search-${blockIndex}-${item.entityFamily}-${item.targetId}-${item.capabilityId}-${itemIndex}`,
       kind: "choice",
       title: item.title,
@@ -307,41 +241,16 @@ onMounted(() => {
 <template>
   <section class="vision-console">
     <div class="vision-console__paper">
-      <header v-if="runtimeStatusLabel || runtimePills.length || runtimeHintItems.length || props.runtimeContext?.consentRequired" class="vision-console__runtime">
-        <div class="vision-console__runtime-copy">
-          <p v-if="runtimeStatusLabel" class="vision-console__runtime-label">{{ runtimeStatusLabel }}</p>
-          <div v-if="runtimePills.length" class="vision-console__runtime-pills">
-            <span
-              v-for="pill in runtimePills"
-              :key="pill.key"
-              class="vision-console__runtime-pill"
-              :class="`vision-console__runtime-pill--${pill.tone}`"
-            >
-              {{ pill.label }}
-            </span>
-          </div>
+      <header v-if="props.runtimeContext" class="vision-console__runtime">
+        <div class="vision-console__runtime-state">
+          <span class="vision-console__runtime-dot" aria-hidden="true"></span>
+          <span>{{ runtimeActionLabel }}</span>
+          <span class="vision-console__runtime-density">{{ runtimeDensityLabel }}</span>
         </div>
-
-        <div class="vision-console__runtime-guidance">
-          <p v-if="props.runtimeContext?.consentRequired" class="vision-console__runtime-note">
-            Consent required{{ props.runtimeContext.consentReason ? `: ${props.runtimeContext.consentReason}` : "." }}
-          </p>
-          <p v-if="props.runtimeContext?.resumeHint" class="vision-console__runtime-note">
-            Resume: {{ props.runtimeContext.resumeHint }}
-          </p>
-          <p v-if="props.runtimeContext?.audioCue" class="vision-console__runtime-note">
-            Audio: {{ cueLabel(props.runtimeContext.audioCue) }}
-          </p>
-          <p v-if="props.runtimeContext?.hapticCue" class="vision-console__runtime-note">
-            Haptic: {{ cueLabel(props.runtimeContext.hapticCue) }}
-          </p>
-        </div>
+        <p v-if="props.runtimeContext.consentRequired" class="vision-console__runtime-note">
+          Confirm before continuing.
+        </p>
       </header>
-
-      <div v-if="runtimeHintItems.length" class="vision-console__hint-rail" aria-label="Vision action hints">
-        <span class="vision-console__hint-label">Next</span>
-        <span v-for="hint in runtimeHintItems" :key="hint" class="vision-console__hint-pill">{{ hint }}</span>
-      </div>
 
       <div class="vision-console__lines">
         <p v-for="(line, index) in feedLines" :key="`${line.kind}-${index}`" class="vision-console__line" :class="`vision-console__line--${line.kind}`">
@@ -450,7 +359,33 @@ onMounted(() => {
   justify-content: space-between;
   gap: 0.7rem;
   align-items: flex-start;
-  padding: 0.2rem 0 0.15rem;
+  padding: 0.25rem 0 0.15rem;
+}
+
+.vision-console__runtime-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(24, 36, 47, 0.74);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.vision-console__runtime-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #1d5c49;
+}
+
+.vision-console__runtime-density {
+  border-radius: 999px;
+  background: rgba(24, 36, 47, 0.07);
+  padding: 0.2rem 0.45rem;
+  color: rgba(24, 36, 47, 0.5);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .vision-console__runtime-copy {
