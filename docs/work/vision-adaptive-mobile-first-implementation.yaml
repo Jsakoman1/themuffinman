@@ -1,0 +1,33 @@
+kind: master
+version: 1
+id: vision-adaptive-mobile-first-implementation
+title: Implement the remaining Vision adaptive mobile-first program
+status: verified
+baseline: ffc9605
+children:
+- docs/work/vision-presentation-contract.yaml
+- docs/work/vision-shared-design.yaml
+- docs/work/vision-canvas-declutter.yaml
+- docs/work/vision-mobile-watch-contract.yaml
+- docs/work/vision-workspace-modernization.yaml
+- docs/work/vision-read-model-contract.yaml
+- docs/work/vision-migration-closeout.yaml
+dependencies:
+- docs/work/vision-presentation-contract.yaml -> docs/work/vision-shared-design.yaml
+- docs/work/vision-presentation-contract.yaml -> docs/work/vision-canvas-declutter.yaml
+- docs/work/vision-presentation-contract.yaml -> docs/work/vision-mobile-watch-contract.yaml
+- docs/work/vision-shared-design.yaml -> docs/work/vision-workspace-modernization.yaml
+- docs/work/vision-mobile-watch-contract.yaml -> docs/work/vision-read-model-contract.yaml
+- docs/work/vision-workspace-modernization.yaml -> docs/work/vision-read-model-contract.yaml
+- docs/work/vision-read-model-contract.yaml -> docs/work/vision-migration-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-15T18:22:13Z'
+  revision: ffc960538798219460317dae764c11ce6db2decd
+  children:
+  - docs/work/vision-presentation-contract.yaml
+  - docs/work/vision-shared-design.yaml
+  - docs/work/vision-canvas-declutter.yaml
+  - docs/work/vision-mobile-watch-contract.yaml
+  - docs/work/vision-workspace-modernization.yaml
+  - docs/work/vision-read-model-contract.yaml
+  - docs/work/vision-migration-closeout.yaml

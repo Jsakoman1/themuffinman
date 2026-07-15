@@ -8,6 +8,7 @@ This document is the technical source of truth for core product behavior. It sho
 - `social`: circles, memberships, requests, blocking, and relation lookup
 - `workmarket`: quests, applications, quest news, dashboards, reviews
 - `business`: business profiles, public pages, service catalog, availability, bookings, gallery, and owner dashboard reads
+- Business public reads are anonymous; booking writes and booking reads require an authenticated `AppUser`, and there is no guest booking entity or token flow in the current domain model.
 - `things`: lending listings and borrower request workflow
 - `rides`: voluntary ride offers with optional circle-scoped visibility
 - `chat`: direct conversations, group threads, context-owned rooms, messages, presence, realtime updates
@@ -21,6 +22,7 @@ Domain capsules:
 - Backend domain roots under `apps/themuffinman/src/main/java/com/themuffinman/app/*/README.md` summarize responsibility, main entrypoints, tests, living docs, and forbidden shortcuts for that domain.
 - Frontend module roots under `apps/themuffinman/frontend/src/modules/*/README.md` provide the same first-read capsule for route and UI work.
 - `docs/cross-domain-glossary.md` defines shared terms such as users, actors, circles, visibility, consent, messaging, quests, applications, reviews, bookings, and synthetic data before deeper domain-specific rules.
+- `docs/vision-presentation-contract.yaml` is the machine-readable presentation contract for Vision state, device density, field visibility, and shell handoff ownership.
 
 Frontend vision surface note:
 - `apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue` now provides the shared authenticated shell for stable route entry across `/home`, `/work`, `/chat`, `/calendar`, `/business`, `/circles`, and `/profile`.
@@ -35,6 +37,7 @@ Frontend vision surface note:
 - The `/vision` route is the focused adaptive surface for text and voice prompt intake, and the older vision shell has been removed from the app.
 - The surface now keeps its prompt composer and canvas content in one inline flow instead of a separate floating dock, so the adaptive stage can expand or contract around the current state.
 - The `/vision` route shell should prefer contextual reveal controls for state and recent-task memory instead of permanent page-level chrome, so the blank-canvas default stays visually quiet.
+- Vision developer diagnostics are opt-in through the explicit `debug=1` route query; the normal user canvas does not render the debug or intent-preview rail.
 - `/vision` uses backend-managed prompt decoding, transcription, speech synthesis, and agent planning through `POST /dashboard/me/vision/prompt`, `GET /dashboard/me/voice-config`, `POST /dashboard/me/voice/transcribe`, and `POST /dashboard/me/voice/speak`, while typed `app.voice.*` config still controls whether the frontend may record or play voice. Prompt understanding defaults to `gpt-4o-mini`, with an explicit upgrade flag for heavier semantic interpretation when needed.
 - `app.voice.max-recording-millis`, `app.voice.max-audio-bytes`, and `app.voice.max-speech-text-length` are included in the dashboard voice config; the frontend applies them before upload/playback and `DashboardVoiceService` enforces audio and speech-text size limits before calling OpenAI.
 - Phase 1 `/vision` orchestration now also exposes `POST /vision/conversations/turns`, backed by persisted `vision_conversation` and `vision_turn` records, for stepwise backend-owned conversation state.

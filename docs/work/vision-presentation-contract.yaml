@@ -1,0 +1,48 @@
+kind: work
+version: 1
+id: vision-presentation-contract
+title: Define the backend-owned Vision presentation contract
+status: verified
+baseline: ffc9605
+tasks:
+- id: state-archetypes
+  title: Publish the state-to-archetype and density policy
+  type: implementation
+  status: done
+  paths:
+  - docs/vision-presentation-contract.yaml
+  - docs/vision-architecture-patterns.md
+  validation: ruby -e 'require "yaml"; YAML.load_file("docs/vision-presentation-contract.yaml");
+    puts "presentation contract valid"'
+- id: field-classification
+  title: Classify runtime fields and handoff ownership
+  type: implementation
+  status: done
+  paths:
+  - docs/vision-presentation-contract.yaml
+  - docs/domain-technical.md
+  validation: rg -q 'public|conditional|native_only|diagnostic_only' docs/vision-presentation-contract.yaml
+    && rg -q 'presentation contract' docs/domain-technical.md
+evidence:
+- task: state-archetypes
+  command: ruby -e 'require "yaml"; YAML.load_file("docs/vision-presentation-contract.yaml");
+    puts "presentation contract valid"'
+  ranAt: '2026-07-15T18:06:46Z'
+  revision: ffc960538798219460317dae764c11ce6db2decd
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/vision-architecture-patterns.md
+  - docs/vision-presentation-contract.yaml
+  output: "presentation contract valid\n\n"
+- task: field-classification
+  command: rg -q 'public|conditional|native_only|diagnostic_only' docs/vision-presentation-contract.yaml
+    && rg -q 'presentation contract' docs/domain-technical.md
+  ranAt: '2026-07-15T18:06:46Z'
+  revision: ffc960538798219460317dae764c11ce6db2decd
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-technical.md
+  - docs/vision-presentation-contract.yaml
+  output: "\n"

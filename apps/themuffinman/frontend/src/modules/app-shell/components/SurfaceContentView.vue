@@ -14,22 +14,12 @@ const props = defineProps<{
   note?: string
 }>()
 
-const fallbackSections = computed<ShellSurfaceSection[]>(() => props.config.sections.map((section) => ({
-  title: section.title,
-  description: section.description,
-  emptyState: "No items are available yet.",
-  rows: section.items.map((item, index) => ({
-    id: `${section.title}-${index}`,
-    title: item,
-    description: "Phase-one shell guidance."
-  }))
-})))
+const surfaceClass = computed(() => `surface-content--${props.config.archetype}`)
 
-const resolvedSections = computed(() => props.sections.length > 0 ? props.sections : fallbackSections.value)
 </script>
 
 <template>
-  <section class="surface-content">
+  <section class="surface-content" :class="surfaceClass">
     <div class="surface-content__hero">
       <div class="surface-content__hero-copy">
         <p class="surface-content__eyebrow">{{ config.eyebrow }}</p>
@@ -79,7 +69,7 @@ const resolvedSections = computed(() => props.sections.length > 0 ? props.sectio
 
     <div class="surface-content__sections">
       <article
-        v-for="section in resolvedSections"
+        v-for="section in sections"
         :key="section.title"
         class="surface-content__card"
       >
@@ -116,30 +106,47 @@ const resolvedSections = computed(() => props.sections.length > 0 ? props.sectio
         <p v-else class="surface-content__empty-state">{{ section.emptyState }}</p>
       </article>
     </div>
+    <p v-if="sections.length === 0" class="surface-content__empty-surface">
+      No live items are available for this surface yet.
+    </p>
   </section>
 </template>
 
 <style scoped>
 .surface-content {
   display: grid;
-  gap: 1rem;
+  gap: var(--space-4);
+}
+
+.surface-content--chat .surface-content__sections {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.surface-content--calendar .surface-content__sections,
+.surface-content--business .surface-content__sections {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.surface-content--profile .surface-content__hero,
+.surface-content--circles .surface-content__hero {
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.72fr);
 }
 
 .surface-content__hero,
 .surface-content__metric,
 .surface-content__card,
 .surface-content__status-card {
-  border-radius: 1.35rem;
+  border-radius: var(--radius-card);
   border: 1px solid rgba(23, 34, 26, 0.08);
   background: rgba(255, 255, 255, 0.84);
-  box-shadow: 0 18px 40px rgba(23, 34, 26, 0.06);
+  box-shadow: var(--shadow-card);
 }
 
 .surface-content__hero {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.92fr);
-  gap: 1rem;
-  padding: 1.15rem;
+  gap: var(--space-4);
+  padding: var(--space-5);
 }
 
 .surface-content__hero-copy,
@@ -165,7 +172,7 @@ const resolvedSections = computed(() => props.sections.length > 0 ? props.sectio
 
 .surface-content__hero-copy {
   display: grid;
-  gap: 0.42rem;
+  gap: var(--space-1);
 }
 
 .surface-content__eyebrow {

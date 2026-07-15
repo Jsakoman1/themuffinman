@@ -9,6 +9,7 @@ The compact companion set for daily work is:
 - `docs/vision-context-gateway.md`
 - `docs/vision-decision-record.md`
 - `docs/vision-status-ledger.md`
+- `docs/vision-presentation-contract.yaml`
 
 ## Product Target
 
@@ -39,6 +40,12 @@ Preferred order:
 5. first execution adapter under flag
 
 Use `docs/implementation-control.md` and the owning work plan as the enforcement layer for this start pattern.
+
+The machine-readable presentation policy lives in `docs/vision-presentation-contract.yaml`. Extend that contract before
+adding new device-specific or user-visible Vision states.
+
+Shared web surfaces must honor reduced-motion preferences, keyboard focus visibility, safe-area insets, and a minimum
+touch target before a migration slice can be considered usable on phone-sized screens.
 
 ## Core Principle
 

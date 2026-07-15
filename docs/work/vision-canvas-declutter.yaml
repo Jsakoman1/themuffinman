@@ -1,0 +1,65 @@
+kind: work
+version: 1
+id: vision-canvas-declutter
+title: Remove duplicate Vision support context
+status: verified
+baseline: ffc9605
+tasks:
+- id: support-rail
+  title: Replace default support/debug duplication with contextual disclosure
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: inline-feed
+  title: Keep transcript, slot, review, and completion in one inline feed
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+evidence:
+- task: support-rail
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-15T18:08:22Z'
+  revision: ffc960538798219460317dae764c11ce6db2decd
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: inline-feed
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-15T18:08:23Z'
+  revision: ffc960538798219460317dae764c11ce6db2decd
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  output: |+
+    dist/assets/SurfaceContentView-BbInG5F3.css          5.51 kB │ gzip:  1.04 kB
+    dist/assets/AuthenticatedShellView-BX1q0A7X.css      5.60 kB │ gzip:  1.36 kB
+    dist/assets/VisionSurfaceModernView-CXOaDvvV.css    12.16 kB │ gzip:  2.85 kB
+    dist/assets/_plugin-vue_export-helper-B67ILkmu.js    0.08 kB │ gzip:  0.09 kB
+    dist/assets/rolldown-runtime-lhHHWwHU.js             0.15 kB │ gzip:  0.15 kB
+    dist/assets/HomeHubView-AHPJSIfk.js                  0.52 kB │ gzip:  0.34 kB
+    dist/assets/SectionHubView-Dt_M2zcz.js               0.68 kB │ gzip:  0.41 kB
+    dist/assets/visionHandoff-B6rzp9-4.js                0.79 kB │ gzip:  0.44 kB
+    dist/assets/LoginView-sPa4mhHi.js                    1.88 kB │ gzip:  0.91 kB
+    dist/assets/RegisterView-Cy_zdIVP.js                 2.17 kB │ gzip:  0.96 kB
+    dist/assets/AuthenticatedShellView-D-bTA0Dw.js       3.75 kB │ gzip:  1.55 kB
+    dist/assets/shellDefinitions-Bwo2cfKa.js            13.69 kB │ gzip:  3.73 kB
+    dist/assets/index-BV3GX34X.js                       13.71 kB │ gzip:  4.32 kB
+    dist/assets/SurfaceContentView-ByivE5Df.js          20.23 kB │ gzip:  5.79 kB
+    dist/assets/vue-core-BfAHnWPC.js                    24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-BgzYZAxE.js     38.14 kB │ gzip: 11.34 kB
+    dist/assets/vendor-Dz4ql2Dj.js                     103.34 kB │ gzip: 39.95 kB
+
+    ✓ built in 190ms
+

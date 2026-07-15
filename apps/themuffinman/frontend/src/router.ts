@@ -6,7 +6,7 @@ const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
 const AuthenticatedShellView = () => import("./modules/app-shell/views/AuthenticatedShellView.vue");
 const HomeHubView = () => import("./modules/app-shell/views/HomeHubView.vue");
-const SectionHubView = () => import("./modules/app-shell/views/SectionHubView.vue");
+const SectionHubView = () => import("./modules/app-shell/views/WorkspaceSurfaceView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
 
 const visionBridgeRoutes = visionBridgeRouteDefinitions.map((definition) => ({

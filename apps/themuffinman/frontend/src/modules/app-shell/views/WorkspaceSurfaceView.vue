@@ -6,17 +6,9 @@ import {getAppSurfaceConfig, type AppSurfaceId} from "../shellDefinitions.ts"
 import {useShellSurfaceData} from "../shellSurfaceData.ts"
 
 const route = useRoute()
-
 const surfaceId = computed(() => route.meta.surfaceId as AppSurfaceId)
 const surface = computed(() => getAppSurfaceConfig(surfaceId.value))
-const detailLabel = computed(() => {
-  if (route.params.conversationId) {
-    return `Conversation #${route.params.conversationId}`
-  }
-
-  return ""
-})
-
+const detailLabel = computed(() => route.params.conversationId ? `Conversation #${route.params.conversationId}` : "")
 const {model, isLoading, error} = useShellSurfaceData(surfaceId, route)
 </script>
 

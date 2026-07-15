@@ -57,9 +57,10 @@ const updateInputText = (value: string) => {
 }
 
 const previewVisible = computed(() => hasVisionPreviewContent(response.value))
-
-const showPreviewRail = computed(() => previewVisible.value)
-const showFlowDebugRail = computed(() => shouldShowVisionFlowDebugRail(response.value, lastTranscript.value, voiceState.value))
+const debugRailRequested = computed(() => route.query.debug === "1")
+const showPreviewRail = computed(() => debugRailRequested.value && previewVisible.value)
+const showFlowDebugRail = computed(() => debugRailRequested.value && shouldShowVisionFlowDebugRail(response.value, lastTranscript.value, voiceState.value))
+const showDebugRail = computed(() => showPreviewRail.value || showFlowDebugRail.value)
 const handoffContext = computed(() => {
   const context = route.query.context
   return typeof context === "string" ? context.trim() : ""
@@ -180,7 +181,7 @@ watch(
         </RouterLink>
       </div>
 
-      <div class="vision-surface__layout" :class="{ 'vision-surface__layout--preview': showPreviewRail }">
+      <div class="vision-surface__layout" :class="{ 'vision-surface__layout--preview': showDebugRail }">
         <section class="vision-surface__console">
           <VisionCanvasRenderer
             :response="response"
@@ -217,7 +218,7 @@ watch(
           />
         </section>
 
-        <aside v-if="showPreviewRail || showFlowDebugRail" class="vision-surface__preview-rail" aria-label="Vision preview rail">
+        <aside v-if="showDebugRail" class="vision-surface__preview-rail" aria-label="Vision developer diagnostics">
           <VisionFlowDebugPanel
             :response="response"
             :last-transcript="lastTranscript"

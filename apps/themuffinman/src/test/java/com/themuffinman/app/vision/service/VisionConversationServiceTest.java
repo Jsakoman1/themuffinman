@@ -131,7 +131,9 @@ class VisionConversationServiceTest {
         SemanticAliasRegistry semanticAliasRegistry = new SemanticAliasRegistry();
         VisionSemanticRouteCatalogService visionSemanticRouteCatalogService = new VisionSemanticRouteCatalogService();
         VisionIntentRouter visionIntentRouter = new VisionIntentRouter(visionProperties, visionSemanticRouteCatalogService);
-        VisionScheduleParserService visionScheduleParserService = new VisionScheduleParserService();
+        VisionScheduleParserService visionScheduleParserService = new VisionScheduleParserService(
+                java.time.Clock.fixed(java.time.Instant.parse("2026-06-30T10:00:00Z"), java.time.ZoneId.of("Europe/Zurich"))
+        );
         VisionLocationParserService visionLocationParserService = new VisionLocationParserService();
         VisionLocationResolutionService visionLocationResolutionService = new VisionLocationResolutionService(
                 visionLocationParserService,
@@ -2154,7 +2156,7 @@ class VisionConversationServiceTest {
 
         assertEquals("scheduled_time", fixedModeResponse.getRequestedSlot());
         assertEquals("fixed", conversation.getSlotData().get("schedule_mode"));
-        assertEquals("2026-07-14", conversation.getSlotData().get("scheduled_date"));
+        assertEquals("2026-07-07", conversation.getSlotData().get("scheduled_date"));
         assertNull(conversation.getSlotData().get("scheduled_time"));
     }
 

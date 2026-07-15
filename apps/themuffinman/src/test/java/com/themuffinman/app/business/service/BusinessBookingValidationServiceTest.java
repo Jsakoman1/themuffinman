@@ -47,8 +47,8 @@ class BusinessBookingValidationServiceTest {
         assertThrows(ResponseStatusException.class, () -> businessBookingValidationService.validateCreate(
                 offering,
                 owner,
-                Instant.parse("2026-07-12T09:00:00Z"),
-                Instant.parse("2026-07-12T10:00:00Z"),
+                Instant.parse("2026-08-12T09:00:00Z"),
+                Instant.parse("2026-08-12T10:00:00Z"),
                 policy()
         ));
     }
@@ -58,8 +58,8 @@ class BusinessBookingValidationServiceTest {
         AppUser owner = user(1L, "owner");
         AppUser customer = user(2L, "customer");
         BusinessOffering offering = offering(owner);
-        Instant start = Instant.parse("2026-07-12T09:00:00Z");
-        Instant end = Instant.parse("2026-07-12T10:00:00Z");
+        Instant start = Instant.parse("2026-08-12T09:00:00Z");
+        Instant end = Instant.parse("2026-08-12T10:00:00Z");
 
         when(businessAvailabilityRuleRepository.findActiveByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
         when(businessAvailabilityExceptionRepository.findByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());

@@ -1,0 +1,59 @@
+kind: work
+version: 1
+id: vision-mobile-watch-contract
+title: Complete phone and Watch presentation policy
+status: verified
+baseline: ffc9605
+tasks:
+- id: device-matrix
+  title: Define device-role, attention-state, and allowed-action matrices
+  type: implementation
+  status: done
+  paths:
+    - docs/vision-presentation-contract.yaml
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  validation: "(cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest)"
+- id: device-fixtures
+  title: Add focused contract fixtures for phone and Watch states
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  validation: "(cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest)"
+evidence:
+- task: device-matrix
+  command: "(cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest)"
+  ranAt: '2026-07-15T18:09:21Z'
+  revision: ffc960538798219460317dae764c11ce6db2decd
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/vision-presentation-contract.yaml
+  output: "[INFO] --- surefire:3.5.5:test (default-test) @ themuffinman ---\n[INFO]
+    Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO]
+    \n[INFO] -------------------------------------------------------\n[INFO]  T E
+    S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.docs.AgentOperatingModelValidationTest\n[INFO] Tests
+    run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.129 s -- in com.themuffinman.app.docs.AgentOperatingModelValidationTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  1.445 s\n[INFO] Finished at: 2026-07-15T20:09:23+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: device-fixtures
+  command: "(cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest)"
+  ranAt: '2026-07-15T18:09:23Z'
+  revision: ffc960538798219460317dae764c11ce6db2decd
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  output: "[INFO] --- surefire:3.5.5:test (default-test) @ themuffinman ---\n[INFO]
+    Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO]
+    \n[INFO] -------------------------------------------------------\n[INFO]  T E
+    S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.docs.AgentOperatingModelValidationTest\n[INFO] Tests
+    run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.123 s -- in com.themuffinman.app.docs.AgentOperatingModelValidationTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  1.227 s\n[INFO] Finished at: 2026-07-15T20:09:25+02:00\n[INFO] ------------------------------------------------------------------------\n\n"

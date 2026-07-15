@@ -1,0 +1,37 @@
+version: 1
+purpose: Inventory existing backend-prepared surfaces before adding new workspace or mobile DTOs.
+routes:
+  home:
+    current: dashboard_summary
+    status: covered
+  my_work:
+    current: dashboard_quests_and_applications
+    status: covered
+  find_work:
+    current: dashboard_discover_quests
+    status: covered
+  chat:
+    current: chat_workspace_and_conversation_reads
+    status: covered
+  profile:
+    current: profile_read_and_update_contract
+    status: covered
+  business_owner:
+    current: business_owner_dashboard_bookings_and_calendar
+    status: covered
+  public_business:
+    current: business_public_read_and_availability_with_authenticated_booking_boundary
+    status: covered
+    evidence: Public page, offerings, and availability are anonymous read surfaces; booking writes require an authenticated AppUser and are owned by BusinessBookingController and BusinessCreateBookingUseCase.
+  calendar:
+    current: work_planner_and_business_owner_calendar
+    status: covered
+    evidence: shellSurfaceData maps planner and business-owner calendar items into the shared calendar archetype; presentation density and device rules are defined in docs/vision-presentation-contract.yaml
+devices:
+  web: backend_sections_and_actions
+  phone: same sections with compact density and resumable loading/error/empty states
+  watch: summary, attention, safe action, and phone handoff only
+rules:
+  - add a DTO only when an existing read model cannot express the required viewer state
+  - permissions, visibility, consent, pagination, and action availability stay backend-owned
+  - generated frontend contracts are refreshed after DTO or endpoint changes

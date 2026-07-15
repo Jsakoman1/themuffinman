@@ -6,6 +6,16 @@
   --vision-surface-ink: #1a242f;
   --vision-surface-ink-muted: rgba(26, 36, 47, 0.62);
   --vision-surface-ink-soft: rgba(26, 36, 47, 0.46);
+  --space-1: 0.35rem;
+  --space-2: 0.55rem;
+  --space-3: 0.8rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --radius-card: 1.35rem;
+  --radius-control: 0.8rem;
+  --shadow-card: 0 18px 40px rgba(23, 34, 26, 0.06);
+  --focus-ring: 0 0 0 3px rgba(35, 105, 161, 0.28);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 *,
@@ -43,6 +53,30 @@ button {
   cursor: pointer;
 }
 
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 #app {
-  min-height: 100vh;
+  min-height: 100svh;
+  padding-bottom: var(--safe-bottom);
+}
+
+@media (pointer: coarse) {
+  button,
+  a {
+    min-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

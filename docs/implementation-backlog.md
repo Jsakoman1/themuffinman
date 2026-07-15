@@ -8,6 +8,7 @@ Keep only currently open items here. When an item is implemented, remove it from
 
 ## Open Items
 
+
 ## Intake Rules
 
 - Record new deferred implementation or control-system work in the appropriate persistent backlog with a stable ID before closing the change that discovered it.

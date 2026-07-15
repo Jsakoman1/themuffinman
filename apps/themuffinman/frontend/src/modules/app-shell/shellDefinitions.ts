@@ -29,6 +29,15 @@ export type AppSurfaceId =
   | "profile"
   | "profile-settings"
 
+export type AppSurfaceArchetype =
+  | "home"
+  | "work"
+  | "chat"
+  | "calendar"
+  | "business"
+  | "circles"
+  | "profile"
+
 export type AppSurfaceAction = {
   label: string
   description: string
@@ -44,6 +53,7 @@ export type AppSurfaceSection = {
 
 export type AppSurfaceConfig = {
   id: AppSurfaceId
+  archetype: AppSurfaceArchetype
   navId: AppPrimaryNavId
   eyebrow: string
   title: string
@@ -81,6 +91,7 @@ export const appPrimaryNavItems: AppPrimaryNavItem[] = buildAppPrimaryNavItems()
 const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   home: {
     id: "home",
+    archetype: "home",
     navId: "home",
     eyebrow: "Shared Utility",
     title: "One calm place to start.",
@@ -145,6 +156,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   work: {
     id: "work",
+    archetype: "work",
     navId: "work",
     eyebrow: "Work",
     title: "Browse work without losing the guided path.",
@@ -202,6 +214,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "work-quests": {
     id: "work-quests",
+    archetype: "work",
     navId: "work",
     eyebrow: "Work / My Quests",
     title: "Quest ownership stays in Work entry space.",
@@ -235,6 +248,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "work-applications": {
     id: "work-applications",
+    archetype: "work",
     navId: "work",
     eyebrow: "Work / Applications",
     title: "Applications stay nested under Work.",
@@ -268,6 +282,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   chat: {
     id: "chat",
+    archetype: "chat",
     navId: "chat",
     eyebrow: "Chat",
     title: "Stable workspace for inbox and threads.",
@@ -301,6 +316,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "chat-conversation": {
     id: "chat-conversation",
+    archetype: "chat",
     navId: "chat",
     eyebrow: "Chat / Conversation",
     title: "Thread detail stays chat-owned.",
@@ -334,6 +350,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   calendar: {
     id: "calendar",
+    archetype: "calendar",
     navId: "calendar",
     eyebrow: "Calendar",
     title: "Time is an index, not the detail owner.",
@@ -367,6 +384,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   business: {
     id: "business",
+    archetype: "business",
     navId: "business",
     eyebrow: "Business",
     title: "Owner operations need their own stable lane.",
@@ -406,6 +424,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "business-profile": {
     id: "business-profile",
+    archetype: "business",
     navId: "business",
     eyebrow: "Business / Profile",
     title: "Business identity stays business-owned.",
@@ -439,6 +458,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "business-bookings": {
     id: "business-bookings",
+    archetype: "business",
     navId: "business",
     eyebrow: "Business / Bookings",
     title: "Bookings stay operational and route-owned.",
@@ -472,6 +492,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "business-calendar": {
     id: "business-calendar",
+    archetype: "business",
     navId: "business",
     eyebrow: "Business / Calendar",
     title: "Owner calendar stays a business route.",
@@ -505,6 +526,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   circles: {
     id: "circles",
+    archetype: "circles",
     navId: "circles",
     eyebrow: "Circles",
     title: "Trust and visibility need a stable entry lane.",
@@ -532,6 +554,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   profile: {
     id: "profile",
+    archetype: "profile",
     navId: "profile",
     eyebrow: "Profile",
     title: "Self-facing information stays calm and stable.",
@@ -565,6 +588,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "profile-settings": {
     id: "profile-settings",
+    archetype: "profile",
     navId: "profile",
     eyebrow: "Profile / Settings",
     title: "Settings stay nested and quiet.",

@@ -1,0 +1,79 @@
+version: 1
+purpose: Backend-owned presentation policy for Vision, workspace, phone, and Watch clients.
+principles:
+  - backend_decides_meaning
+  - frontend_renders_state
+  - one_primary_next_step
+  - voice_is_never_voice_only
+states:
+  idle:
+    archetype: blank_canvas
+    public_fields: [composer, primary_prompt]
+    density: glance
+    next_step: start_prompt
+  listening:
+    archetype: active_capture
+    public_fields: [transcript, cancel_action, audio_state]
+    density: glance
+    next_step: finish_input
+  working:
+    archetype: progress
+    public_fields: [short_status, cancel_action]
+    density: glance
+    next_step: wait
+  needs_input:
+    archetype: focused_request
+    public_fields: [requested_field, short_explanation, suggested_values]
+    density: act
+    next_step: provide_value
+  review:
+    archetype: decision_surface
+    public_fields: [summary, editable_fields, confirm_action, cancel_action]
+    density: act
+    next_step: confirm_or_edit
+  complete:
+    archetype: result
+    public_fields: [result_summary, next_action, return_target]
+    density: act
+    next_step: continue_or_return
+  blocked:
+    archetype: recovery
+    public_fields: [blocking_reason, safe_next_action, support_context]
+    density: act
+    next_step: resolve_blocker
+  discovery:
+    archetype: ranked_results
+    public_fields: [result_items, filters, selected_action]
+    density: inspect
+    next_step: open_or_refine
+field_classification:
+  public: [canvasMode, blocks, runtimeContext.attentionState, runtimeContext.actionHints]
+  conditional: [memoryTrail, sessionSummary, topicSwitchHint, runtimeContext.audioCue, runtimeContext.hapticCue]
+  native_only: [runtimeContext.watchFriendly, runtimeContext.deviceRole]
+  diagnostic_only: [providerStatus, rawSemanticEnvelope, internalResolverTrace, debugMetadata]
+density_policy:
+  glance: one status signal and one primary action
+  act: one decision, supporting context, and explicit action controls
+  inspect: structured results with progressive detail; never raw internal state
+handoff:
+  fields: [prompt, autorun, context, source, returnTo]
+  ownership:
+    workspace: browse_and_known_detail
+    vision: semantic_guidance_and_reviewed_execution
+    phone: compact_rendering_and_voice_continuation
+    watch: status_acknowledge_confirm_decline_and_phone_handoff_only
+device_matrix:
+  web:
+    density: inspect
+    allowed_actions: [all_backend_exposed_actions]
+    interruption: persistent_contextual_state
+  phone:
+    density: act
+    allowed_actions: [all_backend_exposed_actions]
+    interruption: resumable_summary_and_next_action
+    layout: one_thumb_safe_area_aware
+  watch:
+    density: glance
+    allowed_actions: [status, acknowledge, confirm, decline, compact_voice_capture, phone_handoff]
+    forbidden_actions: [freeform_domain_mutation,_long_form_editing,full_result_browsing]
+    interruption: short_haptic_or_visual_cue_with_phone_handoff

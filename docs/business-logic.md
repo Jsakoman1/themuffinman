@@ -726,6 +726,7 @@ Current covered modules:
 
 ### Business booking rules
 
+- Public business discovery, offering reads, and availability reads are anonymous read-only surfaces. Creating, reading, or changing a booking requires an authenticated registered user; guest booking is intentionally outside the current MVP contract because booking ownership, verification, cancellation, and notification identity must remain accountable to an AppUser.
 - A business offering is the actual bookable service root, not the profile row itself.
 - Offerings may be fixed-duration, customer-selected duration, or all-day offerings.
 - Offerings may allow one booking per slot or shared-capacity booking with multiple parallel reservations.
