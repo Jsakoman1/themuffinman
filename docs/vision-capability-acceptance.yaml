@@ -1,0 +1,52 @@
+kind: acceptance-matrix
+version: 1
+id: vision-capability-acceptance
+source_plan: docs/work/vision-execution-acceptance.yaml
+baseline: 6018777
+scenarios:
+  - id: create-quest-review-confirm
+    capability_id: vision.create_quest
+    states: [ASKING, REVIEW_READY, COMPLETE]
+    required: [field-collection, review-summary, explicit-confirmation, success-result]
+    evidence:
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java
+      - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - id: read-discovery-open-detail
+    capability_id: vision.read_discovery
+    states: [RECOMMENDING, COMPLETE]
+    required: [result-summary, visible-items, open-detail-route]
+    evidence:
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java
+      - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - id: permission-and-blocked
+    capability_id: vision.execution
+    states: [BLOCKED]
+    required: [permission-check, blocking-reason, no-success-claim]
+    evidence:
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java
+  - id: transport-recovery
+    capability_id: vision.execution
+    states: [ASKING, BLOCKED]
+    required: [error-state, retryable-input, reset-or-cancel]
+    evidence:
+      - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+      - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+      - apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts
+    safety_note: Mutation and review actions require an explicit new user action and are never auto-retried.
+  - id: large-discovery-follow-up
+    capability_id: vision.read_discovery
+    states: [RECOMMENDING]
+    required: [has-more-contract, explicit-fetch-more-action]
+    status: done
+    implemented:
+      - quest discovery continuation via FETCH_MORE_RESULTS
+      - persisted discovery page in the conversation slot data
+    evidence:
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversationAction.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java
+      - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+    notes:
+      - Search continuation uses a conversation-scoped aggregate cursor over the bounded candidate window.
+evidence_policy:
+  completion_requires: [backend-contract, frontend-behavior, validation-command]

@@ -1,0 +1,400 @@
+version: 1
+kind: product_capability_inventory
+title: TheMuffinMan capability inventory
+description: >
+  Canonical product truth for what TheMuffinMan should support, what the current
+  code exposes, and what remains missing, broken, or only partially implemented.
+  This file is the machine-readable source for future implementation planning.
+last_reviewed: 2026-07-15
+review_policy:
+  owner: product-and-engineering
+  cadence: every_master_plan_closeout
+  rule: >
+    A capability may be marked implemented only when its intended behavior,
+    backend boundary, user-facing surface, and validation evidence agree.
+active_plans:
+  - id: capability-coverage-and-reliability
+    path: docs/work/capability-coverage-and-reliability.yaml
+    scope: critical and high product capability gaps
+  - id: work-capability-closure
+    path: docs/work/work-capability-closure.yaml
+    scope: Work create, management, and application gaps
+statuses:
+  planned: The product intends to support it, but implementation has not started.
+  not_offered: Some supporting code may exist, but users have no usable product surface.
+  partial: A meaningful slice exists, but one or more intended workflows or clients are missing.
+  broken: The capability is offered but a known defect prevents reliable use.
+  implemented: The primary web/backend workflow exists, but broader clients or polish may remain.
+  verified: Implemented and validated against its current acceptance criteria.
+  deprecated: Deliberately being removed or replaced.
+priorities:
+  - critical
+  - high
+  - medium
+  - low
+source_documents:
+  - id: vision
+    path: docs/product-vision.md
+    role: intended product direction and interaction principles
+  - id: memory
+    path: docs/product-memory.md
+    role: durable product and architecture lessons
+  - id: business_logic
+    path: docs/business-logic.md
+    role: user-facing behavior and rules
+  - id: domain_technical
+    path: docs/domain-technical.md
+    role: entities, permissions, workflows, and invariants
+  - id: readme
+    path: apps/themuffinman/README.md
+    role: current module boundaries and implementation notes
+  - id: vision_status
+    path: docs/vision-status-ledger.md
+    role: current Vision capability history and known limitations
+  - id: modern_master_plan
+    path: docs/work/modern-minimal-adaptive-product.yaml
+    role: latest verified adaptive surface implementation batch
+modules:
+  - id: platform
+    name: Platform and identity
+    capabilities:
+      - id: platform.authentication
+        name: Account registration, login, session, and logout
+        status: implemented
+        priority: critical
+        current:
+          backend: ["/auth/register", "/auth/login", "/auth/me"]
+          web: ["/login", "/register"]
+        gaps:
+          - mobile and Watch clients
+          - complete browser acceptance coverage
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/identity, apps/themuffinman/src/main/java/com/themuffinman/app/identity]
+      - id: platform.profile
+        name: User profile, ratings, reviews, and profile actions
+        status: implemented
+        priority: high
+        current:
+          backend: ["/app_users/me", "/app_users/{id}/profile-view"]
+          web: ["/profile", "/profile/settings"]
+        gaps:
+          - dedicated inline profile editing surface
+          - complete visibility and consent explanation
+          - mobile/watch presentation
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts]
+      - id: platform.location
+        name: Location preferences, current location, and locality-aware discovery
+        status: partial
+        priority: high
+        current:
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/location]
+        gaps:
+          - consistent user-facing location permission and correction flow
+          - full mobile location lifecycle
+        evidence:
+          docs: [docs/business-logic.md, docs/domain-technical.md]
+
+  - id: vision
+    name: Vision adaptive command surface
+    capabilities:
+      - id: vision.command.input
+        name: Text and voice prompt intake
+        status: implemented
+        priority: critical
+        current:
+          web: ["/vision"]
+          backend: ["/vision/conversations/turns", "/dashboard/me/voice/transcribe", "/dashboard/me/voice/speak"]
+        gaps:
+          - native mobile/watch input clients
+          - browser-level voice acceptance suite
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/vision, apps/themuffinman/src/main/java/com/themuffinman/app/vision]
+      - id: vision.visual_feedback
+        name: Listening, processing, result, blocked, and completion feedback
+        status: verified
+        priority: critical
+        current:
+          web: [apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeContextDTO.java]
+        gaps:
+          - real device-specific haptic/audio acceptance tests
+        evidence:
+          plans: [docs/work/modern-vision-command-surface.yaml, docs/work/modern-mobile-watch-quality.yaml]
+      - id: vision.create_quest
+        name: Voice/text guided quest creation with review and confirmation
+        status: partial
+        priority: critical
+        current:
+          backend: [create_quest, VisionExecutionService, review confirmation]
+          web: ["/vision"]
+        gaps:
+          - broadened production rollout beyond guarded feature flags
+          - complete edge-case coverage for ambiguous multi-turn corrections
+        evidence:
+          docs: [docs/vision-status-ledger.md, docs/vision-architecture-patterns.md]
+      - id: vision.read_discovery
+        name: Read-only quest and cross-entity discovery through Vision
+        status: partial
+        priority: high
+        current:
+          backend: [discover_quests, search]
+          web: ["/vision"]
+        gaps:
+          - explicit result comparison and filtering surface
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java]
+      - id: vision.execution
+        name: Typed review-gated execution for supported mutations
+        status: partial
+        priority: critical
+        current:
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java]
+        gaps:
+          - consistent user-visible failure recovery for every adapter
+        evidence:
+          docs: [docs/domain-technical.md, docs/vision-architecture-patterns.md, docs/vision-capability-acceptance.yaml]
+
+  - id: work
+    name: Work marketplace
+    capabilities:
+      - id: work.quest.create
+        name: Create and publish a quest
+        status: implemented
+        priority: critical
+        current:
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket]
+          web: ["/work/quests/new", "/work/quests/:questId", "/vision"]
+        gaps:
+          - advanced image, location, schedule, and visibility UX audit
+      - id: work.quest.discovery
+        name: Search, filter, sort, and paginate available quests
+        status: verified
+        priority: critical
+        current:
+          backend: ["GET /quests/search", "GET /quests/presets/AVAILABLE"]
+          web: ["/work"]
+        gaps:
+          - mobile visual regression coverage
+          - richer comparison mode for dense result sets
+        evidence:
+          plans: [docs/work/modern-work-discovery.yaml]
+      - id: work.quest.management
+        name: Manage owned quests and lifecycle state
+        status: implemented
+        priority: high
+        current:
+          backend: [quest lifecycle services and detail endpoints]
+          web: ["/work/quests"]
+        gaps:
+          - browser-level runtime acceptance coverage
+      - id: work.application
+        name: Apply to work, review applications, and manage application state
+        status: implemented
+        priority: critical
+        current:
+          backend: ["/quests/{questId}/applications", "GET /quests/applications/me", application workflow services]
+          web: ["/work/applications", "/vision"]
+        gaps:
+          - browser-level runtime acceptance coverage
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue]
+      - id: work.execution
+        name: Execute, coordinate, complete, and review work
+        status: implemented
+        priority: high
+        current:
+          backend: [work execution and review services]
+          web: ["/work/quests/:questId"]
+        gaps:
+          - completion and dispute edge cases
+          - browser-level runtime acceptance coverage
+      - id: work.notifications
+        name: Quest, application, and workflow notifications
+        status: implemented
+        priority: medium
+        current:
+          backend: [quest news and notification services]
+        gaps:
+          - realtime delivery and browser-level acceptance coverage
+
+  - id: chat
+    name: Shared chat
+    capabilities:
+      - id: chat.conversations
+        name: Browse conversations, open threads, and load history
+        status: implemented
+        priority: critical
+        current:
+          backend: ["GET /chat/conversations", "GET /chat/conversations/{id}/messages"]
+          web: ["/chat", "/chat/{conversationId}"]
+        gaps:
+          - realtime reconnect and offline acceptance coverage
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+      - id: chat.realtime
+        name: Realtime delivery, presence, typing, receipts, and read state
+        status: partial
+        priority: high
+        current:
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/chat]
+        gaps:
+          - comprehensive browser reconnect scenarios
+          - mobile background delivery behavior
+      - id: chat.attachments
+        name: Image and attachment upload, display, and retention behavior
+        status: partial
+        priority: medium
+        current:
+          backend: [chat attachment endpoints and retention configuration]
+        gaps:
+          - compact web surface integration
+          - mobile/watch attachment strategy
+
+  - id: business
+    name: Business profiles and appointments
+    capabilities:
+      - id: business.profile
+        name: Business identity, profile, offerings, and public presentation
+        status: implemented
+        priority: high
+        current:
+          backend: [business profile and offering endpoints]
+          web: ["/business", "/business/profile", "/business/offerings", "/business/public/:slug"]
+        gaps:
+          - browser-level runtime acceptance coverage
+      - id: business.booking
+        name: Customer booking and owner booking operations
+        status: implemented
+        priority: critical
+        current:
+          backend: [business booking endpoints and policy services]
+          web: ["/business/bookings", "/business/public/:slug", "/business/my-bookings"]
+        gaps:
+          - browser-level runtime acceptance coverage
+      - id: business.availability
+        name: Availability rules, exceptions, and calendar coordination
+        status: implemented
+        priority: high
+        current:
+          backend: [availability and owner calendar services]
+          web: ["/business/calendar", "/business/availability-exceptions", "/calendar"]
+        gaps:
+          - browser-level runtime acceptance coverage
+
+  - id: circles
+    name: Trusted relationships and privacy circles
+    capabilities:
+      - id: circles.relationships
+        name: Requests, connections, trusted circles, and blocking
+        status: implemented
+        priority: high
+        current:
+          backend: [circles read/write services]
+          web: ["/circles"]
+        gaps:
+          - clear privacy explanation at every visibility decision
+      - id: circles.visibility
+        name: Circle-aware visibility and consent across modules
+        status: implemented
+        priority: critical
+        current:
+          backend: [work, chat, and circle access policy services]
+        gaps:
+          - cross-module acceptance matrix
+        evidence:
+          docs: [docs/business-logic.md, docs/domain-technical.md]
+
+  - id: sharing
+    name: Things sharing and lending
+    capabilities:
+      - id: things.listings
+        name: Offer, discover, request, and return shared things
+        status: partial
+        priority: medium
+        current:
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/things]
+          vision: [VIEW_THINGS, search]
+        gaps:
+          - dedicated web discovery and detail surface
+          - lending lifecycle and availability UX
+      - id: rides.circles
+        name: Voluntary car sharing for selected circles
+        status: not_offered
+        priority: medium
+        current: {}
+        gaps:
+          - domain model
+          - consent and safety rules
+          - matching, scheduling, and trip lifecycle
+
+  - id: cross_module
+    name: Shared product capabilities
+    capabilities:
+      - id: cross_module.adaptive_shell
+        name: One shell with route-aware adaptive surface archetypes
+        status: verified
+        priority: critical
+        current:
+          web: [apps/themuffinman/frontend/src/modules/app-shell]
+          validation: ["npm run validate:modern-surface"]
+        gaps:
+          - first-class native client shell contracts
+        evidence:
+          plans: [docs/work/modern-minimal-adaptive-product.yaml]
+      - id: cross_module.mobile_watch
+        name: Mobile and Watch presentation of core voice and action flows
+        status: partial
+        priority: high
+        current:
+          backend: [VisionRuntimeContextDTO device and density metadata]
+          web: [responsive shell and compact Vision canvas]
+        gaps:
+          - actual native clients
+          - watch-specific glance/action contract implementation
+        evidence:
+          plans: [docs/work/modern-mobile-watch-quality.yaml]
+      - id: cross_module.search
+        name: Unified prompt and visual discovery across product modules
+        status: partial
+        priority: high
+        current:
+          backend: [Vision search discovery and module read services]
+          web: ["/vision", "/work"]
+        gaps:
+          - unified pagination and comparison across entity families
+          - consistent ranking and empty/error semantics
+      - id: cross_module.auditability
+        name: Capability, implementation, documentation, and validation traceability
+        status: implemented
+        priority: critical
+        current:
+          docs: [docs/capability-inventory.yaml, docs/work, docs/agent-operating-model.yaml]
+          validation: [scripts/verify-work.rb, scripts/audits]
+        gaps:
+          - generated markdown capability report
+          - automatic plan-to-capability coverage check
+        evidence:
+          code: [docs/work/modern-minimal-adaptive-product.yaml]
+
+gap_summary:
+  critical_gaps:
+    - work advanced field UX and browser-level runtime acceptance remain open
+    - business booking browser-level runtime acceptance remains open
+    - vision execution rollout and adapter-specific recovery coverage remain open
+  high_gaps:
+    - native mobile and Watch clients do not yet exist
+    - realtime chat and voice flows need browser/device acceptance coverage
+    - Vision discovery comparison/filtering remains open after continuation support
+    - circle privacy explanations need a complete cross-module pass
+  not_offered:
+    - rides and car sharing
+    - native iPhone client
+    - native Watch client
+  known_broken: []
+next_review:
+  recommended_master_plan: capability-coverage-and-reliability
+  first_slice:
+    - resolve all critical_gaps
+    - validate each partial capability with one happy path and one failure path
+    - generate a capability markdown report and plan coverage report

@@ -3,7 +3,8 @@ package com.themuffinman.app.vision.model;
 public enum VisionConversationAction {
     SUBMIT_PROMPT,
     CONFIRM_REVIEW,
-    REQUEST_REVIEW_EDIT;
+    REQUEST_REVIEW_EDIT,
+    FETCH_MORE_RESULTS;
 
     public static VisionConversationAction from(String rawValue) {
         if (rawValue == null || rawValue.isBlank()) {

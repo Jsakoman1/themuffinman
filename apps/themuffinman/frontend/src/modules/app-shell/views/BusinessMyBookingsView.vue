@@ -1,0 +1,20 @@
+<script setup lang="ts">
+import {onMounted, ref} from "vue"
+import type {BusinessBookingResponseDTO} from "../../../contracts/index.ts"
+import {userShellApi} from "../api/userShellApi.ts"
+const bookings = ref<BusinessBookingResponseDTO[]>([])
+const isLoading = ref(true)
+const isActing = ref<number | null>(null)
+const error = ref("")
+const feedback = ref("")
+const formatDate = (value: string) => new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value))
+const load = async () => { isLoading.value = true; error.value = ""; try { bookings.value = (await userShellApi.getMyBusinessBookings()).items } catch { error.value = "Could not load your bookings." } finally { isLoading.value = false } }
+const cancel = async (booking: BusinessBookingResponseDTO) => { if (!window.confirm("Cancel this booking?")) return; isActing.value = booking.id; error.value = ""; try { await userShellApi.cancelMyBusinessBooking(booking.id); feedback.value = "Booking cancelled."; await load() } catch { error.value = "Could not cancel this booking." } finally { isActing.value = null } }
+onMounted(() => void load())
+</script>
+
+<template><section class="my-bookings"><header><p class="my-bookings__eyebrow">Business / My bookings</p><h1>My bookings</h1></header><p v-if="feedback" class="my-bookings__feedback" role="status">{{ feedback }}</p><div v-if="isLoading" class="my-bookings__status" role="status">Loading.</div><div v-else-if="error" class="my-bookings__status my-bookings__status--error" role="alert">{{ error }} <button type="button" @click="load">Retry</button></div><div v-else-if="bookings.length === 0" class="my-bookings__status">No bookings yet.</div><div v-else class="my-bookings__list"><article v-for="booking in bookings" :key="booking.id" class="my-bookings__row"><div><strong>{{ booking.businessName }} · {{ booking.businessOfferingTitle }}</strong><span>{{ formatDate(booking.startsAt) }} · {{ booking.statusLabel }}</span></div><button v-if="booking.allowedActions.includes('CANCEL')" type="button" class="my-bookings__danger" :disabled="isActing === booking.id" @click="cancel(booking)">Cancel</button></article></div></section></template>
+
+<style scoped>
+.my-bookings{display:grid;gap:1rem}.my-bookings__eyebrow{margin:0 0 .3rem;color:rgba(23,34,26,.55);font-size:.76rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font-size:clamp(1.55rem,2.5vw,2.3rem);letter-spacing:-.075em}.my-bookings__list{display:grid;gap:.45rem}.my-bookings__row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid rgba(23,34,26,.08)}.my-bookings__row div{display:grid;gap:.3rem}.my-bookings__row span{color:rgba(23,34,26,.58);font-size:.84rem}.my-bookings button{border:1px solid rgba(23,34,26,.12);border-radius:999px;padding:.45rem .75rem;background:transparent;font:inherit;font-size:.82rem;font-weight:650;cursor:pointer}.my-bookings__danger{color:#8d2f25}.my-bookings__feedback{color:#2d6846}.my-bookings__status{padding:.7rem 0;color:rgba(23,34,26,.65)}.my-bookings__status--error{color:#8d2f25}.my-bookings__status button{margin-left:.5rem;border:0;color:inherit;text-decoration:underline}@media(max-width:620px){.my-bookings__row{align-items:start;flex-direction:column}}
+</style>

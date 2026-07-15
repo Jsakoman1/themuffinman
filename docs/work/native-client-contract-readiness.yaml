@@ -1,0 +1,35 @@
+kind: plan
+version: 1
+id: native-client-contract-readiness
+title: Native client contract readiness
+status: done
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids: [cross_module.mobile_watch, cross_module.search]
+baseline: 6018777
+objective: >
+  Make backend surface, density, device, pagination, and handoff contracts
+  sufficient for future iPhone and Watch clients without duplicating business rules.
+tasks:
+  - id: client-contract-audit
+    status: done
+    title: Map web-only assumptions and missing device-neutral DTO fields
+    evidence:
+      - docs/vision-presentation-contract.yaml
+      - docs/native-client-contract.yaml
+  - id: client-contracts
+    status: done
+    title: Add explicit device-neutral contracts for actions, pagination, and handoff
+    evidence:
+      - docs/native-client-contract.yaml
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  - id: client-validation
+    status: done
+    title: Validate contracts against web consumption and generated frontend types
+    evidence:
+      validation:
+        - cd apps/themuffinman/frontend && npm run type-check
+        - cd apps/themuffinman/frontend && npm run build
+        - cd apps/themuffinman && ./mvnw test -q
+        - make audit-docs
+        - make audit-todo

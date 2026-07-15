@@ -272,8 +272,59 @@ public class VisionConversationService {
         return switch (action) {
             case CONFIRM_REVIEW -> handleConfirmReviewAction(conversation, understanding, source);
             case REQUEST_REVIEW_EDIT -> handleReviewEditAction(conversation, understanding, source, dto);
+            case FETCH_MORE_RESULTS -> handleFetchMoreResultsTurn(conversation, source);
             case SUBMIT_PROMPT -> handleSubmitPromptTurn(conversation, prompt, normalizedPrompt, understanding, source);
         };
+    }
+
+    private VisionTurn handleFetchMoreResultsTurn(VisionConversation conversation, String source) {
+        if (conversation.getIntent() != VisionIntent.DISCOVER_QUESTS && conversation.getIntent() != VisionIntent.SEARCH) {
+            throw ServiceErrors.conflict("More results are not available for this vision conversation");
+        }
+        String pageKey = conversation.getIntent() == VisionIntent.SEARCH ? "search_page" : "discovery_page";
+        int currentPage = discoveryPage(conversation, pageKey);
+        boolean hasMore;
+        String message;
+        if (conversation.getIntent() == VisionIntent.SEARCH) {
+            var current = visionSearchDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), conversation.getOwner());
+            hasMore = current != null && current.isHasMore();
+            message = current == null ? "No more results are available." : current.getSummary();
+        } else {
+            VisionQuestDiscoveryDTO current = visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), conversation.getOwner());
+            hasMore = current != null && current.isHasMore();
+            message = current == null ? "No more results are available." : current.getSummary();
+        }
+        if (!hasMore) throw ServiceErrors.conflict("No more results are available");
+        conversation.getSlotData().put(pageKey, Integer.toString(currentPage + 1));
+        if (conversation.getIntent() == VisionIntent.SEARCH) {
+            var next = visionSearchDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), conversation.getOwner());
+            message = next == null ? "No more results are available." : next.getSummary();
+        } else {
+            VisionQuestDiscoveryDTO next = visionQuestDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), conversation.getOwner());
+            message = next == null ? "No more results are available." : next.getSummary();
+        }
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        VisionTurn turn = new VisionTurn();
+        turn.setConversation(conversation);
+        turn.setTurnIndex((int) visionTurnRepository.countByConversation(conversation) + 1);
+        turn.setSource(VisionTurnSource.from(source));
+        turn.setPrompt("");
+        turn.setNormalizedPrompt("");
+        turn.setDetectedIntent(VisionIntent.DISCOVER_QUESTS);
+        turn.setAgentState(VisionAgentState.RECOMMENDING);
+        turn.setNextAction(VisionNextAction.SHOW_RESULTS);
+        turn.setAssistantMessage(message);
+        return visionTurnRepository.save(turn);
+    }
+
+    private int discoveryPage(VisionConversation conversation, String pageKey) {
+        String raw = conversation.getSlotData().get(pageKey);
+        try {
+            return raw == null ? 0 : Math.max(0, Integer.parseInt(raw));
+        } catch (NumberFormatException exception) {
+            return 0;
+        }
     }
 
     private VisionTurn handleSubmitPromptTurn(
@@ -2489,6 +2540,8 @@ public class VisionConversationService {
         conversation.setStatus(VisionConversationStatus.ACTIVE);
         conversation.setRequestedSlot(null);
         conversation.getSlotData().put("search_query", discovery.getQuery() == null ? "" : discovery.getQuery());
+        conversation.getSlotData().put("search_page", "0");
+        conversation.getSlotData().put("discovery_page", "0");
         String message = discovery.getSummary();
         updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
         visionConversationRepository.save(conversation);

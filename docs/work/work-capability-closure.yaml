@@ -1,0 +1,80 @@
+kind: plan
+version: 1
+id: work-capability-closure
+title: Close Work create, management, and application gaps
+status: done
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+  - work.quest.create
+  - work.quest.management
+  - work.application
+baseline: 6018777
+objective: >
+  Replace the Vision-only and preview-only Work paths with reliable backend-owned
+  detail/action contracts and clear web entry points for creating, managing, and
+  applying to work.
+tasks:
+  - id: work-audit
+    status: done
+    title: Audit current Work endpoints, permissions, actions, and user entry points
+    validation:
+      - command: rg -n "createQuest|updateQuest|applications|allowedActions|QuestDetail" apps/themuffinman/src/main/java/com/themuffinman/app/workmarket apps/themuffinman/frontend/src
+        evidence: work endpoint and surface inventory captured in task scope
+  - id: work-detail-contract
+    status: done
+    title: Expose backend-owned quest detail sections, actions, and editable state for the current viewer
+    acceptance:
+      - detail identifies owner/applicant/viewer relation
+      - allowed actions are backend-derived
+      - editable fields and validation errors are typed
+    evidence:
+      files: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+      validation: ["npm --prefix apps/themuffinman/frontend run type-check", "npm --prefix apps/themuffinman/frontend run build"]
+  - id: work-management-surface
+    status: done
+    title: Add owner-side quest management actions and lifecycle feedback
+    acceptance:
+      - start, complete, term decisions, and delete use existing backend policies
+      - action availability is not reimplemented in frontend
+      - every action has success and failure feedback
+    evidence:
+      files: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+      validation: ["npm --prefix apps/themuffinman/frontend run type-check", "npm --prefix apps/themuffinman/frontend run build"]
+  - id: work-create-surface
+    status: done
+    title: Add a compact visual create/edit surface while preserving Vision as the fastest path
+    acceptance:
+      - user can start from Work and continue in Vision without losing context
+      - user can review and edit the minimum required fields
+      - loading, validation, error, and completion states are visible
+    evidence:
+      files: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+      validation: ["npm --prefix apps/themuffinman/frontend run type-check", "npm --prefix apps/themuffinman/frontend run build"]
+  - id: application-management-surface
+    status: done
+    title: Add owner-side application management and applicant action continuity
+    acceptance:
+      - owner can review visible applications and allowed actions
+      - applicant can open, update, withdraw, and see status
+      - detail route remains application-owned while chat/Vision handoff is explicit
+    evidence:
+      files: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+      validation: ["npm --prefix apps/themuffinman/frontend run type-check", "npm --prefix apps/themuffinman/frontend run build"]
+  - id: work-validation
+    status: done
+    title: Validate Work happy paths, failure paths, permissions, and documentation sync
+    validation:
+      - ./mvnw test -q
+      - npm --prefix apps/themuffinman/frontend run type-check
+      - npm --prefix apps/themuffinman/frontend run build
+      - make audit-docs
+      - make audit-todo
+      - git diff --check
+evidence:
+  validation:
+    - cd apps/themuffinman/frontend && npm run type-check
+    - cd apps/themuffinman/frontend && npm run build
+    - cd apps/themuffinman && ./mvnw test -q
+    - make audit-docs
+    - make audit-todo
+    - git diff --check

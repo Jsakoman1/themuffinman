@@ -1,0 +1,34 @@
+kind: client-contract
+version: 1
+id: native-client-contract
+purpose: >
+  Define the device-neutral Vision and discovery contract consumed by future
+  iPhone and Watch clients without moving domain rules into those clients.
+source:
+  request: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java
+  response: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  runtime: apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeContextDTO.java
+request:
+  required_for_turn: [conversationId, inputType, text, clientCapabilities, clientStateVersion, clientDeviceRole]
+  optional_interaction: [selectedOptionId, fieldValue, confirmation, reviewTarget]
+  actions: [SUBMIT_PROMPT, CONFIRM_REVIEW, REQUEST_REVIEW_EDIT, FETCH_MORE_RESULTS]
+  device_roles: [desktop, mobile, watch]
+response:
+  state_fields: [conversationId, turnId, intent, agentState, canvasMode, nextAction, message]
+  presentation_fields: [runtimeContext, blocks, requestedSlot, primaryActionLabel, visibleFields]
+  execution_fields: [executionEnabled, executionCandidate, review]
+  discovery_fields: [questDiscovery, searchDiscovery]
+  continuation:
+    trigger: FETCH_MORE_RESULTS
+    ownership: backend
+    cursor_scope: conversation
+    result_window: bounded_aggregate_window
+runtime:
+  required_fields: [deviceRole, attentionState, sessionAnchor, actionHints, watchFriendly, presentationArchetype, density]
+  optional_cues: [audioCue, hapticCue]
+  watch_policy: docs/vision-presentation-contract.yaml
+rules:
+  - domain_permissions_and_state_transitions_remain_backend_owned
+  - clients_render_backend_state_and_do_not_derive_workflow_rules
+  - watch_clients_only_receive_compact_safe_actions_and_phone_handoff
+  - continuation_actions_are_idempotent_by_client_request_id

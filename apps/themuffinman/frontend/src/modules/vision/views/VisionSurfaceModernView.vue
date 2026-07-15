@@ -33,6 +33,8 @@ const {
   processPrompt,
   confirmReview,
   requestReviewChange,
+  fetchMoreResults,
+  retryLastRequest,
   startListening,
   stopListening,
   openComposer,
@@ -172,6 +174,8 @@ watch(
             @choice="submitChoice"
             @review-change="requestReviewChange"
             @confirm-review="confirmReview"
+            @fetch-more="fetchMoreResults"
+            @retry="retryLastRequest"
             @start-listening="startListening"
             @stop-listening="stopListening"
             @update:input-text="updateInputText"

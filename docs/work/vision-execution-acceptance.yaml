@@ -1,0 +1,42 @@
+kind: plan
+version: 1
+id: vision-execution-acceptance
+title: Vision capability execution acceptance
+status: done
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids: [vision.create_quest, vision.execution, vision.read_discovery]
+baseline: 6018777
+objective: >
+  Build an explicit acceptance matrix for Vision read, review, confirmation,
+  execution, recovery, and pagination behavior across supported capabilities.
+tasks:
+  - id: vision-matrix
+    status: done
+    title: Enumerate every supported Vision capability and its required states
+    evidence:
+      - docs/vision-capability-acceptance.yaml
+  - id: vision-scenarios
+    status: done
+    title: Add happy-path, ambiguity, permission, transport, and recovery scenarios
+    evidence:
+      - docs/vision-capability-acceptance.yaml
+  - id: vision-result-followup
+    status: done
+    title: Implement fetch-more behavior for large Vision result sets
+    evidence:
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionConversationAction.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+      - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - id: vision-validation
+    status: done
+    title: Run the matrix and synchronize capability evidence
+    evidence:
+      validation:
+        - cd apps/themuffinman/frontend && npm run type-check
+        - cd apps/themuffinman/frontend && npm run build
+        - cd apps/themuffinman/frontend && npm run validate:modern-surface
+        - cd apps/themuffinman && ./mvnw test -q
+        - make audit-docs
+        - make audit-todo
+      notes:
+        - Quest and search discovery continuation are bounded by the current aggregate candidate window.

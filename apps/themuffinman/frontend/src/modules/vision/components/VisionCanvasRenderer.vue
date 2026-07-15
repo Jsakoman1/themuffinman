@@ -39,6 +39,8 @@ const emit = defineEmits<{
   choice: [value: string]
   reviewChange: [target: VisionReviewTarget]
   confirmReview: []
+  fetchMore: []
+  retry: []
   startListening: []
   stopListening: []
   "update:inputText": [value: string]
@@ -65,6 +67,7 @@ const isNonEmptyText = (value: string | null | undefined): value is string => !!
 const username = computed(() => currentUser.value?.username ?? "there")
 const questionBlock = computed(() => props.displayBlocks.find((block) => block.type === "field_request") ?? null)
 const activeFlowLabel = computed(() => props.activeEntityContextLabel.trim() || props.activeEntityFamilyLabel.trim())
+const hasMoreResults = computed(() => props.displayBlocks.some((block) => block.questDiscovery?.hasMore || block.searchDiscovery?.hasMore))
 
 const runtimeActionLabel = computed(() => props.runtimeContext?.primaryActionLabel ?? "Ready")
 const runtimeDensityLabel = computed(() => props.runtimeContext?.density ?? "inspect")
@@ -250,6 +253,7 @@ onMounted(() => {
         <p v-if="props.runtimeContext.consentRequired" class="vision-console__runtime-note">
           Confirm before continuing.
         </p>
+        <button v-if="props.error" type="button" class="vision-console__retry" @click="emit('retry')">Try again</button>
       </header>
 
       <div class="vision-console__lines">
@@ -328,6 +332,8 @@ onMounted(() => {
             @click="choose(option.value ?? option.label)"
           />
         </div>
+
+        <button v-if="hasMoreResults" type="button" class="vision-console__more" @click="emit('fetchMore')">Show more</button>
       </div>
     </div>
   </section>
@@ -589,6 +595,19 @@ onMounted(() => {
 .vision-console__choices {
   display: grid;
   gap: 0.1rem;
+}
+
+.vision-console__retry {
+  justify-self: start;
+  border: 1px solid rgba(24, 36, 47, 0.16);
+  border-radius: 999px;
+  padding: 0.42rem 0.72rem;
+  background: transparent;
+  color: rgba(24, 36, 47, 0.76);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  cursor: pointer;
 }
 
 .vision-console__input {

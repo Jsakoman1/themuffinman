@@ -52,7 +52,7 @@ public class VisionQuestDiscoveryService {
                 null,
                 null,
                 "recommended",
-                0,
+                discoveryPage(conversation),
                 5
         );
 
@@ -73,6 +73,17 @@ public class VisionQuestDiscoveryService {
                 .hasMore(questList.getTotalItems() > items.size())
                 .items(items)
                 .build();
+    }
+
+    private int discoveryPage(VisionConversation conversation) {
+        if (conversation == null || conversation.getSlotData() == null) {
+            return 0;
+        }
+        try {
+            return Math.max(0, Integer.parseInt(conversation.getSlotData().getOrDefault("discovery_page", "0")));
+        } catch (NumberFormatException exception) {
+            return 0;
+        }
     }
 
     private boolean isDiscoveryContext(VisionConversation conversation, VisionPromptUnderstandingResult understanding) {

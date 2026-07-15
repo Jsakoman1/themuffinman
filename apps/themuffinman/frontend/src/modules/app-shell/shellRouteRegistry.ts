@@ -89,7 +89,7 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     primaryNavLabel: "Work / My Quests",
     primaryNavDescription: "Owned quests and deterministic browse.",
     canonicalEntryRoute: {path: "/work/quests"},
-    canonicalDetailRoute: (targetId) => ({path: `/vision/quests/${targetId}`}),
+    canonicalDetailRoute: (targetId) => ({path: `/work/quests/${targetId}`}),
     visionPrompt: "review my active quests, help me create a new quest, and suggest the next action",
     moduleSpaceRule: "Stay in Work for the list and scan view.",
     visionRule: "Use Vision for canonical quest detail, create, review, and correction flows.",

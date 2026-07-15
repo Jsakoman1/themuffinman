@@ -55,6 +55,7 @@ export const useVisionConversation = () => {
   const conversationId = ref<number | null>(null)
   const voiceConfig = ref<DashboardVoiceConfig | null>(null)
   const voiceRuntimeError = ref("")
+  const retryRequest = ref<{prompt: string; source: string; action: string} | null>(null)
   const voiceState = ref<VisionVoiceState>("idle")
   const composerExpanded = ref(true)
   const lastTranscript = ref("")
@@ -358,6 +359,9 @@ export const useVisionConversation = () => {
     voiceRuntimeError.value = ""
 
     try {
+      if (action === "SUBMIT_PROMPT" || action === "FETCH_MORE_RESULTS") {
+        retryRequest.value = {prompt: trimmedPrompt, source, action}
+      }
       voiceState.value = "processing"
       const next = await visionConversationApi.processConversationTurn({
         conversationId: conversationId.value,
@@ -376,6 +380,7 @@ export const useVisionConversation = () => {
         reviewTarget
       })
       response.value = next
+      retryRequest.value = null
       conversationId.value = next.conversationId
       recentConversations.value = next.recentConversations
       inputText.value = ""
@@ -406,6 +411,16 @@ export const useVisionConversation = () => {
 
   const requestReviewChange = async (reviewTarget: VisionReviewTarget) => {
     await processPrompt("", "text", "REQUEST_REVIEW_EDIT", reviewTarget)
+  }
+
+  const fetchMoreResults = async () => {
+    await processPrompt("", "text", "FETCH_MORE_RESULTS")
+  }
+
+  const retryLastRequest = async () => {
+    const request = retryRequest.value
+    if (!request) return
+    await processPrompt(request.prompt, request.source, request.action)
   }
 
   const resetConversation = async () => {
@@ -713,6 +728,8 @@ export const useVisionConversation = () => {
     processPrompt,
     confirmReview,
     requestReviewChange,
+    fetchMoreResults,
+    retryLastRequest,
     resetConversation,
     cancelConversation,
     resumeConversation,

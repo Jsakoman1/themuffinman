@@ -34,6 +34,11 @@ Frontend vision surface note:
 - `apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts` now defines the typed shell-to-Vision handoff query contract with `prompt`, `autorun`, `context`, `source`, and `returnTo`, and `VisionSurfaceModernView.vue` preserves that metadata so route-to-Vision and Vision-to-route transitions stay explicit.
 - `apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java` now carries an optional `clientDeviceRole` hint, and `VisionConversationTurnResponseDTO` now exposes a backend-owned `runtimeContext` with device role, attention state, session anchor, action hints, and audio or haptic cues so mobile and voice clients do not have to infer turn density locally.
 - `VisionConversationTurnRequestDTO` also carries an optional `clientRequestId`, and `VisionConversationService` persists that request id on the conversation row so the backend can replay the latest turn when the same request reaches the backend again, even on the first submit before the client has a conversation id.
+- Vision read and discovery failures expose a safe frontend retry for prompt submission and result continuation; review and mutation actions remain explicit and are never auto-retried.
+- Work quest detail now renders the backend-prepared review section after completion and submits ratings/comments through `/quests/{questId}/reviews` using the backend-selected review target.
+- `/notifications` now consumes the backend `/news/me` contract, preserving unread state, mark-read actions, and quest navigation without deriving notification meaning in the frontend.
+- `/chat` now consumes backend message mutation contracts for send, inline edit, delete, and reaction toggle while keeping conversation and permission rules in `ChatService`.
+- `/circles` now provides a compact trusted-relationship surface for creating groups, searching people, managing incoming and outgoing requests, and blocking or unblocking users through backend-owned actions.
 - `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue` is the experimental authenticated route for the long-term adaptive canvas direction.
 - The `/vision` route is the focused adaptive surface for text and voice prompt intake, and the older vision shell has been removed from the app.
 - The surface now keeps its prompt composer and canvas content in one inline flow instead of a separate floating dock, so the adaptive stage can expand or contract around the current state.
@@ -1763,6 +1768,8 @@ Primary files:
 - `config/WebSocketConfig.java`
 
 ## Update Rule
+
+The cross-module product capability map is maintained in `docs/capability-inventory.yaml`, with maintenance guidance in `docs/capability-inventory.md`. Update capability status, gaps, and evidence when a feature changes the supported product surface.
 
 ## Adaptive Surface Read Rules
 

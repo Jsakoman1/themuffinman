@@ -68,7 +68,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "work-quests": {
     id: "work-quests", archetype: "work", navId: "work", eyebrow: "Work / Mine", title: "My quests",
-    actions: [{label: "Work", to: {path: "/work"}}]
+    actions: [{label: "New quest", to: {path: "/work/quests/new"}}, {label: "Work", to: {path: "/work"}}]
   },
   "work-applications": {
     id: "work-applications", archetype: "work", navId: "work", eyebrow: "Work / Applications", title: "Applications",

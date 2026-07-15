@@ -75,7 +75,9 @@ public class VisionSearchDiscoveryService {
                         .thenComparingInt(candidate -> familyPriority(candidate.item()))
                         .thenComparing(candidate -> candidate.item().getTitle() == null ? "" : candidate.item().getTitle(), String.CASE_INSENSITIVE_ORDER))
                 .toList();
+        int page = discoveryPage(conversation);
         List<VisionSearchDiscoveryItemDTO> items = sortedCandidates.stream()
+                .skip((long) page * 8)
                 .limit(8)
                 .map(SearchCandidate::item)
                 .toList();
@@ -87,9 +89,20 @@ public class VisionSearchDiscoveryService {
                 .sort("relevance")
                 .summary(summary)
                 .totalItems(sortedCandidates.size())
-                .hasMore(sortedCandidates.size() > items.size())
+                .hasMore(sortedCandidates.size() > (long) (page + 1) * 8)
                 .items(items)
                 .build();
+    }
+
+    private int discoveryPage(VisionConversation conversation) {
+        if (conversation == null || conversation.getSlotData() == null) {
+            return 0;
+        }
+        try {
+            return Math.max(0, Integer.parseInt(conversation.getSlotData().getOrDefault("search_page", "0")));
+        } catch (NumberFormatException exception) {
+            return 0;
+        }
     }
 
     private List<SearchCandidate> discoverQuests(AppUser currentUser, String query) {
