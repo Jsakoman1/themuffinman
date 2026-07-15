@@ -3,14 +3,14 @@
 
 require "json"
 require "set"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module FrontendStaleSurfaceAudit
   extend self
 
   ROOT = "apps/themuffinman/frontend/src"
-  ROUTE_INVENTORY_PATH = File.join(LocalToolingCommon::REPO_ROOT, "docs/generated/local-tooling/frontend-route-surface-inventory.json")
-  ENDPOINT_LINKER_PATH = File.join(LocalToolingCommon::REPO_ROOT, "docs/generated/local-tooling/endpoint-callsite-linker.json")
+  ROUTE_INVENTORY_PATH = File.join(AuditSupport::REPO_ROOT, "docs/audit-output/frontend-route-surface-inventory.json")
+  ENDPOINT_LINKER_PATH = File.join(AuditSupport::REPO_ROOT, "docs/audit-output/endpoint-callsite-linker.json")
 
   ALWAYS_KEEP_FILES = Set.new([
     "#{ROOT}/main.ts",
@@ -24,7 +24,7 @@ module FrontendStaleSurfaceAudit
   ]).freeze
 
   def run
-    files = LocalToolingCommon.repo_glob("#{ROOT}/**/*.ts", "#{ROOT}/**/*.vue", "#{ROOT}/**/*.css")
+    files = AuditSupport.repo_glob("#{ROOT}/**/*.ts", "#{ROOT}/**/*.vue", "#{ROOT}/**/*.css")
     importers_by_file = build_reverse_import_graph(files)
     route_inventory = JSON.parse(File.read(ROUTE_INVENTORY_PATH))
     endpoint_linker = JSON.parse(File.read(ENDPOINT_LINKER_PATH))
@@ -41,7 +41,7 @@ module FrontendStaleSurfaceAudit
 
     entries = files.map do |path|
       build_entry(
-        LocalToolingCommon.relative_path(path),
+        AuditSupport.relative_path(path),
         importers_by_file,
         route_surface_files,
         route_support_files,
@@ -59,15 +59,15 @@ module FrontendStaleSurfaceAudit
       files: entries.sort_by { |entry| [status_rank(entry[:status]), entry[:path]] }
     }
 
-    LocalToolingCommon.write_json("docs/generated/local-tooling/frontend-stale-surface-audit.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/frontend-stale-surface-audit-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/frontend-stale-surface-audit.json", report)
+    AuditSupport.write_text("docs/audit-output/frontend-stale-surface-audit-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def build_reverse_import_graph(files)
     graph = Hash.new { |hash, key| hash[key] = Set.new }
     files.each do |path|
-      relative_path = LocalToolingCommon.relative_path(path)
+      relative_path = AuditSupport.relative_path(path)
       extract_relative_imports(path).each do |target|
         graph[target] << relative_path
       end
@@ -76,7 +76,7 @@ module FrontendStaleSurfaceAudit
   end
 
   def extract_relative_imports(path)
-    content = LocalToolingCommon.read(path)
+    content = AuditSupport.read(path)
     source_dir = File.dirname(path)
     static_imports = content.scan(/from\s+"([^"]+)"|from\s+'([^']+)'/).flatten.compact
     dynamic_imports = content.scan(/import\("([^"]+)"\)|import\('([^']+)'\)/).flatten.compact
@@ -98,12 +98,12 @@ module FrontendStaleSurfaceAudit
       "#{base}/index.vue"
     ]
     match = candidates.find { |candidate| File.file?(candidate) }
-    match && LocalToolingCommon.relative_path(match)
+    match && AuditSupport.relative_path(match)
   end
 
   def build_entry(relative_path, importers_by_file, route_surface_files, route_support_files, callsite_files)
     importers = importers_by_file.fetch(relative_path, Set.new).to_a.sort
-    category = LocalToolingCommon.path_category(relative_path)
+    category = AuditSupport.path_category(relative_path)
     route_surface = route_surface_files.include?(relative_path)
     route_support = route_support_files.include?(relative_path)
     endpoint_callsite = callsite_files.include?(relative_path)

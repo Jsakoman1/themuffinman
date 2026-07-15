@@ -3,17 +3,17 @@
 
 require "time"
 require "set"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
-OUT_JSON = "docs/generated/local-tooling/contract-test-gaps.json"
-OUT_MD = "docs/generated/local-tooling/contract-test-gaps-summary.md"
+OUT_JSON = "docs/audit-output/contract-test-gaps.json"
+OUT_MD = "docs/audit-output/contract-test-gaps-summary.md"
 
 def rel_glob(*patterns)
-  LocalToolingCommon.repo_glob(*patterns).map { |path| LocalToolingCommon.relative_path(path) }
+  AuditSupport.repo_glob(*patterns).map { |path| AuditSupport.relative_path(path) }
 end
 
 def read(path)
-  File.read(File.join(LocalToolingCommon::REPO_ROOT, path))
+  File.read(File.join(AuditSupport::REPO_ROOT, path))
 rescue Errno::ENOENT
   ""
 end
@@ -24,7 +24,7 @@ def endpoint_entries
     root = normalize_path(content[/@RequestMapping\("([^"]+)"\)/, 1] || "")
     controller = File.basename(path, ".java")
     content.scan(/@(Get|Post|Put|Patch|Delete)Mapping(?:\("([^"]*)"\))?.{0,900}?public\s+[^{]+\{/m).map do |method, sub_path|
-      block = Regexp.last_match(0)
+      block = Regexp.last_match(0).to_s
       dtos = block.scan(/\b([A-Z][A-Za-z0-9_]*(?:DTO|Request|Response))\b/).flatten.uniq
       {
         controller: controller,
@@ -59,7 +59,7 @@ def frontend_files
 end
 
 def docs_text
-  ["docs/business-logic.md", "docs/domain-technical.md", "docs/agent-operating-model.md"].map { |path| read(path) }.join("\n")
+  ["docs/business-logic.md", "docs/domain-technical.md", "docs/implementation-control.md"].map { |path| read(path) }.join("\n")
 end
 
 def nearest_tests(entry, tests)
@@ -147,8 +147,8 @@ review_needed.first(25).each do |entry|
   lines << "- `#{entry[:priority]}` `#{entry[:endpoint]}` #{entry[:controller]} gaps=#{entry[:gaps].join(',')}"
 end
 
-LocalToolingCommon.write_json(OUT_JSON, report)
-LocalToolingCommon.write_text(OUT_MD, lines.join("\n") + "\n")
+AuditSupport.write_json(OUT_JSON, report)
+AuditSupport.write_text(OUT_MD, lines.join("\n") + "\n")
 puts "Contract test gaps"
 puts "  endpoints scanned: #{report[:endpoint_count]}"
 puts "  review needed: #{report[:review_needed_count]}"

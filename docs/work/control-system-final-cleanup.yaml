@@ -1,0 +1,137 @@
+kind: work
+version: 1
+id: control-system-final-cleanup
+title: Remove remaining dead control and frontend surfaces
+status: verified
+baseline: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+tasks:
+- id: remove-dead-control-surfaces
+  title: Remove obsolete generated inventories and duplicated workflow docs
+  type: cleanup
+  status: done
+  paths:
+  - apps/themuffinman/Makefile
+  - scripts/audit_support.rb
+  - docs/vision-context-gateway.md
+  - docs/vision-architecture-patterns.md
+  - docs/source-of-truth-inventory.md
+  - README.md
+  - AGENTS.md
+  validation: ruby -c scripts/audit_support.rb && make audit-todo
+- id: remove-dead-frontend-surfaces
+  title: Remove frontend files with no active importer or callsite
+  type: cleanup
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/httpDebug.ts
+  - apps/themuffinman/frontend/src/lib/dialogFlow.ts
+  - apps/themuffinman/frontend/src/lib/searchQuery.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue
+  - apps/themuffinman/frontend/src/shared/clientMessages.ts
+  - apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts
+  - apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts
+  - apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts
+  - apps/themuffinman/frontend/src/composables/useMountedAsync.ts
+  - apps/themuffinman/frontend/src/composables/usePaginatedResults.ts
+  - apps/themuffinman/frontend/src/composables/useTimedBanner.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: final-diagnostics
+  title: Run the remaining diagnostic audit suite
+  type: validation
+  status: done
+  paths:
+  - scripts/audits
+  - docs/audits.md
+  validation: make audit-all
+evidence:
+- task: remove-dead-control-surfaces
+  command: ruby -c scripts/audit_support.rb && make audit-todo
+  ranAt: '2026-07-15T17:55:04Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - AGENTS.md
+  - README.md
+  - apps/themuffinman/Makefile
+  - docs/source-of-truth-inventory.md
+  - docs/vision-architecture-patterns.md
+  - docs/vision-context-gateway.md
+  - scripts/audit_support.rb
+  output: |+
+    Syntax OK
+    ruby scripts/todo-audit.rb
+    TODO audit passed
+
+- task: remove-dead-frontend-surfaces
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-15T17:55:05Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/composables/createFeedbackMutationRunner.ts
+  - apps/themuffinman/frontend/src/composables/useAutoDismissFeedback.ts
+  - apps/themuffinman/frontend/src/composables/useDebouncedWatch.ts
+  - apps/themuffinman/frontend/src/composables/useMountedAsync.ts
+  - apps/themuffinman/frontend/src/composables/usePaginatedResults.ts
+  - apps/themuffinman/frontend/src/composables/useTimedBanner.ts
+  - apps/themuffinman/frontend/src/httpDebug.ts
+  - apps/themuffinman/frontend/src/lib/dialogFlow.ts
+  - apps/themuffinman/frontend/src/lib/searchQuery.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionAgentOrb.vue
+  - apps/themuffinman/frontend/src/shared/clientMessages.ts
+  output: |+
+    dist/assets/SurfaceContentView-Cpgbh8je.css          5.46 kB │ gzip:  1.03 kB
+    dist/assets/AuthenticatedShellView-BX1q0A7X.css      5.60 kB │ gzip:  1.36 kB
+    dist/assets/VisionSurfaceModernView-MyeMzcO-.css    12.16 kB │ gzip:  2.85 kB
+    dist/assets/_plugin-vue_export-helper-B67ILkmu.js    0.08 kB │ gzip:  0.09 kB
+    dist/assets/rolldown-runtime-lhHHWwHU.js             0.15 kB │ gzip:  0.15 kB
+    dist/assets/HomeHubView-DXeZw4oh.js                  0.52 kB │ gzip:  0.34 kB
+    dist/assets/SectionHubView-MWsqH544.js               0.68 kB │ gzip:  0.42 kB
+    dist/assets/visionHandoff-CZ04dFgt.js                0.79 kB │ gzip:  0.44 kB
+    dist/assets/LoginView-BNkLfvvb.js                    1.88 kB │ gzip:  0.90 kB
+    dist/assets/RegisterView-DQp9F9ZX.js                 2.17 kB │ gzip:  0.96 kB
+    dist/assets/AuthenticatedShellView-BXDtae0l.js       3.75 kB │ gzip:  1.55 kB
+    dist/assets/shellDefinitions-FOfqSWaT.js            13.69 kB │ gzip:  3.73 kB
+    dist/assets/index-CG1wc9xJ.js                       13.71 kB │ gzip:  4.32 kB
+    dist/assets/SurfaceContentView-DFOhIyie.js          20.23 kB │ gzip:  5.79 kB
+    dist/assets/vue-core-BfAHnWPC.js                    24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-SqGTUfMf.js     38.06 kB │ gzip: 11.30 kB
+    dist/assets/vendor-Dz4ql2Dj.js                     103.34 kB │ gzip: 39.95 kB
+
+    ✓ built in 202ms
+
+- task: final-diagnostics
+  command: make audit-all
+  ranAt: '2026-07-15T17:55:07Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/audits.md
+  output: |+
+    Change impact preflight
+      changed files: 49
+      docs to review: 4
+      tests to consider: 17
+      generated artifacts: 1
+      scope guardrail warnings: 4
+      ! mixed_product_domains: Changes touch multiple product domains in one scope.
+      ! runtime_plus_tooling_or_infrastructure: Runtime code and tooling/infrastructure files changed together.
+      ! unexpected_generated_reports: Generated report changes include files not predicted by changed source files.
+      - .gitignore -> docs=0, tests=0, siblings=0
+      - AGENTS.md -> docs=0, tests=0, siblings=0
+      - Makefile -> docs=0, tests=0, siblings=0
+      - README.md -> docs=0, tests=0, siblings=0
+      - apps/themuffinman/Makefile -> docs=0, tests=0, siblings=0
+    ruby scripts/audits/score-changeset-risk.rb
+    Changeset risk
+      changed files: 587
+      score: 40
+      tier: medium
+

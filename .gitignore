@@ -9,11 +9,4 @@
 
 # Disposable local audit outputs. Stable generated snapshots under docs/generated
 # remain tracked when they are contract, documentation, or audit source material.
-docs/generated/local-tooling/.cache/
-docs/generated/local-tooling/context-packs/
-docs/generated/local-tooling/session-handoffs/
-docs/generated/local-tooling/smoke/
-docs/generated/local-tooling/diagnostics/
-docs/generated/local-tooling/closeout-reports/
-docs/generated/local-tooling/post-merge-retrospectives/
-docs/generated/local-tooling/codex-context/
+docs/audit-output/

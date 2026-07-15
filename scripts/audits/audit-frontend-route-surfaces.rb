@@ -3,7 +3,7 @@
 
 require "json"
 require "set"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module FrontendRouteSurfaceInventory
   extend self
@@ -11,13 +11,13 @@ module FrontendRouteSurfaceInventory
   RouteEntry = Struct.new(:path, :component_symbol, :component_file, :redirect, :requires_auth, :requires_admin, :module_key, keyword_init: true)
 
   def run
-    router_path = File.join(LocalToolingCommon::REPO_ROOT, "apps/themuffinman/frontend/src/router.ts")
-    endpoint_linker_path = File.join(LocalToolingCommon::REPO_ROOT, "docs/generated/local-tooling/endpoint-callsite-linker.json")
+    router_path = File.join(AuditSupport::REPO_ROOT, "apps/themuffinman/frontend/src/router.ts")
+    endpoint_linker_path = File.join(AuditSupport::REPO_ROOT, "docs/audit-output/endpoint-callsite-linker.json")
     endpoint_linker = JSON.parse(File.read(endpoint_linker_path))
     endpoint_links = flatten_endpoint_links(endpoint_linker)
     endpoint_links_by_client_method = endpoint_links.group_by { |link| link[:client_method] }
 
-    frontend_files = LocalToolingCommon.repo_glob(
+    frontend_files = AuditSupport.repo_glob(
       "apps/themuffinman/frontend/src/**/*.ts",
       "apps/themuffinman/frontend/src/**/*.vue"
     )
@@ -37,13 +37,13 @@ module FrontendRouteSurfaceInventory
       routes: entries
     }
 
-    LocalToolingCommon.write_json("docs/generated/local-tooling/frontend-route-surface-inventory.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/frontend-route-surface-inventory-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/frontend-route-surface-inventory.json", report)
+    AuditSupport.write_text("docs/audit-output/frontend-route-surface-inventory-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def extract_routes(router_path)
-    content = LocalToolingCommon.read(router_path)
+    content = AuditSupport.read(router_path)
     component_imports = content.scan(/const\s+(\w+)\s*=\s*\(\)\s*=>\s*import\("([^"]+)"\);/).to_h
     route_blocks = content.scan(/\{\s*path:\s*'([^']+)'\s*,(.*?)\n\s*\}/m)
 
@@ -67,17 +67,17 @@ module FrontendRouteSurfaceInventory
   def resolve_frontend_component(import_path)
     return nil unless import_path
 
-    absolute = File.expand_path(import_path, File.join(LocalToolingCommon::REPO_ROOT, "apps/themuffinman/frontend/src"))
+    absolute = File.expand_path(import_path, File.join(AuditSupport::REPO_ROOT, "apps/themuffinman/frontend/src"))
     candidate = absolute.end_with?(".vue") || absolute.end_with?(".ts") ? absolute : "#{absolute}.vue"
     return nil unless File.file?(candidate)
 
-    LocalToolingCommon.relative_path(candidate)
+    AuditSupport.relative_path(candidate)
   end
 
   def build_reverse_import_graph(frontend_files)
     graph = Hash.new { |hash, key| hash[key] = Set.new }
     frontend_files.each do |path|
-      relative_path = LocalToolingCommon.relative_path(path)
+      relative_path = AuditSupport.relative_path(path)
       extract_relative_imports(path).each do |target|
         graph[target] << relative_path
       end
@@ -86,7 +86,7 @@ module FrontendRouteSurfaceInventory
   end
 
   def extract_relative_imports(path)
-    content = LocalToolingCommon.read(path)
+    content = AuditSupport.read(path)
     source_dir = File.dirname(path)
     content.scan(/from\s+"([^"]+)"|from\s+'([^']+)'/).flatten.compact.map do |import_path|
       next unless import_path.start_with?(".")
@@ -105,7 +105,7 @@ module FrontendRouteSurfaceInventory
       "#{base}/index.vue"
     ]
     match = candidates.find { |candidate| File.file?(candidate) }
-    match && LocalToolingCommon.relative_path(match)
+    match && AuditSupport.relative_path(match)
   end
 
   def flatten_endpoint_links(endpoint_linker)
@@ -181,7 +181,7 @@ module FrontendRouteSurfaceInventory
     while queue.any? && depth < 3
       next_queue = []
       queue.each do |file|
-        absolute = File.join(LocalToolingCommon::REPO_ROOT, file)
+        absolute = File.join(AuditSupport::REPO_ROOT, file)
         next unless File.file?(absolute)
 
         extract_relative_imports(absolute).each do |imported|
@@ -210,7 +210,7 @@ module FrontendRouteSurfaceInventory
     while queue.any? && depth < 4
       next_queue = []
       queue.each do |file|
-        absolute = File.join(LocalToolingCommon::REPO_ROOT, file)
+        absolute = File.join(AuditSupport::REPO_ROOT, file)
         next unless File.file?(absolute)
 
         extract_relative_imports(absolute).each do |imported|
@@ -230,10 +230,10 @@ module FrontendRouteSurfaceInventory
   def scan_used_client_methods(reachable_files)
     methods = Set.new
     reachable_files.each do |file|
-      absolute = File.join(LocalToolingCommon::REPO_ROOT, file)
+      absolute = File.join(AuditSupport::REPO_ROOT, file)
       next unless File.file?(absolute)
 
-      content = LocalToolingCommon.read(absolute)
+      content = AuditSupport.read(absolute)
       content.scan(/\.([a-zA-Z0-9_]+)\s*\(/).flatten.each do |method_name|
         methods << method_name
       end

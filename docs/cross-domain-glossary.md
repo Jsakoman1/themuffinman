@@ -62,5 +62,4 @@ The goal is to keep terminology stable before reading the larger business and te
 - `read-before-write`: automation must resolve exact entities through documented read workflows before mutation.
 - `clarification`: the required stop condition when natural-language targets are ambiguous.
 - `destructive confirmation`: explicit confirmation required after exact target resolution for destructive actions.
-- `feature manifest`: optional machine-readable closeout record for plan-driven feature work.
-- `validation evidence`: optional machine-readable record for commands run, generated artifacts checked or refreshed, and skipped checks.
+- `validation evidence`: verifier-written result for a command executed by a task in `docs/work/*.yaml`.

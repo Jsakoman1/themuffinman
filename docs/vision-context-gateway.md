@@ -11,9 +11,7 @@ Read it before broad repository search when the task changes the vision backend,
 3. `docs/vision-architecture-patterns.md`
 4. this file
 5. `docs/vision-decision-record.md`
-6. `docs/vision-feature-slice-checklist.md`
-7. `docs/vision-generated-artifact-policy.md` when contracts, agent docs, or generated files may change
-8. `docs/vision-failure-memory.md` when validation, closeout, or test drift has already appeared
+6. `docs/implementation-control.md` and the owning `docs/work/*.yaml` plan for implementation and validation
 9. `docs/vision-status-ledger.md` for current delivery state and intentional deferrals
 
 ## Vision Backend Map
@@ -94,9 +92,7 @@ Preferred future shape:
 - `docs/product-vision.md`: product direction
 - `docs/vision-architecture-patterns.md`: implementation architecture baseline
 - `docs/vision-decision-record.md`: locked operating decisions
-- `docs/vision-feature-slice-checklist.md`: per-batch implementation checklist
-- `docs/vision-generated-artifact-policy.md`: generator and contract refresh rules
-- `docs/vision-failure-memory.md`: repeated failure classes and fixes
+- `docs/implementation-control.md`: universal implementation and validation rules
 - `docs/vision-status-ledger.md`: continuity ledger
 - `docs/business-logic.md`: user-visible behavior rules
 - `docs/domain-technical.md`: entities, workflows, validations, permissions

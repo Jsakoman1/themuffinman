@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "set"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module EndpointCallsiteLinker
   extend self
@@ -19,9 +19,9 @@ module EndpointCallsiteLinker
   }.freeze
 
   def run
-    endpoint_files = LocalToolingCommon.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/*/controller/*Controller.java")
-    frontend_api_files = LocalToolingCommon.repo_glob("apps/themuffinman/frontend/src/modules/**/*Api.ts")
-    frontend_source_files = LocalToolingCommon.repo_glob(
+    endpoint_files = AuditSupport.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/*/controller/*Controller.java")
+    frontend_api_files = AuditSupport.repo_glob("apps/themuffinman/frontend/src/modules/**/*Api.ts")
+    frontend_source_files = AuditSupport.repo_glob(
       "apps/themuffinman/frontend/src/modules/**/*.ts",
       "apps/themuffinman/frontend/src/modules/**/*.vue"
     )
@@ -41,14 +41,14 @@ module EndpointCallsiteLinker
       endpoints: entries.sort_by { |entry| [entry[:frontend_matches].empty? ? 0 : 1, entry[:full_path], entry[:http_method]] }
     }
 
-    LocalToolingCommon.write_json("docs/generated/local-tooling/endpoint-callsite-linker.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/endpoint-callsite-linker-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/endpoint-callsite-linker.json", report)
+    AuditSupport.write_text("docs/audit-output/endpoint-callsite-linker-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def extract_endpoints(path)
-    content = LocalToolingCommon.read(path)
-    relative_path = LocalToolingCommon.relative_path(path)
+    content = AuditSupport.read(path)
+    relative_path = AuditSupport.relative_path(path)
     controller = File.basename(path, ".java")
     class_base = normalize_backend_path(content[/@RequestMapping\("([^"]+)"\)/, 1] || "")
     pending_annotations = []
@@ -79,7 +79,7 @@ module EndpointCallsiteLinker
           full_path: full_path,
           controller_method: signature_match[1],
           file: relative_path,
-          domain: LocalToolingCommon.domain_for_path(relative_path)
+          domain: AuditSupport.domain_for_path(relative_path)
         )
       end
 
@@ -90,8 +90,8 @@ module EndpointCallsiteLinker
   end
 
   def extract_frontend_client_methods(path)
-    content = LocalToolingCommon.read(path)
-    relative_path = LocalToolingCommon.relative_path(path)
+    content = AuditSupport.read(path)
+    relative_path = AuditSupport.relative_path(path)
     client_object = content[/export const (\w+) = \{/, 1]
     return [] unless client_object
 
@@ -157,7 +157,7 @@ module EndpointCallsiteLinker
   def build_reverse_import_graph(files)
     graph = Hash.new { |hash, key| hash[key] = Set.new }
     files.each do |path|
-      relative_path = LocalToolingCommon.relative_path(path)
+      relative_path = AuditSupport.relative_path(path)
       extract_relative_imports(path).each do |target|
         graph[target] << relative_path
       end
@@ -166,7 +166,7 @@ module EndpointCallsiteLinker
   end
 
   def extract_relative_imports(path)
-    content = LocalToolingCommon.read(path)
+    content = AuditSupport.read(path)
     source_dir = File.dirname(path)
     content.scan(/from\s+"([^"]+)"|from\s+'([^']+)'/).flatten.compact.map do |import_path|
       next unless import_path.start_with?(".")
@@ -185,14 +185,14 @@ module EndpointCallsiteLinker
       "#{base}/index.vue"
     ]
     candidate = candidates.find { |value| File.file?(value) }
-    candidate && LocalToolingCommon.relative_path(candidate)
+    candidate && AuditSupport.relative_path(candidate)
   end
 
   def build_callsite_index(frontend_source_files, client_methods, import_graph)
     index = Hash.new { |hash, key| hash[key] = [] }
     frontend_source_files.each do |path|
-      relative_path = LocalToolingCommon.relative_path(path)
-      content = LocalToolingCommon.read(path)
+      relative_path = AuditSupport.relative_path(path)
+      content = AuditSupport.read(path)
       next if relative_path.include?("/api/")
 
       client_methods.each do |client_method|
@@ -200,7 +200,7 @@ module EndpointCallsiteLinker
 
         index[client_key(client_method)] << {
           file: relative_path,
-          category: LocalToolingCommon.path_category(relative_path),
+          category: AuditSupport.path_category(relative_path),
           ui_surfaces: discover_ui_surfaces(relative_path, import_graph)
         }
       end

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 options = ARGV.each_with_object({}) do |arg, parsed|
   key, value = arg.split("=", 2)
@@ -9,7 +9,7 @@ options = ARGV.each_with_object({}) do |arg, parsed|
 end
 
 max_lines = (options["max_lines"] || options["max-lines"] || "80").to_i
-aggressive = LocalToolingCommon.truthy?(options["aggressive"])
+aggressive = AuditSupport.truthy?(options["aggressive"])
 input =
   if options["file"] && !options["file"].to_s.empty?
     File.read(options["file"])
@@ -17,4 +17,4 @@ input =
     STDIN.read
   end
 
-puts LocalToolingCommon.clean_text_output(input, max_lines: max_lines, aggressive: aggressive)
+puts AuditSupport.clean_text_output(input, max_lines: max_lines, aggressive: aggressive)

@@ -21,7 +21,7 @@ Owns reusable backend helpers that are intentionally domain-neutral: pagination,
 ## Living Docs
 
 - `docs/domain-technical.md`
-- `docs/documentation-sync-policy.md`
+- `docs/implementation-control.md`
 
 ## Forbidden Shortcuts
 

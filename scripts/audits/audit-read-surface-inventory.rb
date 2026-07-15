@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module ReadSurfaceInventory
   extend self
@@ -12,7 +12,7 @@ module ReadSurfaceInventory
   MethodEntry = Struct.new(:name, :return_type, :annotations, :body, keyword_init: true)
 
   def run
-    services = LocalToolingCommon.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/*/service/*.java")
+    services = AuditSupport.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/*/service/*.java")
     entries = services.flat_map { |path| inventory_for_service(path) }
     report = {
       generated_at: Time.now.utc.iso8601,
@@ -22,14 +22,14 @@ module ReadSurfaceInventory
       transaction_relevant_read_surface_count: entries.count { |entry| entry[:transaction_relevant] },
       missing_read_only_transaction_count: entries.count { |entry| entry[:transaction_relevant] && !entry[:transaction_read_only] }
     }
-    LocalToolingCommon.write_json("docs/generated/local-tooling/read-surface-inventory.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/read-surface-inventory-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/read-surface-inventory.json", report)
+    AuditSupport.write_text("docs/audit-output/read-surface-inventory-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def inventory_for_service(path)
-    content = LocalToolingCommon.read(path)
-    relative_path = LocalToolingCommon.relative_path(path)
+    content = AuditSupport.read(path)
+    relative_path = AuditSupport.relative_path(path)
     class_annotations = content.lines.take_while { |line| !line.include?("class ") }.join
     class_read_only = class_annotations.include?("@Transactional(readOnly = true)")
     repositories = content.scan(/private final ([A-Za-z0-9_<>]+Repository) ([a-zA-Z0-9_]+);/).map { |type, name| [name, type] }.to_h
@@ -48,7 +48,7 @@ module ReadSurfaceInventory
       entries << {
         service: File.basename(path, ".java"),
         path: relative_path,
-        domain: LocalToolingCommon.domain_for_path(relative_path),
+        domain: AuditSupport.domain_for_path(relative_path),
         method: method.name,
         return_type: method.return_type,
         read_like: true,

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "set"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module RepositoryFetchAudit
   extend self
@@ -23,8 +23,8 @@ module RepositoryFetchAudit
   CallerMethod = Struct.new(:name, :body, keyword_init: true)
 
   def run
-    repository_paths = LocalToolingCommon.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/*/repository/*.java")
-    main_java_paths = LocalToolingCommon.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/**/*.java")
+    repository_paths = AuditSupport.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/*/repository/*.java")
+    main_java_paths = AuditSupport.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/**/*.java")
     repository_methods = repository_paths.flat_map { |path| extract_repository_methods(path) }
     callsites = collect_callsites(main_java_paths, repository_methods)
     entries = repository_methods.map { |method| build_entry(method, callsites[callsite_key(method)] || []) }
@@ -38,14 +38,14 @@ module RepositoryFetchAudit
       repository_methods: entries.sort_by { |entry| [risk_rank(entry[:risk_level]), entry[:repository], entry[:method]] }
     }
 
-    LocalToolingCommon.write_json("docs/generated/local-tooling/repository-fetch-audit.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/repository-fetch-audit-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/repository-fetch-audit.json", report)
+    AuditSupport.write_text("docs/audit-output/repository-fetch-audit-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def extract_repository_methods(path)
-    content = LocalToolingCommon.read(path)
-    relative_path = LocalToolingCommon.relative_path(path)
+    content = AuditSupport.read(path)
+    relative_path = AuditSupport.relative_path(path)
     repository = File.basename(path, ".java")
     methods = []
     pending_annotations = []
@@ -71,7 +71,7 @@ module RepositoryFetchAudit
       methods << RepositoryMethod.new(
         repository: repository,
         path: relative_path,
-        domain: LocalToolingCommon.domain_for_path(relative_path),
+        domain: AuditSupport.domain_for_path(relative_path),
         method: signature_match[2],
         return_type: return_type,
         returned_entity: extract_returned_entity(return_type),
@@ -111,7 +111,7 @@ module RepositoryFetchAudit
     java_paths.each do |path|
       next if path.include?("/repository/")
 
-      content = LocalToolingCommon.read(path)
+      content = AuditSupport.read(path)
       repository_fields = content.scan(/private final ([A-Za-z0-9_]+Repository) ([a-zA-Z0-9_]+);/)
       next if repository_fields.empty?
 
@@ -129,7 +129,7 @@ module RepositoryFetchAudit
               .uniq
               .sort
             callsites[callsite_key(repository_method)] << {
-              file: LocalToolingCommon.relative_path(path),
+              file: AuditSupport.relative_path(path),
               caller_class: File.basename(path, ".java"),
               caller_method: method.name,
               caller_classification: classify_caller(path, method.name),

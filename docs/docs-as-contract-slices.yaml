@@ -88,7 +88,7 @@ docs_as_contract_slices:
       - path: docs/business-logic.md
         headings:
           - "### Safety boundary"
-      - path: docs/agent-operating-model.md
+      - path: docs/implementation-control.md
         headings:
           - "## Sandbox Boundary"
       - path: docs/domain-technical.md

@@ -1,275 +1,31 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "yaml"
+root = File.expand_path("..", __dir__)
+backlogs = Dir[File.join(root, "docs/*backlog*.md")]
+open_ids = []
 
-REPO_ROOT = File.expand_path("..", __dir__)
-BACKLOG_FILES = [
-  "docs/implementation-backlog.md",
-  "docs/agent-improvement-backlog.md"
-].freeze
-TODO_PATTERN = /\b(?:TODO|FIXME)\(([A-Z0-9_-]+)\):/
-TODO_CANDIDATE_PATTERN = /\b(?:TODO|FIXME)(?:\([A-Z0-9_<>-]+\))?:/
-SKIP_DIRS = %w[
-  .git
-  node_modules
-].freeze
-TRACEABILITY_SKIP_DIRS = %w[
-  .git
-  node_modules
-  target
-  dist
-].freeze
-
-def parse_backlog_entries(path)
-  entries = []
-  lines = File.readlines(path, chomp: true)
-  lines.each_with_index do |line, index|
-    next unless line.start_with?("- [")
-
-    if line.start_with?("- [x]")
-      raise "#{path}:#{index + 1} resolved backlog items must be removed instead of kept as closed checkboxes"
-    end
-
-    next unless line.start_with?("- [ ]")
-
-    match = line.match(/^- \[ \] ([A-Z0-9_-]+): (.+)$/)
-    raise "#{path}:#{index + 1} backlog entries must use '- [ ] BACKLOG_ID: description'" unless match
-
-    entries << {
-      id: match[1],
-      description: match[2],
-      path: path,
-      line: index + 1
-    }
-  end
-  entries
-end
-
-def scan_inline_todos
-  references = []
-  violations = []
-
-  Dir.glob("#{REPO_ROOT}/**/*", File::FNM_DOTMATCH).sort.each do |absolute_path|
-    next unless File.file?(absolute_path)
-
-    relative_path = absolute_path.delete_prefix("#{REPO_ROOT}/")
-    next if relative_path.empty?
-    next if SKIP_DIRS.any? { |segment| relative_path.split("/").include?(segment) }
-
-    lines = begin
-      File.binread(absolute_path)
-          .encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
-          .lines(chomp: true)
-    rescue ArgumentError, Encoding::UndefinedConversionError, Encoding::InvalidByteSequenceError
-      next
-    end
-
-    lines.each_with_index do |line, index|
-      next unless line.match?(TODO_CANDIDATE_PATTERN)
-      next if line.include?("TODO(<ID>):") || line.include?("FIXME(<ID>):")
-
-      match = line.match(TODO_PATTERN)
-      if match
-        references << {
-          id: match[1],
-          path: relative_path,
-          line: index + 1,
-          text: line.strip
-        }
-      else
-        violations << "#{relative_path}:#{index + 1} inline TODO/FIXME must use TODO(<ID>): or FIXME(<ID>):"
-      end
-    end
-  end
-
-  [references, violations]
-end
-
-def scan_open_plan_tasks
-  plan_items = []
-  Dir.glob(File.join(REPO_ROOT, ".agents", "*-plan.md")).sort.each do |absolute_path|
-    next if absolute_path.include?("/templates/")
-
-    relative_path = absolute_path.delete_prefix("#{REPO_ROOT}/")
-    File.readlines(absolute_path, chomp: true).each_with_index do |line, index|
-      next unless line.start_with?("- [ ]")
-
-      plan_items << {
-        path: relative_path,
-        line: index + 1,
-        text: line.sub("- [ ] ", "")
-      }
-    end
-  end
-  plan_items
-end
-
-def categorize_trace_path(relative_path)
-  return "plan" if relative_path.start_with?(".agents/") && relative_path.end_with?(".md")
-  return "feature_manifest" if relative_path.start_with?(".agents/feature-manifests/") && relative_path.end_with?(".yaml")
-  return "doc" if relative_path.start_with?("docs/") || relative_path == "AGENTS.md"
-  return "code" if relative_path.start_with?("apps/") || relative_path.start_with?("services/") || relative_path.start_with?("scripts/")
-
-  "other"
-end
-
-def scan_backlog_traceability(open_backlog_ids)
-  traceability = {}
-  open_backlog_ids.each_key do |id|
-    traceability[id] = {
-      "plan" => [],
-      "feature_manifest" => [],
-      "doc" => [],
-      "code" => [],
-      "other" => []
-    }
-  end
-
-  return traceability if open_backlog_ids.empty?
-
-  backlog_ids = open_backlog_ids.keys.sort
-
-  candidate_paths = []
-  [
-    ".agents/**/*.md",
-    ".agents/feature-manifests/*.yaml",
-    "docs/**/*",
-    "apps/**/*",
-    "services/**/*",
-    "scripts/**/*",
-    "AGENTS.md"
-  ].each do |pattern|
-    candidate_paths.concat(Dir.glob(File.join(REPO_ROOT, pattern), File::FNM_DOTMATCH))
-  end
-
-  candidate_paths.uniq.sort.each do |absolute_path|
-    next unless File.file?(absolute_path)
-
-    relative_path = absolute_path.delete_prefix("#{REPO_ROOT}/")
-    next if relative_path.empty?
-    path_segments = relative_path.split("/")
-    next if TRACEABILITY_SKIP_DIRS.any? { |segment| path_segments.include?(segment) }
-    next if relative_path.start_with?("docs/generated/")
-    next if BACKLOG_FILES.include?(relative_path)
-
-    content = begin
-      File.binread(absolute_path).encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
-    rescue ArgumentError, Encoding::UndefinedConversionError, Encoding::InvalidByteSequenceError
-      next
-    end
-    category = categorize_trace_path(relative_path)
-    backlog_ids.select { |id| content.include?(id) }.each do |id|
-      traceability[id][category] << relative_path
-    end
-  end
-
-  traceability.each_value do |links_by_category|
-    links_by_category.each_value(&:uniq!)
-    links_by_category.each_value(&:sort!)
-  end
-
-  traceability
-end
-
-manifest_path = ARGV.each_cons(2).find { |flag, _| flag == "--manifest" }&.last
-manifest = manifest_path ? YAML.load_file(File.join(REPO_ROOT, manifest_path)) : nil
-
-backlog_entries = BACKLOG_FILES.flat_map do |relative_path|
-  parse_backlog_entries(File.join(REPO_ROOT, relative_path))
-end
-
-open_backlog_ids = {}
-backlog_entries.each do |entry|
-  if open_backlog_ids.key?(entry[:id])
-    existing = open_backlog_ids[entry[:id]]
-    raise "Duplicate backlog ID #{entry[:id]} in #{existing[:path]}:#{existing[:line]} and #{entry[:path]}:#{entry[:line]}"
-  end
-  open_backlog_ids[entry[:id]] = entry
-end
-
-todo_references, violations = scan_inline_todos
-todo_references.each do |reference|
-  unless open_backlog_ids.key?(reference[:id])
-    violations << "#{reference[:path]}:#{reference[:line]} references unknown or resolved backlog ID #{reference[:id]}"
+backlogs.each do |path|
+  File.readlines(path).each_with_index do |line, index|
+    open_ids << [line.match(/\b[A-Z][A-Z0-9_-]{2,}\b/)&.to_s, path, index + 1] if line.match?(/^- \[ \]/)
   end
 end
 
-plan_items = scan_open_plan_tasks
-backlog_traceability = scan_backlog_traceability(open_backlog_ids)
+references = Dir.glob(File.join(root, "{apps,services,scripts,docs,.agents}/**/*"), File::FNM_DOTMATCH)
+  .select { |path| File.file?(path) }
+  .reject { |path| path.include?("/.git/") }
+  .map { |path| [path, File.read(path)] rescue [path, ""] }
 
-backlog_traceability.each do |id, links_by_category|
-  link_count = links_by_category.values.flatten.size
-  if link_count.zero?
-    entry = open_backlog_ids.fetch(id)
-    violations << "#{entry[:path]}:#{entry[:line]} backlog ID #{id} has no traceability links in plans, feature manifests, docs, code, or inline TODO/FIXME references"
-  end
+missing = open_ids.select do |id, path, _line|
+  next false if id.to_s.empty?
+  references.none? { |other_path, content| other_path != path && content.include?(id) }
 end
 
-if manifest
-  backlog = manifest.fetch("backlog", {})
-  created_ids = Array(backlog["createdIds"])
-  resolved_ids = Array(backlog["resolvedIds"])
-
-  if manifest["status"] == "complete" && backlog["reviewed"] != true
-    violations << "#{manifest_path} must set backlog.reviewed=true before completion"
-  end
-
-  created_ids.each do |id|
-    unless open_backlog_ids.key?(id)
-      violations << "#{manifest_path} declares backlog.createdIds entry #{id} but that ID is not open in a persistent backlog file"
-    end
-  end
-
-  resolved_ids.each do |id|
-    if open_backlog_ids.key?(id)
-      violations << "#{manifest_path} declares backlog.resolvedIds entry #{id} but that ID is still open in #{open_backlog_ids[id][:path]}:#{open_backlog_ids[id][:line]}"
-    end
-
-    lingering_references = todo_references.select { |reference| reference[:id] == id }
-    lingering_references.each do |reference|
-      violations << "#{manifest_path} resolved backlog ID #{id} still appears in #{reference[:path]}:#{reference[:line]}"
-    end
-  end
-
-  plan_file = manifest["planFile"]
-  if manifest["status"] == "complete" && plan_file
-    open_plan_items = plan_items.select { |item| item[:path] == plan_file }
-    open_plan_items.each do |item|
-      violations << "#{manifest_path} is complete but plan still has open task at #{item[:path]}:#{item[:line]}"
-    end
-  end
-end
-
-puts "Persistent backlog audit"
-puts "  Open backlog items: #{backlog_entries.size}"
-backlog_entries.each do |entry|
-  puts "    - #{entry[:id]} (#{entry[:path]}:#{entry[:line]}) #{entry[:description]}"
-end
-
-puts "  Inline TODO/FIXME references: #{todo_references.size}"
-todo_references.each do |reference|
-  puts "    - #{reference[:id]} (#{reference[:path]}:#{reference[:line]})"
-end
-
-puts "  Open plan tasks: #{plan_items.size}"
-plan_items.each do |item|
-  puts "    - #{item[:path]}:#{item[:line]} #{item[:text]}"
-end
-
-puts "  Backlog traceability:"
-backlog_traceability.each do |id, links_by_category|
-  counts = links_by_category.map { |category, paths| "#{category}=#{paths.size}" }.join(", ")
-  puts "    - #{id}: #{counts}"
-end
-
-if violations.empty?
-  puts "Todo audit passed"
+if missing.empty?
+  puts "TODO audit passed"
   exit 0
 end
 
-warn "Todo audit failed:"
-violations.each do |violation|
-  warn "  - #{violation}"
-end
+warn "TODO audit failed:"
+missing.each { |id, path, line| warn "  - #{id} has no reference outside #{path}:#{line}" }
 exit 1

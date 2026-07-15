@@ -16,7 +16,7 @@ Owns typed operational configuration for security, bootstrap, retention, locatio
 ## Living Docs
 
 - `docs/domain-technical.md`
-- `docs/documentation-sync-policy.md`
+- `docs/implementation-control.md`
 
 ## Forbidden Shortcuts
 

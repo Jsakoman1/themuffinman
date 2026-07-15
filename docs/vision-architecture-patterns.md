@@ -8,9 +8,6 @@ The compact companion set for daily work is:
 
 - `docs/vision-context-gateway.md`
 - `docs/vision-decision-record.md`
-- `docs/vision-feature-slice-checklist.md`
-- `docs/vision-generated-artifact-policy.md`
-- `docs/vision-failure-memory.md`
 - `docs/vision-status-ledger.md`
 
 ## Product Target
@@ -41,7 +38,7 @@ Preferred order:
 4. API contract and frontend canvas work
 5. first execution adapter under flag
 
-Use `docs/vision-feature-slice-checklist.md` as the per-batch enforcement layer for this start pattern.
+Use `docs/implementation-control.md` and the owning work plan as the enforcement layer for this start pattern.
 
 ## Core Principle
 
@@ -409,8 +406,7 @@ Current standardized implementation:
 Future `/vision` work should prefer the local context and failure-memory path before broad repo rediscovery:
 
 - use `docs/vision-context-gateway.md` for location of backend, API, frontend, tests, and docs
-- use `docs/vision-failure-memory.md` when generator drift, docs drift, contract drift, or conversation-test drift appears
-- use `docs/vision-generated-artifact-policy.md` before closeout when DTOs, endpoints, or agent-operating docs changed
+- use the owning `docs/work/*.yaml` plan to record contract, documentation, and test validation
 - use reusable fixtures under `apps/themuffinman/src/test/java/com/themuffinman/app/vision/testing/` for conversation builders, slot presets, location candidates, and schedule phrases
 
 The frontend should treat backend canvas state as the source of truth.
@@ -477,7 +473,7 @@ Defer destructive, admin-only, and multi-actor execution until the adapter and s
 When vision behavior changes, update:
 - `docs/business-logic.md` for user-facing behavior
 - `docs/domain-technical.md` for technical source of truth
-- `docs/agent-operating-model.md` and YAML/sections for intent, endpoint, and safety changes
+- `docs/implementation-control.md` and YAML/sections for intent, endpoint, and safety changes
 - this document when backend/API/frontend patterns change
 - `.agents/*plan.md` when a planned rollout changes
 

@@ -1,8 +1,0 @@
----
-frontend_safety_regressions:
-  validation_script: apps/themuffinman/frontend/scripts/validate-admin-agent-ui-scenarios.mjs
-  fixture_file: apps/themuffinman/frontend/scripts/fixtures/admin-agent-ui-scenarios.json
-  required_case_ids:
-  - execution_confirmation_required
-  - execution_batch_limit
-  - execution_target_resolution

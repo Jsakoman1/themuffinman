@@ -1,0 +1,8 @@
+kind: master
+version: 1
+id: replace-me
+title: Replace me
+status: draft
+baseline: replace-with-git-revision
+children: []
+evidence: []

@@ -4,12 +4,12 @@
 require "json"
 require "set"
 require "time"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module PermissionRuleDuplicationAudit
   extend self
 
-  ACTIVE_SURFACES_PATH = File.join(LocalToolingCommon::REPO_ROOT, "docs/generated/local-tooling/frontend-route-surface-inventory.json")
+  ACTIVE_SURFACES_PATH = File.join(AuditSupport::REPO_ROOT, "docs/audit-output/frontend-route-surface-inventory.json")
 
   CANONICAL_BACKEND_FILES = [
     "apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestAccessPolicyService.java",
@@ -64,12 +64,14 @@ module PermissionRuleDuplicationAudit
       cross_layer_overlap_shortlist: overlap_shortlist(backend_entries, frontend_entries)
     }
 
-    LocalToolingCommon.write_json("docs/generated/local-tooling/permission-rule-duplication-audit.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/permission-rule-duplication-audit-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/permission-rule-duplication-audit.json", report)
+    AuditSupport.write_text("docs/audit-output/permission-rule-duplication-audit-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def active_frontend_files
+    return Set.new unless File.file?(ACTIVE_SURFACES_PATH)
+
     inventory = JSON.parse(File.read(ACTIVE_SURFACES_PATH))
     files = Set.new
     inventory.fetch("routes", []).each do |route|
@@ -80,18 +82,18 @@ module PermissionRuleDuplicationAudit
   end
 
   def backend_entries
-    files = LocalToolingCommon.repo_glob(
+    files = AuditSupport.repo_glob(
       "apps/themuffinman/src/main/java/com/themuffinman/app/**/*Service.java",
       "apps/themuffinman/src/main/java/com/themuffinman/app/**/*Assembler.java",
       "apps/themuffinman/src/main/java/com/themuffinman/app/**/*Mgr.java",
       "apps/themuffinman/src/main/java/com/themuffinman/app/**/*Controller.java"
-    ).map { |path| LocalToolingCommon.relative_path(path) }
+    ).map { |path| AuditSupport.relative_path(path) }
 
     sources = []
     presentation_flags = []
 
     files.each do |relative_path|
-      lines = LocalToolingCommon.read(File.join(LocalToolingCommon::REPO_ROOT, relative_path)).lines
+      lines = AuditSupport.read(File.join(AuditSupport::REPO_ROOT, relative_path)).lines
       lines.each_with_index do |line, index|
         stripped = line.strip
 
@@ -112,11 +114,11 @@ module PermissionRuleDuplicationAudit
   end
 
   def frontend_entries(active_frontend_files)
-    files = LocalToolingCommon.repo_glob(
+    files = AuditSupport.repo_glob(
       "apps/themuffinman/frontend/src/modules/**/*.ts",
       "apps/themuffinman/frontend/src/modules/**/*.vue",
       "apps/themuffinman/frontend/src/components/app/**/*.vue"
-    ).map { |path| LocalToolingCommon.relative_path(path) }.reject do |path|
+    ).map { |path| AuditSupport.relative_path(path) }.reject do |path|
       path.include?("/api/") || path.include?("/domain/") || path.include?("/contracts/")
     end
 
@@ -124,7 +126,7 @@ module PermissionRuleDuplicationAudit
     local = []
 
     files.each do |relative_path|
-      lines = LocalToolingCommon.read(File.join(LocalToolingCommon::REPO_ROOT, relative_path)).lines
+      lines = AuditSupport.read(File.join(AuditSupport::REPO_ROOT, relative_path)).lines
       lines.each_with_index do |line, index|
         stripped = line.strip
         active_route_backed = active_frontend_files.include?(relative_path)

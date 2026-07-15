@@ -4,10 +4,10 @@
 require "json"
 require "set"
 require "time"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
-OUT_JSON = "docs/generated/local-tooling/mutation-safety.json"
-OUT_MD = "docs/generated/local-tooling/mutation-safety-summary.md"
+OUT_JSON = "docs/audit-output/mutation-safety.json"
+OUT_MD = "docs/audit-output/mutation-safety-summary.md"
 
 MUTATING_HTTP_METHODS = %w[Post Put Patch Delete].freeze
 MUTATING_METHOD_PATTERN = /\b(create|update|delete|approve|decline|withdraw|block|unblock|start|complete|confirm|reject|cancel|assign|apply|mark|read|submit|request|accept)\w*\s*\(/i
@@ -17,11 +17,11 @@ TRANSITION_PATTERN = /status|state|transition|workflow|pending|approved|declined
 SIDE_EFFECT_PATTERN = /notify|notification|news|event|publish|emit|mailService|websocket/i
 
 def rel_glob(*patterns)
-  LocalToolingCommon.repo_glob(*patterns).map { |path| LocalToolingCommon.relative_path(path) }
+  AuditSupport.repo_glob(*patterns).map { |path| AuditSupport.relative_path(path) }
 end
 
 def read(path)
-  File.read(File.join(LocalToolingCommon::REPO_ROOT, path))
+  File.read(File.join(AuditSupport::REPO_ROOT, path))
 rescue Errno::ENOENT
   ""
 end
@@ -114,7 +114,6 @@ def scenario_catalog_text
   [
     "docs/regression-scenario-catalog.yaml",
     "docs/agent-operating-model/sections/intents.yaml",
-    "docs/agent-operating-model/sections/workflows.yaml",
     "docs/agent-operating-model.yaml"
   ].map { |path| read(path).downcase }.join("\n")
 end
@@ -237,8 +236,8 @@ end
 lines << ""
 lines << "Advisory only: static signals choose review candidates; they do not prove test absence."
 
-LocalToolingCommon.write_json(OUT_JSON, report)
-LocalToolingCommon.write_text(OUT_MD, lines.join("\n") + "\n")
+AuditSupport.write_json(OUT_JSON, report)
+AuditSupport.write_text(OUT_MD, lines.join("\n") + "\n")
 puts "Mutation safety"
 puts "  mutation surfaces scanned: #{report[:mutation_surface_count]}"
 puts "  review needed: #{report[:review_needed_count]}"

@@ -1,6 +1,6 @@
 SHELL := /bin/zsh
 
-.PHONY: dev dev-doctor dev-storage dev-storage-down backend-dev backend-test backend-package backend-bootstrap-example audit-agent-safety generate-agent-operating-model generate-agent-artifacts
+.PHONY: dev dev-doctor dev-storage dev-storage-down backend-dev backend-test backend-package backend-bootstrap-example audit-agent-safety
 
 dev:
 	@set -a; \
@@ -128,12 +128,3 @@ audit-agent-safety:
 	cd frontend && npm run type-check
 	cd frontend && npm run validate:admin-agent-ui
 	cd frontend && npm run build
-
-generate-agent-operating-model:
-	ruby ../../scripts/generate-agent-operating-model.rb
-
-generate-agent-artifacts:
-	ruby ../../scripts/generate-backend-audit-inventory.rb
-	ruby ../../scripts/generate-agent-endpoint-inventory.rb
-	ruby ../../scripts/generate-automation-read-model-inventory.rb
-	ruby ../../scripts/generate-source-of-truth-audit.rb

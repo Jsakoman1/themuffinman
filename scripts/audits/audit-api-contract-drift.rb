@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module ApiContractDriftAudit
   extend self
@@ -40,15 +40,15 @@ module ApiContractDriftAudit
       zero_usage_field_count: entries.sum { |entry| entry[:fields].count { |field| field[:drift_category] == "unused_in_frontend" } },
       dtos: entries
     }
-    LocalToolingCommon.write_json("docs/generated/local-tooling/api-contract-drift.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/api-contract-drift-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/api-contract-drift.json", report)
+    AuditSupport.write_text("docs/audit-output/api-contract-drift-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def backend_dto_fields
-    dto_paths = LocalToolingCommon.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/**/*DTO.java")
+    dto_paths = AuditSupport.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/**/*DTO.java")
     dto_paths.each_with_object({}) do |path, result|
-      content = LocalToolingCommon.read(path)
+      content = AuditSupport.read(path)
       dto_name = File.basename(path, ".java")
       fields = content.scan(/^\s*private\s+(?!static\b)([A-Za-z0-9_<>, ?\[\]]+)\s+([a-zA-Z0-9_]+);/).map { |_type, name| name }
       result[dto_name] = fields.uniq.sort
@@ -56,8 +56,8 @@ module ApiContractDriftAudit
   end
 
   def generated_contract_fields
-    contract_path = File.join(LocalToolingCommon::REPO_ROOT, "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts")
-    content = LocalToolingCommon.read(contract_path)
+    contract_path = File.join(AuditSupport::REPO_ROOT, "apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts")
+    content = AuditSupport.read(contract_path)
     result = {}
     content.scan(/export interface ([A-Za-z0-9_]+) \{(.*?)^\}/m).each do |dto_name, body|
       fields = body.scan(/^\s*([a-zA-Z0-9_?]+):/).flatten.map { |name| name.delete_suffix("?") }
@@ -68,11 +68,11 @@ module ApiContractDriftAudit
 
   def frontend_field_usage
     usage = Hash.new(0)
-    frontend_paths = LocalToolingCommon.repo_glob("apps/themuffinman/frontend/src/**/*.{ts,vue}")
+    frontend_paths = AuditSupport.repo_glob("apps/themuffinman/frontend/src/**/*.{ts,vue}")
     frontend_paths.each do |path|
       next if path.include?("/contracts/generated/")
 
-      content = LocalToolingCommon.read(path)
+      content = AuditSupport.read(path)
       content.scan(/\.([a-zA-Z0-9_]+)\b/).flatten.each { |field| usage[field] += 1 }
       content.scan(/\[['"]([a-zA-Z0-9_]+)['"]\]/).flatten.each { |field| usage[field] += 1 }
       content.scan(/\b([a-zA-Z0-9_]+):/).flatten.each { |field| usage[field] += 1 if field.match?(/[a-z]/) }

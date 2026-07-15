@@ -2,11 +2,11 @@
 # frozen_string_literal: true
 
 require "time"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 TEST_ROOT = "apps/themuffinman/src/test/java"
-OUT_JSON = "docs/generated/local-tooling/test-fixture-duplication.json"
-OUT_MD = "docs/generated/local-tooling/test-fixture-duplication-summary.md"
+OUT_JSON = "docs/audit-output/test-fixture-duplication.json"
+OUT_MD = "docs/audit-output/test-fixture-duplication-summary.md"
 
 FOCUS_PATTERNS = {
   "users" => /\b(new AppUser|TestFixtures\.(user|admin|userWithProfileLocation)|createUser\s*\()/,
@@ -28,11 +28,11 @@ ENTITY_PATTERNS = {
 }.freeze
 
 def rel_glob(*patterns)
-  LocalToolingCommon.repo_glob(*patterns).map { |path| LocalToolingCommon.relative_path(path) }
+  AuditSupport.repo_glob(*patterns).map { |path| AuditSupport.relative_path(path) }
 end
 
 def read(path)
-  File.read(File.join(LocalToolingCommon::REPO_ROOT, path))
+  File.read(File.join(AuditSupport::REPO_ROOT, path))
 end
 
 def domain_for(path)
@@ -136,8 +136,8 @@ report = {
   rows: rows
 }
 
-LocalToolingCommon.write_json(OUT_JSON, report)
-LocalToolingCommon.write_text(OUT_MD, markdown(report))
+AuditSupport.write_json(OUT_JSON, report)
+AuditSupport.write_text(OUT_MD, markdown(report))
 puts "Test fixture duplication audit"
 puts "  tests scanned: #{report[:tests_scanned]}"
 puts "  extraction candidates: #{report[:extraction_candidates].size}"

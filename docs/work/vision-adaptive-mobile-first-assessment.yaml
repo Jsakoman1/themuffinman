@@ -1,0 +1,143 @@
+kind: work
+version: 1
+id: vision-adaptive-mobile-first-assessment
+title: Assess the recovered Vision adaptive mobile-first program
+status: verified
+baseline: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+tasks:
+- id: ia-presentation
+  title: Assess the recovered Vision presentation contract ideas
+  type: assessment
+  status: done
+  paths:
+  - ".agents/vision-ia-presentation-contract-plan.md"
+  - docs/domain-technical.md
+  validation: git show HEAD:.agents/vision-ia-presentation-contract-plan.md >/dev/null
+    && rg -q 'runtimeContext|canvasMode|memoryTrail|visionHandoff' docs/domain-technical.md
+- id: shared-design
+  title: Assess shared shell and presentation primitives
+  type: assessment
+  status: done
+  paths:
+  - ".agents/vision-shared-design-system-plan.md"
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  validation: git show HEAD:.agents/vision-shared-design-system-plan.md >/dev/null
+    && test -f apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+- id: canvas-declutter
+  title: Assess Vision canvas and support-context simplification
+  type: assessment
+  status: done
+  paths:
+  - ".agents/vision-canvas-declutter-plan.md"
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  validation: git show HEAD:.agents/vision-canvas-declutter-plan.md >/dev/null &&
+    rg -q 'canvasMode|runtime-context|memoryTrail' apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+- id: mobile-watch
+  title: Assess phone and Watch contract readiness
+  type: assessment
+  status: done
+  paths:
+  - ".agents/vision-mobile-watch-contract-plan.md"
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  validation: git show HEAD:.agents/vision-mobile-watch-contract-plan.md >/dev/null
+    && rg -q 'runtimeContext|watchFriendly|hapticCue' apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+- id: web-workspace
+  title: Assess workspace modernization progress
+  type: assessment
+  status: done
+  paths:
+  - ".agents/web-workspace-modernization-plan.md"
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue
+  validation: git show HEAD:.agents/web-workspace-modernization-plan.md >/dev/null
+    && test -f apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue
+- id: read-models
+  title: Assess backend read-model and contract coverage
+  type: assessment
+  status: done
+  paths:
+  - ".agents/workspace-mobile-read-model-contract-plan.md"
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  validation: git show HEAD:.agents/workspace-mobile-read-model-contract-plan.md >/dev/null
+    && test -f apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+- id: migration-closeout
+  title: Assess migration, accessibility, performance, and closeout gaps
+  type: assessment
+  status: done
+  paths:
+  - ".agents/adaptive-surface-migration-closeout-plan.md"
+  - docs/vision-architecture-patterns.md
+  validation: git show HEAD:.agents/adaptive-surface-migration-closeout-plan.md >/dev/null
+    && test -f docs/vision-architecture-patterns.md
+evidence:
+- task: ia-presentation
+  command: git show HEAD:.agents/vision-ia-presentation-contract-plan.md >/dev/null
+    && rg -q 'runtimeContext|canvasMode|memoryTrail|visionHandoff' docs/domain-technical.md
+  ranAt: '2026-07-15T18:02:41Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".agents/vision-ia-presentation-contract-plan.md"
+  - docs/domain-technical.md
+  output: "\n"
+- task: shared-design
+  command: git show HEAD:.agents/vision-shared-design-system-plan.md >/dev/null &&
+    test -f apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  ranAt: '2026-07-15T18:02:41Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".agents/vision-shared-design-system-plan.md"
+  output: "\n"
+- task: canvas-declutter
+  command: git show HEAD:.agents/vision-canvas-declutter-plan.md >/dev/null && rg
+    -q 'canvasMode|runtime-context|memoryTrail' apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  ranAt: '2026-07-15T18:02:41Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".agents/vision-canvas-declutter-plan.md"
+  output: "\n"
+- task: mobile-watch
+  command: git show HEAD:.agents/vision-mobile-watch-contract-plan.md >/dev/null &&
+    rg -q 'runtimeContext|watchFriendly|hapticCue' apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  ranAt: '2026-07-15T18:02:41Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".agents/vision-mobile-watch-contract-plan.md"
+  output: "\n"
+- task: web-workspace
+  command: git show HEAD:.agents/web-workspace-modernization-plan.md >/dev/null &&
+    test -f apps/themuffinman/frontend/src/modules/app-shell/views/SectionHubView.vue
+  ranAt: '2026-07-15T18:02:41Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".agents/web-workspace-modernization-plan.md"
+  output: "\n"
+- task: read-models
+  command: git show HEAD:.agents/workspace-mobile-read-model-contract-plan.md >/dev/null
+    && test -f apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  ranAt: '2026-07-15T18:02:41Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".agents/workspace-mobile-read-model-contract-plan.md"
+  output: "\n"
+- task: migration-closeout
+  command: git show HEAD:.agents/adaptive-surface-migration-closeout-plan.md >/dev/null
+    && test -f docs/vision-architecture-patterns.md
+  ranAt: '2026-07-15T18:02:41Z'
+  revision: bd24eae51dbfc00486aad80943bd31a0de56ad6c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".agents/adaptive-surface-migration-closeout-plan.md"
+  - docs/vision-architecture-patterns.md
+  output: "\n"

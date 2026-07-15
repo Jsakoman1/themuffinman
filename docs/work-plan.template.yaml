@@ -1,0 +1,14 @@
+kind: work
+version: 1
+id: replace-me
+title: Replace me
+status: draft
+baseline: replace-with-git-revision
+tasks:
+  - id: task-1
+    title: Replace me
+    type: implementation
+    status: pending
+    paths: []
+    validation: "make audit-todo"
+evidence: []

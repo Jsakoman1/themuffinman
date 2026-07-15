@@ -2,76 +2,50 @@
 # frozen_string_literal: true
 
 require "json"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module ChangeImpactPreflight
   extend self
 
   DOCS_BY_DOMAIN = {
-    "workmarket" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md docs/agent-operating-model.yaml],
-    "social" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md docs/agent-operating-model.yaml],
-    "chat" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md docs/agent-operating-model.yaml],
-    "identity" => %w[docs/business-logic.md docs/domain-technical.md docs/agent-operating-model.md docs/agent-operating-model.yaml],
-    "location" => %w[docs/business-logic.md docs/domain-technical.md docs/location-services.md docs/agent-operating-model.md docs/agent-operating-model.yaml],
-    "agent" => %w[docs/agent-operating-model.md docs/agent-operating-model.yaml docs/domain-technical.md]
+    "workmarket" => %w[docs/business-logic.md docs/domain-technical.md docs/implementation-control.md docs/agent-operating-model.yaml],
+    "social" => %w[docs/business-logic.md docs/domain-technical.md docs/implementation-control.md docs/agent-operating-model.yaml],
+    "chat" => %w[docs/business-logic.md docs/domain-technical.md docs/implementation-control.md docs/agent-operating-model.yaml],
+    "identity" => %w[docs/business-logic.md docs/domain-technical.md docs/implementation-control.md docs/agent-operating-model.yaml],
+    "location" => %w[docs/business-logic.md docs/domain-technical.md docs/location-services.md docs/implementation-control.md docs/agent-operating-model.yaml],
+    "agent" => %w[docs/implementation-control.md docs/agent-operating-model.yaml docs/domain-technical.md]
   }.freeze
 
   GENERATED_BY_CATEGORY = {
-    "backend_controller" => %w[
-      docs/generated/agent-endpoint-inventory.json
-      docs/generated/source-of-truth-audit.json
-      docs/generated/backend-audit-inventory.json
-    ],
-    "backend_service" => %w[
-      docs/generated/source-of-truth-audit.json
-      docs/generated/backend-audit-inventory.json
-    ],
-    "backend_mapper" => %w[
-      docs/generated/source-of-truth-audit.json
-      docs/generated/backend-audit-inventory.json
-    ],
-    "backend_dto" => %w[
-      apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
-      docs/generated/automation-read-model-inventory.json
-      docs/generated/source-of-truth-audit.json
-      docs/generated/backend-audit-inventory.json
-    ],
-    "backend_model" => %w[
-      docs/generated/backend-audit-inventory.json
-    ],
+    "backend_dto" => %w[apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts],
     "frontend_api" => %w[
       apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
     ],
     "frontend_contract" => %w[
       apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
     ],
-    "docs" => %w[
-      docs/generated/agent-endpoint-inventory.json
-      docs/generated/automation-read-model-inventory.json
-      docs/generated/source-of-truth-audit.json
-      docs/generated/backend-audit-inventory.json
-    ]
+    "docs" => []
   }.freeze
 
   COMMANDS_BY_CATEGORY = {
-    "backend_controller" => %w[./mvnw test make generate-agent-artifacts],
-    "backend_service" => %w[./mvnw test make generate-agent-artifacts],
-    "backend_mapper" => %w[./mvnw test make generate-agent-artifacts],
-    "backend_dto" => %w[npm run build npm run type-check make generate-agent-artifacts],
+    "backend_controller" => %w[./mvnw test],
+    "backend_service" => %w[./mvnw test],
+    "backend_mapper" => %w[./mvnw test],
+    "backend_dto" => %w[./mvnw test npm run build npm run type-check],
     "frontend_api" => %w[npm run type-check npm run build],
     "frontend_view" => %w[npm run type-check npm run build],
     "frontend_composable" => %w[npm run type-check npm run build],
     "frontend_contract" => %w[npm run type-check npm run build],
-    "docs" => %w[./mvnw test make generate-agent-artifacts]
+    "docs" => %w[make audit-docs]
   }.freeze
 
   def run(argv)
-    changed_files = argv.empty? ? LocalToolingCommon.git_changed_files : argv
-    changed_files = changed_files.uniq.select { |path| File.exist?(File.join(LocalToolingCommon::REPO_ROOT, path)) }
+    changed_files = argv.empty? ? AuditSupport.git_changed_files : argv
+    changed_files = changed_files.uniq.select { |path| File.exist?(File.join(AuditSupport::REPO_ROOT, path)) }
 
     report = build_report(changed_files)
-    LocalToolingCommon.write_json("docs/generated/local-tooling/change-impact-preflight.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/change-impact-preflight-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/change-impact-preflight.json", report)
+    AuditSupport.write_text("docs/audit-output/change-impact-preflight-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
@@ -92,8 +66,8 @@ module ChangeImpactPreflight
   end
 
   def impact_for(relative_path)
-    category = LocalToolingCommon.path_category(relative_path)
-    domain = LocalToolingCommon.domain_for_path(relative_path)
+    category = AuditSupport.path_category(relative_path)
+    domain = AuditSupport.domain_for_path(relative_path)
     {
       path: relative_path,
       category: category,
@@ -108,8 +82,8 @@ module ChangeImpactPreflight
 
   def likely_docs(relative_path, domain, category)
     docs = DOCS_BY_DOMAIN.fetch(domain, []).dup
-    docs << "docs/codex-local-tooling-todo.md" if category == "script" || relative_path.include?("/scripts/")
-    docs << "docs/change-completion-checklist.md" if category.start_with?("backend_")
+    docs << "docs/audits.md" if category == "script" || relative_path.include?("/scripts/")
+    docs << "docs/implementation-control.md" if category.start_with?("backend_")
     docs.uniq
   end
 
@@ -119,13 +93,13 @@ module ChangeImpactPreflight
     test_relative = relative_path.sub("/src/main/java/", "/src/test/java/").sub(/\.java$/, "Test.java")
     candidates = [test_relative]
     file_name = File.basename(relative_path, ".java")
-    domain = LocalToolingCommon.domain_for_path(relative_path)
+    domain = AuditSupport.domain_for_path(relative_path)
     candidates.concat(
-      Dir.glob(File.join(LocalToolingCommon::REPO_ROOT, "apps/themuffinman/src/test/java/com/themuffinman/app/#{domain}/service/*{ScenarioTest,ContractTest,Test}.java")).map do |path|
-        LocalToolingCommon.relative_path(path)
+      Dir.glob(File.join(AuditSupport::REPO_ROOT, "apps/themuffinman/src/test/java/com/themuffinman/app/#{domain}/service/*{ScenarioTest,ContractTest,Test}.java")).map do |path|
+        AuditSupport.relative_path(path)
       end
     )
-    candidates.select { |path| File.exist?(File.join(LocalToolingCommon::REPO_ROOT, path)) }.uniq.sort
+    candidates.select { |path| File.exist?(File.join(AuditSupport::REPO_ROOT, path)) }.uniq.sort
   end
 
   def sibling_read_surfaces(relative_path)
@@ -133,10 +107,10 @@ module ChangeImpactPreflight
 
     base_dir = File.dirname(relative_path)
     file_name = File.basename(relative_path, ".java")
-    Dir.glob(File.join(LocalToolingCommon::REPO_ROOT, base_dir, "*.java")).map do |path|
-      LocalToolingCommon.relative_path(path)
+    Dir.glob(File.join(AuditSupport::REPO_ROOT, base_dir, "*.java")).map do |path|
+      AuditSupport.relative_path(path)
     end.reject { |path| path.end_with?("#{file_name}.java") }.select do |path|
-      content = LocalToolingCommon.read(File.join(LocalToolingCommon::REPO_ROOT, path))
+      content = AuditSupport.read(File.join(AuditSupport::REPO_ROOT, path))
       content.match?(/\b(get|search|find|list|open|lookup|resolve|build)[A-Z]\w*\s*\(/)
     end.sort.first(8)
   end
@@ -197,7 +171,7 @@ module ChangeImpactPreflight
   end
 
   def generated_report_path?(relative_path)
-    relative_path.start_with?("docs/generated/")
+    AuditSupport.generated_path?(relative_path)
   end
 
   def non_runtime_path?(relative_path, category)

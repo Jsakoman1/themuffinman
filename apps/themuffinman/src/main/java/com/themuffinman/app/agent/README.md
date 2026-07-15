@@ -19,10 +19,9 @@ Owns admin-facing agent playground and dry-run surfaces used to inspect planner/
 
 ## Living Docs
 
-- `docs/agent-operating-model.md`
 - `docs/agent-operating-model.yaml`
 - `docs/domain-technical.md`
-- `docs/agent-improvement-backlog.md`
+- `docs/implementation-control.md`
 
 ## Forbidden Shortcuts
 

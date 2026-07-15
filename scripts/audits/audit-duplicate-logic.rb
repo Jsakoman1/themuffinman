@@ -4,13 +4,13 @@
 require "json"
 require "set"
 require "time"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module DuplicateLogicAudit
   extend self
 
-  ACTIVE_SURFACES_PATH = File.join(LocalToolingCommon::REPO_ROOT, "docs/generated/local-tooling/frontend-route-surface-inventory.json")
-  FRONTEND_ROOT = File.join(LocalToolingCommon::REPO_ROOT, "apps/themuffinman/frontend/src")
+  ACTIVE_SURFACES_PATH = File.join(AuditSupport::REPO_ROOT, "docs/audit-output/frontend-route-surface-inventory.json")
+  FRONTEND_ROOT = File.join(AuditSupport::REPO_ROOT, "apps/themuffinman/frontend/src")
 
   CANONICAL_BACKEND_FILES = {
     "workmarket" => [
@@ -62,12 +62,14 @@ module DuplicateLogicAudit
         .map { |entry| shortlist_entry(entry) }
     }
 
-    LocalToolingCommon.write_json("docs/generated/local-tooling/duplicate-logic-audit.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/duplicate-logic-audit-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/duplicate-logic-audit.json", report)
+    AuditSupport.write_text("docs/audit-output/duplicate-logic-audit-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def active_frontend_files
+    return Set.new unless File.file?(ACTIVE_SURFACES_PATH)
+
     inventory = JSON.parse(File.read(ACTIVE_SURFACES_PATH))
     files = Set.new
     inventory.fetch("routes", []).each do |route|
@@ -83,14 +85,14 @@ module DuplicateLogicAudit
       "apps/themuffinman/frontend/src/modules/**/*.vue"
     ]
 
-    LocalToolingCommon.repo_glob(*patterns).map { |path| LocalToolingCommon.relative_path(path) }.reject do |path|
+    AuditSupport.repo_glob(*patterns).map { |path| AuditSupport.relative_path(path) }.reject do |path|
       path.include?("/api/") || path.include?("/domain/") || path.include?("/contracts/")
     end
   end
 
   def analyze_file(relative_path, active_route_backed)
-    absolute_path = File.join(LocalToolingCommon::REPO_ROOT, relative_path)
-    content = LocalToolingCommon.read(absolute_path)
+    absolute_path = File.join(AuditSupport::REPO_ROOT, relative_path)
+    content = AuditSupport.read(absolute_path)
     lines = content.lines
 
     module_key = module_key_for(relative_path)

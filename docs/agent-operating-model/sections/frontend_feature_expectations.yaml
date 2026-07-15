@@ -1,8 +1,0 @@
----
-frontend_feature_expectations:
-- id: admin_agent_execution_surface
-  when_contract_ids:
-  - admin_agent_execution_response_contract
-  required_files:
-  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
-  - apps/themuffinman/frontend/src/modules/vision/api/visionApi.ts

@@ -2,7 +2,7 @@
 
 This file is the persistent source of truth for open implementation and product-delivery work that should survive across Codex sessions.
 
-It complements `docs/agent-improvement-backlog.md`, which stays focused on agent-safety, audit tightening, and control-system work.
+Control-system improvements belong in the current work plan and are not maintained in a second control backlog.
 
 Keep only currently open items here. When an item is implemented, remove it from the open backlog in the same change and clear matching inline `TODO(<ID>):` or `FIXME(<ID>):` references.
 

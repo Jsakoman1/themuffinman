@@ -57,7 +57,7 @@ Owns the business module backend: business profile identity, public mini-site re
 
 - `docs/business-logic.md`
 - `docs/domain-technical.md`
-- `docs/source-of-truth-inventory.md`
+- `docs/domain-technical.md`
 
 ## Domain Notes
 

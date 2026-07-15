@@ -4,9 +4,7 @@ This document is the canonical memory layer for stable lessons, repeated pattern
 
 It is separate from:
 - `docs/implementation-backlog.md`, which tracks open product work
-- `docs/agent-improvement-backlog.md`, which tracks open control-system work
-- `docs/codex-local-tooling-todo.md`, which tracks local tooling ideas and follow-up work
-- `docs/generated/local-tooling/failure-knowledge-base.json` and `docs/generated/local-tooling/failure-knowledge-base-summary.md`, which track recurring validation failures and fixes
+- `docs/implementation-control.md`, which defines the current implementation control system
 
 ## What Belongs Here
 
@@ -43,31 +41,24 @@ When a lesson is added, record it in a short, factual form:
 - Do not duplicate active backlog items here.
 - Keep this file aligned with `docs/business-logic.md` and `docs/domain-technical.md`.
 
-## After-Plan Update Protocol
+## Update Protocol
 
-After every completed implementation batch:
-
-1. Check whether the change produced a durable lesson, repeated pattern, or product principle.
-2. Append the lesson here if it is stable and reusable.
-3. Update `docs/business-logic.md` or `docs/domain-technical.md` if the lesson changes the source of truth.
-4. Refresh the failure knowledge base when the plan revealed a repeatable failure or fix pattern.
-5. Run `make post-plan-memory-update plan=<plan-file> [manifest=<manifest-file>] [source=<diagnostic-report>]` to trigger the standard post-plan control loop, including the make-target index, documentation index, and staleness checks.
+After implementation, record durable product lessons here only when they are proven and reusable. Work status and validation evidence belong in `docs/work/*.yaml`.
 
 ## Current Stable Lessons
 
-- Completed work should leave the active backlog and remain only in plan-completion or retrospective artifacts.
+- Completed work should leave the active backlog and remain in the verified work-plan evidence.
 - The repository benefits from canonical docs that explain repeated product behavior instead of rediscovering the same logic from code each session.
 - Failure knowledge should stay compact and diagnostic, while product memory should stay about durable lessons and design patterns.
 - The Social Useful Network vision should stay separate from implementation backlog items so the team can reason about product direction without polluting open work.
 - When a workflow or interaction pattern proves repeatable, it should be written down once and then referenced from future plans and docs.
 - Voice-first interaction should default to parallel audio and visual feedback because voice-only interaction is still too fragile for precision, noisy environments, and complex information structures.
 - Speech features should still be backend-governed through a typed capability contract even when the actual STT/TTS runtime is browser-native.
-- Manifest-backed validation is easiest to keep stable when canonical validator-facing command strings are recorded exactly as expected instead of only as equivalent path-prefixed variants.
-- Workflow-expansion and agent-contract validation should be treated as evidence-shape problems as much as code problems, because missing scenario coverage or canonical audit commands can block otherwise-correct implementations.
-- Repeated validation rules are worth keeping in one machine-readable cheat sheet and auto-including in local context when manifest-backed work is detected, because that reduces rediscovery and validator churn.
+- Validation is easiest to keep stable when each task records its exact command and the verifier records the result in the owning work plan.
+- Repeated validation rules belong in the work plan that owns the change; there is no separate manifest or validation-memory layer.
 - Future `/vision` implementation work should start from `docs/product-vision.md` for product direction and `docs/vision-architecture-patterns.md` for backend, API, frontend canvas, prompt-handling, and executor patterns before borrowing from legacy module screens.
 - Future `/vision` execution work should treat `create_quest` as the first mutation scope, keep conversation continuity backend-persisted across text and voice turns, and gate real execution behind typed backend `vision.*` feature flags until the new orchestration layer proves stable.
-- Future `/vision` work should keep a compact repo-persistent memory layer for context, decision records, failure classes, generated-artifact policy, and current delivery status so sessions do not rediscover the same architecture and closeout rules from scratch.
+- Future `/vision` work should keep product memory focused on context and architecture; implementation status belongs in the active work plan.
 - Reusable vision test fixtures should stay named around conversation builders, slot presets, location candidate presets, and schedule phrase presets, because that keeps conversation-flow tests focused on behavior instead of boilerplate setup.
 - When a `/vision` review loop becomes part of the execution path, review corrections should stay on typed backend actions and explicit review targets instead of relying on client-generated natural-language prompts, because that reduces ambiguity and makes future executors reusable.
 - `/vision` prompt intake should separate speech transcription from semantic field extraction, because one LLM understanding step can map a single utterance onto multiple explicit slots before deterministic validation decides what sticks.

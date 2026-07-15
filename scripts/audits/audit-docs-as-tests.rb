@@ -5,16 +5,16 @@ require "json"
 require "set"
 require "time"
 require "yaml"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
-OUT_JSON = "docs/generated/local-tooling/docs-as-tests.json"
-OUT_MD = "docs/generated/local-tooling/docs-as-tests-summary.md"
+OUT_JSON = "docs/audit-output/docs-as-tests.json"
+OUT_MD = "docs/audit-output/docs-as-tests-summary.md"
 
 DOC_SOURCES = [
   "docs/business-logic.md",
   "docs/domain-technical.md",
-  "docs/documentation-sync-policy.md",
-  "docs/change-completion-checklist.md"
+  "docs/implementation-control.md",
+  "docs/implementation-control.md"
 ].freeze
 EVIDENCE_PATTERNS = [
   "apps/themuffinman/src/test/java/**/*Test.java",
@@ -26,26 +26,26 @@ EVIDENCE_PATTERNS = [
 BEHAVIOR_KEYWORDS = %w[
   permission permissions ownership owner visibility exact-location exact location workflow workflows state transition
   validation validations sandbox production admin-generation sandbox-generation mutation mutations endpoint contract dto
-  source-of-truth generated-artifact manifest closeout evidence
+  source-of-truth work plan verification evidence
 ].freeze
 NORMATIVE_PATTERN = /\b(must|must not|should|should not|only|cannot|never|required|requires|fail|fails|separate|separated|protected|canonical)\b/i
 
 def rel_glob(*patterns)
-  LocalToolingCommon.repo_glob(*patterns).map { |path| LocalToolingCommon.relative_path(path) }
+  AuditSupport.repo_glob(*patterns).map { |path| AuditSupport.relative_path(path) }
 end
 
 def read(path)
-  File.read(File.join(LocalToolingCommon::REPO_ROOT, path))
+  File.read(File.join(AuditSupport::REPO_ROOT, path))
 rescue Errno::ENOENT
   ""
 end
 
 def canonical_phrases
-  yaml = YAML.safe_load(read("docs/agent-operating-model/sections/documentation_sync.yaml"), aliases: true) || {}
+  yaml = YAML.safe_load(read("docs/agent-operating-model.yaml"), aliases: true) || {}
   Array(yaml["rules"]).flat_map do |rule|
     Array(rule["must_contain_all"]).map do |phrase|
       {
-        source: "docs/agent-operating-model/sections/documentation_sync.yaml",
+        source: "docs/agent-operating-model.yaml",
         line: nil,
         statement: phrase.to_s.strip,
         kind: "protected_phrase",
@@ -86,7 +86,7 @@ def domain_for_statement(statement)
   return "social" if text.match?(/circle|contact|relationship/)
   return "chat" if text.match?(/chat|conversation|message|presence/)
   return "location" if text.match?(/location|address|nearby/)
-  return "agent" if text.match?(/agent|planner|manifest|closeout|sandbox|generated|source-of-truth|documentation/)
+  return "agent" if text.match?(/agent|planner|work plan|verification|sandbox|generated|source-of-truth|documentation/)
 
   "shared"
 end
@@ -99,7 +99,7 @@ def expected_evidence(statement)
   evidence << "sandbox_or_generation_audit" if text.match?(/sandbox|admin-generation|synthetic|production/)
   evidence << "documentation_sync_audit" if text.match?(/protected|canonical|documentation|docs|source-of-truth/)
   evidence << "contract_or_dto_audit" if text.match?(/endpoint|contract|dto|generated artifact|frontend/)
-  evidence << "validation_or_closeout_audit" if text.match?(/manifest|closeout|evidence|validation/)
+  evidence << "validation_or_verification_audit" if text.match?(/work plan|verification|evidence|validation/)
   evidence.uniq
 end
 
@@ -183,8 +183,8 @@ end
 lines << ""
 lines << "Advisory only: static evidence matches help route review; they do not prove behavior."
 
-LocalToolingCommon.write_json(OUT_JSON, report)
-LocalToolingCommon.write_text(OUT_MD, lines.join("\n") + "\n")
+AuditSupport.write_json(OUT_JSON, report)
+AuditSupport.write_text(OUT_MD, lines.join("\n") + "\n")
 puts "Docs as tests"
 puts "  statements scanned: #{report[:statement_count]}"
 puts "  review needed: #{report[:review_needed_count]}"

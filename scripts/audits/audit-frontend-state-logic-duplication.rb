@@ -2,12 +2,12 @@
 # frozen_string_literal: true
 
 require "json"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module FrontendStateLogicDuplicationAudit
   extend self
 
-  ACTIVE_SURFACES_PATH = File.join(LocalToolingCommon::REPO_ROOT, "docs/generated/local-tooling/frontend-route-surface-inventory.json")
+  ACTIVE_SURFACES_PATH = File.join(AuditSupport::REPO_ROOT, "docs/audit-output/frontend-route-surface-inventory.json")
 
   WORKFLOW_ACTION_PATTERNS = [
     /applyForQuest/,
@@ -39,8 +39,8 @@ module FrontendStateLogicDuplicationAudit
       feedback_error_overlap: feedback_error_overlap(entries)
     }
 
-    LocalToolingCommon.write_json("docs/generated/local-tooling/frontend-state-logic-duplication-audit.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/frontend-state-logic-duplication-audit-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/frontend-state-logic-duplication-audit.json", report)
+    AuditSupport.write_text("docs/audit-output/frontend-state-logic-duplication-audit-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
@@ -55,10 +55,10 @@ module FrontendStateLogicDuplicationAudit
   end
 
   def analyze_file(relative_path)
-    content = LocalToolingCommon.read(File.join(LocalToolingCommon::REPO_ROOT, relative_path))
+    content = AuditSupport.read(File.join(AuditSupport::REPO_ROOT, relative_path))
     {
       path: relative_path,
-      category: LocalToolingCommon.path_category(relative_path),
+      category: AuditSupport.path_category(relative_path),
       mutation_runner_signals: mutation_runner_signals(content),
       workflow_actions: workflow_actions(content),
       dialog_actions: dialog_actions(content),

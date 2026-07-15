@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "set"
-require_relative "../local_tooling_common"
+require_relative "../audit_support"
 
 module MapperUsageAudit
   extend self
@@ -10,29 +10,29 @@ module MapperUsageAudit
   MethodCall = Struct.new(:file, :caller_class, :caller_method, :classification, :mapper_type, :mapper_field, :mapper_method, keyword_init: true)
 
   def run
-    mapper_paths = LocalToolingCommon.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/*/mapper/*.java")
-    java_paths = LocalToolingCommon.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/**/*.java")
+    mapper_paths = AuditSupport.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/*/mapper/*.java")
+    java_paths = AuditSupport.repo_glob("apps/themuffinman/src/main/java/com/themuffinman/app/**/*.java")
     callsites = collect_callsites(java_paths, mapper_paths)
     report = {
       generated_at: Time.now.utc.iso8601,
       mapper_count: mapper_paths.size,
       mapper_usages: mapper_paths.map { |path| mapper_report(path, callsites) }
     }
-    LocalToolingCommon.write_json("docs/generated/local-tooling/mapper-usage-audit.json", report)
-    LocalToolingCommon.write_text("docs/generated/local-tooling/mapper-usage-audit-summary.md", markdown_summary(report))
+    AuditSupport.write_json("docs/audit-output/mapper-usage-audit.json", report)
+    AuditSupport.write_text("docs/audit-output/mapper-usage-audit-summary.md", markdown_summary(report))
     puts terminal_summary(report)
   end
 
   def mapper_report(path, callsites)
-    content = LocalToolingCommon.read(path)
-    relative_path = LocalToolingCommon.relative_path(path)
+    content = AuditSupport.read(path)
+    relative_path = AuditSupport.relative_path(path)
     mapper_type = File.basename(path, ".java")
     methods = content.scan(/public\s+[A-Za-z0-9_<>, ?\[\]]+\s+([a-zA-Z0-9_]+)\s*\(/).flatten
     relevant_calls = callsites.select { |call| call.mapper_type == mapper_type }
     {
       mapper: mapper_type,
       path: relative_path,
-      domain: LocalToolingCommon.domain_for_path(relative_path),
+      domain: AuditSupport.domain_for_path(relative_path),
       methods: methods.uniq.sort,
       risk_flags: risk_flags(content),
       usage_count: relevant_calls.size,
@@ -54,7 +54,7 @@ module MapperUsageAudit
     java_paths.each do |path|
       next if path.include?("/mapper/")
 
-      content = LocalToolingCommon.read(path)
+      content = AuditSupport.read(path)
       mapper_fields = content.scan(/private final ([A-Za-z0-9_]+) ([a-zA-Z0-9_]+);/).select { |type, _field| mapper_types.include?(type) }
       next if mapper_fields.empty?
 
@@ -62,7 +62,7 @@ module MapperUsageAudit
         mapper_fields.each do |mapper_type, mapper_field|
           method.body.scan(/#{Regexp.escape(mapper_field)}\.([a-zA-Z0-9_]+)\s*\(/).flatten.each do |mapper_method|
             calls << MethodCall.new(
-              file: LocalToolingCommon.relative_path(path),
+              file: AuditSupport.relative_path(path),
               caller_class: File.basename(path, ".java"),
               caller_method: method.name,
               classification: classify_caller(path, method.name),
