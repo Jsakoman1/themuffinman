@@ -1,0 +1,25 @@
+kind: client_handoff_contract
+version: 1
+id: native-client-handoff
+status: contract_ready
+backend_authority:
+  authentication: ["/auth/login", "/auth/me"]
+  vision: ["/vision/conversations/turns", "/vision/conversations/{id}/execute"]
+  work: ["/quests/search", "/quests/{questId}", "/quests/{questId}/applications"]
+  chat: ["/chat/conversations", "/chat/conversations/{id}/sync", "/chat/attachments"]
+  location: ["/app_users/me", "/location/lookup", "/location/reverse-lookup"]
+  things: ["/things/listings", "/things/listings/{listingId}", "/things/borrow-requests/{requestId}/decision"]
+clients:
+  iphone:
+    status: not_started
+    required_surfaces: [auth, vision_prompt, work_actions, chat, location_settings, things_detail]
+    requirements: [reuse_backend_permissions, preserve_pagination_metadata, support_retry_and_offline_recovery]
+  watch:
+    status: not_started
+    required_surfaces: [vision_glance, notification_action, chat_unread_summary, work_action_confirmation]
+    requirements: [compact_payloads, explicit_confirmation_before_mutation, deep_link_to_source_surface]
+shared_invariants:
+  - Backend decides allowed actions and state transitions.
+  - Clients do not infer visibility, ownership, or workflow eligibility from cached fields.
+  - Mutations are retry-safe through client request identifiers where supported.
+  - Device-specific UI may compress presentation but must not change product meaning.

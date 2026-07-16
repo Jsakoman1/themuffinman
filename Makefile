@@ -45,6 +45,15 @@ audit-frontend:
 audit-docs:
 	ruby scripts/audits/audit-docs-as-tests.rb
 
+audit-plan-coverage:
+	ruby scripts/audits/audit-plan-coverage.rb
+
+audit-runtime-acceptance:
+	ruby scripts/audits/audit-runtime-acceptance.rb
+
+audit-native-client-handoff:
+	ruby scripts/audits/audit-native-client-handoff.rb
+
 audit-tests:
 	ruby scripts/audits/audit-contract-test-gaps.rb
 	ruby scripts/audits/audit-test-fixture-duplication.rb

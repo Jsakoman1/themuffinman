@@ -118,7 +118,7 @@ export type SemanticEntityFamily = typeof SEMANTIC_ENTITY_FAMILY_VALUES[number]
 export const SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES = ["RESOLVED", "AMBIGUOUS", "NOT_FOUND"] as const
 export type SemanticEntityResolutionStatus = typeof SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES[number]
 
-export const THING_BORROW_REQUEST_STATUS_VALUES = ["PENDING", "CANCELLED"] as const
+export const THING_BORROW_REQUEST_STATUS_VALUES = ["PENDING", "CANCELLED", "APPROVED", "DECLINED", "RETURNED"] as const
 export type ThingBorrowRequestStatus = typeof THING_BORROW_REQUEST_STATUS_VALUES[number]
 
 export const TYPE_VALUES = ["CREATED", "UPDATED", "WITHDRAWN", "APPROVED", "DECLINED"] as const
@@ -1903,6 +1903,7 @@ export interface ThingBorrowRequestResponseDTO {
   borrowerUsername: string
   message: string
   status: ThingBorrowRequestStatus
+  approvedAt: string
   createdAt: string
 }
 

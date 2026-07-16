@@ -1,0 +1,82 @@
+kind: work
+version: 1
+id: circles-privacy-explanation
+title: Add clear circle privacy explanation
+status: verified
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+- circles.visibility
+baseline: c5a11c4
+objective: Explain how circle membership relates to visibility and consent without
+  changing backend access policy.
+tasks:
+- id: circles-privacy-copy
+  title: Add a concise privacy explanation to the Circles surface
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: circles-privacy-guard
+  title: Guard the privacy explanation in the surface validator
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+- id: circles-privacy-docs
+  title: Synchronize privacy behavior documentation
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs
+evidence:
+- task: circles-privacy-copy
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-16T15:32:07Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: circles-privacy-guard
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-16T15:32:09Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (28 checks).
+
+- task: circles-privacy-docs
+  command: make audit-docs
+  ranAt: '2026-07-16T15:32:09Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 173
+      review needed: 0
+      high priority: 0
+

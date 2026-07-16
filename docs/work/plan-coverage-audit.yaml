@@ -1,0 +1,75 @@
+kind: work
+version: 1
+id: plan-coverage-audit
+title: Add automatic inventory-to-master plan coverage audit
+status: verified
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+- cross_module.auditability
+baseline: c5a11c4
+objective: Detect missing, stale, mismatched, or duplicated links between the active
+  capability inventory and master child work plans.
+tasks:
+- id: plan-coverage-script
+  title: Implement the deterministic inventory-to-master coverage audit
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-plan-coverage.rb
+  validation: make audit-plan-coverage
+- id: plan-coverage-command
+  title: Expose the audit through the repository Makefile
+  type: implementation
+  status: done
+  paths:
+  - Makefile
+  validation: make audit-plan-coverage
+- id: plan-coverage-docs
+  title: Document the active plan coverage rule
+  type: documentation
+  status: done
+  paths:
+  - docs/implementation-control.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs
+evidence:
+- task: plan-coverage-script
+  command: make audit-plan-coverage
+  ranAt: '2026-07-16T15:42:05Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-plan-coverage.rb
+  output: |+
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (13 master children, 11 active inventory plans).
+
+- task: plan-coverage-command
+  command: make audit-plan-coverage
+  ranAt: '2026-07-16T15:42:06Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  output: |+
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (13 master children, 11 active inventory plans).
+
+- task: plan-coverage-docs
+  command: make audit-docs
+  ranAt: '2026-07-16T15:42:06Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/implementation-control.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 173
+      review needed: 0
+      high priority: 0
+

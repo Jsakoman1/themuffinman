@@ -1,0 +1,62 @@
+kind: work
+version: 1
+id: cross-module-search-contract
+title: Define cross-module search comparison contract
+status: verified
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+- cross_module.search
+- vision.read_discovery
+baseline: 6018777
+objective: Make mixed-family search and comparison semantics explicit for Vision and
+  future clients without moving ranking or visibility logic into the frontend.
+tasks:
+- id: search-matrix
+  title: Add mixed-family search acceptance scenarios
+  type: documentation
+  status: done
+  paths:
+  - docs/cross-module-search-acceptance.yaml
+  validation: make audit-docs
+- id: search-source-contract
+  title: Document backend-owned search and comparison invariants
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs
+evidence:
+- task: search-matrix
+  command: make audit-docs
+  ranAt: '2026-07-16T16:03:40Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/cross-module-search-acceptance.yaml
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 175
+      review needed: 0
+      high priority: 0
+
+- task: search-source-contract
+  command: make audit-docs
+  ranAt: '2026-07-16T16:03:42Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 175
+      review needed: 0
+      high priority: 0
+

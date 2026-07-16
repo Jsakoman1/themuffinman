@@ -11,11 +11,19 @@ import java.util.Optional;
 public interface ThingBorrowRequestRepository extends JpaRepository<ThingBorrowRequest, Long> {
     boolean existsByListingIdAndBorrowerIdAndStatus(Long listingId, Long borrowerId, ThingBorrowRequestStatus status);
 
+    boolean existsByListingIdAndStatus(Long listingId, ThingBorrowRequestStatus status);
+
     @Query("select tr from ThingBorrowRequest tr join fetch tr.listing l join fetch l.owner join fetch tr.borrower where tr.listing.id in :listingIds and tr.borrower.id = :borrowerId and tr.status = :status")
     List<ThingBorrowRequest> findPendingForCatalogViewer(Long borrowerId, List<Long> listingIds, ThingBorrowRequestStatus status);
 
     @Query("select tr from ThingBorrowRequest tr join fetch tr.listing l join fetch l.owner join fetch tr.borrower where tr.id = :id")
     Optional<ThingBorrowRequest> findForBorrowRequestDetail(Long id);
+
+    @Query("select tr from ThingBorrowRequest tr join fetch tr.listing l join fetch l.owner join fetch tr.borrower where l.owner.id = :ownerId order by tr.createdAt desc, tr.id desc")
+    List<ThingBorrowRequest> findForOwnerDashboard(Long ownerId);
+
+    @Query("select tr from ThingBorrowRequest tr join fetch tr.listing l join fetch l.owner join fetch tr.borrower where tr.borrower.id = :borrowerId order by tr.createdAt desc, tr.id desc")
+    List<ThingBorrowRequest> findForBorrowerDashboard(Long borrowerId);
 
     default List<ThingBorrowRequest> findByListingIdsAndBorrower(
             Long borrowerId,

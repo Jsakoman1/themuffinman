@@ -154,6 +154,7 @@ Current covered modules:
 - Profile description is sanitized before being returned.
 - Avatar input is normalized before save.
 - Current-location updates are a distinct capability from free-text address edits and require trusted device coordinates or reverse lookup before save.
+- Profile Settings provides a direct location editor. Users can turn location off, choose approximate or exact mode, set a default nearby-search radius, resolve a place by search, or resolve the browser's current coordinates. Enabled location modes require a resolved candidate; denied browser permission falls back to manual search.
 - Public profile view is relation-aware, so the same profile can expose different primary actions depending on who is viewing it.
 - Profile view also includes open quest count, recent open quests, and separate employer or worker rating summaries.
 
@@ -763,11 +764,11 @@ Current covered modules:
 
 - Thing Sharing lets authenticated users list items they are willing to lend.
 - Other users can browse available things and send one pending borrow request per thing.
-- Owner-side approval, scheduling, handoff, and return tracking are not implemented in this first slice yet.
+- Owners can review pending requests and approve or decline them. Approval makes the listing unavailable until the borrower marks the item returned; decline leaves the listing available.
 
 ### Main surfaces
 
-- Available things directory
+- Available things directory and dedicated listing detail surface
 - Current user's lending listings
 - Borrow request action for available listings
 
@@ -778,6 +779,11 @@ Current covered modules:
 - Owners cannot request to borrow their own things.
 - Borrow requests require the listing to be currently available.
 - A borrower can have only one pending request for the same thing.
+- Listing detail is loaded from the backend and carries the viewer's pending-request state; the browser does not reconstruct listing availability or request ownership.
+- Only the listing owner can approve or decline a pending request.
+- Only the borrower can mark an approved request as returned.
+- An approved request makes the listing unavailable; returning it makes the listing available again.
+- Cross-module search can present Things, Work, and Business result families together. Each result keeps its family and source route; ranking, visibility, pagination, empty states, and errors remain backend-owned.
 
 ## Voluntary Car Sharing
 
@@ -883,6 +889,7 @@ Current covered modules:
 - Messages now support optional reply linkage, attachment metadata, and per-message emoji reactions.
 - Chat attachments can now be pre-validated through a dedicated backend upload endpoint before message creation.
 - Conversations now expose a dedicated sync surface so reconnecting clients can fetch message deltas and current typing participants after a websocket gap.
+- The detailed browser Chat surface uses that sync contract on conversation load and when the tab becomes visible or the browser returns online. It merges recovered messages by message id and keeps a manual Sync action available when recovery needs to be retried.
 - Chat now emits lightweight typing events over websocket for already authorized conversation participants.
 - Admin support tooling now exposes filtered chat audit events plus one conversation support view with recent messages and recent moderation history.
 - Admin tooling can now also remove one chat message through the backend moderation surface.
@@ -957,3 +964,10 @@ Because an active quest can already have an approved worker, so changing the sch
 
 - If a business rule changes in code, update this file in the same change.
 - Add short FAQ entries when the same user question appears more than once.
+- Things can now be discovered at `/things`, offered by the current user, and requested through a borrow message. The backend remains authoritative for availability, owner restrictions, duplicate pending-request prevention, owner decisions, and return state.
+- A borrower can cancel their own pending Things request from the listing surface. Cancelled requests are no longer treated as pending; another user cannot cancel someone else's request.
+- Owners can approve or decline pending requests from My things. Approval moves the request to `APPROVED` and makes the listing unavailable; a borrower can move it to `RETURNED`, which makes the listing available again.
+- Circle membership is a trust boundary, not a blanket data-sharing permission. A connection does not automatically reveal another person's exact address or private activity; each module applies its own visibility and consent rules.
+- Chat supports selecting an attachment, uploading it through the backend, and sending it as part of a message. The composer shows upload/send errors and lets the user remove a selected upload before sending; attachment access remains controlled by the backend.
+- Image attachments show a local preview before sending and release that browser object URL when replaced, removed, sent, or the Chat view closes. The preview is only a local selection aid; backend upload and access rules remain authoritative.
+- When exact location mode is enabled, Profile Settings exposes the supported visibility scopes: nobody, everyone, selected circles, or selected people. The backend validates circle membership and selected-person eligibility before saving.

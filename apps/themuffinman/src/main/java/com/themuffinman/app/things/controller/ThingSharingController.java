@@ -29,6 +29,14 @@ public class ThingSharingController {
         return thingSharingService.getMyListings(currentUser);
     }
 
+    @GetMapping("/listings/{listingId}")
+    public ThingListingResponseDTO getListingDetail(
+            @PathVariable Long listingId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingSharingService.getListingDetail(listingId, currentUser);
+    }
+
     @PostMapping("/listings")
     public ThingListingResponseDTO createListing(
             @Valid @RequestBody ThingListingRequestDTO dto,
@@ -44,5 +52,44 @@ public class ThingSharingController {
             @AuthenticationPrincipal AppUser currentUser
     ) {
         return thingSharingService.requestBorrow(listingId, dto, currentUser);
+    }
+
+    @PatchMapping("/borrow-requests/{requestId}/cancel")
+    public ThingBorrowRequestResponseDTO cancelBorrowRequest(
+            @PathVariable Long requestId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingSharingService.cancelBorrowRequest(requestId, currentUser);
+    }
+
+    @GetMapping("/listings/me/borrow-requests")
+    public java.util.List<ThingBorrowRequestResponseDTO> getOwnerBorrowRequests(
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingSharingService.getOwnerBorrowRequests(currentUser);
+    }
+
+    @GetMapping("/borrow-requests/me")
+    public java.util.List<ThingBorrowRequestResponseDTO> getMyBorrowRequests(
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingSharingService.getBorrowerRequests(currentUser);
+    }
+
+    @PatchMapping("/borrow-requests/{requestId}/decision")
+    public ThingBorrowRequestResponseDTO decideBorrowRequest(
+            @PathVariable Long requestId,
+            @RequestParam boolean approve,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingSharingService.decideBorrowRequest(requestId, approve, currentUser);
+    }
+
+    @PatchMapping("/borrow-requests/{requestId}/return")
+    public ThingBorrowRequestResponseDTO returnBorrowedThing(
+            @PathVariable Long requestId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingSharingService.returnBorrowedThing(requestId, currentUser);
     }
 }

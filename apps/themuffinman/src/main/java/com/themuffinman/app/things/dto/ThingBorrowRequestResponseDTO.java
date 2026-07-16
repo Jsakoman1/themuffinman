@@ -15,5 +15,6 @@ public class ThingBorrowRequestResponseDTO {
     private String borrowerUsername;
     private String message;
     private ThingBorrowRequestStatus status;
+    private Instant approvedAt;
     private Instant createdAt;
 }

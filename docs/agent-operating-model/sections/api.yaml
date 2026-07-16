@@ -771,6 +771,11 @@ api:
     path: "/things/listings/me"
     controller_class: com.themuffinman.app.things.controller.ThingSharingController
     handler_method: getMyListings
+  - id: get_thing_listing_detail
+    method: GET
+    path: "/things/listings/{listingId}"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: getListingDetail
   - id: create_thing_listing
     method: POST
     path: "/things/listings"
@@ -781,6 +786,31 @@ api:
     path: "/things/listings/{listingId}/borrow-requests"
     controller_class: com.themuffinman.app.things.controller.ThingSharingController
     handler_method: requestBorrow
+  - id: get_my_thing_borrow_requests
+    method: GET
+    path: "/things/borrow-requests/me"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: getMyBorrowRequests
+  - id: get_owner_thing_borrow_requests
+    method: GET
+    path: "/things/listings/me/borrow-requests"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: getOwnerBorrowRequests
+  - id: decide_thing_borrow_request
+    method: PATCH
+    path: "/things/borrow-requests/{requestId}/decision"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: decideBorrowRequest
+  - id: cancel_thing_borrow_request
+    method: PATCH
+    path: "/things/borrow-requests/{requestId}/cancel"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: cancelBorrowRequest
+  - id: return_thing_borrow_request
+    method: PATCH
+    path: "/things/borrow-requests/{requestId}/return"
+    controller_class: com.themuffinman.app.things.controller.ThingSharingController
+    handler_method: returnBorrowedThing
   - id: get_ride_offers
     method: GET
     path: "/rides/offers"

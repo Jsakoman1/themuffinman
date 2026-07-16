@@ -2,7 +2,10 @@ kind: master
 version: 1
 id: capability-coverage-and-reliability
 title: Capability coverage and reliability
-status: active
+status: deferred
+deferred_reason: Browser/device runtime tooling and native iPhone/Watch implementation are outside the current workspace scope.
+deferred_at: 2026-07-16
+resume_when: A browser/device runtime harness or native client implementation workspace is available.
 baseline: 6018777
 inventory: docs/capability-inventory.yaml
 objective: >
@@ -25,6 +28,21 @@ children:
   - docs/work/business-capability-closure.yaml
   - docs/work/vision-execution-acceptance.yaml
   - docs/work/native-client-contract-readiness.yaml
+  - docs/work/chat-reconnect-resync.yaml
+  - docs/work/profile-location-settings-surface.yaml
+  - docs/work/things-listing-surface.yaml
+  - docs/work/things-borrow-cancellation.yaml
+  - docs/work/circles-privacy-explanation.yaml
+  - docs/work/chat-attachment-surface.yaml
+  - docs/work/chat-attachment-preview.yaml
+  - docs/work/cross-module-visibility-acceptance.yaml
+  - docs/work/profile-location-visibility-scope.yaml
+  - docs/work/plan-coverage-audit.yaml
+  - docs/work/things-owner-borrow-workflow.yaml
+  - docs/work/things-detail-surface.yaml
+  - docs/work/runtime-acceptance-catalog.yaml
+  - docs/work/cross-module-search-contract.yaml
+  - docs/work/native-client-handoff-contract.yaml
 dependencies:
   - docs/work/work-capability-closure.yaml -> docs/work/business-capability-closure.yaml
   - docs/work/work-capability-closure.yaml -> docs/work/vision-execution-acceptance.yaml
@@ -61,17 +79,19 @@ tasks:
     status: pending
     capability_ids: [work.quest.management, work.application, business.booking, business.availability, vision.execution, chat.realtime]
     title: Add browser/device runtime acceptance for implemented workflows
-    note: Keep implemented status separate from verified status until real route interactions, reconnects, and failure recovery are exercised.
+    child_plan: docs/work/runtime-acceptance-catalog.yaml
+    note: Scenario catalog and route guards are verified; the remaining work is execution of real route interactions, reconnects, and failure recovery in a browser/device runtime.
   - id: remaining-cross-module-contracts
     status: pending
     capability_ids: [circles.relationships, circles.visibility, cross_module.search, cross_module.auditability]
     title: Complete privacy, discovery comparison, and automatic inventory-to-plan coverage checks
-    note: The current web action surface exists; privacy explanations, unified comparison semantics, and machine-enforced plan coverage remain open.
+    child_plan: docs/work/cross-module-search-contract.yaml
+    note: Privacy explanation, search contract, and machine-enforced plan coverage are implemented; runtime execution of the visibility/search matrices remains open.
   - id: remaining-product-surfaces
     status: pending
     capability_ids: [things.listings, platform.location, chat.attachments]
     title: Close the next partial product surfaces with dedicated web workflows
-    note: Backend or Vision support alone does not satisfy the capability inventory when a user cannot complete the workflow visually.
+    note: Things detail and lending workflows are implemented; mobile/watch attachment strategy and location/Things device acceptance remain open.
 exit_criteria:
   - All child plans are verified or explicitly blocked with a recorded external blocker.
   - Critical capability gaps are either verified closed or linked to a still-open task.

@@ -1,0 +1,84 @@
+kind: work
+version: 1
+id: chat-reconnect-resync
+title: Add browser chat reconnect and conversation resync recovery
+status: verified
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+- chat.realtime
+baseline: c5a11c4
+objective: 'Connect the existing backend conversation sync contract to the detailed
+  Chat surface so browser visibility and network recovery restore missed messages.
+
+'
+tasks:
+- id: chat-resync-surface
+  title: Use the backend sync contract on initial load and browser recovery
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: chat-resync-contract-guard
+  title: Guard the recovery wiring in the frontend surface validator
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+- id: chat-resync-documentation
+  title: Synchronize product and technical behavior documentation
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs
+evidence:
+- task: chat-resync-surface
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-16T15:15:55Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: chat-resync-contract-guard
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-16T15:15:56Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (25 checks).
+
+- task: chat-resync-documentation
+  command: make audit-docs
+  ranAt: '2026-07-16T15:15:56Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 171
+      review needed: 0
+      high priority: 0
+

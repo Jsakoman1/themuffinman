@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.time.Instant;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +50,13 @@ public class ThingSharingService {
                         .map(listing -> thingSharingMgr.toListingDto(listing, null))
                         .toList())
                 .build();
+    }
+
+    public ThingListingResponseDTO getListingDetail(Long listingId, AppUser currentUser) {
+        ThingListing listing = thingListingRepository.findForListingDetail(listingId)
+                .orElseThrow(() -> ServiceErrors.notFound("Thing listing not found with id " + listingId));
+        Long pendingRequestId = pendingRequestIds(currentUser, List.of(listing)).get(listingId);
+        return thingSharingMgr.toListingDto(listing, pendingRequestId);
     }
 
     @Transactional
@@ -83,6 +91,77 @@ public class ThingSharingService {
         request.setMessage(RichTextInputValidator.sanitize(dto == null ? null : dto.getMessage()));
         request.setStatus(ThingBorrowRequestStatus.PENDING);
         return thingSharingMgr.toBorrowRequestDto(thingBorrowRequestRepository.save(request));
+    }
+
+    @Transactional
+    public ThingBorrowRequestResponseDTO cancelBorrowRequest(Long requestId, AppUser currentUser) {
+        ThingBorrowRequest request = thingBorrowRequestRepository.findForBorrowRequestDetail(requestId)
+                .orElseThrow(() -> ServiceErrors.notFound("Thing borrow request not found with id " + requestId));
+        if (!Objects.equals(request.getBorrower().getId(), currentUser.getId())) {
+            throw ServiceErrors.forbidden("Only the borrower can cancel this request");
+        }
+        if (request.getStatus() != ThingBorrowRequestStatus.PENDING) {
+            throw ServiceErrors.badRequest("Only pending borrow requests can be cancelled");
+        }
+        request.setStatus(ThingBorrowRequestStatus.CANCELLED);
+        return thingSharingMgr.toBorrowRequestDto(thingBorrowRequestRepository.save(request));
+    }
+
+    public List<ThingBorrowRequestResponseDTO> getOwnerBorrowRequests(AppUser currentUser) {
+        return thingBorrowRequestRepository.findForOwnerDashboard(currentUser.getId()).stream()
+                .map(thingSharingMgr::toBorrowRequestDto)
+                .toList();
+    }
+
+    public List<ThingBorrowRequestResponseDTO> getBorrowerRequests(AppUser currentUser) {
+        return thingBorrowRequestRepository.findForBorrowerDashboard(currentUser.getId()).stream()
+                .map(thingSharingMgr::toBorrowRequestDto)
+                .toList();
+    }
+
+    @Transactional
+    public ThingBorrowRequestResponseDTO decideBorrowRequest(Long requestId, boolean approve, AppUser currentUser) {
+        ThingBorrowRequest request = detailedRequest(requestId);
+        requireOwner(request, currentUser);
+        if (request.getStatus() != ThingBorrowRequestStatus.PENDING) {
+            throw ServiceErrors.badRequest("Only pending borrow requests can be decided");
+        }
+        if (approve) {
+            if (thingBorrowRequestRepository.existsByListingIdAndStatus(request.getListing().getId(), ThingBorrowRequestStatus.APPROVED)) {
+                throw ServiceErrors.conflict("This thing already has an approved borrow request");
+            }
+            request.setStatus(ThingBorrowRequestStatus.APPROVED);
+            request.setApprovedAt(Instant.now());
+            request.getListing().setAvailable(false);
+        } else {
+            request.setStatus(ThingBorrowRequestStatus.DECLINED);
+        }
+        return thingSharingMgr.toBorrowRequestDto(thingBorrowRequestRepository.save(request));
+    }
+
+    @Transactional
+    public ThingBorrowRequestResponseDTO returnBorrowedThing(Long requestId, AppUser currentUser) {
+        ThingBorrowRequest request = detailedRequest(requestId);
+        if (!Objects.equals(request.getBorrower().getId(), currentUser.getId())) {
+            throw ServiceErrors.forbidden("Only the borrower can mark this thing as returned");
+        }
+        if (request.getStatus() != ThingBorrowRequestStatus.APPROVED) {
+            throw ServiceErrors.badRequest("Only approved borrow requests can be returned");
+        }
+        request.setStatus(ThingBorrowRequestStatus.RETURNED);
+        request.getListing().setAvailable(true);
+        return thingSharingMgr.toBorrowRequestDto(thingBorrowRequestRepository.save(request));
+    }
+
+    private ThingBorrowRequest detailedRequest(Long requestId) {
+        return thingBorrowRequestRepository.findForBorrowRequestDetail(requestId)
+                .orElseThrow(() -> ServiceErrors.notFound("Thing borrow request not found with id " + requestId));
+    }
+
+    private void requireOwner(ThingBorrowRequest request, AppUser currentUser) {
+        if (!Objects.equals(request.getListing().getOwner().getId(), currentUser.getId())) {
+            throw ServiceErrors.forbidden("Only the listing owner can decide this request");
+        }
     }
 
     private void applyListingInput(ThingListing listing, ThingListingRequestDTO dto) {

@@ -31,6 +31,9 @@ public class ThingBorrowRequest {
     @Column(nullable = false, length = 40)
     private ThingBorrowRequestStatus status = ThingBorrowRequestStatus.PENDING;
 
+    @Column(name = "approved_at")
+    private Instant approvedAt;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 

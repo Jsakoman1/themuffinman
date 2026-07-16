@@ -123,6 +123,93 @@ class ThingSharingServiceTest {
         assertEquals(20L, result.getItems().getFirst().getMyPendingRequestId());
     }
 
+    @Test
+    void listingDetailIncludesCurrentUsersPendingRequest() {
+        AppUser owner = user(1L, "owner");
+        AppUser borrower = user(2L, "borrower");
+        ThingListing listing = listing(10L, owner, true);
+        ThingBorrowRequest request = request(20L, listing, borrower, ThingBorrowRequestStatus.PENDING);
+        when(thingListingRepository.findForListingDetail(10L)).thenReturn(Optional.of(listing));
+        when(thingBorrowRequestRepository.findPendingForCatalogViewer(2L, List.of(10L), ThingBorrowRequestStatus.PENDING)).thenReturn(List.of(request));
+
+        var result = thingSharingService.getListingDetail(10L, borrower);
+
+        assertEquals(10L, result.getId());
+        assertEquals(20L, result.getMyPendingRequestId());
+    }
+
+    @Test
+    void borrowerCanCancelPendingRequest() {
+        AppUser owner = user(1L, "owner");
+        AppUser borrower = user(2L, "borrower");
+        ThingListing listing = listing(10L, owner, true);
+        ThingBorrowRequest request = new ThingBorrowRequest();
+        request.setId(20L);
+        request.setListing(listing);
+        request.setBorrower(borrower);
+        request.setStatus(ThingBorrowRequestStatus.PENDING);
+        when(thingBorrowRequestRepository.findForBorrowRequestDetail(20L)).thenReturn(Optional.of(request));
+        when(thingBorrowRequestRepository.save(request)).thenReturn(request);
+
+        var result = thingSharingService.cancelBorrowRequest(20L, borrower);
+
+        assertEquals(ThingBorrowRequestStatus.CANCELLED, result.getStatus());
+    }
+
+    @Test
+    void anotherUserCannotCancelBorrowRequest() {
+        AppUser owner = user(1L, "owner");
+        AppUser borrower = user(2L, "borrower");
+        AppUser other = user(3L, "other");
+        ThingBorrowRequest request = new ThingBorrowRequest();
+        request.setId(20L);
+        request.setBorrower(borrower);
+        request.setStatus(ThingBorrowRequestStatus.PENDING);
+        when(thingBorrowRequestRepository.findForBorrowRequestDetail(20L)).thenReturn(Optional.of(request));
+
+        assertThrows(ResponseStatusException.class, () -> thingSharingService.cancelBorrowRequest(20L, other));
+    }
+
+    @Test
+    void ownerCanApprovePendingRequestAndMakeListingUnavailable() {
+        AppUser owner = user(1L, "owner");
+        AppUser borrower = user(2L, "borrower");
+        ThingListing listing = listing(10L, owner, true);
+        ThingBorrowRequest request = request(20L, listing, borrower, ThingBorrowRequestStatus.PENDING);
+        when(thingBorrowRequestRepository.findForBorrowRequestDetail(20L)).thenReturn(Optional.of(request));
+        when(thingBorrowRequestRepository.existsByListingIdAndStatus(10L, ThingBorrowRequestStatus.APPROVED)).thenReturn(false);
+        when(thingBorrowRequestRepository.save(request)).thenReturn(request);
+
+        var result = thingSharingService.decideBorrowRequest(20L, true, owner);
+
+        assertEquals(ThingBorrowRequestStatus.APPROVED, result.getStatus());
+        org.junit.jupiter.api.Assertions.assertFalse(listing.isAvailable());
+    }
+
+    @Test
+    void borrowerCanReturnApprovedThingAndMakeListingAvailable() {
+        AppUser owner = user(1L, "owner");
+        AppUser borrower = user(2L, "borrower");
+        ThingListing listing = listing(10L, owner, false);
+        ThingBorrowRequest request = request(20L, listing, borrower, ThingBorrowRequestStatus.APPROVED);
+        when(thingBorrowRequestRepository.findForBorrowRequestDetail(20L)).thenReturn(Optional.of(request));
+        when(thingBorrowRequestRepository.save(request)).thenReturn(request);
+
+        var result = thingSharingService.returnBorrowedThing(20L, borrower);
+
+        assertEquals(ThingBorrowRequestStatus.RETURNED, result.getStatus());
+        org.junit.jupiter.api.Assertions.assertTrue(listing.isAvailable());
+    }
+
+    private ThingBorrowRequest request(Long id, ThingListing listing, AppUser borrower, ThingBorrowRequestStatus status) {
+        ThingBorrowRequest request = new ThingBorrowRequest();
+        request.setId(id);
+        request.setListing(listing);
+        request.setBorrower(borrower);
+        request.setStatus(status);
+        return request;
+    }
+
     private AppUser user(Long id, String username) {
         AppUser user = new AppUser();
         user.setId(id);

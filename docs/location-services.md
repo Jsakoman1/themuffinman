@@ -90,7 +90,7 @@ Expected result:
 
 ## Current UX flow
 
-1. Open `My Profile`
+1. Open `Profile -> Settings`
 2. Set `Location mode`
 3. Enter search radius
 4. Search for an address or use the current location button
@@ -104,3 +104,5 @@ Expected result:
 
 The profile form now supports search suggestions and reverse lookup from the browser's current location.
 Manual address fields remain available as a fallback.
+
+The authenticated profile settings surface now performs address search and current-device reverse lookup directly. A resolved candidate must be selected before an enabled location mode can be saved; when browser permission is denied, manual search remains available.

@@ -8,7 +8,7 @@ Keep only currently open items here. When an item is implemented, remove it from
 
 ## Open Items
 
-CAPABILITY-COVERAGE-RELIABILITY: Close the partial and not-offered capabilities recorded in `docs/capability-inventory.yaml`, starting with Work create/management/application flows. Execution is owned by `docs/work/capability-coverage-and-reliability.yaml` and its child plans.
+CAPABILITY-COVERAGE-RELIABILITY [DEFERRED]: Close the remaining partial and not-offered capabilities recorded in `docs/capability-inventory.yaml`. Resume `docs/work/capability-coverage-and-reliability.yaml` when browser/device runtime tooling or native client implementation workspace is available.
 
 ## Intake Rules
 

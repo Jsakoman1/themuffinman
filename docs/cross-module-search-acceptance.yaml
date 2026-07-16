@@ -1,0 +1,30 @@
+kind: acceptance_matrix
+version: 1
+id: cross-module-search
+capability_ids: [cross_module.search, vision.read_discovery]
+status: active
+principles:
+  - Backend owns entity-family selection, ranking, pagination, and empty/error semantics.
+  - The frontend renders returned sections and does not slice or re-rank result sets locally.
+  - A comparison view must preserve entity family and source route for every result.
+scenarios:
+  - id: mixed-family-search
+    query: ladder
+    families: [THINGS, QUESTS, BUSINESSES]
+    required: [family_label, title, source_route, stable_order]
+    status: contract_ready_runtime_pending
+  - id: paginated-search
+    query: design
+    families: [QUESTS, BUSINESSES]
+    required: [page_metadata, no_local_truncation, stable_order_across_pages]
+    status: contract_ready_runtime_pending
+  - id: empty-family-search
+    query: uncommon-term
+    families: [THINGS, QUESTS, BUSINESSES]
+    required: [explicit_empty_state, no_cross_family_fabrication]
+    status: contract_ready_runtime_pending
+  - id: denied-result-search
+    query: private
+    families: [THINGS, QUESTS]
+    required: [visibility_filter_before_render, no_private_metadata_leak]
+    status: contract_ready_runtime_pending

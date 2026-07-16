@@ -1,0 +1,83 @@
+kind: work
+version: 1
+id: runtime-acceptance-catalog
+title: Add browser and device runtime acceptance catalog
+status: verified
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+- work.quest.management
+- work.application
+- business.booking
+- business.availability
+- vision.execution
+- chat.realtime
+- circles.visibility
+- platform.location
+- things.listings
+baseline: 6018777
+objective: Make every remaining runtime gap explicit, route-linked, and machine-audited
+  without claiming source-level tests are browser or device evidence.
+tasks:
+- id: runtime-matrix
+  title: Define route, actions, and evidence requirements for open runtime workflows
+  type: documentation
+  status: done
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-runtime-acceptance
+- id: runtime-guard
+  title: Add a machine audit for scenario completeness and route ownership
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-runtime-acceptance.rb
+  - Makefile
+  validation: make audit-runtime-acceptance
+- id: runtime-documentation
+  title: Document runtime evidence policy in implementation control
+  type: documentation
+  status: done
+  paths:
+  - docs/implementation-control.md
+  validation: make audit-docs
+evidence:
+- task: runtime-matrix
+  command: make audit-runtime-acceptance
+  ranAt: '2026-07-16T16:02:15Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (8 pending runtime scenarios).
+
+- task: runtime-guard
+  command: make audit-runtime-acceptance
+  ranAt: '2026-07-16T16:02:15Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - scripts/audits/audit-runtime-acceptance.rb
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (8 pending runtime scenarios).
+
+- task: runtime-documentation
+  command: make audit-docs
+  ranAt: '2026-07-16T16:02:15Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 175
+      review needed: 0
+      high priority: 0
+

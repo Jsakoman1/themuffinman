@@ -41,6 +41,7 @@ public class ThingSharingMgr {
                 .borrowerUsername(request.getBorrower().getUsername())
                 .message(RichTextInputValidator.sanitize(request.getMessage()))
                 .status(request.getStatus())
+                .approvedAt(request.getApprovedAt())
                 .createdAt(request.getCreatedAt())
                 .build();
     }

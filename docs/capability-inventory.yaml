@@ -13,12 +13,54 @@ review_policy:
     A capability may be marked implemented only when its intended behavior,
     backend boundary, user-facing surface, and validation evidence agree.
 active_plans:
-  - id: capability-coverage-and-reliability
-    path: docs/work/capability-coverage-and-reliability.yaml
-    scope: critical and high product capability gaps
   - id: work-capability-closure
     path: docs/work/work-capability-closure.yaml
     scope: Work create, management, and application gaps
+  - id: chat-reconnect-resync
+    path: docs/work/chat-reconnect-resync.yaml
+    scope: browser Chat recovery and conversation resync
+  - id: profile-location-settings-surface
+    path: docs/work/profile-location-settings-surface.yaml
+    scope: direct profile location settings and correction flow
+  - id: things-listing-surface
+    path: docs/work/things-listing-surface.yaml
+    scope: Things discovery, listing creation, and borrow requests
+  - id: things-borrow-cancellation
+    path: docs/work/things-borrow-cancellation.yaml
+    scope: borrower-owned cancellation of pending Things requests
+  - id: circles-privacy-explanation
+    path: docs/work/circles-privacy-explanation.yaml
+    scope: circle visibility and consent explanation
+  - id: chat-attachment-surface
+    path: docs/work/chat-attachment-surface.yaml
+    scope: browser Chat attachment upload and send flow
+  - id: chat-attachment-preview
+    path: docs/work/chat-attachment-preview.yaml
+    scope: browser image attachment preview lifecycle
+  - id: cross-module-visibility-acceptance
+    path: docs/work/cross-module-visibility-acceptance.yaml
+    scope: cross-module visibility and consent acceptance matrix
+  - id: profile-location-visibility-scope
+    path: docs/work/profile-location-visibility-scope.yaml
+    scope: exact location privacy scope control
+  - id: plan-coverage-audit
+    path: docs/work/plan-coverage-audit.yaml
+    scope: automatic inventory-to-master plan coverage validation
+  - id: things-owner-borrow-workflow
+    path: docs/work/things-owner-borrow-workflow.yaml
+    scope: owner decisions and borrower return lifecycle for Things
+  - id: things-detail-surface
+    path: docs/work/things-detail-surface.yaml
+    scope: dedicated Things listing detail route
+  - id: runtime-acceptance-catalog
+    path: docs/work/runtime-acceptance-catalog.yaml
+    scope: browser and device runtime acceptance scenarios
+  - id: cross-module-search-contract
+    path: docs/work/cross-module-search-contract.yaml
+    scope: mixed-family search and comparison semantics
+  - id: native-client-handoff-contract
+    path: docs/work/native-client-handoff-contract.yaml
+    scope: iPhone and Watch backend-owned handoff contract
 statuses:
   planned: The product intends to support it, but implementation has not started.
   not_offered: Some supporting code may exist, but users have no usable product surface.
@@ -82,7 +124,7 @@ modules:
           - complete visibility and consent explanation
           - mobile/watch presentation
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts]
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
       - id: platform.location
         name: Location preferences, current location, and locality-aware discovery
         status: partial
@@ -90,9 +132,10 @@ modules:
         current:
           backend: [apps/themuffinman/src/main/java/com/themuffinman/app/location]
         gaps:
-          - consistent user-facing location permission and correction flow
+          - browser permission-denied and provider-unavailable recovery remains dependent on manual search
           - full mobile location lifecycle
         evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
           docs: [docs/business-logic.md, docs/domain-technical.md]
 
   - id: vision
@@ -239,7 +282,8 @@ modules:
         current:
           backend: [apps/themuffinman/src/main/java/com/themuffinman/app/chat]
         gaps:
-          - comprehensive browser reconnect scenarios
+          - broader browser reconnect scenarios beyond visibility and network-online recovery
+          - browser Chat surface now resyncs on initial load, tab visibility recovery, and network-online recovery; websocket/mobile background acceptance remains open
           - mobile background delivery behavior
       - id: chat.attachments
         name: Image and attachment upload, display, and retention behavior
@@ -248,8 +292,10 @@ modules:
         current:
           backend: [chat attachment endpoints and retention configuration]
         gaps:
-          - compact web surface integration
           - mobile/watch attachment strategy
+          - mobile/watch attachment strategy
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
 
   - id: business
     name: Business profiles and appointments
@@ -301,9 +347,11 @@ modules:
         current:
           backend: [work, chat, and circle access policy services]
         gaps:
-          - cross-module acceptance matrix
+          - runtime execution of the cross-module acceptance matrix
         evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue]
           docs: [docs/business-logic.md, docs/domain-technical.md]
+          matrix: [docs/cross-module-visibility-acceptance.yaml]
 
   - id: sharing
     name: Things sharing and lending
@@ -316,8 +364,12 @@ modules:
           backend: [apps/themuffinman/src/main/java/com/themuffinman/app/things]
           vision: [VIEW_THINGS, search]
         gaps:
-          - dedicated web discovery and detail surface
-          - lending lifecycle and availability UX
+          - browser/device runtime evidence
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue]
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java]
+          migration: [apps/themuffinman/src/main/resources/db/migration/V53__extend_thing_borrow_request_workflow.sql]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java]
       - id: rides.circles
         name: Voluntary car sharing for selected circles
         status: not_offered
@@ -364,6 +416,8 @@ modules:
         gaps:
           - unified pagination and comparison across entity families
           - consistent ranking and empty/error semantics
+        evidence:
+          matrix: [docs/cross-module-search-acceptance.yaml]
       - id: cross_module.auditability
         name: Capability, implementation, documentation, and validation traceability
         status: implemented

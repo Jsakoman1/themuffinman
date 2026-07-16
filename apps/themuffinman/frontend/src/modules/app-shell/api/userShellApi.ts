@@ -1,6 +1,7 @@
 import {api, withAuth} from "../../../api/httpClient.ts"
 import type {
   AppUserResponseDTO,
+  AppUserRequestDTO,
   ActionResultDTO,
   BusinessBookingListResponseDTO,
   BusinessBookingResponseDTO,
@@ -23,6 +24,8 @@ import type {
   ChatConversationSyncDTO,
   ChatMessagePageDTO,
   ChatMessageDTO,
+  ChatMessageRequestDTO,
+  ChatAttachmentUploadDTO,
   ChatWorkspaceDTO,
   CircleContactListResponseDTO,
   CircleOverviewDTO,
@@ -38,6 +41,12 @@ import type {
   UserProfileViewDTO,
   UserReviewRequestDTO,
   QuestNewsItemResponseDTO,
+  LocationLookupResponseDTO,
+  LocationLookupCandidateDTO,
+  ThingListingListResponseDTO,
+  ThingListingRequestDTO,
+  ThingListingResponseDTO,
+  ThingBorrowRequestResponseDTO,
 } from "../../../contracts/index.ts"
 
 export const userShellApi = {
@@ -152,8 +161,15 @@ export const userShellApi = {
     })).data
   },
 
-  async sendChatMessage(conversationId: number, messageBody: string): Promise<ChatMessageDTO> {
-    return (await api.post<ChatMessageDTO>(`/chat/conversations/${conversationId}/messages`, {messageBody, clientMessageId: crypto.randomUUID()}, withAuth())).data
+  async uploadChatAttachment(file: File): Promise<ChatAttachmentUploadDTO> {
+    const form = new FormData()
+    form.append("file", file)
+    return (await api.post<ChatAttachmentUploadDTO>("/chat/attachments", form, withAuth())).data
+  },
+
+  async sendChatMessage(conversationId: number, messageBody: string, attachment?: ChatAttachmentUploadDTO | null): Promise<ChatMessageDTO> {
+    const request: ChatMessageRequestDTO = {messageBody: messageBody || undefined, clientMessageId: crypto.randomUUID(), attachmentName: attachment?.attachmentName, attachmentMimeType: attachment?.attachmentMimeType, attachmentUploadId: attachment?.uploadId}
+    return (await api.post<ChatMessageDTO>(`/chat/conversations/${conversationId}/messages`, request, withAuth())).data
   },
 
   async updateChatMessage(conversationId: number, messageId: number, messageBody: string): Promise<ChatMessageDTO> {
@@ -321,7 +337,62 @@ export const userShellApi = {
     return (await api.get<AppUserResponseDTO>("/app_users/me", withAuth())).data
   },
 
+  async updateCurrentAppUser(request: AppUserRequestDTO): Promise<AppUserResponseDTO> {
+    return (await api.put<AppUserResponseDTO>("/app_users/me", request, withAuth())).data
+  },
+
+  async lookupLocations(query: string): Promise<LocationLookupResponseDTO> {
+    return (await api.post<LocationLookupResponseDTO>("/location/lookup", {query}, withAuth())).data
+  },
+
+  async reverseLookupLocation(latitude: number, longitude: number): Promise<LocationLookupCandidateDTO> {
+    return (await api.post<LocationLookupCandidateDTO>("/location/reverse-lookup", {latitude, longitude}, withAuth())).data
+  },
+
   async getCurrentProfileView(userId: number): Promise<UserProfileViewDTO> {
     return (await api.get<UserProfileViewDTO>(`/app_users/${userId}/profile-view`, withAuth())).data
+  },
+
+  async getThingListings(): Promise<ThingListingListResponseDTO> {
+    return (await api.get<ThingListingListResponseDTO>("/things/listings", withAuth())).data
+  },
+
+  async getMyThingListings(): Promise<ThingListingListResponseDTO> {
+    return (await api.get<ThingListingListResponseDTO>("/things/listings/me", withAuth())).data
+  },
+
+  async getThingListing(listingId: number): Promise<ThingListingResponseDTO> {
+    return (await api.get<ThingListingResponseDTO>(`/things/listings/${listingId}`, withAuth())).data
+  },
+
+  async createThingListing(request: ThingListingRequestDTO): Promise<ThingListingResponseDTO> {
+    return (await api.post<ThingListingResponseDTO>("/things/listings", request, withAuth())).data
+  },
+
+  async requestThingBorrow(listingId: number, message: string): Promise<ThingBorrowRequestResponseDTO> {
+    return (await api.post<ThingBorrowRequestResponseDTO>(`/things/listings/${listingId}/borrow-requests`, {message}, withAuth())).data
+  },
+
+  async cancelThingBorrow(requestId: number): Promise<ThingBorrowRequestResponseDTO> {
+    return (await api.patch<ThingBorrowRequestResponseDTO>(`/things/borrow-requests/${requestId}/cancel`, undefined, withAuth())).data
+  },
+
+  async getMyThingBorrowRequests(): Promise<ThingBorrowRequestResponseDTO[]> {
+    return (await api.get<ThingBorrowRequestResponseDTO[]>("/things/borrow-requests/me", withAuth())).data
+  },
+
+  async getThingOwnerBorrowRequests(): Promise<ThingBorrowRequestResponseDTO[]> {
+    return (await api.get<ThingBorrowRequestResponseDTO[]>("/things/listings/me/borrow-requests", withAuth())).data
+  },
+
+  async decideThingBorrow(requestId: number, approve: boolean): Promise<ThingBorrowRequestResponseDTO> {
+    return (await api.patch<ThingBorrowRequestResponseDTO>(`/things/borrow-requests/${requestId}/decision`, undefined, {
+      ...withAuth(),
+      params: {approve}
+    })).data
+  },
+
+  async returnThingBorrow(requestId: number): Promise<ThingBorrowRequestResponseDTO> {
+    return (await api.patch<ThingBorrowRequestResponseDTO>(`/things/borrow-requests/${requestId}/return`, undefined, withAuth())).data
   }
 }

@@ -1,0 +1,54 @@
+kind: runtime_acceptance_matrix
+version: 1
+status: active
+purpose: Browser and device scenarios required before implemented capabilities can be marked verified.
+evidence_policy: Source tests and builds do not satisfy runtime evidence; each scenario needs an executed browser or device trace.
+scenarios:
+  - id: work-quest-management
+    capability_ids: [work.quest.management]
+    target: /work/quests/:questId
+    actions: [open_existing_quest, edit_allowed_field, save, refresh, confirm_state_and_feedback]
+    required_evidence: browser_trace
+    status: pending_runtime
+  - id: work-application-management
+    capability_ids: [work.application]
+    target: /work/applications
+    actions: [open_application, execute_allowed_action, refresh, confirm_backend_state]
+    required_evidence: browser_trace
+    status: pending_runtime
+  - id: business-booking-actions
+    capability_ids: [business.booking, business.availability]
+    target: /business/bookings
+    actions: [open_booking, execute_owner_or_customer_action, confirm_feedback, refresh]
+    required_evidence: browser_trace
+    status: pending_runtime
+  - id: vision-execution-recovery
+    capability_ids: [vision.execution]
+    target: /vision
+    actions: [submit_supported_command, review_result, confirm_or_cancel, exercise_failure_recovery]
+    required_evidence: browser_trace
+    status: pending_runtime
+  - id: chat-reconnect-resync
+    capability_ids: [chat.realtime]
+    target: /chat/:conversationId
+    actions: [open_thread, go_offline_or_hide_tab, restore_network_or_visibility, confirm_resync_without_duplicate_messages]
+    required_evidence: browser_trace
+    status: pending_runtime
+  - id: cross-module-visibility
+    capability_ids: [circles.visibility, platform.location, things.listings]
+    target: /circles
+    actions: [configure_scope, open_consumer_surface, confirm_allowed_view, confirm_denied_view]
+    required_evidence: browser_trace
+    status: pending_runtime
+  - id: things-detail-and-lending
+    capability_ids: [things.listings]
+    target: /things/:listingId
+    actions: [open_detail, request_or_cancel, owner_decide, borrower_return, confirm_availability]
+    required_evidence: browser_trace
+    status: pending_runtime
+  - id: location-permission-recovery
+    capability_ids: [platform.location]
+    target: /profile/settings
+    actions: [deny_browser_location, recover_with_search, save_scope, refresh_and_confirm]
+    required_evidence: browser_trace
+    status: pending_runtime

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue"
+import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue"
 import {RouterLink, useRoute} from "vue-router"
-import type {ChatConversationSummaryDTO, ChatMessageDTO} from "../../../contracts/index.ts"
+import type {ChatAttachmentUploadDTO, ChatConversationSummaryDTO, ChatMessageDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 
 const route = useRoute()
@@ -14,9 +14,13 @@ const nextMessageId = ref<number | null>(null)
 const isLoading = ref(true)
 const isLoadingMore = ref(false)
 const error = ref("")
+const syncStatus = ref("")
 const draft = ref("")
 const editingId = ref<number | null>(null)
 const editingDraft = ref("")
+const attachment = ref<ChatAttachmentUploadDTO | null>(null)
+const attachmentPreviewUrl = ref<string | null>(null)
+const isUploadingAttachment = ref(false)
 const selectedId = computed(() => Number(route.params.conversationId) || null)
 const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value)) : ""
 
@@ -32,11 +36,32 @@ const loadConversations = async (append = false) => {
 const loadMessages = async () => {
   if (!selectedId.value) { messages.value = []; return }
   try {
-    const page = await userShellApi.getChatMessages(selectedId.value, 30)
-    messages.value = page.messages
-    hasMoreMessages.value = page.hasMore
-    nextMessageId.value = page.nextBeforeMessageId
-  } catch { error.value = "Could not load messages." }
+    const sync = await userShellApi.getChatConversationSync(selectedId.value)
+    messages.value = sync.messages
+    hasMoreMessages.value = false
+    nextMessageId.value = null
+    syncStatus.value = "Conversation synced."
+  } catch {
+    try {
+      const page = await userShellApi.getChatMessages(selectedId.value, 30)
+      messages.value = page.messages
+      hasMoreMessages.value = page.hasMore
+      nextMessageId.value = page.nextBeforeMessageId
+      syncStatus.value = ""
+    } catch { error.value = "Could not load messages." }
+  }
+}
+const syncConversation = async () => {
+  if (!selectedId.value) return
+  syncStatus.value = "Syncing conversation…"
+  try {
+    const sync = await userShellApi.getChatConversationSync(selectedId.value)
+    const existing = new Map(messages.value.map(message => [message.id, message]))
+    sync.messages.forEach(message => existing.set(message.id, message))
+    messages.value = [...existing.values()].sort((left, right) => left.id - right.id)
+    syncStatus.value = "Conversation synced."
+    error.value = ""
+  } catch { syncStatus.value = "Could not sync conversation." }
 }
 const loadMoreConversations = async () => { if (!hasMoreConversations.value || isLoadingMore.value) return; conversationPage.value += 1; await loadConversations(true) }
 const loadOlderMessages = async () => {
@@ -47,19 +72,35 @@ const loadOlderMessages = async () => {
   nextMessageId.value = page.nextBeforeMessageId
 }
 const replaceMessage = (message: ChatMessageDTO) => { messages.value = messages.value.map(item => item.id === message.id ? message : item) }
-const send = async () => { if (!selectedId.value || !draft.value.trim()) return; error.value = ""; try { const message = await userShellApi.sendChatMessage(selectedId.value, draft.value.trim()); messages.value = [...messages.value, message]; draft.value = "" } catch { error.value = "Could not send this message." } }
+const clearAttachmentPreview = () => { if (attachmentPreviewUrl.value) URL.revokeObjectURL(attachmentPreviewUrl.value); attachmentPreviewUrl.value = null }
+const uploadAttachment = async (event: Event) => { const file = (event.target as HTMLInputElement).files?.[0]; if (!file) return; clearAttachmentPreview(); attachmentPreviewUrl.value = file.type.startsWith("image/") ? URL.createObjectURL(file) : null; isUploadingAttachment.value = true; error.value = ""; try { attachment.value = await userShellApi.uploadChatAttachment(file) } catch { clearAttachmentPreview(); error.value = "Could not upload this attachment." } finally { isUploadingAttachment.value = false } }
+const removeAttachment = () => { attachment.value = null; clearAttachmentPreview() }
+const send = async () => { if (!selectedId.value || (!draft.value.trim() && !attachment.value)) return; error.value = ""; try { const message = await userShellApi.sendChatMessage(selectedId.value, draft.value.trim(), attachment.value); messages.value = [...messages.value, message]; draft.value = ""; removeAttachment() } catch { error.value = "Could not send this message." } }
 const beginEdit = (message: ChatMessageDTO) => { editingId.value = message.id; editingDraft.value = message.messageBody ?? "" }
 const saveEdit = async (message: ChatMessageDTO) => { if (!selectedId.value || !editingDraft.value.trim()) return; try { replaceMessage(await userShellApi.updateChatMessage(selectedId.value, message.id, editingDraft.value.trim())); editingId.value = null } catch { error.value = "Could not edit this message." } }
 const remove = async (message: ChatMessageDTO) => { if (!selectedId.value || !window.confirm("Delete this message?")) return; try { await userShellApi.deleteChatMessage(selectedId.value, message.id); messages.value = messages.value.map(item => item.id === message.id ? {...item, deleted: true, messageBody: null} : item) } catch { error.value = "Could not delete this message." } }
 const toggleReaction = async (message: ChatMessageDTO) => { if (!selectedId.value) return; const own = message.reactions.find(reaction => reaction.ownReaction && reaction.emoji === "👍"); try { replaceMessage(own ? await userShellApi.removeChatReaction(selectedId.value, message.id, "👍") : await userShellApi.addChatReaction(selectedId.value, message.id, "👍")) } catch { error.value = "Could not update this reaction." } }
+const recoverConversation = () => { if (document.visibilityState === "visible" && selectedId.value) void syncConversation() }
+const recoverWhenOnline = () => { if (selectedId.value) void syncConversation() }
 watch(selectedId, () => void loadMessages())
-onMounted(() => { void loadConversations(); void loadMessages() })
+onMounted(() => {
+  void loadConversations()
+  void loadMessages()
+  document.addEventListener("visibilitychange", recoverConversation)
+  window.addEventListener("online", recoverWhenOnline)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener("visibilitychange", recoverConversation)
+  window.removeEventListener("online", recoverWhenOnline)
+  clearAttachmentPreview()
+})
 </script>
 
 <template>
   <section class="chat-surface">
     <header class="chat-surface__header"><div><p class="chat-surface__eyebrow">Chat</p><h1>{{ selectedId ? "Conversation" : "Inbox" }}</h1></div></header>
     <div v-if="error" class="chat-surface__status chat-surface__status--error" role="alert">{{ error }} <button type="button" @click="loadConversations()">Retry</button></div>
+    <div v-if="selectedId && syncStatus" class="chat-surface__status" role="status">{{ syncStatus }} <button type="button" @click="syncConversation">Sync</button></div>
     <div class="chat-surface__layout">
       <aside class="chat-surface__index" aria-label="Conversations">
         <RouterLink v-for="conversation in conversations" :key="conversation.conversationId" :to="`/chat/${conversation.conversationId}`" class="chat-surface__conversation" :class="{'chat-surface__conversation--active': selectedId === conversation.conversationId}">
@@ -75,12 +116,12 @@ onMounted(() => { void loadConversations(); void loadMessages() })
           <span class="chat-surface__message-author">{{ message.senderUsername }} · {{ formatDate(message.createdAt) }}</span><form v-if="editingId === message.id" @submit.prevent="saveEdit(message)"><input v-model="editingDraft"><button type="submit">Save</button><button type="button" @click="editingId = null">Cancel</button></form><p v-else>{{ message.deleted ? "Message deleted" : message.messageBody || message.attachmentName || "Attachment" }}</p><div v-if="selectedId && !message.deleted" class="chat-surface__message-actions"><button type="button" @click="toggleReaction(message)">{{ message.reactions.some(reaction => reaction.ownReaction && reaction.emoji === "👍") ? "👍" : "Like" }}</button><button v-if="message.ownMessage" type="button" @click="beginEdit(message)">Edit</button><button v-if="message.ownMessage" type="button" @click="remove(message)">Delete</button></div>
         </article>
       </main>
-      <form v-if="selectedId" class="chat-surface__composer" @submit.prevent="send"><input v-model="draft" placeholder="Write a message." maxlength="4000"><button type="submit">Send</button></form>
+      <form v-if="selectedId" class="chat-surface__composer" @submit.prevent="send"><input v-model="draft" placeholder="Write a message." maxlength="2000"><label class="chat-surface__attachment">{{ isUploadingAttachment ? "Uploading…" : attachment ? attachment.attachmentName : "Attach" }}<input type="file" accept="image/*,.pdf,.txt" @change="uploadAttachment" :disabled="isUploadingAttachment"></label><img v-if="attachmentPreviewUrl" class="chat-surface__attachment-preview" :src="attachmentPreviewUrl" alt="Selected attachment preview"><button type="button" v-if="attachment" @click="removeAttachment">Remove</button><button type="submit" :disabled="isUploadingAttachment">Send</button></form>
     </div>
   </section>
 </template>
 
 <style scoped>
 .chat-surface{display:grid;gap:1rem}.chat-surface__header{display:flex;justify-content:space-between}.chat-surface__eyebrow{margin:0 0 .3rem;color:rgba(23,34,26,.55);font-size:.76rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font-size:clamp(1.55rem,2.5vw,2.3rem);letter-spacing:-.075em}.chat-surface__layout{display:grid;grid-template-columns:minmax(14rem,20rem) minmax(0,1fr);gap:1rem;min-height:28rem}.chat-surface__index,.chat-surface__thread{border:1px solid rgba(23,34,26,.08);border-radius:1rem;background:rgba(255,255,255,.62);padding:.8rem}.chat-surface__index{display:grid;align-content:start;gap:.25rem}.chat-surface__conversation{display:grid;gap:.2rem;padding:.7rem;border-radius:.7rem}.chat-surface__conversation span,.chat-surface__message-author{color:rgba(23,34,26,.55);font-size:.78rem}.chat-surface__conversation--active{background:rgba(214,228,218,.7)}.chat-surface__thread{display:grid;align-content:start;gap:.55rem}.chat-surface__message{max-width:72%;padding:.65rem .8rem;border-radius:.8rem;background:rgba(23,34,26,.06)}.chat-surface__message--own{justify-self:end;background:#17221a;color:#f8f8f4}.chat-surface__message p{margin:.25rem 0 0}.chat-surface__message--own .chat-surface__message-author{color:rgba(248,248,244,.65)}.chat-surface__more,.chat-surface__older{justify-self:start;border:1px solid rgba(23,34,26,.12);border-radius:999px;background:transparent;padding:.5rem .75rem;cursor:pointer}.chat-surface__status{padding:1rem 0;color:rgba(23,34,26,.62)}.chat-surface__status--error{color:#8d2f25}.chat-surface__status button{margin-left:.6rem;border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer}@media(max-width:700px){.chat-surface__layout{grid-template-columns:1fr}.chat-surface__index{max-height:14rem;overflow:auto}.chat-surface__message{max-width:88%}}
-.chat-surface__message-actions{display:flex;gap:.3rem;margin-top:.45rem}.chat-surface__message-actions button,.chat-surface__composer button{border:1px solid rgba(23,34,26,.12);border-radius:999px;padding:.35rem .6rem;background:transparent;font:inherit;font-size:.75rem;cursor:pointer}.chat-surface__composer{display:flex;gap:.45rem;grid-column:2}.chat-surface__composer input{flex:1;border:1px solid rgba(23,34,26,.14);border-radius:999px;padding:.65rem .8rem;font:inherit}.chat-surface__composer button{background:#17221a;color:#f8f8f4}
+.chat-surface__message-actions{display:flex;gap:.3rem;margin-top:.45rem}.chat-surface__message-actions button,.chat-surface__composer button{border:1px solid rgba(23,34,26,.12);border-radius:999px;padding:.35rem .6rem;background:transparent;font:inherit;font-size:.75rem;cursor:pointer}.chat-surface__composer{display:flex;gap:.45rem;grid-column:2;align-items:center;flex-wrap:wrap}.chat-surface__composer input{flex:1;min-width:12rem;border:1px solid rgba(23,34,26,.14);border-radius:999px;padding:.65rem .8rem;font:inherit}.chat-surface__composer button{background:#17221a;color:#f8f8f4}.chat-surface__attachment{display:inline-flex;align-items:center;border:1px solid rgba(23,34,26,.12);border-radius:999px;padding:.35rem .6rem;font-size:.75rem;cursor:pointer}.chat-surface__attachment input{display:none}.chat-surface__attachment-preview{width:3.5rem;height:3.5rem;object-fit:cover;border-radius:.55rem;border:1px solid rgba(23,34,26,.14)}
 </style>

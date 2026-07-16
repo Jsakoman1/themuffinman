@@ -4422,6 +4422,58 @@ intents:
     - thing_sharing_service
     - thing_borrow_request_dto
     - service_errors
+- id: decide_thing_borrow_request
+  description: Approve or decline a pending borrow request for a listing owned by the authenticated user.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - request_id
+  - decision
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Verify listing ownership and transition only a pending request through the owner decision endpoint.
+    endpoint_id: decide_thing_borrow_request
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+    - thing_borrow_request_status
+    - service_errors
+- id: cancel_thing_borrow_request
+  description: Cancel a pending borrow request owned by the authenticated borrower.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - request_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Verify borrower ownership and transition only a pending request through the cancellation endpoint.
+    endpoint_id: cancel_thing_borrow_request
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+    - thing_borrow_request_status
+    - service_errors
+- id: return_thing_borrow_request
+  description: Mark an approved borrowed thing as returned for the authenticated borrower.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - request_id
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Verify borrower ownership and transition only an approved request to returned, restoring listing availability.
+    endpoint_id: return_thing_borrow_request
+    source_refs:
+    - thing_sharing_controller
+    - thing_sharing_service
+    - thing_borrow_request_status
+    - service_errors
 - id: browse_ride_offers
   description: Browse active voluntary ride offers.
   mutating: false

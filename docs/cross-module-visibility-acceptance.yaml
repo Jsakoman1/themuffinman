@@ -1,0 +1,34 @@
+kind: acceptance-matrix
+version: 1
+id: cross-module-visibility-acceptance
+source_plan: docs/work/cross-module-visibility-acceptance.yaml
+scope: circles, location, Work, Chat, and Things visibility boundaries
+scenarios:
+  - id: circle-membership-is-not-global-consent
+    capability_ids: [circles.relationships, circles.visibility]
+    states: [CONNECTED, BLOCKED]
+    required: [privacy-explanation, module-policy-boundary, no-automatic-exact-location-access]
+    evidence: [apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java]
+  - id: exact-location-scope
+    capability_ids: [platform.location, circles.visibility]
+    states: [OFF, APPROXIMATE, EXACT]
+    required: [owner-access, circle-scope-check, explicit-user-scope-check, fail-closed-default]
+    evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java, apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationAccessPolicyServiceTest.java]
+  - id: work-location-presentation
+    capability_ids: [work.quest.management, platform.location]
+    states: [INHERIT, OFF, APPROXIMATE, EXACT]
+    required: [backend-prepared-location-label, viewer-aware-exact-location, no-frontend-policy-derivation]
+    evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+  - id: chat-participant-boundary
+    capability_ids: [chat.conversations, chat.realtime, circles.visibility]
+    states: [MEMBER, LEFT, BLOCKED]
+    required: [accessible-conversation-check, sync-boundary, no-stale-contact-leak]
+    evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
+  - id: things-borrower-boundary
+    capability_ids: [things.listings, circles.visibility]
+    states: [AVAILABLE, PENDING, CANCELLED]
+    required: [owner-cannot-borrow-own-thing, duplicate-pending-prevention, borrower-owned-cancellation]
+    evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java, apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java]
+evidence_policy:
+  completion_requires: [backend-policy, frontend-explanation-or-surface, targeted-test-or-validator]
+  runtime_gap_note: Browser/device interaction and mobile background acceptance remain separate from this contract matrix.

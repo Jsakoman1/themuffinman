@@ -1,0 +1,77 @@
+kind: work
+version: 1
+id: native-client-handoff-contract
+title: Define native iPhone and Watch handoff contract
+status: verified
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+- cross_module.mobile_watch
+- cross_module.search
+- vision.command.input
+baseline: 6018777
+objective: Turn native client gaps into a concrete backend-owned handoff contract
+  for future iPhone and Watch implementation.
+tasks:
+- id: native-contract
+  title: Define shared backend surfaces and device invariants
+  type: documentation
+  status: done
+  paths:
+  - docs/native-client-handoff-contract.yaml
+  validation: make audit-native-client-handoff
+- id: native-contract-guard
+  title: Add machine validation for native handoff completeness
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-native-client-handoff.rb
+  - Makefile
+  validation: make audit-native-client-handoff
+- id: native-contract-docs
+  title: Record the handoff contract in technical documentation
+  type: documentation
+  status: done
+  paths:
+  - docs/domain-technical.md
+  validation: make audit-docs
+evidence:
+- task: native-contract
+  command: make audit-native-client-handoff
+  ranAt: '2026-07-16T16:04:23Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/native-client-handoff-contract.yaml
+  output: |+
+    ruby scripts/audits/audit-native-client-handoff.rb
+    Native client handoff audit passed (2 clients, contract-ready).
+
+- task: native-contract-guard
+  command: make audit-native-client-handoff
+  ranAt: '2026-07-16T16:04:23Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - scripts/audits/audit-native-client-handoff.rb
+  output: |+
+    ruby scripts/audits/audit-native-client-handoff.rb
+    Native client handoff audit passed (2 clients, contract-ready).
+
+- task: native-contract-docs
+  command: make audit-docs
+  ranAt: '2026-07-16T16:04:24Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-technical.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 176
+      review needed: 0
+      high priority: 0
+

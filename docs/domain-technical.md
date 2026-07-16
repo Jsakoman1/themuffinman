@@ -23,6 +23,7 @@ Domain capsules:
 - Frontend module roots under `apps/themuffinman/frontend/src/modules/*/README.md` provide the same first-read capsule for route and UI work.
 - `docs/cross-domain-glossary.md` defines shared terms such as users, actors, circles, visibility, consent, messaging, quests, applications, reviews, bookings, and synthetic data before deeper domain-specific rules.
 - `docs/vision-presentation-contract.yaml` is the machine-readable presentation contract for Vision state, device density, field visibility, and shell handoff ownership.
+- `ProfileLocationSettingsView` uses the existing `PUT /app_users/me`, `POST /location/lookup`, and `POST /location/reverse-lookup` contracts. It never derives coordinates or privacy rules locally; the backend normalizes radius, validates coordinates, and enforces exact-location sharing policy.
 - Backend-owned adaptive presentation metadata is exposed through `VisionRuntimeContextDTO` for command/review/result state and through `QuestListPresentationDTO` for Work focus-list density, visible fields, and primary action labels. Web, phone, and Watch clients consume these hints without re-deriving workflow or permission meaning.
 
 Frontend vision surface note:
@@ -1427,6 +1428,7 @@ Response contracts:
 - `ChatMessagePageDTO` exposes one paginated chat history slice with limit, has-more flag, and next-before-message cursor
 - `ChatConversationListDTO` exposes filtered conversation rows plus page, cursor, and has-more metadata for backend-driven browsing
 - `ChatConversationSyncDTO` exposes one reconnect/resync slice with current conversation summary, incremental messages, latest message cursor, and active typing user ids
+- `ChatSurfaceView` consumes `ChatConversationSyncDTO` on initial conversation load and on `visibilitychange`/`online` recovery events. Recovered messages are merged by id in the browser; backend authorization and message ordering remain authoritative.
 - `ChatAttachmentUploadDTO` exposes one backend-owned staged upload with object-storage metadata and a resolved attachment access URL returned from the multipart upload boundary
 - `ChatAdminConversationSupportViewDTO` exposes one admin-only support surface that combines conversation summary, recent messages, and recent audit rows
 - `ChatAdminService` now also owns one admin-only message moderation delete action that soft-deletes the target message and records an audit event
@@ -1778,8 +1780,19 @@ The cross-module product capability map is maintained in `docs/capability-invent
 - Chat workspace, conversation sync, and business owner booking reads accept explicit scan limits; clients may request a bounded scan window but must not discard returned records locally.
 - Calendar projections are read by their backend-defined date window and rendered as a timeline; detail remains owned by the source work, chat, or business route.
 - Presentation descriptions and planning explanations are not part of the default visual surface. They may remain in internal read models for compatibility, but renderers consume title, badge, metadata, actions, and state only.
+- Cross-module search comparison is backend-owned: entity-family selection, visibility filtering, ranking, pagination, empty states, and errors are returned as contract data. Clients preserve each result's family label and source route and do not locally re-rank or truncate mixed results. The acceptance matrix is `docs/cross-module-search-acceptance.yaml`.
+- Future iPhone and Watch clients use `docs/native-client-handoff-contract.yaml` as the shared handoff boundary. They reuse backend permissions, action DTOs, pagination, retry semantics, and source routes; compact Watch presentation may reduce density but cannot redefine workflow meaning or authorization.
 - `npm run validate:modern-surface` is the lightweight acceptance guard for route ownership, list pagination controls, request cancellation, and the no-local-truncation invariant; browser screenshot testing remains a separate environment concern.
 
 - Treat this file as a technical contract.
 - When entity fields, relations, validations, permission checks, or workflow rules change, update this file in the same change.
 - If a change introduces a new invariant, write it down here explicitly.
+- The Things web surface consumes `GET /things/listings`, `GET /things/listings/{listingId}`, `GET /things/listings/me`, `GET /things/listings/me/borrow-requests`, `GET /things/borrow-requests/me`, `POST /things/listings`, and `POST /things/listings/{listingId}/borrow-requests`. It uses `myPendingRequestId` for display only and does not duplicate backend availability or uniqueness rules.
+- `PATCH /things/borrow-requests/{requestId}/cancel` is borrower-owned, only accepts `PENDING`, and transitions the request to `CANCELLED`.
+- `PATCH /things/borrow-requests/{requestId}/decision?approve=true|false` is owner-owned and only accepts `PENDING`, transitioning to `APPROVED` or `DECLINED`. Approval records `approvedAt` and makes the listing unavailable; an approved request can be returned only by its borrower through `PATCH /things/borrow-requests/{requestId}/return`, which transitions to `RETURNED` and restores listing availability.
+- Thing borrow request states are `PENDING`, `CANCELLED`, `APPROVED`, `DECLINED`, and `RETURNED`; the V53 migration and `ThingBorrowRequestStatus` enum are the synchronized state sources.
+- The Circles surface explains the policy boundary but does not calculate access locally. Backend circle membership, location visibility, and module-specific access services remain authoritative.
+- Chat attachment flow uses `POST /chat/attachments` followed by `POST /chat/conversations/{id}/messages` with `attachmentUploadId`. The frontend does not construct storage keys or bypass backend upload ownership and one-time-use checks.
+- Chat image preview uses a browser object URL with explicit revoke cleanup on replacement, removal, send, and component unmount. It does not persist local preview data or replace the backend attachment URL contract.
+- `docs/cross-module-visibility-acceptance.yaml` is the machine-readable matrix for circle, location, Work, Chat, and Things visibility boundaries. It records backend policy, frontend explanation/surface, and targeted-test evidence separately from browser/device runtime evidence.
+- `ProfileLocationSettingsView` forwards `exactVisibilityScope` plus the existing circle/user target ids to `UserLocationSettingsRequestDTO`; it does not validate or synthesize target membership locally.

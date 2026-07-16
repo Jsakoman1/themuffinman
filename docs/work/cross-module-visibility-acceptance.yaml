@@ -1,0 +1,81 @@
+kind: work
+version: 1
+id: cross-module-visibility-acceptance
+title: Add cross-module visibility acceptance matrix
+status: verified
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+- circles.relationships
+- circles.visibility
+- platform.location
+- chat.conversations
+- things.listings
+baseline: c5a11c4
+objective: Make cross-module visibility, consent, and fail-closed boundaries explicit
+  in a machine-readable acceptance matrix.
+tasks:
+- id: visibility-matrix
+  title: Define shared visibility scenarios and required outcomes
+  type: documentation
+  status: done
+  paths:
+  - docs/cross-module-visibility-acceptance.yaml
+  validation: ruby -e 'require "yaml"; data = YAML.load_file("docs/cross-module-visibility-acceptance.yaml");
+    abort unless data["scenarios"].size == 5'
+- id: visibility-evidence
+  title: Link every scenario to backend and frontend/test evidence
+  type: documentation
+  status: done
+  paths:
+  - docs/cross-module-visibility-acceptance.yaml
+  - docs/capability-inventory.yaml
+  validation: ruby -e 'require "yaml"; data = YAML.load_file("docs/cross-module-visibility-acceptance.yaml");
+    abort if data["scenarios"].any? { |s| s["evidence"].nil? || s["evidence"].empty?
+    }'
+- id: visibility-docs
+  title: Synchronize inventory and technical documentation
+  type: documentation
+  status: done
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  validation: make audit-docs
+evidence:
+- task: visibility-matrix
+  command: ruby -e 'require "yaml"; data = YAML.load_file("docs/cross-module-visibility-acceptance.yaml");
+    abort unless data["scenarios"].size == 5'
+  ranAt: '2026-07-16T15:40:14Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/cross-module-visibility-acceptance.yaml
+  output: "\n"
+- task: visibility-evidence
+  command: ruby -e 'require "yaml"; data = YAML.load_file("docs/cross-module-visibility-acceptance.yaml");
+    abort if data["scenarios"].any? { |s| s["evidence"].nil? || s["evidence"].empty?
+    }'
+  ranAt: '2026-07-16T15:40:14Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/cross-module-visibility-acceptance.yaml
+  output: "\n"
+- task: visibility-docs
+  command: make audit-docs
+  ranAt: '2026-07-16T15:40:14Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 173
+      review needed: 0
+      high priority: 0
+

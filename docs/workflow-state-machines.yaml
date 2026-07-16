@@ -188,9 +188,14 @@ stateMachines:
     states:
       - PENDING
       - CANCELLED
+      - APPROVED
+      - DECLINED
+      - RETURNED
     initialState: PENDING
     terminalStates:
       - CANCELLED
+      - DECLINED
+      - RETURNED
     transitions:
       - id: request_borrow_thing
         from: []
@@ -200,8 +205,25 @@ stateMachines:
       - id: cancel_borrow_request
         from: [PENDING]
         to: CANCELLED
-        intentId: future_booking_flow
-        authority: requester_or_owner
+        intentId: cancel_thing_borrow_request
+        authority: borrower
+      - id: approve_borrow_request
+        from: [PENDING]
+        to: APPROVED
+        intentId: decide_thing_borrow_request
+        authority: listing_owner
+        sideEffects: [listing_unavailable, approved_at_recorded]
+      - id: decline_borrow_request
+        from: [PENDING]
+        to: DECLINED
+        intentId: decide_thing_borrow_request
+        authority: listing_owner
+      - id: return_borrowed_thing
+        from: [APPROVED]
+        to: RETURNED
+        intentId: return_thing_borrow_request
+        authority: borrower
+        sideEffects: [listing_available]
   - id: booking_lifecycle
     domain: bookings
     owner: future_module

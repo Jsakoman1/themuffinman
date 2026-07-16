@@ -22,6 +22,9 @@ const BusinessAvailabilityExceptionsView = () => import("./modules/app-shell/vie
 const NotificationsView = () => import("./modules/app-shell/views/NotificationsView.vue");
 const CirclesView = () => import("./modules/app-shell/views/CirclesView.vue");
 const ChatSurfaceView = () => import("./modules/app-shell/views/ChatSurfaceView.vue");
+const ProfileLocationSettingsView = () => import("./modules/app-shell/views/ProfileLocationSettingsView.vue");
+const ThingsDiscoveryView = () => import("./modules/app-shell/views/ThingsDiscoveryView.vue");
+const ThingDetailView = () => import("./modules/app-shell/views/ThingDetailView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
 
 const visionBridgeRoutes = visionBridgeRouteDefinitions.map((definition) => ({
@@ -162,6 +165,24 @@ const routes = [
                 meta: {requiresAuth: true, surfaceId: 'circles'}
             },
             {
+                path: 'things',
+                name: 'things',
+                component: ThingsDiscoveryView,
+                meta: {requiresAuth: true, surfaceId: 'things'}
+            },
+            {
+                path: 'things/mine',
+                name: 'things-mine',
+                component: ThingsDiscoveryView,
+                meta: {requiresAuth: true, surfaceId: 'things'}
+            },
+            {
+                path: 'things/:listingId',
+                name: 'things-detail',
+                component: ThingDetailView,
+                meta: {requiresAuth: true, surfaceId: 'things'}
+            },
+            {
                 path: 'profile',
                 name: 'profile',
                 component: SectionHubView,
@@ -176,7 +197,7 @@ const routes = [
             {
                 path: 'profile/settings',
                 name: 'profile-settings',
-                component: SectionHubView,
+                component: ProfileLocationSettingsView,
                 meta: {requiresAuth: true, surfaceId: 'profile-settings'}
             }
         ]

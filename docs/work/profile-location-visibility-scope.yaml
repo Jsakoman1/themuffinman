@@ -1,0 +1,83 @@
+kind: work
+version: 1
+id: profile-location-visibility-scope
+title: Add exact location visibility scope control
+status: verified
+master_plan: docs/work/capability-coverage-and-reliability.yaml
+capability_ids:
+- platform.location
+- circles.visibility
+baseline: c5a11c4
+objective: Let users choose the backend-supported exact location visibility scope
+  from Profile Settings.
+tasks:
+- id: location-scope-ui
+  title: Bind exact visibility scope in the profile location editor
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: location-scope-guard
+  title: Guard scope options and backend request wiring
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+- id: location-scope-docs
+  title: Synchronize exact location scope documentation
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs
+evidence:
+- task: location-scope-ui
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-16T15:43:24Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: location-scope-guard
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-16T15:43:26Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (31 checks).
+
+- task: location-scope-docs
+  command: make audit-docs
+  ranAt: '2026-07-16T15:43:26Z'
+  revision: c5a11c430896e01d756adc3cb40ba9969eaea284
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 173
+      review needed: 0
+      high priority: 0
+
