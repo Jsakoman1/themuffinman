@@ -7,5 +7,6 @@ public enum BusinessBookingAuditEventType {
     CANCELLED_BY_CUSTOMER,
     CANCELLED_BY_OWNER,
     COMPLETED,
-    NO_SHOW
+    NO_SHOW,
+    RESCHEDULED
 }

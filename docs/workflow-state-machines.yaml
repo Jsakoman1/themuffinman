@@ -11,6 +11,7 @@ stateMachines:
       - ASSIGNED
       - IN_PROGRESS
       - WAITING_CONFIRMATION
+      - PAUSED
       - COMPLETED
       - CANCELLED
     initialState: OPEN
@@ -66,7 +67,7 @@ stateMachines:
         intentId: reject_quest_term_change
         authority: approved_worker_or_admin
       - id: admin_status_override
-        from: [OPEN, ASSIGNED, WAITING_CONFIRMATION, IN_PROGRESS, COMPLETED, CANCELLED]
+        from: [OPEN, ASSIGNED, WAITING_CONFIRMATION, IN_PROGRESS, PAUSED, COMPLETED, CANCELLED]
         to: any_declared_state
         intentId: update_quest
         authority: admin
@@ -81,11 +82,13 @@ stateMachines:
       - APPROVED
       - DECLINED
       - WITHDRAWN
+      - RELEASED
     initialState: PENDING
     terminalStates:
       - APPROVED
       - DECLINED
       - WITHDRAWN
+      - RELEASED
     transitions:
       - id: apply_to_quest
         from: []
@@ -113,7 +116,7 @@ stateMachines:
         intentId: decline_application
         authority: quest_owner_or_admin
       - id: admin_update_application
-        from: [PENDING, APPROVED, DECLINED, WITHDRAWN]
+        from: [PENDING, APPROVED, DECLINED, WITHDRAWN, RELEASED]
         to: any_declared_state
         intentId: update_admin_application
         authority: admin

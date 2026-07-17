@@ -47,6 +47,19 @@ public class BusinessBookingAuditService {
         businessBookingAuditEventRepository.save(event);
     }
 
+    @Transactional
+    public void recordRescheduled(BusinessBooking booking, AppUser actor, String note) {
+        BusinessBookingAuditEvent event = new BusinessBookingAuditEvent();
+        event.setBooking(booking);
+        event.setEventType(BusinessBookingAuditEventType.RESCHEDULED);
+        event.setPreviousStatus(booking.getStatus());
+        event.setNewStatus(booking.getStatus());
+        event.setActorUserId(actor == null ? null : actor.getId());
+        event.setActorUsername(actor == null ? null : actor.getUsername());
+        event.setNote(note);
+        businessBookingAuditEventRepository.save(event);
+    }
+
     private BusinessBookingAuditEventType mapStatusChange(BusinessBookingStatus newStatus) {
         return switch (newStatus) {
             case CONFIRMED -> BusinessBookingAuditEventType.CONFIRMED;

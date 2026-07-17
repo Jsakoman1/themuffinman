@@ -63,6 +63,30 @@ public class BusinessBookingValidationService {
         return new CapacityDecision(effectiveCapacity, occupied);
     }
 
+    public void validateReschedule(
+            BusinessBooking booking,
+            BusinessOffering offering,
+            Instant startsAt,
+            Instant endsAt,
+            BusinessBookingPolicy policy,
+            long occupiedExcludingCurrent
+    ) {
+        if (booking.getStatus() != BusinessBookingStatus.PENDING_CONFIRMATION
+                && booking.getStatus() != BusinessBookingStatus.CONFIRMED) {
+            throw ServiceErrors.conflict("Booking cannot be rescheduled in its current status");
+        }
+        validateTimeRange(offering, startsAt, endsAt, policy);
+        List<BusinessAvailabilityWindowDTO> coverage = requireAvailabilityCoverage(
+                offering.getBusinessProfile(), offering, startsAt, endsAt);
+        int effectiveCapacity = coverage.stream()
+                .map(BusinessAvailabilityWindowDTO::getEffectiveCapacity)
+                .min(Comparator.naturalOrder())
+                .orElseThrow(() -> ServiceErrors.conflict("Requested booking slot is not available"));
+        if (occupiedExcludingCurrent >= effectiveCapacity) {
+            throw ServiceErrors.conflict("Requested booking slot is already full");
+        }
+    }
+
     public void validateCustomerCancellation(BusinessBooking booking, BusinessBookingPolicy policy, Instant now) {
         if (!policy.isAllowCustomerCancellation()) {
             throw ServiceErrors.conflict("Customer cancellation is disabled for this business");

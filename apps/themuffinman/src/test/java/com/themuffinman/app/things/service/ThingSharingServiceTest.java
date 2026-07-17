@@ -62,6 +62,27 @@ class ThingSharingServiceTest {
     }
 
     @Test
+    void ownerCanUpdateThingListing() {
+        AppUser owner = user(1L, "owner");
+        ThingListing listing = listing(10L, owner, true);
+        when(thingListingRepository.findForListingDetail(10L)).thenReturn(Optional.of(listing));
+        when(thingListingRepository.save(listing)).thenReturn(listing);
+        var result = thingSharingService.updateMyListingForVision(10L,
+                ThingListingRequestDTO.builder().title("Updated ladder").available(true).build(), owner);
+        assertEquals("Updated ladder", result.getTitle());
+    }
+
+    @Test
+    void ownerCanArchiveThingListingAndItBecomesUnavailable() {
+        AppUser owner = user(1L, "owner");
+        ThingListing listing = listing(10L, owner, true);
+        when(thingListingRepository.findForListingDetail(10L)).thenReturn(Optional.of(listing));
+        thingSharingService.archiveMyListingForVision(10L, owner);
+        org.junit.jupiter.api.Assertions.assertTrue(listing.isArchived());
+        org.junit.jupiter.api.Assertions.assertFalse(listing.isAvailable());
+    }
+
+    @Test
     void requestBorrowCreatesPendingRequest() {
         AppUser owner = user(1L, "owner");
         AppUser borrower = user(2L, "borrower");

@@ -9,8 +9,10 @@ import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestAudience;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepository;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -25,6 +27,54 @@ public class WorkmarketQuestUpdateService {
     private final WorkmarketQuestAccessPolicyService questAccessPolicyService;
     private final LocationSettingsService locationSettingsService;
     private final WorkmarketQuestApplicationRepository questApplicationRepository;
+    private final WorkmarketQuestRepository questRepository;
+
+    @Transactional
+    public Quest reopenQuestForVision(Long questId, AppUser currentUser) {
+        Quest quest = questRepository.findByIdWithCreator(questId)
+                .orElseThrow(() -> com.themuffinman.app.common.errors.ServiceErrors.notFound("Quest not found with id " + questId));
+        questStateTransitionService.applyOwnerQuestStatusChange(quest, QuestStatus.OPEN, currentUser);
+        return quest;
+    }
+
+    @Transactional
+    public Quest cancelQuestForVision(Long questId, AppUser currentUser) {
+        Quest quest = questRepository.findByIdWithCreator(questId)
+                .orElseThrow(() -> com.themuffinman.app.common.errors.ServiceErrors.notFound("Quest not found with id " + questId));
+        questStateTransitionService.applyOwnerQuestStatusChange(quest, QuestStatus.CANCELLED, currentUser);
+        return quest;
+    }
+
+    @Transactional
+    public Quest pauseQuest(Long questId, AppUser currentUser) {
+        Quest quest = questRepository.findByIdWithCreator(questId)
+                .orElseThrow(() -> com.themuffinman.app.common.errors.ServiceErrors.notFound("Quest not found with id " + questId));
+        questStateTransitionService.applyOwnerQuestStatusChange(quest, QuestStatus.PAUSED, currentUser);
+        return quest;
+    }
+
+    @Transactional
+    public Quest resumeQuest(Long questId, AppUser currentUser) {
+        Quest quest = questRepository.findByIdWithCreator(questId)
+                .orElseThrow(() -> com.themuffinman.app.common.errors.ServiceErrors.notFound("Quest not found with id " + questId));
+        questStateTransitionService.applyOwnerQuestStatusChange(quest, QuestStatus.OPEN, currentUser);
+        return quest;
+    }
+
+    @Transactional
+    public Quest updateQuestTitleForVision(Long questId, String title, AppUser currentUser) {
+        Quest quest = questRepository.findByIdWithCreator(questId)
+                .orElseThrow(() -> com.themuffinman.app.common.errors.ServiceErrors.notFound("Quest not found with id " + questId));
+        if (!questAccessPolicyService.canManageQuest(quest, currentUser)) {
+            throw com.themuffinman.app.common.errors.ServiceErrors.forbidden("You can only edit your own quest");
+        }
+        String normalizedTitle = questValidationService.normalizeQuestText(title);
+        if (normalizedTitle == null || normalizedTitle.isBlank()) {
+            throw com.themuffinman.app.common.errors.ServiceErrors.badRequest("Quest title is required");
+        }
+        quest.setTitle(normalizedTitle);
+        return quest;
+    }
 
     public void applyQuestUpdates(Quest quest, QuestRequestDTO dto, AppUser currentUser) {
         questValidationService.validateUpdateRequest(dto);

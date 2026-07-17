@@ -45,7 +45,6 @@ public interface ChatConversationRepository extends JpaRepository<ChatConversati
                 where membership.conversation.id = conversation.id
                   and membership.user.id = :userId
             )
-            order by coalesce(conversation.lastMessageAt, conversation.createdAt) desc
             """)
     List<ChatConversation> findDetailedByParticipantId(Long userId);
 

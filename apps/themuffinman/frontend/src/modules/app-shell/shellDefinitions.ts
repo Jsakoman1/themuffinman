@@ -1,7 +1,7 @@
 import type {RouteLocationRaw} from "vue-router"
-import {buildAppPrimaryNavItems, topLevelNavigationPromotionPolicy} from "./shellRouteRegistry.ts"
+import {buildAppPrimaryNavItems, buildAppSecondaryNavItems, topLevelNavigationPromotionPolicy} from "./shellRouteRegistry.ts"
 
-export type AppPrimaryNavId = "home" | "work" | "chat" | "calendar" | "business" | "circles" | "profile"
+export type AppPrimaryNavId = "home" | "work" | "chat" | "calendar" | "business" | "circles" | "things" | "rides" | "profile"
 
 export type AppSurfaceId =
   | "home"
@@ -16,10 +16,14 @@ export type AppSurfaceId =
   | "business-bookings"
   | "business-calendar"
   | "circles"
+  | "people"
+  | "business-discovery"
+  | "things"
+  | "rides"
   | "profile"
   | "profile-settings"
 
-export type AppSurfaceArchetype = "home" | "work" | "chat" | "calendar" | "business" | "circles" | "profile"
+export type AppSurfaceArchetype = "home" | "work" | "chat" | "calendar" | "business" | "circles" | "profile" | "things"
 
 export type AppSurfaceAction = {
   label: string
@@ -50,25 +54,25 @@ const visionRoute = (prompt?: string): RouteLocationRaw => prompt
   : {path: "/vision"}
 
 export const appPrimaryNavItems: AppPrimaryNavItem[] = buildAppPrimaryNavItems()
+export const appSecondaryNavItems: AppPrimaryNavItem[] = buildAppSecondaryNavItems()
 
 const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   home: {
     id: "home", archetype: "home", navId: "home", eyebrow: "Home", title: "Home",
-    actions: [
-      {label: "Work", to: {path: "/work"}, tone: "primary"},
-      {label: "Ask Vision", to: visionRoute(), tone: "vision"}
-    ]
+    actions: []
   },
   work: {
     id: "work", archetype: "work", navId: "work", eyebrow: "Work", title: "Work",
     actions: [
+      {label: "Offer work", to: {path: "/work/offer"}, tone: "primary"},
+      {label: "Find work", to: {path: "/work/find"}},
       {label: "My quests", to: {path: "/work/quests"}},
       {label: "Ask Vision", to: visionRoute("find work for me"), tone: "vision"}
     ]
   },
   "work-quests": {
     id: "work-quests", archetype: "work", navId: "work", eyebrow: "Work / Mine", title: "My quests",
-    actions: [{label: "New quest", to: {path: "/work/quests/new"}}, {label: "Work", to: {path: "/work"}}]
+    actions: [{label: "Offer work", to: {path: "/work/offer"}}, {label: "Work", to: {path: "/work"}}]
   },
   "work-applications": {
     id: "work-applications", archetype: "work", navId: "work", eyebrow: "Work / Applications", title: "Applications",
@@ -76,7 +80,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   chat: {
     id: "chat", archetype: "chat", navId: "chat", eyebrow: "Chat", title: "Chat",
-    actions: [{label: "Ask Vision", to: visionRoute("open chat"), tone: "vision"}]
+    actions: [{label: "Open chat", to: {path: "/chat"}, tone: "primary"}, {label: "Ask Vision", to: visionRoute("open chat"), tone: "vision"}]
   },
   "chat-conversation": {
     id: "chat-conversation", archetype: "chat", navId: "chat", eyebrow: "Chat / Conversation", title: "Conversation",
@@ -89,8 +93,12 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   business: {
     id: "business", archetype: "business", navId: "business", eyebrow: "Business", title: "Business",
     actions: [
+      {label: "Find a business", to: {path: "/business/find"}, tone: "primary"},
+      {label: "My bookings", to: {path: "/business/my-bookings"}},
+      {label: "Business profile", to: {path: "/business/profile"}},
       {label: "Bookings", to: {path: "/business/bookings"}},
-      {label: "Calendar", to: {path: "/business/calendar"}}
+      {label: "Calendar", to: {path: "/business/calendar"}},
+      {label: "Ask Vision", to: visionRoute("find a business to book"), tone: "vision"}
     ]
   },
   "business-profile": {
@@ -107,7 +115,27 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   circles: {
     id: "circles", archetype: "circles", navId: "circles", eyebrow: "Circles", title: "Circles",
-    actions: [{label: "Ask Vision", to: visionRoute("show circles"), tone: "vision"}]
+    actions: [
+      {label: "Create circle", to: {path: "/circles", query: {create: "1"}}, tone: "primary"},
+      {label: "Find people", to: {path: "/people"}},
+      {label: "Ask Vision", to: visionRoute("show circles"), tone: "vision"}
+    ]
+  },
+  people: {
+    id: "people", archetype: "circles", navId: "circles", eyebrow: "People", title: "Find people",
+    actions: [{label: "Circles", to: {path: "/circles"}}, {label: "Ask Vision", to: visionRoute("find people for me"), tone: "vision"}]
+  },
+  "business-discovery": {
+    id: "business-discovery", archetype: "business", navId: "business", eyebrow: "Business / Discover", title: "Find a business",
+    actions: [{label: "Business", to: {path: "/business"}}, {label: "Ask Vision", to: visionRoute("find a business for me"), tone: "vision"}]
+  },
+  things: {
+    id: "things", archetype: "things", navId: "things", eyebrow: "Things", title: "Things",
+    actions: [{label: "List a thing", to: {path: "/things", query: {create: "1"}}, tone: "primary"}, {label: "My things", to: {path: "/things/mine"}}, {label: "Ask Vision", to: visionRoute("find things to borrow"), tone: "vision"}]
+  },
+  rides: {
+    id: "rides", archetype: "things", navId: "rides", eyebrow: "Rides", title: "Rides",
+    actions: [{label: "Offer a ride", to: {path: "/rides", query: {create: "1"}}, tone: "primary"}, {label: "My rides", to: {path: "/rides/mine"}}, {label: "Ask Vision", to: visionRoute("find a ride or offer a ride"), tone: "vision"}]
   },
   profile: {
     id: "profile", archetype: "profile", navId: "profile", eyebrow: "Profile", title: "Profile",

@@ -90,6 +90,9 @@ public class BusinessBookingReadService {
     }
 
     private boolean matchesQuery(BusinessBooking booking, String normalizedQuery, BusinessBookingQueryDTO query) {
+        if (query != null && query.getBusinessProfileId() != null && !booking.getBusinessProfile().getId().equals(query.getBusinessProfileId())) {
+            return false;
+        }
         if (query != null && query.getStatus() != null && booking.getStatus() != query.getStatus()) {
             return false;
         }

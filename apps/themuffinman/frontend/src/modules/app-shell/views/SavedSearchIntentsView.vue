@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import {onMounted, ref} from "vue"
+import {userShellApi, type SavedSearchIntent} from "../api/userShellApi.ts"
+
+const items = ref<SavedSearchIntent[]>([])
+const loading = ref(true); const error = ref(""); const feedback = ref("")
+const load = async () => { loading.value = true; error.value = ""; try { items.value = await userShellApi.getSavedSearchIntents() } catch { error.value = "Could not load saved searches." } finally { loading.value = false } }
+const toggle = async (item: SavedSearchIntent) => { try { const updated = await userShellApi.updateSavedSearchIntent(item.id, {query: item.query, entityFamily: item.entityFamily, paused: !item.paused, notifyEnabled: item.notifyEnabled, expiresAt: item.expiresAt}); items.value = items.value.map(current => current.id === updated.id ? updated : current); feedback.value = updated.paused ? "Search paused." : "Search resumed." } catch { error.value = "Could not update this search." } }
+const remove = async (item: SavedSearchIntent) => { if (!window.confirm("Delete this saved search?")) return; try { await userShellApi.deleteSavedSearchIntent(item.id); items.value = items.value.filter(current => current.id !== item.id); feedback.value = "Saved search deleted." } catch { error.value = "Could not delete this search." } }
+onMounted(() => void load())
+</script>
+
+<template><section class="saved-searches"><header><p class="eyebrow">Search</p><h1>Saved searches</h1><p>Resume recurring discovery without exposing private source data.</p></header><p v-if="feedback" class="success" role="status">{{ feedback }}</p><p v-if="error" class="error" role="alert">{{ error }} <button type="button" @click="load">Retry</button></p><p v-if="loading">Loading.</p><p v-else-if="!items.length">No saved searches yet.</p><div v-else class="list"><article v-for="item in items" :key="item.id"><div><strong>{{ item.query }}</strong><small>{{ item.entityFamily || "All modules" }} · {{ item.paused ? "Paused" : "Active" }}</small></div><div class="actions"><button type="button" @click="toggle(item)">{{ item.paused ? "Resume" : "Pause" }}</button><button type="button" @click="remove(item)">Delete</button></div></article></div></section></template>
+
+<style scoped>.saved-searches{display:grid;gap:1rem;max-width:48rem}.eyebrow{margin:0 0 .3rem;color:rgba(23,34,26,.55);font-size:.76rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font-size:clamp(1.55rem,2.5vw,2.3rem);letter-spacing:-.075em}.saved-searches header p:last-child{color:rgba(23,34,26,.62)}.list{display:grid;gap:.45rem}.list article{display:flex;justify-content:space-between;gap:1rem;padding:.85rem;border-bottom:1px solid rgba(23,34,26,.08)}article div:first-child{display:grid;gap:.25rem}small{color:rgba(23,34,26,.58)}button{border:1px solid rgba(23,34,26,.12);border-radius:999px;padding:.45rem .7rem;background:transparent;font:inherit;cursor:pointer}.actions{display:flex;gap:.35rem}.success{color:#2d6846}.error{color:#8d2f25}</style>

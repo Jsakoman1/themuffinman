@@ -4,6 +4,8 @@ import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.social.dto.CircleRequestResponseDTO;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.things.dto.ThingListingResponseDTO;
+import com.themuffinman.app.things.dto.ThingBorrowRequestResponseDTO;
 import com.themuffinman.app.workmarket.model.Quest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +27,8 @@ public class VisionExecutionResult {
     private CircleRequestResponseDTO circleRequest;
     private QuestApplicationResponseDTO application;
     private AppUserResponseDTO updatedProfile;
+    private ThingListingResponseDTO createdThing;
+    private ThingBorrowRequestResponseDTO borrowRequest;
 
     public static VisionExecutionResult executed(String capabilityId, Quest createdQuest) {
         return VisionExecutionResult.builder()
@@ -70,6 +74,29 @@ public class VisionExecutionResult {
         return VisionExecutionResult.builder()
                 .executed(false)
                 .blockingReason(blockingReason)
+                .build();
+    }
+
+    public static VisionExecutionResult executedAction(String capabilityId) {
+        return VisionExecutionResult.builder()
+                .executed(true)
+                .capabilityId(capabilityId)
+                .build();
+    }
+
+    public static VisionExecutionResult executedThing(String capabilityId, ThingListingResponseDTO createdThing) {
+        return VisionExecutionResult.builder()
+                .executed(true)
+                .capabilityId(capabilityId)
+                .createdThing(createdThing)
+                .build();
+    }
+
+    public static VisionExecutionResult executedBorrowRequest(String capabilityId, ThingBorrowRequestResponseDTO borrowRequest) {
+        return VisionExecutionResult.builder()
+                .executed(true)
+                .capabilityId(capabilityId)
+                .borrowRequest(borrowRequest)
                 .build();
     }
 }

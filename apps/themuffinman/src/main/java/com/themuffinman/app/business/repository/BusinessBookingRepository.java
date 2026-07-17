@@ -86,6 +86,17 @@ public interface BusinessBookingRepository extends JpaRepository<BusinessBooking
     long countOverlappingBookings(Long offeringId, Collection<BusinessBookingStatus> statuses, Instant startsAt, Instant endsAt);
 
     @Query("""
+            select count(booking)
+            from BusinessBooking booking
+            where booking.businessOffering.id = :offeringId
+            and booking.id <> :excludedBookingId
+            and booking.status in :statuses
+            and booking.startsAt < :endsAt
+            and booking.endsAt > :startsAt
+            """)
+    long countOverlappingBookingsExcluding(Long offeringId, Long excludedBookingId, Collection<BusinessBookingStatus> statuses, Instant startsAt, Instant endsAt);
+
+    @Query("""
             select booking
             from BusinessBooking booking
             join fetch booking.businessProfile profile

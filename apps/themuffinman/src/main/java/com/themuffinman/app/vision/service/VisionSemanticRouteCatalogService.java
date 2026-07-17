@@ -32,6 +32,7 @@ public class VisionSemanticRouteCatalogService {
                 deleteCircleRequestRoute(),
                 updateCircleRoute(),
                 deleteCircleRoute(),
+                membershipMutationRoute("vision.leave_circle", "LEAVE_CIRCLE", "leave_circle", "Leave an accessible circle after explicit confirmation.", "leave circle 42"),
                 createApplicationRoute(),
                 updateApplicationRoute(),
                 withdrawApplicationRoute(),
@@ -42,8 +43,62 @@ public class VisionSemanticRouteCatalogService {
                 searchRoute(),
                 discoverQuestsRoute(),
                 viewThingsRoute(),
+                viewThingDetailRoute(),
+                viewBorrowRequestsRoute(),
                 openChatRoute(),
                 viewChatWorkspaceRoute(),
+                syncChatRoute(),
+                viewChatAttachmentRoute(),
+                editChatMessageRoute(),
+                replyToChatMessageRoute(),
+                reactToChatMessageRoute(),
+                createBusinessProfileRoute(),
+                updateBusinessProfileRoute(),
+                galleryMutationRoute("vision.create_gallery_image", "CREATE_GALLERY_IMAGE", "create_gallery_image", "Add a business gallery image after explicit confirmation.", "add gallery image https://example.com/image.jpg"),
+                galleryMutationRoute("vision.update_gallery_image", "UPDATE_GALLERY_IMAGE", "update_gallery_image", "Update a business gallery image after explicit confirmation.", "update gallery image 42 https://example.com/image.jpg"),
+                galleryMutationRoute("vision.delete_gallery_image", "DELETE_GALLERY_IMAGE", "delete_gallery_image", "Delete a business gallery image after explicit confirmation.", "delete gallery image 42"),
+                availabilityMutationRoute("vision.create_availability_rule", "CREATE_AVAILABILITY_RULE", "create_availability_rule", "Create an owner availability rule after explicit confirmation.", "create availability rule day 1 from 09:00 to 17:00 every 60 min"),
+                availabilityMutationRoute("vision.update_availability_rule", "UPDATE_AVAILABILITY_RULE", "update_availability_rule", "Update an owner availability rule after explicit confirmation.", "update availability rule 42 day 1 from 09:00 to 17:00 every 60 min"),
+                availabilityMutationRoute("vision.delete_availability_rule", "DELETE_AVAILABILITY_RULE", "delete_availability_rule", "Delete an owner availability rule after explicit confirmation.", "delete availability rule 42"),
+                availabilityMutationRoute("vision.create_availability_exception", "CREATE_AVAILABILITY_EXCEPTION", "create_availability_exception", "Create an owner availability exception after explicit confirmation.", "create availability exception block 2026-08-01T10:00:00Z until 2026-08-01T12:00:00Z"),
+                availabilityMutationRoute("vision.update_availability_exception", "UPDATE_AVAILABILITY_EXCEPTION", "update_availability_exception", "Update an owner availability exception after explicit confirmation.", "update availability exception 42"),
+                availabilityMutationRoute("vision.delete_availability_exception", "DELETE_AVAILABILITY_EXCEPTION", "delete_availability_exception", "Delete an owner availability exception after explicit confirmation.", "delete availability exception 42"),
+                confirmBookingRoute(),
+                cancelBookingRoute(),
+                rejectBookingRoute(),
+                completeBookingRoute(),
+                markBookingNoShowRoute(),
+                archiveOfferingRoute(),
+                updateQuestRoute(),
+                createOfferingRoute(),
+                updateOfferingRoute(),
+                createBookingRoute(),
+                rescheduleBookingRoute(),
+                markChatReadRoute(),
+                markNotificationsReadRoute(),
+                markNotificationReadRoute(),
+                updateNotificationPreferencesRoute(),
+                workerManagementRoute(false),
+                workerManagementRoute(true),
+                reopenQuestRoute(),
+                cancelQuestRoute(),
+                pauseQuestRoute(false),
+                pauseQuestRoute(true),
+                createThingRoute(),
+                requestBorrowRoute(),
+                cancelBorrowRoute(),
+                decideBorrowRoute(),
+                returnBorrowRoute(),
+                rideRoute("vision.create_ride", "CREATE_RIDE", "create_ride", "Offer a voluntary ride after explicit review and confirmation.", true),
+                rideRoute("vision.view_rides", "VIEW_RIDES", "view_rides", "Show permitted voluntary rides.", false),
+                rideRoute("vision.join_ride", "JOIN_RIDE", "join_ride", "Join a permitted ride after explicit confirmation.", true),
+                rideRoute("vision.update_ride", "UPDATE_RIDE", "update_ride", "Update an owned ride after explicit confirmation.", true),
+                rideRoute("vision.leave_ride", "LEAVE_RIDE", "leave_ride", "Leave a joined ride after explicit confirmation.", true),
+                rideRoute("vision.cancel_ride", "CANCEL_RIDE", "cancel_ride", "Cancel an owned ride after explicit confirmation.", true),
+                rideRoute("vision.start_ride", "START_RIDE", "start_ride", "Start a full ride after explicit confirmation.", true),
+                rideRoute("vision.complete_ride", "COMPLETE_RIDE", "complete_ride", "Complete an in-progress ride after explicit confirmation.", true),
+                thingMutationRoute("vision.update_thing", "UPDATE_THING", "update_thing", "Update an owned thing listing after explicit confirmation.", "update thing 42 title to Ladder"),
+                thingMutationRoute("vision.archive_thing", "ARCHIVE_THING", "archive_thing", "Archive an owned thing listing after explicit confirmation.", "archive thing 42"),
                 viewProfileRoute(),
                 viewSettingsRoute(),
                 viewBusinessRoute(),
@@ -52,8 +107,10 @@ public class VisionSemanticRouteCatalogService {
                 viewUserProfileRoute(),
                 viewCirclesRoute(),
                 viewCircleDetailRoute(),
+                viewAccessibleCircleRoute(),
                 viewQuestDetailRoute(),
                 viewNotificationsRoute(),
+                viewActivityRoute(),
                 viewQuestNewsRoute(),
                 viewApplicationsRoute(),
                 viewApplicationDetailRoute()
@@ -126,17 +183,21 @@ public class VisionSemanticRouteCatalogService {
             return SemanticEntityFamily.UNKNOWN;
         }
         return switch (intent) {
-            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> SemanticEntityFamily.QUEST;
-            case VIEW_NOTIFICATIONS -> SemanticEntityFamily.NOTIFICATIONS;
+            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS, REOPEN_QUEST, CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST -> SemanticEntityFamily.QUEST;
+            case RELEASE_WORKER, REPLACE_WORKER -> SemanticEntityFamily.QUEST;
+            case RESCHEDULE_BOOKING -> SemanticEntityFamily.BUSINESS;
+            case VIEW_NOTIFICATIONS, UPDATE_NOTIFICATION_PREFERENCES -> SemanticEntityFamily.NOTIFICATIONS;
+            case VIEW_ACTIVITY -> SemanticEntityFamily.UNKNOWN;
             case CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
-                    UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL -> SemanticEntityFamily.CIRCLE;
+                    UPDATE_CIRCLE, DELETE_CIRCLE, LEAVE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_ACCESSIBLE_CIRCLE -> SemanticEntityFamily.CIRCLE;
             case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
                     DECLINE_APPLICATION, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL -> SemanticEntityFamily.APPLICATION;
             case VIEW_USER_PROFILE, OPEN_CHAT -> SemanticEntityFamily.USER;
+            case VIEW_CHAT_WORKSPACE, SYNC_CHAT, VIEW_CHAT_ATTACHMENT, EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE, MARK_CHAT_READ -> SemanticEntityFamily.CHAT;
             case VIEW_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> SemanticEntityFamily.PROFILE;
             case VIEW_SETTINGS -> SemanticEntityFamily.SETTINGS;
             case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> SemanticEntityFamily.BUSINESS;
-            case VIEW_THINGS -> SemanticEntityFamily.UNKNOWN;
+            case VIEW_THINGS, VIEW_THING_DETAIL, VIEW_BORROW_REQUESTS -> SemanticEntityFamily.UNKNOWN;
             case SEARCH -> SemanticEntityFamily.UNKNOWN;
             default -> SemanticEntityFamily.UNKNOWN;
         };
@@ -148,11 +209,15 @@ public class VisionSemanticRouteCatalogService {
         }
         return switch (intent) {
             case CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, OPEN_CHAT, VIEW_USER_PROFILE -> SemanticEntityFamily.USER;
-            case UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLE_DETAIL -> SemanticEntityFamily.CIRCLE;
+            case UPDATE_CIRCLE, DELETE_CIRCLE, LEAVE_CIRCLE, VIEW_CIRCLE_DETAIL, VIEW_ACCESSIBLE_CIRCLE -> SemanticEntityFamily.CIRCLE;
             case CREATE_APPLICATION -> SemanticEntityFamily.QUEST;
             case UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, VIEW_APPLICATION_DETAIL -> SemanticEntityFamily.APPLICATION;
             case VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> SemanticEntityFamily.QUEST;
-            case VIEW_NOTIFICATIONS -> SemanticEntityFamily.UNKNOWN;
+            case REOPEN_QUEST, CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST -> SemanticEntityFamily.QUEST;
+            case RELEASE_WORKER, REPLACE_WORKER -> SemanticEntityFamily.APPLICATION;
+            case RESCHEDULE_BOOKING -> SemanticEntityFamily.BUSINESS;
+            case VIEW_THING_DETAIL -> SemanticEntityFamily.UNKNOWN;
+            case VIEW_NOTIFICATIONS, VIEW_ACTIVITY -> SemanticEntityFamily.UNKNOWN;
             default -> SemanticEntityFamily.UNKNOWN;
         };
     }
@@ -183,12 +248,44 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_BUSINESS_BOOKINGS -> "BusinessBookingListResponseDTO";
             case VIEW_CIRCLES -> "CircleGroupResponseDTO";
             case VIEW_CIRCLE_DETAIL -> "CircleGroupResponseDTO";
+            case VIEW_ACCESSIBLE_CIRCLE -> "CircleGroupResponseDTO";
             case VIEW_QUEST_DETAIL -> "QuestDetailResponseDTO";
+            case VIEW_THING_DETAIL -> "ThingListingResponseDTO";
             case VIEW_NOTIFICATIONS -> "DashboardNotificationsSectionDTO";
             case VIEW_QUEST_NEWS -> "List<QuestNewsItemResponseDTO>";
             case VIEW_APPLICATIONS -> "QuestApplicationResponseDTO";
             case VIEW_APPLICATION_DETAIL -> "QuestApplicationDetailResponseDTO";
             case VIEW_THINGS -> "ThingListingListResponseDTO";
+            case VIEW_BORROW_REQUESTS -> "ThingBorrowRequestResponseDTO";
+            case EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE -> "ChatMessageDTO";
+            case CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE -> "BusinessProfileRequestDTO";
+            case CREATE_GALLERY_IMAGE, UPDATE_GALLERY_IMAGE -> "BusinessGalleryImageResponseDTO";
+            case DELETE_GALLERY_IMAGE -> "ActionResultDTO";
+            case LEAVE_CIRCLE -> "ActionResultDTO";
+            case UPDATE_THING -> "ThingListingResponseDTO";
+            case ARCHIVE_THING -> "ActionResultDTO";
+            case CREATE_AVAILABILITY_RULE, UPDATE_AVAILABILITY_RULE -> "BusinessAvailabilityRuleResponseDTO";
+            case DELETE_AVAILABILITY_RULE, DELETE_AVAILABILITY_EXCEPTION -> "ActionResultDTO";
+            case CREATE_AVAILABILITY_EXCEPTION, UPDATE_AVAILABILITY_EXCEPTION -> "BusinessAvailabilityExceptionResponseDTO";
+            case CONFIRM_BOOKING, CANCEL_BOOKING -> "BusinessBookingResponseDTO";
+            case REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW -> "BusinessBookingResponseDTO";
+            case ARCHIVE_OFFERING -> "BusinessOfferingResponseDTO";
+            case UPDATE_QUEST -> "QuestResponseDTO";
+            case CREATE_OFFERING, UPDATE_OFFERING -> "BusinessOfferingResponseDTO";
+            case CREATE_BOOKING -> "BusinessBookingResponseDTO";
+            case RESCHEDULE_BOOKING -> "BusinessBookingResponseDTO";
+            case MARK_CHAT_READ -> "ActionResultDTO";
+            case MARK_NOTIFICATIONS_READ -> "ActionResultDTO";
+            case MARK_NOTIFICATION_READ -> "ActionResultDTO";
+            case UPDATE_NOTIFICATION_PREFERENCES -> "NotificationPreferenceResponseDTO";
+            case RELEASE_WORKER, REPLACE_WORKER -> "QuestApplicationResponseDTO";
+            case REOPEN_QUEST -> "QuestResponseDTO";
+            case CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST -> "QuestResponseDTO";
+            case CREATE_THING -> "ThingListingRequestDTO";
+            case REQUEST_BORROW -> "ThingBorrowRequestDTO";
+            case CANCEL_BORROW, DECIDE_BORROW, RETURN_BORROW -> "ThingBorrowRequestResponseDTO";
+            case SYNC_CHAT -> "ChatConversationSyncDTO";
+            case VIEW_CHAT_ATTACHMENT -> "ChatMessageDTO";
             default -> "unknown";
         };
     }
@@ -214,10 +311,24 @@ public class VisionSemanticRouteCatalogService {
         return switch (intent) {
             case CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                     UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
-                    APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> 0.85d;
+                    APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION,
+                    CREATE_RIDE, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, START_RIDE, COMPLETE_RIDE -> 0.85d;
+            case MARK_CHAT_READ, MARK_NOTIFICATIONS_READ, MARK_NOTIFICATION_READ, UPDATE_NOTIFICATION_PREFERENCES, RELEASE_WORKER, REPLACE_WORKER, REOPEN_QUEST, CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST, RESCHEDULE_BOOKING, CREATE_THING, REQUEST_BORROW, CANCEL_BORROW, DECIDE_BORROW, RETURN_BORROW -> 0.85d;
             case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
             case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> 0.70d;
-            case VIEW_THINGS -> 0.70d;
+            case VIEW_THINGS, VIEW_BORROW_REQUESTS -> 0.70d;
+            case EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE -> 0.85d;
+            case CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE -> 0.85d;
+            case CREATE_GALLERY_IMAGE, UPDATE_GALLERY_IMAGE, DELETE_GALLERY_IMAGE -> 0.85d;
+            case LEAVE_CIRCLE -> 0.85d;
+            case UPDATE_THING, ARCHIVE_THING -> 0.85d;
+            case CREATE_AVAILABILITY_RULE, UPDATE_AVAILABILITY_RULE, DELETE_AVAILABILITY_RULE, CREATE_AVAILABILITY_EXCEPTION, UPDATE_AVAILABILITY_EXCEPTION, DELETE_AVAILABILITY_EXCEPTION -> 0.85d;
+            case CONFIRM_BOOKING, CANCEL_BOOKING -> 0.85d;
+            case REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW -> 0.85d;
+            case ARCHIVE_OFFERING -> 0.85d;
+            case UPDATE_QUEST -> 0.85d;
+            case CREATE_OFFERING, UPDATE_OFFERING -> 0.85d;
+            case CREATE_BOOKING -> 0.85d;
             default -> 0.75d;
         };
     }
@@ -232,7 +343,7 @@ public class VisionSemanticRouteCatalogService {
                     CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
                     APPROVE_APPLICATION, DECLINE_APPLICATION,
                     OPEN_CHAT, VIEW_USER_PROFILE,
-                    VIEW_CIRCLE_DETAIL, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> true;
+                    VIEW_CIRCLE_DETAIL, VIEW_ACCESSIBLE_CIRCLE, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> true;
             default -> false;
         };
     }
@@ -246,11 +357,20 @@ public class VisionSemanticRouteCatalogService {
                     UPDATE_CIRCLE, DELETE_CIRCLE,
                     CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
                     APPROVE_APPLICATION, DECLINE_APPLICATION -> 0.88d;
-            case OPEN_CHAT, VIEW_USER_PROFILE, VIEW_CIRCLE_DETAIL, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> 0.75d;
+            case OPEN_CHAT, VIEW_USER_PROFILE, VIEW_CIRCLE_DETAIL, VIEW_ACCESSIBLE_CIRCLE, VIEW_QUEST_DETAIL, VIEW_APPLICATION_DETAIL -> 0.75d;
             case SEARCH -> 0.75d;
             case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
             case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> 0.70d;
-            case VIEW_THINGS -> 0.70d;
+            case VIEW_THINGS, VIEW_BORROW_REQUESTS -> 0.70d;
+            case EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE -> 0.85d;
+            case CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE -> 0.85d;
+            case CREATE_GALLERY_IMAGE, UPDATE_GALLERY_IMAGE, DELETE_GALLERY_IMAGE -> 0.85d;
+            case CONFIRM_BOOKING, CANCEL_BOOKING -> 0.85d;
+            case REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW -> 0.85d;
+            case ARCHIVE_OFFERING -> 0.85d;
+            case UPDATE_QUEST -> 0.85d;
+            case CREATE_OFFERING, UPDATE_OFFERING -> 0.85d;
+            case CREATE_BOOKING -> 0.85d;
             default -> 0.75d;
         };
     }
@@ -613,6 +733,44 @@ public class VisionSemanticRouteCatalogService {
                 .build();
     }
 
+    private VisionSemanticRouteDescriptor rideRoute(String key, String intent, String capability, String purpose, boolean mutating) {
+        boolean create = "CREATE_RIDE".equals(intent);
+        return VisionSemanticRouteDescriptor.builder().routeKey(key).entityType("ride").intent(intent).capabilityId(capability)
+                .purpose(purpose).mutating(mutating).requiresReview(mutating)
+                .examples(create ? List.of(example("offer a ride from Zug to Zurich at 2099-07-20T10:00:00Z", Map.of())) : List.of(example(intent.toLowerCase(Locale.ROOT).replace('_', ' ') + " ride 42", Map.of("ride_id", "42"))))
+                .slots(create ? List.of(slot("ride_origin", "ride.origin", "short_text", true, "Ride origin.", List.of(), List.of("from", "origin"), List.of()), slot("ride_destination", "ride.destination", "short_text", true, "Ride destination.", List.of(), List.of("to", "destination"), List.of()), slot("ride_departure_at", "ride.departureAt", "datetime", true, "Future departure time.", List.of(), List.of("at", "departure"), List.of()), slot("ride_seats", "ride.seats", "integer", false, "Passenger seat count.", List.of("1", "8"), List.of("seats", "passengers"), List.of())) : List.of(slot("ride_id", "ride.id", "identifier", true, "Ride id.", List.of(), List.of("ride", "offer", "trip"), List.of())))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewThingDetailRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_thing_detail")
+                .entityType("thing")
+                .intent("VIEW_THING_DETAIL")
+                .capabilityId("view_thing_detail")
+                .purpose("Read-only detailed snapshot of one shared thing listing.")
+                .mutating(false)
+                .requiresReview(false)
+                .slots(List.of(slot("thing_listing_id", "thingListing.id", "identifier", true,
+                        "Listing id of the shared thing.", List.of(), List.of("thing", "listing", "id"), List.of())))
+                .examples(List.of(example("show thing 42", Map.of("thing_listing_id", "42"))))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewBorrowRequestsRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_borrow_requests")
+                .entityType("borrow_request")
+                .intent("VIEW_BORROW_REQUESTS")
+                .capabilityId("view_borrow_requests")
+                .purpose("Read-only list of the authenticated user's Things borrow requests and loans.")
+                .mutating(false)
+                .requiresReview(false)
+                .examples(List.of(example("show my borrow requests", Map.of()), example("show my loans", Map.of())))
+                .slots(List.of())
+                .build();
+    }
+
     private VisionSemanticRouteDescriptor discoverQuestsRoute() {
         return VisionSemanticRouteDescriptor.builder()
                 .routeKey("vision.discover_quests")
@@ -666,6 +824,392 @@ public class VisionSemanticRouteCatalogService {
                 ))
                 .slots(List.of())
                 .build();
+    }
+
+    private VisionSemanticRouteDescriptor syncChatRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.sync_chat")
+                .entityType("chat")
+                .intent("SYNC_CHAT")
+                .capabilityId("sync_chat")
+                .purpose("Refresh the currently opened permitted chat conversation after a disconnected or stale client session.")
+                .mutating(false)
+                .requiresReview(false)
+                .examples(List.of(
+                        example("refresh this chat", Map.of()),
+                        example("recover the latest messages", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewChatAttachmentRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_chat_attachment")
+                .entityType("chat_message")
+                .intent("VIEW_CHAT_ATTACHMENT")
+                .capabilityId("view_chat_attachment")
+                .purpose("Read one authorized chat attachment through its backend-issued expiring access URL.")
+                .mutating(false)
+                .requiresReview(false)
+                .examples(List.of(
+                        example("show attachment 42 in conversation 7", Map.of("chat_conversation_id", "7", "chat_message_id", "42")),
+                        example("open chat message 42 attachment in chat 7", Map.of("chat_conversation_id", "7", "chat_message_id", "42"))
+                ))
+                .slots(List.of(
+                        slot("chat_conversation_id", "chatConversationId", "identifier", true, "Authorized chat conversation id.", List.of(), List.of("chat", "conversation", "thread"), List.of()),
+                        slot("chat_message_id", "chatMessageId", "identifier", true, "Authorized chat message id containing the attachment.", List.of(), List.of("message", "attachment"), List.of())
+                ))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor editChatMessageRoute() {
+        return chatMessageMutationRoute("vision.edit_chat_message", "EDIT_CHAT_MESSAGE", "edit_chat_message", "Edit an own chat message after explicit confirmation.", "edit message 42 to hello");
+    }
+
+    private VisionSemanticRouteDescriptor replyToChatMessageRoute() {
+        return chatMessageMutationRoute("vision.reply_to_chat_message", "REPLY_TO_CHAT_MESSAGE", "reply_to_chat_message", "Reply to a chat message after explicit confirmation.", "reply to message 42: thanks");
+    }
+
+    private VisionSemanticRouteDescriptor reactToChatMessageRoute() {
+        return chatMessageMutationRoute("vision.react_to_chat_message", "REACT_TO_CHAT_MESSAGE", "react_to_chat_message", "Add an emoji reaction to a chat message after explicit confirmation.", "react to message 42 with 👍");
+    }
+
+    private VisionSemanticRouteDescriptor chatMessageMutationRoute(String routeKey, String intent, String capabilityId, String purpose, String example) {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey(routeKey).entityType("chat_message").intent(intent).capabilityId(capabilityId)
+                .purpose(purpose).mutating(true).requiresReview(true)
+                .examples(List.of(example(example, Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor createBusinessProfileRoute() {
+        return businessProfileMutationRoute("vision.create_business_profile", "CREATE_BUSINESS_PROFILE", "create_business_profile", "Create a business profile from a reviewed business name.", "create business profile Acme Studio");
+    }
+
+    private VisionSemanticRouteDescriptor updateBusinessProfileRoute() {
+        return businessProfileMutationRoute("vision.update_business_profile", "UPDATE_BUSINESS_PROFILE", "update_business_profile", "Update the authenticated user's business profile from reviewed fields.", "update business profile name to Acme Studio");
+    }
+
+    private VisionSemanticRouteDescriptor businessProfileMutationRoute(String routeKey, String intent, String capabilityId, String purpose, String example) {
+        return VisionSemanticRouteDescriptor.builder().routeKey(routeKey).entityType("business_profile").intent(intent).capabilityId(capabilityId)
+                .purpose(purpose).mutating(true).requiresReview(true).examples(List.of(example(example, Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor galleryMutationRoute(String routeKey, String intent, String capabilityId, String purpose, String example) {
+        return VisionSemanticRouteDescriptor.builder().routeKey(routeKey).entityType("business_gallery_image").intent(intent).capabilityId(capabilityId)
+                .purpose(purpose).mutating(true).requiresReview(true).examples(List.of(example(example, Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor membershipMutationRoute(String routeKey, String intent, String capabilityId, String purpose, String example) {
+        return VisionSemanticRouteDescriptor.builder().routeKey(routeKey).entityType("circle_membership").intent(intent).capabilityId(capabilityId)
+                .purpose(purpose).mutating(true).requiresReview(true).examples(List.of(example(example, Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor thingMutationRoute(String routeKey, String intent, String capabilityId, String purpose, String example) {
+        return VisionSemanticRouteDescriptor.builder().routeKey(routeKey).entityType("thing").intent(intent).capabilityId(capabilityId)
+                .purpose(purpose).mutating(true).requiresReview(true).examples(List.of(example(example, Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor availabilityMutationRoute(String routeKey, String intent, String capabilityId, String purpose, String example) {
+        return VisionSemanticRouteDescriptor.builder().routeKey(routeKey).entityType("business_availability").intent(intent).capabilityId(capabilityId)
+                .purpose(purpose).mutating(true).requiresReview(true).examples(List.of(example(example, Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor confirmBookingRoute() {
+        return bookingMutationRoute("vision.confirm_booking", "CONFIRM_BOOKING", "confirm_booking", "Confirm an owner booking after explicit confirmation.", "confirm booking 42");
+    }
+
+    private VisionSemanticRouteDescriptor cancelBookingRoute() {
+        return bookingMutationRoute("vision.cancel_booking", "CANCEL_BOOKING", "cancel_booking", "Cancel an owned or customer booking after explicit confirmation.", "cancel booking 42");
+    }
+
+    private VisionSemanticRouteDescriptor bookingMutationRoute(String routeKey, String intent, String capabilityId, String purpose, String example) {
+        return VisionSemanticRouteDescriptor.builder().routeKey(routeKey).entityType("booking").intent(intent).capabilityId(capabilityId)
+                .purpose(purpose).mutating(true).requiresReview(true).examples(List.of(example(example, Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor rejectBookingRoute() {
+        return bookingMutationRoute("vision.reject_booking", "REJECT_BOOKING", "reject_booking", "Reject an owner booking request after explicit confirmation.", "reject booking 42");
+    }
+
+    private VisionSemanticRouteDescriptor completeBookingRoute() {
+        return bookingMutationRoute("vision.complete_booking", "COMPLETE_BOOKING", "complete_booking", "Complete an owner appointment after explicit confirmation.", "complete booking 42");
+    }
+
+    private VisionSemanticRouteDescriptor markBookingNoShowRoute() {
+        return bookingMutationRoute("vision.mark_booking_no_show", "MARK_BOOKING_NO_SHOW", "mark_booking_no_show", "Mark an owner appointment as no-show after explicit confirmation.", "mark booking 42 no show");
+    }
+
+    private VisionSemanticRouteDescriptor archiveOfferingRoute() {
+        return VisionSemanticRouteDescriptor.builder().routeKey("vision.archive_offering").entityType("business_offering")
+                .intent("ARCHIVE_OFFERING").capabilityId("archive_offering")
+                .purpose("Archive an owned business offering after explicit confirmation.").mutating(true).requiresReview(true)
+                .examples(List.of(example("archive offering 42", Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor updateQuestRoute() {
+        return VisionSemanticRouteDescriptor.builder().routeKey("vision.update_quest").entityType("quest")
+                .intent("UPDATE_QUEST").capabilityId("update_quest")
+                .purpose("Update the title of an owned quest after explicit confirmation.").mutating(true).requiresReview(true)
+                .examples(List.of(example("rename quest 42 to Move sofa", Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor createOfferingRoute() {
+        return offeringMutationRoute("vision.create_offering", "CREATE_OFFERING", "create_offering", "Create a business offering from a reviewed title.", "create offering haircut");
+    }
+
+    private VisionSemanticRouteDescriptor updateOfferingRoute() {
+        return offeringMutationRoute("vision.update_offering", "UPDATE_OFFERING", "update_offering", "Update an owned business offering title after review.", "rename offering 42 to haircut");
+    }
+
+    private VisionSemanticRouteDescriptor offeringMutationRoute(String routeKey, String intent, String capabilityId, String purpose, String example) {
+        return VisionSemanticRouteDescriptor.builder().routeKey(routeKey).entityType("business_offering").intent(intent).capabilityId(capabilityId)
+                .purpose(purpose).mutating(true).requiresReview(true).examples(List.of(example(example, Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor createBookingRoute() {
+        return VisionSemanticRouteDescriptor.builder().routeKey("vision.create_booking").entityType("booking")
+                .intent("CREATE_BOOKING").capabilityId("create_booking")
+                .purpose("Request an appointment for an offering after explicit confirmation.").mutating(true).requiresReview(true)
+                .examples(List.of(example("book offering 42 at 2026-08-01T10:00:00Z until 2026-08-01T11:00:00Z", Map.of()))).slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor rescheduleBookingRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.reschedule_booking")
+                .entityType("booking")
+                .intent("RESCHEDULE_BOOKING")
+                .capabilityId("reschedule_booking")
+                .purpose("Reschedule an owned or customer booking after explicit confirmation and backend availability validation.")
+                .mutating(true).requiresReview(true)
+                .examples(List.of(example("reschedule booking 42 to 2026-08-01T10:00:00Z to 2026-08-01T11:00:00Z", Map.of())))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor markChatReadRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.mark_chat_read")
+                .entityType("chat")
+                .intent("MARK_CHAT_READ")
+                .capabilityId("mark_chat_read")
+                .purpose("Mark the currently opened permitted chat conversation as read after explicit confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example("mark this chat as read", Map.of()),
+                        example("clear the unread messages in this chat", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor markNotificationsReadRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.mark_notifications_read")
+                .entityType("notification")
+                .intent("MARK_NOTIFICATIONS_READ")
+                .capabilityId("mark_notifications_read")
+                .purpose("Mark all current user notifications as read after explicit confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example("mark all notifications as read", Map.of()),
+                        example("clear my unread notifications", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor markNotificationReadRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.mark_notification_read")
+                .entityType("notification")
+                .intent("MARK_NOTIFICATION_READ")
+                .capabilityId("mark_notification_read")
+                .purpose("Mark one identified notification as read after explicit confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example("mark notification 42 as read", Map.of()),
+                        example("clear notification #42", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor updateNotificationPreferencesRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.update_notification_preferences")
+                .entityType("notification_preferences")
+                .intent("UPDATE_NOTIFICATION_PREFERENCES")
+                .capabilityId("update_notification_preferences")
+                .purpose("Enable or disable one notification delivery preference after review and explicit confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example("disable chat push notifications", Map.of()),
+                        example("enable work email notifications", Map.of())
+                ))
+                .slots(List.of(
+                        slot("notification_category", "notification.category", "enum", true, "Notification category.", List.of("CHAT", "WORK", "BOOKING", "CIRCLE", "LOCATION", "SYSTEM"), List.of("chat", "work", "booking", "circle", "location", "system"), List.of("push", "email", "in-app")),
+                        slot("notification_level", "notification.level", "enum", true, "Notification delivery channel.", List.of("IN_APP", "PUSH", "EMAIL"), List.of("in-app", "push", "email"), List.of("chat", "work")),
+                        slot("notification_enabled", "notification.enabled", "boolean", true, "Whether the channel should be enabled.", List.of("true", "false"), List.of("enable", "disable", "on", "off", "mute", "unmute"), List.of())
+                ))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor workerManagementRoute(boolean replace) {
+        String action = replace ? "replace" : "release";
+        String intent = replace ? "REPLACE_WORKER" : "RELEASE_WORKER";
+        String capability = action + "_worker";
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision." + capability)
+                .entityType("quest_worker")
+                .intent(intent)
+                .capabilityId(capability)
+                .purpose((replace ? "Replace" : "Release") + " an assigned quest worker after explicit confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example(action + " worker application 42 from quest 10", Map.of()),
+                        example(action + " worker 42 on quest 10", Map.of())
+                ))
+                .slots(replace
+                        ? List.of(
+                        slot("worker_quest_id", "quest.id", "integer", true, "Quest id.", List.of(), List.of("quest", "work", "job"), List.of()),
+                        slot("worker_application_id", "worker.application_id", "integer", true, "Current approved worker application id.", List.of(), List.of("worker", "application", "assignment"), List.of()),
+                        slot("replacement_application_id", "replacement.application_id", "integer", true, "Pending replacement application id.", List.of(), List.of("replacement", "new applicant"), List.of()))
+                        : List.of(
+                        slot("worker_quest_id", "quest.id", "integer", true, "Quest id.", List.of(), List.of("quest", "work", "job"), List.of()),
+                        slot("worker_application_id", "worker.application_id", "integer", true, "Current approved worker application id.", List.of(), List.of("worker", "application", "assignment"), List.of())))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor reopenQuestRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.reopen_quest")
+                .entityType("quest")
+                .intent("REOPEN_QUEST")
+                .capabilityId("reopen_quest")
+                .purpose("Reopen an assigned quest owned by the authenticated user after explicit confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example("reopen quest 42", Map.of()),
+                        example("make quest #42 open again", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor cancelQuestRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.cancel_quest")
+                .entityType("quest")
+                .intent("CANCEL_QUEST")
+                .capabilityId("cancel_quest")
+                .purpose("Cancel an active quest owned by the authenticated user after explicit confirmation and participant notification.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example("cancel quest 42", Map.of()),
+                        example("cancel my work #42", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor createThingRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.create_thing")
+                .entityType("thing")
+                .intent("CREATE_THING")
+                .capabilityId("create_thing")
+                .purpose("Create a thing listing owned by the authenticated user after explicit review and confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example("offer my drill", Map.of()),
+                        example("create a thing listing for a camping tent", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor pauseQuestRoute(boolean resume) {
+        String action = resume ? "resume" : "pause";
+        String intent = resume ? "RESUME_QUEST" : "PAUSE_QUEST";
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision." + action + "_quest")
+                .entityType("quest")
+                .intent(intent)
+                .capabilityId(action + "_quest")
+                .purpose((resume ? "Resume" : "Pause") + " an owned quest after explicit confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example(action + " quest 42", Map.of()),
+                        example(action + " my work #42", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor requestBorrowRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.request_borrow")
+                .entityType("thing")
+                .intent("REQUEST_BORROW")
+                .capabilityId("request_borrow")
+                .purpose("Request to borrow an available thing listing after explicit review and confirmation.")
+                .mutating(true)
+                .requiresReview(true)
+                .examples(List.of(
+                        example("request to borrow thing 42", Map.of()),
+                        example("can I borrow listing #42", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor cancelBorrowRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.cancel_borrow")
+                .entityType("thing")
+                .intent("CANCEL_BORROW")
+                .capabilityId("cancel_borrow")
+                .purpose("Cancel a pending borrow request owned by the authenticated borrower after explicit confirmation.")
+                .mutating(true).requiresReview(true)
+                .examples(List.of(example("cancel borrow request 42", Map.of())))
+                .slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor decideBorrowRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.decide_borrow")
+                .entityType("thing")
+                .intent("DECIDE_BORROW")
+                .capabilityId("decide_borrow")
+                .purpose("Approve or decline a pending borrow request as the listing owner after explicit confirmation.")
+                .mutating(true).requiresReview(true)
+                .examples(List.of(
+                        example("approve borrow request 42", Map.of()),
+                        example("decline borrow request 42", Map.of())
+                ))
+                .slots(List.of()).build();
+    }
+
+    private VisionSemanticRouteDescriptor returnBorrowRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.return_borrow")
+                .entityType("thing")
+                .intent("RETURN_BORROW")
+                .capabilityId("return_borrow")
+                .purpose("Mark an approved borrowed thing as returned after explicit confirmation.")
+                .mutating(true).requiresReview(true)
+                .examples(List.of(example("mark borrow request 42 returned", Map.of())))
+                .slots(List.of()).build();
     }
 
     private VisionSemanticRouteDescriptor viewProfileRoute() {
@@ -811,6 +1355,15 @@ public class VisionSemanticRouteCatalogService {
                 .build();
     }
 
+    private VisionSemanticRouteDescriptor viewAccessibleCircleRoute() {
+        return VisionSemanticRouteDescriptor.builder().routeKey("vision.view_accessible_circle").entityType("circle")
+                .intent("VIEW_ACCESSIBLE_CIRCLE").capabilityId("view_accessible_circle")
+                .purpose("Read-only detail of a circle where the authenticated user is an owner or member.")
+                .mutating(false).requiresReview(false)
+                .slots(List.of(slot("accessible_circle_id", "circle.id", "identifier", true, "Accessible circle id.", List.of(), List.of("circle", "id"), List.of())))
+                .examples(List.of(example("show accessible circle 42", Map.of("accessible_circle_id", "42")))).build();
+    }
+
     private VisionSemanticRouteDescriptor viewQuestDetailRoute() {
         return VisionSemanticRouteDescriptor.builder()
                 .routeKey("vision.view_quest_detail")
@@ -842,6 +1395,24 @@ public class VisionSemanticRouteCatalogService {
                 .examples(List.of(
                         example("show notifications", Map.of()),
                         example("open notifications", Map.of())
+                ))
+                .slots(List.of())
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewActivityRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_activity")
+                .entityType("activity")
+                .intent("VIEW_ACTIVITY")
+                .capabilityId("view_activity")
+                .purpose("Read-only viewer-scoped activity and resumable Vision tasks inside the Vision terminal flow.")
+                .mutating(false)
+                .requiresReview(false)
+                .examples(List.of(
+                        example("show my activity", Map.of()),
+                        example("what should I continue", Map.of()),
+                        example("show recent history", Map.of())
                 ))
                 .slots(List.of())
                 .build();

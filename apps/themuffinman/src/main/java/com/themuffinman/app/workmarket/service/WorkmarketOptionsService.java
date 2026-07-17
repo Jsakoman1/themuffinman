@@ -60,7 +60,8 @@ public class WorkmarketOptionsService {
                         QuestApplicationStatusFilterOptionDTO.builder().value(QuestApplicationStatus.PENDING.name()).label("Pending").build(),
                         QuestApplicationStatusFilterOptionDTO.builder().value(QuestApplicationStatus.APPROVED.name()).label("Approved").build(),
                         QuestApplicationStatusFilterOptionDTO.builder().value(QuestApplicationStatus.DECLINED.name()).label("Declined").build(),
-                        QuestApplicationStatusFilterOptionDTO.builder().value(QuestApplicationStatus.WITHDRAWN.name()).label("Withdrawn").build()
+                        QuestApplicationStatusFilterOptionDTO.builder().value(QuestApplicationStatus.WITHDRAWN.name()).label("Withdrawn").build(),
+                        QuestApplicationStatusFilterOptionDTO.builder().value(QuestApplicationStatus.RELEASED.name()).label("Released").build()
                 ))
                 .questStatuses(List.of(
                         QuestStatusOptionDTO.builder().value(QuestStatus.OPEN).label("Open").build(),

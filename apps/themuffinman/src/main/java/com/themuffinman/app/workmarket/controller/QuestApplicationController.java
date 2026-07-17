@@ -12,6 +12,7 @@ import com.themuffinman.app.workmarket.dto.QuestApplicationDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
+import com.themuffinman.app.workmarket.dto.WorkerReassignmentRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -143,5 +144,24 @@ public class QuestApplicationController {
     ) {
         questApplicationService.declineApplication(questId, applicationId, currentUser);
         return ActionResults.of("DECLINE_APPLICATION", "Application declined.");
+    }
+
+    @PatchMapping("/quests/{questId}/workers/{applicationId}/release")
+    public QuestApplicationResponseDTO releaseWorker(
+            @PathVariable Long questId,
+            @PathVariable Long applicationId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return questApplicationService.releaseWorker(questId, applicationId, currentUser);
+    }
+
+    @PatchMapping("/quests/{questId}/workers/{applicationId}/replace")
+    public QuestApplicationResponseDTO replaceWorker(
+            @PathVariable Long questId,
+            @PathVariable Long applicationId,
+            @Valid @RequestBody WorkerReassignmentRequestDTO request,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return questApplicationService.replaceWorker(questId, applicationId, request, currentUser);
     }
 }

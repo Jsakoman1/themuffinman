@@ -1,0 +1,248 @@
+kind: work
+version: 1
+id: target-capability-production-readiness-circles
+title: Close Circles target capabilities
+status: verified
+master_plan: docs/work/target-capability-production-readiness.yaml
+baseline: 4715898
+capability_ids:
+- circles.circle.create
+- circles.circle.discover
+- circles.circle.update
+- circles.circle.view_other
+- circles.circle.view_own
+- circles.membership.accept
+- circles.membership.invite
+- circles.membership.leave
+- circles.membership.remove
+- circles.circle.archive
+- circles.membership.decline
+- circles.membership.cancel_invite
+objective: Close circle discovery ownership visibility invitation and membership slices.
+tasks:
+- id: circles-target-slices
+  title: Decompose and verify Circles target slices
+  type: planning
+  status: done
+  capability_ids:
+  - circles.circle.create
+  - circles.circle.discover
+  - circles.circle.update
+  - circles.circle.view_other
+  - circles.circle.view_own
+  - circles.membership.accept
+  - circles.membership.invite
+  - circles.membership.leave
+  - circles.membership.remove
+  - circles.circle.archive
+  - circles.membership.decline
+  - circles.membership.cancel_invite
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+- id: circles-owner-group-management
+  title: Add owner rename and remove actions to the Circles workspace
+  type: implementation
+  status: done
+  capability_ids:
+  - circles.circle.update
+  - circles.circle.archive
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+- id: circles-exact-inventory-mapping
+  title: Record exact Circles capability evidence and unsupported boundaries
+  type: documentation
+  status: done
+  capability_ids:
+  - circles.circle.create
+  - circles.circle.discover
+  - circles.circle.update
+  - circles.circle.view_other
+  - circles.circle.view_own
+  - circles.membership.accept
+  - circles.membership.invite
+  - circles.membership.leave
+  - circles.membership.remove
+  - circles.circle.archive
+  - circles.membership.decline
+  - circles.membership.cancel_invite
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/business-logic.md
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-docs
+- id: circles-vision-membership-leave
+  title: Leave a circle through Vision
+  type: implementation
+  status: done
+  capability_ids:
+  - circles.membership.leave
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLeaveCircleExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - docs/capability-inventory.yaml
+  validation: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
+    test
+- id: circles-vision-accessible-detail
+  title: Add membership-authorized accessible circle detail to Vision
+  type: implementation
+  status: done
+  capability_ids:
+  - circles.circle.view_other
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleGroupRepository.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSocialPreviewRenderer.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - docs/capability-inventory.yaml
+  validation: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest,ServiceTransactionConfigurationTest'
+    test
+evidence:
+- task: circles-target-slices
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+  ranAt: '2026-07-16T21:01:41Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  output: |2+
+      - chat.message.view_attachment
+      mapping_quality: exact
+      current_statuses:
+      - partial
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: false
+      surface_coverage:
+        web_ui: covered
+        vision: missing
+      gaps:
+      - vision
+
+- task: circles-owner-group-management
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-16T21:01:41Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  output: |+
+    dist/assets/WorkApplicationsView-DyJS9az5.js                   4.01 kB │ gzip:  1.68 kB
+    dist/assets/WorkDiscoveryView-DXGkBX3x.js                      4.22 kB │ gzip:  1.93 kB
+    dist/assets/BusinessOfferingsView-MfLDwGzi.js                  5.00 kB │ gzip:  1.77 kB
+    dist/assets/BusinessAvailabilityView-DQWXi7aj.js               5.73 kB │ gzip:  1.92 kB
+    dist/assets/BusinessAvailabilityExceptionsView-BTykzBq6.js     5.77 kB │ gzip:  1.97 kB
+    dist/assets/BusinessProfileView-D3wkC67v.js                    6.07 kB │ gzip:  2.03 kB
+    dist/assets/ThingsDiscoveryView-CDqnmvok.js                    6.27 kB │ gzip:  2.09 kB
+    dist/assets/CirclesView-BW1QJG9t.js                            6.55 kB │ gzip:  2.11 kB
+    dist/assets/ProfileLocationSettingsView-3l2E9xx4.js            7.76 kB │ gzip:  2.81 kB
+    dist/assets/WorkQuestDetailView-B7RonBpA.js                    9.02 kB │ gzip:  2.93 kB
+    dist/assets/userShellApi-DAcKgNz3.js                           9.23 kB │ gzip:  1.91 kB
+    dist/assets/ChatSurfaceView-DbYnhZ3H.js                        9.85 kB │ gzip:  3.47 kB
+    dist/assets/index-CbLNLQTJ.js                                 18.57 kB │ gzip:  5.35 kB
+    dist/assets/SurfaceContentView-CfgPzM0Y.js                    21.82 kB │ gzip:  6.02 kB
+    dist/assets/vue-core-Pi4dzDQH.js                              24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-C-pXSkwk.js               35.88 kB │ gzip: 10.91 kB
+    dist/assets/vendor-D0x-eQIR.js                               105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 337ms
+
+- task: circles-exact-inventory-mapping
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-docs
+  ranAt: '2026-07-16T21:01:44Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  output: |2+
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: false
+      surface_coverage:
+        web_ui: covered
+        vision: missing
+      gaps:
+      - vision
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 202
+      review needed: 0
+      high priority: 0
+
+- task: circles-vision-membership-leave
+  command: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
+    test
+  ranAt: '2026-07-16T21:01:47Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleMembershipService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - docs/capability-inventory.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLeaveCircleExecutionAdapter.java
+  output: "[INFO] \n[INFO] -------------------------------------------------------\n[INFO]
+    \ T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.148 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.059 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 75, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  2.776 s\n[INFO] Finished at: 2026-07-16T23:01:51+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: circles-vision-accessible-detail
+  command: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest,ServiceTransactionConfigurationTest'
+    test
+  ranAt: '2026-07-16T21:01:51Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/repository/CircleGroupRepository.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSocialPreviewRenderer.java
+  - docs/capability-inventory.yaml
+  output: "[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.config.ServiceTransactionConfigurationTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in
+    com.themuffinman.app.config.ServiceTransactionConfigurationTest\n[INFO] Running
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.979 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 78, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  3.144 s\n[INFO] Finished at: 2026-07-16T23:01:55+02:00\n[INFO] ------------------------------------------------------------------------\n\n"

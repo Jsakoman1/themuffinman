@@ -105,10 +105,10 @@ class VisionSearchDiscoveryServiceTest {
                         ))
                         .build()
         );
-        when(appUserRepository.searchByUsernameOrEmail("move sofa")).thenReturn(List.of(
+        when(appUserRepository.searchByUsername("move sofa")).thenReturn(List.of(
                 user(50L, "movesofa", "move@sofa.test")
         ));
-        when(appUserRepository.searchByUsernameOrEmail("helper")).thenReturn(List.of(
+        when(appUserRepository.searchByUsername("helper")).thenReturn(List.of(
                 user(51L, "helper", "helper@test.local")
         ));
     }
@@ -200,7 +200,7 @@ class VisionSearchDiscoveryServiceTest {
         assertNotNull(result);
         assertEquals("", result.getQuery());
         assertEquals("No matches.", result.getSummary());
-        verify(appUserRepository, never()).searchByUsernameOrEmail(anyString());
+        verify(appUserRepository, never()).searchByUsername(anyString());
     }
 
     @Test
@@ -241,7 +241,7 @@ class VisionSearchDiscoveryServiceTest {
         assertNotNull(result);
         assertEquals("user helper", result.getQuery());
         assertTrue(result.getItems().stream().anyMatch(item -> "user".equals(item.getEntityFamily())));
-        verify(appUserRepository).searchByUsernameOrEmail("helper");
+        verify(appUserRepository).searchByUsername("helper");
     }
 
     private QuestResponseDTO quest(Long id, String title, String description) {

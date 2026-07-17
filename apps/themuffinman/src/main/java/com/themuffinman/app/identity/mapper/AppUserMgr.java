@@ -7,6 +7,7 @@ import com.themuffinman.app.location.service.LocationSettingsViewService;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 
 import java.util.List;
@@ -40,6 +41,20 @@ public class AppUserMgr {
                 .createdAt(appUser.getCreatedAt())
                 .role(appUser.getRole() == null ? AppUserRole.USER.name() : appUser.getRole().name())
                 .build();
+    }
+
+    public AppUserResponseDTO toProfileDto(AppUser profileUser, AppUser viewer) {
+        if (profileUser == null) {
+            return null;
+        }
+        boolean ownProfile = viewer != null && profileUser.getId().equals(viewer.getId());
+        AppUserResponseDTO dto = toDto(profileUser);
+        if (!ownProfile) {
+            dto.setEmail(null);
+            dto.setResolutionLabel(profileUser.getUsername());
+            dto.setLocationSettings(locationSettingsViewService.toViewerDto(profileUser, viewer));
+        }
+        return dto;
     }
 
     public AppUserResponseDTO withProfileStats(AppUserResponseDTO dto, long openQuestCount, List<QuestResponseDTO> openQuests) {

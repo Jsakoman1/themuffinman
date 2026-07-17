@@ -1,0 +1,163 @@
+kind: runtime_evidence
+version: 1
+id: web-ui-functional-completion-runtime-evidence
+plan: docs/work/web-ui-functional-completion-master.yaml
+captured_at: 2026-07-17T09:38:21Z
+environment:
+  backend: local Spring Boot dev profile
+  database: local PostgreSQL side_quest_db
+  principal: seeded test account (credentials are not stored here)
+    evidence_level: authenticated_browser_and_api_probe
+  browser_trace_status: partial
+probes:
+  - id: authenticated-core-and-chat-read
+    endpoints:
+      - path: /auth/me
+        method: GET
+        status: 200
+      - path: /dashboard/me
+        method: GET
+        status: 200
+      - path: /chat/workspace
+        method: GET
+        status: 200
+      - path: /chat/conversations?limit=20&page=0
+        method: GET
+        status: 200
+    result: passed
+    note: >-
+      Chat initially failed because a PostgreSQL SELECT DISTINCT query ordered by
+      a computed coalesce expression. Ordering now occurs in ChatService after the
+      fetch query, preserving deterministic cursor-compatible ordering.
+  - id: circles-and-business-read
+    endpoints:
+      - path: /circles/groups
+        method: GET
+        status: 200
+      - path: /business/profiles
+        method: GET
+        status: 200
+      - path: /business/profiles?q=shop
+        method: GET
+        status: 200
+    result: passed
+  - id: people-and-profile-discovery-read
+    endpoints:
+      - path: /circles/search?q=te
+        method: GET
+        status: 200
+      - path: /app_users/5/profile-view
+        method: GET
+        status: 200
+    result: passed
+  - id: calendar-read-model-boundary
+    endpoints:
+      - path: /dashboard/me
+        method: GET
+        status: 200
+      - path: /business/bookings/owner/calendar
+        method: GET
+        status: 400
+    result: expected_boundary
+    note: >-
+      The seeded user has no business profile, so the owner-only calendar endpoint
+      correctly requires business setup. The general Calendar surface treats this
+      optional module read as recoverable and still renders available work rows.
+  - id: work-create-route-resolution
+    route: /work/quests/new
+    result: fixed
+    note: Static create route now precedes /work/quests/:questId in the Vue router.
+  - id: frontend-canonical-route-serving
+    routes:
+      - /work/find
+      - /work/quests/new
+      - /people
+      - /business/find
+      - /business/profile
+      - /business/offerings
+      - /business/calendar
+      - /business/public/{slug}
+      - /calendar
+    result: passed
+    note: Local Vite served each route with HTTP 200 and the application HTML fallback.
+  - id: frontend-static-surface-contract
+    command: npm --prefix apps/themuffinman/frontend run validate:web-surface
+    result: passed
+    note: >-
+      Static preflight confirms canonical Chat, Circles, Work, People, Business,
+      and Calendar routes, visible entry actions, route ordering, Calendar modes,
+      and loading/error recovery gates. This supplements but does not replace
+      authenticated browser traces.
+  - id: authenticated-web-surface-smoke
+    command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+    result: passed
+    evidence_artifact: apps/themuffinman/frontend/web-runtime-smoke.har
+    secondary_evidence_artifact: apps/themuffinman/frontend/web-runtime-smoke-booking.har
+    contact_evidence_artifact: apps/themuffinman/frontend/web-runtime-smoke-contact.har
+    visited_routes:
+      - /work/find
+      - /work/quests/new
+      - /chat
+      - /circles
+      - /people
+      - /business/find
+      - /things
+      - /things/{listingId}
+      - /calendar
+    observed_successes:
+      - POST /auth/register -> 200
+      - GET /quests/search -> 200
+      - GET /chat/conversations -> 200
+      - GET /circles/groups -> 200
+      - GET /circles/requests/incoming -> 200
+      - GET /circles/requests/outgoing -> 200
+      - GET /circles/blocked -> 200
+      - GET /business/profiles -> 200
+      - GET /dashboard/me -> 200
+      - POST /quests -> 200
+      - GET /quests/{id}/detail -> 200 and PUT /quests/{id} -> 200 after Web edit
+      - POST /quests/{id}/applications -> 200 from the accepted contact account
+      - GET /quests/{id}/applications/view -> 200 and PATCH /quests/{id}/applications/{applicationId}/approve -> 200 from the owner account
+      - POST /things/listings -> 200
+      - GET /things/{id} -> 200 and POST /things/{id}/borrow-requests -> 200 from the borrower account
+      - GET /things/listings/me/borrow-requests -> 200 and approval -> 200 from the owner account
+      - POST /circles/groups -> 200
+      - POST /circles/requests -> 200
+      - POST /chat/conversations/open -> 200 after accepted circle contact
+      - POST /chat/conversations/groups -> 200 with two accepted contacts
+      - POST /chat/conversations/{id}/messages -> 200
+      - GET /business/profiles/me -> 200
+      - PUT /business/profiles/me -> 200 with timezone and bookings enabled
+      - POST /business/offerings/me -> 200
+      - POST /business/availability-rules/me -> 200
+      - GET /business/public/{slug} -> 200 from the customer account
+      - POST /business/bookings -> 200 from the customer account
+      - GET /business/bookings/owner -> 200
+      - POST /business/bookings/owner/{id}/confirm -> 200
+    recovery_checks:
+      - Chat conversation-list failure exposed an alert with Retry, then recovered after the route was restored.
+      - Work discovery failure exposed an alert with Retry.
+      - Business discovery failure exposed an alert with Retry.
+      - Circles blocked-user failure preserved Create/Search controls and exposed a partial-data warning.
+      - Calendar primary dashboard failure exposed a retryable unavailable state.
+      - Chat Sync failure exposed `Could not sync conversation.` and recovered to `Conversation synced.` after restoration.
+      - Browser `online` recovery event exercised the same failed-then-restored Sync path without duplicate messages.
+      - Business discovery HTTP 403 exposed the retryable error surface without blanking the authenticated shell.
+      - POST /vision/conversations/turns -> 200 for the authenticated read-only `show my profile` prompt.
+      - Vision create-quest flow reached REVIEW_READY, exposed the Web Confirm and Cancel controls, and POSTed CONFIRM_REVIEW -> 200 with COMPLETE / `Quest created successfully.`.
+      - Denied browser geolocation was recovered through POST /location/lookup -> 200, a resolved Zurich suggestion, and PUT /app_users/me -> 200 with saved exact location settings scoped to a selected accepted contact.
+      - Cross-module visibility browser trace opened the owner's People profile as an accepted contact and as an outsider; the selected-person exact-location policy returned coordinates only to the allowed contact and redacted coordinates for the outsider.
+    expected_boundary:
+      - The isolated no-business-profile API probe remains a valid 400 boundary; the extended browser smoke creates a business profile and verifies the owner calendar with 200.
+    note: >-
+      Headless Chromium authenticated smoke passed route entry, Work and Circle
+      mutations, two-way contact acceptance, direct and group chat creation,
+      message send, Business profile setup, offering/availability setup, public
+      detail and customer booking handoff, People and Business discovery entry,
+      Calendar month/week/day interaction, forced 403 recovery, and Chat resync
+      recovery. Coverage remains partial only for broader non-Web/Vision
+      capability parity outside the named surfaces.
+remaining:
+  - Vision failure/retry remains a separate negative-path trace; the supported mutation review and confirmation path is now covered.
+  - Broader Web/Vision parity evidence remains open for capabilities outside the named Web surfaces.
+  - Broader Web/Vision parity evidence remains open for capabilities outside the named Web surfaces.

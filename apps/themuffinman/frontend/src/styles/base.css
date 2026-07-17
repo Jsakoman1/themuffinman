@@ -2,6 +2,15 @@
   color-scheme: light;
   --bg: #ffffff;
   --text: #111111;
+  --text-muted: rgba(23, 34, 26, 0.62);
+  --text-soft: rgba(23, 34, 26, 0.45);
+  --surface: rgba(255, 255, 255, 0.86);
+  --surface-muted: rgba(214, 228, 218, 0.42);
+  --border-subtle: rgba(23, 34, 26, 0.1);
+  --border-strong: rgba(23, 34, 26, 0.22);
+  --danger: #8d2f25;
+  --success: #2d6846;
+  --warning: #8a5a18;
   --font: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --vision-surface-ink: #1a242f;
   --vision-surface-ink-muted: rgba(26, 36, 47, 0.62);
@@ -15,6 +24,7 @@
   --radius-control: 0.8rem;
   --shadow-card: 0 18px 40px rgba(23, 34, 26, 0.06);
   --focus-ring: 0 0 0 3px rgba(35, 105, 161, 0.28);
+  --z-overlay: 20;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
@@ -51,6 +61,24 @@ textarea {
 
 button {
   cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+[title] {
+  text-decoration-thickness: 1px;
+}
+
+::selection {
+  background: rgba(45, 104, 70, 0.2);
 }
 
 :focus-visible {

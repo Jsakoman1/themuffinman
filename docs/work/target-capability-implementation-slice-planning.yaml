@@ -1,0 +1,149 @@
+kind: work
+version: 1
+id: target-capability-implementation-slice-planning
+title: Generate prioritized implementation slices from target capabilities
+status: verified
+baseline: 4715898
+objective: 'Convert target capabilities into deterministic implementation-planning
+  records ordered by priority and grouped by module without claiming that generated
+  records are verified work plans.
+
+'
+scope:
+  included:
+  - stable slice IDs derived from target capability IDs
+  - critical and high delivery queue prioritization
+  - current status and mapping quality context
+  - missing web UI and Vision surface signals
+  - recommended module workstream grouping
+  excluded:
+  - implementing application behavior
+  - automatically creating or verifying child work plans
+  - replacing implementation-backlog.md or work-plan evidence
+tasks:
+- id: slice-planning-rules
+  title: Define deterministic slice generation rules
+  type: analysis
+  status: done
+  paths:
+  - docs/target-capability-catalog.yaml
+  - docs/implementation-control.md
+  - docs/implementation-backlog.md
+  validation: ruby -e "require 'yaml'; YAML.load_file('docs/target-capability-catalog.yaml');
+    puts 'slice sources valid'"
+- id: slice-generator
+  title: Implement machine-readable implementation slice generator
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/generate-target-capability-slices.rb
+  validation: make generate-target-capability-slices >/tmp/target-capability-slices.yaml
+    && ruby -e "require 'yaml'; d=YAML.load_file('/tmp/target-capability-slices.yaml');
+    abort 'invalid slice report' unless d['kind']=='target_capability_implementation_slices';
+    puts d['summary']"
+- id: slice-command
+  title: Expose slice generation through the repository Makefile
+  type: implementation
+  status: done
+  paths:
+  - Makefile
+  validation: make generate-target-capability-slices >/tmp/target-capability-slices.yaml
+- id: slice-documentation
+  title: Document generated slice semantics and work-plan handoff
+  type: documentation
+  status: done
+  paths:
+  - docs/implementation-control.md
+  - docs/implementation-backlog.md
+  validation: make audit-docs
+- id: slice-validation
+  title: Validate prioritized slice output and repository controls
+  type: validation
+  status: done
+  paths:
+  - docs/work/target-capability-implementation-slice-planning.yaml
+  validation: make generate-target-capability-slices >/tmp/target-capability-slices.yaml
+    && make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-plan-coverage
+evidence:
+- task: slice-planning-rules
+  command: ruby -e "require 'yaml'; YAML.load_file('docs/target-capability-catalog.yaml');
+    puts 'slice sources valid'"
+  ranAt: '2026-07-16T17:03:40Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/target-capability-catalog.yaml
+  output: "slice sources valid\n\n"
+- task: slice-generator
+  command: make generate-target-capability-slices >/tmp/target-capability-slices.yaml
+    && ruby -e "require 'yaml'; d=YAML.load_file('/tmp/target-capability-slices.yaml');
+    abort 'invalid slice report' unless d['kind']=='target_capability_implementation_slices';
+    puts d['summary']"
+  ranAt: '2026-07-16T17:03:40Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/generate-target-capability-slices.rb
+  output: "{\"total\"=>123, \"next_queue\"=>103, \"later_queue\"=>20, \"critical\"=>24,
+    \"high\"=>79, \"broad_mapping\"=>122, \"missing_web_ui\"=>40, \"missing_vision\"=>87}\n\n"
+- task: slice-command
+  command: make generate-target-capability-slices >/tmp/target-capability-slices.yaml
+  ranAt: '2026-07-16T17:03:40Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  output: "\n"
+- task: slice-documentation
+  command: make audit-docs
+  ranAt: '2026-07-16T17:03:40Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 181
+      review needed: 0
+      high priority: 0
+
+- task: slice-validation
+  command: make generate-target-capability-slices >/tmp/target-capability-slices.yaml
+    && make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-plan-coverage
+  ranAt: '2026-07-16T17:03:42Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/target-capability-implementation-slice-planning.yaml
+  output: |2+
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: false
+        vision: false
+      surface_coverage:
+        web_ui: missing
+        vision: missing
+      gaps:
+      - decomposition_required
+      - web_ui
+      - vision
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (19 master children, 16 active inventory plans).
+

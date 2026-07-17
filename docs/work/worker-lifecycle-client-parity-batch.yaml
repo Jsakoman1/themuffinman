@@ -1,0 +1,138 @@
+kind: work
+version: 1
+id: worker-lifecycle-client-parity-batch
+title: Expose worker lifecycle management in Web UI and Vision
+status: verified
+master_plan: docs/work/target-capability-production-readiness.yaml
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+tasks:
+- id: task-1
+  title: Add Web UI worker release and replacement controls
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+- id: task-2
+  title: Add Vision release and replacement worker intents and adapters
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReleaseWorkerExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReplaceWorkerExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSurfacePolicy.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionWorkerManagementExecutionAdapterTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='VisionIntentRouterTest,VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest,VisionWorkerManagementExecutionAdapterTest'
+    test
+- id: task-3
+  title: Synchronize contracts, inventory, documentation, and closeout evidence
+  type: documentation_and_control
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - docs/capability-inventory.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/web-vision-parity-residual-audit.yaml
+  - docs/agent-operating-model/sections/intents.yaml
+  validation: cd apps/themuffinman && ./mvnw -q test && cd frontend && npm run type-check
+    && npm run build && cd ../../.. && make audit-docs && make audit-plan-coverage
+    && make audit-target-capability-coverage && git diff --check
+evidence:
+- task: task-1
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-17T07:56:42Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  output: |+
+    dist/assets/BusinessBookingsView-C6S02cOw.js                   4.39 kB │ gzip:  1.66 kB
+    dist/assets/WorkQuestApplicationsView-C8zrlkc_.js              4.45 kB │ gzip:  1.71 kB
+    dist/assets/BusinessOfferingsView-Bc_uedbX.js                  5.00 kB │ gzip:  1.77 kB
+    dist/assets/BusinessAvailabilityView-Dr6aQkbe.js               5.73 kB │ gzip:  1.92 kB
+    dist/assets/BusinessAvailabilityExceptionsView-SpLV3PRt.js     5.77 kB │ gzip:  1.97 kB
+    dist/assets/BusinessProfileView-Dal9nWDS.js                    6.07 kB │ gzip:  2.03 kB
+    dist/assets/ThingsDiscoveryView-B5nJDodk.js                    7.39 kB │ gzip:  2.37 kB
+    dist/assets/CirclesView-DyzIUDH-.js                            7.52 kB │ gzip:  2.31 kB
+    dist/assets/ProfileLocationSettingsView-YJE4UmrC.js            7.99 kB │ gzip:  2.92 kB
+    dist/assets/WorkQuestDetailView-C1dUL7pQ.js                    9.73 kB │ gzip:  3.09 kB
+    dist/assets/userShellApi-DykAqqn2.js                          10.53 kB │ gzip:  2.17 kB
+    dist/assets/ChatSurfaceView-DDPTb8-r.js                       10.99 kB │ gzip:  3.70 kB
+    dist/assets/index-BRXP4IUO.js                                 18.92 kB │ gzip:  5.41 kB
+    dist/assets/SurfaceContentView-CyrFOCjK.js                    21.82 kB │ gzip:  6.02 kB
+    dist/assets/vue-core-Pi4dzDQH.js                              24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-U12r1Fti.js               35.88 kB │ gzip: 10.91 kB
+    dist/assets/vendor-D0x-eQIR.js                               105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 338ms
+
+- task: task-2
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='VisionIntentRouterTest,VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest,VisionWorkerManagementExecutionAdapterTest'
+    test
+  ranAt: '2026-07-17T07:56:44Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSurfacePolicy.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReleaseWorkerExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReplaceWorkerExecutionAdapter.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionWorkerManagementExecutionAdapterTest.java
+  output: "\n"
+- task: task-3
+  command: cd apps/themuffinman && ./mvnw -q test && cd frontend && npm run type-check
+    && npm run build && cd ../../.. && make audit-docs && make audit-plan-coverage
+    && make audit-target-capability-coverage && git diff --check
+  ranAt: '2026-07-17T07:56:48Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - docs/agent-operating-model/sections/intents.yaml
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/work/web-vision-parity-residual-audit.yaml
+  output: |2+
+      current_inventory_ids:
+      - chat.message.view_attachment
+      mapping_quality: exact
+      current_statuses:
+      - partial
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: true
+      surface_coverage:
+        web_ui: covered
+        vision: covered
+      gaps: []
+

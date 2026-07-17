@@ -15,6 +15,8 @@ import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
+import com.themuffinman.app.notification.model.NotificationPreferenceCategory;
+import com.themuffinman.app.notification.model.NotificationPreferenceLevel;
 import com.themuffinman.app.vision.model.VisionAgentState;
 import com.themuffinman.app.vision.model.VisionConversationAction;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -35,9 +37,14 @@ import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import com.themuffinman.app.rides.dto.RideOfferResponseDTO;
+import com.themuffinman.app.rides.service.RideOfferService;
 
 @Service
 public class VisionConversationService {
+
+    @Autowired(required = false)
+    private RideOfferService rideOfferService;
 
     private final VisionConversationRepository visionConversationRepository;
     private final VisionTurnRepository visionTurnRepository;
@@ -342,6 +349,7 @@ public class VisionConversationService {
             case DELETE_CIRCLE_REQUEST -> handleDeleteCircleRequestTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case UPDATE_CIRCLE -> handleUpdateCircleTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case DELETE_CIRCLE -> handleDeleteCircleTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case LEAVE_CIRCLE -> handleLeaveCircleTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case CREATE_APPLICATION -> handleCreateApplicationTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case UPDATE_APPLICATION -> handleUpdateApplicationTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case WITHDRAW_APPLICATION -> handleWithdrawApplicationTurn(conversation, prompt, normalizedPrompt, understanding, source);
@@ -353,6 +361,35 @@ public class VisionConversationService {
             case SEARCH -> handleSearchTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case OPEN_CHAT -> handleOpenChatTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_CHAT_WORKSPACE -> visionReadOnlyConversationTurnHandler.handleViewChatWorkspaceTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case SYNC_CHAT -> visionReadOnlyConversationTurnHandler.handleSyncChatTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_CHAT_ATTACHMENT -> visionReadOnlyConversationTurnHandler.handleViewChatAttachmentTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case MARK_CHAT_READ -> handleMarkChatReadTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE -> handleChatMessageMutationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE -> handleBusinessProfileMutationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CREATE_GALLERY_IMAGE, UPDATE_GALLERY_IMAGE, DELETE_GALLERY_IMAGE -> handleGalleryMutationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CREATE_AVAILABILITY_RULE, UPDATE_AVAILABILITY_RULE, DELETE_AVAILABILITY_RULE, CREATE_AVAILABILITY_EXCEPTION, UPDATE_AVAILABILITY_EXCEPTION, DELETE_AVAILABILITY_EXCEPTION -> handleAvailabilityMutationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CONFIRM_BOOKING, CANCEL_BOOKING -> handleBookingMutationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW -> handleBookingMutationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case RESCHEDULE_BOOKING -> handleRescheduleBookingTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case ARCHIVE_OFFERING -> handleArchiveOfferingTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case UPDATE_QUEST -> handleUpdateQuestTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CREATE_OFFERING, UPDATE_OFFERING -> handleOfferingMutationTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CREATE_BOOKING -> handleCreateBookingTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case MARK_NOTIFICATIONS_READ -> handleMarkNotificationsReadTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case MARK_NOTIFICATION_READ -> handleMarkNotificationReadTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case UPDATE_NOTIFICATION_PREFERENCES -> handleUpdateNotificationPreferencesTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case RELEASE_WORKER, REPLACE_WORKER -> handleWorkerManagementTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case REOPEN_QUEST -> handleReopenQuestTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CANCEL_QUEST -> handleCancelQuestTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case PAUSE_QUEST -> handlePauseQuestTurn(conversation, prompt, normalizedPrompt, understanding, source, false);
+            case RESUME_QUEST -> handlePauseQuestTurn(conversation, prompt, normalizedPrompt, understanding, source, true);
+            case CREATE_THING -> handleCreateThingTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case REQUEST_BORROW -> handleRequestBorrowTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case CANCEL_BORROW -> handleBorrowLifecycleTurn(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.CANCEL_BORROW, "cancel_borrow", "Cancel borrow request ", "borrow_cancelled");
+            case DECIDE_BORROW -> handleBorrowLifecycleTurn(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.DECIDE_BORROW, "decide_borrow", "Decide borrow request ", "borrow_decided");
+            case RETURN_BORROW -> handleBorrowLifecycleTurn(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.RETURN_BORROW, "return_borrow", "Return borrow request ", "borrow_returned");
+            case CREATE_RIDE, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, START_RIDE, COMPLETE_RIDE -> handleRideTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case UPDATE_THING, ARCHIVE_THING -> handleThingMutationTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_PROFILE -> visionReadOnlyConversationTurnHandler.handleViewProfileTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_SETTINGS -> visionReadOnlyConversationTurnHandler.handleViewSettingsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_BUSINESS -> visionReadOnlyConversationTurnHandler.handleViewBusinessTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
@@ -361,14 +398,1143 @@ public class VisionConversationService {
             case VIEW_USER_PROFILE -> handleViewUserProfileTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_CIRCLES -> visionReadOnlyConversationTurnHandler.handleViewCirclesTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_CIRCLE_DETAIL -> handleViewCircleDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_ACCESSIBLE_CIRCLE -> handleViewAccessibleCircleTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_QUEST_DETAIL -> handleViewQuestDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_THING_DETAIL -> handleViewThingDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_NOTIFICATIONS -> visionReadOnlyConversationTurnHandler.handleViewNotificationsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_ACTIVITY -> visionReadOnlyConversationTurnHandler.handleViewActivityTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_QUEST_NEWS -> visionReadOnlyConversationTurnHandler.handleViewQuestNewsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_APPLICATIONS -> visionReadOnlyConversationTurnHandler.handleViewApplicationsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_APPLICATION_DETAIL -> handleViewApplicationDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_THINGS -> visionReadOnlyConversationTurnHandler.handleViewThingsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_BORROW_REQUESTS -> visionReadOnlyConversationTurnHandler.handleViewBorrowRequestsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_RIDES -> handleViewRidesTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case UNSUPPORTED -> handleUnsupportedTurn(conversation, prompt, normalizedPrompt, understanding, source);
         };
+    }
+
+    private VisionTurn handleCreateBookingTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        java.util.regex.Matcher offering = java.util.regex.Pattern.compile("(?i)(?:offering|service)\\s*#?(\\d+)").matcher(value);
+        if (!conversation.getSlotData().containsKey("business_offering_id") && offering.find()) conversation.getSlotData().put("business_offering_id", offering.group(1));
+        java.util.regex.Matcher times = java.util.regex.Pattern.compile("(\\d{4}-\\d{2}-\\d{2}T[^\\s]+)\\s+(?:until|to)\\s+(\\d{4}-\\d{2}-\\d{2}T[^\\s]+)").matcher(value);
+        if (!conversation.getSlotData().containsKey("booking_starts_at") && times.find()) {
+            conversation.getSlotData().put("booking_starts_at", times.group(1));
+            conversation.getSlotData().put("booking_ends_at", times.group(2));
+        }
+        String missing = !conversation.getSlotData().containsKey("business_offering_id") ? "business_offering_id" : !conversation.getSlotData().containsKey("booking_starts_at") ? "booking_starts_at" : !conversation.getSlotData().containsKey("booking_ends_at") ? "booking_ends_at" : null;
+        if (missing != null) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.CREATE_BOOKING, missing, "Please provide " + missing.replace('_', ' ') + ".");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return bookingCreationReviewTurn(conversation, source, "The appointment review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return bookingCreationReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "booking_created");
+            String message = "Appointment request created.";
+            updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, value, VisionIntent.CREATE_BOOKING, VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can request this appointment. Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, value, VisionIntent.CREATE_BOOKING, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn handleRescheduleBookingTurn(VisionConversation conversation, String prompt, String normalizedPrompt, VisionPromptUnderstandingResult understanding, String source) {
+        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:booking|appointment)?\\s*#?(\\d+)").matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+        if (!conversation.getSlotData().containsKey("booking_id") && matcher.find()) conversation.getSlotData().put("booking_id", matcher.group(1));
+        java.util.regex.Matcher times = java.util.regex.Pattern.compile("(\\d{4}-\\d{2}-\\d{2}T[^\\s]+)\\s+(?:to|until|-|–)\\s+(\\d{4}-\\d{2}-\\d{2}T[^\\s]+)").matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+        if (times.find()) { conversation.getSlotData().put("booking_starts_at", times.group(1)); conversation.getSlotData().put("booking_ends_at", times.group(2)); }
+        String missing = !conversation.getSlotData().containsKey("booking_id") ? "booking_id" : !conversation.getSlotData().containsKey("booking_starts_at") ? "booking_starts_at" : !conversation.getSlotData().containsKey("booking_ends_at") ? "booking_ends_at" : null;
+        if (missing != null) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.RESCHEDULE_BOOKING, missing, "Please provide " + missing.replace('_', ' ') + ".");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) return rescheduleBookingReviewTurn(conversation, source, "The booking reschedule review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return rescheduleBookingReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            String message = "Booking rescheduled successfully.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.RESCHEDULE_BOOKING, VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can reschedule booking " + conversation.getSlotData().get("booking_id") + " to " + conversation.getSlotData().get("booking_starts_at") + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.RESCHEDULE_BOOKING, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn rescheduleBookingReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.RESCHEDULE_BOOKING, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn bookingCreationReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.CREATE_BOOKING, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleThingMutationTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        boolean update = conversation.getIntent() == VisionIntent.UPDATE_THING;
+        if (!conversation.getSlotData().containsKey("thing_listing_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:thing|listing)\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("thing_listing_id", matcher.group(1));
+        }
+        if (!conversation.getSlotData().containsKey("thing_listing_id")) return askForSlot(conversation,prompt,normalizedPrompt,understanding,source,conversation.getIntent(),"thing_listing_id","Which thing listing id should I use?");
+        if (update && !conversation.getSlotData().containsKey("thing_title")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:to|named|title)\\s+(.+)$").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("thing_title", matcher.group(1).trim());
+        }
+        if (update && !conversation.getSlotData().containsKey("thing_title")) return askForSlot(conversation,prompt,normalizedPrompt,understanding,source,VisionIntent.UPDATE_THING,"thing_title","What should the new listing title be?");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return thingMutationReviewTurn(conversation,source,"The thing listing review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return thingMutationReviewTurn(conversation,source,result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED); conversation.getSlotData().put("conversation_outcome",update ? "thing_updated" : "thing_archived");
+            String message=update ? "Thing listing updated." : "Thing listing archived."; updateConversationMetadata(conversation,prompt,value,message,understanding.isTranslationReliable()); visionConversationRepository.save(conversation);
+            return createTurn(conversation,source,prompt,value,conversation.getIntent(),VisionAgentState.COMPLETE,VisionNextAction.COMPLETE,null,understanding.isTranslationApplied(),understanding.isTranslationReliable(),message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message=update ? "I can update thing listing " + conversation.getSlotData().get("thing_listing_id") + ". Confirm to continue." : "I can archive thing listing " + conversation.getSlotData().get("thing_listing_id") + ". Confirm to continue.";
+        updateConversationMetadata(conversation,prompt,value,message,understanding.isTranslationReliable()); visionConversationRepository.save(conversation);
+        return createTurn(conversation,source,prompt,value,conversation.getIntent(),VisionAgentState.REVIEW_READY,VisionNextAction.SHOW_REVIEW,null,understanding.isTranslationApplied(),understanding.isTranslationReliable(),message);
+    }
+
+    private VisionTurn thingMutationReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation,"","",message,true); visionConversationRepository.save(conversation);
+        return createTurn(conversation,source,"","",conversation.getIntent(),VisionAgentState.REVIEW_READY,VisionNextAction.SHOW_REVIEW,null,false,true,message);
+    }
+
+    private VisionTurn handleAvailabilityMutationTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        VisionIntent intent = conversation.getIntent();
+        boolean exception = intent == VisionIntent.CREATE_AVAILABILITY_EXCEPTION || intent == VisionIntent.UPDATE_AVAILABILITY_EXCEPTION || intent == VisionIntent.DELETE_AVAILABILITY_EXCEPTION;
+        boolean deletion = intent == VisionIntent.DELETE_AVAILABILITY_RULE || intent == VisionIntent.DELETE_AVAILABILITY_EXCEPTION;
+        String idKey = exception ? "availability_exception_id" : "availability_rule_id";
+        if (!intent.name().startsWith("CREATE_") && !conversation.getSlotData().containsKey(idKey)) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:rule|exception)\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put(idKey, matcher.group(1));
+        }
+        if (!intent.name().startsWith("CREATE_") && !conversation.getSlotData().containsKey(idKey)) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, intent, idKey, "Which availability " + (exception ? "exception" : "rule") + " id should I use?");
+        if (!deletion && exception) {
+            captureAvailability(conversation, value, "(?i)(BLOCK|REPLACE_WINDOW)", "availability_exception_type");
+            captureAvailability(conversation, value, "(?i)(\\d{4}-\\d{2}-\\d{2}T[^\\s]+)", "availability_exception_start");
+            java.util.regex.Matcher times = java.util.regex.Pattern.compile("(?i)(\\d{4}-\\d{2}-\\d{2}T[^\\s]+)\\s+(?:until|to)\\s+(\\d{4}-\\d{2}-\\d{2}T[^\\s]+)").matcher(value);
+            if (times.find()) { conversation.getSlotData().put("availability_exception_start", times.group(1)); conversation.getSlotData().put("availability_exception_end", times.group(2)); }
+            if (!conversation.getSlotData().containsKey("availability_exception_type")) return askForSlot(conversation,prompt,normalizedPrompt,understanding,source,intent,"availability_exception_type","Should this exception block time or replace the window?");
+            if (!conversation.getSlotData().containsKey("availability_exception_start") || !conversation.getSlotData().containsKey("availability_exception_end")) return askForSlot(conversation,prompt,normalizedPrompt,understanding,source,intent,"availability_exception_start","Provide the exception start and end as ISO timestamps.");
+        } else if (!deletion) {
+            captureAvailability(conversation, value, "(?i)(?:day|weekday)\\s*([1-7])", "availability_day_of_week");
+            captureAvailability(conversation, value, "(?i)(?:from|start)\\s*(\\d{2}:\\d{2})", "availability_start_time");
+            captureAvailability(conversation, value, "(?i)(?:until|to|end)\\s*(\\d{2}:\\d{2})", "availability_end_time");
+            captureAvailability(conversation, value, "(?i)(?:every|slot)\\s*(\\d+)\\s*min", "availability_slot_minutes");
+            if (!conversation.getSlotData().containsKey("availability_day_of_week")) return askForSlot(conversation,prompt,normalizedPrompt,understanding,source,intent,"availability_day_of_week","Which weekday number (1-7) should this rule use?");
+            if (!conversation.getSlotData().containsKey("availability_start_time") || !conversation.getSlotData().containsKey("availability_end_time")) return askForSlot(conversation,prompt,normalizedPrompt,understanding,source,intent,"availability_start_time","Provide the local start and end time, for example 09:00 to 17:00.");
+            if (!conversation.getSlotData().containsKey("availability_slot_minutes")) return askForSlot(conversation,prompt,normalizedPrompt,understanding,source,intent,"availability_slot_minutes","How many minutes should each booking slot use?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return availabilityMutationReviewTurn(conversation, source, "The availability review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return availabilityMutationReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED); conversation.getSlotData().put("conversation_outcome", "availability_updated");
+            String message = "Availability updated."; updateConversationMetadata(conversation,prompt,value,message,understanding.isTranslationReliable()); visionConversationRepository.save(conversation);
+            return createTurn(conversation,source,prompt,value,intent,VisionAgentState.COMPLETE,VisionNextAction.COMPLETE,null,understanding.isTranslationApplied(),understanding.isTranslationReliable(),message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can update your business availability. Confirm to continue."; updateConversationMetadata(conversation,prompt,value,message,understanding.isTranslationReliable()); visionConversationRepository.save(conversation);
+        return createTurn(conversation,source,prompt,value,intent,VisionAgentState.REVIEW_READY,VisionNextAction.SHOW_REVIEW,null,understanding.isTranslationApplied(),understanding.isTranslationReliable(),message);
+    }
+
+    private void captureAvailability(VisionConversation conversation, String value, String regex, String key) {
+        if (conversation.getSlotData().containsKey(key)) return;
+        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(regex).matcher(value);
+        if (matcher.find()) conversation.getSlotData().put(key, matcher.group(1));
+    }
+
+    private VisionTurn availabilityMutationReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation,"","",message,true); visionConversationRepository.save(conversation);
+        return createTurn(conversation,source,"","",conversation.getIntent(),VisionAgentState.REVIEW_READY,VisionNextAction.SHOW_REVIEW,null,false,true,message);
+    }
+
+    private VisionTurn handleGalleryMutationTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        boolean create = conversation.getIntent() == VisionIntent.CREATE_GALLERY_IMAGE;
+        boolean delete = conversation.getIntent() == VisionIntent.DELETE_GALLERY_IMAGE;
+        if (!create && !conversation.getSlotData().containsKey("gallery_image_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:image|photo)\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("gallery_image_id", matcher.group(1));
+        }
+        if (!create && !conversation.getSlotData().containsKey("gallery_image_id")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "gallery_image_id", "Which gallery image id should I use?");
+        if (!delete && !conversation.getSlotData().containsKey("gallery_image_url")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(https?://\\S+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("gallery_image_url", matcher.group(1));
+        }
+        if (!delete && !conversation.getSlotData().containsKey("gallery_image_url")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "gallery_image_url", "What image URL should I use?");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return galleryMutationReviewTurn(conversation, source, "The gallery review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return galleryMutationReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", delete ? "gallery_image_deleted" : create ? "gallery_image_created" : "gallery_image_updated");
+            String message = delete ? "Gallery image deleted." : create ? "Gallery image added." : "Gallery image updated.";
+            updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = delete ? "I can delete gallery image " + conversation.getSlotData().get("gallery_image_id") + ". Confirm to continue."
+                : (create ? "I can add this image to your business gallery." : "I can update gallery image " + conversation.getSlotData().get("gallery_image_id") + ".") + " Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn galleryMutationReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleOfferingMutationTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        boolean update = conversation.getIntent() == VisionIntent.UPDATE_OFFERING;
+        if (update && !conversation.getSlotData().containsKey("offering_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:offering|service)\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("offering_id", matcher.group(1));
+        }
+        if (update && !conversation.getSlotData().containsKey("offering_id")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "offering_id", "Which offering id should I update?");
+        if (!conversation.getSlotData().containsKey("offering_title")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:to|named|title)\\s+(.+)$").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("offering_title", matcher.group(1).trim());
+        }
+        if (!conversation.getSlotData().containsKey("offering_title")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "offering_title", "What should the offering be called?");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return offeringMutationReviewTurn(conversation, source, "The offering review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return offeringMutationReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", update ? "offering_updated" : "offering_created");
+            String message = update ? "Offering updated." : "Offering created.";
+            updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can " + (update ? "rename offering " + conversation.getSlotData().get("offering_id") : "create an offering") + " as \"" + conversation.getSlotData().get("offering_title") + "\". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn offeringMutationReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleUpdateQuestTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        if (!conversation.getSlotData().containsKey("quest_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:quest|job|work)\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("quest_id", matcher.group(1));
+        }
+        if (!conversation.getSlotData().containsKey("quest_id")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.UPDATE_QUEST, "quest_id", "Which quest id should I update?");
+        if (!conversation.getSlotData().containsKey("quest_title")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:to|title)\\s+(.+)$").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("quest_title", matcher.group(1).trim());
+        }
+        if (!conversation.getSlotData().containsKey("quest_title")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.UPDATE_QUEST, "quest_title", "What should the new quest title be?");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return questUpdateReviewTurn(conversation, source, "The quest update review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return questUpdateReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "quest_updated");
+            String message = "Quest updated.";
+            updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, value, VisionIntent.UPDATE_QUEST, VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can rename quest " + conversation.getSlotData().get("quest_id") + " to \"" + conversation.getSlotData().get("quest_title") + "\". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, value, VisionIntent.UPDATE_QUEST, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn questUpdateReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.UPDATE_QUEST, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleArchiveOfferingTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        if (!conversation.getSlotData().containsKey("offering_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:offering|service)\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("offering_id", matcher.group(1));
+        }
+        if (!conversation.getSlotData().containsKey("offering_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.ARCHIVE_OFFERING, "offering_id", "Which offering id should I archive?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return offeringReviewTurn(conversation, source, "The offering archive review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return offeringReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "offering_archived");
+            String message = "Offering archived.";
+            updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, value, VisionIntent.ARCHIVE_OFFERING, VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can archive offering " + conversation.getSlotData().get("offering_id") + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, value, VisionIntent.ARCHIVE_OFFERING, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn offeringReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.ARCHIVE_OFFERING, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleBookingMutationTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        if (!conversation.getSlotData().containsKey("booking_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:booking|appointment)\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("booking_id", matcher.group(1));
+        }
+        if (!conversation.getSlotData().containsKey("booking_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "booking_id", "Which booking id should I use?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return bookingReviewTurn(conversation, source, "The booking review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return bookingReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", conversation.getIntent() == VisionIntent.CONFIRM_BOOKING ? "booking_confirmed" : "booking_cancelled");
+            String message = conversation.getIntent() == VisionIntent.CONFIRM_BOOKING ? "Booking confirmed." : "Booking cancelled.";
+            updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can " + (conversation.getIntent() == VisionIntent.CONFIRM_BOOKING ? "confirm" : "cancel") + " booking " + conversation.getSlotData().get("booking_id") + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn bookingReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleBusinessProfileMutationTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        if (!conversation.getSlotData().containsKey("business_name")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:named|name|to)\\s+(.+)$").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("business_name", matcher.group(1).trim());
+        }
+        if (!conversation.getSlotData().containsKey("business_name")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "business_name", "What should the business be called?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return businessProfileReviewTurn(conversation, source, "The business profile review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return businessProfileReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", conversation.getIntent() == VisionIntent.CREATE_BUSINESS_PROFILE ? "business_profile_created" : "business_profile_updated");
+            String message = conversation.getIntent() == VisionIntent.CREATE_BUSINESS_PROFILE ? "Business profile created." : "Business profile updated.";
+            updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can " + (conversation.getIntent() == VisionIntent.CREATE_BUSINESS_PROFILE ? "create" : "update") + " the business profile named " + conversation.getSlotData().get("business_name") + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn businessProfileReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleChatMessageMutationTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        java.util.regex.Matcher idMatcher = java.util.regex.Pattern.compile("(?i)(?:message|msg)\\s*#?(\\d+)").matcher(value);
+        if (!conversation.getSlotData().containsKey("message_id") && idMatcher.find()) {
+            conversation.getSlotData().put("message_id", idMatcher.group(1));
+        }
+        if (!conversation.getSlotData().containsKey("message_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "message_id", "Which message id should I use?");
+        }
+        if (conversation.getIntent() != VisionIntent.REACT_TO_CHAT_MESSAGE && !conversation.getSlotData().containsKey("message_text")) {
+            java.util.regex.Matcher textMatcher = java.util.regex.Pattern.compile("(?i)(?:to|that says|with)\\s+(.+)$").matcher(value);
+            if (textMatcher.find()) conversation.getSlotData().put("message_text", textMatcher.group(1).trim());
+        }
+        if (conversation.getIntent() == VisionIntent.REACT_TO_CHAT_MESSAGE && !conversation.getSlotData().containsKey("reaction_emoji")) {
+            java.util.regex.Matcher emojiMatcher = java.util.regex.Pattern.compile("(?i)(?:with|using)\\s+(.+)$").matcher(value);
+            if (emojiMatcher.find()) conversation.getSlotData().put("reaction_emoji", emojiMatcher.group(1).trim());
+        }
+        String requiredSlot = conversation.getIntent() == VisionIntent.REACT_TO_CHAT_MESSAGE ? "reaction_emoji" : "message_text";
+        if (!conversation.getSlotData().containsKey(requiredSlot)) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), requiredSlot,
+                    conversation.getIntent() == VisionIntent.REACT_TO_CHAT_MESSAGE ? "Which emoji should I add?" : "What should the message say?");
+        }
+        if (!conversation.getSlotData().containsKey("opened_chat_conversation_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "opened_chat_conversation_id", "Which open chat conversation should I use?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return chatMutationReviewTurn(conversation, source, "The chat message review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return chatMutationReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            String outcome = switch (conversation.getIntent()) {
+                case EDIT_CHAT_MESSAGE -> "chat_message_edited";
+                case REPLY_TO_CHAT_MESSAGE -> "chat_message_replied";
+                default -> "chat_message_reacted";
+            };
+            conversation.getSlotData().put("conversation_outcome", outcome);
+            String message = switch (conversation.getIntent()) {
+                case EDIT_CHAT_MESSAGE -> "Chat message edited.";
+                case REPLY_TO_CHAT_MESSAGE -> "Chat reply sent.";
+                default -> "Chat reaction added.";
+            };
+            updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can apply this chat message action to message " + conversation.getSlotData().get("message_id") + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, value, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, value, conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn chatMutationReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleMarkChatReadTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                return markChatReadReviewTurn(conversation, source, "The chat read-state review is ready, but execution is disabled.");
+            }
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) {
+                return markChatReadReviewTurn(conversation, source, result.getBlockingReason());
+            }
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "chat_marked_read");
+            String message = "Chat marked as read.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.MARK_CHAT_READ,
+                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can mark the currently opened chat as read. Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.MARK_CHAT_READ,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn markChatReadReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.MARK_CHAT_READ,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                false, true, message);
+    }
+
+    private VisionTurn handleMarkNotificationsReadTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                return markNotificationsReadReviewTurn(conversation, source, "The notification read-state review is ready, but execution is disabled.");
+            }
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) {
+                return markNotificationsReadReviewTurn(conversation, source, result.getBlockingReason());
+            }
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "notifications_marked_read");
+            String message = "Notifications marked as read.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.MARK_NOTIFICATIONS_READ,
+                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can mark all your notifications as read. Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.MARK_NOTIFICATIONS_READ,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn markNotificationsReadReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.MARK_NOTIFICATIONS_READ,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                false, true, message);
+    }
+
+    private VisionTurn handleUpdateNotificationPreferencesTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String lower = TextValueNormalizer.lowerTrimToEmpty(normalizedPrompt);
+        String category = conversation.getSlotData().get("notification_category");
+        String level = conversation.getSlotData().get("notification_level");
+        String enabled = conversation.getSlotData().get("notification_enabled");
+        if (category == null) {
+            category = notificationCategoryFrom(lower);
+            if (category != null) conversation.getSlotData().put("notification_category", category);
+        }
+        if (level == null) {
+            level = notificationLevelFrom(lower);
+            if (level != null) conversation.getSlotData().put("notification_level", level);
+        }
+        if (enabled == null) {
+            enabled = notificationEnabledFrom(lower);
+            if (enabled != null) conversation.getSlotData().put("notification_enabled", enabled);
+        }
+        if (category == null) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.UPDATE_NOTIFICATION_PREFERENCES, "notification_category", "Which notification category should I change: chat, work, bookings, circles, location, or system?");
+        if (level == null) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.UPDATE_NOTIFICATION_PREFERENCES, "notification_level", "Which delivery channel should I change: in-app, push, or email?");
+        if (enabled == null) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.UPDATE_NOTIFICATION_PREFERENCES, "notification_enabled", "Should I enable or disable that notification channel?");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) return notificationPreferenceReviewTurn(conversation, source, "The notification preference review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return notificationPreferenceReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "notification_preferences_updated");
+            String message = "Notification preferences updated.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.UPDATE_NOTIFICATION_PREFERENCES, VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can " + (Boolean.parseBoolean(enabled) ? "enable" : "disable") + " " + category.toLowerCase() + " " + level.toLowerCase().replace('_', '-') + " notifications. Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.UPDATE_NOTIFICATION_PREFERENCES, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn notificationPreferenceReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.UPDATE_NOTIFICATION_PREFERENCES, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private String notificationCategoryFrom(String value) {
+        if (value.contains("chat")) return NotificationPreferenceCategory.CHAT.name();
+        if (value.contains("work") || value.contains("quest")) return NotificationPreferenceCategory.WORK.name();
+        if (value.contains("booking")) return NotificationPreferenceCategory.BOOKING.name();
+        if (value.contains("circle")) return NotificationPreferenceCategory.CIRCLE.name();
+        if (value.contains("location")) return NotificationPreferenceCategory.LOCATION.name();
+        if (value.contains("system")) return NotificationPreferenceCategory.SYSTEM.name();
+        return null;
+    }
+
+    private String notificationLevelFrom(String value) {
+        if (value.contains("in-app") || value.contains("in app") || value.contains("inapp")) return NotificationPreferenceLevel.IN_APP.name();
+        if (value.contains("push")) return NotificationPreferenceLevel.PUSH.name();
+        if (value.contains("email")) return NotificationPreferenceLevel.EMAIL.name();
+        return null;
+    }
+
+    private String notificationEnabledFrom(String value) {
+        if (value.contains("turn off") || value.contains("disable") || value.contains("mute") || value.contains("off")) return "false";
+        if (value.contains("turn on") || value.contains("enable") || value.contains("unmute") || value.contains("on")) return "true";
+        return null;
+    }
+
+    private VisionTurn handleMarkNotificationReadTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String notificationId = conversation.getSlotData().get("notification_id");
+        if (notificationId == null || notificationId.isBlank()) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:notification|alert|update)?\\s*#?(\\d+)").matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+            if (matcher.find()) {
+                notificationId = matcher.group(1);
+                conversation.getSlotData().put("notification_id", notificationId);
+            }
+        }
+        if (notificationId == null || notificationId.isBlank()) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.MARK_NOTIFICATION_READ, "notification_id", "Which notification id should I mark as read?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                return markNotificationReadReviewTurn(conversation, source, "The notification read-state review is ready, but execution is disabled.");
+            }
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) {
+                return markNotificationReadReviewTurn(conversation, source, result.getBlockingReason());
+            }
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "notification_marked_read");
+            String message = "Notification marked as read.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.MARK_NOTIFICATION_READ,
+                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can mark notification " + notificationId + " as read. Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.MARK_NOTIFICATION_READ,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn markNotificationReadReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.MARK_NOTIFICATION_READ,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                false, true, message);
+    }
+
+    private VisionTurn handleWorkerManagementTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String value = TextValueNormalizer.lowerTrimToEmpty(normalizedPrompt);
+        captureWorkerId(conversation, value, "worker_quest_id", "(?:quest|work|job)\\s*#?(\\d+)");
+        captureWorkerId(conversation, value, "worker_application_id", "(?:worker|application|assignment)\\s*#?(\\d+)");
+        if (conversation.getIntent() == VisionIntent.REPLACE_WORKER) {
+            captureWorkerId(conversation, value, "replacement_application_id", "(?:replacement|new)\\s+(?:worker|application)\\s*#?(\\d+)");
+        }
+        if (!conversation.getSlotData().containsKey("worker_quest_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "worker_quest_id", "Which quest id should I use?");
+        }
+        if (!conversation.getSlotData().containsKey("worker_application_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "worker_application_id", "Which current worker or application id should I use?");
+        }
+        if (conversation.getIntent() == VisionIntent.REPLACE_WORKER
+                && !conversation.getSlotData().containsKey("replacement_application_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(), "replacement_application_id", "Which pending application id should replace the current worker?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return workerManagementReviewTurn(conversation, source, "The worker management review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return workerManagementReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", conversation.getIntent() == VisionIntent.REPLACE_WORKER ? "worker_replaced" : "worker_released");
+            String message = conversation.getIntent() == VisionIntent.REPLACE_WORKER ? "Worker assignment replaced." : "Worker assignment released.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, conversation.getIntent(), VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = conversation.getIntent() == VisionIntent.REPLACE_WORKER
+                ? "I can replace worker application " + conversation.getSlotData().get("worker_application_id") + " with application " + conversation.getSlotData().get("replacement_application_id") + ". Confirm to continue."
+                : "I can release worker application " + conversation.getSlotData().get("worker_application_id") + " from quest " + conversation.getSlotData().get("worker_quest_id") + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private void captureWorkerId(VisionConversation conversation, String value, String key, String regex) {
+        if (conversation.getSlotData().containsKey(key)) return;
+        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)" + regex).matcher(value);
+        if (matcher.find()) conversation.getSlotData().put(key, matcher.group(1));
+    }
+
+    private VisionTurn workerManagementReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleReopenQuestTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String questId = conversation.getSlotData().get("quest_id");
+        if (questId == null || questId.isBlank()) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:quest|job|work)?\\s*#?(\\d+)").matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+            if (matcher.find()) {
+                questId = matcher.group(1);
+                conversation.getSlotData().put("quest_id", questId);
+            }
+        }
+        if (questId == null || questId.isBlank()) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.REOPEN_QUEST, "quest_id", "Which quest should I reopen?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                return reopenQuestReviewTurn(conversation, source, "The quest reopen review is ready, but execution is disabled.");
+            }
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) {
+                return reopenQuestReviewTurn(conversation, source, result.getBlockingReason());
+            }
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "quest_reopened");
+            String message = "Quest reopened successfully.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.REOPEN_QUEST,
+                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can reopen quest " + questId + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.REOPEN_QUEST,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn reopenQuestReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.REOPEN_QUEST,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                false, true, message);
+    }
+
+    private VisionTurn handleCancelQuestTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String questId = conversation.getSlotData().get("quest_id");
+        if (questId == null || questId.isBlank()) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:quest|job|work)?\\s*#?(\\d+)")
+                    .matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+            if (matcher.find()) {
+                questId = matcher.group(1);
+                conversation.getSlotData().put("quest_id", questId);
+            }
+        }
+        if (questId == null || questId.isBlank()) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.CANCEL_QUEST, "quest_id", "Which quest should I cancel?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                return cancelQuestReviewTurn(conversation, source, "The quest cancellation review is ready, but execution is disabled.");
+            }
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) {
+                return cancelQuestReviewTurn(conversation, source, result.getBlockingReason());
+            }
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "quest_cancelled");
+            String message = "Quest cancelled successfully. Affected applicants and workers were notified.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.CANCEL_QUEST,
+                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can cancel quest " + questId + " and notify affected applicants or workers. Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.CANCEL_QUEST,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn cancelQuestReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.CANCEL_QUEST,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                false, true, message);
+    }
+
+    private VisionTurn handlePauseQuestTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source,
+            boolean resume
+    ) {
+        String questId = conversation.getSlotData().get("quest_id");
+        if (questId == null || questId.isBlank()) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:quest|job|work)?\\s*#?(\\d+)").matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+            if (matcher.find()) { questId = matcher.group(1); conversation.getSlotData().put("quest_id", questId); }
+        }
+        VisionIntent intent = resume ? VisionIntent.RESUME_QUEST : VisionIntent.PAUSE_QUEST;
+        String action = resume ? "resume" : "pause";
+        if (questId == null || questId.isBlank()) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, intent, "quest_id", "Which quest should I " + action + "?");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) return pauseQuestReviewTurn(conversation, source, intent, "The quest " + action + " review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return pauseQuestReviewTurn(conversation, source, intent, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "quest_" + (resume ? "resumed" : "paused"));
+            String message = "Quest " + action + "d successfully.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, intent, VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can " + action + " quest " + questId + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, intent, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn pauseQuestReviewTurn(VisionConversation conversation, String source, VisionIntent intent, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", intent, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleCreateThingTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String title = conversation.getSlotData().get("thing_title");
+        if (title == null || title.isBlank()) {
+            title = normalizedPrompt == null ? "" : normalizedPrompt.trim();
+            title = title.replaceFirst("(?i)^(create|offer|list|share)(?:\\s+(?:a|an|my))?(?:\\s+thing)?\\s*", "").trim();
+            if (!title.isBlank()) {
+                conversation.getSlotData().put("thing_title", title);
+            }
+        }
+        if (title == null || title.isBlank()) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.CREATE_THING, "thing_title", "What thing would you like to list?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                return createThingReviewTurn(conversation, source, "The thing listing review is ready, but execution is disabled.");
+            }
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) {
+                return createThingReviewTurn(conversation, source, result.getBlockingReason());
+            }
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "thing_created");
+            String message = "Thing listing created successfully.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.CREATE_THING,
+                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can create a thing listing for: " + title + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.CREATE_THING,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn createThingReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.CREATE_THING,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                false, true, message);
+    }
+
+    private VisionTurn handleRideTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt.trim();
+        VisionIntent intent = conversation.getIntent();
+        if (intent == VisionIntent.CREATE_RIDE) {
+            if (!conversation.getSlotData().containsKey("ride_origin")) {
+                java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:from|origin)\\s+(.+?)\\s+(?:to|destination)\\s+(.+?)(?=\\s+(?:at|on|departure|seats?)\\b|$)").matcher(value);
+                if (matcher.find()) { conversation.getSlotData().put("ride_origin", matcher.group(1).trim()); conversation.getSlotData().put("ride_destination", matcher.group(2).trim()); }
+            }
+            if (!conversation.getSlotData().containsKey("ride_departure_at")) {
+                java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\b(20\\d{2}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2}(?:Z|[+-]\\d{2}:?\\d{2})?)?)\\b").matcher(value);
+                if (matcher.find()) conversation.getSlotData().put("ride_departure_at", matcher.group(1));
+            }
+            if (!conversation.getSlotData().containsKey("ride_seats")) {
+                java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)\\b(?:seats?|passengers?)\\s*[:=]?\\s*(\\d+)\\b").matcher(value);
+                if (matcher.find()) conversation.getSlotData().put("ride_seats", matcher.group(1));
+            }
+            if (!conversation.getSlotData().containsKey("ride_origin")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, intent, "ride_origin", "Where would the ride start? Use: from ... to ...");
+            if (!conversation.getSlotData().containsKey("ride_destination")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, intent, "ride_destination", "Where is the ride going?");
+            if (!conversation.getSlotData().containsKey("ride_departure_at")) return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, intent, "ride_departure_at", "What future departure time should I use? Use ISO format, for example 2099-07-20T10:00:00Z.");
+            if (!conversation.getSlotData().containsKey("ride_seats")) conversation.getSlotData().put("ride_seats", "1");
+        } else if (!conversation.getSlotData().containsKey("ride_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:ride|offer|trip)?\\s*#?(\\d+)\\b").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("ride_id", matcher.group(1));
+            else return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, intent, "ride_id", "Which ride should I use? Give me its ride number.");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) return rideReviewTurn(conversation, source, "The ride review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return rideReviewTurn(conversation, source, result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            String outcome = intent.name().toLowerCase(java.util.Locale.ROOT);
+            conversation.getSlotData().put("conversation_outcome", outcome);
+            String message = "Ride action completed successfully.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, intent, VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = intent == VisionIntent.CREATE_RIDE
+                ? "I can offer a ride from " + conversation.getSlotData().get("ride_origin") + " to " + conversation.getSlotData().get("ride_destination") + " at " + conversation.getSlotData().get("ride_departure_at") + " with " + conversation.getSlotData().get("ride_seats") + " passenger seat(s). Confirm to continue."
+                : "I can perform " + intent.name().toLowerCase(java.util.Locale.ROOT).replace('_', ' ') + " for ride " + conversation.getSlotData().get("ride_id") + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, intent, VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn rideReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true); visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", conversation.getIntent(), VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null, false, true, message);
+    }
+
+    private VisionTurn handleViewRidesTurn(VisionConversation conversation, String prompt, String normalizedPrompt, VisionPromptUnderstandingResult understanding, String source) {
+        String message = "Rides are available in the Web Rides surface. I can also help you offer, join, leave, update, cancel, start, or complete a ride when you give me a ride number.";
+        if (rideOfferService != null) {
+            List<RideOfferResponseDTO> offers = rideOfferService.getVisibleOffers(conversation.getOwner()).getItems();
+            if (offers.isEmpty()) {
+                message = "There are no rides currently visible to you. I can help you offer one.";
+            } else {
+                message = "Visible rides:\n" + offers.stream().limit(8)
+                        .map(ride -> "#" + ride.getId() + " " + ride.getOrigin() + " → " + ride.getDestination()
+                                + " · " + ride.getDepartureAt() + " · " + ride.getJoinedSeats() + "/" + ride.getSeats() + " seats")
+                        .collect(java.util.stream.Collectors.joining("\n"));
+            }
+        }
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.VIEW_RIDES, VisionAgentState.RECOMMENDING, VisionNextAction.SHOW_RESULTS, null, understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn handleRequestBorrowTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String listingId = conversation.getSlotData().get("thing_listing_id");
+        if (listingId == null || listingId.isBlank()) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:thing|listing)?\\s*#?(\\d+)").matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+            if (matcher.find()) {
+                listingId = matcher.group(1);
+                conversation.getSlotData().put("thing_listing_id", listingId);
+            }
+        }
+        if (listingId == null || listingId.isBlank()) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.REQUEST_BORROW, "thing_listing_id", "Which thing listing would you like to borrow?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                return requestBorrowReviewTurn(conversation, source, "The borrow request review is ready, but execution is disabled.");
+            }
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) {
+                return requestBorrowReviewTurn(conversation, source, result.getBlockingReason());
+            }
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", "borrow_requested");
+            String message = "Borrow request sent successfully.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.REQUEST_BORROW,
+                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = "I can request to borrow thing listing " + listingId + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, VisionIntent.REQUEST_BORROW,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn requestBorrowReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", VisionIntent.REQUEST_BORROW,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                false, true, message);
+    }
+
+    private VisionTurn handleBorrowLifecycleTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source,
+            VisionIntent intent,
+            String capabilityId,
+            String reviewPrefix,
+            String outcome
+    ) {
+        String requestId = conversation.getSlotData().get("borrow_request_id");
+        if (requestId == null || requestId.isBlank()) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:borrow|request)?\\s*#?(\\d+)").matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+            if (matcher.find()) {
+                requestId = matcher.group(1);
+                conversation.getSlotData().put("borrow_request_id", requestId);
+            }
+        }
+        if (intent == VisionIntent.DECIDE_BORROW && !conversation.getSlotData().containsKey("borrow_approve")) {
+            String lower = normalizedPrompt == null ? "" : normalizedPrompt.toLowerCase(java.util.Locale.ROOT);
+            if (lower.contains("decline") || lower.contains("reject") || lower.contains("deny")) {
+                conversation.getSlotData().put("borrow_approve", "false");
+            } else if (lower.contains("approve") || lower.contains("accept")) {
+                conversation.getSlotData().put("borrow_approve", "true");
+            }
+        }
+        if (requestId == null || requestId.isBlank()) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, intent,
+                    "borrow_request_id", "Which borrow request id should I use?");
+        }
+        if (intent == VisionIntent.DECIDE_BORROW && !conversation.getSlotData().containsKey("borrow_approve")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, intent,
+                    "borrow_decision", "Should I approve or decline this borrow request?");
+        }
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY
+                && VisionReviewInteractionSupport.isConfirmationPrompt(normalizedPrompt)) {
+            if (!visionProperties.isExecutionEnabled()) {
+                return borrowLifecycleReviewTurn(conversation, source, "The borrow request review is ready, but execution is disabled.", intent);
+            }
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) {
+                return borrowLifecycleReviewTurn(conversation, source, result.getBlockingReason(), intent);
+            }
+            conversation.setStatus(VisionConversationStatus.COMPLETED);
+            conversation.getSlotData().put("conversation_outcome", outcome);
+            String message = "Borrow request action completed.";
+            updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+            visionConversationRepository.save(conversation);
+            return createTurn(conversation, source, prompt, normalizedPrompt, intent,
+                    VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null,
+                    understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY);
+        String message = reviewPrefix + requestId + ". Confirm to continue.";
+        updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, prompt, normalizedPrompt, intent,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                understanding.isTranslationApplied(), understanding.isTranslationReliable(), message);
+    }
+
+    private VisionTurn borrowLifecycleReviewTurn(VisionConversation conversation, String source, String message, VisionIntent intent) {
+        updateConversationMetadata(conversation, "", "", message, true);
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", intent,
+                VisionAgentState.REVIEW_READY, VisionNextAction.SHOW_REVIEW, null,
+                false, true, message);
     }
 
     @Transactional
@@ -584,8 +1750,23 @@ public class VisionConversationService {
             case DECLINE_APPLICATION -> handleDeclineApplicationReviewTurn(conversation, "confirm", "confirm", understanding, source);
             case UPDATE_PROFILE -> handleUpdateProfileReviewTurn(conversation, "confirm", "confirm", understanding, source);
             case UPDATE_PROFILE_LOCATION -> handleUpdateProfileLocationReviewTurn(conversation, "confirm", "confirm", understanding, source);
+            case RELEASE_WORKER, REPLACE_WORKER -> handleWorkerManagementTurn(conversation, "confirm", "confirm", understanding, source);
+            case CREATE_RIDE, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, START_RIDE, COMPLETE_RIDE -> handleRideConfirmation(conversation, understanding, source);
             default -> throw ServiceErrors.conflict("Review confirmation is not supported for this vision conversation");
         };
+    }
+
+    private VisionTurn handleRideConfirmation(VisionConversation conversation, VisionPromptUnderstandingResult understanding, String source) {
+        if (conversation.getStatus() != VisionConversationStatus.REVIEW_READY) throw ServiceErrors.conflict("Ride review is not ready for confirmation");
+        if (!visionProperties.isExecutionEnabled()) return rideReviewTurn(conversation, source, "The ride review is ready, but execution is disabled.");
+        VisionExecutionResult result = visionExecutionService.execute(conversation);
+        if (!result.isExecuted()) return rideReviewTurn(conversation, source, result.getBlockingReason());
+        conversation.setStatus(VisionConversationStatus.COMPLETED);
+        conversation.getSlotData().put("conversation_outcome", conversation.getIntent().name().toLowerCase(java.util.Locale.ROOT));
+        String message = "Ride action completed successfully.";
+        updateConversationMetadata(conversation, "", "", message, understanding.isTranslationReliable());
+        visionConversationRepository.save(conversation);
+        return createTurn(conversation, source, "", "", conversation.getIntent(), VisionAgentState.COMPLETE, VisionNextAction.COMPLETE, null, false, true, message);
     }
 
     private VisionTurn handleReviewEditAction(
@@ -866,6 +2047,34 @@ public class VisionConversationService {
         }
         double minimumConfidence = visionSemanticRouteCatalogService.minimumConfidenceForIntent(VisionIntent.CREATE_QUEST);
         return confidence < minimumConfidence;
+    }
+
+    private VisionTurn handleLeaveCircleTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        if (!conversation.getSlotData().containsKey("circle_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)circle\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("circle_id", matcher.group(1));
+        }
+        if (!conversation.getSlotData().containsKey("circle_id")) return askForSlot(conversation,prompt,normalizedPrompt,understanding,source,VisionIntent.LEAVE_CIRCLE,"circle_id","Which circle id should I leave?");
+        if (conversation.getStatus() == VisionConversationStatus.REVIEW_READY && VisionReviewInteractionSupport.isConfirmationPrompt(value)) {
+            if (!visionProperties.isExecutionEnabled()) return leaveCircleReviewTurn(conversation,source,"The circle leave review is ready, but execution is disabled.");
+            VisionExecutionResult result = visionExecutionService.execute(conversation);
+            if (!result.isExecuted()) return leaveCircleReviewTurn(conversation,source,result.getBlockingReason());
+            conversation.setStatus(VisionConversationStatus.COMPLETED); conversation.getSlotData().put("conversation_outcome","circle_left");
+            String message="Circle membership removed."; updateConversationMetadata(conversation,prompt,value,message,understanding.isTranslationReliable()); visionConversationRepository.save(conversation);
+            return createTurn(conversation,source,prompt,value,VisionIntent.LEAVE_CIRCLE,VisionAgentState.COMPLETE,VisionNextAction.COMPLETE,null,understanding.isTranslationApplied(),understanding.isTranslationReliable(),message);
+        }
+        conversation.setStatus(VisionConversationStatus.REVIEW_READY); String message="I can remove you from circle " + conversation.getSlotData().get("circle_id") + ". Confirm to continue.";
+        updateConversationMetadata(conversation,prompt,value,message,understanding.isTranslationReliable()); visionConversationRepository.save(conversation);
+        return createTurn(conversation,source,prompt,value,VisionIntent.LEAVE_CIRCLE,VisionAgentState.REVIEW_READY,VisionNextAction.SHOW_REVIEW,null,understanding.isTranslationApplied(),understanding.isTranslationReliable(),message);
+    }
+
+    private VisionTurn leaveCircleReviewTurn(VisionConversation conversation, String source, String message) {
+        updateConversationMetadata(conversation,"","",message,true); visionConversationRepository.save(conversation);
+        return createTurn(conversation,source,"","",VisionIntent.LEAVE_CIRCLE,VisionAgentState.REVIEW_READY,VisionNextAction.SHOW_REVIEW,null,false,true,message);
     }
 
     private VisionTurn handleCreateCircleTurn(
@@ -2773,6 +3982,24 @@ public class VisionConversationService {
         );
     }
 
+    private VisionTurn handleViewAccessibleCircleTurn(
+            VisionConversation conversation, String prompt, String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding, String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        if (!conversation.getSlotData().containsKey("accessible_circle_id")) {
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)circle\\s*#?(\\d+)").matcher(value);
+            if (matcher.find()) conversation.getSlotData().put("accessible_circle_id", matcher.group(1));
+        }
+        if (!conversation.getSlotData().containsKey("accessible_circle_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.VIEW_ACCESSIBLE_CIRCLE, "accessible_circle_id", "Which accessible circle id should I open?");
+        }
+        return handleReadOnlySnapshotTurn(conversation, prompt, normalizedPrompt, understanding, source,
+                VisionIntent.VIEW_ACCESSIBLE_CIRCLE,
+                VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_ACCESSIBLE_CIRCLE));
+    }
+
     private VisionTurn handleViewCircleDetailTurn(
             VisionConversation conversation,
             String prompt,
@@ -2855,6 +4082,28 @@ public class VisionConversationService {
         );
     }
 
+    private VisionTurn handleViewThingDetailTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)(?:thing|listing)\\s*(?:#|id\\s*)?(\\d+)").matcher(value);
+        if (!conversation.getSlotData().containsKey("thing_listing_id") && matcher.find()) {
+            conversation.getSlotData().put("thing_listing_id", matcher.group(1));
+        }
+        if (!hasText(conversation.getSlotData().get("thing_listing_id"))) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.VIEW_THING_DETAIL, "thing_listing_id",
+                    "What thing listing should I open? Say its listing id.");
+        }
+        return handleReadOnlySnapshotTurn(conversation, prompt, normalizedPrompt, understanding, source,
+                VisionIntent.VIEW_THING_DETAIL,
+                VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_THING_DETAIL));
+    }
+
     private VisionTurn handleViewApplicationDetailTurn(
             VisionConversation conversation,
             String prompt,
@@ -2924,6 +4173,39 @@ public class VisionConversationService {
                 understanding.isTranslationReliable(),
                 message
         );
+    }
+
+    VisionTurn handleViewChatAttachmentTurn(
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt;
+        java.util.regex.Matcher conversationMatcher = java.util.regex.Pattern
+                .compile("(?i)(?:chat|conversation|thread)\\s*#?(\\d+)")
+                .matcher(value);
+        if (!conversation.getSlotData().containsKey("chat_conversation_id") && conversationMatcher.find()) {
+            conversation.getSlotData().put("chat_conversation_id", conversationMatcher.group(1));
+        }
+        java.util.regex.Matcher messageMatcher = java.util.regex.Pattern
+                .compile("(?i)(?:message|attachment)\\s*#?(\\d+)")
+                .matcher(value);
+        if (!conversation.getSlotData().containsKey("chat_message_id") && messageMatcher.find()) {
+            conversation.getSlotData().put("chat_message_id", messageMatcher.group(1));
+        }
+        if (!conversation.getSlotData().containsKey("chat_conversation_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(),
+                    "chat_conversation_id", "Which chat conversation id should I use?");
+        }
+        if (!conversation.getSlotData().containsKey("chat_message_id")) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source, conversation.getIntent(),
+                    "chat_message_id", "Which chat message id contains the attachment?");
+        }
+        return handleReadOnlySnapshotTurn(conversation, prompt, normalizedPrompt, understanding, source,
+                VisionIntent.VIEW_CHAT_ATTACHMENT,
+                VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_CHAT_ATTACHMENT));
     }
 
     private VisionTurn askForSlot(

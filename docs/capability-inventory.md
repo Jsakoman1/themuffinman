@@ -57,3 +57,20 @@ This inventory is not a replacement for:
 - `docs/work/*.yaml`, which records plan execution and validation
 
 The inventory links those surfaces so future implementation work can start from a reliable capability map instead of rediscovering the product from code.
+
+## Target capability contract
+
+`docs/target-capability-catalog.yaml` is the separate machine-readable target
+contract for the complete production-ready product. It describes atomic user
+capabilities and required surfaces such as Vision, web UI, mobile, Watch, and API.
+
+The target catalog must not copy current statuses or evidence. Its
+`current_inventory_ids` fields link back to this inventory; an empty list means
+that a target capability is currently unmapped. Validate the relationship with
+`make audit-target-capability-catalog`.
+
+Use `make audit-target-capability-coverage` to print a machine-readable YAML
+coverage report. It aggregates linked current statuses and detects current web UI
+and Vision evidence. It also identifies broad mappings that must not be treated
+as exact implementation coverage. The generated report is diagnostic; this inventory remains
+the canonical current-state status and evidence source.

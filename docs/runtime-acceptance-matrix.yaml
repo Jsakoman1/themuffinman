@@ -4,51 +4,193 @@ status: active
 purpose: Browser and device scenarios required before implemented capabilities can be marked verified.
 evidence_policy: Source tests and builds do not satisfy runtime evidence; each scenario needs an executed browser or device trace.
 scenarios:
+  - id: web-entry-and-discovery
+    capability_ids: [work.quest.create, work.quest.discovery, circles.circle.discover, business.profile.view_public]
+    target: /work/find
+    actions: [open_work, confirm_create_new_work_entry, open_find_people, open_find_business, open_result_detail, confirm_empty_and_error_recovery]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: web-chat-inbox-and-send
+    capability_ids: [chat.conversation.open, chat.conversation.create_group, chat.message.send]
+    target: /chat
+    actions: [load_inbox, identify_request_failure_if_any, open_direct_chat, create_group, open_thread, send_message, retry_after_failure, mobile_back_to_inbox, mobile_composer_keeps_primary_action]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: web-circles-partial-load
+    capability_ids: [circles.circle.create, circles.circle.discover, circles.membership.accept]
+    target: /circles
+    actions: [load_groups, load_connections, load_requests, exercise_search, confirm_partial_failure_recovery, create_circle]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: web-visual-calendar
+    capability_ids: [business.booking.view_calendar, business.availability]
+    target: /calendar
+    responsive_actions: [desktop_month_week_day, mobile_agenda_or_day, previous_next_today, open_event_destination]
+    actions: [open_month_view, navigate_date, switch_week_and_day, open_event, confirm_timezone_and_empty_state]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
   - id: work-quest-management
     capability_ids: [work.quest.management]
     target: /work/quests/:questId
     actions: [open_existing_quest, edit_allowed_field, save, refresh, confirm_state_and_feedback]
     required_evidence: browser_trace
-    status: pending_runtime
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
   - id: work-application-management
     capability_ids: [work.application]
     target: /work/applications
     actions: [open_application, execute_allowed_action, refresh, confirm_backend_state]
     required_evidence: browser_trace
-    status: pending_runtime
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
   - id: business-booking-actions
     capability_ids: [business.booking, business.availability]
     target: /business/bookings
     actions: [open_booking, execute_owner_or_customer_action, confirm_feedback, refresh]
     required_evidence: browser_trace
-    status: pending_runtime
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke-booking.har]
   - id: vision-execution-recovery
     capability_ids: [vision.execution]
     target: /vision
     actions: [submit_supported_command, review_result, confirm_or_cancel, exercise_failure_recovery]
     required_evidence: browser_trace
-    status: pending_runtime
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
   - id: chat-reconnect-resync
     capability_ids: [chat.realtime]
     target: /chat/:conversationId
     actions: [open_thread, go_offline_or_hide_tab, restore_network_or_visibility, confirm_resync_without_duplicate_messages]
     required_evidence: browser_trace
-    status: pending_runtime
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
   - id: cross-module-visibility
     capability_ids: [circles.visibility, platform.location, things.listings]
     target: /circles
     actions: [configure_scope, open_consumer_surface, confirm_allowed_view, confirm_denied_view]
     required_evidence: browser_trace
-    status: pending_runtime
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke-visibility-member.har, apps/themuffinman/frontend/web-runtime-smoke-visibility-outsider.har]
   - id: things-detail-and-lending
     capability_ids: [things.listings]
     target: /things/:listingId
     actions: [open_detail, request_or_cancel, owner_decide, borrower_return, confirm_availability]
     required_evidence: browser_trace
-    status: pending_runtime
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har, apps/themuffinman/frontend/web-runtime-smoke-contact.har]
   - id: location-permission-recovery
     capability_ids: [platform.location]
     target: /profile/settings
     actions: [deny_browser_location, recover_with_search, save_scope, refresh_and_confirm]
     required_evidence: browser_trace
-    status: pending_runtime
+    status: passed
+    evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: web-rides-offer-join-start-complete
+    capability_ids: [sharing.ride.create, sharing.ride.discover, sharing.ride.join, sharing.ride.complete]
+    target: /rides
+    actions: [offer_ride, discover_as_second_user, join_with_explicit_action, observe_full_capacity, start_as_driver, complete_as_driver]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [docs/work/rides-production-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke-rides.har]
+  - id: vision-rides-review-confirm
+    capability_ids: [sharing.ride.create]
+    target: /vision
+    actions: [classify_ride_prompt, collect_required_slots, show_review, confirm_explicitly, execute_backend_adapter]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [docs/work/rides-production-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: authenticated-home-module-entrypoints
+    capability_ids: [cross_module.shell.navigate, sharing.thing.discover, sharing.ride.discover]
+    target: /home
+    actions: [render_primary_navigation, render_home_ride_actions, render_home_things_action, open_rides_surface]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: home-dashboard-action-hierarchy
+    capability_ids: [cross_module.shell.navigate, work.quest.create, sharing.thing.discover, sharing.ride.discover]
+    target: /home
+    actions: [confirm_shell_owns_navigation, confirm_home_has_module_entrypoints, confirm_no_duplicate_quick_actions, open_metric_destinations]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: business-landing-partial-state
+    capability_ids: [business.profile, business.profile.view_public, business.booking.view_calendar]
+    target: /business
+    actions: [open_business_landing_without_profile, confirm_setup_recovery_action, confirm_no_dead_end_or_error_state, open_owner_sections]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: work-discovery-owner-exclusion
+    capability_ids: [work.quest.create, work.quest.discovery]
+    target: /work/find
+    actions: [create_owned_quest, search_find_work, confirm_owned_quest_is_excluded, open_my_quests_and_confirm_owned_quest]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: universal-actionable-surface-rows
+    capability_ids: [cross_module.shell.navigate, chat.conversation.open, circles.circle.discover, business.booking]
+    target: /chat
+    actions: [open_actionable_row_by_card_click, confirm_informational_rows_are_not_misleading, confirm_single_primary_action, confirm_keyboard_focus]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: account-profile-media-and-gallery
+    capability_ids: [profile.avatar, profile.gallery]
+    target: /profile/settings
+    actions: [upload_avatar_preview, save_avatar, remove_avatar, add_gallery_image, hide_gallery_image, remove_gallery_image, confirm_invalid_file_recovery]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: multi-business-switch-and-scope
+    capability_ids: [business.profile, business.offering, business.availability, business.booking]
+    target: /business/profile
+    actions: [create_second_business, switch_business, create_offering_in_selected_business, confirm_other_business_is_not_mutated, open_selected_business_gallery]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke-multi-business.har]
+  - id: universal-search-and-saved-intents
+    capability_ids: [cross_module.search, cross_module.search.save, vision.discovery.search]
+    target: /home
+    actions: [open_global_search, search_public_username_without_email_leak, open_typed_result, save_search, open_saved_searches, pause_search, resume_search, delete_search]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: commute-consent-and-matching
+    capability_ids: [sharing.ride.discover, platform.location, circles.visibility]
+    target: /rides
+    actions: [open_commute_preferences, confirm_disabled_by_default, attempt_enable_without_consent, save_approximate_areas_and_schedule, find_matching_rides, pause_matching, confirm_no_exact_address_display]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: trust-report-block-and-recovery
+    capability_ids: [platform.trust, platform.report, platform.block, platform.rating]
+    target: /people/:userId
+    actions: [open_profile, submit_private_report, block_user, confirm_action_recovery, confirm_report_not_visible_to_target, confirm_rating_only_after_completed_interaction]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: optional-onboarding-resume-skip-reset
+    capability_ids: [platform.preferences, platform.onboarding]
+    target: /onboarding
+    actions: [open_setup, advance_step, leave_and_resume, skip_setup, confirm_core_navigation_remains_available, reset_setup]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: activity-and-task-resume-dismissal
+    capability_ids: [platform.activity, platform.task_resume]
+    target: /activity
+    actions: [open_activity, open_viewer_scoped_item, continue_vision_task, dismiss_resume_suggestion, refresh_and_confirm_dismissal]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]
+  - id: attention-center-unread-and-destination
+    capability_ids: [platform.notifications, cross_module.attention]
+    target: /notifications
+    actions: [open_attention_center, confirm_unread_summary, mark_item_read, open_allowed_destination, confirm_home_has_compact_summary_only]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [apps/themuffinman/frontend/web-runtime-smoke.har]

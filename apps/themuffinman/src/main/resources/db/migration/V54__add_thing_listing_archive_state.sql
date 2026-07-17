@@ -1,0 +1,2 @@
+ALTER TABLE thing_listing
+    ADD COLUMN archived BOOLEAN NOT NULL DEFAULT FALSE;

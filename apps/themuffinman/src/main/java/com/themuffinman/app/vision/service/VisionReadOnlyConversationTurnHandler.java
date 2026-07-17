@@ -29,6 +29,28 @@ final class VisionReadOnlyConversationTurnHandler {
         return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_CHAT_WORKSPACE);
     }
 
+    VisionTurn handleSyncChatTurn(
+            VisionConversationService service,
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.SYNC_CHAT);
+    }
+
+    VisionTurn handleViewChatAttachmentTurn(
+            VisionConversationService service,
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        return service.handleViewChatAttachmentTurn(conversation, prompt, normalizedPrompt, understanding, source);
+    }
+
     VisionTurn handleViewSettingsTurn(
             VisionConversationService service,
             VisionConversation conversation,
@@ -106,6 +128,17 @@ final class VisionReadOnlyConversationTurnHandler {
         return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_NOTIFICATIONS);
     }
 
+    VisionTurn handleViewActivityTurn(
+            VisionConversationService service,
+            VisionConversation conversation,
+            String prompt,
+            String normalizedPrompt,
+            VisionPromptUnderstandingResult understanding,
+            String source
+    ) {
+        return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_ACTIVITY);
+    }
+
     VisionTurn handleViewApplicationsTurn(
             VisionConversationService service,
             VisionConversation conversation,
@@ -126,6 +159,22 @@ final class VisionReadOnlyConversationTurnHandler {
             String source
     ) {
         return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_THINGS);
+    }
+
+    VisionTurn handleViewThingDetailTurn(
+            VisionConversationService service, VisionConversation conversation, String prompt,
+            String normalizedPrompt, VisionPromptUnderstandingResult understanding, String source
+    ) {
+        return service.handleReadOnlySnapshotTurn(conversation, prompt, normalizedPrompt, understanding, source,
+                VisionIntent.VIEW_THING_DETAIL,
+                VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_THING_DETAIL));
+    }
+
+    VisionTurn handleViewBorrowRequestsTurn(
+            VisionConversationService service, VisionConversation conversation, String prompt,
+            String normalizedPrompt, VisionPromptUnderstandingResult understanding, String source
+    ) {
+        return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_BORROW_REQUESTS);
     }
 
     private VisionTurn handle(

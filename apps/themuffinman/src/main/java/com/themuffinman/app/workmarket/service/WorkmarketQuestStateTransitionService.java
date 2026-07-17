@@ -146,11 +146,50 @@ public class WorkmarketQuestStateTransitionService {
         }
 
         if (targetStatus == QuestStatus.OPEN) {
+            if (quest.getStatus() == QuestStatus.PAUSED) {
+                QuestStatus previousStatus = quest.getPausedFromStatus();
+                if (previousStatus == null || previousStatus == QuestStatus.PAUSED
+                        || previousStatus == QuestStatus.COMPLETED || previousStatus == QuestStatus.CANCELLED) {
+                    throw ServiceErrors.badRequest("Paused quest is missing a valid previous state");
+                }
+                quest.setStatus(previousStatus);
+                quest.setPausedFromStatus(null);
+                questWorkflowNotificationService.notifyQuestApplicants(
+                        quest, currentUser, QuestNewsType.QUEST_RESUMED, "Quest resumed",
+                        "The quest \"" + quest.getTitle() + "\" was resumed by its owner."
+                );
+                return;
+            }
             if (quest.getStatus() != QuestStatus.ASSIGNED) {
                 throw ServiceErrors.badRequest("Only assigned quests can be reopened here");
             }
 
             quest.setStatus(QuestStatus.OPEN);
+            return;
+        }
+
+        if (targetStatus == QuestStatus.CANCELLED) {
+            if (quest.getStatus() == QuestStatus.COMPLETED || quest.getStatus() == QuestStatus.CANCELLED) {
+                throw ServiceErrors.badRequest("Completed or already cancelled quests cannot be cancelled");
+            }
+
+            quest.setStatus(QuestStatus.CANCELLED);
+            clearPendingQuestTermChange(quest);
+            questWorkflowNotificationService.notifyQuestCancelled(quest, currentUser);
+            return;
+        }
+
+        if (targetStatus == QuestStatus.PAUSED) {
+            if (quest.getStatus() == QuestStatus.COMPLETED || quest.getStatus() == QuestStatus.CANCELLED
+                    || quest.getStatus() == QuestStatus.PAUSED) {
+                throw ServiceErrors.badRequest("This quest cannot be paused from its current state");
+            }
+            quest.setPausedFromStatus(quest.getStatus());
+            quest.setStatus(QuestStatus.PAUSED);
+            questWorkflowNotificationService.notifyQuestApplicants(
+                    quest, currentUser, QuestNewsType.QUEST_PAUSED, "Quest paused",
+                    "The quest \"" + quest.getTitle() + "\" was paused by its owner."
+            );
             return;
         }
 

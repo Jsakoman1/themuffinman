@@ -34,7 +34,37 @@ const checks = [
   ["vision fetch-more action", read("src/modules/vision/components/VisionCanvasRenderer.vue").includes("emit('fetchMore')") && read("src/modules/vision/composables/useVisionConversation.ts").includes("FETCH_MORE_RESULTS")],
   ["vision safe retry", read("src/modules/vision/components/VisionCanvasRenderer.vue").includes("emit('retry')") && read("src/modules/vision/composables/useVisionConversation.ts").includes("retryLastRequest")],
   ["shell does not locally truncate collections", !read("src/modules/app-shell/shellSurfaceData.ts").includes("slice(")],
+  ["shared icon action primitive", read("src/modules/app-shell/components/AppIconButton.vue").includes("aria-label") && read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("AppIconButton")],
+  ["shared overlay primitive", read("src/modules/app-shell/components/AppDialog.vue").includes("role=\"dialog\"") && read("src/modules/app-shell/views/WorkQuestDetailView.vue").includes("AppDialog")],
+  ["shared status primitive", read("src/modules/app-shell/components/AppStatus.vue").includes("app-status--error") && read("src/modules/app-shell/views/RidesView.vue").includes("AppStatus") && read("src/modules/app-shell/views/ThingsDiscoveryView.vue").includes("AppStatus")],
+  ["shared rich text editor", read("src/modules/app-shell/components/RichTextEditor.vue").includes("StarterKit") && read("src/modules/app-shell/views/WorkQuestCreateView.vue").includes("RichTextEditor")],
+  ["shared rich text preview", read("src/modules/app-shell/components/RichTextPreview.vue").includes("allowed") && read("src/modules/app-shell/views/WorkQuestDetailView.vue").includes("RichTextPreview")],
   ["vision does not locally truncate discovery", !read("src/modules/vision/components/VisionCanvasRenderer.vue").match(/questDiscovery\.items[^\n]*slice\(|searchDiscovery\.items[^\n]*slice\(/)]
+  , ["shell core navigation model", read("src/modules/app-shell/shellRouteRegistry.ts").includes('primaryNavigationSurfaceIds: AppSurfaceId[] = ["home", "work", "chat", "calendar"]')]
+  , ["shell secondary navigation model", read("src/modules/app-shell/shellRouteRegistry.ts").includes('secondaryNavigationSurfaceIds: AppSurfaceId[] = ["business", "circles", "things", "rides"]')]
+  , ["shell exposes account navigation", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes('to="/profile/settings"')]
+  , ["shell renders more modules disclosure", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("More modules") && read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("appSecondaryNavItems")]
+  , ["shared card primitive", read("src/modules/app-shell/components/AppCard.vue").includes("app-card--interactive") && read("src/modules/app-shell/components/AppCard.vue").includes("isNestedAction")]
+  , ["shared action menu primitive", read("src/modules/app-shell/components/AppActionMenu.vue").includes("More actions") && read("src/modules/app-shell/components/AppActionMenu.vue").includes("<details")]
+  , ["shared form field primitive", read("src/modules/app-shell/components/AppFormField.vue").includes("app-form-field__label") && read("src/modules/app-shell/views/WorkQuestCreateView.vue").includes("AppFormField")]
+  , ["shared form footer primitive", read("src/modules/app-shell/components/AppFormFooter.vue").includes("app-form-footer") && read("src/modules/app-shell/views/WorkQuestCreateView.vue").includes("AppFormFooter")]
+  , ["chat mobile back affordance", read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("Back to inbox") && read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("chat-surface__back")]
+  , ["calendar accessible mode controls", read("src/modules/app-shell/components/SurfaceContentView.vue").includes("aria-pressed") && read("src/modules/app-shell/components/SurfaceContentView.vue").includes("Calendar controls")]
+  , ["design tokens include semantic states", read("src/styles/base.css").includes("--danger") && read("src/styles/base.css").includes("--success") && read("src/styles/base.css").includes("--focus-ring")]
+  , ["disabled controls expose affordance", read("src/styles/base.css").includes("button:disabled") && read("src/styles/base.css").includes("aria-disabled")]
+  , ["icon actions remain named", read("src/modules/app-shell/components/AppIconButton.vue").includes("aria-label")]
+  , ["home does not duplicate navigation actions", read("src/modules/app-shell/shellDefinitions.ts").includes('id: "home", archetype: "home", navId: "home", eyebrow: "Home", title: "Home",\n    actions: []')]
+  , ["home metrics have destinations", read("src/modules/app-shell/shellSurfaceData.ts").includes('to: {path: "/work/find"}') && read("src/modules/app-shell/components/SurfaceMetricGrid.vue").includes("metric.to ? RouterLink")]
+  , ["business landing has setup recovery", read("src/modules/app-shell/shellSurfaceData.ts").includes("business-setup-profile") && read("src/modules/app-shell/shellSurfaceData.ts").includes("Set up your business profile")]
+  , ["find work uses available preset", read("src/modules/app-shell/views/WorkDiscoveryView.vue").includes('preset: isMine.value ? "MY_VISIBLE" : "AVAILABLE"')]
+  , ["find work avoids duplicate open action", !read("src/modules/app-shell/views/WorkDiscoveryView.vue").includes('class="work-discovery__open"')]
+  , ["surface archetype primitives", read("src/modules/app-shell/components/SurfaceHeader.vue").includes("Surface actions") && read("src/modules/app-shell/components/SurfaceMetricGrid.vue").includes("surface-metric-grid") && read("src/modules/app-shell/components/SurfaceSection.vue").includes("SurfaceRow")]
+  , ["surface content delegates shared rendering", read("src/modules/app-shell/components/SurfaceContentView.vue").includes("<SurfaceHeader") && read("src/modules/app-shell/components/SurfaceContentView.vue").includes("<SurfaceMetricGrid") && read("src/modules/app-shell/components/SurfaceContentView.vue").includes("<SurfaceSection")]
+  , ["global Vision entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<GlobalVisionEntry") && read("src/modules/app-shell/components/GlobalVisionEntry.vue").includes("Microphone input")]
+  , ["account menu owns username and logout", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<AccountMenu") && read("src/modules/app-shell/components/AccountMenu.vue").includes("handleLogout")]
+  , ["shell has no duplicate inline Vision form", !read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes('<form class="app-shell__vision-form"')]
+  , ["global Create entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<UniversalCreateMenu") && read("src/modules/app-shell/components/UniversalCreateMenu.vue").includes("Offer work")]
+  , ["offer work route is discoverable", read("src/router.ts").includes("path: 'work/offer'") && read("src/modules/app-shell/shellDefinitions.ts").includes('label: "Offer work"')]
 ]
 
 const failed = checks.filter(([, passed]) => !passed)

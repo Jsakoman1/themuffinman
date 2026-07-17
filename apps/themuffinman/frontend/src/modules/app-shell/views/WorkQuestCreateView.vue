@@ -4,9 +4,12 @@ import {RouterLink, useRouter} from "vue-router"
 import type {QuestRequestDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import {buildVisionRoute} from "../visionHandoff.ts"
+import RichTextEditor from "../components/RichTextEditor.vue"
+import AppFormField from "../components/AppFormField.vue"
+import AppFormFooter from "../components/AppFormFooter.vue"
 
 const router = useRouter()
-const form = ref<QuestRequestDTO>({title: "", description: "", awardAmount: 0})
+const form = ref<QuestRequestDTO>({title: "", description: "", awardAmount: 0, termFixed: false})
 const isSaving = ref(false)
 const error = ref("")
 const save = async () => {
@@ -21,11 +24,12 @@ const save = async () => {
   <section class="quest-create">
     <header class="quest-create__header"><div><p class="quest-create__eyebrow">Work / New quest</p><h1>Create a quest</h1></div><RouterLink :to="buildVisionRoute({prompt: 'help me create a quest', context: 'Work', source: 'work.create', returnTo: '/work/quests/new'})" class="quest-create__vision">Ask Vision</RouterLink></header>
     <form class="quest-create__form" @submit.prevent="save">
-      <label>Title<input v-model="form.title" required maxlength="255" placeholder="What needs doing?"></label>
-      <label>Description<textarea v-model="form.description" required maxlength="2000" placeholder="Add the useful detail."></textarea></label>
-      <label>Award<input v-model.number="form.awardAmount" type="number" min="0" step="0.01" required></label>
+      <AppFormField label="Title" hint="Use a short, outcome-focused title." required><input v-model="form.title" required maxlength="255" placeholder="What needs doing?"></AppFormField>
+      <AppFormField label="Description" hint="Add the useful detail."><RichTextEditor v-model="form.description" label="Quest description" placeholder="Add the useful detail." /></AppFormField>
+      <AppFormField label="Award" hint="Enter the amount offered." required><input v-model.number="form.awardAmount" type="number" min="0" step="0.01" required></AppFormField>
+      <label class="quest-create__checkbox"><input v-model="form.termFixed" type="checkbox"> Fixed terms</label>
       <p v-if="error" class="quest-create__error" role="alert">{{ error }}</p>
-      <div class="quest-create__actions"><RouterLink to="/work/quests">Cancel</RouterLink><button type="submit" :disabled="isSaving">{{ isSaving ? "Creating" : "Create quest" }}</button></div>
+      <AppFormFooter><template #secondary><RouterLink to="/work/quests">Cancel</RouterLink></template><template #primary><button type="submit" :disabled="isSaving">{{ isSaving ? "Creating" : "Create quest" }}</button></template></AppFormFooter>
     </form>
   </section>
 </template>

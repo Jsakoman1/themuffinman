@@ -85,11 +85,7 @@ public class CircleRelationService {
             throw ServiceErrors.conflict("This user has blocked you");
         }
 
-        if (existingRelation != null) {
-            circleRequestRepository.delete(existingRelation);
-        }
-
-        CircleRequest circleRequest = new CircleRequest();
+        CircleRequest circleRequest = existingRelation != null ? existingRelation : new CircleRequest();
         circleRequest.setRequester(currentUser);
         circleRequest.setRecipient(blockedUser);
         circleRequest.setAcceptedAt(null);

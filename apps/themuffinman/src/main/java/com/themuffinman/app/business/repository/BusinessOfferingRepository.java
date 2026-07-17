@@ -21,6 +21,9 @@ public interface BusinessOfferingRepository extends JpaRepository<BusinessOfferi
             """)
     List<BusinessOffering> findByOwnerId(Long ownerId);
 
+    @Query("select offering from BusinessOffering offering join fetch offering.businessProfile profile join fetch profile.owner owner where profile.id = :businessProfileId and owner.id = :ownerId order by offering.sortOrder asc, offering.title asc, offering.id asc")
+    List<BusinessOffering> findByBusinessProfileId(Long businessProfileId, Long ownerId);
+
     @Query("""
             select offering
             from BusinessOffering offering

@@ -86,6 +86,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - quest and application detail entry points now have Vision-native routes, with legacy detail paths redirected into the Vision surface
 - `VIEW_QUEST_NEWS` is now a routed read-only Vision capability, with a dedicated quest-news preview and semantic route catalog entry for the authenticated user
 - `VIEW_NOTIFICATIONS` is now a routed read-only Vision capability, backed by the quest-news inbox read model and a dedicated notifications preview
+- `VIEW_ACTIVITY` is now a routed read-only Vision capability, backed by the viewer-scoped activity projection and a compact resume-aware preview; dismissal and mutation parity remain open
 - profile and settings are now direct Vision route surfaces instead of nested profile dialogs, keeping identity and location editing inside the same route-level mental model as the rest of Vision
 - the main Vision surface now exposes Vision-native routes for profile, circles, applications, and chat, and the current user's applications now have a Vision-native list route
 - the main Vision surface now keeps capability entry points inline inside the terminal feed instead of rendering a separate launchpad panel, and the preview model is being tuned to the `create_quest` slot-by-slot reveal pattern

@@ -128,6 +128,24 @@ public class QuestController {
         return ActionResults.of("COMPLETE_QUEST", "Quest completed.");
     }
 
+    @PatchMapping("/{id}/cancel")
+    public ActionResultDTO cancelQuest(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
+        questService.cancelQuest(id, currentUser);
+        return ActionResults.of("CANCEL_QUEST", "Quest cancelled.");
+    }
+
+    @PatchMapping("/{id}/pause")
+    public ActionResultDTO pauseQuest(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
+        questService.pauseQuest(id, currentUser);
+        return ActionResults.of("PAUSE_QUEST", "Quest paused.");
+    }
+
+    @PatchMapping("/{id}/resume")
+    public ActionResultDTO resumeQuest(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
+        questService.resumeQuest(id, currentUser);
+        return ActionResults.of("RESUME_QUEST", "Quest resumed.");
+    }
+
     @PatchMapping("/{id}/term/confirm")
     public QuestResponseDTO confirmQuestTermChange(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
         return questService.toResponse(questService.confirmQuestTermChange(id, currentUser), currentUser);

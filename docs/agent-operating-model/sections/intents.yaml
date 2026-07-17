@@ -2673,6 +2673,57 @@ intents:
     source_refs:
     - quest_application_controller
     - quest_application_service
+- id: release_worker
+  description: Release one approved worker assignment from an owned or administered quest.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - worker_quest_id
+  - worker_application_id
+  - explicit_confirmation
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require the quest to be ASSIGNED, IN_PROGRESS, or PAUSED and require owner-or-admin authority.
+    source_refs:
+    - worker_management_service
+    - quest_application_controller
+    fail_if:
+    - quest state is not worker-manageable
+    - acting user is neither quest owner nor admin
+  - step: 2
+    action: Release the approved application through the worker-management endpoint and notify the affected worker.
+    endpoint_id: release_worker
+    source_refs:
+    - worker_management_service
+    - quest_workflow_notification_service
+- id: replace_worker
+  description: Replace one approved worker with one pending applicant after explicit confirmation.
+  mutating: true
+  required_inputs:
+  - authenticated_user
+  - worker_quest_id
+  - worker_application_id
+  - replacement_application_id
+  - explicit_confirmation
+  optional_inputs: []
+  defaults: []
+  workflow:
+  - step: 1
+    action: Require owner-or-admin authority and a worker-manageable quest state.
+    source_refs:
+    - worker_management_service
+    - quest_application_controller
+    fail_if:
+    - acting user is neither quest owner nor admin
+    - quest state is not worker-manageable
+  - step: 2
+    action: Release the current approved application and approve the pending replacement in one backend transaction.
+    endpoint_id: replace_worker
+    source_refs:
+    - worker_management_service
+    - quest_workflow_notification_service
 - id: delete_quest
   description: Delete one owned quest only after exact target resolution and explicit destructive confirmation.
   mutating: true

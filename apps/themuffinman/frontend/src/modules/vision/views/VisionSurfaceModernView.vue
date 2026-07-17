@@ -150,6 +150,7 @@ watch(
         <section class="vision-surface__console">
           <VisionCanvasRenderer
             :response="response"
+            :execution-candidate="response?.executionCandidate ?? null"
             :runtime-context="response?.runtimeContext ?? null"
             :display-blocks="displayBlocks"
             :last-transcript="lastTranscript"

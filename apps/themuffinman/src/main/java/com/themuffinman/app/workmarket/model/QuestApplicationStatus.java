@@ -4,5 +4,6 @@ public enum QuestApplicationStatus {
     PENDING,
     APPROVED,
     DECLINED,
-    WITHDRAWN
+    WITHDRAWN,
+    RELEASED
 }

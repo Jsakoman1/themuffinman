@@ -262,6 +262,7 @@ class ChatServiceTest {
         upload.setAttachmentName("brief.pdf");
         upload.setAttachmentMimeType("application/pdf");
         upload.setAttachmentSizeBytes(5);
+        upload.setExpiresAt(Instant.parse("2099-07-08T10:15:30Z"));
         ChatMessageRequestDTO request = ChatMessageRequestDTO.builder()
                 .attachmentUploadId(31L)
                 .build();
@@ -524,7 +525,7 @@ class ChatServiceTest {
         third.setLastMessageAt(Instant.now().minusSeconds(20));
 
         when(chatConversationRepository.findDetailedByParticipantId(currentUser.getId()))
-                .thenReturn(List.of(first, second, third));
+                .thenReturn(List.of(third, first, second));
         when(circleRelationService.isCircleBetween(currentUser, participantOne)).thenReturn(true);
         when(circleRelationService.isCircleBetween(currentUser, participantTwo)).thenReturn(true);
         when(circleRelationService.isCircleBetween(currentUser, participantThree)).thenReturn(true);

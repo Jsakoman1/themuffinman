@@ -1,0 +1,120 @@
+kind: domain_contract_draft
+version: 1
+id: work-quest-lifecycle-contract
+title: Proposed work quest pause, cancel, and worker-management contract
+status: resolved_for_implementation
+scope:
+  capability_ids: [work.quest.pause, work.quest.cancel, work.quest.manage_workers]
+  current_state_values: [OPEN, ASSIGNED, IN_PROGRESS, WAITING_CONFIRMATION, COMPLETED, CANCELLED]
+  proposed_new_state_values: [PAUSED]
+  source_model: apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/Quest.java
+decisions_required: []
+resolved_decisions:
+  - id: pause-eligibility
+    decision: Owner may pause OPEN, ASSIGNED, IN_PROGRESS, or WAITING_CONFIRMATION; approved workers and applicants remain attached.
+  - id: worker-reassignment
+    decision: Manage workers includes replacing an approved worker, removing an approved worker, and filling or releasing a worker slot.
+  - id: notification-policy
+    decision: Every affected applicant or worker receives a deduplicated lifecycle event; the actor receives the command result and audit reference.
+  - id: recovery-policy
+    decision: Resume returns a paused quest to its previous active state; CANCELLED remains terminal and cannot be restored.
+state_transition_matrix:
+  - from: OPEN
+    to: PAUSED
+    action: pause
+    actor: quest_owner
+    status: resolved
+  - from: PAUSED
+    to: OPEN
+    action: resume
+    actor: quest_owner
+    status: resolved
+  - from: OPEN
+    to: CANCELLED
+    action: cancel
+    actor: quest_owner
+    status: resolved
+  - from: ASSIGNED
+    to: CANCELLED
+    action: cancel
+    actor: quest_owner
+    status: resolved
+  - from: IN_PROGRESS
+    to: CANCELLED
+    action: cancel
+    actor: quest_owner
+    status: resolved
+  - from: WAITING_CONFIRMATION
+    to: CANCELLED
+    action: cancel
+    actor: quest_owner
+    status: resolved
+  - from: COMPLETED
+    to: CANCELLED
+    action: cancel
+    actor: quest_owner
+    status: forbidden
+  - from: CANCELLED
+    to: OPEN
+    action: reopen
+    actor: quest_owner
+    status: resolved
+worker_management:
+  current_authoritative_operations:
+    - approve_application
+    - decline_application
+    - withdraw_application
+  missing_operations:
+    - fill_or_release_worker_slot
+  implemented_operations:
+    - replace_approved_worker
+    - remove_approved_worker
+  rule: These operations are contract-defined but remain implementation-gated until backend commands and consistency tests exist.
+notifications:
+  existing_service: WorkmarketQuestWorkflowNotificationService
+  existing_event_types: [QUEST_REOPENED, QUEST_UPDATED, QUEST_DELETED]
+  missing_event_types: [QUEST_PAUSED, QUEST_RESUMED, QUEST_WORKER_REASSIGNED, QUEST_WORKER_RELEASED]
+  rule: Every accepted transition must define recipient set, actor visibility, deduplication, and audit payload before implementation.
+implementation_gate:
+  required_before_code:
+    - Implement all resolved decisions as backend-owned commands.
+    - Add PAUSED schema/state support only after transition semantics are approved.
+    - Add backend service commands with transaction-safe authorization and idempotency behavior.
+    - Add web/API behavior and tests before Vision route exposure.
+implementation_evidence:
+  worker_management_backend:
+    status: implemented
+    plan: docs/work/worker-lifecycle-backend-batch.yaml
+    commands:
+      release: PATCH /quests/{questId}/workers/{applicationId}/release
+      replace: PATCH /quests/{questId}/workers/{applicationId}/replace
+    rules:
+      - Only the quest owner or administrator may mutate assignments.
+      - Only ASSIGNED, IN_PROGRESS, or PAUSED quests accept worker mutations.
+      - Released applications use RELEASED status and reopen an available slot.
+      - Replacement releases one approved application and approves one pending application in one transaction.
+    remaining: Web worker-management UI, Vision adapter, and runtime acceptance evidence.
+  first_implementation_targets:
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestWorkflowNotificationService.java
+    - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestNewsType.java
+acceptance_evidence:
+  required:
+    - transition matrix tests for allowed and forbidden states
+    - owner, worker, participant, and admin authorization tests
+    - notification recipient and duplicate-event tests
+    - application/worker-slot consistency tests
+    - audit and recovery behavior tests
+resolved_implementation:
+  capability_id: work.quest.cancel
+  status: implemented
+  rules:
+    allowed_from: [OPEN, ASSIGNED, IN_PROGRESS, WAITING_CONFIRMATION]
+    forbidden_from: [COMPLETED, CANCELLED]
+    actor: quest_owner
+    participant_notification: QUEST_CANCELLED to non-withdrawn applicants
+    recovery: Reopen remains a separate existing ASSIGNED-to-OPEN operation; cancellation recovery is not implicit.
+  evidence:
+    backend_route: PATCH /quests/{id}/cancel
+    vision_intent: CANCEL_QUEST
+    tests: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionServiceTest.java

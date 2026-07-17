@@ -101,6 +101,7 @@ public class WorkmarketDashboardSectionGrouper {
             case "PENDING" -> "Pending";
             case "DECLINED" -> "Declined";
             case "WITHDRAWN" -> "Withdrawn";
+            case "RELEASED" -> "Released";
             default -> statusKey;
         };
     }

@@ -114,6 +114,10 @@ public class WorkmarketQuestApplicationWorkflowSupport {
         }
     }
 
+    public boolean canManageWorkers(Quest quest, AppUser currentUser) {
+        return questAccessPolicyService.canManageQuestApplications(quest, currentUser);
+    }
+
     public void validateAdmin(AppUser currentUser) {
         if (!questAccessPolicyService.isAdmin(currentUser)) {
             throw ServiceErrors.forbidden("Admin access is required");

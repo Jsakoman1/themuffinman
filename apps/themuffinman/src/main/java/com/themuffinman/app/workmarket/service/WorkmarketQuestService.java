@@ -25,7 +25,9 @@ public class WorkmarketQuestService {
     private final WorkmarketConfirmQuestTermChangeUseCase workmarketConfirmQuestTermChangeUseCase;
     private final WorkmarketRejectQuestTermChangeUseCase workmarketRejectQuestTermChangeUseCase;
     private final WorkmarketQuestReadService workmarketQuestReadService;
+    private final WorkmarketQuestUpdateService workmarketQuestUpdateService;
 
+    @Transactional
     public Quest createQuest(QuestRequestDTO dto, AppUser currentUser) {
         return workmarketCreateQuestUseCase.execute(dto, currentUser);
     }
@@ -130,6 +132,21 @@ public class WorkmarketQuestService {
     @Transactional
     public Quest completeQuest(Long id, AppUser currentUser) {
         return workmarketCompleteQuestUseCase.execute(id, currentUser);
+    }
+
+    @Transactional
+    public Quest cancelQuest(Long id, AppUser currentUser) {
+        return workmarketQuestUpdateService.cancelQuestForVision(id, currentUser);
+    }
+
+    @Transactional
+    public Quest pauseQuest(Long id, AppUser currentUser) {
+        return workmarketQuestUpdateService.pauseQuest(id, currentUser);
+    }
+
+    @Transactional
+    public Quest resumeQuest(Long id, AppUser currentUser) {
+        return workmarketQuestUpdateService.resumeQuest(id, currentUser);
     }
 
     @Transactional

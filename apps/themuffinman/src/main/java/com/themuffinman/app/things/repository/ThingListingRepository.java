@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ThingListingRepository extends JpaRepository<ThingListing, Long> {
-    @Query("select tl from ThingListing tl join fetch tl.owner where tl.available = true order by tl.createdAt desc, tl.id desc")
+    @Query("select tl from ThingListing tl join fetch tl.owner where tl.available = true and tl.archived = false order by tl.createdAt desc, tl.id desc")
     List<ThingListing> findAvailableForCatalog();
 
     @Query("select tl from ThingListing tl join fetch tl.owner where tl.owner.id = :ownerId order by tl.createdAt desc, tl.id desc")

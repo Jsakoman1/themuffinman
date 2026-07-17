@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -85,10 +86,21 @@ class BusinessProfileServiceTest {
 
         when(businessProfileRepository.findActiveProfiles()).thenReturn(List.of(active));
 
-        var result = businessProfileService.getDirectory();
+        var result = businessProfileService.getDirectory("");
 
         assertEquals(1, result.getItems().size());
         assertEquals("blue-bakery", result.getItems().getFirst().getSlug());
+    }
+
+    @Test
+    void getDirectoryUsesBackendSearchWhenQueryIsPresent() {
+        BusinessProfile active = profile(11L, user(1L, "owner"), "Blue Bakery", "blue-bakery", true);
+
+        when(businessProfileRepository.searchActiveProfiles("bakery")).thenReturn(List.of(active));
+
+        var result = businessProfileService.getDirectory(" bakery ");
+
+        assertEquals(List.of("blue-bakery"), result.getItems().stream().map(item -> item.getSlug()).toList());
     }
 
     @Test
@@ -107,6 +119,19 @@ class BusinessProfileServiceTest {
         when(businessProfileRepository.findByOwnerId(owner.getId())).thenReturn(Optional.empty());
 
         assertNull(businessProfileService.getMyProfile(owner));
+    }
+
+    @Test
+    void archiveMyProfileIsOwnerScopedAndHidesItFromPublicDirectory() {
+        AppUser owner = user(1L, "owner");
+        BusinessProfile profile = profile(11L, owner, "Blue Bakery", "blue-bakery", true);
+        when(businessProfileRepository.findById(11L)).thenReturn(Optional.of(profile));
+        when(businessProfileRepository.save(profile)).thenReturn(profile);
+
+        var result = businessProfileService.archiveMyProfile(11L, owner);
+
+        assertEquals(false, result.isActive());
+        verify(businessProfileRepository).save(profile);
     }
 
     private AppUser user(Long id, String username) {

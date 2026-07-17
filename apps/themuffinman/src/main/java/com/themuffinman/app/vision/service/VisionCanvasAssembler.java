@@ -314,12 +314,16 @@ public class VisionCanvasAssembler {
             }
             String createdQuestId = conversation.getSlotData().get("created_quest_id");
             String createdQuestTitle = conversation.getSlotData().get("quest_title");
+            boolean rideAction = conversation.getIntent() != null
+                    && conversation.getIntent().name().endsWith("_RIDE");
             blocks.add(VisionCanvasBlockDTO.builder()
                     .type("success")
-                    .title("Quest created")
-                    .body(createdQuestId == null
-                            ? "The quest was created successfully."
-                            : "Created quest #" + createdQuestId + " for " + createdQuestTitle + ".")
+                    .title(rideAction ? "Ride action completed" : "Quest created")
+                    .body(rideAction
+                            ? "The ride action was completed successfully."
+                            : (createdQuestId == null
+                                ? "The quest was created successfully."
+                                : "Created quest #" + createdQuestId + " for " + createdQuestTitle + "."))
                     .tone("success")
                     .build());
         }
@@ -329,6 +333,12 @@ public class VisionCanvasAssembler {
 
     private VisionRuntimeContextDTO runtimeContext(VisionConversation conversation, VisionTurn turn) {
         return VisionRuntimeContextDTO.builder()
+                .contractVersion("vision-shell-v1")
+                .correlationId("vision-turn:" + turn.getId())
+                .targetModule("vision")
+                .targetRoute("/vision")
+                .resourceId(conversation.getId() == null ? null : conversation.getId().toString())
+                .redactions(List.of("private_profile_fields", "exact_location_without_viewer_consent"))
                 .inputType(turn.getSource() == null ? "text" : turn.getSource().name().toLowerCase())
                 .deviceRole(deviceRoleFor(conversation))
                 .attentionState(attentionStateFor(turn))

@@ -3,6 +3,7 @@ package com.themuffinman.app.business.controller;
 import com.themuffinman.app.business.dto.BusinessBookingListResponseDTO;
 import com.themuffinman.app.business.dto.BusinessBookingQueryDTO;
 import com.themuffinman.app.business.dto.BusinessBookingRequestDTO;
+import com.themuffinman.app.business.dto.BusinessBookingRescheduleRequestDTO;
 import com.themuffinman.app.business.dto.BusinessBookingResponseDTO;
 import com.themuffinman.app.business.dto.BusinessOwnerCalendarProjectionDTO;
 import com.themuffinman.app.business.dto.BusinessOwnerBookingCreateRequestDTO;
@@ -15,6 +16,7 @@ import com.themuffinman.app.business.service.BusinessNoShowBookingUseCase;
 import com.themuffinman.app.business.service.BusinessOwnerCalendarReadService;
 import com.themuffinman.app.business.service.BusinessOwnerScheduleReadService;
 import com.themuffinman.app.business.service.BusinessRejectBookingUseCase;
+import com.themuffinman.app.business.service.BusinessRescheduleBookingUseCase;
 import com.themuffinman.app.identity.model.AppUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,7 @@ public class BusinessBookingController {
     private final BusinessNoShowBookingUseCase businessNoShowBookingUseCase;
     private final BusinessOwnerScheduleReadService businessOwnerScheduleReadService;
     private final BusinessOwnerCalendarReadService businessOwnerCalendarReadService;
+    private final BusinessRescheduleBookingUseCase businessRescheduleBookingUseCase;
 
     @PostMapping
     public BusinessBookingResponseDTO createBooking(
@@ -76,6 +79,15 @@ public class BusinessBookingController {
             @AuthenticationPrincipal AppUser currentUser
     ) {
         return businessCancelBookingUseCase.cancelAsCustomer(bookingId, currentUser);
+    }
+
+    @PostMapping("/me/{bookingId}/reschedule")
+    public BusinessBookingResponseDTO rescheduleMyBooking(
+            @PathVariable Long bookingId,
+            @Valid @RequestBody BusinessBookingRescheduleRequestDTO request,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return businessRescheduleBookingUseCase.rescheduleAsCustomer(bookingId, request, currentUser);
     }
 
     @PostMapping("/owner")
@@ -140,6 +152,15 @@ public class BusinessBookingController {
             @AuthenticationPrincipal AppUser currentUser
     ) {
         return businessCancelBookingUseCase.cancelAsOwner(bookingId, currentUser);
+    }
+
+    @PostMapping("/owner/{bookingId}/reschedule")
+    public BusinessBookingResponseDTO rescheduleOwnerBooking(
+            @PathVariable Long bookingId,
+            @Valid @RequestBody BusinessBookingRescheduleRequestDTO request,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return businessRescheduleBookingUseCase.rescheduleAsOwner(bookingId, request, currentUser);
     }
 
     @PostMapping("/owner/{bookingId}/complete")

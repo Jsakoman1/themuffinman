@@ -35,16 +35,17 @@ public class BusinessAvailabilityController {
     private final BusinessAvailabilityReadService businessAvailabilityReadService;
 
     @GetMapping("/availability-rules/me")
-    public BusinessAvailabilityRuleListResponseDTO getMyRules(@AuthenticationPrincipal AppUser currentUser) {
-        return businessAvailabilityService.getMyRules(currentUser);
+    public BusinessAvailabilityRuleListResponseDTO getMyRules(@RequestParam(required = false) Long businessProfileId, @AuthenticationPrincipal AppUser currentUser) {
+        return businessAvailabilityService.getMyRules(currentUser, businessProfileId);
     }
 
     @PostMapping("/availability-rules/me")
     public BusinessAvailabilityRuleResponseDTO createMyRule(
             @Valid @RequestBody BusinessAvailabilityRuleRequestDTO dto,
-            @AuthenticationPrincipal AppUser currentUser
+            @AuthenticationPrincipal AppUser currentUser,
+            @RequestParam(required = false) Long businessProfileId
     ) {
-        return businessAvailabilityService.createMyRule(dto, currentUser);
+        return businessAvailabilityService.createMyRule(dto, currentUser, businessProfileId);
     }
 
     @PutMapping("/availability-rules/{ruleId}/me")
@@ -62,16 +63,17 @@ public class BusinessAvailabilityController {
     }
 
     @GetMapping("/availability-exceptions/me")
-    public BusinessAvailabilityExceptionListResponseDTO getMyExceptions(@AuthenticationPrincipal AppUser currentUser) {
-        return businessAvailabilityService.getMyExceptions(currentUser);
+    public BusinessAvailabilityExceptionListResponseDTO getMyExceptions(@RequestParam(required = false) Long businessProfileId, @AuthenticationPrincipal AppUser currentUser) {
+        return businessAvailabilityService.getMyExceptions(currentUser, businessProfileId);
     }
 
     @PostMapping("/availability-exceptions/me")
     public BusinessAvailabilityExceptionResponseDTO createMyException(
             @Valid @RequestBody BusinessAvailabilityExceptionRequestDTO dto,
-            @AuthenticationPrincipal AppUser currentUser
+            @AuthenticationPrincipal AppUser currentUser,
+            @RequestParam(required = false) Long businessProfileId
     ) {
-        return businessAvailabilityService.createMyException(dto, currentUser);
+        return businessAvailabilityService.createMyException(dto, currentUser, businessProfileId);
     }
 
     @PutMapping("/availability-exceptions/{exceptionId}/me")

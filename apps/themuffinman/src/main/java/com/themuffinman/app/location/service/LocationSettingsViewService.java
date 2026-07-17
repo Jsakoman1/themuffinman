@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.themuffinman.app.common.concepts.ModuleOwnership.isOwner;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -37,5 +39,39 @@ public class LocationSettingsViewService {
                 .resolvedAt(user.getLocationResolvedAt())
                 .updatedAt(user.getLocationUpdatedAt())
                 .build();
+    }
+
+    public UserLocationSettingsDTO toViewerDto(AppUser owner, AppUser viewer) {
+        if (owner == null || isOwner(owner.getId(), viewer)) {
+            return toDto(owner);
+        }
+
+        boolean exactAllowed = locationAccessPolicyService.canViewExactLocation(owner, viewer);
+        if (owner.getLocationMode() == null || owner.getLocationMode() == com.themuffinman.app.location.model.UserLocationMode.OFF) {
+            return UserLocationSettingsDTO.builder()
+                    .mode(com.themuffinman.app.location.model.UserLocationMode.OFF)
+                    .hasCoordinates(false)
+                    .sharingSummary("Hidden")
+                    .visibilitySummary("Hidden")
+                    .exactVisibilityScope(com.themuffinman.app.location.model.ExactLocationVisibilityScope.NOBODY)
+                    .build();
+        }
+
+        if (!exactAllowed || owner.getLocationMode() != com.themuffinman.app.location.model.UserLocationMode.EXACT) {
+            return UserLocationSettingsDTO.builder()
+                    .mode(com.themuffinman.app.location.model.UserLocationMode.APPROXIMATE)
+                    .defaultRadiusKm(locationGeoService.normalizeRadius(owner.getLocationRadiusKm()))
+                    .hasCoordinates(locationGeoService.hasCoordinates(owner.getLocationLatitude(), owner.getLocationLongitude()))
+                    .sharingSummary("Approximate area only")
+                    .visibilitySummary("Approximate area only")
+                    .exactVisibilityScope(com.themuffinman.app.location.model.ExactLocationVisibilityScope.NOBODY)
+                    .label(owner.getLocationLabel())
+                    .countryCode(owner.getLocationCountryCode())
+                    .country(owner.getLocationCountry())
+                    .locality(owner.getLocationLocality())
+                    .build();
+        }
+
+        return toDto(owner);
     }
 }

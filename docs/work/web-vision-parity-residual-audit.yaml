@@ -1,0 +1,71 @@
+kind: residual_audit
+version: 1
+id: web-vision-parity-residual-audit
+title: Residual Web/Vision parity boundaries after safe contract closure
+status: active
+goal: web-vision-parity
+rule: Only mark a surface complete when a backend-owned contract, client entry flow, and validation evidence exist.
+verified_summary:
+  total_capabilities: 123
+  mapped: 123
+  web_ui_missing: 10
+  vision_missing: 16
+  not_ready: 35
+  source_report: docs/work/target-capability-coverage-report.yaml
+residuals:
+  - id: WEB-UI-FUNCTIONAL-COMPLETION
+    status: resolved_for_named_surfaces
+    capability_ids: [work.quest.create, work.quest.discovery, chat.conversation.open, circles.circle.create, circles.circle.discover, business.profile.view_public, business.booking.view_calendar]
+    boundary: web_runtime_and_surface_completion
+    reason: Authenticated browser evidence now covers route discoverability, Work/Circle mutations, accepted-contact direct/group Chat, message send, People/Business discovery, visual Calendar, Business public detail/booking, owner confirmation, 403 recovery, and Chat resync recovery.
+    next_required: Keep the named-surface browser harness green; broader deferred capability contracts remain separate residuals below.
+    evidence:
+      - docs/work/web-ui-functional-completion-runtime-evidence.yaml
+      - apps/themuffinman/frontend/web-runtime-smoke.har
+      - apps/themuffinman/frontend/web-runtime-smoke-booking.har
+  - id: CAPABILITY-COVERAGE-RELIABILITY
+    capability_ids: [sharing.ride.create, sharing.ride.discover, sharing.ride.join, sharing.ride.update, sharing.ride.leave, sharing.ride.cancel, sharing.ride.complete]
+    boundary: contract_missing
+    reason: Ride domain is planned but has no production backend model, policy, lifecycle, or API contract.
+    next_required: Define ride domain contract and backend-owned lifecycle before either client surface.
+  - id: ACCOUNT-RECOVERY-CONTRACT
+    capability_ids: [platform.account.recover]
+    boundary: contract_missing
+    reason: No password-reset token, delivery, verification, or recovery endpoint exists.
+    next_required: Define secure recovery protocol and delivery provider contract.
+  - id: SEARCH-COMPARISON-CONTRACT
+    capability_ids: [vision.discovery.compare, cross_module.search.compare]
+    boundary: contract_missing
+    reason: Discovery returns ranked items but has no bounded comparable-field DTO, selection state, or comparison policy.
+    next_required: Define comparison DTO, selection limits, privacy rules, and Web/Vision interaction contract.
+  - id: WORKER-LIFECYCLE-CONTRACT
+    capability_ids: [work.quest.manage_workers]
+    boundary: client_runtime
+    reason: Backend release/replacement commands, Web controls, and Vision intents now exist; mobile presentation and browser/runtime acceptance remain open.
+    next_required: Add mobile presentation and record browser/runtime acceptance evidence before marking the capability fully complete.
+  - id: DEVICE-LOCATION-CONTRACT
+    capability_ids: [platform.location.use_current]
+    boundary: device_runtime
+    reason: Backend reverse lookup exists, but browser/mobile permission lifecycle and runtime recovery are not represented by Vision.
+    next_required: Define typed device location permission and handoff contract.
+  - id: VISION-ATTACHMENT-CONTRACT
+    capability_ids: [chat.message.attach]
+    boundary: storage_runtime
+    reason: Vision can inspect authorized attachments but does not own upload, preview, expiry, and storage handoff.
+    next_required: Define Vision upload/storage contract and media acceptance scenarios.
+  - id: NATIVE-HANDOFF-CONTRACT
+    capability_ids: [cross_module.shell.navigate, cross_module.shell.render_context, cross_module.handoff.mobile, cross_module.handoff.watch]
+    boundary: native_runtime
+    reason: Server-side handoff token support exists, but native receivers and device acceptance evidence are absent.
+    next_required: Implement native receivers and runtime acceptance scenarios.
+  - id: PROFILE-VISIBILITY-CONTRACT
+    capability_ids: [platform.profile.manage_visibility]
+    boundary: domain_contract_missing
+    reason: Location visibility exists, but profile-wide field visibility and consent semantics are not modeled.
+    next_required: Define field-level visibility policy and backend viewer-specific DTO contract.
+evidence:
+  - make audit-target-capability-coverage
+  - make audit-docs
+  - make audit-plan-coverage
+  - make work-verify plan=docs/work/web-vision-parity-batch.yaml
+  - make work-verify plan=docs/work/target-capability-production-readiness.yaml

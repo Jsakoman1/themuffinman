@@ -43,7 +43,8 @@ public class VisionPresentationHelper {
             return "badge badge--success";
         }
 
-        if (status == QuestApplicationStatus.DECLINED || status == QuestApplicationStatus.WITHDRAWN) {
+        if (status == QuestApplicationStatus.DECLINED || status == QuestApplicationStatus.WITHDRAWN
+                || status == QuestApplicationStatus.RELEASED) {
             return "badge badge--danger";
         }
 
@@ -139,8 +140,14 @@ public class VisionPresentationHelper {
             case QUEST_STARTED -> "Quest started";
             case QUEST_COMPLETED -> "Quest completed";
             case QUEST_REOPENED -> "Quest reopened";
+            case QUEST_CANCELLED -> "Quest cancelled";
+            case QUEST_PAUSED -> "Quest paused";
+            case QUEST_RESUMED -> "Quest resumed";
+            case QUEST_WORKER_REASSIGNED -> "Worker reassigned";
+            case QUEST_WORKER_RELEASED -> "Worker released";
             case QUEST_DELETED -> "Quest deleted";
             case CIRCLE_REQUEST_ACCEPTED -> "Circle request accepted";
+            case RIDE_EVENT -> "Ride update";
         };
     }
 
@@ -154,6 +161,7 @@ public class VisionPresentationHelper {
             case APPLICATION_WITHDRAWN, APPLICATION_DECLINED, QUEST_TERM_REJECTED, QUEST_DELETED -> "badge--danger";
             case APPLICATION_APPROVED, QUEST_TERM_CONFIRMED, QUEST_COMPLETED, CIRCLE_REQUEST_ACCEPTED -> "badge--success";
             case QUEST_TERM_CONFIRMATION_REQUESTED, QUEST_REOPENED -> "badge--warning";
+            case QUEST_CANCELLED -> "badge--danger";
             default -> "badge--accent";
         };
     }

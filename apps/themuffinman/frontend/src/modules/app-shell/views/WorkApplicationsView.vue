@@ -4,6 +4,7 @@ import {RouterLink} from "vue-router"
 import type {QuestApplicationResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import {resolveSurfaceDetailRoute} from "../shellRouteRegistry.ts"
+import AppDialog from "../components/AppDialog.vue"
 
 const items = ref<QuestApplicationResponseDTO[]>([])
 const page = ref(0)
@@ -31,7 +32,7 @@ const load = async (reset = true) => {
 const loadMore = async () => { if (!hasMore.value || isLoadingMore.value) return; page.value += 1; await load(false) }
 const beginEdit = (application: QuestApplicationResponseDTO) => { editingId.value = application.id; editMessage.value = application.message; editPrice.value = application.proposedPrice }
 const saveEdit = async (application: QuestApplicationResponseDTO) => { isLoadingMore.value = true; error.value = ""; try { await userShellApi.updateMyApplication(application.questId, {message: editMessage.value, proposedPrice: editPrice.value}); editingId.value = null; await load() } catch { error.value = "Could not update this application." } finally { isLoadingMore.value = false } }
-const withdraw = async (application: QuestApplicationResponseDTO) => { isLoadingMore.value = true; error.value = ""; try { await userShellApi.withdrawMyApplication(application.questId); await load() } catch { error.value = "Could not withdraw this application." } finally { isLoadingMore.value = false } }
+const withdraw = async (application: QuestApplicationResponseDTO) => { if (!window.confirm(`Withdraw your application for “${application.questTitle}”?`)) return; isLoadingMore.value = true; error.value = ""; try { await userShellApi.withdrawMyApplication(application.questId); await load() } catch { error.value = "Could not withdraw this application." } finally { isLoadingMore.value = false } }
 onMounted(() => void load())
 </script>
 
@@ -44,7 +45,7 @@ onMounted(() => void load())
     <div v-else class="applications-surface__list">
       <article v-for="application in items" :key="application.id" class="applications-surface__row">
         <div v-if="editingId !== application.id"><RouterLink :to="resolveSurfaceDetailRoute('work-applications', application.id) ?? `/vision/applications/${application.id}`" class="applications-surface__title">{{ application.questTitle }}</RouterLink><span class="applications-surface__meta">{{ application.presentation.statusLabel }} · {{ application.questCreatorUsername }} · {{ formatDate(application.createdAt) }}</span></div>
-        <form v-else class="applications-surface__edit" @submit.prevent="saveEdit(application)"><textarea v-model="editMessage" required maxlength="2000"></textarea><input v-model.number="editPrice" type="number" min="0" step="0.01"><div><button type="submit">Save</button><button type="button" @click="editingId = null">Cancel</button></div></form>
+        <AppDialog :open="editingId === application.id" title="Edit application" @close="editingId = null"><form class="applications-surface__edit" @submit.prevent="saveEdit(application)"><label>Message<textarea v-model="editMessage" required maxlength="2000"></textarea></label><label>Proposed price<input v-model.number="editPrice" type="number" min="0" step="0.01"></label><div><button type="submit">Save</button><button type="button" @click="editingId = null">Cancel</button></div></form></AppDialog>
         <div class="applications-surface__row-actions"><RouterLink :to="resolveSurfaceDetailRoute('work-applications', application.id) ?? `/vision/applications/${application.id}`" class="applications-surface__open">Open</RouterLink><button v-if="application.allowedActions.includes('EDIT')" type="button" class="applications-surface__open" @click="beginEdit(application)">Edit</button><button v-if="application.allowedActions.includes('WITHDRAW')" type="button" class="applications-surface__open applications-surface__withdraw" @click="withdraw(application)">Withdraw</button></div>
       </article>
     </div>

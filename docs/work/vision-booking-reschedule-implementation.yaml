@@ -1,0 +1,146 @@
+kind: work
+version: 1
+id: vision-booking-reschedule-implementation
+title: Add Vision booking reschedule execution
+status: verified
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+master_plan: docs/work/target-capability-production-readiness.yaml
+capability_ids:
+- business.booking.reschedule
+objective: Expose reviewed Vision booking reschedule orchestration while keeping booking
+  policy and availability authority in the Business domain.
+tasks:
+- id: vision-booking-route
+  title: Add reschedule intent, signals, semantic route, and prompt contract
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  validation: cd apps/themuffinman && ./mvnw -Dtest=VisionSemanticRouteCatalogServiceTest,VisionIntentRouterTest
+    test
+- id: vision-booking-execution
+  title: Add slot collection, review, confirmation, and Business delegation
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessBookingMutationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionRescheduleBookingExecutionAdapter.java
+  validation: cd apps/themuffinman && ./mvnw -Dtest=VisionConversationServiceTest
+    test
+- id: vision-booking-evidence
+  title: Synchronize inventory and domain evidence
+  type: documentation
+  status: done
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  validation: make audit-docs && make audit-target-capability-catalog && make audit-target-capability-coverage
+- id: vision-booking-verification
+  title: Run compile, Vision regression, and integrity checks
+  type: verification
+  status: done
+  paths:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -DskipTests compile && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionIntentRouterTest,VisionConversationServiceTest'
+    test && git diff --check
+evidence:
+- task: vision-booking-route
+  command: cd apps/themuffinman && ./mvnw -Dtest=VisionSemanticRouteCatalogServiceTest,VisionIntentRouterTest
+    test
+  ranAt: '2026-07-17T06:22:52Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  output: "[INFO] \n[INFO] -------------------------------------------------------\n[INFO]
+    \ T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO] Tests
+    run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  1.526 s\n[INFO] Finished at: 2026-07-17T08:22:54+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: vision-booking-execution
+  command: cd apps/themuffinman && ./mvnw -Dtest=VisionConversationServiceTest test
+  ranAt: '2026-07-17T06:22:54Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessBookingMutationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionRescheduleBookingExecutionAdapter.java
+  output: "[INFO] --- surefire:3.5.5:test (default-test) @ themuffinman ---\n[INFO]
+    Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO]
+    \n[INFO] -------------------------------------------------------\n[INFO]  T E
+    S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.995 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 72, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  2.396 s\n[INFO] Finished at: 2026-07-17T08:22:57+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: vision-booking-evidence
+  command: make audit-docs && make audit-target-capability-catalog && make audit-target-capability-coverage
+  ranAt: '2026-07-17T06:22:57Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  output: |2+
+      current_inventory_ids:
+      - chat.message.view_attachment
+      mapping_quality: exact
+      current_statuses:
+      - partial
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: true
+      surface_coverage:
+        web_ui: covered
+        vision: covered
+      gaps: []
+
+- task: vision-booking-verification
+  command: cd apps/themuffinman && ./mvnw -DskipTests compile && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionIntentRouterTest,VisionConversationServiceTest'
+    test && git diff --check
+  ranAt: '2026-07-17T06:23:00Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  output: "[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.970 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] Running
+    com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO] Tests run:
+    15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 90, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  2.371 s\n[INFO] Finished at: 2026-07-17T08:23:05+02:00\n[INFO] ------------------------------------------------------------------------\n\n"

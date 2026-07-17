@@ -1,0 +1,63 @@
+kind: master
+version: 1
+id: frontend-ux-modernization-master
+title: Authenticated frontend UX and UI modernization
+status: verified
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+objective: 'Make the authenticated web client feel like one clear, modern, adaptive
+  product. Users must always understand where they are, what they can do next, what
+  a click will open, and whether an action is loading, saved, blocked, or destructive.
+  Frontend presentation state stays local, while permissions, validation, visibility,
+  workflow transitions, and action availability remain backend/API-owned.
+
+'
+principles:
+- One shared shell and one interaction vocabulary across modules.
+- One obvious primary action per surface; secondary and destructive actions are subordinate.
+- Clickable cards open previews/details; nested actions never trigger the parent target.
+- Short fields may use inline pencil editing; complex workflows use dialogs or dedicated
+  pages.
+- Rich text is used only where content meaning benefits from formatting.
+- Vision complements direct web interaction; it does not replace usable web UI.
+- Every async action exposes loading, success, error, empty, retry, and disabled states.
+- No frontend permission or business-rule inference beyond backend-provided DTO actions.
+completed_foundation:
+- docs/work/frontend-ux-modernization.yaml
+children:
+- docs/work/frontend-ux-navigation-information-architecture.yaml
+- docs/work/frontend-ux-action-hierarchy-preview-cards.yaml
+- docs/work/frontend-ux-forms-editing-overlay-patterns.yaml
+- docs/work/frontend-ux-chat-calendar-responsive.yaml
+- docs/work/frontend-ux-design-system-accessibility.yaml
+- docs/work/frontend-ux-runtime-closeout.yaml
+dependencies:
+- docs/work/frontend-ux-navigation-information-architecture.yaml -> docs/work/frontend-ux-action-hierarchy-preview-cards.yaml
+- docs/work/frontend-ux-action-hierarchy-preview-cards.yaml -> docs/work/frontend-ux-forms-editing-overlay-patterns.yaml
+- docs/work/frontend-ux-forms-editing-overlay-patterns.yaml -> docs/work/frontend-ux-chat-calendar-responsive.yaml
+- docs/work/frontend-ux-design-system-accessibility.yaml -> docs/work/frontend-ux-runtime-closeout.yaml
+- docs/work/frontend-ux-chat-calendar-responsive.yaml -> docs/work/frontend-ux-runtime-closeout.yaml
+exit_criteria:
+- Navigation has a deliberate primary/secondary information architecture on desktop
+  and mobile.
+- All core module cards have a predictable preview/detail interaction and clear action
+  hierarchy.
+- Supported forms use shared field, validation, dialog, draft, save, cancel, and unsaved-change
+  patterns.
+- Chat and Calendar are usable at desktop and mobile widths with visible state transitions.
+- Shared UI primitives cover buttons, icon actions, cards, dialogs, status, empty
+  state, action menus, and form fields.
+- Accessibility checks cover keyboard focus, labels, dialog semantics, touch targets,
+  reduced motion, and contrast-sensitive states.
+- Type-check, build, static audits, browser runtime smoke, documentation audits, and
+  work-plan verification pass.
+- No required product behavior is moved from backend/API contracts into Vue-only rules.
+evidence:
+- verifiedAt: '2026-07-17T13:14:24Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  children:
+  - docs/work/frontend-ux-navigation-information-architecture.yaml
+  - docs/work/frontend-ux-action-hierarchy-preview-cards.yaml
+  - docs/work/frontend-ux-forms-editing-overlay-patterns.yaml
+  - docs/work/frontend-ux-chat-calendar-responsive.yaml
+  - docs/work/frontend-ux-design-system-accessibility.yaml
+  - docs/work/frontend-ux-runtime-closeout.yaml

@@ -38,6 +38,11 @@ public class BusinessBookingPrimitiveService {
         return businessBookingRepository.countOverlappingBookings(offeringId, CAPACITY_CONSUMING_STATUSES, startsAt, endsAt);
     }
 
+    public long countOverlappingCapacityUsageExcluding(Long offeringId, Long bookingId, Instant startsAt, Instant endsAt) {
+        return businessBookingRepository.countOverlappingBookingsExcluding(
+                offeringId, bookingId, CAPACITY_CONSUMING_STATUSES, startsAt, endsAt);
+    }
+
     public Set<BusinessBookingStatus> capacityConsumingStatuses() {
         return CAPACITY_CONSUMING_STATUSES;
     }

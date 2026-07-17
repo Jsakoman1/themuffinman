@@ -22,4 +22,17 @@ public class IdentityUserSummaryAssembler {
                 openQuests
         );
     }
+
+    public AppUserResponseDTO buildViewerProfileSummary(
+            AppUser profileUser,
+            AppUser viewer,
+            long openQuestCount,
+            List<QuestResponseDTO> openQuests
+    ) {
+        return appUserMgr.withProfileStats(
+                appUserMgr.toProfileDto(profileUser, viewer),
+                openQuestCount,
+                openQuests
+        );
+    }
 }

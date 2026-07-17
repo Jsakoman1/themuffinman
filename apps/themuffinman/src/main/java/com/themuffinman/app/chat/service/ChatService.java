@@ -128,6 +128,7 @@ public class ChatService {
     public ChatWorkspaceDTO getWorkspace(AppUser currentUser, Integer requestedConversationLimit, boolean includeArchived) {
         List<ChatConversation> activeConversations = chatConversationRepository.findDetailedByParticipantId(currentUser.getId()).stream()
                 .filter(conversation -> canAccessConversation(currentUser, conversation))
+                .sorted(this::compareConversationSummaries)
                 .toList();
         Map<Long, ChatConversationMemberState> stateByConversationId = chatConversationStateService.getStatesByConversationId(
                 activeConversations.stream().map(ChatConversation::getId).toList(),
@@ -241,6 +242,7 @@ public class ChatService {
                 .filter(conversation -> conversationType == null || conversation.getConversationType() == conversationType)
                 .filter(conversation -> contextType == null || conversation.getContextType() == contextType)
                 .filter(conversation -> requestedContextId == null || Objects.equals(conversation.getContextId(), requestedContextId))
+                .sorted(this::compareConversationSummaries)
                 .toList();
         Map<Long, ChatConversationMemberState> stateByConversationId = chatConversationStateService.getStatesByConversationId(
                 activeConversations.stream().map(ChatConversation::getId).toList(),
@@ -615,6 +617,7 @@ public class ChatService {
         upload.setAttachmentName(attachment.name());
         upload.setAttachmentMimeType(attachment.mimeType());
         upload.setAttachmentSizeBytes(attachment.sizeBytes());
+        upload.setExpiresAt(Instant.now().plusSeconds(Math.max(chatProperties.getAttachments().getUploadTtlSeconds(), 1)));
         ChatAttachmentUpload savedUpload = chatAttachmentUploadRepository.save(upload);
         ObjectStorageAccess access = objectStorageService.resolve(savedUpload.getStorageKey());
         return ChatAttachmentUploadDTO.builder()
@@ -732,6 +735,11 @@ public class ChatService {
         Map<Long, ChatMessageDTO> messageDtosByUserId = buildRealtimeMessageDtos(saved, conversation);
         chatRealtimeService.notifyMessageCreated(conversation, currentUser.getId(), summariesByUserId, messageDtosByUserId);
         return messageDto;
+    }
+
+    @Transactional(readOnly = true)
+    public ChatMessageDTO getMessage(Long conversationId, Long messageId, AppUser currentUser) {
+        return toMessageDto(requireAccessibleMessage(conversationId, messageId, currentUser), currentUser);
     }
 
     @Transactional
@@ -1928,6 +1936,9 @@ public class ChatService {
         }
         if (upload.getConsumedAt() != null) {
             throw ServiceErrors.badRequest("Chat attachment upload has already been used");
+        }
+        if (upload.getExpiresAt() == null || !upload.getExpiresAt().isAfter(Instant.now())) {
+            throw ServiceErrors.badRequest("Chat attachment upload has expired");
         }
         return upload;
     }

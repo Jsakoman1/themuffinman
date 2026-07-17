@@ -25,7 +25,7 @@ class VisionSemanticRouteCatalogServiceTest {
 
         var routes = service.allowedRoutes(user);
 
-        assertEquals(32, routes.size());
+        assertEquals(89, routes.size());
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals(SemanticEntityFamily.NOTIFICATIONS, service.entityFamilyForIntent(VisionIntent.VIEW_NOTIFICATIONS));
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.VIEW_QUEST_NEWS));
@@ -61,6 +61,7 @@ class VisionSemanticRouteCatalogServiceTest {
                         "DELETE_CIRCLE_REQUEST",
                         "UPDATE_CIRCLE",
                         "DELETE_CIRCLE",
+                        "LEAVE_CIRCLE",
                         "CREATE_APPLICATION",
                         "UPDATE_APPLICATION",
                         "WITHDRAW_APPLICATION",
@@ -71,8 +72,62 @@ class VisionSemanticRouteCatalogServiceTest {
                         "SEARCH",
                         "DISCOVER_QUESTS",
                         "VIEW_THINGS",
+                        "VIEW_THING_DETAIL",
+                        "VIEW_BORROW_REQUESTS",
                         "OPEN_CHAT",
                         "VIEW_CHAT_WORKSPACE",
+                        "SYNC_CHAT",
+                        "VIEW_CHAT_ATTACHMENT",
+                        "EDIT_CHAT_MESSAGE",
+                        "REPLY_TO_CHAT_MESSAGE",
+                        "REACT_TO_CHAT_MESSAGE",
+                        "CREATE_BUSINESS_PROFILE",
+                        "UPDATE_BUSINESS_PROFILE",
+                        "CREATE_GALLERY_IMAGE",
+                        "UPDATE_GALLERY_IMAGE",
+                        "DELETE_GALLERY_IMAGE",
+                        "CREATE_AVAILABILITY_RULE",
+                        "UPDATE_AVAILABILITY_RULE",
+                        "DELETE_AVAILABILITY_RULE",
+                        "CREATE_AVAILABILITY_EXCEPTION",
+                        "UPDATE_AVAILABILITY_EXCEPTION",
+                        "DELETE_AVAILABILITY_EXCEPTION",
+                        "CONFIRM_BOOKING",
+                        "CANCEL_BOOKING",
+                        "REJECT_BOOKING",
+                        "COMPLETE_BOOKING",
+                        "MARK_BOOKING_NO_SHOW",
+                        "ARCHIVE_OFFERING",
+                        "UPDATE_QUEST",
+                        "CREATE_OFFERING",
+                        "UPDATE_OFFERING",
+                        "CREATE_BOOKING",
+                        "RESCHEDULE_BOOKING",
+                        "MARK_CHAT_READ",
+                        "MARK_NOTIFICATIONS_READ",
+                        "MARK_NOTIFICATION_READ",
+                        "UPDATE_NOTIFICATION_PREFERENCES",
+                        "RELEASE_WORKER",
+                        "REPLACE_WORKER",
+                        "REOPEN_QUEST",
+                        "CANCEL_QUEST",
+                        "PAUSE_QUEST",
+                        "RESUME_QUEST",
+                        "CREATE_THING",
+                        "REQUEST_BORROW",
+                        "CANCEL_BORROW",
+                        "DECIDE_BORROW",
+                        "RETURN_BORROW",
+                        "CREATE_RIDE",
+                        "VIEW_RIDES",
+                        "JOIN_RIDE",
+                        "UPDATE_RIDE",
+                        "LEAVE_RIDE",
+                        "CANCEL_RIDE",
+                        "START_RIDE",
+                        "COMPLETE_RIDE",
+                        "UPDATE_THING",
+                        "ARCHIVE_THING",
                         "VIEW_PROFILE",
                         "VIEW_SETTINGS",
                         "VIEW_BUSINESS",
@@ -81,8 +136,10 @@ class VisionSemanticRouteCatalogServiceTest {
                         "VIEW_USER_PROFILE",
                         "VIEW_CIRCLES",
                         "VIEW_CIRCLE_DETAIL",
+                        "VIEW_ACCESSIBLE_CIRCLE",
                         "VIEW_QUEST_DETAIL",
                         "VIEW_NOTIFICATIONS",
+                        "VIEW_ACTIVITY",
                         "VIEW_QUEST_NEWS",
                         "VIEW_APPLICATIONS",
                         "VIEW_APPLICATION_DETAIL",
@@ -99,6 +156,7 @@ class VisionSemanticRouteCatalogServiceTest {
                         "delete_circle_request",
                         "update_circle",
                         "delete_circle",
+                        "leave_circle",
                         "create_application",
                         "update_application",
                         "withdraw_application",
@@ -109,8 +167,62 @@ class VisionSemanticRouteCatalogServiceTest {
                         "search",
                         "discover_quests",
                         "view_things",
+                        "view_thing_detail",
+                        "view_borrow_requests",
                         "open_chat",
                         "view_chat_workspace",
+                        "sync_chat",
+                        "view_chat_attachment",
+                        "edit_chat_message",
+                        "reply_to_chat_message",
+                        "react_to_chat_message",
+                        "create_business_profile",
+                        "update_business_profile",
+                        "create_gallery_image",
+                        "update_gallery_image",
+                        "delete_gallery_image",
+                        "create_availability_rule",
+                        "update_availability_rule",
+                        "delete_availability_rule",
+                        "create_availability_exception",
+                        "update_availability_exception",
+                        "delete_availability_exception",
+                        "confirm_booking",
+                        "cancel_booking",
+                        "reject_booking",
+                        "complete_booking",
+                        "mark_booking_no_show",
+                        "archive_offering",
+                        "update_quest",
+                        "create_offering",
+                        "update_offering",
+                        "create_booking",
+                        "reschedule_booking",
+                        "mark_chat_read",
+                        "mark_notifications_read",
+                        "mark_notification_read",
+                        "update_notification_preferences",
+                        "release_worker",
+                        "replace_worker",
+                        "reopen_quest",
+                        "cancel_quest",
+                        "pause_quest",
+                        "resume_quest",
+                        "create_thing",
+                        "request_borrow",
+                        "cancel_borrow",
+                        "decide_borrow",
+                        "return_borrow",
+                        "create_ride",
+                        "view_rides",
+                        "join_ride",
+                        "update_ride",
+                        "leave_ride",
+                        "cancel_ride",
+                        "start_ride",
+                        "complete_ride",
+                        "update_thing",
+                        "archive_thing",
                         "view_profile",
                         "view_settings",
                         "view_business",
@@ -119,8 +231,10 @@ class VisionSemanticRouteCatalogServiceTest {
                         "view_user_profile",
                         "view_circles",
                         "view_circle_detail",
+                        "view_accessible_circle",
                         "view_quest_detail",
                         "view_notifications",
+                        "view_activity",
                         "view_quest_news",
                         "view_applications",
                         "view_application_detail",
@@ -131,6 +245,7 @@ class VisionSemanticRouteCatalogServiceTest {
         assertNotNull(service.routeForIntent("CREATE_QUEST"));
         assertNotNull(service.routeForIntent("VIEW_NOTIFICATIONS"));
         assertNotNull(service.routeForIntent("VIEW_THINGS"));
+        assertNotNull(service.routeForIntent("VIEW_THING_DETAIL"));
         assertNotNull(service.routeForIntent("VIEW_SETTINGS"));
         assertNotNull(service.routeForIntent("SEARCH"));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.create_circle")
@@ -246,6 +361,9 @@ class VisionSemanticRouteCatalogServiceTest {
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_circle_detail")
                 && !route.isMutating()
                 && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_circle_query"))));
+        assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_accessible_circle")
+                && !route.isMutating()
+                && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("accessible_circle_id"))));
         assertTrue(routes.stream().anyMatch(route -> route.getRouteKey().equals("vision.view_quest_detail")
                 && !route.isMutating()
                 && route.getSlots().stream().anyMatch(slot -> slot.getSlotId().equals("target_quest_query"))));
@@ -295,7 +413,7 @@ class VisionSemanticRouteCatalogServiceTest {
             }
         }
 
-        assertEquals(32, routes.size());
+        assertEquals(89, routes.size());
         assertEquals(
                 Set.of(
                         "create_quest",
@@ -310,8 +428,58 @@ class VisionSemanticRouteCatalogServiceTest {
                         "decline_application",
                         "update_circle",
                         "delete_circle",
+                        "leave_circle",
                         "update_profile",
-                        "update_profile_location"
+                        "update_profile_location",
+                        "mark_chat_read",
+                        "mark_notifications_read"
+                        ,"mark_notification_read",
+                        "update_notification_preferences",
+                        "release_worker",
+                        "replace_worker",
+                        "reopen_quest",
+                        "cancel_quest"
+                        ,"pause_quest"
+                        ,"resume_quest"
+                        ,"create_thing",
+                        "request_borrow",
+                        "cancel_borrow",
+                        "decide_borrow",
+                        "return_borrow",
+                        "create_ride",
+                        "join_ride",
+                        "update_ride",
+                        "leave_ride",
+                        "cancel_ride",
+                        "start_ride",
+                        "complete_ride",
+                        "edit_chat_message",
+                        "reply_to_chat_message",
+                        "react_to_chat_message"
+                        ,"create_business_profile",
+                        "update_business_profile",
+                        "create_gallery_image",
+                        "update_gallery_image",
+                        "delete_gallery_image",
+                        "update_thing",
+                        "archive_thing",
+                        "create_availability_rule",
+                        "update_availability_rule",
+                        "delete_availability_rule",
+                        "create_availability_exception",
+                        "update_availability_exception",
+                        "delete_availability_exception",
+                        "confirm_booking",
+                        "cancel_booking",
+                        "reject_booking",
+                        "complete_booking",
+                        "mark_booking_no_show",
+                        "archive_offering",
+                        "update_quest",
+                        "create_offering",
+                        "update_offering"
+                        ,"create_booking",
+                        "reschedule_booking"
                 ),
                 new HashSet<>(new VisionSurfacePolicy(new com.themuffinman.app.config.VisionProperties()).supportedExecutionCapabilityIds())
         );

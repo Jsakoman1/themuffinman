@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import {computed} from "vue"
+import {computed, ref} from "vue"
 import {RouterLink} from "vue-router"
 import type {AppSurfaceConfig} from "../shellDefinitions.ts"
 import type {ShellSurfaceSection, ShellSurfaceMetric} from "../shellSurfaceData.ts"
+import SurfaceRow from "./SurfaceRow.vue"
+import SurfaceHeader from "./SurfaceHeader.vue"
+import SurfaceMetricGrid from "./SurfaceMetricGrid.vue"
+import SurfaceSection from "./SurfaceSection.vue"
 
 const props = defineProps<{
   config: AppSurfaceConfig
@@ -12,132 +16,107 @@ const props = defineProps<{
   error: string
   detailLabel?: string
   note?: string
+  onRetry?: () => void
 }>()
 
 const surfaceClass = computed(() => `surface-content--${props.config.archetype}`)
+type CalendarMode = "month" | "week" | "day"
+const calendarMode = ref<CalendarMode>("month")
+const calendarCursor = ref(new Date())
+const calendarRows = computed(() => props.sections.flatMap(section => section.rows).filter(row => row.startAt))
+const calendarEventsForDate = (date: Date) => calendarRows.value.filter(row => {
+  if (!row.startAt) return false
+  const eventDate = new Date(row.startAt)
+  return eventDate.getFullYear() === date.getFullYear() && eventDate.getMonth() === date.getMonth() && eventDate.getDate() === date.getDate()
+})
+const startOfWeek = (date: Date) => {
+  const result = new Date(date)
+  result.setHours(0, 0, 0, 0)
+  result.setDate(result.getDate() - result.getDay())
+  return result
+}
+const calendarDays = computed(() => {
+  const first = new Date(calendarCursor.value.getFullYear(), calendarCursor.value.getMonth(), 1)
+  const start = new Date(first)
+  start.setDate(1 - first.getDay())
+  return Array.from({length: 42}, (_, index) => {
+    const date = new Date(start)
+    date.setDate(start.getDate() + index)
+    return {date, events: calendarEventsForDate(date), inMonth: date.getMonth() === calendarCursor.value.getMonth()}
+  })
+})
+const calendarWeekDays = computed(() => Array.from({length: 7}, (_, index) => {
+  const date = startOfWeek(calendarCursor.value)
+  date.setDate(date.getDate() + index)
+  return {date, events: calendarEventsForDate(date)}
+}))
+const calendarTitle = computed(() => new Intl.DateTimeFormat("en-US", {month: "long", year: "numeric"}).format(calendarCursor.value))
+const calendarTimezone = new Intl.DateTimeFormat().resolvedOptions().timeZone || "local time"
+const moveCalendar = (amount: number) => {
+  const next = new Date(calendarCursor.value)
+  if (calendarMode.value === "month") next.setMonth(next.getMonth() + amount)
+  else if (calendarMode.value === "week") next.setDate(next.getDate() + amount * 7)
+  else next.setDate(next.getDate() + amount)
+  calendarCursor.value = next
+}
+const formatEventTime = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("en-US", {hour: "numeric", minute: "2-digit"}).format(new Date(value)) : ""
+const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "short", month: "short", day: "numeric"}).format(date)
 </script>
 
 <template>
-  <section class="surface-content" :class="surfaceClass">
-    <header class="surface-content__header">
-      <div class="surface-content__location">
-        <span class="surface-content__location-mark" aria-hidden="true"></span>
-        <p class="surface-content__eyebrow">{{ config.eyebrow }}</p>
-        <span v-if="detailLabel" class="surface-content__detail-label">{{ detailLabel }}</span>
-      </div>
-      <h1 class="surface-content__title">{{ config.title }}</h1>
-      <div v-if="config.actions.length > 0" class="surface-content__actions" aria-label="Surface actions">
-        <RouterLink
-          v-for="action in config.actions.slice(0, 2)"
-          :key="action.label"
-          :to="action.to"
-          class="surface-content__action"
-          :class="`surface-content__action--${action.tone ?? 'secondary'}`"
-        >
-          {{ action.label }}
-        </RouterLink>
-      </div>
-    </header>
+  <section class="surface-content" :class="surfaceClass" :data-surface-id="config.id">
+    <SurfaceHeader :config="config" :detail-label="detailLabel" />
 
-    <div v-if="metrics.length > 0" class="surface-content__metrics" aria-label="Summary">
-      <article
-        v-for="metric in metrics"
-        :key="metric.label"
-        class="surface-content__metric"
-        :class="{ 'surface-content__metric--emphasis': metric.tone === 'emphasis' }"
-      >
-        <span class="surface-content__metric-label">{{ metric.label }}</span>
-        <strong class="surface-content__metric-value">{{ metric.value }}</strong>
-      </article>
-    </div>
+    <SurfaceMetricGrid :metrics="metrics" />
+
+    <p v-if="note" class="surface-content__note">{{ note }}</p>
 
     <div v-if="loading" class="surface-content__status-card" role="status">Loading.</div>
     <div v-else-if="error" class="surface-content__status-card surface-content__status-card--error" role="alert">
-      {{ error }}
+      <span>{{ error }}</span><button v-if="onRetry" type="button" @click="onRetry">Retry</button>
     </div>
 
-    <div v-if="config.archetype === 'chat'" class="surface-content__inbox-layout">
+    <div v-else-if="!loading && !error && config.archetype === 'chat'" class="surface-content__inbox-layout">
       <aside class="surface-content__inbox-index" aria-label="Conversation list">
         <h2 class="surface-content__card-title">{{ sections[sections.length > 1 ? 1 : 0]?.title ?? "Inbox" }}</h2>
         <div class="surface-content__rows">
-          <div v-for="row in sections[sections.length > 1 ? 1 : 0]?.rows ?? []" :key="row.id" class="surface-content__inbox-row">
-            <RouterLink v-if="row.to" :to="row.to" class="surface-content__row-title">{{ row.title }}</RouterLink>
-            <span v-else class="surface-content__row-title">{{ row.title }}</span>
-            <span v-if="row.meta" class="surface-content__row-meta">{{ row.meta }}</span>
-          </div>
+          <SurfaceRow v-for="row in sections[sections.length > 1 ? 1 : 0]?.rows ?? []" :key="row.id" :row="row" />
         </div>
       </aside>
       <section class="surface-content__inbox-focus" aria-label="Selected conversation">
         <h2 class="surface-content__card-title">{{ sections[0]?.title ?? "Conversation" }}</h2>
         <div class="surface-content__rows">
-          <div v-for="row in sections[0]?.rows ?? []" :key="row.id" class="surface-content__focus-row">
-            <span class="surface-content__row-title">{{ row.title }}</span>
-            <span v-if="row.meta" class="surface-content__row-meta">{{ row.meta }}</span>
-          </div>
+          <SurfaceRow v-for="row in sections[0]?.rows ?? []" :key="row.id" :row="row" />
         </div>
         <p v-if="sections.length === 0" class="surface-content__empty-state">Select a conversation.</p>
       </section>
     </div>
 
-    <div v-else-if="config.archetype === 'calendar'" class="surface-content__timeline" aria-label="Calendar timeline">
-      <section v-for="section in sections" :key="section.title" class="surface-content__timeline-group">
-        <h2 class="surface-content__card-title">{{ section.title }}</h2>
-        <div class="surface-content__rows">
-          <div v-for="row in section.rows" :key="row.id" class="surface-content__timeline-row">
-            <span class="surface-content__timeline-dot" aria-hidden="true"></span>
-            <div class="surface-content__row-main">
-              <span class="surface-content__row-title">{{ row.title }}</span>
-              <span v-if="row.badge" class="surface-content__badge">{{ row.badge }}</span>
-            </div>
-            <span v-if="row.meta" class="surface-content__row-meta">{{ row.meta }}</span>
-            <RouterLink v-if="row.to" :to="row.to" class="surface-content__row-link">Open</RouterLink>
-          </div>
-        </div>
-      </section>
+    <div v-else-if="!loading && !error && config.archetype === 'calendar'" class="surface-content__calendar" aria-label="Calendar workspace">
+      <div class="surface-content__calendar-toolbar">
+        <div><strong>{{ calendarTitle }}</strong><span>{{ calendarRows.length }} scheduled items · {{ calendarTimezone }}</span></div>
+        <div class="surface-content__calendar-actions" aria-label="Calendar controls"><button type="button" @click="moveCalendar(-1)">Previous</button><button type="button" @click="calendarCursor = new Date()">Today</button><button type="button" @click="moveCalendar(1)">Next</button><button v-for="mode in ['month','week','day']" :key="mode" type="button" :aria-pressed="calendarMode === mode" :class="{'surface-content__calendar-mode--active': calendarMode === mode}" @click="calendarMode = mode as CalendarMode">{{ mode }}</button></div>
+      </div>
+      <div v-if="calendarMode === 'month'" class="surface-content__month-grid"><span v-for="day in ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']" :key="day" class="surface-content__weekday">{{ day }}</span><div v-for="day in calendarDays" :key="day.date.toISOString()" class="surface-content__month-day" :class="{'surface-content__month-day--outside': !day.inMonth}"><strong>{{ day.date.getDate() }}</strong><RouterLink v-for="event in day.events.slice(0, 3)" :key="event.id" :to="event.to ?? '/calendar'" class="surface-content__calendar-event"><small>{{ formatEventTime(event.startAt) }}</small>{{ event.title }}</RouterLink><span v-if="day.events.length > 3" class="surface-content__more-events">+{{ day.events.length - 3 }} more</span></div></div>
+      <div v-else-if="calendarMode === 'week'" class="surface-content__week-grid"><article v-for="day in calendarWeekDays" :key="day.date.toISOString()"><h2>{{ formatDay(day.date) }}</h2><RouterLink v-for="event in day.events" :key="event.id" :to="event.to ?? '/calendar'" class="surface-content__calendar-event"><small>{{ formatEventTime(event.startAt) }}</small>{{ event.title }}<span>{{ event.badge || event.eventType }}</span></RouterLink><p v-if="day.events.length === 0">No events</p></article></div>
+      <div v-else class="surface-content__day-view"><h2>{{ formatDay(calendarCursor) }}</h2><RouterLink v-for="event in calendarEventsForDate(calendarCursor)" :key="event.id" :to="event.to ?? '/calendar'" class="surface-content__calendar-event"><small>{{ formatEventTime(event.startAt) }}–{{ formatEventTime(event.endAt) }}</small><strong>{{ event.title }}</strong><span>{{ event.description }}</span></RouterLink><p v-if="calendarEventsForDate(calendarCursor).length === 0">No events scheduled for this day.</p></div>
+      <p v-if="calendarRows.length === 0" class="surface-content__empty-state">No scheduled work or business events are available yet.</p>
     </div>
 
-    <div v-else-if="config.archetype === 'business'" class="surface-content__operations" aria-label="Business operations">
+    <div v-else-if="!loading && !error && config.archetype === 'business'" class="surface-content__operations" aria-label="Business operations">
       <section v-for="section in sections" :key="section.title" class="surface-content__operations-group">
         <div class="surface-content__operations-heading">
           <h2 class="surface-content__card-title">{{ section.title }}</h2>
           <span>{{ section.rows.length }}</span>
         </div>
         <div class="surface-content__rows">
-          <div v-for="row in section.rows" :key="row.id" class="surface-content__row">
-            <div class="surface-content__row-main">
-              <span class="surface-content__row-title">{{ row.title }}</span>
-              <span v-if="row.badge" class="surface-content__badge">{{ row.badge }}</span>
-            </div>
-            <span v-if="row.meta" class="surface-content__row-meta">{{ row.meta }}</span>
-            <RouterLink v-if="row.to" :to="row.to" class="surface-content__row-link">Open</RouterLink>
-          </div>
+          <SurfaceRow v-for="row in section.rows" :key="row.id" :row="row" />
         </div>
       </section>
     </div>
 
-    <div v-else class="surface-content__sections">
-      <article
-        v-for="section in sections"
-        :key="section.title"
-        class="surface-content__card"
-      >
-        <h2 class="surface-content__card-title">{{ section.title }}</h2>
-
-        <div v-if="section.rows.length > 0" class="surface-content__rows">
-          <div v-for="row in section.rows" :key="row.id" class="surface-content__row">
-            <div class="surface-content__row-main">
-              <span class="surface-content__row-title">{{ row.title }}</span>
-              <span v-if="row.badge" class="surface-content__badge">{{ row.badge }}</span>
-            </div>
-            <span v-if="row.meta" class="surface-content__row-meta">{{ row.meta }}</span>
-            <div v-if="row.to || row.visionTo" class="surface-content__row-actions">
-              <RouterLink v-if="row.to" :to="row.to" class="surface-content__row-link">Open</RouterLink>
-              <RouterLink v-if="row.visionTo" :to="row.visionTo" class="surface-content__row-link surface-content__row-link--vision">Ask</RouterLink>
-            </div>
-          </div>
-        </div>
-        <p v-else class="surface-content__empty-state">{{ section.emptyState }}</p>
-      </article>
+    <div v-else-if="!loading && !error" class="surface-content__sections">
+      <SurfaceSection v-for="section in sections" :key="section.title" :section="section" />
     </div>
 
     <p v-if="!loading && !error && sections.length === 0" class="surface-content__empty-surface">
@@ -258,6 +237,28 @@ const surfaceClass = computed(() => `surface-content--${props.config.archetype}`
   padding: 0.45rem 0.75rem;
 }
 
+.surface-content__metric[href] {
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.surface-content__metric[href]:hover,
+.surface-content__metric[href]:focus-visible {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
+}
+
+.surface-content__metric-detail {
+  display: none;
+}
+
+.surface-content__note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
 .surface-content__metric--emphasis {
   border-color: #17221a;
   background: #17221a;
@@ -289,6 +290,16 @@ const surfaceClass = computed(() => `surface-content--${props.config.archetype}`
 .surface-content__status-card--error {
   background: rgba(255, 245, 241, 0.92);
   color: #7c2a1d;
+}
+
+.surface-content__status-card--error button {
+  margin-left: 0.6rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .surface-content__sections {
@@ -460,6 +471,139 @@ const surfaceClass = computed(() => `surface-content--${props.config.archetype}`
   font-size: 0.84rem;
 }
 
+.surface-content__calendar {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.surface-content__calendar-toolbar,
+.surface-content__calendar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.surface-content__calendar-toolbar {
+  justify-content: space-between;
+}
+
+.surface-content__calendar-toolbar > div:first-child {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.surface-content__calendar-toolbar span,
+.surface-content__calendar-toolbar small {
+  color: rgba(23, 34, 26, 0.56);
+  font-size: 0.78rem;
+}
+
+.surface-content__calendar-actions button {
+  border: 1px solid rgba(23, 34, 26, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.42rem 0.65rem;
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.surface-content__calendar-actions .surface-content__calendar-mode--active {
+  background: #17221a;
+  color: #f8f8f4;
+}
+
+.surface-content__month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid rgba(23, 34, 26, 0.1);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.surface-content__weekday {
+  padding: 0.55rem;
+  color: rgba(23, 34, 26, 0.55);
+  font-size: 0.7rem;
+  font-weight: 650;
+  text-align: right;
+}
+
+.surface-content__month-day {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+  min-height: 7rem;
+  border-top: 1px solid rgba(23, 34, 26, 0.08);
+  border-right: 1px solid rgba(23, 34, 26, 0.08);
+  padding: 0.45rem;
+}
+
+.surface-content__month-day:nth-child(7n) {
+  border-right: 0;
+}
+
+.surface-content__month-day--outside {
+  background: rgba(23, 34, 26, 0.025);
+  color: rgba(23, 34, 26, 0.38);
+}
+
+.surface-content__calendar-event {
+  display: grid;
+  gap: 0.12rem;
+  overflow: hidden;
+  border-radius: 0.45rem;
+  background: rgba(214, 228, 218, 0.75);
+  padding: 0.3rem 0.4rem;
+  color: #17221a;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.surface-content__calendar-event small,
+.surface-content__calendar-event span {
+  color: rgba(23, 34, 26, 0.58);
+  font-size: 0.65rem;
+}
+
+.surface-content__more-events {
+  color: rgba(23, 34, 26, 0.55);
+  font-size: 0.68rem;
+}
+
+.surface-content__week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.surface-content__week-grid article,
+.surface-content__day-view {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+  min-height: 12rem;
+  border: 1px solid rgba(23, 34, 26, 0.08);
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.65rem;
+}
+
+.surface-content__week-grid h2,
+.surface-content__day-view h2 {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.surface-content__week-grid p,
+.surface-content__day-view p {
+  color: rgba(23, 34, 26, 0.5);
+  font-size: 0.75rem;
+}
+
 @media (max-width: 760px) {
   .surface-content__header {
     grid-template-columns: 1fr;
@@ -509,6 +653,30 @@ const surfaceClass = computed(() => `surface-content--${props.config.archetype}`
   .surface-content__row-actions {
     grid-column: 2;
     grid-row: 1 / span 2;
+  }
+
+  .surface-content__month-day {
+    min-height: 5rem;
+  }
+
+  .surface-content__week-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .surface-content__calendar-toolbar {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .surface-content__calendar-actions {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: .2rem;
+  }
+
+  .surface-content__calendar-event {
+    min-height: 2.5rem;
   }
 }
 </style>

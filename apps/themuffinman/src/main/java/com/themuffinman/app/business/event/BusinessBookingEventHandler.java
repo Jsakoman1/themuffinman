@@ -26,4 +26,9 @@ public class BusinessBookingEventHandler {
                 event.note()
         );
     }
+
+    @EventListener
+    public void handle(BusinessBookingRescheduledEvent event) {
+        businessBookingAuditService.recordRescheduled(event.booking(), event.actor(), event.note());
+    }
 }

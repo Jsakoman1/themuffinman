@@ -22,6 +22,12 @@ export type ShellSurfaceOwnership = {
   topLevelNavEligible: boolean
 }
 
+export type ShellNavigationGroup = {
+  id: "primary" | "secondary"
+  label: string
+  items: AppPrimaryNavItem[]
+}
+
 export const topLevelNavigationPromotionPolicy: ShellNavigationPromotionPolicy = {
   requiredBackendReadModel: [
     "stable backend read model",
@@ -57,8 +63,13 @@ export const topLevelNavigationSurfaceIds: AppSurfaceId[] = [
   "calendar",
   "business",
   "circles",
+  "things",
+  "rides",
   "profile"
 ]
+
+export const primaryNavigationSurfaceIds: AppSurfaceId[] = ["home", "work", "chat", "calendar"]
+export const secondaryNavigationSurfaceIds: AppSurfaceId[] = ["business", "circles", "things", "rides"]
 
 export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership> = {
   home: {
@@ -101,10 +112,10 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     primaryNavLabel: "Work / Applications",
     primaryNavDescription: "Application browsing with Vision detail.",
     canonicalEntryRoute: {path: "/work/applications"},
-    canonicalDetailRoute: (targetId) => ({path: `/vision/applications/${targetId}`}),
+    canonicalDetailRoute: (targetId) => ({path: `/work/applications/${targetId}`}),
     visionPrompt: "review my applications and tell me which need attention",
     moduleSpaceRule: "Stay in Work for the applications list.",
-    visionRule: "Use Vision for canonical application detail and review-gated mutation flows.",
+    visionRule: "Use Vision for semantic discovery and guided review; known application detail stays in Work.",
     topLevelNavEligible: false
   },
   chat: {
@@ -196,6 +207,52 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     visionRule: "Use Vision for create, request, rename, delete, or person-resolution heavy work.",
     topLevelNavEligible: true
   },
+  people: {
+    id: "people",
+    primaryNavId: "circles",
+    primaryNavLabel: "People",
+    primaryNavDescription: "Find people and view trust-aware profiles.",
+    canonicalEntryRoute: {path: "/people"},
+    visionPrompt: "find people for me",
+    moduleSpaceRule: "Stay in People for search and profile browsing.",
+    visionRule: "Use Vision for semantic person resolution or guided outreach.",
+    topLevelNavEligible: false
+  },
+  "business-discovery": {
+    id: "business-discovery",
+    primaryNavId: "business",
+    primaryNavLabel: "Business / Discover",
+    primaryNavDescription: "Discover public businesses and offerings.",
+    canonicalEntryRoute: {path: "/business/find"},
+    visionPrompt: "find a business for me",
+    moduleSpaceRule: "Stay in Business discovery for public business browsing.",
+    visionRule: "Use Vision for semantic business matching or planning.",
+    topLevelNavEligible: false
+  },
+  things: {
+    id: "things",
+    primaryNavId: "things",
+    primaryNavLabel: "Things",
+    primaryNavDescription: "Lending listings and borrow requests.",
+    canonicalEntryRoute: {path: "/things"},
+    canonicalDetailRoute: (targetId) => ({path: `/things/${targetId}`}),
+    visionPrompt: "find things to borrow or lend",
+    moduleSpaceRule: "Stay in Things for listing and borrowing workflows.",
+    visionRule: "Use Vision for semantic matching or guided lending decisions.",
+    topLevelNavEligible: false
+  },
+  rides: {
+    id: "rides",
+    primaryNavId: "rides",
+    primaryNavLabel: "Rides",
+    primaryNavDescription: "Voluntary circle-scoped ride coordination.",
+    canonicalEntryRoute: {path: "/rides"},
+    canonicalDetailRoute: (targetId) => ({path: `/rides/${targetId}`}),
+    visionPrompt: "find a ride or offer a ride",
+    moduleSpaceRule: "Stay in Rides for deterministic discovery and lifecycle actions.",
+    visionRule: "Use Vision for semantic route matching and guided confirmations.",
+    topLevelNavEligible: false
+  },
   profile: {
     id: "profile",
     primaryNavId: "profile",
@@ -220,7 +277,7 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
   }
 }
 
-export const buildAppPrimaryNavItems = (): AppPrimaryNavItem[] => topLevelNavigationSurfaceIds.map((surfaceId) => {
+export const buildAppNavigationItems = (surfaceIds: AppSurfaceId[]): AppPrimaryNavItem[] => surfaceIds.map((surfaceId) => {
   const ownership = surfaceOwnershipMatrix[surfaceId]
 
   return {
@@ -230,6 +287,14 @@ export const buildAppPrimaryNavItems = (): AppPrimaryNavItem[] => topLevelNaviga
     to: ownership.canonicalEntryRoute
   }
 })
+
+export const buildAppPrimaryNavItems = (): AppPrimaryNavItem[] => buildAppNavigationItems(primaryNavigationSurfaceIds)
+export const buildAppSecondaryNavItems = (): AppPrimaryNavItem[] => buildAppNavigationItems(secondaryNavigationSurfaceIds)
+
+export const buildAppNavigationGroups = (): ShellNavigationGroup[] => [
+  {id: "primary", label: "Core", items: buildAppPrimaryNavItems()},
+  {id: "secondary", label: "Modules", items: buildAppSecondaryNavItems()}
+]
 
 export const getSurfaceOwnership = (surfaceId: AppSurfaceId) => surfaceOwnershipMatrix[surfaceId]
 

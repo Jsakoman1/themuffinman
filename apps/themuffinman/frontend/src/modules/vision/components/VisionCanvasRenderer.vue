@@ -2,7 +2,7 @@
 import {computed, nextTick, onMounted, ref, watch} from "vue"
 import {RouterLink} from "vue-router"
 import {currentUser} from "../../identity/auth.ts"
-import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionReviewTarget, VisionRuntimeContext} from "../api/visionConversationApi.ts"
+import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionExecutionCandidate, VisionReviewTarget, VisionRuntimeContext} from "../api/visionConversationApi.ts"
 import type {VisionVoiceState} from "../composables/useVisionConversation.ts"
 import {formatVisionFlowLine} from "../visionPresentation.ts"
 import {resolveVisionEntityRoute} from "../../app-shell/visionHandoff.ts"
@@ -12,6 +12,7 @@ import VisionTypingText from "./VisionTypingText.vue"
 
 const props = defineProps<{
   response: VisionConversationTurnResponse | null
+  executionCandidate: VisionExecutionCandidate | null
   runtimeContext: VisionRuntimeContext | null
   displayBlocks: VisionCanvasBlock[]
   lastTranscript: string
@@ -303,6 +304,15 @@ onMounted(() => {
             />
           </span>
         </p>
+
+        <div
+          v-if="props.executionCandidate?.reviewReady && props.executionCandidate.confirmationRequired"
+          class="vision-console__review-actions"
+          aria-label="Vision review actions"
+        >
+          <button type="button" class="vision-console__review-confirm" @click="emit('confirmReview')">Confirm and create</button>
+          <button type="button" class="vision-console__review-cancel" @click="emit('cancel')">Cancel</button>
+        </div>
 
         <div v-for="row in terminalRows" :key="row.key" class="vision-console__row-group">
           <VisionTerminalRow

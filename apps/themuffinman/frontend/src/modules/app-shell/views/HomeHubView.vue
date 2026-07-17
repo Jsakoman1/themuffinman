@@ -6,7 +6,7 @@ import SurfaceContentView from "../components/SurfaceContentView.vue"
 
 const route = useRoute()
 const surface = getAppSurfaceConfig("home")
-const {model, isLoading, error} = useShellSurfaceData("home", route)
+const {model, isLoading, error, reload} = useShellSurfaceData("home", route)
 </script>
 
 <template>
@@ -16,6 +16,7 @@ const {model, isLoading, error} = useShellSurfaceData("home", route)
     :sections="model.sections"
     :loading="isLoading"
     :error="error"
+    :on-retry="reload"
     :note="model.note"
   />
 </template>

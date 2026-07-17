@@ -31,6 +31,9 @@ final class VisionIntentSignalSupport {
                 return VisionIntent.DELETE_CIRCLE;
             }
         }
+        if (semanticIntent == VisionIntent.VIEW_THINGS && containsThingDetailSignals(lower)) {
+            return VisionIntent.VIEW_THING_DETAIL;
+        }
         if (semanticIntent == VisionIntent.VIEW_APPLICATIONS || semanticIntent == VisionIntent.VIEW_APPLICATION_DETAIL) {
             if (containsApplicationCreateSignals(lower)) {
                 return VisionIntent.CREATE_APPLICATION;
@@ -177,6 +180,23 @@ final class VisionIntentSignalSupport {
                 "account settings");
     }
 
+    boolean containsNotificationPreferenceSignals(String value) {
+        return containsAny(value,
+                "notification preferences", "notification settings", "notification preference",
+                "turn off chat notifications", "turn on chat notifications", "disable chat notifications",
+                "enable chat notifications", "mute chat notifications", "unmute chat notifications",
+                "turn off email notifications", "turn on email notifications", "disable email notifications",
+                "enable email notifications", "mute push notifications", "unmute push notifications");
+    }
+
+    boolean containsWorkerReleaseSignals(String value) {
+        return containsAny(value, "release worker", "remove worker", "free worker slot", "release assigned worker");
+    }
+
+    boolean containsWorkerReplacementSignals(String value) {
+        return containsAny(value, "replace worker", "reassign worker", "swap worker", "change assigned worker");
+    }
+
     boolean containsBusinessPageSignals(String value) {
         return containsAny(value,
                 "my business",
@@ -272,6 +292,18 @@ final class VisionIntentSignalSupport {
                 "open quest ",
                 "quest details",
                 "quest detail");
+    }
+
+    boolean containsQuestCancelSignals(String value) {
+        return containsAny(value, "cancel quest", "cancel job", "cancel work", "cancel my quest", "cancel my job");
+    }
+
+    boolean containsQuestPauseSignals(String value) {
+        return containsAny(value, "pause quest", "pause job", "pause work", "pause my quest", "resume quest", "resume job", "resume work", "unpause quest");
+    }
+
+    boolean containsBookingRescheduleSignals(String value) {
+        return containsAny(value, "reschedule booking", "reschedule appointment", "move booking", "move appointment", "change booking time");
     }
 
     boolean containsQuestNewsSignals(String value) {
@@ -374,6 +406,8 @@ final class VisionIntentSignalSupport {
                 "remove circle");
     }
 
+    boolean containsCircleLeaveSignals(String value) { return containsAny(value, "leave circle", "exit circle", "leave my circle"); }
+
     boolean containsApplicationCreateSignals(String value) {
         return containsAny(value,
                 "apply to quest",
@@ -450,6 +484,65 @@ final class VisionIntentSignalSupport {
                 "share things");
     }
 
+    boolean containsThingDetailSignals(String value) {
+        return containsAny(value,
+                "show thing ", "open thing ", "view thing ",
+                "thing details", "thing detail", "listing details", "listing detail");
+    }
+    boolean containsThingUpdateSignals(String value) { return containsAny(value, "update thing", "edit thing", "update listing", "edit listing"); }
+    boolean containsThingArchiveSignals(String value) { return containsAny(value, "archive thing", "archive listing", "remove my listing"); }
+
+    boolean containsBorrowRequestSignals(String value) {
+        return containsAny(value, "my borrow requests", "my loans", "borrow requests", "loan requests", "things I borrowed");
+    }
+
+    boolean containsChatMessageEditSignals(String value) {
+        return containsAny(value, "edit message", "edit my message", "change message");
+    }
+
+    boolean containsChatMessageReplySignals(String value) {
+        return containsAny(value, "reply to message", "reply message", "respond to message");
+    }
+
+    boolean containsChatMessageReactionSignals(String value) {
+        return containsAny(value, "react to message", "add reaction", "react message");
+    }
+
+    boolean containsBusinessProfileCreateSignals(String value) {
+        return containsAny(value, "create business profile", "create business page", "set up business profile");
+    }
+
+    boolean containsBusinessProfileUpdateSignals(String value) {
+        return containsAny(value, "update business profile", "edit business profile", "change business profile");
+    }
+
+    boolean containsGalleryCreateSignals(String value) { return containsAny(value, "add gallery image", "add gallery photo", "upload gallery image"); }
+    boolean containsGalleryUpdateSignals(String value) { return containsAny(value, "update gallery image", "edit gallery image", "change gallery image"); }
+    boolean containsGalleryDeleteSignals(String value) { return containsAny(value, "delete gallery image", "remove gallery image"); }
+    boolean containsAvailabilityRuleCreateSignals(String value) { return containsAny(value, "create availability rule", "add availability rule", "set availability rule"); }
+    boolean containsAvailabilityRuleUpdateSignals(String value) { return containsAny(value, "update availability rule", "edit availability rule"); }
+    boolean containsAvailabilityRuleDeleteSignals(String value) { return containsAny(value, "delete availability rule", "remove availability rule"); }
+    boolean containsAvailabilityExceptionCreateSignals(String value) { return containsAny(value, "create availability exception", "block availability", "add availability exception"); }
+    boolean containsAvailabilityExceptionUpdateSignals(String value) { return containsAny(value, "update availability exception", "edit availability exception"); }
+    boolean containsAvailabilityExceptionDeleteSignals(String value) { return containsAny(value, "delete availability exception", "remove availability exception", "unblock availability"); }
+
+    boolean containsBookingConfirmSignals(String value) {
+        return containsAny(value, "confirm booking", "approve booking", "accept booking");
+    }
+
+    boolean containsBookingCancelSignals(String value) {
+        return containsAny(value, "cancel booking", "cancel appointment");
+    }
+
+    boolean containsBookingRejectSignals(String value) { return containsAny(value, "reject booking", "decline booking"); }
+    boolean containsBookingCompleteSignals(String value) { return containsAny(value, "complete booking", "complete appointment"); }
+    boolean containsBookingNoShowSignals(String value) { return containsAny(value, "mark booking no show", "mark appointment no show", "customer no show"); }
+    boolean containsOfferingArchiveSignals(String value) { return containsAny(value, "archive offering", "archive service", "deactivate offering"); }
+    boolean containsQuestUpdateSignals(String value) { return containsAny(value, "update quest", "edit quest", "rename quest", "edit job"); }
+    boolean containsOfferingCreateSignals(String value) { return containsAny(value, "create offering", "create service", "add offering"); }
+    boolean containsOfferingUpdateSignals(String value) { return containsAny(value, "update offering", "edit offering", "rename offering"); }
+    boolean containsBookingCreateSignals(String value) { return containsAny(value, "book offering", "create booking", "make appointment", "book appointment"); }
+
     boolean containsApplicationDetailSignals(String value) {
         return containsAny(value,
                 "show application ",
@@ -495,6 +588,7 @@ final class VisionIntentSignalSupport {
         return switch (intent) {
             case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> containsAny(value, "quest", "quests", "job", "jobs", "work", "news", "updates", "activity feed");
             case VIEW_NOTIFICATIONS -> containsAny(value, "notification", "notifications", "notification center", "alerts", "alert");
+            case VIEW_ACTIVITY -> containsAny(value, "activity", "recent activity", "resume", "continue task", "history");
             case CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                  UPDATE_CIRCLE, DELETE_CIRCLE, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL -> containsAny(value, "circle", "circles");
             case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION,
@@ -502,6 +596,7 @@ final class VisionIntentSignalSupport {
             case UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_PROFILE, VIEW_USER_PROFILE -> containsAny(value, "profile", "username", "bio", "location", "settings");
             case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> containsAny(value, "business", "page", "profile", "schedule", "availability", "hours", "dashboard", "bookings");
             case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> containsAny(value, "chat", "message", "dm", "talk");
+            case VIEW_CHAT_ATTACHMENT -> containsAny(value, "attachment", "file", "photo", "image") && containsAny(value, "chat", "message");
             default -> false;
         };
     }
@@ -533,13 +628,14 @@ final class VisionIntentSignalSupport {
         return switch (intent) {
             case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION -> "profile";
             case VIEW_NOTIFICATIONS -> "notifications";
+            case VIEW_ACTIVITY -> "activity";
             case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY -> "business";
             case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
                     WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
             case CREATE_QUEST, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> "quests";
-            case VIEW_CHAT_WORKSPACE, OPEN_CHAT -> "chat";
+            case VIEW_CHAT_WORKSPACE, OPEN_CHAT, VIEW_CHAT_ATTACHMENT -> "chat";
             default -> null;
         };
     }

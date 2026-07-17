@@ -45,6 +45,20 @@ public class ThingSharingController {
         return thingSharingService.saveMyListing(dto, currentUser);
     }
 
+    @PutMapping("/listings/{listingId}")
+    public ThingListingResponseDTO updateListing(
+            @PathVariable Long listingId,
+            @Valid @RequestBody ThingListingRequestDTO dto,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingSharingService.updateMyListingForVision(listingId, dto, currentUser);
+    }
+
+    @DeleteMapping("/listings/{listingId}")
+    public void archiveListing(@PathVariable Long listingId, @AuthenticationPrincipal AppUser currentUser) {
+        thingSharingService.archiveMyListingForVision(listingId, currentUser);
+    }
+
     @PostMapping("/listings/{listingId}/borrow-requests")
     public ThingBorrowRequestResponseDTO requestBorrow(
             @PathVariable Long listingId,

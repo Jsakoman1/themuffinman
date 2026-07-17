@@ -1,0 +1,107 @@
+kind: work
+version: 1
+id: worker-lifecycle-backend-batch
+title: Implement backend worker lifecycle management
+status: verified
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+tasks:
+- id: task-1
+  title: Add explicit released application state and worker-management request contract
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestApplicationStatus.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkerReassignmentRequestDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='WorkmarketWorkerManagementServiceTest,WorkmarketRequestDtoValidationTest'
+    test
+- id: task-2
+  title: Implement transaction-safe release and replacement commands
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/WorkmarketQuestApplicationRepository.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestWorkflowNotificationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestNewsType.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='WorkmarketWorkerManagementServiceTest'
+    test
+- id: task-3
+  title: Expose worker-management API and update product/domain documentation
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationService.java
+  - docs/work/work-quest-lifecycle-contract.yaml
+  - docs/capability-inventory.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/workflow-state-machines.yaml
+  - docs/implementation-backlog.md
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && make audit-docs
+evidence:
+- task: task-1
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='WorkmarketWorkerManagementServiceTest,WorkmarketRequestDtoValidationTest'
+    test
+  ranAt: '2026-07-17T07:44:35Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestApplicationStatus.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/WorkerReassignmentRequestDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java
+  output: "09:44:38.297 [main] INFO org.hibernate.validator.internal.util.Version
+    -- HV000001: Hibernate Validator 9.0.1.Final\n\n"
+- task: task-2
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='WorkmarketWorkerManagementServiceTest'
+    test
+  ranAt: '2026-07-17T07:44:39Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/model/QuestNewsType.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/repository/WorkmarketQuestApplicationRepository.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestWorkflowNotificationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java
+  output: "\n"
+- task: task-3
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && make audit-docs
+  ranAt: '2026-07-17T07:44:42Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller/QuestApplicationController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationService.java
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/workflow-state-machines.yaml
+  - docs/work/work-quest-lifecycle-contract.yaml
+  output: |+
+    2026-07-17T09:44:53.071+02:00  INFO 19819 --- [           main] c.t.app.config.AdminBootstrapConfig      : Seeded user account: test@sidequest.test
+    2026-07-17T09:44:54.537+02:00  INFO 19819 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+    2026-07-17T09:44:54.537+02:00  INFO 19819 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+    2026-07-17T09:44:54.537+02:00  INFO 19819 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+    2026-07-17T09:44:54.564+02:00  INFO 19819 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+    2026-07-17T09:44:54.564+02:00  INFO 19819 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+    2026-07-17T09:44:54.564+02:00  INFO 19819 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+    2026-07-17T09:44:54.572+02:00  INFO 19819 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+    2026-07-17T09:44:54.572+02:00  INFO 19819 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+    2026-07-17T09:44:54.572+02:00  INFO 19819 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+    2026-07-17T09:44:54.595+02:00  INFO 19819 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.themuffinman.app.TheMuffinManApplicationTests]: TheMuffinManApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-07-17T09:44:54.609+02:00  INFO 19819 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.themuffinman.app.TheMuffinManApplication for test class com.themuffinman.app.TheMuffinManApplicationTests
+    2026-07-17T09:44:54.611+02:00  INFO 19819 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.themuffinman.app.TheMuffinManApplicationTests]: TheMuffinManApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-07-17T09:44:54.611+02:00  INFO 19819 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.themuffinman.app.TheMuffinManApplication for test class com.themuffinman.app.TheMuffinManApplicationTests
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 205
+      review needed: 0
+      high priority: 0
+

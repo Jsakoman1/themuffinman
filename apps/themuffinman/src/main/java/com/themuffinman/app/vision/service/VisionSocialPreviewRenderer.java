@@ -77,6 +77,21 @@ class VisionSocialPreviewRenderer {
                 .build();
     }
 
+    VisionCapabilityPreviewDTO previewAccessibleCircle(AppUser currentUser, Long circleId) {
+        if (currentUser == null || circleId == null) return null;
+        CircleGroupResponseDTO circle = circleReadService.getAccessibleCircleDetail(circleId, currentUser);
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        addItem(items, "accessible_circle_id", "Circle id", String.valueOf(circle.getId()));
+        addItem(items, "accessible_circle_name", "Circle", circle.getName());
+        addItem(items, "accessible_circle_member_count", "Members", String.valueOf(circle.getMemberCount()));
+        List<CircleMemberDTO> members = circle.getMembers() == null ? List.of() : circle.getMembers();
+        for (int index = 0; index < Math.min(members.size(), 6); index++) {
+            addItem(items, "accessible_circle_member_" + (index + 1), "Member " + (index + 1), members.get(index).getUsername());
+        }
+        return VisionCapabilityPreviewDTO.builder().capabilityId("view_accessible_circle").title(circle.getName())
+                .summary("Accessible circle detail.").items(items).tone("info").build();
+    }
+
     VisionCapabilityPreviewDTO previewCircleDraft(String circleName) {
         List<VisionSlotSummaryDTO> items = new ArrayList<>();
         addItem(items, "circle_name", "Circle name", circleName);

@@ -43,6 +43,7 @@ children:
   - docs/work/runtime-acceptance-catalog.yaml
   - docs/work/cross-module-search-contract.yaml
   - docs/work/native-client-handoff-contract.yaml
+  - docs/work/frontend-ux-modernization.yaml
 dependencies:
   - docs/work/work-capability-closure.yaml -> docs/work/business-capability-closure.yaml
   - docs/work/work-capability-closure.yaml -> docs/work/vision-execution-acceptance.yaml

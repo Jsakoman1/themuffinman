@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
+import {computed, onMounted, ref} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import type {QuestApplicationsViewDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
@@ -10,9 +10,15 @@ const isLoading = ref(true)
 const isWorking = ref(false)
 const error = ref("")
 const feedback = ref("")
+const replacingApplicationId = ref<number | null>(null)
+const replacementApplicationId = ref<number | null>(null)
 const questId = () => Number(route.params.questId)
+const approvedApplications = computed(() => view.value?.approvedApplications ?? [])
+const pendingApplications = computed(() => (view.value?.visibleApplications ?? []).filter(application => application.status === "PENDING"))
 const load = async () => { isLoading.value = true; error.value = ""; try { view.value = await userShellApi.getQuestApplications(questId()) } catch { error.value = "Could not load applications." } finally { isLoading.value = false } }
 const decide = async (applicationId: number, decision: "approve" | "decline") => { isWorking.value = true; error.value = ""; feedback.value = ""; try { await userShellApi.decideQuestApplication(questId(), applicationId, decision); feedback.value = decision === "approve" ? "Application approved." : "Application declined."; await load() } catch { error.value = "Could not update this application." } finally { isWorking.value = false } }
+const release = async (applicationId: number) => { if (!window.confirm("Release this worker and reopen the available slot?")) return; isWorking.value = true; error.value = ""; feedback.value = ""; try { await userShellApi.releaseQuestWorker(questId(), applicationId); feedback.value = "Worker assignment released."; await load() } catch { error.value = "Could not release this worker." } finally { isWorking.value = false } }
+const replace = async () => { if (!replacingApplicationId.value || !replacementApplicationId.value) return; isWorking.value = true; error.value = ""; feedback.value = ""; try { await userShellApi.replaceQuestWorker(questId(), replacingApplicationId.value, replacementApplicationId.value); feedback.value = "Worker assignment replaced."; replacingApplicationId.value = null; replacementApplicationId.value = null; await load() } catch { error.value = "Could not replace this worker." } finally { isWorking.value = false } }
 onMounted(() => void load())
 </script>
 
@@ -26,9 +32,10 @@ onMounted(() => void load())
       <p class="quest-applications__summary">{{ view.pendingApplicationCount }} pending · {{ view.hiddenApplicationsCount }} hidden</p>
       <div v-if="view.visibleApplications.length === 0 && view.approvedApplications.length === 0" class="quest-applications__status">No applications to review.</div>
       <div v-else class="quest-applications__list">
-        <article v-for="application in [...view.approvedApplications, ...view.visibleApplications]" :key="application.id" class="quest-applications__row">
+        <article v-for="application in [...approvedApplications, ...view.visibleApplications.filter(item => item.status !== 'APPROVED')]" :key="application.id" class="quest-applications__row">
           <div><strong>{{ application.applicantUsername }}</strong><span>{{ application.presentation.statusLabel }} · {{ application.message || "No message" }}</span></div>
-          <div class="quest-applications__actions"><button v-if="application.allowedActions.includes('APPROVE')" type="button" :disabled="isWorking" @click="decide(application.id, 'approve')">Approve</button><button v-if="application.allowedActions.includes('DECLINE')" type="button" class="quest-applications__decline" :disabled="isWorking" @click="decide(application.id, 'decline')">Decline</button></div>
+          <div class="quest-applications__actions"><button v-if="application.allowedActions.includes('APPROVE')" type="button" :disabled="isWorking" @click="decide(application.id, 'approve')">Approve</button><button v-if="application.allowedActions.includes('DECLINE')" type="button" class="quest-applications__decline" :disabled="isWorking" @click="decide(application.id, 'decline')">Decline</button><template v-if="application.status === 'APPROVED'"><button type="button" class="quest-applications__decline" :disabled="isWorking" @click="release(application.id)">Release</button><button v-if="pendingApplications.length" type="button" :disabled="isWorking" @click="replacingApplicationId = application.id">Replace</button></template></div>
+          <form v-if="replacingApplicationId === application.id" class="quest-applications__replace" @submit.prevent="replace"><label>Replacement applicant<select v-model.number="replacementApplicationId" required><option :value="null" disabled>Select pending applicant</option><option v-for="candidate in pendingApplications" :key="candidate.id" :value="candidate.id">{{ candidate.applicantUsername }}</option></select></label><button type="submit" :disabled="isWorking || !replacementApplicationId">Confirm replacement</button><button type="button" @click="replacingApplicationId = null">Cancel</button></form>
         </article>
       </div>
     </template>

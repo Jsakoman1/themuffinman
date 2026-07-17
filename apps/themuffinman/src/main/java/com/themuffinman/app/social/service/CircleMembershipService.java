@@ -99,4 +99,16 @@ public class CircleMembershipService {
             circleMembershipRepository.save(membership);
         }
     }
+
+    @Transactional
+    public void leaveCircle(Long circleId, AppUser member) {
+        CircleGroup circle = circleGroupRepository.findById(circleId)
+                .orElseThrow(() -> ServiceErrors.notFound("Circle not found"));
+        if (circle.getOwner() != null && circle.getOwner().getId().equals(member.getId())) {
+            throw ServiceErrors.badRequest("Circle owners cannot leave their own circle");
+        }
+        CircleMembership membership = circleMembershipRepository.findByCircleIdAndMemberId(circleId, member.getId())
+                .orElseThrow(() -> ServiceErrors.badRequest("You are not a member of this circle"));
+        circleMembershipRepository.delete(membership);
+    }
 }

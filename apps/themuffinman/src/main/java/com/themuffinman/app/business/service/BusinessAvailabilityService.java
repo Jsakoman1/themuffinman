@@ -34,16 +34,26 @@ public class BusinessAvailabilityService {
     private final BusinessAvailabilityMgr businessAvailabilityMgr;
 
     public BusinessAvailabilityRuleListResponseDTO getMyRules(AppUser currentUser) {
+        return getMyRules(currentUser, null);
+    }
+
+    public BusinessAvailabilityRuleListResponseDTO getMyRules(AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? null : requireOwnerProfile(currentUser, businessProfileId);
         return BusinessAvailabilityRuleListResponseDTO.builder()
-                .items(businessAvailabilityRuleRepository.findByOwnerId(currentUser.getId()).stream()
+                .items((profile == null ? businessAvailabilityRuleRepository.findByOwnerId(currentUser.getId()) : businessAvailabilityRuleRepository.findByBusinessProfileId(profile.getId(), currentUser.getId())).stream()
                         .map(businessAvailabilityMgr::toDto)
                         .toList())
                 .build();
     }
 
     public BusinessAvailabilityExceptionListResponseDTO getMyExceptions(AppUser currentUser) {
+        return getMyExceptions(currentUser, null);
+    }
+
+    public BusinessAvailabilityExceptionListResponseDTO getMyExceptions(AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? null : requireOwnerProfile(currentUser, businessProfileId);
         return BusinessAvailabilityExceptionListResponseDTO.builder()
-                .items(businessAvailabilityExceptionRepository.findByOwnerId(currentUser.getId()).stream()
+                .items((profile == null ? businessAvailabilityExceptionRepository.findByOwnerId(currentUser.getId()) : businessAvailabilityExceptionRepository.findByBusinessProfileIdAndOwnerId(profile.getId(), currentUser.getId())).stream()
                         .map(businessAvailabilityMgr::toDto)
                         .toList())
                 .build();
@@ -51,13 +61,18 @@ public class BusinessAvailabilityService {
 
     @Transactional
     public BusinessAvailabilityRuleResponseDTO createMyRule(BusinessAvailabilityRuleRequestDTO dto, AppUser currentUser) {
-        BusinessProfile profile = requireOwnerProfile(currentUser);
+        return createMyRule(dto, currentUser, null);
+    }
+
+    @Transactional
+    public BusinessAvailabilityRuleResponseDTO createMyRule(BusinessAvailabilityRuleRequestDTO dto, AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? requireOwnerProfile(currentUser) : requireOwnerProfile(currentUser, businessProfileId);
         businessAvailabilityValidationService.validateBusinessTimezoneConfigured(profile);
         businessAvailabilityValidationService.validateRuleRequest(dto);
 
         BusinessAvailabilityRule rule = new BusinessAvailabilityRule();
         rule.setBusinessProfile(profile);
-        applyRule(rule, dto, currentUser);
+        applyRule(rule, dto, currentUser, profile);
         return businessAvailabilityMgr.toDto(businessAvailabilityRuleRepository.save(rule));
     }
 
@@ -67,7 +82,7 @@ public class BusinessAvailabilityService {
                 .orElseThrow(() -> ServiceErrors.notFound("Business availability rule not found"));
         businessAvailabilityValidationService.validateBusinessTimezoneConfigured(rule.getBusinessProfile());
         businessAvailabilityValidationService.validateRuleRequest(dto);
-        applyRule(rule, dto, currentUser);
+        applyRule(rule, dto, currentUser, rule.getBusinessProfile());
         return businessAvailabilityMgr.toDto(businessAvailabilityRuleRepository.save(rule));
     }
 
@@ -81,12 +96,17 @@ public class BusinessAvailabilityService {
 
     @Transactional
     public BusinessAvailabilityExceptionResponseDTO createMyException(BusinessAvailabilityExceptionRequestDTO dto, AppUser currentUser) {
-        BusinessProfile profile = requireOwnerProfile(currentUser);
+        return createMyException(dto, currentUser, null);
+    }
+
+    @Transactional
+    public BusinessAvailabilityExceptionResponseDTO createMyException(BusinessAvailabilityExceptionRequestDTO dto, AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? requireOwnerProfile(currentUser) : requireOwnerProfile(currentUser, businessProfileId);
         businessAvailabilityValidationService.validateBusinessTimezoneConfigured(profile);
         businessAvailabilityValidationService.validateExceptionRequest(dto);
         BusinessAvailabilityException exception = new BusinessAvailabilityException();
         exception.setBusinessProfile(profile);
-        applyException(exception, dto, currentUser);
+        applyException(exception, dto, currentUser, profile);
         return businessAvailabilityMgr.toDto(businessAvailabilityExceptionRepository.save(exception));
     }
 
@@ -96,7 +116,7 @@ public class BusinessAvailabilityService {
                 .orElseThrow(() -> ServiceErrors.notFound("Business availability exception not found"));
         businessAvailabilityValidationService.validateBusinessTimezoneConfigured(exception.getBusinessProfile());
         businessAvailabilityValidationService.validateExceptionRequest(dto);
-        applyException(exception, dto, currentUser);
+        applyException(exception, dto, currentUser, exception.getBusinessProfile());
         return businessAvailabilityMgr.toDto(businessAvailabilityExceptionRepository.save(exception));
     }
 
@@ -112,8 +132,14 @@ public class BusinessAvailabilityService {
                 .orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before managing availability"));
     }
 
-    private void applyRule(BusinessAvailabilityRule rule, BusinessAvailabilityRuleRequestDTO dto, AppUser currentUser) {
-        rule.setBusinessOffering(resolveOwnedOffering(dto.getBusinessOfferingId(), currentUser));
+    private BusinessProfile requireOwnerProfile(AppUser currentUser, Long businessProfileId) {
+        return businessProfileRepository.findById(businessProfileId)
+                .filter(profile -> profile.getOwner().getId().equals(currentUser.getId()))
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+    }
+
+    private void applyRule(BusinessAvailabilityRule rule, BusinessAvailabilityRuleRequestDTO dto, AppUser currentUser, BusinessProfile profile) {
+        rule.setBusinessOffering(resolveOwnedOffering(dto.getBusinessOfferingId(), currentUser, profile));
         rule.setDayOfWeek(dto.getDayOfWeek());
         rule.setStartTimeLocal(dto.getStartTimeLocal());
         rule.setEndTimeLocal(dto.getEndTimeLocal());
@@ -124,8 +150,8 @@ public class BusinessAvailabilityService {
         rule.setActive(dto.getActive() == null || dto.getActive());
     }
 
-    private void applyException(BusinessAvailabilityException exception, BusinessAvailabilityExceptionRequestDTO dto, AppUser currentUser) {
-        exception.setBusinessOffering(resolveOwnedOffering(dto.getBusinessOfferingId(), currentUser));
+    private void applyException(BusinessAvailabilityException exception, BusinessAvailabilityExceptionRequestDTO dto, AppUser currentUser, BusinessProfile profile) {
+        exception.setBusinessOffering(resolveOwnedOffering(dto.getBusinessOfferingId(), currentUser, profile));
         exception.setExceptionType(dto.getExceptionType());
         exception.setStartAt(dto.getStartAt());
         exception.setEndAt(dto.getEndAt());
@@ -135,11 +161,12 @@ public class BusinessAvailabilityService {
         exception.setReason(dto.getReason() == null ? null : dto.getReason().trim());
     }
 
-    private BusinessOffering resolveOwnedOffering(Long offeringId, AppUser currentUser) {
+    private BusinessOffering resolveOwnedOffering(Long offeringId, AppUser currentUser, BusinessProfile profile) {
         if (offeringId == null) {
             return null;
         }
         return businessOfferingRepository.findOwnedById(offeringId, currentUser.getId())
+                .filter(offering -> offering.getBusinessProfile().getId().equals(profile.getId()))
                 .orElseThrow(() -> ServiceErrors.badRequest("Business offering not found for this owner"));
     }
 }

@@ -57,6 +57,7 @@ After implementation, record durable product lessons here only when they are pro
 - Validation is easiest to keep stable when each task records its exact command and the verifier records the result in the owning work plan.
 - Repeated validation rules belong in the work plan that owns the change; there is no separate manifest or validation-memory layer.
 - Future `/vision` implementation work should start from `docs/product-vision.md` for product direction and `docs/vision-architecture-patterns.md` for backend, API, frontend canvas, prompt-handling, and executor patterns before borrowing from legacy module screens.
+- Web UI and Vision are now treated as equal production clients. The web surface must remain fully usable for direct structured interaction while Vision provides the complementary text/voice interaction path; neither client is allowed to be treated as merely a companion.
 - Future `/vision` execution work should treat `create_quest` as the first mutation scope, keep conversation continuity backend-persisted across text and voice turns, and gate real execution behind typed backend `vision.*` feature flags until the new orchestration layer proves stable.
 - Future `/vision` work should keep product memory focused on context and architecture; implementation status belongs in the active work plan.
 - Reusable vision test fixtures should stay named around conversation builders, slot presets, location candidate presets, and schedule phrase presets, because that keeps conversation-flow tests focused on behavior instead of boilerplate setup.

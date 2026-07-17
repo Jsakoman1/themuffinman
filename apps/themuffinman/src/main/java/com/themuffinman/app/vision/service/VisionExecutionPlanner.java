@@ -36,12 +36,17 @@ public class VisionExecutionPlanner {
         VisionIntent candidateIntent = conversation == null
                 ? semanticPlan.candidateIntentOrUnsupported()
                 : conversation.getIntent();
-        if (conversation == null || candidateIntent != VisionIntent.CREATE_QUEST) {
+        if (conversation == null) {
             return null;
         }
-        String capabilityId = semanticPlan.getCapabilityId() == null || semanticPlan.getCapabilityId().isBlank()
+        VisionSemanticRouteDescriptor routeDescriptor = visionSemanticRouteCatalogService.routeForIntent(candidateIntent.name());
+        if (routeDescriptor == null || !routeDescriptor.isMutating()) return null;
+        String capabilityId = routeDescriptor.getCapabilityId() == null || routeDescriptor.getCapabilityId().isBlank()
                 ? TextValueNormalizer.lowerToEmpty(candidateIntent.name())
                 : semanticPlan.getCapabilityId();
+        if (semanticPlan.getCapabilityId() == null || semanticPlan.getCapabilityId().isBlank() || !routeDescriptor.getCapabilityId().equals(semanticPlan.getCapabilityId())) {
+            capabilityId = routeDescriptor.getCapabilityId();
+        }
         double confidence = semanticPlan.getCandidateIntentConfidence() == null
                 ? 0.0d
                 : semanticPlan.getCandidateIntentConfidence();
@@ -58,7 +63,9 @@ public class VisionExecutionPlanner {
                     .nextRequiredSlot(null)
                     .blockingReason("Conversation is already complete.")
                     .planningNote(planningNote)
-                    .summary("Quest has already been executed.")
+                    .summary(candidateIntent == VisionIntent.CREATE_QUEST
+                            ? "Quest has already been executed."
+                            : "Ride action has already been executed.")
                     .build();
         }
 
@@ -78,20 +85,17 @@ public class VisionExecutionPlanner {
         }
 
         Map<String, String> slotData = conversation.getSlotData();
-        String nextRequiredSlot = conversation.getStatus() == VisionConversationStatus.REVIEW_READY
-                ? null
-                : visionClarificationService.nextMissingCreateQuestSlot(slotData);
-        boolean lowConfidence = isLowConfidenceCreateQuestUnderstanding(understanding);
+        String nextRequiredSlot = conversation.getStatus() == VisionConversationStatus.REVIEW_READY ? null : nextRequiredSlot(conversation, understanding, candidateIntent);
         boolean reviewReady = conversation.getStatus() == VisionConversationStatus.REVIEW_READY;
         boolean executionReady = reviewReady && visionProperties.isExecutionEnabled();
         boolean confirmationRequired = reviewReady;
         String blockingReason;
-        if (nextRequiredSlot == null && lowConfidence && !reviewReady) {
-            nextRequiredSlot = "quest_title";
+        if (!reviewReady && candidateIntent == VisionIntent.CREATE_QUEST && "quest_title".equals(nextRequiredSlot)
+                && isLowConfidenceCreateQuestUnderstanding(understanding)) {
             blockingReason = "Need a clearer quest title or task before review.";
         } else if (!reviewReady) {
             blockingReason = nextRequiredSlot == null
-                    ? "Continue collecting quest details."
+                    ? "Continue collecting the required ride details."
                     : "Missing required field: " + nextRequiredSlot + ".";
         } else if (!visionProperties.isExecutionEnabled()) {
             blockingReason = "Execution is disabled by configuration.";
@@ -109,21 +113,32 @@ public class VisionExecutionPlanner {
                 .nextRequiredSlot(nextRequiredSlot)
                 .blockingReason(blockingReason)
                 .planningNote(planningNote)
-                .summary(buildSummary(reviewReady, executionReady, nextRequiredSlot))
+                .summary(buildSummary(reviewReady, executionReady, nextRequiredSlot, candidateIntent))
                 .build();
     }
 
-    private String buildSummary(boolean reviewReady, boolean executionReady, String nextRequiredSlot) {
+    private String nextRequiredSlot(VisionConversation conversation, VisionPromptUnderstandingResult understanding, VisionIntent intent) {
+        if (intent == VisionIntent.CREATE_QUEST && isLowConfidenceCreateQuestUnderstanding(understanding)
+                && conversation.getSlotData().containsKey("schedule_mode")
+                && conversation.getSlotData().containsKey("location_mode")) return "quest_title";
+        if (intent == VisionIntent.CREATE_QUEST) {
+            if (!conversation.getSlotData().containsKey("schedule_mode")) return "schedule_mode";
+            if (!conversation.getSlotData().containsKey("location_mode")) return "location_mode";
+        }
+        return null;
+    }
+
+    private String buildSummary(boolean reviewReady, boolean executionReady, String nextRequiredSlot, VisionIntent intent) {
         if (reviewReady && executionReady) {
-            return "Quest review is ready and can be confirmed.";
+            return intent == VisionIntent.CREATE_QUEST ? "Quest review is ready and can be confirmed." : "Ride review is ready and can be confirmed.";
         }
         if (reviewReady) {
-            return "Quest review is ready, but execution is still disabled.";
+            return "Review is ready, but execution is still disabled.";
         }
         if (nextRequiredSlot != null) {
             return "Collect " + nextRequiredSlot + " next.";
         }
-        return "Continue collecting quest details.";
+        return "Continue collecting the required details.";
     }
 
     private boolean isLowConfidenceCreateQuestUnderstanding(VisionPromptUnderstandingResult understanding) {

@@ -40,6 +40,8 @@ public class SecurityConfig {
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/app_users/*/profile-view").authenticated()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/app_users/*").authenticated()
                         .requestMatchers("/chat/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/chat/**").authenticated()
+                        .requestMatchers("/quests/**").authenticated()
                         .requestMatchers("/app_users/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

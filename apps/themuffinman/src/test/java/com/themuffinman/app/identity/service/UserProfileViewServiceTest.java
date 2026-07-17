@@ -86,7 +86,7 @@ class UserProfileViewServiceTest {
         when(appUserReadService.getAppUser(2L)).thenReturn(profileUser);
         when(appUserReadService.countQuestsByCreatorId(2L)).thenReturn(0L);
         when(appUserReadService.getOpenQuestsByCreatorId(2L)).thenReturn(List.of());
-        when(identityUserSummaryAssembler.buildProfileSummary(profileUser, 0L, List.of())).thenReturn(profileDto);
+        when(identityUserSummaryAssembler.buildViewerProfileSummary(profileUser, currentUser, 0L, List.of())).thenReturn(profileDto);
         when(circleRelationshipReadService.getRelationWithUser(currentUser, 2L)).thenReturn(relation);
         mockReviewData(2L);
 
@@ -113,7 +113,7 @@ class UserProfileViewServiceTest {
         when(appUserReadService.getAppUser(4L)).thenReturn(profileUser);
         when(appUserReadService.countQuestsByCreatorId(4L)).thenReturn(0L);
         when(appUserReadService.getOpenQuestsByCreatorId(4L)).thenReturn(List.of());
-        when(identityUserSummaryAssembler.buildProfileSummary(profileUser, 0L, List.of())).thenReturn(profileDto);
+        when(identityUserSummaryAssembler.buildViewerProfileSummary(profileUser, currentUser, 0L, List.of())).thenReturn(profileDto);
         when(circleRelationshipReadService.getRelationWithUser(currentUser, 4L)).thenReturn(relation);
         mockReviewData(4L);
 

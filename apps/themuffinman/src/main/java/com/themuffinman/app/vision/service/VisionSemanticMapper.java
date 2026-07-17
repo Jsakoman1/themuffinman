@@ -68,15 +68,27 @@ public class VisionSemanticMapper {
         return switch (intent) {
             case CREATE_QUEST, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> "quests";
             case VIEW_NOTIFICATIONS -> "notifications";
+            case VIEW_ACTIVITY -> "activity";
             case DISCOVER_QUESTS, SEARCH -> "search";
             case VIEW_PROFILE, VIEW_SETTINGS, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_USER_PROFILE -> "profile";
-            case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
+            case VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_ACCESSIBLE_CIRCLE, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST,
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
                     WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
             case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> "business";
             case VIEW_THINGS -> "things";
-            case OPEN_CHAT, VIEW_CHAT_WORKSPACE -> "chat";
+            case VIEW_BORROW_REQUESTS -> "borrow_requests";
+            case EDIT_CHAT_MESSAGE -> "chat_message";
+            case REPLY_TO_CHAT_MESSAGE -> "chat_message";
+            case REACT_TO_CHAT_MESSAGE -> "chat_message";
+            case CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE -> "business_profile";
+            case CONFIRM_BOOKING, CANCEL_BOOKING -> "booking";
+            case REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW -> "booking";
+            case ARCHIVE_OFFERING -> "business_offering";
+            case UPDATE_QUEST -> "quest";
+            case CREATE_OFFERING, UPDATE_OFFERING -> "business_offering";
+            case CREATE_BOOKING -> "booking";
+            case OPEN_CHAT, VIEW_CHAT_WORKSPACE, VIEW_CHAT_ATTACHMENT -> "chat";
             default -> null;
         };
     }

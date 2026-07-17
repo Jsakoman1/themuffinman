@@ -1,7 +1,7 @@
-import {clearSession, currentUser, saveSession, token} from "../../services/sessionService.ts"
+import {clearSession, currentUser, saveSession, token, updateSessionUser} from "../../services/sessionService.ts"
 import type {SessionUser} from "../../services/sessionService.ts"
 
-export {currentUser, token}
+export {currentUser, token, updateSessionUser}
 
 export const loginUser = (user: SessionUser) => {
   saveSession(user)

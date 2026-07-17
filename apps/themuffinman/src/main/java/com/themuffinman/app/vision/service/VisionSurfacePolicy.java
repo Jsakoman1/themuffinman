@@ -24,8 +24,58 @@ public class VisionSurfacePolicy implements AgentSurfacePolicy {
             "decline_application",
             "update_circle",
             "delete_circle",
+            "leave_circle",
             "update_profile",
             "update_profile_location"
+            ,"mark_chat_read",
+            "mark_notifications_read",
+            "mark_notification_read",
+            "update_notification_preferences",
+            "release_worker",
+            "replace_worker",
+            "reopen_quest",
+            "cancel_quest",
+            "create_thing",
+            "request_borrow",
+            "cancel_borrow",
+            "decide_borrow",
+            "return_borrow",
+            "create_ride",
+            "join_ride",
+            "update_ride",
+            "leave_ride",
+            "cancel_ride",
+            "start_ride",
+            "complete_ride",
+            "update_thing",
+            "archive_thing",
+            "edit_chat_message",
+            "reply_to_chat_message",
+            "react_to_chat_message"
+            ,"create_business_profile",
+            "update_business_profile"
+            ,"create_gallery_image",
+            "update_gallery_image",
+            "delete_gallery_image"
+            ,"create_availability_rule",
+            "update_availability_rule",
+            "delete_availability_rule",
+            "create_availability_exception",
+            "update_availability_exception",
+            "delete_availability_exception"
+            ,"confirm_booking",
+            "cancel_booking"
+            ,"reject_booking",
+            "complete_booking",
+            "mark_booking_no_show"
+            ,"archive_offering"
+            ,"update_quest"
+            ,"create_offering",
+            "update_offering"
+            ,"create_booking",
+            "reschedule_booking"
+            ,"pause_quest"
+            ,"resume_quest"
     );
 
     private final VisionProperties visionProperties;

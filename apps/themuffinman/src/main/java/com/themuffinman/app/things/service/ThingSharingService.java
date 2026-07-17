@@ -72,6 +72,21 @@ public class ThingSharingService {
     }
 
     @Transactional
+    public ThingListingResponseDTO updateMyListingForVision(Long listingId, ThingListingRequestDTO dto, AppUser currentUser) {
+        ThingListing listing = ownedListing(listingId, currentUser);
+        applyListingInput(listing, dto);
+        return thingSharingMgr.toListingDto(thingListingRepository.save(listing), null);
+    }
+
+    @Transactional
+    public void archiveMyListingForVision(Long listingId, AppUser currentUser) {
+        ThingListing listing = ownedListing(listingId, currentUser);
+        listing.setArchived(true);
+        listing.setAvailable(false);
+        thingListingRepository.save(listing);
+    }
+
+    @Transactional
     public ThingBorrowRequestResponseDTO requestBorrow(Long listingId, ThingBorrowRequestDTO dto, AppUser currentUser) {
         ThingListing listing = thingListingRepository.findForListingDetail(listingId)
                 .orElseThrow(() -> ServiceErrors.notFound("Thing listing not found with id " + listingId));
@@ -170,6 +185,15 @@ public class ThingSharingService {
         listing.setDescription(RichTextInputValidator.sanitize(dto.getDescription()));
         listing.setConditionNote(TextValueNormalizer.trimToNull(dto.getConditionNote()));
         listing.setAvailable(dto.getAvailable() == null || dto.getAvailable());
+    }
+
+    private ThingListing ownedListing(Long listingId, AppUser currentUser) {
+        ThingListing listing = thingListingRepository.findForListingDetail(listingId)
+                .orElseThrow(() -> ServiceErrors.notFound("Thing listing not found with id " + listingId));
+        if (!Objects.equals(listing.getOwner().getId(), currentUser.getId())) {
+            throw ServiceErrors.forbidden("Only the listing owner can manage this thing");
+        }
+        return listing;
     }
 
     private Map<Long, Long> pendingRequestIds(AppUser currentUser, List<ThingListing> listings) {

@@ -76,6 +76,8 @@ These archetypes should feel like different shapes of the same product, not unre
 - The default surface should behave like a blank canvas until the task needs more structure.
 - The UI should reveal only the controls, text, visuals, or actions that are relevant to the current intent.
 - Voice, gesture, animation, text, tables, and images are presentation modes, not separate products.
+- Web UI and Vision are equal production clients, not primary and companion products. A user must be able to complete every supported capability through direct web interaction and through Vision text or voice when the target surface requires it.
+- A capability is not production-complete when only its backend route or one client exists. Completion requires a discoverable entry point, complete happy path, validation/error recovery, and an explicit parity record for both web UI and Vision.
 - Visual feedback should always confirm that the system heard, understood, or is working on the user's request.
 - When a task is simple, the interface should stay minimal.
 - When a task is complex, the interface should expand into a richer guided surface.

@@ -5,6 +5,7 @@ public enum QuestStatus {
     ASSIGNED,
     IN_PROGRESS,
     WAITING_CONFIRMATION,
+    PAUSED,
     COMPLETED,
     CANCELLED;
 

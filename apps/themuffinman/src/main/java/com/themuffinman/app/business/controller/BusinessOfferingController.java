@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/business/offerings")
@@ -25,16 +26,17 @@ public class BusinessOfferingController {
     private final BusinessOfferingService businessOfferingService;
 
     @GetMapping("/me")
-    public BusinessOfferingListResponseDTO getMyOfferings(@AuthenticationPrincipal AppUser currentUser) {
-        return businessOfferingService.getMyOfferings(currentUser);
+    public BusinessOfferingListResponseDTO getMyOfferings(@RequestParam(required = false) Long businessProfileId, @AuthenticationPrincipal AppUser currentUser) {
+        return businessOfferingService.getMyOfferings(currentUser, businessProfileId);
     }
 
     @PostMapping("/me")
     public BusinessOfferingResponseDTO createMyOffering(
             @Valid @RequestBody BusinessOfferingRequestDTO dto,
-            @AuthenticationPrincipal AppUser currentUser
+            @AuthenticationPrincipal AppUser currentUser,
+            @RequestParam(required = false) Long businessProfileId
     ) {
-        return businessOfferingService.createMyOffering(dto, currentUser);
+        return businessOfferingService.createMyOffering(dto, currentUser, businessProfileId);
     }
 
     @PutMapping("/{offeringId}/me")

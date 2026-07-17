@@ -1,0 +1,122 @@
+kind: work
+version: 1
+id: main-surfaces-business-landing
+title: Make Business landing useful and resilient
+status: verified
+master_plan: docs/work/main-surfaces-modernization-master.yaml
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+capability_ids:
+- business.profile
+- business.booking
+- business.availability
+- business.offering
+objective: 'Replace the empty or generic Business landing with a clear owner workspace
+  that communicates setup status, public identity, offerings, bookings, and calendar
+  entry points even when one backend read surface is unavailable.
+
+'
+requirements:
+- Use one backend-prepared owner landing contract or a documented composition of existing
+  owner read models.
+- Do not silently collapse all request failures into an empty page; distinguish not
+  configured, unavailable, forbidden, and empty states.
+- Expose one primary setup or operational action and subordinate links to profile,
+  offerings, bookings, and calendar.
+- Keep business owner data separate from public business discovery data.
+- Preserve backend ownership of bookingEnabled, allowed actions, and profile visibility.
+tasks:
+- id: business-read-model-analysis
+  title: Audit Business owner read models, fallback semantics, and missing landing
+    data
+  type: analysis
+  status: done
+  paths:
+  - docs/work/main-surfaces-business-landing-analysis.md
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessController.java
+  validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/main-surfaces-business-landing.yaml")'
+- id: business-landing-contract
+  title: Implement Business landing state and backend/API fallback contract
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOwnerLandingDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerLandingReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessController.java
+  validation: npm --prefix apps/themuffinman/frontend run build
+- id: business-contract
+  title: Add Business landing setup, partial failure, and action contract checks
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+acceptance:
+- "/business always explains the current owner state and offers a meaningful next
+  action."
+- Partial backend failure does not become an unexplained blank surface.
+- Public discovery and owner operations remain separate routes and contracts.
+evidence:
+- task: business-read-model-analysis
+  command: ruby -e 'require "yaml"; YAML.load_file("docs/work/main-surfaces-business-landing.yaml")'
+  ranAt: '2026-07-17T13:30:26Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - docs/work/main-surfaces-business-landing-analysis.md
+  output: "\n"
+- task: business-landing-contract
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T13:30:26Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+  output: |+
+    dist/assets/BusinessOfferingsView-M8Bei5kp.js                  5.16 kB │ gzip:   1.85 kB
+    dist/assets/BusinessAvailabilityView-C6RrZBIA.js               5.88 kB │ gzip:   2.00 kB
+    dist/assets/BusinessAvailabilityExceptionsView-BfJ2pxd_.js     5.93 kB │ gzip:   2.05 kB
+    dist/assets/RidesView-DZWio_2v.js                              6.19 kB │ gzip:   2.33 kB
+    dist/assets/BusinessProfileView-D74wDHUz.js                    6.29 kB │ gzip:   2.09 kB
+    dist/assets/ThingsDiscoveryView-Cfzo01RC.js                    7.92 kB │ gzip:   2.56 kB
+    dist/assets/CirclesView-DxvZNaq5.js                            8.42 kB │ gzip:   2.63 kB
+    dist/assets/ProfileLocationSettingsView-rnlXITaD.js            9.53 kB │ gzip:   3.44 kB
+    dist/assets/WorkQuestDetailView-BwTQJpnN.js                   10.73 kB │ gzip:   3.62 kB
+    dist/assets/userShellApi-Cq8paABs.js                          11.45 kB │ gzip:   2.29 kB
+    dist/assets/ChatSurfaceView-BtRJXxs8.js                       11.47 kB │ gzip:   3.91 kB
+    dist/assets/index-BCxyDX-y.js                                 22.52 kB │ gzip:   6.21 kB
+    dist/assets/vue-core-BdJY4HeI.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/SurfaceContentView-DMWLxDev.js                    26.33 kB │ gzip:   7.37 kB
+    dist/assets/VisionSurfaceModernView-DCceAkJZ.js               36.39 kB │ gzip:  10.96 kB
+    dist/assets/vendor-D9iqRH6B.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DddyeNmk.js                               464.31 kB │ gzip: 149.74 kB
+
+    ✓ built in 419ms
+
+- task: business-contract
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-17T13:30:27Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (52 checks).
+

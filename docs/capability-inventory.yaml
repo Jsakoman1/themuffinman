@@ -61,6 +61,9 @@ active_plans:
   - id: native-client-handoff-contract
     path: docs/work/native-client-handoff-contract.yaml
     scope: iPhone and Watch backend-owned handoff contract
+  - id: frontend-ux-modernization
+    path: docs/work/frontend-ux-modernization.yaml
+    scope: standardized, functional, reusable authenticated web UI/UX
 statuses:
   planned: The product intends to support it, but implementation has not started.
   not_offered: Some supporting code may exist, but users have no usable product surface.
@@ -125,6 +128,144 @@ modules:
           - mobile/watch presentation
         evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+      - id: platform.profile.update
+        name: Edit own username and profile description
+        status: implemented
+        priority: high
+        current:
+          backend: ["PUT /app_users/me", apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java]
+          web: ["/profile/settings"]
+          vision: ["/vision"]
+        gaps:
+          - avatar editing remains outside the inline profile editor
+          - mobile and Watch presentation
+          - browser-level runtime acceptance
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java]
+      - id: platform.profile.view_own
+        name: View own profile
+        status: implemented
+        priority: high
+        current:
+          backend: ["GET /app_users/me"]
+          web: ["/profile", "/profile/settings"]
+          vision: ["/vision"]
+        gaps: [mobile and Watch presentation, browser-level runtime acceptance]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+      - id: platform.profile.view_other
+        name: View another user's profile
+        status: implemented
+        priority: critical
+        current:
+          backend: ["GET /app_users/{id}/profile-view"]
+          web: ["/people/:userId"]
+          vision: ["/vision"]
+        gaps: [mobile and Watch presentation, complete runtime visibility acceptance]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AppUserController.java]
+      - id: platform.profile.view_reviews
+        name: View profile ratings and reviews
+        status: implemented
+        priority: high
+        current:
+          backend: ["GET /app_users/{id}/profile-view", WorkmarketUserReviewService]
+          web: ["/profile/:id"]
+          vision: ["/vision"]
+        gaps: [browser-level runtime acceptance, mobile and Watch presentation]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUserReviewService.java]
+      - id: platform.profile.manage_visibility
+        name: Manage profile visibility
+        status: implemented
+        priority: high
+        current:
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java]
+          web: ["/profile/settings"]
+        gaps: [profile-wide field visibility controls, complete consent explanation, mobile and Watch presentation]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java]
+      - id: platform.account.register
+        name: Register an account
+        status: implemented
+        priority: critical
+        current:
+          backend: ["POST /auth/register"]
+          web: ["/register"]
+        gaps: [mobile and Watch clients, browser-level acceptance]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthService.java]
+      - id: platform.account.authenticate
+        name: Authenticate an account
+        status: implemented
+        priority: critical
+        current:
+          backend: ["POST /auth/login", "GET /auth/me"]
+          web: ["/login"]
+        gaps: [mobile and Watch clients, browser-level acceptance]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/security/JwtAuthFilter.java]
+      - id: platform.account.logout
+        name: Log out of an account
+        status: implemented
+        priority: high
+        current:
+          backend: [JWT session boundary]
+          web: [authenticated shell logout]
+        gaps: [server-side token revocation, mobile and Watch clients]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/identity/auth.ts, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue]
+      - id: platform.account.recover
+        name: Recover account access
+        status: planned
+        priority: high
+        current: {}
+        gaps: [recovery token persistence, email delivery contract, reset flow, abuse limits, web/mobile surfaces]
+        evidence:
+          docs: [docs/business-logic.md, docs/domain-technical.md]
+      - id: platform.location.set_preference
+        name: Set a location preference
+        status: partial
+        priority: high
+        current:
+          backend: ["PUT /app_users/me", LocationSettingsService]
+          web: ["/profile/settings"]
+          vision: ["/vision"]
+        gaps: [provider-denied recovery beyond manual fallback, mobile lifecycle, runtime acceptance]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+      - id: platform.location.control_visibility
+        name: Control exact location visibility
+        status: partial
+        priority: high
+        current:
+          backend: [LocationAccessPolicyService, LocationSettingsService]
+          web: ["/profile/settings"]
+          vision: ["/vision"]
+        gaps: [complete consent explanation, mobile lifecycle, runtime acceptance]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+      - id: platform.location.use_current
+        name: Use current device location
+        status: partial
+        priority: high
+        current:
+          backend: ["POST /location/reverse-lookup"]
+          web: ["/profile/settings"]
+        gaps: [browser and mobile permission lifecycle, provider recovery, runtime acceptance]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java]
+      - id: platform.location.resolve
+        name: Resolve a location label
+        status: partial
+        priority: high
+        current:
+          backend: ["POST /location/lookup", "POST /location/reverse-lookup"]
+          web: ["/profile/settings"]
+          vision: ["/vision"]
+        gaps: [provider-unavailable recovery, mobile lifecycle, runtime acceptance]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
       - id: platform.location
         name: Location preferences, current location, and locality-aware discovery
         status: partial
@@ -137,6 +278,20 @@ modules:
         evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
           docs: [docs/business-logic.md, docs/domain-technical.md]
+      - id: platform.activity
+        name: Viewer-scoped activity and task resume
+        status: partial
+        priority: high
+        current:
+          backend: ["GET /activity/me", "POST /activity/resume/{resumeKey}/dismiss"]
+          web: ["/activity"]
+          vision: ["VIEW_ACTIVITY"]
+        gaps:
+          - cross-module event projection beyond quest news and Vision conversations
+          - Vision dismissal and resume mutation parity
+          - browser runtime acceptance for activity recovery
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java]
 
   - id: vision
     name: Vision adaptive command surface
@@ -164,6 +319,96 @@ modules:
           - real device-specific haptic/audio acceptance tests
         evidence:
           plans: [docs/work/modern-vision-command-surface.yaml, docs/work/modern-mobile-watch-quality.yaml]
+      - id: vision.task.start
+        name: Start a guided Vision task with text or voice
+        status: implemented
+        priority: critical
+        current:
+          web: ["/vision"]
+          backend: ["POST /vision/conversations/turns"]
+        gaps: [native mobile/watch clients, browser/device acceptance coverage]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java]
+      - id: vision.task.review
+        name: Review a proposed Vision action
+        status: implemented
+        priority: critical
+        current:
+          web: ["/vision"]
+          backend: [VisionExecutionPlanner, VisionConversationController]
+        gaps: [complete production edge-case acceptance matrix]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java]
+      - id: vision.task.confirm
+        name: Confirm a guided Vision action
+        status: partial
+        priority: critical
+        current:
+          web: ["/vision"]
+          backend: [VisionExecutionService]
+        gaps: [broadened production rollout beyond guarded feature flags, adapter-wide execution acceptance]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java]
+      - id: vision.task.cancel
+        name: Cancel an active Vision task
+        status: implemented
+        priority: high
+        current:
+          web: ["/vision"]
+          backend: ["POST /vision/conversations/{conversationId}/cancel"]
+        gaps: [native client cancellation acceptance]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java]
+      - id: vision.task.continue
+        name: Continue a guided Vision task
+        status: implemented
+        priority: critical
+        current:
+          web: ["/vision"]
+          backend: [persisted VisionConversation state, VisionConversationService]
+        gaps: [complete topic-switch and ambiguous-correction acceptance]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java]
+      - id: vision.task.resume
+        name: Resume a resumable Vision task
+        status: implemented
+        priority: high
+        current:
+          web: ["/vision"]
+          backend: ["GET /vision/conversations/{conversationId}", "GET /vision/conversations/recent"]
+        gaps: [native resume surfaces, device acceptance coverage]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java]
+      - id: vision.discovery.search
+        name: Search product entities through Vision
+        status: partial
+        priority: high
+        current:
+          web: ["/vision"]
+          backend: [VisionSearchDiscoveryService, VisionQuestDiscoveryService]
+        gaps: [explicit cross-family filter and comparison interaction]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+      - id: vision.discovery.open_detail
+        name: Open a discovered entity detail
+        status: partial
+        priority: high
+        current:
+          web: ["/vision", typed deep-link handoffs]
+          backend: [Vision entity resolution and preview services]
+        gaps: [stable detail handoff for every supported entity family]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+      - id: vision.discovery.compare
+        name: Compare Vision discovery results
+        status: planned
+        priority: medium
+        current:
+          backend: []
+          web: []
+        gaps: [bounded comparison model, comparable-field contract, selection and fallback interaction]
+        evidence:
+          docs: [docs/target-capability-catalog.yaml, docs/vision-status-ledger.md]
       - id: vision.create_quest
         name: Voice/text guided quest creation with review and confirmation
         status: partial
@@ -207,7 +452,7 @@ modules:
         priority: critical
         current:
           backend: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket]
-          web: ["/work/quests/new", "/work/quests/:questId", "/vision"]
+          web: ["/work", "/work/quests/new", "/work/quests/:questId", "/vision"]
         gaps:
           - advanced image, location, schedule, and visibility UX audit
       - id: work.quest.discovery
@@ -216,7 +461,7 @@ modules:
         priority: critical
         current:
           backend: ["GET /quests/search", "GET /quests/presets/AVAILABLE"]
-          web: ["/work"]
+          web: ["/work", "/work/find"]
         gaps:
           - mobile visual regression coverage
           - richer comparison mode for dense result sets
@@ -231,6 +476,19 @@ modules:
           web: ["/work/quests"]
         gaps:
           - browser-level runtime acceptance coverage
+      - id: work.quest.reopen
+        name: Assign an approved worker or reopen an assigned quest
+        status: partial
+        priority: high
+        current:
+          backend: ["PUT /quests/{id}", apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java]
+          web: ["/work/quests/:questId"]
+          vision: ["/vision"]
+        gaps:
+          - completed quests cannot yet be reopened through the owner workflow
+          - participant notification and browser-level runtime acceptance coverage
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestAccessPolicyService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
       - id: work.application
         name: Apply to work, review applications, and manage application state
         status: implemented
@@ -242,6 +500,58 @@ modules:
           - browser-level runtime acceptance coverage
         evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue]
+      - id: work.application.create
+        name: Submit an application from a known quest detail
+        status: implemented
+        priority: critical
+        current:
+          backend: ["POST /quests/{questId}/applications", apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationService.java]
+          web: ["/work/quests/:questId"]
+          vision: ["/vision"]
+        gaps:
+          - mobile presentation
+          - browser-level runtime acceptance coverage
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+      - id: work.application.update
+        name: Edit a pending application from the applications workspace
+        status: implemented
+        priority: high
+        current:
+          backend: ["PUT /quests/{questId}/applications/me", apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateMyApplicationUseCase.java]
+          web: ["/work/applications"]
+          vision: ["/vision"]
+        gaps:
+          - mobile presentation
+          - browser-level runtime acceptance coverage
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue]
+      - id: work.application.withdraw
+        name: Withdraw a pending application from the applications workspace
+        status: implemented
+        priority: high
+        current:
+          backend: ["PATCH /quests/{questId}/applications/me/withdraw", apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWithdrawMyApplicationUseCase.java]
+          web: ["/work/applications"]
+          vision: ["/vision"]
+        gaps:
+          - mobile presentation
+          - browser-level runtime acceptance coverage
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue]
+      - id: work.application.view_detail
+        name: View an application and its related quest context
+        status: implemented
+        priority: high
+        current:
+          backend: ["GET /applications/{applicationId}/detail", apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationReadService.java]
+          web: ["/work/applications/:applicationId"]
+          vision: ["/vision/applications/:id"]
+        gaps:
+          - mobile and Watch presentation
+          - browser-level runtime acceptance coverage
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
       - id: work.execution
         name: Execute, coordinate, complete, and review work
         status: implemented
@@ -260,6 +570,172 @@ modules:
           backend: [quest news and notification services]
         gaps:
           - realtime delivery and browser-level acceptance coverage
+      - id: work.quest.view_own
+        name: View own quest detail and lifecycle state
+        status: implemented
+        priority: high
+        current:
+          backend: ["GET /quests/{id}/detail"]
+          web: ["/work/quests/:questId"]
+          vision: ["/vision"]
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+      - id: work.quest.view_other
+        name: View another user's published quest
+        status: implemented
+        priority: critical
+        current:
+          backend: ["GET /quests/{id}/detail", "GET /quests/search"]
+          web: ["/work", "/work/quests/:questId"]
+          vision: ["/vision"]
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue]
+      - id: work.quest.discover
+        name: Search and filter available quests
+        status: verified
+        priority: critical
+        current:
+          backend: ["GET /quests/search", "GET /quests/presets/AVAILABLE"]
+          web: ["/work", "/work/find"]
+          vision: ["/vision"]
+        gaps: [richer comparison mode, mobile visual regression coverage]
+        evidence:
+          plans: [docs/work/modern-work-discovery.yaml]
+      - id: work.quest.update
+        name: Edit an owned quest
+        status: implemented
+        priority: high
+        current:
+          backend: ["PUT /quests/{id}"]
+          web: ["/work/quests/:questId"]
+          vision: ["/vision"]
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: work.quest.publish
+        name: Publish a valid quest
+        status: implemented
+        priority: critical
+        current:
+          backend: ["POST /quests"]
+          web: ["/work/quests/new"]
+          vision: ["/vision"]
+        gaps: [browser-level runtime acceptance coverage]
+      - id: work.quest.pause
+        name: Pause an owned quest
+        status: partial
+        priority: high
+        current:
+          backend: ["PATCH /quests/{id}/pause", "PATCH /quests/{id}/resume"]
+          web: ["/work/quests/:questId"]
+          vision: ["/vision via PAUSE_QUEST and RESUME_QUEST"]
+        gaps: [Browser/runtime acceptance coverage]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+      - id: work.quest.cancel
+        name: Cancel an owned quest
+        status: implemented
+        priority: high
+        current:
+          backend: ["PATCH /quests/{id}/cancel", "PUT /quests/{id} with status=CANCELLED"]
+          web: ["/work/quests/:questId"]
+          vision: ["/vision via CANCEL_QUEST"]
+        gaps: [mobile presentation, browser/runtime acceptance coverage, worker reassignment policy remains separate]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCancelQuestExecutionAdapter.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+      - id: work.application.view_own
+        name: View own application list and status
+        status: implemented
+        priority: high
+        current:
+          backend: ["GET /quests/applications/me"]
+          web: ["/work/applications"]
+          vision: ["/vision"]
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: work.application.review
+        name: Review received applications as quest owner
+        status: implemented
+        priority: critical
+        current:
+          backend: ["GET /quests/{questId}/applications/view"]
+          web: ["/work/quests/:questId/applications"]
+          vision: ["/vision"]
+        gaps: [candidate comparison and browser-level runtime acceptance coverage]
+      - id: work.application.decide
+        name: Approve or decline a received application
+        status: implemented
+        priority: critical
+        current:
+          backend: ["PATCH /quests/{questId}/applications/{applicationId}/approve", "PATCH /quests/{questId}/applications/{applicationId}/decline"]
+          web: ["/work/quests/:questId/applications"]
+          vision: ["/vision"]
+        gaps: [Vision adapter and browser-level runtime acceptance coverage]
+      - id: work.quest.start
+        name: Start assigned work
+        status: implemented
+        priority: critical
+        current: {backend: ["PATCH /quests/{id}/start"], web: ["/work/quests/:questId"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: work.quest.complete
+        name: Complete active work
+        status: implemented
+        priority: critical
+        current: {backend: ["PATCH /quests/{id}/complete"], web: ["/work/quests/:questId"], vision: ["/vision"]}
+        gaps: [completion dispute workflow, mobile presentation, browser-level runtime acceptance coverage]
+      - id: work.quest.confirm_terms
+        name: Confirm a proposed term change
+        status: implemented
+        priority: high
+        current: {backend: ["PATCH /quests/{id}/term/confirm"], web: ["/work/quests/:questId"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: work.quest.reject_terms
+        name: Reject a proposed term change
+        status: implemented
+        priority: high
+        current: {backend: ["PATCH /quests/{id}/term/reject"], web: ["/work/quests/:questId"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: work.quest.delete
+        name: Delete an owned quest when eligible
+        status: implemented
+        priority: high
+        current: {backend: ["DELETE /quests/{id}"], web: ["/work/quests/:questId"], vision: ["/vision"]}
+        gaps: [browser-level runtime acceptance coverage]
+      - id: work.quest.set_visibility
+        name: Set quest audience and visibility
+        status: implemented
+        priority: high
+        current: {backend: ["PUT /quests/{id}"], web: ["/work/quests/new", "/work/quests/:questId"], vision: ["/vision"]}
+        gaps: [complete visibility explanation and browser-level runtime acceptance coverage]
+      - id: work.quest.manage_workers
+        name: Manage approved worker assignment and slots
+        status: partial
+        priority: high
+        current: {backend: ["PATCH /quests/{questId}/workers/{applicationId}/release", "PATCH /quests/{questId}/workers/{applicationId}/replace", apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java], web: ["/work/quests/:questId/applications", apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue], vision: ["/vision", RELEASE_WORKER, REPLACE_WORKER]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: work.application.create_review
+        name: Review a completed work participant
+        status: implemented
+        priority: high
+        current: {backend: ["POST /quests/{questId}/reviews"], web: ["/work/quests/:questId"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: work.dashboard.view
+        name: View work dashboard sections
+        status: implemented
+        priority: high
+        current: {backend: ["GET /dashboard/me"], web: ["/home", "/work/applications"], vision: ["/vision"]}
+        gaps: [browser-level runtime acceptance coverage]
+      - id: work.notification.mark_read
+        name: Mark one work notification as read
+        status: implemented
+        priority: high
+        current: {backend: ["PATCH /news/me/{id}/read"], web: ["/notifications"], vision: ["/vision"]}
+        gaps: [dedicated notification route evidence, browser-level runtime acceptance coverage]
+      - id: work.notification.mark_all_read
+        name: Mark all work notifications as read
+        status: implemented
+        priority: high
+        current: {backend: ["PATCH /news/me/read"], web: ["/notifications"], vision: ["/vision"]}
+        gaps: [dedicated notification route evidence, browser-level runtime acceptance coverage]
 
   - id: chat
     name: Shared chat
@@ -296,6 +772,87 @@ modules:
           - mobile/watch attachment strategy
         evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+
+      - id: chat.conversation.open
+        name: Open an allowed conversation
+        status: implemented
+        priority: critical
+        current: {backend: ["POST /chat/conversations/open"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [mobile and Watch presentation, browser runtime coverage]
+      - id: chat.conversation.view
+        name: View conversation history
+        status: implemented
+        priority: critical
+        current: {backend: ["GET /chat/conversations/{id}/messages", "GET /chat/conversations/{id}/sync"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [mobile and Watch presentation, browser runtime coverage]
+      - id: chat.message.send
+        name: Send a text or attachment message
+        status: implemented
+        priority: critical
+        current: {backend: ["POST /chat/conversations/{id}/messages"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [mobile and Watch presentation, browser runtime coverage]
+      - id: chat.message.view
+        name: View chat messages
+        status: implemented
+        priority: critical
+        current: {backend: ["GET /chat/conversations/{id}/messages"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [mobile and Watch presentation, browser runtime coverage]
+      - id: chat.message.attach
+        name: Upload and send a chat attachment
+        status: partial
+        priority: high
+        current: {backend: ["POST /chat/attachments"], web: ["/chat/:conversationId"]}
+        gaps: [Vision/client binary handoff, attachment preview and expiry recovery, mobile presentation]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAttachmentUpload.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+      - id: chat.conversation.create_group
+        name: Create a group conversation
+        status: partial
+        priority: high
+        current: {backend: ["POST /chat/conversations/groups"], web: ["/chat"], vision: ["/vision"]}
+        gaps: [circle-aware participant eligibility explanation, mobile presentation, browser runtime coverage]
+      - id: chat.conversation.mark_read
+        name: Mark conversation messages as read
+        status: implemented
+        priority: high
+        current: {backend: ["PATCH /chat/conversations/{id}/read"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [browser runtime and mobile acceptance coverage]
+      - id: chat.conversation.reconnect
+        name: Recover a disconnected conversation
+        status: implemented
+        priority: high
+        current: {backend: ["GET /chat/conversations/{id}/sync"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [browser offline/reconnect runtime acceptance coverage]
+      - id: chat.message.edit
+        name: Edit an own chat message
+        status: implemented
+        priority: medium
+        current: {backend: ["PATCH /chat/conversations/{id}/messages/{messageId}"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: chat.message.reply
+        name: Reply to a chat message
+        status: implemented
+        priority: medium
+        current: {backend: ["POST /chat/conversations/{id}/messages"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: chat.message.react
+        name: React to a chat message
+        status: implemented
+        priority: medium
+        current: {backend: ["POST /chat/conversations/{id}/messages/{messageId}/reactions"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: chat.conversation.leave
+        name: Leave a group conversation
+        status: partial
+        priority: medium
+        current: {backend: ["DELETE /chat/conversations/{id}/participants/me"], web: ["/chat/:conversationId"], vision: ["/vision"]}
+        gaps: [group eligibility explanation, mobile presentation, browser runtime coverage]
+      - id: chat.message.view_attachment
+        name: Open a chat attachment
+        status: partial
+        priority: medium
+        current: {backend: ["GET /chat/attachments/{uploadId}", "authorized ChatService message read"], web: ["/chat/:conversationId"], vision: ["/vision via VIEW_CHAT_ATTACHMENT"]}
+        gaps: [expired URL refresh and richer image/document preview, browser runtime acceptance coverage]
 
   - id: business
     name: Business profiles and appointments
@@ -352,6 +909,307 @@ modules:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue]
           docs: [docs/business-logic.md, docs/domain-technical.md]
           matrix: [docs/cross-module-visibility-acceptance.yaml]
+      - id: circles.circle.create
+        name: Create a named circle
+        status: implemented
+        priority: high
+        current: {backend: ["POST /circles/groups"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: circles.circle.view_own
+        name: View own circles and member summaries
+        status: implemented
+        priority: high
+        current: {backend: ["GET /circles/groups"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [dedicated circle detail, mobile presentation]
+      - id: circles.circle.view_other
+        name: View an accessible circle
+        status: implemented
+        priority: high
+        current: {backend: ["GET /circles/groups/{circleId}/accessible"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [dedicated browser detail route, mobile presentation, browser-level runtime acceptance coverage]
+      - id: circles.circle.update
+        name: Rename an owned circle
+        status: implemented
+        priority: high
+        current: {backend: ["PUT /circles/groups/{id}"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: circles.membership.invite
+        name: Invite a person to a circle
+        status: implemented
+        priority: high
+        current: {backend: ["POST /circles/requests"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [circle-specific invite picker in web UI]
+      - id: circles.membership.accept
+        name: Accept an incoming circle invitation
+        status: implemented
+        priority: high
+        current: {backend: ["PATCH /circles/requests/{id}/accept"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: circles.circle.archive
+        name: Remove an owned circle
+        status: implemented
+        priority: high
+        current: {backend: ["DELETE /circles/groups/{id}"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [archive/history semantics, browser-level runtime acceptance coverage]
+      - id: circles.circle.discover
+        name: Discover people and accessible circle relationships
+        status: implemented
+        priority: high
+        current: {backend: ["GET /circles/search", "GET /circles/connections"], web: ["/circles", "/people", "/people/:userId"], vision: ["/vision"]}
+        gaps: [circle detail discovery, mobile presentation]
+      - id: circles.membership.decline
+        name: Decline an incoming circle invitation
+        status: implemented
+        priority: high
+        current: {backend: ["DELETE /circles/requests/{id}"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: circles.membership.cancel_invite
+        name: Cancel an outgoing circle invitation
+        status: implemented
+        priority: medium
+        current: {backend: ["DELETE /circles/requests/{id}"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [mobile presentation, browser-level runtime acceptance coverage]
+      - id: circles.membership.leave
+        name: Leave a circle
+        status: implemented
+        priority: high
+        current: {backend: ["DELETE /circles/groups/{id}/membership/me"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [browser runtime coverage, mobile presentation]
+      - id: circles.membership.remove
+        name: Remove a member from a circle
+        status: implemented
+        priority: high
+        current: {backend: ["PUT /circles/connections/circles/bulk"], web: ["/circles"], vision: ["/vision"]}
+        gaps: [browser runtime coverage, mobile presentation]
+
+      - id: business.profile.create
+        name: Create or enable a business profile
+        status: implemented
+        priority: high
+        current: {backend: ["PUT /business/profiles/me"], web: ["/business/profile"], vision: ["/vision"]}
+        gaps: [public runtime acceptance coverage, mobile presentation]
+      - id: business.profile.view_public
+        name: View a public business profile
+        status: implemented
+        priority: high
+        current: {backend: ["GET /business/profiles", "GET /business/profiles/{slug}"], web: ["/business/find", "/business/public/:slug"], vision: ["/vision"]}
+        gaps: [backend ranking and richer filters, mobile presentation, browser runtime acceptance]
+      - id: business.offering.create
+        name: Create a bookable offering
+        status: implemented
+        priority: high
+        current: {backend: ["POST /business/offerings/me"], web: ["/business/offerings"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.offering.view_public
+        name: View public offerings
+        status: implemented
+        priority: high
+        current: {backend: ["GET /business/public/{slug}"], web: ["/business/public/:slug"], vision: ["/vision"]}
+        gaps: [public directory discovery, mobile presentation]
+      - id: business.booking.create
+        name: Request an appointment
+        status: implemented
+        priority: critical
+        current: {backend: ["POST /business/bookings"], web: ["/business/public/:slug"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.booking.view_own
+        name: View own bookings
+        status: implemented
+        priority: high
+        current: {backend: ["GET /business/bookings/me"], web: ["/business/bookings"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.booking.confirm
+        name: Confirm a booking request
+        status: implemented
+        priority: high
+        current: {backend: ["POST /business/bookings/owner/{id}/confirm"], web: ["/business/bookings/owner"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.booking.cancel
+        name: Cancel an own booking
+        status: implemented
+        priority: high
+        current: {backend: ["POST /business/bookings/me/{id}/cancel"], web: ["/business/bookings"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.profile.update
+        name: Update a business profile
+        status: implemented
+        priority: high
+        current: {backend: ["PUT /business/profiles/me"], web: ["/business/profile"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.profile.gallery_manage
+        name: Manage business gallery images
+        status: partial
+        priority: medium
+        current: {backend: ["GET /business/gallery/me", "POST /business/gallery/me", "PUT /business/gallery/me/{id}", "DELETE /business/gallery/me/{id}"], web: ["/business/profile"], vision: ["/vision"]}
+        gaps: [image upload/storage integration, browser runtime coverage]
+      - id: business.offering.update
+        name: Update a bookable offering
+        status: implemented
+        priority: high
+        current: {backend: ["PUT /business/offerings/{id}/me"], web: ["/business/offerings"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.offering.archive
+        name: Archive a bookable offering
+        status: implemented
+        priority: high
+        current: {backend: ["DELETE /business/offerings/{id}/me"], web: ["/business/offerings"], vision: ["/vision"]}
+        gaps: [archive/history semantics, browser runtime acceptance coverage]
+      - id: business.booking.review
+        name: Review owner booking requests
+        status: implemented
+        priority: high
+        current: {backend: ["GET /business/bookings/owner"], web: ["/business/bookings/owner"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.booking.reject
+        name: Reject a booking request
+        status: implemented
+        priority: high
+        current: {backend: ["POST /business/bookings/owner/{id}/reject"], web: ["/business/bookings/owner"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.booking.complete
+        name: Complete an appointment
+        status: implemented
+        priority: high
+        current: {backend: ["POST /business/bookings/owner/{id}/complete"], web: ["/business/bookings/owner"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.booking.no_show
+        name: Mark an appointment as no-show
+        status: implemented
+        priority: medium
+        current: {backend: ["POST /business/bookings/owner/{id}/mark-no-show"], web: ["/business/bookings/owner"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.booking.reschedule
+        name: Reschedule an appointment
+        status: partial
+        priority: high
+        current:
+          backend: ["POST /business/bookings/me/{bookingId}/reschedule", "POST /business/bookings/owner/{bookingId}/reschedule"]
+          web: ["/business/bookings/me", "/business/bookings/owner"]
+          vision: ["/vision via RESCHEDULE_BOOKING"]
+        gaps: [Browser/runtime acceptance coverage]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRescheduleBookingUseCase.java, apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java]
+      - id: business.booking.view_calendar
+        name: View owner booking calendar
+        status: implemented
+        priority: high
+        current: {backend: ["GET /business/bookings/owner/calendar"], web: ["/calendar"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: business.availability.manage
+        name: Manage business availability and exceptions
+        status: implemented
+        priority: high
+        current: {backend: [business availability controllers], web: ["/business/availability", "/business/availability/exceptions"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+
+      - id: sharing.thing.create
+        name: List a thing for sharing
+        status: implemented
+        priority: high
+        current: {backend: ["POST /things/listings"], web: ["/things"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage, mobile presentation]
+      - id: sharing.thing.view_other
+        name: View another user's thing listing
+        status: implemented
+        priority: high
+        current: {backend: ["GET /things/listings/{id}"], web: ["/things/:id"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage, mobile presentation]
+      - id: sharing.thing.archive
+        name: Archive a thing listing
+        status: implemented
+        priority: high
+        current: {backend: ["DELETE /things/listings/{id}"], web: ["/things"], vision: ["/vision"]}
+        gaps: [browser runtime coverage, mobile presentation]
+      - id: sharing.borrow.request
+        name: Request to borrow a thing
+        status: implemented
+        priority: high
+        current: {backend: ["POST /things/listings/{id}/borrow-requests"], web: ["/things", "/things/:id"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: sharing.borrow.view_own
+        name: View own borrow requests and loans
+        status: implemented
+        priority: high
+        current: {backend: ["GET /things/borrow-requests/me"], web: ["/things"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: sharing.borrow.decide
+        name: Approve or decline a borrow request
+        status: implemented
+        priority: high
+        current: {backend: ["PATCH /things/borrow-requests/{id}"], web: ["/things"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: sharing.borrow.return
+        name: Mark a borrowed thing returned
+        status: implemented
+        priority: high
+        current: {backend: ["PATCH /things/borrow-requests/{id}/return"], web: ["/things"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: sharing.thing.discover
+        name: Discover available things
+        status: implemented
+        priority: high
+        current: {backend: ["GET /things/listings"], web: ["/things"], vision: ["/vision"]}
+        gaps: [search/filter, browser runtime acceptance coverage]
+      - id: sharing.thing.update
+        name: Update a thing listing
+        status: implemented
+        priority: high
+        current: {backend: ["PUT /things/listings/{id}"], web: ["/things"], vision: ["/vision"]}
+        gaps: [browser runtime coverage, mobile presentation]
+      - id: sharing.borrow.cancel
+        name: Cancel a pending borrow request
+        status: implemented
+        priority: high
+        current: {backend: ["DELETE /things/borrow-requests/{id}"], web: ["/things"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: sharing.thing.view_own
+        name: View own thing listings
+        status: implemented
+        priority: high
+        current: {backend: ["GET /things/listings/me"], web: ["/things"], vision: ["/vision"]}
+        gaps: [browser runtime acceptance coverage]
+      - id: sharing.ride.create
+        name: Offer a voluntary ride
+        status: implemented
+        priority: high
+        current: {backend: ["POST /rides/offers"], web: ["/rides"], vision: ["CREATE_RIDE review/confirm"]}
+        gaps: []
+      - id: sharing.ride.discover
+        name: Discover available rides
+        status: implemented
+        priority: high
+        current: {backend: ["GET /rides/offers"], web: ["/rides"], vision: ["VIEW_RIDES"]}
+        gaps: []
+      - id: sharing.ride.join
+        name: Join a ride
+        status: implemented
+        priority: high
+        current: {backend: ["POST /rides/offers/{id}/join"], web: ["/rides"], vision: ["JOIN_RIDE review/confirm"]}
+        gaps: []
+      - id: sharing.ride.update
+        name: Update an offered ride
+        status: implemented
+        priority: medium
+        current: {backend: ["PUT /rides/offers/{id}"], web: ["/rides"], vision: ["UPDATE_RIDE review/confirm"]}
+        gaps: []
+      - id: sharing.ride.leave
+        name: Leave a joined ride
+        status: implemented
+        priority: medium
+        current: {backend: ["POST /rides/offers/{id}/leave"], web: ["/rides"], vision: ["LEAVE_RIDE review/confirm"]}
+        gaps: []
+      - id: sharing.ride.cancel
+        name: Cancel an offered ride
+        status: implemented
+        priority: high
+        current: {backend: ["POST /rides/offers/{id}/cancel"], web: ["/rides"], vision: ["CANCEL_RIDE review/confirm"]}
+        gaps: []
+      - id: sharing.ride.complete
+        name: Complete a ride
+        status: implemented
+        priority: medium
+        current: {backend: ["POST /rides/offers/{id}/complete"], web: ["/rides"], vision: ["COMPLETE_RIDE review/confirm"]}
+        gaps: []
 
   - id: sharing
     name: Things sharing and lending
@@ -383,6 +1241,130 @@ modules:
   - id: cross_module
     name: Shared product capabilities
     capabilities:
+      - id: cross_module.search.discover
+        name: Search across product modules
+        status: partial
+        priority: high
+        current:
+          web: ["/vision", "/work"]
+          backend: [VisionSearchDiscoveryService, module read services]
+        gaps: [one unified non-Vision result contract, consistent ranking and pagination across families]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, docs/cross-module-search-acceptance.yaml]
+      - id: cross_module.search.filter
+        name: Filter cross-module results
+        status: partial
+        priority: high
+        current:
+          web: ["/work search filters", "/vision continuation"]
+          backend: [WorkmarketQuestReadService, VisionSearchDiscoveryService]
+        gaps: [shared filter vocabulary across entity families, explicit cross-module filter interaction]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue, docs/cross-module-search-acceptance.yaml]
+      - id: cross_module.search.compare
+        name: Compare cross-module results
+        status: planned
+        priority: medium
+        current:
+          web: []
+          backend: []
+        gaps: [comparison DTO, comparable-field policy, privacy-safe fallback list]
+        evidence:
+          docs: [docs/cross-module-search-acceptance.yaml, docs/target-capability-catalog.yaml]
+      - id: cross_module.notification.receive
+        name: Receive relevant product notifications
+        status: partial
+        priority: high
+        current:
+          web: ["/notifications", dashboard summaries]
+          backend: [WorkmarketQuestNewsService, domain notification fan-out]
+          vision: ["/vision notification inbox via VIEW_NOTIFICATIONS"]
+        gaps: [realtime delivery acceptance, mobile/watch delivery clients, delivery observability]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionFeedPreviewRenderer.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue]
+      - id: cross_module.notification.view
+        name: View notifications
+        status: implemented
+        priority: high
+        current:
+          web: ["/notifications"]
+          backend: ["GET /news/me"]
+          vision: ["/vision"]
+        gaps: [native notification feed clients]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+      - id: cross_module.notification.mark_read
+        name: Mark a notification as read
+        status: implemented
+        priority: high
+        current:
+          web: ["/notifications"]
+          backend: ["PATCH /news/me/read", "PATCH /news/me/{newsId}/read"]
+          vision: ["/vision"]
+        gaps: [native client read-state synchronization]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue]
+      - id: cross_module.notification.manage_preferences
+        name: Manage notification preferences
+        status: partial
+        priority: medium
+        current:
+          web: ["/profile/settings/notifications"]
+          backend: ["GET /notification-preferences/me", "PUT /notification-preferences/me"]
+          vision: ["/vision", "UPDATE_NOTIFICATION_PREFERENCES"]
+        gaps: [push/email delivery integrations]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue]
+      - id: cross_module.shell.navigate
+        name: Navigate between module surfaces
+        status: implemented
+        priority: critical
+        current:
+          web: [apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/app-shell]
+          backend: [authenticated route authorization]
+        gaps: [native shell clients]
+        evidence:
+          code: [apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts]
+      - id: cross_module.shell.render_context
+        name: Render a route-aware adaptive surface
+        status: implemented
+        priority: critical
+        current:
+          web: [apps/themuffinman/frontend/src/modules/app-shell]
+          backend: [backend-prepared dashboard and section DTOs]
+        gaps: [native shell contract implementation]
+        evidence:
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/SurfaceContentView.vue]
+      - id: cross_module.handoff.mobile
+        name: Handoff an action to mobile
+        status: planned
+        priority: high
+        current:
+          web: [typed Vision handoff query contract]
+          backend: [VisionRuntimeContextDTO device metadata]
+        gaps: [native iPhone client, versioned resumable handoff token, expiry and offline recovery]
+        evidence:
+          docs: [docs/native-client-handoff-contract.yaml, docs/vision-presentation-contract.yaml]
+      - id: cross_module.handoff.watch
+        name: Handoff a focused action to Watch
+        status: planned
+        priority: medium
+        current:
+          web: [responsive compact Vision presentation]
+          backend: [VisionRuntimeContextDTO watch metadata]
+        gaps: [native Watch client, compact action contract, safe confirmation and expiry]
+        evidence:
+          docs: [docs/native-client-handoff-contract.yaml, docs/work/modern-mobile-watch-quality.yaml]
+      - id: cross_module.auditability.trace
+        name: Trace target capability to implementation evidence
+        status: implemented
+        priority: high
+        current:
+          docs: [docs/target-capability-catalog.yaml, docs/capability-inventory.yaml, docs/work]
+          validation: [scripts/verify-work.rb, scripts/audits]
+        gaps: [generated human-readable report, broader runtime evidence aggregation]
+        evidence:
+          code: [scripts/verify-work.rb, scripts/audits/audit-target-capability-coverage.rb]
       - id: cross_module.adaptive_shell
         name: One shell with route-aware adaptive surface archetypes
         status: verified

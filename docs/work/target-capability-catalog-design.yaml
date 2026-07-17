@@ -1,0 +1,246 @@
+kind: work
+version: 1
+id: target-capability-catalog-design
+title: Design the production-ready target capability catalog
+status: verified
+baseline: 4715898
+objective: 'Define a machine-readable product capability catalog that describes the
+  complete production-ready behavior TheMuffinMan should provide, at atomic user-function
+  level, while keeping target product scope separate from current implementation status
+  and validation evidence.
+
+'
+scope:
+  included:
+  - module, object, actor, and action taxonomy
+  - atomic capability naming and stable identifiers
+  - Vision, web UI, mobile, Watch, and API availability dimensions
+  - lifecycle, permissions, privacy, consent, and cross-module relationships
+  - production-readiness and acceptance metadata
+  - relationship to docs/capability-inventory.yaml and existing work plans
+  excluded:
+  - implementing missing product capabilities in application code
+  - changing existing backend or frontend behavior
+  - declaring current capabilities implemented or verified
+  - replacing product vision, business logic, or domain technical documents
+  - generating a full backlog from the catalog before the schema is accepted
+design_principles:
+- Keep each capability small enough to become one acceptance scenario or one coherent
+  work-plan slice.
+- Describe user outcomes, not controllers, database tables, or frontend components.
+- Treat Vision and UI availability as separate product delivery dimensions.
+- Keep target truth, current-state truth, and evidence linked but not duplicated.
+- Make permissions, visibility, consent, and state transitions explicit for every
+  relevant workflow.
+- Prefer deterministic identifiers so audits and generated plans can reference capabilities
+  safely.
+tasks:
+- id: target-catalog-source-review
+  title: Review product, domain, inventory, and control sources
+  type: analysis
+  status: done
+  paths:
+  - AGENTS.md
+  - docs/product-vision.md
+  - docs/product-memory.md
+  - docs/capability-inventory.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-control.md
+  - docs/agent-operating-model.yaml
+  - docs/work/*.yaml
+  validation: rg -n 'module|object|capability|vision|web|permission|consent|lifecycle'
+    docs/product-vision.md docs/capability-inventory.yaml docs/business-logic.md docs/domain-technical.md
+- id: target-catalog-schema
+  title: Define the canonical target capability schema
+  type: documentation
+  status: done
+  paths:
+  - docs/target-capability-catalog.yaml
+  - docs/target-capability-catalog.schema.yaml
+  validation: ruby -e "require 'yaml'; YAML.load_file('docs/target-capability-catalog.yaml');
+    YAML.load_file('docs/target-capability-catalog.schema.yaml'); puts 'YAML valid'"
+- id: target-catalog-taxonomy
+  title: Build the initial module, object, and atomic action taxonomy
+  type: documentation
+  status: done
+  paths:
+  - docs/target-capability-catalog.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  validation: ruby -e "require 'yaml'; d=YAML.load_file('docs/target-capability-catalog.yaml');
+    abort 'missing modules' unless d['modules'].is_a?(Array) && !d['modules'].empty?;
+    puts 'taxonomy present'"
+- id: target-catalog-coverage-model
+  title: Define availability, lifecycle, permission, privacy, and acceptance fields
+  type: documentation
+  status: done
+  paths:
+  - docs/target-capability-catalog.yaml
+  - docs/domain-technical.md
+  - docs/vision-capability-acceptance.yaml
+  validation: make audit-target-capability-catalog
+- id: target-current-reconciliation
+  title: Design the mapping from target capabilities to current inventory entries
+  type: documentation
+  status: done
+  paths:
+  - docs/target-capability-catalog.yaml
+  - docs/capability-inventory.yaml
+  - docs/implementation-control.md
+  validation: make audit-docs
+- id: target-catalog-audit-design
+  title: Specify deterministic audits and generated planning outputs
+  type: documentation
+  status: done
+  paths:
+  - docs/target-capability-catalog.yaml
+  - docs/implementation-control.md
+  - docs/agent-operating-model.yaml
+  - docs/work/target-capability-catalog-design.yaml
+  - scripts/audits/audit-target-capability-catalog.rb
+  - Makefile
+  validation: make audit-target-capability-catalog
+- id: target-catalog-example-review
+  title: Review representative end-to-end examples before broad population
+  type: analysis
+  status: done
+  paths:
+  - docs/target-capability-catalog.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  validation: rg -n 'work.quest.create|work.quest.view_other|work.application.create|circles.circle.create|chat.message.send|platform.profile.view_other'
+    docs/target-capability-catalog.yaml
+deliverables:
+- docs/target-capability-catalog.yaml
+- docs/target-capability-catalog.schema.yaml
+- documented mapping to docs/capability-inventory.yaml
+- documented audit rules for missing target/current/UI/Vision coverage
+- representative examples covering creation, reading, interaction, lifecycle, and
+  privacy
+decision_gates:
+- The catalog is a target product contract, not a second current-state inventory.
+- Capability IDs are stable and use module.object.action semantics where practical.
+- UI and Vision availability are explicit booleans or typed modes, never inferred
+  from implementation status.
+- A capability is not production-ready unless its permissions, failure behavior, and
+  acceptance expectations are defined.
+- No broad capability population starts until the schema passes representative examples
+  from Work, Circles, Chat, Profile, Things, and Vision.
+evidence:
+- task: target-catalog-source-review
+  command: rg -n 'module|object|capability|vision|web|permission|consent|lifecycle'
+    docs/product-vision.md docs/capability-inventory.yaml docs/business-logic.md docs/domain-technical.md
+  ranAt: '2026-07-16T16:41:30Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  output: |+
+    docs/domain-technical.md:1631:- axios client is shared across modules
+    docs/domain-technical.md:1638:- `frontend/src/modules/app-shell/api/userShellApi.ts` is a thin route-entry client that consumes existing backend read models for shell routes without owning workflow logic locally
+    docs/domain-technical.md:1639:- `frontend/src/modules/vision/api/contracts.ts` aliases generated DTOs into Vision-facing names and adds a few frontend-side request refinements
+    docs/domain-technical.md:1640:- `visionApi` aggregates endpoint clients so surviving Vision screens can consume user, circle, location, quest, and application contracts through one import surface
+    docs/domain-technical.md:1650:- `questsApi` maps `/quests`, `/quests/search`, `/quests/presets/:preset`, `/quests/:id`, `/quests/:id/detail`, and lifecycle mutation routes
+    docs/domain-technical.md:1657:- `chatApi` is separate from `visionApi` and maps `/chat/*`
+    docs/domain-technical.md:1705:  - `script`, `style`, `iframe`, `object`, `embed`
+    docs/domain-technical.md:1736:- websocket handler is registered at `/ws/chat`
+    docs/domain-technical.md:1737:- websocket allowed origins reuse the shared CORS origin list
+    docs/domain-technical.md:1738:- websocket auth uses `ChatWebSocketAuthInterceptor`
+    docs/domain-technical.md:1774:The cross-module product capability map is maintained in `docs/capability-inventory.yaml`, with maintenance guidance in `docs/capability-inventory.md`. Update capability status, gaps, and evidence when a feature changes the supported product surface.
+    docs/domain-technical.md:1778:- Work discovery owns server-side search, filtering, sorting, and page boundaries; the web client must not derive a smaller preview by slicing the response.
+    docs/domain-technical.md:1783:- Cross-module search comparison is backend-owned: entity-family selection, visibility filtering, ranking, pagination, empty states, and errors are returned as contract data. Clients preserve each result's family label and source route and do not locally re-rank or truncate mixed results. The acceptance matrix is `docs/cross-module-search-acceptance.yaml`.
+    docs/domain-technical.md:1784:- Future iPhone and Watch clients use `docs/native-client-handoff-contract.yaml` as the shared handoff boundary. They reuse backend permissions, action DTOs, pagination, retry semantics, and source routes; compact Watch presentation may reduce density but cannot redefine workflow meaning or authorization.
+    docs/domain-technical.md:1788:- When entity fields, relations, validations, permission checks, or workflow rules change, update this file in the same change.
+    docs/domain-technical.md:1790:- The Things web surface consumes `GET /things/listings`, `GET /things/listings/{listingId}`, `GET /things/listings/me`, `GET /things/listings/me/borrow-requests`, `GET /things/borrow-requests/me`, `POST /things/listings`, and `POST /things/listings/{listingId}/borrow-requests`. It uses `myPendingRequestId` for display only and does not duplicate backend availability or uniqueness rules.
+    docs/domain-technical.md:1794:- The Circles surface explains the policy boundary but does not calculate access locally. Backend circle membership, location visibility, and module-specific access services remain authoritative.
+    docs/domain-technical.md:1796:- Chat image preview uses a browser object URL with explicit revoke cleanup on replacement, removal, send, and component unmount. It does not persist local preview data or replace the backend attachment URL contract.
+    docs/domain-technical.md:1797:- `docs/cross-module-visibility-acceptance.yaml` is the machine-readable matrix for circle, location, Work, Chat, and Things visibility boundaries. It records backend policy, frontend explanation/surface, and targeted-test evidence separately from browser/device runtime evidence.
+
+- task: target-catalog-schema
+  command: ruby -e "require 'yaml'; YAML.load_file('docs/target-capability-catalog.yaml');
+    YAML.load_file('docs/target-capability-catalog.schema.yaml'); puts 'YAML valid'"
+  ranAt: '2026-07-16T16:41:30Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/target-capability-catalog.schema.yaml
+  - docs/target-capability-catalog.yaml
+  output: "YAML valid\n\n"
+- task: target-catalog-taxonomy
+  command: ruby -e "require 'yaml'; d=YAML.load_file('docs/target-capability-catalog.yaml');
+    abort 'missing modules' unless d['modules'].is_a?(Array) && !d['modules'].empty?;
+    puts 'taxonomy present'"
+  ranAt: '2026-07-16T16:41:30Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/target-capability-catalog.yaml
+  output: "taxonomy present\n\n"
+- task: target-catalog-coverage-model
+  command: make audit-target-capability-catalog
+  ranAt: '2026-07-16T16:41:31Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/target-capability-catalog.yaml
+  output: |+
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (62 capabilities, 8 modules, 28 inventory IDs available).
+
+- task: target-current-reconciliation
+  command: make audit-docs
+  ranAt: '2026-07-16T16:41:31Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  - docs/target-capability-catalog.yaml
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 179
+      review needed: 0
+      high priority: 0
+
+- task: target-catalog-audit-design
+  command: make audit-target-capability-catalog
+  ranAt: '2026-07-16T16:41:33Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/implementation-control.md
+  - docs/target-capability-catalog.yaml
+  - docs/work/target-capability-catalog-design.yaml
+  - scripts/audits/audit-target-capability-catalog.rb
+  output: |+
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (62 capabilities, 8 modules, 28 inventory IDs available).
+
+- task: target-catalog-example-review
+  command: rg -n 'work.quest.create|work.quest.view_other|work.application.create|circles.circle.create|chat.message.send|platform.profile.view_other'
+    docs/target-capability-catalog.yaml
+  ranAt: '2026-07-16T16:41:33Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/target-capability-catalog.yaml
+  output: |-
+    27:      - {id: profile, name: User profile, capability_ids: [platform.profile.view_own, platform.profile.view_other, platform.profile.update]}
+    37:      - {id: quest, name: Work opportunity, capability_ids: [work.quest.create, work.quest.view_own, work.quest.view_other, work.quest.discover, work.quest.update, work.quest.publish, work.quest.pause, work.quest.cancel]}
+    38:      - {id: application, name: Work application, capability_ids: [work.application.create, work.application.view_own, work.application.review, work.application.update, work.application.withdraw, work.application.decide]}
+    42:      - {id: circle, name: Circle, capability_ids: [circles.circle.create, circles.circle.view_own, circles.circle.view_other, circles.circle.update]}
+    48:      - {id: message, name: Chat message, capability_ids: [chat.message.send, chat.message.view, chat.message.attach]}
+    72:  - {id: platform.profile.view_other, module: platform, object: profile, action: view_other, type: query, name: View another user's profile, actor: authenticated_user, priority: critical, target_surfaces: {vision: true, web_ui: true, mobile: true, watch: false, api: true}, access: {scope: authenticated, consent_required: true, privacy_rule: Show only fields allowed by visibility and relationship rules.}, outcome: User understands another participant's identity and trust context., failure_behavior: Explain unavailable or restricted profiles without leaking private data., acceptance: [Visibility is backend-enforced, Trust signals are contextual, Restricted data is omitted], current_inventory_ids: [platform.profile]}
+    77:  - {id: work.quest.create, module: work, object: quest, action: create, type: mutation, name: Create a new work opportunity, actor: authenticated_user, priority: critical, target_surfaces: {vision: true, web_ui: true, mobile: true, watch: false, api: true}, access: {scope: authenticated, consent_required: false, privacy_rule: Visibility is selected by the owner.}, outcome: User creates a draft and can publish it after review., failure_behavior: Keep valid draft data and identify missing or invalid fields., acceptance: [Minimum fields are collected, Review is available, Publish is explicit, Location and schedule are validated], requires_confirmation: true, resulting_states: [draft], current_inventory_ids: [work.quest.create, vision.create_quest]}
+    79:  - {id: work.quest.view_other, module: work, object: quest, action: view_other, type: query, name: View another user's work opportunity, actor: authenticated_user, priority: critical, target_surfaces: {vision: true, web_ui: true, mobile: true, watch: false, api: true}, access: {scope: authenticated, consent_required: true, privacy_rule: Show only published fields allowed by quest visibility.}, outcome: User evaluates work before applying or contacting the owner., failure_behavior: Explain unavailable or restricted work without private details., acceptance: [Owner trust context is visible, Schedule and location obey visibility, Application action reflects eligibility], current_inventory_ids: [work.quest.discovery]}
+    82:  - {id: work.quest.publish, module: work, object: quest, action: publish, type: lifecycle, name: Publish owned work, actor: authenticated_user, priority: critical, target_surfaces: {vision: true, web_ui: true, mobile: true, watch: false, api: true}, access: {scope: owner, consent_required: false, privacy_rule: Publication applies selected visibility.}, outcome: Valid draft becomes discoverable., failure_behavior: Explain incomplete requirements and keep the draft editable., acceptance: [Required fields block publication, Visibility is enforced, Published work appears in discovery], requires_confirmation: true, resulting_states: [published], current_inventory_ids: [work.quest.create]}
+    85:  - {id: work.application.create, module: work, object: application, action: create, type: interaction, name: Apply to work, actor: authenticated_user, priority: critical, target_surfaces: {vision: true, web_ui: tru

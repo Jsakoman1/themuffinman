@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CircleMembershipRepository extends JpaRepository<CircleMembership, Long> {
 
@@ -28,6 +29,9 @@ public interface CircleMembershipRepository extends JpaRepository<CircleMembersh
     List<CircleMembership> findByMemberIdAndCircleOwnerId(Long memberId, Long ownerId);
 
     boolean existsByCircleIdAndMemberId(Long circleId, Long memberId);
+
+    @Query("select membership from CircleMembership membership join fetch membership.circle circle where circle.id = :circleId and membership.member.id = :memberId")
+    Optional<CircleMembership> findByCircleIdAndMemberId(Long circleId, Long memberId);
 
     void deleteByCircleId(Long circleId);
 }

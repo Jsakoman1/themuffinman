@@ -34,8 +34,13 @@ public class BusinessOfferingService {
     private final BusinessOfferingMgr businessOfferingMgr;
 
     public BusinessOfferingListResponseDTO getMyOfferings(AppUser currentUser) {
+        return getMyOfferings(currentUser, null);
+    }
+
+    public BusinessOfferingListResponseDTO getMyOfferings(AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? null : requireOwnerProfile(currentUser, businessProfileId);
         return BusinessOfferingListResponseDTO.builder()
-                .items(businessOfferingRepository.findByOwnerId(currentUser.getId()).stream()
+                .items((profile == null ? businessOfferingRepository.findByOwnerId(currentUser.getId()) : businessOfferingRepository.findByBusinessProfileId(profile.getId(), currentUser.getId())).stream()
                         .map(businessOfferingMgr::toDto)
                         .toList())
                 .build();
@@ -43,7 +48,12 @@ public class BusinessOfferingService {
 
     @Transactional
     public BusinessOfferingResponseDTO createMyOffering(BusinessOfferingRequestDTO dto, AppUser currentUser) {
-        BusinessProfile profile = requireOwnerProfile(currentUser);
+        return createMyOffering(dto, currentUser, null);
+    }
+
+    @Transactional
+    public BusinessOfferingResponseDTO createMyOffering(BusinessOfferingRequestDTO dto, AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? requireOwnerProfile(currentUser) : requireOwnerProfile(currentUser, businessProfileId);
         BusinessOffering offering = new BusinessOffering();
         offering.setBusinessProfile(profile);
         applyRequest(offering, dto, profile, true);
@@ -59,6 +69,14 @@ public class BusinessOfferingService {
     }
 
     @Transactional
+    public BusinessOfferingResponseDTO updateMyOfferingTitleForVision(Long offeringId, String title, AppUser currentUser) {
+        BusinessOffering offering = businessOfferingRepository.findOwnedById(offeringId, currentUser.getId())
+                .orElseThrow(() -> ServiceErrors.notFound("Business offering not found"));
+        offering.setTitle(TextValueNormalizer.requireTrimmed(title, "Offering title is required"));
+        return businessOfferingMgr.toDto(businessOfferingRepository.save(offering));
+    }
+
+    @Transactional
     public void deleteMyOffering(Long offeringId, AppUser currentUser) {
         BusinessOffering offering = businessOfferingRepository.findOwnedById(offeringId, currentUser.getId())
                 .orElseThrow(() -> ServiceErrors.notFound("Business offering not found"));
@@ -69,6 +87,12 @@ public class BusinessOfferingService {
     private BusinessProfile requireOwnerProfile(AppUser currentUser) {
         return businessProfileRepository.findByOwnerId(currentUser.getId())
                 .orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before managing offerings"));
+    }
+
+    private BusinessProfile requireOwnerProfile(AppUser currentUser, Long businessProfileId) {
+        return businessProfileRepository.findById(businessProfileId)
+                .filter(profile -> profile.getOwner().getId().equals(currentUser.getId()))
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
     }
 
     private void applyRequest(BusinessOffering offering, BusinessOfferingRequestDTO dto, BusinessProfile profile, boolean creating) {

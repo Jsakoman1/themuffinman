@@ -58,6 +58,7 @@ class ServiceTransactionConfigurationTest {
         assertMethodReadOnlyTransactional(CircleRelationService.class, "findRelation", com.themuffinman.app.identity.model.AppUser.class, com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(CircleReadService.class, "getOverview", com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(CircleReadService.class, "getCircles", com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(CircleReadService.class, "getAccessibleCircleDetail", Long.class, com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(CircleReadService.class, "getConnections", com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(CircleReadService.class, "getIncomingRequests", com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(CircleReadService.class, "getOutgoingRequests", com.themuffinman.app.identity.model.AppUser.class);

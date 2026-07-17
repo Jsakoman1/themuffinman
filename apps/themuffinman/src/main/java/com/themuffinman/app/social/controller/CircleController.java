@@ -22,6 +22,8 @@ import com.themuffinman.app.social.dto.PageQueryDTO;
 import com.themuffinman.app.social.dto.TextPageQueryDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.service.CircleDiscoveryService;
+import com.themuffinman.app.social.service.CircleMembershipService;
+import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleRelationshipReadService;
 import com.themuffinman.app.social.service.CircleService;
@@ -38,6 +40,7 @@ public class CircleController {
     private final CircleReadService circleReadService;
     private final CircleRelationshipReadService circleRelationshipReadService;
     private final CircleDiscoveryService circleDiscoveryService;
+    private final CircleMembershipService circleMembershipService;
 
     @GetMapping("/me/overview")
     public CircleOverviewDTO getOverview(@AuthenticationPrincipal AppUser currentUser) {
@@ -93,6 +96,14 @@ public class CircleController {
         return circleReadService.getCircles(currentUser);
     }
 
+    @GetMapping("/groups/{circleId}/accessible")
+    public CircleGroupResponseDTO getAccessibleCircle(
+            @PathVariable Long circleId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return circleReadService.getAccessibleCircleDetail(circleId, currentUser);
+    }
+
     @PutMapping("/connections/{userId}/circles")
     public ActionResultDTO updateConnectionCircles(
             @PathVariable Long userId,
@@ -110,6 +121,15 @@ public class CircleController {
     ) {
         circleService.updateConnectionCirclesBulk(dto, currentUser);
         return ActionResults.of("UPDATE_CONNECTION_CIRCLES_BULK", "People updated.");
+    }
+
+    @DeleteMapping("/groups/{circleId}/membership/me")
+    public ActionResultDTO leaveCircle(
+            @PathVariable Long circleId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        circleMembershipService.leaveCircle(circleId, currentUser);
+        return ActionResults.of("circle_membership_left", "Circle membership removed");
     }
 
     @GetMapping

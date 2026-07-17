@@ -1,0 +1,3012 @@
+---
+version: 1
+kind: target_capability_coverage_report
+generated_from:
+- docs/target-capability-catalog.yaml
+- docs/capability-inventory.yaml
+semantics:
+  current_status: Aggregated from linked current inventory capabilities; this report
+    does not change inventory status.
+  current_surfaces: Detected only from current inventory web/backend evidence and
+    Vision capability IDs.
+  gaps: Missing current mapping or missing required web UI/Vision surface evidence.
+summary:
+  total: 123
+  mapped: 123
+  unmapped: 0
+  exact_mapped: 123
+  broad_mapped: 0
+  decomposition_required: 0
+  web_ui_missing: 18
+  vision_missing: 19
+  not_ready: 40
+capabilities:
+- id: platform.account.register
+  module: platform
+  object: account
+  name: Create an account
+  priority: critical
+  current_inventory_ids:
+  - platform.account.register
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: false
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: not_required
+  gaps: []
+- id: platform.account.authenticate
+  module: platform
+  object: account
+  name: Log in
+  priority: critical
+  current_inventory_ids:
+  - platform.account.authenticate
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: false
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: not_required
+  gaps: []
+- id: platform.account.logout
+  module: platform
+  object: account
+  name: Log out
+  priority: high
+  current_inventory_ids:
+  - platform.account.logout
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: false
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: not_required
+  gaps: []
+- id: platform.profile.view_own
+  module: platform
+  object: profile
+  name: View own profile
+  priority: high
+  current_inventory_ids:
+  - platform.profile.view_own
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: platform.profile.view_other
+  module: platform
+  object: profile
+  name: View another user's profile
+  priority: critical
+  current_inventory_ids:
+  - platform.profile.view_other
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: platform.profile.update
+  module: platform
+  object: profile
+  name: Update own profile
+  priority: high
+  current_inventory_ids:
+  - platform.profile.update
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: platform.location.set_preference
+  module: platform
+  object: location
+  name: Set location preference
+  priority: high
+  current_inventory_ids:
+  - platform.location.set_preference
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: platform.location.control_visibility
+  module: platform
+  object: location
+  name: Control location visibility
+  priority: high
+  current_inventory_ids:
+  - platform.location.control_visibility
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.create
+  module: work
+  object: quest
+  name: Create a new work opportunity
+  priority: critical
+  current_inventory_ids:
+  - work.quest.create
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.view_own
+  module: work
+  object: quest
+  name: View own work opportunities
+  priority: high
+  current_inventory_ids:
+  - work.quest.view_own
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.view_other
+  module: work
+  object: quest
+  name: View another user's work opportunity
+  priority: critical
+  current_inventory_ids:
+  - work.quest.view_other
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.discover
+  module: work
+  object: quest
+  name: Search and compare available work
+  priority: critical
+  current_inventory_ids:
+  - work.quest.discover
+  mapping_quality: exact
+  current_statuses:
+  - verified
+  current_status: verified
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.update
+  module: work
+  object: quest
+  name: Edit owned work
+  priority: high
+  current_inventory_ids:
+  - work.quest.update
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.publish
+  module: work
+  object: quest
+  name: Publish owned work
+  priority: critical
+  current_inventory_ids:
+  - work.quest.publish
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.pause
+  module: work
+  object: quest
+  name: Pause owned work
+  priority: high
+  current_inventory_ids:
+  - work.quest.pause
+  mapping_quality: exact
+  current_statuses:
+  - planned
+  current_status: planned
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: work.quest.cancel
+  module: work
+  object: quest
+  name: Cancel owned work
+  priority: high
+  current_inventory_ids:
+  - work.quest.cancel
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.application.create
+  module: work
+  object: application
+  name: Apply to work
+  priority: critical
+  current_inventory_ids:
+  - work.application.create
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.application.view_own
+  module: work
+  object: application
+  name: View own applications
+  priority: high
+  current_inventory_ids:
+  - work.application.view_own
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.application.review
+  module: work
+  object: application
+  name: Review received applications
+  priority: critical
+  current_inventory_ids:
+  - work.application.review
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.application.update
+  module: work
+  object: application
+  name: Update a pending application
+  priority: high
+  current_inventory_ids:
+  - work.application.update
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.application.withdraw
+  module: work
+  object: application
+  name: Withdraw an application
+  priority: high
+  current_inventory_ids:
+  - work.application.withdraw
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.application.decide
+  module: work
+  object: application
+  name: Accept or decline an application
+  priority: critical
+  current_inventory_ids:
+  - work.application.decide
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.circle.create
+  module: circles
+  object: circle
+  name: Create a circle
+  priority: high
+  current_inventory_ids:
+  - circles.circle.create
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.circle.view_own
+  module: circles
+  object: circle
+  name: View own circles
+  priority: high
+  current_inventory_ids:
+  - circles.circle.view_own
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.circle.view_other
+  module: circles
+  object: circle
+  name: View an accessible circle
+  priority: high
+  current_inventory_ids:
+  - circles.circle.view_other
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: true
+  surface_coverage:
+    web_ui: missing
+    vision: covered
+  gaps:
+  - web_ui
+- id: circles.circle.update
+  module: circles
+  object: circle
+  name: Update a circle
+  priority: high
+  current_inventory_ids:
+  - circles.circle.update
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.membership.invite
+  module: circles
+  object: membership
+  name: Invite a person to a circle
+  priority: high
+  current_inventory_ids:
+  - circles.membership.invite
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.membership.accept
+  module: circles
+  object: membership
+  name: Accept a circle invitation
+  priority: high
+  current_inventory_ids:
+  - circles.membership.accept
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.membership.leave
+  module: circles
+  object: membership
+  name: Leave a circle
+  priority: high
+  current_inventory_ids:
+  - circles.membership.leave
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: true
+  surface_coverage:
+    web_ui: missing
+    vision: covered
+  gaps:
+  - web_ui
+- id: chat.conversation.open
+  module: chat
+  object: conversation
+  name: Open a conversation with an allowed contact
+  priority: critical
+  current_inventory_ids:
+  - chat.conversation.open
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.conversation.view
+  module: chat
+  object: conversation
+  name: View conversation history
+  priority: critical
+  current_inventory_ids:
+  - chat.conversation.view
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.message.send
+  module: chat
+  object: message
+  name: Send a chat message
+  priority: critical
+  current_inventory_ids:
+  - chat.message.send
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.message.view
+  module: chat
+  object: message
+  name: View messages
+  priority: critical
+  current_inventory_ids:
+  - chat.message.view
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.message.attach
+  module: chat
+  object: message
+  name: Send a chat attachment
+  priority: high
+  current_inventory_ids:
+  - chat.message.attach
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: missing
+  gaps:
+  - vision
+- id: business.profile.create
+  module: business
+  object: profile
+  name: Create a business profile
+  priority: high
+  current_inventory_ids:
+  - business.profile.create
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.profile.view_public
+  module: business
+  object: profile
+  name: View a public business profile
+  priority: high
+  current_inventory_ids:
+  - business.profile.view_public
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.offering.create
+  module: business
+  object: offering
+  name: Create a bookable offering
+  priority: high
+  current_inventory_ids:
+  - business.offering.create
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.offering.view_public
+  module: business
+  object: offering
+  name: View a public offering
+  priority: high
+  current_inventory_ids:
+  - business.offering.view_public
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.create
+  module: business
+  object: booking
+  name: Request an appointment
+  priority: critical
+  current_inventory_ids:
+  - business.booking.create
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.view_own
+  module: business
+  object: booking
+  name: View own bookings
+  priority: high
+  current_inventory_ids:
+  - business.booking.view_own
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.confirm
+  module: business
+  object: booking
+  name: Confirm a booking
+  priority: critical
+  current_inventory_ids:
+  - business.booking.confirm
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.cancel
+  module: business
+  object: booking
+  name: Cancel a booking
+  priority: high
+  current_inventory_ids:
+  - business.booking.cancel
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.thing.create
+  module: sharing
+  object: thing
+  name: List a thing for sharing
+  priority: high
+  current_inventory_ids:
+  - sharing.thing.create
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.thing.view_other
+  module: sharing
+  object: thing
+  name: View another user's thing listing
+  priority: high
+  current_inventory_ids:
+  - sharing.thing.view_other
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.thing.archive
+  module: sharing
+  object: thing
+  name: Archive a thing listing
+  priority: high
+  current_inventory_ids:
+  - sharing.thing.archive
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: true
+  surface_coverage:
+    web_ui: missing
+    vision: covered
+  gaps:
+  - web_ui
+- id: sharing.borrow.request
+  module: sharing
+  object: borrow
+  name: Request to borrow a thing
+  priority: high
+  current_inventory_ids:
+  - sharing.borrow.request
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.borrow.view_own
+  module: sharing
+  object: borrow
+  name: View own borrow requests and loans
+  priority: high
+  current_inventory_ids:
+  - sharing.borrow.view_own
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.borrow.decide
+  module: sharing
+  object: borrow
+  name: Approve or decline a borrow request
+  priority: high
+  current_inventory_ids:
+  - sharing.borrow.decide
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.borrow.return
+  module: sharing
+  object: borrow
+  name: Mark a borrowed thing returned
+  priority: high
+  current_inventory_ids:
+  - sharing.borrow.return
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.ride.create
+  module: sharing
+  object: ride
+  name: Offer a voluntary ride
+  priority: medium
+  current_inventory_ids:
+  - sharing.ride.create
+  mapping_quality: exact
+  current_statuses:
+  - not_offered
+  current_status: not_offered
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: sharing.ride.discover
+  module: sharing
+  object: ride
+  name: Discover available rides
+  priority: medium
+  current_inventory_ids:
+  - sharing.ride.discover
+  mapping_quality: exact
+  current_statuses:
+  - not_offered
+  current_status: not_offered
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: sharing.ride.join
+  module: sharing
+  object: ride
+  name: Join a ride
+  priority: medium
+  current_inventory_ids:
+  - sharing.ride.join
+  mapping_quality: exact
+  current_statuses:
+  - not_offered
+  current_status: not_offered
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: vision.task.start
+  module: vision
+  object: task
+  name: Start a guided task with text or voice
+  priority: critical
+  current_inventory_ids:
+  - vision.task.start
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: vision.task.review
+  module: vision
+  object: task
+  name: Review a proposed action
+  priority: critical
+  current_inventory_ids:
+  - vision.task.review
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: vision.task.confirm
+  module: vision
+  object: task
+  name: Confirm a guided action
+  priority: critical
+  current_inventory_ids:
+  - vision.task.confirm
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: vision.task.cancel
+  module: vision
+  object: task
+  name: Cancel an active Vision task
+  priority: high
+  current_inventory_ids:
+  - vision.task.cancel
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: vision.discovery.search
+  module: vision
+  object: discovery
+  name: Search product entities through Vision
+  priority: high
+  current_inventory_ids:
+  - vision.discovery.search
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: false
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: not_required
+    vision: covered
+  gaps: []
+- id: vision.discovery.open_detail
+  module: vision
+  object: discovery
+  name: Open a discovered entity detail
+  priority: high
+  current_inventory_ids:
+  - vision.discovery.open_detail
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: cross_module.search.discover
+  module: cross_module
+  object: search
+  name: Search across product modules
+  priority: high
+  current_inventory_ids:
+  - cross_module.search.discover
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: cross_module.search.filter
+  module: cross_module
+  object: search
+  name: Filter cross-module results
+  priority: high
+  current_inventory_ids:
+  - cross_module.search.filter
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: cross_module.notification.receive
+  module: cross_module
+  object: notification
+  name: Receive relevant product notifications
+  priority: high
+  current_inventory_ids:
+  - cross_module.notification.receive
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: cross_module.notification.view
+  module: cross_module
+  object: notification
+  name: View notifications
+  priority: high
+  current_inventory_ids:
+  - cross_module.notification.view
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: platform.profile.view_reviews
+  module: platform
+  object: profile
+  name: View profile ratings and reviews
+  priority: high
+  current_inventory_ids:
+  - platform.profile.view_reviews
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: platform.profile.manage_visibility
+  module: platform
+  object: profile
+  name: Manage profile visibility
+  priority: high
+  current_inventory_ids:
+  - platform.profile.manage_visibility
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: missing
+  gaps:
+  - vision
+- id: platform.location.use_current
+  module: platform
+  object: location
+  name: Use current device location
+  priority: high
+  current_inventory_ids:
+  - platform.location.use_current
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: missing
+  gaps:
+  - vision
+- id: platform.location.resolve
+  module: platform
+  object: location
+  name: Resolve a location label
+  priority: high
+  current_inventory_ids:
+  - platform.location.resolve
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: vision.task.continue
+  module: vision
+  object: task
+  name: Continue a guided Vision task
+  priority: critical
+  current_inventory_ids:
+  - vision.task.continue
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: vision.task.resume
+  module: vision
+  object: task
+  name: Resume a resumable Vision task
+  priority: high
+  current_inventory_ids:
+  - vision.task.resume
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: vision.discovery.compare
+  module: vision
+  object: discovery
+  name: Compare Vision discovery results
+  priority: medium
+  current_inventory_ids:
+  - vision.discovery.compare
+  mapping_quality: exact
+  current_statuses:
+  - planned
+  current_status: planned
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: true
+  surface_coverage:
+    web_ui: missing
+    vision: covered
+  gaps:
+  - web_ui
+- id: work.quest.start
+  module: work
+  object: quest
+  name: Start assigned work
+  priority: critical
+  current_inventory_ids:
+  - work.quest.start
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.complete
+  module: work
+  object: quest
+  name: Complete active work
+  priority: critical
+  current_inventory_ids:
+  - work.quest.complete
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.reopen
+  module: work
+  object: quest
+  name: Reopen a completed or assigned quest
+  priority: high
+  current_inventory_ids:
+  - work.quest.reopen
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.confirm_terms
+  module: work
+  object: quest
+  name: Confirm a proposed term change
+  priority: high
+  current_inventory_ids:
+  - work.quest.confirm_terms
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.reject_terms
+  module: work
+  object: quest
+  name: Reject a proposed term change
+  priority: high
+  current_inventory_ids:
+  - work.quest.reject_terms
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.delete
+  module: work
+  object: quest
+  name: Delete owned work
+  priority: high
+  current_inventory_ids:
+  - work.quest.delete
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.application.view_detail
+  module: work
+  object: application
+  name: View application detail
+  priority: high
+  current_inventory_ids:
+  - work.application.view_detail
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.circle.archive
+  module: circles
+  object: circle
+  name: Archive a circle
+  priority: medium
+  current_inventory_ids:
+  - circles.circle.archive
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.circle.discover
+  module: circles
+  object: circle
+  name: Discover accessible circles and contacts
+  priority: high
+  current_inventory_ids:
+  - circles.circle.discover
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.membership.decline
+  module: circles
+  object: membership
+  name: Decline a circle invitation
+  priority: medium
+  current_inventory_ids:
+  - circles.membership.decline
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.membership.cancel_invite
+  module: circles
+  object: membership
+  name: Cancel an outgoing circle invitation
+  priority: medium
+  current_inventory_ids:
+  - circles.membership.cancel_invite
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: circles.membership.remove
+  module: circles
+  object: membership
+  name: Remove a circle member
+  priority: high
+  current_inventory_ids:
+  - circles.membership.remove
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: true
+  surface_coverage:
+    web_ui: missing
+    vision: covered
+  gaps:
+  - web_ui
+- id: chat.conversation.create_group
+  module: chat
+  object: conversation
+  name: Create a group conversation
+  priority: high
+  current_inventory_ids:
+  - chat.conversation.create_group
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.conversation.mark_read
+  module: chat
+  object: conversation
+  name: Mark conversation messages as read
+  priority: high
+  current_inventory_ids:
+  - chat.conversation.mark_read
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.conversation.reconnect
+  module: chat
+  object: conversation
+  name: Recover a disconnected conversation
+  priority: high
+  current_inventory_ids:
+  - chat.conversation.reconnect
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.message.edit
+  module: chat
+  object: message
+  name: Edit an own chat message
+  priority: medium
+  current_inventory_ids:
+  - chat.message.edit
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.message.reply
+  module: chat
+  object: message
+  name: Reply to a chat message
+  priority: medium
+  current_inventory_ids:
+  - chat.message.reply
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.message.react
+  module: chat
+  object: message
+  name: React to a chat message
+  priority: medium
+  current_inventory_ids:
+  - chat.message.react
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.profile.update
+  module: business
+  object: profile
+  name: Update a business profile
+  priority: high
+  current_inventory_ids:
+  - business.profile.update
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.profile.gallery_manage
+  module: business
+  object: profile
+  name: Manage business gallery images
+  priority: medium
+  current_inventory_ids:
+  - business.profile.gallery_manage
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.offering.update
+  module: business
+  object: offering
+  name: Update a business offering
+  priority: high
+  current_inventory_ids:
+  - business.offering.update
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.offering.archive
+  module: business
+  object: offering
+  name: Archive a business offering
+  priority: high
+  current_inventory_ids:
+  - business.offering.archive
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.review
+  module: business
+  object: booking
+  name: Review booking requests as owner
+  priority: high
+  current_inventory_ids:
+  - business.booking.review
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.reject
+  module: business
+  object: booking
+  name: Reject a booking request
+  priority: high
+  current_inventory_ids:
+  - business.booking.reject
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.complete
+  module: business
+  object: booking
+  name: Complete an appointment
+  priority: high
+  current_inventory_ids:
+  - business.booking.complete
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.no_show
+  module: business
+  object: booking
+  name: Mark an appointment as no-show
+  priority: medium
+  current_inventory_ids:
+  - business.booking.no_show
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.thing.discover
+  module: sharing
+  object: thing
+  name: Discover available things
+  priority: high
+  current_inventory_ids:
+  - sharing.thing.discover
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.thing.update
+  module: sharing
+  object: thing
+  name: Update a thing listing
+  priority: high
+  current_inventory_ids:
+  - sharing.thing.update
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: true
+  surface_coverage:
+    web_ui: missing
+    vision: covered
+  gaps:
+  - web_ui
+- id: sharing.borrow.cancel
+  module: sharing
+  object: borrow
+  name: Cancel a pending borrow request
+  priority: high
+  current_inventory_ids:
+  - sharing.borrow.cancel
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.ride.update
+  module: sharing
+  object: ride
+  name: Update an offered ride
+  priority: medium
+  current_inventory_ids:
+  - sharing.ride.update
+  mapping_quality: exact
+  current_statuses:
+  - not_offered
+  current_status: not_offered
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: sharing.ride.leave
+  module: sharing
+  object: ride
+  name: Leave a joined ride
+  priority: medium
+  current_inventory_ids:
+  - sharing.ride.leave
+  mapping_quality: exact
+  current_statuses:
+  - not_offered
+  current_status: not_offered
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: sharing.ride.cancel
+  module: sharing
+  object: ride
+  name: Cancel an offered ride
+  priority: high
+  current_inventory_ids:
+  - sharing.ride.cancel
+  mapping_quality: exact
+  current_statuses:
+  - not_offered
+  current_status: not_offered
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: sharing.ride.complete
+  module: sharing
+  object: ride
+  name: Complete a ride
+  priority: medium
+  current_inventory_ids:
+  - sharing.ride.complete
+  mapping_quality: exact
+  current_statuses:
+  - not_offered
+  current_status: not_offered
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: cross_module.search.compare
+  module: cross_module
+  object: search
+  name: Compare cross-module results
+  priority: medium
+  current_inventory_ids:
+  - cross_module.search.compare
+  mapping_quality: exact
+  current_statuses:
+  - planned
+  current_status: planned
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: cross_module.notification.mark_read
+  module: cross_module
+  object: notification
+  name: Mark a notification as read
+  priority: high
+  current_inventory_ids:
+  - cross_module.notification.mark_read
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: cross_module.notification.manage_preferences
+  module: cross_module
+  object: notification
+  name: Manage notification preferences
+  priority: medium
+  current_inventory_ids:
+  - cross_module.notification.manage_preferences
+  mapping_quality: exact
+  current_statuses:
+  - planned
+  current_status: planned
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: cross_module.shell.navigate
+  module: cross_module
+  object: shell
+  name: Navigate between module surfaces
+  priority: critical
+  current_inventory_ids:
+  - cross_module.shell.navigate
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: false
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: missing
+  gaps:
+  - vision
+- id: cross_module.shell.render_context
+  module: cross_module
+  object: shell
+  name: Render a route-aware adaptive surface
+  priority: critical
+  current_inventory_ids:
+  - cross_module.shell.render_context
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: false
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: missing
+  gaps:
+  - vision
+- id: cross_module.handoff.mobile
+  module: cross_module
+  object: handoff
+  name: Handoff an action to mobile
+  priority: high
+  current_inventory_ids:
+  - cross_module.handoff.mobile
+  mapping_quality: exact
+  current_statuses:
+  - planned
+  current_status: planned
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: missing
+  gaps:
+  - vision
+- id: cross_module.handoff.watch
+  module: cross_module
+  object: handoff
+  name: Handoff a focused action to Watch
+  priority: medium
+  current_inventory_ids:
+  - cross_module.handoff.watch
+  mapping_quality: exact
+  current_statuses:
+  - planned
+  current_status: planned
+  target_surfaces:
+    vision: true
+    web_ui: false
+    mobile: false
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: not_required
+    vision: missing
+  gaps:
+  - vision
+- id: cross_module.auditability.trace
+  module: cross_module
+  object: auditability
+  name: Trace target capability to implementation evidence
+  priority: high
+  current_inventory_ids:
+  - cross_module.auditability.trace
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: false
+    web_ui: false
+    mobile: false
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: not_required
+    vision: not_required
+  gaps: []
+- id: platform.account.recover
+  module: platform
+  object: account
+  name: Recover account access
+  priority: high
+  current_inventory_ids:
+  - platform.account.recover
+  mapping_quality: exact
+  current_statuses:
+  - planned
+  current_status: planned
+  target_surfaces:
+    vision: false
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: not_required
+  gaps:
+  - web_ui
+- id: work.quest.set_visibility
+  module: work
+  object: quest
+  name: Set work visibility and audience
+  priority: high
+  current_inventory_ids:
+  - work.quest.set_visibility
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.quest.manage_workers
+  module: work
+  object: quest
+  name: Manage assigned workers
+  priority: high
+  current_inventory_ids:
+  - work.quest.manage_workers
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: false
+  surface_coverage:
+    web_ui: covered
+    vision: missing
+  gaps:
+  - vision
+- id: work.application.create_review
+  module: work
+  object: application
+  name: Review a completed work participant
+  priority: high
+  current_inventory_ids:
+  - work.application.create_review
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.conversation.leave
+  module: chat
+  object: conversation
+  name: Leave a group conversation
+  priority: medium
+  current_inventory_ids:
+  - chat.conversation.leave
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.booking.reschedule
+  module: business
+  object: booking
+  name: Reschedule an appointment
+  priority: high
+  current_inventory_ids:
+  - business.booking.reschedule
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: false
+    vision: false
+  surface_coverage:
+    web_ui: missing
+    vision: missing
+  gaps:
+  - web_ui
+  - vision
+- id: business.booking.view_calendar
+  module: business
+  object: booking
+  name: View owner booking calendar
+  priority: high
+  current_inventory_ids:
+  - business.booking.view_calendar
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: sharing.thing.view_own
+  module: sharing
+  object: thing
+  name: View own thing listings
+  priority: high
+  current_inventory_ids:
+  - sharing.thing.view_own
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.dashboard.view
+  module: work
+  object: dashboard
+  name: View the work dashboard
+  priority: high
+  current_inventory_ids:
+  - work.dashboard.view
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.notification.mark_read
+  module: work
+  object: notification
+  name: Mark one work notification as read
+  priority: high
+  current_inventory_ids:
+  - work.notification.mark_read
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: work.notification.mark_all_read
+  module: work
+  object: notification
+  name: Mark all work notifications as read
+  priority: high
+  current_inventory_ids:
+  - work.notification.mark_all_read
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: true
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: business.availability.manage
+  module: business
+  object: availability
+  name: Manage business availability
+  priority: high
+  current_inventory_ids:
+  - business.availability.manage
+  mapping_quality: exact
+  current_statuses:
+  - implemented
+  current_status: implemented
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []
+- id: chat.message.view_attachment
+  module: chat
+  object: message
+  name: View a chat attachment
+  priority: medium
+  current_inventory_ids:
+  - chat.message.view_attachment
+  mapping_quality: exact
+  current_statuses:
+  - partial
+  current_status: partial
+  target_surfaces:
+    vision: true
+    web_ui: true
+    mobile: true
+    watch: false
+    api: true
+  current_surfaces:
+    web_ui: true
+    vision: true
+  surface_coverage:
+    web_ui: covered
+    vision: covered
+  gaps: []

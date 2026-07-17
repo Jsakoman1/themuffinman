@@ -1,0 +1,115 @@
+kind: work
+version: 1
+id: frontend-ux-navigation-information-architecture
+title: Simplify navigation and surface information architecture
+status: verified
+master_plan: docs/work/frontend-ux-modernization-master.yaml
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+capability_ids:
+- cross_module.web_ui
+- platform.profile.view_own
+objective: 'Reduce navigation noise and make every surface communicate context, current
+  location, primary action, and next useful destination consistently on desktop and
+  mobile.
+
+'
+requirements:
+- Define primary navigation versus secondary module navigation.
+- Keep Home, Work, Chat, and Calendar easy to reach without hiding active work.
+- Move low-frequency destinations into a predictable More/account/settings path.
+- Standardize breadcrumb/context, title, count/filter row, and primary action placement.
+- Preserve direct routes and deep links for every existing surface.
+- Keep Vision discoverable as one clear global/contextual action without duplicating
+  competing prompts.
+tasks:
+- id: nav-model
+  title: Define and implement the primary/secondary navigation model
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: surface-header
+  title: Standardize context, title, count, filters, and primary action headers
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+- id: nav-contract
+  title: Add machine-readable route and action acceptance checks
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+acceptance:
+- Every authenticated route has one active primary navigation context.
+- Desktop and mobile navigation expose the same reachable destinations without duplicate
+  competing actions.
+- Deep links preserve context and offer a clear return path.
+evidence:
+- task: nav-model
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-17T12:57:45Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: surface-header
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T12:57:47Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessOfferingsView-B3emmHYF.js                  5.16 kB │ gzip:   1.84 kB
+    dist/assets/BusinessAvailabilityView-CqBVPs0z.js               5.88 kB │ gzip:   2.00 kB
+    dist/assets/BusinessAvailabilityExceptionsView-hCP8x0zW.js     5.93 kB │ gzip:   2.05 kB
+    dist/assets/RidesView-3gB3sQhn.js                              6.07 kB │ gzip:   2.28 kB
+    dist/assets/BusinessProfileView-BgQM6kf1.js                    6.29 kB │ gzip:   2.09 kB
+    dist/assets/ThingsDiscoveryView-1JW1dzEr.js                    7.81 kB │ gzip:   2.51 kB
+    dist/assets/CirclesView-DuFv_iOq.js                            8.42 kB │ gzip:   2.63 kB
+    dist/assets/ProfileLocationSettingsView-CHjnNUKO.js            9.53 kB │ gzip:   3.45 kB
+    dist/assets/WorkQuestDetailView-CAOfRntQ.js                   10.73 kB │ gzip:   3.62 kB
+    dist/assets/ChatSurfaceView-CksQGAMe.js                       11.34 kB │ gzip:   3.86 kB
+    dist/assets/userShellApi-t_LFTxCI.js                          11.45 kB │ gzip:   2.29 kB
+    dist/assets/index-DdpzdFFA.js                                 22.44 kB │ gzip:   6.20 kB
+    dist/assets/vue-core-DHJlMJ48.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/SurfaceContentView-CebBAAfP.js                    25.39 kB │ gzip:   7.12 kB
+    dist/assets/VisionSurfaceModernView-lGx6Dmp5.js               36.39 kB │ gzip:  10.98 kB
+    dist/assets/vendor-D95TteRL.js                                50.25 kB │ gzip:  19.68 kB
+    dist/assets/editor-Dj4qQcVO.js                               464.24 kB │ gzip: 149.69 kB
+
+    ✓ built in 403ms
+
+- task: nav-contract
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-17T12:57:48Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (40 checks).
+

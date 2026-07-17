@@ -1,0 +1,94 @@
+kind: vision_gap_readiness
+version: 1
+id: vision-gap-readiness
+title: Readiness gates for deferred Vision capabilities
+status: active
+source_backlog: docs/work/vision-gap-prioritized-backlog.yaml
+contract_bundle: docs/work/vision-deferred-contract-bundle.yaml
+rule: A capability remains deferred until its implementation and acceptance evidence are complete; contract readiness is tracked separately.
+gates:
+  - id: vision-ready-work-lifecycle
+    capability_ids: [work.quest.manage_workers, work.quest.pause]
+    status: contract_resolved
+    contract_id: work-lifecycle
+    blocker_class: backend_domain_and_product_contract
+    prerequisites:
+      - Define quest lifecycle states and legal owner/worker transitions.
+      - Define reassignment, participant notification, and audit semantics.
+      - Add shared service commands and authorization tests before Vision adapters.
+      - Resolve the proposed contract in docs/work/work-quest-lifecycle-contract.yaml.
+    implementation_entrypoint: workmarket quest lifecycle service and state migration
+    acceptance_evidence: state-transition matrix, unauthorized-owner/worker tests, notification and audit assertions
+  - id: vision-ready-privacy-location
+    capability_ids: [platform.profile.manage_visibility, platform.location.use_current]
+    status: contract_resolved
+    contract_id: privacy-location
+    blocker_class: privacy_and_device_contract
+    prerequisites:
+      - Define profile visibility scopes and hidden-field behavior per viewer.
+      - Define browser/mobile location permission, consent, precision, and revocation semantics.
+      - Expose typed backend commands and viewer-specific read tests.
+    implementation_entrypoint: identity/location policy services and device permission handoff
+    acceptance_evidence: viewer matrix, consent/revocation tests, no-hidden-data response assertions
+  - id: vision-ready-chat-upload
+    capability_ids: [chat.message.attach]
+    status: contract_resolved
+    contract_id: chat-upload
+    blocker_class: binary_upload_and_device_contract
+    prerequisites:
+      - Define Vision binary upload handoff and scoped upload-token contract.
+      - Define size, mime, expiry, retry, and failure behavior shared with web/API.
+      - Add a client surface that can supply binary content to the backend.
+    implementation_entrypoint: chat attachment upload command and Vision/client handoff
+    acceptance_evidence: authorized upload tests, one-time-use/expiry tests, typed upload failure and recovery flow
+  - id: vision-ready-booking-reschedule
+    capability_ids: [business.booking.reschedule]
+    status: contract_resolved
+    contract_id: booking-reschedule
+    blocker_class: backend_domain_and_policy_contract
+    prerequisites:
+      - Define participant policy and reschedule windows.
+      - Define conflict-safe availability replacement and timezone semantics.
+      - Define notification, audit, and rollback behavior for affected participants.
+    implementation_entrypoint: shared booking reschedule service and API command
+    acceptance_evidence: stale-slot conflict tests, participant authorization matrix, notification/audit assertions
+  - id: vision-ready-cross-module-platform
+    capability_ids: [cross_module.search.compare, cross_module.notification.manage_preferences, cross_module.shell.navigate, cross_module.shell.render_context]
+    status: contract_resolved
+    contract_id: cross-module-platform
+    blocker_class: platform_contract
+    prerequisites:
+      - Define comparable fields and privacy-safe empty values across entity families.
+      - Define notification preference categories, ownership, and delivery semantics.
+      - Define Vision-to-native shell navigation/context payload and versioning.
+    implementation_entrypoint: shared shell/search/notification platform contracts
+    acceptance_evidence: payload schemas, permission tests, unsupported-operation behavior, runtime acceptance matrix
+  - id: vision-ready-device-handoff
+    capability_ids: [cross_module.handoff.mobile, cross_module.handoff.watch]
+    status: contract_resolved
+    contract_id: device-handoff
+    blocker_class: device_security_contract
+    prerequisites:
+      - Define target-device availability and authentication requirements.
+      - Define scoped handoff payload, expiry, replay protection, and re-authentication.
+      - Implement native receiver contracts before Vision route exposure.
+    implementation_entrypoint: native handoff protocol and receiver implementations
+    acceptance_evidence: token expiry/replay tests, privileged-data redaction tests, unsupported-target responses
+  - id: vision-ready-ride-domain
+    capability_ids: [sharing.ride.create, sharing.ride.discover, sharing.ride.join, sharing.ride.update, sharing.ride.leave, sharing.ride.cancel, sharing.ride.complete]
+    status: contract_resolved
+    contract_id: ride-domain
+    blocker_class: new_product_domain
+    prerequisites:
+      - Define ride entity, circle consent, safety, scheduling, and participant policies.
+      - Implement backend lifecycle authority and web/API behavior.
+      - Add cancellation, completion, audit, and privacy tests before Vision adapters.
+    implementation_entrypoint: sharing ride domain service, schema, and API
+    acceptance_evidence: complete lifecycle state matrix, consent/authorization tests, cancellation and audit evidence
+summary:
+  deferred_capability_count: 19
+  contract_ready_gate_count: 7
+  ready_to_implement_count: 19
+  blocked_gate_count: 0
+  implementation_pending_count: 19
+  rule: Do not add a Vision route merely to reduce the missing count; contract readiness is not implementation evidence.

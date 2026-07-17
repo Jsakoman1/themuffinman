@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.Clock;
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +70,10 @@ public class VisionSemanticOrchestrationContextService {
     private final VisionUserPreferenceRepository visionUserPreferenceRepository;
     private final VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository;
     private final VisionMemorySummaryRepository visionMemorySummaryRepository;
+    private final Clock clock;
 
     public VisionSemanticOrchestrationContextService(VoiceProperties voiceProperties) {
-        this(voiceProperties, null, null, null, null, null, null);
+        this(voiceProperties, null, null, null, null, null, null, Clock.systemUTC());
     }
 
     public VisionSemanticOrchestrationContextService(
@@ -79,7 +81,7 @@ public class VisionSemanticOrchestrationContextService {
             VisionConversationRepository visionConversationRepository,
             VisionTurnRepository visionTurnRepository
     ) {
-        this(voiceProperties, null, visionConversationRepository, visionTurnRepository, null, null, null);
+        this(voiceProperties, null, visionConversationRepository, visionTurnRepository, null, null, null, Clock.systemUTC());
     }
 
     @Autowired
@@ -92,6 +94,21 @@ public class VisionSemanticOrchestrationContextService {
             VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository,
             VisionMemorySummaryRepository visionMemorySummaryRepository
     ) {
+        this(voiceProperties, visionProperties, visionConversationRepository, visionTurnRepository,
+                visionUserPreferenceRepository, visionMemoryFeedbackEventRepository, visionMemorySummaryRepository,
+                Clock.systemUTC());
+    }
+
+    VisionSemanticOrchestrationContextService(
+            VoiceProperties voiceProperties,
+            VisionProperties visionProperties,
+            VisionConversationRepository visionConversationRepository,
+            VisionTurnRepository visionTurnRepository,
+            VisionUserPreferenceRepository visionUserPreferenceRepository,
+            VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository,
+            VisionMemorySummaryRepository visionMemorySummaryRepository,
+            Clock clock
+    ) {
         this.voiceProperties = voiceProperties;
         this.visionProperties = visionProperties;
         this.visionConversationRepository = visionConversationRepository;
@@ -99,6 +116,7 @@ public class VisionSemanticOrchestrationContextService {
         this.visionUserPreferenceRepository = visionUserPreferenceRepository;
         this.visionMemoryFeedbackEventRepository = visionMemoryFeedbackEventRepository;
         this.visionMemorySummaryRepository = visionMemorySummaryRepository;
+        this.clock = clock == null ? Clock.systemUTC() : clock;
     }
 
     public VisionSemanticUserContext buildUserContext(AppUser user) {
@@ -528,7 +546,7 @@ public class VisionSemanticOrchestrationContextService {
 
         return VisionPreferenceConfidenceSupport.toPreferenceSignals(
                 preferences,
-                Instant.now(),
+                clock.instant(),
                 visionProperties == null ? null : visionProperties.getMemory(),
                 5,
                 CONTEXT_PREFERENCE_PRIORITY
@@ -548,7 +566,7 @@ public class VisionSemanticOrchestrationContextService {
         int explainabilityWindow = 5;
         List<VisionLearningPreferenceDTO> explainabilitySignals = VisionPreferenceConfidenceSupport.toPreferenceSignals(
                 preferences,
-                Instant.now(),
+                clock.instant(),
                 visionProperties == null ? null : visionProperties.getMemory(),
                 explainabilityWindow,
                 CONTEXT_PREFERENCE_PRIORITY

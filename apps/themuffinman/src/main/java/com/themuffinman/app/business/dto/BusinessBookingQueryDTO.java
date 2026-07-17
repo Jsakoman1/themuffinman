@@ -7,6 +7,7 @@ import java.time.Instant;
 
 @Data
 public class BusinessBookingQueryDTO {
+    private Long businessProfileId;
     private String q;
     private BusinessBookingStatus status;
     private Instant from;

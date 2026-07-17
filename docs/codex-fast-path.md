@@ -13,3 +13,6 @@ For a non-trivial change:
 
 The work plan and verifier evidence are the only active implementation status. Do not create work plans, duplicate
 checklists, generated verification reports, or parallel plan formats.
+
+When autonomous continuation is authorized, treat the plan as an active batch: continue through all safe queued tasks
+and close out only after the batch boundary, a real blocker, or exhausted validation recovery.

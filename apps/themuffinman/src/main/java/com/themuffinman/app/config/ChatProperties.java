@@ -45,6 +45,7 @@ public class ChatProperties {
         private int maxImageBytes = 262_144;
         private List<String> allowedImageMimeTypes = List.of("image/jpeg", "image/png", "image/webp", "image/gif");
         private int maxAttachmentBytes = 524_288;
+        private long uploadTtlSeconds = 600;
         private List<String> allowedAttachmentMimeTypes = List.of(
                 "application/pdf",
                 "text/plain",

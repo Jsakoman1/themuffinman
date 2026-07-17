@@ -1,0 +1,77 @@
+kind: master
+version: 1
+id: web-ui-functional-completion-master
+title: Web UI functional completion program
+status: verified
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+objective: Restore the authenticated Web application as a complete production client
+  by fixing runtime reliability, making all major journeys discoverable, adding missing
+  people and business discovery contracts, and delivering a real visual calendar while
+  maintaining Web/Vision parity.
+children:
+- docs/work/web-ui-functional-completion.yaml
+source_artifacts:
+- docs/work/web-ui-functional-completion-analysis.md
+- docs/product-memory.md
+- docs/product-vision.md
+- docs/capability-inventory.yaml
+- docs/runtime-acceptance-matrix.yaml
+related_plans:
+  already_verified_and_reused:
+  - docs/work/modern-shell-navigation.yaml
+  - docs/work/modern-chat-calendar-business.yaml
+  - docs/work/modern-work-discovery.yaml
+  - docs/work/web-entry-point-parity.yaml
+  - docs/work/runtime-acceptance-catalog.yaml
+  - docs/work/target-capability-production-readiness-chat.yaml
+  - docs/work/target-capability-production-readiness-circles.yaml
+  - docs/work/target-capability-production-readiness-business.yaml
+  - docs/work/target-capability-production-readiness-work.yaml
+  still_open_and_absorbed:
+  - docs/work/web-vision-parity-program.yaml
+  - docs/work/web-vision-parity-residual-audit.yaml
+  - docs/work/cross-module-search-contract.yaml
+  reconciliation_rule: Existing verified plans are evidence and implementation history,
+    not proof of browser usability. This master plan owns the remaining Web runtime,
+    route, discovery, visual Calendar, and closeout work and must not re-implement
+    already verified backend or Vision slices.
+plan_ownership:
+  canonical_execution_plan: docs/work/web-ui-functional-completion.yaml
+  canonical_master: docs/work/web-ui-functional-completion-master.yaml
+  runtime_source_of_truth: docs/runtime-acceptance-matrix.yaml
+  runtime_probe_evidence: docs/work/web-ui-functional-completion-runtime-evidence.yaml
+  capability_source_of_truth: docs/capability-inventory.yaml
+  implementation_evidence_source: docs/work/*.yaml
+non_negotiables:
+- The Web UI is an equal production client, not a Vision companion.
+- Backend owns authorization, visibility, consent, validation, ranking, and state
+  transitions.
+- Runtime browser evidence is required; compilation alone is insufficient.
+- Complete each surface through entry, read, action, recovery, and closeout states.
+sequencing:
+- route-surface-contract
+- web-runtime-harness
+- work-entry-and-discovery
+- chat-contract-and-reliability
+- circles-contract-and-reliability
+- find-people-contract
+- find-business-contract
+- visual-calendar
+- authenticated-surface-sweep
+- parity-and-closeout
+exit_criteria:
+- Every reported user-facing gap is either fixed and runtime-verified or explicitly
+  deferred with a stable backlog ID.
+- No canonical route depends on Vision to complete its supported Web journey.
+- Chat and Circles expose actionable diagnostics and recoverable partial failures.
+- Find Work, Find People, Find Business, and Calendar have explicit route, read-model,
+  and acceptance contracts.
+- Capability inventory, runtime matrix, regression catalog, and living docs agree
+  with verified evidence.
+- make work-verify plan=docs/work/web-ui-functional-completion-master.yaml passes
+  after implementation.
+evidence:
+- verifiedAt: '2026-07-17T10:41:15Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  children:
+  - docs/work/web-ui-functional-completion.yaml

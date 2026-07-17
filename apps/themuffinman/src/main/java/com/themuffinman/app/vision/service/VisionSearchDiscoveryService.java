@@ -63,6 +63,14 @@ public class VisionSearchDiscoveryService {
         }
 
         String query = extractQuery(conversation, understanding);
+        return discoverForPage(currentUser, query, discoveryPage(conversation));
+    }
+
+    public VisionSearchDiscoveryDTO discoverWeb(AppUser currentUser, String query, int page) {
+        return discoverForPage(currentUser, query, Math.max(0, page));
+    }
+
+    private VisionSearchDiscoveryDTO discoverForPage(AppUser currentUser, String query, int page) {
         List<SearchCandidate> candidates = new ArrayList<>();
         candidates.addAll(discoverQuests(currentUser, query));
         candidates.addAll(discoverCircles(currentUser, query));
@@ -75,7 +83,6 @@ public class VisionSearchDiscoveryService {
                         .thenComparingInt(candidate -> familyPriority(candidate.item()))
                         .thenComparing(candidate -> candidate.item().getTitle() == null ? "" : candidate.item().getTitle(), String.CASE_INSENSITIVE_ORDER))
                 .toList();
-        int page = discoveryPage(conversation);
         List<VisionSearchDiscoveryItemDTO> items = sortedCandidates.stream()
                 .skip((long) page * 8)
                 .limit(8)
@@ -164,7 +171,7 @@ public class VisionSearchDiscoveryService {
         if (normalizedQuery.isBlank()) {
             return List.of();
         }
-        return appUserRepository.searchByUsernameOrEmail(normalizedQuery).stream()
+        return appUserRepository.searchByUsername(normalizedQuery).stream()
                 .filter(user -> currentUser == null || !currentUser.getId().equals(user.getId()))
                 .limit(3)
                 .map(user -> scoredItem(
@@ -172,7 +179,7 @@ public class VisionSearchDiscoveryService {
                         "view_user_profile",
                         user.getId(),
                         user.getUsername(),
-                        user.getEmail(),
+                        "Public profile match",
                         user.getUsername(),
                         user.getUsername(),
                         true,

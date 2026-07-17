@@ -81,6 +81,13 @@ public class CircleReadService {
     }
 
     @Transactional(readOnly = true)
+    public CircleGroupResponseDTO getAccessibleCircleDetail(Long circleId, AppUser currentUser) {
+        return circleGroupRepository.findAccessibleDetailedById(circleId, currentUser.getId())
+                .map(circleViewAssembler::toCircleDto)
+                .orElseThrow(() -> ServiceErrors.notFound("Accessible circle not found"));
+    }
+
+    @Transactional(readOnly = true)
     public List<CircleGroupResponseDTO> getCirclesForUserAsAdmin(Long userId, AppUser currentUser) {
         validateAdmin(currentUser);
         AppUser targetUser = appUserLookupService.requireById(userId);

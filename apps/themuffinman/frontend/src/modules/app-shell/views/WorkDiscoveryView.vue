@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from "vue"
-import {RouterLink, useRoute, useRouter} from "vue-router"
+import {RouterLink, useRoute} from "vue-router"
 import type {QuestResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import {resolveSurfaceDetailRoute} from "../shellRouteRegistry.ts"
-import {buildVisionRoute} from "../visionHandoff.ts"
+import AppCard from "../components/AppCard.vue"
 
 const route = useRoute()
-const router = useRouter()
 const query = ref("")
 const sort = ref("recommended")
 const scheduledOnly = ref(false)
@@ -17,13 +16,12 @@ const totalItems = ref(0)
 const isLoading = ref(true)
 const isLoadingMore = ref(false)
 const error = ref("")
-const primaryActionLabel = ref("Open")
 let searchTimer: number | undefined
 let requestSequence = 0
 let activeRequest: AbortController | null = null
 
 const isMine = computed(() => route.name === "work-quests")
-const title = computed(() => isMine.value ? "My quests" : "Work")
+const title = computed(() => isMine.value ? "My quests" : route.name === "work-find" ? "Find work" : "Work")
 const totalLabel = computed(() => totalItems.value > 0 ? `${totalItems.value} results` : "No results")
 
 const formatDate = (value: string | null) => {
@@ -49,7 +47,7 @@ const load = async (reset = true) => {
   try {
     const response = await userShellApi.searchQuests({
       q: query.value,
-      preset: isMine.value ? "MY_ACTIVE" : undefined,
+      preset: isMine.value ? "MY_VISIBLE" : "AVAILABLE",
       sort: sort.value,
       page: page.value,
       size: 12,
@@ -58,7 +56,6 @@ const load = async (reset = true) => {
     })
     if (requestId !== requestSequence) return
     items.value = reset ? response.items : [...items.value, ...response.items]
-    primaryActionLabel.value = response.presentation.primaryActionLabel
     totalItems.value = response.totalItems
     page.value = response.page
   } catch {
@@ -77,15 +74,6 @@ const loadMore = async () => {
   await load(false)
 }
 
-const openVision = () => {
-  void router.push(buildVisionRoute({
-    prompt: "find work for me",
-    context: "Work",
-    source: "work.discovery",
-    returnTo: "/work"
-  }))
-}
-
 watch([query, sort, scheduledOnly], () => {
   if (searchTimer !== undefined) window.clearTimeout(searchTimer)
   searchTimer = window.setTimeout(() => void load(), 250)
@@ -95,16 +83,18 @@ onMounted(() => void load())
 </script>
 
 <template>
-  <section class="work-discovery">
+  <section class="work-discovery" aria-labelledby="work-discovery-title">
     <header class="work-discovery__header">
       <div>
         <p class="work-discovery__eyebrow">{{ isMine ? "Work / Mine" : "Work" }}</p>
-        <h1>{{ title }}</h1>
+        <h1 id="work-discovery-title">{{ title }}</h1>
       </div>
-      <button type="button" class="work-discovery__vision" @click="openVision">Ask Vision</button>
+      <div class="work-discovery__header-actions">
+        <RouterLink to="/work/offer" class="work-discovery__create">Offer work</RouterLink>
+      </div>
     </header>
 
-    <div class="work-discovery__controls">
+    <div class="work-discovery__controls" aria-label="Work filters and result count">
       <label class="work-discovery__search">
         <span class="sr-only">Search work</span>
         <input v-model="query" type="search" placeholder="Search work" @keyup.enter="load()">
@@ -123,15 +113,15 @@ onMounted(() => void load())
     </div>
 
     <div v-if="isLoading" class="work-discovery__status" role="status">Loading work.</div>
-    <div v-else-if="error" class="work-discovery__status work-discovery__status--error" role="alert">{{ error }}</div>
+    <div v-else-if="error" class="work-discovery__status work-discovery__status--error" role="alert">{{ error }} <button type="button" @click="load()">Retry</button></div>
     <div v-else-if="items.length === 0" class="work-discovery__status">Nothing matches. Ask Vision to broaden the search.</div>
 
     <div v-else class="work-discovery__list">
-      <article v-for="quest in items" :key="quest.id" class="work-discovery__row">
+      <AppCard v-for="quest in items" :key="quest.id" :to="resolveSurfaceDetailRoute('work-quests', quest.id) ?? `/vision/quests/${quest.id}`" :label="`${quest.title}, ${quest.presentation.statusLabel}`" class="work-discovery__row">
         <div class="work-discovery__row-main">
-          <RouterLink :to="resolveSurfaceDetailRoute('work-quests', quest.id) ?? `/vision/quests/${quest.id}`" class="work-discovery__title">
+          <h2 class="work-discovery__title">
             {{ quest.title }}
-          </RouterLink>
+          </h2>
           <span class="work-discovery__meta">{{ quest.presentation.statusLabel }}</span>
         </div>
         <div class="work-discovery__row-facts">
@@ -139,10 +129,7 @@ onMounted(() => void load())
           <span>{{ formatDate(quest.scheduledAt) }}</span>
           <span>{{ locationLabel(quest) }}</span>
         </div>
-        <RouterLink :to="resolveSurfaceDetailRoute('work-quests', quest.id) ?? `/vision/quests/${quest.id}`" class="work-discovery__open">
-          {{ primaryActionLabel }}
-        </RouterLink>
-      </article>
+      </AppCard>
     </div>
 
     <button
@@ -175,6 +162,14 @@ onMounted(() => void load())
   justify-content: space-between;
 }
 
+.work-discovery__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .work-discovery__eyebrow {
   margin: 0 0 0.25rem;
   color: rgba(23, 34, 26, 0.54);
@@ -191,6 +186,7 @@ h1 {
 }
 
 .work-discovery__vision,
+.work-discovery__create,
 .work-discovery__open,
 .work-discovery__load-more {
   min-height: 2.4rem;
@@ -205,6 +201,12 @@ h1 {
   border-color: #17221a;
   background: #17221a;
   color: #f8f8f4;
+}
+
+.work-discovery__create {
+  border-color: #17221a;
+  background: #d6e4da;
+  color: #17221a;
 }
 
 .work-discovery__controls {

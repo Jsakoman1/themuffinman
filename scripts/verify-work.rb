@@ -85,6 +85,9 @@ def verify_work!(root, path, plan, baseline, revision)
     id = task["id"].to_s
     command = task["validation"].to_s
     fail!("task id and validation are required") if id.empty? || command.empty?
+    if command.match?(/\bwork-verify\b/) || (command.match?(/scripts\/verify-work\.rb/) && !command.match?(/ruby\s+-c\s+scripts\/verify-work\.rb/))
+      fail!("task #{id} validation recursively invokes work verification; final validation must use leaf audits only")
+    end
     paths = Array(task["paths"]).map(&:to_s)
     unless task["type"].to_s == "docs-only" || paths.any? { |item| files.include?(item) }
       fail!("task #{id} has no changed path linked to the baseline diff")
@@ -116,6 +119,7 @@ plan_path = option("plan") || fail!("usage: ruby scripts/verify-work.rb plan=doc
 absolute_plan = File.expand_path(plan_path, ROOT)
 fail!("plan not found: #{plan_path}") unless File.file?(absolute_plan)
 plan = load_plan(absolute_plan)
+fail!("nested work verification is not allowed") if ENV["WORK_VERIFY_ACTIVE"] == "1"
 baseline = plan["baseline"].to_s
 fail!("baseline must be a valid Git commit") unless valid_baseline?(ROOT, baseline)
 revision = git_revision(ROOT)
@@ -123,6 +127,7 @@ revision = git_revision(ROOT)
 plan = if plan["kind"] == "master"
   verify_master!(ROOT, plan_path, plan, revision)
 elsif plan["kind"] == "work"
+  ENV["WORK_VERIFY_ACTIVE"] = "1"
   verify_work!(ROOT, plan_path, plan, baseline, revision)
 else
   fail!("kind must be work or master")

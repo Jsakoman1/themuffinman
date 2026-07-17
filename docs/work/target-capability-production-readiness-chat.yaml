@@ -1,0 +1,283 @@
+kind: work
+version: 1
+id: target-capability-production-readiness-chat
+title: Close Chat target capabilities
+status: verified
+master_plan: docs/work/target-capability-production-readiness.yaml
+baseline: 4715898
+capability_ids:
+- chat.conversation.open
+- chat.conversation.view
+- chat.message.send
+- chat.message.view
+- chat.conversation.create_group
+- chat.conversation.mark_read
+- chat.conversation.reconnect
+- chat.message.attach
+objective: Close conversation access history delivery read state reconnect and attachment
+  slices.
+tasks:
+- id: chat-vision-message-controls
+  title: Expose edit reply and reaction controls through Vision
+  type: implementation
+  status: done
+  capability_ids:
+  - chat.message.edit
+  - chat.message.reply
+  - chat.message.react
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionEditChatMessageExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReplyToChatMessageExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReactToChatMessageExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  validation: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest,VisionChatMessageMutationExecutionAdapterTest'
+    test
+- id: chat-target-slices
+  title: Decompose and verify Chat target slices
+  type: planning
+  status: done
+  capability_ids:
+  - chat.conversation.open
+  - chat.conversation.view
+  - chat.message.send
+  - chat.message.view
+  - chat.conversation.create_group
+  - chat.conversation.mark_read
+  - chat.conversation.reconnect
+  - chat.message.attach
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+- id: chat-message-interactions
+  title: Add read-state, reply, attachment-open, group-create, and group-leave behavior
+    to Chat UI
+  type: implementation
+  status: done
+  capability_ids:
+  - chat.conversation.mark_read
+  - chat.message.reply
+  - chat.message.view_attachment
+  - chat.conversation.create_group
+  - chat.conversation.leave
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+- id: chat-exact-inventory-mapping
+  title: Record exact Chat capability evidence and unsupported group boundaries
+  type: documentation
+  status: done
+  capability_ids:
+  - chat.conversation.open
+  - chat.conversation.view
+  - chat.message.send
+  - chat.message.view
+  - chat.message.attach
+  - chat.conversation.create_group
+  - chat.conversation.mark_read
+  - chat.conversation.reconnect
+  - chat.message.edit
+  - chat.message.reply
+  - chat.message.react
+  - chat.conversation.leave
+  - chat.message.view_attachment
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-docs
+- id: chat-vision-view-attachment
+  title: Expose authorized chat attachment viewing through Vision
+  type: adapter_extension
+  status: done
+  capability_ids:
+  - chat.message.view_attachment
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIdentityPreviewRenderer.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - docs/capability-inventory.yaml
+  validation: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
+    test
+- id: chat-upload-expiry-hardening
+  title: Enforce backend-owned attachment upload expiry and single-use semantics
+  type: implementation
+  status: done
+  capability_ids:
+  - chat.message.attach
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/ChatProperties.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAttachmentUpload.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - apps/themuffinman/src/main/resources/db/migration/V56__add_chat_attachment_upload_expiry.sql
+  validation: cd apps/themuffinman && ./mvnw -DskipTests compile
+evidence:
+- task: chat-vision-message-controls
+  command: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest,VisionChatMessageMutationExecutionAdapterTest'
+    test
+  ranAt: '2026-07-17T05:21:36Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionEditChatMessageExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReactToChatMessageExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReplyToChatMessageExecutionAdapter.java
+  output: "[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.044 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionChatMessageMutationExecutionAdapterTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.229 s -- in
+    com.themuffinman.app.vision.service.VisionChatMessageMutationExecutionAdapterTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.716 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 78, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  2.566 s\n[INFO] Finished at: 2026-07-17T07:21:40+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: chat-target-slices
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+  ranAt: '2026-07-17T05:21:40Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  output: |2+
+      current_inventory_ids:
+      - chat.message.view_attachment
+      mapping_quality: exact
+      current_statuses:
+      - partial
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: true
+      surface_coverage:
+        web_ui: covered
+        vision: covered
+      gaps: []
+
+- task: chat-message-interactions
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-17T05:21:40Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  output: |+
+    dist/assets/WorkApplicationsView-c_wCTaEY.js                   4.01 kB │ gzip:  1.68 kB
+    dist/assets/WorkDiscoveryView-BBVHrdM4.js                      4.22 kB │ gzip:  1.93 kB
+    dist/assets/BusinessOfferingsView-Cs2Ng7z8.js                  5.00 kB │ gzip:  1.77 kB
+    dist/assets/BusinessAvailabilityView-UcLQTEjk.js               5.73 kB │ gzip:  1.92 kB
+    dist/assets/BusinessAvailabilityExceptionsView-CenAtkzL.js     5.77 kB │ gzip:  1.97 kB
+    dist/assets/BusinessProfileView-BaQiFb_J.js                    6.07 kB │ gzip:  2.03 kB
+    dist/assets/ThingsDiscoveryView-CT-EO8yr.js                    6.27 kB │ gzip:  2.09 kB
+    dist/assets/CirclesView-LqigTAsD.js                            6.55 kB │ gzip:  2.11 kB
+    dist/assets/ProfileLocationSettingsView-tbWTV6gi.js            7.76 kB │ gzip:  2.81 kB
+    dist/assets/userShellApi-BGcKlxMW.js                           9.32 kB │ gzip:  1.95 kB
+    dist/assets/WorkQuestDetailView-HexEy-8P.js                    9.44 kB │ gzip:  3.04 kB
+    dist/assets/ChatSurfaceView-DY9Zxhkn.js                        9.85 kB │ gzip:  3.47 kB
+    dist/assets/index-CWUErKT7.js                                 18.57 kB │ gzip:  5.35 kB
+    dist/assets/SurfaceContentView-BY4q453G.js                    21.82 kB │ gzip:  6.01 kB
+    dist/assets/vue-core-Pi4dzDQH.js                              24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-97YzZyq9.js               35.88 kB │ gzip: 10.91 kB
+    dist/assets/vendor-D0x-eQIR.js                               105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 394ms
+
+- task: chat-exact-inventory-mapping
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-docs
+  ranAt: '2026-07-17T05:21:43Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  output: |2+
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: true
+      surface_coverage:
+        web_ui: covered
+        vision: covered
+      gaps: []
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 202
+      review needed: 0
+      high priority: 0
+
+- task: chat-vision-view-attachment
+  command: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
+    test
+  ranAt: '2026-07-17T05:21:45Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIdentityPreviewRenderer.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - docs/capability-inventory.yaml
+  output: "[INFO] \n[INFO] -------------------------------------------------------\n[INFO]
+    \ T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.985 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 75, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  2.300 s\n[INFO] Finished at: 2026-07-17T07:21:48+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: chat-upload-expiry-hardening
+  command: cd apps/themuffinman && ./mvnw -DskipTests compile
+  ranAt: '2026-07-17T05:21:48Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAttachmentUpload.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/ChatProperties.java
+  - apps/themuffinman/src/main/resources/db/migration/V56__add_chat_attachment_upload_expiry.sql
+  output: "[INFO] Scanning for projects...\n[INFO] \n[INFO] -------------------< com.themuffinman:themuffinman
+    >--------------------\n[INFO] Building TheMuffinMan 0.0.1-SNAPSHOT\n[INFO]   from
+    pom.xml\n[INFO] --------------------------------[ jar ]---------------------------------\n[INFO]
+    \n[INFO] --- resources:3.3.1:resources (default-resources) @ themuffinman ---\n[INFO]
+    Copying 2 resources from src/main/resources to target/classes\n[INFO] Copying
+    56 resources from src/main/resources to target/classes\n[INFO] \n[INFO] --- compiler:3.14.1:compile
+    (default-compile) @ themuffinman ---\n[INFO] Nothing to compile - all classes
+    are up to date.\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  0.739 s\n[INFO] Finished at: 2026-07-17T07:21:50+02:00\n[INFO] ------------------------------------------------------------------------\n\n"

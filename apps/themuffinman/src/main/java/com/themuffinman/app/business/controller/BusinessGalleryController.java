@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/business/gallery")
@@ -25,16 +26,17 @@ public class BusinessGalleryController {
     private final BusinessGalleryService businessGalleryService;
 
     @GetMapping("/me")
-    public BusinessGalleryImageListResponseDTO getMyGallery(@AuthenticationPrincipal AppUser currentUser) {
-        return businessGalleryService.getMyGallery(currentUser);
+    public BusinessGalleryImageListResponseDTO getMyGallery(@RequestParam(required = false) Long businessProfileId, @AuthenticationPrincipal AppUser currentUser) {
+        return businessGalleryService.getMyGallery(currentUser, businessProfileId);
     }
 
     @PostMapping("/me")
     public BusinessGalleryImageResponseDTO createMyGalleryImage(
             @Valid @RequestBody BusinessGalleryImageRequestDTO dto,
-            @AuthenticationPrincipal AppUser currentUser
+            @AuthenticationPrincipal AppUser currentUser,
+            @RequestParam(required = false) Long businessProfileId
     ) {
-        return businessGalleryService.createMyGalleryImage(dto, currentUser);
+        return businessGalleryService.createMyGalleryImage(dto, currentUser, businessProfileId);
     }
 
     @PutMapping("/me/{imageId}")

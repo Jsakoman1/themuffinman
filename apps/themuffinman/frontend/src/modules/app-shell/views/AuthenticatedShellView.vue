@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import {computed, ref, watch} from "vue"
-import {RouterLink, RouterView, useRoute, useRouter} from "vue-router"
-import {currentUser, logoutUser} from "../../identity/auth.ts"
-import {appPrimaryNavItems, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
+import {computed} from "vue"
+import {RouterLink, RouterView, useRoute} from "vue-router"
+import {appPrimaryNavItems, appSecondaryNavItems, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
 import {buildSurfaceVisionPrompt, buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
+import GlobalVisionEntry from "../components/GlobalVisionEntry.vue"
+import AccountMenu from "../components/AccountMenu.vue"
+import UniversalCreateMenu from "../components/UniversalCreateMenu.vue"
+import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
 
 const route = useRoute()
-const router = useRouter()
-const quickPrompt = ref("")
 
 const currentSurfaceId = computed(() => route.meta.surfaceId as AppSurfaceId | undefined)
 
@@ -18,6 +19,8 @@ const activeNavId = computed<AppPrimaryNavId | null>(() => {
 
   return getAppSurfaceConfig(currentSurfaceId.value).navId
 })
+
+const secondaryNavigationActive = computed(() => appSecondaryNavItems.some(item => item.id === activeNavId.value))
 
 const shellTitle = computed(() => {
   if (!currentSurfaceId.value) {
@@ -43,38 +46,7 @@ const contextualVisionRoute = computed(() => {
   return buildSurfaceVisionRoute(currentSurfaceId.value, route.fullPath, currentContextLabel.value)
 })
 
-const quickPromptPlaceholder = computed(() => {
-  if (!currentSurfaceId.value) {
-    return "Ask Vision for guided help"
-  }
-
-  return buildSurfaceVisionPrompt(currentSurfaceId.value)
-})
-
-watch(currentSurfaceId, (surfaceId) => {
-  if (!surfaceId) {
-    quickPrompt.value = ""
-    return
-  }
-
-  quickPrompt.value = ""
-}, {immediate: true})
-
-const submitQuickPrompt = async () => {
-  const prompt = quickPrompt.value.trim() || quickPromptPlaceholder.value
-
-  await router.push(buildVisionRoute({
-    prompt,
-    context: currentContextLabel.value,
-    source: currentSurfaceId.value ? `shell.quick.${currentSurfaceId.value}` : "shell.quick.global",
-    returnTo: route.fullPath
-  }))
-}
-
-const handleLogout = () => {
-  logoutUser()
-  window.location.assign("/login")
-}
+const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVisionPrompt(currentSurfaceId.value) : "Ask Vision for guided help")
 </script>
 
 <template>
@@ -85,6 +57,7 @@ const handleLogout = () => {
       </div>
 
       <nav class="app-shell__nav">
+        <p class="app-shell__nav-heading">Core</p>
         <RouterLink
           v-for="item in appPrimaryNavItems"
           :key="item.id"
@@ -94,12 +67,26 @@ const handleLogout = () => {
         >
           <span class="app-shell__nav-label">{{ item.label }}</span>
         </RouterLink>
+        <details class="app-shell__more" :open="secondaryNavigationActive">
+          <summary class="app-shell__more-summary">More modules</summary>
+          <div class="app-shell__more-items">
+            <RouterLink
+              v-for="item in appSecondaryNavItems"
+              :key="item.id"
+              :to="item.to"
+              class="app-shell__nav-link app-shell__nav-link--secondary"
+              :class="{ 'app-shell__nav-link--active': activeNavId === item.id }"
+            >
+              <span class="app-shell__nav-label">{{ item.label }}</span>
+            </RouterLink>
+          </div>
+        </details>
       </nav>
 
       <div class="app-shell__rail-footer">
-        <RouterLink :to="contextualVisionRoute" class="app-shell__vision-link">
-          <span class="app-shell__vision-label">Ask Vision</span>
-        </RouterLink>
+        <p class="app-shell__nav-heading">Account</p>
+        <RouterLink to="/profile" class="app-shell__account-link" :class="{ 'app-shell__account-link--active': activeNavId === 'profile' }">Profile</RouterLink>
+        <RouterLink to="/profile/settings" class="app-shell__account-link">Settings</RouterLink>
       </div>
     </aside>
 
@@ -110,20 +97,10 @@ const handleLogout = () => {
         </div>
 
         <div class="app-shell__header-actions">
-          <form class="app-shell__vision-form" @submit.prevent="submitQuickPrompt">
-            <input
-              v-model="quickPrompt"
-              type="text"
-              class="app-shell__vision-input"
-              :placeholder="quickPromptPlaceholder"
-            >
-            <button type="submit" class="app-shell__header-vision">Ask Vision</button>
-          </form>
-
-          <div class="app-shell__account">
-            <span class="app-shell__account-label">{{ currentUser?.username ?? "Account" }}</span>
-            <button type="button" class="app-shell__logout" @click="handleLogout">Log out</button>
-          </div>
+          <UniversalCreateMenu />
+          <GlobalSearchEntry />
+          <GlobalVisionEntry :context="currentContextLabel" :placeholder="visionPlaceholder" :contextual-route="contextualVisionRoute" />
+          <AccountMenu />
         </div>
       </header>
 
@@ -142,9 +119,21 @@ const handleLogout = () => {
       >
         {{ item.label }}
       </RouterLink>
-      <RouterLink :to="contextualVisionRoute" class="app-shell__mobile-vision">
-        Vision
-      </RouterLink>
+      <details class="app-shell__mobile-more" :open="secondaryNavigationActive">
+        <summary class="app-shell__mobile-link">More</summary>
+        <div class="app-shell__mobile-more-items">
+          <RouterLink
+            v-for="item in appSecondaryNavItems"
+            :key="item.id"
+            :to="item.to"
+            class="app-shell__mobile-link"
+            :class="{ 'app-shell__mobile-link--active': activeNavId === item.id }"
+          >
+            {{ item.label }}
+          </RouterLink>
+        </div>
+      </details>
+      <RouterLink :to="contextualVisionRoute" class="app-shell__mobile-vision">Vision</RouterLink>
     </nav>
   </div>
 </template>
@@ -181,7 +170,8 @@ const handleLogout = () => {
 .app-shell__title,
 .app-shell__nav-label,
 .app-shell__vision-label,
-.app-shell__account-label {
+.app-shell__account-label,
+.app-shell__nav-heading {
   margin: 0;
 }
 
@@ -199,6 +189,15 @@ const handleLogout = () => {
 .app-shell__nav {
   display: grid;
   gap: 0.45rem;
+}
+
+.app-shell__nav-heading {
+  padding: 0 0.85rem;
+  color: rgba(23, 34, 26, 0.45);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .app-shell__nav-link,
@@ -230,6 +229,48 @@ const handleLogout = () => {
   box-shadow: 0 18px 36px rgba(23, 34, 26, 0.08);
 }
 
+.app-shell__more {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.app-shell__more-summary {
+  cursor: pointer;
+  padding: 0.8rem 0.85rem;
+  border-radius: 1rem;
+  color: rgba(23, 34, 26, 0.72);
+  font-weight: 600;
+  list-style: none;
+}
+
+.app-shell__more-summary::-webkit-details-marker {
+  display: none;
+}
+
+.app-shell__more-summary::after {
+  content: "＋";
+  float: right;
+  color: rgba(23, 34, 26, 0.45);
+}
+
+.app-shell__more[open] .app-shell__more-summary::after {
+  content: "−";
+}
+
+.app-shell__more-summary:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.app-shell__more-items {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 0.55rem;
+}
+
+.app-shell__nav-link--secondary {
+  padding-block: 0.65rem;
+}
+
 .app-shell__nav-label,
 .app-shell__vision-label {
   font-weight: 600;
@@ -238,9 +279,21 @@ const handleLogout = () => {
 
 .app-shell__rail-footer {
   margin-top: auto;
+  display: grid;
+  gap: 0.45rem;
 }
 
-.app-shell__vision-link,
+.app-shell__account-link {
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.8rem;
+  color: rgba(23, 34, 26, 0.72);
+}
+
+.app-shell__account-link:hover,
+.app-shell__account-link--active {
+  background: rgba(255, 255, 255, 0.8);
+}
+
 .app-shell__mobile-vision {
   background: rgba(23, 34, 26, 0.96);
   color: #f8f8f4;
@@ -333,6 +386,33 @@ const handleLogout = () => {
 
 .app-shell__mobile-nav {
   display: none;
+}
+
+.app-shell__mobile-more {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.app-shell__mobile-more summary {
+  list-style: none;
+}
+
+.app-shell__mobile-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.app-shell__mobile-more-items {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.45rem);
+  display: grid;
+  gap: 0.4rem;
+  min-width: 9rem;
+  padding: 0.45rem;
+  border: 1px solid rgba(23, 34, 26, 0.1);
+  border-radius: 1rem;
+  background: rgba(252, 252, 248, 0.98);
+  box-shadow: 0 16px 32px rgba(23, 34, 26, 0.14);
 }
 
 @media (max-width: 980px) {

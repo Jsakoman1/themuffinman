@@ -1,6 +1,9 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.chat.service.ChatService;
+import com.themuffinman.app.activity.dto.ActivityItemDTO;
+import com.themuffinman.app.activity.service.ActivityReadService;
+import com.themuffinman.app.chat.dto.ChatMessageDTO;
 import com.themuffinman.app.business.dto.BusinessGalleryImageResponseDTO;
 import com.themuffinman.app.business.dto.BusinessOfferingResponseDTO;
 import com.themuffinman.app.business.dto.BusinessOwnerDashboardDTO;
@@ -114,6 +117,9 @@ class VisionCapabilityPreviewServiceTest {
     @Mock
     private BusinessBookingReadService businessBookingReadService;
 
+    @Mock
+    private ActivityReadService activityReadService;
+
     private VisionCapabilityPreviewService service;
 
     @BeforeEach
@@ -179,7 +185,8 @@ class VisionCapabilityPreviewServiceTest {
                 businessPreviewRenderer,
                 entityResolutionSupport,
                 workmarketPreviewRenderer,
-                workmarketApplicationMutationAdapter
+                workmarketApplicationMutationAdapter,
+                activityReadService
         );
     }
 
@@ -301,6 +308,23 @@ class VisionCapabilityPreviewServiceTest {
         assertEquals("1", preview.getItems().get(0).getValue());
         assertEquals("Move my sofa", preview.getItems().get(3).getLabel());
         assertEquals("Pending · edit", preview.getItems().get(3).getValue());
+    }
+
+    @Test
+    void previewActivityUsesViewerScopedResumeProjection() {
+        AppUser user = new AppUser();
+        user.setId(7L);
+        when(activityReadService.getMine(user)).thenReturn(List.of(ActivityItemDTO.builder()
+                .kind("vision")
+                .title("Continue Vision")
+                .summary("Resume your last guided task.")
+                .build()));
+
+        VisionCapabilityPreviewDTO preview = service.previewActivity(user);
+
+        assertEquals("view_activity", preview.getCapabilityId());
+        assertEquals("1 recent activity item.", preview.getSummary());
+        assertEquals("Continue Vision", preview.getItems().get(1).getLabel());
     }
 
     @Test
@@ -580,6 +604,26 @@ class VisionCapabilityPreviewServiceTest {
         assertField(preview.getItems().get(1), "target_user", "Applicant", "Maja");
         assertField(preview.getItems().get(2), "application_existing_message", "Message", "I can help next Tuesday");
         assertField(preview.getItems().get(3), "application_existing_proposed_price", "Proposed price", "15");
+    }
+
+    @Test
+    void previewChatAttachmentUsesAuthorizedSignedMessageAccess() {
+        AppUser user = new AppUser();
+        user.setId(7L);
+        when(chatService.getMessage(12L, 42L, user)).thenReturn(ChatMessageDTO.builder()
+                .id(42L)
+                .attachmentName("brief.pdf")
+                .attachmentUrl("https://signed.example.test/chat/42")
+                .attachmentUrlExpiresAt("2026-07-17T00:00:00Z")
+                .build());
+
+        VisionCapabilityPreviewDTO preview = service.previewChatAttachment(user, 12L, 42L);
+
+        assertNotNull(preview);
+        assertEquals("view_chat_attachment", preview.getCapabilityId());
+        assertEquals("Chat attachment", preview.getTitle());
+        assertEquals("https://signed.example.test/chat/42", preview.getItems().get(3).getValue());
+        assertEquals("2026-07-17T00:00:00Z", preview.getItems().get(4).getValue());
     }
 
     private static void assertField(VisionSlotSummaryDTO field, String slotId, String label, String value) {

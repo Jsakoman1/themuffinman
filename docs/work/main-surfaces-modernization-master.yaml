@@ -1,0 +1,65 @@
+kind: master
+version: 1
+id: main-surfaces-modernization-master
+title: Modernize Home, Business, Work discovery, and authenticated surface architecture
+status: verified
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+objective: 'Make the main authenticated surfaces calm, useful, and action-oriented.
+  Home must be a dashboard rather than a second navigation rail; Business must have
+  a meaningful owner landing state even when setup or read models are incomplete;
+  Find Work must exclude the current user''s own quests and present a clear discovery
+  layout; repeated rows, metrics, cards, and actions must be truly clickable or intentionally
+  informational; and generic surface rendering must be decomposed into small backend-prepared
+  surface archetypes.
+
+'
+principles:
+- Sidebar navigation owns destination discovery; page content owns orientation and
+  the next useful action.
+- Every visible metric, row, or card is either actionable with a clear destination
+  or explicitly presented as informational.
+- Frontend maps backend-provided data and navigation targets; it does not invent permissions,
+  ownership, filtering policy, or workflow state.
+- Discovery separates available external work from owned work through backend presets.
+- Empty, partial, loading, and forbidden states explain what happened and provide
+  a safe recovery or setup action.
+- Vision remains contextual assistance, not a duplicate navigation system or substitute
+  for direct web flows.
+children:
+- docs/work/main-surfaces-home-dashboard.yaml
+- docs/work/main-surfaces-business-landing.yaml
+- docs/work/main-surfaces-work-discovery.yaml
+- docs/work/main-surfaces-interaction-action-system.yaml
+- docs/work/main-surfaces-surface-architecture.yaml
+- docs/work/main-surfaces-runtime-closeout.yaml
+dependencies:
+- docs/work/main-surfaces-home-dashboard.yaml -> docs/work/main-surfaces-surface-architecture.yaml
+- docs/work/main-surfaces-business-landing.yaml -> docs/work/main-surfaces-surface-architecture.yaml
+- docs/work/main-surfaces-work-discovery.yaml -> docs/work/main-surfaces-interaction-action-system.yaml
+- docs/work/main-surfaces-interaction-action-system.yaml -> docs/work/main-surfaces-surface-architecture.yaml
+- docs/work/main-surfaces-surface-architecture.yaml -> docs/work/main-surfaces-runtime-closeout.yaml
+exit_criteria:
+- Home contains no duplicate destination navigation or decorative non-clickable action
+  controls.
+- Home metrics and attention items expose backend-consistent destinations and useful
+  empty states.
+- Business landing communicates setup, profile, offerings, bookings, calendar, and
+  recovery states.
+- Find Work uses the AVAILABLE backend preset and never presents the current user's
+  own quests as external discovery results.
+- Main discovery and operations rows use one predictable preview/open/action contract
+  without duplicate Open controls.
+- Generic shell rendering is split into maintainable archetypes without moving product
+  logic into Vue.
+- Type-check, build, frontend/static audits, docs audits, runtime acceptance, and
+  browser smoke pass.
+evidence:
+- verifiedAt: '2026-07-17T13:43:59Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  children:
+  - docs/work/main-surfaces-home-dashboard.yaml
+  - docs/work/main-surfaces-business-landing.yaml
+  - docs/work/main-surfaces-work-discovery.yaml
+  - docs/work/main-surfaces-interaction-action-system.yaml
+  - docs/work/main-surfaces-surface-architecture.yaml
+  - docs/work/main-surfaces-runtime-closeout.yaml

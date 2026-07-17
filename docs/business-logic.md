@@ -2,6 +2,13 @@
 
 This document explains the product in user-facing terms. It is meant to stay aligned with the code and serve as a future FAQ source for humans and chatbots.
 
+## Authenticated Web completion rules
+
+- Work has a dedicated Find Work surface and a direct Create new work action. Creating a work item requires the user to review whether its terms are fixed; the Web form exposes this as the `Fixed terms` choice instead of silently guessing.
+- Chat supports inbox loading, direct chat, group chat, and message sending from the Web surface. A group chat must include at least two other accepted circle contacts.
+- Circles, People, and Chat are connected through accepted-contact consent. Sending an invite does not by itself authorize direct or group chat; the recipient must accept first.
+- Calendar is a visual month, week, and day workspace. Business calendar data is optional for users without a business profile; available work events remain visible and the unavailable business portion is explained as recoverable.
+
 For stable cross-module terminology, start with `docs/cross-domain-glossary.md`.
 For long-term product direction and interaction principles, see `docs/product-vision.md`.
 For future `/vision` implementation patterns, see `docs/vision-architecture-patterns.md`.
@@ -69,6 +76,9 @@ Current covered modules:
 - `/vision` can now also show the current user's profile, circles, and applications as read-only terminal snapshots inside the same main conversation surface instead of requiring separate route navigation.
 - `/vision` can now also create a circle through the same conversation flow by collecting the circle name, showing a short review, and requiring explicit confirmation before execution.
 - An explicit create-circle prompt like "make new circle" now wins over the circles snapshot view, so the user can leave the read-only list and start a draft in one turn.
+- Members can leave an accessible circle through a confirmed self-leave action; owners cannot leave their own circle because that would violate circle ownership invariants.
+- Product notifications are delivered through the backend-owned notification fan-out and can be received in the Vision notification inbox through `VIEW_NOTIFICATIONS`; realtime push delivery and native-client delivery remain separate capabilities.
+- An authenticated owner or member can view an accessible circle detail through the shared circle read model. Non-members are not told whether a private circle exists, and the Vision surface exposes only the privacy-safe detail returned by the backend.
 - The same explicit-action override also lets circle requests, application actions, profile updates, and direct chat requests escape from their matching read-only snapshots when the prompt is clearly a mutation.
 - `/vision` can now also create a quest application through the same conversation flow by resolving one applyable quest, collecting the application message, collecting a proposed price only for paid quests, and requiring explicit confirmation before execution.
 - `/vision` can now also update or withdraw one of the current user's pending quest applications through the same conversation flow by resolving one exact pending application first, then requiring explicit confirmation before saving changes or withdrawing it.
@@ -100,6 +110,7 @@ Current covered modules:
 - The deterministic local emergency fallback is English-only and still fail-closes on non-English prompts, but it can now keep simple English create-quest, create-circle, create-application, and profile-update turns alive when OpenAI is unavailable instead of forcing them into unsupported state.
 - The same `/vision` review state can now send the user back to one named field such as reward, schedule, or location, so corrections stay conversational instead of reopening a legacy edit surface.
 - The `/vision` conversation turn API now accepts explicit backend actions for review-to-execution confirmation and review-field correction targets, while reset and cancel still have dedicated lifecycle endpoints and also accept the common shortcut phrases `cancel`, `stop`, and `reset` during an active conversation.
+- When a Vision mutation reaches review-ready state, the Web renderer exposes explicit `Confirm and create` and `Cancel` controls; a review message alone is never treated as execution evidence.
 - When `app.vision.execution-enabled` is on, the same persisted `/vision` conversation may create the quest or circle after the review state and an explicit confirmation from the user.
 - The long-term `/vision` goal is to keep the remaining authenticated runtime blank-canvas adaptive so it reveals fields, prompts, results, and confirmations only when the current task needs them.
 
@@ -155,7 +166,10 @@ Current covered modules:
 - Avatar input is normalized before save.
 - Current-location updates are a distinct capability from free-text address edits and require trusted device coordinates or reverse lookup before save.
 - Profile Settings provides a direct location editor. Users can turn location off, choose approximate or exact mode, set a default nearby-search radius, resolve a place by search, or resolve the browser's current coordinates. Enabled location modes require a resolved candidate; denied browser permission falls back to manual search.
+- Profile Settings also provides inline editing for the username and profile description through the same backend-owned save action as location settings. Validation errors preserve the last valid profile and location state.
+- Exact location visibility now exposes selectable owned circles or accepted circle contacts in Profile Settings. Changing the location text clears any previously resolved candidate, and scoped exact visibility cannot be saved without at least one selected recipient.
 - Public profile view is relation-aware, so the same profile can expose different primary actions depending on who is viewing it.
+- Public profile responses are viewer-redacted by the backend: another user's email, exact visibility recipients, raw coordinates, and street-level fields are not exposed unless the location policy explicitly permits the viewer.
 - Profile view also includes open quest count, recent open quests, and separate employer or worker rating summaries.
 
 ### Admin user detail
@@ -175,6 +189,7 @@ Current covered modules:
 ### What the module does
 
 - Location manages saved user location settings, quest location behavior, address lookup, and exact-location sharing rules.
+- Booking reschedule requests use the same backend availability and capacity rules as creation. Customer and owner policy windows are enforced server-side, conflicts leave the original booking unchanged, and accepted changes create an audit event.
 - It supports both profile-level discoverability and quest-level location display.
 - It also records provider usage so admin tools can inspect lookup activity and storage impact.
 
@@ -332,6 +347,30 @@ Current covered modules:
 - conversation message history
 - send message
 - mark conversation as read
+- `/vision` can mark the currently opened chat as read only after an explicit confirmation; it cannot mark an arbitrary conversation without an opened chat context.
+- `/vision` can mark all notifications for the authenticated user as read only after explicit confirmation; individual notification marking remains a separate capability.
+- `/vision` can mark one explicitly identified notification as read only after explicit confirmation; missing or unauthorized notification ids fail safely through the backend news service.
+- `/vision` can refresh the currently opened chat context after a stale or disconnected session and returns the latest authorized message window through the same backend chat read service.
+- `/vision` can reopen an assigned quest owned by the authenticated user after explicit confirmation; the existing Work state transition remains responsible for eligibility, status, and applicant workflow effects.
+- `/vision` can create a thing listing from a reviewed title through the existing Things sharing service; ownership, sanitization, availability, and persistence remain backend-owned.
+- `/vision` can add, update, or delete business gallery image metadata after explicit confirmation; owner authorization and image URL validation remain backend-owned.
+- `/vision` can create, update, and delete owner business availability rules and exceptions after explicit confirmation; timezone, range, ownership, and exception validation remain backend-owned.
+- `/vision` can request to borrow an identified thing listing after explicit confirmation; availability, self-borrow prevention, duplicate pending requests, and borrower identity remain backend-owned.
+- `/vision` can show the authenticated user's own Things borrow requests and loans through a read-only backend snapshot; request status and listing identifiers are returned without exposing another user's private data.
+- Thing owners can update listing metadata or archive a listing through confirmed Vision actions; archiving makes the listing unavailable and removes it from the public catalog.
+- `/vision` can open one shared Thing listing by id through the same privacy-aware detail service used by the web detail surface; availability and owner-safe listing fields are returned read-only.
+- `/vision` can show the business owner's booking calendar through the existing owner-authorized calendar read service; booking visibility and ownership remain backend-controlled.
+- `/vision` can edit an own chat message within the backend edit window, reply to a message, and add an emoji reaction after explicit confirmation; chat membership, ownership, rate limits, and message validation remain backend-owned.
+- `/vision` can create a business profile or update its business name after explicit confirmation; profile ownership, slug rules, sanitization, and persistence remain backend-owned.
+- `/vision` can confirm an owner booking or cancel a customer/owner booking after explicit confirmation; booking role resolution and status validity remain in the shared Business use-cases.
+- The Vision business bookings snapshot includes the owner's pending booking requests, so the owner can review incoming appointments without bypassing the owner-only read boundary.
+- `/vision` can reject, complete, or mark an owner booking as no-show after explicit confirmation; the Business use-cases enforce owner authorization and valid status transitions.
+- `/vision` can archive an owned business offering after explicit confirmation; archiving is implemented as the existing backend active-state transition.
+- `/vision` can rename an owned work quest after explicit confirmation; ownership and title normalization remain backend-owned.
+- `/vision` can set profile location visibility to off, approximate, or exact after review; the location policy remains backend-authoritative.
+- `/vision` can create a business offering from a reviewed title and rename an owned offering while preserving its existing pricing, duration, capacity, and booking configuration.
+- `/vision` can request an appointment for an offering using an offering id and explicit start/end instants; availability conflicts and customer authorization remain in the shared booking use-case.
+- `/vision` can cancel a borrower's pending request, approve or decline an owner's pending request, and mark an approved borrowed thing returned after explicit confirmation; authorization, valid state transitions, and listing availability remain backend-owned.
 - presence heartbeat
 - websocket-driven workspace refresh
 
@@ -444,6 +483,8 @@ Current covered modules:
 - A circle group is owned by one user and named by that owner.
 - Circle names are unique per owner, not globally.
 - Circle groups are used to organize already connected people.
+- Owners can rename or remove a circle from the Circles workspace; removal is explicit and is not treated as a silent archive because the current backend does not preserve an archived group state.
+- The Circles workspace exposes incoming acceptance, outgoing cancellation, person discovery, and privacy explanation together; detailed circle-member management remains a separate open capability.
 - Admins can inspect and delete circles at the platform level.
 
 ### Circle memberships
@@ -544,14 +585,18 @@ Current covered modules:
 ### Applications
 
 - Users apply to open quests with a message and a proposed price.
+- From a known Work quest detail, applicants can submit directly in the web UI; Vision remains available when application creation starts from natural-language intent or needs guided correction.
 - Only one application per user per quest is allowed.
 - Owners and admins can approve or decline pending applications.
 - The terminal-first Vision surface can now approve or decline one exact pending application by first resolving one manageable quest and then one exact applicant username before review confirmation.
 - Owner-side application views now expose deterministic pending-selection metadata so future automation can know whether pending applications exist and which pending application is the oldest.
 - Approved applications fill worker slots up to the quest assignee target.
 - If all spots are filled, the quest becomes `ASSIGNED` and remaining pending applications are declined automatically.
+- Owners and administrators can release an approved worker or replace that worker with a pending applicant through backend-owned worker-management commands. A released assignment becomes `RELEASED`, reopens an available slot, and notifies the affected users.
+- The Web applications surface exposes release and replacement controls for approved workers, while Vision exposes the same commands as reviewed `RELEASE_WORKER` and `REPLACE_WORKER` intents. Both clients use the shared backend authorization and lifecycle rules.
 - Owners and admins can only decline applications while the quest is still open and the application is still pending.
 - Applicants can update or withdraw only while the application is still pending.
+- Withdrawal from the web applications workspace requires explicit user confirmation before the backend mutation is sent.
 - The quest detail view now exposes the same pending applicant self-service actions, including withdraw, directly on the user's own application card.
 - Pending-application self-service should resolve one exact current pending application before update or withdrawal.
 - Notification item read should resolve one exact current news item before mutation, while mark-all-read stays scoped to the authenticated user's own feed.
@@ -752,10 +797,15 @@ Current covered modules:
 - Owner confirmation, rejection, cancellation, completion, and no-show marking are explicit backend transitions.
 - Historical bookings keep offering title, price, duration, and timezone snapshots so later offering edits do not rewrite history.
 - Offering removal is archival-safe deactivation rather than destructive history loss.
+- Things borrowing currently supports listing discovery, detail, request, owner decision, borrower cancellation, and return. Listing update/archive and the planned ride-sharing domain are not yet offered and remain explicit target gaps.
 - Owner schedule data can also be projected into a calendar-shaped backend read model that groups bookings by the business's local day so owner dashboards, booking lists, and mobile clients do not derive their own schedule buckets.
 - Gallery images are business-owned metadata rows and can be shown on the public page without changing booking workflow rules.
 - Owner dashboard and owner booking list both rely on the same owner schedule summary read-model so "what is happening today" stays consistent.
 - Future notification vocabulary is reserved around booking created, confirmed, rejected, cancelled, and reminder-style follow-up events.
+- Appointment rescheduling is offered for eligible customer and owner bookings. The selected time is rechecked against availability and capacity, policy windows are enforced, and the original booking remains unchanged if validation fails. Clients must use the reschedule endpoint rather than creating a second booking.
+- Notification preferences are user-owned per category (`chat`, `work`, `booking`, `circle`, `location`, `system`) and delivery level (`in-app`, `push`, `email`). System notices cannot be disabled; other preferences are saved atomically and do not change notification inbox visibility.
+- Vision can change one notification category and delivery level at a time after showing the requested enable/disable action for explicit confirmation. The same backend preference service enforces required system notices for Web and Vision.
+- Owners can now cancel or pause an active quest from the quest detail surface or backend lifecycle endpoints. Cancellation preserves quest history and notifies affected participants; pause preserves the previous active state and resume restores it. Worker reassignment remains design-gated in `docs/work/work-quest-lifecycle-contract.yaml`.
 - `/vision` consumes business capabilities such as `view_business` and `view_business_availability` from the same backend-owned business model, and future booking mutations should reuse the same business policy, availability, and snapshot rules.
 
 ## Thing Sharing
@@ -791,13 +841,14 @@ Current covered modules:
 
 - Voluntary Car Sharing lets an authenticated user publish a ride offer with origin, destination, departure time, and seat count.
 - Ride offers can be public to authenticated users or scoped to circles owned by the driver.
-- Passenger reservation, approval, cancellation, and trip completion are not implemented in this first slice yet.
+- Passenger reservation and lifecycle actions are explicit consent actions: join, leave, driver cancellation, start, and completion. Driver approval is not required; circle visibility and passenger confirmation are the consent boundary.
 
 ### Main surfaces
 
 - Visible ride offer list
 - Current user's ride offers
 - Ride offer creation form
+- Ride discovery, join/leave, and driver lifecycle controls
 
 ### Ride sharing rules
 
@@ -806,6 +857,9 @@ Current covered modules:
 - Seat count must stay between 1 and 8.
 - Circle-scoped visibility can only reference circles owned by the driver.
 - Ride notes are sanitized before being returned.
+- A ride moves through `OPEN`, `FULL`, `IN_PROGRESS`, `COMPLETED`, or `CANCELLED`; a full ride starts only after explicit driver action.
+- The implementation records lifecycle audit events and sends relevant ride events to the shared in-app news surface without expanding ride visibility.
+- Vision can list visible rides and execute ride actions only after collecting required fields and receiving explicit confirmation; Web exposes the same actions directly.
 
 ## Frontend and API contract shape
 
@@ -822,16 +876,21 @@ Current covered modules:
 - The authenticated frontend now uses a shared shell entry model with `/home`, `/work`, `/chat`, `/calendar`, `/business`, `/circles`, and `/profile` as stable user-facing navigation routes.
 - The shared shell now uses one standard entry grammar across those routes: header and actions in the hero, shared metric strip, shared list-row vocabulary, and calm desktop/mobile navigation chrome.
 - `Home` currently stays intentionally thin and only consumes the backend-prepared dashboard summary instead of assembling a cross-module frontend dashboard.
-- `Work` now reads from the existing dashboard read model for discover, my quests, and applications while keeping quest and application detail canonical under `/vision/quests/:id` and `/vision/applications/:id`.
+- `Home` exposes direct `Find work` and `Create new work` actions; users do not need to enter Vision or infer the Work route before starting either journey.
+- `Work` now reads from the existing dashboard read model for discover, my quests, and applications. `/work/find` is the explicit discovery route, `/work/quests` is the owned-quest route, and known quest/application details remain deterministic Work routes; Vision remains available for semantic discovery and guided correction flows.
 - `Chat` now owns deterministic workspace browsing under `/chat` and `/chat/:conversationId`, while Vision remains the semantic handoff path when the user starts from intent instead of a known thread.
-- `Calendar` now acts as a coordination index over backend-prepared work planner and owner booking calendar sections instead of becoming a new detail owner.
+- The web Chat workspace can create a named group by searching and explicitly selecting participants through the existing people-search boundary; group creation remains backend-authorized and does not infer membership from frontend state.
+- Members can leave a group conversation from its open web thread after explicit confirmation. Direct conversations do not expose the leave action.
+- `Calendar` now acts as a visual month/week/day coordination workspace over backend-prepared work planner and owner booking calendar sections; source modules still own event details and mutations.
 - `Business`, `Circles`, and `Profile` now each render stable backend-owned entry surfaces instead of placeholder shell chrome.
+- `/people` and `/people/:userId` are the canonical Web Find People and trust-aware profile routes. Search and profile actions are backend-provided for the viewer, including connection invite and block-boundary actions. `/business/find` is the canonical authenticated public business directory route and links into public business detail before booking.
 - `/vision` remains the premium authenticated deep-work surface for guided, semantic, review-gated, and cross-module tasks.
-- Vision-native quest and application detail routes carry the main detail flows.
+- Business Profile now includes owner gallery management: owners can add image URLs with alt text and order, hide or publish an image, and remove it with explicit confirmation. The public business page continues to show only active gallery images.
+- Vision-native flows can still resolve quest and application targets, but the normal web UI owns known quest and application detail routes so users retain predictable navigation and context.
 - Vision-native profile, settings, circles, and chat routes carry the user-scoped continuation flows.
 - Admin capability work is currently accessed through the Vision surface rather than a separate dedicated frontend route.
 - Logged-in users now land on `/home` for orientation, while `/vision` stays available as the guided assistant route.
-- In the first shared-shell phase, `Work` owns deterministic browse entry while quest and application detail still route directly to their canonical Vision-native detail paths instead of introducing parallel `/work/.../:id` detail routes.
+- In the shared-shell phase, `Work` owns deterministic browse and known detail entry points (`/work/quests/:id` and `/work/applications/:id`); Vision is used when the user needs semantic target resolution or guided execution.
 - Settings stays nested under `/profile/settings`, and applications stay nested under `Work` instead of becoming top-level navigation.
 - Shell-to-Vision handoff now uses one explicit route-query contract with `prompt`, `autorun`, `context`, `source`, and `returnTo`, so quick launches, contextual launches, and route return links stay typed instead of ad hoc.
 
@@ -890,6 +949,8 @@ Current covered modules:
 - Chat attachments can now be pre-validated through a dedicated backend upload endpoint before message creation.
 - Conversations now expose a dedicated sync surface so reconnecting clients can fetch message deltas and current typing participants after a websocket gap.
 - The detailed browser Chat surface uses that sync contract on conversation load and when the tab becomes visible or the browser returns online. It merges recovered messages by message id and keeps a manual Sync action available when recovery needs to be retried.
+- Opening a conversation marks the latest loaded message as read through the backend read-state endpoint. Users can reply to an exact loaded message, edit or delete their own message, toggle a reaction, and open an attachment URL when one is available.
+- Vision can now show one attachment from an authorized conversation participant by message id. It returns the backend-issued expiring URL and expiry metadata; Vision upload remains a separate capability until a binary-upload handoff is defined.
 - Chat now emits lightweight typing events over websocket for already authorized conversation participants.
 - Admin support tooling now exposes filtered chat audit events plus one conversation support view with recent messages and recent moderation history.
 - Admin tooling can now also remove one chat message through the backend moderation surface.
@@ -964,6 +1025,15 @@ Because an active quest can already have an approved worker, so changing the sch
 
 - If a business rule changes in code, update this file in the same change.
 - Add short FAQ entries when the same user question appears more than once.
+- A user may own multiple business profiles. Selecting a business changes the profile being edited; favorites are separate user-owned shortcuts and do not grant private business access.
+- A business owner may archive an owned business. Archived businesses leave public discovery and favorite lists, while the owner can still inspect the archived profile and its existing records.
+- Ride matching is an advisory filter over circle-visible active rides. It may use approximate route text and bounded departure windows, but it never creates a ride or exposes exact location without a separate user action.
+- Commute matching is disabled by default. Enabling it requires explicit consent plus approximate home/work areas, weekdays, and a departure time; pausing or revoking it removes the opt-in without creating or joining a ride.
+- Universal search is a permission-filtered discovery surface across supported object families. A saved search stores only a bounded query and scope owned by the creator; it can be paused, resumed, expired, or deleted without copying private source records.
+- Trust actions are private: a user may block a relationship or submit a report, but the affected user does not receive the report contents. Ratings remain tied to eligible completed work interactions and cannot be self-created.
+- Onboarding is optional and resumable. It stores only a bounded step state; skipping setup does not disable core modules, and reset returns the user to the welcome step.
+- Activity entries are viewer-scoped projections. A resume suggestion can reopen a safe route or be dismissed; dismissing it never mutates the underlying work, ride, booking, chat, or Vision workflow.
+- Vision can show the same viewer-scoped activity projection through `VIEW_ACTIVITY`; it may summarize and resume safe destinations but cannot infer or mutate the underlying source workflow.
 - Things can now be discovered at `/things`, offered by the current user, and requested through a borrow message. The backend remains authoritative for availability, owner restrictions, duplicate pending-request prevention, owner decisions, and return state.
 - A borrower can cancel their own pending Things request from the listing surface. Cancelled requests are no longer treated as pending; another user cannot cancel someone else's request.
 - Owners can approve or decline pending requests from My things. Approval moves the request to `APPROVED` and makes the listing unavailable; a borrower can move it to `RETURNED`, which makes the listing available again.
@@ -971,3 +1041,11 @@ Because an active quest can already have an approved worker, so changing the sch
 - Chat supports selecting an attachment, uploading it through the backend, and sending it as part of a message. The composer shows upload/send errors and lets the user remove a selected upload before sending; attachment access remains controlled by the backend.
 - Image attachments show a local preview before sending and release that browser object URL when replaced, removed, sent, or the Chat view closes. The preview is only a local selection aid; backend upload and access rules remain authoritative.
 - When exact location mode is enabled, Profile Settings exposes the supported visibility scopes: nobody, everyone, selected circles, or selected people. The backend validates circle membership and selected-person eligibility before saving.
+## Main surface behavior
+
+Home is an orientation dashboard. Sidebar navigation owns module discovery, so Home does not duplicate module quick-action links; dashboard metrics and attention rows lead to the relevant destination when one exists.
+
+Find Work is external discovery. It uses the backend `AVAILABLE` preset and must not show the current user's own quests. My quests uses `MY_VISIBLE`, so an owner's newly created OPEN quest remains visible in the owner's work surface.
+## Attention center
+
+The Notifications surface includes a compact attention center assembled from the viewer-scoped notification and activity read models. It shows the unread count and only backend-provided safe destinations; it does not invent cross-module state in the browser.

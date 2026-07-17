@@ -19,10 +19,10 @@ export type BulkCircleMembershipActionDTO = typeof BULK_CIRCLE_MEMBERSHIP_ACTION
 export const BUSINESS_AVAILABILITY_EXCEPTION_TYPE_VALUES = ["BLOCK", "REPLACE_WINDOW"] as const
 export type BusinessAvailabilityExceptionType = typeof BUSINESS_AVAILABILITY_EXCEPTION_TYPE_VALUES[number]
 
-export const BUSINESS_BOOKING_ALLOWED_ACTION_DTO_VALUES = ["CANCEL", "CONFIRM", "REJECT", "COMPLETE", "MARK_NO_SHOW", "CANCEL_AS_OWNER"] as const
+export const BUSINESS_BOOKING_ALLOWED_ACTION_DTO_VALUES = ["CANCEL", "CONFIRM", "REJECT", "COMPLETE", "MARK_NO_SHOW", "CANCEL_AS_OWNER", "RESCHEDULE"] as const
 export type BusinessBookingAllowedActionDTO = typeof BUSINESS_BOOKING_ALLOWED_ACTION_DTO_VALUES[number]
 
-export const BUSINESS_BOOKING_AUDIT_EVENT_TYPE_VALUES = ["CREATED", "CONFIRMED", "REJECTED", "CANCELLED_BY_CUSTOMER", "CANCELLED_BY_OWNER", "COMPLETED", "NO_SHOW"] as const
+export const BUSINESS_BOOKING_AUDIT_EVENT_TYPE_VALUES = ["CREATED", "CONFIRMED", "REJECTED", "CANCELLED_BY_CUSTOMER", "CANCELLED_BY_OWNER", "COMPLETED", "NO_SHOW", "RESCHEDULED"] as const
 export type BusinessBookingAuditEventType = typeof BUSINESS_BOOKING_AUDIT_EVENT_TYPE_VALUES[number]
 
 export const BUSINESS_BOOKING_SOURCE_VALUES = ["CUSTOMER", "OWNER_CREATED"] as const
@@ -73,10 +73,16 @@ export type LocationLookupEventType = typeof LOCATION_LOOKUP_EVENT_TYPE_VALUES[n
 export const NAVIGATION_TARGET_TYPE_VALUES = ["QUEST_DETAIL", "APPLICATION_DETAIL", "USER_PROFILE", "QUEST_LIST", "CIRCLES"] as const
 export type NavigationTargetType = typeof NAVIGATION_TARGET_TYPE_VALUES[number]
 
-export const QUEST_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "VIEW_APPLICATIONS", "DELETE", "APPLY", "START", "COMPLETE", "CONFIRM_TERM_CHANGE", "REJECT_TERM_CHANGE"] as const
+export const NOTIFICATION_PREFERENCE_CATEGORY_VALUES = ["CHAT", "WORK", "BOOKING", "CIRCLE", "LOCATION", "SYSTEM"] as const
+export type NotificationPreferenceCategory = typeof NOTIFICATION_PREFERENCE_CATEGORY_VALUES[number]
+
+export const NOTIFICATION_PREFERENCE_LEVEL_VALUES = ["IN_APP", "PUSH", "EMAIL"] as const
+export type NotificationPreferenceLevel = typeof NOTIFICATION_PREFERENCE_LEVEL_VALUES[number]
+
+export const QUEST_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "VIEW_APPLICATIONS", "DELETE", "CANCEL", "PAUSE", "RESUME", "ASSIGN", "REOPEN", "APPLY", "START", "COMPLETE", "CONFIRM_TERM_CHANGE", "REJECT_TERM_CHANGE"] as const
 export type QuestAllowedActionDTO = typeof QUEST_ALLOWED_ACTION_DTO_VALUES[number]
 
-export const QUEST_APPLICATION_STATUS_VALUES = ["PENDING", "APPROVED", "DECLINED", "WITHDRAWN"] as const
+export const QUEST_APPLICATION_STATUS_VALUES = ["PENDING", "APPROVED", "DECLINED", "WITHDRAWN", "RELEASED"] as const
 export type QuestApplicationStatus = typeof QUEST_APPLICATION_STATUS_VALUES[number]
 
 export const QUEST_AUDIENCE_VALUES = ["EVERYONE", "CIRCLES", "PRIVATE"] as const
@@ -100,10 +106,10 @@ export type VisionQuestNewsDestinationTypeDTO = typeof VISION_QUEST_NEWS_DESTINA
 export const WORKMARKET_QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
 export type WorkmarketQuestNewsDestinationTypeDTO = typeof WORKMARKET_QUEST_NEWS_DESTINATION_TYPE_DTO_VALUES[number]
 
-export const QUEST_NEWS_TYPE_VALUES = ["QUEST_CREATED", "QUEST_UPDATED", "QUEST_DELETED", "APPLICATION_CREATED", "APPLICATION_UPDATED", "APPLICATION_APPROVED", "APPLICATION_DECLINED", "APPLICATION_WITHDRAWN", "QUEST_REOPENED", "QUEST_STARTED", "QUEST_COMPLETED", "QUEST_TERM_CONFIRMATION_REQUESTED", "QUEST_TERM_CONFIRMED", "QUEST_TERM_REJECTED", "CIRCLE_REQUEST_RECEIVED", "CIRCLE_REQUEST_ACCEPTED"] as const
+export const QUEST_NEWS_TYPE_VALUES = ["QUEST_CREATED", "QUEST_UPDATED", "QUEST_DELETED", "APPLICATION_CREATED", "APPLICATION_UPDATED", "APPLICATION_APPROVED", "APPLICATION_DECLINED", "APPLICATION_WITHDRAWN", "QUEST_REOPENED", "QUEST_CANCELLED", "QUEST_PAUSED", "QUEST_RESUMED", "QUEST_STARTED", "QUEST_COMPLETED", "QUEST_TERM_CONFIRMATION_REQUESTED", "QUEST_TERM_CONFIRMED", "QUEST_TERM_REJECTED", "QUEST_WORKER_REASSIGNED", "QUEST_WORKER_RELEASED", "CIRCLE_REQUEST_RECEIVED", "CIRCLE_REQUEST_ACCEPTED", "RIDE_EVENT"] as const
 export type QuestNewsType = typeof QUEST_NEWS_TYPE_VALUES[number]
 
-export const QUEST_STATUS_VALUES = ["OPEN", "ASSIGNED", "IN_PROGRESS", "WAITING_CONFIRMATION", "COMPLETED", "CANCELLED"] as const
+export const QUEST_STATUS_VALUES = ["OPEN", "ASSIGNED", "IN_PROGRESS", "WAITING_CONFIRMATION", "PAUSED", "COMPLETED", "CANCELLED"] as const
 export type QuestStatus = typeof QUEST_STATUS_VALUES[number]
 
 export const QUEST_VIEWER_RELATION_DTO_VALUES = ["OWNER", "ADMIN", "APPROVED_APPLICANT", "APPLICANT", "VIEWER"] as const
@@ -111,6 +117,12 @@ export type QuestViewerRelationDTO = typeof QUEST_VIEWER_RELATION_DTO_VALUES[num
 
 export const REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
 export type ReviewRole = typeof REVIEW_ROLE_VALUES[number]
+
+export const RIDE_PARTICIPANT_STATUS_VALUES = ["JOINED", "LEFT"] as const
+export type RideParticipantStatus = typeof RIDE_PARTICIPANT_STATUS_VALUES[number]
+
+export const RIDE_STATUS_VALUES = ["DRAFT", "OPEN", "FULL", "IN_PROGRESS", "COMPLETED", "CANCELLED"] as const
+export type RideStatus = typeof RIDE_STATUS_VALUES[number]
 
 export const SEMANTIC_ENTITY_FAMILY_VALUES = ["QUEST", "NOTIFICATIONS", "CIRCLE", "USER", "APPLICATION", "CHAT", "PROFILE", "SETTINGS", "BUSINESS", "UNKNOWN"] as const
 export type SemanticEntityFamily = typeof SEMANTIC_ENTITY_FAMILY_VALUES[number]
@@ -142,7 +154,7 @@ export type VisionConversationStatus = typeof VISION_CONVERSATION_STATUS_VALUES[
 export const VISION_DEVICE_ROLE_DTO_VALUES = ["DESKTOP", "MOBILE", "WATCH"] as const
 export type VisionDeviceRoleDTO = typeof VISION_DEVICE_ROLE_DTO_VALUES[number]
 
-export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_CHAT_WORKSPACE", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_BUSINESS", "VIEW_BUSINESS_AVAILABILITY", "VIEW_BUSINESS_BOOKINGS", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_QUEST_DETAIL", "VIEW_NOTIFICATIONS", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "VIEW_THINGS", "SEARCH", "UNSUPPORTED"] as const
+export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "LEAVE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_CHAT_WORKSPACE", "SYNC_CHAT", "VIEW_CHAT_ATTACHMENT", "EDIT_CHAT_MESSAGE", "REPLY_TO_CHAT_MESSAGE", "REACT_TO_CHAT_MESSAGE", "MARK_CHAT_READ", "MARK_NOTIFICATIONS_READ", "MARK_NOTIFICATION_READ", "UPDATE_NOTIFICATION_PREFERENCES", "RELEASE_WORKER", "REPLACE_WORKER", "REOPEN_QUEST", "CANCEL_QUEST", "PAUSE_QUEST", "RESUME_QUEST", "RESCHEDULE_BOOKING", "CREATE_THING", "REQUEST_BORROW", "CANCEL_BORROW", "DECIDE_BORROW", "RETURN_BORROW", "CREATE_RIDE", "VIEW_RIDES", "JOIN_RIDE", "UPDATE_RIDE", "LEAVE_RIDE", "CANCEL_RIDE", "START_RIDE", "COMPLETE_RIDE", "UPDATE_THING", "ARCHIVE_THING", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_BUSINESS", "VIEW_BUSINESS_AVAILABILITY", "VIEW_BUSINESS_BOOKINGS", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_ACCESSIBLE_CIRCLE", "VIEW_QUEST_DETAIL", "VIEW_NOTIFICATIONS", "VIEW_ACTIVITY", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "VIEW_THINGS", "VIEW_THING_DETAIL", "VIEW_BORROW_REQUESTS", "CREATE_BUSINESS_PROFILE", "UPDATE_BUSINESS_PROFILE", "CREATE_GALLERY_IMAGE", "UPDATE_GALLERY_IMAGE", "DELETE_GALLERY_IMAGE", "CREATE_AVAILABILITY_RULE", "UPDATE_AVAILABILITY_RULE", "DELETE_AVAILABILITY_RULE", "CREATE_AVAILABILITY_EXCEPTION", "UPDATE_AVAILABILITY_EXCEPTION", "DELETE_AVAILABILITY_EXCEPTION", "CONFIRM_BOOKING", "CANCEL_BOOKING", "REJECT_BOOKING", "COMPLETE_BOOKING", "MARK_BOOKING_NO_SHOW", "ARCHIVE_OFFERING", "UPDATE_QUEST", "CREATE_OFFERING", "UPDATE_OFFERING", "CREATE_BOOKING", "SEARCH", "UNSUPPORTED"] as const
 export type VisionIntent = typeof VISION_INTENT_VALUES[number]
 
 export const VISION_MEMORY_FEEDBACK_TYPE_VALUES = ["INTERACTION", "CLARIFICATION", "CORRECTION", "CONFIRMATION", "EXECUTED", "BLOCKED", "CANCELLED"] as const
@@ -169,6 +181,16 @@ export type QuestNewsDestinationTypeDTO = VisionQuestNewsDestinationTypeDTO
 export interface ActionResultDTO {
   action: string
   message: string
+}
+
+export interface ActivityItemDTO {
+  kind: string
+  title: string
+  summary: string
+  route: string
+  occurredAt: string
+  resumeKey: string
+  resumable: boolean
 }
 
 export interface AdminAgentExecutionRequestDTO {
@@ -337,6 +359,11 @@ export interface AppUserRoleOptionDTO {
   label: string
 }
 
+export interface AttentionCenterDTO {
+  unreadCount: number
+  items: ActivityItemDTO[]
+}
+
 export interface AuthResponseDTO {
   id: number
   email: string
@@ -476,6 +503,7 @@ export interface BusinessBookingPresentationDTO {
 }
 
 export interface BusinessBookingQueryDTO {
+  businessProfileId: number
   q: string
   status: BusinessBookingStatus
   from: string
@@ -490,6 +518,12 @@ export interface BusinessBookingRequestDTO {
   endsAt: string
   customerNote: string
   idempotencyKey: string
+}
+
+export interface BusinessBookingRescheduleRequestDTO {
+  startsAt: string
+  endsAt: string
+  reason: string
 }
 
 export interface BusinessBookingResponseDTO {
@@ -521,6 +555,15 @@ export interface BusinessBookingResponseDTO {
   presentation: BusinessBookingPresentationDTO
   createdAt: string
   updatedAt: string
+}
+
+export interface BusinessFavoriteResponseDTO {
+  id: number
+  businessProfileId: number
+  businessName: string
+  slug: string
+  bookingEnabled: boolean
+  createdAt: string
 }
 
 export interface BusinessGalleryImageListResponseDTO {
@@ -1141,6 +1184,28 @@ export interface CircleSummaryDTO {
   name: string
 }
 
+export interface CommutePreferenceRequestDTO {
+  enabled: boolean
+  consentGranted: boolean
+  homeArea: string | null
+  workArea: string | null
+  weekdays: number[] | null
+  departureTime: string | null
+  returnTime: string | null
+}
+
+export interface CommutePreferenceResponseDTO {
+  id: number
+  enabled: boolean
+  consentGranted: boolean
+  homeArea: string
+  workArea: string
+  weekdays: number[]
+  departureTime: string
+  returnTime: string
+  updatedAt: string
+}
+
 export interface ConnectionCircleUpdateDTO {
   circleIds: number[]
 }
@@ -1419,14 +1484,88 @@ export interface LoginRequestDTO {
   password: string
 }
 
+export interface NativeHandoffConsumeRequestDTO {
+  token: string
+  targetDevice: string
+}
+
+export interface NativeHandoffIssueRequestDTO {
+  targetDevice: string
+  intent: string
+  resourceReference: string
+  redactedContext: string
+}
+
+export interface NativeHandoffIssueResponseDTO {
+  token: string
+  targetDevice: string
+  intent: string
+  resourceReference: string
+  expiresAt: string
+  contractVersion: string
+}
+
 export interface NavigationTargetDTO {
   type: NavigationTargetType
   entityId: number | null
 }
 
+export interface NotificationPreferenceItemDTO {
+  category: NotificationPreferenceCategory
+  level: NotificationPreferenceLevel
+  enabled: boolean
+  required: boolean
+}
+
+export interface NotificationPreferenceResponseDTO {
+  items: NotificationPreferenceItemDTO[]
+}
+
+export interface NotificationPreferenceUpdateDTO {
+  category: NotificationPreferenceCategory
+  level: NotificationPreferenceLevel
+  enabled: boolean
+}
+
+export interface OnboardingProgressRequestDTO {
+  currentStep: string
+  skipped: boolean
+  completed: boolean
+}
+
+export interface OnboardingProgressResponseDTO {
+  id: number
+  currentStep: string
+  skipped: boolean
+  completed: boolean
+  updatedAt: string
+}
+
 export interface PageQueryDTO {
   page: number | null
   size: number | null
+}
+
+export interface ProfileGalleryImageListResponseDTO {
+  items: ProfileGalleryImageResponseDTO[]
+}
+
+export interface ProfileGalleryImageRequestDTO {
+  imageUrl: string
+  altText: string
+  sortOrder: number
+  active: boolean
+}
+
+export interface ProfileGalleryImageResponseDTO {
+  id: number
+  ownerId: number
+  imageUrl: string
+  altText: string
+  sortOrder: number
+  active: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export interface ProfilePrimaryActionDTO {
@@ -1882,8 +2021,54 @@ export interface RideOfferResponseDTO {
   seats: number
   note: string
   active: boolean
+  status: RideStatus
+  joinedSeats: number
+  viewerJoined: boolean
+  viewerIsDriver: boolean
+  canJoin: boolean
+  canLeave: boolean
+  canManage: boolean
+  updatedAt: string
+  startedAt: string
+  completedAt: string
+  cancelledAt: string
   visibleCircleNames: string[]
   createdAt: string
+}
+
+export interface SafetyReportRequestDTO {
+  targetUserId: number
+  targetFamily: string
+  targetId: number
+  reason: string
+}
+
+export interface SafetyReportResponseDTO {
+  id: number
+  targetFamily: string
+  targetId: number
+  reason: string
+  status: string
+  createdAt: string
+}
+
+export interface SavedSearchIntentRequestDTO {
+  query: string
+  entityFamily: string
+  paused: boolean
+  notifyEnabled: boolean
+  expiresAt: string
+}
+
+export interface SavedSearchIntentResponseDTO {
+  id: number
+  query: string
+  entityFamily: string
+  paused: boolean
+  notifyEnabled: boolean
+  expiresAt: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface TextPageQueryDTO {
@@ -1926,6 +2111,7 @@ export interface ThingListingResponseDTO {
   description: string
   conditionNote: string
   available: boolean
+  archived: boolean
   myPendingRequestId: number
   createdAt: string
   updatedAt: string
@@ -2205,6 +2391,12 @@ export interface VisionQuestReviewDTO {
 }
 
 export interface VisionRuntimeContextDTO {
+  contractVersion: string
+  correlationId: string
+  targetModule: string
+  targetRoute: string
+  resourceId: string
+  redactions: string[]
   inputType: string
   deviceRole: VisionDeviceRoleDTO
   attentionState: VisionAttentionStateDTO
@@ -2253,6 +2445,10 @@ export interface VisionSlotSummaryDTO {
   slotId: string
   label: string
   value: string
+}
+
+export interface WorkerReassignmentRequestDTO {
+  replacementApplicationId: number
 }
 
 export interface WorkmarketOptionsDTO {

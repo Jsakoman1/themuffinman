@@ -13,7 +13,16 @@ scenarios.each do |scenario|
   %w[capability_ids target actions required_evidence status].each do |key|
     raise "#{id} is missing #{key}" unless scenario[key]
   end
-  raise "#{id} must remain pending until runtime evidence exists" unless scenario["status"] == "pending_runtime"
+  status = scenario.fetch("status")
+  unless %w[pending_runtime passed].include?(status)
+    raise "#{id} has unsupported runtime status: #{status}"
+  end
+  if status == "passed"
+    evidence = Array(scenario["evidence"])
+    raise "#{id} passed without evidence references" if evidence.empty?
+    missing_evidence = evidence.reject { |path| File.file?(path.to_s) }
+    raise "#{id} references missing evidence: #{missing_evidence.join(', ')}" unless missing_evidence.empty?
+  end
 end
 
 router = File.read("apps/themuffinman/frontend/src/router.ts")
@@ -23,4 +32,6 @@ missing_targets = scenarios.each_with_object([]) do |scenario, missing|
 end
 raise "Runtime targets missing from router: #{missing_targets.join(', ')}" unless missing_targets.empty?
 
-puts "Runtime acceptance audit passed (#{scenarios.length} pending runtime scenarios)."
+pending = scenarios.count { |scenario| scenario["status"] == "pending_runtime" }
+passed = scenarios.count { |scenario| scenario["status"] == "passed" }
+puts "Runtime acceptance audit passed (#{passed} passed, #{pending} pending runtime scenarios)."

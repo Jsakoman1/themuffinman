@@ -15,6 +15,7 @@ public class ThingListingResponseDTO {
     private String description;
     private String conditionNote;
     private boolean available;
+    private boolean archived;
     private Long myPendingRequestId;
     private Instant createdAt;
     private Instant updatedAt;

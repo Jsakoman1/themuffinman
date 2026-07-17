@@ -49,6 +49,23 @@ public class WorkmarketQuestAccessPolicyService {
             allowedActions.add(QuestAllowedActionDTO.EDIT);
             allowedActions.add(QuestAllowedActionDTO.VIEW_APPLICATIONS);
             allowedActions.add(QuestAllowedActionDTO.DELETE);
+            if (quest.getStatus() == QuestStatus.OPEN
+                    || quest.getStatus() == QuestStatus.ASSIGNED
+                    || quest.getStatus() == QuestStatus.IN_PROGRESS
+                    || quest.getStatus() == QuestStatus.WAITING_CONFIRMATION) {
+                allowedActions.add(QuestAllowedActionDTO.CANCEL);
+            }
+            if (quest.getStatus() == QuestStatus.OPEN || quest.getStatus() == QuestStatus.ASSIGNED
+                    || quest.getStatus() == QuestStatus.IN_PROGRESS || quest.getStatus() == QuestStatus.WAITING_CONFIRMATION) {
+                allowedActions.add(QuestAllowedActionDTO.PAUSE);
+            } else if (quest.getStatus() == QuestStatus.PAUSED) {
+                allowedActions.add(QuestAllowedActionDTO.RESUME);
+            }
+            if (quest.getStatus() == QuestStatus.OPEN) {
+                allowedActions.add(QuestAllowedActionDTO.ASSIGN);
+            } else if (quest.getStatus() == QuestStatus.ASSIGNED) {
+                allowedActions.add(QuestAllowedActionDTO.REOPEN);
+            }
         }
 
         if (canApplyToQuest(quest, currentUser, viewerApplication)) {

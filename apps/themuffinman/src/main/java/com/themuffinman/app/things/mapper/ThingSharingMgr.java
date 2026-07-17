@@ -23,6 +23,7 @@ public class ThingSharingMgr {
                 .description(RichTextInputValidator.sanitize(listing.getDescription()))
                 .conditionNote(listing.getConditionNote())
                 .available(listing.isAvailable())
+                .archived(listing.isArchived())
                 .myPendingRequestId(myPendingRequestId)
                 .createdAt(listing.getCreatedAt())
                 .updatedAt(listing.getUpdatedAt())

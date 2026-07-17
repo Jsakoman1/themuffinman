@@ -9,6 +9,8 @@ import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.activity.dto.ActivityItemDTO;
+import com.themuffinman.app.activity.service.ActivityReadService;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.identity.service.AppUserReadService;
 import com.themuffinman.app.identity.service.AppUserService;
@@ -28,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -50,6 +54,7 @@ public class VisionCapabilityPreviewService {
     private final VisionCapabilityEntityResolutionSupport visionCapabilityEntityResolutionSupport;
     private final VisionWorkmarketPreviewRenderer visionWorkmarketPreviewRenderer;
     private final VisionWorkmarketApplicationMutationAdapter visionWorkmarketApplicationMutationAdapter;
+    private final ActivityReadService activityReadService;
 
     public VisionCapabilityPreviewDTO previewProfile(AppUser currentUser) {
         return visionIdentityPreviewRenderer.previewProfile(currentUser);
@@ -75,6 +80,14 @@ public class VisionCapabilityPreviewService {
         return visionIdentityPreviewRenderer.previewChatWorkspace(currentUser);
     }
 
+    public VisionCapabilityPreviewDTO previewChatSync(AppUser currentUser, Long conversationId) {
+        return visionIdentityPreviewRenderer.previewChatSync(currentUser, conversationId);
+    }
+
+    public VisionCapabilityPreviewDTO previewChatAttachment(AppUser currentUser, Long conversationId, Long messageId) {
+        return visionIdentityPreviewRenderer.previewChatAttachment(currentUser, conversationId, messageId);
+    }
+
     public VisionCapabilityPreviewDTO previewUserProfile(AppUser currentUser, Long profileUserId) {
         return visionIdentityPreviewRenderer.previewUserProfile(currentUser, profileUserId);
     }
@@ -85,6 +98,10 @@ public class VisionCapabilityPreviewService {
 
     public VisionCapabilityPreviewDTO previewCircleDetail(AppUser currentUser, Long circleId) {
         return visionSocialPreviewRenderer.previewCircleDetail(currentUser, circleId);
+    }
+
+    public VisionCapabilityPreviewDTO previewAccessibleCircle(AppUser currentUser, Long circleId) {
+        return visionSocialPreviewRenderer.previewAccessibleCircle(currentUser, circleId);
     }
 
     public VisionCapabilityPreviewDTO previewCircleDraft(String circleName) {
@@ -166,8 +183,34 @@ public class VisionCapabilityPreviewService {
         return visionFeedPreviewRenderer.previewNotifications(currentUser);
     }
 
+    public VisionCapabilityPreviewDTO previewActivity(AppUser currentUser) {
+        if (currentUser == null) return null;
+        List<ActivityItemDTO> activity = activityReadService.getMine(currentUser);
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        VisionCapabilityPreviewSupport.addItem(items, "activity_count", "Activity", String.valueOf(activity.size()));
+        for (int index = 0; index < Math.min(activity.size(), 5); index++) {
+            ActivityItemDTO item = activity.get(index);
+            VisionCapabilityPreviewSupport.addItem(items, "activity_" + index, item.getTitle(), item.getSummary());
+        }
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_activity")
+                .title("Activity")
+                .summary(activity.isEmpty() ? "No recent activity." : activity.size() + " recent activity item" + (activity.size() == 1 ? "." : "s."))
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
     public VisionCapabilityPreviewDTO previewThings(AppUser currentUser) {
         return visionFeedPreviewRenderer.previewThings(currentUser);
+    }
+
+    public VisionCapabilityPreviewDTO previewThingDetail(AppUser currentUser, Long listingId) {
+        return visionFeedPreviewRenderer.previewThingDetail(currentUser, listingId);
+    }
+
+    public VisionCapabilityPreviewDTO previewBorrowRequests(AppUser currentUser) {
+        return visionFeedPreviewRenderer.previewBorrowRequests(currentUser);
     }
 
     public VisionCapabilityPreviewDTO previewQuestDetail(AppUser currentUser, Long questId) {

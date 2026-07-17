@@ -32,4 +32,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
             order by u.username asc
             """)
     List<AppUser> searchByUsernameOrEmail(String query);
+
+    @Query("select u from AppUser u where lower(u.username) like lower(concat('%', :query, '%')) order by u.username asc")
+    List<AppUser> searchByUsername(String query);
 }

@@ -1,0 +1,54 @@
+kind: master
+version: 1
+id: rides-production-completion-master
+title: Complete voluntary Rides module
+status: verified
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+objective: Build the production Rides module across backend, Web, Vision, privacy,
+  lifecycle, and runtime evidence.
+source_artifacts:
+- docs/work/rides-production-completion-analysis.md
+- docs/work/vision-deferred-contract-bundle.yaml
+- docs/work/vision-gap-readiness.yaml
+- docs/work/target-capability-production-readiness-sharing.yaml
+- docs/capability-inventory.yaml
+- docs/target-capability-catalog.yaml
+- docs/product-memory.md
+- docs/product-vision.md
+children:
+- docs/work/rides-production-completion.yaml
+plan_ownership:
+  canonical_master: docs/work/rides-production-completion-master.yaml
+  canonical_execution_plan: docs/work/rides-production-completion.yaml
+  capability_source_of_truth: docs/capability-inventory.yaml
+  runtime_source_of_truth: docs/runtime-acceptance-matrix.yaml
+non_negotiables:
+- Rides are voluntary circle-scoped coordination, not commercial Business bookings.
+- Backend owns authorization, consent, visibility, capacity, validation, and state
+  transitions.
+- Driver and participant identities are visible only to permitted ride participants.
+- Exact location never implies continuous location tracking.
+- Every mutation requires explicit confirmation in Vision and honest action feedback
+  in Web.
+- Runtime browser evidence is required for every completed client journey.
+capability_ids:
+- sharing.ride.create
+- sharing.ride.discover
+- sharing.ride.join
+- sharing.ride.update
+- sharing.ride.leave
+- sharing.ride.cancel
+- sharing.ride.complete
+exit_criteria:
+- All seven ride capabilities have backend contracts, tests, Web entry/actions, Vision
+  routes/actions, and runtime evidence.
+- Lifecycle, concurrency-safe capacity, circle consent, privacy, safety, notifications,
+  and audit history are backend verified.
+- make work-verify plan=docs/work/rides-production-completion-master.yaml passes.
+- Capability inventory, residual audit, backlog, runtime matrix, and living docs agree
+  with the evidence.
+evidence:
+- verifiedAt: '2026-07-17T11:43:03Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  children:
+  - docs/work/rides-production-completion.yaml

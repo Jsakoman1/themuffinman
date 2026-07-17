@@ -85,6 +85,32 @@ public class VisionIntentRouter {
                  UPDATE_PROFILE_LOCATION,
                  OPEN_CHAT,
                  VIEW_CHAT_WORKSPACE,
+                 SYNC_CHAT,
+                 VIEW_CHAT_ATTACHMENT,
+                 MARK_CHAT_READ,
+                 MARK_NOTIFICATIONS_READ,
+                 MARK_NOTIFICATION_READ,
+                 UPDATE_NOTIFICATION_PREFERENCES,
+                 RELEASE_WORKER,
+                 REPLACE_WORKER,
+                 REOPEN_QUEST,
+                 CANCEL_QUEST,
+                 PAUSE_QUEST,
+                 RESUME_QUEST,
+                 RESCHEDULE_BOOKING,
+                 CREATE_THING,
+                 REQUEST_BORROW,
+                 CANCEL_BORROW,
+                 DECIDE_BORROW,
+                 RETURN_BORROW,
+                 CREATE_RIDE,
+                 VIEW_RIDES,
+                 JOIN_RIDE,
+                 UPDATE_RIDE,
+                 LEAVE_RIDE,
+                 CANCEL_RIDE,
+                 START_RIDE,
+                 COMPLETE_RIDE,
                  VIEW_SETTINGS,
                  VIEW_USER_PROFILE,
                  VIEW_PROFILE,
@@ -93,7 +119,9 @@ public class VisionIntentRouter {
                  VIEW_BUSINESS_BOOKINGS,
                  VIEW_CIRCLE_DETAIL,
                  VIEW_QUEST_DETAIL,
+                 VIEW_THING_DETAIL,
                  VIEW_NOTIFICATIONS,
+                 VIEW_ACTIVITY,
                  VIEW_QUEST_NEWS,
                  VIEW_CIRCLES,
                  VIEW_APPLICATION_DETAIL,
@@ -103,6 +131,21 @@ public class VisionIntentRouter {
     }
 
     private VisionIntent routeSignalIntent(String lower) {
+        if (lower.contains("ride") || lower.contains("carpool") || lower.contains("lift") || lower.contains("passenger")) {
+            if (lower.contains("join") || lower.contains("take me") || lower.contains("reserve")) return VisionIntent.JOIN_RIDE;
+            if (lower.contains("leave") || lower.contains("get off")) return VisionIntent.LEAVE_RIDE;
+            if (lower.contains("cancel")) return VisionIntent.CANCEL_RIDE;
+            if (lower.contains("complete") || lower.contains("finished")) return VisionIntent.COMPLETE_RIDE;
+            if (lower.contains("start") || lower.contains("depart")) return VisionIntent.START_RIDE;
+            if (lower.contains("update") || lower.contains("change")) return VisionIntent.UPDATE_RIDE;
+            if (lower.contains("offer") || lower.contains("create") || lower.contains("drive")) return VisionIntent.CREATE_RIDE;
+            return VisionIntent.VIEW_RIDES;
+        }
+        if (visionIntentSignalSupport.containsNotificationPreferenceSignals(lower)) {
+            return VisionIntent.UPDATE_NOTIFICATION_PREFERENCES;
+        }
+        if (visionIntentSignalSupport.containsWorkerReplacementSignals(lower)) return VisionIntent.REPLACE_WORKER;
+        if (visionIntentSignalSupport.containsWorkerReleaseSignals(lower)) return VisionIntent.RELEASE_WORKER;
         if (visionIntentSignalSupport.containsCircleCreateSignals(lower)) {
             return VisionIntent.CREATE_CIRCLE;
         }
@@ -118,6 +161,7 @@ public class VisionIntentRouter {
         if (visionIntentSignalSupport.containsCircleDeleteSignals(lower)) {
             return VisionIntent.DELETE_CIRCLE;
         }
+        if (visionIntentSignalSupport.containsCircleLeaveSignals(lower)) return VisionIntent.LEAVE_CIRCLE;
         if (visionIntentSignalSupport.containsCircleUpdateSignals(lower)) {
             return VisionIntent.UPDATE_CIRCLE;
         }
@@ -154,6 +198,9 @@ public class VisionIntentRouter {
         if (visionIntentSignalSupport.containsQuestDetailSignals(lower)) {
             return VisionIntent.VIEW_QUEST_DETAIL;
         }
+        if (visionIntentSignalSupport.containsThingDetailSignals(lower)) {
+            return VisionIntent.VIEW_THING_DETAIL;
+        }
         if (visionIntentSignalSupport.containsNotificationsSignals(lower)) {
             return VisionIntent.VIEW_NOTIFICATIONS;
         }
@@ -163,6 +210,7 @@ public class VisionIntentRouter {
         if (visionIntentSignalSupport.containsBusinessAvailabilitySignals(lower)) {
             return VisionIntent.VIEW_BUSINESS_AVAILABILITY;
         }
+        if (visionIntentSignalSupport.containsBookingRescheduleSignals(lower)) return VisionIntent.RESCHEDULE_BOOKING;
         if (visionIntentSignalSupport.containsBusinessBookingSignals(lower)) {
             return VisionIntent.VIEW_BUSINESS_BOOKINGS;
         }
@@ -178,9 +226,58 @@ public class VisionIntentRouter {
         if (visionIntentSignalSupport.containsApplicationDetailSignals(lower)) {
             return VisionIntent.VIEW_APPLICATION_DETAIL;
         }
+        if (visionIntentSignalSupport.containsQuestPauseSignals(lower)) {
+            return lower.contains("resume") || lower.contains("unpause") ? VisionIntent.RESUME_QUEST : VisionIntent.PAUSE_QUEST;
+        }
+        if (visionIntentSignalSupport.containsQuestCancelSignals(lower)) {
+            return VisionIntent.CANCEL_QUEST;
+        }
         if (visionIntentSignalSupport.containsApplicationsSignals(lower)) {
             return VisionIntent.VIEW_APPLICATIONS;
         }
+        if (visionIntentSignalSupport.containsBorrowRequestSignals(lower)) {
+            return VisionIntent.VIEW_BORROW_REQUESTS;
+        }
+        if (visionIntentSignalSupport.containsChatMessageEditSignals(lower)) {
+            return VisionIntent.EDIT_CHAT_MESSAGE;
+        }
+        if (visionIntentSignalSupport.containsChatMessageReplySignals(lower)) {
+            return VisionIntent.REPLY_TO_CHAT_MESSAGE;
+        }
+        if (visionIntentSignalSupport.containsChatMessageReactionSignals(lower)) {
+            return VisionIntent.REACT_TO_CHAT_MESSAGE;
+        }
+        if (visionIntentSignalSupport.containsBusinessProfileCreateSignals(lower)) {
+            return VisionIntent.CREATE_BUSINESS_PROFILE;
+        }
+        if (visionIntentSignalSupport.containsBusinessProfileUpdateSignals(lower)) {
+            return VisionIntent.UPDATE_BUSINESS_PROFILE;
+        }
+        if (visionIntentSignalSupport.containsGalleryCreateSignals(lower)) return VisionIntent.CREATE_GALLERY_IMAGE;
+        if (visionIntentSignalSupport.containsGalleryUpdateSignals(lower)) return VisionIntent.UPDATE_GALLERY_IMAGE;
+        if (visionIntentSignalSupport.containsGalleryDeleteSignals(lower)) return VisionIntent.DELETE_GALLERY_IMAGE;
+        if (visionIntentSignalSupport.containsAvailabilityRuleCreateSignals(lower)) return VisionIntent.CREATE_AVAILABILITY_RULE;
+        if (visionIntentSignalSupport.containsAvailabilityRuleUpdateSignals(lower)) return VisionIntent.UPDATE_AVAILABILITY_RULE;
+        if (visionIntentSignalSupport.containsAvailabilityRuleDeleteSignals(lower)) return VisionIntent.DELETE_AVAILABILITY_RULE;
+        if (visionIntentSignalSupport.containsAvailabilityExceptionCreateSignals(lower)) return VisionIntent.CREATE_AVAILABILITY_EXCEPTION;
+        if (visionIntentSignalSupport.containsAvailabilityExceptionUpdateSignals(lower)) return VisionIntent.UPDATE_AVAILABILITY_EXCEPTION;
+        if (visionIntentSignalSupport.containsAvailabilityExceptionDeleteSignals(lower)) return VisionIntent.DELETE_AVAILABILITY_EXCEPTION;
+        if (visionIntentSignalSupport.containsBookingConfirmSignals(lower)) {
+            return VisionIntent.CONFIRM_BOOKING;
+        }
+        if (visionIntentSignalSupport.containsBookingCancelSignals(lower)) {
+            return VisionIntent.CANCEL_BOOKING;
+        }
+        if (visionIntentSignalSupport.containsBookingRejectSignals(lower)) return VisionIntent.REJECT_BOOKING;
+        if (visionIntentSignalSupport.containsBookingCompleteSignals(lower)) return VisionIntent.COMPLETE_BOOKING;
+        if (visionIntentSignalSupport.containsBookingNoShowSignals(lower)) return VisionIntent.MARK_BOOKING_NO_SHOW;
+        if (visionIntentSignalSupport.containsOfferingArchiveSignals(lower)) return VisionIntent.ARCHIVE_OFFERING;
+        if (visionIntentSignalSupport.containsQuestUpdateSignals(lower)) return VisionIntent.UPDATE_QUEST;
+        if (visionIntentSignalSupport.containsOfferingCreateSignals(lower)) return VisionIntent.CREATE_OFFERING;
+        if (visionIntentSignalSupport.containsOfferingUpdateSignals(lower)) return VisionIntent.UPDATE_OFFERING;
+        if (visionIntentSignalSupport.containsBookingCreateSignals(lower)) return VisionIntent.CREATE_BOOKING;
+        if (visionIntentSignalSupport.containsThingArchiveSignals(lower)) return VisionIntent.ARCHIVE_THING;
+        if (visionIntentSignalSupport.containsThingUpdateSignals(lower)) return VisionIntent.UPDATE_THING;
         if (visionIntentSignalSupport.containsThingsSignals(lower)) {
             return VisionIntent.VIEW_THINGS;
         }

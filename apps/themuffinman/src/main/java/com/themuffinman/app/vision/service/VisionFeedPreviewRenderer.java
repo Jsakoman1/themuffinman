@@ -3,6 +3,7 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
+import com.themuffinman.app.things.dto.ThingBorrowRequestResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.vision.dto.DashboardNotificationItemDTO;
 import com.themuffinman.app.vision.dto.QuestNewsItemResponseDTO;
@@ -121,6 +122,37 @@ class VisionFeedPreviewRenderer {
                 .capabilityId("view_things")
                 .title("Things")
                 .summary(summary)
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    VisionCapabilityPreviewDTO previewThingDetail(AppUser currentUser, Long listingId) {
+        if (currentUser == null || listingId == null) return null;
+        ThingListingResponseDTO listing = thingSharingService.getListingDetail(listingId, currentUser);
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        VisionCapabilityPreviewSupport.addItem(items, "thing_listing_id", "Listing id", String.valueOf(listing.getId()));
+        VisionCapabilityPreviewSupport.addItem(items, "thing_title", "Title", listing.getTitle());
+        VisionCapabilityPreviewSupport.addItem(items, "thing_description", "Description", listing.getDescription());
+        VisionCapabilityPreviewSupport.addItem(items, "thing_condition", "Condition", listing.getConditionNote());
+        VisionCapabilityPreviewSupport.addItem(items, "thing_available", "Available", String.valueOf(listing.isAvailable()));
+        return VisionCapabilityPreviewDTO.builder().capabilityId("view_thing_detail").title(listing.getTitle())
+                .summary(VisionCapabilityPreviewSupport.thingListingValue(listing)).items(items).tone("info").build();
+    }
+
+    VisionCapabilityPreviewDTO previewBorrowRequests(AppUser currentUser) {
+        if (currentUser == null) return null;
+        List<ThingBorrowRequestResponseDTO> requests = thingSharingService.getBorrowerRequests(currentUser);
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        for (ThingBorrowRequestResponseDTO request : requests) {
+            VisionCapabilityPreviewSupport.addItem(items, "borrow_request_" + request.getId(),
+                    "Request #" + request.getId(),
+                    "listing=" + request.getListingId() + ", status=" + request.getStatus());
+        }
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_borrow_requests")
+                .title("Borrow requests")
+                .summary(requests.isEmpty() ? "No borrow requests." : requests.size() + " borrow request" + (requests.size() == 1 ? "" : "s") + ".")
                 .items(items)
                 .tone("info")
                 .build();

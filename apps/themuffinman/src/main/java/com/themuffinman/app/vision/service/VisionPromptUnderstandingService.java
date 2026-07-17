@@ -42,6 +42,7 @@ public class VisionPromptUnderstandingService {
             VisionIntent.DISCOVER_QUESTS,
             VisionIntent.OPEN_CHAT,
             VisionIntent.VIEW_CHAT_WORKSPACE,
+            VisionIntent.VIEW_CHAT_ATTACHMENT,
             VisionIntent.VIEW_SETTINGS,
             VisionIntent.VIEW_PROFILE,
             VisionIntent.VIEW_USER_PROFILE,
@@ -51,7 +52,26 @@ public class VisionPromptUnderstandingService {
             VisionIntent.VIEW_NOTIFICATIONS,
             VisionIntent.VIEW_QUEST_NEWS,
             VisionIntent.VIEW_APPLICATIONS,
-            VisionIntent.VIEW_APPLICATION_DETAIL
+            VisionIntent.VIEW_APPLICATION_DETAIL,
+            VisionIntent.VIEW_BORROW_REQUESTS
+            ,VisionIntent.EDIT_CHAT_MESSAGE,
+            VisionIntent.REPLY_TO_CHAT_MESSAGE,
+            VisionIntent.REACT_TO_CHAT_MESSAGE
+            ,VisionIntent.CANCEL_QUEST,
+            VisionIntent.PAUSE_QUEST,
+            VisionIntent.RESUME_QUEST
+            ,VisionIntent.CREATE_BUSINESS_PROFILE,
+            VisionIntent.UPDATE_BUSINESS_PROFILE
+            ,VisionIntent.CONFIRM_BOOKING,
+            VisionIntent.CANCEL_BOOKING
+            ,VisionIntent.REJECT_BOOKING,
+            VisionIntent.COMPLETE_BOOKING,
+            VisionIntent.MARK_BOOKING_NO_SHOW
+            ,VisionIntent.ARCHIVE_OFFERING,
+            VisionIntent.UPDATE_QUEST,
+            VisionIntent.CREATE_OFFERING,
+            VisionIntent.UPDATE_OFFERING
+            ,VisionIntent.CREATE_BOOKING
     );
     private final AgentProperties agentProperties;
     private final VisionSemanticMapper visionSemanticMapper;

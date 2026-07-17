@@ -212,7 +212,8 @@ public class WorkmarketDashboardReadService {
             com.themuffinman.app.workmarket.model.QuestApplicationStatus.APPROVED, 0,
             com.themuffinman.app.workmarket.model.QuestApplicationStatus.PENDING, 1,
             com.themuffinman.app.workmarket.model.QuestApplicationStatus.DECLINED, 2,
-            com.themuffinman.app.workmarket.model.QuestApplicationStatus.WITHDRAWN, 3
+            com.themuffinman.app.workmarket.model.QuestApplicationStatus.WITHDRAWN, 3,
+            com.themuffinman.app.workmarket.model.QuestApplicationStatus.RELEASED, 4
     );
 
     private record DashboardReadModel(

@@ -20,6 +20,9 @@ public interface BusinessAvailabilityRuleRepository extends JpaRepository<Busine
             """)
     List<BusinessAvailabilityRule> findByOwnerId(Long ownerId);
 
+    @Query("select rule from BusinessAvailabilityRule rule join fetch rule.businessProfile profile join fetch profile.owner owner left join fetch rule.businessOffering offering where profile.id = :businessProfileId and owner.id = :ownerId order by rule.dayOfWeek asc, rule.startTimeLocal asc, rule.id asc")
+    List<BusinessAvailabilityRule> findByBusinessProfileId(Long businessProfileId, Long ownerId);
+
     @Query("""
             select rule
             from BusinessAvailabilityRule rule

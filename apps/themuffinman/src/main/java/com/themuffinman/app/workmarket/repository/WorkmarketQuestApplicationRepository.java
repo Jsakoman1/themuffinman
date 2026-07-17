@@ -43,6 +43,9 @@ public interface WorkmarketQuestApplicationRepository extends JpaRepository<Ques
 
     long countByQuestIdAndStatus(Long questId, QuestApplicationStatus status);
 
+    @Query("select qa from WorkmarketQuestApplication qa join fetch qa.quest q join fetch q.creator join fetch qa.applicant where qa.id = :id and qa.quest.id = :questId and qa.status = :status")
+    Optional<QuestApplication> findForQuestApplicationDetailByStatus(Long id, Long questId, QuestApplicationStatus status);
+
     boolean existsByQuestId(Long questId);
 
     void deleteByQuestId(Long questId);

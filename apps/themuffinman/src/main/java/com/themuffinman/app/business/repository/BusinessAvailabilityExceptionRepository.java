@@ -20,6 +20,9 @@ public interface BusinessAvailabilityExceptionRepository extends JpaRepository<B
             """)
     List<BusinessAvailabilityException> findByOwnerId(Long ownerId);
 
+    @Query("select exceptionRow from BusinessAvailabilityException exceptionRow join fetch exceptionRow.businessProfile profile join fetch profile.owner owner left join fetch exceptionRow.businessOffering offering where profile.id = :businessProfileId and owner.id = :ownerId order by exceptionRow.startAt asc, exceptionRow.id asc")
+    List<BusinessAvailabilityException> findByBusinessProfileIdAndOwnerId(Long businessProfileId, Long ownerId);
+
     @Query("""
             select exceptionRow
             from BusinessAvailabilityException exceptionRow

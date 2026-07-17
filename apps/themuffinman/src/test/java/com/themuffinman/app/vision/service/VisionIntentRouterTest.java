@@ -91,6 +91,23 @@ class VisionIntentRouterTest {
     }
 
     @Test
+    void routesExplicitQuestCancellationPrompt() {
+        VisionProperties visionProperties = new VisionProperties();
+        VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());
+
+        assertEquals(VisionIntent.CANCEL_QUEST, router.detectIntent("cancel quest 42"));
+    }
+
+    @Test
+    void routesRideCommandsToTypedVisionIntents() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+        assertEquals(VisionIntent.CREATE_RIDE, router.detectIntent("offer a ride from Zug to Zurich"));
+        assertEquals(VisionIntent.JOIN_RIDE, router.detectIntent("join ride 42"));
+        assertEquals(VisionIntent.LEAVE_RIDE, router.detectIntent("leave ride 42"));
+        assertEquals(VisionIntent.VIEW_RIDES, router.detectIntent("show available rides"));
+    }
+
+    @Test
     void prefersCreateCircleOverCirclesSnapshotWhenPromptIsExplicit() {
         VisionProperties visionProperties = new VisionProperties();
         VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());

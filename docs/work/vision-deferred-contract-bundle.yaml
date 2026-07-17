@@ -1,0 +1,166 @@
+kind: product_backend_device_contract_bundle
+version: 1
+id: vision-deferred-contract-bundle
+title: Product, backend, and device contracts for deferred Vision gates
+status: resolved_for_implementation
+authority:
+  product_direction: [docs/product-memory.md, docs/product-vision.md]
+  technical_context: [docs/vision-architecture-patterns.md, docs/work/vision-gap-readiness.yaml]
+  rule: Contract resolution does not claim that a capability is implemented or Vision-covered.
+scope:
+  capability_count: 19
+  gate_count: 7
+  implementation_status: pending
+  source_backlog: docs/work/vision-gap-prioritized-backlog.yaml
+global_invariants:
+  - Backend services own authorization, validation, state transitions, idempotency, and audit records.
+  - Web, Vision, mobile, and Watch clients consume the same command and read-model contracts.
+  - Every mutation has an idempotency key, typed success result, typed denial/error result, and retry policy.
+  - Viewer-specific data is redacted before serialization; clients never infer privacy from omitted UI controls.
+  - Timestamps are stored in UTC and rendered in the declared viewer or business timezone.
+  - Cross-device and Vision payloads carry a contract version and correlation id.
+contracts:
+  - id: work-lifecycle
+    gate_id: vision-ready-work-lifecycle
+    capability_ids: [work.quest.manage_workers, work.quest.pause]
+    status: resolved_for_implementation
+    source_contract: docs/work/work-quest-lifecycle-contract.yaml
+    domain_owner: workmarket
+    states: [OPEN, ASSIGNED, IN_PROGRESS, WAITING_CONFIRMATION, PAUSED, COMPLETED, CANCELLED]
+    operations:
+      - {name: pause_quest, actor: owner, allowed_from: [OPEN, ASSIGNED, IN_PROGRESS, WAITING_CONFIRMATION], target: PAUSED}
+      - {name: resume_quest, actor: owner, allowed_from: [PAUSED], target: previous_active_state}
+      - {name: replace_worker, actor: owner, allowed_from: [ASSIGNED, IN_PROGRESS, PAUSED], target: ASSIGNED}
+      - {name: release_worker, actor: owner, allowed_from: [ASSIGNED, IN_PROGRESS, PAUSED], target: OPEN}
+    rules:
+      - Owner-only lifecycle mutation; workers use separate withdraw and completion commands.
+      - Pause preserves approved applicants and audit history while blocking work progression.
+      - Replacement notifies the outgoing worker and requires incoming-worker acceptance before resume.
+      - Resume is denied when required assignment or prerequisite data is missing.
+    events: [QUEST_PAUSED, QUEST_RESUMED, QUEST_WORKER_REASSIGNED, QUEST_WORKER_RELEASED]
+    acceptance: [state-transition matrix with stale/repeated commands, non-owner denial tests, notification and audit assertions]
+    implementation_blockers: [backend_state_migration, shared_service_commands, Vision_adapters]
+
+  - id: privacy-location
+    gate_id: vision-ready-privacy-location
+    capability_ids: [platform.profile.manage_visibility, platform.location.use_current]
+    status: resolved_for_implementation
+    source_contracts: [docs/work/profile-location-visibility-scope.yaml, docs/location-services.md]
+    domain_owner: platform_identity
+    visibility_scopes: [PUBLIC, CIRCLES, SELECTED_CIRCLES, PRIVATE]
+    location_scopes: [NONE, APPROXIMATE, EXACT]
+    rules:
+      - A profile field is visible only when field policy and viewer relationship both allow it.
+      - Exact location requires device permission, explicit consent, and an allowed viewer scope.
+      - Approximate location is the fallback when exact permission is absent or the viewer lacks precision entitlement.
+      - Revocation takes effect on the next read and invalidates active location-sharing grants.
+      - Location is never persisted from denied permission or silently upgraded from approximate to exact.
+    device_command:
+      name: submit_current_location
+      required: [device_id, permission_state, consent_version, latitude, longitude, captured_at, accuracy_meters]
+      rejection_codes: [PERMISSION_DENIED, CONSENT_REQUIRED, STALE_CAPTURE, INVALID_PRECISION]
+      retention: Do not retain raw coordinates beyond the configured location retention policy.
+    acceptance: [viewer redaction matrix, permission/consent/revocation tests, shared web/Vision policy-service tests]
+    implementation_blockers: [backend_visibility_policy, location_command, device_permission_handoff, Vision_adapter]
+
+  - id: chat-upload
+    gate_id: vision-ready-chat-upload
+    capability_ids: [chat.message.attach]
+    status: resolved_for_implementation
+    domain_owner: chat
+    upload_flow: request_upload_intent -> upload_binary -> finalize_attachment -> attach_to_message
+    rules:
+      - Upload intent is scoped to one user, conversation, and attachment slot.
+      - Mime types and maximum bytes are server-configured and checked again during finalization.
+      - Upload intents expire after 10 minutes, are single-use, and cannot cross conversations.
+      - Failed uploads recover by requesting a new intent; expired tokens are never reused.
+      - Attachment reads reuse ChatService authorization and return an expiring read URL.
+    payload:
+      upload_intent: [intent_id, conversation_id, mime_type, max_bytes, upload_url, expires_at, idempotency_key]
+      finalized_attachment: [attachment_id, message_id, mime_type, byte_size, checksum, preview_url, expires_at]
+    rejection_codes: [MIME_NOT_ALLOWED, FILE_TOO_LARGE, INTENT_EXPIRED, INTENT_REPLAYED, NOT_CONVERSATION_MEMBER]
+    acceptance: [authorized/unauthorized upload tests, expiry/replay/checksum/retry tests, shared web/Vision command tests]
+    implementation_blockers: [binary_storage_adapter, upload_commands, client_binary_input, Vision_adapter]
+
+  - id: booking-reschedule
+    gate_id: vision-ready-booking-reschedule
+    capability_ids: [business.booking.reschedule]
+    status: resolved_for_implementation
+    domain_owner: business_booking
+    operation: reschedule_booking
+    rules:
+      - Customer may reschedule within policy; business owner may override within policy.
+      - Proposed slot is checked atomically against availability, timezone, capacity, and booking status.
+      - Conflict leaves the original booking unchanged and returns SLOT_UNAVAILABLE.
+      - Confirmation updates once, records actor/reason, and notifies affected participants.
+      - Cancellation and reschedule policy are evaluated in the backend before mutation.
+    payload: [booking_id, proposed_start, proposed_end, timezone, reason, idempotency_key]
+    rejection_codes: [NOT_BOOKING_PARTICIPANT, RESCHEDULE_WINDOW_CLOSED, SLOT_UNAVAILABLE, BOOKING_NOT_RESCHEDULABLE]
+    acceptance: [concurrent conflict tests, participant authorization matrix, notification/audit/timezone/idempotency assertions]
+    implementation_blockers: [booking_service_command, atomic_availability_check, notification_event, Vision_adapter]
+
+  - id: cross-module-platform
+    gate_id: vision-ready-cross-module-platform
+    capability_ids: [cross_module.search.compare, cross_module.notification.manage_preferences, cross_module.shell.navigate, cross_module.shell.render_context]
+    status: resolved_for_implementation
+    source_contracts: [docs/work/cross-module-search-contract.yaml, docs/cross-module-search-acceptance.yaml, docs/vision-presentation-contract.yaml]
+    domain_owner: shared_platform
+    search_compare:
+      comparable_fields: [title, summary, owner_display_name, location_label, availability, updated_at]
+      missing_value: null
+      rule: Compare only viewer-authorized records and preserve source-module identity.
+    notification_preferences:
+      categories: [chat, work, booking, circle, location, system]
+      levels: [IN_APP, PUSH, EMAIL]
+      rule: User owns preferences; security and transactional notices cannot be disabled.
+    shell_contract:
+      navigate_payload: [target_module, target_route, resource_id, context_id, contract_version, correlation_id]
+      render_context_payload: [module, viewer_role, sections, allowed_actions, redactions, contract_version]
+      unsupported_behavior: Return UNSUPPORTED_TARGET or CONTEXT_NOT_AVAILABLE; never guess a route.
+    acceptance: [privacy-safe comparison tests, authorized/idempotent preference tests, versioned shell payload tests]
+    implementation_blockers: [shared_search_read_model, preference_service, shell_router_adapter, Vision_routes]
+
+  - id: device-handoff
+    gate_id: vision-ready-device-handoff
+    capability_ids: [cross_module.handoff.mobile, cross_module.handoff.watch]
+    status: resolved_for_implementation
+    source_contracts: [docs/native-client-handoff-contract.yaml, docs/work/native-client-handoff-contract.yaml, docs/work/vision-mobile-watch-contract.yaml]
+    domain_owner: device_security
+    handoff_payload: [handoff_id, source_surface, target_device, intent, resource_reference, redacted_context, contract_version, expires_at, nonce]
+    security:
+      - Use a short-lived single-use token bound to the authenticated user and target device.
+      - Privileged resources require target-device re-authentication; raw bearer tokens never enter context.
+      - Replay, expiry, revocation, unavailable, and device-mismatch attempts return typed errors.
+      - Watch receives compact attention-safe context; privileged mutation completes on phone or web.
+    acceptance: [expiry/replay/revocation/device-mismatch tests, private-data redaction tests, unsupported-target tests]
+    implementation_blockers: [handoff_token_service, mobile_receiver, watch_receiver, Vision_exposure]
+
+  - id: ride-domain
+    gate_id: vision-ready-ride-domain
+    capability_ids: [sharing.ride.create, sharing.ride.discover, sharing.ride.join, sharing.ride.update, sharing.ride.leave, sharing.ride.cancel, sharing.ride.complete]
+    status: resolved_for_implementation
+    domain_owner: sharing_ride
+    entity: ride
+    states: [DRAFT, OPEN, FULL, IN_PROGRESS, COMPLETED, CANCELLED]
+    operations:
+      - {name: create_ride, actor: member, target: OPEN}
+      - {name: join_ride, actor: eligible_circle_member, allowed_from: [OPEN], target: OPEN_or_FULL}
+      - {name: leave_ride, actor: participant, allowed_from: [OPEN, FULL], target: OPEN_or_CANCELLED}
+      - {name: cancel_ride, actor: driver, allowed_from: [OPEN, FULL], target: CANCELLED}
+      - {name: start_ride, actor: driver, allowed_from: [FULL], target: IN_PROGRESS}
+      - {name: complete_ride, actor: driver, allowed_from: [IN_PROGRESS], target: COMPLETED}
+    rules:
+      - Ride belongs to one driver and circle or explicit invite set; discovery never bypasses circle visibility.
+      - Capacity, departure time, consent, and driver eligibility are backend-enforced.
+      - Driver cannot leave their own ride; cancellation notifies participants and preserves an audit record.
+      - Completed rides are immutable except safety/reporting records.
+      - Location precision follows privacy-location rules; this domain does not imply continuous tracking.
+    acceptance: [complete lifecycle matrix, join/leave race tests, consent/capacity/privacy/audit tests, web/API before Vision]
+    implementation_blockers: [ride_schema, lifecycle_service, circle_policy_integration, web_api, Vision_adapters]
+summary:
+  contracts_resolved: 7
+  capabilities_contract_ready: 19
+  capabilities_vision_missing: 19
+  capabilities_implementation_pending: 19
+  unresolved_product_backend_device_contracts: 0
+  rule: Promote contract-ready gates into implementation plans; never convert contract readiness into implementation evidence.

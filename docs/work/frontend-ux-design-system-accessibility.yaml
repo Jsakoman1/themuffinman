@@ -1,0 +1,106 @@
+kind: work
+version: 1
+id: frontend-ux-design-system-accessibility
+title: Consolidate design system and accessibility behavior
+status: verified
+master_plan: docs/work/frontend-ux-modernization-master.yaml
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+capability_ids:
+- cross_module.web_ui
+- cross_module.auditability
+objective: 'Replace repeated local styling and interaction behavior with a small reusable
+  frontend vocabulary that is accessible, responsive, and easy to extend.
+
+'
+requirements:
+- Shared tokens cover color, text hierarchy, spacing, radii, borders, shadows, focus,
+  danger, and motion.
+- Shared primitives cover button, icon button, card, dialog, status, empty state,
+  action menu, field, and form footer.
+- Icon-only actions always have accessible names and tooltips.
+- All controls have visible focus, disabled, hover, pressed, and reduced-motion behavior.
+- Touch targets meet the existing coarse-pointer minimum and dialogs trap/restore
+  focus appropriately.
+- Duplicate local CSS is removed only after the shared primitive is adopted and verified.
+tasks:
+- id: primitive-inventory
+  title: Inventory repeated UI patterns and finalize shared primitive contracts
+  type: analysis
+  status: done
+  paths:
+  - docs/work/frontend-ux-modernization-analysis.md
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppIconButton.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/frontend-ux-modernization-master.yaml")'
+- id: primitive-adoption
+  title: Replace repeated module-level controls and status markup with shared primitives
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: accessibility-contract
+  title: Add static accessibility and interaction contract checks
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+acceptance:
+- No core interactive surface relies on unlabeled icon-only actions or invisible focus.
+- Shared tokens and primitives are used by every authenticated module family.
+- Static checks detect missing labels, missing dialog semantics, and stale duplicate
+  primitives.
+evidence:
+- task: primitive-inventory
+  command: ruby -e 'require "yaml"; YAML.load_file("docs/work/frontend-ux-modernization-master.yaml")'
+  ranAt: '2026-07-17T13:02:43Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppIconButton.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - docs/work/frontend-ux-modernization-analysis.md
+  output: "\n"
+- task: primitive-adoption
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-17T13:02:44Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: accessibility-contract
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-17T13:02:46Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (49 checks).
+

@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -23,9 +25,13 @@ public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final BusinessProfileMgr businessProfileMgr;
 
-    public BusinessProfileListResponseDTO getDirectory() {
+    public BusinessProfileListResponseDTO getDirectory(String query) {
+        String normalizedQuery = query == null ? "" : query.trim();
+        var profiles = normalizedQuery.isBlank()
+                ? businessProfileRepository.findActiveProfiles()
+                : businessProfileRepository.searchActiveProfiles(normalizedQuery);
         return BusinessProfileListResponseDTO.builder()
-                .items(businessProfileRepository.findActiveProfiles().stream()
+                .items(profiles.stream()
                         .map(businessProfileMgr::toDto)
                         .toList())
                 .build();
@@ -49,18 +55,52 @@ public class BusinessProfileService {
                 .orElse(null);
     }
 
+    public BusinessProfileResponseDTO getMyProfile(Long profileId, AppUser currentUser) {
+        return businessProfileRepository.findById(profileId)
+                .filter(profile -> profile.getOwner().getId().equals(currentUser.getId()))
+                .map(businessProfileMgr::toDto)
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+    }
+
+    public List<BusinessProfileResponseDTO> getMyProfiles(AppUser currentUser) {
+        return businessProfileRepository.findAllByOwnerId(currentUser.getId()).stream()
+                .map(businessProfileMgr::toDto)
+                .toList();
+    }
+
     @Transactional
     public BusinessProfileResponseDTO saveMyProfile(BusinessProfileRequestDTO dto, AppUser currentUser) {
+        BusinessProfile profile = businessProfileRepository.findByOwnerId(currentUser.getId())
+                .orElseGet(() -> newProfile(currentUser));
+        return saveProfile(dto, currentUser, profile);
+    }
+
+    @Transactional
+    public BusinessProfileResponseDTO saveMyProfile(Long profileId, BusinessProfileRequestDTO dto, AppUser currentUser) {
+        BusinessProfile profile = businessProfileRepository.findById(profileId)
+                .filter(candidate -> candidate.getOwner().getId().equals(currentUser.getId()))
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+        return saveProfile(dto, currentUser, profile);
+    }
+
+    @Transactional
+    public BusinessProfileResponseDTO archiveMyProfile(Long profileId, AppUser currentUser) {
+        BusinessProfile profile = businessProfileRepository.findById(profileId)
+                .filter(candidate -> candidate.getOwner().getId().equals(currentUser.getId()))
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+        profile.setActive(false);
+        return businessProfileMgr.toDto(businessProfileRepository.save(profile));
+    }
+
+    @Transactional
+    public BusinessProfileResponseDTO createMyProfile(BusinessProfileRequestDTO dto, AppUser currentUser) {
+        return saveProfile(dto, currentUser, newProfile(currentUser));
+    }
+
+    private BusinessProfileResponseDTO saveProfile(BusinessProfileRequestDTO dto, AppUser currentUser, BusinessProfile profile) {
         if (dto == null) {
             throw ServiceErrors.badRequest("Business profile request is required");
         }
-
-        BusinessProfile profile = businessProfileRepository.findByOwnerId(currentUser.getId())
-                .orElseGet(() -> {
-                    BusinessProfile created = new BusinessProfile();
-                    created.setOwner(currentUser);
-                    return created;
-                });
 
         String businessName = TextValueNormalizer.requireTrimmed(dto.getBusinessName(), "Business name is required");
         String slug = dto.getSlug() == null || dto.getSlug().isBlank()
@@ -85,6 +125,21 @@ public class BusinessProfileService {
         profile.setHeroImageUrl(TextValueNormalizer.trimToNull(dto.getHeroImageUrl()));
         profile.setActive(dto.getActive() == null || dto.getActive());
 
+        return businessProfileMgr.toDto(businessProfileRepository.save(profile));
+    }
+
+    private BusinessProfile newProfile(AppUser currentUser) {
+        BusinessProfile profile = new BusinessProfile();
+        profile.setOwner(currentUser);
+        return profile;
+    }
+
+    @Transactional
+    public BusinessProfileResponseDTO updateMyBusinessNameForVision(String businessName, AppUser currentUser) {
+        String normalizedName = TextValueNormalizer.requireTrimmed(businessName, "Business name is required");
+        BusinessProfile profile = businessProfileRepository.findByOwnerId(currentUser.getId())
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+        profile.setBusinessName(normalizedName);
         return businessProfileMgr.toDto(businessProfileRepository.save(profile));
     }
 

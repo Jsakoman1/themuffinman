@@ -14,6 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VisionRuntimeContextDTO {
+    private String contractVersion;
+    private String correlationId;
+    private String targetModule;
+    private String targetRoute;
+    private String resourceId;
+    private List<String> redactions;
     private String inputType;
     private VisionDeviceRoleDTO deviceRole;
     private VisionAttentionStateDTO attentionState;

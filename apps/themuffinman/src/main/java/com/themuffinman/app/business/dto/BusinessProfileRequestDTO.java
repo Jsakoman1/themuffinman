@@ -21,7 +21,7 @@ public class BusinessProfileRequestDTO {
     @Size(max = 120, message = "Business name must be 120 characters or less")
     private String businessName;
 
-    @Pattern(regexp = "^[a-z0-9]+(?:-[a-z0-9]+)*$", message = "Business slug must use lowercase letters, numbers, and hyphens")
+    @Pattern(regexp = "^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$", message = "Business slug must use lowercase letters, numbers, and hyphens")
     @Size(max = 140, message = "Business slug must be 140 characters or less")
     private String slug;
 

@@ -1,0 +1,114 @@
+kind: work
+version: 1
+id: frontend-ux-chat-calendar-responsive
+title: Finish Chat, Calendar, and responsive adaptive surfaces
+status: verified
+master_plan: docs/work/frontend-ux-modernization-master.yaml
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+capability_ids:
+- chat.messaging
+- chat.attachments
+- calendar.personal
+- business.calendar
+objective: 'Make Chat feel like a real conversation product and Calendar feel like
+  a dependable visual planning tool across desktop and mobile.
+
+'
+requirements:
+- Chat has inbox, conversation, mobile back, message bubbles, unread state, composer,
+  attachment, reply, reaction, edit, delete, and recovery states.
+- Chat actions remain usable by keyboard and touch without overwhelming the message
+  surface.
+- Calendar supports month, week, day, today, previous/next, event preview, empty-day,
+  and mobile agenda behavior.
+- Calendar event types and actionable destinations are visually distinguishable.
+- Responsive layouts avoid horizontal overflow and preserve primary actions.
+tasks:
+- id: chat-responsive
+  title: Complete responsive Chat state transitions and action affordances
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: calendar-workspace
+  title: Refine visual Calendar workspace, event preview, and mobile agenda mode
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  validation: npm --prefix apps/themuffinman/frontend run build
+- id: responsive-runtime
+  title: Add browser runtime checks for Chat and Calendar desktop/mobile paths
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  - docs/runtime-acceptance-matrix.yaml
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+acceptance:
+- A user can enter, leave, resume, and recover a conversation without losing context.
+- A user can inspect a day/week/month and open an event destination on desktop and
+  mobile.
+evidence:
+- task: chat-responsive
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-17T13:01:38Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: calendar-workspace
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T13:01:40Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  output: |+
+    dist/assets/BusinessOfferingsView-zyqwH9PR.js                  5.16 kB │ gzip:   1.84 kB
+    dist/assets/BusinessAvailabilityView-DRNPwT5b.js               5.88 kB │ gzip:   2.00 kB
+    dist/assets/BusinessAvailabilityExceptionsView-Os-RLxnr.js     5.93 kB │ gzip:   2.05 kB
+    dist/assets/RidesView-CdxDgoFW.js                              6.18 kB │ gzip:   2.32 kB
+    dist/assets/BusinessProfileView-DD4SA2y-.js                    6.29 kB │ gzip:   2.09 kB
+    dist/assets/ThingsDiscoveryView-C3s1YO5t.js                    7.92 kB │ gzip:   2.55 kB
+    dist/assets/CirclesView-BIAyJ0Wi.js                            8.42 kB │ gzip:   2.63 kB
+    dist/assets/ProfileLocationSettingsView-CeaI4qzn.js            9.53 kB │ gzip:   3.45 kB
+    dist/assets/WorkQuestDetailView-q9H4BCzS.js                   10.73 kB │ gzip:   3.62 kB
+    dist/assets/userShellApi-k0smHiLs.js                          11.45 kB │ gzip:   2.29 kB
+    dist/assets/ChatSurfaceView-BsI9wpZQ.js                       11.47 kB │ gzip:   3.90 kB
+    dist/assets/index-BhyZpjfV.js                                 22.52 kB │ gzip:   6.22 kB
+    dist/assets/vue-core-DHJlMJ48.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/SurfaceContentView-f-5kitH8.js                    25.47 kB │ gzip:   7.15 kB
+    dist/assets/VisionSurfaceModernView-D1Cq7JKi.js               36.39 kB │ gzip:  10.98 kB
+    dist/assets/vendor-D95TteRL.js                                50.25 kB │ gzip:  19.68 kB
+    dist/assets/editor-Dj4qQcVO.js                               464.24 kB │ gzip: 149.69 kB
+
+    ✓ built in 420ms
+
+- task: responsive-runtime
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-17T13:01:41Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (46 checks).
+

@@ -19,9 +19,19 @@ import type {
   BusinessBookingRequestDTO,
   BusinessPublicPageDTO,
   BusinessProfileResponseDTO,
+  BusinessProfileListResponseDTO,
   BusinessProfileRequestDTO,
+  BusinessGalleryImageListResponseDTO,
+  BusinessGalleryImageRequestDTO,
+  RideOfferListResponseDTO,
+  RideOfferRequestDTO,
+  RideOfferResponseDTO,
+  BusinessGalleryImageResponseDTO,
   ChatConversationListDTO,
+  ChatConversationSummaryDTO,
   ChatConversationSyncDTO,
+  ChatCreateGroupConversationRequestDTO,
+  ChatOpenConversationRequestDTO,
   ChatMessagePageDTO,
   ChatMessageDTO,
   ChatMessageRequestDTO,
@@ -33,11 +43,14 @@ import type {
   CircleGroupRequestDTO,
   CircleSearchResultListResponseDTO,
   CircleRequestListResponseDTO,
+  CircleRequestCreateDTO,
   DashboardResponseDTO,
   DashboardSummaryDTO,
   QuestListResponseDTO,
   QuestDetailResponseDTO,
+  QuestApplicationDetailResponseDTO,
   QuestRequestDTO,
+  QuestApplicationRequestDTO,
   UserProfileViewDTO,
   UserReviewRequestDTO,
   QuestNewsItemResponseDTO,
@@ -47,7 +60,70 @@ import type {
   ThingListingRequestDTO,
   ThingListingResponseDTO,
   ThingBorrowRequestResponseDTO,
+  NotificationPreferenceResponseDTO,
+  NotificationPreferenceUpdateDTO,
 } from "../../../contracts/index.ts"
+
+export type ProfileGalleryImage = {
+  id: number
+  ownerId: number
+  imageUrl: string
+  altText: string | null
+  sortOrder: number
+  active: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export type ProfileGalleryImageRequest = {
+  imageUrl: string
+  altText?: string | null
+  sortOrder?: number
+  active?: boolean
+}
+
+export type BusinessFavorite = {
+  id: number
+  businessProfileId: number
+  businessName: string
+  slug: string
+  bookingEnabled: boolean
+  createdAt: string
+}
+
+export type CommutePreference = {
+  id: number | null
+  enabled: boolean
+  consentGranted: boolean
+  homeArea: string | null
+  workArea: string | null
+  weekdays: number[]
+  departureTime: string | null
+  returnTime: string | null
+  updatedAt: string | null
+}
+
+export type SavedSearchIntent = {id: number; query: string; entityFamily: string | null; paused: boolean; notifyEnabled: boolean; expiresAt: string | null; createdAt: string; updatedAt: string}
+export type SafetyReport = {id: number; targetFamily: string; targetId: number | null; reason: string; status: string; createdAt: string}
+export type OnboardingProgress = {id: number | null; currentStep: string; skipped: boolean; completed: boolean; updatedAt: string | null}
+export type ActivityItem = {kind: string; title: string; summary: string; route: string; occurredAt: string; resumeKey: string | null; resumable: boolean}
+export type AttentionCenter = {unreadCount: number; items: ActivityItem[]}
+
+const activeBusinessParams = () => {
+  const id = typeof window === "undefined" ? null : window.sessionStorage.getItem("activeBusinessProfileId")
+  return id ? {businessProfileId: Number(id)} : {}
+}
+
+const activeBusinessProfileId = () => {
+  const id = activeBusinessParams().businessProfileId
+  return typeof id === "number" && Number.isFinite(id) ? id : null
+}
+
+export const setActiveBusinessProfileId = (profileId: number | null) => {
+  if (typeof window === "undefined") return
+  if (profileId === null) window.sessionStorage.removeItem("activeBusinessProfileId")
+  else window.sessionStorage.setItem("activeBusinessProfileId", String(profileId))
+}
 
 export const userShellApi = {
   async getDashboard(): Promise<DashboardResponseDTO> {
@@ -60,7 +136,7 @@ export const userShellApi = {
 
   async searchQuests(query: {
     q?: string
-    preset?: "AVAILABLE" | "MY_ACTIVE"
+    preset?: "AVAILABLE" | "MY_VISIBLE" | "MY_ACTIVE"
     sort?: string
     page?: number
     size?: number
@@ -78,6 +154,21 @@ export const userShellApi = {
     return (await api.get<QuestListResponseDTO>(path, {params, signal: query.signal, ...withAuth()})).data
   },
 
+  async searchUniversal(query: string, page = 0): Promise<import("../../../contracts/index.ts").VisionSearchDiscoveryDTO> {
+    return (await api.get<import("../../../contracts/index.ts").VisionSearchDiscoveryDTO>("/search", {params: {q: query, page}, ...withAuth()})).data
+  },
+  async getSavedSearchIntents(): Promise<SavedSearchIntent[]> { return (await api.get<SavedSearchIntent[]>("/search/saved", withAuth())).data },
+  async createSavedSearchIntent(request: {query: string; entityFamily?: string | null; paused?: boolean; notifyEnabled?: boolean; expiresAt?: string | null}): Promise<SavedSearchIntent> { return (await api.post<SavedSearchIntent>("/search/saved", request, withAuth())).data },
+  async updateSavedSearchIntent(id: number, request: {query: string; entityFamily?: string | null; paused?: boolean; notifyEnabled?: boolean; expiresAt?: string | null}): Promise<SavedSearchIntent> { return (await api.put<SavedSearchIntent>(`/search/saved/${id}`, request, withAuth())).data },
+  async deleteSavedSearchIntent(id: number): Promise<void> { await api.delete(`/search/saved/${id}`, withAuth()) },
+  async createSafetyReport(request: {targetUserId?: number; targetFamily: string; targetId?: number; reason: string}): Promise<SafetyReport> { return (await api.post<SafetyReport>("/trust/reports", request, withAuth())).data },
+  async getOnboardingProgress(): Promise<OnboardingProgress> { return (await api.get<OnboardingProgress>("/profile/onboarding/me", withAuth())).data },
+  async updateOnboardingProgress(request: {currentStep: string; skipped?: boolean; completed?: boolean}): Promise<OnboardingProgress> { return (await api.put<OnboardingProgress>("/profile/onboarding/me", request, withAuth())).data },
+  async resetOnboardingProgress(): Promise<OnboardingProgress> { return (await api.post<OnboardingProgress>("/profile/onboarding/me/reset", undefined, withAuth())).data },
+  async getActivity(): Promise<ActivityItem[]> { return (await api.get<ActivityItem[]>("/activity/me", withAuth())).data },
+  async dismissActivityResume(resumeKey: string): Promise<void> { await api.post(`/activity/resume/${encodeURIComponent(resumeKey)}/dismiss`, undefined, withAuth()) },
+  async getAttentionCenter(): Promise<AttentionCenter> { return (await api.get<AttentionCenter>("/attention/me", withAuth())).data },
+
   async getQuestDetail(questId: number): Promise<QuestDetailResponseDTO> {
     return (await api.get<QuestDetailResponseDTO>(`/quests/${questId}/detail`, withAuth())).data
   },
@@ -90,6 +181,18 @@ export const userShellApi = {
     return (await api.patch<ActionResultDTO>(`/quests/${questId}/applications/${applicationId}/${decision}`, undefined, withAuth())).data
   },
 
+  async releaseQuestWorker(questId: number, applicationId: number): Promise<import("../../../contracts/index.ts").QuestApplicationResponseDTO> {
+    return (await api.patch<import("../../../contracts/index.ts").QuestApplicationResponseDTO>(`/quests/${questId}/workers/${applicationId}/release`, undefined, withAuth())).data
+  },
+
+  async replaceQuestWorker(questId: number, applicationId: number, replacementApplicationId: number): Promise<import("../../../contracts/index.ts").QuestApplicationResponseDTO> {
+    return (await api.patch<import("../../../contracts/index.ts").QuestApplicationResponseDTO>(`/quests/${questId}/workers/${applicationId}/replace`, {replacementApplicationId}, withAuth())).data
+  },
+
+  async applyForQuest(questId: number, request: QuestApplicationRequestDTO): Promise<ActionResultDTO> {
+    return (await api.post<ActionResultDTO>(`/quests/${questId}/applications`, request, withAuth())).data
+  },
+
   async createQuest(request: QuestRequestDTO): Promise<ActionResultDTO> {
     return (await api.post<ActionResultDTO>("/quests", request, withAuth())).data
   },
@@ -98,8 +201,8 @@ export const userShellApi = {
     return (await api.put<ActionResultDTO>(`/quests/${questId}`, request, withAuth())).data
   },
 
-  async executeQuestAction(questId: number, action: "START" | "COMPLETE" | "DELETE"): Promise<ActionResultDTO> {
-    const paths = {START: `/quests/${questId}/start`, COMPLETE: `/quests/${questId}/complete`, DELETE: `/quests/${questId}`}
+  async executeQuestAction(questId: number, action: "START" | "COMPLETE" | "DELETE" | "CANCEL" | "PAUSE" | "RESUME"): Promise<ActionResultDTO> {
+    const paths = {START: `/quests/${questId}/start`, COMPLETE: `/quests/${questId}/complete`, DELETE: `/quests/${questId}`, CANCEL: `/quests/${questId}/cancel`, PAUSE: `/quests/${questId}/pause`, RESUME: `/quests/${questId}/resume`}
     if (action === "DELETE") return (await api.delete<ActionResultDTO>(paths[action], withAuth())).data
     return (await api.patch<ActionResultDTO>(paths[action], undefined, withAuth())).data
   },
@@ -127,6 +230,10 @@ export const userShellApi = {
     })).data
   },
 
+  async getApplicationDetail(applicationId: number): Promise<QuestApplicationDetailResponseDTO> {
+    return (await api.get<QuestApplicationDetailResponseDTO>(`/applications/${applicationId}/detail`, withAuth())).data
+  },
+
   async getMyNews(): Promise<QuestNewsItemResponseDTO[]> {
     return (await api.get<QuestNewsItemResponseDTO[]>("/news/me", withAuth())).data
   },
@@ -139,6 +246,14 @@ export const userShellApi = {
     return (await api.patch<ActionResultDTO>(`/news/me/${newsId}/read`, undefined, withAuth())).data
   },
 
+  async getNotificationPreferences(): Promise<NotificationPreferenceResponseDTO> {
+    return (await api.get<NotificationPreferenceResponseDTO>("/notification-preferences/me", withAuth())).data
+  },
+
+  async updateNotificationPreferences(updates: NotificationPreferenceUpdateDTO[]): Promise<NotificationPreferenceResponseDTO> {
+    return (await api.put<NotificationPreferenceResponseDTO>("/notification-preferences/me", updates, withAuth())).data
+  },
+
   async getChatWorkspace(): Promise<ChatWorkspaceDTO> {
     return (await api.get<ChatWorkspaceDTO>("/chat/workspace", {params: {conversationLimit: 50}, ...withAuth()})).data
   },
@@ -148,6 +263,18 @@ export const userShellApi = {
       params: {page, limit, beforeLastMessageAt: beforeLastMessageAt || undefined, beforeConversationId: beforeConversationId || undefined},
       ...withAuth()
     })).data
+  },
+
+  async createChatGroup(request: ChatCreateGroupConversationRequestDTO): Promise<ChatConversationSummaryDTO> {
+    return (await api.post<ChatConversationSummaryDTO>("/chat/conversations/groups", request, withAuth())).data
+  },
+
+  async openChat(request: ChatOpenConversationRequestDTO): Promise<ChatConversationSummaryDTO> {
+    return (await api.post<ChatConversationSummaryDTO>("/chat/conversations/open", request, withAuth())).data
+  },
+
+  async leaveChatConversation(conversationId: number): Promise<ActionResultDTO> {
+    return (await api.delete<ActionResultDTO>(`/chat/conversations/${conversationId}/participants/me`, withAuth())).data
   },
 
   async getChatConversationSync(conversationId: number): Promise<ChatConversationSyncDTO> {
@@ -167,9 +294,13 @@ export const userShellApi = {
     return (await api.post<ChatAttachmentUploadDTO>("/chat/attachments", form, withAuth())).data
   },
 
-  async sendChatMessage(conversationId: number, messageBody: string, attachment?: ChatAttachmentUploadDTO | null): Promise<ChatMessageDTO> {
-    const request: ChatMessageRequestDTO = {messageBody: messageBody || undefined, clientMessageId: crypto.randomUUID(), attachmentName: attachment?.attachmentName, attachmentMimeType: attachment?.attachmentMimeType, attachmentUploadId: attachment?.uploadId}
+  async sendChatMessage(conversationId: number, messageBody: string, attachment?: ChatAttachmentUploadDTO | null, replyToMessageId?: number | null): Promise<ChatMessageDTO> {
+    const request: ChatMessageRequestDTO = {messageBody: messageBody || undefined, clientMessageId: crypto.randomUUID(), attachmentName: attachment?.attachmentName, attachmentMimeType: attachment?.attachmentMimeType, attachmentUploadId: attachment?.uploadId, replyToMessageId: replyToMessageId ?? undefined}
     return (await api.post<ChatMessageDTO>(`/chat/conversations/${conversationId}/messages`, request, withAuth())).data
+  },
+
+  async markChatConversationRead(conversationId: number, upToMessageId?: number | null): Promise<ActionResultDTO> {
+    return (await api.patch<ActionResultDTO>(`/chat/conversations/${conversationId}/read`, upToMessageId ? {upToMessageId} : undefined, withAuth())).data
   },
 
   async updateChatMessage(conversationId: number, messageId: number, messageBody: string): Promise<ChatMessageDTO> {
@@ -193,19 +324,61 @@ export const userShellApi = {
   },
 
   async getBusinessProfile(): Promise<BusinessProfileResponseDTO> {
+    const activeId = activeBusinessProfileId()
+    if (activeId !== null) return this.getBusinessProfileById(activeId)
     return (await api.get<BusinessProfileResponseDTO>("/business/profiles/me", withAuth())).data
+  },
+
+  async getMyBusinessProfiles(): Promise<BusinessProfileResponseDTO[]> {
+    return (await api.get<BusinessProfileResponseDTO[]>("/business/profiles/me/all", withAuth())).data
+  },
+
+  async getBusinessProfileById(profileId: number): Promise<BusinessProfileResponseDTO> {
+    return (await api.get<BusinessProfileResponseDTO>(`/business/profiles/me/${profileId}`, withAuth())).data
+  },
+
+  async createBusinessProfile(request: BusinessProfileRequestDTO): Promise<BusinessProfileResponseDTO> {
+    return (await api.post<BusinessProfileResponseDTO>("/business/profiles/me", request, withAuth())).data
+  },
+
+  async getBusinessDirectory(query = ""): Promise<BusinessProfileListResponseDTO> {
+    return (await api.get<BusinessProfileListResponseDTO>("/business/profiles", {params: {q: query || undefined}, ...withAuth()})).data
   },
 
   async updateBusinessProfile(request: BusinessProfileRequestDTO): Promise<BusinessProfileResponseDTO> {
     return (await api.put<BusinessProfileResponseDTO>("/business/profiles/me", request, withAuth())).data
   },
 
+  async updateBusinessProfileById(profileId: number, request: BusinessProfileRequestDTO): Promise<BusinessProfileResponseDTO> {
+    return (await api.put<BusinessProfileResponseDTO>(`/business/profiles/me/${profileId}`, request, withAuth())).data
+  },
+
+  async archiveBusinessProfile(profileId: number): Promise<BusinessProfileResponseDTO> {
+    return (await api.post<BusinessProfileResponseDTO>(`/business/profiles/me/${profileId}/archive`, {}, withAuth())).data
+  },
+
+  async getBusinessGallery(): Promise<BusinessGalleryImageListResponseDTO> {
+    return (await api.get<BusinessGalleryImageListResponseDTO>("/business/gallery/me", {params: activeBusinessParams(), ...withAuth()})).data
+  },
+
+  async createBusinessGalleryImage(request: BusinessGalleryImageRequestDTO): Promise<BusinessGalleryImageResponseDTO> {
+    return (await api.post<BusinessGalleryImageResponseDTO>("/business/gallery/me", request, {params: activeBusinessParams(), ...withAuth()})).data
+  },
+
+  async updateBusinessGalleryImage(imageId: number, request: BusinessGalleryImageRequestDTO): Promise<BusinessGalleryImageResponseDTO> {
+    return (await api.put<BusinessGalleryImageResponseDTO>(`/business/gallery/me/${imageId}`, request, withAuth())).data
+  },
+
+  async deleteBusinessGalleryImage(imageId: number): Promise<void> {
+    await api.delete(`/business/gallery/me/${imageId}`, withAuth())
+  },
+
   async getBusinessOfferings(): Promise<BusinessOfferingListResponseDTO> {
-    return (await api.get<BusinessOfferingListResponseDTO>("/business/offerings/me", withAuth())).data
+    return (await api.get<BusinessOfferingListResponseDTO>("/business/offerings/me", {params: activeBusinessParams(), ...withAuth()})).data
   },
 
   async createBusinessOffering(request: BusinessOfferingRequestDTO): Promise<BusinessOfferingResponseDTO> {
-    return (await api.post<BusinessOfferingResponseDTO>("/business/offerings/me", request, withAuth())).data
+    return (await api.post<BusinessOfferingResponseDTO>("/business/offerings/me", request, {params: activeBusinessParams(), ...withAuth()})).data
   },
 
   async updateBusinessOffering(offeringId: number, request: BusinessOfferingRequestDTO): Promise<BusinessOfferingResponseDTO> {
@@ -217,11 +390,11 @@ export const userShellApi = {
   },
 
   async getBusinessAvailabilityRules(): Promise<BusinessAvailabilityRuleListResponseDTO> {
-    return (await api.get<BusinessAvailabilityRuleListResponseDTO>("/business/availability-rules/me", withAuth())).data
+    return (await api.get<BusinessAvailabilityRuleListResponseDTO>("/business/availability-rules/me", {params: activeBusinessParams(), ...withAuth()})).data
   },
 
   async createBusinessAvailabilityRule(request: BusinessAvailabilityRuleRequestDTO): Promise<BusinessAvailabilityRuleResponseDTO> {
-    return (await api.post<BusinessAvailabilityRuleResponseDTO>("/business/availability-rules/me", request, withAuth())).data
+    return (await api.post<BusinessAvailabilityRuleResponseDTO>("/business/availability-rules/me", request, {params: activeBusinessParams(), ...withAuth()})).data
   },
 
   async updateBusinessAvailabilityRule(ruleId: number, request: BusinessAvailabilityRuleRequestDTO): Promise<BusinessAvailabilityRuleResponseDTO> {
@@ -233,11 +406,11 @@ export const userShellApi = {
   },
 
   async getBusinessAvailabilityExceptions(): Promise<BusinessAvailabilityExceptionListResponseDTO> {
-    return (await api.get<BusinessAvailabilityExceptionListResponseDTO>("/business/availability-exceptions/me", withAuth())).data
+    return (await api.get<BusinessAvailabilityExceptionListResponseDTO>("/business/availability-exceptions/me", {params: activeBusinessParams(), ...withAuth()})).data
   },
 
   async createBusinessAvailabilityException(request: BusinessAvailabilityExceptionRequestDTO): Promise<BusinessAvailabilityExceptionResponseDTO> {
-    return (await api.post<BusinessAvailabilityExceptionResponseDTO>("/business/availability-exceptions/me", request, withAuth())).data
+    return (await api.post<BusinessAvailabilityExceptionResponseDTO>("/business/availability-exceptions/me", request, {params: activeBusinessParams(), ...withAuth()})).data
   },
 
   async updateBusinessAvailabilityException(exceptionId: number, request: BusinessAvailabilityExceptionRequestDTO): Promise<BusinessAvailabilityExceptionResponseDTO> {
@@ -252,6 +425,18 @@ export const userShellApi = {
     return (await api.get<BusinessPublicPageDTO>(`/business/public/${encodeURIComponent(slug)}`, withAuth())).data
   },
 
+  async getBusinessFavorites(): Promise<BusinessFavorite[]> {
+    return (await api.get<BusinessFavorite[]>("/business/favorites/me", withAuth())).data
+  },
+
+  async addBusinessFavorite(businessProfileId: number): Promise<BusinessFavorite> {
+    return (await api.post<BusinessFavorite>(`/business/favorites/me/${businessProfileId}`, undefined, withAuth())).data
+  },
+
+  async removeBusinessFavorite(businessProfileId: number): Promise<void> {
+    await api.delete(`/business/favorites/me/${businessProfileId}`, withAuth())
+  },
+
   async createCustomerBooking(request: BusinessBookingRequestDTO): Promise<BusinessBookingResponseDTO> {
     return (await api.post<BusinessBookingResponseDTO>("/business/bookings", request, withAuth())).data
   },
@@ -264,9 +449,13 @@ export const userShellApi = {
     return (await api.post<BusinessBookingResponseDTO>(`/business/bookings/me/${bookingId}/cancel`, undefined, withAuth())).data
   },
 
+  async rescheduleMyBusinessBooking(bookingId: number, startsAt: string, endsAt: string, reason = ""): Promise<BusinessBookingResponseDTO> {
+    return (await api.post<BusinessBookingResponseDTO>(`/business/bookings/me/${bookingId}/reschedule`, {startsAt, endsAt, reason}, withAuth())).data
+  },
+
   async getBusinessOwnerBookings(): Promise<BusinessBookingListResponseDTO> {
     return (await api.get<BusinessBookingListResponseDTO>("/business/bookings/owner", {
-      params: {page: 0, size: 50},
+      params: {page: 0, size: 50, ...activeBusinessParams()},
       ...withAuth()
     })).data
   },
@@ -277,6 +466,10 @@ export const userShellApi = {
 
   async executeBusinessBookingAction(bookingId: number, action: "confirm" | "reject" | "cancel" | "complete" | "mark-no-show"): Promise<BusinessBookingResponseDTO> {
     return (await api.post<BusinessBookingResponseDTO>(`/business/bookings/owner/${bookingId}/${action}`, undefined, withAuth())).data
+  },
+
+  async rescheduleBusinessBookingAsOwner(bookingId: number, startsAt: string, endsAt: string, reason = ""): Promise<BusinessBookingResponseDTO> {
+    return (await api.post<BusinessBookingResponseDTO>(`/business/bookings/owner/${bookingId}/reschedule`, {startsAt, endsAt, reason}, withAuth())).data
   },
 
   async getCirclesOverview(): Promise<CircleOverviewDTO> {
@@ -291,8 +484,32 @@ export const userShellApi = {
     return (await api.post<ActionResultDTO>("/circles/groups", request, withAuth())).data
   },
 
+  async updateCircleGroup(groupId: number, request: CircleGroupRequestDTO): Promise<CircleGroupResponseDTO> {
+    return (await api.put<CircleGroupResponseDTO>(`/circles/groups/${groupId}`, request, withAuth())).data
+  },
+
+  async deleteCircleGroup(groupId: number): Promise<ActionResultDTO> {
+    return (await api.delete<ActionResultDTO>(`/circles/groups/${groupId}`, withAuth())).data
+  },
+
+  async leaveCircle(circleId: number): Promise<ActionResultDTO> {
+    return (await api.delete<ActionResultDTO>(`/circles/groups/${circleId}/membership/me`, withAuth())).data
+  },
+
+  async removeCircleMember(circleId: number, userId: number): Promise<ActionResultDTO> {
+    return (await api.put<ActionResultDTO>("/circles/connections/circles/bulk", {
+      circleId,
+      userIds: [userId],
+      action: "REMOVE"
+    }, withAuth())).data
+  },
+
   async acceptCircleRequest(requestId: number): Promise<ActionResultDTO> {
     return (await api.patch<ActionResultDTO>(`/circles/requests/${requestId}/accept`, undefined, withAuth())).data
+  },
+
+  async createCircleRequest(request: CircleRequestCreateDTO): Promise<ActionResultDTO> {
+    return (await api.post<ActionResultDTO>("/circles/requests", request, withAuth())).data
   },
 
   async deleteCircleRequest(requestId: number): Promise<ActionResultDTO> {
@@ -312,7 +529,7 @@ export const userShellApi = {
   },
 
   async getBlockedCircleUsers(page = 0, size = 50): Promise<CircleSearchResultListResponseDTO> {
-    return (await api.get<CircleSearchResultListResponseDTO>("/circles/blocks", {params: {page, size}, ...withAuth()})).data
+    return (await api.get<CircleSearchResultListResponseDTO>("/circles/blocked", {params: {page, size}, ...withAuth()})).data
   },
 
   async unblockCircleUser(userId: number): Promise<ActionResultDTO> {
@@ -339,6 +556,18 @@ export const userShellApi = {
 
   async updateCurrentAppUser(request: AppUserRequestDTO): Promise<AppUserResponseDTO> {
     return (await api.put<AppUserResponseDTO>("/app_users/me", request, withAuth())).data
+  },
+
+  async getMyProfileGallery(): Promise<{items: ProfileGalleryImage[]}> {
+    return (await api.get<{items: ProfileGalleryImage[]}>("/profile/gallery/me", withAuth())).data
+  },
+
+  async createProfileGalleryImage(request: ProfileGalleryImageRequest): Promise<ProfileGalleryImage> {
+    return (await api.post<ProfileGalleryImage>("/profile/gallery/me", request, withAuth())).data
+  },
+
+  async deleteProfileGalleryImage(imageId: number): Promise<void> {
+    await api.delete(`/profile/gallery/me/${imageId}`, withAuth())
   },
 
   async lookupLocations(query: string): Promise<LocationLookupResponseDTO> {
@@ -369,6 +598,14 @@ export const userShellApi = {
     return (await api.post<ThingListingResponseDTO>("/things/listings", request, withAuth())).data
   },
 
+  async updateThingListing(listingId: number, request: ThingListingRequestDTO): Promise<ThingListingResponseDTO> {
+    return (await api.put<ThingListingResponseDTO>(`/things/listings/${listingId}`, request, withAuth())).data
+  },
+
+  async archiveThingListing(listingId: number): Promise<void> {
+    await api.delete(`/things/listings/${listingId}`, withAuth())
+  },
+
   async requestThingBorrow(listingId: number, message: string): Promise<ThingBorrowRequestResponseDTO> {
     return (await api.post<ThingBorrowRequestResponseDTO>(`/things/listings/${listingId}/borrow-requests`, {message}, withAuth())).data
   },
@@ -394,5 +631,24 @@ export const userShellApi = {
 
   async returnThingBorrow(requestId: number): Promise<ThingBorrowRequestResponseDTO> {
     return (await api.patch<ThingBorrowRequestResponseDTO>(`/things/borrow-requests/${requestId}/return`, undefined, withAuth())).data
-  }
+  },
+
+  async getRideOffers(): Promise<RideOfferListResponseDTO> { return (await api.get<RideOfferListResponseDTO>("/rides/offers", withAuth())).data },
+  async findRideMatches(filters: {origin?: string; destination?: string; departureFrom?: string; departureTo?: string} = {}): Promise<RideOfferListResponseDTO> {
+    return (await api.get<RideOfferListResponseDTO>("/rides/offers/matches", {params: {...filters, origin: filters.origin || undefined, destination: filters.destination || undefined}, ...withAuth()})).data
+  },
+  async getCommutePreference(): Promise<CommutePreference> {
+    return (await api.get<CommutePreference>("/rides/commute/me", withAuth())).data
+  },
+  async updateCommutePreference(request: Omit<CommutePreference, "id" | "updatedAt">): Promise<CommutePreference> {
+    return (await api.put<CommutePreference>("/rides/commute/me", request, withAuth())).data
+  },
+  async getMyRideOffers(): Promise<RideOfferListResponseDTO> { return (await api.get<RideOfferListResponseDTO>("/rides/offers/me", withAuth())).data },
+  async createRideOffer(request: RideOfferRequestDTO): Promise<RideOfferResponseDTO> { return (await api.post<RideOfferResponseDTO>("/rides/offers", request, withAuth())).data },
+  async updateRideOffer(id: number, request: RideOfferRequestDTO): Promise<RideOfferResponseDTO> { return (await api.put<RideOfferResponseDTO>(`/rides/offers/${id}`, request, withAuth())).data },
+  async joinRide(id: number): Promise<RideOfferResponseDTO> { return (await api.post<RideOfferResponseDTO>(`/rides/offers/${id}/join`, undefined, withAuth())).data },
+  async leaveRide(id: number): Promise<RideOfferResponseDTO> { return (await api.post<RideOfferResponseDTO>(`/rides/offers/${id}/leave`, undefined, withAuth())).data },
+  async cancelRide(id: number): Promise<RideOfferResponseDTO> { return (await api.post<RideOfferResponseDTO>(`/rides/offers/${id}/cancel`, undefined, withAuth())).data },
+  async startRide(id: number): Promise<RideOfferResponseDTO> { return (await api.post<RideOfferResponseDTO>(`/rides/offers/${id}/start`, undefined, withAuth())).data },
+  async completeRide(id: number): Promise<RideOfferResponseDTO> { return (await api.post<RideOfferResponseDTO>(`/rides/offers/${id}/complete`, undefined, withAuth())).data }
 }

@@ -41,6 +41,21 @@ public class RideOffer {
     @Column(nullable = false)
     private boolean active = true;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 24)
+    private RideStatus status = RideStatus.OPEN;
+
+    @Version
+    @Column(nullable = false)
+    private Long version = 0L;
+
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt = Instant.now();
+    @Column(name = "started_at") private Instant startedAt;
+    @Column(name = "completed_at") private Instant completedAt;
+    @Column(name = "cancelled_at") private Instant cancelledAt;
+    @Column(name = "cancel_reason", length = 500) private String cancelReason;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "ride_offer_visible_circle",
@@ -55,5 +70,9 @@ public class RideOffer {
     @PrePersist
     void prePersist() {
         createdAt = Instant.now();
+        updatedAt = createdAt;
     }
+
+    @PreUpdate
+    void preUpdate() { updatedAt = Instant.now(); }
 }

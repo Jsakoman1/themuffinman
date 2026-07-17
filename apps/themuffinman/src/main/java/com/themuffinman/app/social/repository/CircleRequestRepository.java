@@ -41,13 +41,13 @@ public interface CircleRequestRepository extends JpaRepository<CircleRequest, Lo
             """)
     List<CircleRequest> findOutgoingPendingByRequesterId(Long userId);
 
-    @Query("""
-            select c from CircleRequest c
-            join fetch c.requester
-            join fetch c.recipient
-            where (c.requester.id = :leftUserId and c.recipient.id = :rightUserId)
-               or (c.requester.id = :rightUserId and c.recipient.id = :leftUserId)
-            """)
+    @Query(value = """
+            select c.* from circle_request c
+            where (c.requester_id = :leftUserId and c.recipient_id = :rightUserId)
+               or (c.requester_id = :rightUserId and c.recipient_id = :leftUserId)
+            order by c.created_at desc, c.id desc
+            limit 1
+            """, nativeQuery = true)
     Optional<CircleRequest> findBetweenUsers(Long leftUserId, Long rightUserId);
 
     @Query("""

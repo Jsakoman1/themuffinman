@@ -35,6 +35,7 @@ audit-backend:
 	ruby scripts/audits/audit-mutation-safety.rb
 
 audit-frontend:
+	ruby scripts/audits/audit-ui-entrypoints.rb
 	ruby scripts/audits/audit-endpoint-callsite-linker.rb
 	ruby scripts/audits/audit-frontend-route-surfaces.rb
 	ruby scripts/audits/audit-frontend-stale-surfaces.rb
@@ -42,11 +43,32 @@ audit-frontend:
 	ruby scripts/audits/audit-duplicate-logic.rb
 	ruby scripts/audits/audit-permission-rule-duplication.rb
 
-audit-docs:
+audit-frontend-ux-plan:
+	ruby scripts/audits/audit-frontend-ux-plan-preflight.rb
+
+audit-main-surfaces-plan:
+	ruby scripts/audits/audit-main-surfaces-plan-preflight.rb
+
+audit-product-experience-plan:
+	ruby scripts/audits/audit-product-experience-plan-preflight.rb
+
+audit-docs: audit-work-plan-recursion
 	ruby scripts/audits/audit-docs-as-tests.rb
 
 audit-plan-coverage:
 	ruby scripts/audits/audit-plan-coverage.rb
+
+audit-target-capability-catalog:
+	ruby scripts/audits/audit-target-capability-catalog.rb
+
+audit-target-capability-coverage:
+	@ruby scripts/audits/audit-target-capability-coverage.rb
+
+audit-vision-batch-readiness:
+	@ruby scripts/audits/audit-vision-batch-readiness.rb
+
+generate-target-capability-slices:
+	@ruby scripts/audits/generate-target-capability-slices.rb
 
 audit-runtime-acceptance:
 	ruby scripts/audits/audit-runtime-acceptance.rb
@@ -57,6 +79,9 @@ audit-native-client-handoff:
 audit-tests:
 	ruby scripts/audits/audit-contract-test-gaps.rb
 	ruby scripts/audits/audit-test-fixture-duplication.rb
+
+audit-work-plan-recursion:
+	ruby scripts/audits/audit-work-plan-recursion.rb
 
 audit-impact:
 	ruby scripts/audits/audit-change-impact-preflight.rb

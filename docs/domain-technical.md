@@ -14,6 +14,7 @@ This document is the technical source of truth for core product behavior. It sho
 - `chat`: direct conversations, group threads, context-owned rooms, messages, presence, realtime updates
 - `location`: user location settings, quest location visibility, lookup events
 - `common.event`: lightweight domain event publishing through Spring application events
+- `notification`: authenticated user-owned delivery preferences with category/channel policy enforcement
 - `common.concepts`: shared actor identity, module ownership, circle visibility selection, and scheduling-window primitives
 - `common.normalization`, `common.pagination`, `common.time`, `common.search`: shared backend helpers for text cleanup, slugging, pagination windows, and timezone-aware date calculations
 - `internal sandbox`: synthetic test-data orchestration kept separate from production-like user actions
@@ -31,14 +32,51 @@ Frontend vision surface note:
 - `apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue` now locks the first shared entry-surface UI contract for hero actions, metric strip, section headers, list rows, and badge vocabulary so module entry routes do not drift into separate grammars.
 - `apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts` now assembles shell entry surfaces from existing backend-prepared read models, with `Home` intentionally limited to dashboard summary data while `Work`, `Chat`, `Calendar`, `Business`, `Circles`, and `Profile` consume their own existing module reads.
 - The first shell phase keeps `/vision` outside that route family as the premium deep-work surface so the blank-canvas route does not inherit module chrome by default.
-- The first shell phase also keeps quest and application detail ownership on the existing Vision-native routes, so `Work` can become a stable browse surface without introducing parallel detail stacks.
+- The shared shell keeps backend ownership of quest and application detail data while exposing deterministic Work routes (`/work/quests/:id` and `/work/applications/:id`). Vision remains a semantic handoff surface, not the only detail UI.
 - `apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts` now defines the typed shell-to-Vision handoff query contract with `prompt`, `autorun`, `context`, `source`, and `returnTo`, and `VisionSurfaceModernView.vue` preserves that metadata so route-to-Vision and Vision-to-route transitions stay explicit.
 - `apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java` now carries an optional `clientDeviceRole` hint, and `VisionConversationTurnResponseDTO` now exposes a backend-owned `runtimeContext` with device role, attention state, session anchor, action hints, and audio or haptic cues so mobile and voice clients do not have to infer turn density locally.
 - `VisionConversationTurnRequestDTO` also carries an optional `clientRequestId`, and `VisionConversationService` persists that request id on the conversation row so the backend can replay the latest turn when the same request reaches the backend again, even on the first submit before the client has a conversation id.
 - Vision read and discovery failures expose a safe frontend retry for prompt submission and result continuation; review and mutation actions remain explicit and are never auto-retried.
+- `VisionCanvasRenderer` exposes backend `reviewReady`/`confirmationRequired` as explicit Web Confirm and Cancel controls; a review message or browser assertion alone cannot execute a mutation.
 - Work quest detail now renders the backend-prepared review section after completion and submits ratings/comments through `/quests/{questId}/reviews` using the backend-selected review target.
 - `/notifications` now consumes the backend `/news/me` contract, preserving unread state, mark-read actions, and quest navigation without deriving notification meaning in the frontend.
+- The Chat web surface uses `POST /chat/conversations/groups` for explicit group creation with selected participant IDs from the backend people-search result, and `DELETE /chat/conversations/{conversationId}/participants/me` for confirmed self-leave of group conversations. Backend `ChatService` remains authoritative for eligibility and membership state.
+- Circle self-leave uses `DELETE /circles/groups/{circleId}/membership/me`; `CircleMembershipService.leaveCircle` rejects owners and non-members before deleting only the authenticated member's row. Vision delegates to the same service.
+- Notification receipt is backed by `WorkmarketQuestNewsService` and its recipient-scoped read model; `VisionFeedPreviewRenderer` and `VisionReadOnlyConversationTurnHandler` expose that same inbox in Vision without duplicating recipient authorization or fan-out logic.
+- `NotificationPreferenceService` returns a complete category/channel matrix with enabled defaults and rejects attempts to disable `SYSTEM` notices. Persistence is user-scoped through `notification_preference`; delivery integrations may consume the same preference contract later without moving policy into clients.
+- `CircleGroupRepository.findAccessibleDetailedById` enforces owner-or-member access for `GET /circles/groups/{circleId}/accessible`; `CircleReadService.getAccessibleCircleDetail` maps the authorized result through `CircleViewAssembler`, and Vision reuses that service instead of implementing separate privacy rules.
+- The Business Profile web surface consumes the backend-owned gallery CRUD contract (`/business/gallery/me`); active state, ordering, ownership, and deletion authority remain in `BusinessGalleryService`, while the frontend only renders and submits typed DTOs.
+- Business booking reschedule uses `BusinessRescheduleBookingUseCase` through customer and owner endpoints. Availability, capacity, policy windows, participant authorization, audit, and event emission remain backend-owned; web surfaces submit only typed start/end values.
+- `WorkmarketQuestStateTransitionService` now exposes owner cancellation and pause/resume for `OPEN`, `ASSIGNED`, `IN_PROGRESS`, and `WAITING_CONFIRMATION` quests through typed lifecycle endpoints. It rejects completed or already cancelled quests and emits participant news; pause stores the previous active state so resume can restore it.
+- `WorkmarketWorkerManagementService` owns approved-worker release and replacement commands. Only the quest owner or administrator can mutate assignments while a quest is `ASSIGNED`, `IN_PROGRESS`, or `PAUSED`; release persists `RELEASED`, restores an available slot, and replacement swaps one approved application for one pending application in one transaction.
+- `VisionReleaseWorkerExecutionAdapter` and `VisionReplaceWorkerExecutionAdapter` pass reviewed worker/application ids into `WorkmarketWorkerManagementService`; the Vision layer does not duplicate assignment authorization or state transitions.
+- Vision exposes `PAUSE_QUEST` and `RESUME_QUEST` as reviewed mutations; the adapters delegate to `WorkmarketQuestUpdateService`, so Vision does not duplicate owner authorization or lifecycle validation.
+- Vision exposes `RESCHEDULE_BOOKING` as a reviewed mutation; it collects booking id and ISO start/end slots, then delegates participant authorization, policy windows, availability, capacity, audit, and event behavior to the Business reschedule use-case.
 - `/chat` now consumes backend message mutation contracts for send, inline edit, delete, and reaction toggle while keeping conversation and permission rules in `ChatService`.
+- `/vision` exposes `MARK_CHAT_READ` as a reviewed mutation for the currently opened chat context. `VisionMarkChatReadExecutionAdapter` delegates to `ChatService.markConversationRead`, so conversation access, participant authorization, and read-cursor behavior remain backend-owned.
+- `/vision` exposes `MARK_NOTIFICATIONS_READ` as a reviewed mutation for the authenticated user's complete notification inbox. `VisionMarkNotificationsReadExecutionAdapter` delegates to `WorkmarketQuestNewsService.markMyNewsAsRead`.
+- `/vision` exposes `MARK_NOTIFICATION_READ` for one numeric notification id. `VisionMarkNotificationReadExecutionAdapter` delegates to `WorkmarketQuestNewsService.markMyNewsItemAsRead`, which scopes access to the current recipient.
+- `/vision` exposes `SYNC_CHAT` as a read-only route for the currently opened chat context. `VisionIdentityPreviewRenderer` delegates to `ChatService.getConversationSync`, preserving conversation access and message visibility rules.
+- `/vision` exposes `REOPEN_QUEST` through `WorkmarketQuestUpdateService.reopenQuestForVision`, which delegates status validation and owner authorization to `WorkmarketQuestStateTransitionService`.
+- `/vision` exposes `CREATE_THING` through `ThingSharingService.saveMyListing`; the adapter supplies the reviewed listing DTO and does not duplicate listing validation or ownership logic.
+- `/vision` exposes `REQUEST_BORROW` through `ThingSharingService.requestBorrow`; the adapter supplies the reviewed listing id and delegates borrower authorization and pending-request invariants to the Things service.
+- `/vision` exposes `CANCEL_BORROW`, `DECIDE_BORROW`, and `RETURN_BORROW` through `ThingSharingService.cancelBorrowRequest`, `decideBorrowRequest`, and `returnBorrowedThing`; adapters pass reviewed request ids and decisions while the service owns authorization and state transitions.
+- `/vision` exposes `VIEW_BORROW_REQUESTS` through `ThingSharingService.getBorrowerRequests`; the read-only renderer returns the authenticated borrower's request id, listing id, and state.
+- `/vision` exposes `VIEW_THING_DETAIL` through `ThingSharingService.getListingDetail`; the renderer returns the existing `ThingListingResponseDTO` fields and relies on the repository detail fetch boundary for visibility.
+- `/vision` exposes `CREATE_GALLERY_IMAGE`, `UPDATE_GALLERY_IMAGE`, and `DELETE_GALLERY_IMAGE` through `BusinessGalleryService`; the adapters reuse owner-scoped repository lookups and DTO validation.
+- `/vision` exposes six availability mutations through `BusinessAvailabilityService`; `VisionBusinessAvailabilityMutationService` only translates reviewed slots into existing rule/exception DTOs, leaving authorization and invariants in the Business service.
+- Thing listing update/archive uses owner-scoped `ThingSharingService` methods; archive is a persisted soft state (`archived`) and catalog queries exclude archived listings.
+- `/vision` exposes owner booking calendar reads through `BusinessOwnerCalendarReadService` via `VIEW_BUSINESS_BOOKINGS`; the service remains responsible for owner authorization and calendar projection boundaries.
+- `/vision` exposes `EDIT_CHAT_MESSAGE`, `REPLY_TO_CHAT_MESSAGE`, and `REACT_TO_CHAT_MESSAGE` through `ChatService.updateMessage`, `sendMessage` with `replyToMessageId`, and `addReaction`; adapters pass reviewed ids/content and do not duplicate chat authorization.
+- `/vision` exposes `CREATE_BUSINESS_PROFILE` and `UPDATE_BUSINESS_PROFILE` through `BusinessProfileService`; create uses the normal profile DTO path, while the update adapter uses a backend-owned name-only mutation that preserves existing profile fields.
+- `/vision` exposes `CONFIRM_BOOKING` and `CANCEL_BOOKING` through `VisionBusinessBookingMutationService`, which delegates to the existing owner-confirm and role-aware customer/owner cancellation use-cases.
+- `VIEW_BUSINESS_BOOKINGS` uses `BusinessBookingReadService.getOwnerBookings` and the owner dashboard projection, covering the owner booking-review read surface without exposing customer-owned bookings.
+- `REJECT_BOOKING`, `COMPLETE_BOOKING`, and `MARK_BOOKING_NO_SHOW` delegate through `VisionBusinessBookingMutationService` to the existing owner-only use-cases.
+- `ARCHIVE_OFFERING` delegates to `BusinessOfferingService.deleteMyOffering`, preserving owner authorization and the existing soft-archive state transition.
+- `UPDATE_QUEST` delegates to `WorkmarketQuestUpdateService.updateQuestTitleForVision`, which checks quest ownership and normalizes the title before persistence.
+- `UPDATE_PROFILE_LOCATION` covers exact location visibility control through the shared `LocationSettingsService`; Vision only supplies reviewed mode and label slots.
+- `CREATE_OFFERING` uses `BusinessOfferingService.createMyOffering`; `UPDATE_OFFERING` uses a backend title-only mutation so existing offering configuration is not replaced by Vision defaults.
+- `CREATE_BOOKING` delegates to `BusinessCreateBookingUseCase.createCustomerBooking` with reviewed offering and time slots; the use-case owns conflict validation, idempotency, policy, and status assignment.
 - `/circles` now provides a compact trusted-relationship surface for creating groups, searching people, managing incoming and outgoing requests, and blocking or unblocking users through backend-owned actions.
 - `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue` is the experimental authenticated route for the long-term adaptive canvas direction.
 - The `/vision` route is the focused adaptive surface for text and voice prompt intake, and the older vision shell has been removed from the app.
@@ -310,7 +348,8 @@ Primary migrations:
 - `V51__tighten_business_booking_constraints.sql`
 
 Technical notes:
-- `business_profile` is the public business identity root and still enforces one profile per owner account plus global slug uniqueness.
+- `business_profile` is the public business identity root. Owners may have multiple profiles; the owner list is the authoritative switch scope, while the single-profile read deterministically selects the active profile and then stable business-name/id order. Slugs remain globally unique.
+- `V67__allow_multiple_business_profiles_per_owner.sql` removes the obsolete one-owner uniqueness index left by the original profile schema; all child business records remain scoped through their owning profile id.
 - `BusinessProfileService` owns profile validation, slug normalization, active-directory visibility, booking-enabled flags, timezone/contact fields, and rich-text description sanitization.
 - `business_offering` is the bookable service root. Offerings are archival-safe and should be deactivated instead of destructively removing the meaning of historical bookings.
 - `business_booking_policy` centralizes owner defaults such as lead time, max advance horizon, cancellation window, and manual-approval switches through typed `app.business.*` config-backed defaults.
@@ -357,7 +396,7 @@ Primary migrations:
 Technical notes:
 - Thing Sharing currently implements the first lending workflow slice: owner-created listings, available-listing directory, owner listing list, and pending borrow requests.
 - `ThingSharingService` rejects owner self-requests, unavailable listings, and duplicate pending requests for the same borrower and listing.
-- Borrow request lifecycle is intentionally limited to `PENDING` and `CANCELLED` until owner approval, handoff, and return workflows are added.
+- Borrow request lifecycle supports `PENDING`, `CANCELLED`, `APPROVED`, `DECLINED`, and `RETURNED`; owner approval and borrower return restore or reserve listing availability through the backend service.
 
 ## Ride Sharing Source Map
 
@@ -370,16 +409,25 @@ Primary files:
 - `rides/dto/RideOfferRequestDTO.java`
 - `rides/dto/RideOfferResponseDTO.java`
 - `rides/dto/RideOfferListResponseDTO.java`
-- `frontend/src/modules/rides/api/ridesApi.ts`
-- `frontend/src/modules/rides/views/RideSharingView.vue`
+- `rides/model/RideParticipant.java`
+- `rides/model/RideAuditEvent.java`
+- `rides/repository/RideParticipantRepository.java`
+- `rides/repository/RideAuditEventRepository.java`
+- `workmarket/model/QuestNewsItem.java` and `workmarket/service/WorkmarketQuestNewsService.java` (shared ride notifications)
+- `frontend/src/modules/app-shell/api/userShellApi.ts`
+- `frontend/src/modules/app-shell/views/RidesView.vue`
 
 Primary migrations:
 - `V33__create_ride_offer_tables.sql`
+- `V59__expand_ride_lifecycle.sql`
 
 Technical notes:
-- Ride Sharing currently implements voluntary ride offers with driver-owned records and optional circle-scoped visibility.
+- Ride Sharing implements voluntary ride offers with participant rows, lifecycle states, audit events, and locking for capacity mutations.
 - Empty `visibleCircleIds` means an active ride is visible to authenticated users; selected circles limit visibility to the driver and members of those circles.
 - `RideOfferService` rejects past departures and selected visibility circles not owned by the driver.
+- Ride mutations append audit events and fan out generic notifications to the driver or active participants; notification text does not broaden ride visibility.
+- Vision uses the same `RideOfferService` read and mutation contract, with review-before-execution for every mutating ride intent.
+- `RideOfferService` owns lifecycle authorization and transitions; `RideOfferMgr` prepares viewer-specific action affordances from backend state.
 
 ## Control-System Technical Notes
 
@@ -738,6 +786,7 @@ Primary files:
 Technical notes:
 - `CircleAdminOverviewAssembler` owns admin circle overview filtering and row shaping so `CircleReadService` stays focused on orchestration and `CircleViewAssembler` stays focused on the non-admin presentation surface.
 - `CircleRelationshipReadService` owns direct relationship, membership, and exact relation lookup helpers so `CircleReadService` can stay focused on overview and list orchestration.
+- Blocking transitions an existing directional relationship in place before persistence, preserving the pair uniqueness invariant; unblocking remains an explicit removal owned by the blocker.
 
 Technical notes:
 - `CircleSearchResultDTO` and `CircleRelationDTO` now carry deterministic resolution metadata for exact candidate targeting in future automation.
@@ -765,6 +814,8 @@ Primary files:
 - `workmarket/service/WorkmarketQuestStateTransitionService.java`
 - `workmarket/service/WorkmarketQuestVisibilityService.java`
 - `workmarket/service/WorkmarketQuestApplicationService.java`
+- `workmarket/service/WorkmarketWorkerManagementService.java`
+- `workmarket/dto/WorkerReassignmentRequestDTO.java`
 - `workmarket/service/WorkmarketQuestQueryService.java`
 - `workmarket/service/WorkmarketQuestNewsService.java`
 - `workmarket/service/WorkmarketDashboardReadService.java`
@@ -1400,7 +1451,7 @@ Lifecycle behavior:
 - `openCircleRoom`, `openQuestThread`, and `openApplicationThread` upsert one canonical context-owned thread and re-sync participant rows from the owning record
 - `getCircleRoom`, `getQuestThread`, and `getApplicationThread` are read-only lookups that return the already-created canonical thread without mutating membership or creating a missing thread
 - `listConversations` is the read-only discovery surface for optional `conversationType`, `contextType`, `contextId`, archive-visibility, and text-query filtering over the caller's currently accessible thread set
-- conversation ordering in workspace uses `coalesce(lastMessageAt, createdAt)` descending
+- conversation ordering in workspace uses `coalesce(lastMessageAt, createdAt)` descending; the comparator is applied in `ChatService` after the fetch query so PostgreSQL `SELECT DISTINCT` collection fetches remain valid
 
 ## Chat Message Flow
 
@@ -1778,21 +1829,47 @@ The cross-module product capability map is maintained in `docs/capability-invent
 - Work discovery owns server-side search, filtering, sorting, and page boundaries; the web client must not derive a smaller preview by slicing the response.
 - Applications use the authenticated applicant read endpoint rather than a dashboard preview so the Work applications surface is not silently capped by home-screen density.
 - Chat workspace, conversation sync, and business owner booking reads accept explicit scan limits; clients may request a bounded scan window but must not discard returned records locally.
-- Calendar projections are read by their backend-defined date window and rendered as a timeline; detail remains owned by the source work, chat, or business route.
+- Calendar projections are read by their backend-defined date window and rendered by the Web client as month, week, and day views; event detail and mutations remain owned by the source work, chat, or business route.
 - Presentation descriptions and planning explanations are not part of the default visual surface. They may remain in internal read models for compatibility, but renderers consume title, badge, metadata, actions, and state only.
 - Cross-module search comparison is backend-owned: entity-family selection, visibility filtering, ranking, pagination, empty states, and errors are returned as contract data. Clients preserve each result's family label and source route and do not locally re-rank or truncate mixed results. The acceptance matrix is `docs/cross-module-search-acceptance.yaml`.
 - Future iPhone and Watch clients use `docs/native-client-handoff-contract.yaml` as the shared handoff boundary. They reuse backend permissions, action DTOs, pagination, retry semantics, and source routes; compact Watch presentation may reduce density but cannot redefine workflow meaning or authorization.
+- Native handoff tokens are short-lived, hashed at rest, bound to the authenticated user and target device, and consumed once. Expired, replayed, or mismatched-device tokens are rejected before a receiver can continue a task.
 - `npm run validate:modern-surface` is the lightweight acceptance guard for route ownership, list pagination controls, request cancellation, and the no-local-truncation invariant; browser screenshot testing remains a separate environment concern.
 
 - Treat this file as a technical contract.
 - When entity fields, relations, validations, permission checks, or workflow rules change, update this file in the same change.
 - If a change introduces a new invariant, write it down here explicitly.
+- `BusinessProfileController` exposes owner-scoped list/create/read/update routes for multiple profiles; profile ownership is checked in `BusinessProfileService` before a profile mutation.
+- `POST /business/profiles/me/{profileId}/archive` is an owner-scoped soft archive. Public directory and favorite reads filter `active = true`; archive does not delete historical business records.
+- `BusinessFavorite` is keyed by owner and business profile and is idempotent. Favorite reads expose only public business summary fields.
+- `GET /rides/offers/matches` delegates visibility to `RideOfferRepository.findVisibleActiveOffers` and applies optional route/time narrowing in the ride service; it cannot bypass circle visibility or lifecycle state.
+- `commute_preference` is a one-to-one owner-scoped record. `CommutePreferenceService` rejects enabled matching without consent and required bounded inputs, normalizes ISO weekdays, and never stores exact addresses.
+- `GET /search` delegates typed result assembly and relevance ordering to `VisionSearchDiscoveryService`; `SavedSearchIntentService` owns bounded query validation, family allow-listing, expiry, pause state, and owner authorization for `/search/saved`.
+- Universal user search resolves by public username only; private email is not returned or used as a discoverable search key.
+- `SafetyReportService` stores reporter-owned, audited safety reports with an allow-listed target family and optional target user/object. It rejects self-reports and returns only the reporter's own reports; moderation state is not exposed to the target user.
+- `OnboardingProgressService` persists only the allow-listed setup step plus skip/completed flags. `ActivityReadService` projects existing viewer-owned news and Vision conversations and stores only bounded resume-key dismissals; `AttentionCenterService` combines that projection with unread news count.
+- Vision intent `VIEW_ACTIVITY` uses the same `ActivityReadService` projection and `VisionCapabilityPreviewService`; the semantic route is read-only, requires no target slot, and preserves the activity service's viewer authorization and dismissal boundaries.
 - The Things web surface consumes `GET /things/listings`, `GET /things/listings/{listingId}`, `GET /things/listings/me`, `GET /things/listings/me/borrow-requests`, `GET /things/borrow-requests/me`, `POST /things/listings`, and `POST /things/listings/{listingId}/borrow-requests`. It uses `myPendingRequestId` for display only and does not duplicate backend availability or uniqueness rules.
 - `PATCH /things/borrow-requests/{requestId}/cancel` is borrower-owned, only accepts `PENDING`, and transitions the request to `CANCELLED`.
 - `PATCH /things/borrow-requests/{requestId}/decision?approve=true|false` is owner-owned and only accepts `PENDING`, transitioning to `APPROVED` or `DECLINED`. Approval records `approvedAt` and makes the listing unavailable; an approved request can be returned only by its borrower through `PATCH /things/borrow-requests/{requestId}/return`, which transitions to `RETURNED` and restores listing availability.
 - Thing borrow request states are `PENDING`, `CANCELLED`, `APPROVED`, `DECLINED`, and `RETURNED`; the V53 migration and `ThingBorrowRequestStatus` enum are the synchronized state sources.
 - The Circles surface explains the policy boundary but does not calculate access locally. Backend circle membership, location visibility, and module-specific access services remain authoritative.
 - Chat attachment flow uses `POST /chat/attachments` followed by `POST /chat/conversations/{id}/messages` with `attachmentUploadId`. The frontend does not construct storage keys or bypass backend upload ownership and one-time-use checks.
+- `ChatService.getMessage(conversationId, messageId, currentUser)` is the shared participant-authorized read path for Vision attachment viewing. DTO mapping resolves the expiring access URL without exposing storage authorization to Vision or the browser client.
 - Chat image preview uses a browser object URL with explicit revoke cleanup on replacement, removal, send, and component unmount. It does not persist local preview data or replace the backend attachment URL contract.
 - `docs/cross-module-visibility-acceptance.yaml` is the machine-readable matrix for circle, location, Work, Chat, and Things visibility boundaries. It records backend policy, frontend explanation/surface, and targeted-test evidence separately from browser/device runtime evidence.
 - `ProfileLocationSettingsView` forwards `exactVisibilityScope` plus the existing circle/user target ids to `UserLocationSettingsRequestDTO`; it does not validate or synthesize target membership locally.
+# Web surface domain invariants
+
+- `WorkmarketQuestService.createQuest` executes in a write transaction even though the service's read methods default to read-only transactions.
+- `CreateQuestRequest` requires an explicit `termFixed` boolean. The Web create form always sends this field and presents it as `Fixed terms`.
+- `TextPageQueryDTO` is used with Spring `@ModelAttribute` binding and therefore must expose setters for query parameters such as `q`, page, and size.
+- Chat group creation requires two or more other participant user IDs and the backend verifies the current user's accepted-contact relationship with each participant.
+- Frontend route recovery must distinguish a failed optional read from a failed primary read; a secondary Circles or Calendar request cannot blank usable content.
+- Business availability rules require a persisted business timezone; the authenticated Web profile surface exposes and saves that required field before availability setup.
+## Main surface read contracts
+
+Surface navigation and filtering remain backend-owned. `AVAILABLE` returns visible OPEN quests excluding the current owner, while `MY_VISIBLE` returns the current owner's visible OPEN, ASSIGNED, IN_PROGRESS, and WAITING_CONFIRMATION quests. The frontend only selects the preset for the route and renders backend-prepared destinations.
+## Attention center projection
+
+`GET /attention/me` remains the backend-owned projection for unread count and viewer-scoped activity items. The Web Notifications surface renders this DTO directly and uses its routes for resume/open actions; notification read mutations continue through the notification API.

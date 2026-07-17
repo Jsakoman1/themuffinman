@@ -134,6 +134,8 @@ final class VisionConversationLifecycleSupport {
                 ? "The current profile location draft was reset. Should I turn your profile location off, keep it approximate, or keep it exact?"
                 : intent == VisionIntent.VIEW_CHAT_WORKSPACE
                 ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_CHAT_WORKSPACE)
+                : intent == VisionIntent.VIEW_CHAT_ATTACHMENT
+                ? "The current chat attachment view was reset. Which conversation and message should I use?"
                 : intent == VisionIntent.VIEW_PROFILE
                 ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_PROFILE)
                 : intent == VisionIntent.VIEW_SETTINGS
@@ -148,7 +150,7 @@ final class VisionConversationLifecycleSupport {
                 ? "The current user profile view was reset. What profile should I open?"
                 : intent == VisionIntent.VIEW_CIRCLES
                 ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_CIRCLES)
-                : intent == VisionIntent.VIEW_CIRCLE_DETAIL
+                : intent == VisionIntent.VIEW_CIRCLE_DETAIL || intent == VisionIntent.VIEW_ACCESSIBLE_CIRCLE
                 ? "The current circle detail view was reset. What circle should I open?"
                 : intent == VisionIntent.VIEW_QUEST_DETAIL
                 ? "The current quest detail view was reset. What quest should I open?"
@@ -160,6 +162,8 @@ final class VisionConversationLifecycleSupport {
                 ? "The current application detail view was reset. What application should I open?"
                 : intent == VisionIntent.VIEW_THINGS
                 ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_THINGS)
+                : intent == VisionIntent.VIEW_BORROW_REQUESTS
+                ? VisionConversationSnapshotSupport.resetReadOnlySnapshotMessage(VisionIntent.VIEW_BORROW_REQUESTS)
                 : "The current vision task was reset. What should the new quest be called?";
         visionConversationMutationSupport.updateConversationMetadata(conversation, "", "", message, true);
         visionConversationRepository.save(conversation);
@@ -190,6 +194,7 @@ final class VisionConversationLifecycleSupport {
                 || intent == VisionIntent.UPDATE_PROFILE_LOCATION
                 || intent == VisionIntent.VIEW_USER_PROFILE
                 || intent == VisionIntent.VIEW_CIRCLE_DETAIL
+                || intent == VisionIntent.VIEW_ACCESSIBLE_CIRCLE
                 || intent == VisionIntent.VIEW_QUEST_DETAIL
                 || intent == VisionIntent.VIEW_APPLICATION_DETAIL;
         return visionConversationMutationSupport.createTurn(
@@ -247,16 +252,19 @@ final class VisionConversationLifecycleSupport {
             case UPDATE_PROFILE -> "profile_username";
             case UPDATE_PROFILE_LOCATION -> "profile_location_mode";
             case VIEW_CHAT_WORKSPACE -> null;
+            case VIEW_CHAT_ATTACHMENT -> "chat_conversation_id";
             case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> null;
             case VIEW_USER_PROFILE -> "target_user";
             case VIEW_CIRCLES -> null;
             case VIEW_CIRCLE_DETAIL -> "target_circle_query";
+            case VIEW_ACCESSIBLE_CIRCLE -> "accessible_circle_id";
             case VIEW_QUEST_DETAIL -> "target_quest_query";
             case VIEW_NOTIFICATIONS -> null;
             case VIEW_APPLICATIONS -> null;
             case VIEW_APPLICATION_DETAIL -> "target_application_query";
             case VIEW_QUEST_NEWS -> null;
             case VIEW_THINGS -> null;
+            case VIEW_BORROW_REQUESTS, EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE, CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE, CONFIRM_BOOKING, CANCEL_BOOKING, REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW, ARCHIVE_OFFERING, UPDATE_QUEST, CREATE_OFFERING, UPDATE_OFFERING, CREATE_BOOKING -> null;
             default -> "quest_title";
         };
     }

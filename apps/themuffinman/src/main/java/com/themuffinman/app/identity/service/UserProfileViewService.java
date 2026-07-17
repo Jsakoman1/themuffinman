@@ -28,13 +28,13 @@ public class UserProfileViewService {
 
     public UserProfileViewDTO getProfileView(Long profileUserId, AppUser currentUser) {
         AppUser profileUser = appUserReadService.getAppUser(profileUserId);
-        AppUserResponseDTO profile = identityUserSummaryAssembler.buildProfileSummary(
-                profileUser,
-                appUserReadService.countQuestsByCreatorId(profileUser.getId()),
-                appUserReadService.getOpenQuestsByCreatorId(profileUser.getId())
-        );
-
         boolean ownProfile = currentUser != null && currentUser.getId().equals(profileUser.getId());
+        long openQuestCount = appUserReadService.countQuestsByCreatorId(profileUser.getId());
+        var openQuests = appUserReadService.getOpenQuestsByCreatorId(profileUser.getId());
+        AppUserResponseDTO profile = ownProfile
+                ? identityUserSummaryAssembler.buildProfileSummary(profileUser, openQuestCount, openQuests)
+                : identityUserSummaryAssembler.buildViewerProfileSummary(profileUser, currentUser, openQuestCount, openQuests);
+
         CircleRelationDTO relation = ownProfile
                 ? CircleRelationDTO.builder()
                         .relationStatus(CircleRelationStatusDTO.NONE)

@@ -1,0 +1,148 @@
+kind: work
+version: 1
+id: vision-quest-pause-resume-implementation
+title: Add Vision quest pause and resume execution
+status: verified
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+master_plan: docs/work/target-capability-production-readiness.yaml
+capability_ids:
+- work.quest.pause
+objective: Expose reviewed Vision pause and resume intents backed by the existing
+  owner-authoritative quest lifecycle service.
+tasks:
+- id: vision-intent-contract
+  title: Add pause and resume intents, signals, semantic routes, and prompt contract
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  validation: cd apps/themuffinman && ./mvnw -Dtest=VisionSemanticRouteCatalogServiceTest,VisionIntentRouterTest
+    test
+- id: vision-execution
+  title: Add reviewed pause/resume orchestration and domain adapters
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPauseQuestExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionResumeQuestExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java
+  validation: cd apps/themuffinman && ./mvnw -Dtest=VisionConversationServiceTest
+    test
+- id: vision-evidence
+  title: Synchronize inventory and domain evidence
+  type: documentation
+  status: done
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  validation: make audit-docs && make audit-target-capability-catalog && make audit-target-capability-coverage
+- id: vision-verification
+  title: Run compile, targeted Vision regression, and integrity checks
+  type: verification
+  status: done
+  paths:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -DskipTests compile && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionIntentRouterTest,VisionConversationServiceTest'
+    test && git diff --check
+evidence:
+- task: vision-intent-contract
+  command: cd apps/themuffinman && ./mvnw -Dtest=VisionSemanticRouteCatalogServiceTest,VisionIntentRouterTest
+    test
+  ranAt: '2026-07-17T06:13:30Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  output: "[INFO] \n[INFO] -------------------------------------------------------\n[INFO]
+    \ T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO] Tests
+    run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  1.514 s\n[INFO] Finished at: 2026-07-17T08:13:32+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: vision-execution
+  command: cd apps/themuffinman && ./mvnw -Dtest=VisionConversationServiceTest test
+  ranAt: '2026-07-17T06:13:32Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPauseQuestExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionResumeQuestExecutionAdapter.java
+  output: "[INFO] --- surefire:3.5.5:test (default-test) @ themuffinman ---\n[INFO]
+    Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO]
+    \n[INFO] -------------------------------------------------------\n[INFO]  T E
+    S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.017 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 72, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  2.371 s\n[INFO] Finished at: 2026-07-17T08:13:36+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: vision-evidence
+  command: make audit-docs && make audit-target-capability-catalog && make audit-target-capability-coverage
+  ranAt: '2026-07-17T06:13:36Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  output: |2+
+      current_inventory_ids:
+      - chat.message.view_attachment
+      mapping_quality: exact
+      current_statuses:
+      - partial
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: true
+      surface_coverage:
+        web_ui: covered
+        vision: covered
+      gaps: []
+
+- task: vision-verification
+  command: cd apps/themuffinman && ./mvnw -DskipTests compile && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionIntentRouterTest,VisionConversationServiceTest'
+    test && git diff --check
+  ranAt: '2026-07-17T06:13:38Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  output: "[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.060 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.870 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] Running
+    com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO] Tests run:
+    15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 90, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  2.317 s\n[INFO] Finished at: 2026-07-17T08:13:43+02:00\n[INFO] ------------------------------------------------------------------------\n\n"

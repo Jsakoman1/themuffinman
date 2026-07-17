@@ -1,0 +1,121 @@
+kind: work
+version: 1
+id: product-experience-universal-create
+title: Universal create and offer entry
+status: verified
+master_plan: docs/work/product-experience-account-discovery-master.yaml
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+capability_ids:
+- cross_module.create
+- work.quest.create
+- sharing.ride.create
+- sharing.thing.create
+- business.profile
+objective: 'Add one global create/offer entry that routes users into Create Work,
+  Offer Ride, List Thing, Create Business, Add Availability, or Start Chat while preserving
+  direct module entries and backend-owned action eligibility.
+
+'
+requirements:
+- The global create menu is discoverable but does not replace module-specific actions.
+- Options are route/configuration-driven and disabled options explain why.
+- Every handoff preserves authenticated context and returns to the correct detail
+  surface.
+tasks:
+- id: universal-create-contract
+  title: Define create taxonomy, eligibility, labels, and return destinations
+  type: analysis
+  status: done
+  paths:
+  - docs/work/product-experience-universal-create-analysis.md
+  - docs/domain-technical.md
+  validation: make audit-docs
+- id: universal-create-ui
+  title: Implement shared Create/Offer menu and module handoffs
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: universal-create-runtime
+  title: Verify create/offer handoffs, disabled states, and completion returns
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  - docs/runtime-acceptance-matrix.yaml
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  manual_runtime_command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+  manual_runtime_requires_escalation: true
+acceptance:
+- A user can start each supported create/offer flow from one predictable global entry.
+- Direct module entry points remain available without competing duplicate menus.
+- Disabled or unauthorized options cannot be forced through the client.
+evidence:
+- task: universal-create-contract
+  command: make audit-docs
+  ranAt: '2026-07-17T15:11:16Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-technical.md
+  - docs/work/product-experience-universal-create-analysis.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 224
+      review needed: 0
+      high priority: 0
+
+- task: universal-create-ui
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T15:11:21Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-Co6ogOzz.js               5.88 kB │ gzip:   2.00 kB
+    dist/assets/BusinessAvailabilityExceptionsView-jgTjEQCm.js     5.93 kB │ gzip:   2.05 kB
+    dist/assets/ThingsDiscoveryView-B4XrPMqH.js                    7.92 kB │ gzip:   2.56 kB
+    dist/assets/BusinessProfileView-CJye0cGT.js                    8.32 kB │ gzip:   2.56 kB
+    dist/assets/CirclesView-8Z_Ces4y.js                            8.42 kB │ gzip:   2.63 kB
+    dist/assets/RidesView-JibwsJMx.js                              9.48 kB │ gzip:   3.14 kB
+    dist/assets/AuthenticatedShellView-Cc__6GOv.js                 9.98 kB │ gzip:   3.46 kB
+    dist/assets/WorkQuestDetailView-DKQngldS.js                   10.73 kB │ gzip:   3.62 kB
+    dist/assets/ChatSurfaceView-B1G4N7YO.js                       11.47 kB │ gzip:   3.92 kB
+    dist/assets/ProfileLocationSettingsView-DQfx0dE6.js           12.58 kB │ gzip:   4.41 kB
+    dist/assets/userShellApi-BtmnNmbq.js                          14.24 kB │ gzip:   2.80 kB
+    dist/assets/index-BCvLMdrF.js                                 23.48 kB │ gzip:   6.43 kB
+    dist/assets/vue-core-BdJY4HeI.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/SurfaceContentView-C0go8CJC.js                    27.13 kB │ gzip:   7.64 kB
+    dist/assets/VisionSurfaceModernView-xGtS6K45.js               36.39 kB │ gzip:  10.96 kB
+    dist/assets/vendor-D9iqRH6B.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DddyeNmk.js                               464.31 kB │ gzip: 149.74 kB
+
+    ✓ built in 1.01s
+
+- task: universal-create-runtime
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-17T15:11:32Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (61 checks).
+

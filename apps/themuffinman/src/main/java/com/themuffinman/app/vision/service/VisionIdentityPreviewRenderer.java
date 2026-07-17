@@ -1,8 +1,10 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
+import com.themuffinman.app.chat.dto.ChatConversationSyncDTO;
 import com.themuffinman.app.chat.dto.ChatContactDTO;
 import com.themuffinman.app.chat.dto.ChatWorkspaceDTO;
+import com.themuffinman.app.chat.dto.ChatMessageDTO;
 import com.themuffinman.app.chat.service.ChatService;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.dto.UserProfileViewDTO;
@@ -122,6 +124,74 @@ class VisionIdentityPreviewRenderer {
                 .capabilityId("view_chat_workspace")
                 .title("Chat")
                 .summary("Chat.")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    VisionCapabilityPreviewDTO previewChatSync(AppUser currentUser, Long conversationId) {
+        if (currentUser == null || conversationId == null) {
+            return null;
+        }
+        ChatConversationSyncDTO sync = chatService.getConversationSync(conversationId, null, 20, currentUser);
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        if (sync.getConversation() != null) {
+            VisionCapabilityPreviewSupport.addItem(items, "chat_conversation", "Conversation",
+                    sync.getConversation().getOtherUsername());
+            VisionCapabilityPreviewSupport.addItem(items, "chat_latest_message_id", "Latest message",
+                    sync.getLatestMessageId() == null ? "none" : String.valueOf(sync.getLatestMessageId()));
+        }
+        List<ChatMessageDTO> messages = sync.getMessages() == null ? List.of() : sync.getMessages();
+        for (ChatMessageDTO message : messages.stream().skip(Math.max(0, messages.size() - 5)).toList()) {
+            String body = message.isDeleted() ? "Message deleted." : message.getMessageBody();
+            if (body == null || body.isBlank()) {
+                body = message.getAttachmentName() == null ? "Attachment" : message.getAttachmentName();
+            }
+            VisionCapabilityPreviewSupport.addItem(items, "chat_message_" + message.getId(),
+                    message.getSenderUsername(), body);
+            if (message.getAttachmentUrl() != null && !message.getAttachmentUrl().isBlank()) {
+                VisionCapabilityPreviewSupport.addItem(items, "chat_attachment_" + message.getId(),
+                        message.getAttachmentName() == null ? "Attachment" : message.getAttachmentName(),
+                        message.getAttachmentUrl());
+                if (message.getAttachmentUrlExpiresAt() != null && !message.getAttachmentUrlExpiresAt().isBlank()) {
+                    VisionCapabilityPreviewSupport.addItem(items, "chat_attachment_expiry_" + message.getId(),
+                            "Attachment URL expires", message.getAttachmentUrlExpiresAt());
+                }
+            }
+        }
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("sync_chat")
+                .title("Chat sync")
+                .summary(messages.isEmpty() ? "Chat is up to date." : "Chat refreshed with " + messages.size() + " messages.")
+                .items(items)
+                .tone("info")
+                .build();
+    }
+
+    VisionCapabilityPreviewDTO previewChatAttachment(AppUser currentUser, Long conversationId, Long messageId) {
+        if (currentUser == null || conversationId == null || messageId == null) {
+            return null;
+        }
+        ChatMessageDTO message = chatService.getMessage(conversationId, messageId, currentUser);
+        if (message == null || message.getAttachmentUrl() == null || message.getAttachmentUrl().isBlank()) {
+            return VisionCapabilityPreviewDTO.builder()
+                    .capabilityId("view_chat_attachment")
+                    .title("Chat attachment")
+                    .summary("This message has no available attachment.")
+                    .items(List.of())
+                    .tone("muted")
+                    .build();
+        }
+        List<VisionSlotSummaryDTO> items = new ArrayList<>();
+        VisionCapabilityPreviewSupport.addItem(items, "chat_conversation_id", "Conversation", String.valueOf(conversationId));
+        VisionCapabilityPreviewSupport.addItem(items, "chat_message_id", "Message", String.valueOf(messageId));
+        VisionCapabilityPreviewSupport.addItem(items, "chat_attachment_name", "Attachment", message.getAttachmentName());
+        VisionCapabilityPreviewSupport.addItem(items, "chat_attachment_url", "Open attachment", message.getAttachmentUrl());
+        VisionCapabilityPreviewSupport.addItem(items, "chat_attachment_url_expires_at", "URL expires", message.getAttachmentUrlExpiresAt());
+        return VisionCapabilityPreviewDTO.builder()
+                .capabilityId("view_chat_attachment")
+                .title("Chat attachment")
+                .summary("Attachment access is authorized for this conversation participant.")
                 .items(items)
                 .tone("info")
                 .build();

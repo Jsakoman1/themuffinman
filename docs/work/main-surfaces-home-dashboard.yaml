@@ -1,0 +1,100 @@
+kind: work
+version: 1
+id: main-surfaces-home-dashboard
+title: Redesign Home as a useful dashboard
+status: verified
+master_plan: docs/work/main-surfaces-modernization-master.yaml
+baseline: 4715898f78e0baa9a06393df5148646d80c3a200
+capability_ids:
+- cross_module.shell.navigate
+- work.quest.discovery
+- work.quest.management
+- work.application
+- platform.notifications.view
+objective: 'Remove duplicated Home navigation and make Home a concise dashboard with
+  clickable summary metrics, attention items, recent activity, and honest empty and
+  partial-data states.
+
+'
+requirements:
+- Remove Home quick actions that duplicate sidebar destinations; retain only a contextual
+  primary action when the backend summary makes it useful.
+- Add route targets to actionable metrics and attention rows without inventing authorization
+  rules.
+- Render the backend-provided Home note or replace it with a useful state explanation.
+- Keep Home visually distinct from Work discovery and generic list surfaces.
+- Preserve direct links to Work, Applications, Notifications, Rides, Things, and Profile
+  where the backend model supports them.
+tasks:
+- id: home-read-model-contract
+  title: Define the Home dashboard presentation contract and navigation targets
+  type: analysis
+  status: done
+  paths:
+  - docs/work/main-surfaces-home-dashboard-analysis.md
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/main-surfaces-home-dashboard.yaml")'
+- id: home-dashboard-ui
+  title: Implement concise Home dashboard sections and clickable metrics
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: home-contract
+  title: Add Home no-duplication and clickability contract checks
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+acceptance:
+- Home has one title, one compact orientation block, and no repeated navigation rail.
+- Every displayed Home metric is either a working link or explicitly marked informational.
+- Home loading, partial failure, empty, and retry states remain understandable.
+evidence:
+- task: home-read-model-contract
+  command: ruby -e 'require "yaml"; YAML.load_file("docs/work/main-surfaces-home-dashboard.yaml")'
+  ranAt: '2026-07-17T13:28:49Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - docs/work/main-surfaces-home-dashboard-analysis.md
+  output: "\n"
+- task: home-dashboard-ui
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-17T13:28:49Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: home-contract
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-17T13:28:51Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (49 checks).
+

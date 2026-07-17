@@ -190,6 +190,11 @@ public class WorkmarketQuestNewsService {
     }
 
     @Transactional
+    public void notifyRideEvent(AppUser recipient, AppUser actor, String title, String message) {
+        storeItem(recipient, actor, null, "Rides", null, null, QuestNewsType.RIDE_EVENT, title, message);
+    }
+
+    @Transactional
     public int deleteExpiredNews() {
         int retentionDays = Math.max(retentionProperties.getNotifications().getDays(), 1);
         Instant cutoff = TimeSupport.daysAgo(retentionDays);

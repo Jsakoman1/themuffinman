@@ -72,13 +72,14 @@ public class BusinessBookingPresentationService {
             return List.of();
         }
 
-        if (!policy.isAllowCustomerCancellation()) {
-            return List.of();
-        }
-
         if ((booking.getStatus() == BusinessBookingStatus.PENDING_CONFIRMATION || booking.getStatus() == BusinessBookingStatus.CONFIRMED)
                 && booking.getStartsAt().minusSeconds(cancelWindowSeconds(policy)).isAfter(now)) {
-            return List.of(BusinessBookingAllowedActionDTO.CANCEL);
+            List<BusinessBookingAllowedActionDTO> actions = new ArrayList<>();
+            if (policy.isAllowCustomerCancellation()) {
+                actions.add(BusinessBookingAllowedActionDTO.CANCEL);
+            }
+            actions.add(BusinessBookingAllowedActionDTO.RESCHEDULE);
+            return List.copyOf(actions);
         }
 
         return List.of();
@@ -120,6 +121,9 @@ public class BusinessBookingPresentationService {
 
         if (booking.getStatus() == BusinessBookingStatus.CONFIRMED) {
             actions.add(BusinessBookingAllowedActionDTO.CANCEL_AS_OWNER);
+            if (booking.getStartsAt().minusSeconds(policy.getOwnerRescheduleWindowMinutes() * 60L).isAfter(now)) {
+                actions.add(BusinessBookingAllowedActionDTO.RESCHEDULE);
+            }
             if (!booking.getStartsAt().isAfter(now)) {
                 actions.add(BusinessBookingAllowedActionDTO.MARK_NO_SHOW);
             }

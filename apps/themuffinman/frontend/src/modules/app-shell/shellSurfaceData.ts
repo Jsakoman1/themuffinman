@@ -24,6 +24,7 @@ export type ShellSurfaceMetric = {
   label: string
   value: string
   detail: string
+  to?: RouteLocationRaw
   tone?: "default" | "emphasis"
 }
 
@@ -35,6 +36,9 @@ export type ShellSurfaceRow = {
   badge?: string
   to?: RouteLocationRaw
   visionTo?: RouteLocationRaw
+  startAt?: string | null
+  endAt?: string | null
+  eventType?: "work" | "business"
 }
 
 export type ShellSurfaceSection = {
@@ -141,7 +145,8 @@ const createBookingRow = (booking: BusinessBookingResponseDTO): ShellSurfaceRow 
   title: booking.businessOfferingTitle,
   description: `${booking.customerUsername} · ${booking.statusLabel}`,
   meta: formatDateTime(booking.startsAt),
-  badge: booking.status
+  badge: booking.status,
+  to: {path: "/business/bookings"}
 })
 
 const createCalendarRow = (item: BusinessOwnerCalendarItemDTO): ShellSurfaceRow => ({
@@ -149,7 +154,11 @@ const createCalendarRow = (item: BusinessOwnerCalendarItemDTO): ShellSurfaceRow 
   title: item.businessOfferingTitle,
   description: `${item.customerUsername} · ${item.statusLabel}`,
   meta: `${formatDateTime(item.startsAt)} to ${formatDateTime(item.endsAt)}`,
-  badge: item.status
+  badge: item.status,
+  to: {path: "/business/calendar"},
+  startAt: item.startsAt,
+  endAt: item.endsAt,
+  eventType: "business"
 })
 
 const createPlannerRow = (item: DashboardPlannerItemDTO): ShellSurfaceRow => ({
@@ -159,7 +168,10 @@ const createPlannerRow = (item: DashboardPlannerItemDTO): ShellSurfaceRow => ({
   meta: item.scheduledAt ? describePlannerTerm(item) : "Flexible timing",
   badge: item.kind,
   to: item.questId ? questRoute(item.questId) : undefined,
-  visionTo: buildSurfaceVisionRoute("calendar", "/calendar", "Calendar")
+  visionTo: buildSurfaceVisionRoute("calendar", "/calendar", "Calendar"),
+  startAt: item.scheduledAt,
+  endAt: item.endsAt,
+  eventType: "work"
 })
 
 const describePlannerTerm = (item: DashboardPlannerItemDTO) => {
@@ -174,7 +186,8 @@ const createCircleRequestRow = (request: CircleRequestResponseDTO): ShellSurface
   title: request.counterpartUsername,
   description: request.requestSummaryLabel,
   meta: formatDateTime(request.createdAt),
-  badge: request.resolutionLabel ?? undefined
+  badge: request.resolutionLabel ?? undefined,
+  to: {path: "/circles"}
 })
 
 const createCircleContactRow = (contact: CircleContactDTO): ShellSurfaceRow => ({
@@ -182,7 +195,8 @@ const createCircleContactRow = (contact: CircleContactDTO): ShellSurfaceRow => (
   title: contact.username,
   description: contact.profileDescription || "No profile description yet.",
   meta: contact.circleSummaryLabel,
-  badge: contact.circleNames[0] ?? undefined
+  badge: contact.circleNames[0] ?? undefined,
+  to: {path: `/people/${contact.userId}`}
 })
 
 const createProfileActionRow = (profileView: UserProfileViewDTO): ShellSurfaceRow[] => {
@@ -221,22 +235,26 @@ const loadHomeData = async (): Promise<ShellSurfaceViewModel> => {
         label: "Open work",
         value: formatCount(summary.openQuestCount),
         detail: "Available work visible to you.",
+        to: {path: "/work/find"},
         tone: "emphasis"
       },
       {
         label: "My active quests",
         value: formatCount(summary.activeMyQuestsCount),
-        detail: "Owned work that still needs attention."
+        detail: "Owned work that still needs attention.",
+        to: {path: "/work/quests"}
       },
       {
         label: "Pending applications",
         value: formatCount(summary.pendingWorkApplicationsCount),
-        detail: "Applications waiting on a next step."
+        detail: "Applications waiting on a next step.",
+        to: {path: "/work/applications"}
       },
       {
         label: "Unread news",
         value: formatCount(summary.unreadNewsCount),
-        detail: "Signals that may require follow-up."
+        detail: "Signals that may require follow-up.",
+        to: {path: "/notifications"}
       }
     ],
     sections: [
@@ -249,19 +267,22 @@ const loadHomeData = async (): Promise<ShellSurfaceViewModel> => {
             id: "home-active-work",
             title: `${formatCount(summary.activeWorkCount)} active work items`,
             description: "A combined count of work currently in motion.",
-            badge: "Work"
+            badge: "Work",
+            to: {path: "/work"}
           },
           {
             id: "home-assigned-work",
             title: `${formatCount(summary.assignedQuestCount)} assigned quests`,
             description: "Work already assigned and still active.",
-            badge: "Assigned"
+            badge: "Assigned",
+            to: {path: "/work/quests"}
           },
           {
             id: "home-completed-work",
             title: `${formatCount(summary.completedMyQuestsCount)} completed quests`,
             description: "Closed work that remains visible in your history.",
-            badge: "History"
+            badge: "History",
+            to: {path: "/work/quests"}
           }
         ]
       }
@@ -451,10 +472,16 @@ const loadBusinessData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVi
       metrics: [],
       sections: [
         {
-          title: "Business setup",
-          description: "No business owner read model is available for this account yet.",
-          emptyState: "Open Vision to set up or continue your business profile.",
-          rows: []
+        title: "Business setup",
+        description: "No business owner read model is available for this account yet.",
+        emptyState: "Open Vision to set up or continue your business profile.",
+        rows: [{
+          id: "business-setup-profile",
+          title: "Set up your business profile",
+          description: "Add the public identity customers will see.",
+          badge: "Next step",
+          to: {path: "/business/profile"}
+        }]
         }
       ],
       note: "Business entry stays real, but this account does not currently expose the owner read surfaces."
@@ -467,22 +494,26 @@ const loadBusinessData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVi
         label: "Active offerings",
         value: formatCount(dashboard.activeOfferingCount),
         detail: "Offerings currently visible to customers.",
+        to: {path: "/business/offerings"},
         tone: "emphasis"
       },
       {
         label: "Pending confirmations",
         value: formatCount(dashboard.pendingConfirmationCount),
-        detail: "Bookings waiting for owner action."
+        detail: "Bookings waiting for owner action.",
+        to: {path: "/business/bookings"}
       },
       {
         label: "Today",
         value: formatCount(dashboard.todayCount),
-        detail: "Bookings on today's schedule."
+        detail: "Bookings on today's schedule.",
+        to: {path: "/business/calendar"}
       },
       {
         label: "Upcoming",
         value: formatCount(dashboard.upcomingCount),
-        detail: "Near-term business workload."
+        detail: "Near-term business workload.",
+        to: {path: "/business/calendar"}
       }
     ]
     : []
@@ -540,7 +571,13 @@ const loadBusinessData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVi
         title: "Business profile",
         description: "Owner identity and public business shape.",
         emptyState: "No business profile is available yet.",
-        rows: profileRows
+        rows: profileRows.length > 0 ? profileRows : [{
+          id: "business-setup-profile",
+          title: "Set up your business profile",
+          description: "Add the public identity customers will see.",
+          badge: "Next step",
+          to: {path: "/business/profile"}
+        }]
       },
       {
         title: "Upcoming bookings",
@@ -564,14 +601,16 @@ const createBusinessProfileRows = (profile: BusinessProfileResponseDTO, dashboar
     title: profile.businessName,
     description: profile.headline || "No headline yet.",
     meta: profile.slug,
-    badge: profile.active ? "Active" : "Draft"
+    badge: profile.active ? "Active" : "Draft",
+    to: {path: "/business/profile"}
   },
   {
     id: `business-booking-enabled-${profile.id}`,
     title: profile.bookingEnabled ? "Booking is enabled" : "Booking is disabled",
     description: profile.contactEmail || "No contact email",
     meta: dashboard ? `${formatCount(dashboard.activeOfferingCount)} active offerings` : profile.timezone,
-    badge: profile.timezone
+    badge: profile.timezone,
+    to: {path: "/business/offerings"}
   }
 ]
 
@@ -580,6 +619,10 @@ const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
     safeRequest(() => userShellApi.getDashboard()),
     safeRequest(() => userShellApi.getBusinessOwnerCalendar())
   ])
+
+  if (!dashboard) {
+    throw new Error("Could not load calendar data.")
+  }
 
   const plannerRows = dashboard?.sections.planner.scheduledItems.map(createPlannerRow) ?? []
   const flexibleRows = dashboard?.sections.planner.flexibleItems.map(createPlannerRow) ?? []
@@ -626,7 +669,9 @@ const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
         rows: flexibleRows
       }
     ],
-    note: "Calendar stays a coordination index and routes users back to the owning work or business surface for detail."
+    note: businessCalendar
+      ? "Calendar stays a coordination index and routes users back to the owning work or business surface for detail."
+      : "Business calendar data is temporarily unavailable; available work schedule data remains visible."
   }
 }
 
@@ -642,17 +687,20 @@ const loadCirclesData = async (): Promise<ShellSurfaceViewModel> => {
       label: "Connections",
       value: formatCount(overview.connectionCount),
       detail: "People currently inside your trusted graph.",
+      to: {path: "/people"},
       tone: "emphasis"
     },
     {
       label: "Incoming",
       value: formatCount(overview.incomingRequestCount),
-      detail: "Requests waiting for your attention."
+      detail: "Requests waiting for your attention.",
+      to: {path: "/circles"}
     },
     {
       label: "Outgoing",
       value: formatCount(overview.outgoingRequestCount),
-      detail: "Requests still awaiting the other person."
+      detail: "Requests still awaiting the other person.",
+      to: {path: "/circles"}
     }
   ]
 
@@ -687,14 +735,16 @@ const loadProfileData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVie
       title: appUser.username,
       description: appUser.profileDescription || "No profile description yet.",
       meta: appUser.email,
-      badge: appUser.role
+      badge: appUser.role,
+      to: {path: "/profile"}
     },
     {
       id: `profile-open-quests-${appUser.id}`,
       title: `${formatCount(appUser.openQuestCount)} open quests`,
       description: "Current profile-facing quest footprint.",
       meta: formatDate(appUser.createdAt),
-      badge: appUser.locationSettings.locality || appUser.locationSettings.label || "Profile"
+      badge: appUser.locationSettings.locality || appUser.locationSettings.label || "Profile",
+      to: {path: "/work/quests"}
     }
   ]
 
@@ -713,6 +763,7 @@ const loadProfileData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVie
           label: "Profile visibility",
           value: profileView?.relation.relationLabel ?? "Self",
           detail: "Current profile visibility context.",
+          to: {path: "/profile/settings"},
           tone: "emphasis"
         }
       ],
@@ -733,12 +784,14 @@ const loadProfileData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVie
       label: "Employer rating",
       value: profileView ? `${profileView.employerRating.averageStars.toFixed(1)}/5` : "N/A",
       detail: profileView ? `${formatCount(profileView.employerRating.reviewCount)} reviews` : "No rating summary available.",
+      to: {path: "/profile"},
       tone: "emphasis"
     },
     {
       label: "Worker rating",
       value: profileView ? `${profileView.workerRating.averageStars.toFixed(1)}/5` : "N/A",
-      detail: profileView ? `${formatCount(profileView.workerRating.reviewCount)} reviews` : "No rating summary available."
+      detail: profileView ? `${formatCount(profileView.workerRating.reviewCount)} reviews` : "No rating summary available.",
+      to: {path: "/profile"}
     }
   ]
 

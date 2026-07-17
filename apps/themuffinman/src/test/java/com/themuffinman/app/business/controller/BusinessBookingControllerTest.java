@@ -15,6 +15,7 @@ import com.themuffinman.app.business.service.BusinessNoShowBookingUseCase;
 import com.themuffinman.app.business.service.BusinessOwnerCalendarReadService;
 import com.themuffinman.app.business.service.BusinessOwnerScheduleReadService;
 import com.themuffinman.app.business.service.BusinessRejectBookingUseCase;
+import com.themuffinman.app.business.service.BusinessRescheduleBookingUseCase;
 import com.themuffinman.app.common.controller.GlobalExceptionHandler;
 import com.themuffinman.app.identity.model.AppUser;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +49,7 @@ class BusinessBookingControllerTest {
     private final BusinessNoShowBookingUseCase businessNoShowBookingUseCase = mock(BusinessNoShowBookingUseCase.class);
     private final BusinessOwnerScheduleReadService businessOwnerScheduleReadService = mock(BusinessOwnerScheduleReadService.class);
     private final BusinessOwnerCalendarReadService businessOwnerCalendarReadService = mock(BusinessOwnerCalendarReadService.class);
+    private final BusinessRescheduleBookingUseCase businessRescheduleBookingUseCase = mock(BusinessRescheduleBookingUseCase.class);
     private MockMvc mockMvc;
     private AppUser currentUser;
 
@@ -64,7 +66,8 @@ class BusinessBookingControllerTest {
                 businessCompleteBookingUseCase,
                 businessNoShowBookingUseCase,
                 businessOwnerScheduleReadService,
-                businessOwnerCalendarReadService
+                businessOwnerCalendarReadService,
+                businessRescheduleBookingUseCase
         );
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())

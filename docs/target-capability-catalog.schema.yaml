@@ -1,0 +1,22 @@
+version: 1
+kind: target_product_capability_schema
+description: Structural contract consumed by the target capability audit.
+root:
+  required: [version, kind, title, source_documents, modules, capabilities]
+module:
+  required: [id, name, objects]
+object:
+  required: [id, name, capability_ids]
+capability:
+  required: [id, module, object, action, type, name, actor, priority, target_surfaces, access, outcome, failure_behavior, acceptance, current_inventory_ids]
+  types:
+    type: [query, mutation, interaction, lifecycle, system]
+    priority: [critical, high, medium, low]
+    target_surfaces: [vision, web_ui, mobile, watch, api]
+    access_scope: [public, authenticated, owner, participant, circle_member, admin]
+  rules:
+    - id uses module.object.action format
+    - target_surfaces contains every declared surface as a boolean
+    - at least one target surface is true
+    - acceptance contains at least one item
+    - current_inventory_ids contains valid current inventory IDs or is empty

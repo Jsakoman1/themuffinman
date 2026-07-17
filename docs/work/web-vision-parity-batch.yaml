@@ -1,0 +1,271 @@
+kind: work
+version: 1
+id: web-vision-parity-batch
+title: Close safe Web/Vision production-client parity gaps
+status: verified
+master_plan: docs/work/target-capability-production-readiness.yaml
+baseline: 4715898
+capability_ids:
+- work.quest.create
+- chat.conversation.open
+- chat.conversation.create_group
+- circles.circle.create
+- circles.circle.view_other
+- circles.membership.leave
+- circles.membership.remove
+- sharing.thing.create
+- sharing.thing.update
+- sharing.thing.archive
+- business.booking.create
+- cross_module.notification.manage_preferences
+objective: Make safe, already-backed capabilities directly discoverable and executable
+  from the Web UI while preserving Vision as an equal production client.
+tasks:
+- id: shared-entry-actions
+  title: Expose direct Work, Chat, Circles, Things, and Business entry actions
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: circles-direct-actions
+  title: Add member visibility, self-leave, and member removal actions to Circles
+  type: implementation
+  status: done
+  capability_ids:
+  - circles.circle.view_other
+  - circles.membership.leave
+  - circles.membership.remove
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: things-owner-actions
+  title: Add owner edit and archive actions to Things
+  type: implementation
+  status: done
+  capability_ids:
+  - sharing.thing.update
+  - sharing.thing.archive
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: vision-notification-preferences
+  title: Add confirmed Vision updates for one notification preference
+  type: implementation
+  status: done
+  capability_ids:
+  - cross_module.notification.manage_preferences
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionNotificationPreferenceExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSurfacePolicy.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -Dtest='VisionIntentRouterTest,VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
+    test
+- id: inventory-sync
+  title: Record exact Web evidence and residual runtime limitations
+  type: documentation
+  status: done
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/work/web-vision-parity-program.yaml
+  - docs/work/web-vision-parity-residual-audit.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-target-capability-coverage && make audit-docs && git diff
+    --check
+- id: batch-verification
+  title: Verify the complete parity batch
+  type: verification
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && cd apps/themuffinman && ./mvnw -DskipTests
+    compile && git diff --check
+evidence:
+- task: shared-entry-actions
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T07:33:45Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  output: |+
+    dist/assets/WorkDiscoveryView-DHMrZbAl.js                      4.22 kB │ gzip:  1.93 kB
+    dist/assets/BusinessBookingsView-D0imq_H5.js                   4.39 kB │ gzip:  1.67 kB
+    dist/assets/BusinessOfferingsView-DSrYsNVd.js                  5.00 kB │ gzip:  1.77 kB
+    dist/assets/BusinessAvailabilityView-B1PrVhGD.js               5.73 kB │ gzip:  1.92 kB
+    dist/assets/BusinessAvailabilityExceptionsView-CrTGfO0B.js     5.77 kB │ gzip:  1.97 kB
+    dist/assets/BusinessProfileView-CJ5hHlpP.js                    6.07 kB │ gzip:  2.03 kB
+    dist/assets/ThingsDiscoveryView-CA2xYAxX.js                    7.39 kB │ gzip:  2.37 kB
+    dist/assets/CirclesView-CXWC-BnL.js                            7.52 kB │ gzip:  2.31 kB
+    dist/assets/ProfileLocationSettingsView-BrvTQUI2.js            7.99 kB │ gzip:  2.92 kB
+    dist/assets/WorkQuestDetailView-BGyoIXCa.js                    9.73 kB │ gzip:  3.09 kB
+    dist/assets/userShellApi-BzL39R1P.js                          10.29 kB │ gzip:  2.13 kB
+    dist/assets/ChatSurfaceView-DsbRRvmr.js                       10.99 kB │ gzip:  3.70 kB
+    dist/assets/index-DDI1Qwd6.js                                 18.92 kB │ gzip:  5.40 kB
+    dist/assets/SurfaceContentView-Ce-_Ha50.js                    21.82 kB │ gzip:  6.01 kB
+    dist/assets/vue-core-Pi4dzDQH.js                              24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-Cg1Btkhq.js               35.88 kB │ gzip: 10.91 kB
+    dist/assets/vendor-D0x-eQIR.js                               105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 286ms
+
+- task: circles-direct-actions
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T07:33:47Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  output: |+
+    dist/assets/WorkDiscoveryView-DHMrZbAl.js                      4.22 kB │ gzip:  1.93 kB
+    dist/assets/BusinessBookingsView-D0imq_H5.js                   4.39 kB │ gzip:  1.67 kB
+    dist/assets/BusinessOfferingsView-DSrYsNVd.js                  5.00 kB │ gzip:  1.77 kB
+    dist/assets/BusinessAvailabilityView-B1PrVhGD.js               5.73 kB │ gzip:  1.92 kB
+    dist/assets/BusinessAvailabilityExceptionsView-CrTGfO0B.js     5.77 kB │ gzip:  1.97 kB
+    dist/assets/BusinessProfileView-CJ5hHlpP.js                    6.07 kB │ gzip:  2.03 kB
+    dist/assets/ThingsDiscoveryView-CA2xYAxX.js                    7.39 kB │ gzip:  2.37 kB
+    dist/assets/CirclesView-CXWC-BnL.js                            7.52 kB │ gzip:  2.31 kB
+    dist/assets/ProfileLocationSettingsView-BrvTQUI2.js            7.99 kB │ gzip:  2.92 kB
+    dist/assets/WorkQuestDetailView-BGyoIXCa.js                    9.73 kB │ gzip:  3.09 kB
+    dist/assets/userShellApi-BzL39R1P.js                          10.29 kB │ gzip:  2.13 kB
+    dist/assets/ChatSurfaceView-DsbRRvmr.js                       10.99 kB │ gzip:  3.70 kB
+    dist/assets/index-DDI1Qwd6.js                                 18.92 kB │ gzip:  5.40 kB
+    dist/assets/SurfaceContentView-Ce-_Ha50.js                    21.82 kB │ gzip:  6.01 kB
+    dist/assets/vue-core-Pi4dzDQH.js                              24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-Cg1Btkhq.js               35.88 kB │ gzip: 10.91 kB
+    dist/assets/vendor-D0x-eQIR.js                               105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 269ms
+
+- task: things-owner-actions
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T07:33:50Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  output: |+
+    dist/assets/WorkDiscoveryView-DHMrZbAl.js                      4.22 kB │ gzip:  1.93 kB
+    dist/assets/BusinessBookingsView-D0imq_H5.js                   4.39 kB │ gzip:  1.67 kB
+    dist/assets/BusinessOfferingsView-DSrYsNVd.js                  5.00 kB │ gzip:  1.77 kB
+    dist/assets/BusinessAvailabilityView-B1PrVhGD.js               5.73 kB │ gzip:  1.92 kB
+    dist/assets/BusinessAvailabilityExceptionsView-CrTGfO0B.js     5.77 kB │ gzip:  1.97 kB
+    dist/assets/BusinessProfileView-CJ5hHlpP.js                    6.07 kB │ gzip:  2.03 kB
+    dist/assets/ThingsDiscoveryView-CA2xYAxX.js                    7.39 kB │ gzip:  2.37 kB
+    dist/assets/CirclesView-CXWC-BnL.js                            7.52 kB │ gzip:  2.31 kB
+    dist/assets/ProfileLocationSettingsView-BrvTQUI2.js            7.99 kB │ gzip:  2.92 kB
+    dist/assets/WorkQuestDetailView-BGyoIXCa.js                    9.73 kB │ gzip:  3.09 kB
+    dist/assets/userShellApi-BzL39R1P.js                          10.29 kB │ gzip:  2.13 kB
+    dist/assets/ChatSurfaceView-DsbRRvmr.js                       10.99 kB │ gzip:  3.70 kB
+    dist/assets/index-DDI1Qwd6.js                                 18.92 kB │ gzip:  5.40 kB
+    dist/assets/SurfaceContentView-Ce-_Ha50.js                    21.82 kB │ gzip:  6.01 kB
+    dist/assets/vue-core-Pi4dzDQH.js                              24.75 kB │ gzip:  9.55 kB
+    dist/assets/VisionSurfaceModernView-Cg1Btkhq.js               35.88 kB │ gzip: 10.91 kB
+    dist/assets/vendor-D0x-eQIR.js                               105.12 kB │ gzip: 40.61 kB
+
+    ✓ built in 289ms
+
+- task: vision-notification-preferences
+  command: cd apps/themuffinman && ./mvnw -Dtest='VisionIntentRouterTest,VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
+    test
+  ranAt: '2026-07-17T07:33:52Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionIntent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationSnapshotSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSurfacePolicy.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionNotificationPreferenceExecutionAdapter.java
+  output: "[INFO]  T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in
+    com.themuffinman.app.vision.service.VisionSemanticRouteCatalogServiceTest\n[INFO]
+    Running com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO]
+    Tests run: 72, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.804 s -- in
+    com.themuffinman.app.vision.service.VisionConversationServiceTest\n[INFO] Running
+    com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO] Tests run:
+    15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.themuffinman.app.vision.service.VisionIntentRouterTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 90, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  2.120 s\n[INFO] Finished at: 2026-07-17T09:33:55+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+- task: inventory-sync
+  command: make audit-target-capability-coverage && make audit-docs && git diff --check
+  ranAt: '2026-07-17T07:33:55Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/implementation-backlog.md
+  - docs/work/web-vision-parity-program.yaml
+  - docs/work/web-vision-parity-residual-audit.yaml
+  output: |2+
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: true
+      surface_coverage:
+        web_ui: covered
+        vision: covered
+      gaps: []
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 204
+      review needed: 0
+      high priority: 0
+
+- task: batch-verification
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && cd apps/themuffinman && ./mvnw -DskipTests
+    compile && git diff --check
+  ranAt: '2026-07-17T07:33:57Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  output: "[INFO] Scanning for projects...\n[INFO] \n[INFO] -------------------< com.themuffinman:themuffinman
+    >--------------------\n[INFO] Building TheMuffinMan 0.0.1-SNAPSHOT\n[INFO]   from
+    pom.xml\n[INFO] --------------------------------[ jar ]---------------------------------\n[INFO]
+    \n[INFO] --- resources:3.3.1:resources (default-resources) @ themuffinman ---\n[INFO]
+    Copying 2 resources from src/main/resources to target/classes\n[INFO] Copying
+    58 resources from src/main/resources to target/classes\n[INFO] \n[INFO] --- compiler:3.14.1:compile
+    (default-compile) @ themuffinman ---\n[INFO] Nothing to compile - all classes
+    are up to date.\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  0.625 s\n[INFO] Finished at: 2026-07-17T09:34:01+02:00\n[INFO] ------------------------------------------------------------------------\n\n"

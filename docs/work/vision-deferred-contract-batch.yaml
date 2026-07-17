@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: vision-deferred-contract-batch
+title: Resolve contracts for deferred Vision gates
+status: verified
+master_plan: docs/work/target-capability-production-readiness.yaml
+baseline: 4715898
+capability_ids:
+- work.quest.manage_workers
+- work.quest.pause
+- platform.profile.manage_visibility
+- platform.location.use_current
+- chat.message.attach
+- business.booking.reschedule
+- cross_module.search.compare
+- cross_module.notification.manage_preferences
+- cross_module.shell.navigate
+- cross_module.shell.render_context
+- cross_module.handoff.mobile
+- cross_module.handoff.watch
+- sharing.ride.create
+- sharing.ride.discover
+- sharing.ride.join
+- sharing.ride.update
+- sharing.ride.leave
+- sharing.ride.cancel
+- sharing.ride.complete
+objective: Resolve product, backend, and device contracts for every deferred Vision
+  gate while keeping implementation and coverage status honest.
+tasks:
+- id: resolve-deferred-contracts
+  title: Publish the canonical deferred-gate contract bundle and synchronize readiness
+    automation
+  type: documentation_and_control
+  status: done
+  paths:
+  - docs/work/vision-deferred-contract-bundle.yaml
+  - docs/work/work-quest-lifecycle-contract.yaml
+  - docs/work/vision-gap-readiness.yaml
+  - docs/work/vision-gap-prioritized-backlog.yaml
+  - scripts/audits/audit-vision-batch-readiness.rb
+  - docs/implementation-backlog.md
+  validation: make audit-vision-batch-readiness
+evidence:
+- task: resolve-deferred-contracts
+  command: make audit-vision-batch-readiness
+  ranAt: '2026-07-17T05:08:45Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/work/vision-deferred-contract-bundle.yaml
+  - docs/work/vision-gap-prioritized-backlog.yaml
+  - docs/work/vision-gap-readiness.yaml
+  - docs/work/work-quest-lifecycle-contract.yaml
+  - scripts/audits/audit-vision-batch-readiness.rb
+  output: |+
+    - id: vision-ready-device-handoff
+      capability_ids:
+      - cross_module.handoff.mobile
+      - cross_module.handoff.watch
+      contract_status: contract_resolved
+      implementation_status: pending
+    - id: vision-ready-ride-domain
+      capability_ids:
+      - sharing.ride.create
+      - sharing.ride.discover
+      - sharing.ride.join
+      - sharing.ride.update
+      - sharing.ride.leave
+      - sharing.ride.cancel
+      - sharing.ride.complete
+      contract_status: contract_resolved
+      implementation_status: pending
+    blocked_gates: []
+    next_action: Promote a contract-ready gate into an implementation work plan.
+

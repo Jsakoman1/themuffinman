@@ -19,6 +19,9 @@ public interface BusinessGalleryImageRepository extends JpaRepository<BusinessGa
             """)
     List<BusinessGalleryImage> findByOwnerId(Long ownerId);
 
+    @Query("select image from BusinessGalleryImage image join fetch image.businessProfile profile join fetch profile.owner owner where profile.id = :businessProfileId and owner.id = :ownerId order by image.sortOrder asc, image.id asc")
+    List<BusinessGalleryImage> findByBusinessProfileId(Long businessProfileId, Long ownerId);
+
     @Query("""
             select image
             from BusinessGalleryImage image

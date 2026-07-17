@@ -5,6 +5,7 @@ import com.themuffinman.app.workmarket.dto.QuestApplicationListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.AdminQuestApplicationUpdateRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
+import com.themuffinman.app.workmarket.dto.WorkerReassignmentRequestDTO;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class WorkmarketQuestApplicationService {
     private final WorkmarketDeclineApplicationUseCase declineApplicationUseCase;
     private final WorkmarketQuestApplicationAdminQueryService questApplicationAdminQueryService;
     private final WorkmarketQuestApplicationAdminService questApplicationAdminService;
+    private final WorkmarketWorkerManagementService workerManagementService;
 
     @Transactional
     public QuestApplicationResponseDTO applyForQuest(Long questId, QuestApplicationRequestDTO dto, AppUser currentUser) {
@@ -84,5 +86,20 @@ public class WorkmarketQuestApplicationService {
     @Transactional
     public QuestApplicationResponseDTO declineApplication(Long questId, Long applicationId, AppUser currentUser) {
         return workmarketQuestApplicationReadService.toApplicantResponse(declineApplicationUseCase.execute(questId, applicationId, currentUser));
+    }
+
+    @Transactional
+    public QuestApplicationResponseDTO releaseWorker(Long questId, Long applicationId, AppUser currentUser) {
+        return workerManagementService.releaseWorker(questId, applicationId, currentUser);
+    }
+
+    @Transactional
+    public QuestApplicationResponseDTO replaceWorker(
+            Long questId,
+            Long applicationId,
+            WorkerReassignmentRequestDTO request,
+            AppUser currentUser
+    ) {
+        return workerManagementService.replaceWorker(questId, applicationId, request, currentUser);
     }
 }

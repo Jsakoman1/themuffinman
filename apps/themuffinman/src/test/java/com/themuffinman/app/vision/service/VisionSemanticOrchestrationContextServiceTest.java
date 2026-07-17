@@ -18,6 +18,8 @@ import com.themuffinman.app.vision.repository.VisionTurnRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.time.Clock;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -165,7 +167,8 @@ class VisionSemanticOrchestrationContextServiceTest {
                 turnRepository,
                 preferenceRepository,
                 feedbackRepository,
-                summaryRepository
+                summaryRepository,
+                Clock.fixed(Instant.parse("2026-07-03T10:10:00Z"), ZoneOffset.UTC)
         );
 
         AppUser user = new AppUser();

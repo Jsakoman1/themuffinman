@@ -1,0 +1,144 @@
+kind: capability_gap_backlog
+version: 1
+id: vision-gap-prioritized-backlog
+title: Prioritized Vision closure backlog
+status: active
+source:
+  coverage_report: docs/target-capability-catalog.yaml
+  inventory: docs/capability-inventory.yaml
+  architecture: docs/vision-architecture-patterns.md
+  route_catalog: apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  readiness_gates: docs/work/vision-gap-readiness.yaml
+  contract_bundle: docs/work/vision-deferred-contract-bundle.yaml
+scope:
+  target_gap_count: 19
+  rule: Keep a capability in this backlog until its Vision surface, backend authority, and acceptance evidence are complete; contract-ready is an intermediate status.
+priorities:
+  - id: vision-gap-01
+    priority: critical
+    status: deferred
+    title: Extend existing read and lifecycle Vision adapters
+    work_type: adapter_extension
+    capability_ids:
+      - cross_module.shell.navigate
+      - cross_module.shell.render_context
+    prerequisites:
+      - Confirm the matching Vision intent and viewer authorization for each capability.
+      - Reuse existing semantic DTOs and backend services; do not put business rules in the Vision controller.
+      - Add service-level tests for allowed, denied, and missing-resource cases.
+    acceptance:
+      - Each capability has an explicit Vision intent or route-catalog entry.
+      - The execution result is typed and carries the same authorization rules as web/API.
+      - Coverage report no longer reports a Vision gap for completed rows.
+    deferred_reason: Vision can navigate/read domain surfaces, but a dedicated Vision-to-native shell contract is not yet defined for the remaining shell capabilities.
+
+  - id: vision-gap-02
+    priority: critical
+    status: deferred
+    title: Add Vision support for work ownership and worker lifecycle
+    work_type: backend_and_adapter
+    capability_ids:
+      - work.quest.manage_workers
+      - work.quest.pause
+    prerequisites:
+      - Define pause state transitions because the current quest state model does not provide them.
+      - Define participant notification and reassignment behavior before adding Vision intents.
+      - Expose typed service operations that web and Vision can share.
+    acceptance:
+      - State transitions are backend-owned and transaction-safe.
+      - Unauthorized owners and assigned workers receive deterministic denials.
+      - Notifications and audit evidence are produced for every lifecycle mutation.
+    deferred_reason: The current quest state model still has no pause transition or worker reassignment contract; owner cancellation is now implemented with explicit active-state rules and participant notifications.
+
+  - id: vision-gap-03
+    priority: high
+    status: deferred
+    title: Complete privacy, location, and circle-detail Vision behavior
+    work_type: backend_and_adapter
+    capability_ids:
+      - platform.profile.manage_visibility
+      - platform.location.use_current
+    prerequisites:
+      - Define consent and privacy semantics for location and accessible circle details.
+      - Keep the existing membership-authorized circle detail and self-leave operations aligned across web and Vision.
+      - Keep visibility policy shared between web and Vision.
+    acceptance:
+      - Viewer-specific visibility is enforced server-side.
+      - Self-leave requires a valid membership and preserves circle owner invariants.
+      - Vision responses do not expose hidden location or membership data.
+    deferred_reason: Profile-wide visibility and current-device location require explicit privacy, consent, and browser/mobile permission contracts beyond the existing location preference read/write behavior.
+
+  - id: vision-gap-04
+    priority: high
+    status: deferred
+    title: Extend chat message controls and attachment handling
+    work_type: adapter_extension
+    capability_ids:
+      - chat.message.attach
+    prerequisites:
+      - Define attachment upload, preview, expiry, and authorization contracts for Vision upload and richer media presentation.
+      - Reuse chat service permissions and message state transitions.
+      - Treat attachment content as a separate capability from message text.
+    acceptance:
+      - Vision can distinguish text, attachment, reply, edit, and reaction operations.
+      - Expired or unauthorized attachment access returns a typed safe error.
+      - Message mutation idempotency and audit metadata are preserved.
+    deferred_reason: Vision upload and richer media presentation still need an explicit storage and UI handoff; authorized attachment viewing now reuses the existing ChatService access contract.
+
+  - id: vision-gap-05
+    priority: high
+    status: deferred
+    title: Add Business profile, offering, booking, and availability mutations
+    work_type: backend_and_adapter
+    capability_ids:
+      - business.booking.reschedule
+    prerequisites:
+      - Define a common booking command contract and conflict-safe availability recheck.
+      - Define owner/customer permissions and confirmation rules for each transition.
+      - Complete gallery storage/upload semantics before exposing gallery mutation intents.
+    acceptance:
+      - Vision mutations call the same Business services as web/API.
+      - Booking transitions reject stale or conflicting slots deterministically.
+      - Calendar and availability reads respect business ownership and visibility.
+    deferred_reason: Booking reschedule needs participant policy, conflict-safe slot replacement, notification semantics, and a shared web/API command before a Vision adapter can be authoritative.
+
+  - id: vision-gap-07
+    priority: medium
+    status: deferred
+    title: Add cross-module comparison, preferences, and device handoff
+    work_type: product_and_platform
+    capability_ids:
+      - cross_module.search.compare
+      - cross_module.notification.manage_preferences
+      - cross_module.handoff.mobile
+      - cross_module.handoff.watch
+    prerequisites:
+      - Define comparable fields and privacy-safe fallback behavior across entity families.
+      - Define notification preference categories and delivery ownership.
+      - Define mobile/Watch handoff payload, expiry, and authentication rules.
+    acceptance:
+      - Contracts are documented before implementation.
+      - Handoff never transfers privileged data without re-authentication or a scoped token.
+      - Unsupported device targets return explicit capability errors.
+    deferred_reason: Comparison fields, notification preference categories, and mobile/Watch handoff token semantics are product/platform contracts not present in the current implementation.
+
+  - id: vision-gap-08
+    priority: deferred
+    status: deferred
+    title: Voluntary car sharing
+    work_type: new_domain
+    capability_ids:
+      - sharing.ride.create
+      - sharing.ride.discover
+      - sharing.ride.join
+      - sharing.ride.update
+      - sharing.ride.leave
+      - sharing.ride.cancel
+      - sharing.ride.complete
+    prerequisites:
+      - Define ride domain, circle consent, safety rules, scheduling, and trip lifecycle.
+      - Implement backend authority and web/API behavior before adding Vision adapters.
+    acceptance:
+      - Ride capabilities are removed from not_offered status only after the complete lifecycle exists.
+      - Consent, privacy, cancellation, and audit rules have deterministic tests.
+    deferred_reason: Ride sharing is an unimplemented product domain; the existing RideOffer read/create scaffold is not a complete lifecycle authority.

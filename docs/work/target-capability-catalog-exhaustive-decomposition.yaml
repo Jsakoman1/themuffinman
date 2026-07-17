@@ -1,0 +1,185 @@
+kind: work
+version: 1
+id: target-capability-catalog-exhaustive-decomposition
+title: Expand the target capability catalog into atomic workflow coverage
+status: verified
+baseline: 4715898
+objective: 'Decompose broad current inventory capabilities into a detailed production-ready
+  target capability catalog across all documented modules and lifecycle workflows.
+
+'
+scope:
+  included:
+  - source review across product vision business logic domain technical notes and
+    current inventory
+  - atomic creator consumer participant owner and lifecycle capability records
+  - previously omitted work execution circles chat business sharing and cross-module
+    capabilities
+  - explicit broad-versus-exact mapping quality in generated coverage output
+  excluded:
+  - implementing application behavior for missing capabilities
+  - claiming broad current inventory links are exact implementation evidence
+  - changing production backend or frontend code
+tasks:
+- id: exhaustive-source-review
+  title: Review all documented module and workflow source maps
+  type: analysis
+  status: done
+  paths:
+  - docs/product-vision.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/target-capability-catalog-exhaustive-decomposition-analysis.md
+  validation: rg -n 'Execution|Reviews|Availability|reconnect|lifecycle|visibility|handoff|calendar|return|notification'
+    docs/business-logic.md docs/domain-technical.md
+- id: exhaustive-catalog-expansion
+  title: Add atomic target capabilities and module/object index coverage
+  type: documentation
+  status: done
+  paths:
+  - docs/target-capability-catalog.yaml
+  validation: make audit-target-capability-catalog
+- id: mapping-quality-report
+  title: Distinguish exact current mappings from broad decomposition mappings
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-target-capability-coverage.rb
+  validation: make audit-target-capability-coverage
+- id: decomposition-documentation
+  title: Document decomposition boundaries and report semantics
+  type: documentation
+  status: done
+  paths:
+  - docs/capability-inventory.md
+  - docs/implementation-control.md
+  - docs/work/target-capability-catalog-exhaustive-decomposition-analysis.md
+  validation: make audit-docs
+- id: exhaustive-verification
+  title: Verify catalog structure coverage report and repository plan coverage
+  type: validation
+  status: done
+  paths:
+  - docs/work/target-capability-catalog-exhaustive-decomposition.yaml
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-docs && make audit-plan-coverage
+evidence:
+- task: exhaustive-source-review
+  command: rg -n 'Execution|Reviews|Availability|reconnect|lifecycle|visibility|handoff|calendar|return|notification'
+    docs/business-logic.md docs/domain-technical.md
+  ranAt: '2026-07-16T16:59:57Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/target-capability-catalog-exhaustive-decomposition-analysis.md
+  output: |+
+    docs/domain-technical.md:1586:- `LocationAccessPolicyService` owns the named exact-location permission decision used by quest location labels and visibility summaries
+    docs/domain-technical.md:1591:- visibility summary and source summary are backend-generated presentation strings
+    docs/domain-technical.md:1602:- circle-only quest visibility is enforced through `WorkmarketQuestVisibilityService`
+    docs/domain-technical.md:1604:- fallback circle visibility uses `circleService.isCircleBetween(currentUser, quest.getCreator())`
+    docs/domain-technical.md:1605:- workmarket notifications also carry circle-request events and actions, so the news feed is not quest-only
+    docs/domain-technical.md:1611:- quest DTO presentation includes location label, source summary, and visibility summary generated from location rules
+    docs/domain-technical.md:1612:- exact quest address visibility can degrade per viewer based on the creator profile-sharing rules
+    docs/domain-technical.md:1650:- `questsApi` maps `/quests`, `/quests/search`, `/quests/presets/:preset`, `/quests/:id`, `/quests/:id/detail`, and lifecycle mutation routes
+    docs/domain-technical.md:1664:- unconfigured provider returns an empty configured=`false` response for normal lookup
+    docs/domain-technical.md:1687:- bean-validation failures return code `VALIDATION_ERROR`
+    docs/domain-technical.md:1691:- malformed request bodies return `BAD_REQUEST` with message `Malformed request body`
+    docs/domain-technical.md:1741:- `app.retention.notifications.days` defaults to `7`
+    docs/domain-technical.md:1742:- `app.retention.notifications.cleanup-cron` defaults to `0 30 3 * * *`
+    docs/domain-technical.md:1780:- Chat workspace, conversation sync, and business owner booking reads accept explicit scan limits; clients may request a bounded scan window but must not discard returned records locally.
+    docs/domain-technical.md:1783:- Cross-module search comparison is backend-owned: entity-family selection, visibility filtering, ranking, pagination, empty states, and errors are returned as contract data. Clients preserve each result's family label and source route and do not locally re-rank or truncate mixed results. The acceptance matrix is `docs/cross-module-search-acceptance.yaml`.
+    docs/domain-technical.md:1784:- Future iPhone and Watch clients use `docs/native-client-handoff-contract.yaml` as the shared handoff boundary. They reuse backend permissions, action DTOs, pagination, retry semantics, and source routes; compact Watch presentation may reduce density but cannot redefine workflow meaning or authorization.
+    docs/domain-technical.md:1792:- `PATCH /things/borrow-requests/{requestId}/decision?approve=true|false` is owner-owned and only accepts `PENDING`, transitioning to `APPROVED` or `DECLINED`. Approval records `approvedAt` and makes the listing unavailable; an approved request can be returned only by its borrower through `PATCH /things/borrow-requests/{requestId}/return`, which transitions to `RETURNED` and restores listing availability.
+    docs/domain-technical.md:1794:- The Circles surface explains the policy boundary but does not calculate access locally. Backend circle membership, location visibility, and module-specific access services remain authoritative.
+    docs/domain-technical.md:1797:- `docs/cross-module-visibility-acceptance.yaml` is the machine-readable matrix for circle, location, Work, Chat, and Things visibility boundaries. It records backend policy, frontend explanation/surface, and targeted-test evidence separately from browser/device runtime evidence.
+
+- task: exhaustive-catalog-expansion
+  command: make audit-target-capability-catalog
+  ranAt: '2026-07-16T16:59:57Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/target-capability-catalog.yaml
+  output: |+
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 28 inventory IDs available).
+
+- task: mapping-quality-report
+  command: make audit-target-capability-coverage
+  ranAt: '2026-07-16T16:59:58Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-target-capability-coverage.rb
+  output: |2+
+      current_statuses:
+      - partial
+      current_status: partial
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: false
+        vision: false
+      surface_coverage:
+        web_ui: missing
+        vision: missing
+      gaps:
+      - decomposition_required
+      - web_ui
+      - vision
+
+- task: decomposition-documentation
+  command: make audit-docs
+  ranAt: '2026-07-16T16:59:58Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.md
+  - docs/implementation-control.md
+  - docs/work/target-capability-catalog-exhaustive-decomposition-analysis.md
+  output: |+
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 179
+      review needed: 0
+      high priority: 0
+
+- task: exhaustive-verification
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-docs && make audit-plan-coverage
+  ranAt: '2026-07-16T17:00:00Z'
+  revision: 4715898f78e0baa9a06393df5148646d80c3a200
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/target-capability-catalog-exhaustive-decomposition.yaml
+  output: |2+
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: false
+        vision: false
+      surface_coverage:
+        web_ui: missing
+        vision: missing
+      gaps:
+      - decomposition_required
+      - web_ui
+      - vision
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 179
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (19 master children, 16 active inventory plans).
+

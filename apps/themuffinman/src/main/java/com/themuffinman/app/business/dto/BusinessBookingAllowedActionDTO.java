@@ -6,5 +6,6 @@ public enum BusinessBookingAllowedActionDTO {
     REJECT,
     COMPLETE,
     MARK_NO_SHOW,
-    CANCEL_AS_OWNER
+    CANCEL_AS_OWNER,
+    RESCHEDULE
 }

@@ -89,6 +89,10 @@ public class Quest {
     private QuestStatus termChangePreviousStatus;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "paused_from_status")
+    private QuestStatus pausedFromStatus;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private QuestStatus status = QuestStatus.OPEN;
 

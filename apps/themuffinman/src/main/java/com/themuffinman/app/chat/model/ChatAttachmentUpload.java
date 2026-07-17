@@ -52,4 +52,7 @@ public class ChatAttachmentUpload {
 
     @Column(name = "consumed_at")
     private Instant consumedAt;
+
+    @Column(name = "expires_at", nullable = false)
+    private Instant expiresAt;
 }

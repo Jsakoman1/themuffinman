@@ -24,8 +24,13 @@ public class BusinessGalleryService {
     private final BusinessGalleryImageMgr businessGalleryImageMgr;
 
     public BusinessGalleryImageListResponseDTO getMyGallery(AppUser currentUser) {
+        return getMyGallery(currentUser, null);
+    }
+
+    public BusinessGalleryImageListResponseDTO getMyGallery(AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? null : requireOwnerProfile(currentUser, businessProfileId);
         return BusinessGalleryImageListResponseDTO.builder()
-                .items(businessGalleryImageRepository.findByOwnerId(currentUser.getId()).stream()
+                .items((profile == null ? businessGalleryImageRepository.findByOwnerId(currentUser.getId()) : businessGalleryImageRepository.findByBusinessProfileId(profile.getId(), currentUser.getId())).stream()
                         .map(businessGalleryImageMgr::toDto)
                         .toList())
                 .build();
@@ -41,8 +46,12 @@ public class BusinessGalleryService {
 
     @Transactional
     public BusinessGalleryImageResponseDTO createMyGalleryImage(BusinessGalleryImageRequestDTO dto, AppUser currentUser) {
-        BusinessProfile profile = businessProfileRepository.findByOwnerId(currentUser.getId())
-                .orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before managing gallery"));
+        return createMyGalleryImage(dto, currentUser, null);
+    }
+
+    @Transactional
+    public BusinessGalleryImageResponseDTO createMyGalleryImage(BusinessGalleryImageRequestDTO dto, AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? businessProfileRepository.findByOwnerId(currentUser.getId()).orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before managing gallery")) : requireOwnerProfile(currentUser, businessProfileId);
         BusinessGalleryImage image = new BusinessGalleryImage();
         image.setBusinessProfile(profile);
         apply(image, dto);
@@ -76,5 +85,11 @@ public class BusinessGalleryService {
         image.setAltText(dto.getAltText() == null ? null : dto.getAltText().trim());
         image.setSortOrder(dto.getSortOrder() == null ? 0 : dto.getSortOrder());
         image.setActive(dto.getActive() == null || dto.getActive());
+    }
+
+    private BusinessProfile requireOwnerProfile(AppUser currentUser, Long businessProfileId) {
+        return businessProfileRepository.findById(businessProfileId)
+                .filter(profile -> profile.getOwner().getId().equals(currentUser.getId()))
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
     }
 }
