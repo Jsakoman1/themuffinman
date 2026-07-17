@@ -2,6 +2,7 @@
 import {onMounted, ref} from "vue"
 import type {BusinessGalleryImageRequestDTO, BusinessGalleryImageResponseDTO, BusinessProfileRequestDTO} from "../../../contracts/index.ts"
 import {setActiveBusinessProfileId, userShellApi} from "../api/userShellApi.ts"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const form = ref<BusinessProfileRequestDTO | null>(null)
 const profiles = ref<Awaited<ReturnType<typeof userShellApi.getMyBusinessProfiles>>>([])
@@ -66,7 +67,7 @@ const toggleGalleryImage = async (image: BusinessGalleryImageResponseDTO) => {
 }
 
 const removeGalleryImage = async (image: BusinessGalleryImageResponseDTO) => {
-  if (!window.confirm("Remove this gallery image?")) return
+  if (!await confirmAction("Remove this gallery image?", "Remove gallery image")) return
   isGallerySaving.value = true; error.value = ""
   try { await userShellApi.deleteBusinessGalleryImage(image.id); gallery.value = gallery.value.filter(item => item.id !== image.id); feedback.value = "Gallery image removed." }
   catch { error.value = "Could not remove this gallery image." } finally { isGallerySaving.value = false }
@@ -81,7 +82,7 @@ const save = async () => {
 }
 
 const archiveBusiness = async () => {
-  if (!selectedProfileId.value || !window.confirm("Archive this business? It will no longer appear publicly.")) return
+  if (!selectedProfileId.value || !await confirmAction("Archive this business? It will no longer appear publicly.", "Archive business")) return
   try {
     const archived = await userShellApi.archiveBusinessProfile(selectedProfileId.value)
     profiles.value = profiles.value.map(profile => profile.id === archived.id ? archived : profile)

@@ -190,6 +190,8 @@ Current covered modules:
 
 - Location manages saved user location settings, quest location behavior, address lookup, and exact-location sharing rules.
 - Booking reschedule requests use the same backend availability and capacity rules as creation. Customer and owner policy windows are enforced server-side, conflicts leave the original booking unchanged, and accepted changes create an audit event.
+- Public booking uses `POST /business/public/{slug}/booking-preview` to obtain the backend-derived end time, duration, and timezone before submitting a booking. Clients must not derive booking duration locally.
+- Destructive and consequential web actions use the shared action dialog with click-outside and explicit confirmation; browser-native confirmation and alert dialogs are outside the product interaction contract.
 - It supports both profile-level discoverability and quest-level location display.
 - It also records provider usage so admin tools can inspect lookup activity and storage impact.
 

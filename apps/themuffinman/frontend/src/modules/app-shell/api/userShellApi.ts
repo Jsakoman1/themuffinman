@@ -424,6 +424,9 @@ export const userShellApi = {
   async getPublicBusinessPage(slug: string): Promise<BusinessPublicPageDTO> {
     return (await api.get<BusinessPublicPageDTO>(`/business/public/${encodeURIComponent(slug)}`, withAuth())).data
   },
+  async previewPublicBooking(slug: string, request: {businessOfferingId: number; startsAt: string}): Promise<import("../../../contracts/index.ts").BusinessBookingPreviewResponseDTO> {
+    return (await api.post<import("../../../contracts/index.ts").BusinessBookingPreviewResponseDTO>(`/business/public/${encodeURIComponent(slug)}/booking-preview`, request, withAuth())).data
+  },
 
   async getBusinessFavorites(): Promise<BusinessFavorite[]> {
     return (await api.get<BusinessFavorite[]>("/business/favorites/me", withAuth())).data

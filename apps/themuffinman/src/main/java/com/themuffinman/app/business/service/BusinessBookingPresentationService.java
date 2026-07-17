@@ -3,6 +3,8 @@ package com.themuffinman.app.business.service;
 import com.themuffinman.app.business.dto.BusinessBookingAllowedActionDTO;
 import com.themuffinman.app.business.dto.BusinessBookingPresentationDTO;
 import com.themuffinman.app.business.dto.BusinessBookingResponseDTO;
+import com.themuffinman.app.common.dto.ClientActionDTO;
+import com.themuffinman.app.common.dto.ClientActionToneDTO;
 import com.themuffinman.app.business.model.BusinessBooking;
 import com.themuffinman.app.business.model.BusinessBookingStatus;
 import com.themuffinman.app.common.time.TimeSupport;
@@ -26,6 +28,7 @@ public class BusinessBookingPresentationService {
         List<BusinessBookingAllowedActionDTO> allowedActions = resolveCustomerAllowedActions(booking, currentUser, now, policy);
         String blockingReason = resolveCustomerBlockingReason(booking, currentUser, now, policy);
         dto.setAllowedActions(List.copyOf(allowedActions));
+        dto.setActions(toClientActions(allowedActions, "customer"));
         dto.setStatusLabel(formatStatusLabel(booking.getStatus()));
         dto.setBlockingReason(blockingReason);
         dto.setPresentation(BusinessBookingPresentationDTO.builder()
@@ -41,6 +44,7 @@ public class BusinessBookingPresentationService {
         List<BusinessBookingAllowedActionDTO> allowedActions = resolveOwnerAllowedActions(booking, currentUser, now, policy);
         String blockingReason = resolveOwnerBlockingReason(booking, currentUser, now);
         dto.setAllowedActions(List.copyOf(allowedActions));
+        dto.setActions(toClientActions(allowedActions, "owner"));
         dto.setStatusLabel(formatStatusLabel(booking.getStatus()));
         dto.setBlockingReason(blockingReason);
         dto.setPresentation(BusinessBookingPresentationDTO.builder()
@@ -145,6 +149,34 @@ public class BusinessBookingPresentationService {
             case COMPLETED -> "Completed";
             case NO_SHOW -> "No-show";
         };
+    }
+
+    private List<ClientActionDTO> toClientActions(List<BusinessBookingAllowedActionDTO> actions, String actor) {
+        return actions.stream().map(action -> {
+            boolean destructive = action == BusinessBookingAllowedActionDTO.CANCEL
+                    || action == BusinessBookingAllowedActionDTO.CANCEL_AS_OWNER
+                    || action == BusinessBookingAllowedActionDTO.REJECT;
+            String label = switch (action) {
+                case CANCEL -> "Cancel booking";
+                case CONFIRM -> "Confirm booking";
+                case REJECT -> "Reject booking";
+                case COMPLETE -> "Mark complete";
+                case MARK_NO_SHOW -> "Mark no-show";
+                case CANCEL_AS_OWNER -> "Cancel booking";
+                case RESCHEDULE -> "Reschedule booking";
+            };
+            return ClientActionDTO.builder()
+                    .id(action.name())
+                    .label(label)
+                    .tone(destructive ? ClientActionToneDTO.DANGER : ClientActionToneDTO.PRIMARY)
+                    .enabled(true)
+                    .requiresConfirmation(destructive || action == BusinessBookingAllowedActionDTO.CONFIRM)
+                    .confirmationTitle(label)
+                    .confirmationMessage(actor.equals("owner") && action == BusinessBookingAllowedActionDTO.REJECT
+                            ? "Reject this booking request?"
+                            : label + "?")
+                    .build();
+        }).toList();
     }
 
     private String resolveCustomerBlockingReason(BusinessBooking booking, AppUser currentUser, Instant now) {

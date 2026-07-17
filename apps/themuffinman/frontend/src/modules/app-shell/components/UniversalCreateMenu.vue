@@ -2,7 +2,7 @@
 import {RouterLink} from "vue-router"
 
 const options = [
-  {label: "Offer work", description: "Ask for useful help", to: "/work/offer"},
+  {label: "Create new work", description: "Ask for useful help", to: "/work/offer"},
   {label: "Offer a ride", description: "Share a journey", to: {path: "/rides", query: {create: "1"}}},
   {label: "List a thing", description: "Let someone borrow it", to: {path: "/things", query: {create: "1"}}},
   {label: "Create a business", description: "Set up a public service profile", to: "/business/profile"},

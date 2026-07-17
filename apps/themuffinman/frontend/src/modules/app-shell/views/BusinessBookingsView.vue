@@ -3,6 +3,7 @@ import {onMounted, ref} from "vue"
 import type {BusinessBookingResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppDialog from "../components/AppDialog.vue"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const bookings = ref<BusinessBookingResponseDTO[]>([])
 const isLoading = ref(true)
@@ -24,7 +25,7 @@ const load = async () => {
 }
 
 const execute = async (booking: BusinessBookingResponseDTO, action: "confirm" | "reject" | "cancel" | "complete" | "mark-no-show") => {
-  if ((action === "cancel" || action === "reject") && !window.confirm(`${action === "cancel" ? "Cancel" : "Reject"} this booking?`)) return
+  if ((action === "cancel" || action === "reject") && !await confirmAction(`${action === "cancel" ? "Cancel" : "Reject"} this booking?`, `${action === "cancel" ? "Cancel" : "Reject"} booking`)) return
   isActing.value = booking.id
   error.value = ""
   feedback.value = ""

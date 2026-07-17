@@ -7,6 +7,7 @@ import {buildSurfaceVisionRoute} from "../visionHandoff.ts"
 import RichTextEditor from "../components/RichTextEditor.vue"
 import RichTextPreview from "../components/RichTextPreview.vue"
 import AppDialog from "../components/AppDialog.vue"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const route = useRoute()
 const detail = ref<QuestDetailResponseDTO | null>(null)
@@ -38,9 +39,9 @@ const save = async () => {
   try { await userShellApi.updateQuest(questId.value, form.value); feedback.value = "Quest updated."; editing.value = false; await load() } catch { error.value = "Could not update this quest." } finally { isSaving.value = false }
 }
 const runAction = async (action: "START" | "COMPLETE" | "DELETE" | "CANCEL" | "PAUSE" | "RESUME") => {
-  if (action === "DELETE" && !window.confirm("Delete this quest?")) return
-  if (action === "CANCEL" && !window.confirm("Cancel this quest and notify affected applicants or workers?")) return
-  if (action === "PAUSE" && !window.confirm("Pause this quest and notify affected applicants or workers?")) return
+  if (action === "DELETE" && !await confirmAction("Delete this quest?", "Delete quest")) return
+  if (action === "CANCEL" && !await confirmAction("Cancel this quest and notify affected applicants or workers?", "Cancel quest")) return
+  if (action === "PAUSE" && !await confirmAction("Pause this quest and notify affected applicants or workers?", "Pause quest")) return
   isSaving.value = true; error.value = ""; feedback.value = ""
   try { await userShellApi.executeQuestAction(questId.value, action); feedback.value = action === "DELETE" ? "Quest deleted." : action === "CANCEL" ? "Quest cancelled." : action === "PAUSE" ? "Quest paused." : action === "RESUME" ? "Quest resumed." : "Quest updated."; await load() } catch { error.value = "This action could not be completed." } finally { isSaving.value = false }
 }

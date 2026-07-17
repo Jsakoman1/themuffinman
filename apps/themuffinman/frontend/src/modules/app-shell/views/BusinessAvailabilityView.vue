@@ -3,6 +3,7 @@ import {onMounted, ref} from "vue"
 import type {BusinessAvailabilityRuleRequestDTO, BusinessAvailabilityRuleResponseDTO, BusinessOfferingResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppDialog from "../components/AppDialog.vue"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const rules = ref<BusinessAvailabilityRuleResponseDTO[]>([])
 const offerings = ref<BusinessOfferingResponseDTO[]>([])
@@ -19,7 +20,7 @@ const load = async () => { isLoading.value = true; error.value = ""; try { const
 const beginCreate = () => { editingId.value = null; form.value = emptyForm(); feedback.value = "" }
 const beginEdit = (rule: BusinessAvailabilityRuleResponseDTO) => { editingId.value = rule.id; form.value = {businessOfferingId: rule.businessOfferingId, dayOfWeek: rule.dayOfWeek, startTimeLocal: rule.startTimeLocal, endTimeLocal: rule.endTimeLocal, slotGranularityMinutes: rule.slotGranularityMinutes, capacityOverride: rule.capacityOverride, validFrom: rule.validFrom, validUntil: rule.validUntil, active: rule.active}; feedback.value = "" }
 const save = async () => { if (!form.value || !form.value.businessOfferingId) return; isSaving.value = true; error.value = ""; try { if (editingId.value) await userShellApi.updateBusinessAvailabilityRule(editingId.value, form.value); else await userShellApi.createBusinessAvailabilityRule(form.value); form.value = null; feedback.value = "Availability rule saved."; await load() } catch { error.value = "Could not save this availability rule." } finally { isSaving.value = false } }
-const remove = async (rule: BusinessAvailabilityRuleResponseDTO) => { if (!window.confirm("Delete this availability rule?")) return; isSaving.value = true; error.value = ""; try { await userShellApi.deleteBusinessAvailabilityRule(rule.id); feedback.value = "Availability rule deleted."; await load() } catch { error.value = "Could not delete this availability rule." } finally { isSaving.value = false } }
+const remove = async (rule: BusinessAvailabilityRuleResponseDTO) => { if (!await confirmAction("Delete this availability rule?", "Delete availability rule")) return; isSaving.value = true; error.value = ""; try { await userShellApi.deleteBusinessAvailabilityRule(rule.id); feedback.value = "Availability rule deleted."; await load() } catch { error.value = "Could not delete this availability rule." } finally { isSaving.value = false } }
 onMounted(() => void load())
 </script>
 

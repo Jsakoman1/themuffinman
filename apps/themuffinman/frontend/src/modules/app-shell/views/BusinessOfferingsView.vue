@@ -3,6 +3,7 @@ import {onMounted, ref} from "vue"
 import type {BusinessOfferingRequestDTO, BusinessOfferingResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppDialog from "../components/AppDialog.vue"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const offerings = ref<BusinessOfferingResponseDTO[]>([])
 const form = ref<BusinessOfferingRequestDTO | null>(null)
@@ -17,7 +18,7 @@ const load = async () => { isLoading.value = true; error.value = ""; try { offer
 const beginCreate = () => { editingId.value = null; form.value = emptyForm(); feedback.value = "" }
 const beginEdit = (offering: BusinessOfferingResponseDTO) => { editingId.value = offering.id; form.value = {...offering}; feedback.value = "" }
 const save = async () => { if (!form.value) return; isSaving.value = true; error.value = ""; try { if (editingId.value) await userShellApi.updateBusinessOffering(editingId.value, form.value); else await userShellApi.createBusinessOffering(form.value); form.value = null; feedback.value = "Offering saved."; await load() } catch { error.value = "Could not save this offering." } finally { isSaving.value = false } }
-const remove = async (offering: BusinessOfferingResponseDTO) => { if (!window.confirm(`Delete ${offering.title}?`)) return; isSaving.value = true; error.value = ""; try { await userShellApi.deleteBusinessOffering(offering.id); feedback.value = "Offering deleted."; await load() } catch { error.value = "Could not delete this offering." } finally { isSaving.value = false } }
+const remove = async (offering: BusinessOfferingResponseDTO) => { if (!await confirmAction(`Delete ${offering.title}?`, "Delete offering")) return; isSaving.value = true; error.value = ""; try { await userShellApi.deleteBusinessOffering(offering.id); feedback.value = "Offering deleted."; await load() } catch { error.value = "Could not delete this offering." } finally { isSaving.value = false } }
 onMounted(() => void load())
 </script>
 

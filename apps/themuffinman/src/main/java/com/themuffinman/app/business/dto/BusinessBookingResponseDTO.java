@@ -1,5 +1,6 @@
 package com.themuffinman.app.business.dto;
 
+import com.themuffinman.app.common.dto.ClientActionDTO;
 import com.themuffinman.app.business.model.BusinessBookingSource;
 import com.themuffinman.app.business.model.BusinessBookingStatus;
 import lombok.Builder;
@@ -35,6 +36,7 @@ public class BusinessBookingResponseDTO {
     private Integer durationSnapshotMinutes;
     private String idempotencyKey;
     private List<BusinessBookingAllowedActionDTO> allowedActions;
+    private List<ClientActionDTO> actions;
     private String statusLabel;
     private String blockingReason;
     private BusinessBookingPresentationDTO presentation;

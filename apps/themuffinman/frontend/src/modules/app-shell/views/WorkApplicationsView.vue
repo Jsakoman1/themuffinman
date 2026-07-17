@@ -5,6 +5,7 @@ import type {QuestApplicationResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import {resolveSurfaceDetailRoute} from "../shellRouteRegistry.ts"
 import AppDialog from "../components/AppDialog.vue"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const items = ref<QuestApplicationResponseDTO[]>([])
 const page = ref(0)
@@ -32,7 +33,7 @@ const load = async (reset = true) => {
 const loadMore = async () => { if (!hasMore.value || isLoadingMore.value) return; page.value += 1; await load(false) }
 const beginEdit = (application: QuestApplicationResponseDTO) => { editingId.value = application.id; editMessage.value = application.message; editPrice.value = application.proposedPrice }
 const saveEdit = async (application: QuestApplicationResponseDTO) => { isLoadingMore.value = true; error.value = ""; try { await userShellApi.updateMyApplication(application.questId, {message: editMessage.value, proposedPrice: editPrice.value}); editingId.value = null; await load() } catch { error.value = "Could not update this application." } finally { isLoadingMore.value = false } }
-const withdraw = async (application: QuestApplicationResponseDTO) => { if (!window.confirm(`Withdraw your application for “${application.questTitle}”?`)) return; isLoadingMore.value = true; error.value = ""; try { await userShellApi.withdrawMyApplication(application.questId); await load() } catch { error.value = "Could not withdraw this application." } finally { isLoadingMore.value = false } }
+const withdraw = async (application: QuestApplicationResponseDTO) => { if (!await confirmAction(`Withdraw your application for “${application.questTitle}”?`, "Withdraw application")) return; isLoadingMore.value = true; error.value = ""; try { await userShellApi.withdrawMyApplication(application.questId); await load() } catch { error.value = "Could not withdraw this application." } finally { isLoadingMore.value = false } }
 onMounted(() => void load())
 </script>
 

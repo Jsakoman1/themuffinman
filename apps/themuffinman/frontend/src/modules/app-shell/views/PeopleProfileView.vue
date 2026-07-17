@@ -3,6 +3,7 @@ import {onMounted, ref} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import type {UserProfileViewDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
+import {confirmAction, showActionNotice} from "../composables/useActionDialog.ts"
 const route = useRoute(); const profile = ref<UserProfileViewDTO | null>(null); const isLoading = ref(true); const isActing = ref(false); const error = ref("")
 const load = async () => { isLoading.value = true; error.value = ""; try { profile.value = await userShellApi.getCurrentProfileView(Number(route.params.userId)) } catch { error.value = "Could not load this profile." } finally { isLoading.value = false } }
 const sendInvite = async () => {
@@ -12,7 +13,7 @@ const sendInvite = async () => {
 }
 const toggleBlock = async () => {
   if (!profile.value || !profile.value.blockActionEnabled) return
-  if (!profile.value.relation.blockedByCurrentUser && !window.confirm(`Block ${profile.value.profile.username}?`)) return
+  if (!profile.value.relation.blockedByCurrentUser && !await confirmAction(`Block ${profile.value.profile.username}?`, "Block person")) return
   isActing.value = true; error.value = ""
   try {
     if (profile.value.relation.blockedByCurrentUser) await userShellApi.unblockCircleUser(profile.value.profile.id)
@@ -25,7 +26,7 @@ const reportProfile = async () => {
   const reason = window.prompt("Why should this profile be reviewed?")?.trim()
   if (!reason) return
   isActing.value = true; error.value = ""
-  try { await userShellApi.createSafetyReport({targetUserId: profile.value.profile.id, targetFamily: "user", targetId: profile.value.profile.id, reason}); error.value = ""; window.alert("Report submitted privately for review.") }
+  try { await userShellApi.createSafetyReport({targetUserId: profile.value.profile.id, targetFamily: "user", targetId: profile.value.profile.id, reason}); error.value = ""; await showActionNotice("Report submitted privately for review.") }
   catch { error.value = "Could not submit this report." } finally { isActing.value = false }
 }
 onMounted(() => void load())

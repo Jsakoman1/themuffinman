@@ -58,6 +58,9 @@ export type ChatConversationType = typeof CHAT_CONVERSATION_TYPE_VALUES[number]
 export const CIRCLE_RELATION_STATUS_DTO_VALUES = ["NONE", "CIRCLE", "INCOMING_REQUEST", "OUTGOING_REQUEST", "BLOCKED"] as const
 export type CircleRelationStatusDTO = typeof CIRCLE_RELATION_STATUS_DTO_VALUES[number]
 
+export const CLIENT_ACTION_TONE_DTO_VALUES = ["PRIMARY", "SECONDARY", "DANGER", "VISION"] as const
+export type ClientActionToneDTO = typeof CLIENT_ACTION_TONE_DTO_VALUES[number]
+
 export const VISION_DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES = ["QUEST", "APPLICATION", "QUEST_LIST"] as const
 export type VisionDashboardNotificationDestinationTypeDTO = typeof VISION_DASHBOARD_NOTIFICATION_DESTINATION_TYPE_DTO_VALUES[number]
 
@@ -502,6 +505,21 @@ export interface BusinessBookingPresentationDTO {
   blockingReason: string
 }
 
+export interface BusinessBookingPreviewRequestDTO {
+  businessOfferingId: number
+  startsAt: string
+}
+
+export interface BusinessBookingPreviewResponseDTO {
+  businessOfferingId: number
+  offeringTitle: string
+  startsAt: string
+  endsAt: string
+  timezone: string
+  durationMinutes: number
+  actions: ClientActionDTO[]
+}
+
 export interface BusinessBookingQueryDTO {
   businessProfileId: number
   q: string
@@ -550,6 +568,7 @@ export interface BusinessBookingResponseDTO {
   durationSnapshotMinutes: number
   idempotencyKey: string
   allowedActions: BusinessBookingAllowedActionDTO[]
+  actions: ClientActionDTO[]
   statusLabel: string
   blockingReason: string
   presentation: BusinessBookingPresentationDTO
@@ -1182,6 +1201,17 @@ export interface CircleSearchResultListResponseDTO {
 export interface CircleSummaryDTO {
   id: number
   name: string
+}
+
+export interface ClientActionDTO {
+  id: string
+  label: string
+  tone: ClientActionToneDTO
+  enabled: boolean
+  requiresConfirmation: boolean
+  confirmationTitle: string | null
+  confirmationMessage: string | null
+  disabledReason: string | null
 }
 
 export interface CommutePreferenceRequestDTO {

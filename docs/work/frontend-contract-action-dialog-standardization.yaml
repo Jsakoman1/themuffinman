@@ -1,0 +1,45 @@
+kind: work
+version: 1
+id: frontend-contract-action-dialog-standardization
+title: Standardize backend action contracts, frontend domain boundaries, and action dialogs
+status: active
+baseline: 2ed8fc9d1c9311774b9dbfadca22837c12a69abf
+tasks:
+  - id: backend-action-contract
+    title: Add a shared backend client action contract and booking preview contract
+    type: implementation
+    status: pending
+    paths:
+      - apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ClientActionDTO.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ClientActionToneDTO.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingResponseDTO.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPreviewRequestDTO.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPreviewResponseDTO.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+    validation: "apps/themuffinman/./mvnw -q -f apps/themuffinman/pom.xml -DskipTests compile"
+  - id: booking-domain-boundary
+    title: Move booking end-time derivation behind the API and cover it with tests
+    type: implementation
+    status: pending
+    paths:
+      - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+      - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingRequestDTO.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPreviewServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+    validation: "apps/themuffinman/./mvnw -q -f apps/themuffinman/pom.xml -Dtest='*BusinessBooking*' test"
+  - id: frontend-action-surface
+    title: Replace browser confirmations/alerts with one shared action dialog and central CSS tokens
+    type: implementation
+    status: pending
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/components/AppActionDialog.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/composables/useActionDialog.ts
+      - apps/themuffinman/frontend/src/App.vue
+      - apps/themuffinman/frontend/src/styles/base.css
+      - apps/themuffinman/frontend/src/style.css
+      - apps/themuffinman/frontend/src/modules/app-shell/views
+      - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+      - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+    validation: "npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build && npm --prefix apps/themuffinman/frontend run validate:web-surface && npm --prefix apps/themuffinman/frontend run validate:modern-surface"
+evidence: []

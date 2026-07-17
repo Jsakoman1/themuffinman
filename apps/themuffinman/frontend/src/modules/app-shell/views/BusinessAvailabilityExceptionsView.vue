@@ -3,6 +3,7 @@ import {onMounted, ref} from "vue"
 import type {BusinessAvailabilityExceptionRequestDTO, BusinessAvailabilityExceptionResponseDTO, BusinessOfferingResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppDialog from "../components/AppDialog.vue"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const items = ref<BusinessAvailabilityExceptionResponseDTO[]>([])
 const offerings = ref<BusinessOfferingResponseDTO[]>([])
@@ -18,7 +19,7 @@ const load = async () => { isLoading.value = true; error.value = ""; try { const
 const beginCreate = () => { editingId.value = null; form.value = emptyForm(); feedback.value = "" }
 const beginEdit = (item: BusinessAvailabilityExceptionResponseDTO) => { editingId.value = item.id; form.value = {businessOfferingId: item.businessOfferingId, exceptionType: item.exceptionType, startAt: item.startAt.slice(0, 16), endAt: item.endAt.slice(0, 16), replacementCapacity: item.replacementCapacity, replacementStartTimeLocal: item.replacementStartTimeLocal, replacementEndTimeLocal: item.replacementEndTimeLocal, reason: item.reason}; feedback.value = "" }
 const save = async () => { if (!form.value || !form.value.businessOfferingId || !form.value.startAt || !form.value.endAt) return; isSaving.value = true; error.value = ""; const request = {...form.value, startAt: new Date(form.value.startAt).toISOString(), endAt: new Date(form.value.endAt).toISOString()}; try { if (editingId.value) await userShellApi.updateBusinessAvailabilityException(editingId.value, request); else await userShellApi.createBusinessAvailabilityException(request); form.value = null; feedback.value = "Availability exception saved."; await load() } catch { error.value = "Could not save this exception." } finally { isSaving.value = false } }
-const remove = async (item: BusinessAvailabilityExceptionResponseDTO) => { if (!window.confirm("Delete this availability exception?")) return; isSaving.value = true; error.value = ""; try { await userShellApi.deleteBusinessAvailabilityException(item.id); feedback.value = "Availability exception deleted."; await load() } catch { error.value = "Could not delete this exception." } finally { isSaving.value = false } }
+const remove = async (item: BusinessAvailabilityExceptionResponseDTO) => { if (!await confirmAction("Delete this availability exception?", "Delete exception")) return; isSaving.value = true; error.value = ""; try { await userShellApi.deleteBusinessAvailabilityException(item.id); feedback.value = "Availability exception deleted."; await load() } catch { error.value = "Could not delete this exception." } finally { isSaving.value = false } }
 onMounted(() => void load())
 </script>
 

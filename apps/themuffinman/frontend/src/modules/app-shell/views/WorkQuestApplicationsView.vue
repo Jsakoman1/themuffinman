@@ -3,6 +3,7 @@ import {computed, onMounted, ref} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import type {QuestApplicationsViewDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const route = useRoute()
 const view = ref<QuestApplicationsViewDTO | null>(null)
@@ -17,7 +18,7 @@ const approvedApplications = computed(() => view.value?.approvedApplications ?? 
 const pendingApplications = computed(() => (view.value?.visibleApplications ?? []).filter(application => application.status === "PENDING"))
 const load = async () => { isLoading.value = true; error.value = ""; try { view.value = await userShellApi.getQuestApplications(questId()) } catch { error.value = "Could not load applications." } finally { isLoading.value = false } }
 const decide = async (applicationId: number, decision: "approve" | "decline") => { isWorking.value = true; error.value = ""; feedback.value = ""; try { await userShellApi.decideQuestApplication(questId(), applicationId, decision); feedback.value = decision === "approve" ? "Application approved." : "Application declined."; await load() } catch { error.value = "Could not update this application." } finally { isWorking.value = false } }
-const release = async (applicationId: number) => { if (!window.confirm("Release this worker and reopen the available slot?")) return; isWorking.value = true; error.value = ""; feedback.value = ""; try { await userShellApi.releaseQuestWorker(questId(), applicationId); feedback.value = "Worker assignment released."; await load() } catch { error.value = "Could not release this worker." } finally { isWorking.value = false } }
+const release = async (applicationId: number) => { if (!await confirmAction("Release this worker and reopen the available slot?", "Release worker")) return; isWorking.value = true; error.value = ""; feedback.value = ""; try { await userShellApi.releaseQuestWorker(questId(), applicationId); feedback.value = "Worker assignment released."; await load() } catch { error.value = "Could not release this worker." } finally { isWorking.value = false } }
 const replace = async () => { if (!replacingApplicationId.value || !replacementApplicationId.value) return; isWorking.value = true; error.value = ""; feedback.value = ""; try { await userShellApi.replaceQuestWorker(questId(), replacingApplicationId.value, replacementApplicationId.value); feedback.value = "Worker assignment replaced."; replacingApplicationId.value = null; replacementApplicationId.value = null; await load() } catch { error.value = "Could not replace this worker." } finally { isWorking.value = false } }
 onMounted(() => void load())
 </script>

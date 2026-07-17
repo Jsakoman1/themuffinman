@@ -3,6 +3,7 @@ import axios from "axios"
 import {onMounted} from "vue"
 import {authApi} from "./modules/identity/api/authApi.ts"
 import {clearSession, saveSession, token} from "./services/sessionService.ts"
+import AppActionDialog from "./modules/app-shell/components/AppActionDialog.vue"
 
 onMounted(() => {
   if (!token.value) {
@@ -28,4 +29,5 @@ onMounted(() => {
 
 <template>
   <router-view />
+  <AppActionDialog />
 </template>

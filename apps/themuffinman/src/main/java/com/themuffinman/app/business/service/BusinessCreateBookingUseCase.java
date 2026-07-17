@@ -53,6 +53,7 @@ public class BusinessCreateBookingUseCase {
         }
 
         BusinessOffering offering = businessBookingPrimitiveService.lockOffering(dto.getBusinessOfferingId());
+        dto.setEndsAt(resolveEndsAt(offering, dto));
         BusinessBookingPolicy policy = businessBookingPolicyService.loadOrCreatePolicyEntity(offering.getBusinessProfile().getOwner());
         businessBookingValidationService.validateCreate(offering, currentUser, dto.getStartsAt(), dto.getEndsAt(), policy);
 
@@ -125,6 +126,16 @@ public class BusinessCreateBookingUseCase {
         booking.setPriceSnapshotAmount(offering.getBasePriceAmount());
         booking.setPriceSnapshotCurrency(offering.getBasePriceCurrency());
         booking.setDurationSnapshotMinutes((int) Duration.between(booking.getStartsAt(), booking.getEndsAt()).toMinutes());
+    }
+
+    private java.time.Instant resolveEndsAt(BusinessOffering offering, BusinessBookingRequestDTO dto) {
+        if (dto.getEndsAt() != null) {
+            return dto.getEndsAt();
+        }
+        if (dto.getStartsAt() == null || offering.getDefaultDurationMinutes() == null) {
+            throw ServiceErrors.badRequest("Booking end or offering duration is required");
+        }
+        return dto.getStartsAt().plus(java.time.Duration.ofMinutes(offering.getDefaultDurationMinutes()));
     }
 
     private void validateSamePayload(BusinessBooking existing, Long offeringId, java.time.Instant startsAt, java.time.Instant endsAt) {

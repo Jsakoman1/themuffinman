@@ -361,6 +361,8 @@ Technical notes:
 - `BusinessBookingPrimitiveService` serializes create flows on the offering row and owns the shared occupancy-count primitive used by capacity validation.
 - `BusinessBookingValidationService` owns lead-time, advance-horizon, duration, availability-coverage, capacity, and cancellation-window rules.
 - Booking DTOs are backend-prepared through `BusinessBookingPresentationService` and include `allowedActions`, `statusLabel`, and `blockingReason` so clients do not derive workflow rules locally.
+- `BusinessBookingPreviewService` exposes `POST /business/public/{slug}/booking-preview`, resolving the active offering and deriving the end instant from backend duration and business timezone.
+- Shared `ClientActionDTO` and `ClientActionToneDTO` provide a device-neutral action contract with labels, confirmation requirements, tone, and disabled reasons; domain-specific action enums remain available for compatibility.
 - `BusinessBookingPresentationService` resolves effective booking policy without mutating state, while write flows remain responsible for creating missing policy rows.
 - `BusinessBookingReadService` exposes separate owner and customer surfaces with pagination and filter contracts from the start.
 - Vision's `view_business_bookings` route consumes the owner booking read surface together with the owner dashboard summary so booking review, pending confirmations, and capacity context stay backend-prepared.
@@ -1833,6 +1835,7 @@ The cross-module product capability map is maintained in `docs/capability-invent
 - Presentation descriptions and planning explanations are not part of the default visual surface. They may remain in internal read models for compatibility, but renderers consume title, badge, metadata, actions, and state only.
 - Cross-module search comparison is backend-owned: entity-family selection, visibility filtering, ranking, pagination, empty states, and errors are returned as contract data. Clients preserve each result's family label and source route and do not locally re-rank or truncate mixed results. The acceptance matrix is `docs/cross-module-search-acceptance.yaml`.
 - Future iPhone and Watch clients use `docs/native-client-handoff-contract.yaml` as the shared handoff boundary. They reuse backend permissions, action DTOs, pagination, retry semantics, and source routes; compact Watch presentation may reduce density but cannot redefine workflow meaning or authorization.
+- Web confirmation intent is centralized in `frontend/src/modules/app-shell/composables/useActionDialog.ts` and rendered by `AppActionDialog.vue`; it does not own authorization or state transitions.
 - Native handoff tokens are short-lived, hashed at rest, bound to the authenticated user and target device, and consumed once. Expired, replayed, or mismatched-device tokens are rejected before a receiver can continue a task.
 - `npm run validate:modern-surface` is the lightweight acceptance guard for route ownership, list pagination controls, request cancellation, and the no-local-truncation invariant; browser screenshot testing remains a separate environment concern.
 

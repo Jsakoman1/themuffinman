@@ -1,17 +1,22 @@
 :root {
   color-scheme: light;
-  --bg: #ffffff;
-  --text: #111111;
+  --bg: #f7f8f5;
+  --text: #17221a;
   --text-muted: rgba(23, 34, 26, 0.62);
   --text-soft: rgba(23, 34, 26, 0.45);
   --surface: rgba(255, 255, 255, 0.86);
+  --surface-strong: #fcfcf8;
   --surface-muted: rgba(214, 228, 218, 0.42);
   --border-subtle: rgba(23, 34, 26, 0.1);
   --border-strong: rgba(23, 34, 26, 0.22);
+  --accent-cyan: #8bd7d0;
+  --accent-amber: #e7b86a;
+  --accent-red: #b84842;
   --danger: #8d2f25;
   --success: #2d6846;
   --warning: #8a5a18;
   --font: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --vision-surface-ink: #1a242f;
   --vision-surface-ink-muted: rgba(26, 36, 47, 0.62);
   --vision-surface-ink-soft: rgba(26, 36, 47, 0.46);
@@ -25,6 +30,7 @@
   --shadow-card: 0 18px 40px rgba(23, 34, 26, 0.06);
   --focus-ring: 0 0 0 3px rgba(35, 105, 161, 0.28);
   --z-overlay: 20;
+  --z-dialog: 40;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
@@ -61,6 +67,39 @@ textarea {
 
 button {
   cursor: pointer;
+}
+
+.ui-surface {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  padding: 0.6rem 0.9rem;
+  background: transparent;
+  color: var(--text);
+  font-weight: 650;
+}
+
+.ui-button--primary { border-color: var(--text); background: var(--text); color: var(--surface-strong); }
+.ui-button--danger { border-color: var(--accent-red); color: var(--accent-red); }
+.ui-button--vision { border-color: var(--accent-amber); background: var(--accent-amber); color: #1c1304; }
+
+.ui-field {
+  width: 100%;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  padding: 0.7rem;
+  background: var(--surface-strong);
+  color: var(--text);
 }
 
 button:disabled {

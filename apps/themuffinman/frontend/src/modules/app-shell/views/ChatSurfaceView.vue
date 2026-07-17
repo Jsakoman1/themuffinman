@@ -4,6 +4,7 @@ import {RouterLink, useRoute, useRouter} from "vue-router"
 import type {ChatAttachmentUploadDTO, ChatConversationSummaryDTO, ChatMessageDTO, CircleSearchResultDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppIconButton from "../components/AppIconButton.vue"
+import {confirmAction} from "../composables/useActionDialog.ts"
 
 const route = useRoute()
 const router = useRouter()
@@ -119,7 +120,7 @@ const openDirectChat = async (userId: number) => {
   try { const conversation = await userShellApi.openChat({otherUserId: userId}); directQuery.value = ""; directCandidates.value = []; await loadConversations(); await router.push(`/chat/${conversation.conversationId}`) } catch { error.value = "Could not open this conversation." } finally { isOpeningDirect.value = false }
 }
 const leaveGroup = async () => {
-  if (!selectedId.value || selectedConversation.value?.conversationType !== "GROUP" || !window.confirm("Leave this group conversation?")) return
+  if (!selectedId.value || selectedConversation.value?.conversationType !== "GROUP" || !await confirmAction("Leave this group conversation?", "Leave conversation")) return
   try {
     await userShellApi.leaveChatConversation(selectedId.value)
     await loadConversations()
@@ -140,7 +141,7 @@ const removeAttachment = () => { attachment.value = null; clearAttachmentPreview
 const send = async () => { if (!selectedId.value || (!draft.value.trim() && !attachment.value)) return; error.value = ""; try { const message = await userShellApi.sendChatMessage(selectedId.value, draft.value.trim(), attachment.value, replyingTo.value?.id); messages.value = [...messages.value, message]; draft.value = ""; replyingTo.value = null; removeAttachment() } catch { error.value = "Could not send this message." } }
 const beginEdit = (message: ChatMessageDTO) => { editingId.value = message.id; editingDraft.value = message.messageBody ?? "" }
 const saveEdit = async (message: ChatMessageDTO) => { if (!selectedId.value || !editingDraft.value.trim()) return; try { replaceMessage(await userShellApi.updateChatMessage(selectedId.value, message.id, editingDraft.value.trim())); editingId.value = null } catch { error.value = "Could not edit this message." } }
-const remove = async (message: ChatMessageDTO) => { if (!selectedId.value || !window.confirm("Delete this message?")) return; try { await userShellApi.deleteChatMessage(selectedId.value, message.id); messages.value = messages.value.map(item => item.id === message.id ? {...item, deleted: true, messageBody: null} : item) } catch { error.value = "Could not delete this message." } }
+const remove = async (message: ChatMessageDTO) => { if (!selectedId.value || !await confirmAction("Delete this message?", "Delete message")) return; try { await userShellApi.deleteChatMessage(selectedId.value, message.id); messages.value = messages.value.map(item => item.id === message.id ? {...item, deleted: true, messageBody: null} : item) } catch { error.value = "Could not delete this message." } }
 const toggleReaction = async (message: ChatMessageDTO) => { if (!selectedId.value) return; const own = message.reactions.find(reaction => reaction.ownReaction && reaction.emoji === "👍"); try { replaceMessage(own ? await userShellApi.removeChatReaction(selectedId.value, message.id, "👍") : await userShellApi.addChatReaction(selectedId.value, message.id, "👍")) } catch { error.value = "Could not update this reaction." } }
 const recoverConversation = () => { if (document.visibilityState === "visible" && selectedId.value) void syncConversation() }
 const recoverWhenOnline = () => { if (selectedId.value) void syncConversation() }
