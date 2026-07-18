@@ -1,42 +1,12 @@
 SHELL := /bin/zsh
 
-.PHONY: dev dev-doctor dev-storage dev-storage-down backend-dev backend-test backend-package backend-bootstrap-example audit-agent-safety
+.PHONY: dev dev-stop dev-doctor dev-storage dev-storage-down backend-dev backend-test backend-package backend-bootstrap-example audit-agent-safety
 
 dev:
-	@set -a; \
-	[[ -f .env.backend.dev ]] && source .env.backend.dev; \
-	[[ -f .env.backend.dev.local ]] && source .env.backend.dev.local; \
-	set +a; \
-	export SPRING_PROFILES_ACTIVE="$${SPRING_PROFILES_ACTIVE:-dev}"; \
-	export SIDEQUEST_JWT_SECRET="$${SIDEQUEST_JWT_SECRET:-sidequest-dev-secret-sidequest-dev-secret-123456}"; \
-	export SIDEQUEST_CORS_ALLOWED_ORIGINS="$${SIDEQUEST_CORS_ALLOWED_ORIGINS:-http://localhost:5173}"; \
-	echo "[dev] object storage enabled=$${SIDEQUEST_OBJECT_STORAGE_ENABLED:-false} provider=$${SIDEQUEST_OBJECT_STORAGE_PROVIDER:-local}"; \
-	if [[ "$${SIDEQUEST_OBJECT_STORAGE_ENABLED:-false}" == "true" && "$${SIDEQUEST_OBJECT_STORAGE_PROVIDER:-local}" == "s3" ]]; then \
-		echo "[dev] starting local MinIO because object storage provider is s3"; \
-		$(MAKE) dev-storage; \
-	elif [[ "$${SIDEQUEST_OBJECT_STORAGE_ENABLED:-false}" == "true" && "$${SIDEQUEST_OBJECT_STORAGE_PROVIDER:-local}" == "local" ]]; then \
-		echo "[dev] using local-disk object storage; no MinIO container needed"; \
-	else \
-		echo "[dev] chat attachments storage is disabled"; \
-	fi; \
-	backend_pid=""; \
-	frontend_pid=""; \
-	cleanup() { \
-		[[ -n "$$backend_pid" ]] && kill "$$backend_pid" >/dev/null 2>&1 || true; \
-		[[ -n "$$frontend_pid" ]] && kill "$$frontend_pid" >/dev/null 2>&1 || true; \
-	}; \
-	trap cleanup INT TERM EXIT; \
-	if lsof -nP -iTCP:8080 -sTCP:LISTEN >/dev/null 2>&1; then \
-		echo "[backend] port 8080 is already in use, skipping local backend start"; \
-	else \
-		( ./mvnw spring-boot:run ) & backend_pid="$$!"; \
-	fi; \
-	if lsof -nP -iTCP:5173 -sTCP:LISTEN >/dev/null 2>&1; then \
-		echo "[frontend] port 5173 is already in use, skipping local frontend start"; \
-	else \
-		( cd frontend && npm run dev ) & frontend_pid="$$!"; \
-	fi; \
-	wait
+	@./scripts/dev-stack.sh start
+
+dev-stop:
+	@./scripts/dev-stack.sh stop
 
 dev-doctor:
 	@set -a; \

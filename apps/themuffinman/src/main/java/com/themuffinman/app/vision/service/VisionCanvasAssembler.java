@@ -16,6 +16,7 @@ import com.themuffinman.app.vision.dto.VisionWorkspaceHandoffDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestReviewDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
+import com.themuffinman.app.vision.dto.VisionSearchComparisonDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionTurn;
@@ -60,8 +61,24 @@ public class VisionCanvasAssembler {
             VisionQuestDiscoveryDTO questDiscovery,
             VisionSearchDiscoveryDTO searchDiscovery,
             VisionCapabilityPreviewDTO capabilityPreview,
+        VisionMemoryTrailDTO memoryTrail,
+        VisionWorkspaceHandoffDTO workspaceHandoff
+    ) {
+        return assemble(conversation, turn, recentConversations, executionCandidate, questDiscovery, searchDiscovery,
+                capabilityPreview, memoryTrail, workspaceHandoff, null);
+    }
+
+    public VisionConversationTurnResponseDTO assemble(
+            VisionConversation conversation,
+            VisionTurn turn,
+            List<VisionConversationSummaryDTO> recentConversations,
+            VisionExecutionCandidateDTO executionCandidate,
+            VisionQuestDiscoveryDTO questDiscovery,
+            VisionSearchDiscoveryDTO searchDiscovery,
+            VisionCapabilityPreviewDTO capabilityPreview,
             VisionMemoryTrailDTO memoryTrail,
-            VisionWorkspaceHandoffDTO workspaceHandoff
+            VisionWorkspaceHandoffDTO workspaceHandoff,
+            VisionSearchComparisonDTO searchComparison
     ) {
         return VisionConversationTurnResponseDTO.builder()
                 .conversationId(conversation.getId())
@@ -81,8 +98,9 @@ public class VisionCanvasAssembler {
                 .executionCandidate(executionCandidate)
                 .questDiscovery(questDiscovery)
                 .searchDiscovery(searchDiscovery)
+                .searchComparison(searchComparison)
                 .memoryTrail(memoryTrail)
-                .blocks(toBlocks(conversation, turn, questDiscovery, searchDiscovery, capabilityPreview))
+                .blocks(toBlocks(conversation, turn, questDiscovery, searchDiscovery, searchComparison, capabilityPreview))
                 .appliedSlotSummaries(toAppliedSlotSummaries(conversation.getSlotData(), turn.getAppliedSlotIds()))
                 .slotSummaries(toSlotSummaries(conversation.getSlotData()))
                 .review(toReview(conversation.getSlotData(), turn))
@@ -95,6 +113,7 @@ public class VisionCanvasAssembler {
             VisionTurn turn,
             VisionQuestDiscoveryDTO questDiscovery,
             VisionSearchDiscoveryDTO searchDiscovery,
+            VisionSearchComparisonDTO searchComparison,
             VisionCapabilityPreviewDTO capabilityPreview
     ) {
         List<VisionCanvasBlockDTO> blocks = new ArrayList<>();
@@ -135,6 +154,18 @@ public class VisionCanvasAssembler {
                     .title("Search results")
                     .body(searchDiscovery.getSummary())
                     .searchDiscovery(searchDiscovery)
+                    .tone("info")
+                    .build());
+        }
+
+        if (searchComparison != null) {
+            blocks.add(VisionCanvasBlockDTO.builder()
+                    .type("search_comparison")
+                    .title("Comparison")
+                    .body(searchComparison.getFallbackMessage() == null
+                            ? "Compared permitted results."
+                            : searchComparison.getFallbackMessage())
+                    .searchComparison(searchComparison)
                     .tone("info")
                     .build());
         }

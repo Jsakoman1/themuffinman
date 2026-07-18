@@ -134,6 +134,12 @@ final class VisionIntentSignalSupport {
                 "who can help",
                 "people who",
                 "things that",
+                "compare results",
+                "compare these",
+                "compare options",
+                "compare",
+                "side by side",
+                "which is better",
                 "something nearby",
                 "anything nearby");
     }
@@ -184,9 +190,18 @@ final class VisionIntentSignalSupport {
         return containsAny(value,
                 "notification preferences", "notification settings", "notification preference",
                 "turn off chat notifications", "turn on chat notifications", "disable chat notifications",
-                "enable chat notifications", "mute chat notifications", "unmute chat notifications",
+                "disable chat in-app notifications", "disable chat in app notifications", "enable chat in-app notifications", "enable chat in app notifications",
+                "turn off chat in-app notifications", "turn off chat in app notifications", "turn on chat in-app notifications", "turn on chat in app notifications",
+                "mute chat notifications", "unmute chat notifications",
                 "turn off email notifications", "turn on email notifications", "disable email notifications",
                 "enable email notifications", "mute push notifications", "unmute push notifications");
+    }
+
+    boolean containsNotificationsReadSignals(String value) {
+        return containsAny(value,
+                "mark all notifications as read", "mark notifications as read",
+                "mark notification as read", "mark this notification as read",
+                "clear notifications", "clear notification inbox", "read all notifications");
     }
 
     boolean containsWorkerReleaseSignals(String value) {
@@ -296,6 +311,10 @@ final class VisionIntentSignalSupport {
 
     boolean containsQuestCancelSignals(String value) {
         return containsAny(value, "cancel quest", "cancel job", "cancel work", "cancel my quest", "cancel my job");
+    }
+
+    boolean containsQuestReopenSignals(String value) {
+        return containsAny(value, "reopen quest", "reopen job", "reopen work", "reopen my quest", "reopen my job", "reopen cancelled quest", "reopen canceled quest");
     }
 
     boolean containsQuestPauseSignals(String value) {

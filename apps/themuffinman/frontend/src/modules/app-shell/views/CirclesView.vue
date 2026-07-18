@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
+import {computed, onMounted, ref} from "vue"
 import type {CircleGroupResponseDTO, CircleRequestResponseDTO, CircleSearchResultDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
+import AppButton from "../components/AppButton.vue"
 import AppDialog from "../components/AppDialog.vue"
+import AppFormField from "../components/AppFormField.vue"
+import AppFormFooter from "../components/AppFormFooter.vue"
+import AppStatus from "../components/AppStatus.vue"
+import CollectionToolbar from "../components/CollectionToolbar.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 
 const groups = ref<CircleGroupResponseDTO[]>([])
@@ -21,6 +26,8 @@ const editingGroupName = ref("")
 const loadWarnings = ref<string[]>([])
 const hasUsableData = ref(false)
 const createOpen = ref(false)
+const selectedGroupId = ref<number | null>(null)
+const selectedGroup = computed(() => groups.value.find((group) => group.id === selectedGroupId.value) ?? null)
 
 const load = async () => {
   isLoading.value = true; error.value = ""; loadWarnings.value = []
@@ -59,31 +66,61 @@ onMounted(() => void load())
 
 <template>
   <section class="circles">
-    <header class="circles__header"><div><p class="circles__eyebrow">People / Circles</p><h1>Circles</h1></div><span>{{ groups.length }} groups</span></header>
+    <header class="circles__header"><div><p class="circles__eyebrow">People / Circles</p><h1>Circles</h1></div></header><CollectionToolbar title="Trust circles" :count="groups.length" :busy="isLoading"><template #actions><AppButton tone="primary" type="button" @click="createOpen = true">New circle</AppButton></template></CollectionToolbar>
     <aside class="circles__privacy" aria-label="Circle privacy explanation"><strong>Circles are a trust boundary.</strong><span>Membership does not automatically reveal your exact address or private activity. Each module still applies its own visibility and consent rules; manage exact location sharing in Profile Settings.</span></aside>
-    <p v-if="feedback" class="circles__feedback" role="status">{{ feedback }}</p>
-    <div v-if="isLoading" class="circles__status" role="status">Loading.</div>
-    <div v-else-if="error && !hasUsableData" class="circles__status circles__status--error" role="alert">{{ error }} <button type="button" @click="load">Retry</button></div>
+    <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading." /><AppStatus v-else-if="error && !hasUsableData" :message="error" tone="error" retry @retry="load" />
     <template v-else>
-      <button type="button" class="circles__create-button" @click="createOpen = true">New circle</button>
-      <form class="circles__search" @submit.prevent="search"><input v-model="searchQuery" placeholder="Find people"><button type="submit">Search</button></form>
-      <section v-if="results.length" class="circles__section"><h2>People</h2><article v-for="person in results" :key="person.id" class="circles__row"><div><strong>{{ person.username }}</strong><span>{{ person.profileDescription }}</span></div><button type="button" @click="block(person.id)">Block</button></article></section>
-      <section v-if="requests.length" class="circles__section"><h2>Incoming requests</h2><article v-for="request in requests" :key="request.id" class="circles__row"><div><strong>{{ request.requesterUsername }}</strong><span>{{ request.requestSummaryLabel }}</span></div><div><button type="button" :disabled="isActing" @click="decide(request, true)">Accept</button><button type="button" :disabled="isActing" @click="decide(request, false)">Decline</button></div></article></section>
-      <section v-if="outgoing.length" class="circles__section"><h2>Outgoing requests</h2><article v-for="request in outgoing" :key="request.id" class="circles__row"><div><strong>{{ request.counterpartUsername }}</strong><span>{{ request.requestSummaryLabel }}</span></div><button type="button" :disabled="isActing" @click="decide(request, false)">Cancel</button></article></section>
-      <section v-if="blocked.length" class="circles__section"><h2>Blocked</h2><article v-for="person in blocked" :key="person.id" class="circles__row"><div><strong>{{ person.username }}</strong></div><button type="button" :disabled="isActing" @click="unblock(person.id)">Unblock</button></article></section>
-      <section class="circles__section"><h2>Your circles</h2><p v-if="groups.length === 0" class="circles__status">No circles yet.</p><article v-for="group in groups" :key="group.id" class="circles__row"><form v-if="editingGroupId === group.id" class="circles__inline-edit" @submit.prevent="saveGroup"><input v-model="editingGroupName" required maxlength="120"><button type="submit" :disabled="isActing">Save</button><button type="button" @click="editingGroupId = null">Cancel</button></form><div v-else><strong>{{ group.name }}</strong><span>{{ group.memberCount }} members · {{ group.memberPreviewLabel }}</span><details v-if="group.members?.length" class="circles__members"><summary>View members</summary><span v-for="member in group.members" :key="member.userId"><span>{{ member.username }}</span><button type="button" :disabled="isActing" @click="removeMember(group.id, member.userId, member.username)">Remove</button></span></details></div><div v-if="editingGroupId !== group.id"><button type="button" @click="beginEditGroup(group)">Edit</button><button type="button" :disabled="isActing" @click="archiveGroup(group)">Remove</button><button type="button" :disabled="isActing" @click="leaveCircle(group.id)">Leave</button></div></article></section>
-      <p v-if="error" class="circles__status circles__status--error" role="alert">{{ error }} <button type="button" @click="load">Retry</button></p>
+      <form class="circles__search" @submit.prevent="search"><AppFormField label="Find people"><input v-model="searchQuery" placeholder="Find people"></AppFormField><AppButton type="submit">Search</AppButton></form>
+      <section v-if="results.length" class="circles__section"><h2>People</h2><article v-for="person in results" :key="person.id" class="circles__row"><div><strong>{{ person.username }}</strong><span>{{ person.profileDescription }}</span></div><AppButton tone="danger" type="button" @click="block(person.id)">Block</AppButton></article></section>
+      <section v-if="requests.length" class="circles__section"><h2>Incoming requests</h2><article v-for="request in requests" :key="request.id" class="circles__row"><div><strong>{{ request.requesterUsername }}</strong><span>{{ request.requestSummaryLabel }}</span></div><div class="circles__actions"><AppButton tone="primary" :loading="isActing" @click="decide(request, true)">Accept</AppButton><AppButton tone="quiet" :loading="isActing" @click="decide(request, false)">Decline</AppButton></div></article></section>
+      <section v-if="outgoing.length" class="circles__section"><h2>Outgoing requests</h2><article v-for="request in outgoing" :key="request.id" class="circles__row"><div><strong>{{ request.counterpartUsername }}</strong><span>{{ request.requestSummaryLabel }}</span></div><AppButton tone="quiet" :loading="isActing" @click="decide(request, false)">Cancel</AppButton></article></section>
+      <section v-if="blocked.length" class="circles__section"><h2>Blocked</h2><article v-for="person in blocked" :key="person.id" class="circles__row"><div><strong>{{ person.username }}</strong></div><AppButton tone="quiet" :loading="isActing" @click="unblock(person.id)">Unblock</AppButton></article></section>
+      <section class="circles__section"><h2>Your circles</h2><p v-if="groups.length === 0" class="circles__status">No circles yet.</p><div v-else class="circles__circles-workspace"><div class="circles__circle-list"><article v-for="group in groups" :key="group.id" class="circles__row" :class="{ 'circles__row--selected': selectedGroupId === group.id }" @click="selectedGroupId = group.id"><form v-if="editingGroupId === group.id" class="circles__inline-edit" @submit.prevent="saveGroup"><input v-model="editingGroupName" required maxlength="120"><AppButton tone="primary" type="submit" :loading="isActing">Save</AppButton><AppButton tone="quiet" type="button" @click="editingGroupId = null">Cancel</AppButton></form><div v-else><strong>{{ group.name }}</strong><span>{{ group.memberCount }} members · {{ group.memberPreviewLabel }}</span><details v-if="group.members?.length" class="circles__members"><summary>View members</summary><span v-for="member in group.members" :key="member.userId"><span>{{ member.username }}</span><AppButton tone="danger" :loading="isActing" @click.stop="removeMember(group.id, member.userId, member.username)">Remove</AppButton></span></details></div><div v-if="editingGroupId !== group.id" class="circles__actions"><AppButton type="button" @click.stop="beginEditGroup(group)">Edit</AppButton><AppButton tone="danger" :loading="isActing" @click.stop="archiveGroup(group)">Remove</AppButton><AppButton tone="quiet" :loading="isActing" @click.stop="leaveCircle(group.id)">Leave</AppButton></div></article></div><aside v-if="selectedGroup" class="circles__preview" aria-label="Circle preview"><p class="circles__eyebrow">Selected circle</p><h2>{{ selectedGroup.name }}</h2><p>{{ selectedGroup.memberCount }} members</p><dl><div><dt>Members</dt><dd>{{ selectedGroup.memberCount }}</dd></div><div><dt>Preview</dt><dd>{{ selectedGroup.memberPreviewLabel }}</dd></div></dl><div v-if="selectedGroup.members?.length" class="circles__preview-members"><strong>Members</strong><span v-for="member in selectedGroup.members" :key="member.userId">{{ member.username }}</span></div><p class="circles__preview-note">Circle membership is a trust boundary; module-specific visibility and consent rules still apply.</p></aside><aside v-else class="circles__preview circles__preview--empty" aria-label="Circle preview"><p class="circles__eyebrow">Preview</p><h2>Select a circle</h2><p>Inspect membership context without leaving the collection.</p></aside></div></section>
+      <p v-if="error" class="circles__status circles__status--error" role="alert">{{ error }} <AppButton tone="quiet" type="button" @click="load">Retry</AppButton></p>
     </template>
-    <AppDialog :open="createOpen" title="Create a circle" @close="createOpen = false"><form class="circles__dialog-form" @submit.prevent="createGroup().then(() => { if (!error) createOpen = false })"><label>Circle name<input v-model="groupName" placeholder="New circle name" maxlength="120" required></label><button type="submit" :disabled="isActing">{{ isActing ? "Creating" : "Create circle" }}</button></form></AppDialog>
+    <AppDialog :open="createOpen" title="Create a circle" layout="workspace" @close="createOpen = false"><form class="circles__dialog-form" @submit.prevent="createGroup().then(() => { if (!error) createOpen = false })"><AppFormField label="Circle name" required><input v-model="groupName" placeholder="New circle name" maxlength="120" required></AppFormField><AppFormFooter><template #secondary><AppButton type="button" @click="createOpen = false">Cancel</AppButton></template><template #primary><AppButton tone="primary" type="submit" :loading="isActing">Create circle</AppButton></template></AppFormFooter></form><template #utility><p>A circle is a trust boundary. Module-specific visibility and consent policies still apply after membership changes.</p></template></AppDialog>
   </section>
 </template>
 
 <style scoped>
-.circles{display:grid;gap:1rem}.circles__header{display:flex;justify-content:space-between;align-items:end}.circles__eyebrow{margin:0 0 .3rem;color:var(--text-muted);font-size:.76rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font-size:clamp(1.55rem,2.5vw,2.3rem);letter-spacing:-.075em}h2{margin:0;font-size:1rem}.circles__header>span,.circles__row span{color:var(--text-muted);font-size:.84rem}.circles__privacy{display:grid;gap:.25rem;max-width:48rem;padding:.8rem 1rem;border-left:3px solid #7c9c82;background:var(--surface-muted);color:var(--text-muted)}.circles__privacy span{font-size:.88rem}.circles__create{display:flex;gap:.45rem;max-width:30rem}.circles__create input,.circles__search input{flex:1;border:1px solid var(--border-subtle);border-radius:999px;padding:.65rem .8rem;font:inherit}.circles__search{display:flex;gap:.45rem;max-width:30rem}.circles button{border:1px solid var(--border-subtle);border-radius:999px;padding:.45rem .75rem;background:transparent;font:inherit;font-size:.82rem;font-weight:650;cursor:pointer}.circles__create button{background:var(--accent);color:var(--text)}.circles__section{display:grid;gap:.45rem}.circles__row{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem 0;border:1px solid var(--border-subtle)}.circles__row>div:first-child{display:grid;gap:.25rem}.circles__feedback{color:var(--success)}.circles__status{padding:.7rem 0;color:var(--text-muted)}.circles__status--error{color:var(--danger)}.circles__status button{margin-left:.5rem;border:0;color:inherit;text-decoration:underline}@media(max-width:620px){.circles__row{align-items:start;flex-direction:column}.circles__create,.circles__search{max-width:none}}
-</style>
-<style scoped>
-.circles__create-button{justify-self:start;background:var(--accent)!important;color:var(--text)!important}.circles__dialog-form{display:grid;gap:.75rem}.circles__dialog-form label{display:grid;gap:.35rem;font-weight:650}.circles__dialog-form input{border:1px solid var(--border-strong);border-radius:var(--radius-control);padding:.65rem;font:inherit}.circles__dialog-form button{justify-self:start;background:var(--accent);color:var(--text)}
-</style>
-<style scoped>
-.circles__inline-edit{display:flex;flex:1;gap:.4rem}.circles__inline-edit input{min-width:0;flex:1;border:1px solid var(--border-subtle);border-radius:999px;padding:.55rem .7rem;font:inherit}
+.circles { display:grid; gap:var(--space-3); }
+.circles__header { display:flex; justify-content:space-between; align-items:end; }
+.circles__eyebrow { margin:0 0 var(--space-1); color:var(--text-soft); font-size:var(--text-size-label); font-weight:var(--text-weight-semibold); letter-spacing:var(--tracking-label); text-transform:uppercase; }
+.circles h1 { margin:0; color:var(--text); font-size:var(--text-size-page-title); letter-spacing:var(--tracking-tight); }
+.circles h2 { margin:0; color:var(--text); font-size:var(--text-size-title); }
+.circles__privacy { display:grid; gap:var(--space-1); max-width:48rem; padding:var(--space-2) var(--space-3); border-left:3px solid var(--accent); background:var(--surface-base); color:var(--text-muted); }
+.circles__privacy span { font-size:var(--text-size-meta); }
+.circles__search { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:var(--space-2); max-width:32rem; align-items:end; }
+.circles__search input,.circles__inline-edit input,.circles__dialog-form input { width:100%; border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }
+.circles__search input:focus-visible,.circles__inline-edit input:focus-visible,.circles__dialog-form input:focus-visible { border-color:var(--control-border-active); outline:2px solid var(--focus-ring); outline-offset:2px; }
+.circles__section { display:grid; gap:var(--space-1); }
+.circles__row { display:flex; justify-content:space-between; align-items:center; gap:var(--space-3); padding:var(--space-2) 0; border:1px solid var(--border-subtle); background:transparent; }
+.circles__row>div:first-child { display:grid; gap:var(--space-1); min-width:0; }
+.circles__row span { color:var(--text-muted); font-size:var(--text-size-meta); }
+.circles__actions { display:flex; align-items:center; justify-content:flex-end; gap:var(--space-1); flex-wrap:wrap; }
+.circles__status { padding:var(--space-2) 0; color:var(--text-muted); }
+.circles__status--error { color:var(--danger); }
+.circles__circles-workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(16rem,22rem); gap:var(--space-3); align-items:start; }
+.circles__circle-list { display:grid; gap:0; overflow:hidden; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-base); }
+.circles__circle-list .circles__row { padding:var(--space-2) var(--space-3); border-bottom:1px solid var(--border-subtle); cursor:pointer; }
+.circles__circle-list .circles__row:last-child { border-bottom:0; }
+.circles__circle-list .circles__row--selected { background:var(--surface-selected); border-left:2px solid var(--accent); padding-left:calc(var(--space-3) - 2px); }
+.circles__inline-edit { display:flex; flex:1; gap:var(--space-1); align-items:center; }
+.circles__inline-edit input { min-width:0; }
+.circles__preview { display:grid; gap:var(--space-2); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
+.circles__preview h2,.circles__preview p { margin:0; }
+.circles__preview h2 { color:var(--text); }
+.circles__preview dl { display:grid; gap:var(--space-2); margin:var(--space-2) 0; }
+.circles__preview dl div { display:flex; justify-content:space-between; gap:var(--space-2); border-top:1px solid var(--border-subtle); padding-top:var(--space-2); }
+.circles__preview dt { color:var(--text-soft); font-size:var(--text-size-meta); }
+.circles__preview dd { margin:0; color:var(--text); font-size:var(--text-size-meta); font-weight:var(--text-weight-semibold); }
+.circles__preview-members { display:grid; gap:var(--space-1); color:var(--text); }
+.circles__preview-members span { color:var(--text-muted); font-size:var(--text-size-meta); }
+.circles__preview-note { color:var(--text-soft); font-size:var(--text-size-meta); line-height:1.45; }
+.circles__preview--empty { min-height:10rem; align-content:center; }
+.circles__dialog-form { display:grid; gap:var(--space-3); }
+.circles__members { display:grid; gap:var(--space-1); margin-top:var(--space-1); color:var(--text-muted); font-size:var(--text-size-meta); }
+.circles__members summary { cursor:pointer; color:var(--text-soft); }
+@media(max-width:860px) { .circles__circles-workspace { grid-template-columns:1fr; } .circles__preview { order:2; } }
+@media(max-width:620px) { .circles__row { align-items:start; flex-direction:column; } .circles__actions { justify-content:flex-start; } .circles__search { grid-template-columns:1fr; max-width:none; } .circles__inline-edit { align-items:stretch; flex-wrap:wrap; } }
 </style>

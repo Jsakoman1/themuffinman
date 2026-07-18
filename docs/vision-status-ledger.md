@@ -87,6 +87,7 @@ It should stay short, factual, and updated when a vision batch materially change
 - quest and application detail entry points now have Vision-native routes, with legacy detail paths redirected into the Vision surface
 - `VIEW_QUEST_NEWS` is now a routed read-only Vision capability, with a dedicated quest-news preview and semantic route catalog entry for the authenticated user
 - `VIEW_NOTIFICATIONS` is now a routed read-only Vision capability, backed by the quest-news inbox read model and a dedicated notifications preview
+- Explicit notification mutation phrases take precedence over the read-only notifications route: enabled authenticated runtime smoke proves `mark all notifications as read` and `disable chat in-app notifications` each produce a reviewed action, require confirmation, and execute through the backend adapter.
 - `VIEW_ACTIVITY` is now a routed read-only Vision capability, backed by the viewer-scoped activity projection and a compact resume-aware preview; dismissal and mutation parity remain open
 - profile and settings are now direct Vision route surfaces instead of nested profile dialogs, keeping identity and location editing inside the same route-level mental model as the rest of Vision
 - the main Vision surface now exposes Vision-native routes for profile, circles, applications, and chat, and the current user's applications now have a Vision-native list route
@@ -137,6 +138,8 @@ It should stay short, factual, and updated when a vision batch materially change
 - `/vision` now also has circle-request mutation pilots for `create_circle_request`, `accept_circle_request`, and `delete_circle_request`, with exact person or pending-request resolution, textual previews, and explicit confirmation before execution
 - `/vision` now also has owned-circle mutation pilots for `update_circle` and `delete_circle`, with exact owned-circle resolution and explicit confirmation before execution
 - `/vision` now also has a safe `update_profile_location` pilot, with location-mode and location-label draft collection plus a backend adapter that preserves unrelated profile and sharing state
+- `/vision` worker-management execution now has authenticated browser evidence for explicit replacement review/confirmation and backend-authoritative reassignment; the same smoke leaves the replacement worker available for the subsequent release path when execution is enabled
+- `/vision` quest lifecycle execution now has authenticated browser evidence for separate `PAUSE_QUEST` and `RESUME_QUEST` review/confirmation flows; the central confirmation dispatcher routes both intents to the typed state-transition adapter, while the default disabled flag remains review-only
 
 ## In Progress
 

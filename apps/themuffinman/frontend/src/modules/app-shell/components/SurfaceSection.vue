@@ -14,5 +14,12 @@ defineProps<{section: ShellSurfaceSection}>()
 </template>
 
 <style scoped>
-.surface-section{display:grid;gap:.75rem;padding:1rem;border:1px solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface)}.surface-section__header{display:flex;justify-content:space-between;align-items:start;gap:1rem}.surface-section__header h2,.surface-section__header p,.surface-section__empty{margin:0}.surface-section__header h2{font-size:1rem;letter-spacing:-.03em}.surface-section__header p{margin-top:.2rem;color:var(--text-muted);font-size:.82rem}.surface-section__header>span{color:var(--text-soft);font-size:.8rem}.surface-section__rows{display:grid;gap:.4rem}.surface-section__empty{padding:.5rem 0;color:var(--text-muted);font-size:.85rem}
+.surface-section { display: grid; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); background: var(--surface-base); }
+.surface-section__header { display: flex; justify-content: space-between; align-items: start; gap: var(--space-4); }
+.surface-section__header h2, .surface-section__header p, .surface-section__empty { margin: 0; }
+.surface-section__header h2 { font-size: var(--text-size-body); letter-spacing: var(--tracking-tight); }
+.surface-section__header p { margin-top: var(--space-1); color: var(--text-muted); font-size: var(--text-size-meta); }
+.surface-section__header>span { color: var(--text-soft); font-size: var(--text-size-meta); }
+.surface-section__rows { display: grid; gap: var(--space-1); }
+.surface-section__empty { padding: var(--space-1) 0; color: var(--text-muted); font-size: var(--text-size-body); }
 </style>

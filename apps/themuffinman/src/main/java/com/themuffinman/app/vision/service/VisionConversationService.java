@@ -15,6 +15,7 @@ import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
+import com.themuffinman.app.vision.dto.VisionSearchComparisonDTO;
 import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.notification.model.NotificationPreferenceCategory;
 import com.themuffinman.app.notification.model.NotificationPreferenceLevel;
@@ -36,7 +37,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Optional;
 import com.themuffinman.app.rides.dto.RideOfferResponseDTO;
 import com.themuffinman.app.rides.service.RideOfferService;
@@ -265,7 +271,7 @@ public class VisionConversationService {
                 currentUser,
                 understanding,
                 visionExecutionPlanner.plan(conversation, understanding),
-                workspaceHandoff(dto)
+                workspaceHandoff(dto, turn)
         );
     }
 
@@ -1753,6 +1759,14 @@ public class VisionConversationService {
             case UPDATE_PROFILE -> handleUpdateProfileReviewTurn(conversation, "confirm", "confirm", understanding, source);
             case UPDATE_PROFILE_LOCATION -> handleUpdateProfileLocationReviewTurn(conversation, "confirm", "confirm", understanding, source);
             case RELEASE_WORKER, REPLACE_WORKER -> handleWorkerManagementTurn(conversation, "confirm", "confirm", understanding, source);
+            case REOPEN_QUEST -> handleReopenQuestTurn(conversation, "confirm", "confirm", understanding, source);
+            case PAUSE_QUEST -> handlePauseQuestTurn(conversation, "confirm", "confirm", understanding, source, false);
+            case RESUME_QUEST -> handlePauseQuestTurn(conversation, "confirm", "confirm", understanding, source, true);
+            case RESCHEDULE_BOOKING -> handleRescheduleBookingTurn(conversation, "confirm", "confirm", understanding, source);
+            case MARK_CHAT_READ -> handleMarkChatReadTurn(conversation, "confirm", "confirm", understanding, source);
+            case MARK_NOTIFICATIONS_READ -> handleMarkNotificationsReadTurn(conversation, "confirm", "confirm", understanding, source);
+            case MARK_NOTIFICATION_READ -> handleMarkNotificationReadTurn(conversation, "confirm", "confirm", understanding, source);
+            case UPDATE_NOTIFICATION_PREFERENCES -> handleUpdateNotificationPreferencesTurn(conversation, "confirm", "confirm", understanding, source);
             case CREATE_RIDE, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, START_RIDE, COMPLETE_RIDE -> handleRideConfirmation(conversation, understanding, source);
             default -> throw ServiceErrors.conflict("Review confirmation is not supported for this vision conversation");
         };
@@ -1926,26 +1940,80 @@ public class VisionConversationService {
                 searchDiscoveryForConversation(conversation, currentUser),
                 VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService),
                 visionConversationReadModelAssembler.buildMemoryTrail(currentUser, conversation),
-                workspaceHandoff
+                workspaceHandoff,
+                searchComparisonForConversation(conversation, currentUser)
         );
     }
 
-    private VisionWorkspaceHandoffDTO workspaceHandoff(VisionConversationTurnRequestDTO dto) {
+    private VisionWorkspaceHandoffDTO workspaceHandoff(VisionConversationTurnRequestDTO dto, VisionTurn turn) {
         if (dto == null) {
             return null;
         }
         String contextLabel = cleanWorkspaceValue(dto.getWorkspaceContext(), 120);
         String source = cleanWorkspaceSource(dto.getWorkspaceSource());
         String returnTo = cleanWorkspaceReturnTo(dto.getWorkspaceReturnTo());
+        if (contextLabel == null && source == null && returnTo == null
+                && isWorkspaceNavigationPrompt(dto.getEffectivePrompt()) && turn != null) {
+            return inferredWorkspaceNavigation(turn.getDetectedIntent(), dto.getEffectivePrompt());
+        }
         if (contextLabel == null && source == null && returnTo == null) {
             return null;
         }
         return VisionWorkspaceHandoffDTO.builder()
+                .contractVersion("workspace-v1")
                 .contextLabel(contextLabel)
                 .source(source)
                 .returnTo(returnTo)
                 .explanation(contextLabel == null ? "Opened from the workspace." : "Opened from " + contextLabel + ".")
                 .build();
+    }
+
+    private VisionWorkspaceHandoffDTO inferredWorkspaceNavigation(VisionIntent intent, String prompt) {
+        if (intent == null) {
+            return null;
+        }
+        String normalizedPrompt = prompt == null ? "" : prompt.toLowerCase(Locale.ROOT);
+        String returnTo = switch (intent) {
+            case VIEW_PROFILE -> normalizedPrompt.contains("visibility")
+                    ? "/profile/settings?visibility=1"
+                    : "/profile";
+            case VIEW_SETTINGS -> normalizedPrompt.contains("current location")
+                    ? "/profile/settings?location=current"
+                    : normalizedPrompt.contains("visibility")
+                    ? "/profile/settings?visibility=1"
+                    : "/settings";
+            case VIEW_BUSINESS -> "/business";
+            case VIEW_BUSINESS_AVAILABILITY -> "/business/availability";
+            case VIEW_BUSINESS_BOOKINGS -> "/business/bookings";
+            case VIEW_CIRCLES -> "/circles";
+            case VIEW_NOTIFICATIONS -> "/notifications";
+            case VIEW_ACTIVITY -> "/activity";
+            case VIEW_APPLICATIONS -> "/work/applications";
+            case VIEW_THINGS -> "/things";
+            case VIEW_BORROW_REQUESTS -> "/things/requests";
+            case VIEW_RIDES -> "/rides";
+            case VIEW_CHAT_WORKSPACE, OPEN_CHAT, SYNC_CHAT -> normalizedPrompt.contains("attach")
+                    ? "/chat?attach=1"
+                    : "/chat";
+            case VIEW_QUEST_NEWS -> "/activity";
+            default -> null;
+        };
+        if (returnTo == null) {
+            return null;
+        }
+        return VisionWorkspaceHandoffDTO.builder()
+                .contractVersion("workspace-v1")
+                .contextLabel("the " + intent.name().toLowerCase(Locale.ROOT).replace('_', ' ') + " workspace")
+                .source("shell.surface.vision-navigation")
+                .returnTo(returnTo)
+                .explanation("Open this result in the authenticated workspace.")
+                .build();
+    }
+
+    private boolean isWorkspaceNavigationPrompt(String prompt) {
+        String normalized = cleanRuntimeHint(prompt);
+        return normalized != null && normalized.toLowerCase(Locale.ROOT)
+                .matches(".*(\\bopen\\b|\\bgo to\\b|\\bnavigate to\\b|\\btake me to\\b|\\bshow in workspace\\b|\\bshow .*\\bworkspace\\b).*");
     }
 
     private String cleanWorkspaceValue(String value, int maxLength) {
@@ -3826,7 +3894,13 @@ public class VisionConversationService {
             VisionPromptUnderstandingResult understanding,
             String source
     ) {
-        VisionSearchDiscoveryDTO discovery = visionSearchDiscoveryService.discover(conversation, understanding, conversation.getOwner());
+        boolean comparisonPrompt = isComparisonPrompt(normalizedPrompt);
+        String storedSearchQuery = conversation.getSlotData() == null
+                ? ""
+                : conversation.getSlotData().getOrDefault("search_query", "");
+        VisionSearchDiscoveryDTO discovery = comparisonPrompt
+                ? visionSearchDiscoveryService.discoverWeb(conversation.getOwner(), storedSearchQuery, 0)
+                : visionSearchDiscoveryService.discover(conversation, understanding, conversation.getOwner());
         if (discovery == null) {
             throw ServiceErrors.conflict("Search is not available for this vision conversation");
         }
@@ -3834,7 +3908,23 @@ public class VisionConversationService {
         conversation.setStatus(VisionConversationStatus.ACTIVE);
         conversation.setRequestedSlot(null);
         conversation.getSlotData().put("search_query", discovery.getQuery() == null ? "" : discovery.getQuery());
+        conversation.getSlotData().remove("comparison_selections");
         String message = discovery.getSummary();
+        if (comparisonPrompt) {
+            List<String> selections = comparisonSelections(normalizedPrompt, discovery);
+            if (selections.isEmpty()) {
+                message = discovery.getSummary() + " Select up to three results by saying ‘compare first and second’ or naming keys such as quest:12.";
+            } else {
+                conversation.getSlotData().put("comparison_selections", String.join(",", selections));
+                VisionSearchComparisonDTO comparison = visionSearchDiscoveryService.compareVision(
+                        conversation.getOwner(),
+                        discovery.getQuery(),
+                        selections
+                );
+                message = comparison.getItems().size() + " permitted result" + (comparison.getItems().size() == 1 ? "" : "s") + " compared."
+                        + (comparison.getFallbackMessage() == null ? "" : " " + comparison.getFallbackMessage());
+            }
+        }
         updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
         visionConversationRepository.save(conversation);
 
@@ -3859,6 +3949,55 @@ public class VisionConversationService {
             return null;
         }
         return visionSearchDiscoveryService.discover(conversation, VisionPromptUnderstandingResult.empty(""), currentUser);
+    }
+
+    private VisionSearchComparisonDTO searchComparisonForConversation(VisionConversation conversation, AppUser currentUser) {
+        if (conversation == null || conversation.getIntent() != VisionIntent.SEARCH || conversation.getSlotData() == null) {
+            return null;
+        }
+        String rawSelections = conversation.getSlotData().get("comparison_selections");
+        if (rawSelections == null || rawSelections.isBlank()) {
+            return null;
+        }
+        List<String> selections = List.of(rawSelections.split(",")).stream()
+                .map(String::trim)
+                .filter(value -> !value.isBlank())
+                .toList();
+        return visionSearchDiscoveryService.compareVision(
+                currentUser,
+                conversation.getSlotData().getOrDefault("search_query", ""),
+                selections
+        );
+    }
+
+    private boolean isComparisonPrompt(String normalizedPrompt) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt.toLowerCase(Locale.ROOT);
+        return value.contains("compare")
+                || value.contains("contrast")
+                || value.contains("side by side")
+                || value.contains("which is better");
+    }
+
+    private List<String> comparisonSelections(String normalizedPrompt, VisionSearchDiscoveryDTO discovery) {
+        String value = normalizedPrompt == null ? "" : normalizedPrompt.toLowerCase(Locale.ROOT);
+        Set<String> selections = new LinkedHashSet<>();
+        Matcher matcher = Pattern.compile("\\b(quest|thing|circle|user|application)\\s*[:#]\\s*(\\d+)\\b").matcher(value);
+        while (matcher.find() && selections.size() < 3) {
+            selections.add(matcher.group(1) + ":" + matcher.group(2));
+        }
+        if (discovery != null && discovery.getItems() != null) {
+            String[] ordinalSignals = {"first", "1st", "second", "2nd", "third", "3rd"};
+            for (int index = 0; index < ordinalSignals.length && selections.size() < 3; index++) {
+                if (value.contains(ordinalSignals[index])) {
+                    int itemIndex = index / 2;
+                    if (itemIndex < discovery.getItems().size()) {
+                        var item = discovery.getItems().get(itemIndex);
+                        selections.add(item.getEntityFamily() + ":" + item.getTargetId());
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(selections);
     }
 
     private VisionTurn handleOpenChatTurn(

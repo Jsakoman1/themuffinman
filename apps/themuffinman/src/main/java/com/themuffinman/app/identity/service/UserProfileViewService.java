@@ -1,5 +1,6 @@
 package com.themuffinman.app.identity.service;
 
+import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.dto.CircleRelationStatusDTO;
@@ -27,6 +28,9 @@ public class UserProfileViewService {
     private final SocialRelationActionHelper socialRelationActionHelper;
 
     public UserProfileViewDTO getProfileView(Long profileUserId, AppUser currentUser) {
+        if (profileUserId == null || profileUserId <= 0) {
+            throw ServiceErrors.badRequest("Profile user id must be positive");
+        }
         AppUser profileUser = appUserReadService.getAppUser(profileUserId);
         boolean ownProfile = currentUser != null && currentUser.getId().equals(profileUser.getId());
         long openQuestCount = appUserReadService.countQuestsByCreatorId(profileUser.getId());

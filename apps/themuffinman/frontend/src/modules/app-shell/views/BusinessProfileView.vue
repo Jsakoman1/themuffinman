@@ -2,6 +2,13 @@
 import {onMounted, ref} from "vue"
 import type {BusinessGalleryImageRequestDTO, BusinessGalleryImageResponseDTO, BusinessProfileRequestDTO} from "../../../contracts/index.ts"
 import {setActiveBusinessProfileId, userShellApi} from "../api/userShellApi.ts"
+import AppButton from "../components/AppButton.vue"
+import AppDialog from "../components/AppDialog.vue"
+import AppFormField from "../components/AppFormField.vue"
+import AppFormFooter from "../components/AppFormFooter.vue"
+import AppStatus from "../components/AppStatus.vue"
+import CollectionToolbar from "../components/CollectionToolbar.vue"
+import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 
 const form = ref<BusinessProfileRequestDTO | null>(null)
@@ -14,6 +21,8 @@ const feedback = ref("")
 const gallery = ref<BusinessGalleryImageResponseDTO[]>([])
 const galleryForm = ref<BusinessGalleryImageRequestDTO>({imageUrl: "", altText: "", sortOrder: 0, active: true})
 const isGallerySaving = ref(false)
+const isCreateOpen = ref(false)
+const newBusinessName = ref("")
 
 const load = async () => {
   isLoading.value = true; error.value = ""
@@ -35,7 +44,7 @@ const selectProfile = async () => {
 }
 const onProfileSelectionChanged = (event: Event) => { const value = Number((event.target as HTMLSelectElement).value); if (Number.isFinite(value)) selectedProfileId.value = value }
 const createBusiness = async () => {
-  const name = window.prompt("Business name")?.trim()
+  const name = newBusinessName.value.trim()
   if (!name) return
   try {
     const created = await userShellApi.createBusinessProfile({businessName: name, slug: "", headline: "", description: "", contactEmail: "", contactPhone: "", websiteUrl: "", timezone: "Europe/Zurich", bookingEnabled: false, publicAddressLabel: "", latitude: undefined as unknown as number, longitude: undefined as unknown as number, contactWhatsapp: "", heroImageUrl: "", active: true})
@@ -43,6 +52,8 @@ const createBusiness = async () => {
     selectedProfileId.value = created.id
     setActiveBusinessProfileId(created.id)
     form.value = toForm(created)
+    newBusinessName.value = ""
+    isCreateOpen.value = false
     feedback.value = "Business created."
   } catch { error.value = "Could not create this business." }
 }
@@ -97,42 +108,83 @@ onMounted(() => void load())
 <template>
   <section class="business-profile">
     <header><p class="business-profile__eyebrow">Business / Profile</p><h1>Profile</h1><p class="business-profile__intro">Keep the public identity and booking switch in one place.</p></header>
-    <div class="business-profile__switcher"><label v-if="profiles.length">Business<select v-model="selectedProfileId" @change="onProfileSelectionChanged"><option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.businessName }}</option></select></label><button v-if="profiles.length" type="button" @click="selectProfile">Switch business</button><button type="button" @click="createBusiness">Create business</button></div>
-    <div v-if="isLoading" class="business-profile__status" role="status">Loading.</div>
-    <div v-else-if="error && !form" class="business-profile__status business-profile__status--error" role="alert">{{ error }} <button type="button" @click="load">Retry</button></div>
-    <form v-else-if="form" class="business-profile__form" @submit.prevent="save">
-      <label>Business name<input v-model="form.businessName" required maxlength="160"></label>
-      <label>Headline<input v-model="form.headline" maxlength="200"></label>
-      <label>Description<textarea v-model="form.description" maxlength="4000"></textarea></label>
-      <div class="business-profile__grid"><label>Contact email<input v-model="form.contactEmail" type="email"></label><label>Contact phone<input v-model="form.contactPhone"></label></div>
-      <label>Public address label<input v-model="form.publicAddressLabel"></label>
-      <label>Timezone<input v-model="form.timezone" required placeholder="Europe/Zurich"></label>
-      <label class="business-profile__toggle"><input v-model="form.bookingEnabled" type="checkbox"> Accept bookings</label>
-      <p v-if="feedback" class="business-profile__feedback" role="status">{{ feedback }}</p><p v-if="error" class="business-profile__status business-profile__status--error" role="alert">{{ error }}</p>
-      <div class="business-profile__actions"><button class="business-profile__save" type="submit" :disabled="isSaving">{{ isSaving ? "Saving" : "Save profile" }}</button><button v-if="form.active" class="business-profile__archive" type="button" @click="archiveBusiness">Archive business</button></div>
+    <CollectionToolbar title="Business identity" :count="profiles.length" :busy="isLoading"><template #filters><label v-if="profiles.length" class="business-profile__selector">Business<select v-model="selectedProfileId" @change="onProfileSelectionChanged"><option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.businessName }}</option></select></label><AppButton v-if="profiles.length" type="button" @click="selectProfile">Switch</AppButton></template><template #actions><AppButton tone="primary" type="button" @click="isCreateOpen = true">Create business</AppButton></template></CollectionToolbar>
+    <AppStatus v-if="isLoading" message="Loading." />
+    <AppStatus v-else-if="error && !form" :message="error" tone="error" retry @retry="load" />
+    <div class="business-profile__workspace">
+    <div class="business-profile__main">
+    <form v-if="form" class="business-profile__form" @submit.prevent="save">
+      <AppFormField label="Business name" required><input v-model="form.businessName" required maxlength="160" aria-label="Business name"></AppFormField>
+      <AppFormField label="Headline" optional><input v-model="form.headline" maxlength="200" aria-label="Headline"></AppFormField>
+      <AppFormField label="Description" optional hint="This appears in the public business profile."><textarea v-model="form.description" maxlength="4000" aria-label="Description"></textarea></AppFormField>
+      <div class="business-profile__grid"><AppFormField label="Contact email" optional><input v-model="form.contactEmail" type="email"></AppFormField><AppFormField label="Contact phone" optional><input v-model="form.contactPhone"></AppFormField></div>
+      <AppFormField label="Public address label" optional><input v-model="form.publicAddressLabel"></AppFormField>
+      <AppFormField label="Timezone" required hint="Used by availability and booking schedules."><input v-model="form.timezone" required placeholder="Europe/Zurich" aria-label="Timezone"></AppFormField>
+      <label class="business-profile__toggle"><input v-model="form.bookingEnabled" type="checkbox"> <span>Accept bookings</span></label>
+      <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="error" :message="error" tone="error" />
+      <AppFormFooter><template #secondary><AppButton v-if="form.active" tone="danger" type="button" @click="archiveBusiness">Archive business</AppButton></template><template #primary><AppButton tone="primary" type="submit" :loading="isSaving">Save profile</AppButton></template></AppFormFooter>
     </form>
     <section class="business-profile__gallery">
       <header><h2>Gallery</h2><p>Show a small set of public images for your business.</p></header>
       <form class="business-profile__gallery-form" @submit.prevent="addGalleryImage">
-        <label>Image URL<input v-model="galleryForm.imageUrl" type="url" required maxlength="500"></label>
-        <label>Alt text<input v-model="galleryForm.altText" maxlength="240"></label>
-        <label>Order<input v-model.number="galleryForm.sortOrder" type="number" min="0"></label>
-        <button type="submit" :disabled="isGallerySaving">{{ isGallerySaving ? "Saving" : "Add image" }}</button>
+        <AppFormField label="Image URL" required><input v-model="galleryForm.imageUrl" type="url" required maxlength="500"></AppFormField>
+        <AppFormField label="Alt text" optional><input v-model="galleryForm.altText" maxlength="240"></AppFormField>
+        <AppFormField label="Order"><input v-model.number="galleryForm.sortOrder" type="number" min="0"></AppFormField>
+        <AppButton tone="primary" type="submit" :loading="isGallerySaving">Add image</AppButton>
       </form>
-      <div v-if="gallery.length" class="business-profile__gallery-list">
-        <article v-for="image in gallery" :key="image.id" class="business-profile__gallery-item">
-          <img :src="image.imageUrl" :alt="image.altText || 'Business gallery image'">
-          <div><span>{{ image.active ? "Published" : "Hidden" }} · order {{ image.sortOrder }}</span><button type="button" :disabled="isGallerySaving" @click="toggleGalleryImage(image)">{{ image.active ? "Hide" : "Publish" }}</button><button type="button" :disabled="isGallerySaving" @click="removeGalleryImage(image)">Remove</button></div>
-        </article>
-      </div>
-      <p v-else class="business-profile__status">No gallery images yet.</p>
+      <div v-if="gallery.length" class="business-profile__gallery-list"><SurfaceRow v-for="image in gallery" :key="image.id" :row="{id: String(image.id), title: image.altText || 'Gallery image', description: image.imageUrl, badge: image.active ? 'Published' : 'Hidden', meta: `Order ${image.sortOrder}`}" ><template #actions><AppButton :loading="isGallerySaving" @click="toggleGalleryImage(image)">{{ image.active ? "Hide" : "Publish" }}</AppButton><AppButton tone="danger" :loading="isGallerySaving" @click="removeGalleryImage(image)">Remove</AppButton></template></SurfaceRow></div>
+      <AppStatus v-else message="No gallery images yet." />
     </section>
+    </div>
+    <aside v-if="form" class="business-profile__utility" aria-label="Business profile context">
+      <p class="business-profile__eyebrow">Workspace context</p>
+      <h2>{{ form.businessName || "Business identity" }}</h2>
+      <p>Keep the public profile, booking switch, and gallery aligned with the backend-owned business context.</p>
+      <dl>
+        <div><dt>Public slug</dt><dd>{{ form.slug || "Not set" }}</dd></div>
+        <div><dt>Bookings</dt><dd>{{ form.bookingEnabled ? "Enabled" : "Disabled" }}</dd></div>
+        <div><dt>Timezone</dt><dd>{{ form.timezone || "Not set" }}</dd></div>
+        <div><dt>Gallery</dt><dd>{{ gallery.length }} images</dd></div>
+      </dl>
+      <p class="business-profile__utility-note">Save, archive, visibility, and booking permissions are validated by the server. This rail is context only.</p>
+    </aside>
+    </div>
+    <AppDialog :open="isCreateOpen" title="Create business" layout="workspace" @close="isCreateOpen = false"><form class="business-profile__create-form" @submit.prevent="createBusiness"><AppFormField label="Business name" required><input v-model="newBusinessName" required maxlength="160" autofocus></AppFormField><AppFormFooter><template #secondary><AppButton type="button" @click="isCreateOpen = false">Cancel</AppButton></template><template #primary><AppButton tone="primary" type="submit">Create business</AppButton></template></AppFormFooter></form><template #utility><p>Creating a business creates the backend-owned profile context used by bookings, offerings, availability, and public discovery.</p></template></AppDialog>
   </section>
 </template>
 
 <style scoped>
-.business-profile{display:grid;gap:1rem;max-width:44rem}.business-profile__eyebrow{margin:0 0 .3rem;color:var(--text-muted);font-size:.76rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font-size:clamp(1.55rem,2.5vw,2.3rem);letter-spacing:-.075em}.business-profile__intro{margin:.45rem 0 0;color:var(--text-muted)}.business-profile__form{display:grid;gap:.8rem}.business-profile__form label{display:grid;gap:.35rem;font-size:.83rem;font-weight:650;color:var(--text-muted)}.business-profile__form input,.business-profile__form textarea{width:100%;border:1px solid var(--border-subtle);border-radius:.65rem;padding:.65rem;background:var(--surface);font:inherit;font-weight:400}.business-profile__form textarea{min-height:7rem;resize:vertical}.business-profile__grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.business-profile__toggle{display:flex!important;align-items:center;gap:.5rem!important}.business-profile__toggle input{width:auto}.business-profile__save{justify-self:start;border:0;border-radius:999px;padding:.65rem 1rem;background:var(--accent);color:var(--text);font-weight:650;cursor:pointer}.business-profile__save:disabled{opacity:.55;cursor:wait}.business-profile__feedback{margin:0;color:var(--success)}.business-profile__status{padding:.7rem 0;color:var(--text-muted)}.business-profile__status--error{color:var(--danger)}.business-profile__status button{margin-left:.5rem;border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer}@media(max-width:620px){.business-profile__grid{grid-template-columns:1fr}}
-.business-profile__gallery{display:grid;gap:.8rem;padding-top:1rem;border:1px solid var(--border-subtle)}.business-profile__gallery h2{margin:0}.business-profile__gallery header p{margin:.25rem 0 0;color:var(--text-muted);font-size:.85rem}.business-profile__gallery-form{display:grid;grid-template-columns:2fr 1.3fr .6fr auto;gap:.5rem;align-items:end}.business-profile__gallery-form label{display:grid;gap:.3rem;font-size:.78rem;font-weight:650}.business-profile__gallery-form input{border:1px solid var(--border-subtle);border-radius:.6rem;padding:.55rem;font:inherit}.business-profile__gallery-form button,.business-profile__gallery-item button{border:1px solid var(--border-subtle);border-radius:999px;padding:.5rem .7rem;background:var(--accent);color:var(--text);font:inherit;cursor:pointer}.business-profile__gallery-form button:disabled,.business-profile__gallery-item button:disabled{opacity:.5;cursor:wait}.business-profile__gallery-list{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.business-profile__gallery-item{display:grid;gap:.4rem}.business-profile__gallery-item img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:.7rem;background:rgba(23,34,26,.06)}.business-profile__gallery-item div{display:flex;gap:.3rem;align-items:center;flex-wrap:wrap}.business-profile__gallery-item span{flex:1;color:var(--text-muted);font-size:.75rem}.business-profile__gallery-item button{padding:.35rem .55rem;background:transparent;color:var(--text);font-size:.75rem}@media(max-width:700px){.business-profile__gallery-form{grid-template-columns:1fr 1fr}.business-profile__gallery-form label:first-child{grid-column:1/-1}.business-profile__gallery-list{grid-template-columns:1fr 1fr}}
-.business-profile__switcher{display:flex;align-items:end;gap:.6rem}.business-profile__switcher label{display:grid;gap:.3rem;font-size:.8rem;font-weight:650;flex:1}.business-profile__switcher select{border:1px solid var(--border-subtle);border-radius:.65rem;padding:.6rem;background:var(--bg-raised);font:inherit}.business-profile__switcher button{border:1px solid var(--border-subtle);border-radius:999px;padding:.6rem .8rem;background:var(--accent);color:var(--text);font:inherit;cursor:pointer}
-.business-profile__actions{display:flex;gap:.55rem;align-items:center}.business-profile__archive{border:1px solid rgba(141,47,37,.3);border-radius:999px;padding:.6rem .8rem;background:transparent;color:var(--danger);font:inherit;cursor:pointer}
+.business-profile { display:grid; gap:var(--space-3); max-width:none; }
+.business-profile__eyebrow { margin:0 0 var(--space-1); color:var(--text-soft); font-size:var(--text-size-label); font-weight:var(--text-weight-semibold); letter-spacing:var(--tracking-label); text-transform:uppercase; }
+.business-profile h1 { margin:0; color:var(--text); font-size:var(--text-size-page-title); letter-spacing:var(--tracking-tight); }
+.business-profile__intro { margin:var(--space-1) 0 0; color:var(--text-muted); }
+.business-profile__workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(16rem,22rem); gap:var(--space-3); align-items:start; }
+.business-profile__main { display:grid; gap:var(--space-3); min-width:0; }
+.business-profile__form { display:grid; gap:var(--space-3); }
+.business-profile__form input,.business-profile__form textarea,.business-profile__gallery-form input,.business-profile__selector select { width:100%; border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }
+.business-profile__form textarea { min-height:7rem; resize:vertical; }
+.business-profile__form input:focus-visible,.business-profile__form textarea:focus-visible,.business-profile__gallery-form input:focus-visible,.business-profile__selector select:focus-visible { border-color:var(--control-border-active); outline:2px solid var(--focus-ring); outline-offset:2px; }
+.business-profile__grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); }
+.business-profile__toggle { display:flex; align-items:center; gap:var(--space-2); color:var(--text); font-size:var(--text-size-body); font-weight:var(--text-weight-semibold); }
+.business-profile__toggle input { width:auto; }
+.business-profile__gallery { display:grid; gap:var(--space-3); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-base); }
+.business-profile__gallery h2,.business-profile__gallery p { margin:0; }
+.business-profile__gallery h2 { color:var(--text); font-size:var(--text-size-title); }
+.business-profile__gallery header p { margin-top:var(--space-1); color:var(--text-muted); font-size:var(--text-size-meta); }
+.business-profile__gallery-form { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) minmax(5rem,.6fr) auto; gap:var(--space-2); align-items:end; }
+.business-profile__gallery-list { display:grid; gap:0; overflow:hidden; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); }
+.business-profile__selector { display:flex; align-items:center; gap:var(--space-1); color:var(--text-muted); font-size:var(--text-size-meta); font-weight:var(--text-weight-semibold); }
+.business-profile__selector select { min-width:12rem; width:auto; }
+.business-profile__create-form { display:grid; gap:var(--space-3); }
+.business-profile__utility { display:grid; gap:var(--space-2); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
+.business-profile__utility h2,.business-profile__utility p { margin:0; }
+.business-profile__utility h2 { color:var(--text); font-size:var(--text-size-title); }
+.business-profile__utility dl { display:grid; gap:var(--space-2); margin:var(--space-2) 0; }
+.business-profile__utility dl div { display:flex; justify-content:space-between; gap:var(--space-2); border-top:1px solid var(--border-subtle); padding-top:var(--space-2); }
+.business-profile__utility dt { color:var(--text-soft); font-size:var(--text-size-meta); }
+.business-profile__utility dd { margin:0; color:var(--text); font-size:var(--text-size-meta); font-weight:var(--text-weight-semibold); }
+.business-profile__utility-note { color:var(--text-soft); font-size:var(--text-size-meta); line-height:1.45; }
+.business-profile :deep(.app-dialog__utility) { padding:var(--space-3); color:var(--text-muted); font-size:var(--text-size-body); line-height:1.5; }
+@media(max-width:860px) { .business-profile__workspace { grid-template-columns:1fr; } .business-profile__utility { order:2; } }
+@media(max-width:700px) { .business-profile__grid,.business-profile__gallery-form { grid-template-columns:1fr; } .business-profile__selector select { min-width:0; } }
 </style>

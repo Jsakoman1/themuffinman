@@ -17,9 +17,9 @@ summary:
   exact_mapped: 123
   broad_mapped: 0
   decomposition_required: 0
-  web_ui_missing: 18
-  vision_missing: 19
-  not_ready: 40
+  web_ui_missing: 0
+  vision_missing: 2
+  not_ready: 21
 capabilities:
 - id: platform.account.register
   module: platform
@@ -366,8 +366,8 @@ capabilities:
   - work.quest.pause
   mapping_quality: exact
   current_statuses:
-  - planned
-  current_status: planned
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -375,14 +375,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: work.quest.cancel
   module: work
   object: quest
@@ -608,8 +606,8 @@ capabilities:
   - circles.circle.view_other
   mapping_quality: exact
   current_statuses:
-  - partial
-  current_status: partial
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -617,13 +615,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
+    web_ui: true
     vision: true
   surface_coverage:
-    web_ui: missing
+    web_ui: covered
     vision: covered
-  gaps:
-  - web_ui
+  gaps: []
 - id: circles.circle.update
   module: circles
   object: circle
@@ -705,8 +702,8 @@ capabilities:
   - circles.membership.leave
   mapping_quality: exact
   current_statuses:
-  - partial
-  current_status: partial
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -714,13 +711,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
+    web_ui: true
     vision: true
   surface_coverage:
-    web_ui: missing
+    web_ui: covered
     vision: covered
-  gaps:
-  - web_ui
+  gaps: []
 - id: chat.conversation.open
   module: chat
   object: conversation
@@ -836,12 +832,11 @@ capabilities:
     api: true
   current_surfaces:
     web_ui: true
-    vision: false
+    vision: true
   surface_coverage:
     web_ui: covered
-    vision: missing
-  gaps:
-  - vision
+    vision: covered
+  gaps: []
 - id: business.profile.create
   module: business
   object: profile
@@ -1091,8 +1086,8 @@ capabilities:
   - sharing.thing.archive
   mapping_quality: exact
   current_statuses:
-  - partial
-  current_status: partial
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -1100,13 +1095,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
+    web_ui: true
     vision: true
   surface_coverage:
-    web_ui: missing
+    web_ui: covered
     vision: covered
-  gaps:
-  - web_ui
+  gaps: []
 - id: sharing.borrow.request
   module: sharing
   object: borrow
@@ -1212,8 +1206,8 @@ capabilities:
   - sharing.ride.create
   mapping_quality: exact
   current_statuses:
-  - not_offered
-  current_status: not_offered
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -1221,14 +1215,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: sharing.ride.discover
   module: sharing
   object: ride
@@ -1238,8 +1230,8 @@ capabilities:
   - sharing.ride.discover
   mapping_quality: exact
   current_statuses:
-  - not_offered
-  current_status: not_offered
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -1247,14 +1239,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: sharing.ride.join
   module: sharing
   object: ride
@@ -1264,8 +1254,8 @@ capabilities:
   - sharing.ride.join
   mapping_quality: exact
   current_statuses:
-  - not_offered
-  current_status: not_offered
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -1273,14 +1263,12 @@ capabilities:
     watch: true
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: vision.task.start
   module: vision
   object: task
@@ -1564,12 +1552,11 @@ capabilities:
     api: true
   current_surfaces:
     web_ui: true
-    vision: false
+    vision: true
   surface_coverage:
     web_ui: covered
-    vision: missing
-  gaps:
-  - vision
+    vision: covered
+  gaps: []
 - id: platform.location.use_current
   module: platform
   object: location
@@ -1589,12 +1576,11 @@ capabilities:
     api: true
   current_surfaces:
     web_ui: true
-    vision: false
+    vision: true
   surface_coverage:
     web_ui: covered
-    vision: missing
-  gaps:
-  - vision
+    vision: covered
+  gaps: []
 - id: platform.location.resolve
   module: platform
   object: location
@@ -1676,8 +1662,8 @@ capabilities:
   - vision.discovery.compare
   mapping_quality: exact
   current_statuses:
-  - planned
-  current_status: planned
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -1685,13 +1671,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
+    web_ui: true
     vision: true
   surface_coverage:
-    web_ui: missing
+    web_ui: covered
     vision: covered
-  gaps:
-  - web_ui
+  gaps: []
 - id: work.quest.start
   module: work
   object: quest
@@ -1749,8 +1734,8 @@ capabilities:
   - work.quest.reopen
   mapping_quality: exact
   current_statuses:
-  - partial
-  current_status: partial
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -1965,8 +1950,8 @@ capabilities:
   - circles.membership.remove
   mapping_quality: exact
   current_statuses:
-  - partial
-  current_status: partial
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -1974,13 +1959,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
+    web_ui: true
     vision: true
   surface_coverage:
-    web_ui: missing
+    web_ui: covered
     vision: covered
-  gaps:
-  - web_ui
+  gaps: []
 - id: chat.conversation.create_group
   module: chat
   object: conversation
@@ -2350,8 +2334,8 @@ capabilities:
   - sharing.thing.update
   mapping_quality: exact
   current_statuses:
-  - partial
-  current_status: partial
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -2359,13 +2343,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
+    web_ui: true
     vision: true
   surface_coverage:
-    web_ui: missing
+    web_ui: covered
     vision: covered
-  gaps:
-  - web_ui
+  gaps: []
 - id: sharing.borrow.cancel
   module: sharing
   object: borrow
@@ -2399,8 +2382,8 @@ capabilities:
   - sharing.ride.update
   mapping_quality: exact
   current_statuses:
-  - not_offered
-  current_status: not_offered
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -2408,14 +2391,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: sharing.ride.leave
   module: sharing
   object: ride
@@ -2425,8 +2406,8 @@ capabilities:
   - sharing.ride.leave
   mapping_quality: exact
   current_statuses:
-  - not_offered
-  current_status: not_offered
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -2434,14 +2415,12 @@ capabilities:
     watch: true
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: sharing.ride.cancel
   module: sharing
   object: ride
@@ -2451,8 +2430,8 @@ capabilities:
   - sharing.ride.cancel
   mapping_quality: exact
   current_statuses:
-  - not_offered
-  current_status: not_offered
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -2460,14 +2439,12 @@ capabilities:
     watch: true
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: sharing.ride.complete
   module: sharing
   object: ride
@@ -2477,8 +2454,8 @@ capabilities:
   - sharing.ride.complete
   mapping_quality: exact
   current_statuses:
-  - not_offered
-  current_status: not_offered
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -2486,14 +2463,12 @@ capabilities:
     watch: true
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: cross_module.search.compare
   module: cross_module
   object: search
@@ -2503,8 +2478,8 @@ capabilities:
   - cross_module.search.compare
   mapping_quality: exact
   current_statuses:
-  - planned
-  current_status: planned
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -2512,14 +2487,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: cross_module.notification.mark_read
   module: cross_module
   object: notification
@@ -2553,8 +2526,8 @@ capabilities:
   - cross_module.notification.manage_preferences
   mapping_quality: exact
   current_statuses:
-  - planned
-  current_status: planned
+  - partial
+  current_status: partial
   target_surfaces:
     vision: true
     web_ui: true
@@ -2562,14 +2535,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: cross_module.shell.navigate
   module: cross_module
   object: shell
@@ -2589,12 +2560,11 @@ capabilities:
     api: false
   current_surfaces:
     web_ui: true
-    vision: false
+    vision: true
   surface_coverage:
     web_ui: covered
-    vision: missing
-  gaps:
-  - vision
+    vision: covered
+  gaps: []
 - id: cross_module.shell.render_context
   module: cross_module
   object: shell
@@ -2614,12 +2584,11 @@ capabilities:
     api: false
   current_surfaces:
     web_ui: true
-    vision: false
+    vision: true
   surface_coverage:
     web_ui: covered
-    vision: missing
-  gaps:
-  - vision
+    vision: covered
+  gaps: []
 - id: cross_module.handoff.mobile
   module: cross_module
   object: handoff
@@ -2703,8 +2672,8 @@ capabilities:
   - platform.account.recover
   mapping_quality: exact
   current_statuses:
-  - planned
-  current_status: planned
+  - partial
+  current_status: partial
   target_surfaces:
     vision: false
     web_ui: true
@@ -2712,13 +2681,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
+    web_ui: true
     vision: false
   surface_coverage:
-    web_ui: missing
+    web_ui: covered
     vision: not_required
-  gaps:
-  - web_ui
+  gaps: []
 - id: work.quest.set_visibility
   module: work
   object: quest
@@ -2762,12 +2730,11 @@ capabilities:
     api: true
   current_surfaces:
     web_ui: true
-    vision: false
+    vision: true
   surface_coverage:
     web_ui: covered
-    vision: missing
-  gaps:
-  - vision
+    vision: covered
+  gaps: []
 - id: work.application.create_review
   module: work
   object: application
@@ -2825,8 +2792,8 @@ capabilities:
   - business.booking.reschedule
   mapping_quality: exact
   current_statuses:
-  - partial
-  current_status: partial
+  - implemented
+  current_status: implemented
   target_surfaces:
     vision: true
     web_ui: true
@@ -2834,14 +2801,12 @@ capabilities:
     watch: false
     api: true
   current_surfaces:
-    web_ui: false
-    vision: false
+    web_ui: true
+    vision: true
   surface_coverage:
-    web_ui: missing
-    vision: missing
-  gaps:
-  - web_ui
-  - vision
+    web_ui: covered
+    vision: covered
+  gaps: []
 - id: business.booking.view_calendar
   module: business
   object: booking

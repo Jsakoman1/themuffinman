@@ -12,6 +12,11 @@ interaction_contract_regressions:
     - detail utility rails may be collapsed without changing the canonical route or revealing actions not included in the backend response
     - collection URL state contains only supported backend query inputs; per-viewer display, selected-row, and scroll state is discarded when its backend context no longer contains the selected object
     - dialogs support explicit close controls, backdrop dismissal, and Escape dismissal; reduced-motion users receive the same visible state changes without decorative motion
+    - focus-visible remains perceptible with a semantic outline and does not rely only on color, shadow, or hover; forced-colors mode retains an operating-system-visible outline
+    - collection shortcuts never intercept typing, selection, or escape behavior while focus is in an editable control; outside editable controls Arrow/J/K selects, Enter opens, P previews where enabled, and Escape clears collection state
+    - shared form-field primitives preserve an accessible name for every slotted native or contenteditable control, while explicit aria-label and aria-labelledby values remain authoritative
+    - routed identity, workspace, and Vision surfaces remain native dynamic imports; router/auth/route-registry are the only eager navigation core and route loading must not reset canonical collection URL context
+    - collection performance work preserves backend-owned membership, ordering, pagination, and permissions; viewport virtualization is permitted only for a stable backend cursor/window contract and display/selection state remains presentation-only
 regression_scenarios:
   - id: agent-exact-target-fail-closed
     domain: agent

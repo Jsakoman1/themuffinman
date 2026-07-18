@@ -45,5 +45,12 @@ const handleKeydown = (event: KeyboardEvent) => {
 </template>
 
 <style scoped>
-.app-card{display:grid;gap:var(--space-3);min-width:0;padding:1rem;border:1px solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface);transition:border-color 140ms ease,background-color 140ms ease}.app-card--interactive{cursor:pointer}.app-card--interactive:hover,.app-card--interactive:focus-visible{border-color:var(--border-strong);background:var(--surface-hover);outline:none}.app-card--selected{border-color:var(--accent);background:var(--accent-muted)}.app-card--previewed{box-shadow:inset 2px 0 var(--accent)}.app-card__body{min-width:0}.app-card__actions{display:flex;justify-content:flex-end;gap:.4rem;flex-wrap:wrap}
+/* This is an isolated surface primitive, not a default collection layout. */
+.app-card { display: grid; gap: var(--space-3); min-width: 0; padding: var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--surface); box-shadow: var(--shadow-card); transition: border-color 140ms ease, background-color 140ms ease; }
+.app-card--interactive { cursor: pointer; }
+.app-card--interactive:hover, .app-card--interactive:focus-visible { border-color: var(--border-strong); background: var(--surface-hover); outline: none; }
+.app-card--selected { border-color: var(--border-strong); background: var(--surface-selected); box-shadow: inset 2px 0 var(--accent); }
+.app-card--previewed:not(.app-card--selected) { box-shadow: inset 2px 0 var(--accent); }
+.app-card__body { min-width: 0; }
+.app-card__actions { display: flex; justify-content: flex-end; gap: var(--space-2); flex-wrap: wrap; }
 </style>

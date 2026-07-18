@@ -7,7 +7,7 @@ export type AgentSurfaceAuthority = typeof AGENT_SURFACE_AUTHORITY_VALUES[number
 export const AGENT_SURFACE_ID_VALUES = ["VISION", "ADMIN_PLAYGROUND"] as const
 export type AgentSurfaceId = typeof AGENT_SURFACE_ID_VALUES[number]
 
-export const APPLICATION_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "WITHDRAW", "APPROVE", "DECLINE"] as const
+export const APPLICATION_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "WITHDRAW", "APPROVE", "DECLINE", "RELEASE_WORKER", "REPLACE_WORKER"] as const
 export type ApplicationAllowedActionDTO = typeof APPLICATION_ALLOWED_ACTION_DTO_VALUES[number]
 
 export const APP_USER_ROLE_VALUES = ["USER", "ADMIN"] as const
@@ -81,6 +81,9 @@ export type NotificationPreferenceCategory = typeof NOTIFICATION_PREFERENCE_CATE
 
 export const NOTIFICATION_PREFERENCE_LEVEL_VALUES = ["IN_APP", "PUSH", "EMAIL"] as const
 export type NotificationPreferenceLevel = typeof NOTIFICATION_PREFERENCE_LEVEL_VALUES[number]
+
+export const PROFILE_FIELD_VISIBILITY_VALUES = ["PUBLIC", "PRIVATE"] as const
+export type ProfileFieldVisibility = typeof PROFILE_FIELD_VISIBILITY_VALUES[number]
 
 export const QUEST_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "VIEW_APPLICATIONS", "DELETE", "CANCEL", "PAUSE", "RESUME", "ASSIGN", "REOPEN", "APPLY", "START", "COMPLETE", "CONFIRM_TERM_CHANGE", "REJECT_TERM_CHANGE"] as const
 export type QuestAllowedActionDTO = typeof QUEST_ALLOWED_ACTION_DTO_VALUES[number]
@@ -190,6 +193,7 @@ export interface ActionResultDTO {
 }
 
 export interface ActivityItemDTO {
+  source: string
   kind: string
   title: string
   summary: string
@@ -339,6 +343,8 @@ export interface AppUserRequestDTO {
   password?: string
   profileDescription?: string | null
   profileAvatarDataUrl?: string | null
+  profileDescriptionVisibility?: ProfileFieldVisibility
+  profileAvatarVisibility?: ProfileFieldVisibility
   locationSettings?: UserLocationSettingsRequestDTO | null
   role?: AppUserRole
 }
@@ -353,6 +359,8 @@ export interface AppUserResponseDTO {
   profileNavigation: NavigationTargetDTO
   profileDescription: string | null
   profileAvatarDataUrl: string | null
+  profileDescriptionVisibility: ProfileFieldVisibility
+  profileAvatarVisibility: ProfileFieldVisibility
   locationSettings: UserLocationSettingsDTO
   createdAt: string
   openQuestCount: number
@@ -1579,6 +1587,19 @@ export interface PageQueryDTO {
   size: number | null
 }
 
+export interface PasswordRecoveryRequestDTO {
+  email: string
+}
+
+export interface PasswordRecoveryResponseDTO {
+  accepted: boolean
+}
+
+export interface PasswordResetRequestDTO {
+  token: string
+  password: string
+}
+
 export interface PersonalShortcutResponseDTO {
   targetId: number
   targetType: string
@@ -2287,6 +2308,7 @@ export interface VisionCanvasBlockDTO {
   items: VisionSlotSummaryDTO[]
   questDiscovery: VisionQuestDiscoveryDTO
   searchDiscovery: VisionSearchDiscoveryDTO
+  searchComparison: VisionSearchComparisonDTO
   review: VisionQuestReviewDTO
   tone: string
 }
@@ -2362,6 +2384,7 @@ export interface VisionConversationTurnResponseDTO {
   executionCandidate: VisionExecutionCandidateDTO
   questDiscovery: VisionQuestDiscoveryDTO
   searchDiscovery: VisionSearchDiscoveryDTO
+  searchComparison: VisionSearchComparisonDTO
   memoryTrail: VisionMemoryTrailDTO
   blocks: VisionCanvasBlockDTO[]
   appliedSlotSummaries: VisionSlotSummaryDTO[]
@@ -2496,6 +2519,24 @@ export interface VisionRuntimeCueDTO {
   message: string
 }
 
+export interface VisionSearchComparisonDTO {
+  capabilityId: string
+  query: string
+  selectionLimit: number
+  omittedSelectionCount: number
+  fallbackMessage: string | null
+  comparableFields: string[]
+  items: VisionSearchComparisonItemDTO[]
+}
+
+export interface VisionSearchComparisonItemDTO {
+  entityFamily: string
+  targetId: number
+  title: string
+  sourceRoute: string
+  fields: Record<string, string>
+}
+
 export interface VisionSearchDiscoveryDTO {
   capabilityId: string
   query: string
@@ -2524,6 +2565,7 @@ export interface VisionSlotSummaryDTO {
 }
 
 export interface VisionWorkspaceHandoffDTO {
+  contractVersion: string
   contextLabel: string
   source: string
   returnTo: string
@@ -2546,6 +2588,14 @@ export interface WorkmarketOptionsDTO {
   locationModes: LocationModeOptionDTO[]
   exactLocationVisibilityScopes: ExactLocationVisibilityScopeOptionDTO[]
   questLocationVisibilities: QuestLocationVisibilityOptionDTO[]
+}
+
+export interface WorkspaceRailPreferenceRequestDTO {
+  railWidthPx: number
+}
+
+export interface WorkspaceRailPreferenceResponseDTO {
+  railWidthPx: number
 }
 
 export type DashboardNotificationItemDTO = VisionDashboardNotificationItemDTO

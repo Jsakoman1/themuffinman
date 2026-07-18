@@ -6,7 +6,7 @@ Owns typed operational configuration for security, bootstrap, retention, locatio
 
 ## Main Entry Points
 
-- Properties: `AgentProperties.java`, `BootstrapProperties.java`, `LocationProviderProperties.java`, `RetentionProperties.java`, `SecurityProperties.java`, `VoiceProperties.java`
+- Properties: `AccountRecoveryProperties.java`, `AgentProperties.java`, `BootstrapProperties.java`, `LocationProviderProperties.java`, `RetentionProperties.java`, `SecurityProperties.java`, `VoiceProperties.java`
 - Runtime wiring: `AdminBootstrapConfig.java`, `SecurityConfig.java`, `WebSocketConfig.java`
 
 ## Tests

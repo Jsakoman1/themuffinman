@@ -56,7 +56,17 @@ density_policy:
   act: one decision, supporting context, and explicit action controls
   inspect: structured results with progressive detail; never raw internal state
 handoff:
+  contract_version: workspace-v1
   fields: [prompt, autorun, context, source, returnTo]
+  response_fields: [contractVersion, contextLabel, source, returnTo, explanation]
+  navigation:
+    explicit_navigation_prompts: [open, go_to, navigate_to, take_me_to, show_in_workspace]
+    allowlisted_targets: [profile, settings, business, business/availability, business/bookings, circles, notifications, activity, work/applications, things, things/requests, rides, chat]
+    behavior: A read-only Vision result may offer an authenticated workspace target only when the prompt explicitly requests navigation; unsupported intents return no target.
+  validation:
+    source: workspace source identifiers are allowlisted by the backend
+    returnTo: same-origin workspace paths only
+    context: display-only context; it never grants execution authority
   ownership:
     workspace: browse_and_known_detail
     vision: semantic_guidance_and_reviewed_execution

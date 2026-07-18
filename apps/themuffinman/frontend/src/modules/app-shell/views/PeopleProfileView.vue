@@ -1,15 +1,30 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue"
-import {RouterLink, useRoute} from "vue-router"
+import {RouterLink, useRoute, useRouter} from "vue-router"
 import type {UserProfileViewDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
+import AppDialog from "../components/AppDialog.vue"
+import AppButton from "../components/AppButton.vue"
+import AppFormField from "../components/AppFormField.vue"
+import AppFormFooter from "../components/AppFormFooter.vue"
+import AppStatus from "../components/AppStatus.vue"
+import DetailSurface from "../components/DetailSurface.vue"
+import DetailUtilityRail from "../components/DetailUtilityRail.vue"
 import {confirmAction, showActionNotice} from "../composables/useActionDialog.ts"
-const route = useRoute(); const profile = ref<UserProfileViewDTO | null>(null); const isLoading = ref(true); const isActing = ref(false); const error = ref("")
+const route = useRoute(); const router = useRouter(); const profile = ref<UserProfileViewDTO | null>(null); const isLoading = ref(true); const isActing = ref(false); const error = ref(""); const reportReason = ref(""); const reportOpen = ref(false)
 const load = async () => { isLoading.value = true; error.value = ""; try { profile.value = await userShellApi.getCurrentProfileView(Number(route.params.userId)) } catch { error.value = "Could not load this profile." } finally { isLoading.value = false } }
 const sendInvite = async () => {
   if (!profile.value || !profile.value.primaryAction?.enabled) return
   isActing.value = true; error.value = ""
   try { await userShellApi.createCircleRequest({recipientId: profile.value.profile.id}); await load() } catch { error.value = "Could not send this connection invite." } finally { isActing.value = false }
+}
+const runPrimaryAction = async () => {
+  const action = profile.value?.primaryAction
+  if (!action?.enabled) return
+  if (action.type === "SEND_INVITE") return sendInvite()
+  if (action.type === "UNBLOCK") return toggleBlock()
+  if (action.type === "OPEN_CIRCLES") return void router.push("/circles")
+  if (action.type === "EDIT_PROFILE") return void router.push("/profile/settings")
 }
 const toggleBlock = async () => {
   if (!profile.value || !profile.value.blockActionEnabled) return
@@ -23,13 +38,18 @@ const toggleBlock = async () => {
 }
 const reportProfile = async () => {
   if (!profile.value) return
-  const reason = window.prompt("Why should this profile be reviewed?")?.trim()
+  const reason = reportReason.value.trim()
   if (!reason) return
   isActing.value = true; error.value = ""
-  try { await userShellApi.createSafetyReport({targetUserId: profile.value.profile.id, targetFamily: "user", targetId: profile.value.profile.id, reason}); error.value = ""; await showActionNotice("Report submitted privately for review.") }
+  try { await userShellApi.createSafetyReport({targetUserId: profile.value.profile.id, targetFamily: "user", targetId: profile.value.profile.id, reason}); error.value = ""; reportReason.value = ""; reportOpen.value = false; await showActionNotice("Report submitted privately for review.") }
   catch { error.value = "Could not submit this report." } finally { isActing.value = false }
 }
 onMounted(() => void load())
 </script>
-<template><section class="profile-view"><RouterLink to="/people" class="back">Back to people</RouterLink><p v-if="isLoading" class="status" role="status">Loading profile.</p><p v-else-if="error" class="status status--error" role="alert">{{ error }} <button type="button" @click="load">Retry</button></p><article v-else-if="profile" class="card"><p class="eyebrow">People / Profile</p><h1>{{ profile.profile.username }}</h1><p>{{ profile.profile.profileDescription || "No profile description yet." }}</p><p class="muted">{{ profile.relation?.relationLabel || profile.resolutionLabel || "Visibility is controlled by trust and consent." }}</p><div v-if="profile.employerRating || profile.workerRating" class="ratings"><span v-if="profile.employerRating">Employer rating available</span><span v-if="profile.workerRating">Worker rating available</span></div><div class="actions"><RouterLink to="/chat" class="primary">Open Chat</RouterLink><button v-if="profile.primaryAction?.enabled" type="button" class="secondary" :disabled="isActing" @click="sendInvite">{{ profile.primaryAction.label }}</button><button v-if="profile.showBlockAction && profile.blockActionEnabled" type="button" class="danger" :disabled="isActing" @click="toggleBlock">{{ profile.relation?.blockedByCurrentUser ? "Unblock" : profile.blockActionLabel }}</button><button v-if="!profile.ownProfile" type="button" class="danger" :disabled="isActing" @click="reportProfile">Report</button></div></article></section></template>
-<style scoped>.profile-view{display:grid;gap:1rem;max-width:48rem}.back{color:var(--text-muted)}.card{display:grid;gap:.75rem;padding:1.2rem;border:1px solid var(--border-subtle);border-radius:1rem;background:var(--surface)}.eyebrow{margin:0;color:var(--text-muted);font-size:.76rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font-size:clamp(1.7rem,3vw,2.6rem)}.muted,.status{color:var(--text-muted)}.status--error{color:var(--danger)}.status button{margin-left:.5rem;border:0;background:none;color:inherit;text-decoration:underline}.ratings,.actions{display:flex;gap:.5rem;flex-wrap:wrap}.ratings span{padding:.35rem .55rem;border-radius:999px;background:var(--surface-muted);font-size:.8rem}.primary,.secondary,.danger{justify-self:start;border:1px solid var(--border-subtle);border-radius:999px;padding:.55rem .8rem;font:inherit;font-size:.8rem;font-weight:650}.primary{background:var(--accent);color:var(--text)}.secondary{background:var(--surface-muted);color:var(--text)}.danger{color:var(--danger);background:transparent}</style>
+<template><section class="profile-view"><RouterLink to="/people" class="back">Back to people</RouterLink><AppStatus v-if="isLoading" message="Loading profile." busy /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" /><DetailSurface v-else-if="profile" :title="profile.profile.username" utility-label="Profile actions"><template #header><div class="profile-view__header"><p class="eyebrow">People / Profile</p><h1>{{ profile.profile.username }}</h1></div></template><template #default><p class="profile-view__description">{{ profile.profile.profileDescription || "No profile description yet." }}</p><p class="muted">{{ profile.relation?.relationLabel || profile.resolutionLabel || "Visibility is controlled by trust and consent." }}</p><dl v-if="profile.employerRating || profile.workerRating"><div v-if="profile.employerRating"><dt>Employer rating</dt><dd>Available</dd></div><div v-if="profile.workerRating"><dt>Worker rating</dt><dd>Available</dd></div></dl></template><template #utility><DetailUtilityRail title="Profile actions"><RouterLink to="/chat" class="profile-view__action">Open Chat</RouterLink><AppButton v-if="profile.primaryAction?.enabled" tone="primary" :loading="isActing" @click="runPrimaryAction">{{ profile.primaryAction.label }}</AppButton><AppButton v-if="profile.showBlockAction && profile.blockActionEnabled" tone="danger" :loading="isActing" @click="toggleBlock">{{ profile.relation?.blockedByCurrentUser ? "Unblock" : profile.blockActionLabel }}</AppButton><AppButton v-if="!profile.ownProfile" tone="danger" :loading="isActing" @click="reportOpen = true">Report</AppButton></DetailUtilityRail></template></DetailSurface><AppDialog :open="reportOpen" title="Report profile" layout="workspace" @close="reportOpen = false"><form class="profile-view__report" @submit.prevent="reportProfile"><AppFormField label="Reason" required><textarea v-model="reportReason" required maxlength="1000" placeholder="Describe the issue for private review."></textarea></AppFormField><AppFormFooter><template #secondary><AppButton type="button" tone="secondary" @click="reportOpen = false">Cancel</AppButton></template><template #primary><AppButton type="submit" tone="primary" :loading="isActing">Submit report</AppButton></template></AppFormFooter></form></AppDialog></section></template>
+<style scoped>.profile-view{display:grid;gap:var(--space-3)}.back{color:var(--text-muted);font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold)}.profile-view__header{padding:var(--space-4) var(--space-5)}.eyebrow{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}h1{margin:0;color:var(--text);font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.profile-view__description{white-space:pre-wrap;line-height:1.6}.muted{color:var(--text-muted)}dl{display:grid;gap:var(--space-2);margin:var(--space-5) 0 0}dl div{display:flex;justify-content:space-between;border-top:1px solid var(--border-subtle);padding-top:var(--space-2)}dt{color:var(--text-soft);font-size:var(--text-size-meta)}dd{margin:0;color:var(--text);font-weight:var(--text-weight-semibold)}.profile-view__action{display:flex;align-items:center;min-height:var(--control-height-default);margin:var(--space-3);padding:var(--space-1) var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--surface-base);color:var(--text);font:inherit;font-size:var(--text-size-body);font-weight:var(--text-weight-semibold);cursor:pointer}.profile-view__danger{color:var(--danger)}.profile-view__report{display:grid;gap:var(--space-3)}.profile-view__report textarea{width:100%;box-sizing:border-box;min-height:8rem;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--text);font:inherit}</style>
+<style scoped>
+.profile-view .app-button { width:calc(100% - (var(--space-3) * 2)); margin:var(--space-3); border-radius:var(--radius-control); padding:var(--space-1) var(--space-3); background:var(--control-bg); color:var(--control-ink); }
+.profile-view .app-button--primary { border-color:var(--accent); background:var(--accent); color:var(--canvas); }
+.profile-view .app-button--danger { color:var(--danger); }
+</style>

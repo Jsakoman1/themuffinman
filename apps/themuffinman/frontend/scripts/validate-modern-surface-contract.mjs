@@ -4,7 +4,7 @@ import path from "node:path"
 const root = path.resolve(import.meta.dirname, "..")
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8")
 const checks = [
-  ["shared object interaction primitives", read("src/modules/app-shell/composables/useObjectActions.ts").includes("invokeObjectAction") && read("src/modules/app-shell/components/SurfaceRow.vue").includes("@preview") && read("src/modules/app-shell/components/ObjectPreviewPanel.vue").includes("Open detail")],
+  ["shared object interaction primitives", read("src/modules/app-shell/composables/useObjectActions.ts").includes("invokeObjectAction") && read("src/modules/app-shell/components/SurfaceRow.vue").includes("emit('preview')") && read("src/modules/app-shell/components/ObjectPreviewPanel.vue").includes("@click=\"$emit('openDetail')\"") && read("src/modules/app-shell/components/ObjectPreviewPanel.vue").includes('detailLabel: "Open full detail"')],
   ["work applications route", read("src/router.ts").includes("WorkApplicationsView")],
   ["work quest detail route", read("src/router.ts").includes("WorkQuestDetailView")],
   ["work quest create route", read("src/router.ts").includes("WorkQuestCreateView")],
@@ -50,11 +50,13 @@ const checks = [
   , ["shared card primitive", read("src/modules/app-shell/components/AppCard.vue").includes("app-card--interactive") && read("src/modules/app-shell/components/AppCard.vue").includes("isNestedAction")]
   , ["shared action menu primitive", read("src/modules/app-shell/components/AppActionMenu.vue").includes("More actions") && read("src/modules/app-shell/components/AppActionMenu.vue").includes("<details")]
   , ["shared form field primitive", read("src/modules/app-shell/components/AppFormField.vue").includes("app-form-field__label") && read("src/modules/app-shell/views/WorkQuestCreateView.vue").includes("AppFormField")]
+  , ["shared form field accessible-name fallback", read("src/modules/app-shell/components/AppFormField.vue").includes("ensureAccessibleName") && read("src/modules/app-shell/components/AppFormField.vue").includes("querySelectorAll") && read("src/modules/app-shell/components/AppFormField.vue").includes("aria-label")]
   , ["shared form footer primitive", read("src/modules/app-shell/components/AppFormFooter.vue").includes("app-form-footer") && read("src/modules/app-shell/views/WorkQuestCreateView.vue").includes("AppFormFooter")]
   , ["chat mobile back affordance", read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("Back to inbox") && read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("chat-surface__back")]
   , ["calendar accessible mode controls", read("src/modules/app-shell/components/SurfaceContentView.vue").includes("aria-pressed") && read("src/modules/app-shell/components/SurfaceContentView.vue").includes("Calendar controls")]
   , ["design tokens include semantic states", read("src/styles/base.css").includes("--danger") && read("src/styles/base.css").includes("--success") && read("src/styles/base.css").includes("--focus-ring")]
-  , ["reduced motion and visible focus", read("src/styles/base.css").includes("prefers-reduced-motion") && read("src/styles/base.css").includes(":focus-visible")]
+  , ["reduced motion and visible focus", read("src/styles/base.css").includes("prefers-reduced-motion") && read("src/styles/base.css").includes(":focus-visible") && read("src/styles/base.css").includes("outline: 2px solid var(--accent)") && read("src/styles/base.css").includes("forced-colors: active")]
+  , ["collection shortcuts protect editable controls", read("src/modules/app-shell/composables/useSurfaceViewState.ts").includes("HTMLInputElement") && read("src/modules/app-shell/composables/useSurfaceViewState.ts").includes("isContentEditable") && read("src/modules/app-shell/composables/useSurfaceViewState.ts").includes("event.key === \"Escape\"")]
   , ["dialogs support Escape dismissal", read("src/modules/app-shell/components/AppDialog.vue").includes("@keydown.escape") && read("src/modules/app-shell/components/AppActionDialog.vue").includes("@keydown.escape")]
   , ["disabled controls expose affordance", read("src/styles/base.css").includes("button:disabled") && read("src/styles/base.css").includes("aria-disabled")]
   , ["icon actions remain named", read("src/modules/app-shell/components/AppIconButton.vue").includes("aria-label")]
@@ -68,7 +70,7 @@ const checks = [
   , ["global Vision entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<GlobalVisionEntry") && read("src/modules/app-shell/components/GlobalVisionEntry.vue").includes("Microphone input")]
   , ["account menu owns username and logout", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<AccountMenu") && read("src/modules/app-shell/components/AccountMenu.vue").includes("handleLogout")]
   , ["shell has no duplicate inline Vision form", !read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes('<form class="app-shell__vision-form"')]
-  , ["global Create entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<UniversalCreateMenu") && read("src/modules/app-shell/components/UniversalCreateMenu.vue").includes('to: "/work/offer"')]
+  , ["global Create entry is shell-owned and backend-prepared", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<UniversalCreateMenu") && read("src/modules/app-shell/components/UniversalCreateMenu.vue").includes("getWorkspaceCommandCatalog") && read("src/modules/app-shell/components/UniversalCreateMenu.vue").includes("catalog?.create")]
   , ["offer work route is discoverable", read("src/router.ts").includes("path: 'work/offer'") && read("src/modules/app-shell/shellDefinitions.ts").includes('label: "Offer work"')]
 ]
 

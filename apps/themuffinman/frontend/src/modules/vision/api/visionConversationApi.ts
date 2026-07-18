@@ -128,6 +128,24 @@ export type VisionSearchDiscovery = {
   items: VisionSearchDiscoveryItem[]
 }
 
+export type VisionSearchComparisonItem = {
+  entityFamily: string
+  targetId: number
+  title: string
+  sourceRoute: string
+  fields: Record<string, string | null>
+}
+
+export type VisionSearchComparison = {
+  capabilityId: string
+  query: string
+  selectionLimit: number
+  omittedSelectionCount: number
+  fallbackMessage: string | null
+  comparableFields: string[]
+  items: VisionSearchComparisonItem[]
+}
+
 export type VisionSlotSummary = {
   slotId: string
   label: string
@@ -188,7 +206,7 @@ export type VisionMemoryTrail = {
 }
 
 export type VisionCanvasBlock = {
-  type: "agent_message" | "recognized_prompt" | "field_request" | "result_summary" | "quest_discovery" | "search_discovery" | "review_summary" | "warning" | "success" | "info"
+  type: "agent_message" | "recognized_prompt" | "field_request" | "result_summary" | "quest_discovery" | "search_discovery" | "search_comparison" | "review_summary" | "warning" | "success" | "info"
   title: string | null
   body: string | null
   fieldId: string | null
@@ -199,6 +217,7 @@ export type VisionCanvasBlock = {
   items: VisionSlotSummary[]
   questDiscovery: VisionQuestDiscovery | null
   searchDiscovery: VisionSearchDiscovery | null
+  searchComparison: VisionSearchComparison | null
   review: VisionQuestReview | null
   tone: string | null
 }
@@ -220,6 +239,8 @@ export type VisionConversationTurnResponse = {
   workspaceHandoff: VisionWorkspaceHandoff | null
   executionCandidate: VisionExecutionCandidate | null
   questDiscovery: VisionQuestDiscovery | null
+  searchDiscovery: VisionSearchDiscovery | null
+  searchComparison: VisionSearchComparison | null
   memoryTrail: VisionMemoryTrail | null
   blocks: VisionCanvasBlock[]
   appliedSlotSummaries: VisionSlotSummary[]
@@ -229,6 +250,7 @@ export type VisionConversationTurnResponse = {
 }
 
 export type VisionWorkspaceHandoff = {
+  contractVersion: string
   contextLabel: string | null
   source: string | null
   returnTo: string | null

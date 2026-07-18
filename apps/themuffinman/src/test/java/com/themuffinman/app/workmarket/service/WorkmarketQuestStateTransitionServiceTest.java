@@ -2,6 +2,8 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.model.Quest;
+import com.themuffinman.app.workmarket.model.QuestApplication;
+import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.model.QuestNewsType;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepository;
@@ -14,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class WorkmarketQuestStateTransitionServiceTest {
@@ -111,6 +114,57 @@ class WorkmarketQuestStateTransitionServiceTest {
         assertEquals(null, quest.getPausedFromStatus());
         verify(notificationService).notifyQuestApplicants(
                 quest, owner, QuestNewsType.QUEST_RESUMED, "Quest resumed", "The quest \"Paint a room\" was resumed by its owner.");
+    }
+
+    @Test
+    void ownerCanReopenCompletedQuestAndResetsApplicationsWithNotification() {
+        WorkmarketQuestStateTransitionService service = new WorkmarketQuestStateTransitionService(
+                questApplicationRepository, questValidationService, notificationService, accessPolicyService);
+        AppUser owner = new AppUser();
+        Quest quest = new Quest();
+        quest.setId(44L);
+        quest.setTitle("Repair a bike");
+        quest.setStatus(QuestStatus.COMPLETED);
+        QuestApplication approved = new QuestApplication();
+        approved.setStatus(QuestApplicationStatus.APPROVED);
+        QuestApplication withdrawn = new QuestApplication();
+        withdrawn.setStatus(QuestApplicationStatus.WITHDRAWN);
+        when(accessPolicyService.isQuestOwner(quest, owner)).thenReturn(true);
+        when(questApplicationRepository.findForQuestApplicationManagement(44L))
+                .thenReturn(List.of(approved, withdrawn));
+
+        service.applyOwnerQuestStatusChange(quest, QuestStatus.OPEN, owner);
+
+        assertEquals(QuestStatus.OPEN, quest.getStatus());
+        assertEquals(QuestApplicationStatus.PENDING, approved.getStatus());
+        assertEquals(QuestApplicationStatus.WITHDRAWN, withdrawn.getStatus());
+        verify(questApplicationRepository).saveAll(List.of(approved));
+        verify(notificationService).notifyQuestApplicants(
+                quest, owner, QuestNewsType.QUEST_REOPENED, "Quest reopened", "The quest \"Repair a bike\" was reopened.");
+    }
+
+    @Test
+    void ownerCanReopenAssignedQuestAndResetsApprovedApplication() {
+        WorkmarketQuestStateTransitionService service = new WorkmarketQuestStateTransitionService(
+                questApplicationRepository, questValidationService, notificationService, accessPolicyService);
+        AppUser owner = new AppUser();
+        Quest quest = new Quest();
+        quest.setId(45L);
+        quest.setTitle("Translate a document");
+        quest.setStatus(QuestStatus.ASSIGNED);
+        QuestApplication approved = new QuestApplication();
+        approved.setStatus(QuestApplicationStatus.APPROVED);
+        when(accessPolicyService.isQuestOwner(quest, owner)).thenReturn(true);
+        when(questApplicationRepository.findForQuestApplicationManagement(45L))
+                .thenReturn(List.of(approved));
+
+        service.applyOwnerQuestStatusChange(quest, QuestStatus.OPEN, owner);
+
+        assertEquals(QuestStatus.OPEN, quest.getStatus());
+        assertEquals(QuestApplicationStatus.PENDING, approved.getStatus());
+        verify(questApplicationRepository).saveAll(List.of(approved));
+        verify(notificationService).notifyQuestApplicants(
+                quest, owner, QuestNewsType.QUEST_REOPENED, "Quest reopened", "The quest \"Translate a document\" was reopened.");
     }
 
     @Test

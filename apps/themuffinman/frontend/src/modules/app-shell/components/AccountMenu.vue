@@ -28,5 +28,18 @@ const handleLogout = () => {
 </template>
 
 <style scoped>
-.account-menu{position:relative}.account-menu__summary{display:flex;align-items:center;gap:.45rem;cursor:pointer;list-style:none;color:var(--text-muted)}.account-menu__summary::-webkit-details-marker{display:none}.account-menu__avatar{width:1.85rem;height:1.85rem;border-radius:50%;object-fit:cover;border:1px solid var(--border-strong)}.account-menu__avatar--fallback{display:grid;place-items:center;background:var(--surface-strong);color:var(--text);font-size:.78rem;font-weight:700}.account-menu__username{max-width:10rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.82rem}.account-menu__panel{position:absolute;right:0;top:calc(100% + .55rem);z-index:20;display:grid;gap:.25rem;min-width:13rem;padding:.55rem;border:1px solid var(--border-strong);border-radius:var(--radius-card);background:var(--surface-strong);box-shadow:var(--shadow-card)}.account-menu__panel a,.account-menu__panel button{padding:.6rem .7rem;border:0;border-radius:var(--radius-control);background:transparent;color:var(--text);text-align:left;font:inherit;font-size:.82rem}.account-menu__panel a:hover,.account-menu__panel button:hover{background:var(--surface-hover)}.account-menu__identity{display:grid;gap:.15rem;padding:.55rem .7rem .7rem;border-bottom:1px solid var(--border-subtle)}.account-menu__identity span{overflow:hidden;color:var(--text-muted);font-size:.74rem;text-overflow:ellipsis}
+.account-menu { position: relative; }
+.account-menu__summary { display: flex; align-items: center; gap: var(--space-2); min-height: var(--control-height-default); padding: var(--space-1) var(--space-2); border: 1px solid var(--control-border); border-radius: var(--radius-control); background: var(--control-bg); color: var(--control-ink-muted); cursor: pointer; list-style: none; }
+.account-menu__summary:hover, .account-menu[open] .account-menu__summary { border-color: var(--control-border-active); background: var(--control-bg-hover); color: var(--control-ink); }
+.account-menu__summary:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+.account-menu__summary::-webkit-details-marker { display: none; }
+.account-menu__avatar { width: 1.85rem; height: 1.85rem; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-strong); }
+.account-menu__avatar--fallback { display: grid; place-items: center; background: var(--surface-strong); color: var(--text); font-size: var(--text-size-meta); font-weight: var(--text-weight-semibold); }
+.account-menu__username { max-width: 10rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--text-size-meta); }
+.account-menu__panel { position: absolute; right: 0; top: calc(100% + var(--space-2)); z-index: var(--z-popover); display: grid; gap: var(--space-1); min-width: 13rem; padding: var(--space-1); border: 1px solid var(--border-strong); border-radius: var(--radius-surface); background: var(--surface-raised); box-shadow: var(--shadow-overlay); }
+.account-menu__panel a, .account-menu__panel button { min-height: var(--control-height-default); padding: var(--space-1) var(--space-2); border: 0; border-radius: var(--radius-control); background: transparent; color: var(--text); text-align: left; font: inherit; font-size: var(--text-size-meta); cursor: pointer; }
+.account-menu__panel a:hover, .account-menu__panel a:focus-visible, .account-menu__panel button:hover, .account-menu__panel button:focus-visible { background: var(--surface-hover); }
+.account-menu__panel a:focus-visible, .account-menu__panel button:focus-visible { outline: var(--focus-ring); outline-offset: -2px; }
+.account-menu__identity { display: grid; gap: var(--space-1); padding: var(--space-2); border-bottom: 1px solid var(--border-subtle); }
+.account-menu__identity span { overflow: hidden; color: var(--text-muted); font-size: var(--text-size-meta); text-overflow: ellipsis; }
 </style>

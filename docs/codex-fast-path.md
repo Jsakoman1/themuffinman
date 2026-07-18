@@ -2,6 +2,10 @@
 
 Read `AGENTS.md`, then `docs/implementation-control.md`.
 
+For local runtime evidence, start the owned stack with `make dev` and always end it
+with `make dev-stop`. `make dev` records only its own process tree and refuses to
+reuse occupied ports, so do not kill an unverified process by port alone.
+
 For a small change, implement and run the relevant targeted test.
 
 For a non-trivial change:

@@ -128,6 +128,21 @@ const terminalRows = computed<TerminalRow[]>(() => props.displayBlocks.flatMap<T
     }))
   }
 
+  if (block.type === "search_comparison" && block.searchComparison) {
+    return (block.searchComparison.items ?? []).map((item, itemIndex) => ({
+      key: `comparison-${blockIndex}-${item.entityFamily}-${item.targetId}-${itemIndex}`,
+      kind: "summary",
+      title: item.title,
+      meta: [item.entityFamily, item.fields["availability"] ?? ""].filter(isNonEmptyText).join(" · "),
+      sub: [
+        item.fields["summary"] ?? "",
+        item.fields["owner_display_name"] ? `owner: ${item.fields["owner_display_name"]}` : ""
+      ].filter(isNonEmptyText).join(" · "),
+      routeTo: item.sourceRoute,
+      routeLabel: "Open source"
+    }))
+  }
+
   if ((block.items?.length ?? 0) > 0) {
     return (block.items ?? []).map((item, itemIndex) => ({
       key: `summary-${blockIndex}-${item.slotId}-${itemIndex}`,
@@ -255,7 +270,6 @@ onMounted(() => {
         <p v-if="props.runtimeContext.consentRequired" class="vision-console__runtime-note">
           Confirm before continuing.
         </p>
-        <button v-if="props.error" type="button" class="vision-console__retry" @click="emit('retry')">Try again</button>
       </header>
 
       <div v-if="props.workspaceHandoff" class="vision-console__handoff">
@@ -353,6 +367,10 @@ onMounted(() => {
         </div>
 
         <button v-if="hasMoreResults" type="button" class="vision-console__more" @click="emit('fetchMore')">Show more</button>
+      </div>
+
+      <div v-if="props.error" class="vision-console__error-actions">
+        <button type="button" class="vision-console__retry" @click="emit('retry')">Try again</button>
       </div>
     </div>
   </section>
@@ -627,6 +645,13 @@ onMounted(() => {
   font-size: 0.8rem;
   font-weight: 650;
   cursor: pointer;
+}
+
+.vision-console__error-actions {
+  display: grid;
+  justify-items: start;
+  gap: 0.45rem;
+  margin-top: 0.65rem;
 }
 
 .vision-console__input {

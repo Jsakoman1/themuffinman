@@ -31,4 +31,8 @@ public final class ServiceErrors {
     public static ResponseStatusException serviceUnavailable(String message) {
         return new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, message);
     }
+
+    public static ResponseStatusException tooManyRequests(String message) {
+        return new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, message);
+    }
 }

@@ -33,6 +33,9 @@ public class CommutePreferenceService {
         if (dto.isEnabled() && (home == null || work == null || dto.getDepartureTime() == null || weekdays.isEmpty())) {
             throw ServiceErrors.badRequest("Enabled commute matching requires approximate areas, weekdays, and departure time");
         }
+        if (dto.getDepartureTime() != null && dto.getReturnTime() != null && !dto.getReturnTime().isAfter(dto.getDepartureTime())) {
+            throw ServiceErrors.badRequest("Commute return time must be after departure time");
+        }
         CommutePreference preference = repository.findByUserId(user.getId()).orElseGet(() -> {
             CommutePreference created = new CommutePreference();
             created.setUser(user);

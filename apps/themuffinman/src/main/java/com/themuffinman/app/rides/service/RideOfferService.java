@@ -47,6 +47,7 @@ public class RideOfferService {
         return RideOfferListResponseDTO.builder().items(rideOfferRepository.findByDriverId(user.getId()).stream().map(r -> rideOfferMgr.toDto(r, user)).toList()).build();
     }
     public RideOfferResponseDTO getOffer(Long id, AppUser user) {
+        if (id == null || id <= 0) throw ServiceErrors.badRequest("Ride offer id must be positive");
         RideOffer ride = loadDetailed(id);
         requireVisible(ride, user);
         return rideOfferMgr.toDto(ride, user);

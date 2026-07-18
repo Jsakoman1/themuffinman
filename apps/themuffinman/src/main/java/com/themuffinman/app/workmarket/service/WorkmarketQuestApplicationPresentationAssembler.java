@@ -55,10 +55,15 @@ public class WorkmarketQuestApplicationPresentationAssembler {
     }
 
     public List<ApplicationAllowedActionDTO> resolveManagementActions(QuestApplication application) {
-        if (application == null || application.getStatus() != QuestApplicationStatus.PENDING) {
+        if (application == null) {
             return List.of();
         }
-
-        return List.of(ApplicationAllowedActionDTO.APPROVE, ApplicationAllowedActionDTO.DECLINE);
+        if (application.getStatus() == QuestApplicationStatus.PENDING) {
+            return List.of(ApplicationAllowedActionDTO.APPROVE, ApplicationAllowedActionDTO.DECLINE);
+        }
+        if (application.getStatus() == QuestApplicationStatus.APPROVED) {
+            return List.of(ApplicationAllowedActionDTO.RELEASE_WORKER, ApplicationAllowedActionDTO.REPLACE_WORKER);
+        }
+        return List.of();
     }
 }

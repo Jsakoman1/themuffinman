@@ -109,7 +109,10 @@ export type OnboardingProgress = {id: number | null; currentStep: string; skippe
 export type ActivityItem = {kind: string; title: string; summary: string; route: string; occurredAt: string; resumeKey: string | null; resumable: boolean}
 export type AttentionCenter = {unreadCount: number; items: ActivityItem[]}
 export type PersonalShortcut = {targetId: number; targetType: string; title: string; route: string}
+export type WorkspaceRailPreference = {railWidthPx: number}
+export type DisplayDensity = "compact" | "default" | "comfortable"
 export type WorkspaceCommandCatalog = import("../../../contracts/index.ts").WorkspaceCommandCatalog
+export type WorkspaceCommandGroup = "personal" | "navigation" | "create" | "vision"
 
 const activeBusinessParams = () => {
   const id = typeof window === "undefined" ? null : window.sessionStorage.getItem("activeBusinessProfileId")
@@ -159,6 +162,9 @@ export const userShellApi = {
   async searchUniversal(query: string, page = 0): Promise<import("../../../contracts/index.ts").VisionSearchDiscoveryDTO> {
     return (await api.get<import("../../../contracts/index.ts").VisionSearchDiscoveryDTO>("/search", {params: {q: query, page}, ...withAuth()})).data
   },
+  async compareUniversal(query: string, selections: string[]): Promise<import("../../../contracts/index.ts").VisionSearchComparison> {
+    return (await api.get<import("../../../contracts/index.ts").VisionSearchComparison>("/search/compare", {params: {q: query, selection: selections}, ...withAuth()})).data
+  },
   async getSavedSearchIntents(): Promise<SavedSearchIntent[]> { return (await api.get<SavedSearchIntent[]>("/search/saved", withAuth())).data },
   async createSavedSearchIntent(request: {query: string; entityFamily?: string | null; paused?: boolean; notifyEnabled?: boolean; expiresAt?: string | null}): Promise<SavedSearchIntent> { return (await api.post<SavedSearchIntent>("/search/saved", request, withAuth())).data },
   async updateSavedSearchIntent(id: number, request: {query: string; entityFamily?: string | null; paused?: boolean; notifyEnabled?: boolean; expiresAt?: string | null}): Promise<SavedSearchIntent> { return (await api.put<SavedSearchIntent>(`/search/saved/${id}`, request, withAuth())).data },
@@ -168,10 +174,13 @@ export const userShellApi = {
   async updateOnboardingProgress(request: {currentStep: string; skipped?: boolean; completed?: boolean}): Promise<OnboardingProgress> { return (await api.put<OnboardingProgress>("/profile/onboarding/me", request, withAuth())).data },
   async resetOnboardingProgress(): Promise<OnboardingProgress> { return (await api.post<OnboardingProgress>("/profile/onboarding/me/reset", undefined, withAuth())).data },
   async getActivity(): Promise<ActivityItem[]> { return (await api.get<ActivityItem[]>("/activity/me", withAuth())).data },
+  async getRecentActivity(): Promise<ActivityItem[]> { return (await api.get<ActivityItem[]>("/activity/me/recent", withAuth())).data },
   async dismissActivityResume(resumeKey: string): Promise<void> { await api.post(`/activity/resume/${encodeURIComponent(resumeKey)}/dismiss`, undefined, withAuth()) },
-  async getAttentionCenter(): Promise<AttentionCenter> { return (await api.get<AttentionCenter>("/attention/me", withAuth())).data },
+  async getAttentionCenter(signal?: AbortSignal): Promise<AttentionCenter> { return (await api.get<AttentionCenter>("/attention/me", {signal, ...withAuth()})).data },
   async getPersonalShortcuts(): Promise<PersonalShortcut[]> { return (await api.get<PersonalShortcut[]>("/personal-shortcuts/me", withAuth())).data },
-  async getWorkspaceCommandCatalog(): Promise<WorkspaceCommandCatalog> { return (await api.get<WorkspaceCommandCatalog>("/workspace/commands", withAuth())).data },
+  async getWorkspaceRailPreference(): Promise<WorkspaceRailPreference> { return (await api.get<WorkspaceRailPreference>("/personal-shortcuts/me/rail-preference", withAuth())).data },
+  async updateWorkspaceRailPreference(railWidthPx: number): Promise<WorkspaceRailPreference> { return (await api.put<WorkspaceRailPreference>("/personal-shortcuts/me/rail-preference", {railWidthPx}, withAuth())).data },
+  async getWorkspaceCommandCatalog(signal?: AbortSignal): Promise<WorkspaceCommandCatalog> { return (await api.get<WorkspaceCommandCatalog>("/workspace/commands", {signal, ...withAuth()})).data },
   async pinQuest(questId: number): Promise<void> { await api.put(`/personal-shortcuts/me/quests/${questId}`, undefined, withAuth()) },
   async unpinQuest(questId: number): Promise<void> { await api.delete(`/personal-shortcuts/me/quests/${questId}`, withAuth()) },
 
@@ -308,6 +317,7 @@ export const userShellApi = {
   },
 
   async sendChatMessage(conversationId: number, messageBody: string, attachment?: ChatAttachmentUploadDTO | null, replyToMessageId?: number | null): Promise<ChatMessageDTO> {
+    if (!Number.isInteger(conversationId) || conversationId <= 0) throw new Error("A valid conversation is required to send a message.")
     const request: ChatMessageRequestDTO = {messageBody: messageBody || undefined, clientMessageId: crypto.randomUUID(), attachmentName: attachment?.attachmentName, attachmentMimeType: attachment?.attachmentMimeType, attachmentUploadId: attachment?.uploadId, replyToMessageId: replyToMessageId ?? undefined}
     return (await api.post<ChatMessageDTO>(`/chat/conversations/${conversationId}/messages`, request, withAuth())).data
   },
@@ -654,6 +664,7 @@ export const userShellApi = {
   },
 
   async getRideOffers(): Promise<RideOfferListResponseDTO> { return (await api.get<RideOfferListResponseDTO>("/rides/offers", withAuth())).data },
+  async getRideOffer(id: number): Promise<RideOfferResponseDTO> { return (await api.get<RideOfferResponseDTO>(`/rides/offers/${id}`, withAuth())).data },
   async findRideMatches(filters: {origin?: string; destination?: string; departureFrom?: string; departureTo?: string} = {}): Promise<RideOfferListResponseDTO> {
     return (await api.get<RideOfferListResponseDTO>("/rides/offers/matches", {params: {...filters, origin: filters.origin || undefined, destination: filters.destination || undefined}, ...withAuth()})).data
   },

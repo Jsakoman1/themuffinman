@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue"
+import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue"
 import {RouterLink, RouterView, useRoute} from "vue-router"
-import {appPersonalShortcuts, appPrimaryNavItems, appSecondaryNavItems, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
+import {appPersonalShortcuts, appPrimaryNavItems, appSecondaryNavItems, authenticatedShellContract, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
 import {buildSurfaceVisionPrompt, buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
 import GlobalVisionEntry from "../components/GlobalVisionEntry.vue"
 import AccountMenu from "../components/AccountMenu.vue"
 import UniversalCreateMenu from "../components/UniversalCreateMenu.vue"
 import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
 import AppActionMenu from "../components/AppActionMenu.vue"
-import {userShellApi, type PersonalShortcut} from "../api/userShellApi.ts"
+import WorkspaceKeyboardHelp from "../components/WorkspaceKeyboardHelp.vue"
+import QuickSwitcher from "../components/QuickSwitcher.vue"
+import AppButton from "../components/AppButton.vue"
+import {userShellApi, type AttentionCenter, type PersonalShortcut} from "../api/userShellApi.ts"
 
 const route = useRoute()
 
@@ -52,11 +55,29 @@ const contextualVisionRoute = computed(() => {
 
 const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVisionPrompt(currentSurfaceId.value) : "Ask Vision for guided help")
 const pinned = ref<PersonalShortcut[]>([])
-onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShortcuts() } catch { pinned.value = [] } })
+const attention = ref<AttentionCenter | null>(null)
+const personalContextError = ref(false)
+const railWidthPx = ref(240)
+const railResizing = ref(false)
+const mobileDrawerOpen = ref(false)
+const mobileDrawerTrigger = ref<{focus: () => void} | null>(null)
+const mobileDrawer = ref<HTMLElement | null>(null)
+const openMobileDrawer = async () => { mobileDrawerOpen.value = true; await nextTick(); mobileDrawer.value?.focus() }
+const closeMobileDrawer = async () => { mobileDrawerOpen.value = false; await nextTick(); mobileDrawerTrigger.value?.focus() }
+watch(() => route.fullPath, () => { mobileDrawerOpen.value = false })
+const clampRailWidth = (width: number) => Math.min(280, Math.max(216, Math.round(width)))
+const resizeRail = (event: PointerEvent) => { if (railResizing.value) railWidthPx.value = clampRailWidth(event.clientX) }
+const persistRailWidth = async () => { try { railWidthPx.value = (await userShellApi.updateWorkspaceRailPreference(railWidthPx.value)).railWidthPx } catch { /* Keep current-session width; the next reload can restore the last accepted backend value. */ } }
+const finishRailResize = async () => { if (!railResizing.value) return; railResizing.value = false; window.removeEventListener("pointermove", resizeRail); window.removeEventListener("pointerup", finishRailResize); try { railWidthPx.value = (await userShellApi.updateWorkspaceRailPreference(railWidthPx.value)).railWidthPx } catch { /* Keep current-session width; next reload restores backend state. */ } }
+const beginRailResize = (event: PointerEvent) => { if (window.matchMedia("(max-width: 980px)").matches) return; event.preventDefault(); railResizing.value = true; window.addEventListener("pointermove", resizeRail); window.addEventListener("pointerup", finishRailResize, {once: true}) }
+const resizeRailWithKeyboard = async (event: KeyboardEvent) => { if (window.matchMedia("(max-width: 980px)").matches) return; const step = event.shiftKey ? 32 : 16; let next = railWidthPx.value; if (event.key === "ArrowLeft") next -= step; else if (event.key === "ArrowRight") next += step; else if (event.key === "Home") next = 216; else if (event.key === "End") next = 280; else return; event.preventDefault(); railWidthPx.value = clampRailWidth(next); await persistRailWidth() }
+const loadPersonalContext = async () => { personalContextError.value = false; const [shortcuts, attentionResult] = await Promise.allSettled([userShellApi.getPersonalShortcuts(), userShellApi.getAttentionCenter()]); pinned.value = shortcuts.status === "fulfilled" ? shortcuts.value : []; attention.value = attentionResult.status === "fulfilled" ? attentionResult.value : null; personalContextError.value = shortcuts.status === "rejected" || attentionResult.status === "rejected" }
+onMounted(async () => { const preference = await userShellApi.getWorkspaceRailPreference().catch(() => null); railWidthPx.value = preference?.railWidthPx ?? railWidthPx.value; await loadPersonalContext() })
+onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); window.removeEventListener("pointerup", finishRailResize) })
 </script>
 
 <template>
-  <div class="app-shell">
+  <div class="app-shell" data-workspace-shell="authenticated" :data-workspace-layout="authenticatedShellContract.layout" :style="{'--workspace-rail-width': `${railWidthPx}px`}">
     <aside class="app-shell__rail" aria-label="Primary navigation">
       <div class="app-shell__brand">
         <p class="app-shell__brand-mark" aria-label="TheMuffinMan">TM</p>
@@ -94,6 +115,8 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 
       <div class="app-shell__rail-footer">
         <p class="app-shell__nav-heading">Personal</p>
+        <RouterLink to="/notifications" class="app-shell__attention-link"><span>Attention</span><strong>{{ attention?.unreadCount ?? '—' }}</strong></RouterLink>
+        <p v-if="personalContextError" class="app-shell__personal-recovery">Personal context is unavailable. <AppButton type="button" tone="quiet" @click="loadPersonalContext">Retry</AppButton></p>
         <RouterLink v-for="item in pinned" :key="`pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link"><span aria-hidden="true">★</span>{{ item.title }}</RouterLink>
         <RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink>
         <p class="app-shell__nav-heading app-shell__nav-heading--account">Account</p>
@@ -101,9 +124,10 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
         <RouterLink to="/profile/settings" class="app-shell__account-link">Settings</RouterLink>
       </div>
     </aside>
+      <div class="app-shell__rail-resizer" :class="{'app-shell__rail-resizer--active': railResizing}" role="separator" tabindex="0" aria-orientation="vertical" :aria-valuemin="216" :aria-valuemax="280" :aria-valuenow="railWidthPx" aria-label="Resize workspace navigation" @pointerdown="beginRailResize" @keydown="resizeRailWithKeyboard" />
 
     <div class="app-shell__frame">
-      <header class="app-shell__header">
+      <header class="app-shell__header" aria-label="Workspace context">
         <div class="app-shell__context">
           <p class="app-shell__eyebrow">{{ shellEyebrow }}</p>
           <h1 class="app-shell__title">{{ shellTitle }}</h1>
@@ -112,7 +136,9 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
         <div class="app-shell__header-actions">
           <UniversalCreateMenu />
           <GlobalSearchEntry />
+          <QuickSwitcher />
           <GlobalVisionEntry :context="currentContextLabel" :placeholder="visionPlaceholder" :contextual-route="contextualVisionRoute" />
+          <WorkspaceKeyboardHelp />
           <AppActionMenu label="Open personal shortcuts">
             <RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to">{{ item.label }}</RouterLink>
           </AppActionMenu>
@@ -120,39 +146,25 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
         </div>
       </header>
 
-      <main class="app-shell__content">
+      <main class="app-shell__content" :data-workspace-surface="currentSurfaceId ?? 'unknown'">
         <RouterView />
       </main>
     </div>
 
     <nav class="app-shell__mobile-nav" aria-label="Mobile navigation">
-      <RouterLink
-        v-for="item in appPrimaryNavItems"
-        :key="item.id"
-        :to="item.to"
-        class="app-shell__mobile-link"
-        :class="{ 'app-shell__mobile-link--active': activeNavId === item.id }"
-      >
-        <span aria-hidden="true">{{ item.icon }}</span>
-        {{ item.label }}
-      </RouterLink>
-      <details class="app-shell__mobile-more" :open="secondaryNavigationActive">
-        <summary class="app-shell__mobile-link">More</summary>
-        <div class="app-shell__mobile-more-items">
-          <RouterLink
-            v-for="item in appSecondaryNavItems"
-            :key="item.id"
-            :to="item.to"
-            class="app-shell__mobile-link"
-            :class="{ 'app-shell__mobile-link--active': activeNavId === item.id }"
-          >
-            <span aria-hidden="true">{{ item.icon }}</span>
-            {{ item.label }}
-          </RouterLink>
-        </div>
-      </details>
+      <RouterLink v-for="item in appPrimaryNavItems.slice(0, 3)" :key="item.id" :to="item.to" class="app-shell__mobile-link" :class="{ 'app-shell__mobile-link--active': activeNavId === item.id }"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink>
+      <AppButton ref="mobileDrawerTrigger" type="button" tone="secondary" class="app-shell__mobile-link" :aria-expanded="mobileDrawerOpen" aria-controls="mobile-workspace-drawer" @click="openMobileDrawer">Menu</AppButton>
       <RouterLink :to="contextualVisionRoute" class="app-shell__mobile-vision">Vision</RouterLink>
     </nav>
+    <Teleport to="body">
+      <div v-if="mobileDrawerOpen" class="app-shell__drawer-backdrop" @click.self="closeMobileDrawer">
+        <aside id="mobile-workspace-drawer" ref="mobileDrawer" class="app-shell__drawer" aria-label="Workspace navigation" tabindex="-1" @keydown.esc.prevent="closeMobileDrawer">
+          <header class="app-shell__drawer-header"><span>Workspace</span><AppButton type="button" tone="quiet" aria-label="Close navigation" @click="closeMobileDrawer">×</AppButton></header>
+          <nav class="app-shell__drawer-nav"><RouterLink v-for="item in appPrimaryNavItems" :key="item.id" :to="item.to" class="app-shell__nav-link" :class="{ 'app-shell__nav-link--active': activeNavId === item.id }" @click="closeMobileDrawer"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink><RouterLink v-for="item in appSecondaryNavItems" :key="item.id" :to="item.to" class="app-shell__nav-link" :class="{ 'app-shell__nav-link--active': activeNavId === item.id }" @click="closeMobileDrawer"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink></nav>
+          <nav class="app-shell__drawer-nav" aria-label="Personal"><p class="app-shell__nav-heading">Personal</p><RouterLink v-for="item in pinned" :key="`drawer-pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link" @click="closeMobileDrawer">★ {{ item.title }}</RouterLink><RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link" @click="closeMobileDrawer">{{ item.label }}</RouterLink><RouterLink to="/profile" class="app-shell__account-link" @click="closeMobileDrawer">Profile</RouterLink><RouterLink to="/profile/settings" class="app-shell__account-link" @click="closeMobileDrawer">Settings</RouterLink></nav>
+        </aside>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -160,7 +172,7 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 .app-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: var(--workspace-rail-width) minmax(0, 1fr);
+  grid-template-columns: var(--workspace-rail-width) 6px minmax(0, 1fr);
   background: var(--bg);
   color: var(--text);
 }
@@ -168,14 +180,16 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 .app-shell__rail {
   display: grid;
   align-content: start;
-  gap: 1.25rem;
+  gap: var(--space-5);
   position: sticky;
   top: 0;
   height: 100svh;
-  padding: 1rem 0.65rem 0.75rem;
+  padding: var(--space-4) var(--space-2) var(--space-3);
   border-right: 1px solid var(--border-subtle);
   background: var(--rail);
 }
+
+.app-shell__rail-resizer { grid-column: 2; grid-row: 1; position: sticky; top: 0; height: 100svh; cursor: col-resize; touch-action: none; }.app-shell__rail-resizer::after { display: block; width: 1px; height: 100%; margin-inline: auto; background: transparent; content: ""; }.app-shell__rail-resizer:hover::after, .app-shell__rail-resizer--active::after { background: var(--accent); }
 
 .app-shell__brand,
 .app-shell__rail-footer,
@@ -196,17 +210,17 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 .app-shell__brand {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: var(--space-2);
 }
 
 .app-shell__brand-mark {
   display: grid;
   place-items: center;
-  width: 2rem;
-  height: 2rem;
+  width: var(--control-height-default);
+  height: var(--control-height-default);
   padding: 0;
   border: 1px solid var(--border-strong);
-  border-radius: 0.6rem;
+  border-radius: var(--radius-control);
   background: var(--surface-strong);
   color: var(--text);
   font-size: 0.92rem;
@@ -218,11 +232,11 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 
 .app-shell__nav {
   display: grid;
-  gap: 0.2rem;
+  gap: var(--space-1);
 }
 
 .app-shell__nav-heading {
-  padding: 0.25rem 0.7rem 0.35rem;
+  padding: var(--space-1) var(--space-3) var(--space-1);
   color: var(--text-soft);
   font-size: 0.64rem;
   font-weight: 700;
@@ -234,9 +248,10 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 .app-shell__vision-link {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.5rem 0.7rem;
-  border-radius: 0.45rem;
+  gap: var(--space-2);
+  min-height: var(--control-height-default);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-control);
   border: 1px solid transparent;
   color: var(--text-muted);
   transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease;
@@ -270,20 +285,21 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
   left: -0.2rem;
   width: 0.18rem;
   height: 1rem;
-  border-radius: 999px;
+  border-radius: var(--radius-control);
   background: var(--accent);
   content: "";
 }
 
 .app-shell__more {
   display: grid;
-  gap: 0.2rem;
+  gap: var(--space-1);
 }
 
 .app-shell__more-summary {
   cursor: pointer;
-  padding: 0.5rem 0.7rem;
-  border-radius: 0.45rem;
+  min-height: var(--control-height-default);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-control);
   color: var(--text-muted);
   font-weight: 600;
   list-style: none;
@@ -326,8 +342,10 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 .app-shell__rail-footer {
   margin-top: auto;
   display: grid;
-  gap: 0.2rem;
+  gap: var(--space-1);
 }
+
+.app-shell__attention-link { display: flex; align-items: center; justify-content: space-between; min-height: var(--control-height-default); padding: var(--space-1) var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-muted); font-size: var(--text-size-body); }.app-shell__attention-link strong { color: var(--text); font-variant-numeric: tabular-nums; }.app-shell__personal-recovery { margin: 0; padding: 0 var(--space-3); color: var(--warning); font-size: var(--text-size-meta); }.app-shell__personal-recovery button { border: 0; background: transparent; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
 
 .app-shell__nav-heading--account { margin-top: 0.8rem; }
 
@@ -335,8 +353,9 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.5rem 0.7rem;
-  border-radius: 0.45rem;
+  min-height: var(--control-height-default);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-control);
   color: var(--text-muted);
 }
 
@@ -348,7 +367,7 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 
 .app-shell__mobile-vision {
   background: var(--accent);
-  color: #121217;
+  color: var(--canvas);
 }
 
 .app-shell__frame {
@@ -358,16 +377,18 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 }
 
 .app-shell__header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--space-4);
   align-items: flex-start;
-  min-height: 3.75rem;
+  min-height: var(--workspace-header-height);
   align-items: center;
-  padding: 0.65rem 1.25rem;
+  padding: var(--space-2) var(--space-5);
   border-bottom: 1px solid var(--border-subtle);
-  background: color-mix(in srgb, var(--bg-raised) 92%, transparent);
-  backdrop-filter: blur(14px);
+  background: var(--canvas-raised);
 }
 
 .app-shell__context {
@@ -392,7 +413,7 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 .app-shell__header-actions {
   display: grid;
   grid-auto-flow: column;
-  gap: 0.45rem;
+  gap: var(--space-2);
   align-items: center;
 }
 
@@ -414,10 +435,11 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 .app-shell__vision-input,
 .app-shell__header-vision,
 .app-shell__logout {
-  border-radius: 999px;
-  border:1px solid var(--border-subtle);
-  background:var(--surface);
-  padding: 0.68rem 0.95rem;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--control-border);
+  background: var(--control-bg);
+  color: var(--control-ink);
+  padding: var(--space-2) var(--space-3);
 }
 
 .app-shell__vision-input {
@@ -440,12 +462,15 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
 }
 
 .app-shell__content {
-  padding: 1.25rem;
+  min-height: 0;
+  padding: var(--space-5);
 }
 
 .app-shell__mobile-nav {
   display: none;
 }
+
+.app-shell__drawer-backdrop { display: none; }
 
 .app-shell__mobile-more {
   position: relative;
@@ -467,11 +492,11 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
   display: grid;
   gap: 0.4rem;
   min-width: 9rem;
-  padding: 0.45rem;
-  border:1px solid var(--border-subtle);
-  border-radius: 1rem;
-  background:var(--surface);
-  box-shadow: 0 16px 32px rgba(23, 34, 26, 0.14);
+  padding: var(--space-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-surface);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-overlay);
 }
 
 @media (max-width: 980px) {
@@ -482,6 +507,8 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
   .app-shell__rail {
     display: none;
   }
+
+  .app-shell__rail-resizer { display: none; }
 
   .app-shell__header,
   .app-shell__header-actions {
@@ -510,9 +537,9 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
     bottom: 0;
     z-index: 10;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.4rem;
-    padding: 0.75rem 0.8rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-3) calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid var(--border-subtle);
     background:var(--surface);
     backdrop-filter: blur(16px);
@@ -524,9 +551,9 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.8rem;
-    padding: 0.5rem 0.85rem;
-    border-radius: 999px;
+    min-height: var(--control-height-default);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-control);
     min-width: 0;
     border: 1px solid var(--border-subtle);
     background: var(--surface);
@@ -537,6 +564,10 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
     text-overflow: ellipsis;
     gap: 0.32rem;
   }
+
+  .app-shell__drawer-backdrop { position: fixed; inset: 0; z-index: var(--z-drawer); display: grid; justify-items: start; background: rgba(0, 0, 0, .58); }
+  .app-shell__drawer { width: min(20rem, 88vw); height: 100%; display: grid; align-content: start; gap: var(--space-4); padding: var(--space-3); border-right: 1px solid var(--border-strong); background: var(--rail-canvas); box-shadow: var(--shadow-overlay); outline: none; overflow-y: auto; }
+  .app-shell__drawer-header { display: flex; align-items: center; justify-content: space-between; color: var(--text); font-size: var(--text-size-title); font-weight: var(--text-weight-semibold); }.app-shell__drawer-header button { width: var(--control-height-default); height: var(--control-height-default); border: 1px solid var(--control-border); border-radius: var(--radius-control); background: transparent; color: var(--text-muted); font-size: 1.25rem; cursor: pointer; }.app-shell__drawer-nav { display: grid; gap: var(--space-1); }
 
   .app-shell__mobile-link--active {
     background: var(--surface-strong);
@@ -554,4 +585,26 @@ onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShort
     max-width: none;
   }
 }
+
+/* The shell is the shared workspace frame: controls never introduce a pill/card dialect. */
+.app-shell__account-trigger,.app-shell__nav-link,.app-shell__mobile-link,.app-shell__mobile-vision{border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink)}
+.app-shell__vision-entry{color:var(--canvas)}
+</style>
+<style scoped>
+.app-shell__personal-recovery .app-button { min-height: auto; margin-left: var(--space-1); padding: 0; border: 0; background: transparent; color: inherit; text-decoration: underline; }
+.app-shell__mobile-nav .app-shell__mobile-link.app-button { width: 100%; }
+.app-shell__drawer-header .app-button { width: var(--control-height-default); min-height: var(--control-height-default); padding: 0; font-size: 1.25rem; }
+</style>
+<style scoped>
+/* Keep shell controls aligned with the shared app-like contract. */
+.app-shell__vision-input,
+.app-shell__header-vision,
+.app-shell__logout { border-radius: var(--radius-control); background: var(--control-bg); color: var(--control-ink); }
+.app-shell__mobile-more-items { box-shadow: var(--shadow-overlay); background: var(--surface-raised); }
+.app-shell { background: var(--canvas); }
+.app-shell__rail { background: var(--rail-canvas); }
+.app-shell__frame { background: var(--surface-base); }
+.app-shell__header { background: color-mix(in srgb, var(--surface-base) 94%, transparent); border-bottom: 1px solid var(--border-subtle); }
+.app-shell__mobile-vision { border-color: var(--accent); background: var(--accent); color: var(--canvas); }
+.app-shell__rail-resizer:focus-visible { outline: var(--focus-ring); outline-offset: -2px; }
 </style>

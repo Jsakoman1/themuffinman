@@ -163,6 +163,43 @@ class VisionSearchDiscoveryServiceTest {
     }
 
     @Test
+    void comparisonPreservesAuthorizedFamiliesAndUsesBoundedComparableFields() {
+        when(questReadService.getQuestListPreset(
+                any(QuestListPresetDTO.class), any(), anyString(), any(), any(), any(), any(), any(),
+                anyBoolean(), any(), any(), anyString(), anyInt(), anyInt()
+        )).thenReturn(QuestListResponseDTO.builder()
+                .items(List.of(quest(11L, "Move sofa", "Move sofa")))
+                .page(0).size(5).totalItems(1).totalPages(1).build());
+
+        var result = service.compareWeb(currentUser, "move sofa", List.of("quest:11", "thing:90"));
+
+        assertNotNull(result);
+        assertEquals("cross_module.search.compare", result.getCapabilityId());
+        assertEquals(3, result.getSelectionLimit());
+        assertEquals(List.of("title", "summary", "owner_display_name", "member_context", "application_context", "location_label", "availability"), result.getComparableFields());
+        assertEquals(2, result.getItems().size());
+        assertTrue(result.getItems().stream().anyMatch(item -> "/work/quests/11".equals(item.getSourceRoute())));
+        assertTrue(result.getItems().stream().anyMatch(item -> "thing".equals(item.getEntityFamily())));
+    }
+
+    @Test
+    void visionComparisonUsesTheVisionCapabilityIdAndSameAuthorizationBoundary() {
+        when(questReadService.getQuestListPreset(
+                any(QuestListPresetDTO.class), any(), anyString(), any(), any(), any(), any(), any(),
+                anyBoolean(), any(), any(), anyString(), anyInt(), anyInt()
+        )).thenReturn(QuestListResponseDTO.builder()
+                .items(List.of(quest(11L, "Move sofa", "Move sofa")))
+                .page(0).size(5).totalItems(1).totalPages(1).build());
+
+        var result = service.compareVision(currentUser, "move sofa", List.of("quest:11", "thing:90"));
+
+        assertNotNull(result);
+        assertEquals("vision.discovery.compare", result.getCapabilityId());
+        assertEquals(2, result.getItems().size());
+        assertEquals(0, result.getOmittedSelectionCount());
+    }
+
+    @Test
     void skipsUsernameSearchWhenTheNormalizedQueryIsBlank() {
         when(questReadService.getQuestListPreset(
                 any(QuestListPresetDTO.class),

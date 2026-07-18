@@ -33,6 +33,10 @@ public class VisionIntentRouter {
         if (snapshotOverride != null) {
             return snapshotOverride;
         }
+        VisionIntent explicitSignalIntent = routeSignalIntent(lower);
+        if (isExplicitMutationSignal(explicitSignalIntent)) {
+            return explicitSignalIntent;
+        }
         VisionIntent routedSemanticIntent = routeSemanticIntent(semanticIntent);
         if (routedSemanticIntent != null) {
             return routedSemanticIntent;
@@ -64,6 +68,14 @@ public class VisionIntentRouter {
             return VisionIntent.CREATE_QUEST;
         }
         return VisionIntent.UNSUPPORTED;
+    }
+
+    private boolean isExplicitMutationSignal(VisionIntent intent) {
+        return intent == VisionIntent.MARK_NOTIFICATIONS_READ
+                || intent == VisionIntent.MARK_NOTIFICATION_READ
+                || intent == VisionIntent.UPDATE_NOTIFICATION_PREFERENCES
+                || intent == VisionIntent.MARK_CHAT_READ
+                || intent == VisionIntent.REOPEN_QUEST;
     }
 
     private VisionIntent routeSemanticIntent(VisionIntent semanticIntent) {
@@ -144,6 +156,11 @@ public class VisionIntentRouter {
         if (visionIntentSignalSupport.containsNotificationPreferenceSignals(lower)) {
             return VisionIntent.UPDATE_NOTIFICATION_PREFERENCES;
         }
+        if (visionIntentSignalSupport.containsNotificationsReadSignals(lower)) {
+            return lower.contains("all") || lower.contains("notifications")
+                    ? VisionIntent.MARK_NOTIFICATIONS_READ
+                    : VisionIntent.MARK_NOTIFICATION_READ;
+        }
         if (visionIntentSignalSupport.containsWorkerReplacementSignals(lower)) return VisionIntent.REPLACE_WORKER;
         if (visionIntentSignalSupport.containsWorkerReleaseSignals(lower)) return VisionIntent.RELEASE_WORKER;
         if (visionIntentSignalSupport.containsCircleCreateSignals(lower)) {
@@ -194,6 +211,9 @@ public class VisionIntentRouter {
         }
         if (visionIntentSignalSupport.containsCircleDetailSignals(lower)) {
             return VisionIntent.VIEW_CIRCLE_DETAIL;
+        }
+        if (visionIntentSignalSupport.containsQuestReopenSignals(lower)) {
+            return VisionIntent.REOPEN_QUEST;
         }
         if (visionIntentSignalSupport.containsQuestDetailSignals(lower)) {
             return VisionIntent.VIEW_QUEST_DETAIL;

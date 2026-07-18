@@ -5,7 +5,7 @@ description: >
   Canonical product truth for what TheMuffinMan should support, what the current
   code exposes, and what remains missing, broken, or only partially implemented.
   This file is the machine-readable source for future implementation planning.
-last_reviewed: 2026-07-15
+last_reviewed: 2026-07-19
 interaction_contract_audit:
   reviewed_on: 2026-07-17
   plan: docs/work/linear-inspired-interaction-contract-audit.yaml
@@ -118,7 +118,7 @@ modules:
     capabilities:
       - id: platform.authentication
         name: Account registration, login, session, and logout
-        status: implemented
+        status: partial
         priority: critical
         current:
           backend: ["/auth/register", "/auth/login", "/auth/me"]
@@ -190,14 +190,20 @@ modules:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUserReviewService.java]
       - id: platform.profile.manage_visibility
         name: Manage profile visibility
-        status: implemented
+        status: partial
         priority: high
         current:
-          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java]
+          backend:
+            - ProfileFieldVisibility
+            - AppUserMgr viewer redaction
+            - apps/themuffinman/src/main/resources/db/migration/V71__add_profile_field_visibility.sql
           web: ["/profile/settings"]
-        gaps: [profile-wide field visibility controls, complete consent explanation, mobile and Watch presentation]
+          vision: ["/vision -> /profile/settings?visibility=1 workspace-v1 handoff"]
+        gaps: [circle-scoped consent, per-field recipient selection, browser runtime acceptance, mobile and Watch presentation]
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/ProfileFieldVisibility.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+          plan: docs/work/profile-visibility-contract.yaml
+          runtime: []
       - id: platform.account.register
         name: Register an account
         status: implemented
@@ -230,11 +236,26 @@ modules:
           code: [apps/themuffinman/frontend/src/modules/identity/auth.ts, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue]
       - id: platform.account.recover
         name: Recover account access
-        status: planned
+        status: partial
         priority: high
-        current: {}
-        gaps: [recovery token persistence, email delivery contract, reset flow, abuse limits, web/mobile surfaces]
+        current:
+          backend:
+            - "POST /auth/password-recovery"
+            - "POST /auth/password-reset"
+            - PasswordRecoveryService
+            - hashed single-use token persistence
+          web: ["/recover", "/reset-password"]
+          plan: docs/work/account-recovery-contract.yaml
+        gaps: [email or SMS delivery provider, distributed abuse coordination, browser valid-token runtime evidence, mobile and Watch surfaces]
         evidence:
+          code:
+            - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java
+            - apps/themuffinman/src/main/resources/db/migration/V70__create_password_recovery_token.sql
+          tests:
+            - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/PasswordRecoveryServiceTest.java
+          frontend:
+            - apps/themuffinman/frontend/src/modules/identity/views/PasswordRecoveryView.vue
+            - apps/themuffinman/frontend/src/modules/identity/views/PasswordResetView.vue
           docs: [docs/business-logic.md, docs/domain-technical.md]
       - id: platform.location.set_preference
         name: Set a location preference
@@ -265,9 +286,11 @@ modules:
         current:
           backend: ["POST /location/reverse-lookup"]
           web: ["/profile/settings"]
+          vision: ["/vision -> /profile/settings?location=current workspace-v1 handoff"]
         gaps: [browser and mobile permission lifecycle, provider recovery, runtime acceptance]
         evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java]
+          runtime: []
       - id: platform.location.resolve
         name: Resolve a location label
         status: partial
@@ -414,14 +437,16 @@ modules:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
       - id: vision.discovery.compare
         name: Compare Vision discovery results
-        status: planned
+        status: implemented
         priority: medium
         current:
-          backend: []
-          web: []
-        gaps: [bounded comparison model, comparable-field contract, selection and fallback interaction]
+          backend: [VisionSearchDiscoveryService, VisionConversationService]
+          web: ["/search command center comparison selection", "/vision"]
+        gaps: []
         evidence:
-          docs: [docs/target-capability-catalog.yaml, docs/vision-status-ledger.md]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java]
+          runtime: []
       - id: vision.create_quest
         name: Voice/text guided quest creation with review and confirmation
         status: partial
@@ -491,17 +516,17 @@ modules:
           - browser-level runtime acceptance coverage
       - id: work.quest.reopen
         name: Assign an approved worker or reopen an assigned quest
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: ["PUT /quests/{id}", apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java]
           web: ["/work/quests/:questId"]
           vision: ["/vision"]
-        gaps:
-          - completed quests cannot yet be reopened through the owner workflow
-          - participant notification and browser-level runtime acceptance coverage
+        gaps: []
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestAccessPolicyService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestAccessPolicyService.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionReopenQuestExecutionAdapterTest.java]
+          runtime: []
       - id: work.application
         name: Apply to work, review applications, and manage application state
         status: implemented
@@ -636,15 +661,16 @@ modules:
         gaps: [browser-level runtime acceptance coverage]
       - id: work.quest.pause
         name: Pause an owned quest
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: ["PATCH /quests/{id}/pause", "PATCH /quests/{id}/resume"]
           web: ["/work/quests/:questId"]
           vision: ["/vision via PAUSE_QUEST and RESUME_QUEST"]
-        gaps: [Browser/runtime acceptance coverage]
+        gaps: []
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestStateTransitionService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
+          runtime: []
       - id: work.quest.cancel
         name: Cancel an owned quest
         status: implemented
@@ -814,10 +840,11 @@ modules:
         name: Upload and send a chat attachment
         status: partial
         priority: high
-        current: {backend: ["POST /chat/attachments"], web: ["/chat/:conversationId"]}
+        current: {backend: ["POST /chat/attachments"], web: ["/chat/:conversationId"], vision: ["/vision -> /chat?attach=1 workspace-v1 handoff"]}
         gaps: [Vision/client binary handoff, attachment preview and expiry recovery, mobile presentation]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAttachmentUpload.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+          runtime: []
       - id: chat.conversation.create_group
         name: Create a group conversation
         status: partial
@@ -1093,15 +1120,16 @@ modules:
         gaps: [browser runtime acceptance coverage]
       - id: business.booking.reschedule
         name: Reschedule an appointment
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: ["POST /business/bookings/me/{bookingId}/reschedule", "POST /business/bookings/owner/{bookingId}/reschedule"]
           web: ["/business/bookings/me", "/business/bookings/owner"]
           vision: ["/vision via RESCHEDULE_BOOKING"]
-        gaps: [Browser/runtime acceptance coverage]
+        gaps: []
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRescheduleBookingUseCase.java, apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java]
+          runtime: []
       - id: business.booking.view_calendar
         name: View owner booking calendar
         status: implemented
@@ -1276,14 +1304,16 @@ modules:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue, docs/cross-module-search-acceptance.yaml]
       - id: cross_module.search.compare
         name: Compare cross-module results
-        status: planned
+        status: implemented
         priority: medium
         current:
-          web: []
-          backend: []
-        gaps: [comparison DTO, comparable-field policy, privacy-safe fallback list]
+          web: ["/search command center comparison selection"]
+          vision: ["/vision search discovery comparison handoff"]
+          backend: ["GET /search/compare"]
+        gaps: []
         evidence:
-          docs: [docs/cross-module-search-acceptance.yaml, docs/target-capability-catalog.yaml]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java, apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue]
+          runtime: []
       - id: cross_module.notification.receive
         name: Receive relevant product notifications
         status: partial
@@ -1328,26 +1358,31 @@ modules:
         gaps: [push/email delivery integrations]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue]
+          runtime: []
       - id: cross_module.shell.navigate
         name: Navigate between module surfaces
         status: implemented
         priority: critical
         current:
           web: [apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/app-shell]
+          vision: [/vision, workspace-v1 allowlisted navigation handoff]
           backend: [authenticated route authorization]
         gaps: [native shell clients]
         evidence:
-          code: [apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts]
+          code: [apps/themuffinman/frontend/src/router.ts, apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java]
+          runtime: []
       - id: cross_module.shell.render_context
         name: Render a route-aware adaptive surface
         status: implemented
         priority: critical
         current:
           web: [apps/themuffinman/frontend/src/modules/app-shell]
+          vision: [/vision, workspace-v1 typed context and return target]
           backend: [backend-prepared dashboard and section DTOs]
         gaps: [native shell contract implementation]
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/SurfaceContentView.vue]
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/SurfaceContentView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionWorkspaceHandoffDTO.java]
+          runtime: []
       - id: cross_module.handoff.mobile
         name: Handoff an action to mobile
         status: planned
@@ -1396,11 +1431,10 @@ modules:
         current:
           web: [apps/themuffinman/frontend/src/modules/app-shell, apps/themuffinman/frontend/src/modules/vision]
           backend: [workspace command, personal shortcut, chat refresh, Vision handoff contracts]
-          validation: [docs/runtime-evidence/linear-redesign/final-runtime-trace.json, apps/themuffinman/frontend/web-runtime-smoke.har]
+          validation: []
         gaps:
           - native client parity remains tracked separately
         evidence:
-          plans: [docs/work/linear-inspired-workspace-and-vision-master.yaml]
       - id: cross_module.mobile_watch
         name: Mobile and Watch presentation of core voice and action flows
         status: partial

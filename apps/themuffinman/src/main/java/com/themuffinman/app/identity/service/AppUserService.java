@@ -130,6 +130,13 @@ public class AppUserService {
             appUser.setProfileAvatarDataUrl(ProfileValueNormalizer.normalizeAvatarDataUrl(dto.getProfileAvatarDataUrl()));
         }
 
+        if (dto.getProfileDescriptionVisibility() != null) {
+            appUser.setProfileDescriptionVisibility(dto.getProfileDescriptionVisibility());
+        }
+        if (dto.getProfileAvatarVisibility() != null) {
+            appUser.setProfileAvatarVisibility(dto.getProfileAvatarVisibility());
+        }
+
         if (overwriteExisting || dto.getLocationSettings() != null) {
             locationSettingsService.applyUserLocationSettings(appUser, dto.getLocationSettings());
         }

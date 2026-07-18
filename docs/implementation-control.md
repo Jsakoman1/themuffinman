@@ -52,6 +52,12 @@ harness. It writes a timestamped JSON outcome with the tested base URL, observed
 API responses, and any failure message. This trace is an artifact of the current
 run, not a claim based on a pre-existing HAR or another developer's process.
 
+For local browser evidence, use `make dev` and close the owned stack with `make dev-stop`.
+The dev launcher records its workspace-owned process tree, removes it on normal
+exit, and refuses to silently attach to occupied ports. Diagnose an unexpected
+listener with `make dev-doctor`; do not terminate a process merely because it owns
+a standard development port.
+
 This is the required control pattern when partial delivery would make a plan look
 complete while named routes, contracts, or runtime behavior remain absent.
 
@@ -137,12 +143,3 @@ Run `make audit-product-experience-plan` before starting the product experience
 expansion batch. It checks the shell, Vision, account media, discovery,
 multi-business, favorites, commute, and runtime child graph, analysis artifacts,
 baseline revisions, manual browser boundaries, and non-recursive leaf validations.
-
-When the local Vite and Spring Boot services are running, the authenticated Web smoke harness can be run with
-`npm --prefix apps/themuffinman/frontend run web-runtime-smoke`. It uses a temporary registered local account,
-captures the request HAR at `apps/themuffinman/frontend/web-runtime-smoke.har`, and exercises route entry,
-visible actions, Calendar modes, and forced recovery states. It is partial acceptance evidence until mutation,
-permission, reconnect, and accepted-circle Chat scenarios are also traced.
-
-The same harness now includes the authenticated Rides offer/discover/join/start/complete journey and records the
-second-user trace at `apps/themuffinman/frontend/web-runtime-smoke-rides.har`.

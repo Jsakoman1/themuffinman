@@ -2,8 +2,20 @@ import {createRouter, createWebHistory} from "vue-router";
 import {isLoggedIn} from "./auth.ts";
 import {visionBridgeRouteDefinitions} from "./modules/app-shell/shellRouteRegistry.ts";
 
+// Vue Router owns these native dynamic imports. Keep the authenticated shell small
+// and load each substantial surface only when its canonical route is entered.
+// Do not replace them with eagerly imported route components or a global loading
+// overlay that discards the active collection context during navigation.
+export const workspaceRouteLoadingPolicy = Object.freeze({
+    strategy: "native-route-dynamic-import",
+    eagerCore: ["router", "auth", "shell-route-registry"],
+    preserveActiveSurfaceContext: true
+});
+
 const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
+const PasswordRecoveryView = () => import("./modules/identity/views/PasswordRecoveryView.vue");
+const PasswordResetView = () => import("./modules/identity/views/PasswordResetView.vue");
 const AuthenticatedShellView = () => import("./modules/app-shell/views/AuthenticatedShellView.vue");
 const HomeHubView = () => import("./modules/app-shell/views/HomeHubView.vue");
 const SectionHubView = () => import("./modules/app-shell/views/WorkspaceSurfaceView.vue");
@@ -34,6 +46,7 @@ const NotificationPreferencesView = () => import("./modules/app-shell/views/Noti
 const ThingsDiscoveryView = () => import("./modules/app-shell/views/ThingsDiscoveryView.vue");
 const ThingDetailView = () => import("./modules/app-shell/views/ThingDetailView.vue");
 const RidesView = () => import("./modules/app-shell/views/RidesView.vue");
+const RideDetailView = () => import("./modules/app-shell/views/RideDetailView.vue");
 const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
 
 const visionBridgeRoutes = visionBridgeRouteDefinitions.map((definition) => ({
@@ -236,7 +249,7 @@ const routes = [
                 meta: {requiresAuth: true, surfaceId: 'rides'}
             },
             {
-                path: 'rides/:rideId', name: 'rides-detail', component: RidesView,
+                path: 'rides/:rideId', name: 'rides-detail', component: RideDetailView,
                 meta: {requiresAuth: true, surfaceId: 'rides'}
             },
             {
@@ -292,12 +305,22 @@ const routes = [
         component: RegisterView
     },
     {
+        path: '/recover',
+        component: PasswordRecoveryView
+    },
+    {
+        path: '/reset-password',
+        component: PasswordResetView
+    },
+    {
         path: '/vision',
         component: VisionSurfaceModernView,
         meta: {requiresAuth: true}
     },
     ...visionBridgeRoutes
 ];
+
+export const collectionSelectionQueryKeys = ["selected", "preview"] as const;
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -312,7 +335,7 @@ router.beforeEach((to) => {
         return '/login';
     }
 
-    if (isLoggedIn() && (to.path === '/login' || to.path === '/register')) {
+    if (isLoggedIn() && (to.path === '/login' || to.path === '/register' || to.path === '/recover' || to.path === '/reset-password')) {
         return '/home';
     }
 })

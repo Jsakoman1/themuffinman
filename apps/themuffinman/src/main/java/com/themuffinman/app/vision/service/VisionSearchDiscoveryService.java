@@ -12,6 +12,8 @@ import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryItemDTO;
+import com.themuffinman.app.vision.dto.VisionSearchComparisonDTO;
+import com.themuffinman.app.vision.dto.VisionSearchComparisonItemDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionIntent;
 import com.themuffinman.app.common.normalization.TextValueNormalizer;
@@ -21,11 +23,14 @@ import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
+import com.themuffinman.app.common.errors.ServiceErrors;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 public class VisionSearchDiscoveryService {
@@ -68,6 +73,91 @@ public class VisionSearchDiscoveryService {
 
     public VisionSearchDiscoveryDTO discoverWeb(AppUser currentUser, String query, int page) {
         return discoverForPage(currentUser, query, Math.max(0, page));
+    }
+
+    public VisionSearchComparisonDTO compareWeb(AppUser currentUser, String query, List<String> selections) {
+        if (currentUser == null) {
+            throw ServiceErrors.forbidden("Authentication is required");
+        }
+        List<String> requested = selections == null ? List.of() : selections.stream()
+                .filter(value -> value != null && !value.isBlank())
+                .map(String::trim)
+                .distinct()
+                .toList();
+        if (requested.isEmpty() || requested.size() > 3) {
+            throw ServiceErrors.badRequest("Select between one and three authorized search results to compare");
+        }
+
+        VisionSearchDiscoveryDTO discovery = discoverWeb(currentUser, query, 0);
+        Map<String, VisionSearchDiscoveryItemDTO> available = new LinkedHashMap<>();
+        discovery.getItems().forEach(item -> available.put(selectionKey(item.getEntityFamily(), item.getTargetId()), item));
+        List<VisionSearchComparisonItemDTO> items = requested.stream()
+                .map(available::get)
+                .filter(java.util.Objects::nonNull)
+                .map(this::comparisonItem)
+                .toList();
+        int omittedSelectionCount = requested.size() - items.size();
+        return VisionSearchComparisonDTO.builder()
+                .capabilityId("cross_module.search.compare")
+                .query(discovery.getQuery())
+                .selectionLimit(3)
+                .omittedSelectionCount(omittedSelectionCount)
+                .fallbackMessage(omittedSelectionCount > 0
+                        ? "Some selected results are no longer available; showing only permitted matches."
+                        : null)
+                .comparableFields(List.of("title", "summary", "owner_display_name", "member_context", "application_context", "location_label", "availability"))
+                .items(items)
+                .build();
+    }
+
+    public VisionSearchComparisonDTO compareVision(AppUser currentUser, String query, List<String> selections) {
+        VisionSearchComparisonDTO comparison = compareWeb(currentUser, query, selections);
+        comparison.setCapabilityId("vision.discovery.compare");
+        return comparison;
+    }
+
+    private VisionSearchComparisonItemDTO comparisonItem(VisionSearchDiscoveryItemDTO item) {
+        Map<String, String> fields = new LinkedHashMap<>();
+        String family = TextValueNormalizer.lowerTrimToEmpty(item.getEntityFamily());
+        fields.put("title", item.getTitle());
+        fields.put("summary", item.getSummary());
+        fields.put("owner_display_name", switch (family) {
+            case "thing", "user" -> item.getResolutionLabel();
+            default -> null;
+        });
+        fields.put("member_context", "circle".equals(family) ? item.getSummary() : null);
+        fields.put("application_context", "application".equals(family) ? item.getSummary() : null);
+        fields.put("location_label", switch (family) {
+            case "quest", "circle" -> item.getResolutionLabel();
+            default -> null;
+        });
+        fields.put("availability", switch (family) {
+            case "quest", "thing" -> item.isExactResolutionEligible() ? "available" : null;
+            default -> null;
+        });
+        return VisionSearchComparisonItemDTO.builder()
+                .entityFamily(item.getEntityFamily())
+                .targetId(item.getTargetId())
+                .title(item.getTitle())
+                .sourceRoute(sourceRoute(item))
+                .fields(fields)
+                .build();
+    }
+
+    private String sourceRoute(VisionSearchDiscoveryItemDTO item) {
+        String family = TextValueNormalizer.lowerTrimToEmpty(item.getEntityFamily());
+        return switch (family) {
+            case "quest" -> "/work/quests/" + item.getTargetId();
+            case "thing" -> "/things/" + item.getTargetId();
+            case "circle" -> "/circles/" + item.getTargetId();
+            case "user" -> "/people/" + item.getTargetId();
+            case "application" -> "/work/applications/" + item.getTargetId();
+            default -> "/search";
+        };
+    }
+
+    private String selectionKey(String family, Long targetId) {
+        return TextValueNormalizer.lowerTrimToEmpty(family) + ":" + targetId;
     }
 
     private VisionSearchDiscoveryDTO discoverForPage(AppUser currentUser, String query, int page) {

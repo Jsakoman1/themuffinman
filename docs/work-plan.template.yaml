@@ -18,7 +18,7 @@ tasks:
     required_paths: []
     # requires_visual_evidence: true
     # visual_evidence_paths: []
-    # manual_runtime_command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+    # manual_runtime_command: replace-with-project-runtime-command
     # runtime_evidence_paths: []
     validation: "make audit-todo"
 evidence: []

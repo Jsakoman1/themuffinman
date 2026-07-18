@@ -6,6 +6,7 @@ import VisionFlowDebugPanel from "../components/VisionFlowDebugPanel.vue"
 import VisionIntentPreviewPanel from "../components/VisionIntentPreviewPanel.vue"
 import {useVisionConversation} from "../composables/useVisionConversation.ts"
 import {hasVisionPreviewContent, shouldShowVisionFlowDebugRail} from "../visionPreviewSupport.ts"
+import {normalizeWorkspaceVisionHandoff} from "../../app-shell/visionHandoff.ts"
 
 const {
   isLoading,
@@ -75,7 +76,7 @@ const handoffReturnTo = computed(() => {
   const returnTo = route.query.returnTo
   return typeof returnTo === "string" ? returnTo.trim() : ""
 })
-const workspaceHandoff = computed(() => ({
+const workspaceHandoff = computed(() => normalizeWorkspaceVisionHandoff({
   contextLabel: handoffContext.value || null,
   source: handoffSource.value || null,
   returnTo: handoffReturnTo.value || null

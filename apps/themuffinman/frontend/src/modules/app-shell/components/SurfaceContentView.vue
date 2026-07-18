@@ -115,7 +115,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
       </section>
     </div>
 
-    <div v-else-if="!loading && !error" class="surface-content__sections">
+    <div v-else-if="!loading && !error" class="surface-content__collection" aria-label="Workspace collection">
       <SurfaceSection v-for="section in sections" :key="section.title" :section="section" />
     </div>
 
@@ -152,7 +152,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 50%;
-  background: var(--accent, #17221a);
+  background: var(--accent);
 }
 
 .surface-content__eyebrow,
@@ -204,9 +204,11 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   align-items: center;
   justify-content: center;
   min-height: 2.25rem;
-  border:1px solid var(--border-subtle);
-  border-radius: 999px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
   padding: 0.45rem 0.78rem;
+  background: var(--control-bg);
+  color: var(--control-ink);
   font-size: 0.82rem;
   font-weight: 650;
   white-space: nowrap;
@@ -216,8 +218,8 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__action--vision,
 .surface-content__row-link--vision {
   border-color: var(--accent);
-  background:var(--accent);
-  color:var(--text);
+  background: var(--accent);
+  color: var(--canvas);
 }
 
 .surface-content__metrics {
@@ -231,9 +233,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   align-items: baseline;
   gap: 0.45rem;
   min-height: 2.45rem;
-  border:1px solid var(--border-subtle);
-  border-radius: 999px;
-  background:var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  background: var(--surface-base);
   padding: 0.45rem 0.75rem;
 }
 
@@ -245,8 +247,8 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__metric[href]:hover,
 .surface-content__metric[href]:focus-visible {
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-card);
-  transform: translateY(-1px);
+  box-shadow: none;
+  transform: none;
 }
 
 .surface-content__metric-detail {
@@ -261,8 +263,8 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__metric--emphasis {
   border-color: var(--accent);
-  background:var(--accent);
-  color:var(--text);
+  background: var(--accent);
+  color: var(--canvas);
 }
 
 .surface-content__metric-label {
@@ -271,7 +273,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__metric--emphasis .surface-content__metric-label {
-  color: rgba(248, 248, 244, 0.7);
+  color: color-mix(in srgb, var(--canvas) 70%, transparent);
 }
 
 .surface-content__metric-value {
@@ -280,7 +282,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__status-card {
-  border-radius: 0.85rem;
+  border-radius: var(--radius-surface);
   background:var(--surface);
   padding: 0.7rem 0.85rem;
   color:var(--text-muted);
@@ -302,10 +304,12 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   cursor: pointer;
 }
 
-.surface-content__sections {
+.surface-content__collection {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.7rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .surface-content__inbox-layout {
@@ -319,9 +323,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__timeline-group,
 .surface-content__operations-group {
   min-width: 0;
-  border:1px solid var(--border-subtle);
-  border-radius: 1rem;
-  background:var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-surface);
+  background: var(--surface-base);
   padding: 0.85rem;
 }
 
@@ -361,7 +365,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   width: 0.48rem;
   height: 0.48rem;
   border-radius: 50%;
-  background: #1d5c49;
+  background: var(--success);
 }
 
 .surface-content__operations-heading {
@@ -388,9 +392,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__card {
   min-width: 0;
-  border:1px solid var(--border-subtle);
-  border-radius: 1rem;
-  background:var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-surface);
+  background: var(--surface-base);
   padding: 0.85rem;
 }
 
@@ -446,7 +450,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__badge {
   flex: 0 0 auto;
-  border-radius: 999px;
+  border-radius: var(--radius-control);
   background: var(--surface-muted);
   padding: 0.18rem 0.45rem;
   color:var(--text-muted);
@@ -500,9 +504,10 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__calendar-actions button {
-  border:1px solid var(--border-subtle);
-  border-radius: 999px;
-  background:var(--surface);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--control-ink);
   padding: 0.42rem 0.65rem;
   font: inherit;
   font-size: 0.72rem;
@@ -510,17 +515,17 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__calendar-actions .surface-content__calendar-mode--active {
-  background:var(--accent);
-  color:var(--text);
+  background: var(--accent);
+  color: var(--canvas);
 }
 
 .surface-content__month-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   overflow: hidden;
-  border:1px solid var(--border-subtle);
-  border-radius: 0.9rem;
-  background:var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-surface);
+  background: var(--surface-base);
 }
 
 .surface-content__weekday {
@@ -536,8 +541,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   align-content: start;
   gap: 0.25rem;
   min-height: 7rem;
-  border:1px solid var(--border-subtle);
-  border:1px solid var(--border-subtle);
+  border: 1px solid var(--border-subtle);
   padding: 0.45rem;
 }
 
@@ -554,7 +558,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   display: grid;
   gap: 0.12rem;
   overflow: hidden;
-  border-radius: 0.45rem;
+  border-radius: var(--radius-control);
   background: var(--accent-muted);
   padding: 0.3rem 0.4rem;
   color: var(--text);
@@ -587,7 +591,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   gap: 0.45rem;
   min-height: 12rem;
   border:1px solid var(--border-subtle);
-  border-radius: 0.8rem;
+  border-radius: var(--radius-surface);
   background:var(--surface);
   padding: 0.65rem;
 }
@@ -679,4 +683,54 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
     min-height: 2.5rem;
   }
 }
+</style>
+<style scoped>
+/* Shared graphite surface contract: collection primitives stay dense and token-owned. */
+.surface-content__action,
+.surface-content__row-link,
+.surface-content__metric,
+.surface-content__filter,
+.surface-content__chip,
+.surface-content__toolbar button {
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--control-ink);
+}
+.surface-content__action--primary,
+.surface-content__action--vision,
+.surface-content__row-link--vision,
+.surface-content__metric--emphasis {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--canvas);
+}
+.surface-content__metric,
+.surface-content__status-card,
+.surface-content__inbox-index,
+.surface-content__inbox-focus,
+.surface-content__timeline-group,
+.surface-content__operations-group,
+.surface-content__week-grid article,
+.surface-content__day-view,
+.surface-content__calendar-event {
+  border-radius: var(--radius-surface);
+  background: var(--surface-base);
+  box-shadow: none;
+}
+.surface-content__metric { min-height: var(--control-height-default); padding: var(--space-1) var(--space-2); }
+.surface-content__inbox-index,
+.surface-content__inbox-focus,
+.surface-content__timeline-group,
+.surface-content__operations-group { padding: var(--space-3); }
+.surface-content__status-card { padding: var(--space-2) var(--space-3); }
+.surface-content__metric--emphasis .surface-content__metric-label { color: color-mix(in srgb, var(--canvas) 70%, transparent); }
+.surface-content__metric[href]:hover,
+.surface-content__metric[href]:focus-visible { box-shadow: none; transform: none; border-color: var(--border-strong); }
+.surface-content__badge { border-radius: var(--radius-control); background: var(--surface-muted); color: var(--text-muted); }
+.surface-content__calendar-actions button { border-radius: var(--radius-control); background: var(--control-bg); color: var(--control-ink); }
+.surface-content__calendar-actions .surface-content__calendar-mode--active { border-color: var(--accent); background: var(--accent); color: var(--canvas); }
+.surface-content__month-grid { border-radius: var(--radius-surface); background: var(--surface-base); }
+.surface-content__month-day { background: var(--surface-base); }
+.surface-content__month-day--outside { background: var(--surface-muted); color: var(--text-soft); }
+.surface-content__calendar-event { border-radius: var(--radius-control); background: var(--accent-muted); }
 </style>

@@ -7,6 +7,7 @@ import {
   type VisionReviewTarget,
   type VisionWorkspaceHandoff
 } from "../api/visionConversationApi.ts"
+import {normalizeWorkspaceVisionHandoff} from "../../app-shell/visionHandoff.ts"
 import type {DashboardVoiceConfig} from "../api/contracts.ts"
 import {formatVisionFieldRequestLabel, formatVisionFieldRequestPlaceholder, resolveVisionFamily} from "../visionPresentation.ts"
 
@@ -360,6 +361,7 @@ export const useVisionConversation = () => {
       : `${Date.now()}-${Math.random().toString(36).slice(2)}`
 
     voiceRuntimeError.value = ""
+    error.value = ""
 
     try {
       if (action === "SUBMIT_PROMPT" || action === "FETCH_MORE_RESULTS") {
@@ -375,9 +377,9 @@ export const useVisionConversation = () => {
         clientLocale: clientLocale.value,
         clientTimezone: clientTimezone.value,
         clientDeviceRole: clientDeviceRole.value,
-        workspaceContext: workspaceHandoff?.contextLabel ?? null,
-        workspaceSource: workspaceHandoff?.source ?? null,
-        workspaceReturnTo: workspaceHandoff?.returnTo ?? null,
+        workspaceContext: normalizeWorkspaceVisionHandoff(workspaceHandoff ?? {}).contextLabel,
+        workspaceSource: normalizeWorkspaceVisionHandoff(workspaceHandoff ?? {}).source,
+        workspaceReturnTo: normalizeWorkspaceVisionHandoff(workspaceHandoff ?? {}).returnTo,
         clientRequestId,
         selectedOptionId,
         fieldValue,
@@ -406,7 +408,9 @@ export const useVisionConversation = () => {
       }
     } catch (caught) {
       console.error(caught)
-      voiceRuntimeError.value = "Vision conversation processing failed in the backend."
+      const failureMessage = "Vision conversation processing failed in the backend."
+      error.value = failureMessage
+      voiceRuntimeError.value = failureMessage
       voiceState.value = "idle"
     }
   }

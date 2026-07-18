@@ -4,5 +4,7 @@ public enum ApplicationAllowedActionDTO {
     EDIT,
     WITHDRAW,
     APPROVE,
-    DECLINE
+    DECLINE,
+    RELEASE_WORKER,
+    REPLACE_WORKER
 }

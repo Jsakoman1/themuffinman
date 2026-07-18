@@ -37,6 +37,8 @@ public class AppUserMgr {
                         .build())
                 .profileDescription(RichTextInputValidator.sanitize(appUser.getProfileDescription()))
                 .profileAvatarDataUrl(appUser.getProfileAvatarDataUrl())
+                .profileDescriptionVisibility(appUser.getProfileDescriptionVisibility())
+                .profileAvatarVisibility(appUser.getProfileAvatarVisibility())
                 .locationSettings(locationSettingsViewService.toDto(appUser))
                 .createdAt(appUser.getCreatedAt())
                 .role(appUser.getRole() == null ? AppUserRole.USER.name() : appUser.getRole().name())
@@ -52,6 +54,12 @@ public class AppUserMgr {
         if (!ownProfile) {
             dto.setEmail(null);
             dto.setResolutionLabel(profileUser.getUsername());
+            if (profileUser.getProfileDescriptionVisibility() == com.themuffinman.app.identity.model.ProfileFieldVisibility.PRIVATE) {
+                dto.setProfileDescription(null);
+            }
+            if (profileUser.getProfileAvatarVisibility() == com.themuffinman.app.identity.model.ProfileFieldVisibility.PRIVATE) {
+                dto.setProfileAvatarDataUrl(null);
+            }
             dto.setLocationSettings(locationSettingsViewService.toViewerDto(profileUser, viewer));
         }
         return dto;

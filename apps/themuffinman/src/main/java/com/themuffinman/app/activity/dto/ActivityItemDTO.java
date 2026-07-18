@@ -7,6 +7,8 @@ import java.time.Instant;
 
 @Getter @Builder
 public class ActivityItemDTO {
+    /** Backend-owned source family. Clients render it but do not infer permissions or actions from it. */
+    private String source;
     private String kind;
     private String title;
     private String summary;

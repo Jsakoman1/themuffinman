@@ -1,12 +1,23 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue"
-import {RouterLink} from "vue-router"
+import {useRoute, useRouter} from "vue-router"
 import type {QuestApplicationResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import {resolveSurfaceDetailRoute} from "../shellRouteRegistry.ts"
 import AppDialog from "../components/AppDialog.vue"
+import AppButton from "../components/AppButton.vue"
+import AppFormField from "../components/AppFormField.vue"
+import AppFormFooter from "../components/AppFormFooter.vue"
+import AppStatus from "../components/AppStatus.vue"
+import CollectionToolbar from "../components/CollectionToolbar.vue"
+import ObjectPreviewPanel from "../components/ObjectPreviewPanel.vue"
+import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
+import {useSurfaceViewState} from "../composables/useSurfaceViewState.ts"
+import {currentUser} from "../../identity/auth.ts"
 
+const route = useRoute()
+const router = useRouter()
 const items = ref<QuestApplicationResponseDTO[]>([])
 const page = ref(0)
 const totalItems = ref(0)
@@ -16,7 +27,9 @@ const error = ref("")
 const editingId = ref<number | null>(null)
 const editMessage = ref("")
 const editPrice = ref<number | null>(null)
+const {state: viewState} = useSurfaceViewState("work-applications", computed(() => currentUser.value?.id), computed(() => route.fullPath))
 const hasMore = computed(() => items.value.length < totalItems.value)
+const previewApplication = computed(() => items.value.find(item => item.id === viewState.value.previewId) ?? null)
 const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric"}).format(new Date(value)) : "No date"
 
 const load = async (reset = true) => {
@@ -34,26 +47,28 @@ const loadMore = async () => { if (!hasMore.value || isLoadingMore.value) return
 const beginEdit = (application: QuestApplicationResponseDTO) => { editingId.value = application.id; editMessage.value = application.message; editPrice.value = application.proposedPrice }
 const saveEdit = async (application: QuestApplicationResponseDTO) => { isLoadingMore.value = true; error.value = ""; try { await userShellApi.updateMyApplication(application.questId, {message: editMessage.value, proposedPrice: editPrice.value}); editingId.value = null; await load() } catch { error.value = "Could not update this application." } finally { isLoadingMore.value = false } }
 const withdraw = async (application: QuestApplicationResponseDTO) => { if (!await confirmAction(`Withdraw your application for “${application.questTitle}”?`, "Withdraw application")) return; isLoadingMore.value = true; error.value = ""; try { await userShellApi.withdrawMyApplication(application.questId); await load() } catch { error.value = "Could not withdraw this application." } finally { isLoadingMore.value = false } }
+const openPreview = (application: QuestApplicationResponseDTO) => { viewState.value.selectedId = application.id; viewState.value.previewId = application.id }
 onMounted(() => void load())
 </script>
 
 <template>
   <section class="applications-surface">
-    <header class="applications-surface__header"><div><p class="applications-surface__eyebrow">Work / Applications</p><h1>Applications</h1></div><span class="applications-surface__count">{{ totalItems }} total</span></header>
-    <div v-if="isLoading" class="applications-surface__status" role="status">Loading.</div>
-    <div v-else-if="error" class="applications-surface__status applications-surface__status--error" role="alert">{{ error }} <button type="button" @click="load()">Retry</button></div>
-    <div v-else-if="items.length === 0" class="applications-surface__status">No applications yet.</div>
-    <div v-else class="applications-surface__list">
-      <article v-for="application in items" :key="application.id" class="applications-surface__row" :aria-label="`${application.questTitle}, ${application.presentation.statusLabel}`">
-        <div v-if="editingId !== application.id"><RouterLink :to="resolveSurfaceDetailRoute('work-applications', application.id) ?? `/vision/applications/${application.id}`" class="applications-surface__title">{{ application.questTitle }}</RouterLink><span class="applications-surface__meta">{{ application.presentation.statusLabel }} · {{ application.questCreatorUsername }} · {{ formatDate(application.createdAt) }}</span></div>
-        <AppDialog :open="editingId === application.id" title="Edit application" @close="editingId = null"><form class="applications-surface__edit" @submit.prevent="saveEdit(application)"><label>Message<textarea v-model="editMessage" required maxlength="2000"></textarea></label><label>Proposed price<input v-model.number="editPrice" type="number" min="0" step="0.01"></label><div><button type="submit">Save</button><button type="button" @click="editingId = null">Cancel</button></div></form></AppDialog>
-        <div class="applications-surface__row-actions" aria-label="Application actions"><RouterLink :to="resolveSurfaceDetailRoute('work-applications', application.id) ?? `/vision/applications/${application.id}`" class="applications-surface__open">Open</RouterLink><button v-if="application.allowedActions.includes('EDIT')" type="button" class="applications-surface__open" @click.stop="beginEdit(application)">Edit</button><button v-if="application.allowedActions.includes('WITHDRAW')" type="button" class="applications-surface__open applications-surface__withdraw" @click.stop="withdraw(application)">Withdraw</button></div>
-      </article>
-    </div>
-    <button v-if="hasMore" type="button" class="applications-surface__more" :disabled="isLoadingMore" @click="loadMore">{{ isLoadingMore ? "Loading" : "Load more" }}</button>
+    <header class="applications-surface__header"><div><p class="applications-surface__eyebrow">Work / Applications</p><h1>Applications</h1></div></header><CollectionToolbar title="My applications" :count="totalItems" :busy="isLoading" />
+    <AppStatus v-if="isLoading" message="Loading applications." busy /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" /><AppStatus v-else-if="items.length === 0" message="No applications yet." />
+    <div v-else class="applications-surface__workspace"><div class="applications-surface__list"><SurfaceRow v-for="application in items" :key="application.id" :row="{id: String(application.id), title: application.questTitle, description: `${application.questCreatorUsername} · ${formatDate(application.createdAt)}`, badge: application.presentation.statusLabel, meta: application.proposedPrice == null ? 'No proposed price' : `${application.proposedPrice} €`, to: resolveSurfaceDetailRoute('work-applications', application.id) ?? `/vision/applications/${application.id}`}" primary-action="preview" :selected="viewState.selectedId === application.id" :previewed="previewApplication?.id === application.id" @click="viewState.selectedId = application.id" @preview="openPreview(application)" @open="router.push(resolveSurfaceDetailRoute('work-applications', application.id) ?? `/vision/applications/${application.id}`)"><template #actions><AppButton v-if="application.allowedActions.includes('EDIT')" type="button" tone="secondary" @click.stop="beginEdit(application)">Edit</AppButton><AppButton v-if="application.allowedActions.includes('WITHDRAW')" type="button" tone="danger" :loading="isLoadingMore" @click.stop="withdraw(application)">Withdraw</AppButton></template></SurfaceRow></div><ObjectPreviewPanel :title="previewApplication?.questTitle ?? 'Application'" subtitle="Application preview" :open="previewApplication !== null" @close="viewState.previewId = null" @open-detail="previewApplication && router.push(resolveSurfaceDetailRoute('work-applications', previewApplication.id) ?? `/vision/applications/${previewApplication.id}`)"><p>{{ previewApplication?.message || 'No application message.' }}</p><p v-if="previewApplication">{{ previewApplication.presentation.statusLabel }} · {{ previewApplication.questCreatorUsername }}</p></ObjectPreviewPanel></div>
+    <AppDialog :open="editingId !== null" title="Edit application" layout="workspace" @close="editingId = null"><form v-if="editingId !== null" class="applications-surface__edit" @submit.prevent="saveEdit(items.find(item => item.id === editingId)!)"><AppFormField label="Message" required><textarea v-model="editMessage" required maxlength="2000"></textarea></AppFormField><AppFormField label="Proposed price" optional><input v-model.number="editPrice" type="number" min="0" step="0.01"></AppFormField><AppFormFooter><template #secondary><AppButton type="button" tone="secondary" @click="editingId = null">Cancel</AppButton></template><template #primary><AppButton type="submit" tone="primary" :loading="isLoadingMore">Save</AppButton></template></AppFormFooter></form></AppDialog>
+    <AppButton v-if="hasMore" type="button" tone="quiet" :loading="isLoadingMore" @click="loadMore">{{ isLoadingMore ? "Loading" : "Load more" }}</AppButton>
   </section>
 </template>
 
 <style scoped>
-.applications-surface{display:grid;gap:1rem}.applications-surface__header{display:flex;justify-content:space-between;align-items:end;gap:1rem}.applications-surface__eyebrow{margin:0 0 .3rem;color:var(--text-muted);font-size:.76rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font-size:clamp(1.55rem,2.5vw,2.3rem);letter-spacing:-.075em}.applications-surface__count,.applications-surface__meta{color:var(--text-muted);font-size:.84rem}.applications-surface__list{display:grid;gap:.45rem}.applications-surface__row{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.85rem 0;border:1px solid var(--border-subtle)}.applications-surface__row>div:first-child{display:grid;gap:.28rem;min-width:0}.applications-surface__title{font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.applications-surface__meta{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.applications-surface__row-actions{display:flex;gap:.35rem;align-items:center}.applications-surface__open,.applications-surface__more{display:inline-flex;align-items:center;justify-content:center;min-height:2.25rem;border:1px solid var(--border-subtle);border-radius:999px;padding:.45rem .8rem;font-size:.82rem;font-weight:650;white-space:nowrap;background:transparent;cursor:pointer}.applications-surface__more{justify-self:start;background:var(--accent);color:var(--text)}.applications-surface__withdraw{color:var(--danger)}.applications-surface__edit{display:grid;gap:.4rem}.applications-surface__edit textarea,.applications-surface__edit input{border:1px solid var(--border-subtle);border-radius:.6rem;padding:.55rem;font:inherit}.applications-surface__edit textarea{min-width:18rem;min-height:5rem}.applications-surface__edit button{margin-right:.35rem;border:1px solid var(--border-subtle);border-radius:999px;padding:.4rem .65rem;background:transparent;cursor:pointer}.applications-surface__status{padding:1rem 0;color:var(--text-muted)}.applications-surface__status--error{color:var(--danger)}.applications-surface__status button{margin-left:.6rem;border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer}@media(max-width:620px){.applications-surface__row{align-items:start;flex-direction:column}.applications-surface__meta{white-space:normal}.applications-surface__row-actions{flex-wrap:wrap}}
+.applications-surface{display:grid;gap:var(--space-3)}.applications-surface__header{display:flex;align-items:end}.applications-surface__eyebrow{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}h1{margin:0;color:var(--text);font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.applications-surface__workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(18rem,var(--detail-rail-width));overflow:hidden;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.applications-surface__list{min-width:0}.applications-surface__list :deep(.surface-row:last-child){border-bottom:0}.applications-surface__withdraw{color:var(--danger)}.applications-surface__edit{display:grid;gap:var(--space-3)}.applications-surface__edit textarea,.applications-surface__edit input{width:100%;box-sizing:border-box;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--text);font:inherit}.applications-surface__edit textarea{min-height:7rem}@media(max-width:980px){.applications-surface__workspace{grid-template-columns:1fr}}
+.applications-surface__workspace { box-shadow: none; }
+.applications-surface__withdraw:hover { border-color: var(--danger); background: var(--danger-muted); color: var(--danger); }
+.applications-surface__edit :deep(.app-form-footer) { border-top: 1px solid var(--border-subtle); }
+</style>
+<style scoped>
+.applications-surface .app-button { border-radius:var(--radius-control); padding:var(--space-1) var(--space-3); background:var(--control-bg); color:var(--control-ink); }
+.applications-surface .app-button--primary { border-color:var(--accent); background:var(--accent); color:var(--canvas); }
+.applications-surface .app-button--danger { color:var(--danger); }
 </style>

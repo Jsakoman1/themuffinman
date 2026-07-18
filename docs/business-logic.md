@@ -134,7 +134,7 @@ Current covered modules:
 
 ### Identity subdomains
 
-- `authentication`: register, login, token issue, current-session lookup
+- `authentication`: register, login, token issue, current-session lookup, and account recovery
 - `user account management`: create, update, delete, list, uniqueness and validation rules
 - `profile and profile view`: profile fields, profile statistics, relation-aware public profile view
 - `admin user detail`: admin-only view with role, circles, contacts, and option sets
@@ -149,6 +149,9 @@ Current covered modules:
 - Email comparison is case-insensitive after normalization.
 - The authenticated session payload exposes the current user's identity and profile basics.
 - JWT tokens are issued on register and login, but not on the `/auth/me` refresh-style read.
+- Password recovery requests always return a generic accepted response so an unknown email cannot be enumerated. Known accounts receive a short-lived, single-use recovery event; the actual email/SMS delivery provider and abuse controls are not implemented yet.
+- Password reset accepts only an unexpired, unconsumed recovery token and replaces the stored password hash. A consumed or expired token is rejected without changing the account.
+- Recovery requests are throttled server-side per normalized email and source address using typed account-recovery configuration. Distributed coordination and delivery-provider retry semantics remain deployment follow-ups.
 
 ### User account management
 
@@ -595,7 +598,7 @@ Current covered modules:
 - The terminal-first Vision surface can now approve or decline one exact pending application by first resolving one manageable quest and then one exact applicant username before review confirmation.
 - Owner-side application views now expose deterministic pending-selection metadata so future automation can know whether pending applications exist and which pending application is the oldest.
 - Approved applications fill worker slots up to the quest assignee target.
-- If all spots are filled, the quest becomes `ASSIGNED` and remaining pending applications are declined automatically.
+- If all spots are filled, the quest becomes `ASSIGNED`; remaining pending applications stay available for owner review so an approved worker can later be released or replaced without losing the candidate pool.
 - Owners and administrators can release an approved worker or replace that worker with a pending applicant through backend-owned worker-management commands. A released assignment becomes `RELEASED`, reopens an available slot, and notifies the affected users.
 - The Web applications surface exposes release and replacement controls for approved workers, while Vision exposes the same commands as reviewed `RELEASE_WORKER` and `REPLACE_WORKER` intents. Both clients use the shared backend authorization and lifecycle rules.
 - Owners and admins can only decline applications while the quest is still open and the application is still pending.
@@ -897,6 +900,7 @@ Current covered modules:
 - In the shared-shell phase, `Work` owns deterministic browse and known detail entry points (`/work/quests/:id` and `/work/applications/:id`); Vision is used when the user needs semantic target resolution or guided execution.
 - Settings stays nested under `/profile/settings`, and applications stay nested under `Work` instead of becoming top-level navigation.
 - Shell-to-Vision handoff now uses one explicit route-query contract with `prompt`, `autorun`, `context`, `source`, and `returnTo`, so quick launches, contextual launches, and route return links stay typed instead of ad hoc.
+- When a user explicitly asks Vision to open a supported workspace destination (for example, “open notifications in workspace”), the backend may return an allowlisted `workspace-v1` target such as `/notifications`; read-only prompts without an explicit navigation request remain inside Vision and unsupported targets return no link.
 
 ### API client model
 

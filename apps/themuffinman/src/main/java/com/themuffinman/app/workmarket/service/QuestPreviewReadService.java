@@ -14,6 +14,7 @@ public class QuestPreviewReadService {
     private final WorkmarketQuestReadService questReadService;
 
     public QuestPreviewResponseDTO getPreview(long questId, AppUser viewer) {
+        if (questId <= 0) throw new IllegalArgumentException("Quest id must be positive");
         return QuestPreviewResponseDTO.from(questReadService.getQuestResponseById(questId, viewer));
     }
 }

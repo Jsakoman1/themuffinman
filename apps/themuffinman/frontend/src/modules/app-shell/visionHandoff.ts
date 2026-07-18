@@ -9,12 +9,20 @@ export type VisionLaunchOptions = {
   returnTo?: string
 }
 
-const trimQueryValue = (value?: string) => {
+export const workspaceVisionHandoffContractVersion = "workspace-v1" as const
+export type WorkspaceVisionHandoff = {
+  contractVersion: typeof workspaceVisionHandoffContractVersion
+  contextLabel: string | null
+  source: string | null
+  returnTo: string | null
+}
+
+const trimQueryValue = (value?: string | null) => {
   const trimmed = value?.trim()
   return trimmed ? trimmed : undefined
 }
 
-const safeWorkspaceReturnTo = (value?: string) => {
+const safeWorkspaceReturnTo = (value?: string | null) => {
   const returnTo = trimQueryValue(value)
   return returnTo && returnTo.startsWith("/") && !returnTo.startsWith("//") && !returnTo.includes("://") && !returnTo.includes("\\")
     ? returnTo
@@ -59,6 +67,13 @@ export const buildSurfaceVisionRoute = (surfaceId: AppSurfaceId, currentPath: st
     returnTo: currentPath
   })
 }
+
+export const normalizeWorkspaceVisionHandoff = (value: Partial<WorkspaceVisionHandoff>): WorkspaceVisionHandoff => ({
+  contractVersion: workspaceVisionHandoffContractVersion,
+  contextLabel: trimQueryValue(value.contextLabel) ?? null,
+  source: trimQueryValue(value.source) ?? null,
+  returnTo: safeWorkspaceReturnTo(value.returnTo) ?? null,
+})
 
 export const resolveVisionEntityRoute = (entityFamily: string, targetId: number): RouteLocationRaw | null => {
   const normalized = entityFamily.trim().toLowerCase()

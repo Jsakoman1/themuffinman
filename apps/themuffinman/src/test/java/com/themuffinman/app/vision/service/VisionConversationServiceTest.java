@@ -439,6 +439,31 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void profileVisibilityPromptHandsOffToExistingVisibilityEditor() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewProfile(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_profile")
+                        .title("Profile")
+                        .summary("Profile.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("open profile visibility in workspace")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_PROFILE", response.getIntent());
+        assertNotNull(response.getWorkspaceHandoff());
+        assertEquals("/profile/settings?visibility=1", response.getWorkspaceHandoff().getReturnTo());
+    }
+
+    @Test
     void circlesPromptRoutesIntoReadOnlyCirclesPreviewWithWorkspaceGuidance() {
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
         when(visionCapabilityPreviewService.previewCircles(currentUser)).thenReturn(
@@ -589,6 +614,33 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void explicitWorkspaceNavigationPromptReturnsAllowlistedWorkspaceTarget() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewNotifications(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_notifications")
+                        .title("Notifications")
+                        .summary("Notifications.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("open notifications in workspace")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_NOTIFICATIONS", response.getIntent());
+        assertNotNull(response.getWorkspaceHandoff());
+        assertEquals("workspace-v1", response.getWorkspaceHandoff().getContractVersion());
+        assertEquals("shell.surface.vision-navigation", response.getWorkspaceHandoff().getSource());
+        assertEquals("/notifications", response.getWorkspaceHandoff().getReturnTo());
+    }
+
+    @Test
     void chatWorkspacePromptRoutesIntoReadOnlyChatPreview() {
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
         when(visionCapabilityPreviewService.previewChatWorkspace(currentUser)).thenReturn(
@@ -616,6 +668,31 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void explicitChatAttachmentPromptHandsOffToExistingComposer() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewChatWorkspace(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_chat_workspace")
+                        .title("Chat")
+                        .summary("Chat.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show chat workspace to attach a file in workspace")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_CHAT_WORKSPACE", response.getIntent());
+        assertNotNull(response.getWorkspaceHandoff());
+        assertEquals("/chat?attach=1", response.getWorkspaceHandoff().getReturnTo());
+    }
+
+    @Test
     void settingsPromptRoutesIntoReadOnlySettingsPreview() {
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
         when(visionCapabilityPreviewService.previewSettings(currentUser)).thenReturn(
@@ -640,6 +717,31 @@ class VisionConversationServiceTest {
         assertTrue(response.getBlocks().stream().anyMatch(block ->
                 "result_summary".equals(block.getType())
                         && "Settings".equals(block.getTitle())));
+    }
+
+    @Test
+    void currentLocationNavigationHandsOffToProfileSettingsWithTypedIntent() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewSettings(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_settings")
+                        .title("Settings")
+                        .summary("Settings.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("open settings to use current location in workspace")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_SETTINGS", response.getIntent());
+        assertNotNull(response.getWorkspaceHandoff());
+        assertEquals("/profile/settings?location=current", response.getWorkspaceHandoff().getReturnTo());
     }
 
     @Test

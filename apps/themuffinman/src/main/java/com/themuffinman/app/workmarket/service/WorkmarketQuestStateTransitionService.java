@@ -160,11 +160,11 @@ public class WorkmarketQuestStateTransitionService {
                 );
                 return;
             }
-            if (quest.getStatus() != QuestStatus.ASSIGNED) {
-                throw ServiceErrors.badRequest("Only assigned quests can be reopened here");
+            if (quest.getStatus() != QuestStatus.ASSIGNED && quest.getStatus() != QuestStatus.COMPLETED) {
+                throw ServiceErrors.badRequest("Only assigned or completed quests can be reopened here");
             }
 
-            quest.setStatus(QuestStatus.OPEN);
+            reopenQuestForOwner(quest, currentUser);
             return;
         }
 
@@ -273,6 +273,19 @@ public class WorkmarketQuestStateTransitionService {
         if (!reopenedApplications.isEmpty()) {
             questApplicationRepository.saveAll(reopenedApplications);
         }
+    }
+
+    private void reopenQuestForOwner(Quest quest, AppUser actor) {
+        quest.setStatus(QuestStatus.OPEN);
+        quest.setReopenedAt(Instant.now());
+        reopenQuestApplications(quest);
+        questWorkflowNotificationService.notifyQuestApplicants(
+                quest,
+                actor,
+                QuestNewsType.QUEST_REOPENED,
+                "Quest reopened",
+                "The quest \"" + quest.getTitle() + "\" was reopened."
+        );
     }
 
     private boolean hasApprovedApplication(Quest quest, AppUser currentUser) {

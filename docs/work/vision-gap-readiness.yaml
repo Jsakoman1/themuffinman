@@ -90,5 +90,6 @@ summary:
   contract_ready_gate_count: 7
   ready_to_implement_count: 19
   blocked_gate_count: 0
-  implementation_pending_count: 19
+  verified_capability_count: 9
+  implementation_pending_count: 10
   rule: Do not add a Vision route merely to reduce the missing count; contract readiness is not implementation evidence.

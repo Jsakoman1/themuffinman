@@ -2,6 +2,7 @@ package com.themuffinman.app.identity.dto;
 
 import com.themuffinman.app.common.contract.ContractOptional;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.identity.model.ProfileFieldVisibility;
 import com.themuffinman.app.location.dto.UserLocationSettingsRequestDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -29,6 +30,10 @@ public class AppUserRequestDTO {
     @Size(max = 250000)
     @Pattern(regexp = "^data:image/.*", message = "Profile avatar must be an image data URL")
     private String profileAvatarDataUrl;
+    @ContractOptional
+    private ProfileFieldVisibility profileDescriptionVisibility;
+    @ContractOptional
+    private ProfileFieldVisibility profileAvatarVisibility;
     @ContractOptional
     @Nullable
     private UserLocationSettingsRequestDTO locationSettings;

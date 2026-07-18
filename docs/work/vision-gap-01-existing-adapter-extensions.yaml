@@ -157,8 +157,17 @@ tasks:
   - The Vision surface can render a route-aware result without claiming web-shell
     navigation as a separate native client.
   - Unsupported navigation targets return an explicit typed response.
+  - Explicit navigation prompts may return only an allowlisted authenticated Web
+    route through the workspace-v1 handoff; unsupported intents return no target.
   - This task does not invent mobile or Watch handoff behavior.
 evidence:
+- task: vision-shell-context-navigation
+  command: cd apps/themuffinman && ./mvnw -Dtest='VisionConversationServiceTest' test
+  ranAt: '2026-07-18T22:08:35Z'
+  revision: working-tree
+  exitCode: 0
+  result: passed
+  notes: Explicit "open notifications in workspace" returns /notifications through the allowlisted workspace-v1 handoff; ordinary read prompts remain Vision-only.
 - task: chat-reconnect-and-read
   command: cd apps/themuffinman && ./mvnw -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
     test && cd ../.. && make audit-target-capability-coverage
@@ -358,4 +367,3 @@ evidence:
     dist/assets/vendor-D0x-eQIR.js                               105.12 kB │ gzip: 40.61 kB
 
     ✓ built in 353ms
-

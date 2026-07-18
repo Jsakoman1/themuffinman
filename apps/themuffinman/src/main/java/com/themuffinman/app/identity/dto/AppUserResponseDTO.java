@@ -2,6 +2,7 @@ package com.themuffinman.app.identity.dto;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
 import com.themuffinman.app.location.dto.UserLocationSettingsDTO;
+import com.themuffinman.app.identity.model.ProfileFieldVisibility;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
@@ -27,6 +28,8 @@ public class AppUserResponseDTO {
     private String profileDescription;
     @Nullable
     private String profileAvatarDataUrl;
+    private ProfileFieldVisibility profileDescriptionVisibility;
+    private ProfileFieldVisibility profileAvatarVisibility;
     private UserLocationSettingsDTO locationSettings;
     private Instant createdAt;
     private long openQuestCount;

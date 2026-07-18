@@ -112,6 +112,13 @@ class RideOfferServiceTest {
         assertEquals("Zurich", result.getItems().getFirst().getDestination());
     }
 
+    @Test
+    void getOfferRejectsNonPositiveIdBeforeRepositoryAccess() {
+        AppUser viewer = user(1L, "viewer");
+
+        assertThrows(ResponseStatusException.class, () -> rideOfferService.getOffer(0L, viewer));
+    }
+
     private AppUser user(Long id, String username) {
         AppUser user = new AppUser();
         user.setId(id);

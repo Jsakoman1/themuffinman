@@ -15,6 +15,9 @@ public class AttentionCenterService {
     private final ActivityReadService activityReadService;
 
     public List<ActivityItemDTO> getMine(AppUser user) {
-        return activityReadService.getMine(user);
+        return List.copyOf(activityReadService.getMine(user));
     }
+
+    /** A bounded quick-switcher projection; it shares the same viewer authority as attention. */
+    public List<ActivityItemDTO> getRecent(AppUser user) { return List.copyOf(activityReadService.getRecent(user)); }
 }

@@ -48,6 +48,15 @@ class CommutePreferenceServiceTest {
         assertEquals("North area", result.getHomeArea());
     }
 
+    @Test
+    void updateRejectsReturnBeforeDeparture() {
+        CommutePreferenceRequestDTO request = new CommutePreferenceRequestDTO();
+        request.setDepartureTime(LocalTime.of(8, 0));
+        request.setReturnTime(LocalTime.of(7, 0));
+
+        assertThrows(RuntimeException.class, () -> service.updateMine(request, user()));
+    }
+
     private AppUser user() {
         AppUser user = new AppUser();
         user.setId(1L);

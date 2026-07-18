@@ -29,6 +29,7 @@ export type AppSurfaceAction = {
   label: string
   to: RouteLocationRaw
   tone?: "primary" | "secondary" | "vision"
+  description?: string
 }
 
 export type AppSurfaceConfig = {
@@ -38,6 +39,7 @@ export type AppSurfaceConfig = {
   eyebrow: string
   title: string
   actions: AppSurfaceAction[]
+  hubArchetype?: "data-workspace" | "section-navigation"
 }
 
 export type AppPrimaryNavItem = {
@@ -55,6 +57,12 @@ export type AppPersonalShortcut = {
   description: string
   to: RouteLocationRaw
 }
+
+export const authenticatedShellContract = {
+  landmarks: ["primary-navigation", "workspace-context", "workspace-main"],
+  layout: "stable-left-rail-context-header-main-surface",
+  vision: "contextual-entry-remains-separate-from-command-navigation"
+} as const
 
 export {topLevelNavigationPromotionPolicy}
 
@@ -101,10 +109,12 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   calendar: {
     id: "calendar", archetype: "calendar", navId: "calendar", eyebrow: "Calendar", title: "Calendar",
+    hubArchetype: "section-navigation",
     actions: [{label: "Ask Vision", to: visionRoute("plan my time"), tone: "vision"}]
   },
   business: {
     id: "business", archetype: "business", navId: "business", eyebrow: "Business", title: "Business",
+    hubArchetype: "section-navigation",
     actions: [
       {label: "Find a business", to: {path: "/business/find"}, tone: "primary"},
       {label: "My bookings", to: {path: "/business/my-bookings"}},
@@ -152,6 +162,7 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   profile: {
     id: "profile", archetype: "profile", navId: "profile", eyebrow: "Profile", title: "Profile",
+    hubArchetype: "section-navigation",
     actions: [{label: "Settings", to: {path: "/profile/settings"}}]
   },
   "profile-settings": {

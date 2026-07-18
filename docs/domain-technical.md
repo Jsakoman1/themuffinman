@@ -30,6 +30,8 @@ Domain capsules:
 Frontend vision surface note:
 - `apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue` now provides the shared authenticated shell for stable route entry across `/home`, `/work`, `/chat`, `/calendar`, `/business`, `/circles`, and `/profile`.
 - `apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue` now locks the first shared entry-surface UI contract for hero actions, metric strip, section headers, list rows, and badge vocabulary so module entry routes do not drift into separate grammars.
+- `ActivityReadService.getWorkspaceActivity(...)` is the viewer-scoped, read-only workspace activity contract. It accepts only a bounded item limit, returns backend-prepared source/kind/title/summary/route/time data, and never grants actions or derives permission in the client; `/activity/me` and `/activity/me/recent` remain its standard consumers.
+- `ChatSyncService.getRefreshHint(...)` is the authenticated, server-authoritative reconnect read boundary. It rejects invalid conversation identifiers and compares the client cursor only against an authorized server sync result; the client may show the returned recovery state but never infer freshness itself.
 - `apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts` now assembles shell entry surfaces from existing backend-prepared read models, with `Home` intentionally limited to dashboard summary data while `Work`, `Chat`, `Calendar`, `Business`, `Circles`, and `Profile` consume their own existing module reads.
 - The first shell phase keeps `/vision` outside that route family as the premium deep-work surface so the blank-canvas route does not inherit module chrome by default.
 - The shared shell keeps backend ownership of quest and application detail data while exposing deterministic Work routes (`/work/quests/:id` and `/work/applications/:id`). Vision remains a semantic handoff surface, not the only detail UI.
@@ -49,17 +51,26 @@ Frontend vision surface note:
 - The Business Profile web surface consumes the backend-owned gallery CRUD contract (`/business/gallery/me`); active state, ordering, ownership, and deletion authority remain in `BusinessGalleryService`, while the frontend only renders and submits typed DTOs.
 - Business booking reschedule uses `BusinessRescheduleBookingUseCase` through customer and owner endpoints. Availability, capacity, policy windows, participant authorization, audit, and event emission remain backend-owned; web surfaces submit only typed start/end values.
 - `WorkmarketQuestStateTransitionService` now exposes owner cancellation and pause/resume for `OPEN`, `ASSIGNED`, `IN_PROGRESS`, and `WAITING_CONFIRMATION` quests through typed lifecycle endpoints. It rejects completed or already cancelled quests and emits participant news; pause stores the previous active state so resume can restore it.
+- Vision `CONFIRM_REVIEW` dispatches `PAUSE_QUEST` and `RESUME_QUEST` to the same typed state-transition execution path. Enabled browser smoke proves review, confirmation, and backend-authoritative pause/resume against the owner quest; execution-disabled mode remains an explicit review-only boundary.
 - `QuestPreviewReadService` and `ThingPreviewReadService` expose viewer-authorized compact read DTOs for the workspace list preview panels. Quest preview summaries are converted from stored rich text to plain text; clients do not derive authorization or preview membership.
 - Work detail responses carry backend-prepared property and current-state rail entries. Thing detail responses carry a viewer-scoped availability label and allowed actions, so detail surfaces render the authorization result rather than infer ownership, availability, or pending-request state in the browser.
 - Personal workspace shortcuts are bounded, user-scoped Quest pins. Pin creation validates the target through the existing viewer-scoped Quest read service; reads omit an object that was deleted or became inaccessible.
-- `WorkmarketWorkerManagementService` owns approved-worker release and replacement commands. Only the quest owner or administrator can mutate assignments while a quest is `ASSIGNED`, `IN_PROGRESS`, or `PAUSED`; release persists `RELEASED`, restores an available slot, and replacement swaps one approved application for one pending application in one transaction.
+- `workspace_rail_preference` is a viewer-scoped workspace presentation preference. `PersonalShortcutService` owns its default and validates the persisted rail width between 216 and 280 pixels; it does not affect object membership, visibility, or permitted actions.
+- `WorkspaceCommandCatalogService` prepares the authenticated command catalog server-side. It returns only permitted navigation handoffs, existing structured create routes, viewer-scoped pinned objects, and a separate Vision route; it never exposes generic client-side mutations or treats Vision as a navigation sidebar.
+- `ActivityReadService.getRecent` is the Quick Switcher’s bounded, viewer-scoped resume feed. It is derived from already permitted activity/news and non-dismissed Vision conversations; the browser must not synthesize or persist a separate recent-object history.
+- Personal workspace pins are capped at 12 server-side and pinning is idempotent. Attention/personal-context reads remain derived from viewer-scoped activity; neither can expand access to an object.
+- Collection context restoration stores viewer-scoped presentation state under a key that preserves the collection path and supported filter query while excluding `selected` and `preview` presentation query values. A stale/denied object must clear those selection values without resetting the collection context.
+- `WorkmarketWorkerManagementService` owns approved-worker release and replacement commands. Only the quest owner or administrator can mutate assignments while a quest is `ASSIGNED`, `IN_PROGRESS`, or `PAUSED`; release persists `RELEASED`, restores an available slot, and replacement swaps one approved application for one pending application in one transaction. Filling the final slot does not auto-decline other pending applicants; they remain an explicit replacement pool until the owner or admin declines them.
+- `ApplicationAllowedActionDTO` exposes `RELEASE_WORKER` and `REPLACE_WORKER` on approved management responses; Web must render those controls from the server-provided action list, while the endpoint remains the final authorization boundary.
 - `VisionReleaseWorkerExecutionAdapter` and `VisionReplaceWorkerExecutionAdapter` pass reviewed worker/application ids into `WorkmarketWorkerManagementService`; the Vision layer does not duplicate assignment authorization or state transitions.
+- The authenticated runtime smoke exercises `REPLACE_WORKER` through Vision with `SIDEQUEST_VISION_EXECUTION_ENABLED=true`, then confirms the resulting replacement through the Web application surface; disabled execution remains a truthful review-only response.
 - Vision exposes `PAUSE_QUEST` and `RESUME_QUEST` as reviewed mutations; the adapters delegate to `WorkmarketQuestUpdateService`, so Vision does not duplicate owner authorization or lifecycle validation.
 - Vision exposes `RESCHEDULE_BOOKING` as a reviewed mutation; it collects booking id and ISO start/end slots, then delegates participant authorization, policy windows, availability, capacity, audit, and event behavior to the Business reschedule use-case.
 - `/chat` now consumes backend message mutation contracts for send, inline edit, delete, and reaction toggle while keeping conversation and permission rules in `ChatService`.
 - `/vision` exposes `MARK_CHAT_READ` as a reviewed mutation for the currently opened chat context. `VisionMarkChatReadExecutionAdapter` delegates to `ChatService.markConversationRead`, so conversation access, participant authorization, and read-cursor behavior remain backend-owned.
 - `/vision` exposes `MARK_NOTIFICATIONS_READ` as a reviewed mutation for the authenticated user's complete notification inbox. `VisionMarkNotificationsReadExecutionAdapter` delegates to `WorkmarketQuestNewsService.markMyNewsAsRead`.
 - `/vision` exposes `MARK_NOTIFICATION_READ` for one numeric notification id. `VisionMarkNotificationReadExecutionAdapter` delegates to `WorkmarketQuestNewsService.markMyNewsItemAsRead`, which scopes access to the current recipient.
+- Vision intent resolution gives explicit notification mutation signals precedence over semantic `VIEW_NOTIFICATIONS`, while confirmation continues through the typed notification execution adapters; enabled browser smoke covers mark-all-read and in-app chat preference updates.
 - `/vision` exposes `SYNC_CHAT` as a read-only route for the currently opened chat context. `VisionIdentityPreviewRenderer` delegates to `ChatService.getConversationSync`, preserving conversation access and message visibility rules.
 - `/vision` exposes `REOPEN_QUEST` through `WorkmarketQuestUpdateService.reopenQuestForVision`, which delegates status validation and owner authorization to `WorkmarketQuestStateTransitionService`.
 - `/vision` exposes `CREATE_THING` through `ThingSharingService.saveMyListing`; the adapter supplies the reviewed listing DTO and does not duplicate listing validation or ownership logic.
@@ -232,6 +243,11 @@ Primary files:
 - `identity/dto/auth/RegisterRequestDTO.java`
 - `identity/dto/auth/LoginRequestDTO.java`
 - `identity/dto/auth/AuthResponseDTO.java`
+- `identity/dto/auth/PasswordRecoveryRequestDTO.java`
+- `identity/dto/auth/PasswordResetRequestDTO.java`
+- `identity/model/PasswordRecoveryToken.java`
+- `identity/repository/PasswordRecoveryTokenRepository.java`
+- `identity/service/PasswordRecoveryService.java`
 
 Primary migrations:
 - `V1__init.sql`
@@ -258,7 +274,15 @@ Primary files:
 
 Technical notes:
 - `AuthController` is transport-only and delegates register, login, and current-user response assembly to `AuthService`.
+- `AuthController` exposes unauthenticated `/auth/password-recovery` and `/auth/password-reset` endpoints; protocol logic remains in `PasswordRecoveryService`.
 - `AuthMgr` is the backend-owned mapper for `AuthResponse`, so auth response shaping stays consistent with the rest of the identity module.
+
+Account recovery flow:
+- Recovery requests normalize the email and always return `{accepted:true}` regardless of whether an account exists.
+- For an existing account, prior unconsumed tokens are revoked and only a SHA-256 token hash is persisted for 15 minutes.
+- `PasswordRecoveryRequestedEvent` is the explicit delivery-provider boundary; no email/SMS provider is configured yet.
+- Reset validates hash, expiry, and single-use state before encoding the new password and consuming the token.
+- Recovery request throttling is enforced in `PasswordRecoveryService` from `AccountRecoveryProperties`; it returns HTTP 429 without revealing whether an account exists. The current limiter is process-local until a shared deployment-wide limiter is introduced.
 
 ## Business Hub Source Map
 

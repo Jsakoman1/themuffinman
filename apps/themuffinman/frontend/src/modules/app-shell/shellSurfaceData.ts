@@ -460,12 +460,18 @@ const loadChatData = async (route: RouteLocationNormalizedLoaded): Promise<Shell
 }
 
 const loadBusinessData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
-  const [dashboard, profile, bookings, calendar] = await Promise.all([
-    safeRequest(() => userShellApi.getBusinessDashboard()),
+  // Owner dashboard/calendar require an active business profile. Resolve the
+  // profile first so an unconfigured account does not generate expected 400s.
+  const [profile, bookings] = await Promise.all([
     safeRequest(() => userShellApi.getBusinessProfile()),
-    safeRequest(() => userShellApi.getBusinessOwnerBookings()),
-    safeRequest(() => userShellApi.getBusinessOwnerCalendar())
+    safeRequest(() => userShellApi.getBusinessOwnerBookings())
   ])
+  const [dashboard, calendar] = profile
+    ? await Promise.all([
+      safeRequest(() => userShellApi.getBusinessDashboard()),
+      safeRequest(() => userShellApi.getBusinessOwnerCalendar())
+    ])
+    : [null, null]
 
   if (!dashboard && !profile) {
     return {
@@ -615,10 +621,13 @@ const createBusinessProfileRows = (profile: BusinessProfileResponseDTO, dashboar
 ]
 
 const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
-  const [dashboard, businessCalendar] = await Promise.all([
+  const [dashboard, profile] = await Promise.all([
     safeRequest(() => userShellApi.getDashboard()),
-    safeRequest(() => userShellApi.getBusinessOwnerCalendar())
+    safeRequest(() => userShellApi.getBusinessProfile())
   ])
+  const businessCalendar = profile
+    ? await safeRequest(() => userShellApi.getBusinessOwnerCalendar())
+    : null
 
   if (!dashboard) {
     throw new Error("Could not load calendar data.")

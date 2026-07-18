@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VisionWorkspaceHandoffDTO {
+    private String contractVersion;
     private String contextLabel;
     private String source;
     private String returnTo;

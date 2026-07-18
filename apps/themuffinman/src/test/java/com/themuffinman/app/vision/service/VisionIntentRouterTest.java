@@ -45,6 +45,13 @@ class VisionIntentRouterTest {
     }
 
     @Test
+    void routesVisionComparisonPromptToSearchIntent() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+
+        assertEquals(VisionIntent.SEARCH, router.detectIntent("compare first and second results"));
+    }
+
+    @Test
     void routesOpenChatIntentFromSemanticPlan() {
         VisionProperties visionProperties = new VisionProperties();
         VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());
@@ -216,6 +223,74 @@ class VisionIntentRouterTest {
                 .build();
 
         assertEquals(VisionIntent.UPDATE_PROFILE_LOCATION, router.detectIntent("turn off my location", understanding));
+    }
+
+    @Test
+    void prefersNotificationReadMutationOverNotificationSnapshotWhenPromptIsExplicit() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .normalizedPrompt("mark all notifications as read")
+                .semanticPlan(VisionSemanticPlan.builder()
+                        .candidateIntent(VisionIntent.VIEW_NOTIFICATIONS.name())
+                        .candidateIntentConfidence(0.94d)
+                        .capabilityId("view_notifications")
+                        .planningNote("model drifted to notifications snapshot")
+                        .build())
+                .build();
+
+        assertEquals(VisionIntent.MARK_NOTIFICATIONS_READ,
+                router.detectIntent("mark all notifications as read", understanding));
+    }
+
+    @Test
+    void prefersNotificationPreferenceMutationOverNotificationSnapshotWhenPromptIsExplicit() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .normalizedPrompt("disable chat in-app notifications")
+                .semanticPlan(VisionSemanticPlan.builder()
+                        .candidateIntent(VisionIntent.VIEW_NOTIFICATIONS.name())
+                        .candidateIntentConfidence(0.94d)
+                        .capabilityId("view_notifications")
+                        .planningNote("model drifted to notifications snapshot")
+                        .build())
+                .build();
+
+        assertEquals(VisionIntent.UPDATE_NOTIFICATION_PREFERENCES,
+                router.detectIntent("disable chat in-app notifications", understanding));
+    }
+
+    @Test
+    void routesNormalizedNotificationPreferencePromptAfterInAppHyphenRemoval() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .normalizedPrompt("disable chat in app notifications")
+                .semanticPlan(VisionSemanticPlan.builder()
+                        .candidateIntent(VisionIntent.VIEW_NOTIFICATIONS.name())
+                        .candidateIntentConfidence(0.94d)
+                        .capabilityId("view_notifications")
+                        .planningNote("model drifted to notifications snapshot")
+                        .build())
+                .build();
+
+        assertEquals(VisionIntent.UPDATE_NOTIFICATION_PREFERENCES,
+                router.detectIntent("disable chat in app notifications", understanding));
+    }
+
+    @Test
+    void routesExplicitQuestReopenMutationBeforeQuestDetailFallback() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .normalizedPrompt("reopen quest 42")
+                .semanticPlan(VisionSemanticPlan.builder()
+                        .candidateIntent(VisionIntent.VIEW_QUEST_DETAIL.name())
+                        .candidateIntentConfidence(0.94d)
+                        .capabilityId("view_quest_detail")
+                        .planningNote("model drifted to quest detail")
+                        .build())
+                .build();
+
+        assertEquals(VisionIntent.REOPEN_QUEST,
+                router.detectIntent("reopen quest 42", understanding));
     }
 
     @Test

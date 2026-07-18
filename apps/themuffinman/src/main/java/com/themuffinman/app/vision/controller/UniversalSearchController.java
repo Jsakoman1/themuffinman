@@ -2,6 +2,7 @@ package com.themuffinman.app.vision.controller;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
+import com.themuffinman.app.vision.dto.VisionSearchComparisonDTO;
 import com.themuffinman.app.vision.service.VisionSearchDiscoveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,5 +24,12 @@ public class UniversalSearchController {
                                            @RequestParam(defaultValue = "0") int page,
                                            @AuthenticationPrincipal AppUser currentUser) {
         return service.discoverWeb(currentUser, q, page);
+    }
+
+    @GetMapping("/compare")
+    public VisionSearchComparisonDTO compare(@RequestParam(defaultValue = "") String q,
+                                             @RequestParam(name = "selection") List<String> selections,
+                                             @AuthenticationPrincipal AppUser currentUser) {
+        return service.compareWeb(currentUser, q, selections);
     }
 }

@@ -63,6 +63,7 @@ Run commands from `apps/themuffinman` unless stated otherwise.
 - `./mvnw test`
 - `./mvnw package`
 - `make dev`
+- `make dev-stop`
 - `make backend-dev`
 - `make backend-test`
 - `make backend-package`
@@ -89,8 +90,8 @@ Important notes:
 - the base `application.properties` is production-oriented and expects security env vars
 - for local development, run with `SPRING_PROFILES_ACTIVE=dev`
 - `make dev` and `make backend-dev` provide local JWT/CORS defaults
-- `make dev` auto-loads values from `.env.backend.dev` and `.env.backend.dev.local` and skips starting another backend if port `8080` is already in use
-- `make dev` also skips starting another frontend if port `5173` is already in use
+- `make dev` records the process IDs it starts in `tmp/dev-stack.state`; it stops only that recorded workspace-owned process tree on exit or when `make dev-stop` is run
+- `make dev` refuses to silently reuse occupied ports `8080` or `5173`; use `make dev-doctor` to inspect them and `make dev-stop` only for a stack recorded by this workspace
 - `make backend-dev` also auto-loads values from `.env.backend.dev` and `.env.backend.dev.local`
 - when `SIDEQUEST_OBJECT_STORAGE_ENABLED=true` and `SIDEQUEST_OBJECT_STORAGE_PROVIDER=s3`, `make dev` and `make backend-dev` auto-start local MinIO from `docker-compose.object-storage.dev.yaml`
 - `make dev-storage` starts local MinIO manually and `make dev-storage-down` stops it

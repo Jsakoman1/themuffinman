@@ -14,6 +14,7 @@ public class ThingPreviewReadService {
     private final ThingSharingService thingSharingService;
 
     public ThingPreviewResponseDTO getPreview(long listingId, AppUser viewer) {
+        if (listingId <= 0) throw new IllegalArgumentException("Listing id must be positive");
         return ThingPreviewResponseDTO.from(thingSharingService.getListingDetail(listingId, viewer));
     }
 }

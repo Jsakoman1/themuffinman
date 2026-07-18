@@ -34,6 +34,14 @@ public class AppUser {
     @Column(columnDefinition = "TEXT")
     private String profileAvatarDataUrl;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "profile_description_visibility", nullable = false)
+    private ProfileFieldVisibility profileDescriptionVisibility = ProfileFieldVisibility.PUBLIC;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "profile_avatar_visibility", nullable = false)
+    private ProfileFieldVisibility profileAvatarVisibility = ProfileFieldVisibility.PUBLIC;
+
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 

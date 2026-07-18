@@ -25,9 +25,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class UserProfileViewServiceTest {
@@ -52,6 +54,13 @@ class UserProfileViewServiceTest {
 
     @InjectMocks
     private UserProfileViewService userProfileViewService;
+
+    @Test
+    void getProfileViewRejectsNonPositiveProfileIdBeforeReadingDomainData() {
+        assertThrows(RuntimeException.class, () -> userProfileViewService.getProfileView(0L, createUser(7L, "owner")));
+
+        verifyNoInteractions(appUserReadService);
+    }
 
     @Test
     void getProfileViewMarksOwnProfileAndEditAction() {

@@ -1,7 +1,15 @@
 SHELL := /bin/zsh
 
+.PHONY: dev dev-stop dev-doctor
+
 dev:
 	$(MAKE) -C apps/themuffinman dev
+
+dev-stop:
+	$(MAKE) -C apps/themuffinman dev-stop
+
+dev-doctor:
+	$(MAKE) -C apps/themuffinman dev-doctor
 
 backend-test:
 	$(MAKE) -C apps/themuffinman backend-test
@@ -101,7 +109,7 @@ master-create:
 
 work-verify:
 	@if [ -z "$(plan)" ]; then echo "usage: make work-verify plan=<work-plan>"; exit 1; fi
-	ruby scripts/verify-work.rb plan="$(plan)"
+	@if [ -n "$(task)" ]; then ruby scripts/verify-work.rb plan="$(plan)" task="$(task)"; else ruby scripts/verify-work.rb plan="$(plan)"; fi
 
 work-start:
 	@if [ -z "$(plan)" ] || [ -z "$(task)" ]; then echo "usage: make work-start plan=<work-plan> task=<task-id>"; exit 1; fi

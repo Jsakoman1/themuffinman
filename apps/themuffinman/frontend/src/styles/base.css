@@ -1,28 +1,58 @@
 :root {
   color-scheme: dark;
-  --bg: #101112;
-  --bg-raised: #161718;
-  --rail: #131415;
-  --surface: #1a1b1d;
-  --surface-strong: #202124;
-  --surface-hover: #242528;
-  --surface-muted: #18191b;
-  --text: #f0f0f1;
-  --text-muted: #a3a4ab;
-  --text-soft: #72737c;
-  --border-subtle: #2a2b2f;
-  --border-strong: #45464d;
-  --accent: #8b8cf7;
-  --accent-muted: rgba(139, 140, 247, 0.16);
-  --accent-cyan: #66c3dc;
-  --accent-amber: #d8ad55;
-  --accent-red: #e26d6d;
-  --danger: #f08a8a;
-  --danger-muted: rgba(226, 109, 109, 0.14);
-  --success: #76c49a;
-  --warning: #e3b35a;
+  /* Workspace palette: semantic roles, never route-specific color inventions. */
+  --canvas: #0f1011;
+  --canvas-raised: #151617;
+  --rail-canvas: #121314;
+  --surface-base: #191a1c;
+  --surface-raised: #1e1f22;
+  --surface-hover: #242529;
+  --surface-selected: #292b31;
+  --surface-muted: #17181a;
+  --ink: #f2f2f3;
+  --ink-muted: #a5a6ad;
+  --ink-quiet: #74757e;
+  --line-subtle: #2a2b30;
+  --line-strong: #45474f;
+  --control-bg: var(--surface-base);
+  --control-bg-hover: var(--surface-hover);
+  --control-bg-pressed: var(--surface-selected);
+  --control-border: var(--line-subtle);
+  --control-border-active: var(--line-strong);
+  --control-ink: var(--ink);
+  --control-ink-muted: var(--ink-muted);
+  --accent: #a5a6ff;
+  --accent-muted: rgba(165, 166, 255, 0.16);
+  --accent-cyan: #71c6db;
+  --accent-amber: #d6ad61;
+  --accent-red: #e17b7b;
+  --danger: #f09a9a;
+  --danger-muted: rgba(225, 123, 123, 0.14);
+  --success: #78c69c;
+  --warning: #e1b75f;
+  /* Compatibility aliases are retained while route adoption is serially migrated. */
+  --bg: var(--canvas);
+  --bg-raised: var(--canvas-raised);
+  --rail: var(--rail-canvas);
+  --surface: var(--surface-base);
+  --surface-strong: var(--surface-raised);
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --text-soft: var(--ink-quiet);
+  --border-subtle: var(--line-subtle);
+  --border-strong: var(--line-strong);
   --font: Inter, "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --text-size-title: 0.875rem;
+  --text-size-body: 0.8125rem;
+  --text-size-meta: 0.75rem;
+  --text-size-label: 0.6875rem;
+  --text-weight-regular: 450;
+  --text-weight-medium: 550;
+  --text-weight-semibold: 650;
+  --tracking-tight: -0.015em;
+  --tracking-display: -0.075em;
+  --tracking-label: 0.08em;
   --vision-surface-ink: #e9e9ef;
   --vision-surface-ink-muted: #a3a4ab;
   --vision-surface-ink-soft: #72737c;
@@ -31,17 +61,35 @@
   --space-3: 0.75rem;
   --space-4: 1rem;
   --space-5: 1.25rem;
-  --radius-card: 0.7rem;
-  --radius-control: 0.45rem;
-  --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.18);
-  --focus-ring: 0 0 0 3px rgba(139, 140, 247, 0.42);
+  --space-6: 1.5rem;
+  --radius-control: 0.375rem;
+  --radius-surface: 0.5rem;
+  --radius-card: var(--radius-surface);
+  --control-height-compact: 2rem;
+  --control-height-default: 2.25rem;
+  --dense-row-height-compact: 2.5rem;
+  --dense-row-height-default: 3rem;
+  --dense-row-height-comfortable: 3.5rem;
+  /* Borders separate workspace regions. Elevation is reserved for real overlays. */
+  --shadow-card: none;
+  --shadow-overlay: 0 16px 40px rgba(0, 0, 0, 0.32);
+  --focus-ring-color: rgba(165, 166, 255, 0.52);
+  --focus-ring: 0 0 0 3px var(--focus-ring-color);
+  --motion-fast: 120ms;
+  --motion-standard: 160ms;
+  --tooltip-delay: 450ms;
   --z-overlay: 20;
   --z-popover: 30;
+  --z-drawer: 35;
   --z-dialog: 40;
-  --detail-rail-width: 18rem;
-  --workspace-rail-width: 15rem;
-  --workspace-header-height: 3.75rem;
-  --row-focus: var(--accent-muted);
+  --detail-rail-min-width: 18rem;
+  --detail-rail-max-width: 24rem;
+  --detail-rail-width: clamp(var(--detail-rail-min-width), 24vw, var(--detail-rail-max-width));
+  --workspace-rail-min-width: 13.5rem;
+  --workspace-rail-max-width: 17.5rem;
+  --workspace-rail-width: clamp(var(--workspace-rail-min-width), 18vw, var(--workspace-rail-max-width));
+  --workspace-header-height: 3rem;
+  --row-focus: var(--surface-selected);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
@@ -82,8 +130,9 @@ button {
 }
 
 :focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--accent-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -109,11 +158,11 @@ button {
   align-items: center;
   justify-content: center;
   min-height: 2.5rem;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--control-border);
   border-radius: var(--radius-control);
   padding: 0.6rem 0.9rem;
-  background: var(--surface-strong);
-  color: var(--text);
+  background: var(--control-bg);
+  color: var(--control-ink);
   font-weight: 650;
 }
 
@@ -123,11 +172,11 @@ button {
 
 .ui-field {
   width: 100%;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--control-border);
   border-radius: var(--radius-control);
   padding: 0.7rem;
-  background: var(--bg-raised);
-  color: var(--text);
+  background: var(--control-bg);
+  color: var(--control-ink);
 }
 
 button:disabled {
@@ -148,11 +197,6 @@ button:disabled {
   background: rgba(139, 140, 247, 0.32);
 }
 
-:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-}
-
 #app {
   min-height: 100svh;
   padding-bottom: var(--safe-bottom);
@@ -165,14 +209,9 @@ button:disabled {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: CanvasText;
+    box-shadow: none;
   }
 }
-button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:var(--focus-ring);outline-offset:2px}

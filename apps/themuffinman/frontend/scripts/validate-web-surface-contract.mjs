@@ -23,7 +23,7 @@ const requiredRoutes = [
   "path: 'circles'",
   "path: 'calendar'"
 ]
-const requiredActions = ["Create new work", "Find work", "Find people", "Find a business"]
+const requiredActions = ["Open create menu", "getWorkspaceCommandCatalog", "Find work", "Find people", "Find a business"]
 const requiredCalendarSignals = ["calendarMode", "month", "week", "day", "calendarTimezone", "Could not load calendar data", "Retry", "!loading && !error"]
 
 const missing = (source, signals) => signals.filter((signal) => !source.includes(signal))
@@ -35,7 +35,7 @@ const missingRecoverySignals = [
   ...missing(circlesSurface, ["Promise.allSettled", "Retry"])
 ]
 const missingAccessibilitySignals = missing(baseStyles, ["prefers-reduced-motion", ":focus-visible"])
-const missingCrossModuleSignals = missing(crossModuleSurfaces, ["SurfaceRow", "Retry", "allowedActions"])
+const missingCrossModuleSignals = missing(crossModuleSurfaces, ["SurfaceRow", "AppStatus", "allowedActions"])
 
 const createRouteIndex = router.indexOf("path: 'work/quests/new'")
 const detailRouteIndex = router.indexOf("path: 'work/quests/:questId'")

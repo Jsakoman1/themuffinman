@@ -12,9 +12,6 @@ import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Service("workmarketApproveApplicationUseCase")
 @RequiredArgsConstructor
@@ -40,19 +37,8 @@ public class WorkmarketApproveApplicationUseCase {
         boolean filledAllSpots = approvedCount + 1 >= assigneeTarget;
         quest.setStatus(filledAllSpots ? QuestStatus.ASSIGNED : QuestStatus.OPEN);
 
-        List<QuestApplication> declinedApplications = filledAllSpots
-                ? declineOtherPendingApplications(questId, applicationId)
-                : List.of();
         questRepository.save(quest);
         QuestApplication savedApplication = questApplicationRepository.save(application);
-        for (QuestApplication declinedApplication : declinedApplications) {
-            domainEventPublisher.publish(new WorkmarketQuestApplicationNewsEvent(
-                    WorkmarketQuestApplicationNewsEvent.Type.DECLINED,
-                    quest,
-                    declinedApplication,
-                    currentUser
-            ));
-        }
         domainEventPublisher.publish(new WorkmarketQuestApplicationNewsEvent(
                 WorkmarketQuestApplicationNewsEvent.Type.APPROVED,
                 quest,
@@ -62,24 +48,4 @@ public class WorkmarketApproveApplicationUseCase {
         return savedApplication;
     }
 
-    private List<QuestApplication> declineOtherPendingApplications(Long questId, Long approvedApplicationId) {
-        List<QuestApplication> pendingApplications = questApplicationRepository.findForQuestApplicationsByStatus(questId, QuestApplicationStatus.PENDING);
-        if (pendingApplications.isEmpty()) {
-            return List.of();
-        }
-
-        List<QuestApplication> declinedApplications = new ArrayList<>();
-        for (QuestApplication application : pendingApplications) {
-            if (!Objects.equals(application.getId(), approvedApplicationId)) {
-                application.setStatus(QuestApplicationStatus.DECLINED);
-                declinedApplications.add(application);
-            }
-        }
-
-        if (!declinedApplications.isEmpty()) {
-            questApplicationRepository.saveAll(declinedApplications);
-        }
-
-        return declinedApplications;
-    }
 }

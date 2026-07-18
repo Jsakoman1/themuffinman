@@ -6,4 +6,5 @@ import java.util.Optional;
 public interface PersonalWorkspaceShortcutRepository extends JpaRepository<PersonalWorkspaceShortcut, Long> {
  List<PersonalWorkspaceShortcut> findByOwnerIdOrderByCreatedAtDesc(Long ownerId);
  Optional<PersonalWorkspaceShortcut> findByOwnerIdAndTargetTypeAndTargetId(Long ownerId, String targetType, Long targetId);
+ long countByOwnerId(Long ownerId);
 }

@@ -7,8 +7,12 @@ import com.themuffinman.app.identity.dto.auth.RegisterRequestDTO;
 import com.themuffinman.app.identity.mapper.AuthMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.identity.repository.PasswordRecoveryTokenRepository;
+import com.themuffinman.app.config.AccountRecoveryProperties;
 import com.themuffinman.app.identity.security.JwtService;
 import com.themuffinman.app.identity.service.AuthService;
+import com.themuffinman.app.identity.service.PasswordRecoveryService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -31,6 +35,8 @@ class GlobalExceptionHandlerTest {
     private final AppUserRepository appUserRepository = mock(AppUserRepository.class);
     private final PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
     private final JwtService jwtService = mock(JwtService.class);
+    private final PasswordRecoveryTokenRepository passwordRecoveryTokenRepository = mock(PasswordRecoveryTokenRepository.class);
+    private final ApplicationEventPublisher eventPublisher = mock(ApplicationEventPublisher.class);
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -39,7 +45,9 @@ class GlobalExceptionHandlerTest {
         validator.afterPropertiesSet();
 
         AuthService authService = new AuthService(appUserRepository, passwordEncoder, jwtService, new AuthMgr());
-        AuthController authController = new AuthController(authService);
+        PasswordRecoveryService passwordRecoveryService = new PasswordRecoveryService(
+                appUserRepository, passwordRecoveryTokenRepository, passwordEncoder, eventPublisher, new AccountRecoveryProperties());
+        AuthController authController = new AuthController(authService, passwordRecoveryService);
         mockMvc = MockMvcBuilders.standaloneSetup(authController)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .setValidator(validator)

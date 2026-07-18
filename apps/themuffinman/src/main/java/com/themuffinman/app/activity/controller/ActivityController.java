@@ -13,5 +13,6 @@ import java.util.List;
 public class ActivityController {
     private final ActivityReadService service;
     @GetMapping("/me") public List<ActivityItemDTO> getMine(@AuthenticationPrincipal AppUser user) { return service.getMine(user); }
+    @GetMapping("/me/recent") public List<ActivityItemDTO> getRecent(@AuthenticationPrincipal AppUser user) { return service.getRecent(user); }
     @PostMapping("/resume/{resumeKey}/dismiss") public void dismiss(@PathVariable String resumeKey, @AuthenticationPrincipal AppUser user) { service.dismiss(resumeKey, user); }
 }

@@ -5,10 +5,12 @@ import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ThingPreviewReadServiceTest {
+    @Test void rejectsInvalidPreviewIdBeforeRead() { assertThrows(IllegalArgumentException.class, () -> new ThingPreviewReadService(mock(ThingSharingService.class)).getPreview(0L, new AppUser())); }
 
     @Test
     void reusesViewerScopedListingDetailForPreview() {
