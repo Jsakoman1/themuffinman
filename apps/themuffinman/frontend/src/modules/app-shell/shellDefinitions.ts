@@ -43,6 +43,15 @@ export type AppSurfaceConfig = {
 export type AppPrimaryNavItem = {
   id: AppPrimaryNavId
   label: string
+  icon: string
+  description: string
+  to: RouteLocationRaw
+}
+
+export type AppPersonalShortcut = {
+  id: "activity" | "saved-searches"
+  label: string
+  icon: string
   description: string
   to: RouteLocationRaw
 }
@@ -55,6 +64,10 @@ const visionRoute = (prompt?: string): RouteLocationRaw => prompt
 
 export const appPrimaryNavItems: AppPrimaryNavItem[] = buildAppPrimaryNavItems()
 export const appSecondaryNavItems: AppPrimaryNavItem[] = buildAppSecondaryNavItems()
+export const appPersonalShortcuts: AppPersonalShortcut[] = [
+  {id: "activity", label: "Activity", icon: "◷", description: "Your viewer-scoped recent activity.", to: {path: "/activity"}},
+  {id: "saved-searches", label: "Saved searches", icon: "⌕", description: "Your server-owned saved searches.", to: {path: "/search/saved"}}
+]
 
 const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   home: {

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -18,4 +20,6 @@ public class QuestDetailResponseDTO {
     private QuestApplicationResponseDTO myApplication;
     @Nullable
     private QuestApplicationsViewDTO applicationsView;
+    private List<QuestDetailRailItemDTO> propertyRail;
+    private List<QuestDetailRailItemDTO> activityRail;
 }

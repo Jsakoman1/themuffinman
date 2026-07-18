@@ -9,6 +9,7 @@ import com.themuffinman.app.things.dto.ThingBorrowRequestResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingRequestDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
+import com.themuffinman.app.things.dto.ThingAllowedActionDTO;
 import com.themuffinman.app.things.mapper.ThingSharingMgr;
 import com.themuffinman.app.things.model.ThingBorrowRequest;
 import com.themuffinman.app.things.model.ThingBorrowRequestStatus;
@@ -56,7 +57,7 @@ public class ThingSharingService {
         ThingListing listing = thingListingRepository.findForListingDetail(listingId)
                 .orElseThrow(() -> ServiceErrors.notFound("Thing listing not found with id " + listingId));
         Long pendingRequestId = pendingRequestIds(currentUser, List.of(listing)).get(listingId);
-        return thingSharingMgr.toListingDto(listing, pendingRequestId);
+        return withDetailActions(thingSharingMgr.toListingDto(listing, pendingRequestId), currentUser);
     }
 
     @Transactional
@@ -171,6 +172,18 @@ public class ThingSharingService {
     private ThingBorrowRequest detailedRequest(Long requestId) {
         return thingBorrowRequestRepository.findForBorrowRequestDetail(requestId)
                 .orElseThrow(() -> ServiceErrors.notFound("Thing borrow request not found with id " + requestId));
+    }
+
+    private ThingListingResponseDTO withDetailActions(ThingListingResponseDTO listing, AppUser viewer) {
+        boolean owner = viewer != null && Objects.equals(listing.getOwnerId(), viewer.getId());
+        List<ThingAllowedActionDTO> actions = owner
+                ? List.of(ThingAllowedActionDTO.EDIT, ThingAllowedActionDTO.ARCHIVE)
+                : listing.getMyPendingRequestId() != null
+                ? List.of(ThingAllowedActionDTO.CANCEL_BORROW_REQUEST)
+                : listing.isAvailable() ? List.of(ThingAllowedActionDTO.REQUEST_BORROW) : List.of();
+        listing.setAvailabilityLabel(listing.isArchived() ? "Archived" : listing.isAvailable() ? "Available to borrow" : "Currently unavailable");
+        listing.setAllowedActions(actions);
+        return listing;
     }
 
     private void requireOwner(ThingBorrowRequest request, AppUser currentUser) {

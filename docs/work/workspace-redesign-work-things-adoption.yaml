@@ -1,0 +1,20 @@
+kind: work
+version: 1
+id: workspace-redesign-work-things-adoption
+title: Canonical Work and Things collection, detail, and form adoption
+status: draft
+master_plan: docs/work/workspace-redesign-complete-master.yaml
+serial_task_execution: true
+execution_inventory: docs/work/workspace-redesign-complete-execution-inventory.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+strict_verification: true
+execution_brief: docs/work/workspace-redesign-execution-brief.yaml
+objective: Adopt the shared collection/detail/form scaffolds on real Work and Things routes, extending backend DTOs only for missing preview/activity/action data.
+tasks:
+  - {id: work-discovery-adoption, inventory_item: WTH-01, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: work-preview-selection-adoption, inventory_item: WTH-02, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPreviewReadService.java], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/QuestPreviewReadService.java], validation: 'npm --prefix apps/themuffinman/frontend run type-check && ./mvnw test'}
+  - {id: work-detail-activity-adoption, inventory_item: WTH-03, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: work-create-form-adoption, inventory_item: WTH-04, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: things-discovery-adoption, inventory_item: WTH-05, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: thing-detail-borrow-adoption, inventory_item: WTH-06, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingPreviewReadService.java], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingPreviewReadService.java], validation: 'npm --prefix apps/themuffinman/frontend run type-check && ./mvnw test'}
+evidence: []

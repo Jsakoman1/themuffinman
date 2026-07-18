@@ -133,6 +133,9 @@ export type SemanticEntityFamily = typeof SEMANTIC_ENTITY_FAMILY_VALUES[number]
 export const SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES = ["RESOLVED", "AMBIGUOUS", "NOT_FOUND"] as const
 export type SemanticEntityResolutionStatus = typeof SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES[number]
 
+export const THING_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "ARCHIVE", "REQUEST_BORROW", "CANCEL_BORROW_REQUEST"] as const
+export type ThingAllowedActionDTO = typeof THING_ALLOWED_ACTION_DTO_VALUES[number]
+
 export const THING_BORROW_REQUEST_STATUS_VALUES = ["PENDING", "CANCELLED", "APPROVED", "DECLINED", "RETURNED"] as const
 export type ThingBorrowRequestStatus = typeof THING_BORROW_REQUEST_STATUS_VALUES[number]
 
@@ -1576,6 +1579,13 @@ export interface PageQueryDTO {
   size: number | null
 }
 
+export interface PersonalShortcutResponseDTO {
+  targetId: number
+  targetType: string
+  title: string
+  route: string
+}
+
 export interface ProfileGalleryImageListResponseDTO {
   items: ProfileGalleryImageResponseDTO[]
 }
@@ -1746,12 +1756,19 @@ export interface QuestDetailNavigationSectionDTO {
   listNavigation: NavigationTargetDTO
 }
 
+export interface QuestDetailRailItemDTO {
+  label: string
+  value: string
+}
+
 export interface QuestDetailResponseDTO {
   summary: QuestResponseDTO
   sections: QuestDetailSectionsDTO
   quest: QuestResponseDTO
   myApplication: QuestApplicationResponseDTO | null
   applicationsView: QuestApplicationsViewDTO | null
+  propertyRail: QuestDetailRailItemDTO[]
+  activityRail: QuestDetailRailItemDTO[]
 }
 
 export interface QuestDetailReviewSectionDTO {
@@ -1910,6 +1927,17 @@ export interface QuestPresentationDTO {
   awaitingConfirmationBadgeVisible: boolean
   primaryExecutionAction: QuestDetailExecutionActionDTO | null
   executionHelperText: string | null
+}
+
+export interface QuestPreviewResponseDTO {
+  id: number
+  title: string
+  summary: string
+  creatorUsername: string
+  status: string
+  viewerRelation: QuestViewerRelationDTO
+  allowedActions: QuestAllowedActionDTO[]
+  canOpenDetail: boolean
 }
 
 export interface QuestRequestDTO {
@@ -2145,6 +2173,20 @@ export interface ThingListingResponseDTO {
   myPendingRequestId: number
   createdAt: string
   updatedAt: string
+  availabilityLabel: string
+  allowedActions: ThingAllowedActionDTO[]
+}
+
+export interface ThingPreviewResponseDTO {
+  id: number
+  title: string
+  summary: string
+  ownerUsername: string
+  conditionNote: string
+  available: boolean
+  myPendingRequestId: number
+  updatedAt: string
+  canOpenDetail: boolean
 }
 
 export interface UserLocationSettingsDTO {
@@ -2291,6 +2333,9 @@ export interface VisionConversationTurnRequestDTO {
   clientLocale: string
   clientTimezone: string
   clientDeviceRole: string
+  workspaceContext: string
+  workspaceSource: string
+  workspaceReturnTo: string
   clientRequestId: string
   selectedOptionId: string
   fieldValue: string
@@ -2313,6 +2358,7 @@ export interface VisionConversationTurnResponseDTO {
   translationReliable: boolean
   executionEnabled: boolean
   runtimeContext: VisionRuntimeContextDTO
+  workspaceHandoff: VisionWorkspaceHandoffDTO
   executionCandidate: VisionExecutionCandidateDTO
   questDiscovery: VisionQuestDiscoveryDTO
   searchDiscovery: VisionSearchDiscoveryDTO
@@ -2475,6 +2521,13 @@ export interface VisionSlotSummaryDTO {
   slotId: string
   label: string
   value: string
+}
+
+export interface VisionWorkspaceHandoffDTO {
+  contextLabel: string
+  source: string
+  returnTo: string
+  explanation: string
 }
 
 export interface WorkerReassignmentRequestDTO {

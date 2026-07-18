@@ -12,6 +12,7 @@ import com.themuffinman.app.vision.dto.VisionDeviceRoleDTO;
 import com.themuffinman.app.vision.dto.VisionOptionDTO;
 import com.themuffinman.app.vision.dto.VisionRuntimeContextDTO;
 import com.themuffinman.app.vision.dto.VisionRuntimeCueDTO;
+import com.themuffinman.app.vision.dto.VisionWorkspaceHandoffDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestReviewDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
@@ -47,6 +48,21 @@ public class VisionCanvasAssembler {
             VisionCapabilityPreviewDTO capabilityPreview,
             VisionMemoryTrailDTO memoryTrail
     ) {
+        return assemble(conversation, turn, recentConversations, executionCandidate, questDiscovery, searchDiscovery,
+                capabilityPreview, memoryTrail, null);
+    }
+
+    public VisionConversationTurnResponseDTO assemble(
+            VisionConversation conversation,
+            VisionTurn turn,
+            List<VisionConversationSummaryDTO> recentConversations,
+            VisionExecutionCandidateDTO executionCandidate,
+            VisionQuestDiscoveryDTO questDiscovery,
+            VisionSearchDiscoveryDTO searchDiscovery,
+            VisionCapabilityPreviewDTO capabilityPreview,
+            VisionMemoryTrailDTO memoryTrail,
+            VisionWorkspaceHandoffDTO workspaceHandoff
+    ) {
         return VisionConversationTurnResponseDTO.builder()
                 .conversationId(conversation.getId())
                 .turnId(turn.getId())
@@ -61,6 +77,7 @@ public class VisionCanvasAssembler {
                 .translationReliable(turn.isTranslationReliable())
                 .executionEnabled(visionProperties.isExecutionEnabled())
                 .runtimeContext(runtimeContext(conversation, turn))
+                .workspaceHandoff(workspaceHandoff)
                 .executionCandidate(executionCandidate)
                 .questDiscovery(questDiscovery)
                 .searchDiscovery(searchDiscovery)

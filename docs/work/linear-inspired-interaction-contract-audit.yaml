@@ -1,0 +1,103 @@
+kind: work
+version: 1
+id: linear-inspired-interaction-contract-audit
+title: Audit current interaction contracts and backend readiness
+status: verified
+master_plan: docs/work/linear-inspired-product-app-redesign-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: 'Map current routes, DTOs, action availability, list/detail ownership,
+  keyboard conflicts, and runtime evidence before introducing new Linear-inspired
+  interaction affordances.
+
+'
+requirements:
+- Classify each surface as collection, detail, preview, composer, attention, calendar,
+  or settings.
+- Record the exact backend read model and action-availability source for each proposed
+  interaction.
+- Mark board, timeline, multi-select, favorite, display preference, and saved-view
+  work blocked when its contract is absent.
+- Keep a frontend-only display preference local until persistence, ownership, and
+  sharing rules are explicit.
+- Capture the current audit baseline: 43 routes, 42 concrete route surfaces, one likely-unused
+    AppActionMenu, and existing workflow/feedback overlap findings must be resolved
+    or explicitly preserved before a new primitive is introduced.
+tasks:
+- id: route-object-action-matrix
+  type: documentation
+  status: done
+  paths:
+  - docs/work/linear-inspired-interaction-contract-audit.md
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/router.ts
+  validation: npm --prefix apps/themuffinman/frontend run validate:web-surface
+- id: backend-readiness-gates
+  type: documentation
+  status: done
+  paths:
+  - docs/work/linear-inspired-interaction-contract-audit.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  validation: make audit-docs
+- id: interaction-regression-catalog
+  type: documentation
+  status: done
+  paths:
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-runtime-acceptance
+acceptance:
+- Every proposed interaction names its current route, DTO/read endpoint, permitted
+  action source, and fallback when the contract is absent.
+- The route/API inventory and stale-surface audit are attached as dated implementation
+  evidence before a child implementation plan is activated.
+- Unsupported favorites, subscriptions, bulk actions, saved views, board mutation,
+  and timeline mutation remain blocked rather than simulated locally.
+evidence:
+- task: route-object-action-matrix
+  command: npm --prefix apps/themuffinman/frontend run validate:web-surface
+  ranAt: '2026-07-17T19:50:01Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/linear-inspired-interaction-contract-audit.md
+  output: |2+
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+
+- task: backend-readiness-gates
+  command: make audit-docs
+  ranAt: '2026-07-17T19:50:01Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/linear-inspired-interaction-contract-audit.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 229
+      review needed: 0
+      high priority: 0
+
+- task: interaction-regression-catalog
+  command: make audit-runtime-acceptance
+  ranAt: '2026-07-17T19:50:04Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (27 passed, 0 pending runtime scenarios).
+

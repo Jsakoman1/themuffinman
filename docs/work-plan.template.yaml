@@ -4,11 +4,21 @@ id: replace-me
 title: Replace me
 status: draft
 baseline: replace-with-git-revision
+strict_verification: true
+# For high-risk masters, add serial_task_execution and execution_inventory so
+# each task must be explicitly started and independently verified.
+# serial_task_execution: true
+# execution_inventory: docs/work/<master>-execution-inventory.yaml
 tasks:
   - id: task-1
     title: Replace me
     type: implementation
     status: pending
     paths: []
+    required_paths: []
+    # requires_visual_evidence: true
+    # visual_evidence_paths: []
+    # manual_runtime_command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+    # runtime_evidence_paths: []
     validation: "make audit-todo"
 evidence: []

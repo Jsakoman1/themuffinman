@@ -1,0 +1,155 @@
+kind: master
+version: 1
+id: workspace-redesign-complete-master
+title: Complete backend-first workspace redesign and Vision continuity
+status: draft
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+strict_verification: true
+execution_inventory: docs/work/workspace-redesign-complete-execution-inventory.yaml
+analysis: docs/work/workspace-redesign-master-plan-analysis.md
+component_inventory: docs/work/workspace-redesign-component-atomization.yaml
+adoption_audit: docs/work/workspace-redesign-adoption-gap-audit.yaml
+execution_atomization_audit: docs/work/workspace-redesign-execution-atomization-audit.yaml
+execution_brief: docs/work/workspace-redesign-execution-brief.yaml
+visual_reference_spec: docs/work/workspace-redesign-visual-reference-spec.yaml
+replaces_completion_scope_of:
+  - docs/work/linear-inspired-workspace-and-vision-master.yaml
+objective: >
+  Deliver one coherent dark graphite authenticated workspace rather than a color-only
+  skin: a stable shell, compact low-chrome visual language, optional three-column
+  collection/detail archetypes, dense backend-
+  owned collections, inspect-before-open previews, inline structured work, typed
+  command and creation entry points, personal attention, safe chat continuity, and
+  a distinct first-class Vision client with typed handoff and return context.
+
+start_gates:
+  - Keep this master draft until every child has exact required paths and an atomic
+    task mapping in the execution inventory.
+  - 'Apply the second-order execution atomization rules: backend contract, shared
+    primitive, named route adoption, and acceptance proof stay independently tracked.'
+  - Record a fresh committed baseline and isolate unrelated working-tree changes
+    before activating the first inventory item.
+  - Run `make audit-frontend`, `make audit-docs`, `make audit-impact`,
+    `make audit-plan-coverage`, and `make audit-work-plan-recursion` at activation.
+  - For each route adoption, confirm its backend read model, allowed actions,
+    permissions, filtering, and workflow transitions before changing Vue.
+  - For every new or changed Vision handoff, reread `docs/vision-architecture-patterns.md`
+    and extend the typed presentation/handoff contract first.
+  - Do not start a child merely because a similarly named historical plan is verified.
+
+principles:
+  - 'The desktop workspace follows the original graphite visual-reference contract:
+    quiet near-black surfaces, subtle separators, compact squared controls, dense
+    hierarchy, restrained status color, and no default card/pill/shadow language.'
+  - Backend decides membership, permissions, allowed actions, workflow state,
+    attention, personal context, and visibility; frontend renders the prepared state.
+  - One primary target opens an object; nested buttons, overflow actions, and keyboard
+    interactions remain independent and accessible.
+  - Filters change backend-supported membership; display controls change only
+    presentation. Neither creates client-side business rules.
+  - A third workspace column is used only where it contributes context, inspection,
+    activity, or safe actions; it becomes an explicit drawer or route on narrow screens.
+  - Shared controls and layouts replace route-local CSS incrementally; no global
+    override may masquerade as component adoption.
+  - Rail widths, density, recents, favorites, and saved personal intents are user
+    presentation/context preferences. They remain user-scoped and cannot expose an
+    inaccessible object or alter backend collection membership.
+  - Keyboard shortcuts and right-click menus are additional paths to the same
+    backend-allowed action definitions; they do not introduce a second mutation layer.
+  - Refresh preserves usable context where safe. Do not use optimistic workflow
+    transitions; show refreshing, reconnected, stale, retry, and failure states.
+  - 'Performance changes follow measurement: retain list content during refresh, fetch
+    previews non-blockingly, lazy-load route boundaries, and virtualize only genuinely
+    large collections without breaking keyboard selection.'
+  - Vision is a main adaptive voice/context-aware surface, not an embedded workspace
+    dashboard. Handoffs are typed, consent-safe, backend-prepared, and returnable.
+  - The plan borrows interaction principles from reference material without copying
+    Linear branding, copy, assets, board semantics, or proprietary domain model.
+
+children:
+  - docs/work/workspace-redesign-visual-fidelity.yaml
+  - docs/work/workspace-redesign-foundation-controls.yaml
+  - docs/work/workspace-redesign-shell-command-personal.yaml
+  - docs/work/workspace-redesign-collection-continuity.yaml
+  - docs/work/workspace-redesign-detail-form-scaffolds.yaml
+  - docs/work/workspace-redesign-work-things-adoption.yaml
+  - docs/work/workspace-redesign-chat-realtime-adoption.yaml
+  - docs/work/workspace-redesign-business-rides-adoption.yaml
+  - docs/work/workspace-redesign-account-attention-adoption.yaml
+  - docs/work/workspace-redesign-secondary-surfaces-adoption.yaml
+  - docs/work/workspace-redesign-vision-handoff-continuity.yaml
+  - docs/work/workspace-redesign-accessibility-runtime-closeout.yaml
+
+dependencies:
+  - docs/work/workspace-redesign-visual-fidelity.yaml -> docs/work/workspace-redesign-foundation-controls.yaml
+  - docs/work/workspace-redesign-visual-fidelity.yaml -> docs/work/workspace-redesign-shell-command-personal.yaml
+  - docs/work/workspace-redesign-visual-fidelity.yaml -> docs/work/workspace-redesign-collection-continuity.yaml
+  - docs/work/workspace-redesign-visual-fidelity.yaml -> docs/work/workspace-redesign-detail-form-scaffolds.yaml
+  - docs/work/workspace-redesign-foundation-controls.yaml -> docs/work/workspace-redesign-shell-command-personal.yaml
+  - docs/work/workspace-redesign-foundation-controls.yaml -> docs/work/workspace-redesign-collection-continuity.yaml
+  - docs/work/workspace-redesign-foundation-controls.yaml -> docs/work/workspace-redesign-detail-form-scaffolds.yaml
+  - docs/work/workspace-redesign-shell-command-personal.yaml -> docs/work/workspace-redesign-collection-continuity.yaml
+  - docs/work/workspace-redesign-collection-continuity.yaml -> docs/work/workspace-redesign-work-things-adoption.yaml
+  - docs/work/workspace-redesign-detail-form-scaffolds.yaml -> docs/work/workspace-redesign-work-things-adoption.yaml
+  - docs/work/workspace-redesign-collection-continuity.yaml -> docs/work/workspace-redesign-chat-realtime-adoption.yaml
+  - docs/work/workspace-redesign-detail-form-scaffolds.yaml -> docs/work/workspace-redesign-business-rides-adoption.yaml
+  - docs/work/workspace-redesign-collection-continuity.yaml -> docs/work/workspace-redesign-business-rides-adoption.yaml
+  - docs/work/workspace-redesign-shell-command-personal.yaml -> docs/work/workspace-redesign-account-attention-adoption.yaml
+  - docs/work/workspace-redesign-work-things-adoption.yaml -> docs/work/workspace-redesign-secondary-surfaces-adoption.yaml
+  - docs/work/workspace-redesign-business-rides-adoption.yaml -> docs/work/workspace-redesign-secondary-surfaces-adoption.yaml
+  - docs/work/workspace-redesign-account-attention-adoption.yaml -> docs/work/workspace-redesign-secondary-surfaces-adoption.yaml
+  - docs/work/workspace-redesign-secondary-surfaces-adoption.yaml -> docs/work/workspace-redesign-accessibility-runtime-closeout.yaml
+  - docs/work/workspace-redesign-vision-handoff-continuity.yaml -> docs/work/workspace-redesign-accessibility-runtime-closeout.yaml
+  - docs/work/workspace-redesign-work-things-adoption.yaml -> docs/work/workspace-redesign-accessibility-runtime-closeout.yaml
+  - docs/work/workspace-redesign-chat-realtime-adoption.yaml -> docs/work/workspace-redesign-accessibility-runtime-closeout.yaml
+  - docs/work/workspace-redesign-business-rides-adoption.yaml -> docs/work/workspace-redesign-accessibility-runtime-closeout.yaml
+  - docs/work/workspace-redesign-account-attention-adoption.yaml -> docs/work/workspace-redesign-accessibility-runtime-closeout.yaml
+
+acceptance:
+  - 'The Web workspace visibly follows the visual-reference contract on desktop and
+    narrow evidence: graphite surfaces, compact geometry, subtle separators,
+    restrained elevation, semantic status color, and clear text/metadata hierarchy.'
+  - Named authenticated routes visibly adopt shared controls and scaffolds; local pill
+    button and ad-hoc field CSS is removed only after the replacement is adopted.
+  - Work and Things demonstrate the canonical collection context/list/preview flow;
+    their detail routes demonstrate main/activity/utility flows where justified.
+  - Chat demonstrates index/thread/context behavior and backend-owned reconnect recovery.
+  - Business, Rides, Circles, People, Profile, Settings, notifications, and onboarding
+    use the appropriate shared collection, detail, or form archetype without forcing
+    a third column onto simple tasks.
+  - Home, applications, public and customer-facing Business views, saved intents,
+    activity, hub routes, and identity entry are explicitly assessed and migrated
+    where they are authenticated or task-bearing surfaces; none is silently left in
+    legacy card-first styling.
+  - Command, creation, pins, and attention are discoverable and backend-authoritative.
+  - Users can resize and restore eligible workspace rails, use a keyboard Quick
+    Switcher for backend-visible recent objects, and choose a presentation density
+    without changing collection membership or permissions.
+  - Right-click/context actions, overflow actions, tooltips, keyboard help, and
+    primary/secondary/destructive hierarchy resolve to one action definition.
+  - Activity rails render backend-prepared events consistently for Work, Things,
+    Business, Circles, and Chat where the read model supports them.
+  - Returning from a supported preview/detail preserves supported collection context
+    and safely clears inaccessible or stale selections.
+  - Vision handoff and return retain typed context while Vision stays voice-ready,
+    consent-bound, confirmation-gated, and visually distinct from the workspace.
+  - Every adopted desktop and narrow route has fresh visual evidence; runtime behavior
+    has fresh trace/HAR evidence from an intentionally started stack; no child or this
+    master is verified before every serial inventory item is verifier-marked verified.
+  - Focused dense collections demonstrate input-safe Arrow/J/K traversal, Enter open,
+    preview, and Escape clear behavior in their keyboard evidence where the route has
+    a collection selection model.
+evidence: []
+route_evidence_matrix:
+  shell: [authenticated-shell-desktop, authenticated-shell-narrow, command-center, personal-attention]
+  collections: [work-discovery, things-discovery, business-discovery, rides]
+  details_and_forms: [work-quest-detail, thing-detail, business-profile, profile-settings]
+  chat: [chat-thread-desktop, chat-thread-narrow, chat-reconnect]
+  account: [circles, people, notifications-attention, onboarding]
+  vision: [vision-handoff, vision-return]
+  app_like_behavior: [resizable-rails, quick-switcher, context-menu, density-control, retained-refresh, keyboard-help]
+evidence_policy:
+  - Each named route evidence item is captured after its owning inventory start snapshot.
+  - A screenshot is not proof of behavior; keyboard, async recovery, permission loss,
+    stale object, and return-context paths require their own runtime trace where relevant.
+  - Evidence from earlier redesign plans cannot satisfy this master.

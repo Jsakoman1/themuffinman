@@ -5,6 +5,7 @@ import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.dto.QuestRequestDTO;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
+import com.themuffinman.app.workmarket.service.QuestPreviewReadService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
 import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
@@ -34,6 +35,7 @@ public class QuestController {
 
     private final WorkmarketQuestService questService;
     private final WorkmarketQuestReadService questReadService;
+    private final QuestPreviewReadService questPreviewReadService;
 
     @PostMapping
     public ActionResultDTO createQuest(@Valid @RequestBody QuestRequestDTO dto, @AuthenticationPrincipal AppUser currentUser) {
@@ -102,6 +104,14 @@ public class QuestController {
     @GetMapping("/{id}/detail")
     public QuestDetailResponseDTO getQuestDetailById(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
         return questReadService.getQuestDetailResponseById(id, currentUser);
+    }
+
+    @GetMapping("/{id}/preview")
+    public com.themuffinman.app.workmarket.dto.QuestPreviewResponseDTO getQuestPreviewById(
+            @PathVariable long id,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return questPreviewReadService.getPreview(id, currentUser);
     }
 
     @DeleteMapping("/{id}")

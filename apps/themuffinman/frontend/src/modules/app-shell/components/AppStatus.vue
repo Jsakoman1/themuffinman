@@ -10,5 +10,5 @@ const emit = defineEmits<{retry: []}>()
 </template>
 
 <style scoped>
-.app-status{margin:0;padding:.65rem 0;color:var(--text-muted)}.app-status--success{color:#2d6846}.app-status--error{color:var(--danger)}.app-status button{margin-left:.55rem;border:0;background:transparent;color:inherit;text-decoration:underline;font:inherit;cursor:pointer}
+.app-status{margin:0;padding:.65rem 0;color:var(--text-muted)}.app-status--success{color:var(--success)}.app-status--error{color:var(--danger)}.app-status button{margin-left:.55rem;border:0;background:transparent;color:inherit;text-decoration:underline;font:inherit;cursor:pointer}
 </style>

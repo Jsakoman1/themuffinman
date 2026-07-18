@@ -1,0 +1,173 @@
+kind: work
+version: 1
+id: linear-redesign-recovery-controls
+title: Redesign recovery baseline and non-skippable evidence controls
+status: verified
+master_plan: docs/work/linear-inspired-workspace-and-vision-master.yaml
+serial_task_execution: true
+execution_inventory: docs/work/linear-inspired-workspace-and-vision-execution-inventory.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+strict_verification: true
+objective: 'Correct the false completion record, make strict verification operational,
+  and establish reproducible screenshot/runtime evidence before any further redesign
+  claim.
+
+'
+tasks:
+- id: invalidate-prior-completion
+  inventory_item: RCV-01
+  type: docs-only
+  status: done
+  paths:
+  - docs/work/linear-inspired-product-app-redesign-master.yaml
+  - docs/work/linear-inspired-product-behavior-expansion-master.yaml
+  - docs/work/linear-inspired-workspace-and-vision-recovery-analysis.md
+  required_paths:
+  - docs/work/linear-inspired-product-app-redesign-master.yaml
+  - docs/work/linear-inspired-product-behavior-expansion-master.yaml
+  - docs/work/linear-inspired-workspace-and-vision-recovery-analysis.md
+  validation: make audit-docs && make audit-plan-coverage
+  started_at: '2026-07-17T21:04:01Z'
+  start_fingerprints:
+    docs/work/linear-inspired-product-app-redesign-master.yaml: ef1d9f65653f63bdc934e8094882b9e525170dcc4c592407b6164696b030b32b
+    docs/work/linear-inspired-product-behavior-expansion-master.yaml: fe80e43fd9c6b3663624e4fc5b8d246b2ce96048b507cce469f7f5a751d35ce8
+    docs/work/linear-inspired-workspace-and-vision-recovery-analysis.md: cf75607d25bf12dee15692a2ec7dc41b1d767636c549e7675827ec2cf7afef23
+- id: strict-verifier-and-runtime-artifact-contract
+  inventory_item: RCV-02
+  type: implementation
+  status: done
+  paths:
+  - scripts/verify-work.rb
+  - docs/implementation-control.md
+  - docs/work-plan.template.yaml
+  - docs/master-plan.template.yaml
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  required_paths:
+  - scripts/verify-work.rb
+  - docs/implementation-control.md
+  - docs/work-plan.template.yaml
+  - docs/master-plan.template.yaml
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  validation: ruby -c scripts/verify-work.rb && make audit-docs
+  started_at: '2026-07-17T21:04:26Z'
+  start_fingerprints:
+    scripts/verify-work.rb: 6cb178d7fd6fffd741def617b1b3485c41503c6f03d70c73b30a1f0f6e3ce51c
+    docs/implementation-control.md: cad305b016d7fcdbb1f52c8aef847c0129682b47f3dc54bacd565996b34b44c0
+    docs/work-plan.template.yaml: 97d770dad32470671aa7a98ef84e067818c5c9a3a2a396061b247a67dade2b84
+    docs/master-plan.template.yaml: 25a18656bfeb9b9d5e12dd40b58af10a5b11b768c91844e924ef7a7ea288df2a
+    apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs: 3e9ff3331f2fbe58fbf1a9138ca2cfe82bf50caf68c898267a57a769af020a9e
+- id: visual-baseline-capture
+  inventory_item: RCV-03
+  type: validation
+  status: done
+  paths:
+  - docs/runtime-evidence/linear-redesign/baseline-desktop.png
+  - docs/runtime-evidence/linear-redesign/baseline-narrow.png
+  - docs/runtime-evidence/linear-redesign/baseline-trace.json
+  required_paths:
+  - docs/runtime-evidence/linear-redesign/baseline-desktop.png
+  - docs/runtime-evidence/linear-redesign/baseline-narrow.png
+  - docs/runtime-evidence/linear-redesign/baseline-trace.json
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/linear-redesign/baseline-desktop.png
+  - docs/runtime-evidence/linear-redesign/baseline-narrow.png
+  validation: make audit-runtime-acceptance
+  manual_runtime_command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+  runtime_evidence_paths:
+  - docs/runtime-evidence/linear-redesign/baseline-trace.json
+  started_at: '2026-07-17T21:05:36Z'
+  start_fingerprints:
+    docs/runtime-evidence/linear-redesign/baseline-desktop.png: __missing__
+    docs/runtime-evidence/linear-redesign/baseline-narrow.png: __missing__
+    docs/runtime-evidence/linear-redesign/baseline-trace.json: __missing__
+acceptance:
+- The old masters cannot be re-verified as completion claims.
+- Strict plans cannot pass with partial path changes or absent visual/runtime artifacts.
+- Baseline screenshots identify the actual authenticated desktop and narrow state
+  that later slices must improve.
+evidence:
+- task: invalidate-prior-completion
+  command: make audit-docs && make audit-plan-coverage
+  ranAt: '2026-07-17T21:04:17Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/linear-inspired-product-app-redesign-master.yaml
+  - docs/work/linear-inspired-product-behavior-expansion-master.yaml
+  - docs/work/linear-inspired-workspace-and-vision-recovery-analysis.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 233
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (20 master children, 17 active inventory plans).
+
+  requiredPaths:
+  - docs/work/linear-inspired-product-app-redesign-master.yaml
+  - docs/work/linear-inspired-product-behavior-expansion-master.yaml
+  - docs/work/linear-inspired-workspace-and-vision-recovery-analysis.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: strict-verifier-and-runtime-artifact-contract
+  command: ruby -c scripts/verify-work.rb && make audit-docs
+  ranAt: '2026-07-17T21:05:07Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  - docs/implementation-control.md
+  - docs/master-plan.template.yaml
+  - docs/work-plan.template.yaml
+  - scripts/verify-work.rb
+  output: |+
+    Syntax OK
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 233
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-17T21:04:26Z'
+  changedAfterStart: &1
+  - scripts/verify-work.rb
+  - docs/implementation-control.md
+  - docs/work-plan.template.yaml
+  - docs/master-plan.template.yaml
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: visual-baseline-capture
+  command: make audit-runtime-acceptance
+  ranAt: '2026-07-17T21:19:01Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-evidence/linear-redesign/baseline-desktop.png
+  - docs/runtime-evidence/linear-redesign/baseline-narrow.png
+  - docs/runtime-evidence/linear-redesign/baseline-trace.json
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (27 passed, 0 pending runtime scenarios).
+
+  startedAt: '2026-07-17T21:05:36Z'
+  changedAfterStart: &2
+  - docs/runtime-evidence/linear-redesign/baseline-desktop.png
+  - docs/runtime-evidence/linear-redesign/baseline-narrow.png
+  - docs/runtime-evidence/linear-redesign/baseline-trace.json
+  requiredPaths: *2
+  visualEvidencePaths:
+  - docs/runtime-evidence/linear-redesign/baseline-desktop.png
+  - docs/runtime-evidence/linear-redesign/baseline-narrow.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/linear-redesign/baseline-trace.json

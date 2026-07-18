@@ -1,0 +1,169 @@
+kind: master
+version: 1
+id: linear-inspired-product-app-redesign-master
+title: Linear-inspired product application interaction redesign
+status: deferred
+superseded_by: docs/work/linear-inspired-workspace-and-vision-master.yaml
+integrity_assessment: >
+  Invalidated as an implementation-completion claim after postmortem review found that
+  several child plans passed static path/build validation without proving feature adoption
+  or executing their required browser evidence. Retained only as historical planning input.
+closure_policy: >
+  This historical plan is permanently ineligible for verification. Only the replacement
+  master and its serial execution inventory may record redesign completion evidence.
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: 'Make the authenticated TheMuffinMan web client feel like one fast, calm,
+  dark-first desktop product application through reusable interaction grammar: stable
+  navigation, dense object collections, contextual filters and actions, preview/detail
+  utility surfaces, keyboard-friendly access, and deliberate composer behavior. Preserve
+  the existing Java/Spring API, backend authority, product domains, routes, and direct
+  web workflows. Borrow behavioral principles from public Linear documentation and
+  supplied screenshots without copying branding, assets, copy, data model, or exact
+  layouts.
+
+'
+analysis: docs/work/linear-inspired-product-app-redesign-analysis.md
+start_gates:
+- Keep this master in draft until `docs/work/frontend-contract-action-dialog-standardization.yaml`
+  is verified or its overlapping action-dialog files are explicitly removed from the
+  first selected child scope.
+- Before activating any child, record a fresh baseline at the current committed revision
+  and isolate unrelated working-tree changes; the verifier links task evidence to
+  that baseline diff.
+- Read the verified foundation and legacy UX plans listed in `reuse_foundations`;
+  extend their components and contracts rather than recreating their intent.
+reuse_foundations:
+- docs/work/frontend-desktop-product-redesign-master.yaml
+- docs/work/frontend-ux-navigation-information-architecture.yaml
+- docs/work/frontend-ux-action-hierarchy-preview-cards.yaml
+- docs/work/product-experience-universal-search-saved-intents.yaml
+- docs/work/product-experience-universal-create.yaml
+- docs/work/product-experience-multi-business-favorites.yaml
+- docs/work/product-experience-vision-global-entry.yaml
+principles:
+- One object has one backend-owned source of truth and may have several explicit read
+  modes.
+- Filters change membership; display controls change presentation; neither may invent
+  permissions or business state.
+- The sidebar is destination and personal-shortcut discovery; content is task context
+  and next action.
+- Every icon is a named reusable action with keyboard, tooltip, focus, loading, and
+  disabled behavior.
+- A row, card, or preview has one primary open target; nested actions stay independent.
+- Side panels expose backend-prepared utility context and never become duplicate routes.
+- Command, creation, and Vision input surfaces remain distinct and backend-contract
+  aware.
+- Motion explains state change, respects reduced motion, and never hides failure or
+  async uncertainty.
+audit_strategy:
+- Before each child starts, run `make audit-frontend` to regenerate the route/API,
+  stale-surface, state-duplication, and permission-boundary inventories.
+- Treat audit findings as design inputs: reuse an active primitive, remove or adopt
+    a detached primitive deliberately, and never create a parallel mutation or permission
+    layer.
+- Use `make audit-docs` for every plan/control/regression-matrix edit and `make audit-impact`
+  before closeout to identify affected docs and scope warnings.
+- Use `make audit-runtime-acceptance` only after runtime scenarios have recorded evidence;
+  it validates the evidence ledger, not the browser UI itself.
+- The existing `audit-frontend-ux-plan`, `audit-main-surfaces-plan`, and `audit-product-experience-plan`
+  target older hard-coded masters. Do not report them as validation for this master;
+  generalize their structural checks only in a separately approved tooling slice.
+audit_plan_mapping:
+  linear-inspired-interaction-contract-audit:
+  - audit-frontend
+  - audit-docs
+  - audit-impact
+  linear-inspired-object-interaction-system:
+  - audit-frontend
+  - audit-impact
+  linear-inspired-shell-navigation:
+  - audit-frontend
+  - audit-docs
+  linear-inspired-command-and-create:
+  - audit-frontend
+  - audit-impact
+  linear-inspired-collection-views:
+  - audit-frontend
+  - audit-impact
+  linear-inspired-detail-preview-panels:
+  - audit-frontend
+  - audit-impact
+  linear-inspired-performance-and-state-continuity:
+  - audit-frontend
+  - audit-runtime-acceptance
+  - audit-impact
+  linear-inspired-inbox-chat-vision:
+  - audit-frontend
+  - audit-runtime-acceptance
+  - audit-impact
+  linear-inspired-polish-runtime-closeout:
+  - audit-frontend
+  - audit-docs
+  - audit-runtime-acceptance
+  - audit-impact
+children:
+- docs/work/linear-inspired-interaction-contract-audit.yaml
+- docs/work/linear-inspired-object-interaction-system.yaml
+- docs/work/linear-inspired-shell-navigation.yaml
+- docs/work/linear-inspired-command-and-create.yaml
+- docs/work/linear-inspired-collection-views.yaml
+- docs/work/linear-inspired-detail-preview-panels.yaml
+- docs/work/linear-inspired-performance-and-state-continuity.yaml
+- docs/work/linear-inspired-inbox-chat-vision.yaml
+- docs/work/linear-inspired-polish-runtime-closeout.yaml
+dependencies:
+- docs/work/linear-inspired-interaction-contract-audit.yaml -> docs/work/linear-inspired-shell-navigation.yaml
+- docs/work/linear-inspired-shell-navigation.yaml -> docs/work/linear-inspired-object-interaction-system.yaml
+- docs/work/linear-inspired-object-interaction-system.yaml -> docs/work/linear-inspired-command-and-create.yaml
+- docs/work/linear-inspired-object-interaction-system.yaml -> docs/work/linear-inspired-collection-views.yaml
+- docs/work/linear-inspired-object-interaction-system.yaml -> docs/work/linear-inspired-detail-preview-panels.yaml
+- docs/work/linear-inspired-shell-navigation.yaml -> docs/work/linear-inspired-collection-views.yaml
+- docs/work/linear-inspired-shell-navigation.yaml -> docs/work/linear-inspired-detail-preview-panels.yaml
+- docs/work/linear-inspired-collection-views.yaml -> docs/work/linear-inspired-polish-runtime-closeout.yaml
+- docs/work/linear-inspired-detail-preview-panels.yaml -> docs/work/linear-inspired-polish-runtime-closeout.yaml
+- docs/work/linear-inspired-collection-views.yaml -> docs/work/linear-inspired-performance-and-state-continuity.yaml
+- docs/work/linear-inspired-detail-preview-panels.yaml -> docs/work/linear-inspired-performance-and-state-continuity.yaml
+- docs/work/linear-inspired-performance-and-state-continuity.yaml -> docs/work/linear-inspired-polish-runtime-closeout.yaml
+- docs/work/linear-inspired-performance-and-state-continuity.yaml -> docs/work/linear-inspired-inbox-chat-vision.yaml
+- docs/work/linear-inspired-inbox-chat-vision.yaml -> docs/work/linear-inspired-polish-runtime-closeout.yaml
+recommended_execution_order:
+- docs/work/linear-inspired-interaction-contract-audit.yaml
+- docs/work/linear-inspired-shell-navigation.yaml
+- docs/work/linear-inspired-object-interaction-system.yaml
+- docs/work/linear-inspired-command-and-create.yaml
+- docs/work/linear-inspired-collection-views.yaml
+- docs/work/linear-inspired-detail-preview-panels.yaml
+- docs/work/linear-inspired-performance-and-state-continuity.yaml
+- docs/work/linear-inspired-inbox-chat-vision.yaml
+- docs/work/linear-inspired-polish-runtime-closeout.yaml
+exit_criteria:
+- The product has one documented interaction vocabulary across authenticated modules.
+- Collection modes, filters, display preferences, and saved views only exist where
+  their backend contracts support them.
+- Work, notifications, chat, business operations, things, and rides use consistent
+  open/preview/action semantics.
+- Keyboard and icon controls are discoverable and accessible without duplicating business
+  rules in Vue.
+- Object selection, preview, inline edit, command, context menu, and direct button
+  paths resolve to one action definition.
+- Browser evidence covers create, search/filter, detail/preview, contextual action,
+  async recovery, and reduced-motion paths.
+- Returning from a supported detail or preview preserves the collection context without
+  silently changing backend membership, permissions, or workflow state.
+- No Linear brand, asset, copy, private implementation, or product-specific domain
+  model is copied.
+- Each completed child cites which reusable foundation it extended and why any new
+  primitive was necessary.
+evidence:
+- verifiedAt: '2026-07-17T20:10:06Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  children:
+  - docs/work/linear-inspired-interaction-contract-audit.yaml
+  - docs/work/linear-inspired-object-interaction-system.yaml
+  - docs/work/linear-inspired-shell-navigation.yaml
+  - docs/work/linear-inspired-command-and-create.yaml
+  - docs/work/linear-inspired-collection-views.yaml
+  - docs/work/linear-inspired-detail-preview-panels.yaml
+  - docs/work/linear-inspired-performance-and-state-continuity.yaml
+  - docs/work/linear-inspired-inbox-chat-vision.yaml
+  - docs/work/linear-inspired-polish-runtime-closeout.yaml

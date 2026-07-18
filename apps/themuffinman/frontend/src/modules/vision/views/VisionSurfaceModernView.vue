@@ -75,6 +75,11 @@ const handoffReturnTo = computed(() => {
   const returnTo = route.query.returnTo
   return typeof returnTo === "string" ? returnTo.trim() : ""
 })
+const workspaceHandoff = computed(() => ({
+  contextLabel: handoffContext.value || null,
+  source: handoffSource.value || null,
+  returnTo: handoffReturnTo.value || null
+}))
 
 const routePrompt = computed(() => {
   const prompt = route.query.prompt
@@ -119,7 +124,7 @@ const runRoutePromptIfNeeded = async () => {
   inputText.value = routePrompt.value
 
   try {
-    await processPrompt(routePrompt.value, "text")
+    await processPrompt(routePrompt.value, "text", "SUBMIT_PROMPT", null, null, null, null, workspaceHandoff.value)
   } finally {
     await clearRoutePrompt()
   }
@@ -147,11 +152,12 @@ watch(
       class="vision-surface__stage"
     >
       <div class="vision-surface__layout" :class="{ 'vision-surface__layout--preview': showDebugRail }">
-        <section class="vision-surface__console">
+        <section class="vision-surface__console" :aria-busy="isLoading || voiceState === 'processing'">
           <VisionCanvasRenderer
             :response="response"
             :execution-candidate="response?.executionCandidate ?? null"
             :runtime-context="response?.runtimeContext ?? null"
+            :workspace-handoff="response?.workspaceHandoff ?? null"
             :display-blocks="displayBlocks"
             :last-transcript="lastTranscript"
             :is-loading="isLoading"

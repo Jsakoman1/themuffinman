@@ -279,10 +279,15 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
 
 export const buildAppNavigationItems = (surfaceIds: AppSurfaceId[]): AppPrimaryNavItem[] => surfaceIds.map((surfaceId) => {
   const ownership = surfaceOwnershipMatrix[surfaceId]
+  const icons: Record<AppPrimaryNavId, string> = {
+    home: "⌂", work: "▤", chat: "◌", calendar: "□", business: "◇",
+    circles: "◎", things: "▣", rides: "↗", profile: "◒"
+  }
 
   return {
     id: ownership.primaryNavId,
     label: ownership.primaryNavLabel,
+    icon: icons[ownership.primaryNavId],
     description: ownership.primaryNavDescription,
     to: ownership.canonicalEntryRoute
   }

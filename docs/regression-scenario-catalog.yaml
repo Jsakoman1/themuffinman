@@ -1,4 +1,17 @@
 ---
+interaction_contract_regressions:
+  source: docs/work/linear-inspired-interaction-contract-audit.md
+  required_for_linear_inspired_changes:
+    - direct route remains canonical when a preview or utility panel is introduced
+    - nested action does not activate its containing row or card
+    - backend filter membership and permitted actions remain authoritative
+    - global shortcut does not activate while an editable control or Vision composer has focus
+    - unsupported favorite, subscription, bulk, board, timeline, saved-view, and cache controls remain absent
+    - row/card `Enter` or `Space` opens the canonical target, `P` previews only where the surface opts in, and nested actions remain isolated
+    - Ctrl or Command K opens global search and C opens Create only when focus is outside editable controls, selects, rich editors, and Vision composers
+    - detail utility rails may be collapsed without changing the canonical route or revealing actions not included in the backend response
+    - collection URL state contains only supported backend query inputs; per-viewer display, selected-row, and scroll state is discarded when its backend context no longer contains the selected object
+    - dialogs support explicit close controls, backdrop dismissal, and Escape dismissal; reduced-motion users receive the same visible state changes without decorative motion
 regression_scenarios:
   - id: agent-exact-target-fail-closed
     domain: agent
@@ -87,6 +100,15 @@ regression_scenarios:
       - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=RideOfferServiceTest
+  - id: business-rides-workspace-action-authority
+    domain: business-rides
+    risk: high
+    scenario: Booking and ride workspace rows must render backend-provided allowed actions through the shared row contract and preserve backend ownership of reschedule, lifecycle, visibility, capacity, and failure recovery.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPresentationServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=BusinessBookingPresentationServiceTest,RideOfferServiceTest
   - id: common-cross-module-primitives
     domain: common
     risk: medium

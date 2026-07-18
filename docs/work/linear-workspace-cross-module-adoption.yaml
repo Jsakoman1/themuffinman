@@ -1,0 +1,196 @@
+kind: work
+version: 1
+id: linear-workspace-cross-module-adoption
+title: Business, Rides, and remaining collection workspace adoption
+status: verified
+master_plan: docs/work/linear-inspired-workspace-and-vision-master.yaml
+serial_task_execution: true
+execution_inventory: docs/work/linear-inspired-workspace-and-vision-execution-inventory.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+strict_verification: true
+objective: 'Apply the proven workspace grammar to existing Business booking and Rides
+  operations, replacing isolated legacy layouts with dense row context, clear allowed
+  actions, empty/loading/error recovery, and direct canonical detail/open behavior.
+
+'
+tasks:
+- id: cross-module-read-model-audit
+  inventory_item: XMD-01
+  type: docs-only
+  status: done
+  paths:
+  - docs/work/linear-workspace-cross-module-analysis.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - docs/work/linear-workspace-cross-module-analysis.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  validation: make audit-frontend && make audit-docs
+  started_at: '2026-07-17T22:56:28Z'
+  start_fingerprints:
+    docs/work/linear-workspace-cross-module-analysis.md: __missing__
+    docs/domain-technical.md: 5101f365e747b176e601b0b0fc6afd550a0d0125c71d7ca4596b4ab9df4f9550
+    docs/regression-scenario-catalog.yaml: 1bbfb27eb324033441fc5d3c8a2b1caaa9597ca4e10f39725d7a4395c4413629
+- id: business-and-rides-surface-implementation
+  inventory_item: XMD-02
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-17T22:58:04Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue: c140b1754bd413c16a68f6a44171d5871ca04dff2bca863feb321fd634f80198
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue: 15d7d014a34a33e946da27ba856adc83d59ea6b5ee99c5aa69a2e5ef49d29761
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: 96b4233542fb3860255ba2aed96ab5d0648f99cb71faeb3a661d31b150cca2b0
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue: 11a3bd322d39c41e1a6f10977ac625e1f1130ea4416647ab7ef8da118de7f2f1
+- id: cross-module-browser-evidence
+  inventory_item: XMD-03
+  type: validation
+  status: done
+  paths:
+  - docs/runtime-evidence/linear-redesign/business-bookings-desktop.png
+  - docs/runtime-evidence/linear-redesign/rides-desktop.png
+  - docs/runtime-evidence/linear-redesign/cross-module-trace.json
+  required_paths:
+  - docs/runtime-evidence/linear-redesign/business-bookings-desktop.png
+  - docs/runtime-evidence/linear-redesign/rides-desktop.png
+  - docs/runtime-evidence/linear-redesign/cross-module-trace.json
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/linear-redesign/business-bookings-desktop.png
+  - docs/runtime-evidence/linear-redesign/rides-desktop.png
+  validation: npm --prefix apps/themuffinman/frontend run validate:web-surface
+  manual_runtime_command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+  runtime_evidence_paths:
+  - docs/runtime-evidence/linear-redesign/cross-module-trace.json
+  started_at: '2026-07-17T23:00:59Z'
+  start_fingerprints:
+    docs/runtime-evidence/linear-redesign/business-bookings-desktop.png: __missing__
+    docs/runtime-evidence/linear-redesign/rides-desktop.png: __missing__
+    docs/runtime-evidence/linear-redesign/cross-module-trace.json: __missing__
+acceptance:
+- Every named route has a material layout/interaction adoption, not merely an ARIA
+  or selector change.
+- Existing booking and ride domain actions remain backend-authorized and recover correctly
+  from failure.
+evidence:
+- task: cross-module-read-model-audit
+  command: make audit-frontend && make audit-docs
+  ranAt: '2026-07-17T22:57:48Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/work/linear-workspace-cross-module-analysis.md
+  output: |2+
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=8
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 18
+      backend presentation flags: 7
+      frontend passthrough gates: 6
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 234
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-17T22:56:28Z'
+  changedAfterStart: &1
+  - docs/work/linear-workspace-cross-module-analysis.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: business-and-rides-surface-implementation
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T23:00:49Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-CufpPyrA.js     5.93 kB │ gzip:   2.05 kB
+    dist/assets/WorkDiscoveryView-22TIPSYM.js                      7.15 kB │ gzip:   3.03 kB
+    dist/assets/CirclesView-CaEIqLQr.js                            8.45 kB │ gzip:   2.64 kB
+    dist/assets/BusinessProfileView-xI3d54Pp.js                    8.53 kB │ gzip:   2.63 kB
+    dist/assets/ThingsDiscoveryView-DXcHU5IY.js                    9.09 kB │ gzip:   2.98 kB
+    dist/assets/RidesView-CAKq-Du3.js                              9.38 kB │ gzip:   3.10 kB
+    dist/assets/WorkQuestDetailView-ySwpX7Xf.js                   11.04 kB │ gzip:   3.74 kB
+    dist/assets/ChatSurfaceView-CMDCWOtH.js                       11.68 kB │ gzip:   3.98 kB
+    dist/assets/ProfileLocationSettingsView-_5yfk0Sm.js           12.52 kB │ gzip:   4.38 kB
+    dist/assets/AuthenticatedShellView-B15jErkP.js                13.62 kB │ gzip:   4.50 kB
+    dist/assets/userShellApi-BtTv4w0N.js                          15.15 kB │ gzip:   3.01 kB
+    dist/assets/vue-core-BdJY4HeI.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/SurfaceContentView-DjRPMw6Q.js                    25.69 kB │ gzip:   7.35 kB
+    dist/assets/index-BV4MaD_C.js                                 26.71 kB │ gzip:   7.75 kB
+    dist/assets/VisionSurfaceModernView-DCUKkiLk.js               37.39 kB │ gzip:  11.23 kB
+    dist/assets/vendor-D9iqRH6B.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DddyeNmk.js                               464.31 kB │ gzip: 149.74 kB
+
+    ✓ built in 467ms
+
+  startedAt: '2026-07-17T22:58:04Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: cross-module-browser-evidence
+  command: npm --prefix apps/themuffinman/frontend run validate:web-surface
+  ranAt: '2026-07-17T23:05:04Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-evidence/linear-redesign/business-bookings-desktop.png
+  - docs/runtime-evidence/linear-redesign/cross-module-trace.json
+  - docs/runtime-evidence/linear-redesign/rides-desktop.png
+  output: |2+
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+
+  startedAt: '2026-07-17T23:00:59Z'
+  changedAfterStart: &3
+  - docs/runtime-evidence/linear-redesign/business-bookings-desktop.png
+  - docs/runtime-evidence/linear-redesign/rides-desktop.png
+  - docs/runtime-evidence/linear-redesign/cross-module-trace.json
+  requiredPaths: *3
+  visualEvidencePaths:
+  - docs/runtime-evidence/linear-redesign/business-bookings-desktop.png
+  - docs/runtime-evidence/linear-redesign/rides-desktop.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/linear-redesign/cross-module-trace.json

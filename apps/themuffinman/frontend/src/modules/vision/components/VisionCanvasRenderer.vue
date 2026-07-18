@@ -2,7 +2,7 @@
 import {computed, nextTick, onMounted, ref, watch} from "vue"
 import {RouterLink} from "vue-router"
 import {currentUser} from "../../identity/auth.ts"
-import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionExecutionCandidate, VisionReviewTarget, VisionRuntimeContext} from "../api/visionConversationApi.ts"
+import type {VisionCanvasBlock, VisionConversationTurnResponse, VisionExecutionCandidate, VisionReviewTarget, VisionRuntimeContext, VisionWorkspaceHandoff} from "../api/visionConversationApi.ts"
 import type {VisionVoiceState} from "../composables/useVisionConversation.ts"
 import {formatVisionFlowLine} from "../visionPresentation.ts"
 import {resolveVisionEntityRoute} from "../../app-shell/visionHandoff.ts"
@@ -14,6 +14,7 @@ const props = defineProps<{
   response: VisionConversationTurnResponse | null
   executionCandidate: VisionExecutionCandidate | null
   runtimeContext: VisionRuntimeContext | null
+  workspaceHandoff: VisionWorkspaceHandoff | null
   displayBlocks: VisionCanvasBlock[]
   lastTranscript: string
   isLoading: boolean
@@ -243,7 +244,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="vision-console">
+  <section class="vision-console" aria-live="polite" :aria-busy="props.isLoading || props.voiceState === 'processing'">
     <div class="vision-console__paper">
       <header v-if="props.runtimeContext" class="vision-console__runtime">
         <div class="vision-console__runtime-state">
@@ -256,6 +257,13 @@ onMounted(() => {
         </p>
         <button v-if="props.error" type="button" class="vision-console__retry" @click="emit('retry')">Try again</button>
       </header>
+
+      <div v-if="props.workspaceHandoff" class="vision-console__handoff">
+        <span>{{ props.workspaceHandoff.explanation }}</span>
+        <RouterLink v-if="props.workspaceHandoff.returnTo" :to="props.workspaceHandoff.returnTo" class="vision-console__handoff-link">
+          Return
+        </RouterLink>
+      </div>
 
       <div class="vision-console__lines">
         <p v-for="(line, index) in feedLines" :key="`${line.kind}-${index}`" class="vision-console__line" :class="`vision-console__line--${line.kind}`">
@@ -287,6 +295,7 @@ onMounted(() => {
               :value="inputText"
               class="vision-console__input"
               :placeholder="currentPlaceholder || 'Type here.'"
+              :aria-label="currentSlotLabel || 'Vision prompt'"
               rows="1"
               @focus="emit('open')"
               @keydown="handleKeydown"

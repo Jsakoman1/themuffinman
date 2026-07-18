@@ -108,6 +108,8 @@ export type SafetyReport = {id: number; targetFamily: string; targetId: number |
 export type OnboardingProgress = {id: number | null; currentStep: string; skipped: boolean; completed: boolean; updatedAt: string | null}
 export type ActivityItem = {kind: string; title: string; summary: string; route: string; occurredAt: string; resumeKey: string | null; resumable: boolean}
 export type AttentionCenter = {unreadCount: number; items: ActivityItem[]}
+export type PersonalShortcut = {targetId: number; targetType: string; title: string; route: string}
+export type WorkspaceCommandCatalog = import("../../../contracts/index.ts").WorkspaceCommandCatalog
 
 const activeBusinessParams = () => {
   const id = typeof window === "undefined" ? null : window.sessionStorage.getItem("activeBusinessProfileId")
@@ -168,9 +170,17 @@ export const userShellApi = {
   async getActivity(): Promise<ActivityItem[]> { return (await api.get<ActivityItem[]>("/activity/me", withAuth())).data },
   async dismissActivityResume(resumeKey: string): Promise<void> { await api.post(`/activity/resume/${encodeURIComponent(resumeKey)}/dismiss`, undefined, withAuth()) },
   async getAttentionCenter(): Promise<AttentionCenter> { return (await api.get<AttentionCenter>("/attention/me", withAuth())).data },
+  async getPersonalShortcuts(): Promise<PersonalShortcut[]> { return (await api.get<PersonalShortcut[]>("/personal-shortcuts/me", withAuth())).data },
+  async getWorkspaceCommandCatalog(): Promise<WorkspaceCommandCatalog> { return (await api.get<WorkspaceCommandCatalog>("/workspace/commands", withAuth())).data },
+  async pinQuest(questId: number): Promise<void> { await api.put(`/personal-shortcuts/me/quests/${questId}`, undefined, withAuth()) },
+  async unpinQuest(questId: number): Promise<void> { await api.delete(`/personal-shortcuts/me/quests/${questId}`, withAuth()) },
 
   async getQuestDetail(questId: number): Promise<QuestDetailResponseDTO> {
     return (await api.get<QuestDetailResponseDTO>(`/quests/${questId}/detail`, withAuth())).data
+  },
+
+  async getQuestPreview(questId: number): Promise<import("../../../contracts/index.ts").QuestPreview> {
+    return (await api.get<import("../../../contracts/index.ts").QuestPreview>(`/quests/${questId}/preview`, withAuth())).data
   },
 
   async getQuestApplications(questId: number, showAll = false): Promise<import("../../../contracts/index.ts").QuestApplicationsViewDTO> {
@@ -279,6 +289,9 @@ export const userShellApi = {
 
   async getChatConversationSync(conversationId: number): Promise<ChatConversationSyncDTO> {
     return (await api.get<ChatConversationSyncDTO>(`/chat/conversations/${conversationId}/sync`, {params: {limit: 50}, ...withAuth()})).data
+  },
+  async getChatRefreshHint(conversationId: number, knownLatestMessageId?: number | null): Promise<import("../../../contracts/index.ts").ChatRefreshHint> {
+    return (await api.get<import("../../../contracts/index.ts").ChatRefreshHint>(`/chat/conversations/${conversationId}/refresh-hint`, {params: {knownLatestMessageId}, ...withAuth()})).data
   },
 
   async getChatMessages(conversationId: number, limit = 30, beforeMessageId?: number | null): Promise<ChatMessagePageDTO> {
@@ -595,6 +608,10 @@ export const userShellApi = {
 
   async getThingListing(listingId: number): Promise<ThingListingResponseDTO> {
     return (await api.get<ThingListingResponseDTO>(`/things/listings/${listingId}`, withAuth())).data
+  },
+
+  async getThingPreview(listingId: number): Promise<import("../../../contracts/index.ts").ThingPreview> {
+    return (await api.get<import("../../../contracts/index.ts").ThingPreview>(`/things/listings/${listingId}/preview`, withAuth())).data
   },
 
   async createThingListing(request: ThingListingRequestDTO): Promise<ThingListingResponseDTO> {

@@ -1,0 +1,148 @@
+kind: work
+version: 1
+id: linear-inspired-performance-and-state-continuity
+title: Fast collection continuity, URL state, and measured rendering
+status: verified
+master_plan: docs/work/linear-inspired-product-app-redesign-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: 'Make supported collection-to-detail and collection-to-preview flows feel
+  immediate and continuous: preserve a viewer''s permitted filter context, selection,
+  and scroll return state while measuring rather than assuming frontend performance
+  improvements.
+
+'
+reuses:
+- docs/work/frontend-ux-action-hierarchy-preview-cards.yaml
+- docs/work/product-experience-activity-task-resume.yaml
+- docs/work/product-experience-universal-search-saved-intents.yaml
+requirements:
+- URL state may represent only canonical, non-sensitive route and supported backend
+  query parameters; it must never serialize private object data, temporary form input,
+  or permission assumptions.
+- Store local display, selected-preview, and scroll restoration state per route/context
+  and discard it when the backend query, viewer, or object availability changes.
+- Do not add speculative prefetch, optimistic mutation, virtualization, or infinite
+  scrolling without measured need and a stable API, ordering, accessibility, and failure
+  contract.
+- Loading must retain layout stability and announce progress; cached content must
+  not be represented as authoritative after a mutation or visibility change.
+tasks:
+- id: continuity-and-performance-baseline
+  type: docs-only
+  status: done
+  paths:
+  - docs/work/linear-inspired-performance-and-state-continuity-analysis.md
+  - docs/work/linear-inspired-interaction-contract-audit.md
+  - docs/regression-scenario-catalog.yaml
+  validation: make audit-frontend && make audit-docs
+- id: shared-supported-view-state
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: continuity-runtime-evidence
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  - docs/runtime-acceptance-matrix.yaml
+  validation: npm --prefix apps/themuffinman/frontend run validate:web-surface &&
+    make audit-runtime-acceptance
+  manual_runtime_command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+  manual_runtime_requires_escalation: true
+acceptance:
+- A supported filtered collection returns to the same permitted query, selected item
+  or preview, and sensible scroll position after opening and closing a canonical detail.
+- Browser traces prove loading, changed visibility, failed refresh, and stale-state
+  discard behavior rather than only a successful warm return.
+- Any performance optimization is backed by a recorded baseline and does not change
+  API call authority, ordering, permissions, or accessible navigation.
+evidence:
+- task: continuity-and-performance-baseline
+  command: make audit-frontend && make audit-docs
+  ranAt: '2026-07-17T20:04:41Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/regression-scenario-catalog.yaml
+  - docs/work/linear-inspired-interaction-contract-audit.md
+  - docs/work/linear-inspired-performance-and-state-continuity-analysis.md
+  output: |2+
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=9
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=8
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 18
+      backend presentation flags: 7
+      frontend passthrough gates: 6
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 229
+      review needed: 0
+      high priority: 0
+
+- task: shared-supported-view-state
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T20:04:45Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-3ENlRLjG.js     5.93 kB │ gzip:   2.05 kB
+    dist/assets/WorkDiscoveryView-DW-12xH2.js                      6.62 kB │ gzip:   2.86 kB
+    dist/assets/ThingsDiscoveryView-CuRx1sHp.js                    7.94 kB │ gzip:   2.56 kB
+    dist/assets/CirclesView-CxggtYJs.js                            8.45 kB │ gzip:   2.64 kB
+    dist/assets/BusinessProfileView-C5Hngn9e.js                    8.53 kB │ gzip:   2.63 kB
+    dist/assets/RidesView-BJqpNZyq.js                              9.61 kB │ gzip:   3.16 kB
+    dist/assets/WorkQuestDetailView-BwS6Jj7q.js                   11.09 kB │ gzip:   3.72 kB
+    dist/assets/ChatSurfaceView-CWb57ctA.js                       11.49 kB │ gzip:   3.91 kB
+    dist/assets/AuthenticatedShellView-WQ2tRgTM.js                12.08 kB │ gzip:   4.07 kB
+    dist/assets/ProfileLocationSettingsView-F-Xs1riu.js           12.52 kB │ gzip:   4.38 kB
+    dist/assets/userShellApi-D2Wj2QTJ.js                          14.51 kB │ gzip:   2.88 kB
+    dist/assets/vue-core-BdJY4HeI.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/index-CrA0_sFR.js                                 26.23 kB │ gzip:   7.51 kB
+    dist/assets/SurfaceContentView-BNkyHckg.js                    27.28 kB │ gzip:   7.69 kB
+    dist/assets/VisionSurfaceModernView-Bpwcw8KG.js               36.33 kB │ gzip:  10.93 kB
+    dist/assets/vendor-D9iqRH6B.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DddyeNmk.js                               464.31 kB │ gzip: 149.74 kB
+
+    ✓ built in 467ms
+
+- task: continuity-runtime-evidence
+  command: npm --prefix apps/themuffinman/frontend run validate:web-surface && make
+    audit-runtime-acceptance
+  ranAt: '2026-07-17T20:04:48Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  - docs/runtime-acceptance-matrix.yaml
+  output: |2+
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (27 passed, 0 pending runtime scenarios).
+

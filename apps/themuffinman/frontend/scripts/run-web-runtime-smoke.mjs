@@ -1,7 +1,34 @@
 import {chromium} from "playwright"
 import {expect} from "playwright/test"
+import {mkdir, writeFile} from "node:fs/promises"
+import {dirname, isAbsolute, resolve} from "node:path"
+import {fileURLToPath} from "node:url"
+
+const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..")
+const workspaceArtifactPath = (path) => path && (isAbsolute(path) ? path : resolve(workspaceRoot, path))
 
 const baseURL = process.env.WEB_BASE_URL || "http://localhost:5173"
+const apiBaseURL = process.env.WEB_API_BASE_URL || "http://localhost:8080"
+const apiOrigin = new URL(apiBaseURL).origin
+const runtimeEvidencePath = workspaceArtifactPath(process.env.WEB_RUNTIME_EVIDENCE_PATH)
+const desktopScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_DESKTOP_SCREENSHOT_PATH)
+const narrowScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_NARROW_SCREENSHOT_PATH)
+const workPreviewScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_WORK_PREVIEW_SCREENSHOT_PATH)
+const thingsPreviewScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_THINGS_PREVIEW_SCREENSHOT_PATH)
+const questDetailScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_QUEST_DETAIL_SCREENSHOT_PATH)
+const thingDetailNarrowScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_THING_DETAIL_NARROW_SCREENSHOT_PATH)
+const personalAttentionDesktopScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_PERSONAL_ATTENTION_DESKTOP_SCREENSHOT_PATH)
+const pinVisibilityRecoveryScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_PIN_VISIBILITY_RECOVERY_SCREENSHOT_PATH)
+const commandCenterDesktopScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_COMMAND_CENTER_DESKTOP_SCREENSHOT_PATH)
+const commandFocusSuppressionScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_COMMAND_FOCUS_SUPPRESSION_SCREENSHOT_PATH)
+const chatDesktopScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_CHAT_DESKTOP_SCREENSHOT_PATH)
+const chatNarrowScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_CHAT_NARROW_SCREENSHOT_PATH)
+const visionIdleScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_VISION_IDLE_SCREENSHOT_PATH)
+const visionReviewScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_VISION_REVIEW_SCREENSHOT_PATH)
+const businessBookingsDesktopScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_BUSINESS_BOOKINGS_DESKTOP_SCREENSHOT_PATH)
+const ridesDesktopScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_RIDES_DESKTOP_SCREENSHOT_PATH)
+const finalVisionScreenshotPath = workspaceArtifactPath(process.env.WEB_RUNTIME_FINAL_VISION_SCREENSHOT_PATH)
+const runStartedAt = new Date().toISOString()
 const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 const account = {
   email: `web-smoke-${suffix}@sidequest.test`,
@@ -29,10 +56,25 @@ const context = await browser.newContext({recordHar: {path: "./web-runtime-smoke
 const page = await context.newPage()
 const main = page.locator("main")
 const statuses = []
-page.on("pageerror", (error) => console.log(`PAGE_ERROR ${error.message}`))
+const browserDiagnostics = []
+let result = "failed"
+let failureMessage = null
+let personalAttention = null
+let commandCenter = null
+let chatReconnect = null
+let visionHandoff = null
+let crossModuleWorkspace = null
+page.on("pageerror", (error) => {
+  browserDiagnostics.push(`pageerror: ${error.message}`)
+  console.log(`PAGE_ERROR ${error.message}`)
+})
+page.on("console", (message) => {
+  if (message.type() === "error") browserDiagnostics.push(`console: ${message.text()}`)
+})
+page.on("requestfailed", (request) => browserDiagnostics.push(`requestfailed: ${request.url()} ${request.failure()?.errorText || "unknown"}`))
 const observeResponses = (observedPage) => observedPage.on("response", (response) => {
   const url = new URL(response.url())
-  if (url.hostname === "localhost" && url.port === "8080") {
+  if (url.origin === apiOrigin) {
     statuses.push({method: response.request().method(), path: url.pathname, status: response.status()})
   }
 })
@@ -49,15 +91,47 @@ try {
   await page.getByLabel("Username").fill(account.username)
   await page.getByLabel("Password").fill(account.password)
   await page.getByRole("button", {name: "Create account"}).click()
-  await page.waitForURL(/\/vision$/)
-  const contactRegistration = await context.request.post("http://localhost:8080/auth/register", {data: contact})
+  try {
+    await page.waitForURL(/\/vision$/, {timeout: 10_000})
+  } catch {
+    const registrationError = await page.locator(".auth-terminal__error").textContent()
+    throw new Error(`Registration did not reach Vision: ${registrationError || "no rendered error"}`)
+  }
+  if (visionIdleScreenshotPath) { await mkdir(dirname(visionIdleScreenshotPath), {recursive: true}); await page.screenshot({path: visionIdleScreenshotPath, fullPage: true}) }
+  const contactRegistration = await context.request.post(`${apiBaseURL}/auth/register`, {data: contact})
   if (!contactRegistration.ok()) throw new Error(`Contact registration failed: ${contactRegistration.status()}`)
-  const contactTwoRegistration = await context.request.post("http://localhost:8080/auth/register", {data: contactTwo})
+  const contactTwoRegistration = await context.request.post(`${apiBaseURL}/auth/register`, {data: contactTwo})
   if (!contactTwoRegistration.ok()) throw new Error(`Second contact registration failed: ${contactTwoRegistration.status()}`)
-  const observerRegistration = await context.request.post("http://localhost:8080/auth/register", {data: observer})
+  const observerRegistration = await context.request.post(`${apiBaseURL}/auth/register`, {data: observer})
   if (!observerRegistration.ok()) throw new Error(`Observer registration failed: ${observerRegistration.status()}`)
 
   await visit("/home")
+  await page.keyboard.press(process.platform === "darwin" ? "Meta+K" : "Control+K")
+  const commandCenterPanel = page.locator(".global-search-entry__panel")
+  await expect(commandCenterPanel).toBeVisible()
+  await expect(commandCenterPanel.getByText("Command center · permitted routes and records only", {exact: true})).toBeVisible()
+  await expect(commandCenterPanel.getByRole("button", {name: /Create a quest/})).toBeVisible()
+  await expect(commandCenterPanel.getByRole("button", {name: /Ask Vision/})).toBeVisible()
+  if (commandCenterDesktopScreenshotPath) { await mkdir(dirname(commandCenterDesktopScreenshotPath), {recursive: true}); await page.screenshot({path: commandCenterDesktopScreenshotPath, fullPage: true}) }
+  await page.keyboard.press("Escape")
+  await expect(commandCenterPanel).toBeHidden()
+  await visit("/work/quests/new")
+  const commandSuppressionInput = page.getByPlaceholder("What needs doing?")
+  await commandSuppressionInput.focus()
+  await page.keyboard.press(process.platform === "darwin" ? "Meta+K" : "Control+K")
+  await expect(page.locator(".global-search-entry__panel")).toBeHidden()
+  if (commandFocusSuppressionScreenshotPath) { await mkdir(dirname(commandFocusSuppressionScreenshotPath), {recursive: true}); await page.screenshot({path: commandFocusSuppressionScreenshotPath, fullPage: true}) }
+  commandCenter = {openedWithKeyboard: true, catalogSeparated: true, suppressedWhileEditing: true}
+  await visit("/home")
+  if (desktopScreenshotPath) {
+    await mkdir(dirname(desktopScreenshotPath), {recursive: true})
+    await page.screenshot({path: desktopScreenshotPath, fullPage: true})
+  }
+  if (narrowScreenshotPath) {
+    await page.setViewportSize({width: 390, height: 844})
+    await page.screenshot({path: narrowScreenshotPath, fullPage: true})
+    await page.setViewportSize({width: 1280, height: 900})
+  }
   const moreModules = page.locator("details.app-shell__more")
   await moreModules.locator("summary").click()
   await expect(moreModules.getByRole("link", {name: "Rides", exact: true})).toBeVisible()
@@ -77,14 +151,14 @@ try {
   await expect(main.getByText("Onboarding reset.", {exact: true})).toBeVisible()
 
   await visit("/home")
-  await page.locator('summary[aria-label="Search across TheMuffinMan"]').click()
+  await page.locator('summary[aria-label="Open command center"]').click()
   await page.getByPlaceholder("Work, people, business, things…").fill(`saved smoke ${suffix}`)
   await page.locator(".global-search-entry form").getByRole("button", {name: "Search", exact: true}).click()
   await expect(page.getByRole("button", {name: "Save search", exact: true})).toBeVisible()
   await page.getByRole("button", {name: "Save search", exact: true}).click()
   await page.getByRole("link", {name: "Manage saved searches", exact: true}).click()
   await page.waitForURL(/\/search\/saved$/)
-  await page.locator('summary[aria-label="Search across TheMuffinMan"]').click()
+  await page.locator('summary[aria-label="Open command center"]').click()
   await expect(main.getByRole("heading", {name: "Saved searches", exact: true})).toBeVisible()
   const savedSearchRow = main.locator("article").filter({hasText: `saved smoke ${suffix}`})
   await expect(savedSearchRow).toBeVisible()
@@ -92,8 +166,10 @@ try {
   await expect(main.getByText("Search paused.", {exact: true})).toBeVisible()
   await savedSearchRow.getByRole("button", {name: "Resume", exact: true}).click()
   await expect(main.getByText("Search resumed.", {exact: true})).toBeVisible()
-  page.once("dialog", dialog => dialog.accept())
   await savedSearchRow.getByRole("button", {name: "Delete", exact: true}).click()
+  const deleteSavedSearchDialog = page.getByRole("dialog", {name: "Delete saved search", exact: true})
+  await expect(deleteSavedSearchDialog).toBeVisible()
+  await deleteSavedSearchDialog.getByRole("button", {name: "Continue", exact: true}).click()
   await expect(main.getByText(`saved smoke ${suffix}`, {exact: true})).toHaveCount(0)
 
   await visit("/activity")
@@ -131,13 +207,70 @@ try {
   await expect(main.getByRole("heading", {name: "My quests", exact: true})).toBeVisible()
   const ownedSmokeWorkCard = main.locator("article").filter({hasText: smokeWorkTitle})
   await expect(ownedSmokeWorkCard).toBeVisible()
+  await ownedSmokeWorkCard.focus()
+  await ownedSmokeWorkCard.press("p")
+  await expect(page.getByRole("complementary", {name: `${smokeWorkTitle} preview`})).toBeVisible()
+  if (workPreviewScreenshotPath) {
+    await mkdir(dirname(workPreviewScreenshotPath), {recursive: true})
+    await page.screenshot({path: workPreviewScreenshotPath, fullPage: true})
+  }
+  await page.keyboard.press("Escape")
   await ownedSmokeWorkCard.click()
   await page.waitForURL(/\/work\/quests\/\d+$/)
   const smokeWorkPath = new URL(page.url()).pathname
+  if (questDetailScreenshotPath) {
+    await mkdir(dirname(questDetailScreenshotPath), {recursive: true})
+    await page.screenshot({path: questDetailScreenshotPath, fullPage: true})
+  }
   await page.getByRole("button", {name: "Edit", exact: true}).click()
   await page.locator(".rich-text-editor__content .tiptap").fill("Updated by the authenticated browser smoke harness.")
   await page.getByRole("button", {name: "Save", exact: true}).click()
   await expect(page.getByText("Quest updated.", {exact: true})).toBeVisible()
+
+  const personalPinTitle = `Personal pin smoke ${suffix}`
+  await visit("/work/quests/new")
+  await page.getByPlaceholder("What needs doing?").fill(personalPinTitle)
+  await page.locator(".rich-text-editor__content .tiptap").fill("Disposable quest proving the personal workspace pin lifecycle.")
+  await page.getByRole("button", {name: "Create quest"}).click()
+  await page.waitForURL(/\/work\/quests$/)
+  const personalPinCard = main.locator("article").filter({hasText: personalPinTitle})
+  await expect(personalPinCard).toBeVisible()
+  await personalPinCard.click()
+  await page.waitForURL(/\/work\/quests\/\d+$/)
+  const personalPinQuestId = Number(new URL(page.url()).pathname.split("/").pop())
+  if (!Number.isInteger(personalPinQuestId)) throw new Error("Personal pin smoke quest did not expose a numeric id")
+  const personalPinStatus = await page.evaluate(async ({apiBaseURL, questId}) => {
+    const token = localStorage.getItem("token")
+    return (await fetch(`${apiBaseURL}/personal-shortcuts/me/quests/${questId}`, {method: "PUT", headers: {Authorization: `Bearer ${token}`}})).status
+  }, {apiBaseURL, questId: personalPinQuestId})
+  expect(personalPinStatus).toBe(200)
+  await visit("/notifications")
+  const pinnedShortcut = page.locator(".app-shell__rail").getByRole("link", {name: personalPinTitle, exact: true})
+  await expect(pinnedShortcut).toBeVisible()
+  await expect(main.getByRole("heading", {name: /unread updates/})).toBeVisible()
+  if (personalAttentionDesktopScreenshotPath) {
+    await mkdir(dirname(personalAttentionDesktopScreenshotPath), {recursive: true})
+    await page.screenshot({path: personalAttentionDesktopScreenshotPath, fullPage: true})
+  }
+  const personalPinDeletionStatus = await page.evaluate(async ({apiBaseURL, questId}) => {
+    const token = localStorage.getItem("token")
+    return (await fetch(`${apiBaseURL}/quests/${questId}`, {method: "DELETE", headers: {Authorization: `Bearer ${token}`}})).status
+  }, {apiBaseURL, questId: personalPinQuestId})
+  expect(personalPinDeletionStatus).toBe(200)
+  const personalShortcutsAfterDeletion = await page.evaluate(async (apiBaseURL) => {
+    const token = localStorage.getItem("token")
+    const response = await fetch(`${apiBaseURL}/personal-shortcuts/me`, {headers: {Authorization: `Bearer ${token}`}})
+    return {status: response.status, items: response.ok ? await response.json() : null}
+  }, apiBaseURL)
+  expect(personalShortcutsAfterDeletion.status).toBe(200)
+  expect(personalShortcutsAfterDeletion.items).toEqual([])
+  await page.reload({waitUntil: "networkidle"})
+  await expect(page.locator(".app-shell__rail").getByRole("link", {name: personalPinTitle, exact: true})).toHaveCount(0)
+  if (pinVisibilityRecoveryScreenshotPath) {
+    await mkdir(dirname(pinVisibilityRecoveryScreenshotPath), {recursive: true})
+    await page.screenshot({path: pinVisibilityRecoveryScreenshotPath, fullPage: true})
+  }
+  personalAttention = {questId: personalPinQuestId, pinStatus: personalPinStatus, deletionStatus: personalPinDeletionStatus, postDeletionShortcutReadStatus: personalShortcutsAfterDeletion.status, postDeletionShortcutCount: personalShortcutsAfterDeletion.items.length, shortcutRemovedAfterReload: true}
 
   const smokeThingTitle = `Browser smoke thing ${suffix}`
   await visit("/things")
@@ -153,6 +286,23 @@ try {
   await expect(smokeThingLink).toBeVisible()
   const smokeThingPath = await smokeThingLink.getAttribute("href")
   if (!smokeThingPath) throw new Error("Thing listing did not expose a detail route")
+  await visit(smokeThingPath)
+  await expect(main.getByRole("heading", {name: smokeThingTitle, exact: true})).toBeVisible()
+  if (thingDetailNarrowScreenshotPath) {
+    await page.setViewportSize({width: 390, height: 844})
+    await page.screenshot({path: thingDetailNarrowScreenshotPath, fullPage: true})
+    await page.setViewportSize({width: 1280, height: 900})
+  }
+  await visit("/things")
+  await main.getByRole("button", {name: "My things", exact: true}).click()
+  const ownedSmokeThingCard = main.locator("article").filter({hasText: smokeThingTitle})
+  await ownedSmokeThingCard.getByRole("button", {name: "Preview", exact: true}).click()
+  await expect(page.getByRole("complementary", {name: `${smokeThingTitle} preview`})).toBeVisible()
+  if (thingsPreviewScreenshotPath) {
+    await mkdir(dirname(thingsPreviewScreenshotPath), {recursive: true})
+    await page.screenshot({path: thingsPreviewScreenshotPath, fullPage: true})
+  }
+  await page.keyboard.press("Escape")
 
   await visit("/chat")
   await expect(main.getByRole("heading", {name: "Inbox"})).toBeVisible()
@@ -185,17 +335,17 @@ try {
   await main.getByRole("button", {name: "Send invite", exact: true}).click()
   await expect(main.getByText("Invite sent", {exact: true})).toBeVisible()
 
-  const trustProbe = await page.evaluate(async (username) => {
+  const trustProbe = await page.evaluate(async ({username, apiBaseURL}) => {
     const token = localStorage.getItem("token")
     const headers = {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}
-    const search = await fetch(`http://localhost:8080/circles/search?q=${encodeURIComponent(username)}&page=0&size=10`, {headers})
+    const search = await fetch(`${apiBaseURL}/circles/search?q=${encodeURIComponent(username)}&page=0&size=10`, {headers})
     const body = await search.json()
     const targetUserId = body.items?.find(item => item.username === username)?.id
     if (!targetUserId) return {search: search.status, block: null, unblock: null, targetUserId: null}
-    const block = await fetch("http://localhost:8080/circles/blocks", {method: "POST", headers, body: JSON.stringify({blockedUserId: targetUserId})})
-    const unblock = block.ok ? await fetch(`http://localhost:8080/circles/blocks/${targetUserId}`, {method: "DELETE", headers}) : null
+    const block = await fetch(`${apiBaseURL}/circles/blocks`, {method: "POST", headers, body: JSON.stringify({blockedUserId: targetUserId})})
+    const unblock = block.ok ? await fetch(`${apiBaseURL}/circles/blocks/${targetUserId}`, {method: "DELETE", headers}) : null
     return {search: search.status, block: block.status, unblock: unblock?.status ?? null, targetUserId, blockBody: await block.text()}
-  }, observer.username)
+  }, {username: observer.username, apiBaseURL})
   if (trustProbe.block !== 200 || trustProbe.unblock !== 200) throw new Error(`Trust block probe failed: ${JSON.stringify(trustProbe)}`)
   await visit(`/people/${trustProbe.targetUserId}`)
   await expect(main.getByRole("heading", {name: observer.username, exact: true})).toBeVisible()
@@ -246,18 +396,21 @@ try {
   await page.getByPlaceholder("Write a message.").fill("Browser smoke message")
   await page.getByRole("button", {name: "Send", exact: true}).click()
   await expect(page.getByText("Browser smoke message", {exact: true})).toBeVisible()
-  await page.route(/\/chat\/conversations\/\d+\/sync/, route => route.abort())
+  if (chatDesktopScreenshotPath) { await mkdir(dirname(chatDesktopScreenshotPath), {recursive: true}); await page.screenshot({path: chatDesktopScreenshotPath, fullPage: true}) }
+  await page.route(/\/chat\/conversations\/\d+\/(sync|refresh-hint)/, route => route.abort())
   await page.getByRole("button", {name: "Sync", exact: true}).click()
   await expect(page.getByRole("status")).toContainText("Could not sync conversation.")
-  await page.unroute(/\/chat\/conversations\/\d+\/sync/)
+  await page.unroute(/\/chat\/conversations\/\d+\/(sync|refresh-hint)/)
   await page.getByRole("button", {name: "Sync", exact: true}).click()
-  await expect(page.getByRole("status")).toContainText("Conversation synced.")
-  await page.route(/\/chat\/conversations\/\d+\/sync/, route => route.abort())
+  await expect(page.getByRole("status")).toContainText(/Conversation synced\.|Conversation is current\./)
+  await page.route(/\/chat\/conversations\/\d+\/(sync|refresh-hint)/, route => route.abort())
   await page.evaluate(() => window.dispatchEvent(new Event("online")))
   await expect(page.getByRole("status")).toContainText("Could not sync conversation.")
-  await page.unroute(/\/chat\/conversations\/\d+\/sync/)
+  await page.unroute(/\/chat\/conversations\/\d+\/(sync|refresh-hint)/)
   await page.evaluate(() => window.dispatchEvent(new Event("online")))
-  await expect(page.getByRole("status")).toContainText("Conversation synced.")
+  await expect(page.getByRole("status")).toContainText(/Conversation synced\.|Conversation is current\./)
+  if (chatNarrowScreenshotPath) { await page.setViewportSize({width: 390, height: 844}); await page.screenshot({path: chatNarrowScreenshotPath, fullPage: true}); await page.setViewportSize({width: 1280, height: 900}) }
+  chatReconnect = {offlineSyncFailureShown: true, onlineServerSyncShown: true}
   await page.goto(`${baseURL}/chat`, {waitUntil: "networkidle"})
   await page.getByRole("button", {name: "New group"}).click()
   await page.getByLabel("Group name").fill(`Smoke group ${suffix}`)
@@ -324,10 +477,10 @@ try {
   await memberPage.waitForURL(/\/vision$/)
   await memberPage.goto(`${baseURL}/people/${primaryUserId}`, {waitUntil: "networkidle"})
   await expect(memberPage.getByRole("heading", {name: account.username, exact: true})).toBeVisible()
-  const allowedProfile = await memberPage.evaluate(async (userId) => {
+  const allowedProfile = await memberPage.evaluate(async ({userId, apiBaseURL}) => {
     const token = localStorage.getItem("token")
-    return (await (await fetch(`http://localhost:8080/app_users/${userId}/profile-view`, {headers: {Authorization: `Bearer ${token}`}})).json()).profile.locationSettings
-  }, primaryUserId)
+    return (await (await fetch(`${apiBaseURL}/app_users/${userId}/profile-view`, {headers: {Authorization: `Bearer ${token}`}})).json()).profile.locationSettings
+  }, {userId: primaryUserId, apiBaseURL})
   if (locationConfigured) expect(allowedProfile.latitude).not.toBeNull()
   await memberContext.close()
 
@@ -340,10 +493,10 @@ try {
   await observerPage.waitForURL(/\/vision$/)
   await observerPage.goto(`${baseURL}/people/${primaryUserId}`, {waitUntil: "networkidle"})
   await expect(observerPage.getByRole("heading", {name: account.username, exact: true})).toBeVisible()
-  const deniedProfile = await observerPage.evaluate(async (userId) => {
+  const deniedProfile = await observerPage.evaluate(async ({userId, apiBaseURL}) => {
     const token = localStorage.getItem("token")
-    return (await (await fetch(`http://localhost:8080/app_users/${userId}/profile-view`, {headers: {Authorization: `Bearer ${token}`}})).json()).profile.locationSettings
-  }, primaryUserId)
+    return (await (await fetch(`${apiBaseURL}/app_users/${userId}/profile-view`, {headers: {Authorization: `Bearer ${token}`}})).json()).profile.locationSettings
+  }, {userId: primaryUserId, apiBaseURL})
   expect(deniedProfile.latitude).toBeNull()
   await observerContext.close()
 
@@ -355,6 +508,14 @@ try {
   await expect(page.locator(".vision-console__line--agent")).toBeVisible({timeout: 15000})
   await page.reload({waitUntil: "networkidle"})
   await expect(page.locator("textarea.vision-console__input")).toBeVisible()
+
+  await visit("/vision?prompt=show%20my%20profile&autorun=1&context=Profile%20workspace&source=shell.surface.profile&returnTo=%2Fhome")
+  await expect(page.getByText("Opened from Profile workspace.", {exact: true})).toBeVisible({timeout: 15000})
+  await expect(page.getByRole("link", {name: "Return", exact: true})).toHaveAttribute("href", "/home")
+  if (finalVisionScreenshotPath) { await mkdir(dirname(finalVisionScreenshotPath), {recursive: true}); await page.screenshot({path: finalVisionScreenshotPath, fullPage: true}) }
+  visionHandoff = {explained: true, safeReturnVisible: true}
+
+  await visit("/vision")
 
   const sendVisionPrompt = async (prompt) => {
     await visionInput.fill(prompt)
@@ -370,6 +531,7 @@ try {
   await sendVisionPrompt("public")
   await sendVisionPrompt("by agreement")
   await sendVisionPrompt("hide location")
+  if (visionReviewScreenshotPath) { await mkdir(dirname(visionReviewScreenshotPath), {recursive: true}); await page.screenshot({path: visionReviewScreenshotPath, fullPage: true}) }
   const confirmVisionResponse = page.waitForResponse(response => response.url().includes("/vision/conversations/turns") && response.request().method() === "POST")
   await page.getByRole("button", {name: "Confirm and create", exact: true}).click()
   const confirmedVisionResponse = await confirmVisionResponse
@@ -389,12 +551,12 @@ try {
   await page.getByLabel("Accept bookings").check()
   await page.getByRole("button", {name: "Save profile", exact: true}).click()
   await expect(page.getByText("Profile updated.", {exact: true})).toBeVisible()
-  const businessSlug = await page.evaluate(async () => {
+  const businessSlug = await page.evaluate(async (apiBaseURL) => {
     const token = localStorage.getItem("token")
-    const response = await fetch("http://localhost:8080/business/profiles/me", {headers: {Authorization: `Bearer ${token}`}})
+    const response = await fetch(`${apiBaseURL}/business/profiles/me`, {headers: {Authorization: `Bearer ${token}`}})
     if (!response.ok) throw new Error(`Business profile read failed: ${response.status}`)
     return (await response.json()).slug
-  })
+  }, apiBaseURL)
 
   await visit("/business/offerings")
   await page.getByRole("button", {name: "New offering", exact: true}).click()
@@ -427,6 +589,7 @@ try {
 
   await visit("/business/bookings")
   await expect(main.getByRole("heading", {name: "Bookings", exact: true})).toBeVisible()
+  if (businessBookingsDesktopScreenshotPath) { await mkdir(dirname(businessBookingsDesktopScreenshotPath), {recursive: true}); await page.screenshot({path: businessBookingsDesktopScreenshotPath, fullPage: true}) }
   const bookingRow = main.locator("article").filter({hasText: contact.username})
   await expect(bookingRow).toBeVisible()
   await bookingRow.getByRole("button", {name: "Confirm", exact: true}).click()
@@ -453,7 +616,7 @@ try {
   await page.route("**/quests/presets/AVAILABLE**", route => route.abort())
   await visit("/work/find")
   await expect(main.getByRole("alert")).toContainText("Could not load work")
-  await expect(main.getByRole("alert").getByRole("button", {name: "Retry"})).toBeVisible()
+  await expect(main.getByRole("alert").getByRole("button", {name: "Try again"})).toBeVisible()
   await page.unroute("**/quests/presets/AVAILABLE**")
 
   await page.route("**/business/profiles**", route => route.abort())
@@ -482,6 +645,8 @@ try {
   await visit("/rides")
   await expect(main.getByRole("heading", {name: "Find a ride"})).toBeVisible()
   await expect(main.getByText("Commute matching", {exact: true})).toBeVisible()
+  if (ridesDesktopScreenshotPath) { await mkdir(dirname(ridesDesktopScreenshotPath), {recursive: true}); await page.screenshot({path: ridesDesktopScreenshotPath, fullPage: true}) }
+  crossModuleWorkspace = {businessBookingsWorkspaceRows: true, ridesWorkspaceRows: true}
   const commuteToggle = main.getByLabel("Suggest compatible rides")
   await expect(commuteToggle).not.toBeChecked()
   await commuteToggle.check()
@@ -521,7 +686,8 @@ try {
   await contactRideContext.close()
   await visit("/rides/mine")
   const ownedRideCard = main.locator("article").filter({hasText: smokeRideOrigin})
-  await expect(ownedRideCard.getByText(/1\/1 seats · FULL/)).toBeVisible()
+  await expect(ownedRideCard.getByText(/1\/1 seats/)).toBeVisible()
+  await expect(ownedRideCard.getByText("FULL", {exact: true})).toBeVisible()
   await ownedRideCard.getByRole("button", {name: "Start", exact: true}).click()
   await expect(main.getByText("Ride started.", {exact: true})).toBeVisible()
   await ownedRideCard.getByRole("button", {name: "Complete", exact: true}).click()
@@ -555,8 +721,30 @@ try {
     }
   }
 
-  console.log(JSON.stringify({result: "passed", account: {username: account.username}, visited: ["/work/find", "/work/quests/new", "/chat", "/circles", "/people", "/business/find", "/business/profile", "/business/offerings", "/business/calendar", "/business/public/:slug", "/calendar", "/rides", "/rides/mine", "/vision (rides review/confirm)"], statuses}, null, 2))
+  result = "passed"
+  console.log(JSON.stringify({result, account: {username: account.username}, visited: ["/work/find", "/work/quests/new", "/chat", "/circles", "/people", "/business/find", "/business/profile", "/business/offerings", "/business/calendar", "/business/public/:slug", "/calendar", "/rides", "/rides/mine", "/vision (rides review/confirm)"], statuses}, null, 2))
+} catch (error) {
+  failureMessage = error instanceof Error ? error.message : String(error)
+  throw error
 } finally {
+  if (runtimeEvidencePath) {
+    await mkdir(dirname(runtimeEvidencePath), {recursive: true})
+    await writeFile(runtimeEvidencePath, `${JSON.stringify({
+      result,
+      startedAt: runStartedAt,
+      completedAt: new Date().toISOString(),
+      baseURL,
+      failureMessage,
+      browserDiagnostics,
+      screenshots: [desktopScreenshotPath, narrowScreenshotPath, workPreviewScreenshotPath, thingsPreviewScreenshotPath, questDetailScreenshotPath, thingDetailNarrowScreenshotPath, personalAttentionDesktopScreenshotPath, pinVisibilityRecoveryScreenshotPath, commandCenterDesktopScreenshotPath, commandFocusSuppressionScreenshotPath, chatDesktopScreenshotPath, chatNarrowScreenshotPath, visionIdleScreenshotPath, visionReviewScreenshotPath, businessBookingsDesktopScreenshotPath, ridesDesktopScreenshotPath, finalVisionScreenshotPath].filter(Boolean),
+      personalAttention,
+      commandCenter,
+      chatReconnect,
+      visionHandoff,
+      crossModuleWorkspace,
+      statuses
+    }, null, 2)}\n`)
+  }
   await context.close()
   await browser.close()
 }

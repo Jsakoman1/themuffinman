@@ -6,6 +6,19 @@ description: >
   code exposes, and what remains missing, broken, or only partially implemented.
   This file is the machine-readable source for future implementation planning.
 last_reviewed: 2026-07-15
+interaction_contract_audit:
+  reviewed_on: 2026-07-17
+  plan: docs/work/linear-inspired-interaction-contract-audit.yaml
+  scope: authenticated route ownership, backend read-model/action boundaries, and guarded desktop interaction expansion
+  invariants:
+    - backend query parameters determine collection membership and authorization
+    - client display state may not create permissions, workflow transitions, or shared persistence
+    - preview complements but never replaces canonical detail routes
+  blocked_until_contract:
+    - shared favorites and subscriptions
+    - saved or shared views
+    - board/timeline mutation and bulk actions
+    - speculative prefetch, optimistic mutation, virtualization, and infinite scroll
 review_policy:
   owner: product-and-engineering
   cadence: every_master_plan_closeout
@@ -1376,6 +1389,18 @@ modules:
           - first-class native client shell contracts
         evidence:
           plans: [docs/work/modern-minimal-adaptive-product.yaml]
+      - id: cross_module.linear_workspace_vision
+        name: Verified desktop workspace and adaptive Vision convergence
+        status: verified
+        priority: critical
+        current:
+          web: [apps/themuffinman/frontend/src/modules/app-shell, apps/themuffinman/frontend/src/modules/vision]
+          backend: [workspace command, personal shortcut, chat refresh, Vision handoff contracts]
+          validation: [docs/runtime-evidence/linear-redesign/final-runtime-trace.json, apps/themuffinman/frontend/web-runtime-smoke.har]
+        gaps:
+          - native client parity remains tracked separately
+        evidence:
+          plans: [docs/work/linear-inspired-workspace-and-vision-master.yaml]
       - id: cross_module.mobile_watch
         name: Mobile and Watch presentation of core voice and action flows
         status: partial
@@ -1416,7 +1441,6 @@ modules:
 gap_summary:
   critical_gaps:
     - work advanced field UX and browser-level runtime acceptance remain open
-    - business booking browser-level runtime acceptance remains open
     - vision execution rollout and adapter-specific recovery coverage remain open
   high_gaps:
     - native mobile and Watch clients do not yet exist

@@ -547,6 +547,8 @@ Current covered modules:
 
 - Quest list and search
 - Quest detail
+- Personal workspace pins can save an accessible quest for quick return. Pins are private to the viewer and disappear if access is lost.
+- Compact list previews for accessible quests and thing listings; previews keep the list in context and link to the canonical detail page.
 - Quest application views
 - Dashboard
 - Quest news / notifications
@@ -1051,3 +1053,11 @@ Find Work is external discovery. It uses the backend `AVAILABLE` preset and must
 ## Attention center
 
 The Notifications surface includes a compact attention center assembled from the viewer-scoped notification and activity read models. It shows the unread count and only backend-provided safe destinations; it does not invent cross-module state in the browser.
+
+## Authenticated navigation shortcuts
+
+The authenticated desktop shell separates global destinations, module navigation, and personal shortcuts. Activity and saved searches are personal because they are viewer-scoped backend products; they are not generic favorites. The shell does not show a generic star, bell, workspace switcher, or recent-object control until the product has a matching user-owned backend contract. On narrow screens, all primary destinations and the expanded module list stay keyboard reachable without horizontal navigation scrolling.
+
+Business booking and ride lists use the same compact workspace-row language as the rest of the authenticated app. Their status, visibility, capacity, and available actions still come from the relevant backend DTOs; changing the row presentation never grants an action or changes a booking or ride lifecycle.
+
+Vision may receive a typed shell handoff with an optional context label and safe return path. It explains that context and can offer the return link, but the handoff does not choose a capability, bypass review, or execute an action.

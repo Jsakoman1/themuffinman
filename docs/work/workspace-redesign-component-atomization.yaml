@@ -1,0 +1,467 @@
+kind: redesign_component_inventory
+version: 1
+id: workspace-redesign-component-atomization
+status: analysis_complete
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+parent_audit: docs/work/workspace-redesign-adoption-gap-audit.yaml
+purpose: >
+  Decompose the workspace redesign into reusable component and subcomponent units.
+  Each item is intentionally small enough to implement, test, and adopt separately.
+  This is design and migration analysis only; it does not authorize replacement of
+  backend-owned behavior or claim implementation completion.
+
+component_layers:
+  visual_reference:
+    existing:
+      - id: VISUAL-01
+        component: route-local styling
+        status: inconsistent
+        gaps: [mixed pale surfaces, rounded pill controls, oversized cards, route-local shadows, inconsistent metadata hierarchy]
+    required_atoms:
+      - id: VISUAL-02
+        component: graphite workspace palette
+        subcomponents: [base canvas, raised surface, hover surface, separator, text tiers, semantic status color]
+      - id: VISUAL-03
+        component: measurable workspace geometry
+        subcomponents: [spacing grid, header height, rail widths, row heights, compact controls, radius limits]
+      - id: VISUAL-04
+        component: visual hierarchy policy
+        subcomponents: [title emphasis, metadata tier, selected state, icon/status/avatar rhythm, card eligibility]
+      - id: VISUAL-05
+        component: interaction polish policy
+        subcomponents: [hover, pressed, focus-visible, tooltip timing, reduced motion, loading and stale state]
+      - id: VISUAL-06
+        component: route visual acceptance
+        subcomponents: [desktop evidence, narrow evidence, archetype rationale, legacy-style rejection checks]
+  tokens:
+    existing:
+      - id: TOK-01
+        component: base.css
+        role: dark color, spacing, radius, focus, and z-index tokens
+        status: partial
+        gaps:
+          - No semantic control tokens for primary, quiet, danger, selected, compact, and loading variants.
+          - No semantic layout tokens for collection rail and preview rail widths.
+          - Legacy local radius values bypass the shared radius tokens.
+    required_atoms:
+      - id: TOK-02
+        component: control token set
+        subcomponents: [control-height, control-padding, control-radius, control-border, control-hover, control-disabled]
+        outcome: All button and field variants use the same square workspace geometry.
+      - id: TOK-03
+        component: layout token set
+        subcomponents: [collection-rail-width, preview-rail-width, detail-utility-width, workspace-gap, narrow-breakpoint]
+        outcome: Two- and three-column scaffolds do not hard-code widths per route.
+
+  controls:
+    existing:
+      - id: CTRL-01
+        component: AppIconButton
+        status: partial
+        present: [neutral, primary, danger, pressed, disabled]
+        gaps: [not adopted outside Chat, no loading state, no compact size, no tooltip delay contract]
+      - id: CTRL-02
+        component: AppActionMenu
+        status: partial
+        present: [overflow trigger, popover list]
+        gaps: [not adopted for route actions, no action group/section support, no destructive action treatment]
+      - id: CTRL-03
+        component: AppActionDialog
+        status: available_not_adopted
+        present: [notice, confirm, quiet, danger, vision]
+        gaps: [no route adoption inventory, no async pending state, no typed action metadata]
+      - id: CTRL-04
+        component: AppDialog
+        status: partial
+        present: [title, close, teleported modal]
+        gaps: [single-column-only shell, no utility/action side region, no standard footer slot]
+    required_atoms:
+      - id: CTRL-05
+        component: AppButton
+        variants: [primary, quiet, danger, outline, icon-label, compact]
+        subcomponents: [loading indicator, disabled state, tooltip/title, keyboard focus, optional leading/trailing icon]
+        replaces: route-local button CSS and pill controls
+      - id: CTRL-06
+        component: AppButtonGroup
+        variants: [header-actions, row-actions, dialog-actions]
+        subcomponents: [primary slot, secondary slot, overflow slot, destructive separation]
+      - id: CTRL-07
+        component: AppActionMenu extensions
+        subcomponents: [section label, action description, danger row, keyboard navigation, close-after-action]
+      - id: CTRL-08
+        component: AppActionDialog extensions
+        subcomponents: [pending confirmation, consequence note, destructive emphasis, confirm/cancel focus policy]
+      - id: CTRL-09
+        component: ObjectContextMenu
+        subcomponents: [right-click trigger, keyboard trigger, backend-allowed action list, destructive section, focus return]
+        rule: Context menus expose only actions already prepared or authorized by the backend; they do not create bulk mutation semantics.
+
+  fields_and_forms:
+    existing:
+      - id: FORM-01
+        component: AppFormField
+        status: available_not_adopted
+        present: [label, hint, required, error, default slot]
+        gaps: [no input/select/textarea wiring contract, no help/action region, no adoption by route forms]
+      - id: FORM-02
+        component: AppFormFooter
+        status: available_not_adopted
+        present: [slot-based footer]
+        gaps: [pill selector CSS, no primary/secondary/danger slots, no sticky narrow layout]
+      - id: FORM-03
+        component: InlineEditText
+        status: partial
+        present: [single/multiline edit, save, cancel]
+        gaps: [uses local rounded action controls, no field feedback, no busy state]
+      - id: FORM-04
+        component: RichTextEditor
+        status: partial
+        present: [model binding, label, placeholder]
+        gaps: [not composed through AppFormField, local toolbar and validation surface]
+    required_atoms:
+      - id: FORM-05
+        component: AppFieldControl
+        variants: [text, search, number, date, time, select, textarea, checkbox]
+        subcomponents: [label, hint, validation, prefix, suffix, clear action, disabled, required marker]
+      - id: FORM-06
+        component: AppFormSection
+        variants: [plain, grouped, advanced, danger]
+        subcomponents: [section title, description, content grid, collapsible advanced area]
+      - id: FORM-07
+        component: FormWorkspace
+        variants: [short, substantial, dialog]
+        subcomponents: [main field column, utility/help rail, draft/status area, action footer]
+        rule: Use the utility rail only where it improves a substantial task; do not force it on short confirmations.
+      - id: FORM-08
+        component: AppFormFooter extensions
+        subcomponents: [cancel, primary submit, overflow, danger action, pending summary, narrow sticky footer]
+
+  collections:
+    existing:
+      - id: COL-01
+        component: AppCard
+        status: partial
+        present: [open target, selected, previewed, keyboard open/preview]
+        gaps: [card-first geometry is not the dense row primitive, only adopted by Work and Things]
+      - id: COL-02
+        component: SurfaceRow
+        status: partial
+        present: [title, description, badge, metadata, Vision slot]
+        gaps: [no selection controller, no explicit primary/secondary action slots, card wrapper creates excess visual weight]
+      - id: COL-03
+        component: SurfaceSection and SurfaceMetricGrid
+        status: partial
+        present: [generic grouping and metric display]
+        gaps: [not a reusable collection/page scaffold, metrics retain pill geometry]
+    required_atoms:
+      - id: COL-04
+        component: WorkspaceCollectionLayout
+        variants: [two-column, three-column, narrow]
+        subcomponents: [collection context rail, list region, preview rail, responsive collapse rules]
+      - id: COL-05
+        component: CollectionContextRail
+        subcomponents: [scope label, saved view list, filters, display controls, count, create action]
+      - id: COL-06
+        component: CollectionToolbar
+        subcomponents: [search, backend-owned filters, sort/display control, result count, create action, overflow]
+      - id: COL-07
+        component: DenseObjectRow
+        subcomponents: [primary target, leading status/icon, title, metadata, badge, secondary action slot, overflow, selected marker]
+        interaction: Enter opens; P previews; nested actions do not trigger the primary open target.
+      - id: COL-08
+        component: CollectionEmptyState
+        subcomponents: [message, optional explanation, primary next action, retry]
+      - id: COL-09
+        component: CollectionLoadingState
+        subcomponents: [skeleton row count, retained context, aria-live label]
+      - id: COL-10
+        component: CollectionSelectionModel
+        subcomponents: [single selected object, selected-row marker, URL/context synchronization, arrow-or-JK traversal, Enter open, P preview, escape-to-clear, input shortcut suppression]
+        rule: Support one active object only until a separately contracted backend bulk-action model exists; list navigation must not hijack text inputs.
+      - id: COL-11
+        component: DisplayDensityControl
+        variants: [compact, default, comfortable]
+        subcomponents: [preference persistence, row spacing, metadata visibility, accessible current-state label]
+        rule: Density changes presentation only; membership, permissions, filters, and workflow state remain unchanged.
+
+  preview_and_details:
+    existing:
+      - id: DTL-01
+        component: ObjectPreviewPanel
+        status: partial
+        present: [title, subtitle, open state, close, open-full-detail]
+        gaps: [only Work and Things use it, no metadata/actions/activity slots, no stale/missing object state]
+      - id: DTL-02
+        component: WorkQuestDetailView utility rail
+        status: route_local
+        present: [main content plus action rail]
+        gaps: [activity remains in main column, no reusable detail scaffold, all actions exposed]
+    required_atoms:
+      - id: DTL-03
+        component: ObjectPreviewPanel extensions
+        subcomponents: [summary slot, metadata list, quick actions, activity snippet, stale state, permission-loss state, open-detail footer]
+      - id: DTL-04
+        component: WorkspaceDetailLayout
+        variants: [two-column, three-column, narrow]
+        subcomponents: [main content, activity/context rail, utility/action rail, close/back affordance]
+      - id: DTL-05
+        component: ActivityRail
+        subcomponents: [chronological items, actor/time metadata, state changes, empty state, load-more]
+      - id: DTL-06
+        component: UtilityActionRail
+        subcomponents: [primary action, grouped secondary actions, overflow, danger section, permission-aware disabled explanation]
+      - id: DTL-07
+        component: ObjectFacts
+        subcomponents: [key/value rows, status label, dates, owner/context, responsive wrap]
+      - id: DTL-08
+        component: UniversalActivityRail
+        subcomponents: [backend-prepared event stream, actor/time, state transition, module event renderer, empty/loading/retry]
+        rule: Domain services prepare activity facts; the shared renderer never reconstructs workflows from client state.
+
+  state_and_feedback:
+    existing:
+      - id: STATE-01
+        component: AppStatus
+        status: partial
+        present: [neutral, success, error, retry]
+        gaps: [not adopted consistently, no loading/skeleton or empty variants]
+      - id: STATE-02
+        component: useSurfaceViewState
+        status: partial
+        present: [selection and preview state for selected routes]
+        gaps: [not generalized to route query/state restoration or sibling collections]
+    required_atoms:
+      - id: STATE-03
+        component: SurfaceState
+        variants: [loading, empty, error, success, stale, permission-lost]
+        subcomponents: [message, recovery action, aria-live region, retained-context policy]
+      - id: STATE-04
+        component: useCollectionViewState
+        subcomponents: [selectedId, previewId, filters, display mode, restore-on-return, stale-object cleanup]
+      - id: STATE-05
+        component: AsyncActionState
+        subcomponents: [idle, pending, succeeded, failed, retry, disabled reason]
+      - id: STATE-06
+        component: RefreshContinuityState
+        variants: [refreshing, reconnected, stale, retrying, failed]
+        subcomponents: [non-blocking indicator, retained list content, last-updated signal, retry action, aria-live status]
+
+  shell_and_entrypoints:
+    existing:
+      - id: SHELL-01
+        component: AuthenticatedShellView
+        status: partial
+        present: [left rail, header, mobile navigation, pins, global search/create/Vision entry]
+        gaps: [no route-level layout slots or utility-rail coordination]
+      - id: SHELL-02
+        component: GlobalSearchEntry
+        status: partial
+        gaps: [not the typed command-center surface]
+      - id: SHELL-03
+        component: UniversalCreateMenu
+        status: partial
+        gaps: [no shared create workflow handoff state]
+    required_atoms:
+      - id: SHELL-04
+        component: WorkspaceRouteFrame
+        subcomponents: [route header slot, collection/detail/form body slot, contextual rail slot, narrow drawer behavior]
+      - id: SHELL-05
+        component: CommandCenter
+        subcomponents: [command catalog, search input, grouped results, keyboard navigation, empty/error/loading state]
+      - id: SHELL-06
+        component: CreateEntry
+        subcomponents: [typed create destinations, route handoff, keyboard shortcut, disabled/permission presentation]
+      - id: SHELL-07
+        component: RailPreferenceController
+        subcomponents: [resize handle, collapsed state, width clamp, restore default, backend-owned or user-scoped persistence]
+        rule: Rail dimensions are personal presentation preferences and must never alter accessible object membership.
+      - id: SHELL-08
+        component: QuickSwitcher
+        subcomponents: [recent objects, current-context results, keyboard navigation, canonical route open, empty state]
+        rule: Recent object candidates are backend-filtered for current visibility before display.
+      - id: SHELL-09
+        component: WorkspaceShortcutRegistry
+        subcomponents: [command trigger, help trigger, escape policy, open/preview bindings, field-focus suppression, discoverable shortcut help]
+
+  personal_workspace:
+    existing:
+      - id: PERS-01
+        component: personal shortcuts in AuthenticatedShellView
+        status: partial
+        present: [backend-owned pins, personal shortcut links]
+        gaps: [no shared pin action control, no ordered workspace surface, no contextual pin feedback]
+      - id: PERS-02
+        component: attention content
+        status: partial
+        present: [attention data is available]
+        gaps: [not composed as a shared triage/inbox surface, no selected-item preview or resolution flow]
+    required_atoms:
+      - id: PERS-03
+        component: PersonalShortcutList
+        subcomponents: [pinned item row, add/remove pin action, empty state, route target]
+      - id: PERS-04
+        component: AttentionInbox
+        subcomponents: [attention filter, dense attention row, selected preview, action handoff, resolved state]
+      - id: PERS-05
+        component: AttentionBadge
+        subcomponents: [count, urgency tone, accessible label, zero-state behavior]
+      - id: PERS-06
+        component: RecentAndFavoriteContext
+        subcomponents: [recent object list, favorite toggle, saved personal intent, resume target, inaccessible-object pruning]
+        rule: Favorites, recents, and saved intents are user-scoped and backend-filtered; shared saved views require a separate contract.
+
+  chat_realtime:
+    existing:
+      - id: CHAT-01
+        component: ChatSurfaceView
+        status: partial
+        present: [conversation index, active thread, composer, message actions]
+        gaps: [refresh and reconnect state are not represented through reusable state primitives]
+    required_atoms:
+      - id: CHAT-02
+        component: ChatWorkspaceLayout
+        subcomponents: [conversation index, thread, context rail, composer dock, narrow collapse rules]
+      - id: CHAT-03
+        component: ChatSyncState
+        variants: [connecting, reconnecting, refreshed, failed, stale]
+        subcomponents: [non-blocking status indicator, retry action, last-updated label, aria-live announcement]
+      - id: CHAT-04
+        component: MessageActionGroup
+        subcomponents: [reaction, reply, edit, delete, overflow, own-message permission state]
+
+  continuity_and_responsiveness:
+    existing:
+      - id: CONT-01
+        component: useSurfaceViewState
+        status: partial
+        present: [selected and previewed object state on selected routes]
+        gaps: [no documented URL/query restoration contract across all collection and detail routes]
+    required_atoms:
+      - id: CONT-02
+        component: CollectionContextSnapshot
+        fields: [scope, filters, sort, displayMode, selectedId, previewId, scrollAnchor]
+        behavior: Preserve supported collection context when opening and returning from a canonical detail route.
+      - id: CONT-03
+        component: ContextRestorationPolicy
+        subcomponents: [missing-object cleanup, permission-loss cleanup, stale-filter recovery, back-navigation behavior]
+      - id: RESP-01
+        component: WorkspaceResponsivePolicy
+        subcomponents: [desktop three-column mode, medium two-column mode, narrow drawer, full-route fallback]
+        rule: A hidden rail must remain reachable through an explicit button, not disappear silently.
+      - id: RESP-02
+        component: UtilityRailDrawer
+        subcomponents: [open trigger, focus management, close behavior, title, back-to-list behavior]
+      - id: RESP-03
+        component: StickyWorkspaceToolbar
+        subcomponents: [sticky boundary, route title, display controls, contextual actions, compact narrow fallback]
+
+  accessibility_and_motion:
+    existing:
+      - id: A11Y-01
+        component: base focus and reduced-motion CSS
+        status: partial
+        present: [focus ring token, reduced-motion override]
+        gaps: [no component-level keyboard and focus acceptance contract]
+    required_atoms:
+      - id: A11Y-02
+        component: KeyboardInteractionContract
+        subcomponents: [row open, preview shortcut, menu navigation, dialog focus trap, escape behavior, shortcut suppression in fields]
+      - id: A11Y-03
+        component: AccessibleAsyncFeedback
+        subcomponents: [loading announcement, save confirmation, validation error focus, retry announcement]
+      - id: A11Y-04
+        component: MotionPolicy
+        subcomponents: [state-change transition, reduced-motion alternative, no-motion error visibility]
+      - id: A11Y-05
+        component: WorkspaceKeyboardHelp
+        subcomponents: [searchable shortcut list, context-sensitive entries, platform key labels, focus return]
+
+  performance:
+    required_atoms:
+      - id: PERF-01
+        component: RouteLoadingPolicy
+        subcomponents: [lazy route boundary, retained previous content, route pending indicator, error recovery]
+      - id: PERF-02
+        component: PreviewFetchPolicy
+        subcomponents: [non-blocking request, cancellation or stale-response guard, cached selected preview, error retry]
+      - id: PERF-03
+        component: LargeCollectionPolicy
+        subcomponents: [measured threshold, server paging, virtualization decision, keyboard-preserving row rendering]
+        rule: Virtualization is introduced only after measurement identifies a genuinely large collection; it is not a visual default.
+
+  vision_boundary:
+    existing:
+      - id: VIS-01
+        component: workspace Vision entry and handoff helpers
+        status: partial
+        present: [contextual Vision route and prompt handoff]
+        gaps: [no explicit reusable handoff summary component or route-return policy]
+    required_atoms:
+      - id: VIS-02
+        component: VisionHandoff
+        subcomponents: [source route, object reference, concise context summary, return route, consent-safe payload]
+        rule: Handoff may pass backend-prepared context but may not grant execution authority or create a third workspace dashboard.
+      - id: VIS-03
+        component: VisionReturnLink
+        subcomponents: [source label, canonical route target, preserved collection snapshot]
+
+route_adoption_units:
+  - id: ADOPT-WORK-01
+    target: WorkDiscoveryView
+    consumes: [COL-04, COL-05, COL-06, COL-07, COL-10, COL-11, DTL-03, STATE-04, STATE-06, PERF-02]
+    resulting_layout: collection context + dense quest list + preview panel
+  - id: ADOPT-WORK-02
+    target: WorkQuestDetailView
+    consumes: [DTL-04, DTL-05, DTL-06, DTL-07, FORM-07, FORM-08]
+    resulting_layout: main quest content + activity rail + utility actions
+  - id: ADOPT-THINGS-01
+    target: ThingsDiscoveryView and ThingDetailView
+    consumes: [COL-04, COL-06, COL-07, DTL-03, DTL-04, FORM-07]
+    resulting_layout: dense listing collection and detail/borrow workflow
+  - id: ADOPT-CHAT-01
+    target: ChatSurfaceView
+    consumes: [COL-07, DTL-06, FORM-05, FORM-08, STATE-03, CHAT-02, CHAT-03, CHAT-04]
+    resulting_layout: conversation index + thread + participant/context rail where available
+  - id: ADOPT-BUS-01
+    target: Business discovery, profile, offerings, availability, exceptions, bookings
+    consumes: [COL-04, COL-06, COL-07, DTL-04, FORM-05, FORM-07, FORM-08]
+    resulting_layout: reusable operations collection, detail, and form surfaces
+  - id: ADOPT-RIDES-01
+    target: RidesView
+    consumes: [COL-04, COL-07, DTL-03, FORM-07, STATE-03]
+    resulting_layout: ride collection/preview and separate commute-preferences form surface
+  - id: ADOPT-ACCOUNT-01
+    target: Circles, People, Profile, Settings, Notifications, Onboarding
+    consumes: [COL-04, COL-07, FORM-05, FORM-07, STATE-03]
+    resulting_layout: standardized account and relationship surfaces without forcing unnecessary columns
+  - id: ADOPT-PERSONAL-01
+    target: AuthenticatedShellView, ActivityView, NotificationsView
+    consumes: [PERS-03, PERS-04, PERS-05, PERS-06, COL-04, DTL-03]
+    resulting_layout: backend-owned shortcuts and attention triage with preview/action continuity
+  - id: ADOPT-VISION-01
+    target: workspace entry points and Vision handoff/return path
+    consumes: [VIS-02, VIS-03, CONT-02]
+    resulting_layout: contextual handoff without turning Vision into a workspace rail
+
+dependency_order:
+  - [TOK-02, TOK-03]
+  - [CTRL-05, CTRL-06, CTRL-07, CTRL-08, CTRL-09]
+  - [FORM-05, FORM-06, FORM-08]
+  - [COL-04, COL-05, COL-06, COL-07, COL-08, COL-09, COL-10, COL-11]
+  - [DTL-03, DTL-04, DTL-05, DTL-06, DTL-07, DTL-08]
+  - [STATE-03, STATE-04, STATE-05, STATE-06]
+  - [PERS-03, PERS-04, PERS-05, PERS-06, CHAT-02, CHAT-03, CHAT-04]
+  - [CONT-02, CONT-03, RESP-01, RESP-02, RESP-03, A11Y-02, A11Y-03, A11Y-04, A11Y-05, VIS-02, VIS-03]
+  - [SHELL-04, SHELL-05, SHELL-06, SHELL-07, SHELL-08, SHELL-09]
+  - [PERF-01, PERF-02, PERF-03]
+  - [ADOPT-WORK-01, ADOPT-WORK-02, ADOPT-THINGS-01]
+  - [ADOPT-CHAT-01, ADOPT-BUS-01, ADOPT-RIDES-01, ADOPT-ACCOUNT-01, ADOPT-PERSONAL-01, ADOPT-VISION-01]
+
+acceptance_coverage:
+  shell: [desktop rail, mobile navigation, pins, command entry, create entry]
+  collection: [filters, selected row, preview, open full detail, return context, stale object]
+  detail: [activity, utility actions, inline edit, destructive confirmation, permission loss]
+  form: [validation, pending submit, retry, cancel, narrow layout]
+  chat: [conversation selection, composer, reconnect, refresh, attachment and message actions]
+  accessibility: [keyboard-only flow, focus order, dialog escape, reduced motion, live feedback]
+  vision: [context handoff, canonical return route, no duplicated execution authority]

@@ -3,6 +3,7 @@ package com.themuffinman.app.chat.controller;
 import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
 import com.themuffinman.app.chat.dto.ChatConversationListDTO;
 import com.themuffinman.app.chat.dto.ChatConversationSyncDTO;
+import com.themuffinman.app.chat.dto.ChatRefreshHintDTO;
 import com.themuffinman.app.chat.dto.ChatConversationParticipantsRequestDTO;
 import com.themuffinman.app.chat.dto.ChatConversationRoleRequestDTO;
 import com.themuffinman.app.chat.dto.ChatCreateGroupConversationRequestDTO;
@@ -22,6 +23,7 @@ import com.themuffinman.app.chat.dto.ChatWorkspaceDTO;
 import com.themuffinman.app.common.dto.ActionResultDTO;
 import com.themuffinman.app.common.dto.ActionResults;
 import com.themuffinman.app.chat.service.ChatService;
+import com.themuffinman.app.chat.service.ChatSyncService;
 import com.themuffinman.app.identity.model.AppUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +51,7 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
+    private final ChatSyncService chatSyncService;
 
     @GetMapping("/workspace")
     public ChatWorkspaceDTO getWorkspace(
@@ -203,6 +206,15 @@ public class ChatController {
             @AuthenticationPrincipal AppUser currentUser
     ) {
         return chatService.getConversationSync(conversationId, afterMessageId, limit, currentUser);
+    }
+
+    @GetMapping("/conversations/{conversationId}/refresh-hint")
+    public ChatRefreshHintDTO getConversationRefreshHint(
+            @PathVariable Long conversationId,
+            @RequestParam(value = "knownLatestMessageId", required = false) Long knownLatestMessageId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return chatSyncService.getRefreshHint(conversationId, knownLatestMessageId, currentUser);
     }
 
     @PostMapping("/attachments")

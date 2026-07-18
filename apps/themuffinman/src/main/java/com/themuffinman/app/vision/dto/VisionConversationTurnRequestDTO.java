@@ -25,6 +25,9 @@ public class VisionConversationTurnRequestDTO {
     private String clientLocale;
     private String clientTimezone;
     private String clientDeviceRole;
+    private String workspaceContext;
+    private String workspaceSource;
+    private String workspaceReturnTo;
     private String clientRequestId;
     private String selectedOptionId;
     private String fieldValue;

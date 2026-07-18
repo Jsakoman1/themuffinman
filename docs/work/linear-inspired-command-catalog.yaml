@@ -1,0 +1,35 @@
+kind: work
+version: 1
+id: linear-inspired-command-catalog
+title: Typed command catalog and keyboard navigation
+status: draft
+master_plan: docs/work/linear-inspired-product-behavior-expansion-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: >
+  Turn the existing global search/create entries into a typed command catalog that supports
+  backend-authorized navigation and explicitly eligible actions without pretending that a
+  command palette is a natural-language assistant.
+requirements:
+  - Command items have stable ids, labels, shortcuts, group, availability reason, and typed target/action payloads.
+  - Navigation commands may be locally static; object actions and personal shortcuts must be backend-provided or rechecked by existing endpoints.
+  - Editable controls, dialogs, and the Vision composer suppress global shortcuts; no command path bypasses confirmation or validation.
+tasks:
+  - id: command-catalog-contract
+    type: implementation
+    status: pending
+    paths: [apps/themuffinman/src/main/java/com/themuffinman/app, apps/themuffinman/src/test/java/com/themuffinman/app, apps/themuffinman/frontend/src/contracts]
+    validation: cd apps/themuffinman && ./mvnw test
+  - id: command-catalog-surface
+    type: implementation
+    status: pending
+    paths: [apps/themuffinman/frontend/src/App.vue, apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue, apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue, apps/themuffinman/frontend/src/modules/app-shell/composables]
+    validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  - id: command-catalog-documentation
+    type: docs-only
+    status: pending
+    paths: [docs/business-logic.md, docs/domain-technical.md, docs/regression-scenario-catalog.yaml]
+    validation: make audit-docs
+acceptance:
+  - Keyboard command behavior is deterministic, discoverable, and has the same confirmation/recovery semantics as its direct UI equivalent.
+  - Search, Create, Vision, navigation, and object actions remain visibly distinct interaction modes.
+evidence: []

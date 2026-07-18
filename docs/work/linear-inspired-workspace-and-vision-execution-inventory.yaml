@@ -1,0 +1,321 @@
+kind: execution_inventory
+version: 1
+id: linear-inspired-workspace-and-vision-execution-inventory
+master_plan: docs/work/linear-inspired-workspace-and-vision-master.yaml
+purpose: 'Atomic delivery ledger for the workspace and Vision redesign. Exactly one
+  item may be in progress. An item is verified only by the serial work-plan verifier
+  after it was explicitly started and every required path changed after that start.
+
+'
+statuses:
+- planned
+- in_progress
+- verified
+rules:
+- Start items only in listed order.
+- Never mark an item verified by editing this file manually.
+- One item represents one concrete code, contract, documentation, or runtime-evidence
+  delivery slice.
+- A completed evidence item does not replace the implementation item immediately before
+  it.
+items:
+- id: RCV-01
+  plan: docs/work/linear-redesign-recovery-controls.yaml
+  task: invalidate-prior-completion
+  status: verified
+  started_at: '2026-07-17T21:04:01Z'
+  verified_at: '2026-07-17T21:04:20Z'
+  evidence:
+    plan: docs/work/linear-redesign-recovery-controls.yaml
+    task: invalidate-prior-completion
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: RCV-02
+  plan: docs/work/linear-redesign-recovery-controls.yaml
+  task: strict-verifier-and-runtime-artifact-contract
+  status: verified
+  started_at: '2026-07-17T21:04:26Z'
+  verified_at: '2026-07-17T21:05:10Z'
+  evidence:
+    plan: docs/work/linear-redesign-recovery-controls.yaml
+    task: strict-verifier-and-runtime-artifact-contract
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: RCV-03
+  plan: docs/work/linear-redesign-recovery-controls.yaml
+  task: visual-baseline-capture
+  status: verified
+  started_at: '2026-07-17T21:05:36Z'
+  verified_at: '2026-07-17T21:19:01Z'
+  evidence:
+    plan: docs/work/linear-redesign-recovery-controls.yaml
+    task: visual-baseline-capture
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: SHL-01
+  plan: docs/work/linear-workspace-shell-redesign.yaml
+  task: shell-layout-and-navigation-implementation
+  status: verified
+  started_at: '2026-07-17T21:19:07Z'
+  verified_at: '2026-07-17T21:20:27Z'
+  evidence:
+    plan: docs/work/linear-workspace-shell-redesign.yaml
+    task: shell-layout-and-navigation-implementation
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: SHL-02
+  plan: docs/work/linear-workspace-shell-redesign.yaml
+  task: shell-visual-route-evidence
+  status: verified
+  started_at: '2026-07-17T21:20:35Z'
+  verified_at: '2026-07-17T21:22:45Z'
+  evidence:
+    plan: docs/work/linear-workspace-shell-redesign.yaml
+    task: shell-visual-route-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CLP-01
+  plan: docs/work/linear-workspace-collection-preview.yaml
+  task: preview-read-contract
+  status: verified
+  started_at: '2026-07-17T21:22:56Z'
+  verified_at: '2026-07-17T21:25:07Z'
+  evidence:
+    plan: docs/work/linear-workspace-collection-preview.yaml
+    task: preview-read-contract
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CLP-02
+  plan: docs/work/linear-workspace-collection-preview.yaml
+  task: collection-preview-adoption
+  status: verified
+  started_at: '2026-07-17T21:25:14Z'
+  verified_at: '2026-07-17T21:32:57Z'
+  evidence:
+    plan: docs/work/linear-workspace-collection-preview.yaml
+    task: collection-preview-adoption
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CLP-03
+  plan: docs/work/linear-workspace-collection-preview.yaml
+  task: collection-preview-browser-evidence
+  status: verified
+  started_at: '2026-07-17T21:33:04Z'
+  verified_at: '2026-07-17T21:43:02Z'
+  evidence:
+    plan: docs/work/linear-workspace-collection-preview.yaml
+    task: collection-preview-browser-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: DTL-01
+  plan: docs/work/linear-workspace-detail-activity.yaml
+  task: object-activity-read-models
+  status: verified
+  started_at: '2026-07-17T21:43:20Z'
+  verified_at: '2026-07-17T21:46:36Z'
+  evidence:
+    plan: docs/work/linear-workspace-detail-activity.yaml
+    task: object-activity-read-models
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: DTL-02
+  plan: docs/work/linear-workspace-detail-activity.yaml
+  task: detail-route-redesign
+  status: verified
+  started_at: '2026-07-17T21:46:44Z'
+  verified_at: '2026-07-17T21:49:13Z'
+  evidence:
+    plan: docs/work/linear-workspace-detail-activity.yaml
+    task: detail-route-redesign
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: DTL-03
+  plan: docs/work/linear-workspace-detail-activity.yaml
+  task: detail-browser-evidence
+  status: verified
+  started_at: '2026-07-17T21:49:31Z'
+  verified_at: '2026-07-17T21:51:58Z'
+  evidence:
+    plan: docs/work/linear-workspace-detail-activity.yaml
+    task: detail-browser-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: ATN-01
+  plan: docs/work/linear-workspace-personal-attention.yaml
+  task: pin-and-attention-domain-contract
+  status: verified
+  started_at: '2026-07-17T21:52:11Z'
+  verified_at: '2026-07-17T21:56:35Z'
+  evidence:
+    plan: docs/work/linear-workspace-personal-attention.yaml
+    task: pin-and-attention-domain-contract
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: ATN-02
+  plan: docs/work/linear-workspace-personal-attention.yaml
+  task: pin-and-attention-workspace-surface
+  status: verified
+  started_at: '2026-07-17T21:56:43Z'
+  verified_at: '2026-07-17T21:59:53Z'
+  evidence:
+    plan: docs/work/linear-workspace-personal-attention.yaml
+    task: pin-and-attention-workspace-surface
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: ATN-03
+  plan: docs/work/linear-workspace-personal-attention.yaml
+  task: personal-attention-browser-evidence
+  status: verified
+  started_at: '2026-07-17T22:00:07Z'
+  verified_at: '2026-07-17T22:20:03Z'
+  evidence:
+    plan: docs/work/linear-workspace-personal-attention.yaml
+    task: personal-attention-browser-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CMD-01
+  plan: docs/work/linear-workspace-command-create.yaml
+  task: command-catalog-api-contract
+  status: verified
+  started_at: '2026-07-17T22:20:10Z'
+  verified_at: '2026-07-17T22:23:11Z'
+  evidence:
+    plan: docs/work/linear-workspace-command-create.yaml
+    task: command-catalog-api-contract
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CMD-02
+  plan: docs/work/linear-workspace-command-create.yaml
+  task: command-center-and-create-surface
+  status: verified
+  started_at: '2026-07-17T22:23:20Z'
+  verified_at: '2026-07-17T22:25:19Z'
+  evidence:
+    plan: docs/work/linear-workspace-command-create.yaml
+    task: command-center-and-create-surface
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CMD-03
+  plan: docs/work/linear-workspace-command-create.yaml
+  task: command-browser-evidence
+  status: verified
+  started_at: '2026-07-17T22:25:25Z'
+  verified_at: '2026-07-17T22:32:19Z'
+  evidence:
+    plan: docs/work/linear-workspace-command-create.yaml
+    task: command-browser-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CHT-01
+  plan: docs/work/linear-workspace-chat-realtime.yaml
+  task: realtime-refresh-contract
+  status: verified
+  started_at: '2026-07-17T22:32:26Z'
+  verified_at: '2026-07-17T22:35:33Z'
+  evidence:
+    plan: docs/work/linear-workspace-chat-realtime.yaml
+    task: realtime-refresh-contract
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CHT-02
+  plan: docs/work/linear-workspace-chat-realtime.yaml
+  task: chat-workspace-implementation
+  status: verified
+  started_at: '2026-07-17T22:35:33Z'
+  verified_at: '2026-07-17T22:36:16Z'
+  evidence:
+    plan: docs/work/linear-workspace-chat-realtime.yaml
+    task: chat-workspace-implementation
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CHT-03
+  plan: docs/work/linear-workspace-chat-realtime.yaml
+  task: chat-reconnect-browser-evidence
+  status: verified
+  started_at: '2026-07-17T22:36:23Z'
+  verified_at: '2026-07-17T22:42:02Z'
+  evidence:
+    plan: docs/work/linear-workspace-chat-realtime.yaml
+    task: chat-reconnect-browser-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: VIS-00
+  plan: docs/work/vision-adaptive-workspace-integration.yaml
+  task: vision-future-capability-guardrail
+  status: verified
+  started_at: '2026-07-17T22:42:09Z'
+  verified_at: '2026-07-17T22:42:52Z'
+  evidence:
+    plan: docs/work/vision-adaptive-workspace-integration.yaml
+    task: vision-future-capability-guardrail
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: VIS-01
+  plan: docs/work/vision-adaptive-workspace-integration.yaml
+  task: vision-handoff-and-evidence-contract
+  status: verified
+  started_at: '2026-07-17T22:42:59Z'
+  verified_at: '2026-07-17T22:47:17Z'
+  evidence:
+    plan: docs/work/vision-adaptive-workspace-integration.yaml
+    task: vision-handoff-and-evidence-contract
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: VIS-02
+  plan: docs/work/vision-adaptive-workspace-integration.yaml
+  task: vision-canvas-integration
+  status: verified
+  started_at: '2026-07-17T22:47:23Z'
+  verified_at: '2026-07-17T22:48:44Z'
+  evidence:
+    plan: docs/work/vision-adaptive-workspace-integration.yaml
+    task: vision-canvas-integration
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: VIS-03
+  plan: docs/work/vision-adaptive-workspace-integration.yaml
+  task: vision-browser-evidence
+  status: verified
+  started_at: '2026-07-17T22:48:50Z'
+  verified_at: '2026-07-17T22:56:13Z'
+  evidence:
+    plan: docs/work/vision-adaptive-workspace-integration.yaml
+    task: vision-browser-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: XMD-01
+  plan: docs/work/linear-workspace-cross-module-adoption.yaml
+  task: cross-module-read-model-audit
+  status: verified
+  started_at: '2026-07-17T22:56:28Z'
+  verified_at: '2026-07-17T22:57:52Z'
+  evidence:
+    plan: docs/work/linear-workspace-cross-module-adoption.yaml
+    task: cross-module-read-model-audit
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: XMD-02
+  plan: docs/work/linear-workspace-cross-module-adoption.yaml
+  task: business-and-rides-surface-implementation
+  status: verified
+  started_at: '2026-07-17T22:58:04Z'
+  verified_at: '2026-07-17T23:00:53Z'
+  evidence:
+    plan: docs/work/linear-workspace-cross-module-adoption.yaml
+    task: business-and-rides-surface-implementation
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: XMD-03
+  plan: docs/work/linear-workspace-cross-module-adoption.yaml
+  task: cross-module-browser-evidence
+  status: verified
+  started_at: '2026-07-17T23:00:59Z'
+  verified_at: '2026-07-17T23:05:04Z'
+  evidence:
+    plan: docs/work/linear-workspace-cross-module-adoption.yaml
+    task: cross-module-browser-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CLS-01
+  plan: docs/work/linear-workspace-runtime-closeout.yaml
+  task: strict-static-and-contract-closeout
+  status: verified
+  started_at: '2026-07-17T23:05:10Z'
+  verified_at: '2026-07-17T23:06:06Z'
+  evidence:
+    plan: docs/work/linear-workspace-runtime-closeout.yaml
+    task: strict-static-and-contract-closeout
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CLS-02
+  plan: docs/work/linear-workspace-runtime-closeout.yaml
+  task: complete-visual-and-runtime-evidence
+  status: verified
+  started_at: '2026-07-17T23:06:12Z'
+  verified_at: '2026-07-17T23:08:40Z'
+  evidence:
+    plan: docs/work/linear-workspace-runtime-closeout.yaml
+    task: complete-visual-and-runtime-evidence
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+- id: CLS-03
+  plan: docs/work/linear-workspace-runtime-closeout.yaml
+  task: completion-record-and-backlog-reconciliation
+  status: verified
+  started_at: '2026-07-17T23:08:47Z'
+  verified_at: '2026-07-17T23:09:46Z'
+  evidence:
+    plan: docs/work/linear-workspace-runtime-closeout.yaml
+    task: completion-record-and-backlog-reconciliation
+    revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc

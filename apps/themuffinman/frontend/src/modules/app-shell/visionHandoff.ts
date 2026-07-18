@@ -2,7 +2,7 @@ import type {RouteLocationRaw} from "vue-router"
 import type {AppSurfaceId} from "./shellDefinitions.ts"
 import {getSurfaceVisionPrompt, resolveSurfaceDetailRoute, surfaceOwnershipMatrix} from "./shellRouteRegistry.ts"
 
-type VisionLaunchOptions = {
+export type VisionLaunchOptions = {
   prompt?: string
   context?: string
   source?: string
@@ -14,12 +14,19 @@ const trimQueryValue = (value?: string) => {
   return trimmed ? trimmed : undefined
 }
 
+const safeWorkspaceReturnTo = (value?: string) => {
+  const returnTo = trimQueryValue(value)
+  return returnTo && returnTo.startsWith("/") && !returnTo.startsWith("//") && !returnTo.includes("://") && !returnTo.includes("\\")
+    ? returnTo
+    : undefined
+}
+
 export const buildVisionRoute = (options: VisionLaunchOptions = {}): RouteLocationRaw => {
   const query: Record<string, string> = {}
   const prompt = trimQueryValue(options.prompt)
   const context = trimQueryValue(options.context)
   const source = trimQueryValue(options.source)
-  const returnTo = trimQueryValue(options.returnTo)
+  const returnTo = safeWorkspaceReturnTo(options.returnTo)
 
   if (prompt) {
     query.prompt = prompt

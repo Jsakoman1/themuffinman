@@ -1,0 +1,66 @@
+kind: master
+version: 1
+id: linear-inspired-product-behavior-expansion-master
+title: Linear-inspired product behavior and backend contract expansion
+status: deferred
+superseded_by: docs/work/linear-inspired-workspace-and-vision-master.yaml
+integrity_assessment: >
+  Merged into the unified recovery master before implementation so frontend behavior,
+  backend contracts, and runtime evidence cannot be planned as disconnected programs.
+closure_policy: >
+  This historical plan is permanently ineligible for verification. Its promised behavior
+  must be delivered and evidenced only through the replacement serial master plan.
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: >
+  Extend the verified desktop interaction grammar into backend-owned product behavior:
+  personal object pinning, a coherent attention inbox, safe route-backed previews,
+  command navigation, and reliable realtime continuity. Preserve existing Java/Spring
+  domain authority and direct routes. Do not copy Linear branding, assets, copy, or
+  proprietary product behavior.
+analysis: docs/work/linear-inspired-product-behavior-expansion-analysis.md
+reuses:
+  - docs/work/linear-inspired-product-app-redesign-master.yaml
+  - docs/work/linear-inspired-interaction-contract-audit.yaml
+  - docs/work/cross-module-search-contract.yaml
+  - docs/work/chat-reconnect-resync.yaml
+principles:
+  - A personal shortcut is viewer-owned, explicitly scoped, and never grants access to an object.
+  - A canonical route remains the source of truth; a preview is only an additional read mode.
+  - Backend DTOs define visible actions, ordering, unread/read state, and permitted filter values.
+  - Commands may navigate or invoke already-authorized actions, but never infer intent, targets, or permission.
+  - Realtime events prompt a safe refresh or typed reconciliation; they do not apply speculative client state.
+  - No board drag/drop, timeline editing, bulk operations, generic subscriptions, optimistic mutation, or client cache is introduced without a dedicated contract.
+children:
+  - docs/work/linear-inspired-behavior-contract-audit.yaml
+  - docs/work/linear-inspired-personal-shortcuts.yaml
+  - docs/work/linear-inspired-attention-inbox.yaml
+  - docs/work/linear-inspired-route-preview-adoption.yaml
+  - docs/work/linear-inspired-command-catalog.yaml
+  - docs/work/linear-inspired-realtime-continuity.yaml
+  - docs/work/linear-inspired-behavior-runtime-closeout.yaml
+dependencies:
+  - docs/work/linear-inspired-behavior-contract-audit.yaml -> docs/work/linear-inspired-personal-shortcuts.yaml
+  - docs/work/linear-inspired-behavior-contract-audit.yaml -> docs/work/linear-inspired-attention-inbox.yaml
+  - docs/work/linear-inspired-behavior-contract-audit.yaml -> docs/work/linear-inspired-route-preview-adoption.yaml
+  - docs/work/linear-inspired-personal-shortcuts.yaml -> docs/work/linear-inspired-command-catalog.yaml
+  - docs/work/linear-inspired-attention-inbox.yaml -> docs/work/linear-inspired-command-catalog.yaml
+  - docs/work/linear-inspired-route-preview-adoption.yaml -> docs/work/linear-inspired-command-catalog.yaml
+  - docs/work/linear-inspired-attention-inbox.yaml -> docs/work/linear-inspired-realtime-continuity.yaml
+  - docs/work/linear-inspired-command-catalog.yaml -> docs/work/linear-inspired-behavior-runtime-closeout.yaml
+  - docs/work/linear-inspired-realtime-continuity.yaml -> docs/work/linear-inspired-behavior-runtime-closeout.yaml
+recommended_execution_order:
+  - docs/work/linear-inspired-behavior-contract-audit.yaml
+  - docs/work/linear-inspired-personal-shortcuts.yaml
+  - docs/work/linear-inspired-attention-inbox.yaml
+  - docs/work/linear-inspired-route-preview-adoption.yaml
+  - docs/work/linear-inspired-command-catalog.yaml
+  - docs/work/linear-inspired-realtime-continuity.yaml
+  - docs/work/linear-inspired-behavior-runtime-closeout.yaml
+exit_criteria:
+  - Users can manage a bounded set of permitted personal shortcuts without exposing unavailable or unauthorized objects.
+  - Attention is presented through one backend-prepared inbox projection with permitted destination and read behavior.
+  - Preview panels are adopted on selected supported collections and always retain a direct canonical detail route.
+  - The command surface uses a typed backend catalog for navigable destinations and eligible actions.
+  - Chat and attention changes reconcile through typed refresh behavior with loading and recovery evidence.
+  - Every child passes its verifier and browser evidence covers keyboard, narrow fallback, permission changes, error, and reconnect paths.
+evidence: []

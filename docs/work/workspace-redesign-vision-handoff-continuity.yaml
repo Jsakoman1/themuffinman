@@ -1,0 +1,19 @@
+kind: work
+version: 1
+id: workspace-redesign-vision-handoff-continuity
+title: Typed workspace-to-Vision handoff and return continuity
+status: draft
+master_plan: docs/work/workspace-redesign-complete-master.yaml
+serial_task_execution: true
+execution_inventory: docs/work/workspace-redesign-complete-execution-inventory.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+strict_verification: true
+execution_brief: docs/work/workspace-redesign-execution-brief.yaml
+objective: Implement VIS-02/VIS-03 so workspace context can safely hand off to and return from the distinct backend-orchestrated Vision canvas.
+tasks:
+  - {id: typed-vision-handoff-contract, inventory_item: VIS-01, type: implementation, status: pending, paths: [docs/vision-presentation-contract.yaml, docs/vision-architecture-patterns.md, apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionWorkspaceHandoffDTO.java], required_paths: [docs/vision-presentation-contract.yaml, apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionWorkspaceHandoffDTO.java], validation: 'npm --prefix apps/themuffinman/frontend run type-check && ./mvnw test && make audit-docs'}
+  - {id: vision-handoff-consumer, inventory_item: VIS-02, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue, apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts], required_paths: [apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue, apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: work-vision-handoff-source, inventory_item: VIS-03, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: things-vision-handoff-source, inventory_item: VIS-04, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: vision-handoff-return-evidence, inventory_item: VIS-05, type: validation, status: pending, paths: [docs/runtime-evidence/workspace-redesign/vision-handoff.png, docs/runtime-evidence/workspace-redesign/vision-return.png, docs/runtime-evidence/workspace-redesign/vision-handoff-trace.json], required_paths: [docs/runtime-evidence/workspace-redesign/vision-handoff.png, docs/runtime-evidence/workspace-redesign/vision-return.png, docs/runtime-evidence/workspace-redesign/vision-handoff-trace.json], requires_visual_evidence: true, visual_evidence_paths: [docs/runtime-evidence/workspace-redesign/vision-handoff.png, docs/runtime-evidence/workspace-redesign/vision-return.png], runtime_evidence_paths: [docs/runtime-evidence/workspace-redesign/vision-handoff-trace.json], validation: 'make audit-runtime-acceptance'}
+evidence: []

@@ -55,6 +55,7 @@ class ChatControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ChatService chatService = mock(ChatService.class);
+    private final com.themuffinman.app.chat.service.ChatSyncService chatSyncService = mock(com.themuffinman.app.chat.service.ChatSyncService.class);
     private MockMvc mockMvc;
     private AppUser currentUser;
 
@@ -62,7 +63,7 @@ class ChatControllerTest {
     void setUp() {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.afterPropertiesSet();
-        ChatController controller = new ChatController(chatService);
+        ChatController controller = new ChatController(chatService, chatSyncService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .setCustomArgumentResolvers(new AuthenticationPrincipalArgumentResolver())

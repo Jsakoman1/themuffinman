@@ -6,15 +6,15 @@ const dialog = useActionDialog()
 
 <template>
   <Teleport to="body">
-    <div v-if="dialog.state.value.open" class="action-dialog__backdrop" role="presentation" @click.self="dialog.close(false)">
-      <section class="action-dialog" role="dialog" aria-modal="true" :aria-labelledby="'action-dialog-title'">
+    <div v-if="dialog.state.value.open" class="action-dialog__backdrop" role="presentation" @click.self="dialog.close(false)" @keydown.escape="dialog.close(false)">
+      <section class="action-dialog" role="dialog" aria-modal="true" :aria-labelledby="'action-dialog-title'" aria-describedby="action-dialog-message">
         <div class="action-dialog__signal" aria-hidden="true"></div>
         <header class="action-dialog__header">
           <p class="action-dialog__eyebrow">{{ dialog.state.value.mode === 'notice' ? 'SYSTEM NOTICE' : 'ACTION GATE' }}</p>
           <h2 id="action-dialog-title">{{ dialog.state.value.title }}</h2>
         </header>
-        <p class="action-dialog__message">{{ dialog.state.value.message }}</p>
-        <footer class="action-dialog__actions">
+        <p id="action-dialog-message" class="action-dialog__message">{{ dialog.state.value.message }}</p>
+        <footer class="action-dialog__actions" aria-label="Confirmation actions" data-surface="shared-action-gate">
           <button v-if="dialog.state.value.mode === 'confirm'" type="button" class="action-dialog__button action-dialog__button--quiet" @click="dialog.close(false)">{{ dialog.state.value.cancelLabel }}</button>
           <button type="button" class="action-dialog__button" :class="`action-dialog__button--${dialog.state.value.tone}`" @click="dialog.close(true)">{{ dialog.state.value.confirmLabel }}</button>
         </footer>

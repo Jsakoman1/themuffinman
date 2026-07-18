@@ -1,0 +1,107 @@
+kind: execution_inventory
+version: 1
+id: workspace-redesign-complete-execution-inventory
+master_plan: docs/work/workspace-redesign-complete-master.yaml
+status: draft
+purpose: >
+  Strict serial queue for the complete workspace redesign. No item may be started
+  until the master start gates pass and its owning draft child has exact paths,
+  route names, runtime evidence paths, and leaf validation reconciled at a clean baseline.
+statuses: [planned, in_progress, verified, blocked]
+rules:
+  - Exactly one item may be in_progress.
+  - Start and verify items in listed order only.
+  - A component implementation item is incomplete until its named adoption item is verified.
+  - Every visual item requires fresh desktop and narrow screenshots after its start snapshot.
+  - Every runtime item requires an intentionally-started stack and fresh trace/HAR metadata.
+items:
+  - {id: VFY-01, plan: docs/work/workspace-redesign-visual-fidelity.yaml, task: graphite-token-contract, status: planned}
+  - {id: VFY-02, plan: docs/work/workspace-redesign-visual-fidelity.yaml, task: workspace-geometry-contract, status: planned}
+  - {id: VFY-03, plan: docs/work/workspace-redesign-visual-fidelity.yaml, task: typography-metadata-hierarchy, status: planned}
+  - {id: VFY-04, plan: docs/work/workspace-redesign-visual-fidelity.yaml, task: border-elevation-card-policy, status: planned}
+  - {id: VFY-05, plan: docs/work/workspace-redesign-visual-fidelity.yaml, task: icon-status-avatar-contract, status: planned}
+  - {id: VFY-06, plan: docs/work/workspace-redesign-visual-fidelity.yaml, task: interaction-polish-contract, status: planned}
+  - {id: VFY-07, plan: docs/work/workspace-redesign-visual-fidelity.yaml, task: visual-fidelity-evidence-matrix, status: planned}
+  - {id: FND-01, plan: docs/work/workspace-redesign-foundation-controls.yaml, task: control-token-contract, status: planned}
+  - {id: FND-02, plan: docs/work/workspace-redesign-foundation-controls.yaml, task: app-button-and-icon-button, status: planned}
+  - {id: FND-03, plan: docs/work/workspace-redesign-foundation-controls.yaml, task: action-menu-and-tooltip, status: planned}
+  - {id: FND-04, plan: docs/work/workspace-redesign-foundation-controls.yaml, task: action-dialog-and-async-feedback, status: planned}
+  - {id: FND-05, plan: docs/work/workspace-redesign-foundation-controls.yaml, task: form-field-contract, status: planned}
+  - {id: FND-06, plan: docs/work/workspace-redesign-foundation-controls.yaml, task: form-footer-and-inline-edit, status: planned}
+  - {id: FND-07, plan: docs/work/workspace-redesign-foundation-controls.yaml, task: status-and-state-primitives, status: planned}
+  - {id: FND-08, plan: docs/work/workspace-redesign-foundation-controls.yaml, task: keyboard-help-and-context-entry, status: planned}
+  - {id: SHL-01, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: authenticated-frame-skeleton, status: planned}
+  - {id: SHL-02, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: responsive-rail-drawer, status: planned}
+  - {id: SHL-03, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: rail-preference-contract, status: planned}
+  - {id: SHL-04, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: resizable-rail-adoption, status: planned}
+  - {id: SHL-05, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: command-catalog-contract, status: planned}
+  - {id: SHL-06, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: command-center-adoption, status: planned}
+  - {id: SHL-07, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: universal-create-adoption, status: planned}
+  - {id: SHL-08, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: quick-switcher-recent-contract, status: planned}
+  - {id: SHL-09, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: quick-switcher-adoption, status: planned}
+  - {id: SHL-10, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: personal-context-contract, status: planned}
+  - {id: SHL-11, plan: docs/work/workspace-redesign-shell-command-personal.yaml, task: personal-sidebar-adoption, status: planned}
+  - {id: COL-01, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: collection-layout-scaffold, status: planned}
+  - {id: COL-02, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: collection-context-rail, status: planned}
+  - {id: COL-03, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: collection-toolbar, status: planned}
+  - {id: COL-04, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: dense-row-primitive, status: planned}
+  - {id: COL-05, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: preview-panel-contract, status: planned}
+  - {id: COL-06, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: selected-object-url-state, status: planned}
+  - {id: COL-07, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: display-density-preference, status: planned}
+  - {id: COL-08, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: collection-context-restoration, status: planned}
+  - {id: COL-09, plan: docs/work/workspace-redesign-collection-continuity.yaml, task: collection-keyboard-navigation, status: planned}
+  - {id: DTL-01, plan: docs/work/workspace-redesign-detail-form-scaffolds.yaml, task: detail-main-utility-layout, status: planned}
+  - {id: DTL-02, plan: docs/work/workspace-redesign-detail-form-scaffolds.yaml, task: activity-rail-renderer, status: planned}
+  - {id: DTL-03, plan: docs/work/workspace-redesign-detail-form-scaffolds.yaml, task: utility-action-rail, status: planned}
+  - {id: DTL-04, plan: docs/work/workspace-redesign-detail-form-scaffolds.yaml, task: universal-activity-read-contract, status: planned}
+  - {id: DTL-05, plan: docs/work/workspace-redesign-detail-form-scaffolds.yaml, task: structured-form-workspace, status: planned}
+  - {id: DTL-06, plan: docs/work/workspace-redesign-detail-form-scaffolds.yaml, task: inline-edit-adoption-contract, status: planned}
+  - {id: WTH-01, plan: docs/work/workspace-redesign-work-things-adoption.yaml, task: work-discovery-adoption, status: planned}
+  - {id: WTH-02, plan: docs/work/workspace-redesign-work-things-adoption.yaml, task: work-preview-selection-adoption, status: planned}
+  - {id: WTH-03, plan: docs/work/workspace-redesign-work-things-adoption.yaml, task: work-detail-activity-adoption, status: planned}
+  - {id: WTH-04, plan: docs/work/workspace-redesign-work-things-adoption.yaml, task: work-create-form-adoption, status: planned}
+  - {id: WTH-05, plan: docs/work/workspace-redesign-work-things-adoption.yaml, task: things-discovery-adoption, status: planned}
+  - {id: WTH-06, plan: docs/work/workspace-redesign-work-things-adoption.yaml, task: thing-detail-borrow-adoption, status: planned}
+  - {id: CHT-01, plan: docs/work/workspace-redesign-chat-realtime-adoption.yaml, task: chat-sync-reconnect-contract, status: planned}
+  - {id: CHT-02, plan: docs/work/workspace-redesign-chat-realtime-adoption.yaml, task: chat-index-thread-layout, status: planned}
+  - {id: CHT-03, plan: docs/work/workspace-redesign-chat-realtime-adoption.yaml, task: chat-composer-action-adoption, status: planned}
+  - {id: CHT-04, plan: docs/work/workspace-redesign-chat-realtime-adoption.yaml, task: chat-refresh-retention-adoption, status: planned}
+  - {id: CHT-05, plan: docs/work/workspace-redesign-chat-realtime-adoption.yaml, task: chat-reconnect-runtime-evidence, status: planned}
+  - {id: BRS-01, plan: docs/work/workspace-redesign-business-rides-adoption.yaml, task: business-discovery-adoption, status: planned}
+  - {id: BRS-02, plan: docs/work/workspace-redesign-business-rides-adoption.yaml, task: business-profile-adoption, status: planned}
+  - {id: BRS-03, plan: docs/work/workspace-redesign-business-rides-adoption.yaml, task: business-offerings-adoption, status: planned}
+  - {id: BRS-04, plan: docs/work/workspace-redesign-business-rides-adoption.yaml, task: business-availability-adoption, status: planned}
+  - {id: BRS-05, plan: docs/work/workspace-redesign-business-rides-adoption.yaml, task: business-bookings-adoption, status: planned}
+  - {id: BRS-06, plan: docs/work/workspace-redesign-business-rides-adoption.yaml, task: rides-collection-detail-adoption, status: planned}
+  - {id: BRS-07, plan: docs/work/workspace-redesign-business-rides-adoption.yaml, task: commute-preference-form-adoption, status: planned}
+  - {id: ACC-01, plan: docs/work/workspace-redesign-account-attention-adoption.yaml, task: circles-collection-adoption, status: planned}
+  - {id: ACC-02, plan: docs/work/workspace-redesign-account-attention-adoption.yaml, task: people-discovery-adoption, status: planned}
+  - {id: ACC-03, plan: docs/work/workspace-redesign-account-attention-adoption.yaml, task: notifications-attention-adoption, status: planned}
+  - {id: ACC-04, plan: docs/work/workspace-redesign-account-attention-adoption.yaml, task: profile-location-adoption, status: planned}
+  - {id: ACC-05, plan: docs/work/workspace-redesign-account-attention-adoption.yaml, task: preferences-onboarding-adoption, status: planned}
+  - {id: SEC-01, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: home-personal-workspace-adoption, status: planned}
+  - {id: SEC-02, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: work-applications-collection-adoption, status: planned}
+  - {id: SEC-03, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: work-application-detail-adoption, status: planned}
+  - {id: SEC-04, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: quest-applications-review-adoption, status: planned}
+  - {id: SEC-05, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: business-public-profile-adoption, status: planned}
+  - {id: SEC-06, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: business-my-bookings-adoption, status: planned}
+  - {id: SEC-07, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: availability-exceptions-adoption, status: planned}
+  - {id: SEC-08, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: people-profile-adoption, status: planned}
+  - {id: SEC-09, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: saved-intents-adoption, status: planned}
+  - {id: SEC-10, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: activity-feed-adoption, status: planned}
+  - {id: SEC-11, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: section-hub-contract, status: planned}
+  - {id: SEC-12, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: calendar-hub-adoption, status: planned}
+  - {id: SEC-13, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: business-hub-adoption, status: planned}
+  - {id: SEC-14, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: profile-hub-adoption, status: planned}
+  - {id: SEC-15, plan: docs/work/workspace-redesign-secondary-surfaces-adoption.yaml, task: identity-entry-adoption, status: planned}
+  - {id: VIS-01, plan: docs/work/workspace-redesign-vision-handoff-continuity.yaml, task: typed-vision-handoff-contract, status: planned}
+  - {id: VIS-02, plan: docs/work/workspace-redesign-vision-handoff-continuity.yaml, task: vision-handoff-consumer, status: planned}
+  - {id: VIS-03, plan: docs/work/workspace-redesign-vision-handoff-continuity.yaml, task: work-vision-handoff-source, status: planned}
+  - {id: VIS-04, plan: docs/work/workspace-redesign-vision-handoff-continuity.yaml, task: things-vision-handoff-source, status: planned}
+  - {id: VIS-05, plan: docs/work/workspace-redesign-vision-handoff-continuity.yaml, task: vision-handoff-return-evidence, status: planned}
+  - {id: CLO-01, plan: docs/work/workspace-redesign-accessibility-runtime-closeout.yaml, task: keyboard-motion-contract, status: planned}
+  - {id: CLO-02, plan: docs/work/workspace-redesign-accessibility-runtime-closeout.yaml, task: route-loading-policy, status: planned}
+  - {id: CLO-03, plan: docs/work/workspace-redesign-accessibility-runtime-closeout.yaml, task: large-collection-performance-decision, status: planned}
+  - {id: CLO-04, plan: docs/work/workspace-redesign-accessibility-runtime-closeout.yaml, task: route-visual-evidence-matrix, status: planned}
+  - {id: CLO-06, plan: docs/work/workspace-redesign-accessibility-runtime-closeout.yaml, task: per-route-archetype-evidence-matrix, status: planned}
+  - {id: CLO-05, plan: docs/work/workspace-redesign-accessibility-runtime-closeout.yaml, task: complete-runtime-closeout, status: planned}

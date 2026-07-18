@@ -1,0 +1,89 @@
+kind: visual_reference_spec
+version: 1
+id: workspace-redesign-visual-reference-spec
+status: draft
+purpose: >
+  Translate the supplied Linear screenshots into original, product-appropriate
+  visual constraints for TheMuffinMan's Web workspace. This is not permission to
+  copy Linear branding, assets, labels, issue terminology, or board behavior.
+reference_material:
+  screenshots_directory: docs/work/redesign-frontend
+  interaction_principles: [stable navigation, compact chrome, dense information hierarchy, contextual panels, quiet states]
+desktop_workspace_contract:
+  palette:
+    base_canvas: near-black graphite
+    surfaces: [graphite-base, graphite-raised, graphite-hover]
+    separation: low-contrast 1px borders before shadows
+    text: [high-contrast primary, muted secondary, quiet tertiary]
+    color_policy: semantic status and one restrained primary accent only
+    prohibited_defaults: [pale-gray panels, gradients, heavy shadows, decorative multi-color cards]
+  geometry:
+    spacing_grid_px: 4
+    compact_header_px: {min: 44, max: 52}
+    control_height_px: {compact: [28, 32], default: [32, 36]}
+    dense_row_height_px: {compact: [36, 44], default: [44, 52]}
+    left_rail_px: {min: 216, max: 280}
+    utility_rail_px: {min: 288, max: 384}
+    corner_radius_px: {default: [4, 8], isolated_media_or_dialog_only: [8, 12]}
+  hierarchy:
+    primary: object title and next permitted action
+    secondary: state, owner, date, concise metadata
+    tertiary: identifiers, descriptions, helper copy
+    selection: persistent row/panel indication independent of color alone
+  surface_rules:
+    - Use rows for high-volume comparable objects; use cards only for media, compact summaries, or a justified board contract.
+    - Preserve visible boundaries between navigation, list, preview, activity, and utility regions.
+    - Keep controls aligned to a compact baseline; do not use unrelated control heights on one surface.
+    - Use overflow and contextual menus to prevent a peer-button wall.
+  motion_and_input:
+    - Hover, pressed, focus-visible, selected, loading, stale, and disabled states must be perceptible.
+    - Functional transitions are short and reduced-motion aware; no decorative animation is required.
+    - Keyboard focus must be as visible as pointer hover; tooltips explain icon-only controls.
+    - Focused dense collections support Arrow navigation and may support J/K; Enter opens, P previews, Escape clears, and input focus suppresses collection shortcuts.
+  responsive_contract:
+    - Desktop may present rail/list/preview or main/activity/utility when the task benefits.
+    - Narrow mode keeps the active content first and moves lost rail content into a labelled drawer or route.
+    - Density may adapt only as a presentation preference; it never changes backend membership or allowed actions.
+explicit_non_goals:
+  - Recreate Linear's logo, text, proprietary visual assets, issue/team/project terminology, or product workflow.
+  - Add boards, drag/drop, manual ordering, shared custom views, or bulk actions without dedicated backend contracts.
+  - Apply dark workspace chrome to the distinct adaptive Vision canvas.
+route_archetype_coverage:
+  AuthenticatedShellView: {archetype: stable_shell, required: [left_rail, compact_header, graphite_boundaries, narrow_drawer]}
+  HomeHubView: {archetype: personal_workspace, required: [attention, resume_context, dense_prioritization]}
+  WorkDiscoveryView: {archetype: collection, required: [dense_rows, selection, preview, collection_context]}
+  WorkQuestDetailView: {archetype: detail, required: [main, activity, utility_actions]}
+  WorkQuestCreateView: {archetype: substantial_form, required: [structured_fields, footer, optional_utility_context]}
+  WorkQuestApplicationsView: {archetype: review_collection, required: [dense_rows, selection, permitted_decisions]}
+  WorkApplicationsView: {archetype: collection, required: [dense_rows, context_restore]}
+  WorkApplicationDetailView: {archetype: detail, required: [facts, activity, permitted_actions]}
+  ThingsDiscoveryView: {archetype: collection, required: [dense_rows, selection, preview]}
+  ThingDetailView: {archetype: detail, required: [facts, borrow_context, permitted_actions]}
+  ChatSurfaceView: {archetype: chat_workspace, required: [conversation_index, active_thread, composer, optional_context_rail]}
+  BusinessDiscoveryView: {archetype: collection, required: [dense_results, inspect_before_open]}
+  BusinessProfileView: {archetype: substantial_form, required: [structured_sections, utility_context]}
+  BusinessOfferingsView: {archetype: collection_detail, required: [dense_offerings, inline_edit_or_detail]}
+  BusinessBookingsView: {archetype: review_collection, required: [status, permitted_workflow_actions]}
+  BusinessAvailabilityView: {archetype: structured_schedule, required: [dense_rules, direct_editing]}
+  BusinessAvailabilityExceptionsView: {archetype: structured_schedule, required: [exceptions, direct_editing]}
+  BusinessPublicView: {archetype: public_discovery, required: [trust_context, booking_entry, no_internal_utility_rail]}
+  BusinessMyBookingsView: {archetype: personal_collection, required: [booking_context, recovery]}
+  RidesView: {archetype: collection_detail_form, required: [inspectable_rides, commute_settings, permitted_actions]}
+  CirclesView: {archetype: relationship_collection, required: [dense_rows, trust_context, permitted_actions]}
+  PeopleDiscoveryView: {archetype: collection, required: [dense_rows, profile_preview]}
+  PeopleProfileView: {archetype: social_detail, required: [trust_context, direct_actions]}
+  NotificationsView: {archetype: attention_inbox, required: [dense_triage, selection, permitted_actions]}
+  ActivityView: {archetype: activity_feed, required: [chronological_rows, quiet_metadata]}
+  SavedSearchIntentsView: {archetype: personal_context, required: [safe_resume, backend_owned_intents]}
+  ProfileLocationSettingsView: {archetype: substantial_form, required: [structured_sections, visibility_context]}
+  NotificationPreferencesView: {archetype: simple_form, required: [shared_fields, compact_footer, no_forced_rail]}
+  OnboardingView: {archetype: guided_intake, required: [progress, recovery, minimum_required_fields]}
+  SectionHubView: {component_path: apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue, archetype: explicit_hub, required: [declared_route_role, no_placeholder_finish]}
+  LoginView: {archetype: identity_entry, required: [shared_controls, focus, validation_recovery]}
+  RegisterView: {archetype: identity_entry, required: [shared_controls, focus, validation_recovery]}
+  VisionSurfaceModernView: {archetype: adaptive_vision_canvas, required: [voice_feedback, typed_context, no_workspace_chrome]}
+acceptance_evidence:
+  - Compare fresh TheMuffinMan desktop and narrow screenshots to this hierarchy and geometry contract, not pixel-for-pixel to Linear.
+  - For each adopted route, record whether it is collection, detail, form, chat, personal context, or simple entry and why its column count is appropriate.
+  - Reject a migration if legacy pill controls, oversized cards, arbitrary light panels, or heavy shadows remain as default layout language.
+  - Maintain one fresh route-archetype evidence record per concrete routed surface, including desktop/narrow capture and the rationale for its column count.

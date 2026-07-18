@@ -10,4 +10,14 @@ export type QuestAllowedAction = import("./generated/themuffinmanContract.ts").Q
 export type QuestApplicationAllowedAction = import("./generated/themuffinmanContract.ts").ApplicationAllowedActionDTO
 export type QuestListPreset = import("./generated/themuffinmanContract.ts").QuestListPresetDTO
 export type QuestViewerRelation = import("./generated/themuffinmanContract.ts").QuestViewerRelationDTO
+export type QuestDetailRailItem = import("./generated/themuffinmanContract.ts").QuestDetailRailItemDTO
 export type RegisterRequest = import("./generated/themuffinmanContract.ts").RegisterRequestDTO
+export type QuestPreview = { id: number; title: string; summary: string; creatorUsername: string; status: string; canOpenDetail: boolean }
+export type ThingPreview = { id: number; title: string; summary: string; ownerUsername: string; available: boolean; myPendingRequestId?: number; canOpenDetail: boolean }
+export type ThingAllowedAction = import("./generated/themuffinmanContract.ts").ThingAllowedActionDTO
+export type PersonalWorkspaceAttentionItem = import("./generated/themuffinmanContract.ts").ActivityItemDTO
+
+export type WorkspaceCommandItem = {id: string; group: string; label: string; description: string; route: string; kind: "NAVIGATE" | "CREATE_ROUTE" | "VISION_ROUTE"}
+export type WorkspaceCommandCatalog = {personal: WorkspaceCommandItem[]; navigation: WorkspaceCommandItem[]; create: WorkspaceCommandItem[]; vision: WorkspaceCommandItem[]}
+export type ChatRefreshHint = {conversationId: number; latestMessageId: number | null; refreshRequired: boolean; reason: string}
+export type VisionWorkspaceHandoff = {contextLabel: string | null; source: string | null; returnTo: string | null; explanation: string}

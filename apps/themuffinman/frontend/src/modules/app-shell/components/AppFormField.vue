@@ -12,5 +12,5 @@ withDefaults(defineProps<{label: string; hint?: string; error?: string; required
 </template>
 
 <style scoped>
-.app-form-field{display:grid;gap:.35rem}.app-form-field__label{font-size:.82rem;font-weight:650}.app-form-field__hint{color:rgba(23,34,26,.58);font-size:.78rem}.app-form-field__error{color:#8d2f25;font-size:.78rem}
+.app-form-field{display:grid;gap:.35rem}.app-form-field__label{font-size:.82rem;font-weight:650}.app-form-field__hint{color:var(--text-muted);font-size:.78rem}.app-form-field__error{color:var(--danger);font-size:.78rem}
 </style>

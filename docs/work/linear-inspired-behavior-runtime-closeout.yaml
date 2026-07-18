@@ -1,0 +1,34 @@
+kind: work
+version: 1
+id: linear-inspired-behavior-runtime-closeout
+title: Product behavior expansion runtime closeout
+status: draft
+master_plan: docs/work/linear-inspired-product-behavior-expansion-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: >
+  Validate the expanded behavior as one coherent product interaction system across
+  desktop and narrow fallback, including permissions, direct routes, dialogs, keyboard,
+  realtime recovery, and process cleanup.
+tasks:
+  - id: behavior-contract-audits
+    type: validation
+    status: pending
+    paths: [apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs, apps/themuffinman/frontend/scripts/validate-web-surface-contract.mjs, docs/regression-scenario-catalog.yaml]
+    validation: npm --prefix apps/themuffinman/frontend run build && make audit-frontend && make audit-docs
+  - id: behavior-runtime-evidence
+    type: validation
+    status: pending
+    paths: [apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs, docs/runtime-acceptance-matrix.yaml]
+    validation: make audit-runtime-acceptance
+    manual_runtime_command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+    manual_runtime_requires_escalation: true
+  - id: behavior-impact-closeout
+    type: validation
+    status: pending
+    paths: [docs/capability-inventory.yaml, docs/implementation-backlog.md, docs/domain-technical.md]
+    validation: make audit-impact && make audit-plan-coverage
+acceptance:
+  - Each new behavior has backend authority, a usable Web entry point, error recovery, and runtime evidence.
+  - Agent-started services are stopped and ports checked after runtime validation; pre-existing user services are never stopped.
+  - No blocked interaction is presented as available.
+evidence: []

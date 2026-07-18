@@ -29,11 +29,54 @@ Instead of making users hunt through menus, modal dialogs, and long forms, the p
 
 The goal is not novelty for its own sake. The goal is to make the app feel like it understands what kind of moment the user is in.
 
-The default visual idea is an abstract white canvas with motion, strong contrast, and clear state changes. It should feel playful, inviting, and alive rather than like an Excel sheet, enterprise dashboard, or dense text-heavy admin tool.
+The default desktop Web visual language is a dark graphite workspace: a stable
+application frame, quiet near-black surfaces, subtle one-pixel separators, compact
+type, aligned metadata, and restrained status color. It should feel calm and fast,
+not like an Excel sheet, a card-heavy marketing dashboard, or a dense text-heavy
+admin tool. This is inspired by Linear's interaction discipline, not its brand,
+product terminology, issue model, boards, assets, or copy.
+
+`/vision` deliberately keeps a different visual grammar: an adaptive canvas that
+can become spacious, light, expressive, and voice-led when that helps the current
+task. The contrast is intentional: the Web workspace is the reliable structured
+place to navigate and inspect; Vision is the primary voice/context-aware assistant
+that helps a person decide, understand, and safely begin work.
+
+## Desktop Workspace Language
+
+The authenticated Web application should behave and look like one coherent desktop
+application rather than a collection of branded pages:
+
+- A persistent left navigation/personal-context rail, compact route header, and
+  main working region establish stable spatial memory.
+- High-volume surfaces use dense rows, quiet metadata, selected-row indicators,
+  explicit status icons, and one primary open target rather than large disconnected
+  cards.
+- A contextual right rail is used for preview, facts, activity, and permitted
+  actions where it materially reduces navigation. On narrow screens it becomes a
+  deliberate drawer or route.
+- Near-black and graphite surfaces are separated by low-contrast one-pixel borders.
+  Elevation is exceptional and subtle; cards are reserved for isolated content,
+  not used as the default page geometry.
+- Typography makes the object title and next action dominant. Secondary metadata,
+  IDs, timestamps, and helper text are quieter but readable; status colors are
+  semantic and sparse.
+- Controls are compact and mostly squared, with a predictable primary, quiet,
+  destructive, and overflow hierarchy. Pill controls, heavy shadows, gradients,
+  and arbitrary pale-gray panels are not the default workspace language.
+- Hover, pressed, focus, loading, reconnect, stale, and selected states are visible
+  but restrained. Motion is short, functional, reduced-motion aware, and never
+  decorative at the cost of speed.
+
+This language applies to the authenticated Web workspace, including Work, Things,
+Business, Rides, Chat, personal attention, and settings. Public discovery and
+identity entry should use the same control and state grammar, but may use more
+breathing room and must not pretend to be a three-column work surface.
 
 ## UX Principles By Screen
 
-- Discovery screens should stay open, sparse, and visually calm.
+- Discovery screens should stay calm, scannable, and comparison-friendly; dense
+  rows are preferred when many objects need to be evaluated.
 - Search and browse screens should prioritize ranked results, trust signals, and quick comparisons.
 - Creation screens should ask only for the minimum structure needed to complete the job.
 - Voice-driven screens should always show listening, processing, and completion states.
@@ -51,7 +94,9 @@ The rule is that each screen should optimize for the user's current intent, not 
 
 The product should reuse a small set of screen archetypes that can stretch across modules:
 
-- blank canvas: no clutter, one clear prompt, one clear next action
+- workspace collection: stable rail, dense index/list, and optional inspect rail
+- workspace detail: main content with contextual activity and permitted actions
+- blank canvas: a Vision-only or intentionally adaptive surface with one clear prompt and next action
 - guided intake: structured input appears only where precision matters
 - ranked results: cards, rows, or tiles that can be compared quickly
 - comparison surface: table or split-panel view for choosing between options
@@ -63,17 +108,18 @@ These archetypes should feel like different shapes of the same product, not unre
 
 ## Product Feel
 
-- Calm instead of crowded.
+- Calm and dense instead of spacious but fragmented.
 - Adaptive instead of static.
 - Context-aware instead of form-heavy.
 - Human and useful instead of generic and transactional.
 - Simple on the surface, capable underneath.
-- Playful and inviting instead of cold and bureaucratic.
-- High-contrast and visually clear instead of small-text dense.
+- Quietly confident instead of decorative or cold.
+- High-contrast and visually clear, with dense metadata that remains scannable.
 
 ## Interaction Principles
 
-- The default surface should behave like a blank canvas until the task needs more structure.
+- The default authenticated Web surface should behave like a stable workspace;
+  Vision may begin as a blank canvas until the task needs more structure.
 - The UI should reveal only the controls, text, visuals, or actions that are relevant to the current intent.
 - Voice, gesture, animation, text, tables, and images are presentation modes, not separate products.
 - Web UI and Vision are equal production clients, not primary and companion products. A user must be able to complete every supported capability through direct web interaction and through Vision text or voice when the target surface requires it.
@@ -84,6 +130,29 @@ These archetypes should feel like different shapes of the same product, not unre
 - A screen should be able to hold many kinds of content, but never all at once by default.
 - The same shell should be able to become a text view, a table, a command surface, a result card, or a narrative surface depending on context.
 - The user should feel guided by the product, not trapped inside a fixed form metaphor.
+- Display preferences may change density and visible metadata, but only backend-
+  supported filters may change collection membership.
+- Keyboard shortcuts, command menu actions, and context-menu actions are alternate
+  entry points to the same backend-allowed action, never a second mutation system.
+
+## Vision Authority And Workspace Boundary
+
+The redesigned Web workspace and `/vision` are complementary primary clients with
+deliberately different interaction grammars. The Web client uses a dark, dense,
+Linear-inspired application shell for navigation, collections, detail work, and
+keyboard-oriented command discovery. That choice must not turn `/vision` into a
+dashboard, board, persistent sidebar, or command palette.
+
+Vision remains the future-facing primary assistant: voice-ready, context-aware, and
+able to propose a decision or next action from the user's current request and
+approved personal context. It is not a novelty or companion control; it is the
+product's differentiated assistant surface. A proposal is never an execution. Raw
+text, a voice transcript, model output, or a client-side interpretation must not
+directly mutate a domain object. The backend must first produce a typed capability,
+validated slots, permission result, understandable review, and explicit
+confirmation where the capability requires it.
+
+Personalization is useful only when it stays trustworthy. User context, learned preferences, consent, retention, inspection, correction, and deletion boundaries are backend-owned and user-scoped. The UI may show the context or explanation that the backend authorizes; it must not silently assemble cross-user memory, infer durable preferences, or make an unexplained decision on the user's behalf.
 
 ## Adaptive Surface Model
 
@@ -100,7 +169,8 @@ The key rule is that the surface should match the user's current need rather tha
 
 ### Blank Canvas Behavior
 
-- The default state should be visually quiet, white, and spacious.
+- The default state should be visually quiet, spacious, and adaptive; it may be
+  lighter and more expressive than the graphite Web workspace.
 - The first prompt composer should live inside the blank canvas itself so the user can act immediately without opening a separate dock or modal.
 - The prompt surface should autofocus when the task becomes active and should grow more visibly as content or structure accumulates.
 - Actions should appear contextually, so the surface does not show voice or review controls before the task needs them.
@@ -164,10 +234,10 @@ The key rule is that the surface should match the user's current need rather tha
 
 The vision can be translated into implementation batches that are easier to deliver and reason about:
 
-1. Adaptive shell and blank-canvas framework
-   - one shared page shell
-   - task-aware surface switching
-   - consistent loading, empty, and completion states
+1. Desktop workspace and Vision canvas framework
+   - one stable authenticated workspace shell with navigation, context, and utility rails
+   - one distinct task-aware Vision canvas
+   - consistent loading, empty, stale, permission, and completion states
 
 2. Voice and visual feedback layer
    - visible listening state
@@ -177,12 +247,12 @@ The vision can be translated into implementation batches that are easier to deli
    - recognition transcript or confirmation surface
    - speech-to-result transitions that remain understandable without sound
 
-3. Adaptive task surfaces
-   - text-first quick entry
-   - table or comparison views for choosing between options
-   - cards and summaries for browsing
+3. Workspace task surfaces
+   - dense collections with preview before full detail
+   - table or comparison views only where the backend prepares comparable data
+   - cards and summaries only for isolated browsing or media content
    - guided panels for structured workflows
-   - dynamic filtering and summarization for large result sets
+   - backend-owned filtering, display density, and summarization for large result sets
 
 4. Social utility flow surfaces
    - work marketplace
@@ -201,13 +271,12 @@ These epics are implementation buckets, not separate product visions.
 
 ## How I Would Frame The Product
 
-Think of TheMuffinMan as an adaptive social utility layer:
+Think of TheMuffinMan as a structured social utility workspace with an adaptive
+assistant layer:
 
-- a blank canvas that becomes a work marketplace when you need work
-- a service surface when you need a business profile or appointment
-- a sharing surface when you need to lend or borrow
-- a movement surface when you need a ride
-- a conversation surface when human negotiation is the right next step
+- a reliable desktop workspace for work, services, borrowing, rides, and conversation
+- a typed Vision canvas that can understand a voice or text request and guide the
+  person into the right structured surface
 
 The interesting part is not that these are separate modules. The interesting part is that the user should feel one continuous system that can take on different shapes.
 
@@ -217,8 +286,9 @@ It should also evolve in the softer Her sense: the system should remember, learn
 
 ## What Should Stay Core
 
-- one adaptive shell
-- one clear visual language
+- one stable dark desktop workspace shell
+- one distinct adaptive Vision canvas
+- shared control, state, and backend-authority contracts across both clients
 - one strong voice-feedback model
 - one social utility network identity
 - one set of reusable interaction patterns that scale across modules

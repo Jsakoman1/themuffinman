@@ -27,6 +27,7 @@ public class VisionConversationTurnResponseDTO {
     private boolean translationReliable;
     private boolean executionEnabled;
     private VisionRuntimeContextDTO runtimeContext;
+    private VisionWorkspaceHandoffDTO workspaceHandoff;
     private VisionExecutionCandidateDTO executionCandidate;
     private VisionQuestDiscoveryDTO questDiscovery;
     private VisionSearchDiscoveryDTO searchDiscovery;

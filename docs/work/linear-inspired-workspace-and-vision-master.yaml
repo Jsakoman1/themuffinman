@@ -1,0 +1,105 @@
+kind: master
+version: 1
+id: linear-inspired-workspace-and-vision-master
+title: Verified workspace redesign and adaptive Vision convergence
+status: verified
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+strict_verification: true
+execution_inventory: docs/work/linear-inspired-workspace-and-vision-execution-inventory.yaml
+supersedes:
+- docs/work/linear-inspired-product-app-redesign-master.yaml
+- docs/work/linear-inspired-product-behavior-expansion-master.yaml
+analysis: docs/work/linear-inspired-workspace-and-vision-recovery-analysis.md
+objective: 'Deliver the originally requested substantial frontend redesign as one
+  coherent product program: a calm, dense, keyboard-first authenticated workspace
+  inspired by modern desktop product applications, backed by the API contracts needed
+  for pins, attention, previews, commands, and safe realtime reconciliation; keep
+  Vision a distinct, Her-like adaptive conversation surface. Preserve Java/Spring
+  domain authority, existing direct workflows, and canonical routes. Do not copy Linear
+  branding, assets, exact copy, or proprietary domain model.
+
+'
+completion_guardrails:
+- Execution is strictly serial through the named execution inventory: start one task,
+    implement it, verify it, then start the next task.
+- No child is complete because a component exists; each named interaction must be
+  adopted on a named route.
+- Every strict task changes every listed required path; broad directories are forbidden
+  in required_paths.
+- Every visual task records changed desktop and narrow screenshots from the named
+  route.
+- Every runtime task records changed HAR, screenshot, and generated trace metadata
+  from an intentionally started stack.
+- Static validation, existing HAR files, stale screenshots, and a green build cannot
+  substitute for changed runtime evidence.
+- A pre-existing user dev server is never stopped and cannot be claimed as agent-produced
+  runtime evidence.
+- Backend-owned filters, actions, permissions, workflow transitions, read models,
+  and event visibility remain authoritative.
+children:
+- docs/work/linear-redesign-recovery-controls.yaml
+- docs/work/linear-workspace-shell-redesign.yaml
+- docs/work/linear-workspace-collection-preview.yaml
+- docs/work/linear-workspace-detail-activity.yaml
+- docs/work/linear-workspace-personal-attention.yaml
+- docs/work/linear-workspace-command-create.yaml
+- docs/work/linear-workspace-chat-realtime.yaml
+- docs/work/vision-adaptive-workspace-integration.yaml
+- docs/work/linear-workspace-cross-module-adoption.yaml
+- docs/work/linear-workspace-runtime-closeout.yaml
+dependencies:
+- docs/work/linear-redesign-recovery-controls.yaml -> docs/work/linear-workspace-shell-redesign.yaml
+- docs/work/linear-redesign-recovery-controls.yaml -> docs/work/linear-workspace-collection-preview.yaml
+- docs/work/linear-redesign-recovery-controls.yaml -> docs/work/linear-workspace-detail-activity.yaml
+- docs/work/linear-redesign-recovery-controls.yaml -> docs/work/linear-workspace-personal-attention.yaml
+- docs/work/linear-workspace-shell-redesign.yaml -> docs/work/linear-workspace-command-create.yaml
+- docs/work/linear-workspace-collection-preview.yaml -> docs/work/linear-workspace-detail-activity.yaml
+- docs/work/linear-workspace-collection-preview.yaml -> docs/work/linear-workspace-cross-module-adoption.yaml
+- docs/work/linear-workspace-personal-attention.yaml -> docs/work/linear-workspace-command-create.yaml
+- docs/work/linear-workspace-personal-attention.yaml -> docs/work/linear-workspace-chat-realtime.yaml
+- docs/work/linear-workspace-chat-realtime.yaml -> docs/work/vision-adaptive-workspace-integration.yaml
+- docs/work/linear-workspace-detail-activity.yaml -> docs/work/linear-workspace-runtime-closeout.yaml
+- docs/work/linear-workspace-command-create.yaml -> docs/work/linear-workspace-runtime-closeout.yaml
+- docs/work/linear-workspace-cross-module-adoption.yaml -> docs/work/linear-workspace-runtime-closeout.yaml
+- docs/work/vision-adaptive-workspace-integration.yaml -> docs/work/linear-workspace-runtime-closeout.yaml
+recommended_execution_order:
+- docs/work/linear-redesign-recovery-controls.yaml
+- docs/work/linear-workspace-shell-redesign.yaml
+- docs/work/linear-workspace-collection-preview.yaml
+- docs/work/linear-workspace-detail-activity.yaml
+- docs/work/linear-workspace-personal-attention.yaml
+- docs/work/linear-workspace-command-create.yaml
+- docs/work/linear-workspace-chat-realtime.yaml
+- docs/work/vision-adaptive-workspace-integration.yaml
+- docs/work/linear-workspace-cross-module-adoption.yaml
+- docs/work/linear-workspace-runtime-closeout.yaml
+acceptance:
+- The shell, Work, Things, Rides, Business, notifications, Chat, and detail routes
+  visibly use one workspace grammar rather than isolated CSS overrides.
+- At least two real collections adopt the shared preview primitive; preview has direct
+  route, keyboard, stale-object, and narrow-screen proof.
+- Personal pins, attention, command entries, and realtime refresh have explicit backend
+  ownership and cannot leak inaccessible objects or actions.
+- Vision remains a quiet, voice-ready adaptive conversation with shared handoff and
+  recovery language, not a duplicate sidebar/dashboard application. Personalized context,
+  intent assessment, and any execution authority stay backend-owned, consent-bound,
+  and confirmation-gated.
+- Each implementation slice has screenshot and browser evidence captured after the
+  change; the final verifier must fail if any required evidence artifact is absent.
+- No board mutation, drag/drop, generic subscriptions, shared saved views, bulk object
+  actions, optimistic workflow updates, or client permission logic is introduced without
+  its own future contract.
+evidence:
+- verifiedAt: '2026-07-17T23:09:52Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  children:
+  - docs/work/linear-redesign-recovery-controls.yaml
+  - docs/work/linear-workspace-shell-redesign.yaml
+  - docs/work/linear-workspace-collection-preview.yaml
+  - docs/work/linear-workspace-detail-activity.yaml
+  - docs/work/linear-workspace-personal-attention.yaml
+  - docs/work/linear-workspace-command-create.yaml
+  - docs/work/linear-workspace-chat-realtime.yaml
+  - docs/work/vision-adaptive-workspace-integration.yaml
+  - docs/work/linear-workspace-cross-module-adoption.yaml
+  - docs/work/linear-workspace-runtime-closeout.yaml

@@ -8,6 +8,7 @@ import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
 import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
+import com.themuffinman.app.vision.dto.VisionWorkspaceHandoffDTO;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionExecutionCandidateDTO;
 import com.themuffinman.app.vision.dto.VisionMemoryTrailDTO;
@@ -263,7 +264,8 @@ public class VisionConversationService {
                 turn,
                 currentUser,
                 understanding,
-                visionExecutionPlanner.plan(conversation, understanding)
+                visionExecutionPlanner.plan(conversation, understanding),
+                workspaceHandoff(dto)
         );
     }
 
@@ -1904,6 +1906,17 @@ public class VisionConversationService {
             VisionPromptUnderstandingResult discoveryUnderstanding,
             VisionExecutionCandidateDTO executionPlan
     ) {
+        return assembleConversationResponse(conversation, turn, currentUser, discoveryUnderstanding, executionPlan, null);
+    }
+
+    private VisionConversationTurnResponseDTO assembleConversationResponse(
+            VisionConversation conversation,
+            VisionTurn turn,
+            AppUser currentUser,
+            VisionPromptUnderstandingResult discoveryUnderstanding,
+            VisionExecutionCandidateDTO executionPlan,
+            VisionWorkspaceHandoffDTO workspaceHandoff
+    ) {
         return visionCanvasAssembler.assemble(
                 conversation,
                 turn,
@@ -1912,8 +1925,43 @@ public class VisionConversationService {
                 visionQuestDiscoveryService.discover(conversation, discoveryUnderstanding, currentUser),
                 searchDiscoveryForConversation(conversation, currentUser),
                 VisionConversationSnapshotSupport.capabilityPreview(conversation, currentUser, visionCapabilityPreviewService),
-                visionConversationReadModelAssembler.buildMemoryTrail(currentUser, conversation)
+                visionConversationReadModelAssembler.buildMemoryTrail(currentUser, conversation),
+                workspaceHandoff
         );
+    }
+
+    private VisionWorkspaceHandoffDTO workspaceHandoff(VisionConversationTurnRequestDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        String contextLabel = cleanWorkspaceValue(dto.getWorkspaceContext(), 120);
+        String source = cleanWorkspaceSource(dto.getWorkspaceSource());
+        String returnTo = cleanWorkspaceReturnTo(dto.getWorkspaceReturnTo());
+        if (contextLabel == null && source == null && returnTo == null) {
+            return null;
+        }
+        return VisionWorkspaceHandoffDTO.builder()
+                .contextLabel(contextLabel)
+                .source(source)
+                .returnTo(returnTo)
+                .explanation(contextLabel == null ? "Opened from the workspace." : "Opened from " + contextLabel + ".")
+                .build();
+    }
+
+    private String cleanWorkspaceValue(String value, int maxLength) {
+        String cleaned = cleanRuntimeHint(value);
+        return cleaned == null || cleaned.length() > maxLength ? null : cleaned;
+    }
+
+    private String cleanWorkspaceSource(String value) {
+        String cleaned = cleanWorkspaceValue(value, 100);
+        return cleaned != null && cleaned.matches("shell\\.surface\\.[a-z0-9-]+") ? cleaned : null;
+    }
+
+    private String cleanWorkspaceReturnTo(String value) {
+        String cleaned = cleanWorkspaceValue(value, 240);
+        return cleaned != null && cleaned.startsWith("/") && !cleaned.startsWith("//")
+                && !cleaned.contains("://") && !cleaned.contains("\\") ? cleaned : null;
     }
 
     private String clientRequestId(VisionConversationTurnRequestDTO dto) {

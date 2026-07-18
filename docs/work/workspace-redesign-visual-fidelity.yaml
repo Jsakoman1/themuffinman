@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: workspace-redesign-visual-fidelity
+title: Dark graphite workspace visual system and interaction fidelity
+status: draft
+master_plan: docs/work/workspace-redesign-complete-master.yaml
+serial_task_execution: true
+execution_inventory: docs/work/workspace-redesign-complete-execution-inventory.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+strict_verification: true
+execution_brief: docs/work/workspace-redesign-execution-brief.yaml
+objective: >
+  Establish the original dark, dense, Linear-inspired visual language before route
+  adoption: graphite tokens, measurable workspace geometry, typography/metadata
+  hierarchy, low-elevation surfaces, interaction states, and original visual
+  acceptance. Vision remains a deliberately distinct adaptive canvas.
+tasks:
+  - {id: graphite-token-contract, inventory_item: VFY-01, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/styles/base.css, docs/work/workspace-redesign-visual-reference-spec.yaml], required_paths: [apps/themuffinman/frontend/src/styles/base.css, docs/work/workspace-redesign-visual-reference-spec.yaml], validation: 'npm --prefix apps/themuffinman/frontend run type-check && make audit-docs'}
+  - {id: workspace-geometry-contract, inventory_item: VFY-02, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/styles/base.css, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue], required_paths: [apps/themuffinman/frontend/src/styles/base.css, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: typography-metadata-hierarchy, inventory_item: VFY-03, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/styles/base.css, apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue], required_paths: [apps/themuffinman/frontend/src/styles/base.css, apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: border-elevation-card-policy, inventory_item: VFY-04, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/styles/base.css, apps/themuffinman/frontend/src/modules/app-shell/components/AppCard.vue], required_paths: [apps/themuffinman/frontend/src/styles/base.css, apps/themuffinman/frontend/src/modules/app-shell/components/AppCard.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: icon-status-avatar-contract, inventory_item: VFY-05, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue, apps/themuffinman/frontend/src/modules/app-shell/components/AppIconButton.vue], required_paths: [apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue, apps/themuffinman/frontend/src/modules/app-shell/components/AppIconButton.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: interaction-polish-contract, inventory_item: VFY-06, type: implementation, status: pending, paths: [apps/themuffinman/frontend/src/styles/base.css, apps/themuffinman/frontend/src/modules/app-shell/components/AppTooltip.vue], required_paths: [apps/themuffinman/frontend/src/styles/base.css, apps/themuffinman/frontend/src/modules/app-shell/components/AppTooltip.vue], validation: 'npm --prefix apps/themuffinman/frontend run type-check'}
+  - {id: visual-fidelity-evidence-matrix, inventory_item: VFY-07, type: validation, status: pending, paths: [docs/runtime-evidence/workspace-redesign/visual-fidelity-desktop.png, docs/runtime-evidence/workspace-redesign/visual-fidelity-narrow.png, docs/runtime-acceptance-matrix.yaml], required_paths: [docs/runtime-evidence/workspace-redesign/visual-fidelity-desktop.png, docs/runtime-evidence/workspace-redesign/visual-fidelity-narrow.png, docs/runtime-acceptance-matrix.yaml], requires_visual_evidence: true, visual_evidence_paths: [docs/runtime-evidence/workspace-redesign/visual-fidelity-desktop.png, docs/runtime-evidence/workspace-redesign/visual-fidelity-narrow.png], validation: 'make audit-runtime-acceptance'}
+evidence: []

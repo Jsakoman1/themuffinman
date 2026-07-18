@@ -34,6 +34,7 @@ Frontend vision surface note:
 - The first shell phase keeps `/vision` outside that route family as the premium deep-work surface so the blank-canvas route does not inherit module chrome by default.
 - The shared shell keeps backend ownership of quest and application detail data while exposing deterministic Work routes (`/work/quests/:id` and `/work/applications/:id`). Vision remains a semantic handoff surface, not the only detail UI.
 - `apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts` now defines the typed shell-to-Vision handoff query contract with `prompt`, `autorun`, `context`, `source`, and `returnTo`, and `VisionSurfaceModernView.vue` preserves that metadata so route-to-Vision and Vision-to-route transitions stay explicit.
+- Vision turn requests may carry workspace context, source, and return path only as presentation metadata. `VisionConversationService` sanitizes the source and local return path into `VisionWorkspaceHandoffDTO`; this data is not persisted as memory and never participates in capability routing, permission checks, review, or execution.
 - `apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnRequestDTO.java` now carries an optional `clientDeviceRole` hint, and `VisionConversationTurnResponseDTO` now exposes a backend-owned `runtimeContext` with device role, attention state, session anchor, action hints, and audio or haptic cues so mobile and voice clients do not have to infer turn density locally.
 - `VisionConversationTurnRequestDTO` also carries an optional `clientRequestId`, and `VisionConversationService` persists that request id on the conversation row so the backend can replay the latest turn when the same request reaches the backend again, even on the first submit before the client has a conversation id.
 - Vision read and discovery failures expose a safe frontend retry for prompt submission and result continuation; review and mutation actions remain explicit and are never auto-retried.
@@ -48,6 +49,9 @@ Frontend vision surface note:
 - The Business Profile web surface consumes the backend-owned gallery CRUD contract (`/business/gallery/me`); active state, ordering, ownership, and deletion authority remain in `BusinessGalleryService`, while the frontend only renders and submits typed DTOs.
 - Business booking reschedule uses `BusinessRescheduleBookingUseCase` through customer and owner endpoints. Availability, capacity, policy windows, participant authorization, audit, and event emission remain backend-owned; web surfaces submit only typed start/end values.
 - `WorkmarketQuestStateTransitionService` now exposes owner cancellation and pause/resume for `OPEN`, `ASSIGNED`, `IN_PROGRESS`, and `WAITING_CONFIRMATION` quests through typed lifecycle endpoints. It rejects completed or already cancelled quests and emits participant news; pause stores the previous active state so resume can restore it.
+- `QuestPreviewReadService` and `ThingPreviewReadService` expose viewer-authorized compact read DTOs for the workspace list preview panels. Quest preview summaries are converted from stored rich text to plain text; clients do not derive authorization or preview membership.
+- Work detail responses carry backend-prepared property and current-state rail entries. Thing detail responses carry a viewer-scoped availability label and allowed actions, so detail surfaces render the authorization result rather than infer ownership, availability, or pending-request state in the browser.
+- Personal workspace shortcuts are bounded, user-scoped Quest pins. Pin creation validates the target through the existing viewer-scoped Quest read service; reads omit an object that was deleted or became inaccessible.
 - `WorkmarketWorkerManagementService` owns approved-worker release and replacement commands. Only the quest owner or administrator can mutate assignments while a quest is `ASSIGNED`, `IN_PROGRESS`, or `PAUSED`; release persists `RELEASED`, restores an available slot, and replacement swaps one approved application for one pending application in one transaction.
 - `VisionReleaseWorkerExecutionAdapter` and `VisionReplaceWorkerExecutionAdapter` pass reviewed worker/application ids into `WorkmarketWorkerManagementService`; the Vision layer does not duplicate assignment authorization or state transitions.
 - Vision exposes `PAUSE_QUEST` and `RESUME_QUEST` as reviewed mutations; the adapters delegate to `WorkmarketQuestUpdateService`, so Vision does not duplicate owner authorization or lifecycle validation.
@@ -176,7 +180,7 @@ Test fixture standard:
 
 Validation standard:
 - A work plan in `docs/work/*.yaml` owns the required validation commands for its change.
-- `scripts/verify-work.rb` runs every task command and records pass/fail evidence before allowing `status: verified`.
+- `scripts/verify-work.rb` runs every task command and records pass/fail evidence before allowing `status: verified`. High-risk serial programs additionally require an explicit one-task start snapshot, a post-start required-path change, and a verifier-controlled execution inventory before master closeout.
 - `make audit-all` is diagnostic only; its reports do not change plan state.
 
 Service layering standard:
@@ -430,6 +434,7 @@ Technical notes:
 - Ride mutations append audit events and fan out generic notifications to the driver or active participants; notification text does not broaden ride visibility.
 - Vision uses the same `RideOfferService` read and mutation contract, with review-before-execution for every mutating ride intent.
 - `RideOfferService` owns lifecycle authorization and transitions; `RideOfferMgr` prepares viewer-specific action affordances from backend state.
+- The workspace adoption of owner bookings, customer bookings, and rides is presentation-only: the Web client groups backend-prepared metadata into shared rows, while booking policy, ride visibility, action eligibility, and every mutation remain in the existing business and rides services.
 
 ## Control-System Technical Notes
 
@@ -1876,3 +1881,11 @@ Surface navigation and filtering remain backend-owned. `AVAILABLE` returns visib
 ## Attention center projection
 
 `GET /attention/me` remains the backend-owned projection for unread count and viewer-scoped activity items. The Web Notifications surface renders this DTO directly and uses its routes for resume/open actions; notification read mutations continue through the notification API.
+
+## Authenticated interaction contract
+
+- `docs/work/linear-inspired-interaction-contract-audit.md` is the route-to-read-model/action-source matrix for the authenticated desktop interaction program.
+- Collection membership, backend filters, ordering, visibility, action availability, and workflow transitions remain backend-owned. Vue may retain only local presentation state such as panel openness, selected preview, row density, or scroll restoration.
+- A preview is route-preserving and may only render data already available through a canonical backend detail model. It cannot become a competing detail endpoint or infer an allowed action.
+- Object actions must use the backend DTO's allowed action/primary action fields or an existing authorized endpoint path. `AppActionDialog` confirms intent only; it is not authorization or workflow logic.
+- Board mutation, timeline mutation, bulk actions, shared saved views, generalized favorites/subscriptions, client caching, optimistic updates, virtualization, and infinite scrolling are blocked until their own backend, ordering, accessibility, ownership, and recovery contracts exist.

@@ -1,0 +1,120 @@
+kind: execution_brief
+version: 1
+id: workspace-redesign-execution-brief
+status: draft
+master_plan: docs/work/workspace-redesign-complete-master.yaml
+purpose: >
+  The mandatory task-level intent layer for the workspace redesign. Read this
+  before starting any inventory item together with the owning child plan and the
+  master. It prevents a component, CSS, or screenshot-only change from being
+  mistaken for delivery of the product behavior.
+north_star: >
+  Make the authenticated Web application a calm, dense, keyboard-capable workspace:
+  stable navigation and context, fast inspect-before-open work, backend-authoritative
+  actions and state, and responsive rails. Borrow these interaction principles,
+  never Linear branding, issue semantics, boards, drag/drop, or generic bulk actions.
+non_negotiables:
+  - Backend owns visibility, membership, permissions, allowed actions, workflow transitions, personal context, and activity facts.
+  - Use shared tokens and primitives; do not add route-local CSS when an approved primitive or archetype applies.
+  - A collection uses one primary row target, independent nested actions, backend-supported metadata/status, and an inspect path before canonical navigation.
+  - A focused collection supports visible sequential row navigation with Arrow keys and, where compatible, J/K; Enter opens, P previews, Escape clears, and shortcuts never hijack text inputs.
+  - A substantial detail uses main content plus activity and utility context only where useful; simple settings and confirmations stay simple.
+  - Narrow layouts replace a contextual rail with a drawer or route; they do not silently drop its information or actions.
+  - Vision remains a distinct adaptive, voice-ready canvas. Handoffs are typed and returnable; it never becomes a third workspace rail.
+  - Never infer a mutation, permission, filter membership, or saved context in the client.
+task_contracts:
+  VFY-01: {deliver: 'Implement the original graphite palette and semantic surface tokens from the visual reference.', reject: 'a cosmetic dark overlay or copied Linear colors/assets'}
+  VFY-02: {deliver: 'Define measurable compact shell, rail, row, control, spacing, and radius geometry.', reject: 'per-route hard-coded geometry'}
+  VFY-03: {deliver: 'Make title, metadata, identifier, status, and selected-state hierarchy consistent.', reject: 'same-weight text and unstructured metadata'}
+  VFY-04: {deliver: 'Make one-pixel separators primary and restrict cards/shadows to justified isolated content.', reject: 'card-first workspace pages'}
+  VFY-05: {deliver: 'Standardize icon, avatar, and semantic status rhythm without branding imitation.', reject: 'decorative icon/color proliferation'}
+  VFY-06: {deliver: 'Standardize hover, pressed, focus, tooltip, loading, stale, and reduced-motion behavior.', reject: 'visual-only hover or pointer-only affordances'}
+  VFY-07: {deliver: 'Capture fresh original desktop/narrow evidence against the visual reference contract.', reject: 'pixel-copy acceptance or reused Linear screenshots'}
+  FND-01: {deliver: 'Define semantic control, surface, border, focus, and motion tokens; remove arbitrary light-gray surface use.', reject: 'route-specific color patches'}
+  FND-02: {deliver: 'Standard primary, secondary, destructive, quiet, disabled, and loading button behavior.', reject: 'new bespoke rounded buttons'}
+  FND-03: {deliver: 'One overflow/context action presentation with tooltip and destructive separation.', reject: 'route-defined action semantics'}
+  FND-04: {deliver: 'Confirmable destructive actions and visible async success/failure state.', reject: 'silent or optimistic workflow completion'}
+  FND-05: {deliver: 'Accessible labels, help, error, required, and disabled field contract.', reject: 'unlabeled local fields'}
+  FND-06: {deliver: 'Structured form footer and inline-edit commit/cancel/error behavior.', reject: 'nested edit dialogs by default'}
+  FND-07: {deliver: 'Shared loading, empty, retry, stale, and permission-loss presentations.', reject: 'blank or context-resetting failures'}
+  FND-08: {deliver: 'Discoverable keyboard help and context-menu entry to existing allowed actions.', reject: 'shortcuts that mutate outside action contracts'}
+  SHL-01: {deliver: 'Stable authenticated left navigation, context header, and main workspace frame.', reject: 'per-route shell replacements'}
+  SHL-02: {deliver: 'Narrow rail drawer with preserved navigation, focus, and dismissal behavior.', reject: 'hidden navigation on narrow screens'}
+  SHL-03: {deliver: 'User-scoped rail preference contract with safe defaults and no visibility effect.', reject: 'global or client-only authority'}
+  SHL-04: {deliver: 'Resizable rails restored from the user preference contract.', reject: 'fixed widths presented as preference support'}
+  SHL-05: {deliver: 'Backend-prepared command catalog filtered by current viewer and allowed action.', reject: 'frontend command permission rules'}
+  SHL-06: {deliver: 'Keyboard-first command center with input-focus exclusion and safe escape behavior.', reject: 'a second create flow'}
+  SHL-07: {deliver: 'Universal create entry that routes to direct structured creation.', reject: 'generic creation modal that duplicates forms'}
+  SHL-08: {deliver: 'Recent-object candidates scoped to a viewer and rechecked for access.', reject: 'raw client history'}
+  SHL-09: {deliver: 'Quick Switcher opens eligible recent objects without replacing Command Center.', reject: 'unbounded global search'}
+  SHL-10: {deliver: 'Backend-owned pins, favorites, recents, and attention context.', reject: 'shared saved views without a contract'}
+  SHL-11: {deliver: 'Personal sidebar renders prepared context and resume-work links.', reject: 'client-derived priority'}
+  COL-01: {deliver: 'Reusable three-area collection scaffold where the route warrants it.', reject: 'mandatory third column on simple routes'}
+  COL-02: {deliver: 'Context rail for collection facts, filters, and utility controls.', reject: 'duplicate navigation rail'}
+  COL-03: {deliver: 'Sticky compact toolbar for supported filter, sort, density, and actions.', reject: 'client-only membership filtering'}
+  COL-04: {deliver: 'Dense row with primary target, metadata, status, selection, and independent actions.', reject: 'large disconnected cards'}
+  COL-05: {deliver: 'Non-blocking preview with summary, constraints, allowed actions, and canonical open.', reject: 'preview as a mutation surface'}
+  COL-06: {deliver: 'One selected object reflected in URL/context and safely clearable.', reject: 'generic bulk selection'}
+  COL-07: {deliver: 'Compact/default/comfortable presentation preference only.', reject: 'density changing membership or rights'}
+  COL-08: {deliver: 'Return retains supported collection/filter/selection context and explains stale access.', reject: 'resetting the list after detail'}
+  COL-09: {deliver: 'Implement focus-visible Arrow/J/K row traversal, Enter open, P preview, Escape clear, and input-safe suppression.', reject: 'keyboard shortcuts that trap focus or trigger while typing'}
+  DTL-01: {deliver: 'Detail scaffold with main content and optional utility region.', reject: 'nested modal stacks'}
+  DTL-02: {deliver: 'Consistent renderer for backend-prepared activity events.', reject: 'frontend-invented event history'}
+  DTL-03: {deliver: 'Utility rail for facts, permissions, and allowed actions.', reject: 'duplicated action wiring'}
+  DTL-04: {deliver: 'Viewer-safe universal activity DTO/read contract and tests.', reject: 'raw entity leakage'}
+  DTL-05: {deliver: 'Direct structured form workspace using shared fields/footer.', reject: 'card-per-field form layouts'}
+  DTL-06: {deliver: 'Inline editing through one allowed-action and recovery contract.', reject: 'optimistic hidden failures'}
+  WTH-01: {deliver: 'Work discovery uses canonical dense collection behavior.', reject: 'visual-only reskin'}
+  WTH-02: {deliver: 'Work selection opens backend-prepared preview before full route.', reject: 'selection without stale/access handling'}
+  WTH-03: {deliver: 'Quest detail adopts activity and allowed-action utility behavior.', reject: 'route-local action variants'}
+  WTH-04: {deliver: 'Quest create uses direct structured form and backend validation.', reject: 'new modal flow'}
+  WTH-05: {deliver: 'Things discovery uses canonical collection behavior.', reject: 'card-only migration'}
+  WTH-06: {deliver: 'Thing detail/borrow surfaces backend constraints and recovery.', reject: 'frontend borrow eligibility logic'}
+  CHT-01: {deliver: 'Backend reconnect/resync contract preserving authoritative message state.', reject: 'optimistic recovery assumptions'}
+  CHT-02: {deliver: 'Conversation index, active thread, composer, and contextual rail layout.', reject: 'chat as a modal or dashboard widget'}
+  CHT-03: {deliver: 'Composer and message actions use shared controls and backend allowed actions.', reject: 'parallel mutation runners'}
+  CHT-04: {deliver: 'Visible refreshing, reconnected, stale, retry state without losing thread context.', reject: 'silent reconnect'}
+  CHT-05: {deliver: 'Fresh desktop/narrow and reconnect runtime proof.', reject: 'static screenshots as reconnect evidence'}
+  BRS-01: {deliver: 'Business discovery adopts dense inspectable discovery pattern.', reject: 'generic dashboard cards'}
+  BRS-02: {deliver: 'Business profile becomes structured detail/form surface.', reject: 'unbounded local settings layout'}
+  BRS-03: {deliver: 'Offerings use collection/detail actions with backend lifecycle authority.', reject: 'client archive rules'}
+  BRS-04: {deliver: 'Availability uses direct structured schedule editing and recovery.', reject: 'modal chains'}
+  BRS-05: {deliver: 'Owner booking review exposes prepared status and allowed actions.', reject: 'workflow inference in Vue'}
+  BRS-06: {deliver: 'Rides use inspectable collection/detail without generic bulk operations.', reject: 'copied Linear board behavior'}
+  BRS-07: {deliver: 'Commute preference form uses shared fields and backend visibility rules.', reject: 'client privacy policy'}
+  ACC-01: {deliver: 'Circles use dense relationship collection and allowed actions.', reject: 'local block/unblock permission decisions'}
+  ACC-02: {deliver: 'People discovery supports inspect-before-open and trust-aware metadata.', reject: 'unprepared social filtering'}
+  ACC-03: {deliver: 'Attention/notifications retain state and use backend priority.', reject: 'client-generated attention ranking'}
+  ACC-04: {deliver: 'Profile/location editing uses structured form and backend visibility explanation.', reject: 'flat long-card settings'}
+  ACC-05: {deliver: 'Preferences/onboarding are intentional simple flows with standard states.', reject: 'forced third column'}
+  SEC-01: {deliver: 'Home is a personal resume/attention workspace, not a card dashboard.', reject: 'duplicate module navigation'}
+  SEC-02: {deliver: 'My applications use a dense, context-preserving collection.', reject: 'unconnected application cards'}
+  SEC-03: {deliver: 'Application detail surfaces facts, activity, and allowed next actions.', reject: 'hidden workflow state'}
+  SEC-04: {deliver: 'Quest application review is a focused collection/detail decision surface.', reject: 'parallel approval UI'}
+  SEC-05: {deliver: 'Public business profile optimizes discovery and booking context.', reject: 'internal utility rail exposure'}
+  SEC-06: {deliver: 'Customer bookings retain booking context and recovery.', reject: 'owner-only action leakage'}
+  SEC-07: {deliver: 'Availability exceptions are an inline structured schedule surface.', reject: 'calendar-only decorative treatment'}
+  SEC-08: {deliver: 'People profile is a focused social-context detail route.', reject: 'dashboard-like layout'}
+  SEC-09: {deliver: 'Saved intents are personal backend-owned context with safe resume.', reject: 'shared-view semantics'}
+  SEC-10: {deliver: 'Activity is a backend-prepared, scanable chronological surface.', reject: 'raw audit log presentation'}
+  SEC-11: {deliver: 'Define explicit archetype choice for generic hubs.', reject: 'generic placeholder as final UI'}
+  SEC-12: {deliver: 'Calendar hub preserves time-zone/context actions in an appropriate workspace layout.', reject: 'hidden calendar controls'}
+  SEC-13: {deliver: 'Business hub gives clear next-step routing without duplicating discovery.', reject: 'empty dashboard shell'}
+  SEC-14: {deliver: 'Profile hub provides personal context and direct settings paths.', reject: 'another long form'}
+  SEC-15: {deliver: 'Login/register use the same controls, states, focus, and recovery grammar.', reject: 'authenticated workspace rails'}
+  VIS-01: {deliver: 'Typed, consent-safe handoff/return DTO and documentation.', reject: 'raw prompt or frontend-derived personal memory'}
+  VIS-02: {deliver: 'Vision consumes typed context inside its distinct adaptive canvas.', reject: 'persistent workspace chrome'}
+  VIS-03: {deliver: 'Work offers a typed source handoff with return context.', reject: 'direct mutation handoff'}
+  VIS-04: {deliver: 'Things offers a typed source handoff with return context.', reject: 'sharing object data beyond contract'}
+  VIS-05: {deliver: 'Fresh evidence proves handoff and return preserve safe context.', reject: 'route-link-only proof'}
+  CLO-01: {deliver: 'Keyboard, focus, reduced motion, and narrow behavior are enforced.', reject: 'pointer-only interaction'}
+  CLO-02: {deliver: 'Lazy route boundaries preserve perceived continuity.', reject: 'blocking blank-page navigation'}
+  CLO-03: {deliver: 'Measure large collections before choosing virtualization.', reject: 'premature virtualization'}
+  CLO-04: {deliver: 'Fresh route-specific desktop and narrow evidence matrix.', reject: 'one final screenshot for all routes'}
+  CLO-06: {deliver: 'Record each route archetype, column rationale, desktop/narrow evidence, and required state proof.', reject: 'group-level evidence that silently omits a route'}
+  CLO-05: {deliver: 'Fresh runtime traces prove recovery and closeout conditions.', reject: 'static audit as runtime proof'}
+task_start_protocol:
+  - Read the master, owning child objective, this task contract, and relevant domain/Vision documentation before `make work-start`.
+  - Confirm whether the task is contract, primitive, adoption, or evidence; do not absorb a later category into it.
+  - Record a newly discovered missing rule or route as backlog/plan work before proceeding; do not quietly expand the item.
+  - Only the verifier may mark an item verified.

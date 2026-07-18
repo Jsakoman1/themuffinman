@@ -4,7 +4,8 @@ import {
   type VisionCanvasBlock,
   type VisionConversationSummary,
   type VisionConversationTurnResponse,
-  type VisionReviewTarget
+  type VisionReviewTarget,
+  type VisionWorkspaceHandoff
 } from "../api/visionConversationApi.ts"
 import type {DashboardVoiceConfig} from "../api/contracts.ts"
 import {formatVisionFieldRequestLabel, formatVisionFieldRequestPlaceholder, resolveVisionFamily} from "../visionPresentation.ts"
@@ -292,6 +293,7 @@ export const useVisionConversation = () => {
   })
 
   const canSend = computed(() => inputText.value.trim().length > 0 && voiceState.value !== "processing")
+  const isProcessing = computed(() => isLoading.value || voiceState.value === "processing")
   const canConfirm = computed(() => response.value?.canvasMode === "review"
     && (response.value.executionCandidate?.executionReady ?? response.value.executionEnabled)
     && voiceState.value === "idle")
@@ -340,7 +342,8 @@ export const useVisionConversation = () => {
     reviewTarget: VisionReviewTarget | null = null,
     selectedOptionId: string | null = null,
     fieldValue: string | null = null,
-    confirmation: boolean | null = null
+    confirmation: boolean | null = null,
+    workspaceHandoff: Pick<VisionWorkspaceHandoff, "contextLabel" | "source" | "returnTo"> | null = null
   ) => {
     const trimmedPrompt = prompt.trim()
     if (action === "SUBMIT_PROMPT" && !trimmedPrompt) {
@@ -372,6 +375,9 @@ export const useVisionConversation = () => {
         clientLocale: clientLocale.value,
         clientTimezone: clientTimezone.value,
         clientDeviceRole: clientDeviceRole.value,
+        workspaceContext: workspaceHandoff?.contextLabel ?? null,
+        workspaceSource: workspaceHandoff?.source ?? null,
+        workspaceReturnTo: workspaceHandoff?.returnTo ?? null,
         clientRequestId,
         selectedOptionId,
         fieldValue,
@@ -722,6 +728,7 @@ export const useVisionConversation = () => {
     voiceRuntimeError,
     lastTranscript,
     canSend,
+    isProcessing,
     canConfirm,
     recentConversations,
     init,

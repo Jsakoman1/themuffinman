@@ -1,0 +1,34 @@
+kind: work
+version: 1
+id: linear-inspired-personal-shortcuts
+title: Viewer-owned personal shortcuts and pinned object navigation
+status: draft
+master_plan: docs/work/linear-inspired-product-behavior-expansion-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: >
+  Add a bounded, user-owned shortcut contract for explicitly supported object families,
+  so the shell can offer useful pinned items without creating a generic client-side favorite system.
+requirements:
+  - Allow-list object families and canonical route builders in the backend; never persist an arbitrary URL or client-derived title.
+  - Read access is rechecked when shortcuts are listed and unavailable objects are omitted or removed by documented policy.
+  - Pinned state has no effect on visibility, workflow authority, or notification delivery.
+tasks:
+  - id: shortcut-domain-and-api
+    type: implementation
+    status: pending
+    paths: [apps/themuffinman/src/main/resources/db/migration, apps/themuffinman/src/main/java/com/themuffinman/app, apps/themuffinman/src/test/java/com/themuffinman/app]
+    validation: cd apps/themuffinman && ./mvnw test
+  - id: shortcut-contract-client
+    type: implementation
+    status: pending
+    paths: [apps/themuffinman/frontend/src/contracts, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/modules/app-shell/components]
+    validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  - id: shortcut-documentation
+    type: docs-only
+    status: pending
+    paths: [docs/business-logic.md, docs/domain-technical.md, docs/capability-inventory.yaml, docs/regression-scenario-catalog.yaml]
+    validation: make audit-docs
+acceptance:
+  - A user can pin and unpin only supported visible objects, and a stale or unauthorized pin never opens an object.
+  - Shell shortcuts use server-provided labels and canonical routes rather than local object reconstruction.
+evidence: []

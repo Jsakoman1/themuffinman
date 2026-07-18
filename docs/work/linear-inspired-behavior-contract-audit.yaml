@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: linear-inspired-behavior-contract-audit
+title: Product behavior contract audit for personal shortcuts, attention, previews, and commands
+status: draft
+master_plan: docs/work/linear-inspired-product-behavior-expansion-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: >
+  Produce the exact ownership and API decisions required before adding Linear-like
+  product behavior, using current DTOs and domain services rather than frontend guesses.
+tasks:
+  - id: behavior-contract-analysis
+    type: docs-only
+    status: pending
+    paths: [docs/work/linear-inspired-product-behavior-expansion-analysis.md, docs/work/linear-inspired-interaction-contract-audit.md, docs/capability-inventory.yaml]
+    validation: make audit-frontend && make audit-docs
+  - id: contract-gates-and-regressions
+    type: docs-only
+    status: pending
+    paths: [docs/domain-technical.md, docs/business-logic.md, docs/regression-scenario-catalog.yaml, docs/implementation-backlog.md]
+    validation: make audit-docs
+acceptance:
+  - Each proposed interaction identifies its viewer-owned persistence, DTO, authority service, route, recovery behavior, and explicit non-goals.
+  - Unsupported favorites, subscriptions, saved views, board/timeline mutation, and bulk actions remain blocked until a child defines their contract.
+evidence: []

@@ -3,6 +3,7 @@ package com.themuffinman.app.things.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.things.dto.ThingBorrowRequestDTO;
 import com.themuffinman.app.things.dto.ThingListingRequestDTO;
+import com.themuffinman.app.things.dto.ThingAllowedActionDTO;
 import com.themuffinman.app.things.mapper.ThingSharingMgr;
 import com.themuffinman.app.things.model.ThingBorrowRequest;
 import com.themuffinman.app.things.model.ThingBorrowRequestStatus;
@@ -157,6 +158,8 @@ class ThingSharingServiceTest {
 
         assertEquals(10L, result.getId());
         assertEquals(20L, result.getMyPendingRequestId());
+        assertEquals("Available to borrow", result.getAvailabilityLabel());
+        assertEquals(List.of(ThingAllowedActionDTO.CANCEL_BORROW_REQUEST), result.getAllowedActions());
     }
 
     @Test

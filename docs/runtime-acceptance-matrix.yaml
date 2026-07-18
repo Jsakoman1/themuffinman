@@ -3,6 +3,10 @@ version: 1
 status: active
 purpose: Browser and device scenarios required before implemented capabilities can be marked verified.
 evidence_policy: Source tests and builds do not satisfy runtime evidence; each scenario needs an executed browser or device trace.
+interaction_contract_policy:
+  source: docs/work/linear-inspired-interaction-contract-audit.md
+  rule: A changed desktop interaction must add browser evidence to its owning scenario; no scenario becomes passed from static validation alone.
+  shared_checks: [canonical_route_preserved, nested_action_isolated, backend_action_authority, loading_empty_error_recovery, reduced_motion]
 scenarios:
   - id: web-entry-and-discovery
     capability_ids: [work.quest.create, work.quest.discovery, circles.circle.discover, business.profile.view_public]
@@ -54,6 +58,13 @@ scenarios:
     required_evidence: browser_trace
     status: passed
     evidence: [docs/work/web-ui-functional-completion-runtime-evidence.yaml, apps/themuffinman/frontend/web-runtime-smoke-booking.har]
+  - id: linear-workspace-business-and-rides-adoption
+    capability_ids: [business.booking, sharing.ride.discover, sharing.ride.complete]
+    target: /business/bookings
+    actions: [render_shared_workspace_rows, preserve_backend_allowed_actions, open_rides_workspace, confirm_capacity_and_status_badges]
+    required_evidence: browser_trace
+    status: passed
+    evidence: [docs/runtime-evidence/linear-redesign/business-bookings-desktop.png, docs/runtime-evidence/linear-redesign/rides-desktop.png, docs/runtime-evidence/linear-redesign/cross-module-trace.json]
   - id: vision-execution-recovery
     capability_ids: [vision.execution]
     target: /vision

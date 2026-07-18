@@ -20,5 +20,5 @@ const sanitized = computed(() => {
 <template><div class="rich-text-preview" v-html="sanitized" /></template>
 
 <style scoped>
-.rich-text-preview{line-height:1.6}.rich-text-preview :deep(p:first-child){margin-top:0}.rich-text-preview :deep(p:last-child){margin-bottom:0}.rich-text-preview :deep(ul),.rich-text-preview :deep(ol){padding-left:1.4rem}.rich-text-preview :deep(a){color:#28663b;text-decoration:underline}
+.rich-text-preview{line-height:1.6}.rich-text-preview :deep(p:first-child){margin-top:0}.rich-text-preview :deep(p:last-child){margin-bottom:0}.rich-text-preview :deep(ul),.rich-text-preview :deep(ol){padding-left:1.4rem}.rich-text-preview :deep(a){color:var(--success);text-decoration:underline}
 </style>

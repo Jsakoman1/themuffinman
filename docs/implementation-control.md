@@ -25,6 +25,7 @@ evidence paragraph is not proof.
 4. Run `make work-verify plan=<path>`.
 5. The verifier executes every task command and records the exit code, timestamp, revision, changed files, and output.
 6. Verification succeeds only when every task passes and every implementation task is linked to a changed file.
+7. New plans use `strict_verification: true`: every task lists exact `required_paths`, all of them must change, visual tasks attach changed screenshot evidence, and runtime tasks attach changed runtime artifacts. A build or static audit alone is never browser evidence.
 
 Validation commands are leaf validations only. A task must never invoke `make work-verify` or
 `scripts/verify-work.rb`; the verifier rejects those commands and propagates a guard variable to prevent indirect
@@ -32,6 +33,27 @@ nested verification. Run `make audit-work-plan-recursion` when reviewing or gene
 
 Master plans use `kind: master`, the template `docs/master-plan.template.yaml`, and a `children` list of work-plan paths.
 They contain no duplicate task state and are verified only when every child is independently verified.
+
+## High-risk serial programs
+
+For a broad, high-risk program with visual, API, and behavioral scope, create a
+separate `execution_inventory` YAML next to the master. It lists every atomic
+delivery item in execution order and maps it to exactly one child-plan task.
+Set `serial_task_execution: true` and the inventory path on every child. The
+workflow is mandatory: `make work-start ... task=<id>` snapshots the required
+paths, then code changes are made, then `ruby scripts/verify-work.rb ...
+task=<id>` verifies that one item. The verifier rejects bulk closeout, a second
+in-progress item, out-of-order starts, and paths that did not change after the
+explicit start snapshot. A strict master cannot verify until every inventory item
+is verifier-marked `verified`.
+
+For browser runtime tasks, pass `WEB_RUNTIME_EVIDENCE_PATH=<path>` to the smoke
+harness. It writes a timestamped JSON outcome with the tested base URL, observed
+API responses, and any failure message. This trace is an artifact of the current
+run, not a claim based on a pre-existing HAR or another developer's process.
+
+This is the required control pattern when partial delivery would make a plan look
+complete while named routes, contracts, or runtime behavior remain absent.
 
 ## Minimal commands
 
@@ -91,7 +113,7 @@ normal work-plan verifier before it is considered complete.
 
 ## Runtime evidence
 
-Source tests, type checks, and production builds do not count as browser or device runtime evidence. Open runtime
+Source tests, type checks, and production builds do not count as browser or device runtime evidence. For strict plans, a task with `manual_runtime_command` cannot verify without its declared changed `runtime_evidence_paths`; a visual implementation task cannot verify without its declared changed `visual_evidence_paths`. Open runtime
 gaps are cataloged in `docs/runtime-acceptance-matrix.yaml` and checked with `make audit-runtime-acceptance`; a
 scenario may only move out of `pending_runtime` after an actual browser or device trace is recorded.
 

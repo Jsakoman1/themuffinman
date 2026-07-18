@@ -1,0 +1,152 @@
+kind: work
+version: 1
+id: frontend-desktop-product-redesign-foundation
+title: Dark desktop shell, tokens, and Work discovery redesign
+status: verified
+master_plan: docs/work/frontend-desktop-product-redesign-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+capability_ids:
+- cross_module.web_ui
+- work.quest.discovery
+- work.quest.create
+objective: 'Apply the first incremental desktop-product visual upgrade to the existing
+  shared shell and Work discovery surface. Retain routes, controls, API calls, backend-owned
+  action availability, accessibility semantics, and all current loading, error, empty,
+  filtering, sorting, and pagination behavior.
+
+'
+tasks:
+- id: evidence-led-redesign-plan
+  title: Record architecture, reference-image findings, priority order, and safe implementation
+    sequence
+  type: documentation
+  status: done
+  paths:
+  - docs/work/frontend-desktop-product-redesign-analysis.md
+  - docs/work/frontend-desktop-product-redesign-master.yaml
+  - docs/work/frontend-desktop-product-redesign-foundation.yaml
+  validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/frontend-desktop-product-redesign-master.yaml");
+    YAML.load_file("docs/work/frontend-desktop-product-redesign-foundation.yaml")'
+- id: dark-desktop-shell-and-tokens
+  title: Establish dark-first shared tokens and a compact persistent desktop shell
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AccountMenu.vue
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/frontend/scripts/validate-web-surface-contract.mjs
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: work-discovery-product-surface
+  title: Redesign the existing Work list for compact scan, visible hierarchy, and
+    state clarity
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+- id: desktop-product-runtime-validation
+  title: Validate the shared product UI contract and browser-rendered Work route
+  type: validation
+  status: done
+  paths:
+  - docs/work/frontend-desktop-product-redesign-foundation.yaml
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+    && npm --prefix apps/themuffinman/frontend run validate:web-surface
+  manual_runtime_command: npm --prefix apps/themuffinman/frontend run web-runtime-smoke
+  manual_runtime_requires_escalation: true
+  note: 'The focused Playwright check renders /work/find with the expected dark shell,
+    filters, and recovery card. The authenticated browser smoke also passes after
+    confirming the application''s shared action dialog before deleting a saved search.
+
+'
+evidence:
+- task: evidence-led-redesign-plan
+  command: ruby -e 'require "yaml"; YAML.load_file("docs/work/frontend-desktop-product-redesign-master.yaml");
+    YAML.load_file("docs/work/frontend-desktop-product-redesign-foundation.yaml")'
+  ranAt: '2026-07-17T19:22:48Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-desktop-product-redesign-analysis.md
+  - docs/work/frontend-desktop-product-redesign-foundation.yaml
+  - docs/work/frontend-desktop-product-redesign-master.yaml
+  output: "\n"
+- task: dark-desktop-shell-and-tokens
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-17T19:22:48Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/frontend/scripts/validate-web-surface-contract.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AccountMenu.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: work-discovery-product-surface
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T19:22:50Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-BEUaaIYk.js               5.89 kB │ gzip:   2.00 kB
+    dist/assets/BusinessAvailabilityExceptionsView-BHTfsNsF.js     5.93 kB │ gzip:   2.05 kB
+    dist/assets/ThingsDiscoveryView-C5fxiGAE.js                    7.94 kB │ gzip:   2.56 kB
+    dist/assets/CirclesView-C3sJm9es.js                            8.45 kB │ gzip:   2.64 kB
+    dist/assets/BusinessProfileView-B9Z4sbEh.js                    8.53 kB │ gzip:   2.63 kB
+    dist/assets/RidesView-B4oSPugT.js                              9.61 kB │ gzip:   3.16 kB
+    dist/assets/AuthenticatedShellView-C7WN69qG.js                 9.93 kB │ gzip:   3.43 kB
+    dist/assets/WorkQuestDetailView-CD-cyxO9.js                   10.74 kB │ gzip:   3.61 kB
+    dist/assets/ChatSurfaceView-DrNmsLPZ.js                       11.49 kB │ gzip:   3.91 kB
+    dist/assets/ProfileLocationSettingsView-B_58m-dr.js           12.52 kB │ gzip:   4.38 kB
+    dist/assets/userShellApi-4RJTP9rG.js                          14.51 kB │ gzip:   2.88 kB
+    dist/assets/vue-core-BdJY4HeI.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/index-Dc8e-B5u.js                                 25.62 kB │ gzip:   7.30 kB
+    dist/assets/SurfaceContentView-CSv9cpQ5.js                    27.08 kB │ gzip:   7.61 kB
+    dist/assets/VisionSurfaceModernView-D29YLY93.js               36.33 kB │ gzip:  10.93 kB
+    dist/assets/vendor-D9iqRH6B.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DddyeNmk.js                               464.31 kB │ gzip: 149.74 kB
+
+    ✓ built in 478ms
+
+- task: desktop-product-runtime-validation
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface &&
+    npm --prefix apps/themuffinman/frontend run validate:web-surface
+  ranAt: '2026-07-17T19:22:51Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/run-web-runtime-smoke.mjs
+  - docs/work/frontend-desktop-product-redesign-foundation.yaml
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (61 checks).
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+

@@ -1,0 +1,34 @@
+kind: work
+version: 1
+id: linear-inspired-route-preview-adoption
+title: Route-backed object preview adoption
+status: draft
+master_plan: docs/work/linear-inspired-product-behavior-expansion-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: >
+  Adopt the verified shared preview primitive on selected existing collections, with a
+  small server-prepared preview DTO only where the collection row lacks safe detail context.
+requirements:
+  - Preview is keyboard reachable, closes with Escape, preserves the collection route, and exposes a direct canonical detail link.
+  - Preview payloads contain only fields already visible to that viewer and do not expose action eligibility inferred in the client.
+  - Start with Work and one non-Work object family selected by the audit; do not attempt every module in one slice.
+tasks:
+  - id: preview-read-contract
+    type: implementation
+    status: pending
+    paths: [apps/themuffinman/src/main/java/com/themuffinman/app, apps/themuffinman/src/test/java/com/themuffinman/app, apps/themuffinman/frontend/src/contracts]
+    validation: cd apps/themuffinman && ./mvnw test
+  - id: preview-surface-adoption
+    type: implementation
+    status: pending
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue, apps/themuffinman/frontend/src/modules/app-shell/composables/useObjectActions.ts, apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue, apps/themuffinman/frontend/src/modules/app-shell/views]
+    validation: npm --prefix apps/themuffinman/frontend run build && npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  - id: preview-regression-contract
+    type: docs-only
+    status: pending
+    paths: [docs/domain-technical.md, docs/regression-scenario-catalog.yaml, docs/runtime-acceptance-matrix.yaml]
+    validation: make audit-runtime-acceptance
+acceptance:
+  - Preview never becomes a replacement route, a stale object is dismissed, and nested controls stay isolated from row open behavior.
+  - The previously detached preview primitive becomes adopted by a real supported collection.
+evidence: []

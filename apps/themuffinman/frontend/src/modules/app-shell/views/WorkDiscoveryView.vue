@@ -1,15 +1,23 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue"
-import {RouterLink, useRoute} from "vue-router"
+import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue"
+import {RouterLink, useRoute, useRouter} from "vue-router"
 import type {QuestResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import {resolveSurfaceDetailRoute} from "../shellRouteRegistry.ts"
 import AppCard from "../components/AppCard.vue"
+import {currentUser} from "../../identity/auth.ts"
+import {useSurfaceViewState} from "../composables/useSurfaceViewState.ts"
+import ObjectPreviewPanel from "../components/ObjectPreviewPanel.vue"
+import {isEditableTarget} from "../composables/useObjectActions.ts"
 
 const route = useRoute()
-const query = ref("")
-const sort = ref("recommended")
-const scheduledOnly = ref(false)
+const router = useRouter()
+const query = ref(typeof route.query.q === "string" ? route.query.q : "")
+const sort = ref(typeof route.query.sort === "string" ? route.query.sort : "recommended")
+const scheduledOnly = ref(route.query.scheduled === "1")
+const routeContext = computed(() => `${route.path}?q=${encodeURIComponent(query.value.trim())}&sort=${sort.value}&scheduled=${scheduledOnly.value ? "1" : "0"}`)
+const {state: viewState} = useSurfaceViewState("work-discovery", computed(() => currentUser.value?.id), routeContext)
+const compactDensity = computed({get: () => viewState.value.compactDensity, set: (value: boolean) => { viewState.value.compactDensity = value }})
 const items = ref<QuestResponseDTO[]>([])
 const page = ref(0)
 const totalItems = ref(0)
@@ -58,6 +66,8 @@ const load = async (reset = true) => {
     items.value = reset ? response.items : [...items.value, ...response.items]
     totalItems.value = response.totalItems
     page.value = response.page
+    if (viewState.value.selectedId !== null && !items.value.some(item => item.id === viewState.value.selectedId)) viewState.value.selectedId = null
+    if (viewState.value.previewId !== null && !items.value.some(item => item.id === viewState.value.previewId)) viewState.value.previewId = null
   } catch {
     if (requestId !== requestSequence) return
     error.value = "Could not load work."
@@ -74,12 +84,40 @@ const loadMore = async () => {
   await load(false)
 }
 
+const syncCanonicalQuery = () => {
+  const nextQuery: Record<string, string> = {}
+  if (query.value.trim()) nextQuery.q = query.value.trim()
+  if (sort.value !== "recommended") nextQuery.sort = sort.value
+  if (scheduledOnly.value) nextQuery.scheduled = "1"
+  void router.replace({path: route.path, query: nextQuery})
+}
+
 watch([query, sort, scheduledOnly], () => {
+  syncCanonicalQuery()
   if (searchTimer !== undefined) window.clearTimeout(searchTimer)
   searchTimer = window.setTimeout(() => void load(), 250)
 })
 
-onMounted(() => void load())
+const rememberSelection = (id: number) => {
+  viewState.value.selectedId = id
+  viewState.value.scrollY = window.scrollY
+}
+const detailRoute = (id: number) => resolveSurfaceDetailRoute("work-quests", id) ?? `/vision/quests/${id}`
+const previewQuest = computed(() => items.value.find(item => item.id === viewState.value.previewId) ?? null)
+const previewSummary = ref("")
+const openPreview = async (id: number) => {
+  rememberSelection(id)
+  viewState.value.previewId = id
+  try { previewSummary.value = (await userShellApi.getQuestPreview(id)).summary || "No description provided." } catch { previewSummary.value = "This work item is no longer available." }
+}
+const handleRowClick = (event: MouseEvent, id: number) => { if (!isEditableTarget(event.target)) rememberSelection(id) }
+
+onMounted(async () => {
+  await load()
+  await nextTick()
+  if (viewState.value.scrollY > 0) window.scrollTo({top: viewState.value.scrollY, behavior: "auto"})
+})
+onBeforeUnmount(() => { viewState.value.scrollY = window.scrollY })
 </script>
 
 <template>
@@ -109,15 +147,18 @@ onMounted(() => void load())
         <input v-model="scheduledOnly" type="checkbox">
         <span>Scheduled</span>
       </label>
-      <span class="work-discovery__count">{{ totalLabel }}</span>
+      <button type="button" class="work-discovery__display" :aria-pressed="compactDensity" @click="compactDensity = !compactDensity">{{ compactDensity ? "Compact rows" : "Comfortable rows" }}</button>
+      <span class="work-discovery__count" aria-live="polite">{{ totalLabel }}</span>
     </div>
 
-    <div v-if="isLoading" class="work-discovery__status" role="status">Loading work.</div>
-    <div v-else-if="error" class="work-discovery__status work-discovery__status--error" role="alert">{{ error }} <button type="button" @click="load()">Retry</button></div>
-    <div v-else-if="items.length === 0" class="work-discovery__status">Nothing matches. Ask Vision to broaden the search.</div>
+    <div v-if="isLoading" class="work-discovery__status" role="status"><strong>Loading work</strong><span>Getting the latest available opportunities.</span></div>
+    <div v-else-if="error" class="work-discovery__status work-discovery__status--error" role="alert"><strong>Work could not be loaded.</strong><span>{{ error }}</span><button type="button" @click="load()">Try again</button></div>
+    <div v-else-if="items.length === 0" class="work-discovery__status"><strong>No matching work.</strong><span>Try another search or adjust the filters.</span></div>
 
-    <div v-else class="work-discovery__list">
-      <AppCard v-for="quest in items" :key="quest.id" :to="resolveSurfaceDetailRoute('work-quests', quest.id) ?? `/vision/quests/${quest.id}`" :label="`${quest.title}, ${quest.presentation.statusLabel}`" class="work-discovery__row">
+    <p v-if="items.length" class="work-discovery__scope">Filters and sort change backend results. Display density is local to this page.</p>
+    <div v-if="items.length" class="work-discovery__workspace">
+    <div class="work-discovery__list" :class="{'work-discovery__list--comfortable': !compactDensity}">
+      <AppCard v-for="quest in items" :key="quest.id" :to="detailRoute(quest.id)" :selected="viewState.selectedId === quest.id" :previewed="previewQuest?.id === quest.id" :label="`${quest.title}, ${quest.presentation.statusLabel}`" class="work-discovery__row" @click="handleRowClick($event, quest.id)" @preview="openPreview(quest.id)">
         <div class="work-discovery__row-main">
           <h2 class="work-discovery__title">
             {{ quest.title }}
@@ -125,11 +166,17 @@ onMounted(() => void load())
           <span class="work-discovery__meta">{{ quest.presentation.statusLabel }}</span>
         </div>
         <div class="work-discovery__row-facts">
-          <span>{{ quest.awardAmount }} €</span>
-          <span>{{ formatDate(quest.scheduledAt) }}</span>
-          <span>{{ locationLabel(quest) }}</span>
+          <span class="work-discovery__fact work-discovery__fact--reward">{{ quest.awardAmount }} €</span>
+          <span class="work-discovery__fact">{{ formatDate(quest.scheduledAt) }}</span>
+          <span class="work-discovery__fact">{{ locationLabel(quest) }}</span>
         </div>
+        <template #actions><button type="button" @click.stop="openPreview(quest.id)">Preview</button></template>
       </AppCard>
+    </div>
+    <ObjectPreviewPanel :title="previewQuest?.title ?? 'Work'" subtitle="Work preview" :open="previewQuest !== null" @close="viewState.previewId = null" @open-detail="previewQuest && router.push(detailRoute(previewQuest.id))">
+      <p v-if="previewQuest">{{ previewSummary || previewQuest.description || 'No description provided.' }}</p>
+      <p v-if="previewQuest" class="work-discovery__preview-meta">{{ previewQuest.presentation.statusLabel }} · {{ previewQuest.creatorUsername }}</p>
+    </ObjectPreviewPanel>
     </div>
 
     <button
@@ -158,6 +205,11 @@ onMounted(() => void load())
   gap: 0.75rem;
 }
 
+.work-discovery__workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); overflow: hidden; }
+.work-discovery__workspace .work-discovery__list { padding: 0.45rem; }
+.work-discovery__preview-meta { color: var(--text-muted); font-size: 0.84rem; }
+@media (max-width: 860px) { .work-discovery__workspace { grid-template-columns: 1fr; } .work-discovery__workspace :deep(.object-preview) { border-left: 0; border-top: 1px solid var(--border-subtle); } }
+
 .work-discovery__header {
   justify-content: space-between;
 }
@@ -172,7 +224,7 @@ onMounted(() => void load())
 
 .work-discovery__eyebrow {
   margin: 0 0 0.25rem;
-  color: rgba(23, 34, 26, 0.54);
+  color:var(--text-muted);
   font-size: 0.76rem;
   font-weight: 650;
   letter-spacing: 0.08em;
@@ -190,7 +242,7 @@ h1 {
 .work-discovery__open,
 .work-discovery__load-more {
   min-height: 2.4rem;
-  border: 1px solid rgba(23, 34, 26, 0.12);
+  border:1px solid var(--border-subtle);
   border-radius: 999px;
   padding: 0.5rem 0.85rem;
   font-size: 0.8rem;
@@ -198,15 +250,15 @@ h1 {
 }
 
 .work-discovery__vision {
-  border-color: #17221a;
-  background: #17221a;
-  color: #f8f8f4;
+  border-color:var(--text);
+  background:var(--accent);
+  color:var(--text);
 }
 
 .work-discovery__create {
-  border-color: #17221a;
+  border-color:var(--text);
   background: #d6e4da;
-  color: #17221a;
+  color:var(--text);
 }
 
 .work-discovery__controls {
@@ -221,9 +273,9 @@ h1 {
 select {
   width: 100%;
   min-height: 2.5rem;
-  border: 1px solid rgba(23, 34, 26, 0.12);
+  border:1px solid var(--border-subtle);
   border-radius: 0.8rem;
-  background: rgba(255, 255, 255, 0.72);
+  background:var(--surface);
   padding: 0.55rem 0.75rem;
 }
 
@@ -237,25 +289,27 @@ select {
   gap: 0.4rem;
   min-height: 2.5rem;
   padding: 0 0.45rem;
-  color: rgba(23, 34, 26, 0.72);
+  color:var(--text-muted);
   font-size: 0.8rem;
 }
 
+.work-discovery__display{min-height:2.5rem;border:1px solid var(--border-subtle);border-radius:var(--radius-control);padding:.45rem .65rem;background:var(--surface);color:var(--text-muted);font:inherit;font-size:.78rem}.work-discovery__display[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-muted);color:var(--text)}.work-discovery__scope{margin:0;color:var(--text-soft);font-size:.78rem}.work-discovery__list--comfortable :deep(.app-card){padding:1.15rem}
+
 .work-discovery__count {
   margin-left: auto;
-  color: rgba(23, 34, 26, 0.52);
+  color:var(--text-muted);
   font-size: 0.78rem;
 }
 
 .work-discovery__list {
   overflow: hidden;
-  border-top: 1px solid rgba(23, 34, 26, 0.1);
+  border:1px solid var(--border-subtle);
 }
 
 .work-discovery__row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
-  border-bottom: 1px solid rgba(23, 34, 26, 0.08);
+  border:1px solid var(--border-subtle);
   padding: 0.9rem 0.2rem;
 }
 
@@ -267,7 +321,7 @@ select {
 
 .work-discovery__title {
   overflow: hidden;
-  color: #17221a;
+  color:var(--text);
   font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -277,7 +331,7 @@ select {
 
 .work-discovery__meta,
 .work-discovery__row-facts {
-  color: rgba(23, 34, 26, 0.56);
+  color:var(--text-muted);
   font-size: 0.76rem;
 }
 
@@ -291,14 +345,14 @@ select {
 .work-discovery__open {
   display: inline-flex;
   align-items: center;
-  color: #17221a;
+  color:var(--text);
 }
 
 .work-discovery__status {
   border-radius: 0.8rem;
-  background: rgba(255, 255, 255, 0.66);
+  background:var(--surface);
   padding: 1rem;
-  color: rgba(23, 34, 26, 0.58);
+  color:var(--text-muted);
 }
 
 .work-discovery__status--error {
@@ -341,4 +395,9 @@ select {
     grid-row: 1 / span 2;
   }
 }
+
+/* Desktop product surface overrides: preserve the existing data and interactions. */
+.work-discovery{gap:1.15rem;max-width:80rem}.work-discovery__header,.work-discovery__controls{gap:.7rem}.work-discovery__header{padding-bottom:.15rem}.work-discovery__eyebrow{color:var(--text-soft);font-size:.7rem;font-weight:700;letter-spacing:.1em}h1{color:var(--text);font-size:clamp(1.45rem,2.4vw,2rem);letter-spacing:-.055em;line-height:1.05}.work-discovery__create,.work-discovery__load-more{min-height:2.25rem;border-color:var(--accent);border-radius:var(--radius-control);padding:.45rem .7rem;background:var(--accent);color:#121217;font-weight:700}.work-discovery__controls{padding:.65rem;border:1px solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface)}.work-discovery__search{flex-basis:17rem}.work-discovery__search input,select{min-height:2.35rem;border-color:var(--border-subtle);border-radius:var(--radius-control);background:var(--bg-raised);color:var(--text);padding:.5rem .65rem}.work-discovery__toggle{min-height:2.25rem;color:var(--text-muted)}.work-discovery__toggle input{accent-color:var(--accent)}.work-discovery__count{color:var(--text-soft);white-space:nowrap}.work-discovery__list{border:1px solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface)}.work-discovery__row{grid-template-columns:minmax(0,1fr) minmax(20rem,auto);gap:1rem;border:0;border-bottom:1px solid var(--border-subtle);border-radius:0;padding:.9rem 1rem;background:transparent}.work-discovery__row:last-child{border-bottom:0}.work-discovery__row:hover{background:var(--surface-hover)}.work-discovery__title{color:var(--text);font-size:.94rem;font-weight:680;letter-spacing:-.02em}.work-discovery__meta{width:max-content;max-width:100%;overflow:hidden;border:1px solid var(--border-subtle);border-radius:999px;padding:.14rem .42rem;color:var(--text-muted);font-size:.7rem;text-overflow:ellipsis;white-space:nowrap}.work-discovery__row-facts{gap:.4rem;color:var(--text-muted)}.work-discovery__fact{border-left:1px solid var(--border-subtle);padding-left:.5rem;white-space:nowrap}.work-discovery__fact:first-child{border-left:0}.work-discovery__fact--reward{color:var(--text);font-weight:700}.work-discovery__status{display:grid;gap:.25rem;border:1px solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface);color:var(--text-muted)}.work-discovery__status strong{color:var(--text);font-size:.9rem}.work-discovery__status--error{border-color:rgba(226,109,109,.5)}.work-discovery__status--error strong{color:var(--danger)}.work-discovery__status button{justify-self:start;margin-top:.35rem;border:0;border-radius:var(--radius-control);padding:.42rem .6rem;background:var(--surface-hover);color:var(--text);font:inherit;font-size:.78rem;font-weight:650}.work-discovery__load-more{justify-self:center;background:var(--surface-strong);color:var(--text);border-color:var(--border-strong)}
+
+@media (max-width: 700px){.work-discovery__row{grid-template-columns:minmax(0,1fr)}.work-discovery__row-facts{grid-column:auto;justify-content:flex-start}.work-discovery__open{grid-column:auto;grid-row:auto}}
 </style>

@@ -1,0 +1,88 @@
+kind: execution_atomization_audit
+version: 1
+id: workspace-redesign-second-order-atomization
+status: analysis_complete
+scope:
+  master_plan: docs/work/workspace-redesign-complete-master.yaml
+  execution_inventory: docs/work/workspace-redesign-complete-execution-inventory.yaml
+finding: >
+  The first inventory identified the right product surfaces, but 28 entries still
+  combined authority design, shared UI construction, several route adoptions, and
+  final proof. That granularity would permit a visually improved route to be
+  called complete before its backend contract, context continuity, or narrow
+  behavior had independent evidence.
+atomization_rules:
+  - A task owns one change kind: backend/read contract, shared primitive, one named route adoption, or acceptance evidence.
+  - A task may cover one bounded UI family only; it must not combine unrelated routes merely because they share a module.
+  - Backend permission, availability, recency, activity, and state rules are specified and tested before a frontend consumer adopts them.
+  - A shared primitive is not verified by its existence; a later named route adoption must prove it is used in context.
+  - Visual evidence, reconnect/retry behavior, keyboard behavior, and narrow-layout evidence are separate acceptance tasks.
+  - No task is complete from a build alone. Each task declares the smallest appropriate static, backend, visual, or runtime proof.
+  - A task with more than three primary production paths must be split unless those paths form one inseparable component contract.
+old_to_new_traceability:
+  visual_fidelity_expansion: [VFY-01, VFY-02, VFY-03, VFY-04, VFY-05, VFY-06, VFY-07]
+  FND-01: [FND-01, FND-02, FND-03, FND-04]
+  FND-02: [FND-05, FND-06]
+  FND-03: [FND-07]
+  FND-04: [FND-08]
+  SHL-01: [SHL-01, SHL-02]
+  SHL-02: [SHL-05, SHL-06, SHL-07]
+  SHL-03: [SHL-03, SHL-04, SHL-08, SHL-09]
+  SHL-04: [SHL-10, SHL-11]
+  COL-01: [COL-01, COL-02, COL-03, COL-04]
+  COL-02: [COL-07, COL-08]
+  COL-03: [COL-05, COL-06]
+  DTL-01: [DTL-01, DTL-02, DTL-03]
+  DTL-02: [DTL-05, DTL-06]
+  DTL-03: [DTL-04]
+  WTH-01: [WTH-01, WTH-02, WTH-03, WTH-04]
+  WTH-02: [WTH-05, WTH-06]
+  CHT-01: [CHT-01, CHT-02, CHT-03]
+  CHT-02: [CHT-05]
+  CHT-03: [CHT-04]
+  BRS-01: [BRS-01, BRS-02, BRS-03, BRS-04, BRS-05]
+  BRS-02: [BRS-06, BRS-07]
+  ACC-01: [ACC-01, ACC-02, ACC-03]
+  ACC-02: [ACC-04, ACC-05]
+  VIS-01: [VIS-01]
+  VIS-02: [VIS-02, VIS-03, VIS-04, VIS-05]
+  CLO-01: [CLO-01]
+  CLO-02: [CLO-04, CLO-05]
+  CLO-03: [CLO-02, CLO-03]
+completion_guardrails:
+  - All items remain planned until their child plan is activated with exact current paths and a clean baseline.
+  - A route adoption cannot be verified by a shared-component validation or another route's screenshot.
+  - Runtime evidence must be created after intentionally starting the relevant stack and must show the named state transition.
+  - The master plan remains draft; this audit plans work and does not claim implementation.
+directory_completeness_pass:
+  date: 2026-07-18
+  route_inventory: {routes: 43, concrete_surfaces: 42, scope: frontend router and shared-shell consumers}
+  added_secondary_surface_inventory: [SEC-01, SEC-02, SEC-03, SEC-04, SEC-05, SEC-06, SEC-07, SEC-08, SEC-09, SEC-10, SEC-11, SEC-12, SEC-13, SEC-14, SEC-15]
+  resolved_route_gaps:
+    - HomeHubView personal workspace
+    - WorkApplicationsView, WorkApplicationDetailView, and WorkQuestApplicationsView
+    - BusinessPublicView, BusinessMyBookingsView, and BusinessAvailabilityExceptionsView
+    - PeopleProfileView, SavedSearchIntentsView, and ActivityView
+    - WorkspaceSurfaceView route variants for calendar, business, and profile
+    - LoginView and RegisterView as deliberately lightweight identity entry surfaces
+  capability_gaps_reviewed:
+    source: make audit-target-capability-coverage
+    findings: {web_ui_missing: 3, vision_missing: 8, not_ready: 28}
+    decision: >
+      Cross-device handoff, Watch, and mobile capability completion are not silently
+      folded into this desktop workspace redesign. Cross-module search comparison is
+      a separate product capability unless a backend-owned compare contract is
+      approved; the Command Center and Quick Switcher remain navigation/action
+      discovery, not an invented comparison engine. Vision shell-navigation parity
+      is intentionally not required because Vision has its own adaptive grammar.
+  non_plan_findings:
+    - Endpoint linkage reports 72 backend endpoints without a frontend callsite; most are admin or API-only and require a separate API/client-scope decision, not cosmetic redesign adoption.
+    - The frontend audit still reports local permission logic and repeated circle blocking actions; retain these as backend-authority review targets when the named route is adopted.
+visual_fidelity_expansion:
+  source: docs/product-vision.md and supplied screenshot references
+  decision: >
+    Visual resemblance is an explicit workspace acceptance concern, not an inferred
+    side effect of replacing buttons. The VFY sequence precedes shared primitive and
+    route adoption work, specifies original graphite/density/polish constraints,
+    and rejects copied Linear assets or workflow semantics.
+  excluded_product_semantics: [issue boards, drag and drop, manual ordering, shared custom views, generic bulk mutations]

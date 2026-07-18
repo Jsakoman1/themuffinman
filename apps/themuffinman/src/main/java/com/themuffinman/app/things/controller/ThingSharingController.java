@@ -7,6 +7,7 @@ import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingRequestDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
+import com.themuffinman.app.things.service.ThingPreviewReadService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ThingSharingController {
 
     private final ThingSharingService thingSharingService;
+    private final ThingPreviewReadService thingPreviewReadService;
 
     @GetMapping("/listings")
     public ThingListingListResponseDTO getAvailableListings(@AuthenticationPrincipal AppUser currentUser) {
@@ -35,6 +37,14 @@ public class ThingSharingController {
             @AuthenticationPrincipal AppUser currentUser
     ) {
         return thingSharingService.getListingDetail(listingId, currentUser);
+    }
+
+    @GetMapping("/listings/{listingId}/preview")
+    public com.themuffinman.app.things.dto.ThingPreviewResponseDTO getListingPreview(
+            @PathVariable Long listingId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingPreviewReadService.getPreview(listingId, currentUser);
     }
 
     @PostMapping("/listings")

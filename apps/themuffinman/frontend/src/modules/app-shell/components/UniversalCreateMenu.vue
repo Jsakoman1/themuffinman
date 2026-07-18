@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {onBeforeUnmount, onMounted, ref} from "vue"
 import {RouterLink} from "vue-router"
 
 const options = [
@@ -8,13 +9,17 @@ const options = [
   {label: "Create a business", description: "Set up a public service profile", to: "/business/profile"},
   {label: "Start a chat", description: "Talk to someone", to: "/chat"}
 ]
+const open = ref(false)
+const openMenu = () => { open.value = true }
+onMounted(() => window.addEventListener("app:open-create", openMenu))
+onBeforeUnmount(() => window.removeEventListener("app:open-create", openMenu))
 </script>
 
 <template>
-  <details class="universal-create-menu">
-    <summary class="universal-create-menu__summary" aria-label="Open create menu">Create</summary>
+  <details :open="open" class="universal-create-menu" @toggle="open = ($event.currentTarget as HTMLDetailsElement).open">
+    <summary class="universal-create-menu__summary" aria-label="Open create menu" title="Open create menu (C)">Create</summary>
     <div class="universal-create-menu__panel">
-      <div><strong>What do you want to start?</strong><p>Choose a direct web flow or use Vision for guidance.</p></div>
+      <div><strong>Direct create</strong><p>Each option opens its existing direct flow. Command navigation and Vision stay separate; drafts are not shared or saved until that flow says so.</p></div>
       <RouterLink v-for="option in options" :key="option.label" :to="option.to" class="universal-create-menu__option">
         <strong>{{ option.label }}</strong><span>{{ option.description }}</span>
       </RouterLink>
@@ -23,5 +28,5 @@ const options = [
 </template>
 
 <style scoped>
-.universal-create-menu{position:relative}.universal-create-menu__summary{cursor:pointer;list-style:none;padding:.7rem .85rem;border:1px solid rgba(23,34,26,.14);border-radius:999px;background:rgba(255,255,255,.82);font-weight:650}.universal-create-menu__summary::-webkit-details-marker{display:none}.universal-create-menu__panel{position:absolute;right:0;top:calc(100% + .55rem);z-index:20;display:grid;gap:.45rem;width:min(24rem,calc(100vw - 2rem));padding:1rem;border:1px solid rgba(23,34,26,.12);border-radius:1rem;background:#fcfcf8;box-shadow:0 18px 38px rgba(23,34,26,.16)}.universal-create-menu__panel p{margin:.25rem 0 .4rem;color:rgba(23,34,26,.62);font-size:.8rem}.universal-create-menu__option{display:grid;gap:.15rem;padding:.65rem .7rem;border-radius:.7rem}.universal-create-menu__option:hover{background:rgba(214,228,218,.55)}.universal-create-menu__option span{color:rgba(23,34,26,.6);font-size:.78rem}@media(max-width:640px){.universal-create-menu__panel{position:fixed;right:1rem;top:4.5rem}}
+.universal-create-menu{position:relative}.universal-create-menu__summary{cursor:pointer;list-style:none;padding:.48rem .65rem;border:1px solid var(--accent);border-radius:var(--radius-control);background:var(--accent);color:#121217;font-size:.8rem;font-weight:700}.universal-create-menu__summary::-webkit-details-marker{display:none}.universal-create-menu__panel{position:absolute;right:0;top:calc(100% + .55rem);z-index:20;display:grid;gap:.45rem;width:min(24rem,calc(100vw - 2rem));padding:1rem;border:1px solid var(--border-strong);border-radius:var(--radius-card);background:var(--surface-strong);box-shadow:var(--shadow-card)}.universal-create-menu__panel p{margin:.25rem 0 .4rem;color:var(--text-muted);font-size:.8rem}.universal-create-menu__option{display:grid;gap:.15rem;padding:.65rem .7rem;border-radius:var(--radius-control)}.universal-create-menu__option:hover{background:var(--surface-hover)}.universal-create-menu__option span{color:var(--text-muted);font-size:.78rem}@media(max-width:640px){.universal-create-menu__panel{position:fixed;right:1rem;top:4.5rem}}
 </style>

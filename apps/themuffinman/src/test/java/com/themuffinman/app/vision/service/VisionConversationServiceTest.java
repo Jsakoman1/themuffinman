@@ -409,6 +409,36 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void workspaceHandoffIsExplainedWithoutAcceptingAnExternalReturnUrl() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewProfile(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_profile")
+                        .title("Profile")
+                        .summary("Profile.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("show my profile")
+                        .workspaceContext("Profile workspace")
+                        .workspaceSource("shell.surface.profile")
+                        .workspaceReturnTo("https://outside.example/return")
+                        .build(),
+                currentUser
+        );
+
+        assertNotNull(response.getWorkspaceHandoff());
+        assertEquals("Profile workspace", response.getWorkspaceHandoff().getContextLabel());
+        assertEquals("shell.surface.profile", response.getWorkspaceHandoff().getSource());
+        assertEquals("Opened from Profile workspace.", response.getWorkspaceHandoff().getExplanation());
+        assertEquals(null, response.getWorkspaceHandoff().getReturnTo());
+    }
+
+    @Test
     void circlesPromptRoutesIntoReadOnlyCirclesPreviewWithWorkspaceGuidance() {
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
         when(visionCapabilityPreviewService.previewCircles(currentUser)).thenReturn(

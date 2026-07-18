@@ -4,6 +4,7 @@ import path from "node:path"
 const root = path.resolve(import.meta.dirname, "..")
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8")
 const checks = [
+  ["shared object interaction primitives", read("src/modules/app-shell/composables/useObjectActions.ts").includes("invokeObjectAction") && read("src/modules/app-shell/components/SurfaceRow.vue").includes("@preview") && read("src/modules/app-shell/components/ObjectPreviewPanel.vue").includes("Open detail")],
   ["work applications route", read("src/router.ts").includes("WorkApplicationsView")],
   ["work quest detail route", read("src/router.ts").includes("WorkQuestDetailView")],
   ["work quest create route", read("src/router.ts").includes("WorkQuestCreateView")],
@@ -33,6 +34,8 @@ const checks = [
   ["vision result contract", read("src/modules/vision/api/visionConversationApi.ts").includes("hasMore: boolean")],
   ["vision fetch-more action", read("src/modules/vision/components/VisionCanvasRenderer.vue").includes("emit('fetchMore')") && read("src/modules/vision/composables/useVisionConversation.ts").includes("FETCH_MORE_RESULTS")],
   ["vision safe retry", read("src/modules/vision/components/VisionCanvasRenderer.vue").includes("emit('retry')") && read("src/modules/vision/composables/useVisionConversation.ts").includes("retryLastRequest")],
+  ["vision workspace handoff stays quiet and returnable", read("src/modules/vision/components/VisionCanvasRenderer.vue").includes("workspaceHandoff") && read("src/modules/vision/components/VisionCanvasRenderer.vue").includes("Opened from") === false && read("src/modules/vision/views/VisionSurfaceModernView.vue").includes("workspaceHandoff")],
+  ["business and rides use shared workspace rows", read("src/modules/app-shell/views/BusinessBookingsView.vue").includes("<SurfaceRow") && read("src/modules/app-shell/views/BusinessMyBookingsView.vue").includes("<SurfaceRow") && read("src/modules/app-shell/views/RidesView.vue").includes("<SurfaceRow")],
   ["shell does not locally truncate collections", !read("src/modules/app-shell/shellSurfaceData.ts").includes("slice(")],
   ["shared icon action primitive", read("src/modules/app-shell/components/AppIconButton.vue").includes("aria-label") && read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("AppIconButton")],
   ["shared overlay primitive", read("src/modules/app-shell/components/AppDialog.vue").includes("role=\"dialog\"") && read("src/modules/app-shell/views/WorkQuestDetailView.vue").includes("AppDialog")],
@@ -51,6 +54,8 @@ const checks = [
   , ["chat mobile back affordance", read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("Back to inbox") && read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("chat-surface__back")]
   , ["calendar accessible mode controls", read("src/modules/app-shell/components/SurfaceContentView.vue").includes("aria-pressed") && read("src/modules/app-shell/components/SurfaceContentView.vue").includes("Calendar controls")]
   , ["design tokens include semantic states", read("src/styles/base.css").includes("--danger") && read("src/styles/base.css").includes("--success") && read("src/styles/base.css").includes("--focus-ring")]
+  , ["reduced motion and visible focus", read("src/styles/base.css").includes("prefers-reduced-motion") && read("src/styles/base.css").includes(":focus-visible")]
+  , ["dialogs support Escape dismissal", read("src/modules/app-shell/components/AppDialog.vue").includes("@keydown.escape") && read("src/modules/app-shell/components/AppActionDialog.vue").includes("@keydown.escape")]
   , ["disabled controls expose affordance", read("src/styles/base.css").includes("button:disabled") && read("src/styles/base.css").includes("aria-disabled")]
   , ["icon actions remain named", read("src/modules/app-shell/components/AppIconButton.vue").includes("aria-label")]
   , ["home does not duplicate navigation actions", read("src/modules/app-shell/shellDefinitions.ts").includes('id: "home", archetype: "home", navId: "home", eyebrow: "Home", title: "Home",\n    actions: []')]
@@ -63,7 +68,7 @@ const checks = [
   , ["global Vision entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<GlobalVisionEntry") && read("src/modules/app-shell/components/GlobalVisionEntry.vue").includes("Microphone input")]
   , ["account menu owns username and logout", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<AccountMenu") && read("src/modules/app-shell/components/AccountMenu.vue").includes("handleLogout")]
   , ["shell has no duplicate inline Vision form", !read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes('<form class="app-shell__vision-form"')]
-  , ["global Create entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<UniversalCreateMenu") && read("src/modules/app-shell/components/UniversalCreateMenu.vue").includes("Offer work")]
+  , ["global Create entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<UniversalCreateMenu") && read("src/modules/app-shell/components/UniversalCreateMenu.vue").includes('to: "/work/offer"')]
   , ["offer work route is discoverable", read("src/router.ts").includes("path: 'work/offer'") && read("src/modules/app-shell/shellDefinitions.ts").includes('label: "Offer work"')]
 ]
 

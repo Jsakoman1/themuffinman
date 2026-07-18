@@ -7,6 +7,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationsViewDTO;
 import com.themuffinman.app.workmarket.dto.QuestDetailResponseDTO;
+import com.themuffinman.app.workmarket.dto.QuestDetailRailItemDTO;
 import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestListPresentationDTO;
@@ -157,6 +158,15 @@ public class WorkmarketQuestReadService {
                 .quest(questResponse)
                 .myApplication(myApplication)
                 .applicationsView(applicationsView)
+                .propertyRail(List.of(
+                        QuestDetailRailItemDTO.builder().label("Reward").value(questResponse.getAwardAmount() + " €").build(),
+                        QuestDetailRailItemDTO.builder().label("Schedule").value(questResponse.getPresentation().getTimeTypeLabel()).build(),
+                        QuestDetailRailItemDTO.builder().label("Location").value(questResponse.getPresentation().getLocationLabel() == null ? "Anywhere" : questResponse.getPresentation().getLocationLabel()).build()
+                ))
+                .activityRail(List.of(
+                        QuestDetailRailItemDTO.builder().label("Current status").value(questResponse.getPresentation().getStatusLabel()).build(),
+                        QuestDetailRailItemDTO.builder().label("Applicants").value(questResponse.getApprovedApplicationCount() + " approved · " + questResponse.getRemainingAssigneeSlots() + " slots open").build()
+                ))
                 .build();
         return response;
     }

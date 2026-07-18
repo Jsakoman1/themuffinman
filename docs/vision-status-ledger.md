@@ -6,6 +6,7 @@ It should stay short, factual, and updated when a vision batch materially change
 
 ## Done
 
+- Vision's long-term guardrail now explicitly separates the Linear-inspired Web workspace interaction grammar from the quiet adaptive `/vision` canvas: Vision stays voice-ready, context-aware, backend-governed, and able to propose but never directly execute from raw input
 - persisted backend conversation state is the default interaction model for `/vision`
 - first executor scopes started with `create_quest` and `create_circle`, and now also include `create_circle_request`, `accept_circle_request`, `delete_circle_request`, `create_application`, `update_application`, `withdraw_application`, `approve_application`, `decline_application`, `update_circle`, `delete_circle`, `update_profile`, and `update_profile_location`
 - text turns can drive stepwise slot collection and review assembly

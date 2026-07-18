@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,4 +20,6 @@ public class ThingListingResponseDTO {
     private Long myPendingRequestId;
     private Instant createdAt;
     private Instant updatedAt;
+    private String availabilityLabel;
+    private List<ThingAllowedActionDTO> allowedActions;
 }

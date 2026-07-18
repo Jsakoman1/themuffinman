@@ -1,0 +1,117 @@
+kind: work
+version: 1
+id: linear-inspired-inbox-chat-vision
+title: Attention inbox, conversation split view, and Vision composer feedback
+status: verified
+master_plan: docs/work/linear-inspired-product-app-redesign-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: 'Apply the interaction grammar to attention and conversation surfaces while
+  preserving notification, chat, and Vision ownership boundaries and typed backend
+  response states.
+
+'
+reuses:
+- docs/work/product-experience-vision-global-entry.yaml
+requirements:
+- Do not introduce unsupported notification snooze/read/bulk actions merely to mimic
+  an Inbox.
+- Keep Chat attachment, reply, send, retry, reconnect, and failure semantics intact
+  while anchoring its composer.
+- Keep Vision typed: transcript, processing, applied slots, review, and output come
+    from current backend contracts.
+- Assistant output exposes evidence and recovery instead of becoming a generic chatbot
+  layer.
+tasks:
+- id: attention-list-and-preview
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: chat-detail-and-composer
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppIconButton.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+- id: vision-input-and-state-feedback
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+acceptance:
+- Notification, chat, and Vision states remain semantically distinct while sharing
+  the same selection, preview, loading, and error vocabulary.
+- Chat and Vision composers keep their existing typed send, retry, reconnect, processing,
+  and failure contracts.
+- No unsupported attention or assistant operation is presented as available.
+evidence:
+- task: attention-list-and-preview
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-17T20:07:52Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: chat-detail-and-composer
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T20:07:54Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppIconButton.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-CuiJIJN1.js     5.93 kB │ gzip:   2.04 kB
+    dist/assets/WorkDiscoveryView-5yw43wqu.js                      6.62 kB │ gzip:   2.86 kB
+    dist/assets/ThingsDiscoveryView-D-BaYaCJ.js                    7.94 kB │ gzip:   2.55 kB
+    dist/assets/CirclesView-CdTAzJ18.js                            8.45 kB │ gzip:   2.63 kB
+    dist/assets/BusinessProfileView-CINNJEY_.js                    8.53 kB │ gzip:   2.63 kB
+    dist/assets/RidesView-lZHIrv93.js                              9.61 kB │ gzip:   3.16 kB
+    dist/assets/WorkQuestDetailView-3auJvErW.js                   11.09 kB │ gzip:   3.72 kB
+    dist/assets/ChatSurfaceView-S0K6T5rc.js                       11.55 kB │ gzip:   3.92 kB
+    dist/assets/AuthenticatedShellView-8uqMRf-M.js                12.08 kB │ gzip:   4.07 kB
+    dist/assets/ProfileLocationSettingsView-htAXa9LE.js           12.52 kB │ gzip:   4.38 kB
+    dist/assets/userShellApi-eK-ti7wz.js                          14.51 kB │ gzip:   2.88 kB
+    dist/assets/vue-core-BdJY4HeI.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/index-DeP-tBco.js                                 26.23 kB │ gzip:   7.51 kB
+    dist/assets/SurfaceContentView-DauA1OKe.js                    27.34 kB │ gzip:   7.71 kB
+    dist/assets/VisionSurfaceModernView-C8sS1brH.js               36.60 kB │ gzip:  11.02 kB
+    dist/assets/vendor-D9iqRH6B.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DddyeNmk.js                               464.31 kB │ gzip: 149.74 kB
+
+    ✓ built in 431ms
+
+- task: vision-input-and-state-feedback
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-17T20:07:55Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (62 checks).
+

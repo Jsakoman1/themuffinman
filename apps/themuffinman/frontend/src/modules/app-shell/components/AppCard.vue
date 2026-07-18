@@ -5,11 +5,14 @@ const props = withDefaults(defineProps<{
   to?: RouteLocationRaw
   label?: string
   interactive?: boolean
+  selected?: boolean
+  previewed?: boolean
 }>(), {
   interactive: true
 })
 
 const router = useRouter()
+const emit = defineEmits<{preview: []}>()
 
 const isNestedAction = (target: EventTarget | null) => target instanceof HTMLElement && Boolean(target.closest("a,button,input,select,textarea,summary"))
 const open = () => {
@@ -23,13 +26,14 @@ const handleKeydown = (event: KeyboardEvent) => {
     event.preventDefault()
     open()
   }
+  if (event.key.toLowerCase() === "p" && !isNestedAction(event.target)) { event.preventDefault(); emit("preview") }
 }
 </script>
 
 <template>
   <article
     class="app-card"
-    :class="{ 'app-card--interactive': interactive && to }"
+    :class="{ 'app-card--interactive': interactive && to, 'app-card--selected': selected, 'app-card--previewed': previewed }"
     :tabindex="interactive && to ? 0 : undefined"
     :aria-label="label"
     @click="handleClick"
@@ -41,5 +45,5 @@ const handleKeydown = (event: KeyboardEvent) => {
 </template>
 
 <style scoped>
-.app-card{display:grid;gap:var(--space-3, .75rem);min-width:0;padding:1rem;border:1px solid rgba(23,34,26,.1);border-radius:1rem;background:rgba(255,255,255,.72);transition:border-color 160ms ease,box-shadow 160ms ease,transform 160ms ease}.app-card--interactive{cursor:pointer}.app-card--interactive:hover,.app-card--interactive:focus-visible{border-color:rgba(23,34,26,.24);box-shadow:0 14px 28px rgba(23,34,26,.1);outline:none;transform:translateY(-1px)}.app-card__body{min-width:0}.app-card__actions{display:flex;justify-content:flex-end;gap:.4rem;flex-wrap:wrap}
+.app-card{display:grid;gap:var(--space-3);min-width:0;padding:1rem;border:1px solid var(--border-subtle);border-radius:var(--radius-card);background:var(--surface);transition:border-color 140ms ease,background-color 140ms ease}.app-card--interactive{cursor:pointer}.app-card--interactive:hover,.app-card--interactive:focus-visible{border-color:var(--border-strong);background:var(--surface-hover);outline:none}.app-card--selected{border-color:var(--accent);background:var(--accent-muted)}.app-card--previewed{box-shadow:inset 2px 0 var(--accent)}.app-card__body{min-width:0}.app-card__actions{display:flex;justify-content:flex-end;gap:.4rem;flex-wrap:wrap}
 </style>

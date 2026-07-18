@@ -16,7 +16,7 @@ WEB-UX-MODERNIZATION-MASTER [DONE]: Executed and verified `docs/work/frontend-ux
 
 MAIN-SURFACES-MODERNIZATION [DONE]: Verified `docs/work/main-surfaces-modernization-master.yaml`; Home, Business landing, Find Work, shared clickability/action hierarchy, surface archetypes, and authenticated runtime evidence are complete.
 
-WEB-VISION-PARITY [ACTIVE]: Make web UI and Vision equal production clients. Audit every target capability for discoverable entry, complete happy path, validation/recovery, and runtime acceptance on both web UI and Vision; prioritize missing Work creation entry, Chat entry/group creation, and other flows that are route-backed but not practically reachable.
+WEB-VISION-PARITY [ACTIVE]: Make web UI and Vision equal production clients. The verified `linear-inspired-workspace-and-vision-master` is the current desktop/adaptive baseline; continue auditing every target capability for discoverable entry, complete happy path, validation/recovery, and runtime acceptance on both web UI and Vision, including native-client gaps and any route-backed flow that is not practically reachable.
 
 WEB-UI-FUNCTIONAL-COMPLETION [ACTIVE]: Execute `docs/work/web-ui-functional-completion-master.yaml` to make the authenticated Web UI usable end to end: diagnose Chat and Circles runtime failures, expose Create new work and Find Work, add Find People and Find Business contracts/surfaces, replace the Calendar list with a visual calendar workspace, and require browser-runtime evidence for closeout.
 

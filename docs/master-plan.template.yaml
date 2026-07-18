@@ -4,5 +4,9 @@ id: replace-me
 title: Replace me
 status: draft
 baseline: replace-with-git-revision
+strict_verification: true
+# High-risk implementation masters should declare execution_inventory and use
+# serial_task_execution on every child work plan.
+# execution_inventory: docs/work/<master>-execution-inventory.yaml
 children: []
 evidence: []

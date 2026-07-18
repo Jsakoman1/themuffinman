@@ -177,6 +177,14 @@ Controllers call one facade service. They should not assemble workflows, choose 
 
 Every prompt or voice transcript is a turn in a conversation.
 
+### Authority, Personal Context, And Client Boundaries
+
+`/vision` is the adaptive, voice-ready client, while the Linear-inspired workspace is the direct Web interaction client. Shared shell handoffs may carry typed prompt, source, context-label, and return-target data, but they must not import Web workspace rails, boards, or command-center semantics into the Vision canvas.
+
+Vision may use approved personal context to rank options or propose a next step. The backend owns context retrieval, consent checks, user scope, retention, explanation records, and any preference-learning update. Clients render the resulting compact context and explanation; they do not compose durable memory, infer authority, or turn an unverified transcript into a command.
+
+The execution boundary is mandatory for every input mode: raw text, speech transcript, semantic-model output, and UI action all resolve into a backend-published typed capability. Deterministic validation, permission checks, review state, and explicit confirmation run before a mutation adapter executes. A recommendation remains non-mutating until that boundary is passed.
+
 Conversation state should be backend-owned and persisted from the first real orchestration phase onward so text turns, voice turns, review states, clarifications, and execution confirmations share one durable timeline.
 Persistent preference rows and feedback events should sit beside the conversation timeline so the backend can learn stable habits and correction history without promoting raw transcript replay into the semantic request.
 Preference rows should carry both a stored confidence score and a last-confidence-update timestamp, because the backend needs a stable row plus a decay anchor rather than only a raw count.

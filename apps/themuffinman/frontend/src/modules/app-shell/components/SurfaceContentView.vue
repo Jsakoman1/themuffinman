@@ -64,7 +64,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 </script>
 
 <template>
-  <section class="surface-content" :class="surfaceClass" :data-surface-id="config.id">
+  <section class="surface-content" :class="surfaceClass" :data-surface-id="config.id" aria-live="polite">
     <SurfaceHeader :config="config" :detail-label="detailLabel" />
 
     <SurfaceMetricGrid :metrics="metrics" />
@@ -169,7 +169,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__eyebrow {
-  color: rgba(23, 34, 26, 0.55);
+  color:var(--text-muted);
   font-size: 0.76rem;
   font-weight: 650;
   letter-spacing: 0.08em;
@@ -177,7 +177,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__detail-label {
-  color: rgba(23, 34, 26, 0.55);
+  color:var(--text-muted);
   font-size: 0.84rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -204,7 +204,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   align-items: center;
   justify-content: center;
   min-height: 2.25rem;
-  border: 1px solid rgba(23, 34, 26, 0.11);
+  border:1px solid var(--border-subtle);
   border-radius: 999px;
   padding: 0.45rem 0.78rem;
   font-size: 0.82rem;
@@ -215,9 +215,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__action--primary,
 .surface-content__action--vision,
 .surface-content__row-link--vision {
-  border-color: #17221a;
-  background: #17221a;
-  color: #f8f8f4;
+  border-color: var(--accent);
+  background:var(--accent);
+  color:var(--text);
 }
 
 .surface-content__metrics {
@@ -231,9 +231,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   align-items: baseline;
   gap: 0.45rem;
   min-height: 2.45rem;
-  border: 1px solid rgba(23, 34, 26, 0.08);
+  border:1px solid var(--border-subtle);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.66);
+  background:var(--surface);
   padding: 0.45rem 0.75rem;
 }
 
@@ -260,13 +260,13 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__metric--emphasis {
-  border-color: #17221a;
-  background: #17221a;
-  color: #f8f8f4;
+  border-color: var(--accent);
+  background:var(--accent);
+  color:var(--text);
 }
 
 .surface-content__metric-label {
-  color: rgba(23, 34, 26, 0.58);
+  color:var(--text-muted);
   font-size: 0.76rem;
 }
 
@@ -281,15 +281,15 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__status-card {
   border-radius: 0.85rem;
-  background: rgba(255, 255, 255, 0.62);
+  background:var(--surface);
   padding: 0.7rem 0.85rem;
-  color: rgba(23, 34, 26, 0.62);
+  color:var(--text-muted);
   font-size: 0.86rem;
 }
 
 .surface-content__status-card--error {
-  background: rgba(255, 245, 241, 0.92);
-  color: #7c2a1d;
+  background:var(--danger-muted);
+  color: var(--danger);
 }
 
 .surface-content__status-card--error button {
@@ -319,9 +319,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__timeline-group,
 .surface-content__operations-group {
   min-width: 0;
-  border: 1px solid rgba(23, 34, 26, 0.08);
+  border:1px solid var(--border-subtle);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.62);
+  background:var(--surface);
   padding: 0.85rem;
 }
 
@@ -329,7 +329,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__focus-row {
   display: grid;
   gap: 0.2rem;
-  border-top: 1px solid rgba(23, 34, 26, 0.07);
+  border:1px solid var(--border-subtle);
   padding: 0.7rem 0;
 }
 
@@ -349,7 +349,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0.65rem;
-  border-top: 1px solid rgba(23, 34, 26, 0.07);
+  border:1px solid var(--border-subtle);
   padding: 0.75rem 0;
 }
 
@@ -372,7 +372,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__operations-heading > span {
-  color: rgba(23, 34, 26, 0.5);
+  color:var(--text-muted);
   font-size: 0.76rem;
 }
 
@@ -388,9 +388,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__card {
   min-width: 0;
-  border: 1px solid rgba(23, 34, 26, 0.08);
+  border:1px solid var(--border-subtle);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.62);
+  background:var(--surface);
   padding: 0.85rem;
 }
 
@@ -413,7 +413,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   align-items: center;
   gap: 0.55rem;
   min-width: 0;
-  border-top: 1px solid rgba(23, 34, 26, 0.07);
+  border:1px solid var(--border-subtle);
   padding: 0.72rem 0;
 }
 
@@ -439,7 +439,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__row-meta {
-  color: rgba(23, 34, 26, 0.54);
+  color:var(--text-muted);
   font-size: 0.76rem;
   white-space: nowrap;
 }
@@ -447,9 +447,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__badge {
   flex: 0 0 auto;
   border-radius: 999px;
-  background: rgba(23, 34, 26, 0.08);
+  background: var(--surface-muted);
   padding: 0.18rem 0.45rem;
-  color: rgba(23, 34, 26, 0.62);
+  color:var(--text-muted);
   font-size: 0.68rem;
   white-space: nowrap;
 }
@@ -467,7 +467,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__empty-state,
 .surface-content__empty-surface {
-  color: rgba(23, 34, 26, 0.52);
+  color:var(--text-muted);
   font-size: 0.84rem;
 }
 
@@ -495,14 +495,14 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__calendar-toolbar span,
 .surface-content__calendar-toolbar small {
-  color: rgba(23, 34, 26, 0.56);
+  color:var(--text-muted);
   font-size: 0.78rem;
 }
 
 .surface-content__calendar-actions button {
-  border: 1px solid rgba(23, 34, 26, 0.12);
+  border:1px solid var(--border-subtle);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.7);
+  background:var(--surface);
   padding: 0.42rem 0.65rem;
   font: inherit;
   font-size: 0.72rem;
@@ -510,22 +510,22 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__calendar-actions .surface-content__calendar-mode--active {
-  background: #17221a;
-  color: #f8f8f4;
+  background:var(--accent);
+  color:var(--text);
 }
 
 .surface-content__month-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   overflow: hidden;
-  border: 1px solid rgba(23, 34, 26, 0.1);
+  border:1px solid var(--border-subtle);
   border-radius: 0.9rem;
-  background: rgba(255, 255, 255, 0.6);
+  background:var(--surface);
 }
 
 .surface-content__weekday {
   padding: 0.55rem;
-  color: rgba(23, 34, 26, 0.55);
+  color:var(--text-muted);
   font-size: 0.7rem;
   font-weight: 650;
   text-align: right;
@@ -536,8 +536,8 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   align-content: start;
   gap: 0.25rem;
   min-height: 7rem;
-  border-top: 1px solid rgba(23, 34, 26, 0.08);
-  border-right: 1px solid rgba(23, 34, 26, 0.08);
+  border:1px solid var(--border-subtle);
+  border:1px solid var(--border-subtle);
   padding: 0.45rem;
 }
 
@@ -546,8 +546,8 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__month-day--outside {
-  background: rgba(23, 34, 26, 0.025);
-  color: rgba(23, 34, 26, 0.38);
+  background: var(--bg-raised);
+  color: var(--text-soft);
 }
 
 .surface-content__calendar-event {
@@ -555,9 +555,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   gap: 0.12rem;
   overflow: hidden;
   border-radius: 0.45rem;
-  background: rgba(214, 228, 218, 0.75);
+  background: var(--accent-muted);
   padding: 0.3rem 0.4rem;
-  color: #17221a;
+  color: var(--text);
   font-size: 0.7rem;
   line-height: 1.2;
   text-decoration: none;
@@ -565,12 +565,12 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__calendar-event small,
 .surface-content__calendar-event span {
-  color: rgba(23, 34, 26, 0.58);
+  color:var(--text-muted);
   font-size: 0.65rem;
 }
 
 .surface-content__more-events {
-  color: rgba(23, 34, 26, 0.55);
+  color:var(--text-muted);
   font-size: 0.68rem;
 }
 
@@ -586,9 +586,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   align-content: start;
   gap: 0.45rem;
   min-height: 12rem;
-  border: 1px solid rgba(23, 34, 26, 0.08);
+  border:1px solid var(--border-subtle);
   border-radius: 0.8rem;
-  background: rgba(255, 255, 255, 0.6);
+  background:var(--surface);
   padding: 0.65rem;
 }
 
@@ -600,7 +600,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__week-grid p,
 .surface-content__day-view p {
-  color: rgba(23, 34, 26, 0.5);
+  color:var(--text-muted);
   font-size: 0.75rem;
 }
 

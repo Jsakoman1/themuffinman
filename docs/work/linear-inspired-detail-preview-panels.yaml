@@ -1,0 +1,120 @@
+kind: work
+version: 1
+id: linear-inspired-detail-preview-panels
+title: Detail previews, utility rails, and contextual object actions
+status: verified
+master_plan: docs/work/linear-inspired-product-app-redesign-master.yaml
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+objective: 'Reuse canonical detail routes while introducing a coherent main-context
+  plus optional utility-panel layout for objects that already expose complete backend-prepared
+  detail data.
+
+'
+reuses:
+- docs/work/frontend-ux-action-hierarchy-preview-cards.yaml
+- docs/work/frontend-contract-action-dialog-standardization.yaml
+requirements:
+- Main content owns narrative, activity, conversation, and rich content; utility rail
+  owns compact properties and allowed actions.
+- The panel is togglable, locally remembered only where safe, and accessible as an
+  inline section or sheet on narrow screens.
+- Inline edits preserve cancel, save, error, refresh, and backend-authorized field
+  behavior.
+tasks:
+- id: shared-detail-surface-contract
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: work-and-thing-detail-adoption
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+- id: utility-action-accessibility
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppActionDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppIconButton.vue
+  - docs/regression-scenario-catalog.yaml
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+acceptance:
+- Preview preserves the canonical detail route as the source of deep-linking and never
+  creates a competing detail model.
+- Utility rails only render backend-prepared properties and permitted actions, with
+  an accessible narrow-screen fallback.
+- Inline edits recover from failure and refresh from the authoritative backend response.
+- Any overlap with the active action-dialog standardization plan is sequenced after
+  that plan's verification.
+evidence:
+- task: shared-detail-surface-contract
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-17T20:02:35Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+- task: work-and-thing-detail-adoption
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-17T20:02:37Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-B-z1aQxP.js               5.89 kB │ gzip:   1.99 kB
+    dist/assets/BusinessAvailabilityExceptionsView-B-YHxACn.js     5.93 kB │ gzip:   2.05 kB
+    dist/assets/ThingsDiscoveryView-DSup0ch9.js                    7.94 kB │ gzip:   2.56 kB
+    dist/assets/CirclesView-CPjXkr1W.js                            8.45 kB │ gzip:   2.64 kB
+    dist/assets/BusinessProfileView-KcQh7MYE.js                    8.53 kB │ gzip:   2.63 kB
+    dist/assets/RidesView-CwQ-jozn.js                              9.61 kB │ gzip:   3.16 kB
+    dist/assets/WorkQuestDetailView-EXvG3_Hx.js                   11.09 kB │ gzip:   3.72 kB
+    dist/assets/ChatSurfaceView-B2Q7XupY.js                       11.49 kB │ gzip:   3.91 kB
+    dist/assets/AuthenticatedShellView-CpxuaIpO.js                12.08 kB │ gzip:   4.07 kB
+    dist/assets/ProfileLocationSettingsView-CbWntL_e.js           12.52 kB │ gzip:   4.38 kB
+    dist/assets/userShellApi-Dxxp_3_-.js                          14.51 kB │ gzip:   2.88 kB
+    dist/assets/vue-core-BdJY4HeI.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/index-eDhgRctg.js                                 26.19 kB │ gzip:   7.49 kB
+    dist/assets/SurfaceContentView-BwnyYvSN.js                    27.28 kB │ gzip:   7.69 kB
+    dist/assets/VisionSurfaceModernView-Bkg1bfXv.js               36.33 kB │ gzip:  10.93 kB
+    dist/assets/vendor-D9iqRH6B.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DddyeNmk.js                               464.31 kB │ gzip: 149.74 kB
+
+    ✓ built in 439ms
+
+- task: utility-action-accessibility
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-17T20:02:38Z'
+  revision: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppActionDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppIconButton.vue
+  - docs/regression-scenario-catalog.yaml
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (62 checks).
+

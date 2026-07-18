@@ -60,6 +60,9 @@ export type VisionConversationTurnRequest = {
   clientLocale: string
   clientTimezone: string
   clientDeviceRole: VisionDeviceRole
+  workspaceContext?: string | null
+  workspaceSource?: string | null
+  workspaceReturnTo?: string | null
   clientRequestId?: string | null
   selectedOptionId?: string | null
   fieldValue?: string | null
@@ -214,6 +217,7 @@ export type VisionConversationTurnResponse = {
   translationReliable: boolean
   executionEnabled: boolean
   runtimeContext: VisionRuntimeContext | null
+  workspaceHandoff: VisionWorkspaceHandoff | null
   executionCandidate: VisionExecutionCandidate | null
   questDiscovery: VisionQuestDiscovery | null
   memoryTrail: VisionMemoryTrail | null
@@ -222,6 +226,13 @@ export type VisionConversationTurnResponse = {
   slotSummaries: VisionSlotSummary[]
   review: VisionQuestReview | null
   recentConversations: VisionConversationSummary[]
+}
+
+export type VisionWorkspaceHandoff = {
+  contextLabel: string | null
+  source: string | null
+  returnTo: string | null
+  explanation: string
 }
 
 export type VisionConversationListResponse = {
@@ -242,6 +253,9 @@ export const visionConversationApi = {
       clientLocale: request.clientLocale,
       clientTimezone: request.clientTimezone,
       clientDeviceRole: request.clientDeviceRole,
+      workspaceContext: request.workspaceContext ?? undefined,
+      workspaceSource: request.workspaceSource ?? undefined,
+      workspaceReturnTo: request.workspaceReturnTo ?? undefined,
       clientRequestId: request.clientRequestId ?? undefined,
       selectedOptionId: request.selectedOptionId ?? undefined,
       fieldValue: request.fieldValue ?? undefined,

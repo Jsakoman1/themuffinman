@@ -5,10 +5,13 @@ const frontendRoot = path.resolve(new URL(".", import.meta.url).pathname, "..")
 const read = (relativePath) => fs.readFileSync(path.join(frontendRoot, relativePath), "utf8")
 const router = read("src/router.ts")
 const shellDefinitions = read("src/modules/app-shell/shellDefinitions.ts")
+const universalCreateMenu = read("src/modules/app-shell/components/UniversalCreateMenu.vue")
 const calendarSurface = read("src/modules/app-shell/components/SurfaceContentView.vue")
 const shellSurfaceData = read("src/modules/app-shell/shellSurfaceData.ts")
 const chatSurface = read("src/modules/app-shell/views/ChatSurfaceView.vue")
 const circlesSurface = read("src/modules/app-shell/views/CirclesView.vue")
+const baseStyles = read("src/styles/base.css")
+const crossModuleSurfaces = `${read("src/modules/app-shell/views/BusinessBookingsView.vue")}\n${read("src/modules/app-shell/views/BusinessMyBookingsView.vue")}\n${read("src/modules/app-shell/views/RidesView.vue")}`
 
 const requiredRoutes = [
   "path: 'work/find'",
@@ -25,19 +28,21 @@ const requiredCalendarSignals = ["calendarMode", "month", "week", "day", "calend
 
 const missing = (source, signals) => signals.filter((signal) => !source.includes(signal))
 const missingRoutes = missing(router, requiredRoutes)
-const missingActions = missing(shellDefinitions, requiredActions)
+const missingActions = missing(`${shellDefinitions}\n${universalCreateMenu}`, requiredActions)
 const missingCalendarSignals = missing(`${calendarSurface}\n${shellSurfaceData}`, requiredCalendarSignals)
 const missingRecoverySignals = [
   ...missing(chatSurface, ["HTTP ${response.status}", "Retry"]),
   ...missing(circlesSurface, ["Promise.allSettled", "Retry"])
 ]
+const missingAccessibilitySignals = missing(baseStyles, ["prefers-reduced-motion", ":focus-visible"])
+const missingCrossModuleSignals = missing(crossModuleSurfaces, ["SurfaceRow", "Retry", "allowedActions"])
 
 const createRouteIndex = router.indexOf("path: 'work/quests/new'")
 const detailRouteIndex = router.indexOf("path: 'work/quests/:questId'")
 const orderingError = createRouteIndex < 0 || detailRouteIndex < 0 || createRouteIndex > detailRouteIndex
 
-if (missingRoutes.length || missingActions.length || missingCalendarSignals.length || missingRecoverySignals.length || orderingError) {
-  console.error(JSON.stringify({missingRoutes, missingActions, missingCalendarSignals, missingRecoverySignals, orderingError}, null, 2))
+if (missingRoutes.length || missingActions.length || missingCalendarSignals.length || missingRecoverySignals.length || missingAccessibilitySignals.length || missingCrossModuleSignals.length || orderingError) {
+  console.error(JSON.stringify({missingRoutes, missingActions, missingCalendarSignals, missingRecoverySignals, missingAccessibilitySignals, missingCrossModuleSignals, orderingError}, null, 2))
   process.exit(1)
 }
 

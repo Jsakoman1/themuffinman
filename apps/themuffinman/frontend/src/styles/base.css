@@ -1,36 +1,47 @@
 :root {
-  color-scheme: light;
-  --bg: #f7f8f5;
-  --text: #17221a;
-  --text-muted: rgba(23, 34, 26, 0.62);
-  --text-soft: rgba(23, 34, 26, 0.45);
-  --surface: rgba(255, 255, 255, 0.86);
-  --surface-strong: #fcfcf8;
-  --surface-muted: rgba(214, 228, 218, 0.42);
-  --border-subtle: rgba(23, 34, 26, 0.1);
-  --border-strong: rgba(23, 34, 26, 0.22);
-  --accent-cyan: #8bd7d0;
-  --accent-amber: #e7b86a;
-  --accent-red: #b84842;
-  --danger: #8d2f25;
-  --success: #2d6846;
-  --warning: #8a5a18;
-  --font: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color-scheme: dark;
+  --bg: #101112;
+  --bg-raised: #161718;
+  --rail: #131415;
+  --surface: #1a1b1d;
+  --surface-strong: #202124;
+  --surface-hover: #242528;
+  --surface-muted: #18191b;
+  --text: #f0f0f1;
+  --text-muted: #a3a4ab;
+  --text-soft: #72737c;
+  --border-subtle: #2a2b2f;
+  --border-strong: #45464d;
+  --accent: #8b8cf7;
+  --accent-muted: rgba(139, 140, 247, 0.16);
+  --accent-cyan: #66c3dc;
+  --accent-amber: #d8ad55;
+  --accent-red: #e26d6d;
+  --danger: #f08a8a;
+  --danger-muted: rgba(226, 109, 109, 0.14);
+  --success: #76c49a;
+  --warning: #e3b35a;
+  --font: Inter, "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --vision-surface-ink: #1a242f;
-  --vision-surface-ink-muted: rgba(26, 36, 47, 0.62);
-  --vision-surface-ink-soft: rgba(26, 36, 47, 0.46);
-  --space-1: 0.35rem;
-  --space-2: 0.55rem;
-  --space-3: 0.8rem;
+  --vision-surface-ink: #e9e9ef;
+  --vision-surface-ink-muted: #a3a4ab;
+  --vision-surface-ink-soft: #72737c;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
   --space-4: 1rem;
   --space-5: 1.25rem;
-  --radius-card: 1.35rem;
-  --radius-control: 0.8rem;
-  --shadow-card: 0 18px 40px rgba(23, 34, 26, 0.06);
-  --focus-ring: 0 0 0 3px rgba(35, 105, 161, 0.28);
+  --radius-card: 0.7rem;
+  --radius-control: 0.45rem;
+  --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.18);
+  --focus-ring: 0 0 0 3px rgba(139, 140, 247, 0.42);
   --z-overlay: 20;
+  --z-popover: 30;
   --z-dialog: 40;
+  --detail-rail-width: 18rem;
+  --workspace-rail-width: 15rem;
+  --workspace-header-height: 3.75rem;
+  --row-focus: var(--accent-muted);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
@@ -52,6 +63,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.45;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -69,6 +81,22 @@ button {
   cursor: pointer;
 }
 
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 .ui-surface {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-card);
@@ -84,12 +112,12 @@ button {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-control);
   padding: 0.6rem 0.9rem;
-  background: transparent;
+  background: var(--surface-strong);
   color: var(--text);
   font-weight: 650;
 }
 
-.ui-button--primary { border-color: var(--text); background: var(--text); color: var(--surface-strong); }
+.ui-button--primary { border-color: var(--accent); background: var(--accent); color: #121217; }
 .ui-button--danger { border-color: var(--accent-red); color: var(--accent-red); }
 .ui-button--vision { border-color: var(--accent-amber); background: var(--accent-amber); color: #1c1304; }
 
@@ -98,7 +126,7 @@ button {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-control);
   padding: 0.7rem;
-  background: var(--surface-strong);
+  background: var(--bg-raised);
   color: var(--text);
 }
 
@@ -117,7 +145,7 @@ button:disabled {
 }
 
 ::selection {
-  background: rgba(45, 104, 70, 0.2);
+  background: rgba(139, 140, 247, 0.32);
 }
 
 :focus-visible {
@@ -147,3 +175,4 @@ button:disabled {
     transition-duration: 0.01ms !important;
   }
 }
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:var(--focus-ring);outline-offset:2px}

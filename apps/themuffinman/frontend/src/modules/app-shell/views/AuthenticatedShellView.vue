@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import {computed} from "vue"
+import {computed, onMounted, ref} from "vue"
 import {RouterLink, RouterView, useRoute} from "vue-router"
-import {appPrimaryNavItems, appSecondaryNavItems, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
+import {appPersonalShortcuts, appPrimaryNavItems, appSecondaryNavItems, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
 import {buildSurfaceVisionPrompt, buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
 import GlobalVisionEntry from "../components/GlobalVisionEntry.vue"
 import AccountMenu from "../components/AccountMenu.vue"
 import UniversalCreateMenu from "../components/UniversalCreateMenu.vue"
 import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
+import AppActionMenu from "../components/AppActionMenu.vue"
+import {userShellApi, type PersonalShortcut} from "../api/userShellApi.ts"
 
 const route = useRoute()
 
@@ -38,6 +40,8 @@ const currentContextLabel = computed(() => {
   return getAppSurfaceConfig(currentSurfaceId.value).title
 })
 
+const shellEyebrow = computed(() => currentSurfaceId.value ? getAppSurfaceConfig(currentSurfaceId.value).eyebrow : "Workspace")
+
 const contextualVisionRoute = computed(() => {
   if (!currentSurfaceId.value) {
     return buildVisionRoute()
@@ -47,6 +51,8 @@ const contextualVisionRoute = computed(() => {
 })
 
 const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVisionPrompt(currentSurfaceId.value) : "Ask Vision for guided help")
+const pinned = ref<PersonalShortcut[]>([])
+onMounted(async () => { try { pinned.value = await userShellApi.getPersonalShortcuts() } catch { pinned.value = [] } })
 </script>
 
 <template>
@@ -54,6 +60,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
     <aside class="app-shell__rail" aria-label="Primary navigation">
       <div class="app-shell__brand">
         <p class="app-shell__brand-mark" aria-label="TheMuffinMan">TM</p>
+        <p class="app-shell__brand-copy">Workspace</p>
       </div>
 
       <nav class="app-shell__nav">
@@ -65,6 +72,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
           class="app-shell__nav-link"
           :class="{ 'app-shell__nav-link--active': activeNavId === item.id }"
         >
+          <span class="app-shell__nav-icon" aria-hidden="true">{{ item.icon }}</span>
           <span class="app-shell__nav-label">{{ item.label }}</span>
         </RouterLink>
         <details class="app-shell__more" :open="secondaryNavigationActive">
@@ -77,6 +85,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
               class="app-shell__nav-link app-shell__nav-link--secondary"
               :class="{ 'app-shell__nav-link--active': activeNavId === item.id }"
             >
+              <span class="app-shell__nav-icon" aria-hidden="true">{{ item.icon }}</span>
               <span class="app-shell__nav-label">{{ item.label }}</span>
             </RouterLink>
           </div>
@@ -84,7 +93,10 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
       </nav>
 
       <div class="app-shell__rail-footer">
-        <p class="app-shell__nav-heading">Account</p>
+        <p class="app-shell__nav-heading">Personal</p>
+        <RouterLink v-for="item in pinned" :key="`pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link"><span aria-hidden="true">★</span>{{ item.title }}</RouterLink>
+        <RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink>
+        <p class="app-shell__nav-heading app-shell__nav-heading--account">Account</p>
         <RouterLink to="/profile" class="app-shell__account-link" :class="{ 'app-shell__account-link--active': activeNavId === 'profile' }">Profile</RouterLink>
         <RouterLink to="/profile/settings" class="app-shell__account-link">Settings</RouterLink>
       </div>
@@ -93,6 +105,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
     <div class="app-shell__frame">
       <header class="app-shell__header">
         <div class="app-shell__context">
+          <p class="app-shell__eyebrow">{{ shellEyebrow }}</p>
           <h1 class="app-shell__title">{{ shellTitle }}</h1>
         </div>
 
@@ -100,6 +113,9 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
           <UniversalCreateMenu />
           <GlobalSearchEntry />
           <GlobalVisionEntry :context="currentContextLabel" :placeholder="visionPlaceholder" :contextual-route="contextualVisionRoute" />
+          <AppActionMenu label="Open personal shortcuts">
+            <RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to">{{ item.label }}</RouterLink>
+          </AppActionMenu>
           <AccountMenu />
         </div>
       </header>
@@ -117,6 +133,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
         class="app-shell__mobile-link"
         :class="{ 'app-shell__mobile-link--active': activeNavId === item.id }"
       >
+        <span aria-hidden="true">{{ item.icon }}</span>
         {{ item.label }}
       </RouterLink>
       <details class="app-shell__mobile-more" :open="secondaryNavigationActive">
@@ -129,6 +146,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
             class="app-shell__mobile-link"
             :class="{ 'app-shell__mobile-link--active': activeNavId === item.id }"
           >
+            <span aria-hidden="true">{{ item.icon }}</span>
             {{ item.label }}
           </RouterLink>
         </div>
@@ -142,21 +160,21 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 .app-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(16rem, 18.5rem) minmax(0, 1fr);
-  background:
-    radial-gradient(circle at top left, rgba(214, 228, 218, 0.58), transparent 26%),
-    linear-gradient(180deg, #f6f7f2 0%, #eef0e9 100%);
-  color: #17221a;
+  grid-template-columns: var(--workspace-rail-width) minmax(0, 1fr);
+  background: var(--bg);
+  color: var(--text);
 }
 
 .app-shell__rail {
   display: grid;
   align-content: start;
-  gap: 1.4rem;
-  padding: 1.4rem 1rem 1rem;
-  border-right: 1px solid rgba(23, 34, 26, 0.1);
-  background: rgba(252, 252, 248, 0.86);
-  backdrop-filter: blur(16px);
+  gap: 1.25rem;
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 1rem 0.65rem 0.75rem;
+  border-right: 1px solid var(--border-subtle);
+  background: var(--rail);
 }
 
 .app-shell__brand,
@@ -176,25 +194,37 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 }
 
 .app-shell__brand {
-  display: grid;
-  gap: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
 }
 
 .app-shell__brand-mark {
-  font-size: 1rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.6rem;
+  background: var(--surface-strong);
+  color: var(--text);
+  font-size: 0.92rem;
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
 }
+
+.app-shell__brand-copy { margin: 0; color: var(--text-muted); font-size: 0.78rem; font-weight: 700; }
 
 .app-shell__nav {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.2rem;
 }
 
 .app-shell__nav-heading {
-  padding: 0 0.85rem;
-  color: rgba(23, 34, 26, 0.45);
-  font-size: 0.68rem;
+  padding: 0.25rem 0.7rem 0.35rem;
+  color: var(--text-soft);
+  font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -202,43 +232,59 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 
 .app-shell__nav-link,
 .app-shell__vision-link {
-  display: grid;
-  gap: 0.22rem;
-  padding: 0.8rem 0.85rem;
-  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.45rem;
   border: 1px solid transparent;
-  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+  color: var(--text-muted);
+  transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease;
 }
+
+.app-shell__nav-icon { display: inline-grid; place-items: center; width: 1rem; color: var(--text-soft); font-size: 0.9rem; }
+.app-shell__nav-link--active .app-shell__nav-icon { color: var(--accent); }
 
 .app-shell__nav-link:hover,
 .app-shell__vision-link:hover,
 .app-shell__header-vision:hover,
 .app-shell__logout:hover {
-  transform: translateY(-1px);
+  color: var(--text);
 }
 
 .app-shell__nav-link:hover,
 .app-shell__vision-link:hover {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(23, 34, 26, 0.1);
+  background: var(--surface-hover);
+  border-color: var(--border-subtle);
 }
 
 .app-shell__nav-link--active {
-  background: rgba(255, 255, 255, 0.94);
-  border-color: rgba(23, 34, 26, 0.14);
-  box-shadow: 0 18px 36px rgba(23, 34, 26, 0.08);
+  position: relative;
+  background: var(--surface-strong);
+  border-color: var(--border-subtle);
+  color: var(--text);
+}
+
+.app-shell__nav-link--active::before {
+  position: absolute;
+  left: -0.2rem;
+  width: 0.18rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  content: "";
 }
 
 .app-shell__more {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.2rem;
 }
 
 .app-shell__more-summary {
   cursor: pointer;
-  padding: 0.8rem 0.85rem;
-  border-radius: 1rem;
-  color: rgba(23, 34, 26, 0.72);
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.45rem;
+  color: var(--text-muted);
   font-weight: 600;
   list-style: none;
 }
@@ -250,7 +296,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 .app-shell__more-summary::after {
   content: "＋";
   float: right;
-  color: rgba(23, 34, 26, 0.45);
+  color: var(--text-soft);
 }
 
 .app-shell__more[open] .app-shell__more-summary::after {
@@ -258,17 +304,17 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 }
 
 .app-shell__more-summary:hover {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--surface-hover);
 }
 
 .app-shell__more-items {
   display: grid;
-  gap: 0.35rem;
-  padding-left: 0.55rem;
+  gap: 0.15rem;
+  padding-left: 0.3rem;
 }
 
 .app-shell__nav-link--secondary {
-  padding-block: 0.65rem;
+  padding-block: 0.45rem;
 }
 
 .app-shell__nav-label,
@@ -280,23 +326,29 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 .app-shell__rail-footer {
   margin-top: auto;
   display: grid;
-  gap: 0.45rem;
+  gap: 0.2rem;
 }
 
+.app-shell__nav-heading--account { margin-top: 0.8rem; }
+
 .app-shell__account-link {
-  padding: 0.65rem 0.85rem;
-  border-radius: 0.8rem;
-  color: rgba(23, 34, 26, 0.72);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.45rem;
+  color: var(--text-muted);
 }
 
 .app-shell__account-link:hover,
 .app-shell__account-link--active {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--surface-hover);
+  color: var(--text);
 }
 
 .app-shell__mobile-vision {
-  background: rgba(23, 34, 26, 0.96);
-  color: #f8f8f4;
+  background: var(--accent);
+  color: #121217;
 }
 
 .app-shell__frame {
@@ -310,7 +362,12 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
   justify-content: space-between;
   gap: 1rem;
   align-items: flex-start;
-  padding: 1.25rem 1.35rem 0.85rem;
+  min-height: 3.75rem;
+  align-items: center;
+  padding: 0.65rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: color-mix(in srgb, var(--bg-raised) 92%, transparent);
+  backdrop-filter: blur(14px);
 }
 
 .app-shell__context {
@@ -319,28 +376,30 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 }
 
 .app-shell__eyebrow {
+  margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.73rem;
-  color: rgba(23, 34, 26, 0.45);
+  color:var(--text-muted);
 }
 
 .app-shell__title {
-  font-size: clamp(1.65rem, 2.2vw, 2.2rem);
+  font-size: 0.94rem;
   line-height: 1;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.02em;
 }
 
 .app-shell__header-actions {
   display: grid;
-  gap: 0.7rem;
-  justify-items: end;
+  grid-auto-flow: column;
+  gap: 0.45rem;
+  align-items: center;
 }
 
 .app-shell__vision-hint {
   margin: 0;
   max-width: 22rem;
-  color: rgba(23, 34, 26, 0.58);
+  color:var(--text-muted);
   font-size: 0.82rem;
   line-height: 1.35;
   text-align: right;
@@ -356,8 +415,8 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 .app-shell__header-vision,
 .app-shell__logout {
   border-radius: 999px;
-  border: 1px solid rgba(23, 34, 26, 0.12);
-  background: rgba(255, 255, 255, 0.82);
+  border:1px solid var(--border-subtle);
+  background:var(--surface);
   padding: 0.68rem 0.95rem;
 }
 
@@ -373,7 +432,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 
 .app-shell__account-label {
   font-size: 0.9rem;
-  color: rgba(23, 34, 26, 0.76);
+  color:var(--text-muted);
 }
 
 .app-shell__logout {
@@ -381,7 +440,7 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
 }
 
 .app-shell__content {
-  padding: 0 1.35rem 1.35rem;
+  padding: 1.25rem;
 }
 
 .app-shell__mobile-nav {
@@ -409,9 +468,9 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
   gap: 0.4rem;
   min-width: 9rem;
   padding: 0.45rem;
-  border: 1px solid rgba(23, 34, 26, 0.1);
+  border:1px solid var(--border-subtle);
   border-radius: 1rem;
-  background: rgba(252, 252, 248, 0.98);
+  background:var(--surface);
   box-shadow: 0 16px 32px rgba(23, 34, 26, 0.14);
 }
 
@@ -450,38 +509,38 @@ const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVi
     position: sticky;
     bottom: 0;
     z-index: 10;
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
     padding: 0.75rem 0.8rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
-    border-top: 1px solid rgba(23, 34, 26, 0.1);
-    background: rgba(252, 252, 248, 0.94);
+    border-top: 1px solid var(--border-subtle);
+    background:var(--surface);
     backdrop-filter: blur(16px);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    background: color-mix(in srgb, var(--bg-raised) 94%, transparent);
   }
 
-  .app-shell__mobile-link,
+.app-shell__mobile-link,
   .app-shell__mobile-vision {
-    flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-height: 2.8rem;
     padding: 0.5rem 0.85rem;
     border-radius: 999px;
-    border: 1px solid rgba(23, 34, 26, 0.08);
-    background: rgba(255, 255, 255, 0.84);
+    min-width: 0;
+    border: 1px solid var(--border-subtle);
+    background: var(--surface);
     text-align: center;
     font-size: 0.82rem;
     white-space: nowrap;
-    scroll-snap-align: start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    gap: 0.32rem;
   }
 
   .app-shell__mobile-link--active {
-    background: rgba(23, 34, 26, 0.94);
-    color: #f8f8f4;
+    background: var(--surface-strong);
+    color: var(--text);
   }
 
   .app-shell__content {

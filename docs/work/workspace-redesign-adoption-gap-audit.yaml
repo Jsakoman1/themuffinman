@@ -1,0 +1,201 @@
+kind: redesign_adoption_audit
+version: 1
+id: workspace-redesign-adoption-gap-audit
+status: findings_recorded
+baseline: 2a34d383aaa91ffd5449a60c3c80085c8563c7dc
+scope: authenticated web workspace only
+purpose: >
+  Record actual adoption gaps between the intended square, dense workspace system
+  and the current route implementations. This is a diagnostic inventory, not a
+  completion claim or an implementation work plan.
+
+target_interaction_system:
+  shell:
+    desktop: left navigation rail + route content + optional contextual utility rail
+    narrow: route content first; navigation and utility context collapse deliberately
+  collections:
+    desktop: collection index or filters + dense selected list + preview/detail utility rail
+    row_contract: one primary open target; secondary actions are separate controls
+  details:
+    desktop: main object content + activity/context + utility actions when the object warrants it
+    editing: inline in the open surface; no nested edit dialog unless the task is truly short
+  forms:
+    layout: main fields left + utility, help, draft, or action rail right for substantial forms
+    controls: shared square control radius, explicit primary/secondary/danger hierarchy, shared field states
+  shared_primitives:
+    required:
+      - AppCard or dense row primitive
+      - AppIconButton for icon-only actions
+      - AppActionMenu for overflow actions
+      - AppActionDialog for destructive or consequential confirmation
+      - AppFormField and AppFormFooter for standard form controls
+      - ObjectPreviewPanel where a collection has a meaningful inspect-before-open path
+
+current_findings:
+  shell:
+    status: partial
+    present:
+      - Stable left navigation rail and top context bar in AuthenticatedShellView.
+      - Dark workspace tokens and a narrow-screen bottom navigation fallback.
+    missing:
+      - Route content does not receive a shared collection/detail/utility layout contract.
+      - The utility rail is implemented only inside selected views instead of through one route-level primitive.
+      - The global shell cannot coordinate selected object, preview state, or a contextual action rail.
+
+  shared_elements:
+    status: not_adopted_consistently
+    evidence:
+      pill_control_rules: 49
+      AppCard_view_adoptions: 2
+      AppIconButton_view_adoptions: 1
+      AppActionMenu_view_adoptions: 1
+      ObjectPreviewPanel_view_adoptions: 2
+      views_with_local_form_controls: 21
+    missing:
+      - A single square Button primitive with primary, quiet, danger, icon, loading, and compact variants.
+      - A single Field primitive for input, select, textarea, checkbox, validation, hint, and disabled states.
+      - A single form footer/action bar.
+      - A single dense row/list primitive; most views still render bespoke cards or rows.
+      - A standard empty/loading/error/retry surface.
+      - Consistent action overflow; destructive actions are still often peer buttons.
+
+  work:
+    discovery:
+      current_layout: two content columns (quest list + ObjectPreviewPanel), plus the global left navigation rail
+      status: partial
+      present:
+        - Dense list treatment, AppCard rows, selected/preview state, and preview panel.
+        - Filter/search controls and narrow-screen fallback.
+      missing:
+        - No third in-route column for filters/saved views/collection context; filters remain a horizontal control strip.
+        - Row metadata and several controls still use pill shapes.
+        - No shared collection scaffold reused by Things, Rides, Business, or People.
+    quest_detail:
+      current_layout: two content columns (main content + action rail)
+      status: partial
+      present:
+        - Dedicated action rail and inline edit route state.
+      missing:
+        - Activity is embedded below the main text instead of a distinct contextual column/rail.
+        - All actions remain exposed as peer pill buttons; no overflow grouping or action hierarchy.
+        - Edit, apply, and review forms use local fields and footers.
+    applications:
+      status: legacy
+      missing:
+        - Dense collection scaffold with preview and selected-row state.
+        - Standardized row actions and application form surface.
+    quest_create:
+      status: legacy
+      missing:
+        - Two-column creation workspace with a live summary, draft guidance, or action rail.
+        - Shared form fields, footer, and square button variants.
+
+  things:
+    discovery:
+      current_layout: two content columns (two-card listing grid + ObjectPreviewPanel), plus global left navigation rail
+      status: partial
+      present:
+        - AppCard and ObjectPreviewPanel adoption.
+      missing:
+        - Listings remain a two-card grid rather than a dense, comparable collection list.
+        - No collection index/filter/context column.
+        - Borrow, archive, and edit actions are local pill buttons.
+        - Create and borrow forms are local dialog forms without shared fields/footer.
+    detail:
+      status: legacy
+      missing:
+        - Main/detail/activity/utility split.
+        - Inline request/edit surface and standard action hierarchy.
+
+  chat:
+    current_layout: two content columns (conversation index + active thread)
+    status: partial
+    present:
+      - Real conversation workspace, composer, message actions, and narrow fallback.
+    missing:
+      - No third context rail for participant details, attachments, search, or thread actions.
+      - Composer, direct/group create forms, and message actions use bespoke controls.
+      - Conversation rows and toolbar controls retain rounded legacy treatment.
+
+  business:
+    discovery_and_public_profile:
+      status: legacy
+      missing:
+        - Dense search results and inspect-before-open preview.
+        - Standard collection header, filter state, and shared action controls.
+    profile_and_offerings:
+      status: legacy
+      missing:
+        - Business profile form has no utility/help rail or shared field/footer primitives.
+        - Offering list lacks a preview/detail split and inline editing surface.
+        - Gallery and profile switcher use local controls.
+    availability_and_exceptions:
+      status: legacy
+      missing:
+        - Rules are bespoke rows rather than dense selected rows with contextual detail.
+        - Rule forms use local modal fields and pill action groups.
+    bookings:
+      status: partial
+      present:
+        - Some booking lists already use SurfaceRow.
+      missing:
+        - No calendar/list/detail workspace or contextual booking rail.
+        - Reschedule and cancellation actions/forms remain bespoke.
+
+  rides:
+    status: legacy
+    missing:
+      - No selected ride preview/detail panel.
+      - Ride cards, match controls, commute form, and offer form use local layouts.
+      - Commute preferences should become a structured settings surface, not a wide inline grid.
+
+  circles_people_profile_settings:
+    status: legacy
+    missing:
+      - No dense collection + preview contract for circles or people.
+      - Profile/location form is a single long card instead of a main form plus utility/context column.
+      - Circle creation and inline member actions use local rounded controls.
+      - Saved searches, notification preferences, onboarding, and account settings lack shared form/action surfaces.
+
+  notifications_attention:
+    status: partial
+    present:
+      - Attention content exists.
+    missing:
+      - Attention, notifications, and activity do not share one inbox/triage layout.
+      - No selected-notification preview or action rail.
+
+implementation_order:
+  - id: UI-01
+    slice: shared square controls and form primitives
+    scope:
+      - AppButton
+      - AppFormField
+      - AppFormFooter
+      - AppActionMenu
+      - AppStatus
+    outcome: Eliminate route-local pill buttons and duplicate input styling before migrating pages.
+  - id: UI-02
+    slice: reusable workspace scaffolds
+    scope:
+      - collection index/list/preview scaffold
+      - detail/activity/utility scaffold
+      - form main/utility scaffold
+    outcome: Make two- and three-column behavior reusable and responsive rather than handwritten per route.
+  - id: UI-03
+    slice: complete Work and Things adoption
+    outcome: Turn current two-column partial implementations into the canonical collection/detail reference surfaces.
+  - id: UI-04
+    slice: migrate Chat, Business, and Rides
+    outcome: Replace bespoke layouts and form controls with the shared scaffolds.
+  - id: UI-05
+    slice: migrate Circles, People, Profile, Settings, notifications, and onboarding
+    outcome: Remove the remaining legacy page and form patterns.
+  - id: UI-06
+    slice: browser visual and interaction acceptance
+    outcome: Capture desktop and narrow evidence for every migrated scaffold and its error/loading/keyboard states.
+
+non_goals:
+  - Do not force a third column on simple confirmation, settings, or short-form screens.
+  - Do not duplicate backend-owned permissions, workflow state, filters, or actions in Vue.
+  - Do not make Vision a workspace sidebar or dashboard.
