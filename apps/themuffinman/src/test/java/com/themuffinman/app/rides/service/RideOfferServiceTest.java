@@ -2,6 +2,7 @@ package com.themuffinman.app.rides.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.rides.dto.RideOfferRequestDTO;
+import com.themuffinman.app.rides.dto.RideAllowedActionDTO;
 import com.themuffinman.app.rides.mapper.RideOfferMgr;
 import com.themuffinman.app.rides.model.RideOffer;
 import com.themuffinman.app.rides.repository.RideOfferRepository;
@@ -63,6 +64,7 @@ class RideOfferServiceTest {
 
         assertEquals(20L, result.getId());
         assertEquals(List.of("Neighbors"), result.getVisibleCircleNames());
+        assertEquals(List.of(RideAllowedActionDTO.EDIT, RideAllowedActionDTO.CANCEL), result.getAllowedActions());
     }
 
     @Test
@@ -110,6 +112,7 @@ class RideOfferServiceTest {
 
         assertEquals(1, result.getItems().size());
         assertEquals("Zurich", result.getItems().getFirst().getDestination());
+        assertEquals(List.of(RideAllowedActionDTO.EDIT, RideAllowedActionDTO.CANCEL), result.getItems().getFirst().getAllowedActions());
     }
 
     @Test

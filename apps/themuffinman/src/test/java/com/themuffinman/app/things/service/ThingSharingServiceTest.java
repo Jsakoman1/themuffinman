@@ -143,6 +143,7 @@ class ThingSharingServiceTest {
         var result = thingSharingService.getAvailableListings(borrower);
 
         assertEquals(20L, result.getItems().getFirst().getMyPendingRequestId());
+        assertEquals(List.of(ThingAllowedActionDTO.CANCEL_BORROW_REQUEST), result.getItems().getFirst().getAllowedActions());
     }
 
     @Test

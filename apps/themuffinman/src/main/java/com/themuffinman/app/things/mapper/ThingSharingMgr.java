@@ -8,11 +8,17 @@ import com.themuffinman.app.things.model.ThingBorrowRequest;
 import com.themuffinman.app.things.model.ThingListing;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Objects;
+import com.themuffinman.app.identity.model.AppUser;
 
 @Component
 public class ThingSharingMgr {
 
     public ThingListingResponseDTO toListingDto(ThingListing listing, Long myPendingRequestId) {
+        return toListingDto(listing, myPendingRequestId, null);
+    }
+
+    public ThingListingResponseDTO toListingDto(ThingListing listing, Long myPendingRequestId, AppUser viewer) {
         if (listing == null) {
             return null;
         }
@@ -29,7 +35,18 @@ public class ThingSharingMgr {
                 .myPendingRequestId(myPendingRequestId)
                 .createdAt(listing.getCreatedAt())
                 .updatedAt(listing.getUpdatedAt())
+                .availabilityLabel(listing.isArchived() ? "Archived" : listing.isAvailable() ? "Available to borrow" : "Currently unavailable")
+                .allowedActions(allowedListingActions(listing, myPendingRequestId, viewer))
                 .build();
+    }
+
+    private List<ThingAllowedActionDTO> allowedListingActions(ThingListing listing, Long myPendingRequestId, AppUser viewer) {
+        if (viewer == null) return List.of();
+        if (Objects.equals(listing.getOwner().getId(), viewer.getId())) {
+            return List.of(ThingAllowedActionDTO.EDIT, ThingAllowedActionDTO.ARCHIVE);
+        }
+        if (myPendingRequestId != null) return List.of(ThingAllowedActionDTO.CANCEL_BORROW_REQUEST);
+        return listing.isAvailable() && !listing.isArchived() ? List.of(ThingAllowedActionDTO.REQUEST_BORROW) : List.of();
     }
 
     public ThingBorrowRequestResponseDTO toBorrowRequestDto(ThingBorrowRequest request) {

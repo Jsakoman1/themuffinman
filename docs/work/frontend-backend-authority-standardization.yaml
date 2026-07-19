@@ -1,0 +1,195 @@
+kind: work
+version: 1
+id: frontend-backend-authority-standardization
+title: Standardize frontend around backend-authoritative contracts
+status: verified
+baseline: 94efd68
+strict_verification: true
+objective: Make frontend domain surfaces consume generated backend contracts and backend-owned
+  allowed actions for permissions, validation, and workflow transitions while keeping
+  presentation state local and portable to future iPhone and Apple Watch clients.
+tasks:
+- id: rides-things-actions
+  title: Expose and consume backend allowed actions for Rides and Things
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideAllowedActionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideAllowedActionDTO.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml -DskipTests compile
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+- id: vision-contract-boundary
+  title: Replace manual Vision transport DTOs with generated contracts or named adapters
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationViewModels.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationTransport.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationViewModels.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationTransport.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+- id: shared-surface-standardization
+  title: Standardize domain clients, loading/error actions, and shared UI patterns
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useObjectActions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  validation: make audit-frontend && npm --prefix apps/themuffinman/frontend run validate:modern-surface
+evidence:
+- task: backend-test-baseline
+  command: "./mvnw test"
+  exitCode: 0
+  result: passed
+  output: 756 tests passed; 0 failures; 0 errors.
+- task: domain-client-and-async-slice
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  exitCode: 0
+  result: passed
+- task: rides-things-actions
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml -DskipTests compile
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-19T17:02:13Z'
+  revision: 94efd68502858ae29ba1919f842e343a47200aba
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideAllowedActionDTO.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-DFMBSres.js               8.12 kB │ gzip:   2.69 kB
+    dist/assets/ThingsDiscoveryView-DhIrOSiQ.js                   10.85 kB │ gzip:   3.42 kB
+    dist/assets/CirclesView-Cb6uDu2v.js                           10.96 kB │ gzip:   3.28 kB
+    dist/assets/WorkspaceSurfaceView-UO8mk5Yv.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/BusinessProfileView-Cq2wLfPo.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-BP9hhuI7.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-_kFjj4lI.js                             12.55 kB │ gzip:   3.94 kB
+    dist/assets/ChatSurfaceView-DtS_WZJ6.js                       15.51 kB │ gzip:   5.10 kB
+    dist/assets/userShellApi-B9OLskec.js                          16.31 kB │ gzip:   3.30 kB
+    dist/assets/SurfaceHeader-CKyaGluD.js                         17.65 kB │ gzip:   5.24 kB
+    dist/assets/ProfileLocationSettingsView-CBvXHyv2.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/AuthenticatedShellView-DCnUNlO0.js                23.96 kB │ gzip:   7.38 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/index-CaJ8_Aw5.js                                 29.58 kB │ gzip:   8.51 kB
+    dist/assets/VisionSurfaceModernView-CQL8Unf_.js               38.41 kB │ gzip:  11.49 kB
+    dist/assets/vendor-ZRkOnB5Q.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 536ms
+
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideAllowedActionDTO.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-contract-boundary
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-19T17:02:25Z'
+  revision: 94efd68502858ae29ba1919f842e343a47200aba
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationTransport.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationViewModels.ts
+  output: |+
+    dist/assets/BusinessAvailabilityView-DFMBSres.js               8.12 kB │ gzip:   2.69 kB
+    dist/assets/ThingsDiscoveryView-DhIrOSiQ.js                   10.85 kB │ gzip:   3.42 kB
+    dist/assets/CirclesView-Cb6uDu2v.js                           10.96 kB │ gzip:   3.28 kB
+    dist/assets/WorkspaceSurfaceView-UO8mk5Yv.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/BusinessProfileView-Cq2wLfPo.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-BP9hhuI7.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-_kFjj4lI.js                             12.55 kB │ gzip:   3.94 kB
+    dist/assets/ChatSurfaceView-DtS_WZJ6.js                       15.51 kB │ gzip:   5.10 kB
+    dist/assets/userShellApi-B9OLskec.js                          16.31 kB │ gzip:   3.30 kB
+    dist/assets/SurfaceHeader-CKyaGluD.js                         17.65 kB │ gzip:   5.24 kB
+    dist/assets/ProfileLocationSettingsView-CBvXHyv2.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/AuthenticatedShellView-DCnUNlO0.js                23.96 kB │ gzip:   7.38 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/index-CaJ8_Aw5.js                                 29.58 kB │ gzip:   8.51 kB
+    dist/assets/VisionSurfaceModernView-CQL8Unf_.js               38.41 kB │ gzip:  11.49 kB
+    dist/assets/vendor-ZRkOnB5Q.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 505ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationViewModels.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationTransport.ts
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: shared-surface-standardization
+  command: make audit-frontend && npm --prefix apps/themuffinman/frontend run validate:modern-surface
+  ranAt: '2026-07-19T17:02:29Z'
+  revision: 94efd68502858ae29ba1919f842e343a47200aba
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  output: |2+
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 11
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (70 checks).
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+visualEvidencePaths: []
+runtimeEvidencePaths: []

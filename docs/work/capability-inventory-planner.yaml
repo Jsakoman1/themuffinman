@@ -3,6 +3,7 @@ version: 1
 id: capability-inventory-planner
 title: Remaining capability implementation planner
 status: active
+last_reviewed: '2026-07-19'
 created_at: '2026-07-19'
 source_audit: docs/work/capability-inventory-audit.yaml
 implementation_roadmap: docs/work/capability-implementation-roadmap.yaml
@@ -13,7 +14,9 @@ planning_rule: >
   Use atomic capability IDs as the unit of future work. Each selected slice must
   become its own strict docs/work/*.yaml implementation plan, use the current
   Git baseline, and close through make work-verify. Do not reopen the retired
-  redesign masters or recreate their screenshot/HAR evidence directories.
+  redesign masters or recreate their screenshot/HAR evidence directories. Do not
+  plan implemented capabilities as new implementation work merely because they
+  retain optional runtime, native, or polish gaps; record those as residual acceptance.
 priority_order:
   - id: P1-platform-trust-and-recovery
     priority: critical
@@ -140,15 +143,6 @@ priority_order:
       Keep the backend handoff contract versioned and expiry-safe, then defer
       client receivers until iPhone and Watch implementation workspaces are available.
     depends_on: [P1-platform-trust-and-recovery, P2-vision-execution-and-discovery]
-  - id: P8-rides-circles
-    priority: medium
-    objective: Decide and, if approved, implement voluntary car sharing for selected circles.
-    capabilities: [rides.circles]
-    existing_plans: []
-    next_slice: >
-      Product decision first: define consent, safety, matching, scheduling, and
-      trip lifecycle contracts before creating backend or client work.
-    depends_on: [P1-platform-trust-and-recovery]
   - id: P9-account-recovery-later
     priority: deferred
     objective: Finish account recovery after the current product flows are stable.

@@ -40,7 +40,7 @@ public class ThingSharingService {
         Map<Long, Long> requestIdByListingId = pendingRequestIds(currentUser, listings);
         return ThingListingListResponseDTO.builder()
                 .items(listings.stream()
-                        .map(listing -> thingSharingMgr.toListingDto(listing, requestIdByListingId.get(listing.getId())))
+                        .map(listing -> thingSharingMgr.toListingDto(listing, requestIdByListingId.get(listing.getId()), currentUser))
                         .toList())
                 .build();
     }
@@ -48,7 +48,7 @@ public class ThingSharingService {
     public ThingListingListResponseDTO getMyListings(AppUser currentUser) {
         return ThingListingListResponseDTO.builder()
                 .items(thingListingRepository.findForOwnerDashboard(currentUser.getId()).stream()
-                        .map(listing -> thingSharingMgr.toListingDto(listing, null))
+                        .map(listing -> thingSharingMgr.toListingDto(listing, null, currentUser))
                         .toList())
                 .build();
     }
@@ -57,7 +57,7 @@ public class ThingSharingService {
         ThingListing listing = thingListingRepository.findForListingDetail(listingId)
                 .orElseThrow(() -> ServiceErrors.notFound("Thing listing not found with id " + listingId));
         Long pendingRequestId = pendingRequestIds(currentUser, List.of(listing)).get(listingId);
-        return withDetailActions(thingSharingMgr.toListingDto(listing, pendingRequestId), currentUser);
+        return thingSharingMgr.toListingDto(listing, pendingRequestId, currentUser);
     }
 
     @Transactional
@@ -69,14 +69,14 @@ public class ThingSharingService {
         ThingListing listing = new ThingListing();
         listing.setOwner(currentUser);
         applyListingInput(listing, dto);
-        return thingSharingMgr.toListingDto(thingListingRepository.save(listing), null);
+        return thingSharingMgr.toListingDto(thingListingRepository.save(listing), null, currentUser);
     }
 
     @Transactional
     public ThingListingResponseDTO updateMyListingForVision(Long listingId, ThingListingRequestDTO dto, AppUser currentUser) {
         ThingListing listing = ownedListing(listingId, currentUser);
         applyListingInput(listing, dto);
-        return thingSharingMgr.toListingDto(thingListingRepository.save(listing), null);
+        return thingSharingMgr.toListingDto(thingListingRepository.save(listing), null, currentUser);
     }
 
     @Transactional
@@ -172,18 +172,6 @@ public class ThingSharingService {
     private ThingBorrowRequest detailedRequest(Long requestId) {
         return thingBorrowRequestRepository.findForBorrowRequestDetail(requestId)
                 .orElseThrow(() -> ServiceErrors.notFound("Thing borrow request not found with id " + requestId));
-    }
-
-    private ThingListingResponseDTO withDetailActions(ThingListingResponseDTO listing, AppUser viewer) {
-        boolean owner = viewer != null && Objects.equals(listing.getOwnerId(), viewer.getId());
-        List<ThingAllowedActionDTO> actions = owner
-                ? List.of(ThingAllowedActionDTO.EDIT, ThingAllowedActionDTO.ARCHIVE)
-                : listing.getMyPendingRequestId() != null
-                ? List.of(ThingAllowedActionDTO.CANCEL_BORROW_REQUEST)
-                : listing.isAvailable() ? List.of(ThingAllowedActionDTO.REQUEST_BORROW) : List.of();
-        listing.setAvailabilityLabel(listing.isArchived() ? "Archived" : listing.isAvailable() ? "Available to borrow" : "Currently unavailable");
-        listing.setAllowedActions(actions);
-        return listing;
     }
 
     private void requireOwner(ThingBorrowRequest request, AppUser currentUser) {

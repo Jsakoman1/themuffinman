@@ -798,6 +798,8 @@ Location lookup recovery:
 - These options form part of the backend contract, not just frontend convenience data.
 - Presentation data also comes from the backend: status labels, badge classes, helper text, action labels, and visibility booleans.
 - The frontend is expected to render many workmarket states from server-prepared labels and flags instead of re-deriving business meaning on the client.
+- Rides and Things now expose backend-owned `allowedActions` in their response contracts. The web surface uses those actions for edit, borrow, join, leave, start, complete, cancel, approve, decline, and return controls; local UI state remains limited to selection, dialogs, loading, and feedback.
+- Vision transport uses the generated contract at the API boundary and a named presentation adapter for nullable canvas/view-model details, keeping text/voice presentation concerns portable for future native clients.
 
 ### Cross-module dependencies
 
@@ -864,7 +866,7 @@ Location lookup recovery:
 - Owner confirmation, rejection, cancellation, completion, and no-show marking are explicit backend transitions.
 - Historical bookings keep offering title, price, duration, and timezone snapshots so later offering edits do not rewrite history.
 - Offering removal is archival-safe deactivation rather than destructive history loss.
-- Things borrowing currently supports listing discovery, detail, request, owner decision, borrower cancellation, and return. Listing update/archive and the planned ride-sharing domain are not yet offered and remain explicit target gaps.
+- Things borrowing currently supports listing discovery, detail, request, owner decision, borrower cancellation, and return. Listing update/archive remain separate Things concerns; voluntary car sharing is already offered through the Rides surface with optional circle-scoped visibility, matching, and an explicit trip lifecycle.
 - Owner schedule data can also be projected into a calendar-shaped backend read model that groups bookings by the business's local day so owner dashboards, booking lists, and mobile clients do not derive their own schedule buckets.
 - Gallery images are business-owned metadata rows and can be shown on the public page without changing booking workflow rules.
 - Thing borrow responses now explain their backend-owned lifecycle state and expose typed possible actions; clients must still submit mutations to the Thing service, which rechecks ownership, availability, and current status.

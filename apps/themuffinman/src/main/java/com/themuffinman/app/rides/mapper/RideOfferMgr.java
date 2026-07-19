@@ -2,6 +2,7 @@ package com.themuffinman.app.rides.mapper;
 
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.rides.dto.RideOfferResponseDTO;
+import com.themuffinman.app.rides.dto.RideAllowedActionDTO;
 import com.themuffinman.app.rides.model.RideOffer;
 import com.themuffinman.app.rides.model.RideParticipantStatus;
 import com.themuffinman.app.rides.repository.RideParticipantRepository;
@@ -9,6 +10,8 @@ import com.themuffinman.app.identity.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.themuffinman.app.social.model.CircleGroup;
 import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class RideOfferMgr {
@@ -24,6 +27,18 @@ public class RideOfferMgr {
         boolean driver = viewer != null && offer.getDriver().getId().equals(viewer.getId());
         boolean joined = viewer != null && participantRepository != null && offer.getId() != null && participantRepository.findByRideIdAndPassengerId(offer.getId(), viewer.getId())
                 .map(p -> p.getStatus() == RideParticipantStatus.JOINED).orElse(false);
+        boolean canJoin = !driver && !joined && offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.OPEN;
+        boolean canLeave = joined && (offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.OPEN || offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.FULL);
+        boolean canManage = driver && (offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.OPEN || offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.FULL || offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.IN_PROGRESS);
+        List<RideAllowedActionDTO> allowedActions = new ArrayList<>();
+        if (driver && (offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.OPEN || offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.FULL)) {
+            allowedActions.add(RideAllowedActionDTO.EDIT);
+            allowedActions.add(RideAllowedActionDTO.CANCEL);
+        }
+        if (canJoin) allowedActions.add(RideAllowedActionDTO.JOIN);
+        if (canLeave) allowedActions.add(RideAllowedActionDTO.LEAVE);
+        if (driver && offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.FULL) allowedActions.add(RideAllowedActionDTO.START);
+        if (driver && offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.IN_PROGRESS) allowedActions.add(RideAllowedActionDTO.COMPLETE);
         return RideOfferResponseDTO.builder()
                 .id(offer.getId())
                 .driverId(offer.getDriver().getId())
@@ -38,9 +53,10 @@ public class RideOfferMgr {
                 .joinedSeats(joinedSeats)
                 .viewerJoined(joined)
                 .viewerIsDriver(driver)
-                .canJoin(!driver && !joined && (offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.OPEN))
-                .canLeave(joined && (offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.OPEN || offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.FULL))
-                .canManage(driver && (offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.OPEN || offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.FULL || offer.getStatus() == com.themuffinman.app.rides.model.RideStatus.IN_PROGRESS))
+                .canJoin(canJoin)
+                .canLeave(canLeave)
+                .canManage(canManage)
+                .allowedActions(allowedActions)
                 .updatedAt(offer.getUpdatedAt())
                 .startedAt(offer.getStartedAt())
                 .completedAt(offer.getCompletedAt())

@@ -2,13 +2,14 @@
 import {onMounted, ref} from "vue"
 import {useRoute} from "vue-router"
 import type {ThingListingResponseDTO} from "../../../contracts/index.ts"
-import {userShellApi} from "../api/userShellApi.ts"
+import {thingsApi} from "../../things/api/thingsApi.ts"
 import AppButton from "../components/AppButton.vue"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import DetailSurface from "../components/DetailSurface.vue"
 
 const route = useRoute()
+const userShellApi = {getThingListing: thingsApi.getListing, requestThingBorrow: thingsApi.requestBorrow}
 const listing = ref<ThingListingResponseDTO | null>(null)
 const message = ref("")
 const isLoading = ref(true)

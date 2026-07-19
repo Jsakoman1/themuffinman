@@ -72,6 +72,9 @@ audit-target-capability-catalog:
 audit-target-capability-coverage:
 	@ruby scripts/audits/audit-target-capability-coverage.rb
 
+audit-inventory-freshness:
+	@ruby scripts/audits/audit-inventory-freshness.rb
+
 audit-vision-batch-readiness:
 	@ruby scripts/audits/audit-vision-batch-readiness.rb
 

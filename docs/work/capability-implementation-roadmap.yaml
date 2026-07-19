@@ -1,7 +1,7 @@
 kind: capability_implementation_roadmap
 version: 1
 id: capability-implementation-roadmap
-title: Implementation roadmap for the 33 open capabilities
+title: Implementation roadmap for the remaining open capabilities
 status: active
 created_at: '2026-07-19'
 source_audit: docs/work/capability-inventory-audit.yaml
@@ -11,7 +11,7 @@ source_gap_analysis: docs/work/capability-30-gap-analysis.yaml
 product_decisions:
   - id: DEC-001
     decision: Car sharing is a real future product module, not a permanent deferment.
-    consequence: Define its domain, consent, safety, matching, scheduling, and trip lifecycle before implementation.
+    consequence: The initial voluntary ride offer, circle visibility, matching, consent, and trip lifecycle are implemented; future expansion must preserve these backend-owned safety boundaries.
   - id: DEC-002
     decision: Mobile and Watch clients are later delivery phases.
     consequence: Keep backend contracts documented, but do not block current Web/Vision work on native clients.
@@ -157,7 +157,8 @@ phases:
   - id: R4-car-sharing-module
     order: 4
     priority: medium
-    objective: Design and build voluntary car sharing for selected circles.
+    status: implemented_initial_scope
+    objective: Maintain the implemented voluntary car sharing module and close only explicitly declared residual acceptance gaps.
     capabilities: [rides.circles]
     delivery_slices:
       - id: R4-A-product-and-safety-contract
@@ -202,15 +203,15 @@ phases:
         depends_on: [R6-A-native-handoff]
     deferred_reason: 'Product decision: mobile and Watch are intentionally later.'
 implementation_sequence:
-  current: [R1-web-trust-and-context, R2-domain-completion, R3-vision-and-cross-module-coordination, R4-car-sharing-module]
+  current: [R1-web-trust-and-context, R2-domain-completion, R3-vision-and-cross-module-coordination]
   later: [R5-later-account-recovery, R6-later-native-clients]
   recommended_first_plan: R1-A-auth-and-visibility
   recommended_second_plan: R1-B-location-context
   recommended_parallel_plan: R2-B-chat-continuity
 coverage_check:
   rule: Every open capability ID from the audit must occur exactly once in this roadmap.
-  expected_open_capabilities: 33
-  covered_capabilities: 33
+  expected_open_capabilities: 4
+  covered_capabilities: 4
   duplicates: []
   missing: []
 next_action: >

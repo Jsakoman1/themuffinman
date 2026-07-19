@@ -135,23 +135,26 @@ RIDE-NOTIFICATION-FANOUT [COMPLETED]: Ride join/leave/update/cancel/start/comple
 
 VISION-GAP-CLOSURE [ACTIVE]: Close the remaining prioritized Vision surface gaps using the prioritized queue, the contract bundle in `docs/work/vision-deferred-contract-bundle.yaml`, and readiness gates in `docs/work/vision-gap-readiness.yaml`. All seven gates are contract-ready; promote each into an implementation plan before claiming coverage.
 
+FRONTEND-BACKEND-AUTHORITY-STANDARDIZATION [ACTIVE]: Continue `docs/work/frontend-backend-authority-standardization.yaml`. Rides and Things now consume backend-owned action lists; the remaining work is to isolate or replace manual Vision transport types and standardize domain client/loading/action patterns.
+
 
 ## Open Items
 
 The current implementation queue is governed by
-`docs/work/capability-implementation-roadmap.yaml` and covers all 33 open
-capabilities exactly once.
+`docs/work/capability-implementation-roadmap.yaml` and covers the four currently
+open inventory capabilities exactly once. The broader R1-R3 entries also retain
+residual acceptance follow-ups for already implemented workflows.
 
 - `R1-web-trust-and-context`: authentication acceptance, profile visibility, location, and activity recovery.
 - `R2-domain-completion`: Work assignment, Chat continuity/media, Things lifecycle, and Business gallery.
 - `R3-vision-and-cross-module-coordination`: Vision recovery/discovery, unified search, and notifications.
-- `R4-car-sharing-module`: real car-sharing product design and implementation for selected circles.
+- `R4-car-sharing-module`: initial voluntary car-sharing scope is implemented; future work is limited to explicitly recorded residual acceptance gaps.
 - `R5-later-account-recovery`: delivery provider, abuse controls, valid-token acceptance, and later mobile surface.
 - `R6-later-native-clients`: iPhone/Watch handoff and native presentation after those workspaces exist.
 
 Current start point: `R1-A-auth-and-visibility`. Recommended parallel slice:
 `R2-B-chat-continuity`. Account recovery and mobile/Watch are intentionally not
-current blockers; car sharing remains a planned product module.
+current blockers; the initial car-sharing module is already implemented.
 
 ## Intake Rules
 

@@ -1,0 +1,90 @@
+kind: work
+version: 1
+id: capability-inventory-refresh
+title: Refresh capability inventory from current implementation evidence
+status: verified
+baseline: 94efd68
+strict_verification: true
+objective: 'Reconcile the canonical capability inventory with current backend, API,
+  Web/Vision, test, work-plan, and runtime evidence, including correct module ownership
+  and explicit implementation quality semantics.
+
+'
+tasks:
+- id: inventory-scan-reconciliation
+  title: Normalize module ownership and refresh implementation quality snapshot
+  type: documentation
+  status: done
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/work/capability-inventory-audit.yaml
+  - docs/work/capability-inventory-planner.yaml
+  - docs/work/capability-implementation-roadmap.yaml
+  - docs/work/capability-30-execution-board.yaml
+  - docs/business-logic.md
+  - docs/implementation-backlog.md
+  - Makefile
+  - scripts/audits/audit-inventory-freshness.rb
+  - docs/work/capability-inventory-refresh.yaml
+  required_paths:
+  - docs/capability-inventory.yaml
+  - docs/work/capability-inventory-audit.yaml
+  - docs/work/capability-inventory-planner.yaml
+  - docs/work/capability-implementation-roadmap.yaml
+  - docs/business-logic.md
+  - Makefile
+  - scripts/audits/audit-inventory-freshness.rb
+  validation: make audit-inventory-freshness && make audit-target-capability-catalog
+    && make audit-target-capability-coverage && make audit-plan-coverage && make audit-docs
+    && git diff --check
+evidence:
+- task: inventory-scan-reconciliation
+  command: make audit-inventory-freshness && make audit-target-capability-catalog
+    && make audit-target-capability-coverage && make audit-plan-coverage && make audit-docs
+    && git diff --check
+  ranAt: '2026-07-19T16:02:03Z'
+  revision: 94efd68502858ae29ba1919f842e343a47200aba
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/implementation-backlog.md
+  - docs/work/capability-30-execution-board.yaml
+  - docs/work/capability-implementation-roadmap.yaml
+  - docs/work/capability-inventory-audit.yaml
+  - docs/work/capability-inventory-planner.yaml
+  - docs/work/capability-inventory-refresh.yaml
+  - scripts/audits/audit-inventory-freshness.rb
+  output: |2+
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: true
+      surface_coverage:
+        web_ui: covered
+        vision: covered
+      gaps: []
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (18 master children, 15 active inventory plans).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 273
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - docs/capability-inventory.yaml
+  - docs/work/capability-inventory-audit.yaml
+  - docs/work/capability-inventory-planner.yaml
+  - docs/work/capability-implementation-roadmap.yaml
+  - docs/business-logic.md
+  - Makefile
+  - scripts/audits/audit-inventory-freshness.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

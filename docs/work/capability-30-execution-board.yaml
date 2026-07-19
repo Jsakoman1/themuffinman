@@ -1,13 +1,13 @@
 kind: capability_execution_board
 version: 1
 id: capability-30-execution-board
-title: Frozen execution board for the 30 partial capabilities
-status: active
+title: Completed execution board for the 30 previously partial capabilities
+status: completed
 source_inventory: docs/capability-inventory.yaml
 source_gap_analysis: docs/work/capability-30-gap-analysis.yaml
 execution_rule: Execute entries in order. A slice is complete only when its owner plan is verified, its listed files are current, and the inventory entry has matching evidence. Do not invent a new slice while an entry is open.
 state_definition: implementation_complete_runtime_pending means code, contract, docs, and strict owner-plan verification passed, but the declared browser acceptance evidence is still missing.
-scope_rule: The 30 entries below are the partial capabilities only. The two planned handoffs and the not-offered rides capability are outside this board.
+scope_rule: The 30 entries below are the historical partial capabilities closed by this board. Current open inventory status is maintained in docs/capability-inventory.yaml.
 goal_contract:
   objective: Close the 30 partial capabilities in this board in order, with backend-owned behavior and reusable Web/Vision contracts.
   unit_of_work: One board entry and its owner plan; do not create a second master plan or parallel capability slice.
@@ -26,7 +26,6 @@ loop_prevention:
 product_deferrals:
   platform.account.recover: Deferred by DEC-003; retain current partial implementation and do not add provider work in this board.
   cross_module.mobile_watch: Deferred by DEC-002; maintain backend presentation contracts and do not build native apps in this board.
-  rides.circles: Not offered; outside the 30-entry scope and requires a product/safety decision first.
 phases:
 - id: P1-trust-context
   entries: [01, 02, 04, 05, 06, 07, 08, 09]

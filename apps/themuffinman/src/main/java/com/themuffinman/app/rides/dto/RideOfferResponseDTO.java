@@ -26,6 +26,7 @@ public class RideOfferResponseDTO {
     private boolean canJoin;
     private boolean canLeave;
     private boolean canManage;
+    private List<RideAllowedActionDTO> allowedActions;
     private Instant updatedAt;
     private Instant startedAt;
     private Instant completedAt;

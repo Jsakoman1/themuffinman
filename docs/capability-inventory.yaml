@@ -29,6 +29,16 @@ review_policy:
   rule: >
     A capability may be marked implemented only when its intended behavior,
     backend boundary, user-facing surface, and validation evidence agree.
+  refresh_command: make audit-inventory-freshness
+  refresh_scope: backend controllers/services/DTOs, API contracts, Web/Vision surfaces, tests, work plans, and runtime evidence
+  quality_rule: >
+    implemented means the primary backend/Web workflow exists; verified additionally
+    requires current acceptance evidence; partial and planned must retain explicit gaps.
+inventory_refresh:
+  reviewed_on: '2026-07-19'
+  scan_revision: 94efd68
+  source_domains: [identity, vision, workmarket, chat, business, social, things, rides, location, notification, nativehandoff, activity]
+  evidence_layers: [source_code, api_contracts, web_vision_surfaces, tests, work_plans, runtime_matrix]
 active_plans:
   - id: work-capability-closure
     path: docs/work/work-capability-closure.yaml
@@ -943,37 +953,6 @@ modules:
             - docs/runtime-evidence/chat-attachment-authorization-boundary-2026-07-19.json
           plan: docs/work/r2-c-chat-media.yaml
 
-  - id: business
-    name: Business profiles and appointments
-    capabilities:
-      - id: business.profile
-        name: Business identity, profile, offerings, and public presentation
-        status: implemented
-        priority: high
-        current:
-          backend: [business profile and offering endpoints]
-          web: ["/business", "/business/profile", "/business/offerings", "/business/public/:slug"]
-        gaps:
-          - browser-level runtime acceptance coverage
-      - id: business.booking
-        name: Customer booking and owner booking operations
-        status: implemented
-        priority: critical
-        current:
-          backend: [business booking endpoints and policy services]
-          web: ["/business/bookings", "/business/public/:slug", "/business/my-bookings"]
-        gaps:
-          - browser-level runtime acceptance coverage
-      - id: business.availability
-        name: Availability rules, exceptions, and calendar coordination
-        status: implemented
-        priority: high
-        current:
-          backend: [availability and owner calendar services]
-          web: ["/business/calendar", "/business/availability-exceptions", "/calendar"]
-        gaps:
-          - browser-level runtime acceptance coverage
-
   - id: circles
     name: Trusted relationships and privacy circles
     capabilities:
@@ -1071,6 +1050,9 @@ modules:
         current: {backend: ["PUT /circles/connections/circles/bulk"], web: ["/circles"], vision: ["/vision"]}
         gaps: [browser runtime coverage, mobile presentation]
 
+  - id: business
+    name: Business profiles and appointments
+    capabilities:
       - id: business.profile.create
         name: Create or enable a business profile
         status: implemented
@@ -1191,7 +1173,28 @@ modules:
         priority: high
         current: {backend: [business availability controllers], web: ["/business/availability", "/business/availability/exceptions"], vision: ["/vision"]}
         gaps: [browser runtime acceptance coverage]
+      - id: business.profile
+        name: Business identity, profile, offerings, and public presentation
+        status: implemented
+        priority: high
+        current: {backend: [business profile and offering services], web: ["/business", "/business/profile", "/business/offerings", "/business/public/:slug"]}
+        gaps: [browser-level runtime acceptance coverage]
+      - id: business.booking
+        name: Customer booking and owner booking operations
+        status: implemented
+        priority: critical
+        current: {backend: [business booking endpoints and policy services], web: ["/business/bookings", "/business/public/:slug", "/business/my-bookings"]}
+        gaps: [browser-level runtime acceptance coverage]
+      - id: business.availability
+        name: Availability rules, exceptions, and calendar coordination
+        status: implemented
+        priority: high
+        current: {backend: [availability and owner calendar services], web: ["/business/calendar", "/business/availability-exceptions", "/calendar"]}
+        gaps: [browser-level runtime acceptance coverage]
 
+  - id: sharing
+    name: Things sharing, lending, and voluntary rides
+    capabilities:
       - id: sharing.thing.create
         name: List a thing for sharing
         status: implemented
@@ -1300,33 +1303,28 @@ modules:
         priority: medium
         current: {backend: ["POST /rides/offers/{id}/complete"], web: ["/rides"], vision: ["COMPLETE_RIDE review/confirm"]}
         gaps: []
-
-  - id: sharing
-    name: Things sharing and lending
-    capabilities:
       - id: things.listings
         name: Offer, discover, request, and return shared things
         status: implemented
         priority: medium
-        current:
-          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/things]
-          vision: [VIEW_THINGS, search]
-        gaps:
-          - browser/device runtime evidence
+        current: {backend: [apps/themuffinman/src/main/java/com/themuffinman/app/things], web: ["/things"], vision: [VIEW_THINGS, search]}
+        gaps: [browser/device runtime evidence]
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue]
-          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java]
-          migration: [apps/themuffinman/src/main/resources/db/migration/V53__extend_thing_borrow_request_workflow.sql]
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java]
       - id: rides.circles
         name: Voluntary car sharing for selected circles
-        status: not_offered
+        status: implemented
         priority: medium
-        current: {}
-        gaps:
-          - domain model
-          - consent and safety rules
-          - matching, scheduling, and trip lifecycle
+        current:
+          backend: [apps/themuffinman/src/main/java/com/themuffinman/app/rides]
+          web: ["/rides", "/rides/mine"]
+          vision: [CREATE_RIDE, VIEW_RIDES, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, COMPLETE_RIDE]
+        gaps: [browser/runtime acceptance evidence for the complete circle-scoped lifecycle]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java, apps/themuffinman/src/main/java/com/themuffinman/app/rides/model/RideOffer.java, apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java]
+          docs: [docs/business-logic.md, docs/domain-technical.md]
 
   - id: cross_module
     name: Shared product capabilities
@@ -1433,7 +1431,7 @@ modules:
           backend: [backend-prepared dashboard and section DTOs]
         gaps: [native shell contract implementation]
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/SurfaceContentView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionWorkspaceHandoffDTO.java]
+          code: [apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionWorkspaceHandoffDTO.java]
           runtime: []
       - id: cross_module.handoff.mobile
         name: Handoff an action to mobile

@@ -130,6 +130,9 @@ export type QuestViewerRelationDTO = typeof QUEST_VIEWER_RELATION_DTO_VALUES[num
 export const REVIEW_ROLE_VALUES = ["EMPLOYER", "WORKER"] as const
 export type ReviewRole = typeof REVIEW_ROLE_VALUES[number]
 
+export const RIDE_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "JOIN", "LEAVE", "START", "COMPLETE", "CANCEL"] as const
+export type RideAllowedActionDTO = typeof RIDE_ALLOWED_ACTION_DTO_VALUES[number]
+
 export const RIDE_PARTICIPANT_STATUS_VALUES = ["JOINED", "LEFT"] as const
 export type RideParticipantStatus = typeof RIDE_PARTICIPANT_STATUS_VALUES[number]
 
@@ -2183,6 +2186,7 @@ export interface RideOfferResponseDTO {
   canJoin: boolean
   canLeave: boolean
   canManage: boolean
+  allowedActions: RideAllowedActionDTO[]
   updatedAt: string
   startedAt: string
   completedAt: string

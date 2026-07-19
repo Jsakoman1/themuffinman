@@ -8,6 +8,7 @@ import com.themuffinman.app.vision.model.VisionIntent;
 import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
+import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestReadService;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ class VisionQuestDiscoveryServiceTest {
         when(quests.getQuestListPreset(any(QuestListPresetDTO.class), any(), anyString(), any(), any(), any(), any(), any(),
                 anyBoolean(), any(), any(), anyString(), anyInt(), anyInt()))
                 .thenReturn(QuestListResponseDTO.builder()
-                        .items(List.of(QuestResponseDTO.builder().id(6L).title("Last quest").description("Done").build()))
+                        .items(List.of(QuestResponseDTO.builder().id(6L).title("Last quest").description("Done").status(QuestStatus.OPEN).build()))
                         .page(1).size(5).totalItems(6).totalPages(2).build());
         VisionQuestDiscoveryService service = new VisionQuestDiscoveryService(quests, new SemanticAliasRegistry());
         AppUser user = new AppUser(); user.setId(7L);

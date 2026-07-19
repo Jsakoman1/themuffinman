@@ -421,6 +421,8 @@ Technical notes:
 - `BusinessBookingPrimitiveService` serializes create flows on the offering row and owns the shared occupancy-count primitive used by capacity validation.
 - `BusinessBookingValidationService` owns lead-time, advance-horizon, duration, availability-coverage, capacity, and cancellation-window rules.
 - Booking DTOs are backend-prepared through `BusinessBookingPresentationService` and include `allowedActions`, `statusLabel`, and `blockingReason` so clients do not derive workflow rules locally.
+- Rides use `RideAllowedActionDTO` and Things use `ThingAllowedActionDTO` as backend-owned action vocabularies. Their list and detail DTOs are assembled with viewer-specific actions, while frontend status values remain display metadata rather than permission gates.
+- Rides and Things use module-scoped `ridesApi` and `thingsApi` clients over the shared HTTP/auth boundary. `useAsyncAction` centralizes mutation pending/error lifecycle for migrated surfaces; selection, preview, dialog, and density state remain presentation-only.
 - `BusinessBookingPreviewService` exposes `POST /business/public/{slug}/booking-preview`, resolving the active offering and deriving the end instant from backend duration and business timezone.
 - Shared `ClientActionDTO` and `ClientActionToneDTO` provide a device-neutral action contract with labels, confirmation requirements, tone, and disabled reasons; domain-specific action enums remain available for compatibility.
 - `BusinessBookingPresentationService` resolves effective booking policy without mutating state, while write flows remain responsible for creating missing policy rows.

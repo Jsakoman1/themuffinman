@@ -14,15 +14,15 @@ purpose: >
 summary:
   total_capabilities: 152
   statuses:
-    implemented: 114
+    implemented: 143
     verified: 5
-    partial: 30
+    partial: 2
     planned: 2
-    not_offered: 1
+    not_offered: 0
     broken: 0
-  open_capabilities: 33
+  open_capabilities: 4
   capabilities_with_declared_gaps: 140
-  capabilities_with_evidence: 65
+  capabilities_with_evidence: 71
   modules: 8
   target_capabilities: 123
   target_mapping:
@@ -64,77 +64,58 @@ integrity_findings:
       The YAML grouping places business.profile.gallery_manage under the circles
       module even though its capability namespace is business.*.
     resolution: Keep the capability in the planner now, then normalize module grouping in a focused inventory maintenance slice without changing its capability ID.
+  - id: AUDIT-006
+    severity: high
+    finding: >
+      The previous module grouping placed all detailed business and sharing IDs under
+      circles, and classified rides.circles as not_offered even though RideOfferService,
+      circle visibility, Web routes, and Vision actions are present.
+    resolution: Normalize business and sharing ownership in the module tree and mark
+      rides.circles implemented with explicit residual runtime evidence gap.
+  - id: AUDIT-007
+    severity: medium
+    finding: >
+      Implemented is not the same as verified: most current capabilities have source,
+      test, or contract evidence but not a retained browser/device trace.
+    resolution: Keep status semantics explicit and report runtime evidence separately;
+      do not promote implemented capabilities to verified without fresh acceptance evidence.
 module_summary:
   - id: platform
     total: 17
-    open: 9
-    main_open_scope: authentication, recovery, profile visibility, location, activity
+    open: 1
+    main_open_scope: account recovery
   - id: vision
     total: 14
-    open: 6
-    main_open_scope: execution rollout, adapter recovery, discovery filtering and detail handoff
+    open: 0
+    main_open_scope: current workflow verified/implemented; residual runtime gaps are tracked on capability entries
   - id: work
     total: 32
     open: 1
-    main_open_scope: approved worker assignment acceptance and mobile presentation
+    main_open_scope: residual runtime/mobile acceptance around worker assignment
   - id: chat
     total: 16
-    open: 6
-    main_open_scope: reconnect breadth, attachments, groups, leaving, expiry and preview recovery
-  - id: business
-    total: 3
     open: 0
-    main_open_scope: no currently open atomic capability in the business module block
+    main_open_scope: current Web/backend workflows implemented; residual runtime gaps are tracked on capability entries
+  - id: business
+    total: 22
+    open: 0
+    main_open_scope: business profiles, offerings, bookings, availability, calendar, and gallery
   - id: circles
-    total: 51
-    open: 1
-    main_open_scope: business gallery capability is currently nested in this YAML module block
+    total: 14
+    open: 0
+    main_open_scope: relationships, memberships, and circle-aware privacy
   - id: sharing
-    total: 2
-    open: 2
-    main_open_scope: shared Things continuity and voluntary car sharing for selected circles
+    total: 20
+    open: 0
+    main_open_scope: Things lending and voluntary ride offers/lifecycle
   - id: cross_module
     total: 17
-    open: 6
-    main_open_scope: unified search, notifications, mobile and Watch handoff
+    open: 3
+    main_open_scope: mobile/Watch handoff and future native presentation
 open_scope:
-  critical:
-    - platform.authentication
-    - vision.task.confirm
-    - vision.create_quest
-    - vision.execution
-    - rides.circles
-  high:
-    - platform.profile.manage_visibility
+  partial:
     - platform.account.recover
-    - platform.location.set_preference
-    - platform.location.control_visibility
-    - platform.location.use_current
-    - platform.location.resolve
-    - platform.location
-    - platform.activity
-    - vision.discovery.search
-    - vision.discovery.open_detail
-    - vision.read_discovery
-    - work.quest.manage_workers
-    - chat.realtime
-    - chat.message.attach
-    - chat.conversation.create_group
-    - cross_module.search.discover
-    - cross_module.search.filter
-    - cross_module.notification.receive
-    - cross_module.handoff.mobile
     - cross_module.mobile_watch
-    - cross_module.search
-    - things.listings
-  medium:
-    - chat.attachments
-    - chat.conversation.leave
-    - chat.message.view_attachment
-    - business.profile.gallery_manage
-    - cross_module.handoff.watch
-  not_offered:
-    - rides.circles
   planned:
     - cross_module.handoff.mobile
     - cross_module.handoff.watch
@@ -145,10 +126,38 @@ audit_commands:
   - make audit-runtime-acceptance
 runtime_acceptance:
   matrix: docs/runtime-acceptance-matrix.yaml
-  passed: 26
-  pending_runtime: 25
+  passed: 30
+  pending_runtime: 24
   interpretation: Static contracts are verified; browser/device execution remains open until fresh traces are produced.
+quality_scan:
+  command: make audit-inventory-freshness
+  source_counts:
+    backend_dtos: 259
+    backend_services: 271
+    backend_endpoints: 211
+    repositories: 48
+    mutation_surfaces: 375
+    frontend_routes: 45
+    frontend_api_methods: 164
+    linked_frontend_endpoints: 137
+    runtime_json_evidence: 28
+    work_plans: 143
+    backend_test_files: 150
+  quality_findings:
+    - severity: medium
+      finding: 19 backend DTOs do not have generated frontend contracts according to the drift audit.
+      interpretation: Mostly admin/internal or non-Web DTOs; review before exposing any to a client.
+    - severity: medium
+      finding: 10 read-like service methods lack an explicit read-only transaction boundary.
+      interpretation: Existing diagnostic finding; audit before changing mapper/fetch behavior.
+    - severity: low
+      finding: 74 backend endpoints have no frontend callsite according to the linker.
+      interpretation: Includes admin, native, Vision, and backend-only endpoints; not an automatic defect.
+    - severity: low
+      finding: One likely-unused AppCard component and one frontend local permission/action duplication remain.
+      interpretation: Cleanup candidates, not capability status blockers.
 result:
+  inventory_freshness_audit: passed
   target_catalog_audit: passed
   target_coverage_audit: passed
   plan_coverage_audit: passed
