@@ -3,7 +3,6 @@ version: 1
 id: profile-location-visibility-scope
 title: Add exact location visibility scope control
 status: verified
-master_plan: docs/work/capability-coverage-and-reliability.yaml
 capability_ids:
 - platform.location
 - circles.visibility
@@ -80,4 +79,3 @@ evidence:
       statements scanned: 173
       review needed: 0
       high priority: 0
-

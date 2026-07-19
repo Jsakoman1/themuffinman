@@ -22,6 +22,9 @@ export type PersonalWorkspaceAttentionItem = import("./generated/themuffinmanCon
 
 export type WorkspaceCommandItem = {id: string; group: string; label: string; description: string; route: string; kind: "NAVIGATE" | "CREATE_ROUTE" | "VISION_ROUTE"}
 export type WorkspaceCommandCatalog = {personal: WorkspaceCommandItem[]; navigation: WorkspaceCommandItem[]; create: WorkspaceCommandItem[]; vision: WorkspaceCommandItem[]}
+export type WorkspaceNavigationChild = {id: string; label: string; route: string; order: number; visible: boolean; attentionCount: number; unreadCount: number; relevanceReason: string}
+export type WorkspaceNavigationModule = {id: string; label: string; iconKey: string; route: string; order: number; visible: boolean; attentionCount: number; unreadCount: number; relevanceReason: string; children: WorkspaceNavigationChild[]}
+export type WorkspaceNavigationResponse = {contractVersion: "workspace-navigation-v1" | string; generatedAt: string; refreshAfterSeconds: number; unreadCount: number; modules: WorkspaceNavigationModule[]}
 export type ChatRefreshHint = {conversationId: number; latestMessageId: number | null; refreshRequired: boolean; reason: string}
 export type VisionWorkspaceHandoff = {contextLabel: string | null; source: string | null; returnTo: string | null; explanation: string}
 export type VisionSearchComparisonItem = {entityFamily: string; targetId: number; title: string; sourceRoute: string; fields: Record<string, string | null>}

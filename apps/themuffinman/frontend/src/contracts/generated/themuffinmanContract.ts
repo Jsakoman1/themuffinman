@@ -2702,6 +2702,38 @@ export interface WorkmarketOptionsDTO {
   questLocationVisibilities: QuestLocationVisibilityOptionDTO[]
 }
 
+export interface WorkspaceNavigationChildDTO {
+  id: string
+  label: string
+  route: string
+  order: number
+  visible: boolean
+  attentionCount: number
+  unreadCount: number
+  relevanceReason: string
+}
+
+export interface WorkspaceNavigationModuleDTO {
+  id: string
+  label: string
+  iconKey: string
+  route: string
+  order: number
+  visible: boolean
+  attentionCount: number
+  unreadCount: number
+  relevanceReason: string
+  children: WorkspaceNavigationChildDTO[]
+}
+
+export interface WorkspaceNavigationResponseDTO {
+  contractVersion: string
+  generatedAt: string
+  refreshAfterSeconds: number
+  unreadCount: number
+  modules: WorkspaceNavigationModuleDTO[]
+}
+
 export interface WorkspaceRailPreferenceRequestDTO {
   railWidthPx: number
 }

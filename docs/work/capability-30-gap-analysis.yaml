@@ -4,9 +4,8 @@ id: capability-30-gap-analysis
 title: Historical gap analysis for the 30 previously partial capabilities
 status: completed
 source_inventory: docs/capability-inventory.yaml
-source_roadmap: docs/work/capability-implementation-roadmap.yaml
 execution_board: docs/work/capability-30-execution-board.yaml
-purpose: Historical execution analysis for the 30 capabilities that were partial at the start of the completed capability batch. Current status is authoritative in docs/capability-inventory.yaml; residual mobile, provider, and runtime gaps remain explicit there and in the planner.
+purpose: Historical execution analysis for the 30 capabilities that were partial at the start of the completed capability batch. Current status is authoritative in docs/capability-inventory.yaml; residual mobile, provider, and runtime gaps remain explicit there.
 completion_rule: A capability may move to implemented only when its backend/API authority, supported current-client behavior, recovery rules, tests, documentation, and declared acceptance evidence are complete. Deferred native/provider work must be either delivered or explicitly resolved by a product decision before closeout.
 capabilities:
   - id: platform.authentication

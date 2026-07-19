@@ -27,9 +27,6 @@ reconciliation:
   - docs/work/target-capability-production-readiness-business.yaml
   - docs/work/target-capability-production-readiness-work.yaml
   open_boundaries:
-  - id: browser-runtime
-    source: docs/work/web-vision-parity-program.yaml
-    resolution: This plan owns authenticated Web browser evidence and recovery states.
   - id: people-discovery
     source: docs/work/cross-module-search-contract.yaml
     resolution: Existing comparison contract is reused; Find People needs a concrete
@@ -245,7 +242,6 @@ tasks:
   status: done
   paths:
   - docs/capability-inventory.yaml
-  - docs/work/web-vision-parity-residual-audit.yaml
   - docs/implementation-backlog.md
   - docs/business-logic.md
   - docs/domain-technical.md
@@ -553,7 +549,6 @@ evidence:
   - docs/capability-inventory.yaml
   - docs/domain-technical.md
   - docs/implementation-backlog.md
-  - docs/work/web-vision-parity-residual-audit.yaml
   output: |2+
       current_inventory_ids:
       - chat.message.view_attachment

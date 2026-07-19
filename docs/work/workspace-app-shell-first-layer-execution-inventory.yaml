@@ -1,0 +1,161 @@
+kind: execution_inventory
+version: 1
+id: workspace-app-shell-first-layer-execution-inventory
+master_plan: docs/work/workspace-app-shell-first-layer.yaml
+purpose: Serial implementation map for the first app-shell transition. Every delivery
+  item has one owner surface, concrete paths, and one closeout condition so implementation
+  does not drift into an open-ended redesign loop.
+scope:
+  desktop_first: true
+  first_modules:
+  - home
+  - work
+  - chat
+  - calendar
+  - business
+  - circles
+  - things
+  - rides
+  account_surface: profile remains an account/settings surface, not a module rail
+    destination in this transition.
+  excluded:
+  - Vision persistent module chrome
+  - domain workflow rewrites
+  - iPhone native UI
+  - Apple Watch native UI
+  - arbitrary frontend-generated navigation permissions
+preflight_constraints:
+- Preserve all existing top-level routes. This transition changes shell presentation
+  and backend preparation, not route availability.
+- Keep /workspace/commands as the command catalog for search, create, pinned objects,
+  and Vision handoff; /workspace/navigation must not duplicate command definitions.
+- Use the existing withAuth() frontend request helper and authenticated AppUser backend
+  controller pattern.
+- Use service-level tests and a focused standalone MockMvc controller test, matching
+  current activity conventions.
+items:
+- id: contract
+  sequence: 1
+  plan_task: freeze-shell-contract
+  plan: docs/work/workspace-app-shell-first-layer.yaml
+  task: freeze-shell-contract
+  status: verified
+  owner: docs-and-contract
+  outcome: The plan and reference docs define one backend-owned navigation read model,
+    route identity rules, readability rules, and the exact implementation paths.
+  files:
+  - docs/work/workspace-app-shell-first-layer.yaml
+  - docs/work/workspace-app-shell-first-layer-execution-inventory.yaml
+  - docs/workspace-shell-preflight.md
+  closeout: YAML parses and the inventory contains no nonexistent implementation path.
+  started_at: '2026-07-19T19:14:12Z'
+  verified_at: '2026-07-19T19:14:21Z'
+  evidence:
+    plan: docs/work/workspace-app-shell-first-layer.yaml
+    task: freeze-shell-contract
+    revision: 8e422fe8679db84e6a423ec5b04c9896691e7814
+- id: backend-read-model
+  sequence: 2
+  plan_task: implement-navigation-read-model
+  plan: docs/work/workspace-app-shell-first-layer.yaml
+  task: implement-navigation-read-model
+  status: verified
+  owner: backend
+  outcome: GET /workspace/navigation returns viewer-scoped modules, relevant children,
+    stable route identity, backend-owned attention/badge data, contract version, and
+    safe refresh metadata. The existing /workspace/commands contract remains the source
+    for command actions.
+  files:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/controller/WorkspaceNavigationController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/dto/WorkspaceNavigationResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/dto/WorkspaceNavigationModuleDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/dto/WorkspaceNavigationChildDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/controller/WorkspaceNavigationControllerTest.java
+  reuse:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/AttentionCenterService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PersonalShortcutService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceCommandCatalogService.java
+  closeout: Backend tests prove viewer scoping, canonical route identity, partial/empty
+    states, and no frontend-derived permissions.
+  started_at: '2026-07-19T19:14:26Z'
+  verified_at: '2026-07-19T19:15:22Z'
+  evidence:
+    plan: docs/work/workspace-app-shell-first-layer.yaml
+    task: implement-navigation-read-model
+    revision: 8e422fe8679db84e6a423ec5b04c9896691e7814
+- id: shell-rail
+  sequence: 3
+  plan_task: implement-persistent-app-rail
+  plan: docs/work/workspace-app-shell-first-layer.yaml
+  task: implement-persistent-app-rail
+  status: verified
+  owner: frontend-shell
+  outcome: The authenticated shell renders one persistent desktop rail from the backend
+    contract, with compact module/child states, active-route highlighting, and one
+    responsive drawer grammar.
+  files:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/workspaceNavigationApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  closeout: Type-check, production build, and actual visual runtime evidence pass;
+    all existing top-level routes remain reachable.
+  started_at: '2026-07-19T19:15:31Z'
+  verified_at: '2026-07-19T19:23:36Z'
+  evidence:
+    plan: docs/work/workspace-app-shell-first-layer.yaml
+    task: implement-persistent-app-rail
+    revision: 8e422fe8679db84e6a423ec5b04c9896691e7814
+- id: surface-density
+  sequence: 4
+  plan_task: simplify-touched-surfaces
+  plan: docs/work/workspace-app-shell-first-layer.yaml
+  task: simplify-touched-surfaces
+  status: verified
+  owner: frontend-surfaces
+  outcome: Touched surfaces use one title, one short support line when needed, one
+    primary action, readable typography, rows/detail panes, progressive disclosure,
+    and shared empty/loading/error states.
+  files:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  closeout: Modern-surface validator and DOM/readability review pass without copy,
+    typography, or wrapper regressions.
+  started_at: '2026-07-19T19:24:00Z'
+  verified_at: '2026-07-19T19:24:59Z'
+  evidence:
+    plan: docs/work/workspace-app-shell-first-layer.yaml
+    task: simplify-touched-surfaces
+    revision: 8e422fe8679db84e6a423ec5b04c9896691e7814
+- id: continuity-closeout
+  sequence: 5
+  plan_task: verify-route-continuity-and-closeout
+  plan: docs/work/workspace-app-shell-first-layer.yaml
+  task: verify-route-continuity-and-closeout
+  status: verified
+  owner: validation-and-docs
+  outcome: URL continuity, keyboard behavior, narrow drawer behavior, Vision separation,
+    backend/frontend parity, and future native-client portability are recorded with
+    final runtime evidence.
+  files:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  - docs/runtime-evidence/workspace-app-shell-first-layer-runtime-2026-07-19.json
+  closeout: All required validations pass and only canonical runtime evidence remains.
+  started_at: '2026-07-19T19:25:07Z'
+  verified_at: '2026-07-19T19:25:25Z'
+  evidence:
+    plan: docs/work/workspace-app-shell-first-layer.yaml
+    task: verify-route-continuity-and-closeout
+    revision: 8e422fe8679db84e6a423ec5b04c9896691e7814

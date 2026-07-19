@@ -36,6 +36,18 @@ not like an Excel sheet, a card-heavy marketing dashboard, or a dense text-heavy
 admin tool. This is inspired by Linear's interaction discipline, not its brand,
 product terminology, issue model, boards, assets, or copy.
 
+The same workspace direction is also inspired by the calm, persistent application
+behavior of the ChatGPT desktop app. The inspiration is about public interaction
+qualities, not brand, terminology, private implementation, assets, or copy. The
+reference is captured in `docs/references/chatgpt-desktop-app-inspiration.md`.
+
+The Web workspace is the structured application layer: navigation, collections,
+details, search, actions, and safe workflow completion. Vision remains the
+intelligent background and future primary assistant, with voice/text recognition,
+personal context, adaptive understanding, and backend-confirmed execution. The
+shell must make the product easy to operate before Vision becomes the dominant
+assistant surface.
+
 `/vision` deliberately keeps a different visual grammar: an adaptive canvas that
 can become spacious, light, expressive, and voice-led when that helps the current
 task. The contrast is intentional: the Web workspace is the reliable structured
@@ -55,6 +67,13 @@ application rather than a collection of branded pages:
 - A contextual right rail is used for preview, facts, activity, and permitted
   actions where it materially reduces navigation. On narrow screens it becomes a
   deliberate drawer or route.
+- The first transition layer should make this rail feel like a persistent product
+  workspace: top-level modules remain visible on the left, while module-owned
+  active destinations appear as nested items only when the backend has useful
+  attention, pending work, unread activity, or a stable repeat journey to expose.
+- The sidebar is navigation and context, not a second dashboard. It should expose
+  compact labels, counts, unread markers, and active-route highlighting; it should
+  not duplicate full collection content or invent permissions in the browser.
 - Near-black and graphite surfaces are separated by low-contrast one-pixel borders.
   Elevation is exceptional and subtle; cards are reserved for isolated content,
   not used as the default page geometry.
@@ -103,6 +122,47 @@ The product should reuse a small set of screen archetypes that can stretch acros
 - conversation surface: chat or voice with visible system feedback
 - action review surface: compact confirmation plus follow-up options
 - social context surface: relationship, trust, visibility, and consent signals when needed
+
+## First Workspace Transition Layer
+
+The first app-like transition is a shell-layer change, not a rewrite of every
+module screen. Existing routes, collection surfaces, detail views, and Vision
+handoffs remain intact while the authenticated shell gains a backend-prepared
+module tree.
+
+The target desktop shape is:
+
+- a persistent left rail with Work, Business, Things, Rides, Chat, Circles, and
+  other supported modules
+- compact nested destinations such as My work, Applications, Bookings,
+  Availability, Borrow requests, or Unread conversations when they have current
+  relevance
+- one selected module/destination at a time, with the current route reflected in
+  the rail and the main workspace preserving its existing collection/detail flow
+- a compact route header and optional right inspect rail, so pages stop behaving
+  like independent marketing pages while their domain behavior remains unchanged
+
+The backend should eventually provide a versioned `workspace-navigation-v1`
+read model containing module identity, label, route, icon key, ordering, active
+child destinations, badge/count presentation data, and safe attention metadata.
+The frontend owns only presentation state: collapsed/expanded groups, selected
+route highlighting, drawer state, density, and responsive layout. Backend
+visibility, membership, unread/attention semantics, route eligibility, and allowed
+actions remain authoritative.
+
+The first layer explicitly does not:
+
+- move domain data fetching or workflow rules into the shell
+- render full lists inside the sidebar
+- turn Vision into a permanent sidebar module or dashboard
+- make local counts from partially loaded module collections
+- change canonical URLs or duplicate mutation endpoints
+
+The first layer also follows the ChatGPT-inspired application rule: the shell
+should feel like one calm application with stable spatial memory, compact recent
+or attention context, progressive disclosure, and a simplified global entry
+surface. It must not become a dense dashboard or a collection of independent
+website pages.
 
 These archetypes should feel like different shapes of the same product, not unrelated screens.
 

@@ -11,7 +11,7 @@ It connects four questions that were previously scattered across vision document
 
 The YAML file is the source of truth. This document explains how to maintain it.
 
-The current audit is [`docs/work/capability-inventory-audit.yaml`](work/capability-inventory-audit.yaml), and the remaining implementation queue is [`docs/work/capability-inventory-planner.yaml`](work/capability-inventory-planner.yaml). The planner covers every currently open capability exactly once; it is not a redesign master plan.
+The current audit is [`docs/work/capability-inventory-audit.yaml`](work/capability-inventory-audit.yaml). Planned and partial capabilities live in this file as capability records; `open_plans` contains only currently opened implementation plans. There is no separate planned-inventory file.
 
 ## Status rules
 

@@ -1,0 +1,49 @@
+kind: work
+version: 1
+id: vision-for-web-assistant-presence
+title: Add the animated contextual VisionForWeb assistant presence
+status: draft
+baseline: 8e422fe
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-integration-master.yaml
+objective: >-
+  Give Vision a helpful, dismissible, accessible animated presence inspired by the
+  old Office assistant's contextual help behavior without copying proprietary assets.
+depends_on:
+- docs/work/vision-for-web-surface-bridge.yaml
+tasks:
+- id: implement-assistant-state-machine
+  title: Implement idle, attention, listening, thinking, navigating, result, clarification, unavailable, and recovery states
+  type: implementation
+  status: pending
+  sequence: 1
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Animation communicates current state without replacing readable status text.
+  - The assistant is dismissible and never triggers a mutation from animation or suggestion alone.
+- id: verify-accessible-presence
+  title: Verify reduced motion, keyboard, screen reader, and responsive assistant behavior
+  type: runtime
+  status: pending
+  sequence: 2
+  depends_on: implement-assistant-state-machine
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - docs/runtime-evidence/vision-for-web-assistant-presence.json
+  required_paths:
+  - docs/runtime-evidence/vision-for-web-assistant-presence.json
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-for-web-assistant-presence.json
+  validation: git diff --check
+  acceptance:
+  - Idle, listening, provider unavailable, and recovery states are evidenced on desktop and narrow layout.
+  - Reduced motion disables nonessential animation without removing functionality.

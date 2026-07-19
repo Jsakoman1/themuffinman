@@ -3,7 +3,6 @@ version: 1
 id: native-client-handoff-contract
 title: Define native iPhone and Watch handoff contract
 status: verified
-master_plan: docs/work/capability-coverage-and-reliability.yaml
 capability_ids:
 - cross_module.mobile_watch
 - cross_module.search
@@ -74,4 +73,3 @@ evidence:
       statements scanned: 176
       review needed: 0
       high priority: 0
-

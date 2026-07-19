@@ -51,14 +51,8 @@ audit-frontend:
 	ruby scripts/audits/audit-duplicate-logic.rb
 	ruby scripts/audits/audit-permission-rule-duplication.rb
 
-audit-frontend-ux-plan:
-	ruby scripts/audits/audit-frontend-ux-plan-preflight.rb
-
 audit-main-surfaces-plan:
 	ruby scripts/audits/audit-main-surfaces-plan-preflight.rb
-
-audit-product-experience-plan:
-	ruby scripts/audits/audit-product-experience-plan-preflight.rb
 
 audit-docs: audit-work-plan-recursion
 	ruby scripts/audits/audit-docs-as-tests.rb
@@ -74,9 +68,6 @@ audit-target-capability-coverage:
 
 audit-inventory-freshness:
 	@ruby scripts/audits/audit-inventory-freshness.rb
-
-audit-vision-batch-readiness:
-	@ruby scripts/audits/audit-vision-batch-readiness.rb
 
 generate-target-capability-slices:
 	@ruby scripts/audits/generate-target-capability-slices.rb

@@ -1,0 +1,56 @@
+kind: work
+version: 1
+id: vision-for-web-contract-rebaseline
+title: Rebaseline Vision capabilities, Web routes, and OpenAI semantic contracts
+status: draft
+baseline: 8e422fe
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-integration-master.yaml
+objective: >-
+  Produce the authoritative VisionForWeb capability-to-route matrix and reconcile
+  product, domain, Vision, and Web ownership before implementation begins.
+rules:
+- OpenAI is the only production semantic interpreter.
+- Local parser use is limited to explicit development/test profiles and synthetic fixtures.
+- Existing Vision services, route catalog, entity resolvers, previews, review flow, and typed adapters are reused.
+tasks:
+- id: freeze-capability-route-matrix
+  title: Map current Vision capabilities to canonical Web routes and missing actions
+  type: analysis
+  status: pending
+  sequence: 1
+  paths:
+  - docs/work/vision-for-web-contract-rebaseline.yaml
+  - docs/work/vision-for-web-integration-master.yaml
+  - docs/capability-inventory.yaml
+  - docs/vision-status-ledger.md
+  - docs/vision-architecture-patterns.md
+  required_paths:
+  - docs/work/vision-for-web-contract-rebaseline.yaml
+  validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/vision-for-web-contract-rebaseline.yaml"); YAML.load_file("docs/work/vision-for-web-integration-master.yaml")'
+  acceptance:
+  - The matrix distinguishes implemented Vision behavior, partial Web handoff, missing navigation, and deferred native clients.
+  - My Work is explicitly mapped to work.quest.view_own, VIEW_MY_WORK, work.my_quests, and /work/quests.
+  - Every planned child plan has a bounded implementation outcome and no duplicate Vision engine.
+- id: reconcile-product-architecture-docs
+  title: Align product and technical documentation with VisionForWeb and OpenAI-only production routing
+  type: documentation
+  status: pending
+  sequence: 2
+  depends_on: freeze-capability-route-matrix
+  paths:
+  - docs/product-vision.md
+  - docs/product-memory.md
+  - docs/domain-technical.md
+  - docs/vision-architecture-patterns.md
+  - docs/business-logic.md
+  required_paths:
+  - docs/product-vision.md
+  - docs/domain-technical.md
+  validation: git diff --check && ruby -e 'require "yaml"; YAML.load_file("docs/work/vision-for-web-integration-master.yaml")'
+  acceptance:
+  - VisionForWeb is described as a global Web interaction layer while /vision remains the full-screen canvas.
+  - Backend ownership, OpenAI-only production interpretation, development-only parser use, and native-client portability agree across docs.
+  - No document describes a local production translator or semantic fallback.

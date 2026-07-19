@@ -1,3 +1,3 @@
 # Interaction and action-system child analysis
 
-The shared `AppCard` and `AppActionMenu` primitives exist, but adoption is incomplete. The main gap is data: metrics and rows often have no `to`, while the template still presents them as cards or action-bearing rows. The implementation must define an explicit actionable/informational contract and remove duplicate card/title/Open activation. Nested controls must stop parent activation and retain keyboard semantics.
+The shared `AppActionMenu` primitive remains in use. The former unused `AppCard` primitive was removed during pre-shell cleanup. The main interaction contract remains data-driven: metrics and rows must expose an explicit destination when actionable, while nested controls must stop parent activation and retain keyboard semantics.

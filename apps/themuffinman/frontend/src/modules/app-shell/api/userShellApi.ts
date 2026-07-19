@@ -1,4 +1,5 @@
 import {api, withAuth} from "../../../api/httpClient.ts"
+import {workspaceNavigationApi} from "./workspaceNavigationApi.ts"
 import type {
   AppUserResponseDTO,
   AppUserRequestDTO,
@@ -62,6 +63,7 @@ import type {
   ThingBorrowRequestResponseDTO,
   NotificationPreferenceResponseDTO,
   NotificationPreferenceUpdateDTO,
+  WorkspaceNavigationResponse,
 } from "../../../contracts/index.ts"
 
 export type ProfileGalleryImage = {
@@ -181,6 +183,8 @@ export const userShellApi = {
   async getWorkspaceRailPreference(): Promise<WorkspaceRailPreference> { return (await api.get<WorkspaceRailPreference>("/personal-shortcuts/me/rail-preference", withAuth())).data },
   async updateWorkspaceRailPreference(railWidthPx: number): Promise<WorkspaceRailPreference> { return (await api.put<WorkspaceRailPreference>("/personal-shortcuts/me/rail-preference", {railWidthPx}, withAuth())).data },
   async getWorkspaceCommandCatalog(signal?: AbortSignal): Promise<WorkspaceCommandCatalog> { return (await api.get<WorkspaceCommandCatalog>("/workspace/commands", {signal, ...withAuth()})).data },
+  /** Navigation is a read-only shell contract; command actions remain on /workspace/commands. */
+  async getWorkspaceNavigation(signal?: AbortSignal): Promise<WorkspaceNavigationResponse> { return workspaceNavigationApi.get(signal) },
   async pinQuest(questId: number): Promise<void> { await api.put(`/personal-shortcuts/me/quests/${questId}`, undefined, withAuth()) },
   async unpinQuest(questId: number): Promise<void> { await api.delete(`/personal-shortcuts/me/quests/${questId}`, withAuth()) },
 

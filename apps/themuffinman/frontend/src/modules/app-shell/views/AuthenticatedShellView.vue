@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue"
 import {RouterLink, RouterView, useRoute} from "vue-router"
-import {appPersonalShortcuts, appPrimaryNavItems, appSecondaryNavItems, authenticatedShellContract, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
+import {appPersonalShortcuts, authenticatedShellContract, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
 import {buildSurfaceVisionPrompt, buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
 import GlobalVisionEntry from "../components/GlobalVisionEntry.vue"
 import AccountMenu from "../components/AccountMenu.vue"
@@ -10,8 +10,10 @@ import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
 import AppActionMenu from "../components/AppActionMenu.vue"
 import WorkspaceKeyboardHelp from "../components/WorkspaceKeyboardHelp.vue"
 import QuickSwitcher from "../components/QuickSwitcher.vue"
+import WorkspaceModuleRail from "../components/WorkspaceModuleRail.vue"
 import AppButton from "../components/AppButton.vue"
 import {userShellApi, type AttentionCenter, type PersonalShortcut} from "../api/userShellApi.ts"
+import {useWorkspaceNavigation} from "../composables/useWorkspaceNavigation.ts"
 import {useChatRealtime} from "../composables/useChatRealtime.ts"
 
 const route = useRoute()
@@ -26,7 +28,7 @@ const activeNavId = computed<AppPrimaryNavId | null>(() => {
   return getAppSurfaceConfig(currentSurfaceId.value).navId
 })
 
-const secondaryNavigationActive = computed(() => appSecondaryNavItems.some(item => item.id === activeNavId.value))
+const workspaceNavigation = useWorkspaceNavigation()
 
 const shellTitle = computed(() => {
   if (!currentSurfaceId.value) {
@@ -43,8 +45,6 @@ const currentContextLabel = computed(() => {
 
   return getAppSurfaceConfig(currentSurfaceId.value).title
 })
-
-const shellEyebrow = computed(() => currentSurfaceId.value ? getAppSurfaceConfig(currentSurfaceId.value).eyebrow : "Workspace")
 
 const contextualVisionRoute = computed(() => {
   if (!currentSurfaceId.value) {
@@ -74,7 +74,7 @@ const beginRailResize = (event: PointerEvent) => { if (window.matchMedia("(max-w
 const resizeRailWithKeyboard = async (event: KeyboardEvent) => { if (window.matchMedia("(max-width: 980px)").matches) return; const step = event.shiftKey ? 32 : 16; let next = railWidthPx.value; if (event.key === "ArrowLeft") next -= step; else if (event.key === "ArrowRight") next += step; else if (event.key === "Home") next = 216; else if (event.key === "End") next = 280; else return; event.preventDefault(); railWidthPx.value = clampRailWidth(next); await persistRailWidth() }
 const loadPersonalContext = async () => { personalContextError.value = false; const [shortcuts, attentionResult] = await Promise.allSettled([userShellApi.getPersonalShortcuts(), userShellApi.getAttentionCenter()]); pinned.value = shortcuts.status === "fulfilled" ? shortcuts.value : []; attention.value = attentionResult.status === "fulfilled" ? attentionResult.value : null; personalContextError.value = shortcuts.status === "rejected" || attentionResult.status === "rejected" }
 const handleRealtimeEvent = (event: import("../../../contracts/index.ts").ChatSocketEventDTO) => {
-  if (event.type === "news.updated") void loadPersonalContext()
+  if (event.type === "news.updated") { void loadPersonalContext(); void workspaceNavigation.reload() }
 }
 const shellRealtime = useChatRealtime(handleRealtimeEvent)
 onMounted(async () => { const preference = await userShellApi.getWorkspaceRailPreference().catch(() => null); railWidthPx.value = preference?.railWidthPx ?? railWidthPx.value; await loadPersonalContext(); shellRealtime.connect() })
@@ -89,34 +89,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
         <p class="app-shell__brand-copy">Workspace</p>
       </div>
 
-      <nav class="app-shell__nav">
-        <p class="app-shell__nav-heading">Core</p>
-        <RouterLink
-          v-for="item in appPrimaryNavItems"
-          :key="item.id"
-          :to="item.to"
-          class="app-shell__nav-link"
-          :class="{ 'app-shell__nav-link--active': activeNavId === item.id }"
-        >
-          <span class="app-shell__nav-icon" aria-hidden="true">{{ item.icon }}</span>
-          <span class="app-shell__nav-label">{{ item.label }}</span>
-        </RouterLink>
-        <details class="app-shell__more" :open="secondaryNavigationActive">
-          <summary class="app-shell__more-summary">More modules</summary>
-          <div class="app-shell__more-items">
-            <RouterLink
-              v-for="item in appSecondaryNavItems"
-              :key="item.id"
-              :to="item.to"
-              class="app-shell__nav-link app-shell__nav-link--secondary"
-              :class="{ 'app-shell__nav-link--active': activeNavId === item.id }"
-            >
-              <span class="app-shell__nav-icon" aria-hidden="true">{{ item.icon }}</span>
-              <span class="app-shell__nav-label">{{ item.label }}</span>
-            </RouterLink>
-          </div>
-        </details>
-      </nav>
+      <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" :data-navigation-contract="workspaceNavigation.navigation.value?.contractVersion ?? 'unavailable'" />
 
       <div class="app-shell__rail-footer">
         <p class="app-shell__nav-heading">Personal</p>
@@ -134,7 +107,6 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
     <div class="app-shell__frame">
       <header class="app-shell__header" aria-label="Workspace context">
         <div class="app-shell__context">
-          <p class="app-shell__eyebrow">{{ shellEyebrow }}</p>
           <h1 class="app-shell__title">{{ shellTitle }}</h1>
         </div>
 
@@ -157,7 +129,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
     </div>
 
     <nav class="app-shell__mobile-nav" aria-label="Mobile navigation">
-      <RouterLink v-for="item in appPrimaryNavItems.slice(0, 3)" :key="item.id" :to="item.to" class="app-shell__mobile-link" :class="{ 'app-shell__mobile-link--active': activeNavId === item.id }"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink>
+      <RouterLink v-for="module in workspaceNavigation.modules().slice(0, 3)" :key="module.id" :to="module.route" class="app-shell__mobile-link" :class="{ 'app-shell__mobile-link--active': activeNavId === module.id }"><span aria-hidden="true">{{ module.iconKey }}</span>{{ module.label }}</RouterLink>
       <AppButton ref="mobileDrawerTrigger" type="button" tone="secondary" class="app-shell__mobile-link" :aria-expanded="mobileDrawerOpen" aria-controls="mobile-workspace-drawer" @click="openMobileDrawer">Menu</AppButton>
       <RouterLink :to="contextualVisionRoute" class="app-shell__mobile-vision">Vision</RouterLink>
     </nav>
@@ -165,7 +137,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
       <div v-if="mobileDrawerOpen" class="app-shell__drawer-backdrop" @click.self="closeMobileDrawer">
         <aside id="mobile-workspace-drawer" ref="mobileDrawer" class="app-shell__drawer" aria-label="Workspace navigation" tabindex="-1" @keydown.esc.prevent="closeMobileDrawer">
           <header class="app-shell__drawer-header"><span>Workspace</span><AppButton type="button" tone="quiet" aria-label="Close navigation" @click="closeMobileDrawer">×</AppButton></header>
-          <nav class="app-shell__drawer-nav"><RouterLink v-for="item in appPrimaryNavItems" :key="item.id" :to="item.to" class="app-shell__nav-link" :class="{ 'app-shell__nav-link--active': activeNavId === item.id }" @click="closeMobileDrawer"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink><RouterLink v-for="item in appSecondaryNavItems" :key="item.id" :to="item.to" class="app-shell__nav-link" :class="{ 'app-shell__nav-link--active': activeNavId === item.id }" @click="closeMobileDrawer"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink></nav>
+          <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" @click="closeMobileDrawer" />
           <nav class="app-shell__drawer-nav" aria-label="Personal"><p class="app-shell__nav-heading">Personal</p><RouterLink v-for="item in pinned" :key="`drawer-pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link" @click="closeMobileDrawer">★ {{ item.title }}</RouterLink><RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link" @click="closeMobileDrawer">{{ item.label }}</RouterLink><RouterLink to="/profile" class="app-shell__account-link" @click="closeMobileDrawer">Profile</RouterLink><RouterLink to="/profile/settings" class="app-shell__account-link" @click="closeMobileDrawer">Settings</RouterLink></nav>
         </aside>
       </div>

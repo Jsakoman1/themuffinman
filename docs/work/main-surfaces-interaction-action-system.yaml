@@ -32,7 +32,6 @@ tasks:
   paths:
   - docs/work/main-surfaces-interaction-action-system-analysis.md
   - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
-  - apps/themuffinman/frontend/src/modules/app-shell/components/AppCard.vue
   - apps/themuffinman/frontend/src/modules/app-shell/components/AppActionMenu.vue
   - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
   validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/main-surfaces-interaction-action-system.yaml")'
@@ -72,7 +71,6 @@ evidence:
   changedFiles:
   - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
   - apps/themuffinman/frontend/src/modules/app-shell/components/AppActionMenu.vue
-  - apps/themuffinman/frontend/src/modules/app-shell/components/AppCard.vue
   - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
   - docs/work/main-surfaces-interaction-action-system-analysis.md
   output: "\n"
@@ -111,4 +109,3 @@ evidence:
     > node ./scripts/validate-modern-surface-contract.mjs
 
     Modern surface contract passed (54 checks).
-

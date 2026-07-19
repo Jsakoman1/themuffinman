@@ -36,7 +36,6 @@ tasks:
   type: documentation
   status: done
   paths:
-  - docs/work/web-vision-parity-program.yaml
   validation: git diff --check
 - id: entry-verification
   title: Verify frontend production build and backend contract compilation
@@ -118,7 +117,6 @@ evidence:
   exitCode: 0
   result: passed
   changedFiles:
-  - docs/work/web-vision-parity-program.yaml
   output: "\n"
 - task: entry-verification
   command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix

@@ -40,7 +40,6 @@ tasks:
   - docs/business-logic.md
   - docs/domain-technical.md
   - docs/capability-inventory.yaml
-  - docs/work/capability-implementation-roadmap.yaml
   required_paths:
   - docs/business-logic.md
   - docs/domain-technical.md
@@ -107,7 +106,6 @@ evidence:
   - docs/business-logic.md
   - docs/capability-inventory.yaml
   - docs/domain-technical.md
-  - docs/work/capability-implementation-roadmap.yaml
   output: |+
     ruby scripts/audits/audit-work-plan-recursion.rb
     Work-plan recursion audit passed (no recursive validation commands).

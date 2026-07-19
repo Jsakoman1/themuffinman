@@ -1,0 +1,69 @@
+kind: work
+version: 1
+id: vision-for-web-input-parity
+title: Enforce OpenAI-only production semantic interpretation for text and voice
+status: draft
+baseline: 8e422fe
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-integration-master.yaml
+objective: >-
+  Ensure text and voice use one OpenAI semantic interpretation path, while any local
+  parser remains development/test-only and provider outage pauses Vision safely.
+depends_on:
+- docs/work/vision-for-web-surface-bridge.yaml
+tasks:
+- id: enforce-provider-boundary
+  title: Separate development parser fixtures from production Vision routing
+  type: implementation
+  status: pending
+  sequence: 1
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config
+  - apps/themuffinman/src/main/resources/application.properties
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision
+  - docs/agent-operating-model.yaml
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/resources/application.properties
+  validation: ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test
+  acceptance:
+  - Production cannot select local translation, local intent classification, or local natural-language emergency parsing.
+  - Development/test profiles can use labeled deterministic fixtures without claiming provider evidence.
+- id: implement-provider-unavailable-recovery
+  title: Pause Vision and preserve retryable state when OpenAI is unavailable
+  type: implementation
+  status: pending
+  sequence: 2
+  depends_on: enforce-provider-boundary
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  - apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts
+  validation: ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix apps/themuffinman/frontend run type-check
+  acceptance:
+  - OpenAI timeout/unavailable preserves conversation and unsent input.
+  - Vision shows typed provider-unavailable recovery and never returns false UNSUPPORTED.
+- id: prove-text-voice-parity
+  title: Prove Croatian and English text/voice requests use the same semantic action contract
+  type: runtime
+  status: pending
+  sequence: 3
+  depends_on: implement-provider-unavailable-recovery
+  paths:
+  - docs/runtime-evidence/vision-for-web-input-parity.json
+  - docs/work/vision-for-web-input-parity.yaml
+  required_paths:
+  - docs/runtime-evidence/vision-for-web-input-parity.json
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-for-web-input-parity.json
+  validation: git diff --check
+  acceptance:
+  - Text and voice examples resolve to the same backend action contract.
+  - Provider outage evidence shows paused Vision and retry, not local routing.

@@ -9,17 +9,14 @@ objective: Build the production Rides module across backend, Web, Vision, privac
 source_artifacts:
 - docs/work/rides-production-completion-analysis.md
 - docs/work/vision-deferred-contract-bundle.yaml
-- docs/work/vision-gap-readiness.yaml
 - docs/work/target-capability-production-readiness-sharing.yaml
 - docs/capability-inventory.yaml
 - docs/target-capability-catalog.yaml
 - docs/product-memory.md
 - docs/product-vision.md
 children:
-- docs/work/rides-production-completion.yaml
 plan_ownership:
   canonical_master: docs/work/rides-production-completion-master.yaml
-  canonical_execution_plan: docs/work/rides-production-completion.yaml
   capability_source_of_truth: docs/capability-inventory.yaml
 non_negotiables:
 - Rides are voluntary circle-scoped coordination, not commercial Business bookings.
@@ -50,4 +47,3 @@ evidence:
 - verifiedAt: '2026-07-17T11:43:03Z'
   revision: 4715898f78e0baa9a06393df5148646d80c3a200
   children:
-  - docs/work/rides-production-completion.yaml

@@ -3,7 +3,6 @@ version: 1
 id: cross-module-search-contract
 title: Define cross-module search comparison contract
 status: verified
-master_plan: docs/work/capability-coverage-and-reliability.yaml
 capability_ids:
 - cross_module.search
 - vision.read_discovery
@@ -59,4 +58,3 @@ evidence:
       statements scanned: 175
       review needed: 0
       high priority: 0
-

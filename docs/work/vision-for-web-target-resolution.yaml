@@ -1,0 +1,49 @@
+kind: work
+version: 1
+id: vision-for-web-target-resolution
+title: Add universal VisionForWeb target resolution and personal context
+status: draft
+baseline: 8e422fe
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-integration-master.yaml
+objective: >-
+  Reuse and extend existing entity resolvers so Vision can resolve viewer scope,
+  people, entities, relative dates, and ambiguity before selecting a Web action.
+depends_on:
+- docs/work/vision-for-web-read-navigation.yaml
+tasks:
+- id: extend-target-resolution
+  title: Resolve owner scope, people, Work targets, and relative dates through backend services
+  type: implementation
+  status: pending
+  sequence: 1
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/semantic
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  validation: ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test
+  acceptance:
+  - “Frank's lawn-mowing Work from yesterday” resolves person, Work family, date range, visibility, and target deterministically.
+  - Multiple matches clarify; inaccessible and stale matches do not leak existence.
+- id: integrate-personal-context
+  title: Pass current Web context and persisted Vision session context into resolution
+  type: implementation
+  status: pending
+  sequence: 2
+  depends_on: extend-target-resolution
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java
+  validation: ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix apps/themuffinman/frontend run type-check
+  acceptance:
+  - Follow-up prompts use persisted conversation and current Web context without frontend inference.
+  - Explicit topic switches do not inherit stale target slots.

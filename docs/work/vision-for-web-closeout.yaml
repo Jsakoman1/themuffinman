@@ -1,0 +1,69 @@
+kind: work
+version: 1
+id: vision-for-web-closeout
+title: Verify VisionForWeb journeys, portable contracts, documentation, and cleanup
+status: draft
+baseline: 8e422fe
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-integration-master.yaml
+objective: >-
+  Close the VisionForWeb program only after all user journeys, contracts, docs, runtime
+  evidence, and cleanup requirements are verified.
+depends_on:
+- docs/work/vision-for-web-assistant-presence.yaml
+- docs/work/vision-for-web-input-parity.yaml
+tasks:
+- id: verify-cross-module-journeys
+  title: Run end-to-end VisionForWeb navigation, detail, clarification, mutation, and recovery journeys
+  type: runtime
+  status: pending
+  sequence: 1
+  paths:
+  - docs/runtime-evidence/vision-for-web-closeout.json
+  - docs/work/vision-for-web-closeout.yaml
+  required_paths:
+  - docs/runtime-evidence/vision-for-web-closeout.json
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-for-web-closeout.json
+  validation: git diff --check
+  acceptance:
+  - My Work, specific Work detail, Applications, Circles, Profile, Things, Chat, Business, Notifications, and Activity routes are covered.
+  - Ambiguous, inaccessible, stale, unsupported, and provider-unavailable states recover safely.
+  - Existing mutation confirmation and execution boundaries remain intact.
+- id: verify-portable-contract-and-docs
+  title: Verify Web/iPhone/Watch contract portability and update living documentation
+  type: documentation
+  status: pending
+  sequence: 2
+  depends_on: verify-cross-module-journeys
+  paths:
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  - docs/product-memory.md
+  - docs/product-vision.md
+  - docs/vision-status-ledger.md
+  - docs/work/vision-for-web-integration-master.yaml
+  required_paths:
+  - docs/domain-technical.md
+  - docs/vision-status-ledger.md
+  validation: make audit-docs && make audit-target-capability-catalog && git diff --check
+  acceptance:
+  - Documentation describes one versioned backend-owned Vision Web action contract.
+  - Native clients are recorded as future consumers, not falsely marked implemented.
+- id: cleanup-and-final-verification
+  title: Remove temporary artifacts and run final work-plan verification
+  type: closeout
+  status: pending
+  sequence: 3
+  depends_on: verify-portable-contract-and-docs
+  paths:
+  - docs/work/vision-for-web-closeout.yaml
+  - docs/work/vision-for-web-integration-master.yaml
+  required_paths:
+  - docs/work/vision-for-web-closeout.yaml
+  validation: make audit-docs && make audit-frontend && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && git diff --check
+  acceptance:
+  - Temporary screenshots, smoke traces, and analysis artifacts created only by this program are removed or retained only when canonical evidence requires them.
+  - No stale child plan or duplicate execution queue remains.

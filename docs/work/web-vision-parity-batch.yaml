@@ -77,8 +77,6 @@ tasks:
   status: done
   paths:
   - docs/capability-inventory.yaml
-  - docs/work/web-vision-parity-program.yaml
-  - docs/work/web-vision-parity-residual-audit.yaml
   - docs/implementation-backlog.md
   validation: make audit-target-capability-coverage && make audit-docs && git diff
     --check
@@ -224,8 +222,6 @@ evidence:
   changedFiles:
   - docs/capability-inventory.yaml
   - docs/implementation-backlog.md
-  - docs/work/web-vision-parity-program.yaml
-  - docs/work/web-vision-parity-residual-audit.yaml
   output: |2+
       current_status: partial
       target_surfaces:

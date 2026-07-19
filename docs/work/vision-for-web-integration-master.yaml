@@ -1,0 +1,245 @@
+kind: master
+version: 1
+id: vision-for-web-integration-master
+title: Complete VisionForWeb integration across the authenticated Web app
+status: draft
+baseline: 8e422fe
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
+objective: >-
+  Turn the existing backend-governed Vision conversation system into a global,
+  inline, context-aware Web assistant that can understand text and voice,
+  resolve authorized product entities, navigate to canonical Web surfaces,
+  open detail views, control supported surface state, and execute existing
+  typed backend capabilities with explicit confirmation where required.
+  Preserve the same semantic contracts for future iPhone and Apple Watch
+  clients.
+design_references:
+  product_direction:
+  - docs/product-vision.md
+  - docs/product-memory.md
+  technical_architecture:
+  - docs/vision-architecture-patterns.md
+  - docs/vision-status-ledger.md
+  current_vision_capsule: apps/themuffinman/src/main/java/com/themuffinman/app/vision/README.md
+  current_capability_inventory: docs/capability-inventory.yaml
+  implementation_control: docs/implementation-control.md
+  visual_inspiration: docs/references/chatgpt-desktop-app-inspiration.md
+current_foundation:
+  backend:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/VisionConversationController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizer.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationReadModelAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  frontend:
+  - apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue
+  - apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionVoiceControl.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalVisionEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  existing_contracts:
+  - /vision/conversations/turns
+  - workspace-v1 handoff context/source/return contract
+  - backend-published semantic route catalog
+  - persisted conversation and session memory state
+  - typed capability preview, review, confirmation, and execution adapters
+  existing_capability_families:
+  - work and quest lifecycle
+  - applications
+  - circles and circle requests
+  - profile and settings
+  - chat
+  - things and borrow lifecycle
+  - rides
+  - business, offerings, availability, and bookings
+  - notifications and activity
+  - universal search and comparison
+semantic_interpreter_policy:
+  provider: OpenAI
+  rule: OpenAI is the only semantic interpreter for both text and voice input.
+  responsibility:
+  - understand the user's natural-language request
+  - identify the intended capability and entity family
+  - select one route from the backend-published route catalog
+  - extract only route-approved slots and target hints
+  - preserve context across follow-up turns
+  backend_boundary:
+  - The backend publishes the allowed route, capability, entity, and slot contract to OpenAI.
+  - The backend sanitizes and validates every OpenAI response before routing or execution.
+  - OpenAI never receives authority to invent routes, permissions, mutations, or hidden data.
+  unavailable_behavior:
+  - Do not translate, classify, route, or execute locally when OpenAI is unavailable.
+  - Pause Vision input processing and mark the Vision assistant unavailable.
+  - Preserve the current conversation and unsent input so the user can retry when the provider returns.
+  - Show a concise recoverable message; do not convert provider outage into UNSUPPORTED.
+  - Existing direct Web navigation and non-Vision product features remain available.
+  prohibited:
+  - local translator in production runtime
+  - local semantic intent classifier in production runtime
+  - local emergency parser for real user commands in production runtime
+  - silently switching between semantic providers
+  development_only:
+  - A local parser may remain available behind an explicit development/test profile.
+  - Development mode may use deterministic fixtures to test route contracts, slot schemas, UI states, and adapter wiring without making provider calls.
+  - Development parser output must be labeled as synthetic and must never be presented as production semantic understanding evidence.
+  - Production configuration must fail closed if the development parser is enabled or selected.
+gaps_to_close:
+  - The global shell opens a separate /vision route instead of hosting one persistent inline Vision session.
+  - Vision can return result links, but the handoff contract does not yet describe a concrete target action and canonical destination.
+  - My Work / own posted quests is a Web capability and target-catalog capability but has no dedicated Vision intent and route mapping.
+  - Entity resolution, owner scope, relative dates, and personal context are not yet exposed through one universal Web target-resolution path.
+  - Text and voice do not yet share one global Web assistant runtime from every authenticated route.
+  - Existing Web surfaces do not accept one standard Vision focus, preview, filter, and navigation handoff.
+  - The current local emergency semantic path must be removed from the Vision routing contract; OpenAI is mandatory and provider outage must pause Vision rather than fall back to local translation/classification.
+  - The animated Vision presence is not yet a persistent contextual assistant with idle, listening, thinking, result, clarification, and recovery states.
+architecture_invariants:
+  - Backend owns intent interpretation, capability selection, entity resolution, permissions, validation, workflow state, and route eligibility.
+  - Frontend owns presentation, local open/close state, router execution of backend-approved destinations, focus behavior, and animation.
+  - The model may select only backend-published routes, capabilities, entity families, and slot schemas.
+  - Read/navigation, preview, proposal, and mutation execution remain separate action classes.
+  - Existing domain services and typed adapters remain authoritative; Vision must not duplicate domain mutations.
+  - Text and voice use the same conversation, semantic, resolution, review, and execution path.
+  - An ambiguous, unauthorized, stale, or unsupported target produces clarification or recovery and never a guessed route or privacy leak.
+  - Web, iPhone, and Watch consume versioned semantic/action contracts; device-specific presentation stays client-owned.
+  - Vision remains available as a full-screen /vision canvas while the Web assistant becomes an additional host for the same conversation runtime.
+  - The animated assistant is helpful and dismissible, not an intrusive replacement for direct Web navigation.
+  - OpenAI is the sole production semantic interpreter; provider unavailability pauses Vision processing instead of invoking local translation or intent inference.
+  - A local parser may exist only behind an explicit development/test profile for deterministic fixtures and contract validation.
+web_action_contract:
+  id: vision-web-action-v1
+  actions:
+  - NAVIGATE_TO_SURFACE
+  - OPEN_ENTITY_DETAIL
+  - OPEN_ENTITY_PREVIEW
+  - SEARCH_AND_OPEN
+  - APPLY_SURFACE_FILTER
+  - FOCUS_ENTITY
+  - SHOW_COMPARISON
+  - REQUEST_CLARIFICATION
+  - PROPOSE_MUTATION
+  - EXECUTE_MUTATION
+  required_fields:
+  - action
+  - routeKey
+  - canonicalPath
+  - entityFamily
+  - targetId
+  - viewerSafeLabel
+  - preview
+  - returnContext
+  - allowedActions
+  - requiresConfirmation
+  - ambiguity
+  - recoveryOptions
+  invariants:
+  - canonicalPath is backend-approved and maps to an existing Web route.
+  - targetId is present only after backend authorization and deterministic target resolution.
+  - mutation actions cannot execute without the existing Vision review and confirmation boundary.
+  - frontend never constructs a domain route from raw natural-language input.
+  - the contract carries a version, correlation id, and source context for future device handoff.
+primary_user_journeys:
+  - id: open-my-work
+    prompt_examples:
+    - Pokaži mi poslove koje sam ja postao
+    - Show me my posted work
+    - Otvori moj Work
+    expected_flow: VIEW_MY_WORK -> work.quest.view_own -> work.my_quests -> /work/quests
+    acceptance: From any authenticated Web route, text and voice open the existing My Work surface without showing unsupported or requiring a manual result link.
+  - id: open-specific-work
+    prompt_examples:
+    - Pokaži mi posao košenja trave kojeg je Frank jučer objavio
+    - Open Frank's lawn-mowing job from yesterday
+    expected_flow: resolve person + quest + relative date + visibility -> OPEN_ENTITY_DETAIL -> canonical Work detail route
+    acceptance: One authorized match opens its canonical Work detail; multiple, inaccessible, stale, or missing matches recover safely.
+  - id: open-workspace
+    prompt_examples:
+    - Otvori moje prijave
+    - Idi na Business bookings
+    - Otvori zadnji chat s Frankom
+    expected_flow: semantic intent -> backend route catalog -> typed Web action -> canonical surface
+    acceptance: Existing list and workspace routes open directly from any module and preserve return context.
+  - id: execute-existing-capability
+    prompt_examples:
+    - Kreiraj novi Work
+    - Pauziraj ovaj posao
+    - Pošalji Circle request Franku
+    expected_flow: existing Vision slots -> preview -> confirmation -> typed adapter -> optional affected-surface navigation
+    acceptance: Existing mutation paths remain backend-authoritative and gain Web context without duplicated frontend logic.
+phases:
+- id: contract-and-capability-rebaseline
+  title: Reconcile current Vision capabilities, Web routes, and target catalog
+  child_plan: docs/work/vision-for-web-contract-rebaseline.yaml
+  outcome: One authoritative matrix separates existing Vision behavior, partial handoff behavior, missing Web navigation capabilities, and deferred device consumers.
+- id: my-work-and-read-navigation
+  title: Add the first end-to-end Web navigation slice and canonical read destinations
+  child_plan: docs/work/vision-for-web-read-navigation.yaml
+  outcome: My Work and the initial module destinations open from any authenticated route through backend-owned Vision actions.
+- id: universal-target-resolution
+  title: Resolve personal context, entity targets, ownership, and relative time constraints
+  child_plan: docs/work/vision-for-web-target-resolution.yaml
+  outcome: Vision can safely resolve requests such as Frank's Work from yesterday and clarify ambiguous targets.
+- id: inline-global-runtime
+  title: Host the existing Vision conversation runtime inline in the authenticated Web shell
+  child_plan: docs/work/vision-for-web-inline-runtime.yaml
+  outcome: One persistent text/voice Vision session is available from every Web route while /vision remains the full-screen canvas.
+- id: web-surface-action-bridge
+  title: Let Vision open details, previews, filters, focus state, and comparisons in existing Web surfaces
+  child_plan: docs/work/vision-for-web-surface-bridge.yaml
+  outcome: Vision controls canonical Web surfaces without duplicating Work, Chat, Things, Business, or Circle UI logic.
+- id: animated-assistant-experience
+  title: Add the contextual animated helper presence and accessible interaction states
+  child_plan: docs/work/vision-for-web-assistant-presence.yaml
+  outcome: Vision behaves as a helpful, dismissible, Office-assistant-inspired presence with clear idle, listening, thinking, result, clarification, and recovery states.
+- id: text-voice-and-locale-parity
+  title: Unify OpenAI-backed text and voice behavior for expected Croatian and English Web commands
+  child_plan: docs/work/vision-for-web-input-parity.yaml
+  outcome: Text and voice produce the same OpenAI-backed semantic and Web action contract; provider outage pauses Vision with recoverable retry state and never invokes a local translator or classifier.
+- id: cross-client-contract-and-closeout
+  title: Verify the portable contract, runtime journeys, documentation, and cleanup
+  child_plan: docs/work/vision-for-web-closeout.yaml
+  outcome: Web, future iPhone, and future Watch clients can consume the versioned Vision action contract, with runtime evidence and temporary artifact cleanup.
+dependencies:
+- docs/work/vision-for-web-contract-rebaseline.yaml -> docs/work/vision-for-web-read-navigation.yaml
+- docs/work/vision-for-web-read-navigation.yaml -> docs/work/vision-for-web-target-resolution.yaml
+- docs/work/vision-for-web-read-navigation.yaml -> docs/work/vision-for-web-inline-runtime.yaml
+- docs/work/vision-for-web-target-resolution.yaml -> docs/work/vision-for-web-surface-bridge.yaml
+- docs/work/vision-for-web-inline-runtime.yaml -> docs/work/vision-for-web-surface-bridge.yaml
+- docs/work/vision-for-web-surface-bridge.yaml -> docs/work/vision-for-web-assistant-presence.yaml
+- docs/work/vision-for-web-surface-bridge.yaml -> docs/work/vision-for-web-input-parity.yaml
+- docs/work/vision-for-web-assistant-presence.yaml -> docs/work/vision-for-web-closeout.yaml
+- docs/work/vision-for-web-input-parity.yaml -> docs/work/vision-for-web-closeout.yaml
+children:
+- docs/work/vision-for-web-contract-rebaseline.yaml
+- docs/work/vision-for-web-read-navigation.yaml
+- docs/work/vision-for-web-target-resolution.yaml
+- docs/work/vision-for-web-inline-runtime.yaml
+- docs/work/vision-for-web-surface-bridge.yaml
+- docs/work/vision-for-web-assistant-presence.yaml
+- docs/work/vision-for-web-input-parity.yaml
+- docs/work/vision-for-web-closeout.yaml
+exit_criteria:
+  - The child plans are independently verified in strict serial order; no master completion is inferred from static tests alone.
+  - “Pokaži mi poslove koje sam ja postao” opens /work/quests from every authenticated Web route through a typed backend action.
+  - A specific authorized Work request can resolve a person, title, and relative date and open the canonical Work detail view.
+  - Ambiguous, unauthorized, stale, and unsupported requests produce safe clarification or recovery.
+  - Vision is available inline from every authenticated Web route and can continue the same persisted conversation while navigating.
+  - Text and voice send their normalized input through the same OpenAI semantic interpretation path and share one Web action contract.
+  - OpenAI is the only production natural-language interpreter; no local translator, local intent classifier, or semantic emergency fallback is available in production Vision.
+  - Development/test profiles may use a clearly labeled local parser only for deterministic fixtures and contract tests.
+  - When OpenAI is unavailable, Vision pauses input processing, preserves retryable state, and shows a typed provider-unavailable recovery message instead of returning UNSUPPORTED.
+  - Existing Vision mutation capabilities reuse existing preview, confirmation, execution, permission, and adapter boundaries.
+  - The animated assistant has accessible, dismissible, reduced-motion-aware states and does not replace canonical direct Web navigation.
+  - The Web action contract is versioned and portable to future iPhone and Apple Watch clients.
+  - Backend tests, frontend type-check/build, route and contract audits, semantic scenarios, browser runtime evidence, documentation updates, and cleanup all pass.
+  - Closeout removes temporary screenshots, smoke traces, and analysis artifacts created only by this master while retaining canonical docs and required runtime evidence.
+evidence: []

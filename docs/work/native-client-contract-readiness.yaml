@@ -3,7 +3,6 @@ version: 1
 id: native-client-contract-readiness
 title: Native client contract readiness
 status: done
-master_plan: docs/work/capability-coverage-and-reliability.yaml
 capability_ids: [cross_module.mobile_watch, cross_module.search]
 baseline: 6018777
 objective: >

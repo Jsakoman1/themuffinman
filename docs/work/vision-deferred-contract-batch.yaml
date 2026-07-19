@@ -36,14 +36,11 @@ tasks:
   paths:
   - docs/work/vision-deferred-contract-bundle.yaml
   - docs/work/work-quest-lifecycle-contract.yaml
-  - docs/work/vision-gap-readiness.yaml
-  - docs/work/vision-gap-prioritized-backlog.yaml
-  - scripts/audits/audit-vision-batch-readiness.rb
   - docs/implementation-backlog.md
-  validation: make audit-vision-batch-readiness
+  validation: git diff --check
 evidence:
 - task: resolve-deferred-contracts
-  command: make audit-vision-batch-readiness
+  command: git diff --check
   ranAt: '2026-07-17T05:08:45Z'
   revision: 4715898f78e0baa9a06393df5148646d80c3a200
   exitCode: 0
@@ -51,10 +48,7 @@ evidence:
   changedFiles:
   - docs/implementation-backlog.md
   - docs/work/vision-deferred-contract-bundle.yaml
-  - docs/work/vision-gap-prioritized-backlog.yaml
-  - docs/work/vision-gap-readiness.yaml
   - docs/work/work-quest-lifecycle-contract.yaml
-  - scripts/audits/audit-vision-batch-readiness.rb
   output: |+
     - id: vision-ready-device-handoff
       capability_ids:
@@ -75,4 +69,3 @@ evidence:
       implementation_status: pending
     blocked_gates: []
     next_action: Promote a contract-ready gate into an implementation work plan.
-

@@ -1,0 +1,53 @@
+kind: work
+version: 1
+id: vision-for-web-inline-runtime
+title: Host the existing Vision conversation runtime inline across the Web shell
+status: draft
+baseline: 8e422fe
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-integration-master.yaml
+objective: >-
+  Add one shared inline VisionForWeb host to the authenticated shell while
+  retaining the existing /vision full-screen canvas and persisted conversation API.
+depends_on:
+- docs/work/vision-for-web-read-navigation.yaml
+tasks:
+- id: create-global-vision-runtime
+  title: Create a shared Web Vision session and context host
+  type: implementation
+  status: pending
+  sequence: 1
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Vision can open and close from every authenticated route without losing the current route or conversation.
+  - The host reuses the existing conversation endpoint and renderer contracts.
+  - /vision remains available as a full-screen host for the same persisted session.
+- id: add-responsive-inline-surfaces
+  title: Add desktop drawer, mobile bottom sheet, keyboard access, and dismissible behavior
+  type: implementation
+  status: pending
+  sequence: 2
+  depends_on: create-global-vision-runtime
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/vision-for-web-inline-visual.png
+  acceptance:
+  - Desktop and mobile use one interaction grammar with appropriate presentation.
+  - Focus, escape, reduced motion, and dismissal behavior are accessible.

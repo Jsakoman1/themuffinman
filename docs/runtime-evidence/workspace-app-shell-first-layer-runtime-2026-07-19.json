@@ -1,0 +1,31 @@
+{
+  "testedAt": "2026-07-19T19:19:45.330Z",
+  "baseUrl": "http://localhost:5173",
+  "route": "/home",
+  "assertions": {
+    "authenticatedShell": true,
+    "backendNavigationContract": true,
+    "modules": [
+      "⌂Home",
+      "▤Work",
+      "◌Chat",
+      "□Calendar",
+      "◇Business",
+      "◎Circles",
+      "▣Things",
+      "↗Rides"
+    ],
+    "childRoutes": [
+      "/work/find",
+      "/work/quests",
+      "/work/applications"
+    ],
+    "screenshot": "docs/runtime-evidence/workspace-app-shell-first-layer-visual-2026-07-19.png"
+  },
+  "apiResponses": [
+    {
+      "status": 200,
+      "url": "http://localhost:8080/workspace/navigation"
+    }
+  ]
+}

@@ -7,8 +7,6 @@ description: >
   This file is the machine-readable source for future implementation planning.
 last_reviewed: 2026-07-19
 inventory_audit: docs/work/capability-inventory-audit.yaml
-remaining_work_planner: docs/work/capability-inventory-planner.yaml
-implementation_roadmap: docs/work/capability-implementation-roadmap.yaml
 execution_board: docs/work/capability-30-execution-board.yaml
 interaction_contract_audit:
   reviewed_on: 2026-07-17
@@ -39,52 +37,7 @@ inventory_refresh:
   scan_revision: 94efd68
   source_domains: [identity, vision, workmarket, chat, business, social, things, rides, location, notification, nativehandoff, activity]
   evidence_layers: [source_code, api_contracts, web_vision_surfaces, tests, work_plans, runtime_matrix]
-active_plans:
-  - id: work-capability-closure
-    path: docs/work/work-capability-closure.yaml
-    scope: Work create, management, and application gaps
-  - id: chat-reconnect-resync
-    path: docs/work/chat-reconnect-resync.yaml
-    scope: browser Chat recovery and conversation resync
-  - id: profile-location-settings-surface
-    path: docs/work/profile-location-settings-surface.yaml
-    scope: direct profile location settings and correction flow
-  - id: things-listing-surface
-    path: docs/work/things-listing-surface.yaml
-    scope: Things discovery, listing creation, and borrow requests
-  - id: things-borrow-cancellation
-    path: docs/work/things-borrow-cancellation.yaml
-    scope: borrower-owned cancellation of pending Things requests
-  - id: circles-privacy-explanation
-    path: docs/work/circles-privacy-explanation.yaml
-    scope: circle visibility and consent explanation
-  - id: chat-attachment-surface
-    path: docs/work/chat-attachment-surface.yaml
-    scope: browser Chat attachment upload and send flow
-  - id: chat-attachment-preview
-    path: docs/work/chat-attachment-preview.yaml
-    scope: browser image attachment preview lifecycle
-  - id: cross-module-visibility-acceptance
-    path: docs/work/cross-module-visibility-acceptance.yaml
-    scope: cross-module visibility and consent acceptance matrix
-  - id: profile-location-visibility-scope
-    path: docs/work/profile-location-visibility-scope.yaml
-    scope: exact location privacy scope control
-  - id: plan-coverage-audit
-    path: docs/work/plan-coverage-audit.yaml
-    scope: automatic inventory-to-master plan coverage validation
-  - id: things-owner-borrow-workflow
-    path: docs/work/things-owner-borrow-workflow.yaml
-    scope: owner decisions and borrower return lifecycle for Things
-  - id: things-detail-surface
-    path: docs/work/things-detail-surface.yaml
-    scope: dedicated Things listing detail route
-  - id: cross-module-search-contract
-    path: docs/work/cross-module-search-contract.yaml
-    scope: mixed-family search and comparison semantics
-  - id: native-client-handoff-contract
-    path: docs/work/native-client-handoff-contract.yaml
-    scope: iPhone and Watch backend-owned handoff contract
+open_plans: []
 statuses:
   planned: The product intends to support it, but implementation has not started.
   not_offered: Some supporting code may exist, but users have no usable product surface.
@@ -254,7 +207,6 @@ modules:
             - PasswordRecoveryService
             - hashed single-use token persistence
           web: ["/recover", "/reset-password"]
-          plan: docs/work/account-recovery-contract.yaml
         gaps: [email or SMS delivery provider, distributed abuse coordination, browser valid-token runtime evidence, mobile and Watch surfaces]
         evidence:
           code:
@@ -1485,6 +1437,7 @@ modules:
         gaps:
           - native client parity remains tracked separately
         evidence:
+          plans: [docs/work/modern-minimal-adaptive-product.yaml, docs/work/workspace-app-shell-first-layer.yaml]
       - id: cross_module.mobile_watch
         name: Mobile and Watch presentation of core voice and action flows
         status: partial
@@ -1538,8 +1491,7 @@ gap_summary:
     - native Watch client
   known_broken: []
 next_review:
-  recommended_planner: docs/work/capability-inventory-planner.yaml
   first_slice:
     - P1-platform-trust-and-recovery
     - P2-vision-execution-and-discovery
-    - convert each selected planner group into a strict implementation plan
+    - create a strict implementation plan only when a capability slice is explicitly resumed

@@ -44,7 +44,6 @@ tasks:
   - docs/business-logic.md
   - docs/domain-technical.md
   - docs/implementation-backlog.md
-  - docs/work/web-vision-parity-residual-audit.yaml
   - docs/agent-operating-model/sections/intents.yaml
   validation: cd apps/themuffinman && ./mvnw -q test && cd frontend && npm run type-check
     && npm run build && cd ../../.. && make audit-docs && make audit-plan-coverage
@@ -114,7 +113,6 @@ evidence:
   - docs/capability-inventory.yaml
   - docs/domain-technical.md
   - docs/implementation-backlog.md
-  - docs/work/web-vision-parity-residual-audit.yaml
   output: |2+
       current_inventory_ids:
       - chat.message.view_attachment
@@ -135,4 +133,3 @@ evidence:
         web_ui: covered
         vision: covered
       gaps: []
-

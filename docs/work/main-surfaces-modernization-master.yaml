@@ -31,13 +31,11 @@ children:
 - docs/work/main-surfaces-work-discovery.yaml
 - docs/work/main-surfaces-interaction-action-system.yaml
 - docs/work/main-surfaces-surface-architecture.yaml
-- docs/work/main-surfaces-runtime-closeout.yaml
 dependencies:
 - docs/work/main-surfaces-home-dashboard.yaml -> docs/work/main-surfaces-surface-architecture.yaml
 - docs/work/main-surfaces-business-landing.yaml -> docs/work/main-surfaces-surface-architecture.yaml
 - docs/work/main-surfaces-work-discovery.yaml -> docs/work/main-surfaces-interaction-action-system.yaml
 - docs/work/main-surfaces-interaction-action-system.yaml -> docs/work/main-surfaces-surface-architecture.yaml
-- docs/work/main-surfaces-surface-architecture.yaml -> docs/work/main-surfaces-runtime-closeout.yaml
 exit_criteria:
 - Home contains no duplicate destination navigation or decorative non-clickable action
   controls.
@@ -62,4 +60,3 @@ evidence:
   - docs/work/main-surfaces-work-discovery.yaml
   - docs/work/main-surfaces-interaction-action-system.yaml
   - docs/work/main-surfaces-surface-architecture.yaml
-  - docs/work/main-surfaces-runtime-closeout.yaml

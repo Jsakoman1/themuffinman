@@ -38,7 +38,6 @@ tasks:
   status: done
   paths:
   - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
-  - apps/themuffinman/frontend/src/modules/app-shell/components/AppCard.vue
   - apps/themuffinman/frontend/src/styles/base.css
   validation: npm --prefix apps/themuffinman/frontend run build
 - id: work-discovery-contract
@@ -80,7 +79,6 @@ evidence:
   changedFiles:
   - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
   - apps/themuffinman/frontend/src/styles/base.css
-  - apps/themuffinman/frontend/src/modules/app-shell/components/AppCard.vue
   output: |+
     dist/assets/BusinessOfferingsView-B_wD2e-Q.js                  5.16 kB │ gzip:   1.85 kB
     dist/assets/BusinessAvailabilityView-DrZGVFn0.js               5.88 kB │ gzip:   2.00 kB

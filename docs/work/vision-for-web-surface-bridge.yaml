@@ -1,0 +1,51 @@
+kind: work
+version: 1
+id: vision-for-web-surface-bridge
+title: Bridge Vision actions into existing Web surfaces and detail views
+status: draft
+baseline: 8e422fe
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-integration-master.yaml
+objective: >-
+  Standardize how backend-approved Vision actions open canonical surfaces, details,
+  previews, focus state, filters, and comparisons without duplicating domain UI logic.
+depends_on:
+- docs/work/vision-for-web-target-resolution.yaml
+- docs/work/vision-for-web-inline-runtime.yaml
+tasks:
+- id: implement-web-action-contract
+  title: Complete versioned Vision Web action DTO and backend assembler
+  type: implementation
+  status: pending
+  sequence: 1
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionWebActionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionWebActionDTO.java
+  validation: ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test
+  acceptance:
+  - Navigation, detail, preview, filter, focus, comparison, clarification, proposal, and execution actions have explicit types.
+  - Route and target fields are backend-authorized and conditionally validated.
+- id: connect-canonical-surface-adapters
+  title: Connect Web action execution to Work, Circles, Profile, Things, Business, Chat, and activity routes
+  type: implementation
+  status: pending
+  sequence: 2
+  depends_on: implement-web-action-contract
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Existing canonical routes receive typed open/detail/preview/focus/filter state.
+  - No module duplicates Vision semantic interpretation or permission decisions.

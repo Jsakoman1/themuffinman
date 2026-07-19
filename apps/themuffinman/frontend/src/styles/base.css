@@ -44,9 +44,9 @@
   --font: Inter, "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --text-size-title: 0.875rem;
-  --text-size-body: 0.8125rem;
-  --text-size-meta: 0.75rem;
-  --text-size-label: 0.6875rem;
+  --text-size-body: 0.9375rem;
+  --text-size-meta: 0.8125rem;
+  --text-size-label: 0.75rem;
   --text-weight-regular: 450;
   --text-weight-medium: 550;
   --text-weight-semibold: 650;
@@ -89,6 +89,8 @@
   --workspace-rail-max-width: 17.5rem;
   --workspace-rail-width: clamp(var(--workspace-rail-min-width), 18vw, var(--workspace-rail-max-width));
   --workspace-header-height: 3rem;
+  --workspace-rail-gap: 0.2rem;
+  --surface-content-gap: 1rem;
   --row-focus: var(--surface-selected);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }

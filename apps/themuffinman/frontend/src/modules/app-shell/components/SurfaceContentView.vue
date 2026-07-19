@@ -7,6 +7,8 @@ import SurfaceRow from "./SurfaceRow.vue"
 import SurfaceHeader from "./SurfaceHeader.vue"
 import SurfaceMetricGrid from "./SurfaceMetricGrid.vue"
 import SurfaceSection from "./SurfaceSection.vue"
+import AppLoadingState from "./AppLoadingState.vue"
+import AppEmptyState from "./AppEmptyState.vue"
 
 const props = defineProps<{
   config: AppSurfaceConfig
@@ -71,7 +73,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
     <p v-if="note" class="surface-content__note">{{ note }}</p>
 
-    <div v-if="loading" class="surface-content__status-card" role="status">Loading.</div>
+    <AppLoadingState v-if="loading" label="Loading workspace" :rows="4" />
     <div v-else-if="error" class="surface-content__status-card surface-content__status-card--error" role="alert">
       <span>{{ error }}</span><button v-if="onRetry" type="button" @click="onRetry">Retry</button>
     </div>
@@ -119,16 +121,14 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
       <SurfaceSection v-for="section in sections" :key="section.title" :section="section" />
     </div>
 
-    <p v-if="!loading && !error && sections.length === 0" class="surface-content__empty-surface">
-      Nothing here yet.
-    </p>
+    <AppEmptyState v-if="!loading && !error && sections.length === 0" title="Nothing here yet." />
   </section>
 </template>
 
 <style scoped>
 .surface-content {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--surface-content-gap);
   min-width: 0;
 }
 

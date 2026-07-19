@@ -18,8 +18,6 @@ tasks:
   paths:
   - docs/capability-inventory.yaml
   - docs/work/capability-inventory-audit.yaml
-  - docs/work/capability-inventory-planner.yaml
-  - docs/work/capability-implementation-roadmap.yaml
   - docs/work/capability-30-execution-board.yaml
   - docs/business-logic.md
   - docs/implementation-backlog.md
@@ -29,8 +27,6 @@ tasks:
   required_paths:
   - docs/capability-inventory.yaml
   - docs/work/capability-inventory-audit.yaml
-  - docs/work/capability-inventory-planner.yaml
-  - docs/work/capability-implementation-roadmap.yaml
   - docs/business-logic.md
   - Makefile
   - scripts/audits/audit-inventory-freshness.rb
@@ -52,9 +48,7 @@ evidence:
   - docs/capability-inventory.yaml
   - docs/implementation-backlog.md
   - docs/work/capability-30-execution-board.yaml
-  - docs/work/capability-implementation-roadmap.yaml
   - docs/work/capability-inventory-audit.yaml
-  - docs/work/capability-inventory-planner.yaml
   - docs/work/capability-inventory-refresh.yaml
   - scripts/audits/audit-inventory-freshness.rb
   output: |2+
@@ -81,8 +75,6 @@ evidence:
   requiredPaths:
   - docs/capability-inventory.yaml
   - docs/work/capability-inventory-audit.yaml
-  - docs/work/capability-inventory-planner.yaml
-  - docs/work/capability-implementation-roadmap.yaml
   - docs/business-logic.md
   - Makefile
   - scripts/audits/audit-inventory-freshness.rb

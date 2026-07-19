@@ -35,10 +35,9 @@ integrity_findings:
   - id: AUDIT-001
     severity: high
     finding: >
-      The inventory's active_plans list still contained two paths removed during
-      redesign cleanup: runtime-acceptance-catalog.yaml and
-      frontend-ux-modernization.yaml.
-    resolution: Remove both stale entries and replace them with this audit and the remaining-work planner as linked diagnostic artifacts.
+      The inventory previously mixed completed plan history into its open-plan
+      field and retained a deleted account-recovery plan path.
+    resolution: Replace the stale field with open_plans and keep capability planning in the canonical inventory records.
   - id: AUDIT-002
     severity: medium
     finding: >
@@ -154,11 +153,11 @@ quality_scan:
       finding: 74 backend endpoints have no frontend callsite according to the linker.
       interpretation: Includes admin, native, Vision, and backend-only endpoints; not an automatic defect.
     - severity: low
-      finding: One likely-unused AppCard component and one frontend local permission/action duplication remain.
-      interpretation: Cleanup candidates, not capability status blockers.
+      finding: One frontend local permission/action duplication remains.
+      interpretation: Cleanup candidate, not a capability status blocker; domain action authority remains backend-owned.
 result:
   inventory_freshness_audit: passed
   target_catalog_audit: passed
   target_coverage_audit: passed
   plan_coverage_audit: passed
-  next_artifact: docs/work/capability-inventory-planner.yaml
+  next_artifact: docs/work/workspace-app-shell-first-layer.yaml

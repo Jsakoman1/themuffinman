@@ -26,7 +26,6 @@ related_plans:
   - docs/work/target-capability-production-readiness-business.yaml
   - docs/work/target-capability-production-readiness-work.yaml
   still_open_and_absorbed:
-  - docs/work/web-vision-parity-program.yaml
   - docs/work/cross-module-search-contract.yaml
   reconciliation_rule: Existing verified plans are evidence and implementation history,
     not proof of browser usability. This master plan owns the remaining Web runtime,

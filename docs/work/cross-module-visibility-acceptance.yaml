@@ -3,7 +3,6 @@ version: 1
 id: cross-module-visibility-acceptance
 title: Add cross-module visibility acceptance matrix
 status: verified
-master_plan: docs/work/capability-coverage-and-reliability.yaml
 capability_ids:
 - circles.relationships
 - circles.visibility
@@ -78,4 +77,3 @@ evidence:
       statements scanned: 173
       review needed: 0
       high priority: 0
-

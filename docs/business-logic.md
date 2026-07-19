@@ -14,6 +14,7 @@ This document explains the product in user-facing terms. It is meant to stay ali
 - An uploaded chat attachment has a backend-owned lifecycle. It starts `READY_TO_SEND`, can be explicitly `CANCELLED` before sending, becomes consumed exactly once when sent, and expires when its upload TTL ends. Removing an attachment from the Web composer also asks the backend to cancel its pending upload; local removal remains safe if the network is unavailable.
 - Circles, People, and Chat are connected through accepted-contact consent. Sending an invite does not by itself authorize direct or group chat; the recipient must accept first.
 - Calendar is a visual month, week, and day workspace. Business calendar data is optional for users without a business profile; available work events remain visible and the unavailable business portion is explained as recoverable.
+- The authenticated Web workspace uses one persistent app-like module rail. Home, Work, Chat, Calendar, Business, Circles, Things, and Rides remain available as stable destinations; relevant child destinations and attention signals are prepared by the backend, while the browser controls only presentation and route highlighting.
 
 For stable cross-module terminology, start with `docs/cross-domain-glossary.md`.
 For long-term product direction and interaction principles, see `docs/product-vision.md`.

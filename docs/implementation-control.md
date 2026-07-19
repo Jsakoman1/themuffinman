@@ -8,6 +8,14 @@ ordered tasks, expected paths, validation commands, and verifier-generated evide
 Markdown explains the workflow. It is not completion state. Generated reports and old plan formats are not active
 control state.
 
+## Closeout cleanup
+
+After a plan or master plan reaches `verified`, remove temporary validation outputs, screenshots, smoke traces, and
+unreferenced analysis or plan files created only for that work. Keep canonical product/domain/control documents,
+current runtime JSON evidence referenced by the capability inventory, and any completed plan still used as an explicit
+dependency or historical source. The closeout must leave only the current `active`/`planned` work queue plus retained
+evidence; it must not leave duplicate generated reports or stale plan references.
+
 ## States
 
 `draft -> active -> verified` is the normal path. A plan may be `deferred` when its remaining work requires an
@@ -99,12 +107,6 @@ The report also marks `mapping_quality` as `exact`, `broad`, or `unmapped`.
 needs independent implementation/evidence decomposition. The report is
 diagnostic output only; it does not become a second status source of truth.
 
-Run `make audit-vision-batch-readiness` before starting an autonomous Vision batch.
-It verifies that the generated Vision gap report, deferred backlog, and readiness
-gates contain the same capability set, then prints ready versus blocked gates. A
-blocked gate must not be implemented by inference; promote only a ready gate into
-its own verified work plan.
-
 Run `make generate-target-capability-slices` to produce the next implementation
 queue from the target catalog. The output is planning input only. A selected slice
 must still become its own `docs/work/*.yaml` plan and reach `verified` through the
@@ -128,17 +130,9 @@ Chat/Circles recovery affordances; it supplements but does not replace browser t
 Run `ruby scripts/audits/audit-ui-entrypoints.rb` (also included in `make audit-frontend`) to verify that primary
 navigation, shell surfaces, authenticated routes, create handoffs, and configured surface actions remain connected.
 
-Run `make audit-frontend-ux-plan` before starting the frontend UX modernization
-master plan. It checks the master/child graph, baselines, exact verifier-safe
-paths, leaf validations, and browser-runtime validation boundaries.
-
 Run `make audit-main-surfaces-plan` before starting the Home, Business, Work,
 and shared-surface modernization batch. It checks the six-child plan graph,
 backend/frontend ownership boundaries recorded in the child objectives, exact
 verifier-safe paths, and non-recursive leaf validations.
 
-Run `make audit-product-experience-plan` before starting the product experience
-expansion batch. It checks the shell, Vision, account media, discovery,
-multi-business, favorites, commute, and runtime child graph, analysis artifacts,
-baseline revisions, manual browser boundaries, and non-recursive leaf validations.
 The active 30-capability pursuit is governed by `docs/work/capability-30-execution-board.yaml`. It is the frozen ordered list of partial capability IDs, owner plans, required source files, close criteria, and explicit product deferrals. Do not create an unlisted continuation slice; update the board first when scope genuinely changes.

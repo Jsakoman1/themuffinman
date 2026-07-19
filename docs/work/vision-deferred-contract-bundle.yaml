@@ -5,13 +5,12 @@ title: Product, backend, and device contracts for deferred Vision gates
 status: resolved_for_implementation
 authority:
   product_direction: [docs/product-memory.md, docs/product-vision.md]
-  technical_context: [docs/vision-architecture-patterns.md, docs/work/vision-gap-readiness.yaml]
+  technical_context: [docs/vision-architecture-patterns.md]
   rule: Contract resolution does not claim that a capability is implemented or Vision-covered.
 scope:
   capability_count: 19
   gate_count: 7
   implementation_status: pending
-  source_backlog: docs/work/vision-gap-prioritized-backlog.yaml
 global_invariants:
   - Backend services own authorization, validation, state transitions, idempotency, and audit records.
   - Web, Vision, mobile, and Watch clients consume the same command and read-model contracts.

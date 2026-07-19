@@ -3,7 +3,6 @@ version: 1
 id: vision-execution-acceptance
 title: Vision capability execution acceptance
 status: done
-master_plan: docs/work/capability-coverage-and-reliability.yaml
 capability_ids: [vision.create_quest, vision.execution, vision.read_discovery]
 baseline: 6018777
 objective: >
