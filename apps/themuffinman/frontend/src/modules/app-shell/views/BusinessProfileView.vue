@@ -21,6 +21,7 @@ const feedback = ref("")
 const gallery = ref<BusinessGalleryImageResponseDTO[]>([])
 const galleryForm = ref<BusinessGalleryImageRequestDTO>({imageUrl: "", altText: "", sortOrder: 0, active: true})
 const isGallerySaving = ref(false)
+const galleryFile = ref<File | null>(null)
 const isCreateOpen = ref(false)
 const newBusinessName = ref("")
 
@@ -67,6 +68,17 @@ const addGalleryImage = async () => {
     galleryForm.value = {imageUrl: "", altText: "", sortOrder: gallery.value.length, active: true}
     feedback.value = "Gallery image added."
   } catch { error.value = "Could not add this gallery image." } finally { isGallerySaving.value = false }
+}
+
+const onGalleryFileChanged = (event: Event) => { galleryFile.value = (event.target as HTMLInputElement).files?.[0] || null }
+const uploadGalleryImage = async () => {
+  if (!galleryFile.value) return
+  isGallerySaving.value = true; error.value = ""
+  try {
+    const uploaded = await userShellApi.uploadBusinessGalleryImage(galleryFile.value, galleryForm.value.altText, galleryForm.value.sortOrder)
+    gallery.value = [...gallery.value, uploaded].sort((left, right) => left.sortOrder - right.sortOrder)
+    galleryFile.value = null; galleryForm.value = {imageUrl: "", altText: "", sortOrder: gallery.value.length, active: true}; feedback.value = "Gallery image uploaded."
+  } catch { error.value = "Could not upload this gallery image. Check the file type and try again." } finally { isGallerySaving.value = false }
 }
 
 const toggleGalleryImage = async (image: BusinessGalleryImageResponseDTO) => {
@@ -132,6 +144,10 @@ onMounted(() => void load())
         <AppFormField label="Order"><input v-model.number="galleryForm.sortOrder" type="number" min="0"></AppFormField>
         <AppButton tone="primary" type="submit" :loading="isGallerySaving">Add image</AppButton>
       </form>
+      <form class="business-profile__gallery-upload" @submit.prevent="uploadGalleryImage">
+        <AppFormField label="Upload image" hint="Images only, up to 10 MB."><input type="file" accept="image/*" @change="onGalleryFileChanged"></AppFormField>
+        <AppButton tone="primary" type="submit" :loading="isGallerySaving" :disabled="!galleryFile">Upload image</AppButton>
+      </form>
       <div v-if="gallery.length" class="business-profile__gallery-list"><SurfaceRow v-for="image in gallery" :key="image.id" :row="{id: String(image.id), title: image.altText || 'Gallery image', description: image.imageUrl, badge: image.active ? 'Published' : 'Hidden', meta: `Order ${image.sortOrder}`}" ><template #actions><AppButton :loading="isGallerySaving" @click="toggleGalleryImage(image)">{{ image.active ? "Hide" : "Publish" }}</AppButton><AppButton tone="danger" :loading="isGallerySaving" @click="removeGalleryImage(image)">Remove</AppButton></template></SurfaceRow></div>
       <AppStatus v-else message="No gallery images yet." />
     </section>
@@ -172,6 +188,8 @@ onMounted(() => void load())
 .business-profile__gallery h2 { color:var(--text); font-size:var(--text-size-title); }
 .business-profile__gallery header p { margin-top:var(--space-1); color:var(--text-muted); font-size:var(--text-size-meta); }
 .business-profile__gallery-form { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) minmax(5rem,.6fr) auto; gap:var(--space-2); align-items:end; }
+.business-profile__gallery-upload { display:flex; gap:var(--space-2); align-items:end; padding-top:var(--space-2); border-top:1px solid var(--border-subtle); }
+.business-profile__gallery-preview { width:3rem; height:3rem; object-fit:cover; border-radius:var(--radius-control); }
 .business-profile__gallery-list { display:grid; gap:0; overflow:hidden; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); }
 .business-profile__selector { display:flex; align-items:center; gap:var(--space-1); color:var(--text-muted); font-size:var(--text-size-meta); font-weight:var(--text-weight-semibold); }
 .business-profile__selector select { min-width:12rem; width:auto; }

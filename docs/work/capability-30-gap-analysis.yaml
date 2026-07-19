@@ -1,0 +1,378 @@
+kind: capability_gap_analysis
+version: 1
+id: capability-30-gap-analysis
+title: Detailed gap analysis for the 30 partial capabilities
+status: active
+source_inventory: docs/capability-inventory.yaml
+source_roadmap: docs/work/capability-implementation-roadmap.yaml
+execution_board: docs/work/capability-30-execution-board.yaml
+purpose: Canonical execution analysis for the active goal that closes every currently partial capability. Mobile, Watch, provider, and runtime gaps are explicit work items rather than implicit assumptions.
+completion_rule: A capability may move to implemented only when its backend/API authority, supported current-client behavior, recovery rules, tests, documentation, and declared acceptance evidence are complete. Deferred native/provider work must be either delivered or explicitly resolved by a product decision before closeout.
+capabilities:
+  - id: platform.authentication
+    name: Account registration, login, session, and logout
+    current: [register, login, auth/me endpoints, backend POST auth/logout with token-hash revocation, scheduled expired-revocation cleanup, Web login/register/logout]
+    missing:
+      backend: [revocation cleanup observability and production metrics]
+      api: [expired/invalid-token error envelope and browser runtime proof]
+      web: [browser acceptance for register-login-authenticated navigation-logout-relogin]
+      vision: [authenticated handoff/session-expiry recovery]
+      native: [iPhone and Watch session bootstrap and logout]
+    done_when: [Web auth journey is browser-verified, session expiry returns safely to login, logout behavior is explicit, client contracts are reusable by native clients]
+    depends_on: []
+    slice: R3-A-platform-authentication
+
+  - id: platform.profile.manage_visibility
+    name: Manage profile visibility
+    current: [field-level PUBLIC/PRIVATE/CIRCLES model, selected-circle persistence, backend redaction, Web settings]
+    missing:
+      backend: [complete consent/read policy matrix for every profile field and viewer relationship, including runtime evidence for every viewer role]
+      api: [typed visibility state and stable denial/recovery responses for all profile reads]
+      web: [browser acceptance for changing visibility and verifying owner/contact/circle/public views]
+      vision: [visibility handoff and runtime acceptance]
+      native: [mobile and Watch settings/presentation]
+    done_when: [all field policies are tested across viewer roles, Web explains effective visibility, unauthorized data never leaks, Vision receives the same policy]
+    depends_on: [platform.authentication]
+    slice: R3-B-profile-visibility-acceptance
+
+  - id: platform.account.recover
+    name: Recover account access
+    current: [password recovery/reset endpoints, Web recovery/reset routes, token service]
+    missing:
+      backend: [production delivery provider, token abuse/rate coordination, audit/observability, replay and invalidation guarantees]
+      api: [generic non-enumerating responses and stable expired/used-token contract]
+      web: [browser valid-token, expired-token, repeated-token, and recovery-error acceptance]
+      native: [mobile recovery surface]
+      operations: [email/SMS provider configuration and delivery monitoring]
+    done_when: [real delivery provider is selected and configured, abuse controls are distributed, all token states are tested and browser-verified]
+    depends_on: [platform.authentication]
+    slice: R3-C-account-recovery
+
+  - id: platform.location.set_preference
+    name: Set a location preference
+    current: [backend preference persistence, Web profile settings form]
+    missing:
+      backend: [complete validation for locality/timezone/precision combinations and audit of consent changes]
+      api: [typed preference response with effective state and invalid-input reasons, provider unavailable/no-result recovery states]
+      web: [browser acceptance for save, reload, invalid input, and recovery]
+      native: [mobile permission and preference lifecycle]
+    done_when: [preference save/read is browser-verified and identical DTO semantics are ready for native clients]
+    depends_on: [platform.authentication]
+    slice: R3-D-location-lifecycle
+
+  - id: platform.location.control_visibility
+    name: Control exact location visibility
+    current: [location visibility policy and Web settings control]
+    missing:
+      backend: [full policy matrix for exact location versus locality and every consuming module]
+      api: [typed consent explanation and safe redacted response states]
+      web: [browser acceptance for public/circle/private changes and no-leakage reads]
+      vision: [consent handoff and confirmation]
+      native: [mobile lifecycle and Watch-safe coarse presentation]
+    done_when: [exact location is never exposed outside policy, each client receives effective visibility and explanation, all role combinations are tested]
+    depends_on: [platform.location.set_preference]
+    slice: R3-D-location-lifecycle
+
+  - id: platform.location.use_current
+    name: Use current device location
+    current: [reverse-lookup endpoint, Web geolocation action, explicit resolution states]
+    missing:
+      backend: [provider failure classification, retry/idempotency semantics, no-storage guarantee for one-shot location]
+      api: [typed permission-denied/provider-unavailable/retry/manual-correction states]
+      web: [browser permission lifecycle and retry acceptance]
+      native: [mobile permission/background rules]
+    done_when: [one-shot current location has explicit consent, safe reverse lookup recovery, and browser verification without leaking exact coordinates]
+    depends_on: [platform.location.control_visibility]
+    slice: R3-D-location-lifecycle
+
+  - id: platform.location.resolve
+    name: Resolve a location label
+    current: [forward and reverse lookup backend services, Web label correction]
+    missing:
+      backend: [deterministic provider fallback and ambiguous-label handling]
+      api: [typed candidate list, selected canonical locality, and provider failure contract]
+      web: [browser acceptance for ambiguous, empty, unavailable, and corrected labels]
+      native: [mobile lifecycle]
+    done_when: [ambiguous labels never silently guess, selected result is canonical and reusable by discovery/search]
+    depends_on: [platform.location.set_preference]
+    slice: R3-D-location-lifecycle
+
+  - id: platform.location
+    name: Location preferences, current location, and locality-aware discovery
+    current: [location module, preference/read model, Web recovery states]
+    missing:
+      backend: [one shared locality context used consistently by discovery and privacy policy]
+      api: [aggregate context DTO with source, precision, consent, resolution, and recovery state]
+      web: [retry/manual correction completion path after provider failure]
+      native: [full mobile lifecycle]
+    done_when: [all location capabilities consume one backend context and no client derives locality or privacy rules]
+    depends_on: [platform.location.set_preference, platform.location.control_visibility, platform.location.use_current, platform.location.resolve]
+    slice: R3-D-location-lifecycle
+
+  - id: platform.activity
+    name: Viewer-scoped activity and task resume
+    current: [viewer-scoped activity feed for Work news, Vision, Chat, and Things borrow requests, backend primary actions, dismiss endpoint, Web activity surface]
+    missing:
+      backend: [event projections for remaining modules beyond quest news, Vision conversations, Chat, and Things, consistent resume lifecycle]
+      api: [uniform source/type/action/recovery DTO for every activity family]
+      web: [browser recovery acceptance and complete empty/error/retry states]
+      vision: [dismiss/resume mutation parity]
+      native: [mobile and Watch activity presentation]
+    done_when: [all supported module events project into one safe feed and every item opens or recovers through a typed action]
+    depends_on: [platform.authentication]
+    slice: R3-E-activity-projection
+
+  - id: vision.task.confirm
+    name: Confirm a guided Vision action
+    current: [review/confirmation states, guarded action flow, typed responses]
+    missing:
+      backend: [adapter-wide confirmation and stale-context contract, production rollout beyond feature flags]
+      api: [uniform confirmation token/action payload and invalidation semantics, typed failureCode and retryable metadata]
+      web: [consistent review/error/retry rendering for every action family]
+      vision: [adapter-wide execution acceptance]
+      native: [device-specific confirmation later]
+    done_when: [every supported mutation requires and validates backend-owned confirmation, with deterministic stale/failure recovery]
+    depends_on: [platform.authentication, platform.profile.manage_visibility]
+    slice: R4-A-vision-failure-contract
+
+  - id: vision.discovery.search
+    name: Search product entities through Vision
+    current: [Vision search/read pipeline and selected entity discovery]
+    missing:
+      backend: [browser/runtime proof for family-filter interaction and native client consumption]
+      api: [versioned result family contract with pagination and ambiguity metadata]
+      web: [typed handoff for result collection and filter state]
+      vision: [voice/text parity for filters and clarification]
+    done_when: [Vision can search supported families, clarify ambiguity, filter/compare safely, and never infer unauthorized existence]
+    depends_on: [vision.task.confirm, things.listings, business.profile.gallery_manage, chat.attachments]
+    slice: R4-B-vision-discovery
+
+  - id: vision.discovery.open_detail
+    name: Open a discovered entity detail
+    current: [some typed Vision-to-Web detail handoffs]
+    missing:
+      backend: [browser/runtime proof for every supported detail handoff and native route consumption]
+      api: [one versioned detail handoff contract with return target and context]
+      web: [canonical detail routes for every supported family]
+      vision: [runtime acceptance for direct and ambiguous detail requests]
+    done_when: [an authorized unique result always opens its canonical detail surface with safe return to Vision]
+    depends_on: [vision.discovery.search]
+    slice: R4-B-vision-discovery
+
+  - id: vision.create_quest
+    name: Voice/text guided quest creation with review and confirmation
+    current: [guided create flow, backend quest creation action, typed workflowState and allowedActions contract]
+    missing:
+      backend: [complete multi-turn correction and validation state machine]
+      api: [browser/runtime proof that clients consume typed draft/review/confirm/cancel/failed states]
+      web: [review and correction parity with standard Work create surface]
+      vision: [ambiguous multi-turn and feature-flag rollout acceptance]
+    done_when: [user can create a quest from text or voice only after backend review and confirmation, including recoverable corrections]
+    depends_on: [vision.task.confirm, work.quest.manage_workers]
+    slice: R4-A-vision-failure-contract
+
+  - id: vision.read_discovery
+    name: Read-only quest and cross-entity discovery through Vision
+    current: [read-only Vision discovery and typed result rendering]
+    missing:
+      backend: [complete entity-family coverage and browser/runtime proof for comparison/filter primitives; inaccessible/stale recovery remains open]
+      api: [consistent ambiguous, inaccessible, and stale result states; empty and no-match recovery states are now typed]
+      web: [detail/collection handoff for every supported result family]
+      vision: [explicit comparison and filtering interaction]
+    done_when: [read-only requests explain results and limitations consistently across all supported modules]
+    depends_on: [vision.discovery.search, vision.discovery.open_detail]
+    slice: R4-B-vision-discovery
+
+  - id: vision.execution
+    name: Typed review-gated execution for supported mutations
+    current: [typed adapters, review gates, execution endpoints]
+    missing:
+      backend: [consistent adapter failure, retry, idempotency, stale-context, and authorization behavior]
+      api: [shared execution result/error contract across adapters, typed failureCode and retryable metadata]
+      vision: [user-visible failure recovery for every adapter]
+      web: [canonical detail refresh after Vision mutation]
+    done_when: [all supported adapters use one backend execution contract and every failure has a safe next action]
+    depends_on: [vision.task.confirm]
+    slice: R4-A-vision-failure-contract
+
+  - id: work.quest.manage_workers
+    name: Manage approved worker assignment and slots
+    current: [permission-checked release/replace actions, backend-prepared allowed actions, typed stale conflict codes, conflict recovery, Web applications surface]
+    missing:
+      backend: [complete lifecycle coverage for all assignment/slot edge cases]
+      api: [browser/native consumption of uniform allowed-actions and typed conflict reason DTO]
+      web: [browser acceptance for release, replace, stale conflict, and refresh]
+      native: [mobile presentation]
+    done_when: [manager can safely assign/release/replace workers and every stale state recovers without duplicate mutation]
+    depends_on: [platform.authentication]
+    slice: R2-A-work-assignment-followup
+
+  - id: chat.realtime
+    name: Realtime delivery, presence, typing, receipts, and read state
+    current: [WebSocket delivery, typed CONNECTED/resync signal, Web client connection-state consumption, presence, typing, receipts, sync/resync, initial/visibility/network recovery]
+    missing:
+      backend: [broader reconnect ordering and duplicate delivery guarantees]
+      api: [browser/native consumption of explicit disconnect/degraded/reconnect state contract]
+      web: [browser reconnect scenarios beyond the initial connection and explicit client-state consumption]
+      native: [background delivery and lifecycle]
+    done_when: [messages and presence recover deterministically after disconnect, tab suspension, duplicate events, and stale cursors]
+    depends_on: [platform.authentication]
+    slice: R2-B-chat-realtime-followup
+
+  - id: chat.attachments
+    name: Image and attachment upload, display, and retention behavior
+    current: [backend validation/storage/retention, Web upload, typed availability/unavailable recovery, backend URL refresh access contract]
+    missing:
+      backend: [preview metadata policy]
+      api: [browser/native consumption of attachment access/refresh contract]
+      web: [richer image/document preview and click-time expiry recovery]
+      native: [mobile and Watch attachment strategy]
+    done_when: [upload, display, expiry refresh, unavailable recovery, retention, and client-safe metadata are all verified]
+    depends_on: [chat.realtime]
+    slice: R2-C-chat-media-followup
+
+  - id: chat.message.attach
+    name: Upload and send a chat attachment
+    current: [backend upload/consume-on-send/cancel flow, typed upload lifecycle, Web attach/send/remove flow, Vision handoff marker]
+    missing:
+      backend: [client-binary handoff contract and stronger idempotency/retry semantics]
+      api: [browser/native consumption of upload session and send attachment contract]
+      web: [upload retry/cancel and expired-upload recovery acceptance]
+      vision: [binary upload handoff]
+      native: [mobile presentation]
+    done_when: [attachment upload can be retried/cancelled safely, consumed once, and sent from every supported current client]
+    depends_on: [chat.attachments]
+    slice: R2-C-chat-media-followup
+
+  - id: chat.conversation.create_group
+    name: Create a group conversation
+    current: [backend eligibility preflight and authoritative group creation, typed denial reasons, Web group creation]
+    missing:
+      backend: [complete group eligibility explanation and edge-case membership tests]
+      api: [browser/native consumption of typed denial reasons and participant synchronization result]
+      web: [browser acceptance for success, ineligible contacts, duplicate/concurrent changes]
+      native: [mobile presentation]
+    done_when: [eligible users can create groups and every denied or stale action explains the backend reason and recovers]
+    depends_on: [chat.realtime]
+    slice: R2-B-chat-groups-followup
+
+  - id: chat.conversation.leave
+    name: Leave a group conversation
+    current: [backend leave and owner-transfer rules, typed membership transition result, Web leave and inbox refresh]
+    missing:
+      backend: [complete concurrent owner/member edge-case coverage]
+      api: [browser/native consumption of typed membership transition result and no-access response]
+      web: [browser acceptance for leave, owner transfer, last-member constraints, and stale thread recovery]
+      native: [mobile presentation]
+    done_when: [leave behavior preserves minimum-member/owner rules and every client exits stale threads safely]
+    depends_on: [chat.conversation.create_group]
+    slice: R2-B-chat-groups-followup
+
+  - id: chat.message.view_attachment
+    name: Open a chat attachment
+    current: [authorized message attachment resolution, Web open link, unavailable state]
+    missing:
+      backend: [richer preview metadata policy]
+      api: [browser/native consumption of refresh response with availability, expiry, content metadata, and access denial]
+      web: [image/document inline preview, click-time refresh, browser acceptance]
+      native: [device presentation contract]
+    done_when: [authorized users can open or refresh valid media, and expired/unavailable media has a recoverable explanation]
+    depends_on: [chat.attachments]
+    slice: R2-C-chat-media-followup
+
+  - id: business.profile.gallery_manage
+    name: Manage business gallery images
+    current: [business profile and offering surfaces, owner URL CRUD, multipart image upload, storage-backed public active-object read]
+    missing:
+      backend: [provider-independent retention job/observability and non-local provider deletion contract]
+      api: [typed gallery item/order/availability DTO is present; mutation response browser evidence remains]
+      web: [direct reorder interaction, upload recovery/delete runtime proof]
+      native: [later presentation]
+    done_when: [business owners can manage gallery images safely, public viewers receive only authorized available media, failures recover]
+    depends_on: [platform.authentication]
+    slice: R2-E-business-gallery
+
+  - id: things.listings
+    name: Offer, discover, request, and return shared things
+    current: [listing CRUD, discovery/detail, borrow request, owner approve/decline, cancel, return Web flow, typed listing actions, typed borrow lifecycle state/actions]
+    missing:
+      backend: [complete retention edge-case coverage and explicit stale decision conflict code]
+      api: [browser consumption evidence for uniform lifecycle contract]
+      web: [browser acceptance across owner/borrower lifecycle and stale recovery]
+      native: [mobile/device runtime evidence]
+    done_when: [owner and borrower can complete the full lifecycle with backend state authority and recoverable conflicts]
+    depends_on: [platform.authentication]
+    slice: R2-D-things-lifecycle
+
+  - id: cross_module.search.discover
+    name: Search across product modules
+    current: [shared /search endpoint, typed heterogeneous quest/circle/user/application/thing/business results, canonical detail routes, relevance ordering, pagination, Web retry/empty states, Vision reuse]
+    missing:
+      backend: [production-scale indexing/ranking and browser/runtime authorization evidence]
+      api: [explicit contract version field and native presentation]
+      web: [browser acceptance across all supported families and filter handoff]
+      vision: [voice/text runtime acceptance across business and things]
+    done_when: [one authorized query returns consistently ranked, paginated, typed results across supported modules]
+    depends_on: [vision.read_discovery, things.listings, business.profile.gallery_manage]
+    slice: R5-A-unified-search
+
+  - id: cross_module.search.filter
+    name: Filter cross-module results
+    current: [validated family filter on /search, selected family echo, shared Web search control, stable pagination and empty recovery]
+    missing:
+      backend: [browser/runtime evidence and broader entity-specific filter vocabulary]
+      api: [explicit versioned filter schema metadata]
+      web: [browser acceptance and filter recovery evidence]
+      vision: [spoken filter and clarification flow]
+    done_when: [filters are consistent where applicable, impossible filters are explained, and results/pagination remain stable]
+    depends_on: [cross_module.search.discover]
+    slice: R5-A-unified-search
+
+  - id: cross_module.notification.receive
+    name: Receive relevant product notifications
+    current: [permission-scoped notification inbox, attention/activity projection, realtime unread-count signals, typed read/delivery/recovery metadata]
+    missing:
+      backend: [multi-channel delivery worker, retry/dead-letter observability, cross-module event projection]
+      api: [explicit retry mutation and delivery attempt history]
+      web: [notification center browser acceptance and reconnect behavior]
+      native: [push and Watch delivery clients]
+      operations: [delivery observability]
+    done_when: [supported events produce deduplicated, permission-safe notifications with visible delivery/read/retry state]
+    depends_on: [platform.activity, chat.realtime]
+    slice: R5-B-notification-delivery
+
+  - id: cross_module.notification.manage_preferences
+    name: Manage notification preferences
+    current: [preference endpoints, complete category/channel matrix, required-system enforcement, provider availability/effective-state metadata, Web settings surface]
+    missing:
+      backend: [push/email provider integration and enforcement for future non-Work event producers]
+      api: [explicit capability version and mutation result error codes]
+      web: [browser runtime acceptance for save/reload/validation]
+      operations: [push/email provider integrations]
+    done_when: [preferences are enforced consistently and unavailable channels are explicit rather than silently accepted]
+    depends_on: [cross_module.notification.receive]
+    slice: R5-B-notification-delivery
+
+  - id: cross_module.mobile_watch
+    name: Mobile and Watch presentation of core voice and action flows
+    current: [backend/device-neutral DTOs, Vision handoff/readiness contracts, native-presentation-v1 compact MOBILE/WATCH contract]
+    missing:
+      backend: [background delivery execution and device permission state]
+      api: [native client consumption and runtime evidence for versioned presentation contract]
+      native: [actual iPhone app, Watch app, permissions, offline/background behavior, accessibility]
+      acceptance: [device runtime tests]
+    done_when: [native clients exist and consume the shared backend contracts for core voice/action flows with device acceptance]
+    depends_on: [vision.execution, cross_module.handoff.mobile, cross_module.handoff.watch]
+    slice: R6-native-clients
+
+  - id: cross_module.search
+    name: Unified prompt and visual discovery across product modules
+    current: [Vision prompt discovery, Web module search surfaces, shared search/filter orchestration, explicit search-v1 contract]
+    missing:
+      backend: [production-scale index and event-driven refresh]
+      api: [native consumption and explicit error-code catalog]
+      web: [one visual discovery entry point with consistent empty/error states]
+      vision: [same result semantics and detail handoffs]
+    done_when: [text, voice, and visual search use one backend-owned discovery contract across supported modules]
+    depends_on: [cross_module.search.discover, cross_module.search.filter]
+    slice: R5-A-unified-search

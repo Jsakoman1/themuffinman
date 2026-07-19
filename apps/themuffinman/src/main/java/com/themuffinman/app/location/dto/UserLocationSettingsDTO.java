@@ -2,6 +2,7 @@ package com.themuffinman.app.location.dto;
 
 import com.themuffinman.app.location.model.ExactLocationVisibilityScope;
 import com.themuffinman.app.location.model.UserLocationMode;
+import com.themuffinman.app.location.model.LocationResolutionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class UserLocationSettingsDTO {
     private UserLocationMode mode;
     private Integer defaultRadiusKm;
     private boolean hasCoordinates;
+    private LocationResolutionStatus resolutionStatus;
     @Nullable
     private String sharingSummary;
     @Nullable

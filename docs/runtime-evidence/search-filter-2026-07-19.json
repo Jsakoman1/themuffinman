@@ -1,0 +1,13 @@
+{
+  "capabilities": ["cross_module.search.discover", "cross_module.search.filter"],
+  "baseUrl": "http://localhost:5173",
+  "route": "/work",
+  "execution": "authenticated Playwright Chromium",
+  "query": "Kosenje",
+  "resultCount": 1,
+  "filteredCount": 1,
+  "selectedFamily": "quest",
+  "availableFamilies": ["quest", "circle", "user", "application", "thing", "business"],
+  "failedResponses": [],
+  "status": "passed"
+}

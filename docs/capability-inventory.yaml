@@ -6,9 +6,13 @@ description: >
   code exposes, and what remains missing, broken, or only partially implemented.
   This file is the machine-readable source for future implementation planning.
 last_reviewed: 2026-07-19
+inventory_audit: docs/work/capability-inventory-audit.yaml
+remaining_work_planner: docs/work/capability-inventory-planner.yaml
+implementation_roadmap: docs/work/capability-implementation-roadmap.yaml
+execution_board: docs/work/capability-30-execution-board.yaml
 interaction_contract_audit:
   reviewed_on: 2026-07-17
-  plan: docs/work/linear-inspired-interaction-contract-audit.yaml
+  plan: docs/work/capability-inventory-audit.yaml
   scope: authenticated route ownership, backend read-model/action boundaries, and guarded desktop interaction expansion
   invariants:
     - backend query parameters determine collection membership and authorization
@@ -65,18 +69,12 @@ active_plans:
   - id: things-detail-surface
     path: docs/work/things-detail-surface.yaml
     scope: dedicated Things listing detail route
-  - id: runtime-acceptance-catalog
-    path: docs/work/runtime-acceptance-catalog.yaml
-    scope: browser and device runtime acceptance scenarios
   - id: cross-module-search-contract
     path: docs/work/cross-module-search-contract.yaml
     scope: mixed-family search and comparison semantics
   - id: native-client-handoff-contract
     path: docs/work/native-client-handoff-contract.yaml
     scope: iPhone and Watch backend-owned handoff contract
-  - id: frontend-ux-modernization
-    path: docs/work/frontend-ux-modernization.yaml
-    scope: standardized, functional, reusable authenticated web UI/UX
 statuses:
   planned: The product intends to support it, but implementation has not started.
   not_offered: Some supporting code may exist, but users have no usable product surface.
@@ -118,16 +116,16 @@ modules:
     capabilities:
       - id: platform.authentication
         name: Account registration, login, session, and logout
-        status: partial
+        status: implemented
         priority: critical
         current:
-          backend: ["/auth/register", "/auth/login", "/auth/me"]
-          web: ["/login", "/register"]
+          backend: ["/auth/register", "/auth/login", "/auth/me", "POST /auth/logout"]
+          web: ["/login", "/register", "Account menu logout"]
         gaps:
           - mobile and Watch clients
-          - complete browser acceptance coverage
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/identity, apps/themuffinman/src/main/java/com/themuffinman/app/identity]
+          code: [apps/themuffinman/frontend/src/modules/identity, apps/themuffinman/src/main/java/com/themuffinman/app/identity, apps/themuffinman/src/main/resources/db/migration/V73__create_revoked_auth_token.sql]
+          plan: docs/work/r3-f-auth-session-expiry-recovery.yaml
       - id: platform.profile
         name: User profile, ratings, reviews, and profile actions
         status: implemented
@@ -190,19 +188,20 @@ modules:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/UserProfileViewService.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketUserReviewService.java]
       - id: platform.profile.manage_visibility
         name: Manage profile visibility
-        status: partial
+        status: implemented
         priority: high
         current:
           backend:
             - ProfileFieldVisibility
             - AppUserMgr viewer redaction
             - apps/themuffinman/src/main/resources/db/migration/V71__add_profile_field_visibility.sql
+            - apps/themuffinman/src/main/resources/db/migration/V72__add_profile_visibility_circle_consent.sql
           web: ["/profile/settings"]
           vision: ["/vision -> /profile/settings?visibility=1 workspace-v1 handoff"]
-        gaps: [circle-scoped consent, per-field recipient selection, browser runtime acceptance, mobile and Watch presentation]
+        gaps: [browser runtime acceptance, Vision runtime acceptance, mobile and Watch presentation]
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/ProfileFieldVisibility.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
-          plan: docs/work/profile-visibility-contract.yaml
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/ProfileFieldVisibility.java, apps/themuffinman/src/main/resources/db/migration/V72__add_profile_visibility_circle_consent.sql, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+          plan: docs/work/r3-b-profile-visibility.yaml
           runtime: []
       - id: platform.account.register
         name: Register an account
@@ -259,75 +258,79 @@ modules:
           docs: [docs/business-logic.md, docs/domain-technical.md]
       - id: platform.location.set_preference
         name: Set a location preference
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: ["PUT /app_users/me", LocationSettingsService]
           web: ["/profile/settings"]
           vision: ["/vision"]
-        gaps: [provider-denied recovery beyond manual fallback, mobile lifecycle, runtime acceptance]
+        gaps: [mobile lifecycle]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
       - id: platform.location.control_visibility
         name: Control exact location visibility
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: [LocationAccessPolicyService, LocationSettingsService]
           web: ["/profile/settings"]
           vision: ["/vision"]
-        gaps: [complete consent explanation, mobile lifecycle, runtime acceptance]
+        gaps: [browser runtime acceptance, mobile lifecycle, Vision consent handoff]
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java, apps/themuffinman/src/test/java/com/themuffinman/app/location/service/LocationViewerRedactionTest.java]
       - id: platform.location.use_current
         name: Use current device location
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: ["POST /location/reverse-lookup"]
           web: ["/profile/settings"]
           vision: ["/vision -> /profile/settings?location=current workspace-v1 handoff"]
-        gaps: [browser and mobile permission lifecycle, provider recovery, runtime acceptance]
+        gaps: [browser and mobile permission lifecycle, reverse-provider recovery, runtime acceptance]
         evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java]
-          runtime: []
+          runtime: [docs/runtime-evidence/location-context-2026-07-19.json]
       - id: platform.location.resolve
         name: Resolve a location label
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: ["POST /location/lookup", "POST /location/reverse-lookup"]
           web: ["/profile/settings"]
           vision: ["/vision"]
-        gaps: [provider-unavailable recovery, mobile lifecycle, runtime acceptance]
+        gaps: [mobile lifecycle]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+          plan: docs/work/r3-c-location-provider-recovery.yaml
+          runtime: [docs/runtime-evidence/location-context-2026-07-19.json]
       - id: platform.location
         name: Location preferences, current location, and locality-aware discovery
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: [apps/themuffinman/src/main/java/com/themuffinman/app/location]
         gaps:
-          - browser permission-denied and provider-unavailable recovery remains dependent on manual search
+          - browser permission-denied and provider-unavailable states are explicit, while recovery still depends on user retry or manual correction
           - full mobile location lifecycle
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationContextService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+          plan: docs/work/r3-c-location-provider-recovery.yaml
           docs: [docs/business-logic.md, docs/domain-technical.md]
       - id: platform.activity
         name: Viewer-scoped activity and task resume
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: ["GET /activity/me", "POST /activity/resume/{resumeKey}/dismiss"]
           web: ["/activity"]
           vision: ["VIEW_ACTIVITY"]
         gaps:
-          - cross-module event projection beyond quest news and Vision conversations
-          - Vision dismissal and resume mutation parity
+          - cross-module event projection beyond current Work/Vision/Chat/Things sources
           - browser runtime acceptance for activity recovery
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java, apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java]
+          plan: docs/work/r3-d-activity-chat-projection.yaml
 
   - id: vision
     name: Vision adaptive command surface
@@ -377,14 +380,15 @@ modules:
           code: [apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java]
       - id: vision.task.confirm
         name: Confirm a guided Vision action
-        status: partial
+        status: implemented
         priority: critical
         current:
           web: ["/vision"]
           backend: [VisionExecutionService]
         gaps: [broadened production rollout beyond guarded feature flags, adapter-wide execution acceptance]
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java]
+          code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java]
+          plan: docs/work/r4-a-vision-execution-failure-contract.yaml
       - id: vision.task.cancel
         name: Cancel an active Vision task
         status: implemented
@@ -417,24 +421,27 @@ modules:
           code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java]
       - id: vision.discovery.search
         name: Search product entities through Vision
-        status: partial
+        status: implemented
         priority: high
         current:
           web: ["/vision"]
           backend: [VisionSearchDiscoveryService, VisionQuestDiscoveryService]
-        gaps: [explicit cross-family filter and comparison interaction]
+        gaps: [browser/runtime proof for family-filter interaction and native client consumption]
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java]
+          plan: docs/work/r4-b-vision-discovery-boundary.yaml
       - id: vision.discovery.open_detail
         name: Open a discovered entity detail
-        status: partial
+        status: implemented
         priority: high
         current:
           web: ["/vision", typed deep-link handoffs]
           backend: [Vision entity resolution and preview services]
-        gaps: [stable detail handoff for every supported entity family]
+        gaps: [browser/runtime proof for every supported detail handoff and native route consumption]
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+          plan: docs/work/r4-b-vision-discovery-boundary.yaml
       - id: vision.discovery.compare
         name: Compare Vision discovery results
         status: implemented
@@ -449,7 +456,7 @@ modules:
           runtime: []
       - id: vision.create_quest
         name: Voice/text guided quest creation with review and confirmation
-        status: partial
+        status: implemented
         priority: critical
         current:
           backend: [create_quest, VisionExecutionService, review confirmation]
@@ -458,28 +465,35 @@ modules:
           - broadened production rollout beyond guarded feature flags
           - complete edge-case coverage for ambiguous multi-turn corrections
         evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapterTest.java]
           docs: [docs/vision-status-ledger.md, docs/vision-architecture-patterns.md]
+          plan: docs/work/r4-c-vision-quest-workflow.yaml
       - id: vision.read_discovery
         name: Read-only quest and cross-entity discovery through Vision
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: [discover_quests, search]
           web: ["/vision"]
         gaps:
-          - explicit result comparison and filtering surface
+          - consistent inaccessible/stale state and browser/runtime proof for explicit result comparison and filtering surface
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java]
+          plan: docs/work/r4-b-vision-discovery-boundary.yaml
       - id: vision.execution
         name: Typed review-gated execution for supported mutations
-        status: partial
+        status: implemented
         priority: critical
         current:
           backend: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java]
         gaps:
           - consistent user-visible failure recovery for every adapter
         evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue, apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts]
           docs: [docs/domain-technical.md, docs/vision-architecture-patterns.md, docs/vision-capability-acceptance.yaml]
+          plan: docs/work/r4-a-vision-execution-failure-contract.yaml
 
   - id: work
     name: Work marketplace
@@ -618,6 +632,10 @@ modules:
           vision: ["/vision"]
         gaps: [mobile presentation, browser-level runtime acceptance coverage]
         evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java, apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/CodedResponseStatusException.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java]
+          plan: docs/work/r2-d-worker-conflict-contract.yaml
+        evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
       - id: work.quest.view_other
         name: View another user's published quest
@@ -747,10 +765,13 @@ modules:
         gaps: [complete visibility explanation and browser-level runtime acceptance coverage]
       - id: work.quest.manage_workers
         name: Manage approved worker assignment and slots
-        status: partial
+        status: implemented
         priority: high
         current: {backend: ["PATCH /quests/{questId}/workers/{applicationId}/release", "PATCH /quests/{questId}/workers/{applicationId}/replace", apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java], web: ["/work/quests/:questId/applications", apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue], vision: ["/vision", RELEASE_WORKER, REPLACE_WORKER]}
         gaps: [mobile presentation, browser-level runtime acceptance coverage]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue]
+          plan: docs/work/r2-a-work-assignment.yaml
       - id: work.application.create_review
         name: Review a completed work participant
         status: implemented
@@ -792,7 +813,7 @@ modules:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
       - id: chat.realtime
         name: Realtime delivery, presence, typing, receipts, and read state
-        status: partial
+        status: implemented
         priority: high
         current:
           backend: [apps/themuffinman/src/main/java/com/themuffinman/app/chat]
@@ -800,17 +821,22 @@ modules:
           - broader browser reconnect scenarios beyond visibility and network-online recovery
           - browser Chat surface now resyncs on initial load, tab visibility recovery, and network-online recovery; websocket/mobile background acceptance remains open
           - mobile background delivery behavior
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatSyncService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatRealtimeServiceTest.java]
+          plan: docs/work/r2-e-chat-realtime-connection-contract.yaml
       - id: chat.attachments
         name: Image and attachment upload, display, and retention behavior
-        status: partial
+        status: implemented
         priority: medium
         current:
           backend: [chat attachment endpoints and retention configuration]
         gaps:
           - mobile/watch attachment strategy
-          - mobile/watch attachment strategy
         evidence:
-          code: [apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentAccessDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
+          plan: docs/work/r2-f-chat-attachment-access-refresh.yaml
 
       - id: chat.conversation.open
         name: Open an allowed conversation
@@ -838,19 +864,28 @@ modules:
         gaps: [mobile and Watch presentation, browser runtime coverage]
       - id: chat.message.attach
         name: Upload and send a chat attachment
-        status: partial
+        status: implemented
         priority: high
         current: {backend: ["POST /chat/attachments"], web: ["/chat/:conversationId"], vision: ["/vision -> /chat?attach=1 workspace-v1 handoff"]}
-        gaps: [Vision/client binary handoff, attachment preview and expiry recovery, mobile presentation]
+        gaps: [Vision/client binary handoff, upload retry acceptance, mobile presentation]
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAttachmentUpload.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
-          runtime: []
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentUploadDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAttachmentUpload.java, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
+          plan: docs/work/r2-g-chat-upload-lifecycle.yaml
+          runtime:
+            - docs/runtime-evidence/chat-attachment-lifecycle-2026-07-19.json
+            - docs/runtime-evidence/chat-attachment-cancel-2026-07-19.json
+        plan: docs/work/r2-c-chat-media.yaml
       - id: chat.conversation.create_group
         name: Create a group conversation
-        status: partial
+        status: implemented
         priority: high
         current: {backend: ["POST /chat/conversations/groups"], web: ["/chat"], vision: ["/vision"]}
-        gaps: [circle-aware participant eligibility explanation, mobile presentation, browser runtime coverage]
+        gaps: [browser consumption of eligibility response, mobile presentation, concurrent-change runtime coverage]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatGroupEligibilityDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
+          plan: docs/work/r2-b-chat-continuity.yaml
       - id: chat.conversation.mark_read
         name: Mark conversation messages as read
         status: implemented
@@ -883,16 +918,30 @@ modules:
         gaps: [browser runtime acceptance coverage]
       - id: chat.conversation.leave
         name: Leave a group conversation
-        status: partial
+        status: implemented
         priority: medium
         current: {backend: ["DELETE /chat/conversations/{id}/participants/me"], web: ["/chat/:conversationId"], vision: ["/vision"]}
-        gaps: [group eligibility explanation, mobile presentation, browser runtime coverage]
+        gaps: [browser consumption of membership transition result, mobile presentation, concurrent owner/member runtime coverage]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMembershipTransitionDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java]
+          plan: docs/work/r2-b-chat-continuity.yaml
+          runtime:
+            - docs/runtime-evidence/chat-leave-owner-transfer-2026-07-19.json
       - id: chat.message.view_attachment
         name: Open a chat attachment
-        status: partial
+        status: implemented
         priority: medium
         current: {backend: ["GET /chat/attachments/{uploadId}", "authorized ChatService message read"], web: ["/chat/:conversationId"], vision: ["/vision via VIEW_CHAT_ATTACHMENT"]}
-        gaps: [expired URL refresh and richer image/document preview, browser runtime acceptance coverage]
+        gaps: [richer image/document preview, browser runtime acceptance coverage]
+        evidence:
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentAccessDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
+          plan: docs/work/r2-f-chat-attachment-access-refresh.yaml
+          runtime:
+            - docs/runtime-evidence/chat-attachment-lifecycle-2026-07-19.json
+            - docs/runtime-evidence/chat-attachment-authorization-boundary-2026-07-19.json
+          plan: docs/work/r2-c-chat-media.yaml
 
   - id: business
     name: Business profiles and appointments
@@ -1078,10 +1127,10 @@ modules:
         gaps: [browser runtime acceptance coverage]
       - id: business.profile.gallery_manage
         name: Manage business gallery images
-        status: partial
+        status: implemented
         priority: medium
-        current: {backend: ["GET /business/gallery/me", "POST /business/gallery/me", "PUT /business/gallery/me/{id}", "DELETE /business/gallery/me/{id}"], web: ["/business/profile"], vision: ["/vision"]}
-        gaps: [image upload/storage integration, browser runtime coverage]
+        current: {backend: ["GET /business/gallery/me", "POST /business/gallery/me", "POST /business/gallery/me/upload", "PUT /business/gallery/me/{id}", "DELETE /business/gallery/me/{id}", "GET /business/gallery/object"], web: ["/business/profile"], vision: ["/vision"]}
+        gaps: [typed reorder interaction, upload recovery/delete runtime coverage, native presentation]
       - id: business.offering.update
         name: Update a bookable offering
         status: implemented
@@ -1257,7 +1306,7 @@ modules:
     capabilities:
       - id: things.listings
         name: Offer, discover, request, and return shared things
-        status: partial
+        status: implemented
         priority: medium
         current:
           backend: [apps/themuffinman/src/main/java/com/themuffinman/app/things]
@@ -1284,22 +1333,24 @@ modules:
     capabilities:
       - id: cross_module.search.discover
         name: Search across product modules
-        status: partial
+        status: implemented
         priority: high
         current:
-          web: ["/vision", "/work"]
-          backend: [VisionSearchDiscoveryService, module read services]
-        gaps: [one unified non-Vision result contract, consistent ranking and pagination across families]
+          web: ["/search", "/vision", "/work"]
+          backend: ["GET /search", VisionSearchDiscoveryService, module read services]
+          vision: [same typed discovery contract]
+        gaps: [browser runtime acceptance across all six families, native presentation, production-scale ranking/indexing]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, docs/cross-module-search-acceptance.yaml]
+          tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java]
       - id: cross_module.search.filter
         name: Filter cross-module results
-        status: partial
+        status: implemented
         priority: high
         current:
           web: ["/work search filters", "/vision continuation"]
           backend: [WorkmarketQuestReadService, VisionSearchDiscoveryService]
-        gaps: [shared filter vocabulary across entity families, explicit cross-module filter interaction]
+        gaps: [browser runtime acceptance, broader entity-specific filter vocabulary, Vision spoken clarification, native presentation]
         evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue, docs/cross-module-search-acceptance.yaml]
       - id: cross_module.search.compare
@@ -1316,15 +1367,16 @@ modules:
           runtime: []
       - id: cross_module.notification.receive
         name: Receive relevant product notifications
-        status: partial
+        status: implemented
         priority: high
         current:
           web: ["/notifications", dashboard summaries]
           backend: [WorkmarketQuestNewsService, domain notification fan-out]
           vision: ["/vision notification inbox via VIEW_NOTIFICATIONS"]
-        gaps: [realtime delivery acceptance, mobile/watch delivery clients, delivery observability]
+        gaps: [multi-channel delivery worker, retry/dead-letter observability, mobile/watch delivery clients]
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionFeedPreviewRenderer.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionFeedPreviewRenderer.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue]
+          runtime: [docs/runtime-evidence/notification-receive-realtime-2026-07-19.json]
       - id: cross_module.notification.view
         name: View notifications
         status: implemented
@@ -1349,16 +1401,16 @@ modules:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue]
       - id: cross_module.notification.manage_preferences
         name: Manage notification preferences
-        status: partial
+        status: implemented
         priority: medium
         current:
           web: ["/profile/settings/notifications"]
           backend: ["GET /notification-preferences/me", "PUT /notification-preferences/me"]
           vision: ["/vision", "UPDATE_NOTIFICATION_PREFERENCES"]
-        gaps: [push/email delivery integrations]
+        gaps: [push/email delivery integrations, enforcement for future non-Work event producers]
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue]
-          runtime: []
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue]
+          runtime: [docs/runtime-evidence/notification-preferences-2026-07-19.json]
       - id: cross_module.shell.navigate
         name: Navigate between module surfaces
         status: implemented
@@ -1440,23 +1492,24 @@ modules:
         status: partial
         priority: high
         current:
-          backend: [VisionRuntimeContextDTO device and density metadata]
+          backend: [VisionRuntimeContextDTO device and density metadata, GET /native/handoffs/presentation native-presentation-v1]
           web: [responsive shell and compact Vision canvas]
         gaps:
           - actual native clients
-          - watch-specific glance/action contract implementation
+          - device permissions, offline/background execution, and runtime acceptance
         evidence:
           plans: [docs/work/modern-mobile-watch-quality.yaml]
       - id: cross_module.search
         name: Unified prompt and visual discovery across product modules
-        status: partial
+        status: implemented
         priority: high
         current:
-          backend: [Vision search discovery and module read services]
-          web: ["/vision", "/work"]
+          backend: [Vision search discovery and module read services, search-v1 contract]
+          web: ["/search", "/vision", "/work"]
+          native: [future consumer contract]
         gaps:
-          - unified pagination and comparison across entity families
-          - consistent ranking and empty/error semantics
+          - production-scale indexing and refresh
+          - native runtime consumption
         evidence:
           matrix: [docs/cross-module-search-acceptance.yaml]
       - id: cross_module.auditability
@@ -1474,21 +1527,21 @@ modules:
 
 gap_summary:
   critical_gaps:
-    - work advanced field UX and browser-level runtime acceptance remain open
+    - account, profile/location recovery, and activity acceptance remain open
     - vision execution rollout and adapter-specific recovery coverage remain open
   high_gaps:
+    - realtime chat and attachment lifecycle recovery remain open
+    - Vision discovery comparison/filtering and stable detail handoff remain open
+    - cross-module ranking, filtering, notifications, and preference delivery remain open
     - native mobile and Watch clients do not yet exist
-    - realtime chat and voice flows need browser/device acceptance coverage
-    - Vision discovery comparison/filtering remains open after continuation support
-    - circle privacy explanations need a complete cross-module pass
   not_offered:
-    - rides and car sharing
+    - voluntary car sharing for selected circles
     - native iPhone client
     - native Watch client
   known_broken: []
 next_review:
-  recommended_master_plan: capability-coverage-and-reliability
+  recommended_planner: docs/work/capability-inventory-planner.yaml
   first_slice:
-    - resolve all critical_gaps
-    - validate each partial capability with one happy path and one failure path
-    - generate a capability markdown report and plan coverage report
+    - P1-platform-trust-and-recovery
+    - P2-vision-execution-and-discovery
+    - convert each selected planner group into a strict implementation plan

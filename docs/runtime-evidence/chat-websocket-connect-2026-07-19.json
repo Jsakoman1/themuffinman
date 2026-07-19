@@ -1,0 +1,8 @@
+{
+  "capability": "chat.realtime",
+  "route": "/chat",
+  "actions": ["register", "open_chat", "connect_websocket"],
+  "websocketConnected": true,
+  "endpoint": "/ws/chat",
+  "failedResponses": []
+}

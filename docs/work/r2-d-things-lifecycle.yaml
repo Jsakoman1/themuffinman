@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: r2-d-things-lifecycle
+title: Add typed Things lifecycle state and actions
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Make shared Thing lifecycle responses explain state and available actions
+  while retaining backend authorization and transition rechecks.
+tasks:
+- id: things-lifecycle-contract
+  title: Add typed request state explanation and lifecycle actions
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingAllowedActionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=ThingSharingServiceTest test
+- id: things-lifecycle-docs
+  title: Record state/action semantics and remaining runtime evidence
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  validation: make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: things-lifecycle-contract
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=ThingSharingServiceTest test
+  ranAt: '2026-07-19T14:13:27Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingAllowedActionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: things-lifecycle-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T14:14:01Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 270
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -37,6 +37,8 @@ public class ChatMessageDTO {
     @Nullable
     private String attachmentUrlExpiresAt;
     @Nullable
+    private String attachmentAvailability;
+    @Nullable
     private Integer attachmentSizeBytes;
     @Nullable
     private Long replyToMessageId;

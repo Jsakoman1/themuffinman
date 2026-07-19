@@ -1,0 +1,14 @@
+{
+  "capabilities": ["chat.attachments", "chat.message.attach"],
+  "actions": ["upload", "cancel", "repeat_cancel"],
+  "statuses": {
+    "register": 200,
+    "upload": 200,
+    "cancel": 200,
+    "repeatCancel": 200
+  },
+  "uploadState": "READY_TO_SEND",
+  "cancelState": "CANCELLED",
+  "repeatState": "CANCELLED",
+  "failedResponses": []
+}

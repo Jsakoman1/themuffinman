@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import {RouterLink} from "vue-router"
 import {currentUser, logoutUser} from "../../identity/auth.ts"
+import {authApi} from "../../identity/api/authApi.ts"
 
-const handleLogout = () => {
-  logoutUser()
-  window.location.assign("/login")
+const handleLogout = async () => {
+  try {
+    await authApi.logout()
+  } finally {
+    logoutUser()
+    window.location.assign("/login")
+  }
 }
 </script>
 

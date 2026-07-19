@@ -1,0 +1,143 @@
+kind: work
+version: 1
+id: r4-d-vision-discovery-result-states
+title: Add typed Vision discovery result and recovery states
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Make empty and no-match Vision discovery outcomes recoverable through a
+  shared backend-owned result contract.
+tasks:
+- id: vision-discovery-result-states
+  title: Add result state and recovery action metadata
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSearchDiscoveryDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionSearchDiscoveryServiceTest
+    test
+- id: vision-quest-discovery-pagination-recovery
+  title: Make quest discovery pagination and recovery metadata page-aware
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryServiceTest.java
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionQuestDiscoveryServiceTest,VisionConversationServiceTest
+    test; cd frontend && npm run generate:contracts && npm run type-check && npm run
+    build
+- id: vision-discovery-result-docs
+  title: Document discovery recovery semantics
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: vision-discovery-result-states
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionSearchDiscoveryServiceTest
+    test
+  ranAt: '2026-07-19T15:11:15Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSearchDiscoveryDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-quest-discovery-pagination-recovery
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionQuestDiscoveryServiceTest,VisionConversationServiceTest
+    test; cd frontend && npm run generate:contracts && npm run type-check && npm run
+    build
+  ranAt: '2026-07-19T15:11:58Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryServiceTest.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-g54qjuNN.js               8.12 kB │ gzip:   2.69 kB
+    dist/assets/ThingsDiscoveryView-p3KYHsmc.js                   10.27 kB │ gzip:   3.20 kB
+    dist/assets/CirclesView-BDE_vhxn.js                           10.96 kB │ gzip:   3.28 kB
+    dist/assets/WorkspaceSurfaceView-Dsk_RfB5.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/BusinessProfileView-n78SaMr6.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-DyWIAQE0.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-C6n8fUGN.js                             12.54 kB │ gzip:   3.87 kB
+    dist/assets/ChatSurfaceView-DVROt1Ox.js                       15.51 kB │ gzip:   5.10 kB
+    dist/assets/userShellApi-BObIKph7.js                          16.31 kB │ gzip:   3.30 kB
+    dist/assets/SurfaceHeader-DseTAcKy.js                         17.65 kB │ gzip:   5.24 kB
+    dist/assets/ProfileLocationSettingsView-CkxErjZq.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/AuthenticatedShellView-Cm0lUL85.js                23.96 kB │ gzip:   7.38 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/index-CEd4uAVZ.js                                 29.47 kB │ gzip:   8.47 kB
+    dist/assets/VisionSurfaceModernView-DgOmsWpH.js               38.41 kB │ gzip:  11.48 kB
+    dist/assets/vendor-ZRkOnB5Q.js                                50.25 kB │ gzip:  19.69 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 1.76s
+
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-discovery-result-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T15:13:08Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 272
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

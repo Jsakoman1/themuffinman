@@ -1,0 +1,15 @@
+{
+  "capability": "work.quest.manage_workers",
+  "actions": ["owner_create", "applicant_apply", "owner_approve", "owner_release"],
+  "questId": 393,
+  "applicationId": 257,
+  "statuses": {
+    "create": 200,
+    "apply": 200,
+    "approve": 200,
+    "release": 200,
+    "afterApprove": {"questStatus": "ASSIGNED", "applicationStatus": "APPROVED", "allowedActions": ["RELEASE_WORKER", "REPLACE_WORKER"]},
+    "afterRelease": {"questStatus": "OPEN", "applicationStatus": "RELEASED", "allowedActions": []}
+  },
+  "failedResponses": []
+}

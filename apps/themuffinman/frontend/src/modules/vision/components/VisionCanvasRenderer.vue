@@ -123,7 +123,7 @@ const terminalRows = computed<TerminalRow[]>(() => props.displayBlocks.flatMap<T
       ].filter(isNonEmptyText).join(" · "),
       sub: item.summary ?? "",
       actionValue: item.title,
-      routeTo: resolveVisionEntityRoute(item.entityFamily, item.targetId),
+      routeTo: item.detailRoute || resolveVisionEntityRoute(item.entityFamily, item.targetId),
       routeLabel: "Open route"
     }))
   }
@@ -335,6 +335,12 @@ onMounted(() => {
         >
           <button type="button" class="vision-console__review-confirm" @click="emit('confirmReview')">Confirm and create</button>
           <button type="button" class="vision-console__review-cancel" @click="emit('cancel')">Cancel</button>
+        </div>
+
+        <div v-if="props.executionCandidate?.failureCode" class="vision-console__execution-failure" role="status">
+          <strong>Execution {{ props.executionCandidate.failureCode.toLowerCase().replaceAll('_', ' ') }}</strong>
+          <span>{{ props.executionCandidate.blockingReason || "The action could not be completed." }}</span>
+          <button v-if="props.executionCandidate.retryable" type="button" @click="emit('confirmReview')">Retry execution</button>
         </div>
 
         <div v-for="row in terminalRows" :key="row.key" class="vision-console__row-group">
@@ -632,6 +638,30 @@ onMounted(() => {
 .vision-console__choices {
   display: grid;
   gap: 0.1rem;
+}
+
+.vision-console__execution-failure {
+  display: grid;
+  justify-items: start;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(170, 68, 58, 0.28);
+  border-radius: 0.5rem;
+  background: rgba(170, 68, 58, 0.06);
+  color: rgba(24, 36, 47, 0.82);
+  font-size: 0.8rem;
+}
+
+.vision-console__execution-failure button {
+  border: 1px solid rgba(24, 36, 47, 0.16);
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
 }
 
 .vision-console__retry {

@@ -1,0 +1,174 @@
+kind: capability_inventory_planner
+version: 1
+id: capability-inventory-planner
+title: Remaining capability implementation planner
+status: active
+created_at: '2026-07-19'
+source_audit: docs/work/capability-inventory-audit.yaml
+implementation_roadmap: docs/work/capability-implementation-roadmap.yaml
+source_inventory: docs/capability-inventory.yaml
+source_target_catalog: docs/target-capability-catalog.yaml
+gap_analysis: docs/work/capability-30-gap-analysis.yaml
+planning_rule: >
+  Use atomic capability IDs as the unit of future work. Each selected slice must
+  become its own strict docs/work/*.yaml implementation plan, use the current
+  Git baseline, and close through make work-verify. Do not reopen the retired
+  redesign masters or recreate their screenshot/HAR evidence directories.
+priority_order:
+  - id: P1-platform-trust-and-recovery
+    priority: critical
+    objective: Finish authentication acceptance, profile visibility, location, and activity recovery boundaries.
+    capabilities:
+      - platform.authentication
+      - platform.profile.manage_visibility
+      - platform.location.set_preference
+      - platform.location.control_visibility
+      - platform.location.use_current
+      - platform.location.resolve
+      - platform.location
+      - platform.activity
+    existing_plans:
+      - docs/work/profile-location-settings-surface.yaml
+      - docs/work/profile-location-visibility-scope.yaml
+      - docs/work/cross-module-visibility-acceptance.yaml
+    next_slice: >
+      Consolidate the remaining privacy/recovery rules into one backend-owned
+      acceptance slice, then add only the runtime/device work that is actually
+      available. Keep mobile lifecycle gaps explicitly deferred when no native client exists.
+    depends_on: []
+  - id: P2-vision-execution-and-discovery
+    priority: critical
+    objective: Make supported Vision actions consistently reviewable, executable, recoverable, and discoverable.
+    capabilities:
+      - vision.task.confirm
+      - vision.discovery.search
+      - vision.discovery.open_detail
+      - vision.create_quest
+      - vision.read_discovery
+      - vision.execution
+    existing_plans:
+      - docs/work/vision-execution-acceptance.yaml
+      - docs/work/vision-read-model-contract.yaml
+      - docs/work/vision-deferred-contract-batch.yaml
+      - docs/work/web-vision-parity-batch.yaml
+    next_slice: >
+      Audit every supported Vision adapter against one shared failure/retry
+      response contract, then close the explicit search filter and detail-handoff
+      gaps without expanding execution authority.
+    depends_on: [P1-platform-trust-and-recovery]
+  - id: P3-work-assignment
+    priority: high
+    objective: Complete approved worker assignment presentation and acceptance.
+    capabilities: [work.quest.manage_workers]
+    existing_plans:
+      - docs/work/worker-lifecycle-backend-batch.yaml
+      - docs/work/worker-lifecycle-client-parity-batch.yaml
+    next_slice: >
+      Add the missing browser acceptance for release/replace and record the
+      mobile presentation as deferred until a native client exists.
+    depends_on: [P1-platform-trust-and-recovery]
+  - id: P4-chat-continuity-and-media
+    priority: high
+    objective: Finish chat reconnect breadth, groups, leave behavior, and attachment lifecycle.
+    capabilities:
+      - chat.realtime
+      - chat.attachments
+      - chat.message.attach
+      - chat.conversation.create_group
+      - chat.conversation.leave
+      - chat.message.view_attachment
+    existing_plans:
+      - docs/work/chat-reconnect-resync.yaml
+      - docs/work/chat-attachment-surface.yaml
+      - docs/work/chat-attachment-preview.yaml
+    next_slice: >
+      Close attachment preview/expiry recovery and group eligibility explanations
+      on Web first; keep Vision binary upload and native delivery as explicit later boundaries.
+    depends_on: [P1-platform-trust-and-recovery]
+  - id: P5-cross-module-discovery-and-notifications
+    priority: high
+    objective: Standardize cross-module ranking, filters, notification delivery, and preference semantics.
+    capabilities:
+      - cross_module.search.discover
+      - cross_module.search.filter
+      - cross_module.search
+      - cross_module.notification.receive
+      - cross_module.notification.manage_preferences
+    existing_plans:
+      - docs/work/cross-module-search-contract.yaml
+      - docs/work/notification-preferences-implementation.yaml
+      - docs/work/web-vision-parity-program.yaml
+    next_slice: >
+      Define one bounded search result/filter contract and one notification
+      delivery/recovery boundary, without inventing push/email integrations until providers are selected.
+    depends_on: [P2-vision-execution-and-discovery]
+  - id: P5b-things-sharing
+    priority: high
+    objective: Complete the shared Things collection and borrowing flow as one usable product surface.
+    capabilities: [things.listings]
+    existing_plans:
+      - docs/work/things-listing-surface.yaml
+      - docs/work/things-borrow-cancellation.yaml
+      - docs/work/things-owner-borrow-workflow.yaml
+      - docs/work/things-detail-surface.yaml
+    next_slice: >
+      Reconcile the existing listing, detail, request, owner-decision, return,
+      and cancellation paths and close the remaining browser/device acceptance gap.
+    depends_on: [P1-platform-trust-and-recovery]
+  - id: P6-business-gallery
+    priority: medium
+    objective: Complete business gallery storage and browser acceptance.
+    capabilities: [business.profile.gallery_manage]
+    existing_plans:
+      - docs/work/business-capability-closure.yaml
+    next_slice: >
+      Decide the storage/provider boundary, implement authorized upload/update/delete
+      behavior, and add the direct Web recovery path.
+    depends_on: [P1-platform-trust-and-recovery]
+  - id: P7-mobile-and-watch
+    priority: deferred
+    objective: Define and implement native continuation only when native client workspaces exist.
+    capabilities:
+      - cross_module.handoff.mobile
+      - cross_module.handoff.watch
+      - cross_module.mobile_watch
+    existing_plans:
+      - docs/work/native-client-handoff-contract.yaml
+      - docs/work/native-client-contract-readiness.yaml
+      - docs/work/modern-mobile-watch-quality.yaml
+    next_slice: >
+      Keep the backend handoff contract versioned and expiry-safe, then defer
+      client receivers until iPhone and Watch implementation workspaces are available.
+    depends_on: [P1-platform-trust-and-recovery, P2-vision-execution-and-discovery]
+  - id: P8-rides-circles
+    priority: medium
+    objective: Decide and, if approved, implement voluntary car sharing for selected circles.
+    capabilities: [rides.circles]
+    existing_plans: []
+    next_slice: >
+      Product decision first: define consent, safety, matching, scheduling, and
+      trip lifecycle contracts before creating backend or client work.
+    depends_on: [P1-platform-trust-and-recovery]
+  - id: P9-account-recovery-later
+    priority: deferred
+    objective: Finish account recovery after the current product flows are stable.
+    capabilities: [platform.account.recover]
+    existing_plans:
+      - docs/work/account-recovery-contract.yaml
+    next_slice: >
+      Add the delivery provider, distributed abuse controls, valid-token browser
+      acceptance, and later mobile recovery presentation.
+    depends_on: [P1-platform-trust-and-recovery]
+deferred_boundaries:
+  - native iPhone and Watch clients
+  - push and email notification providers
+  - Vision-native binary upload/storage
+  - device-level background delivery and permissions
+  - car-sharing domain until consent and safety rules are approved
+planner_closeout:
+  condition: >
+    This planner remains active while any capability in its priority groups is
+    partial, planned, not_offered, or broken. A slice is removed only when its
+    owning verified work plan updates the canonical inventory and records its
+    required validation.
+  next_review: After P1 and P2 are converted into strict implementation plans or explicitly deferred.

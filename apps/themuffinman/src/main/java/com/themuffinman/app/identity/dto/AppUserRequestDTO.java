@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -34,6 +36,10 @@ public class AppUserRequestDTO {
     private ProfileFieldVisibility profileDescriptionVisibility;
     @ContractOptional
     private ProfileFieldVisibility profileAvatarVisibility;
+    @ContractOptional
+    private Set<Long> profileDescriptionVisibleCircleIds;
+    @ContractOptional
+    private Set<Long> profileAvatarVisibleCircleIds;
     @ContractOptional
     @Nullable
     private UserLocationSettingsRequestDTO locationSettings;

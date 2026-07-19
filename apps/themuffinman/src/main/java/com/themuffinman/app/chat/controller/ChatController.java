@@ -10,6 +10,9 @@ import com.themuffinman.app.chat.dto.ChatCreateGroupConversationRequestDTO;
 import com.themuffinman.app.chat.dto.ChatConversationStateRequestDTO;
 import com.themuffinman.app.chat.dto.ChatConversationTitleRequestDTO;
 import com.themuffinman.app.chat.dto.ChatAttachmentUploadDTO;
+import com.themuffinman.app.chat.dto.ChatAttachmentAccessDTO;
+import com.themuffinman.app.chat.dto.ChatGroupEligibilityDTO;
+import com.themuffinman.app.chat.dto.ChatMembershipTransitionDTO;
 import com.themuffinman.app.chat.dto.ChatAttachmentStorageStatusDTO;
 import com.themuffinman.app.chat.dto.ChatMarkReadRequestDTO;
 import com.themuffinman.app.chat.dto.ChatMessageDTO;
@@ -94,6 +97,14 @@ public class ChatController {
         return chatService.createGroupConversation(request, currentUser);
     }
 
+    @PostMapping("/conversations/groups/eligibility")
+    public ChatGroupEligibilityDTO checkGroupEligibility(
+            @RequestBody ChatCreateGroupConversationRequestDTO request,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return chatService.checkGroupEligibility(request, currentUser);
+    }
+
     @PatchMapping("/conversations/{conversationId}/group")
     public ChatConversationSummaryDTO renameGroupConversation(
             @PathVariable Long conversationId,
@@ -132,12 +143,11 @@ public class ChatController {
     }
 
     @DeleteMapping("/conversations/{conversationId}/participants/me")
-    public ActionResultDTO leaveConversation(
+    public ChatMembershipTransitionDTO leaveConversation(
             @PathVariable Long conversationId,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        chatService.leaveConversation(conversationId, currentUser);
-        return ActionResults.of("LEAVE_CHAT_CONVERSATION", "Conversation left.");
+        return chatService.leaveConversation(conversationId, currentUser);
     }
 
     @PostMapping("/circles/{circleId}/room")
@@ -225,11 +235,27 @@ public class ChatController {
         return chatService.uploadAttachment(file, currentUser);
     }
 
+    @DeleteMapping("/attachments/{uploadId}")
+    public ChatAttachmentUploadDTO cancelAttachmentUpload(
+            @PathVariable Long uploadId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return chatService.cancelAttachmentUpload(uploadId, currentUser);
+    }
+
     @GetMapping("/attachments/storage-status")
     public ChatAttachmentStorageStatusDTO getAttachmentStorageStatus(
             @AuthenticationPrincipal AppUser currentUser
     ) {
         return chatService.getAttachmentStorageStatus(currentUser);
+    }
+
+    @GetMapping("/attachments/access")
+    public ChatAttachmentAccessDTO refreshAttachmentAccess(
+            @RequestParam("key") String storageKey,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return chatService.refreshAttachmentAccess(storageKey, currentUser);
     }
 
     @GetMapping("/attachments/object")

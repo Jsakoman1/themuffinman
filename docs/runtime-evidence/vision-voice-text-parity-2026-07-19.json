@@ -1,0 +1,22 @@
+{
+  "capabilities": ["vision.discovery.search"],
+  "actions": ["text_request", "voice_request", "compare_result"],
+  "statuses": {
+    "register": 200,
+    "text": 200,
+    "voice": 200
+  },
+  "text": {
+    "resultState": "RESULTS",
+    "inputType": "text",
+    "results": ["quest:23:Kosenje trave"]
+  },
+  "voice": {
+    "resultState": "RESULTS",
+    "inputType": "voice",
+    "conversationId": 464,
+    "results": ["quest:23:Kosenje trave"]
+  },
+  "sameResults": true,
+  "failedResponses": []
+}

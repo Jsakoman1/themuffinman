@@ -5,6 +5,9 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.location.service.LocationSettingsService;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.identity.model.ProfileFieldVisibility;
+import com.themuffinman.app.social.model.CircleGroup;
+import com.themuffinman.app.social.repository.CircleGroupRepository;
 import com.themuffinman.app.common.normalization.ProfileValueNormalizer;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.common.errors.ServiceErrors;
@@ -15,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.regex.Pattern;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,7 @@ public class AppUserService {
     private final AppUserLookupService appUserLookupService;
     private final PasswordEncoder passwordEncoder;
     private final LocationSettingsService locationSettingsService;
+    private final CircleGroupRepository circleGroupRepository;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
 
     public AppUser createAppUser(AppUserRequestDTO dto) {
@@ -136,9 +142,34 @@ public class AppUserService {
         if (dto.getProfileAvatarVisibility() != null) {
             appUser.setProfileAvatarVisibility(dto.getProfileAvatarVisibility());
         }
+        applyProfileVisibilityCircles(appUser, dto.getProfileDescriptionVisibility(), dto.getProfileDescriptionVisibleCircleIds(), true);
+        applyProfileVisibilityCircles(appUser, dto.getProfileAvatarVisibility(), dto.getProfileAvatarVisibleCircleIds(), false);
 
         if (overwriteExisting || dto.getLocationSettings() != null) {
             locationSettingsService.applyUserLocationSettings(appUser, dto.getLocationSettings());
+        }
+    }
+
+    private void applyProfileVisibilityCircles(AppUser appUser, ProfileFieldVisibility visibility, Set<Long> ids, boolean description) {
+        if (visibility != ProfileFieldVisibility.CIRCLES && ids == null) {
+            if (description) appUser.getProfileDescriptionVisibleToCircles().clear();
+            else appUser.getProfileAvatarVisibleToCircles().clear();
+            return;
+        }
+        if (visibility == ProfileFieldVisibility.CIRCLES && (ids == null || ids.isEmpty())) {
+            throw ServiceErrors.badRequest("Select at least one circle for circle-scoped profile visibility");
+        }
+        Set<Long> selectedIds = ids == null ? Set.of() : ids;
+        Set<CircleGroup> ownedCircles = selectedIds.isEmpty()
+                ? Set.of()
+                : new LinkedHashSet<>(circleGroupRepository.findAllByOwnerIdAndIdIn(appUser.getId(), selectedIds));
+        if (ownedCircles.size() != selectedIds.size()) {
+            throw ServiceErrors.badRequest("Profile visibility circles must belong to the profile owner");
+        }
+        if (description) {
+            appUser.setProfileDescriptionVisibleToCircles(ownedCircles);
+        } else {
+            appUser.setProfileAvatarVisibleToCircles(ownedCircles);
         }
     }
 

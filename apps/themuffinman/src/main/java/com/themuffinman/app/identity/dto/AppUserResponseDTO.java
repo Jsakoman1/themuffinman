@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import java.time.Instant;
@@ -30,6 +31,8 @@ public class AppUserResponseDTO {
     private String profileAvatarDataUrl;
     private ProfileFieldVisibility profileDescriptionVisibility;
     private ProfileFieldVisibility profileAvatarVisibility;
+    private Set<Long> profileDescriptionVisibleCircleIds;
+    private Set<Long> profileAvatarVisibleCircleIds;
     private UserLocationSettingsDTO locationSettings;
     private Instant createdAt;
     private long openQuestCount;

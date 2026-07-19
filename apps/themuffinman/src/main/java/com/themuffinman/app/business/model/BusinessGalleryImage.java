@@ -33,6 +33,15 @@ public class BusinessGalleryImage {
     @Column(name = "image_url", nullable = false, length = 500)
     private String imageUrl;
 
+    @Column(name = "storage_provider", length = 40)
+    private String storageProvider;
+
+    @Column(name = "storage_key", length = 500)
+    private String storageKey;
+
+    @Column(name = "content_type", length = 120)
+    private String contentType;
+
     @Column(name = "alt_text", length = 240)
     private String altText;
 

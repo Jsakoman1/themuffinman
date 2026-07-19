@@ -3,6 +3,7 @@ package com.themuffinman.app.identity.mapper;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.ProfileFieldVisibility;
 import com.themuffinman.app.location.service.LocationSettingsViewService;
+import com.themuffinman.app.identity.service.ProfileVisibilityService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +16,7 @@ class AppUserMgrTest {
     @Test
     void toDtoAddsDeterministicResolutionMetadata() {
         LocationSettingsViewService locationSettingsViewService = mock(LocationSettingsViewService.class);
-        AppUserMgr appUserMgr = new AppUserMgr(locationSettingsViewService);
+        AppUserMgr appUserMgr = new AppUserMgr(locationSettingsViewService, mock(ProfileVisibilityService.class));
 
         AppUser user = new AppUser();
         user.setId(4L);
@@ -34,7 +35,8 @@ class AppUserMgrTest {
     @Test
     void toProfileDtoRedactsPrivateProfileFieldsForOtherViewers() {
         LocationSettingsViewService locationSettingsViewService = mock(LocationSettingsViewService.class);
-        AppUserMgr appUserMgr = new AppUserMgr(locationSettingsViewService);
+        ProfileVisibilityService profileVisibilityService = mock(ProfileVisibilityService.class);
+        AppUserMgr appUserMgr = new AppUserMgr(locationSettingsViewService, profileVisibilityService);
         AppUser owner = new AppUser();
         owner.setId(4L);
         owner.setUsername("tom");
@@ -45,6 +47,9 @@ class AppUserMgrTest {
         owner.setProfileAvatarVisibility(ProfileFieldVisibility.PRIVATE);
         AppUser viewer = new AppUser();
         viewer.setId(9L);
+
+        when(profileVisibilityService.mayView(owner, viewer, ProfileFieldVisibility.PRIVATE, owner.getProfileDescriptionVisibleToCircles())).thenReturn(false);
+        when(profileVisibilityService.mayView(owner, viewer, ProfileFieldVisibility.PRIVATE, owner.getProfileAvatarVisibleToCircles())).thenReturn(false);
 
         when(locationSettingsViewService.toDto(owner)).thenReturn(null);
         when(locationSettingsViewService.toViewerDto(owner, viewer)).thenReturn(null);

@@ -9,6 +9,8 @@ import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestNewsItem;
 import com.themuffinman.app.workmarket.model.QuestNewsType;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestNewsRepository;
+import com.themuffinman.app.notification.model.NotificationPreferenceCategory;
+import com.themuffinman.app.notification.service.NotificationPreferenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class WorkmarketQuestNewsService {
     private final WorkmarketQuestNewsRepository questNewsRepository;
     private final RetentionProperties retentionProperties;
     private final ChatRealtimeService chatRealtimeService;
+    private final NotificationPreferenceService notificationPreferenceService;
 
     public List<QuestNewsItem> getMyNews(AppUser currentUser) {
         return questNewsRepository.findByRecipientUserIdOrderByCreatedAtDesc(currentUser.getId(), PageRequest.of(0, DEFAULT_LIMIT));
@@ -228,7 +231,16 @@ public class WorkmarketQuestNewsService {
         item.setTitle(title);
         item.setMessage(message);
         questNewsRepository.save(item);
-        notifyUnreadCountChanged(recipient.getId(), actor.getId(), "news_created");
+        if (notificationPreferenceService.isInAppDeliveryEnabled(recipient, preferenceCategory(type))) {
+            notifyUnreadCountChanged(recipient.getId(), actor.getId(), "news_created");
+        }
+    }
+
+    private NotificationPreferenceCategory preferenceCategory(QuestNewsType type) {
+        return switch (type) {
+            case CIRCLE_REQUEST_RECEIVED, CIRCLE_REQUEST_ACCEPTED, RIDE_EVENT -> NotificationPreferenceCategory.CIRCLE;
+            default -> NotificationPreferenceCategory.WORK;
+        };
     }
 
     private void notifyUnreadCountChanged(Long recipientUserId, Long actorUserId, String reason) {

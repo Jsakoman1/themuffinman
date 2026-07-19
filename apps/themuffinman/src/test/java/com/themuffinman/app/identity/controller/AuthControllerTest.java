@@ -5,6 +5,8 @@ import com.themuffinman.app.identity.dto.auth.LoginRequestDTO;
 import com.themuffinman.app.identity.dto.auth.RegisterRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.AuthService;
+import com.themuffinman.app.identity.service.AuthSessionService;
+import com.themuffinman.app.common.dto.ActionResultDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
 import jakarta.validation.Validation;
@@ -37,6 +39,9 @@ class AuthControllerTest {
 
     @Mock
     private AuthService authService;
+
+    @Mock
+    private AuthSessionService authSessionService;
 
     @InjectMocks
     private AuthController authController;
@@ -94,6 +99,17 @@ class AuthControllerTest {
     }
 
     @Test
+    void logoutDelegatesBearerTokenRevocation() {
+        ActionResultDTO expected = ActionResultDTO.builder().action("LOGOUT").message("Session revoked").build();
+        when(authSessionService.revoke("Bearer jwt-token")).thenReturn(expected);
+
+        ActionResultDTO response = authController.logout("Bearer jwt-token");
+
+        assertEquals(expected, response);
+        verify(authSessionService).revoke("Bearer jwt-token");
+    }
+
+    @Test
     void registerRequestRejectsInvalidValues() {
         RegisterRequestDTO request = new RegisterRequestDTO("not-an-email", "ab", "short");
 
@@ -123,6 +139,17 @@ class AuthControllerTest {
 
         assertTrue(VALIDATOR.validate(registerRequest).isEmpty());
         assertTrue(VALIDATOR.validate(loginRequest).isEmpty());
+    }
+
+    @Test
+    void authenticationBoundaryKeepsRegistrationAndLoginAsExplicitValidatedActions() throws Exception {
+        Method registerMethod = AuthController.class.getDeclaredMethod("register", RegisterRequestDTO.class);
+        Method loginMethod = AuthController.class.getDeclaredMethod("login", LoginRequestDTO.class);
+
+        assertEquals("register", registerMethod.getName());
+        assertEquals("login", loginMethod.getName());
+        assertTrue(registerMethod.getParameters()[0].isAnnotationPresent(Valid.class));
+        assertTrue(loginMethod.getParameters()[0].isAnnotationPresent(Valid.class));
     }
 
     private void assertHasViolation(Set<? extends ConstraintViolation<?>> violations, String propertyPath) {

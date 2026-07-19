@@ -9,6 +9,7 @@ import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppStatus from "../components/AppStatus.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
+import {useChatRealtime} from "../composables/useChatRealtime.ts"
 
 const route = useRoute()
 const router = useRouter()
@@ -22,6 +23,8 @@ const isLoading = ref(true)
 const isLoadingMore = ref(false)
 const error = ref("")
 const syncStatus = ref("")
+const actionFeedback = ref("")
+const realtimeStatus = ref("DISCONNECTED")
 const isSyncing = ref(false)
 const draft = ref("")
 const editingId = ref<number | null>(null)
@@ -49,6 +52,15 @@ const describeRequestError = (errorValue: unknown, fallback: string) => {
   const response = (errorValue as {response?: {status?: number}} | null)?.response
   return response?.status ? `${fallback} (HTTP ${response.status}).` : fallback
 }
+const recoverUnavailableConversation = async (errorValue: unknown) => {
+  const status = (errorValue as {response?: {status?: number}} | null)?.response?.status
+  if (!selectedId.value || (status !== 403 && status !== 404)) return false
+  messages.value = []
+  syncStatus.value = "Conversation access changed. Refreshing your inbox…"
+  await loadConversations()
+  if (!selectedConversation.value) await router.push("/chat")
+  return true
+}
 
 const loadConversations = async (append = false) => {
   if (!append) { isLoading.value = true; conversationPage.value = 0; conversations.value = [] } else { isLoadingMore.value = true }
@@ -69,7 +81,8 @@ const loadMessages = async () => {
     hasMoreMessages.value = false
     nextMessageId.value = null
     syncStatus.value = "Conversation synced."
-  } catch {
+  } catch (requestError) {
+    if (await recoverUnavailableConversation(requestError)) return
     try {
       const page = await userShellApi.getChatMessages(selectedId.value, 30)
       messages.value = page.messages
@@ -92,8 +105,27 @@ const syncConversation = async () => {
     messages.value = [...existing.values()].sort((left, right) => left.id - right.id)
     syncStatus.value = "Conversation refreshed from the server."
     error.value = ""
-  } catch { syncStatus.value = "Could not sync conversation." } finally { isSyncing.value = false }
+  } catch (requestError) {
+    if (!await recoverUnavailableConversation(requestError)) syncStatus.value = "Could not sync conversation."
+  } finally { isSyncing.value = false }
 }
+const handleRealtimeEvent = (event: import("../../../contracts/index.ts").ChatSocketEventDTO) => {
+  if (event.type === "chat.connection") {
+    const recovering = realtimeStatus.value === "RECONNECTING" || realtimeStatus.value === "DISCONNECTED"
+    realtimeStatus.value = event.connectionState ?? "CONNECTED"
+    if ((event.resyncRequired || recovering) && selectedId.value) void syncConversation()
+    return
+  }
+  if (event.conversationId === selectedId.value && event.message) {
+    const existing = new Map(messages.value.map(message => [message.id, message]))
+    existing.set(event.message.id, event.message)
+    messages.value = [...existing.values()].sort((left, right) => left.id - right.id)
+  }
+  void loadConversations()
+  if (event.conversationId === selectedId.value && !event.message) void syncConversation()
+}
+const chatRealtime = useChatRealtime(handleRealtimeEvent)
+watch(chatRealtime.state, value => { realtimeStatus.value = value })
 const loadMoreConversations = async () => { if (!hasMoreConversations.value || isLoadingMore.value) return; conversationPage.value += 1; await loadConversations(true) }
 const searchParticipants = async () => {
   const query = participantQuery.value.trim()
@@ -133,10 +165,13 @@ const openDirectChat = async (userId: number) => {
 const leaveGroup = async () => {
   if (!selectedId.value || selectedConversation.value?.conversationType !== "GROUP" || !await confirmAction("Leave this group conversation?", "Leave conversation")) return
   try {
-    await userShellApi.leaveChatConversation(selectedId.value)
+    const transition = await userShellApi.leaveChatConversation(selectedId.value)
+    actionFeedback.value = transition.replacementOwnerUserId
+      ? `You left the group. Ownership moved to participant #${transition.replacementOwnerUserId}.`
+      : (transition.message || "You left the group conversation.")
     await loadConversations()
     await router.push("/chat")
-  } catch { error.value = "Could not leave the group conversation." }
+  } catch (requestError) { error.value = describeRequestError(requestError, "Could not leave the group conversation."); await loadConversations() }
 }
 const loadOlderMessages = async () => {
   if (!selectedId.value || !hasMoreMessages.value || !nextMessageId.value) return
@@ -148,7 +183,14 @@ const loadOlderMessages = async () => {
 const replaceMessage = (message: ChatMessageDTO) => { messages.value = messages.value.map(item => item.id === message.id ? message : item) }
 const clearAttachmentPreview = () => { if (attachmentPreviewUrl.value) URL.revokeObjectURL(attachmentPreviewUrl.value); attachmentPreviewUrl.value = null }
 const uploadAttachment = async (event: Event) => { const file = (event.target as HTMLInputElement).files?.[0]; if (!file) return; clearAttachmentPreview(); attachmentPreviewUrl.value = file.type.startsWith("image/") ? URL.createObjectURL(file) : null; isUploadingAttachment.value = true; error.value = ""; try { attachment.value = await userShellApi.uploadChatAttachment(file) } catch { clearAttachmentPreview(); error.value = "Could not upload this attachment." } finally { isUploadingAttachment.value = false } }
-const removeAttachment = () => { attachment.value = null; clearAttachmentPreview() }
+const removeAttachment = async () => {
+  const uploadId = attachment.value?.uploadId
+  attachment.value = null
+  clearAttachmentPreview()
+  if (uploadId) {
+    try { await userShellApi.cancelChatAttachment(uploadId) } catch { /* local removal remains safe; server expiry is the fallback */ }
+  }
+}
 const send = async () => { if (!selectedId.value || isSending.value || (!draft.value.trim() && !attachment.value)) return; isSending.value = true; error.value = ""; try { const message = await userShellApi.sendChatMessage(selectedId.value, draft.value.trim(), attachment.value, replyingTo.value?.id); messages.value = [...messages.value, message]; draft.value = ""; replyingTo.value = null; removeAttachment() } catch { error.value = "Could not send this message." } finally { isSending.value = false } }
 const beginEdit = (message: ChatMessageDTO) => { editingId.value = message.id; editingDraft.value = message.messageBody ?? "" }
 const saveEdit = async (message: ChatMessageDTO) => { if (!selectedId.value || !editingDraft.value.trim()) return; try { replaceMessage(await userShellApi.updateChatMessage(selectedId.value, message.id, editingDraft.value.trim())); editingId.value = null } catch { error.value = "Could not edit this message." } }
@@ -163,6 +205,7 @@ watch(selectedId, () => {
 onMounted(() => {
   void loadConversations()
   void loadMessages()
+  chatRealtime.connect()
   if (attachmentRequested.value && !selectedId.value) syncStatus.value = "Select a conversation to attach a file."
   document.addEventListener("visibilitychange", recoverConversation)
   window.addEventListener("online", recoverWhenOnline)
@@ -176,7 +219,7 @@ onBeforeUnmount(() => {
 
 <template>
   <section class="chat-surface">
-    <header class="chat-surface__header"><div><p class="chat-surface__eyebrow">Chat</p><h1>{{ selectedId ? "Conversation" : "Inbox" }}</h1></div><div class="chat-surface__header-actions"><RouterLink v-if="selectedId" to="/chat" class="chat-surface__back">Back to inbox</RouterLink><AppButton type="button" tone="secondary" @click="directQuery = directQuery ? '' : ' '" >New chat</AppButton><AppButton type="button" tone="secondary" @click="groupTitle = groupTitle ? '' : ' '" >New group</AppButton></div></header>
+    <header class="chat-surface__header"><div><p class="chat-surface__eyebrow">Chat</p><h1>{{ selectedId ? "Conversation" : "Inbox" }}</h1><small class="chat-surface__realtime-status">Realtime {{ realtimeStatus.toLowerCase() }}</small></div><div class="chat-surface__header-actions"><RouterLink v-if="selectedId" to="/chat" class="chat-surface__back">Back to inbox</RouterLink><AppButton type="button" tone="secondary" @click="directQuery = directQuery ? '' : ' '" >New chat</AppButton><AppButton type="button" tone="secondary" @click="groupTitle = groupTitle ? '' : ' '" >New group</AppButton></div></header>
     <form v-if="directQuery !== ''" class="chat-surface__direct-create" @submit.prevent><AppFormField label="Person" hint="Search through Circle trust and visibility rules."><input v-model="directQuery" placeholder="Find someone to chat with" aria-label="Find someone to chat with" @input="searchDirectParticipants"></AppFormField><span v-if="isSearchingParticipants">Searching…</span><div class="chat-surface__direct-candidates"><AppButton v-for="candidate in directCandidates" :key="candidate.id" type="button" tone="secondary" :loading="isOpeningDirect" @click="openDirectChat(candidate.id)">{{ candidate.username }}</AppButton></div></form>
     <form v-if="groupTitle !== '' || participantQuery !== ''" class="chat-surface__group-create" @submit.prevent="createGroup">
       <AppFormField label="Group name" required><input v-model="groupTitle" placeholder="Group name" maxlength="120" aria-label="Group name"></AppFormField>
@@ -186,6 +229,7 @@ onBeforeUnmount(() => {
       <AppFormFooter><template #primary><AppButton type="submit" tone="primary" :loading="isCreatingGroup" :disabled="!groupTitle.trim() || selectedParticipantIds.length === 0">{{ isCreatingGroup ? "Creating…" : "Create group" }}</AppButton></template></AppFormFooter>
     </form>
     <div v-if="error" class="chat-surface__status chat-surface__status--error" role="alert">{{ error }} <AppButton type="button" tone="quiet" @click="loadConversations()">Retry</AppButton></div>
+    <AppStatus v-if="actionFeedback" :message="actionFeedback" tone="success" />
     <AppStatus v-if="selectedId && syncStatus" :message="syncStatus" :tone="syncStatus.startsWith('Could not') ? 'stale' : 'neutral'" :busy="isSyncing" :retry="syncStatus.startsWith('Could not')" @retry="syncConversation" />
     <div class="chat-surface__layout">
       <aside class="chat-surface__index" aria-label="Conversations">
@@ -200,7 +244,7 @@ onBeforeUnmount(() => {
         <p v-if="!selectedId" class="chat-surface__status">{{ attachmentRequested ? "Select a conversation to attach a file." : "Select a conversation." }}</p>
         <div v-else-if="messages.length === 0" class="chat-surface__status">No messages yet.</div>
         <article v-for="message in messages" v-else :key="message.id" class="chat-surface__message" :class="{'chat-surface__message--own': message.ownMessage}">
-          <span class="chat-surface__message-author">{{ message.senderUsername }} · {{ formatDate(message.createdAt) }}</span><form v-if="editingId === message.id" @submit.prevent="saveEdit(message)"><input v-model="editingDraft"><AppButton type="submit" tone="primary">Save</AppButton><AppButton type="button" tone="secondary" @click="editingId = null">Cancel</AppButton></form><template v-else><p v-if="message.replyToMessageId" class="chat-surface__reply">Reply to message #{{ message.replyToMessageId }}</p><p>{{ message.deleted ? "Message deleted" : message.messageBody || message.attachmentName || "Attachment" }}</p><a v-if="message.attachmentUrl && !message.deleted" class="chat-surface__attachment-link" :href="message.attachmentUrl" target="_blank" rel="noreferrer">Open attachment</a></template><div v-if="selectedId && !message.deleted" class="chat-surface__message-actions"><AppButton type="button" tone="quiet" @click="toggleReaction(message)">{{ message.reactions.some(reaction => reaction.ownReaction && reaction.emoji === "👍") ? "👍" : "Like" }}</AppButton><AppButton type="button" tone="quiet" @click="replyingTo = message">Reply</AppButton><AppIconButton v-if="message.ownMessage" label="Edit message" @click="beginEdit(message)"><span aria-hidden="true">✎</span></AppIconButton><AppIconButton v-if="message.ownMessage" label="Delete message" tone="danger" @click="remove(message)"><span aria-hidden="true">⌫</span></AppIconButton></div>
+          <span class="chat-surface__message-author">{{ message.senderUsername }} · {{ formatDate(message.createdAt) }}</span><form v-if="editingId === message.id" @submit.prevent="saveEdit(message)"><input v-model="editingDraft"><AppButton type="submit" tone="primary">Save</AppButton><AppButton type="button" tone="secondary" @click="editingId = null">Cancel</AppButton></form><template v-else><p v-if="message.replyToMessageId" class="chat-surface__reply">Reply to message #{{ message.replyToMessageId }}</p><p>{{ message.deleted ? "Message deleted" : message.messageBody || message.attachmentName || "Attachment" }}</p><a v-if="message.attachmentUrl && !message.deleted && message.attachmentAvailability !== 'UNAVAILABLE'" class="chat-surface__attachment-link" :href="message.attachmentUrl" target="_blank" rel="noreferrer">Open attachment</a><small v-if="message.attachmentAvailability === 'UNAVAILABLE'" class="chat-surface__attachment-unavailable">Attachment unavailable. It may have expired or storage is temporarily unavailable.</small></template><div v-if="selectedId && !message.deleted" class="chat-surface__message-actions"><AppButton type="button" tone="quiet" @click="toggleReaction(message)">{{ message.reactions.some(reaction => reaction.ownReaction && reaction.emoji === "👍") ? "👍" : "Like" }}</AppButton><AppButton type="button" tone="quiet" @click="replyingTo = message">Reply</AppButton><AppIconButton v-if="message.ownMessage" label="Edit message" @click="beginEdit(message)"><span aria-hidden="true">✎</span></AppIconButton><AppIconButton v-if="message.ownMessage" label="Delete message" tone="danger" @click="remove(message)"><span aria-hidden="true">⌫</span></AppIconButton></div>
         </article>
       </main>
       <aside v-if="selectedConversation" class="chat-surface__context" aria-label="Conversation context">

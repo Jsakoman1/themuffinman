@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import com.themuffinman.app.location.model.LocationLookupResolutionStatus;
 
 import java.util.List;
 
@@ -14,5 +15,6 @@ import java.util.List;
 public class LocationLookupResponseDTO {
     private boolean configured;
     private String provider;
+    private LocationLookupResolutionStatus resolutionStatus;
     private List<LocationLookupCandidateDTO> items;
 }

@@ -1,0 +1,25 @@
+{
+  "capability": "cross_module.notification.receive",
+  "actions": ["two_user_setup", "websocket_connect", "event_produce", "realtime_receive", "authoritative_readback"],
+  "statuses": {
+    "register": [200, 200],
+    "websocket": 101,
+    "circleRequest": 200,
+    "newsRead": 200
+  },
+  "socket": {
+    "receivedNewsEvent": true,
+    "events": [
+      {"type": "chat.connection", "reason": "socket_established"},
+      {"type": "chat.workspace.updated", "reason": "presence_online"},
+      {"type": "news.updated", "unreadNewsCount": 1, "reason": "news_created"}
+    ]
+  },
+  "notification": {
+    "type": "CIRCLE_REQUEST_RECEIVED",
+    "readState": "UNREAD",
+    "deliveryState": "DELIVERED",
+    "navigationType": "CIRCLES"
+  },
+  "failedResponses": []
+}

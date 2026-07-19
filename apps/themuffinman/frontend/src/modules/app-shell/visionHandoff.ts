@@ -85,7 +85,7 @@ export const resolveVisionEntityRoute = (entityFamily: string, targetId: number)
     return resolveSurfaceDetailRoute("work-applications", targetId)
   }
   if (normalized === "user" || normalized === "profile" || normalized === "person") {
-    return {path: `/vision/users/${targetId}`}
+    return {path: `/people/${targetId}`}
   }
   if (normalized === "circle" || normalized === "circles") {
     return surfaceOwnershipMatrix.circles.canonicalEntryRoute
@@ -95,6 +95,9 @@ export const resolveVisionEntityRoute = (entityFamily: string, targetId: number)
   }
   if (normalized === "business") {
     return surfaceOwnershipMatrix.business.canonicalEntryRoute
+  }
+  if (normalized === "thing" || normalized === "things") {
+    return {path: `/things/${targetId}`}
   }
 
   return null

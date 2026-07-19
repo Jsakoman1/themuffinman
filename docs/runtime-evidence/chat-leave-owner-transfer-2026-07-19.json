@@ -1,0 +1,23 @@
+{
+  "capability": "chat.conversation.leave",
+  "actions": ["three_user_circle_setup", "eligibility", "create_group", "owner_leave", "owner_transfer"],
+  "statuses": {
+    "register": [200, 200, 200],
+    "circle_requests_accepted": [200, 200],
+    "eligibility": 200,
+    "createGroup": 200,
+    "leave": 200
+  },
+  "conversationId": 379,
+  "conversationType": "GROUP",
+  "participantCountBeforeLeave": 3,
+  "ownerUserIdBeforeLeave": 1257,
+  "eligibilityReasonCode": "ELIGIBLE",
+  "allowedActions": ["CREATE_GROUP"],
+  "transition": {
+    "action": "LEAVE_CHAT_CONVERSATION",
+    "transitionState": "LEFT",
+    "replacementOwnerUserId": 1258
+  },
+  "failedResponses": []
+}

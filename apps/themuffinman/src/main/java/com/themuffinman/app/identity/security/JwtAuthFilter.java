@@ -2,6 +2,7 @@ package com.themuffinman.app.identity.security;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.identity.service.AuthSessionService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,6 +24,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final AppUserRepository appUserRepository;
+    private final AuthSessionService authSessionService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -34,6 +36,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
         try {
+            if (authSessionService.isRevoked(token)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
             String email = jwtService.extractEmail(token);
             AppUser appUser = appUserRepository.findByEmail(email).orElse(null);
 

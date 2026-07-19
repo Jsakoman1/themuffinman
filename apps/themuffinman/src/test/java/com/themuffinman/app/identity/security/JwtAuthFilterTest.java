@@ -3,6 +3,7 @@ package com.themuffinman.app.identity.security;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.identity.service.AuthSessionService;
 import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,8 @@ class JwtAuthFilterTest {
 
     private final JwtService jwtService = mock(JwtService.class);
     private final AppUserRepository appUserRepository = mock(AppUserRepository.class);
-    private final JwtAuthFilter filter = new JwtAuthFilter(jwtService, appUserRepository);
+    private final AuthSessionService authSessionService = mock(AuthSessionService.class);
+    private final JwtAuthFilter filter = new JwtAuthFilter(jwtService, appUserRepository, authSessionService);
 
     @AfterEach
     void tearDown() {
@@ -57,6 +59,7 @@ class JwtAuthFilterTest {
         user.setRole(AppUserRole.ADMIN);
 
         when(jwtService.extractEmail("valid-token")).thenReturn("user@example.com");
+        when(authSessionService.isRevoked("valid-token")).thenReturn(false);
         when(appUserRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
 
         filter.doFilter(request, response, chain);
@@ -77,11 +80,24 @@ class JwtAuthFilterTest {
         MockFilterChain chain = new MockFilterChain();
 
         when(jwtService.extractEmail("broken-token")).thenThrow(new JwtException("bad token"));
+        when(authSessionService.isRevoked("broken-token")).thenReturn(false);
 
         filter.doFilter(request, response, chain);
 
         assertNull(SecurityContextHolder.getContext().getAuthentication());
         verify(jwtService).extractEmail("broken-token");
         verifyNoInteractions(appUserRepository);
+    }
+
+    @Test
+    void skipsAuthenticationWhenBearerTokenWasRevoked() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addHeader("Authorization", "Bearer revoked-token");
+        when(authSessionService.isRevoked("revoked-token")).thenReturn(true);
+
+        filter.doFilter(request, new MockHttpServletResponse(), new MockFilterChain());
+
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
+        verifyNoInteractions(jwtService, appUserRepository);
     }
 }

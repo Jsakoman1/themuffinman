@@ -1,6 +1,6 @@
 ---
 interaction_contract_regressions:
-  source: docs/work/linear-inspired-interaction-contract-audit.md
+  source: docs/work/capability-inventory-audit.yaml
   required_for_linear_inspired_changes:
     - direct route remains canonical when a preview or utility panel is introduced
     - nested action does not activate its containing row or card

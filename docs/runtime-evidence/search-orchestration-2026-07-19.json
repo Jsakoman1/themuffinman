@@ -1,0 +1,29 @@
+{
+  "capability": "cross_module.search",
+  "actions": ["query", "version_check", "family_filter", "repeat_query", "compare"],
+  "statuses": {
+    "register": 200,
+    "broadSearch": 200,
+    "filteredSearch": 200,
+    "repeatSearch": 200,
+    "compare": 200
+  },
+  "contract": {
+    "version": "search-v1",
+    "capabilityId": "search",
+    "filterFamily": "user",
+    "hasMore": false
+  },
+  "resultCounts": {
+    "broad": 12,
+    "filtered": 3,
+    "comparison": 2
+  },
+  "stableFilteredOrder": true,
+  "comparison": {
+    "selectionKeys": ["quest:394", "quest:395"],
+    "selectionLimit": 3,
+    "comparableFields": ["title", "summary", "owner_display_name", "member_context", "application_context", "location_label", "availability"]
+  },
+  "failedResponses": []
+}

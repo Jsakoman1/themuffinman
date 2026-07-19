@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: r6-native-clients-presentation-contract
+title: Add native mobile and Watch presentation contract
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Give future iPhone and Watch clients a versioned compact presentation contract
+  for voice/action flows while keeping permissions, confirmation, and domain logic
+  backend-owned.
+tasks:
+- id: native-presentation-contract
+  title: Add authenticated MOBILE/WATCH presentation endpoint and service
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/dto/NativePresentationDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/service/NativePresentationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/controller/NativeHandoffController.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/nativehandoff/service/NativePresentationServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/dto/NativePresentationDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/nativehandoff/service/NativePresentationServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=NativePresentationServiceTest
+    test
+- id: native-presentation-docs
+  title: Record contract and remaining native runtime scope
+  type: documentation
+  status: done
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: native-presentation-contract
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=NativePresentationServiceTest
+    test
+  ranAt: '2026-07-19T11:15:35Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/controller/NativeHandoffController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/dto/NativePresentationDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/service/NativePresentationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/nativehandoff/service/NativePresentationServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/dto/NativePresentationDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/nativehandoff/service/NativePresentationServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: native-presentation-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T11:15:59Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 264
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,117 @@
+kind: work
+version: 1
+id: r2-i-chat-membership-transition
+title: Return typed Chat membership leave transitions
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Let clients safely close stale group threads and reflect owner transfer
+  after a member leaves.
+tasks:
+- id: chat-membership-transition
+  title: Add typed leave result with replacement owner
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMembershipTransitionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMembershipTransitionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=ChatServiceTest,ChatControllerTest
+    test
+- id: chat-membership-transition-docs
+  title: Document leave transition and ownership handoff
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: chat-membership-transition
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=ChatServiceTest,ChatControllerTest
+    test
+  ranAt: '2026-07-19T14:10:25Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMembershipTransitionDTO.java
+  output: |+
+    16:10:58.373 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+    16:10:58.385 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    16:10:58.385 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    16:10:58.385 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+    16:10:58.396 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    16:10:58.396 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    16:10:58.396 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+    16:10:58.413 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    16:10:58.413 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    16:10:58.413 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+    16:10:58.425 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    16:10:58.425 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    16:10:58.426 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+    16:10:58.439 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    16:10:58.439 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    16:10:58.440 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+    16:10:58.455 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    16:10:58.455 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    16:10:58.455 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMembershipTransitionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: chat-membership-transition-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T14:10:59Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 270
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

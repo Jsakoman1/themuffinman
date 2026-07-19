@@ -1,0 +1,9 @@
+{
+  "capability": "platform.activity",
+  "route": "/notifications",
+  "actions": ["register", "load_activity", "mark_all_read", "reload_ready"],
+  "loaded": true,
+  "markAllReadAvailable": true,
+  "feedback": true,
+  "failedResponses": []
+}

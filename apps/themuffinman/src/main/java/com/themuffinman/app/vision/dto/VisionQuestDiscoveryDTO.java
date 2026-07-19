@@ -18,6 +18,10 @@ public class VisionQuestDiscoveryDTO {
     private String query;
     private String sort;
     private String summary;
+    private int page;
+    private int pageSize;
+    private String resultState;
+    private String recoveryAction;
     private long totalItems;
     private boolean hasMore;
     private List<VisionQuestDiscoveryItemDTO> items;

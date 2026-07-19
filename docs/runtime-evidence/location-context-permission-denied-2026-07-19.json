@@ -1,0 +1,10 @@
+{
+  "capability": "platform.location",
+  "route": "/profile/settings?location=current",
+  "actions": ["register", "current_location_handoff", "deny_browser_permission", "retain_settings_surface"],
+  "registerStatus": 200,
+  "settingsHeading": "Settings",
+  "permissionRecoveryVisible": true,
+  "settingsRemainUsable": true,
+  "failedResponses": []
+}

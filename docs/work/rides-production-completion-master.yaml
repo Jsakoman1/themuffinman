@@ -21,7 +21,6 @@ plan_ownership:
   canonical_master: docs/work/rides-production-completion-master.yaml
   canonical_execution_plan: docs/work/rides-production-completion.yaml
   capability_source_of_truth: docs/capability-inventory.yaml
-  runtime_source_of_truth: docs/runtime-acceptance-matrix.yaml
 non_negotiables:
 - Rides are voluntary circle-scoped coordination, not commercial Business bookings.
 - Backend owns authorization, consent, visibility, capacity, validation, and state

@@ -1,0 +1,9 @@
+{
+  "capability": "chat.conversation.create_group",
+  "actions": ["three_user_setup", "eligibility_check", "attempt_create"],
+  "eligibilityStatus": 200,
+  "reasonCode": "CIRCLE_ACCESS_REQUIRED",
+  "allowedActions": ["EDIT_PARTICIPANTS"],
+  "createStatus": 403,
+  "failedResponses": []
+}

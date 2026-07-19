@@ -4,6 +4,7 @@ import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.business.repository.BusinessProfileRepository;
 import com.themuffinman.app.location.service.LocationLookupService;
 import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.social.service.CircleReadService;
@@ -115,6 +116,9 @@ class VisionConversationServiceTest {
     private AppUserRepository appUserRepository;
 
     @Mock
+    private BusinessProfileRepository businessProfileRepository;
+
+    @Mock
     private VisionLearningService visionLearningService;
 
     private VisionConversationService visionConversationService;
@@ -151,7 +155,8 @@ class VisionConversationServiceTest {
                 thingSharingService,
                 questApplicationReadService,
                 appUserRepository,
-                semanticAliasRegistry
+                semanticAliasRegistry,
+                businessProfileRepository
         );
         VisionSemanticOrchestrationContextService visionSemanticOrchestrationContextService =
                 new VisionSemanticOrchestrationContextService(new com.themuffinman.app.config.VoiceProperties(), visionConversationRepository, visionTurnRepository);
@@ -2172,6 +2177,8 @@ class VisionConversationServiceTest {
         );
 
         assertEquals("SHOW_REVIEW", reviewResponse.getNextAction());
+        assertEquals("REVIEW_READY", reviewResponse.getWorkflowState());
+        assertEquals(List.of("CONFIRM", "EDIT", "CANCEL"), reviewResponse.getAllowedActions());
         assertNotNull(reviewResponse.getReview());
         assertFalse(reviewResponse.getAppliedSlotSummaries().isEmpty());
         assertEquals("Help move a sofa", reviewResponse.getReview().getTitle());

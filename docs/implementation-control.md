@@ -119,9 +119,7 @@ normal work-plan verifier before it is considered complete.
 
 ## Runtime evidence
 
-Source tests, type checks, and production builds do not count as browser or device runtime evidence. For strict plans, a task with `manual_runtime_command` cannot verify without its declared changed `runtime_evidence_paths`; a visual implementation task cannot verify without its declared changed `visual_evidence_paths`. Open runtime
-gaps are cataloged in `docs/runtime-acceptance-matrix.yaml` and checked with `make audit-runtime-acceptance`; a
-scenario may only move out of `pending_runtime` after an actual browser or device trace is recorded.
+Source tests, type checks, and production builds do not count as browser or device runtime evidence. For strict plans, a task with `manual_runtime_command` cannot verify without its declared changed `runtime_evidence_paths`; a visual implementation task cannot verify without its declared changed `visual_evidence_paths`. Open runtime gaps belong to the owning capability and strict work plan. Runtime evidence is intentionally ephemeral: a future runtime slice must declare its own changed evidence paths and may only close after an actual browser or device trace.
 
 The static Web contract preflight can be run with `npm --prefix apps/themuffinman/frontend run validate:web-surface`.
 It checks canonical route presence and ordering, visible entry actions, Calendar modes/timezone labeling, and
@@ -143,3 +141,4 @@ Run `make audit-product-experience-plan` before starting the product experience
 expansion batch. It checks the shell, Vision, account media, discovery,
 multi-business, favorites, commute, and runtime child graph, analysis artifacts,
 baseline revisions, manual browser boundaries, and non-recursive leaf validations.
+The active 30-capability pursuit is governed by `docs/work/capability-30-execution-board.yaml`. It is the frozen ordered list of partial capability IDs, owner plans, required source files, close criteria, and explicit product deferrals. Do not create an unlisted continuation slice; update the board first when scope genuinely changes.

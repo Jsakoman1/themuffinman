@@ -19,5 +19,6 @@ public class VisionSearchDiscoveryItemDTO {
     private String summary;
     private String matchSummary;
     private String resolutionLabel;
+    private String detailRoute;
     private boolean exactResolutionEligible;
 }

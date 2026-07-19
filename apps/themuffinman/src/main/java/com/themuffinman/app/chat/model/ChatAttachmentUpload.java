@@ -55,4 +55,7 @@ public class ChatAttachmentUpload {
 
     @Column(name = "expires_at", nullable = false)
     private Instant expiresAt;
+
+    @Column(name = "cancelled_at")
+    private Instant cancelledAt;
 }

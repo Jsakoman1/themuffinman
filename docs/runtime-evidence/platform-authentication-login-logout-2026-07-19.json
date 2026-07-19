@@ -1,0 +1,18 @@
+{
+  "capability": "platform.authentication",
+  "route": "/login",
+  "actions": ["register", "login", "logout", "relogin"],
+  "registeredRoute": "/vision",
+  "registeredTokenPresent": true,
+  "loggedOutRoute": "/login",
+  "loggedOutTokenPresent": false,
+  "reloginRoute": "/vision",
+  "reloginTokenPresent": true,
+  "authResponses": [
+    {"path": "/auth/register", "status": 200},
+    {"path": "/auth/me", "status": 200},
+    {"path": "/auth/logout", "status": 200},
+    {"path": "/auth/login", "status": 200}
+  ],
+  "failedResponses": []
+}

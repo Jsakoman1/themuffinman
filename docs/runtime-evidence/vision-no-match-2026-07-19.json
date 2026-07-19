@@ -1,0 +1,9 @@
+{
+  "capability": "vision.read_discovery",
+  "route": "/vision",
+  "actions": ["register", "text_request", "render_no_matches", "show_recovery"],
+  "query": "Find quest zzqnoresult178446x",
+  "resultState": "NO_MATCHES",
+  "recoveryActionVisible": true,
+  "failedResponses": []
+}

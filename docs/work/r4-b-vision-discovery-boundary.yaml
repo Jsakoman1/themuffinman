@@ -1,0 +1,130 @@
+kind: work
+version: 1
+id: r4-b-vision-discovery-boundary
+title: Standardize Vision discovery filtering and detail handoffs
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Give Web, Vision, and future native clients a backend-owned discovery contract
+  with explicit family filtering and canonical detail routes.
+tasks:
+- id: vision-discovery-contract
+  title: Add family filtering and canonical detail routes
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSearchDiscoveryDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSearchDiscoveryItemDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionSearchDiscoveryServiceTest
+    test
+- id: vision-discovery-docs
+  title: Record discovery filtering and handoff ownership
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+- id: vision-discovery-detail-route-parity
+  title: Prefer backend detail routes across Web and Vision result handoffs
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionSearchDiscoveryServiceTest test
+    && cd ../../frontend && npm run type-check && npm run build
+evidence:
+- task: vision-discovery-contract
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionSearchDiscoveryServiceTest
+    test
+  ranAt: '2026-07-19T14:15:31Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSearchDiscoveryDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSearchDiscoveryItemDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-discovery-detail-route-parity
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionSearchDiscoveryServiceTest test && cd ../../frontend && npm run type-check && npm run build
+  ranAt: '2026-07-19T14:56:00Z'
+  revision: working-tree
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  output: Frontend type-check/build and focused discovery tests passed.
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-discovery-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T14:16:03Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 270
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

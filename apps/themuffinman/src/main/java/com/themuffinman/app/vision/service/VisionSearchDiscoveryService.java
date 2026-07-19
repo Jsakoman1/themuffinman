@@ -3,6 +3,8 @@ package com.themuffinman.app.vision.service;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.business.model.BusinessProfile;
+import com.themuffinman.app.business.repository.BusinessProfileRepository;
 import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.semantic.SemanticEntityFamily;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
@@ -12,6 +14,7 @@ import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryItemDTO;
+import com.themuffinman.app.vision.dto.VisionSearchRecoveryCode;
 import com.themuffinman.app.vision.dto.VisionSearchComparisonDTO;
 import com.themuffinman.app.vision.dto.VisionSearchComparisonItemDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -34,6 +37,8 @@ import java.util.Map;
 
 @Service
 public class VisionSearchDiscoveryService {
+    private static final List<String> AVAILABLE_ENTITY_FAMILIES = List.of("quest", "circle", "user", "application", "thing", "business");
+    private static final int DISCOVERY_PAGE_SIZE = 8;
 
     private final WorkmarketQuestReadService questReadService;
     private final CircleReadService circleReadService;
@@ -41,6 +46,7 @@ public class VisionSearchDiscoveryService {
     private final WorkmarketQuestApplicationReadService questApplicationReadService;
     private final AppUserRepository appUserRepository;
     private final SemanticAliasRegistry semanticAliasRegistry;
+    private final BusinessProfileRepository businessProfileRepository;
 
     public VisionSearchDiscoveryService(
             WorkmarketQuestReadService questReadService,
@@ -48,7 +54,8 @@ public class VisionSearchDiscoveryService {
             ThingSharingService thingSharingService,
             WorkmarketQuestApplicationReadService questApplicationReadService,
             AppUserRepository appUserRepository,
-            SemanticAliasRegistry semanticAliasRegistry
+            SemanticAliasRegistry semanticAliasRegistry,
+            BusinessProfileRepository businessProfileRepository
     ) {
         this.questReadService = questReadService;
         this.circleReadService = circleReadService;
@@ -56,6 +63,7 @@ public class VisionSearchDiscoveryService {
         this.questApplicationReadService = questApplicationReadService;
         this.appUserRepository = appUserRepository;
         this.semanticAliasRegistry = semanticAliasRegistry;
+        this.businessProfileRepository = businessProfileRepository;
     }
 
     public VisionSearchDiscoveryDTO discover(
@@ -72,7 +80,11 @@ public class VisionSearchDiscoveryService {
     }
 
     public VisionSearchDiscoveryDTO discoverWeb(AppUser currentUser, String query, int page) {
-        return discoverForPage(currentUser, query, Math.max(0, page));
+        return discoverWeb(currentUser, query, page, null);
+    }
+
+    public VisionSearchDiscoveryDTO discoverWeb(AppUser currentUser, String query, int page, String entityFamily) {
+        return discoverForPage(currentUser, query, Math.max(0, page), normalizeFamilyFilter(entityFamily));
     }
 
     public VisionSearchComparisonDTO compareWeb(AppUser currentUser, String query, List<String> selections) {
@@ -90,7 +102,11 @@ public class VisionSearchDiscoveryService {
 
         VisionSearchDiscoveryDTO discovery = discoverWeb(currentUser, query, 0);
         Map<String, VisionSearchDiscoveryItemDTO> available = new LinkedHashMap<>();
-        discovery.getItems().forEach(item -> available.put(selectionKey(item.getEntityFamily(), item.getTargetId()), item));
+        discoverCandidates(currentUser, query, null).forEach(candidate -> {
+            VisionSearchDiscoveryItemDTO item = candidate.item();
+            item.setDetailRoute(sourceRoute(item));
+            available.put(selectionKey(item.getEntityFamily(), item.getTargetId()), item);
+        });
         List<VisionSearchComparisonItemDTO> items = requested.stream()
                 .map(available::get)
                 .filter(java.util.Objects::nonNull)
@@ -149,9 +165,10 @@ public class VisionSearchDiscoveryService {
         return switch (family) {
             case "quest" -> "/work/quests/" + item.getTargetId();
             case "thing" -> "/things/" + item.getTargetId();
-            case "circle" -> "/circles/" + item.getTargetId();
+            case "circle" -> "/circles";
             case "user" -> "/people/" + item.getTargetId();
             case "application" -> "/work/applications/" + item.getTargetId();
+            case "business" -> "/business/public/" + item.getResolutionLabel();
             default -> "/search";
         };
     }
@@ -161,34 +178,72 @@ public class VisionSearchDiscoveryService {
     }
 
     private VisionSearchDiscoveryDTO discoverForPage(AppUser currentUser, String query, int page) {
+        return discoverForPage(currentUser, query, page, null);
+    }
+
+    private VisionSearchDiscoveryDTO discoverForPage(AppUser currentUser, String query, int page, String filterFamily) {
+        List<SearchCandidate> sortedCandidates = discoverCandidates(currentUser, query, filterFamily);
+        List<VisionSearchDiscoveryItemDTO> items = sortedCandidates.stream()
+                .skip((long) page * DISCOVERY_PAGE_SIZE)
+                .limit(DISCOVERY_PAGE_SIZE)
+                .map(SearchCandidate::item)
+                .peek(item -> item.setDetailRoute(sourceRoute(item)))
+                .toList();
+
+        String summary = buildSummary(query, items);
+        boolean blankQuery = query == null || query.isBlank();
+        String resultState = sortedCandidates.isEmpty() ? (blankQuery ? "EMPTY_QUERY" : "NO_MATCHES") : "RESULTS";
+        String recoveryAction = sortedCandidates.isEmpty()
+                ? (blankQuery ? "ENTER_QUERY" : filterFamily == null ? "REFINE_QUERY" : "REMOVE_FILTER")
+                : null;
+        VisionSearchRecoveryCode recoveryCode = sortedCandidates.isEmpty()
+                ? (blankQuery ? VisionSearchRecoveryCode.ENTER_QUERY
+                : filterFamily == null ? VisionSearchRecoveryCode.REFINE_QUERY : VisionSearchRecoveryCode.REMOVE_FILTER)
+                : VisionSearchRecoveryCode.NONE;
+        return VisionSearchDiscoveryDTO.builder()
+                .contractVersion("search-v1")
+                .capabilityId("search")
+                .query(query)
+                .filterFamily(filterFamily)
+                .filterSchemaVersion("search-filter-v1")
+                .availableEntityFamilies(AVAILABLE_ENTITY_FAMILIES)
+                .sort("relevance")
+                .page(page)
+                .pageSize(DISCOVERY_PAGE_SIZE)
+                .summary(summary)
+                .resultState(resultState)
+                .recoveryAction(recoveryAction)
+                .recoveryCode(recoveryCode)
+                .totalItems(sortedCandidates.size())
+                .hasMore(sortedCandidates.size() > (long) (page + 1) * DISCOVERY_PAGE_SIZE)
+                .items(items)
+                .build();
+    }
+
+    private List<SearchCandidate> discoverCandidates(AppUser currentUser, String query, String filterFamily) {
         List<SearchCandidate> candidates = new ArrayList<>();
         candidates.addAll(discoverQuests(currentUser, query));
         candidates.addAll(discoverCircles(currentUser, query));
         candidates.addAll(discoverUsers(currentUser, query));
         candidates.addAll(discoverApplications(currentUser, query));
         candidates.addAll(discoverThings(currentUser, query));
-        List<SearchCandidate> sortedCandidates = candidates.stream()
+        candidates.addAll(discoverBusinesses(query));
+        return candidates.stream()
+                .filter(candidate -> filterFamily == null || filterFamily.equals(candidate.item().getEntityFamily()))
                 .sorted(Comparator
                         .comparingInt(SearchCandidate::score).reversed()
                         .thenComparingInt(candidate -> familyPriority(candidate.item()))
                         .thenComparing(candidate -> candidate.item().getTitle() == null ? "" : candidate.item().getTitle(), String.CASE_INSENSITIVE_ORDER))
                 .toList();
-        List<VisionSearchDiscoveryItemDTO> items = sortedCandidates.stream()
-                .skip((long) page * 8)
-                .limit(8)
-                .map(SearchCandidate::item)
-                .toList();
+    }
 
-        String summary = buildSummary(query, items);
-        return VisionSearchDiscoveryDTO.builder()
-                .capabilityId("search")
-                .query(query)
-                .sort("relevance")
-                .summary(summary)
-                .totalItems(sortedCandidates.size())
-                .hasMore(sortedCandidates.size() > (long) (page + 1) * 8)
-                .items(items)
-                .build();
+    private String normalizeFamilyFilter(String entityFamily) {
+        String normalized = TextValueNormalizer.lowerTrimToEmpty(entityFamily);
+        if (normalized.isBlank()) return null;
+        if (!AVAILABLE_ENTITY_FAMILIES.contains(normalized)) {
+            throw ServiceErrors.badRequest("Unsupported search family. Choose one of: " + String.join(", ", AVAILABLE_ENTITY_FAMILIES));
+        }
+        return normalized;
     }
 
     private int discoveryPage(VisionConversation conversation) {
@@ -318,6 +373,18 @@ public class VisionSearchDiscoveryService {
                 .toList();
     }
 
+    private List<SearchCandidate> discoverBusinesses(String query) {
+        String normalizedQuery = normalizeFamilyQuery(query, SemanticEntityFamily.BUSINESS);
+        if (normalizedQuery.isBlank()) return List.of();
+        return businessProfileRepository.searchActiveProfiles(normalizedQuery).stream()
+                .limit(3)
+                .map(profile -> scoredItem(
+                        "business", "view_business", profile.getId(), profile.getBusinessName(), profile.getHeadline(),
+                        profile.getBusinessName(), profile.getSlug(), true, normalizedQuery
+                ))
+                .toList();
+    }
+
     private SearchCandidate scoredItem(
             String entityFamily,
             String capabilityId,
@@ -388,6 +455,7 @@ public class VisionSearchDiscoveryService {
             case "user" -> 2;
             case "application" -> 3;
             case "thing" -> 4;
+            case "business" -> 5;
             default -> 5;
         };
     }
@@ -406,6 +474,7 @@ public class VisionSearchDiscoveryService {
             case "user" -> 300;
             case "application" -> 200;
             case "thing" -> 100;
+            case "business" -> 80;
             default -> 0;
         };
 
@@ -544,6 +613,7 @@ public class VisionSearchDiscoveryService {
         addFamilyLabel(families, items, "user", "users");
         addFamilyLabel(families, items, "application", "applications");
         addFamilyLabel(families, items, "thing", "things");
+        addFamilyLabel(families, items, "business", "businesses");
         return String.join(", ", families);
     }
 

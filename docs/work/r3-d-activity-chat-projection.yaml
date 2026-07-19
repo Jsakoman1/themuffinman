@@ -1,0 +1,139 @@
+kind: work
+version: 1
+id: r3-d-activity-chat-projection
+title: Project authorized cross-module activity into the workspace feed
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Extend the viewer-scoped activity read model with authorized recent Chat
+  conversations and Things borrow requests so activity is cross-module and resumable
+  without frontend permission or route inference.
+tasks:
+- id: activity-chat-projection
+  title: Add backend-owned Chat activity items and regression coverage
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=ActivityReadServiceTest,ActivityControllerTest
+    test
+- id: activity-things-projection
+  title: Add backend-owned Things borrow request activity items and regression coverage
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=ActivityReadServiceTest test
+- id: activity-chat-docs
+  title: Record Chat activity projection and remaining parity gaps
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+- id: activity-resume-dismissal-parity
+  title: Apply viewer dismissal consistently to resumable Chat activity
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=ActivityReadServiceTest,ActivityControllerTest
+    test
+evidence:
+- task: activity-chat-projection
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=ActivityReadServiceTest,ActivityControllerTest
+    test
+  ranAt: '2026-07-19T14:04:33Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: activity-chat-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T14:05:01Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 270
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: activity-resume-dismissal-parity
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=ActivityReadServiceTest,ActivityControllerTest
+    test
+  ranAt: '2026-07-19T14:05:06Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: activity-things-projection
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=ActivityReadServiceTest test
+  ranAt: '2026-07-19T14:46:00Z'
+  revision: working-tree
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  output: ""
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

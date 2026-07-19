@@ -1,0 +1,129 @@
+kind: work
+version: 1
+id: r4-a-vision-execution-failure-contract
+title: Standardize Vision execution failure metadata
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Give Vision execution and planning results typed failure codes and retryability
+  so Web, Vision, and future native clients can render recovery without parsing free-form
+  messages.
+tasks:
+- id: vision-failure-metadata
+  title: Classify execution and planning failures
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionExecutionServiceTest
+    test
+- id: vision-failure-docs
+  title: Document typed Vision failure and retry contract
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+- id: vision-central-failure-boundary
+  title: Use explicit failure metadata at the central execution gate
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionExecutionServiceTest test
+evidence:
+- task: vision-failure-metadata
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionExecutionServiceTest test
+  ranAt: '2026-07-19T14:14:41Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-central-failure-boundary
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionExecutionServiceTest test
+  ranAt: '2026-07-19T14:51:00Z'
+  revision: working-tree
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java
+  output: ""
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionExecutionServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-failure-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T14:15:15Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 270
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

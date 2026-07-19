@@ -2,6 +2,7 @@ package com.themuffinman.app.common.controller;
 
 import com.themuffinman.app.dto.ApiErrorResponseDTO;
 import com.themuffinman.app.dto.ApiFieldErrorDTO;
+import com.themuffinman.app.common.errors.CodedResponseStatusException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ConstraintViolation;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +27,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<Object> handleResponseStatusException(ResponseStatusException ex) {
         HttpStatus status = HttpStatus.valueOf(ex.getStatusCode().value());
-        return buildResponse(status, status.name(), resolveMessage(ex.getReason(), status.getReasonPhrase()), List.of());
+        String code = ex instanceof CodedResponseStatusException coded ? coded.getCode() : status.name();
+        return buildResponse(status, code, resolveMessage(ex.getReason(), status.getReasonPhrase()), List.of());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

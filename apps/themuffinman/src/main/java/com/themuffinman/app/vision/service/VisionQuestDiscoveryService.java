@@ -63,14 +63,20 @@ public class VisionQuestDiscoveryService {
         String summary = items.isEmpty()
                 ? buildEmptySummary(query)
                 : buildSummary(query, questList.getTotalItems(), items.size());
+        int page = discoveryPage(conversation);
+        boolean blankQuery = query == null || query.isBlank();
 
         return VisionQuestDiscoveryDTO.builder()
                 .capabilityId("discover_quests")
                 .query(query)
                 .sort("recommended")
                 .summary(summary)
+                .page(page)
+                .pageSize(5)
+                .resultState(items.isEmpty() ? (blankQuery ? "EMPTY_QUERY" : "NO_MATCHES") : "RESULTS")
+                .recoveryAction(items.isEmpty() ? (blankQuery ? "ENTER_QUERY" : "REFINE_QUERY") : null)
                 .totalItems(questList.getTotalItems())
-                .hasMore(questList.getTotalItems() > items.size())
+                .hasMore(questList.getTotalItems() > (long) page * 5 + items.size())
                 .items(items)
                 .build();
     }

@@ -1,5 +1,6 @@
 package com.themuffinman.app.workmarket.service;
 
+import com.themuffinman.app.common.errors.CodedResponseStatusException;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.WorkerReassignmentRequestDTO;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
 class WorkmarketWorkerManagementServiceTest {
@@ -122,13 +124,28 @@ class WorkmarketWorkerManagementServiceTest {
         request.setReplacementApplicationId(12L);
 
         manage(quest, owner);
-        when(applicationRepository.findForQuestApplicationDetailByStatus(10L, 11L, QuestApplicationStatus.APPROVED))
+        when(applicationRepository.findForQuestApplicationDetailByStatus(11L, 10L, QuestApplicationStatus.APPROVED))
                 .thenReturn(Optional.of(current));
         when(applicationRepository.findForQuestApplicationDetailByStatus(12L, 10L, QuestApplicationStatus.PENDING))
                 .thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> service.replaceWorker(10L, 11L, request, owner));
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> service.replaceWorker(10L, 11L, request, owner));
+        assertEquals(409, exception.getStatusCode().value());
+        assertEquals("REPLACEMENT_APPLICATION_STALE", ((CodedResponseStatusException) exception).getCode());
         assertEquals(QuestApplicationStatus.APPROVED, current.getStatus());
+    }
+
+    @Test
+    void staleQuestLifecycleReturnsConflictBeforeReadingWorker() {
+        AppUser owner = user(1L, "owner");
+        Quest quest = quest(10L, QuestStatus.COMPLETED, 1);
+        when(workflowSupport.requireQuest(10L)).thenReturn(quest);
+        when(workflowSupport.canManageWorkers(quest, owner)).thenReturn(true);
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> service.releaseWorker(10L, 11L, owner));
+
+        assertEquals(409, exception.getStatusCode().value());
+        assertEquals("QUEST_WORKER_STATE_STALE", ((CodedResponseStatusException) exception).getCode());
     }
 
     private void manage(Quest quest, AppUser actor) {

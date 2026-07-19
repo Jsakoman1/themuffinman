@@ -18,4 +18,6 @@ public class ChatAttachmentUploadDTO {
     private String attachmentStorageKey;
     private String attachmentUrl;
     private String attachmentUrlExpiresAt;
+    private String uploadState;
+    private boolean retryable;
 }

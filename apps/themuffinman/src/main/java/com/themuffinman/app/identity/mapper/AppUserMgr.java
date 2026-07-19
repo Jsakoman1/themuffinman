@@ -7,10 +7,11 @@ import com.themuffinman.app.location.service.LocationSettingsViewService;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
-import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.identity.service.ProfileVisibilityService;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AppUserMgr {
     private final LocationSettingsViewService locationSettingsViewService;
+    private final ProfileVisibilityService profileVisibilityService;
 
     public AppUserResponseDTO toDto(AppUser appUser) {
         if (appUser == null) {
@@ -39,10 +41,21 @@ public class AppUserMgr {
                 .profileAvatarDataUrl(appUser.getProfileAvatarDataUrl())
                 .profileDescriptionVisibility(appUser.getProfileDescriptionVisibility())
                 .profileAvatarVisibility(appUser.getProfileAvatarVisibility())
+                .profileDescriptionVisibleCircleIds(java.util.Set.of())
+                .profileAvatarVisibleCircleIds(java.util.Set.of())
                 .locationSettings(locationSettingsViewService.toDto(appUser))
                 .createdAt(appUser.getCreatedAt())
                 .role(appUser.getRole() == null ? AppUserRole.USER.name() : appUser.getRole().name())
                 .build();
+    }
+
+    public AppUserResponseDTO toOwnerDto(AppUser appUser) {
+        AppUserResponseDTO dto = toDto(appUser);
+        if (dto != null) {
+            dto.setProfileDescriptionVisibleCircleIds(appUser.getProfileDescriptionVisibleToCircles().stream().map(circle -> circle.getId()).collect(Collectors.toCollection(java.util.LinkedHashSet::new)));
+            dto.setProfileAvatarVisibleCircleIds(appUser.getProfileAvatarVisibleToCircles().stream().map(circle -> circle.getId()).collect(Collectors.toCollection(java.util.LinkedHashSet::new)));
+        }
+        return dto;
     }
 
     public AppUserResponseDTO toProfileDto(AppUser profileUser, AppUser viewer) {
@@ -54,12 +67,14 @@ public class AppUserMgr {
         if (!ownProfile) {
             dto.setEmail(null);
             dto.setResolutionLabel(profileUser.getUsername());
-            if (profileUser.getProfileDescriptionVisibility() == com.themuffinman.app.identity.model.ProfileFieldVisibility.PRIVATE) {
+            if (!profileVisibilityService.mayView(profileUser, viewer, profileUser.getProfileDescriptionVisibility(), profileUser.getProfileDescriptionVisibleToCircles())) {
                 dto.setProfileDescription(null);
             }
-            if (profileUser.getProfileAvatarVisibility() == com.themuffinman.app.identity.model.ProfileFieldVisibility.PRIVATE) {
+            if (!profileVisibilityService.mayView(profileUser, viewer, profileUser.getProfileAvatarVisibility(), profileUser.getProfileAvatarVisibleToCircles())) {
                 dto.setProfileAvatarDataUrl(null);
             }
+            dto.setProfileDescriptionVisibleCircleIds(java.util.Set.of());
+            dto.setProfileAvatarVisibleCircleIds(java.util.Set.of());
             dto.setLocationSettings(locationSettingsViewService.toViewerDto(profileUser, viewer));
         }
         return dto;

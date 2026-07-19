@@ -1,7 +1,7 @@
 import {api, withAuth} from "../../../api/httpClient.ts"
-import type {AuthResponse, LoginRequest, PasswordRecoveryRequest, PasswordRecoveryResponse, PasswordResetRequest, RegisterRequest} from "../../../contracts/index.ts"
+import type {ActionResultDTO, AuthResponse, LoginRequest, PasswordRecoveryRequest, PasswordRecoveryResponse, PasswordResetRequest, RegisterRequest} from "../../../contracts/index.ts"
 
-export type {AuthResponse, LoginRequest, PasswordRecoveryRequest, PasswordRecoveryResponse, PasswordResetRequest, RegisterRequest} from "../../../contracts/index.ts"
+export type {ActionResultDTO, AuthResponse, LoginRequest, PasswordRecoveryRequest, PasswordRecoveryResponse, PasswordResetRequest, RegisterRequest} from "../../../contracts/index.ts"
 
 export const authApi = {
   async login(dto: LoginRequest): Promise<AuthResponse> {
@@ -22,5 +22,9 @@ export const authApi = {
 
   async me(): Promise<AuthResponse> {
     return (await api.get<AuthResponse>("/auth/me", withAuth())).data
+  },
+
+  async logout(): Promise<ActionResultDTO> {
+    return (await api.post<ActionResultDTO>("/auth/logout", undefined, withAuth())).data
   }
 }

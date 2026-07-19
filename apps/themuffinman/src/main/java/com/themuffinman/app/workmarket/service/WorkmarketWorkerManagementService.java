@@ -59,7 +59,9 @@ public class WorkmarketWorkerManagementService {
         QuestApplication replacementWorker = questApplicationRepository
                 .findForQuestApplicationDetailByStatus(
                         request.getReplacementApplicationId(), questId, QuestApplicationStatus.PENDING)
-                .orElseThrow(() -> ServiceErrors.badRequest("Replacement application must be pending for this quest"));
+                .orElseThrow(() -> ServiceErrors.conflict(
+                        "REPLACEMENT_APPLICATION_STALE",
+                        "Replacement application changed; refresh the applications before trying again"));
 
         releasedWorker.setStatus(QuestApplicationStatus.RELEASED);
         replacementWorker.setStatus(QuestApplicationStatus.APPROVED);
@@ -79,7 +81,9 @@ public class WorkmarketWorkerManagementService {
         if (quest.getStatus() != QuestStatus.ASSIGNED
                 && quest.getStatus() != QuestStatus.IN_PROGRESS
                 && quest.getStatus() != QuestStatus.PAUSED) {
-            throw ServiceErrors.badRequest("Workers can only be managed for assigned, active, or paused quests");
+            throw ServiceErrors.conflict(
+                    "QUEST_WORKER_STATE_STALE",
+                    "Quest state changed; refresh the applications before managing workers");
         }
         return quest;
     }
@@ -87,7 +91,9 @@ public class WorkmarketWorkerManagementService {
     private QuestApplication requireApprovedApplication(Long questId, Long applicationId) {
         return questApplicationRepository.findForQuestApplicationDetailByStatus(
                         applicationId, questId, QuestApplicationStatus.APPROVED)
-                .orElseThrow(() -> ServiceErrors.badRequest("Worker application must be approved for this quest"));
+                .orElseThrow(() -> ServiceErrors.conflict(
+                        "WORKER_ASSIGNMENT_STALE",
+                        "Worker assignment changed; refresh the applications before trying again"));
     }
 
     private void restoreOpenStatusWhenSlotIsAvailable(Quest quest) {

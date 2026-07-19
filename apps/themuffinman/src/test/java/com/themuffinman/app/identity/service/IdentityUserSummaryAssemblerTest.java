@@ -4,6 +4,7 @@ import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.service.LocationSettingsViewService;
+import com.themuffinman.app.identity.service.ProfileVisibilityService;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,7 +19,7 @@ class IdentityUserSummaryAssemblerTest {
     @Test
     void buildProfileSummaryDelegatesToAppUserMapperAndAddsStats() {
         LocationSettingsViewService locationSettingsViewService = Mockito.mock(LocationSettingsViewService.class);
-        AppUserMgr appUserMgr = Mockito.spy(new AppUserMgr(locationSettingsViewService));
+        AppUserMgr appUserMgr = Mockito.spy(new AppUserMgr(locationSettingsViewService, Mockito.mock(ProfileVisibilityService.class)));
         IdentityUserSummaryAssembler assembler = new IdentityUserSummaryAssembler(appUserMgr);
 
         AppUser profileUser = new AppUser();

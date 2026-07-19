@@ -42,6 +42,12 @@ public class ChatRealtimeService {
 
     public void register(AppUser currentUser, WebSocketSession session) {
         sessionsByUserId.computeIfAbsent(currentUser.getId(), ignored -> new CopyOnWriteArraySet<>()).add(session);
+        sendMessage(session, new TextMessage(serialize(ChatSocketEventDTO.builder()
+                .type("chat.connection")
+                .connectionState("CONNECTED")
+                .resyncRequired(false)
+                .reason("socket_established")
+                .build())));
         chatPresenceService.markActive(currentUser);
         notifyPresenceChanged(currentUser, "presence_online");
     }

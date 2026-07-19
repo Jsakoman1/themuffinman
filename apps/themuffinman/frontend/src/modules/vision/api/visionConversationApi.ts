@@ -80,6 +80,8 @@ export type VisionExecutionCandidate = {
   confirmationRequired: boolean
   nextRequiredSlot: string | null
   blockingReason: string
+  failureCode: string | null
+  retryable: boolean
   planningNote: string
   summary: string
 }
@@ -102,6 +104,10 @@ export type VisionQuestDiscovery = {
   query: string
   sort: string
   summary: string
+  page: number
+  pageSize: number
+  resultState: string
+  recoveryAction: string | null
   totalItems: number
   hasMore: boolean
   items: VisionQuestDiscoveryItem[]
@@ -116,6 +122,7 @@ export type VisionSearchDiscoveryItem = {
   matchSummary: string
   resolutionLabel: string
   exactResolutionEligible: boolean
+  detailRoute: string | null
 }
 
 export type VisionSearchDiscovery = {

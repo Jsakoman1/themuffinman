@@ -43,25 +43,25 @@ public class VisionExecutionService {
 
     public VisionExecutionResult execute(VisionConversation conversation) {
         if (conversation == null) {
-            return VisionExecutionResult.blocked("Conversation is required for execution.");
+            return VisionExecutionResult.blocked("VALIDATION", "Conversation is required for execution.", false);
         }
         VisionIntent intent = conversation.getIntent();
         if (intent == null || intent == VisionIntent.UNSUPPORTED) {
-            return VisionExecutionResult.blocked("Execution is only supported for typed capability conversations.");
+            return VisionExecutionResult.blocked("VALIDATION", "Execution is only supported for typed capability conversations.", false);
         }
         if (conversation.getStatus() != VisionConversationStatus.REVIEW_READY) {
-            return VisionExecutionResult.blocked("Conversation is not ready for execution.");
+            return VisionExecutionResult.blocked("STATE", "Conversation is not ready for execution.", false);
         }
         VisionSemanticRouteDescriptor route = visionSemanticRouteCatalogService == null
                 ? null
                 : visionSemanticRouteCatalogService.routeForIntent(intent.name());
         String capabilityId = route == null ? TextValueNormalizer.lowerTrimToEmpty(intent.name()) : route.getCapabilityId();
         if (!visionSurfacePolicy.canExecuteCapability(capabilityId)) {
-            return VisionExecutionResult.blocked("Execution is disabled by configuration.");
+            return VisionExecutionResult.blocked("CONFIGURATION", "Execution is disabled by configuration.", false);
         }
         VisionCapabilityExecutionAdapter adapter = adaptersByCapabilityId.get(capabilityId);
         if (adapter == null) {
-            return VisionExecutionResult.blocked("Execution is not available for " + capabilityId + ".");
+            return VisionExecutionResult.blocked("UNAVAILABLE", "Execution is not available for " + capabilityId + ".", true);
         }
         return adapter.execute(conversation);
     }

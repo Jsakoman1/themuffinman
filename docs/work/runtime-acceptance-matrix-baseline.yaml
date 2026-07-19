@@ -1,0 +1,49 @@
+kind: work
+version: 1
+id: runtime-acceptance-matrix-baseline
+title: Restore machine-readable runtime acceptance baseline
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Restore deterministic tracking for browser/device evidence without retaining
+  screenshots, HAR files, or other generated smoke artifacts.
+tasks:
+- id: runtime-matrix
+  title: Add all queued capability runtime scenarios as pending
+  type: documentation
+  status: done
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/capability-inventory-audit.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/capability-inventory-audit.yaml
+  validation: make audit-runtime-acceptance && make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: runtime-matrix
+  command: make audit-runtime-acceptance && make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T11:29:47Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/capability-inventory-audit.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (1 passed, 31 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 264
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/capability-inventory-audit.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

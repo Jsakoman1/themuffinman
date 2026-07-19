@@ -10,6 +10,13 @@ import com.themuffinman.app.business.repository.BusinessGalleryImageRepository;
 import com.themuffinman.app.business.repository.BusinessProfileRepository;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.storage.ObjectStorageAccess;
+import com.themuffinman.app.storage.ObjectStorageService;
+import com.themuffinman.app.storage.StoredObject;
+import com.themuffinman.app.storage.StoredObjectPayload;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.Locale;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +29,7 @@ public class BusinessGalleryService {
     private final BusinessGalleryImageRepository businessGalleryImageRepository;
     private final BusinessProfileRepository businessProfileRepository;
     private final BusinessGalleryImageMgr businessGalleryImageMgr;
+    private final ObjectStorageService objectStorageService;
 
     public BusinessGalleryImageListResponseDTO getMyGallery(AppUser currentUser) {
         return getMyGallery(currentUser, null);
@@ -42,6 +50,32 @@ public class BusinessGalleryService {
                         .map(businessGalleryImageMgr::toDto)
                         .toList())
                 .build();
+    }
+
+    @Transactional
+    public BusinessGalleryImageResponseDTO uploadMyGalleryImage(MultipartFile file, String altText, Integer sortOrder, AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileId == null ? businessProfileRepository.findByOwnerId(currentUser.getId()).orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before managing gallery")) : requireOwnerProfile(currentUser, businessProfileId);
+        if (file == null || file.isEmpty()) throw ServiceErrors.badRequest("Gallery image file is required");
+        String contentType = file.getContentType() == null ? "" : file.getContentType().toLowerCase(Locale.ROOT);
+        if (!contentType.startsWith("image/")) throw ServiceErrors.badRequest("Gallery uploads must be images");
+        if (file.getSize() > 10 * 1024 * 1024) throw ServiceErrors.badRequest("Gallery images must be 10 MB or smaller");
+        try {
+            StoredObject stored = objectStorageService.store("business-gallery/" + currentUser.getId() + "/" + UUID.randomUUID(), contentType, file.getBytes());
+            ObjectStorageAccess access = objectStorageService.resolve(stored.storageKey());
+            BusinessGalleryImage image = new BusinessGalleryImage();
+            image.setBusinessProfile(profile);
+            image.setImageUrl("local".equalsIgnoreCase(stored.provider()) ? "/business/gallery/object?key=" + java.net.URLEncoder.encode(stored.storageKey(), java.nio.charset.StandardCharsets.UTF_8) : access.url()); image.setStorageProvider(stored.provider()); image.setStorageKey(stored.storageKey()); image.setContentType(contentType);
+            image.setAltText(altText == null ? null : altText.trim()); image.setSortOrder(sortOrder == null ? 0 : sortOrder); image.setActive(true);
+            return businessGalleryImageMgr.toDto(businessGalleryImageRepository.save(image));
+        } catch (java.io.IOException exception) {
+            throw ServiceErrors.badRequest("Gallery image could not be read");
+        }
+    }
+
+    public StoredObjectPayload getPublicImage(String storageKey) {
+        if (storageKey == null || storageKey.isBlank()) throw ServiceErrors.badRequest("Gallery image key is required");
+        businessGalleryImageRepository.findActiveByStorageKey(storageKey).orElseThrow(() -> ServiceErrors.notFound("Gallery image not found"));
+        return objectStorageService.load(storageKey);
     }
 
     @Transactional
@@ -70,6 +104,7 @@ public class BusinessGalleryService {
     public void deleteMyGalleryImage(Long imageId, AppUser currentUser) {
         BusinessGalleryImage image = businessGalleryImageRepository.findOwnedById(imageId, currentUser.getId())
                 .orElseThrow(() -> ServiceErrors.notFound("Gallery image not found"));
+        if (image.getStorageKey() != null) objectStorageService.delete(image.getStorageKey());
         businessGalleryImageRepository.delete(image);
     }
 

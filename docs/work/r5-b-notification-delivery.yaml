@@ -1,0 +1,73 @@
+kind: work
+version: 1
+id: r5-b-notification-delivery
+title: Add typed notification delivery and read state
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Make permission-scoped notifications expose deterministic delivery/read/recovery
+  metadata while retaining the existing backend event and read authority.
+tasks:
+- id: notification-state-contract
+  title: Add delivery/read/retry metadata to notification and activity DTOs
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestNewsMgr.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/dto/ActivityItemDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=ActivityReadServiceTest test
+- id: notification-state-docs
+  title: Record delivered/read semantics and remaining delivery work
+  type: documentation
+  status: done
+  paths:
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: notification-state-contract
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=ActivityReadServiceTest test
+  ranAt: '2026-07-19T14:21:26Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/dto/ActivityItemDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/mapper/WorkmarketQuestNewsMgr.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestNewsItemResponseDTO.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: notification-state-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T14:22:01Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 270
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

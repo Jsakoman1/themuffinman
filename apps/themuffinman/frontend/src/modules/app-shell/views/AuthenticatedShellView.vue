@@ -12,6 +12,7 @@ import WorkspaceKeyboardHelp from "../components/WorkspaceKeyboardHelp.vue"
 import QuickSwitcher from "../components/QuickSwitcher.vue"
 import AppButton from "../components/AppButton.vue"
 import {userShellApi, type AttentionCenter, type PersonalShortcut} from "../api/userShellApi.ts"
+import {useChatRealtime} from "../composables/useChatRealtime.ts"
 
 const route = useRoute()
 
@@ -72,7 +73,11 @@ const finishRailResize = async () => { if (!railResizing.value) return; railResi
 const beginRailResize = (event: PointerEvent) => { if (window.matchMedia("(max-width: 980px)").matches) return; event.preventDefault(); railResizing.value = true; window.addEventListener("pointermove", resizeRail); window.addEventListener("pointerup", finishRailResize, {once: true}) }
 const resizeRailWithKeyboard = async (event: KeyboardEvent) => { if (window.matchMedia("(max-width: 980px)").matches) return; const step = event.shiftKey ? 32 : 16; let next = railWidthPx.value; if (event.key === "ArrowLeft") next -= step; else if (event.key === "ArrowRight") next += step; else if (event.key === "Home") next = 216; else if (event.key === "End") next = 280; else return; event.preventDefault(); railWidthPx.value = clampRailWidth(next); await persistRailWidth() }
 const loadPersonalContext = async () => { personalContextError.value = false; const [shortcuts, attentionResult] = await Promise.allSettled([userShellApi.getPersonalShortcuts(), userShellApi.getAttentionCenter()]); pinned.value = shortcuts.status === "fulfilled" ? shortcuts.value : []; attention.value = attentionResult.status === "fulfilled" ? attentionResult.value : null; personalContextError.value = shortcuts.status === "rejected" || attentionResult.status === "rejected" }
-onMounted(async () => { const preference = await userShellApi.getWorkspaceRailPreference().catch(() => null); railWidthPx.value = preference?.railWidthPx ?? railWidthPx.value; await loadPersonalContext() })
+const handleRealtimeEvent = (event: import("../../../contracts/index.ts").ChatSocketEventDTO) => {
+  if (event.type === "news.updated") void loadPersonalContext()
+}
+const shellRealtime = useChatRealtime(handleRealtimeEvent)
+onMounted(async () => { const preference = await userShellApi.getWorkspaceRailPreference().catch(() => null); railWidthPx.value = preference?.railWidthPx ?? railWidthPx.value; await loadPersonalContext(); shellRealtime.connect() })
 onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); window.removeEventListener("pointerup", finishRailResize) })
 </script>
 

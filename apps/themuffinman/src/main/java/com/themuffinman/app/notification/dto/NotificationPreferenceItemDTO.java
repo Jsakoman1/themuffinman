@@ -12,4 +12,7 @@ public class NotificationPreferenceItemDTO {
     private NotificationPreferenceLevel level;
     private boolean enabled;
     private boolean required;
+    private boolean available;
+    private boolean effectiveEnabled;
+    private String unavailableReason;
 }

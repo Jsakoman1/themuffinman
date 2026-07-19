@@ -1,0 +1,13 @@
+{
+  "capability": "chat.realtime",
+  "route": "/chat",
+  "endpoint": "/ws/chat",
+  "actions": ["register", "connect", "set_offline", "websocket_close", "set_online", "reconnect"],
+  "initialConnections": 1,
+  "offlineEvents": 2,
+  "postReconnectEvents": 3,
+  "offlineStatus": "Realtime disconnected",
+  "onlineStatus": "Realtime connected",
+  "reconnected": true,
+  "failedResponses": []
+}

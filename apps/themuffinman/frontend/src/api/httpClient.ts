@@ -13,9 +13,10 @@ api.interceptors.response.use(
   (error) => {
     const status = error.response?.status
     const requestUrl = String(error.config?.url ?? "")
-    const isAuthSessionCheck = requestUrl.includes("/auth/me")
+    const isPublicAuthRequest = ["/auth/login", "/auth/register", "/auth/password-recovery", "/auth/password-reset"]
+      .some(path => requestUrl.includes(path))
 
-    if (token.value && status === 401 && isAuthSessionCheck) {
+    if (token.value && status === 401 && !isPublicAuthRequest) {
       clearSession()
 
       const currentPath = window.location.pathname

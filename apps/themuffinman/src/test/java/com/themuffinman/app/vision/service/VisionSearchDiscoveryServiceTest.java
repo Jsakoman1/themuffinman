@@ -2,6 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
+import com.themuffinman.app.business.repository.BusinessProfileRepository;
 import com.themuffinman.app.semantic.SemanticAliasRegistry;
 import com.themuffinman.app.social.dto.CircleGroupResponseDTO;
 import com.themuffinman.app.social.service.CircleReadService;
@@ -9,6 +10,7 @@ import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
+import com.themuffinman.app.vision.dto.VisionSearchRecoveryCode;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
 import com.themuffinman.app.workmarket.dto.QuestListPresetDTO;
 import com.themuffinman.app.workmarket.dto.QuestListResponseDTO;
@@ -22,12 +24,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -56,6 +61,9 @@ class VisionSearchDiscoveryServiceTest {
     @Mock
     private AppUserRepository appUserRepository;
 
+    @Mock
+    private BusinessProfileRepository businessProfileRepository;
+
     private VisionSearchDiscoveryService service;
     private AppUser currentUser;
     private SemanticAliasRegistry semanticAliasRegistry;
@@ -69,7 +77,8 @@ class VisionSearchDiscoveryServiceTest {
                 thingSharingService,
                 questApplicationService,
                 appUserRepository,
-                semanticAliasRegistry
+                semanticAliasRegistry,
+                businessProfileRepository
         );
         currentUser = new AppUser();
         currentUser.setId(7L);
@@ -151,6 +160,12 @@ class VisionSearchDiscoveryServiceTest {
         assertNotNull(result);
         assertEquals("move sofa", result.getQuery());
         assertEquals("search", result.getCapabilityId());
+        assertEquals("search-v1", result.getContractVersion());
+        assertEquals(0, result.getPage());
+        assertEquals(8, result.getPageSize());
+        assertEquals("RESULTS", result.getResultState());
+        assertEquals(null, result.getRecoveryAction());
+        assertEquals(VisionSearchRecoveryCode.NONE, result.getRecoveryCode());
         assertFalse(result.getItems().isEmpty());
         assertEquals("Move sofa", result.getItems().get(0).getTitle());
         assertEquals("quest", result.getItems().get(0).getEntityFamily());
@@ -160,6 +175,46 @@ class VisionSearchDiscoveryServiceTest {
         assertTrue(result.getItems().stream().anyMatch(item -> "thing".equals(item.getEntityFamily())));
         assertTrue(result.getSummary().contains("move sofa"));
         assertTrue(result.getSummary().contains("narrow it"));
+    }
+
+    @Test
+    void filtersAuthorizedDiscoveryByEntityFamilyAndProvidesCanonicalDetailRoutes() {
+        when(questReadService.getQuestListPreset(
+                any(QuestListPresetDTO.class), any(), anyString(), any(), any(), any(), any(), any(),
+                anyBoolean(), any(), any(), anyString(), anyInt(), anyInt()
+        )).thenReturn(QuestListResponseDTO.builder().items(List.of()).page(0).size(5).totalItems(0).totalPages(0).build());
+        VisionSearchDiscoveryDTO result = service.discoverWeb(currentUser, "move sofa", 0, "thing");
+
+        assertEquals("thing", result.getFilterFamily());
+        assertEquals("search-filter-v1", result.getFilterSchemaVersion());
+        assertEquals(List.of("quest", "circle", "user", "application", "thing", "business"), result.getAvailableEntityFamilies());
+        assertTrue(result.getItems().stream().allMatch(item -> "thing".equals(item.getEntityFamily())));
+        assertEquals("/things/90", result.getItems().get(0).getDetailRoute());
+    }
+
+    @Test
+    void rejectsUnsupportedDiscoveryFamilyFilters() {
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> service.discoverWeb(currentUser, "move sofa", 0, "calendar"));
+
+        assertEquals(400, exception.getStatusCode().value());
+    }
+
+    @Test
+    void returnsNoMatchesAndRefinementRecoveryForUniqueDiscoveryQuery() {
+        when(questReadService.getQuestListPreset(
+                any(QuestListPresetDTO.class), any(), anyString(), any(), any(), any(), any(), any(),
+                anyBoolean(), any(), any(), anyString(), anyInt(), anyInt()
+        )).thenReturn(QuestListResponseDTO.builder().items(List.of()).page(0).size(5).totalItems(0).totalPages(0).build());
+
+        VisionSearchDiscoveryDTO result = service.discoverWeb(currentUser, "zzqnoresult178446x", 0);
+
+        assertNotNull(result);
+        assertEquals("NO_MATCHES", result.getResultState());
+        assertEquals("REFINE_QUERY", result.getRecoveryAction());
+        assertEquals(VisionSearchRecoveryCode.REFINE_QUERY, result.getRecoveryCode());
+        assertTrue(result.getItems().isEmpty());
+        assertTrue(result.getSummary().contains("No matches"));
     }
 
     @Test
@@ -180,6 +235,27 @@ class VisionSearchDiscoveryServiceTest {
         assertEquals(2, result.getItems().size());
         assertTrue(result.getItems().stream().anyMatch(item -> "/work/quests/11".equals(item.getSourceRoute())));
         assertTrue(result.getItems().stream().anyMatch(item -> "thing".equals(item.getEntityFamily())));
+    }
+
+    @Test
+    void comparisonRetainsAnAuthorizedResultSelectedFromALaterPage() {
+        List<QuestResponseDTO> quests = new ArrayList<>();
+        for (long id = 1; id <= 10; id++) {
+            quests.add(quest(id, "Move sofa " + id, "Move sofa"));
+        }
+        when(questReadService.getQuestListPreset(
+                any(QuestListPresetDTO.class), any(), anyString(), any(), any(), any(), any(), any(),
+                anyBoolean(), any(), any(), anyString(), anyInt(), anyInt()
+        )).thenReturn(QuestListResponseDTO.builder().items(quests).page(0).size(10).totalItems(10).totalPages(1).build());
+
+        VisionSearchDiscoveryDTO secondPage = service.discoverWeb(currentUser, "move sofa", 1);
+        assertTrue(secondPage.getItems().stream().anyMatch(item -> item.getTargetId().equals(9L)));
+
+        var comparison = service.compareWeb(currentUser, "move sofa", List.of("quest:9"));
+
+        assertEquals(0, comparison.getOmittedSelectionCount());
+        assertEquals(1, comparison.getItems().size());
+        assertEquals(9L, comparison.getItems().get(0).getTargetId());
     }
 
     @Test
@@ -237,6 +313,8 @@ class VisionSearchDiscoveryServiceTest {
         assertNotNull(result);
         assertEquals("", result.getQuery());
         assertEquals("No matches.", result.getSummary());
+        assertEquals("EMPTY_QUERY", result.getResultState());
+        assertEquals("ENTER_QUERY", result.getRecoveryAction());
         verify(appUserRepository, never()).searchByUsername(anyString());
     }
 

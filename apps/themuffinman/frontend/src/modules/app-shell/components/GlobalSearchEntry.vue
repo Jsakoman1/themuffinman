@@ -11,6 +11,8 @@ const comparison = ref<VisionSearchComparison | null>(null)
 const selectedKeys = ref<string[]>([])
 const error = ref("")
 const loading = ref(false)
+const searchPage = ref(0)
+const selectedFamily = ref<string | undefined>(undefined)
 const saved = ref(false)
 const openPanel = ref(false)
 const catalog = ref<WorkspaceCommandCatalog | null>(null)
@@ -25,10 +27,10 @@ const commandShortcut = (event: KeyboardEvent) => { const target = event.target;
 onMounted(() => window.addEventListener("keydown", closeOnEscape))
 onMounted(() => window.addEventListener("keydown", commandShortcut))
 onBeforeUnmount(() => { window.removeEventListener("app:open-command", focusSearch); window.removeEventListener("keydown", closeOnEscape); window.removeEventListener("keydown", commandShortcut) })
-const search = async () => {
+const search = async (page = 0) => {
   if (!query.value.trim()) return
-  loading.value = true; error.value = ""; comparison.value = null; selectedKeys.value = []
-  try { result.value = await userShellApi.searchUniversal(query.value.trim()) }
+  loading.value = true; error.value = ""; comparison.value = null; if (page === 0) selectedKeys.value = []
+  try { result.value = await userShellApi.searchUniversal(query.value.trim(), page, selectedFamily.value); searchPage.value = page }
   catch { error.value = "Could not search right now." }
   finally { loading.value = false }
 }
@@ -48,12 +50,13 @@ const compare = async () => {
 }
 const saveIntent = async () => { if (!query.value.trim()) return; try { await userShellApi.createSavedSearchIntent({query: query.value.trim(), notifyEnabled: true}); saved.value = true } catch { error.value = "Could not save this search." } }
 const destination = (item: VisionSearchDiscoveryItemDTO) => {
+  if (item.detailRoute) return item.detailRoute
   if (!item.targetId) return null
   if (item.entityFamily === "quest") return `/work/quests/${item.targetId}`
   if (item.entityFamily === "thing") return `/things/${item.targetId}`
-  if (item.entityFamily === "circle") return `/circles/${item.targetId}`
+  if (item.entityFamily === "circle") return "/circles"
   if (item.entityFamily === "user") return `/people/${item.targetId}`
-  if (item.entityFamily === "business") return `/business/${item.resolutionLabel || item.targetId}`
+  if (item.entityFamily === "business") return `/business/public/${item.resolutionLabel || item.targetId}`
   return null
 }
 const open = async (item: VisionSearchDiscoveryItemDTO) => { const to = destination(item); if (to) await router.push(to) }
@@ -67,11 +70,12 @@ const openCommand = async (route: string) => { openPanel.value = false; await ro
       <p class="global-search-entry__scope">Command center · permitted routes and records only</p>
       <div v-if="commandGroups.length" class="commands"><section v-for="[group, commands] in commandGroups" :key="group"><p>{{ group }}</p><button v-for="command in commands" :key="command.id" type="button" @click="openCommand(command.route)"><strong>{{ command.label }}</strong><small>{{ command.description }}</small></button></section></div>
       <RouterLink class="saved-link" to="/search/saved">Manage saved searches</RouterLink>
-      <form @submit.prevent="search"><input v-model="query" type="search" placeholder="Work, people, business, things…" aria-label="Search across modules"><button type="submit" :disabled="loading">{{ loading ? "Searching" : "Search" }}</button></form>
-      <p v-if="error" class="error" role="alert">{{ error }}</p>
+      <form @submit.prevent="search()"><input v-model="query" type="search" placeholder="Work, people, business, things…" aria-label="Search across modules"><select v-model="selectedFamily" aria-label="Filter search family"><option :value="undefined">All modules</option><option v-for="family in (result?.availableEntityFamilies || [])" :key="family" :value="family">{{ family }}</option></select><button type="submit" :disabled="loading">{{ loading ? "Searching" : "Search" }}</button></form>
+      <div v-if="error" class="error-state" role="alert"><p class="error">{{ error }}</p><button type="button" @click="search(searchPage)">Retry</button></div>
       <div v-else-if="result" class="summary-row"><p class="summary">{{ result.summary }}</p><button type="button" @click="saveIntent">{{ saved ? "Saved" : "Save search" }}</button></div>
       <div v-if="result?.items?.length" class="results"><div v-for="item in result.items" :key="`${item.entityFamily}-${item.targetId}`" class="result-row"><input type="checkbox" :checked="selectedKeys.includes(selectionKey(item))" :aria-label="`Select ${item.title} for comparison`" @change="toggleSelection(item)"><button type="button" @click="open(item)"><span>{{ item.entityFamily }}</span><strong>{{ item.title }}</strong><small>{{ item.matchSummary || item.summary }}</small></button></div><button type="button" class="compare-action" :disabled="selectedKeys.length === 0 || loading" @click="compare">Compare selected ({{ selectedKeys.length }}/3)</button></div>
-      <p v-else-if="result" class="empty">No permitted matches.</p>
+      <p v-else-if="result" class="empty">{{ result.recoveryCode === "ENTER_QUERY" ? "Enter a search to discover permitted records." : result.recoveryCode === "REFINE_QUERY" ? "No permitted matches. Try a more specific query." : "No permitted matches for this filter." }}</p>
+      <button v-if="result?.hasMore && !loading" type="button" class="next-page" @click="search(searchPage + 1)">Show more results</button>
       <section v-if="comparison" class="comparison" aria-label="Search comparison"><p class="summary">{{ comparison.items.length }} permitted results compared.</p><p v-if="comparison.fallbackMessage" class="fallback" role="status">{{ comparison.fallbackMessage }}</p><div v-for="item in comparison.items" :key="`${item.entityFamily}-${item.targetId}`" class="comparison-item"><strong>{{ item.title }}</strong><small>{{ item.entityFamily }} · <RouterLink :to="item.sourceRoute">Open source</RouterLink></small><dl><template v-for="field in comparison.comparableFields" :key="field"><dt>{{ field.replaceAll("_", " ") }}</dt><dd>{{ item.fields[field] || "Not available" }}</dd></template></dl></div></section>
     </div>
   </details>

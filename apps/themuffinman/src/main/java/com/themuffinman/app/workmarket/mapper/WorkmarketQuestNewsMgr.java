@@ -72,6 +72,10 @@ public class WorkmarketQuestNewsMgr {
                 .canDeclineCircleRequest(item.getType() == QuestNewsType.CIRCLE_REQUEST_RECEIVED && item.getCircleRequestId() != null)
                 .readAt(item.getReadAt())
                 .createdAt(item.getCreatedAt())
+                .deliveryState("DELIVERED")
+                .readState(item.getReadAt() == null ? "UNREAD" : "READ")
+                .retryable(false)
+                .dedupeKey("news:" + item.getId())
                 .build();
     }
 

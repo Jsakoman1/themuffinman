@@ -7,4 +7,8 @@ public interface ObjectStorageService {
     ObjectStorageAccess resolve(String storageKey);
 
     StoredObjectPayload load(String storageKey);
+
+    default void delete(String storageKey) {
+        // Providers may implement cleanup; metadata deletion remains safe when cleanup is unavailable.
+    }
 }

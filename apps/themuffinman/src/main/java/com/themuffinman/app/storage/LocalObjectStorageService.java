@@ -69,6 +69,16 @@ public class LocalObjectStorageService implements ObjectStorageService {
         }
     }
 
+    @Override
+    public void delete(String storageKey) {
+        try {
+            Files.deleteIfExists(resolvePath(storageKey));
+            Files.deleteIfExists(contentTypePath(storageKey));
+        } catch (IOException exception) {
+            throw ServiceErrors.serviceUnavailable("Local gallery image cleanup failed");
+        }
+    }
+
     private Path resolvePath(String storageKey) {
         Path basePath = Path.of(properties.getLocalBasePath()).toAbsolutePath().normalize();
         Path resolvedPath = basePath.resolve(storageKey).normalize();

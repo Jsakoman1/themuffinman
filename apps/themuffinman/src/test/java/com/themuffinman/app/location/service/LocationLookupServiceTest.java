@@ -1,6 +1,7 @@
 package com.themuffinman.app.location.service;
 
 import com.github.benmanes.caffeine.cache.Cache;
+import com.themuffinman.app.common.errors.CodedResponseStatusException;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import com.themuffinman.app.location.dto.DatabaseTableStatusViewDTO;
 import com.themuffinman.app.location.dto.LocationDebugStatusViewDTO;
@@ -8,10 +9,12 @@ import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
 import com.themuffinman.app.location.dto.LocationLookupResponseDTO;
 import com.themuffinman.app.location.model.LocationLookupEvent;
 import com.themuffinman.app.location.model.LocationLookupEventType;
+import com.themuffinman.app.location.model.LocationLookupResolutionStatus;
 import com.themuffinman.app.location.repository.LocationLookupEventRepository;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -22,7 +25,9 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -91,6 +96,19 @@ class LocationLookupServiceTest {
     }
 
     @Test
+    void lookupReturnsTypedProviderUnavailableStateWhenProviderFails() {
+        when(geoapifyLocationLookupClient.isConfigured()).thenReturn(true);
+        when(geoapifyLocationLookupClient.providerName()).thenReturn("geoapify");
+        when(geoapifyLocationLookupClient.lookup("villigen"))
+                .thenThrow(new RestClientException("provider down"));
+
+        LocationLookupResponseDTO response = locationLookupService.lookup("villigen", "jsak");
+
+        assertEquals(LocationLookupResolutionStatus.PROVIDER_UNAVAILABLE, response.getResolutionStatus());
+        assertTrue(response.getItems().isEmpty());
+    }
+
+    @Test
     void reverseLookupRecordsReverseProviderCall() {
         LocationLookupCandidateDTO candidate = LocationLookupCandidateDTO.builder()
                 .provider("geoapify")
@@ -109,6 +127,29 @@ class LocationLookupServiceTest {
         verify(locationLookupEventRepository).save(captor.capture());
         assertEquals(LocationLookupEventType.REVERSE_LOOKUP, captor.getValue().getRequestType());
         assertEquals("geoapify", captor.getValue().getProvider());
+    }
+
+    @Test
+    void reverseLookupUsesStableCodeWhenProviderIsNotConfigured() {
+        when(geoapifyLocationLookupClient.isConfigured()).thenReturn(false);
+        when(disabledLocationLookupClient.isConfigured()).thenReturn(false);
+
+        CodedResponseStatusException exception = assertThrows(CodedResponseStatusException.class,
+                () -> locationLookupService.reverseLookup(BigDecimal.ONE, BigDecimal.TEN, "jsak"));
+
+        assertEquals("LOCATION_PROVIDER_NOT_CONFIGURED", exception.getCode());
+    }
+
+    @Test
+    void reverseLookupUsesStableCodeWhenCoordinatesCannotBeResolved() {
+        when(geoapifyLocationLookupClient.isConfigured()).thenReturn(true);
+        when(geoapifyLocationLookupClient.providerName()).thenReturn("geoapify");
+        when(geoapifyLocationLookupClient.reverseLookup(BigDecimal.ONE, BigDecimal.TEN)).thenReturn(null);
+
+        CodedResponseStatusException exception = assertThrows(CodedResponseStatusException.class,
+                () -> locationLookupService.reverseLookup(BigDecimal.ONE, BigDecimal.TEN, "jsak"));
+
+        assertEquals("LOCATION_NOT_RESOLVED", exception.getCode());
     }
 
     @Test

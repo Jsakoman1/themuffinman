@@ -1,0 +1,12 @@
+{
+  "capability": "things.listings",
+  "baseUrl": "http://localhost:5173",
+  "route": "/things",
+  "execution": "authenticated Playwright Chromium",
+  "ownerCreate": true,
+  "ownerArchive": true,
+  "archivedFeedback": true,
+  "failedResponses": [],
+  "status": "passed",
+  "scope": "owner create/archive slice; borrower lifecycle remains pending"
+}

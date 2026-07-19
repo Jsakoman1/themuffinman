@@ -11,6 +11,7 @@ import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestService;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -45,7 +46,21 @@ public class VisionCreateQuestExecutionAdapter implements VisionCapabilityExecut
         if (conversation == null || conversation.getOwner() == null) {
             return VisionExecutionResult.blocked("Conversation owner is required for quest execution.");
         }
-        return VisionExecutionResult.executed(CAPABILITY_ID, execute(conversation.getSlotData(), conversation.getOwner()));
+        try {
+            return VisionExecutionResult.executed(CAPABILITY_ID, execute(conversation.getSlotData(), conversation.getOwner()));
+        } catch (ResponseStatusException exception) {
+            return VisionExecutionResult.blocked(
+                    "VALIDATION",
+                    "The quest draft is not valid yet. Review the required fields and try again.",
+                    false
+            );
+        } catch (RuntimeException exception) {
+            return VisionExecutionResult.blocked(
+                    "EXECUTION_FAILED",
+                    "The quest could not be created. Review the draft and retry.",
+                    true
+            );
+        }
     }
 
     public Quest execute(Map<String, String> slotData, AppUser currentUser) {

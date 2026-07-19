@@ -22,6 +22,23 @@ import java.util.Map;
 public class NotificationPreferenceService {
     private final NotificationPreferenceRepository repository;
 
+    /**
+     * Returns whether the in-app delivery signal may be sent for a category.
+     * The notification record itself is still retained so preference changes do
+     * not erase the user's permission-scoped inbox history.
+     */
+    @Transactional(readOnly = true)
+    public boolean isInAppDeliveryEnabled(AppUser user, NotificationPreferenceCategory category) {
+        if (user == null || category == NotificationPreferenceCategory.SYSTEM) {
+            return true;
+        }
+        return repository.findByUserId(user.getId()).stream()
+                .filter(item -> item.getCategory() == category && item.getLevel() == NotificationPreferenceLevel.IN_APP)
+                .findFirst()
+                .map(NotificationPreference::isEnabled)
+                .orElse(true);
+    }
+
     @Transactional(readOnly = true)
     public NotificationPreferenceResponseDTO getForUser(AppUser user) {
         Map<String, Boolean> saved = new java.util.HashMap<>();
@@ -32,6 +49,9 @@ public class NotificationPreferenceService {
                                 .category(category).level(level)
                                 .enabled(saved.getOrDefault(key(category, level), true))
                                 .required(category == NotificationPreferenceCategory.SYSTEM)
+                                .available(level == NotificationPreferenceLevel.IN_APP)
+                                .effectiveEnabled(saved.getOrDefault(key(category, level), true) && level == NotificationPreferenceLevel.IN_APP)
+                                .unavailableReason(level == NotificationPreferenceLevel.IN_APP ? null : "This delivery provider is not configured yet.")
                                 .build()))
                 .toList();
         return NotificationPreferenceResponseDTO.builder().items(items).build();

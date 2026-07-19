@@ -1,0 +1,100 @@
+kind: work
+version: 1
+id: r2-d-worker-conflict-contract
+title: Standardize worker assignment stale conflicts
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Give Work and future native clients typed stale-state recovery for worker
+  release and replacement actions.
+tasks:
+- id: worker-conflict-contract
+  title: Add typed worker management conflict codes
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/CodedResponseStatusException.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/CodedResponseStatusException.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=WorkmarketWorkerManagementServiceTest,GlobalExceptionHandlerTest
+    test
+- id: worker-conflict-docs
+  title: Document worker action and conflict ownership
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: worker-conflict-contract
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=WorkmarketWorkerManagementServiceTest,GlobalExceptionHandlerTest
+    test
+  ranAt: '2026-07-19T10:34:58Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/ServiceErrors.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/CodedResponseStatusException.java
+  output: |+
+    12:35:13.804 [main] INFO org.hibernate.validator.internal.util.Version -- HV000001: Hibernate Validator 9.0.1.Final
+    12:35:14.267 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    12:35:14.268 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    12:35:14.271 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 2 ms
+    12:35:14.467 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    12:35:14.467 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    12:35:14.467 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+    12:35:14.486 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    12:35:14.486 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    12:35:14.486 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/CodedResponseStatusException.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: worker-conflict-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T10:35:14Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 259
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

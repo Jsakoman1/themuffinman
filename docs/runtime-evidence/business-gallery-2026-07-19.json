@@ -1,0 +1,11 @@
+{
+  "capability": "business.profile.gallery_manage",
+  "baseUrl": "http://localhost:5173",
+  "route": "/business/profile",
+  "execution": "authenticated Playwright Chromium with local object storage",
+  "createdBusiness": true,
+  "uploadVisible": true,
+  "publishedVisible": true,
+  "failedResponses": [],
+  "status": "passed"
+}

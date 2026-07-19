@@ -1,6 +1,7 @@
 package com.themuffinman.app.chat.service;
 
 import com.themuffinman.app.chat.dto.ChatMarkReadRequestDTO;
+import com.themuffinman.app.chat.dto.ChatCreateGroupConversationRequestDTO;
 import com.themuffinman.app.chat.dto.ChatConversationParticipantsRequestDTO;
 import com.themuffinman.app.chat.dto.ChatConversationListDTO;
 import com.themuffinman.app.chat.dto.ChatConversationRoleRequestDTO;
@@ -312,6 +313,44 @@ class ChatServiceTest {
         assertEquals(5, result.getAttachmentSizeBytes());
         assertEquals("chat/1/2026-07-08/object-brief.pdf", result.getAttachmentStorageKey());
         assertEquals("https://cdn.example.test/chat/1/2026-07-08/object-brief.pdf", result.getAttachmentUrl());
+        assertEquals("READY_TO_SEND", result.getUploadState());
+        assertTrue(result.isRetryable());
+    }
+
+    @Test
+    void groupEligibilityReturnsTypedCircleDenialWithoutCreatingConversation() {
+        AppUser currentUser = createUser(1L, "mia");
+        ChatCreateGroupConversationRequestDTO request = ChatCreateGroupConversationRequestDTO.builder()
+                .title("Weekend plans")
+                .participantUserIds(List.of(2L))
+                .build();
+        var result = chatService.checkGroupEligibility(request, currentUser);
+
+        assertFalse(result.isEligible());
+        assertEquals("MINIMUM_PARTICIPANTS", result.getReasonCode());
+        assertEquals(List.of("EDIT_PARTICIPANTS"), result.getAllowedActions());
+    }
+
+    @Test
+    void cancelAttachmentUploadInvalidatesOwnedUploadAndReturnsTerminalState() {
+        AppUser currentUser = createUser(1L, "mia");
+        ChatAttachmentUpload upload = new ChatAttachmentUpload();
+        upload.setId(31L);
+        upload.setUploadedBy(currentUser);
+        upload.setStorageProvider("s3");
+        upload.setStorageKey("chat/1/brief.pdf");
+        upload.setAttachmentName("brief.pdf");
+        upload.setAttachmentMimeType("application/pdf");
+        upload.setAttachmentSizeBytes(5);
+        upload.setExpiresAt(Instant.now().plusSeconds(300));
+        when(chatAttachmentUploadRepository.findById(31L)).thenReturn(Optional.of(upload));
+        when(chatAttachmentUploadRepository.save(any(ChatAttachmentUpload.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        var result = chatService.cancelAttachmentUpload(31L, currentUser);
+
+        assertEquals("CANCELLED", result.getUploadState());
+        assertFalse(result.isRetryable());
+        assertTrue(upload.getCancelledAt() != null);
     }
 
     @Test
@@ -328,6 +367,27 @@ class ChatServiceTest {
         assertEquals("local", result.getProvider());
         assertEquals("local-disk", result.getMode());
         assertEquals("/chat/attachments/object", result.getEndpoint());
+    }
+
+    @Test
+    void refreshAttachmentAccessReturnsFreshBackendResolvedUrlForOwnedUpload() {
+        AppUser currentUser = createUser(1L, "mia");
+        ChatAttachmentUpload upload = new ChatAttachmentUpload();
+        upload.setUploadedBy(currentUser);
+        upload.setStorageKey("chat/1/brief.pdf");
+        upload.setAttachmentName("brief.pdf");
+        upload.setAttachmentMimeType("application/pdf");
+        upload.setAttachmentSizeBytes(5);
+        upload.setExpiresAt(Instant.now().plusSeconds(300));
+        when(chatAttachmentUploadRepository.findByStorageKey("chat/1/brief.pdf")).thenReturn(Optional.of(upload));
+        when(objectStorageService.resolve("chat/1/brief.pdf"))
+                .thenReturn(new ObjectStorageAccess("s3", "chat/1/brief.pdf", "https://cdn.example.test/brief.pdf", Instant.now().plusSeconds(60)));
+
+        var result = chatService.refreshAttachmentAccess("chat/1/brief.pdf", currentUser);
+
+        assertEquals("AVAILABLE", result.getAttachmentAvailability());
+        assertEquals("https://cdn.example.test/brief.pdf", result.getAttachmentUrl());
+        assertEquals("application/pdf", result.getAttachmentMimeType());
     }
 
     @Test
@@ -660,6 +720,36 @@ class ChatServiceTest {
         assertEquals(12L, result.getLatestMessageId());
         assertEquals(1, result.getMessages().size());
         assertEquals(List.of(2L), result.getActiveTypingUserIds());
+    }
+
+    @Test
+    void getConversationSyncPreservesMessageWhenAttachmentIsUnavailable() {
+        AppUser currentUser = createUser(1L, "mia");
+        AppUser otherUser = createUser(2L, "john");
+        ChatConversation conversation = createConversation(5L, currentUser, otherUser);
+        ChatMessage message = buildMessage(10L, conversation, otherUser, null, null);
+        message.setAttachmentName("brief.pdf");
+        message.setAttachmentMimeType("application/pdf");
+        message.setAttachmentStorageProvider("s3");
+        message.setAttachmentStorageKey("chat/1/brief.pdf");
+        message.setAttachmentSizeBytes(5);
+
+        when(chatConversationRepository.findDetailedById(5L)).thenReturn(Optional.of(conversation));
+        when(circleRelationService.isCircleBetween(currentUser, otherUser)).thenReturn(true);
+        when(chatMessageRepository.findDetailedSinceMessageIdByConversationId(eq(5L), eq(9L), any()))
+                .thenReturn(List.of(message));
+        when(chatMessageReactionRepository.findDetailedByMessageIdIn(List.of(10L))).thenReturn(List.of());
+        when(chatPresenceRepository.findByUserIds(any())).thenReturn(List.of());
+        when(chatRealtimeService.getActiveTypingUserIds(5L, 1L, 8)).thenReturn(List.of());
+        when(objectStorageService.resolve("chat/1/brief.pdf"))
+                .thenThrow(new ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND));
+
+        var result = chatService.getConversationSync(5L, 9L, 20, currentUser);
+
+        assertEquals(1, result.getMessages().size());
+        assertEquals("UNAVAILABLE", result.getMessages().getFirst().getAttachmentAvailability());
+        assertEquals("brief.pdf", result.getMessages().getFirst().getAttachmentName());
+        assertEquals(null, result.getMessages().getFirst().getAttachmentUrl());
     }
 
     @Test
@@ -996,11 +1086,28 @@ class ChatServiceTest {
         when(chatMessageRepository.findUnreadCountsByConversationIds(List.of(5L), admin.getId())).thenReturn(List.of());
         when(chatMessageRepository.findUnreadCountsByConversationIds(List.of(5L), member.getId())).thenReturn(List.of());
 
-        chatService.leaveConversation(5L, owner);
+        var result = chatService.leaveConversation(5L, owner);
 
         assertEquals(admin.getId(), conversation.getOwner().getId());
+        assertEquals("LEFT", result.getTransitionState());
+        assertEquals(admin.getId(), result.getReplacementOwnerUserId());
         assertEquals(2, conversation.getParticipants().size());
         verify(chatRealtimeService).notifyWorkspaceChanged(owner.getId(), 5L, owner.getId(), "conversation_membership_updated");
+    }
+
+    @Test
+    void leaveConversationRejectsLastOwnerRemovalWhenOnlyTwoParticipantsRemain() {
+        AppUser owner = createUser(1L, "mia");
+        AppUser member = createUser(2L, "john");
+        ChatConversation conversation = createGroupConversation(5L, owner, member);
+
+        when(chatConversationRepository.findDetailedById(5L)).thenReturn(Optional.of(conversation));
+
+        assertThrows(ResponseStatusException.class, () -> chatService.leaveConversation(5L, owner));
+
+        assertEquals(owner.getId(), conversation.getOwner().getId());
+        assertEquals(2, conversation.getParticipants().size());
+        verify(chatRealtimeService, never()).notifyWorkspaceChanged(any(), any(), any(), any());
     }
 
     private AppUser createUser(Long id, String username) {

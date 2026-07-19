@@ -22,6 +22,8 @@ public class VisionExecutionResult {
     private boolean executed;
     private String capabilityId;
     private String blockingReason;
+    private String failureCode;
+    private boolean retryable;
     private Quest createdQuest;
     private CircleGroupResponseDTO createdCircle;
     private CircleRequestResponseDTO circleRequest;
@@ -74,7 +76,31 @@ public class VisionExecutionResult {
         return VisionExecutionResult.builder()
                 .executed(false)
                 .blockingReason(blockingReason)
+                .failureCode(classifyFailure(blockingReason))
+                .retryable(isRetryable(blockingReason))
                 .build();
+    }
+
+    public static VisionExecutionResult blocked(String failureCode, String blockingReason, boolean retryable) {
+        return VisionExecutionResult.builder()
+                .executed(false)
+                .blockingReason(blockingReason)
+                .failureCode(failureCode)
+                .retryable(retryable)
+                .build();
+    }
+
+    private static String classifyFailure(String reason) {
+        String value = reason == null ? "" : reason.toLowerCase(java.util.Locale.ROOT);
+        if (value.contains("disabled") || value.contains("configuration")) return "CONFIGURATION";
+        if (value.contains("required") || value.contains("invalid") || value.contains("missing")) return "VALIDATION";
+        if (value.contains("not ready") || value.contains("complete") || value.contains("blocked")) return "STATE";
+        if (value.contains("not available") || value.contains("unavailable")) return "UNAVAILABLE";
+        return "EXECUTION_FAILED";
+    }
+
+    private static boolean isRetryable(String reason) {
+        return "EXECUTION_FAILED".equals(classifyFailure(reason)) || "UNAVAILABLE".equals(classifyFailure(reason));
     }
 
     public static VisionExecutionResult executedAction(String capabilityId) {

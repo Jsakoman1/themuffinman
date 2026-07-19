@@ -11,4 +11,4 @@
 
 ## Closeout rule
 
-Static tests and builds prove contracts, not user flows. Every runtime scenario must record browser evidence in `docs/runtime-acceptance-matrix.yaml`; the master closes only after child verifiers and runtime audit pass.
+Static tests and builds prove contracts, not user flows. Every future runtime scenario must declare fresh browser evidence in its owning strict work plan; a master closes only after child verifiers and runtime evidence pass.

@@ -1,0 +1,11 @@
+{
+  "capability": "cross_module.notification.manage_preferences",
+  "baseUrl": "http://localhost:5173",
+  "route": "/profile/settings/notifications",
+  "execution": "authenticated Playwright Chromium",
+  "checkboxCount": 18,
+  "saved": true,
+  "reloadPreservedValue": true,
+  "failedResponses": [],
+  "status": "passed"
+}

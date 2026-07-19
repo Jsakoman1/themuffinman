@@ -1,0 +1,12 @@
+{
+  "capabilities": ["chat.attachments", "chat.message.attach", "chat.message.view_attachment"],
+  "actions": ["owner_applicant_thread", "upload", "send", "recipient_sync", "authorized_access_refresh"],
+  "questId": 395,
+  "applicationId": 259,
+  "conversationId": 376,
+  "statuses": {"upload": 200, "send": 200, "sync": 200, "accessRefresh": 200},
+  "uploadState": "READY_TO_SEND",
+  "attachmentAvailability": "AVAILABLE",
+  "attachmentMimeType": "text/plain",
+  "failedResponses": []
+}

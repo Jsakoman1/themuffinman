@@ -16,15 +16,12 @@ source_artifacts:
 - docs/product-vision.md
 - docs/implementation-control.md
 - docs/capability-inventory.yaml
-- docs/runtime-acceptance-matrix.yaml
-- docs/work/web-ui-functional-completion-runtime-evidence.yaml
 reconciliation:
   verified_dependencies:
   - docs/work/modern-shell-navigation.yaml
   - docs/work/modern-chat-calendar-business.yaml
   - docs/work/modern-work-discovery.yaml
   - docs/work/web-entry-point-parity.yaml
-  - docs/work/runtime-acceptance-catalog.yaml
   - docs/work/target-capability-production-readiness-chat.yaml
   - docs/work/target-capability-production-readiness-circles.yaml
   - docs/work/target-capability-production-readiness-business.yaml
@@ -84,7 +81,6 @@ tasks:
   - apps/themuffinman/frontend
   - apps/themuffinman/src/test
   - docs/regression-scenario-catalog.yaml
-  - docs/runtime-acceptance-matrix.yaml
   validation: npm --prefix apps/themuffinman/frontend run validate:web-surface &&
     npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
     run build && cd apps/themuffinman && ./mvnw test
@@ -227,7 +223,6 @@ tasks:
   - apps/themuffinman/frontend/src/modules/app-shell/views
   - apps/themuffinman/frontend/src/modules/app-shell/components
   - docs/regression-scenario-catalog.yaml
-  - docs/runtime-acceptance-matrix.yaml
   validation: npm --prefix apps/themuffinman/frontend run validate:web-surface &&
     npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
     run build && make audit-docs
@@ -306,7 +301,6 @@ evidence:
   exitCode: 0
   result: passed
   changedFiles:
-  - docs/runtime-acceptance-matrix.yaml
   output: "[INFO] Running com.themuffinman.app.things.service.ThingSharingServiceTest\n[INFO]
     Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in
     com.themuffinman.app.things.service.ThingSharingServiceTest\n[INFO] Running com.themuffinman.app.workmarket.dto.WorkmarketRequestDtoValidationTest\n[INFO]
@@ -526,7 +520,6 @@ evidence:
   exitCode: 0
   result: passed
   changedFiles:
-  - docs/runtime-acceptance-matrix.yaml
   output: |+
     dist/assets/BusinessProfileView-CK1Hlnxo.js                    6.25 kB │ gzip:  2.08 kB
     dist/assets/ThingsDiscoveryView-Bd4Dm5z1.js                    7.39 kB │ gzip:  2.37 kB
@@ -581,4 +574,3 @@ evidence:
         web_ui: covered
         vision: covered
       gaps: []
-

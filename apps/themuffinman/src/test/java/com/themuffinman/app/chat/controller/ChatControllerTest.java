@@ -382,6 +382,14 @@ class ChatControllerTest {
     @Test
     void leaveConversationDelegatesToService() throws Exception {
         authenticateCurrentUser();
+        when(chatService.leaveConversation(5L, currentUser)).thenReturn(
+                com.themuffinman.app.chat.dto.ChatMembershipTransitionDTO.builder()
+                        .action("LEAVE_CHAT_CONVERSATION")
+                        .transitionState("LEFT")
+                        .conversationId(5L)
+                        .message("Conversation left.")
+                        .build()
+        );
 
         mockMvc.perform(delete("/chat/conversations/5/participants/me"))
                 .andExpect(status().isOk())

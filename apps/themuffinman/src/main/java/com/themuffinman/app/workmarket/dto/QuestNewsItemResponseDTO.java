@@ -42,4 +42,8 @@ public class QuestNewsItemResponseDTO {
     @Nullable
     private Instant readAt;
     private Instant createdAt;
+    private String deliveryState;
+    private String readState;
+    private boolean retryable;
+    private String dedupeKey;
 }

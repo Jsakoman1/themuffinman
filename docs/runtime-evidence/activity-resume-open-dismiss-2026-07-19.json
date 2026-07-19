@@ -1,0 +1,12 @@
+{
+  "capability": "platform.activity",
+  "route": "/activity",
+  "actions": ["load", "open_resume", "dismiss", "reload"],
+  "conversationStatus": 200,
+  "activityLoaded": true,
+  "resumeVisible": true,
+  "openedRoute": "/vision?conversationId=465",
+  "dismissVisible": true,
+  "resumeHiddenAfterDismiss": true,
+  "failedResponses": []
+}

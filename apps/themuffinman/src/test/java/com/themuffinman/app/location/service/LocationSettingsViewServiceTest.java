@@ -4,6 +4,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.location.dto.UserLocationSettingsDTO;
 import com.themuffinman.app.location.model.ExactLocationVisibilityScope;
 import com.themuffinman.app.location.model.UserLocationMode;
+import com.themuffinman.app.location.model.LocationResolutionStatus;
 import com.themuffinman.app.testing.TestFixtures;
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +51,7 @@ class LocationSettingsViewServiceTest {
         assertThat(dto.getMode()).isEqualTo(UserLocationMode.EXACT);
         assertThat(dto.getDefaultRadiusKm()).isEqualTo(14);
         assertThat(dto.isHasCoordinates()).isTrue();
+        assertThat(dto.getResolutionStatus()).isEqualTo(LocationResolutionStatus.RESOLVED);
         assertThat(dto.getSharingSummary()).isEqualTo("Exact location enabled");
         assertThat(dto.getVisibilitySummary()).isEqualTo("Visible to circles");
         assertThat(dto.getExactVisibilityScope()).isEqualTo(ExactLocationVisibilityScope.CIRCLES);

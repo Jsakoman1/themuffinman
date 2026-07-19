@@ -15,21 +15,18 @@ source_artifacts:
 - docs/product-memory.md
 - docs/product-vision.md
 - docs/capability-inventory.yaml
-- docs/runtime-acceptance-matrix.yaml
 related_plans:
   already_verified_and_reused:
   - docs/work/modern-shell-navigation.yaml
   - docs/work/modern-chat-calendar-business.yaml
   - docs/work/modern-work-discovery.yaml
   - docs/work/web-entry-point-parity.yaml
-  - docs/work/runtime-acceptance-catalog.yaml
   - docs/work/target-capability-production-readiness-chat.yaml
   - docs/work/target-capability-production-readiness-circles.yaml
   - docs/work/target-capability-production-readiness-business.yaml
   - docs/work/target-capability-production-readiness-work.yaml
   still_open_and_absorbed:
   - docs/work/web-vision-parity-program.yaml
-  - docs/work/web-vision-parity-residual-audit.yaml
   - docs/work/cross-module-search-contract.yaml
   reconciliation_rule: Existing verified plans are evidence and implementation history,
     not proof of browser usability. This master plan owns the remaining Web runtime,
@@ -38,8 +35,6 @@ related_plans:
 plan_ownership:
   canonical_execution_plan: docs/work/web-ui-functional-completion.yaml
   canonical_master: docs/work/web-ui-functional-completion-master.yaml
-  runtime_source_of_truth: docs/runtime-acceptance-matrix.yaml
-  runtime_probe_evidence: docs/work/web-ui-functional-completion-runtime-evidence.yaml
   capability_source_of_truth: docs/capability-inventory.yaml
   implementation_evidence_source: docs/work/*.yaml
 non_negotiables:

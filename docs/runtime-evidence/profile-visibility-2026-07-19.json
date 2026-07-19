@@ -1,0 +1,11 @@
+{
+  "capability": "platform.profile.manage_visibility",
+  "route": "/profile/settings",
+  "actions": ["register", "set_profile_picture_visibility_private", "set_description_visibility_private", "save", "reload"],
+  "saved": true,
+  "reloadedValues": {
+    "profilePictureVisibility": "PRIVATE",
+    "descriptionVisibility": "PRIVATE"
+  },
+  "failedResponses": []
+}

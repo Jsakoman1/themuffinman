@@ -1,0 +1,10 @@
+{
+  "capability": "vision.discovery.search",
+  "route": "/vision",
+  "actions": ["register", "text_request", "render_typed_result", "select_result"],
+  "query": "Find quest Kosenje trave",
+  "resultFamily": "quest",
+  "resultCount": 1,
+  "selected": true,
+  "failedResponses": []
+}

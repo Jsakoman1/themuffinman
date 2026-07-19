@@ -3,6 +3,9 @@ package com.themuffinman.app.chat.service;
 import com.themuffinman.app.chat.dto.ChatCircleOptionDTO;
 import com.themuffinman.app.chat.dto.ChatContactDTO;
 import com.themuffinman.app.chat.dto.ChatAttachmentUploadDTO;
+import com.themuffinman.app.chat.dto.ChatAttachmentAccessDTO;
+import com.themuffinman.app.chat.dto.ChatGroupEligibilityDTO;
+import com.themuffinman.app.chat.dto.ChatMembershipTransitionDTO;
 import com.themuffinman.app.chat.dto.ChatAttachmentStorageStatusDTO;
 import com.themuffinman.app.chat.dto.ChatConversationParticipantDTO;
 import com.themuffinman.app.chat.dto.ChatConversationParticipantsRequestDTO;
@@ -344,6 +347,31 @@ public class ChatService {
         return openConversationSummary(conversation, currentUser);
     }
 
+    @Transactional(readOnly = true)
+    public ChatGroupEligibilityDTO checkGroupEligibility(ChatCreateGroupConversationRequestDTO request, AppUser currentUser) {
+        List<Long> requested = request == null || request.getParticipantUserIds() == null ? List.of() : request.getParticipantUserIds();
+        if (currentUser == null) return groupEligibility(false, "AUTHENTICATION_REQUIRED", "Authentication is required", List.of(), List.of("SIGN_IN"));
+        if (requested.isEmpty()) return groupEligibility(false, "PARTICIPANTS_REQUIRED", "Select at least two people from your circles.", List.of(), List.of("EDIT_PARTICIPANTS"));
+        Set<Long> participantIds = requested.stream().filter(Objects::nonNull).collect(Collectors.toCollection(LinkedHashSet::new));
+        if (participantIds.contains(currentUser.getId())) return groupEligibility(false, "SELF_INCLUDED", "Remove yourself; you are added automatically.", participantIds.stream().toList(), List.of("EDIT_PARTICIPANTS"));
+        if (participantIds.size() < 2) return groupEligibility(false, "MINIMUM_PARTICIPANTS", "A group chat needs at least two other participants.", participantIds.stream().toList(), List.of("EDIT_PARTICIPANTS"));
+        List<AppUser> participants;
+        try {
+            participants = participantIds.stream().map(appUserLookupService::requireById).toList();
+        } catch (org.springframework.web.server.ResponseStatusException exception) {
+            return groupEligibility(false, "PARTICIPANT_NOT_FOUND", "One or more selected people are no longer available.", participantIds.stream().toList(), List.of("EDIT_PARTICIPANTS"));
+        }
+        if (participants.stream().anyMatch(user -> !isCurrentChatContact(currentUser, user))) {
+            return groupEligibility(false, "CIRCLE_ACCESS_REQUIRED", "Every selected person must be in your circles.", participantIds.stream().toList(), List.of("EDIT_PARTICIPANTS"));
+        }
+        return groupEligibility(true, "ELIGIBLE", "The group is ready to create.", participantIds.stream().toList(), List.of("CREATE_GROUP"));
+    }
+
+    private ChatGroupEligibilityDTO groupEligibility(boolean eligible, String reasonCode, String message, List<Long> ids, List<String> actions) {
+        return ChatGroupEligibilityDTO.builder().eligible(eligible).reasonCode(reasonCode).message(message)
+                .selectedParticipantUserIds(ids).minimumParticipantCount(2).allowedActions(actions).build();
+    }
+
     @Transactional
     public ChatConversationSummaryDTO renameGroupConversation(Long conversationId, ChatConversationTitleRequestDTO request, AppUser currentUser) {
         ChatConversation conversation = requireManageableGroupConversation(conversationId, currentUser);
@@ -450,18 +478,20 @@ public class ChatService {
     }
 
     @Transactional
-    public void leaveConversation(Long conversationId, AppUser currentUser) {
+    public ChatMembershipTransitionDTO leaveConversation(Long conversationId, AppUser currentUser) {
         ChatConversation conversation = requireAccessibleConversation(conversationId, currentUser);
         if (conversation.getConversationType() != ChatConversationType.GROUP) {
             throw ServiceErrors.badRequest("Only group conversations support leaving");
         }
         ChatConversationParticipant leavingParticipant = requireParticipant(conversation, currentUser.getId());
         ensureMinimumParticipantsAfterRemoval(conversation);
+        Long replacementOwnerUserId = null;
         if (leavingParticipant.getRole() == ChatConversationParticipantRole.OWNER) {
             ChatConversationParticipant replacementOwner = selectReplacementOwner(conversation, currentUser.getId());
             replacementOwner.setRole(ChatConversationParticipantRole.OWNER);
             replacementOwner.setAddedBy(currentUser);
             conversation.setOwner(replacementOwner.getUser());
+            replacementOwnerUserId = replacementOwner.getUser().getId();
         }
         conversation.getParticipants().removeIf(participant -> Objects.equals(participant.getUser().getId(), currentUser.getId()));
         chatConversationRepository.save(conversation);
@@ -469,6 +499,13 @@ public class ChatService {
                 "participantUserId", currentUser.getId()
         ));
         publishConversationMembershipUpdate(conversation, currentUser, Set.of(currentUser.getId()));
+        return ChatMembershipTransitionDTO.builder()
+                .action("LEAVE_CHAT_CONVERSATION")
+                .transitionState("LEFT")
+                .conversationId(conversationId)
+                .replacementOwnerUserId(replacementOwnerUserId)
+                .message("Conversation left.")
+                .build();
     }
 
     @Transactional
@@ -629,6 +666,40 @@ public class ChatService {
                 .attachmentStorageKey(storedObject.storageKey())
                 .attachmentUrl(access.url())
                 .attachmentUrlExpiresAt(access.expiresAt() == null ? null : access.expiresAt().toString())
+                .uploadState("READY_TO_SEND")
+                .retryable(true)
+                .build();
+    }
+
+    @Transactional
+    public ChatAttachmentUploadDTO cancelAttachmentUpload(Long uploadId, AppUser currentUser) {
+        if (currentUser == null) {
+            throw ServiceErrors.forbidden("Authentication is required");
+        }
+        if (uploadId == null || uploadId <= 0) {
+            throw ServiceErrors.badRequest("Attachment upload id is required");
+        }
+        ChatAttachmentUpload upload = chatAttachmentUploadRepository.findById(uploadId)
+                .orElseThrow(() -> ServiceErrors.notFound("Chat attachment upload not found with id " + uploadId));
+        if (!Objects.equals(upload.getUploadedBy().getId(), currentUser.getId())) {
+            throw ServiceErrors.forbidden("You can only cancel your own uploaded files");
+        }
+        if (upload.getConsumedAt() != null) {
+            throw ServiceErrors.conflict("Attachment upload has already been sent and cannot be cancelled");
+        }
+        if (upload.getCancelledAt() == null) {
+            upload.setCancelledAt(Instant.now());
+            chatAttachmentUploadRepository.save(upload);
+        }
+        return ChatAttachmentUploadDTO.builder()
+                .uploadId(upload.getId())
+                .attachmentName(upload.getAttachmentName())
+                .attachmentMimeType(upload.getAttachmentMimeType())
+                .attachmentSizeBytes(upload.getAttachmentSizeBytes())
+                .attachmentStorageProvider(upload.getStorageProvider())
+                .attachmentStorageKey(upload.getStorageKey())
+                .uploadState("CANCELLED")
+                .retryable(false)
                 .build();
     }
 
@@ -648,6 +719,72 @@ public class ChatService {
                 .bucket(enabled && !"local".equalsIgnoreCase(provider) ? objectStorageProperties.getBucket() : null)
                 .localBasePath(enabled && "local".equalsIgnoreCase(provider) ? objectStorageProperties.getLocalBasePath() : null)
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public ChatAttachmentAccessDTO refreshAttachmentAccess(String storageKey, AppUser currentUser) {
+        if (currentUser == null) {
+            throw ServiceErrors.forbidden("Authentication is required");
+        }
+        String normalizedStorageKey = normalizeText(storageKey);
+        if (normalizedStorageKey == null) {
+            throw ServiceErrors.badRequest("Attachment storage key is required");
+        }
+
+        ChatMessage message = chatMessageRepository.findDetailedByAttachmentStorageKey(normalizedStorageKey)
+                .orElse(null);
+        String name;
+        String mimeType;
+        Integer sizeBytes;
+        if (message != null) {
+            requireAccessibleConversation(message.getConversation().getId(), currentUser);
+            name = message.getAttachmentName();
+            mimeType = message.getAttachmentMimeType();
+            sizeBytes = message.getAttachmentSizeBytes();
+        } else {
+            ChatAttachmentUpload upload = chatAttachmentUploadRepository.findByStorageKey(normalizedStorageKey)
+                    .orElseThrow(() -> ServiceErrors.notFound("Chat attachment object not found"));
+            if (!Objects.equals(upload.getUploadedBy().getId(), currentUser.getId())) {
+                throw ServiceErrors.forbidden("You are not allowed to access this chat attachment");
+            }
+            name = upload.getAttachmentName();
+            mimeType = upload.getAttachmentMimeType();
+            sizeBytes = upload.getAttachmentSizeBytes();
+            if (upload.getExpiresAt() == null || !upload.getExpiresAt().isAfter(Instant.now())) {
+                return ChatAttachmentAccessDTO.builder()
+                        .attachmentName(name)
+                        .attachmentMimeType(mimeType)
+                        .attachmentSizeBytes(sizeBytes)
+                        .attachmentStorageKey(normalizedStorageKey)
+                        .attachmentAvailability("EXPIRED")
+                        .build();
+            }
+        }
+
+        try {
+            ObjectStorageAccess access = objectStorageService.resolve(normalizedStorageKey);
+            return ChatAttachmentAccessDTO.builder()
+                    .attachmentName(name)
+                    .attachmentMimeType(mimeType)
+                    .attachmentSizeBytes(sizeBytes)
+                    .attachmentStorageProvider(access.provider())
+                    .attachmentStorageKey(access.storageKey())
+                    .attachmentUrl(access.url())
+                    .attachmentUrlExpiresAt(access.expiresAt() == null ? null : access.expiresAt().toString())
+                    .attachmentAvailability("AVAILABLE")
+                    .build();
+        } catch (org.springframework.web.server.ResponseStatusException exception) {
+            if (exception.getStatusCode().value() != 404 && exception.getStatusCode().value() != 503) {
+                throw exception;
+            }
+            return ChatAttachmentAccessDTO.builder()
+                    .attachmentName(name)
+                    .attachmentMimeType(mimeType)
+                    .attachmentSizeBytes(sizeBytes)
+                    .attachmentStorageKey(normalizedStorageKey)
+                    .attachmentAvailability("UNAVAILABLE")
+                    .build();
+        }
     }
 
     @Transactional(readOnly = true)
@@ -1565,6 +1702,7 @@ public class ChatService {
                 .attachmentStorageKey(attachment.storageKey())
                 .attachmentUrl(attachment.url())
                 .attachmentUrlExpiresAt(attachment.expiresAt())
+                .attachmentAvailability(attachment.availability())
                 .attachmentSizeBytes(attachment.sizeBytes())
                 .replyToMessageId(message.getReplyToMessageId())
                 .clientMessageId(message.getClientMessageId())
@@ -1937,6 +2075,9 @@ public class ChatService {
         if (upload.getConsumedAt() != null) {
             throw ServiceErrors.badRequest("Chat attachment upload has already been used");
         }
+        if (upload.getCancelledAt() != null) {
+            throw ServiceErrors.badRequest("Chat attachment upload has been cancelled");
+        }
         if (upload.getExpiresAt() == null || !upload.getExpiresAt().isAfter(Instant.now())) {
             throw ServiceErrors.badRequest("Chat attachment upload has expired");
         }
@@ -1948,16 +2089,17 @@ public class ChatService {
             return ResolvedMessageAttachment.empty();
         }
         if (message.getAttachmentStorageKey() != null) {
-            ObjectStorageAccess access = objectStorageService.resolve(message.getAttachmentStorageKey());
-            return new ResolvedMessageAttachment(
-                    message.getAttachmentName(),
-                    message.getAttachmentMimeType(),
-                    message.getAttachmentSizeBytes(),
-                    access.provider(),
-                    access.storageKey(),
-                    access.url(),
-                    access.expiresAt() == null ? null : access.expiresAt().toString()
-            );
+            try {
+                ObjectStorageAccess access = objectStorageService.resolve(message.getAttachmentStorageKey());
+                return new ResolvedMessageAttachment(
+                        message.getAttachmentName(), message.getAttachmentMimeType(), message.getAttachmentSizeBytes(),
+                        access.provider(), access.storageKey(), access.url(),
+                        access.expiresAt() == null ? null : access.expiresAt().toString(), "AVAILABLE");
+            } catch (org.springframework.web.server.ResponseStatusException exception) {
+                if (exception.getStatusCode().value() != 404 && exception.getStatusCode().value() != 503) throw exception;
+                return new ResolvedMessageAttachment(message.getAttachmentName(), message.getAttachmentMimeType(), message.getAttachmentSizeBytes(),
+                        message.getAttachmentStorageProvider(), message.getAttachmentStorageKey(), null, null, "UNAVAILABLE");
+            }
         }
         if (message.getAttachmentDataUrl() != null) {
             return new ResolvedMessageAttachment(
@@ -1967,7 +2109,8 @@ public class ChatService {
                     "INLINE",
                     null,
                     message.getAttachmentDataUrl(),
-                    null
+                    null,
+                    "AVAILABLE"
             );
         }
         return ResolvedMessageAttachment.empty();
@@ -2086,10 +2229,11 @@ public class ChatService {
             String storageProvider,
             String storageKey,
             String url,
-            String expiresAt
+            String expiresAt,
+            String availability
     ) {
         private static ResolvedMessageAttachment empty() {
-            return new ResolvedMessageAttachment(null, null, null, null, null, null, null);
+            return new ResolvedMessageAttachment(null, null, null, null, null, null, null, "NONE");
         }
     }
 }

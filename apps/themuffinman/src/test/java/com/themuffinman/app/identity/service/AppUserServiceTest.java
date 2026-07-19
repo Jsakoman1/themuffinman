@@ -4,7 +4,9 @@ import com.themuffinman.app.identity.dto.AppUserRequestDTO;
 import com.themuffinman.app.workmarket.dto.QuestResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.model.AppUserRole;
+import com.themuffinman.app.identity.model.ProfileFieldVisibility;
 import com.themuffinman.app.location.service.LocationSettingsService;
+import com.themuffinman.app.social.repository.CircleGroupRepository;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import com.themuffinman.app.identity.repository.AppUserRepository;
@@ -21,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -47,6 +50,9 @@ class AppUserServiceTest {
 
     @Mock
     private LocationSettingsService locationSettingsService;
+
+    @Mock
+    private CircleGroupRepository circleGroupRepository;
 
     @InjectMocks
     private AppUserService appUserService;
@@ -169,6 +175,26 @@ class AppUserServiceTest {
 
         assertEquals("new bio", updated.getProfileDescription());
         assertEquals("data:image/jpeg;base64,new", updated.getProfileAvatarDataUrl());
+    }
+
+    @Test
+    void updateAppUserRejectsEmptyCircleVisibilitySelection() {
+        AppUser existingUser = new AppUser();
+        existingUser.setId(1L);
+        existingUser.setEmail("old@example.com");
+        existingUser.setUsername("old");
+        AppUserRequestDTO dto = new AppUserRequestDTO();
+        dto.setEmail("new@example.com");
+        dto.setUsername("new-name");
+        dto.setProfileDescriptionVisibility(ProfileFieldVisibility.CIRCLES);
+        dto.setProfileDescriptionVisibleCircleIds(Set.of());
+
+        when(appUserLookupService.requireById(1L)).thenReturn(existingUser);
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> appUserService.updateAppUser(1L, dto));
+
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertEquals("Select at least one circle for circle-scoped profile visibility", exception.getReason());
     }
 
     @Test

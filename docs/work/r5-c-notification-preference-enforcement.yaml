@@ -1,0 +1,83 @@
+kind: work
+version: 1
+id: r5-c-notification-preference-enforcement
+title: Enforce saved in-app notification preferences at supported news producers
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Keep notification history backend-owned while honoring disabled in-app
+  preferences before realtime delivery signals are emitted.
+tasks:
+- id: notification-preference-policy
+  title: Add central effective in-app policy and apply it to Work/Circle news fan-out
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/notification/service/NotificationPreferenceServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=NotificationPreferenceServiceTest
+    test
+- id: notification-preference-enforcement-docs
+  title: Document retained history and suppressed realtime delivery semantics
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: notification-preference-policy
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=NotificationPreferenceServiceTest
+    test
+  ranAt: '2026-07-19T14:23:13Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/notification/service/NotificationPreferenceServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: notification-preference-enforcement-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T14:23:39Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 270
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

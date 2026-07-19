@@ -1,0 +1,221 @@
+kind: capability_execution_board
+version: 1
+id: capability-30-execution-board
+title: Frozen execution board for the 30 partial capabilities
+status: active
+source_inventory: docs/capability-inventory.yaml
+source_gap_analysis: docs/work/capability-30-gap-analysis.yaml
+execution_rule: Execute entries in order. A slice is complete only when its owner plan is verified, its listed files are current, and the inventory entry has matching evidence. Do not invent a new slice while an entry is open.
+state_definition: implementation_complete_runtime_pending means code, contract, docs, and strict owner-plan verification passed, but the declared browser acceptance evidence is still missing.
+scope_rule: The 30 entries below are the partial capabilities only. The two planned handoffs and the not-offered rides capability are outside this board.
+goal_contract:
+  objective: Close the 30 partial capabilities in this board in order, with backend-owned behavior and reusable Web/Vision contracts.
+  unit_of_work: One board entry and its owner plan; do not create a second master plan or parallel capability slice.
+  source_of_truth: This board defines the capability order, owner plan, implementation file scope, and close_when contract.
+  runtime_source_of_truth: docs/runtime-acceptance-matrix.yaml defines browser/device evidence; an evidence file may only satisfy the actions it explicitly records.
+  implementation_gate: owner_plan_verified plus listed files current plus backend/API/frontend/docs validation passing.
+  runtime_gate: At least one declared critical-path runtime scenario for the capability is passed when the capability changes user-visible behavior; overlapping matrix scenarios remain diagnostics and are not a reason to repeat the same implementation loop.
+  closeout_gate: Update this board, docs/capability-inventory.yaml, affected living docs, and the runtime matrix together; then run strict work-plan verification and the repository audits.
+loop_prevention:
+  active_entry: At most one implementation entry may be in progress at a time.
+  next_entry: Continue only to the next ordered entry after the current entry reaches a terminal status.
+  terminal_statuses: [current_web_verified_native_deferred, deferred_by_product_decision, implementation_complete_runtime_pending, runtime_verified]
+  forbidden: [inventing_new_capabilities, reopening_verified_slices_without_new_evidence, treating_source_tests_as_browser_evidence, marking_broad_runtime_scenarios_passed_with_narrow_traces, repeating_equivalent_runtime_traces_after_critical_path_is_proven]
+  blocker_rule: Stop only for a real blocker, required approval, conflict, or missing external product decision; record it in the current owner plan before pausing.
+  cleanup_rule: Do not create screenshots, HARs, smoke-test artifacts, or duplicate plan files; retain only source, tests, docs, YAML control files, and compact JSON runtime evidence.
+product_deferrals:
+  platform.account.recover: Deferred by DEC-003; retain current partial implementation and do not add provider work in this board.
+  cross_module.mobile_watch: Deferred by DEC-002; maintain backend presentation contracts and do not build native apps in this board.
+  rides.circles: Not offered; outside the 30-entry scope and requires a product/safety decision first.
+phases:
+- id: P1-trust-context
+  entries: [01, 02, 04, 05, 06, 07, 08, 09]
+- id: P2-domain-workflows
+  entries: [16, 17, 18, 19, 20, 21, 22, 23, 24]
+- id: P3-vision
+  entries: [10, 11, 12, 13, 14, 15]
+- id: P4-cross-module
+  entries: [25, 26, 27, 28, 30]
+- id: P5-explicit-deferrals
+  entries: [03, 29]
+entries:
+- order: 01
+  capability: platform.authentication
+  owner_plan: docs/work/r3-f-auth-session-expiry-recovery.yaml
+  status: current_web_verified_native_deferred
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AuthSessionService.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java, apps/themuffinman/frontend/src/modules/identity/api/authApi.ts]
+  close_when: Browser login, auth/me, logout revocation, relogin, and safe expired-session recovery are verified.
+- order: 02
+  capability: platform.profile.manage_visibility
+  owner_plan: docs/work/r3-b-profile-visibility.yaml
+  status: current_web_verified_native_deferred
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/ProfileVisibilityService.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+  close_when: Owner, public, circle, and unrelated viewers receive typed redacted profile data with no leakage.
+- order: 03
+  capability: platform.account.recover
+  owner_plan: docs/work/capability-30-gap-analysis.yaml
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/AuthController.java, apps/themuffinman/frontend/src/modules/identity/views/PasswordRecoveryView.vue]
+  status: deferred_by_product_decision
+  close_when: Product explicitly reopens recovery delivery work; no current implementation slice is authorized.
+- order: 04
+  capability: platform.location.set_preference
+  owner_plan: docs/work/r3-c-location-provider-recovery.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/UserLocationSettingsDTO.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+  close_when: Save/read, invalid combinations, provider-unavailable state, and manual correction use one typed contract.
+- order: 05
+  capability: platform.location.control_visibility
+  owner_plan: docs/work/r3-g-location-visibility-redaction.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationAccessPolicyService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java]
+  close_when: Exact location is owner/consent scoped and all viewer responses explain effective coarse/exact visibility.
+- order: 06
+  capability: platform.location.use_current
+  owner_plan: docs/work/r3-c-location-provider-recovery.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/controller/LocationLookupController.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
+  close_when: Permission denied, provider unavailable, retry, and no-coordinate storage behavior are typed and verified.
+- order: 07
+  capability: platform.location.resolve
+  owner_plan: docs/work/r3-c-location-provider-recovery.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/dto/LocationLookupResponseDTO.java]
+  close_when: Ambiguous, empty, unavailable, and selected canonical locality states are explicit.
+- order: 8
+  capability: platform.location
+  owner_plan: docs/work/r3-c-location-provider-recovery.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationContextService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationSettingsViewService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java]
+  close_when: Discovery, privacy, quest presentation, and Vision consume the same backend location context.
+- order: 9
+  capability: platform.activity
+  owner_plan: docs/work/r3-d-activity-chat-projection.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java, apps/themuffinman/src/main/java/com/themuffinman/app/activity/dto/ActivityItemDTO.java, apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue]
+  close_when: Supported event families return uniform source/action/recovery items with safe resume and dismiss behavior.
+- order: 10
+  capability: vision.task.confirm
+  owner_plan: docs/work/r4-a-vision-execution-failure-contract.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+  close_when: Every supported mutation has backend confirmation, stale/failure state, and explicit retry/cancel controls.
+- order: 11
+  capability: vision.discovery.search
+  owner_plan: docs/work/r4-b-vision-discovery-boundary.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSearchDiscoveryDTO.java, apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts]
+  close_when: Text and voice use the same authorized typed discovery contract with filter, pagination, ambiguity, and recovery state.
+- order: 12
+  capability: vision.discovery.open_detail
+  owner_plan: docs/work/r4-b-vision-discovery-boundary.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+  close_when: A unique authorized result opens its canonical detail route with typed return context.
+- order: 13
+  capability: vision.create_quest
+  owner_plan: docs/work/r4-c-vision-quest-workflow.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
+  close_when: Text/voice create reaches review, correction, confirmation, completion, and recoverable failure states.
+- order: 14
+  capability: vision.read_discovery
+  owner_plan: docs/work/r4-d-vision-discovery-result-states.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java]
+  close_when: Empty, no-match, inaccessible, stale, and comparison states are backend typed and rendered consistently.
+- order: 15
+  capability: vision.execution
+  owner_plan: docs/work/r4-a-vision-execution-failure-contract.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionPlanner.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java, apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts]
+  close_when: Execution candidates expose stable workflow, failureCode, retryable, and allowed-action metadata.
+- order: 16
+  capability: work.quest.manage_workers
+  owner_plan: docs/work/r2-a-work-assignment.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue]
+  close_when: Approved worker accept/release/replace paths recheck permissions and recover stale conflicts.
+- order: 17
+  capability: chat.realtime
+  owner_plan: docs/work/r2-e-chat-realtime-connection-contract.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java, apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts]
+  close_when: Connect, reconnect, missed-event resync, and visibility recovery use the typed transport/sync contract.
+- order: 18
+  capability: chat.attachments
+  owner_plan: docs/work/r2-g-chat-upload-lifecycle.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAttachmentUpload.java]
+  close_when: Upload, pending, consumed, cancelled, expired, and unavailable states are backend-owned.
+- order: 19
+  capability: chat.message.attach
+  owner_plan: docs/work/r2-g-chat-upload-lifecycle.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/controller/ChatController.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMessageDTO.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+  close_when: Authorized attachment send is idempotent and rejects invalid/consumed/cancelled uploads.
+- order: 20
+  capability: chat.conversation.create_group
+  owner_plan: docs/work/r2-h-chat-group-eligibility.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatGroupEligibilityDTO.java]
+  close_when: Eligibility preflight and creation repeat server-side participant/circle checks with typed denial reasons.
+- order: 21
+  capability: chat.conversation.leave
+  owner_plan: docs/work/r2-i-chat-membership-transition.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMembershipTransitionDTO.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
+  close_when: Leave is confirmed, ownership transfer is typed, and stale UI closes/reloads safely.
+- order: 22
+  capability: chat.message.view_attachment
+  owner_plan: docs/work/r2-f-chat-attachment-access-refresh.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentAccessDTO.java]
+  close_when: Access refresh is authorization-bound and returns available/expired/unavailable recovery state.
+- order: 23
+  capability: business.profile.gallery_manage
+  owner_plan: docs/work/r2-e-business-gallery.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessGalleryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessGalleryController.java, apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue]
+  close_when: Owner upload/order/delete and public active-image reads use the storage/provider boundary safely.
+- order: 24
+  capability: things.listings
+  owner_plan: docs/work/r2-d-things-lifecycle.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue]
+  close_when: Listing discovery/detail, borrow request, owner decision, return, cancellation, and conflict recovery are complete.
+- order: 25
+  capability: cross_module.search.discover
+  owner_plan: docs/work/r5-a-unified-search.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java]
+  close_when: One authorized search returns stable typed results for all supported families and pagination.
+- order: 26
+  capability: cross_module.search.filter
+  owner_plan: docs/work/r5-a-unified-search-filter.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue]
+  close_when: Allow-listed family filters and typed empty/recovery states are consumed by Web and Vision.
+- order: 27
+  capability: cross_module.notification.receive
+  owner_plan: docs/work/r5-b-notification-delivery.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java, apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue]
+  close_when: Supported events produce permission-safe inbox/read/realtime state; multi-channel providers remain explicitly deferred.
+- order: 28
+  capability: cross_module.notification.manage_preferences
+  owner_plan: docs/work/r5-c-notification-preference-enforcement.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/NotificationPreferenceService.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsService.java, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue]
+  close_when: Saved/effective in-app policy is enforced by supported producers; push/email remain unavailable until providers exist.
+- order: 29
+  capability: cross_module.mobile_watch
+  owner_plan: docs/work/native-client-contract-readiness.yaml
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/service/NativePresentationService.java, apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff/dto/NativePresentationDTO.java, docs/native-client-handoff-contract.yaml]
+  status: deferred_by_product_decision
+  close_when: iPhone and Watch implementation workspaces exist; current board closes only backend contract readiness.
+- order: 30
+  capability: cross_module.search
+  owner_plan: docs/work/r5-a-unified-search.yaml
+  status: runtime_verified
+  files: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue, apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts]
+  close_when: Web/Vision use the same versioned result, filter, pagination, recovery, comparison, and detail-handoff semantics.

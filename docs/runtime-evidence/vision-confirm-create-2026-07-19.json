@@ -1,0 +1,10 @@
+{
+  "capability": "vision.task.confirm",
+  "route": "/vision",
+  "actions": ["register", "draft", "review", "enable_dev_execution", "confirm", "create"],
+  "executionEnabled": true,
+  "reviewConfirmEnabled": true,
+  "created": true,
+  "createdQuestId": 389,
+  "failedResponses": []
+}

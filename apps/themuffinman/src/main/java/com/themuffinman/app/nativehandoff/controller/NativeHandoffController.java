@@ -6,6 +6,8 @@ import com.themuffinman.app.nativehandoff.dto.NativeHandoffIssueRequestDTO;
 import com.themuffinman.app.nativehandoff.dto.NativeHandoffIssueResponseDTO;
 import com.themuffinman.app.nativehandoff.model.NativeHandoffToken;
 import com.themuffinman.app.nativehandoff.service.NativeHandoffService;
+import com.themuffinman.app.nativehandoff.dto.NativePresentationDTO;
+import com.themuffinman.app.nativehandoff.service.NativePresentationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +20,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class NativeHandoffController {
     private final NativeHandoffService service;
+    private final NativePresentationService presentationService;
+
+    @GetMapping("/presentation")
+    public NativePresentationDTO presentation(@RequestParam String targetDevice, @AuthenticationPrincipal AppUser user) {
+        if (user == null) throw com.themuffinman.app.common.errors.ServiceErrors.forbidden("Authentication is required");
+        return presentationService.getContract(targetDevice);
+    }
 
     @PostMapping
     public NativeHandoffIssueResponseDTO issue(@Valid @RequestBody NativeHandoffIssueRequestDTO request, @AuthenticationPrincipal AppUser user) {

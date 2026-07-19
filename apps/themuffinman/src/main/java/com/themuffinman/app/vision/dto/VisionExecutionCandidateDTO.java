@@ -20,6 +20,8 @@ public class VisionExecutionCandidateDTO {
     private boolean confirmationRequired;
     private String nextRequiredSlot;
     private String blockingReason;
+    private String failureCode;
+    private boolean retryable;
     private String planningNote;
     private String summary;
 }

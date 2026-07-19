@@ -1,0 +1,155 @@
+kind: capability_inventory_audit
+version: 1
+id: capability-inventory-audit
+title: Current capability inventory audit
+status: verified
+audited_at: '2026-07-19'
+source_inventory: docs/capability-inventory.yaml
+source_target_catalog: docs/target-capability-catalog.yaml
+source_coverage_report: docs/work/target-capability-coverage-report.yaml
+purpose: >
+  Record the current implementation inventory without reopening the retired
+  redesign plans. This is a diagnostic snapshot; implementation status remains
+  authoritative in docs/capability-inventory.yaml and verified work plans.
+summary:
+  total_capabilities: 152
+  statuses:
+    implemented: 114
+    verified: 5
+    partial: 30
+    planned: 2
+    not_offered: 1
+    broken: 0
+  open_capabilities: 33
+  capabilities_with_declared_gaps: 140
+  capabilities_with_evidence: 65
+  modules: 8
+  target_capabilities: 123
+  target_mapping:
+    mapped: 123
+    exact_mapped: 123
+    unmapped: 0
+    vision_missing: 2
+    not_ready: 21
+integrity_findings:
+  - id: AUDIT-001
+    severity: high
+    finding: >
+      The inventory's active_plans list still contained two paths removed during
+      redesign cleanup: runtime-acceptance-catalog.yaml and
+      frontend-ux-modernization.yaml.
+    resolution: Remove both stale entries and replace them with this audit and the remaining-work planner as linked diagnostic artifacts.
+  - id: AUDIT-002
+    severity: medium
+    finding: >
+      Many implemented capabilities retain runtime or mobile gaps. Implemented
+      therefore means the primary backend/Web workflow exists; it does not mean
+      every target client or runtime scenario is complete.
+    resolution: Keep those capabilities implemented or partial according to the current inventory, and plan residual work separately.
+  - id: AUDIT-003
+    severity: medium
+    finding: >
+      Aggregate capabilities such as platform.location, chat.attachments, and
+      cross_module.search overlap with atomic capability IDs.
+    resolution: Use atomic IDs for planner slices and retain aggregate IDs only as roll-up context.
+  - id: AUDIT-004
+    severity: low
+    finding: >
+      Runtime screenshots, HAR files, and redesign evidence are intentionally no
+      longer retained in the repository.
+    resolution: Treat runtime evidence as ephemeral and recreate it only inside a future verified work plan that needs it.
+  - id: AUDIT-005
+    severity: medium
+    finding: >
+      The YAML grouping places business.profile.gallery_manage under the circles
+      module even though its capability namespace is business.*.
+    resolution: Keep the capability in the planner now, then normalize module grouping in a focused inventory maintenance slice without changing its capability ID.
+module_summary:
+  - id: platform
+    total: 17
+    open: 9
+    main_open_scope: authentication, recovery, profile visibility, location, activity
+  - id: vision
+    total: 14
+    open: 6
+    main_open_scope: execution rollout, adapter recovery, discovery filtering and detail handoff
+  - id: work
+    total: 32
+    open: 1
+    main_open_scope: approved worker assignment acceptance and mobile presentation
+  - id: chat
+    total: 16
+    open: 6
+    main_open_scope: reconnect breadth, attachments, groups, leaving, expiry and preview recovery
+  - id: business
+    total: 3
+    open: 0
+    main_open_scope: no currently open atomic capability in the business module block
+  - id: circles
+    total: 51
+    open: 1
+    main_open_scope: business gallery capability is currently nested in this YAML module block
+  - id: sharing
+    total: 2
+    open: 2
+    main_open_scope: shared Things continuity and voluntary car sharing for selected circles
+  - id: cross_module
+    total: 17
+    open: 6
+    main_open_scope: unified search, notifications, mobile and Watch handoff
+open_scope:
+  critical:
+    - platform.authentication
+    - vision.task.confirm
+    - vision.create_quest
+    - vision.execution
+    - rides.circles
+  high:
+    - platform.profile.manage_visibility
+    - platform.account.recover
+    - platform.location.set_preference
+    - platform.location.control_visibility
+    - platform.location.use_current
+    - platform.location.resolve
+    - platform.location
+    - platform.activity
+    - vision.discovery.search
+    - vision.discovery.open_detail
+    - vision.read_discovery
+    - work.quest.manage_workers
+    - chat.realtime
+    - chat.message.attach
+    - chat.conversation.create_group
+    - cross_module.search.discover
+    - cross_module.search.filter
+    - cross_module.notification.receive
+    - cross_module.handoff.mobile
+    - cross_module.mobile_watch
+    - cross_module.search
+    - things.listings
+  medium:
+    - chat.attachments
+    - chat.conversation.leave
+    - chat.message.view_attachment
+    - business.profile.gallery_manage
+    - cross_module.handoff.watch
+  not_offered:
+    - rides.circles
+  planned:
+    - cross_module.handoff.mobile
+    - cross_module.handoff.watch
+audit_commands:
+  - make audit-target-capability-catalog
+  - make audit-target-capability-coverage
+  - make audit-plan-coverage
+  - make audit-runtime-acceptance
+runtime_acceptance:
+  matrix: docs/runtime-acceptance-matrix.yaml
+  passed: 26
+  pending_runtime: 25
+  interpretation: Static contracts are verified; browser/device execution remains open until fresh traces are produced.
+result:
+  target_catalog_audit: passed
+  target_coverage_audit: passed
+  plan_coverage_audit: passed
+  next_artifact: docs/work/capability-inventory-planner.yaml

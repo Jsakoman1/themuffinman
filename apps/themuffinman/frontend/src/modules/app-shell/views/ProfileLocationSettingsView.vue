@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import {updateSessionUser} from "../../identity/auth.ts"
-import type {AppUserResponseDTO, CircleContactDTO, CircleGroupResponseDTO, LocationLookupCandidateDTO, ProfileFieldVisibility, UserLocationMode} from "../../../contracts/index.ts"
+import type {AppUserResponseDTO, CircleContactDTO, CircleGroupResponseDTO, LocationLookupCandidateDTO, ProfileFieldVisibility, UserLocationMode, LocationResolutionStatus} from "../../../contracts/index.ts"
 import {userShellApi, type ProfileGalleryImage} from "../api/userShellApi.ts"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
@@ -17,6 +17,8 @@ const profileDescription = ref("")
 const avatarDataUrl = ref<string | null>(null)
 const profileDescriptionVisibility = ref<ProfileFieldVisibility>("PUBLIC")
 const profileAvatarVisibility = ref<ProfileFieldVisibility>("PUBLIC")
+const profileDescriptionVisibleCircleIds = ref<number[]>([])
+const profileAvatarVisibleCircleIds = ref<number[]>([])
 const circleGroups = ref<CircleGroupResponseDTO[]>([])
 const circleConnections = ref<CircleContactDTO[]>([])
 const selectedCircleIds = ref<number[]>([])
@@ -24,6 +26,10 @@ const selectedUserIds = ref<number[]>([])
 const mode = ref<UserLocationMode>("OFF")
 const exactVisibilityScope = ref<"NOBODY" | "EVERYONE" | "CIRCLES" | "USERS">("NOBODY")
 const radius = ref(25)
+const resolutionStatus = ref<LocationResolutionStatus>("OFF")
+const providerConfigured = ref(true)
+const providerUnavailable = ref(false)
+const currentLocationOutcome = ref<"IDLE" | "BROWSER_UNAVAILABLE" | "PERMISSION_DENIED" | "PROVIDER_NOT_CONFIGURED" | "PROVIDER_UNAVAILABLE" | "NOT_RESOLVED">("IDLE")
 const query = ref("")
 const candidate = ref<LocationLookupCandidateDTO | null>(null)
 const suggestions = ref<LocationLookupCandidateDTO[]>([])
@@ -69,8 +75,11 @@ const load = async () => {
     avatarDataUrl.value = user.value.profileAvatarDataUrl ?? null
     profileDescriptionVisibility.value = user.value.profileDescriptionVisibility ?? "PUBLIC"
     profileAvatarVisibility.value = user.value.profileAvatarVisibility ?? "PUBLIC"
+    profileDescriptionVisibleCircleIds.value = [...(user.value.profileDescriptionVisibleCircleIds ?? [])]
+    profileAvatarVisibleCircleIds.value = [...(user.value.profileAvatarVisibleCircleIds ?? [])]
     const settings = user.value.locationSettings
     mode.value = settings.mode
+    resolutionStatus.value = settings.resolutionStatus ?? (settings.hasCoordinates ? "RESOLVED" : settings.mode === "OFF" ? "OFF" : "NEEDS_RESOLUTION")
     exactVisibilityScope.value = settings.exactVisibilityScope
     selectedCircleIds.value = [...(settings.exactVisibleCircleIds ?? [])]
     selectedUserIds.value = [...(settings.exactVisibleUserIds ?? [])]
@@ -135,19 +144,32 @@ const search = async () => {
   if (query.value.trim().length < 3) { suggestions.value = []; return }
   isSearching.value = true
   error.value = ""
-  try { suggestions.value = (await userShellApi.lookupLocations(query.value.trim())).items }
+  try {
+    const response = await userShellApi.lookupLocations(query.value.trim())
+    providerConfigured.value = response.configured
+    providerUnavailable.value = response.resolutionStatus === "PROVIDER_UNAVAILABLE"
+    suggestions.value = response.items
+    if (!response.configured || providerUnavailable.value) error.value = "Location search is temporarily unavailable. Retry later or use another correction path."
+  }
   catch { error.value = "Could not search this location." }
   finally { isSearching.value = false }
 }
 
 const useCurrentLocation = () => {
-  if (!navigator.geolocation) { error.value = "Current location is not available in this browser."; return }
+  if (!navigator.geolocation) { currentLocationOutcome.value = "BROWSER_UNAVAILABLE"; error.value = "Current location is not available in this browser."; return }
   error.value = ""
+  currentLocationOutcome.value = "IDLE"
   navigator.geolocation.getCurrentPosition(async position => {
     try { applyCandidate(await userShellApi.reverseLookupLocation(position.coords.latitude, position.coords.longitude)); feedback.value = "Current location resolved. Review it before saving." }
-    catch { error.value = "Could not resolve the current location." }
-  }, () => { error.value = "Location permission was denied or unavailable. Search for a place instead." })
+    catch (cause: any) {
+      const code = cause?.response?.data?.code
+      currentLocationOutcome.value = code === "LOCATION_PROVIDER_NOT_CONFIGURED" ? "PROVIDER_NOT_CONFIGURED" : code === "LOCATION_PROVIDER_UNAVAILABLE" ? "PROVIDER_UNAVAILABLE" : "NOT_RESOLVED"
+      error.value = code === "LOCATION_PROVIDER_UNAVAILABLE" ? "The location provider is temporarily unavailable. Retry or search for a place instead." : code === "LOCATION_PROVIDER_NOT_CONFIGURED" ? "Current location lookup is not configured. Search for a place instead." : "Could not resolve the current location. Search for a place instead."
+    }
+  }, (cause) => { currentLocationOutcome.value = cause.code === 1 ? "PERMISSION_DENIED" : "BROWSER_UNAVAILABLE"; error.value = cause.code === 1 ? "Location permission was denied. Search for a place instead." : "Current location is unavailable. Retry or search for a place instead." })
 }
+
+const clearCandidate = () => { candidate.value = null; query.value = ""; suggestions.value = []; resolutionStatus.value = mode.value === "OFF" ? "OFF" : "NEEDS_RESOLUTION" }
 
 const save = async () => {
   if (!user.value) return
@@ -165,6 +187,8 @@ const save = async () => {
       profileAvatarDataUrl: avatarDataUrl.value,
       profileDescriptionVisibility: profileDescriptionVisibility.value,
       profileAvatarVisibility: profileAvatarVisibility.value,
+      profileDescriptionVisibleCircleIds: profileDescriptionVisibility.value === "CIRCLES" ? profileDescriptionVisibleCircleIds.value : [],
+      profileAvatarVisibleCircleIds: profileAvatarVisibility.value === "CIRCLES" ? profileAvatarVisibleCircleIds.value : [],
       locationSettings: {
         mode: mode.value,
         defaultRadiusKm: radius.value,
@@ -186,6 +210,7 @@ const save = async () => {
       }
     })
     updateSessionUser({profileAvatarDataUrl: user.value.profileAvatarDataUrl, username: user.value.username, profileDescription: user.value.profileDescription})
+    resolutionStatus.value = user.value.locationSettings.resolutionStatus
     feedback.value = "Profile and location settings saved."
   } catch { error.value = "Could not save location settings. Select a resolved place and try again." }
   finally { isSaving.value = false }
@@ -205,9 +230,12 @@ onMounted(async () => {
     <AppStatus v-if="error" :message="error" tone="error" />
     <AppStatus v-if="feedback" :message="feedback" tone="success" />
     <AppStatus v-if="isLoading" message="Loading profile and location settings." busy />
+    <AppStatus v-if="!isLoading && resolutionStatus === 'NEEDS_RESOLUTION'" message="Location is enabled but still needs a resolved place. Choose a search result or use current location, then review it before saving." tone="warning" />
+    <AppStatus v-if="!isLoading && !providerConfigured" message="The location provider is unavailable. Existing saved settings remain intact; retry search later or use a different correction path." tone="warning" />
+    <AppStatus v-if="!isLoading && providerUnavailable" message="The location provider did not respond. Existing saved settings remain intact; retry search later or choose another correction path." tone="warning" />
     <div v-if="!isLoading" class="location-settings__workspace">
     <form @submit.prevent="save">
-      <fieldset class="profile-fields"><legend>Profile</legend><div class="avatar-editor"><img v-if="avatarDataUrl" :src="avatarDataUrl" alt="Profile preview" class="avatar-editor__image"><span v-else class="avatar-editor__image avatar-editor__image--fallback">{{ (username[0] ?? "A").toUpperCase() }}</span><div><label>Profile picture<input type="file" accept="image/*" @change="selectAvatar"></label><AppButton v-if="avatarDataUrl" type="button" tone="danger" class="avatar-editor__remove" @click="removeAvatar">Remove picture</AppButton><small>Optional. Use a clear image under 2 MB.</small></div></div><AppFormField label="Username"><InlineEditText :model-value="username" label="username" @save="username = $event" /></AppFormField><AppFormField label="Description" :hint="`${profileDescription.length}/2000`"><textarea v-model="profileDescription" maxlength="2000" rows="4" placeholder="What should people know about you?"></textarea></AppFormField><div class="profile-visibility-grid"><AppFormField label="Profile picture visibility"><select v-model="profileAvatarVisibility" aria-label="Profile picture visibility"><option value="PUBLIC">Everyone</option><option value="PRIVATE">Only me</option></select></AppFormField><AppFormField label="Description visibility"><select v-model="profileDescriptionVisibility" aria-label="Description visibility"><option value="PUBLIC">Everyone</option><option value="PRIVATE">Only me</option></select></AppFormField></div><small class="profile-visibility-note">Field visibility is enforced by the backend. Circle-scoped sharing will be added only with an explicit consent contract.</small></fieldset>
+      <fieldset class="profile-fields"><legend>Profile</legend><div class="avatar-editor"><img v-if="avatarDataUrl" :src="avatarDataUrl" alt="Profile preview" class="avatar-editor__image"><span v-else class="avatar-editor__image avatar-editor__image--fallback">{{ (username[0] ?? "A").toUpperCase() }}</span><div><label>Profile picture<input type="file" accept="image/*" @change="selectAvatar"></label><AppButton v-if="avatarDataUrl" type="button" tone="danger" class="avatar-editor__remove" @click="removeAvatar">Remove picture</AppButton><small>Optional. Use a clear image under 2 MB.</small></div></div><AppFormField label="Username"><InlineEditText :model-value="username" label="username" @save="username = $event" /></AppFormField><AppFormField label="Description" :hint="`${profileDescription.length}/2000`"><textarea v-model="profileDescription" maxlength="2000" rows="4" placeholder="What should people know about you?"></textarea></AppFormField><div class="profile-visibility-grid"><AppFormField label="Profile picture visibility"><select v-model="profileAvatarVisibility" aria-label="Profile picture visibility"><option value="PUBLIC">Everyone</option><option value="PRIVATE">Only me</option><option value="CIRCLES">Selected circles</option></select></AppFormField><AppFormField label="Description visibility"><select v-model="profileDescriptionVisibility" aria-label="Description visibility"><option value="PUBLIC">Everyone</option><option value="PRIVATE">Only me</option><option value="CIRCLES">Selected circles</option></select></AppFormField></div><fieldset v-if="profileAvatarVisibility === 'CIRCLES'" class="visibility-options"><legend>Profile picture circles</legend><label v-for="group in circleGroups" :key="`avatar-${group.id}`" class="check-option"><input v-model="profileAvatarVisibleCircleIds" type="checkbox" :value="group.id">{{ group.name }}</label><small v-if="circleGroups.length === 0">Create a circle before sharing your profile picture with it.</small></fieldset><fieldset v-if="profileDescriptionVisibility === 'CIRCLES'" class="visibility-options"><legend>Description circles</legend><label v-for="group in circleGroups" :key="`description-${group.id}`" class="check-option"><input v-model="profileDescriptionVisibleCircleIds" type="checkbox" :value="group.id">{{ group.name }}</label><small v-if="circleGroups.length === 0">Create a circle before sharing your description with it.</small></fieldset><small class="profile-visibility-note">Visibility is consent-based and enforced by the backend. Selected-circle access applies only to members of the circles you choose.</small></fieldset>
       <fieldset class="profile-gallery"><legend>Photo gallery</legend><p class="profile-gallery__intro">Optional photos for your profile. These are separate from your profile picture.</p><div class="profile-gallery__form"><AppFormField label="Image URL"><input v-model="galleryUrl" type="url" placeholder="https://…" aria-label="Image URL"></AppFormField><AppFormField label="Alt text" optional><input v-model="galleryAltText" maxlength="240" placeholder="Describe the photo" aria-label="Alt text"></AppFormField><AppButton type="button" tone="primary" :loading="isGalleryActing" @click="addGalleryImage">Add photo</AppButton></div><div v-if="gallery.length" class="profile-gallery__grid"><article v-for="image in gallery" :key="image.id" class="profile-gallery__item"><img :src="image.imageUrl" :alt="image.altText || 'Profile gallery photo'"><AppButton type="button" tone="danger" :loading="isGalleryActing" @click="removeGalleryImage(image)">Remove</AppButton></article></div><AppStatus v-else message="No profile gallery photos yet." /></fieldset>
       <fieldset><legend>Location</legend><AppFormField label="Location mode"><select v-model="mode" aria-label="Location mode"><option value="OFF">Off</option><option value="APPROXIMATE">Approximate</option><option value="EXACT">Exact</option></select></AppFormField>
       <AppFormField label="Default search radius (km)"><input v-model.number="radius" type="number" min="1" max="200"></AppFormField>
@@ -217,7 +245,7 @@ onMounted(async () => {
       <div class="location-search"><AppFormField label="Place or address"><input v-model="query" placeholder="Search for a place" @input="handleLocationQueryInput"></AppFormField><AppButton type="button" tone="secondary" @click="useCurrentLocation">Use current location</AppButton></div>
       <AppStatus v-if="isSearching" message="Searching for locations." busy />
       <ul v-if="suggestions.length" class="suggestions"><li v-for="item in suggestions" :key="`${item.providerPlaceId}-${item.label}`"><AppButton type="button" tone="quiet" @click="applyCandidate(item)">{{ item.label }}</AppButton></li></ul>
-      <div v-if="candidate" class="selected"><strong>Resolved place</strong><span>{{ candidate.label }}</span><small>{{ candidate.locality || candidate.country || "Ready to save" }}</small></div>
+      <div v-if="candidate" class="selected"><strong>Resolved place</strong><span>{{ candidate.label }}</span><small>{{ candidate.locality || candidate.country || "Ready to save" }}</small><AppButton type="button" tone="quiet" @click="clearCandidate">Choose a different place</AppButton></div>
       </fieldset><AppFormFooter sticky><template #secondary><span>Location visibility is enforced by the backend.</span></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Saving…" : "Save profile and location" }}</AppButton></template></AppFormFooter>
     </form>
     <aside class="location-settings__utility" aria-label="Location privacy context">

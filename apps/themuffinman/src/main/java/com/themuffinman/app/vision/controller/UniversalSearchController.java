@@ -22,8 +22,9 @@ public class UniversalSearchController {
     @GetMapping
     public VisionSearchDiscoveryDTO search(@RequestParam(defaultValue = "") String q,
                                            @RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(required = false) String family,
                                            @AuthenticationPrincipal AppUser currentUser) {
-        return service.discoverWeb(currentUser, q, page);
+        return service.discoverWeb(currentUser, q, page, family);
     }
 
     @GetMapping("/compare")

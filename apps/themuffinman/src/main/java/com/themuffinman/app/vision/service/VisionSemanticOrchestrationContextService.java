@@ -4,6 +4,9 @@ import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.config.VoiceProperties;
 import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.location.dto.UserLocationContextDTO;
+import com.themuffinman.app.location.service.LocationContextService;
+import com.themuffinman.app.location.service.LocationGeoService;
 import com.themuffinman.app.vision.dto.VisionLearningExplainabilityDTO;
 import com.themuffinman.app.vision.dto.VisionLearningPreferenceDTO;
 import com.themuffinman.app.vision.model.VisionConversation;
@@ -71,9 +74,10 @@ public class VisionSemanticOrchestrationContextService {
     private final VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository;
     private final VisionMemorySummaryRepository visionMemorySummaryRepository;
     private final Clock clock;
+    private final LocationContextService locationContextService;
 
     public VisionSemanticOrchestrationContextService(VoiceProperties voiceProperties) {
-        this(voiceProperties, null, null, null, null, null, null, Clock.systemUTC());
+        this(voiceProperties, null, null, null, null, null, null, null, Clock.systemUTC());
     }
 
     public VisionSemanticOrchestrationContextService(
@@ -81,10 +85,9 @@ public class VisionSemanticOrchestrationContextService {
             VisionConversationRepository visionConversationRepository,
             VisionTurnRepository visionTurnRepository
     ) {
-        this(voiceProperties, null, visionConversationRepository, visionTurnRepository, null, null, null, Clock.systemUTC());
+        this(voiceProperties, null, visionConversationRepository, visionTurnRepository, null, null, null, null, Clock.systemUTC());
     }
 
-    @Autowired
     public VisionSemanticOrchestrationContextService(
             VoiceProperties voiceProperties,
             VisionProperties visionProperties,
@@ -96,6 +99,23 @@ public class VisionSemanticOrchestrationContextService {
     ) {
         this(voiceProperties, visionProperties, visionConversationRepository, visionTurnRepository,
                 visionUserPreferenceRepository, visionMemoryFeedbackEventRepository, visionMemorySummaryRepository,
+                null, Clock.systemUTC());
+    }
+
+    @Autowired
+    public VisionSemanticOrchestrationContextService(
+            VoiceProperties voiceProperties,
+            VisionProperties visionProperties,
+            VisionConversationRepository visionConversationRepository,
+            VisionTurnRepository visionTurnRepository,
+            VisionUserPreferenceRepository visionUserPreferenceRepository,
+            VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository,
+            VisionMemorySummaryRepository visionMemorySummaryRepository,
+            LocationContextService locationContextService
+    ) {
+        this(voiceProperties, visionProperties, visionConversationRepository, visionTurnRepository,
+                visionUserPreferenceRepository, visionMemoryFeedbackEventRepository, visionMemorySummaryRepository,
+                locationContextService,
                 Clock.systemUTC());
     }
 
@@ -109,6 +129,22 @@ public class VisionSemanticOrchestrationContextService {
             VisionMemorySummaryRepository visionMemorySummaryRepository,
             Clock clock
     ) {
+        this(voiceProperties, visionProperties, visionConversationRepository, visionTurnRepository,
+                visionUserPreferenceRepository, visionMemoryFeedbackEventRepository, visionMemorySummaryRepository,
+                null, clock);
+    }
+
+    VisionSemanticOrchestrationContextService(
+            VoiceProperties voiceProperties,
+            VisionProperties visionProperties,
+            VisionConversationRepository visionConversationRepository,
+            VisionTurnRepository visionTurnRepository,
+            VisionUserPreferenceRepository visionUserPreferenceRepository,
+            VisionMemoryFeedbackEventRepository visionMemoryFeedbackEventRepository,
+            VisionMemorySummaryRepository visionMemorySummaryRepository,
+            LocationContextService locationContextService,
+            Clock clock
+    ) {
         this.voiceProperties = voiceProperties;
         this.visionProperties = visionProperties;
         this.visionConversationRepository = visionConversationRepository;
@@ -117,6 +153,9 @@ public class VisionSemanticOrchestrationContextService {
         this.visionMemoryFeedbackEventRepository = visionMemoryFeedbackEventRepository;
         this.visionMemorySummaryRepository = visionMemorySummaryRepository;
         this.clock = clock == null ? Clock.systemUTC() : clock;
+        this.locationContextService = locationContextService == null
+                ? new LocationContextService(new LocationGeoService())
+                : locationContextService;
     }
 
     public VisionSemanticUserContext buildUserContext(AppUser user) {
@@ -136,7 +175,8 @@ public class VisionSemanticOrchestrationContextService {
                     .build();
         }
 
-        String countryCode = normalizeCountryCode(user.getLocationCountryCode());
+        UserLocationContextDTO locationContext = locationContextService.buildUserContext(user);
+        String countryCode = normalizeCountryCode(locationContext.getCountryCode());
         ResolvedLocale resolvedLocale = resolveLocale(countryCode, runtimeHints);
         ResolvedTimezone resolvedTimezone = resolveTimezone(countryCode, runtimeHints);
         return VisionSemanticUserContext.builder()
@@ -149,9 +189,9 @@ public class VisionSemanticOrchestrationContextService {
                 .timezone(resolvedTimezone.value())
                 .timezoneSource(resolvedTimezone.source())
                 .countryCode(countryCode)
-                .country(clean(user.getLocationCountry()))
-                .locality(clean(user.getLocationLocality()))
-                .locationLabel(clean(user.getLocationLabel()))
+                .country(locationContext.getCountry())
+                .locality(locationContext.getLocality())
+                .locationLabel(locationContext.getApproximateLocationLabel())
                 .build();
     }
 

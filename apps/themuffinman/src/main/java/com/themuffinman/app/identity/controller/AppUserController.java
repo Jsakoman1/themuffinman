@@ -53,7 +53,7 @@ public class AppUserController {
 
     @GetMapping("/me")
     public AppUserResponseDTO getCurrentAppUser(@AuthenticationPrincipal AppUser currentUser) {
-        return toDto(currentUser);
+        return appUserMgr.toOwnerDto(currentUser);
     }
 
     @GetMapping("/{id}")
@@ -97,7 +97,7 @@ public class AppUserController {
 
     @PutMapping("/me")
     public AppUserResponseDTO updateCurrentAppUser(@AuthenticationPrincipal AppUser currentUser, @Valid @RequestBody AppUserRequestDTO dto) {
-        return toDto(appUserService.updateAppUser(currentUser.getId(), dto));
+        return appUserMgr.toOwnerDto(appUserService.updateAppUser(currentUser.getId(), dto));
     }
 
     private AppUserResponseDTO toDto(AppUser appUser) {

@@ -11,6 +11,7 @@ public class RetentionProperties {
 
     private Notifications notifications = new Notifications();
     private Chat chat = new Chat();
+    private AuthTokens authTokens = new AuthTokens();
 
     @Getter
     @Setter
@@ -26,5 +27,11 @@ public class RetentionProperties {
         private int messageDays = 180;
         private String cleanupCron = "0 45 3 * * *";
         private String expiredImagePlaceholder = "Image expired";
+    }
+
+    @Getter
+    @Setter
+    public static class AuthTokens {
+        private String cleanupCron = "0 15 3 * * *";
     }
 }

@@ -60,8 +60,10 @@ public class VisionExecutionPlanner {
                     .reviewReady(false)
                     .executionReady(false)
                     .confirmationRequired(false)
-                    .nextRequiredSlot(null)
-                    .blockingReason("Conversation is already complete.")
+                .nextRequiredSlot(null)
+                .blockingReason("Conversation is already complete.")
+                    .failureCode("STATE")
+                    .retryable(false)
                     .planningNote(planningNote)
                     .summary(candidateIntent == VisionIntent.CREATE_QUEST
                             ? "Quest has already been executed."
@@ -79,6 +81,8 @@ public class VisionExecutionPlanner {
                     .confirmationRequired(false)
                     .nextRequiredSlot(null)
                     .blockingReason("Conversation is blocked.")
+                    .failureCode("STATE")
+                    .retryable(false)
                     .planningNote(planningNote)
                     .summary("Conversation is blocked and cannot proceed.")
                     .build();
@@ -112,9 +116,23 @@ public class VisionExecutionPlanner {
                 .confirmationRequired(confirmationRequired)
                 .nextRequiredSlot(nextRequiredSlot)
                 .blockingReason(blockingReason)
+                .failureCode(classifyFailure(blockingReason))
+                .retryable(isRetryable(blockingReason))
                 .planningNote(planningNote)
                 .summary(buildSummary(reviewReady, executionReady, nextRequiredSlot, candidateIntent))
                 .build();
+    }
+
+    private String classifyFailure(String reason) {
+        if (reason == null || reason.isBlank()) return "NONE";
+        String value = reason.toLowerCase(java.util.Locale.ROOT);
+        if (value.contains("disabled") || value.contains("configuration")) return "CONFIGURATION";
+        if (value.contains("required") || value.contains("invalid") || value.contains("missing")) return "VALIDATION";
+        return "STATE";
+    }
+
+    private boolean isRetryable(String reason) {
+        return false;
     }
 
     private String nextRequiredSlot(VisionConversation conversation, VisionPromptUnderstandingResult understanding, VisionIntent intent) {

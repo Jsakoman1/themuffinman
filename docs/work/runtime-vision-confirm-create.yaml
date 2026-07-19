@@ -1,0 +1,56 @@
+kind: work
+version: 1
+id: runtime-vision-confirm-create
+title: Browser verify Vision review confirmation and quest creation
+status: verified
+strict_verification: true
+baseline: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+objective: Prove an execution-enabled dev Vision conversation reaches review, requires
+  explicit confirmation, and creates a quest through the backend executor.
+tasks:
+- id: vision-confirm-create-browser
+  title: Complete the guarded create-quest review and confirmation flow
+  type: implementation
+  status: done
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/vision-confirm-create-2026-07-19.json
+  - apps/themuffinman/src/main/resources/application-dev.properties
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/vision-confirm-create-2026-07-19.json
+  manual_runtime_command: Playwright authenticated Chromium execution-enabled Vision
+    review and confirm trace
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-confirm-create-2026-07-19.json
+  validation: make audit-runtime-acceptance && make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: vision-confirm-create-browser
+  command: make audit-runtime-acceptance && make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T12:19:54Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/resources/application-dev.properties
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/vision-confirm-create-2026-07-19.json
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (15 passed, 25 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 264
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/vision-confirm-create-2026-07-19.json
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/vision-confirm-create-2026-07-19.json

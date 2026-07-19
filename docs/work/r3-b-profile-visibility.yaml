@@ -1,0 +1,86 @@
+kind: work
+version: 1
+id: r3-b-profile-visibility
+title: Harden profile visibility consent validation
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Make circle-scoped profile visibility reject empty consent selections and
+  preserve the backend-owned privacy boundary used by Web, Vision, and future native
+  clients.
+tasks:
+- id: profile-visibility-consent-validation
+  title: Require at least one selected circle for CIRCLES visibility
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/ProfileVisibilityServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/ProfileVisibilityServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=AppUserServiceTest,AppUserMgrTest,UserProfileViewTest,ProfileVisibilityServiceTest
+    test
+- id: profile-visibility-docs
+  title: Record privacy boundary and remaining runtime/native gaps
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: profile-visibility-consent-validation
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=AppUserServiceTest,AppUserMgrTest,UserProfileViewTest,ProfileVisibilityServiceTest
+    test
+  ranAt: '2026-07-19T13:40:16Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/ProfileVisibilityServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/AppUserServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service/ProfileVisibilityServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: profile-visibility-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T13:40:57Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 267
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

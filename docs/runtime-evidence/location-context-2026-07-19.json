@@ -1,0 +1,21 @@
+{
+  "scenario": "runtime-location-context",
+  "capabilityIds": ["platform.location.set_preference", "platform.location.use_current", "platform.location.resolve", "platform.location"],
+  "target": "/profile/settings",
+  "actions": ["register", "consent", "lookup", "revoke", "retry"],
+  "startedAt": "2026-07-19T14:39:05.317Z",
+  "statuses": {
+    "register": 200,
+    "consent": 200,
+    "lookup": 200,
+    "revoke": 200,
+    "retry": 200
+  },
+  "observations": {
+    "lookupSuggestions": 3,
+    "modeAfterReload": "OFF",
+    "permissionDenied": "Location permission was denied. Search for a place instead.",
+    "surfaceRetained": true
+  },
+  "endedAt": "2026-07-19T14:39:11.347Z"
+}

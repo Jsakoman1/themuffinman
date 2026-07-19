@@ -28,6 +28,22 @@ import static org.mockito.Mockito.when;
 class VisionExecutionServiceTest {
 
     @Test
+    void centralExecutionGateReturnsStableFailureMetadata() {
+        VisionProperties visionProperties = new VisionProperties();
+        VisionExecutionService executionService = new VisionExecutionService(
+                new VisionSemanticRouteCatalogService(),
+                new VisionSurfacePolicy(visionProperties),
+                List.of()
+        );
+
+        VisionExecutionResult missingConversation = executionService.execute(null);
+
+        assertFalse(missingConversation.isExecuted());
+        assertEquals("VALIDATION", missingConversation.getFailureCode());
+        assertFalse(missingConversation.isRetryable());
+    }
+
+    @Test
     void blocksExecutionWhenFeatureFlagIsDisabled() {
         VisionProperties visionProperties = new VisionProperties();
         VisionCreateQuestExecutionAdapter questAdapter = mock(VisionCreateQuestExecutionAdapter.class);
@@ -89,6 +105,8 @@ class VisionExecutionServiceTest {
 
         assertFalse(result.isExecuted());
         assertEquals("Execution is disabled by configuration.", result.getBlockingReason());
+        assertEquals("CONFIGURATION", result.getFailureCode());
+        assertFalse(result.isRetryable());
     }
 
     @Test

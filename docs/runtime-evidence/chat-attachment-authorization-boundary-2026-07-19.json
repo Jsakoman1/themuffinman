@@ -1,0 +1,21 @@
+{
+  "capability": "chat.message.view_attachment",
+  "actions": ["authorized_conversation", "upload", "send", "recipient_sync", "outsider_access_attempt"],
+  "statuses": {
+    "register": [200, 200, 200],
+    "circle_accept": 200,
+    "conversation": 200,
+    "upload": 200,
+    "send": 200,
+    "recipient_sync": 200,
+    "outsider_access": 403
+  },
+  "conversationId": 380,
+  "authorizedRecipientHasKey": true,
+  "attachmentAvailability": "AVAILABLE",
+  "outsiderResponse": {
+    "code": "FORBIDDEN",
+    "message": "You can only access your own chat conversations"
+  },
+  "failedResponses": []
+}

@@ -73,6 +73,12 @@ export type ExactLocationVisibilityScope = typeof EXACT_LOCATION_VISIBILITY_SCOP
 export const LOCATION_LOOKUP_EVENT_TYPE_VALUES = ["LOOKUP", "REVERSE_LOOKUP"] as const
 export type LocationLookupEventType = typeof LOCATION_LOOKUP_EVENT_TYPE_VALUES[number]
 
+export const LOCATION_LOOKUP_RESOLUTION_STATUS_VALUES = ["NOT_CONFIGURED", "NO_RESULTS", "RESOLVED", "PROVIDER_UNAVAILABLE"] as const
+export type LocationLookupResolutionStatus = typeof LOCATION_LOOKUP_RESOLUTION_STATUS_VALUES[number]
+
+export const LOCATION_RESOLUTION_STATUS_VALUES = ["OFF", "RESOLVED", "NEEDS_RESOLUTION"] as const
+export type LocationResolutionStatus = typeof LOCATION_RESOLUTION_STATUS_VALUES[number]
+
 export const NAVIGATION_TARGET_TYPE_VALUES = ["QUEST_DETAIL", "APPLICATION_DETAIL", "USER_PROFILE", "QUEST_LIST", "CIRCLES"] as const
 export type NavigationTargetType = typeof NAVIGATION_TARGET_TYPE_VALUES[number]
 
@@ -82,7 +88,7 @@ export type NotificationPreferenceCategory = typeof NOTIFICATION_PREFERENCE_CATE
 export const NOTIFICATION_PREFERENCE_LEVEL_VALUES = ["IN_APP", "PUSH", "EMAIL"] as const
 export type NotificationPreferenceLevel = typeof NOTIFICATION_PREFERENCE_LEVEL_VALUES[number]
 
-export const PROFILE_FIELD_VISIBILITY_VALUES = ["PUBLIC", "PRIVATE"] as const
+export const PROFILE_FIELD_VISIBILITY_VALUES = ["PUBLIC", "PRIVATE", "CIRCLES"] as const
 export type ProfileFieldVisibility = typeof PROFILE_FIELD_VISIBILITY_VALUES[number]
 
 export const QUEST_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "VIEW_APPLICATIONS", "DELETE", "CANCEL", "PAUSE", "RESUME", "ASSIGN", "REOPEN", "APPLY", "START", "COMPLETE", "CONFIRM_TERM_CHANGE", "REJECT_TERM_CHANGE"] as const
@@ -136,7 +142,7 @@ export type SemanticEntityFamily = typeof SEMANTIC_ENTITY_FAMILY_VALUES[number]
 export const SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES = ["RESOLVED", "AMBIGUOUS", "NOT_FOUND"] as const
 export type SemanticEntityResolutionStatus = typeof SEMANTIC_ENTITY_RESOLUTION_STATUS_VALUES[number]
 
-export const THING_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "ARCHIVE", "REQUEST_BORROW", "CANCEL_BORROW_REQUEST"] as const
+export const THING_ALLOWED_ACTION_DTO_VALUES = ["EDIT", "ARCHIVE", "REQUEST_BORROW", "CANCEL_BORROW_REQUEST", "APPROVE_BORROW_REQUEST", "DECLINE_BORROW_REQUEST", "RETURN_BORROWED_THING"] as const
 export type ThingAllowedActionDTO = typeof THING_ALLOWED_ACTION_DTO_VALUES[number]
 
 export const THING_BORROW_REQUEST_STATUS_VALUES = ["PENDING", "CANCELLED", "APPROVED", "DECLINED", "RETURNED"] as const
@@ -178,6 +184,9 @@ export type VisionNextAction = typeof VISION_NEXT_ACTION_VALUES[number]
 export const VISION_REVIEW_TARGET_VALUES = ["TITLE", "DESCRIPTION", "REWARD", "VISIBILITY", "SCHEDULE", "LOCATION", "CIRCLE_NAME", "TARGET_USER", "TARGET_QUEST", "TARGET_CIRCLE", "APPLICATION_MESSAGE", "APPLICATION_PRICE", "PROFILE_USERNAME", "PROFILE_DESCRIPTION", "PROFILE_LOCATION_MODE", "PROFILE_LOCATION"] as const
 export type VisionReviewTarget = typeof VISION_REVIEW_TARGET_VALUES[number]
 
+export const VISION_SEARCH_RECOVERY_CODE_VALUES = ["NONE", "ENTER_QUERY", "REFINE_QUERY", "REMOVE_FILTER"] as const
+export type VisionSearchRecoveryCode = typeof VISION_SEARCH_RECOVERY_CODE_VALUES[number]
+
 export const VISION_TURN_SOURCE_VALUES = ["TEXT", "VOICE"] as const
 export type VisionTurnSource = typeof VISION_TURN_SOURCE_VALUES[number]
 
@@ -198,9 +207,13 @@ export interface ActivityItemDTO {
   title: string
   summary: string
   route: string
+  primaryActionLabel: string
   occurredAt: string
   resumeKey: string
   resumable: boolean
+  deliveryState: string
+  readState: string
+  retryable: boolean
 }
 
 export interface AdminAgentExecutionRequestDTO {
@@ -345,6 +358,8 @@ export interface AppUserRequestDTO {
   profileAvatarDataUrl?: string | null
   profileDescriptionVisibility?: ProfileFieldVisibility
   profileAvatarVisibility?: ProfileFieldVisibility
+  profileDescriptionVisibleCircleIds?: number[]
+  profileAvatarVisibleCircleIds?: number[]
   locationSettings?: UserLocationSettingsRequestDTO | null
   role?: AppUserRole
 }
@@ -361,6 +376,8 @@ export interface AppUserResponseDTO {
   profileAvatarDataUrl: string | null
   profileDescriptionVisibility: ProfileFieldVisibility
   profileAvatarVisibility: ProfileFieldVisibility
+  profileDescriptionVisibleCircleIds: number[]
+  profileAvatarVisibleCircleIds: number[]
   locationSettings: UserLocationSettingsDTO
   createdAt: string
   openQuestCount: number
@@ -611,6 +628,10 @@ export interface BusinessGalleryImageResponseDTO {
   id: number
   businessProfileId: number
   imageUrl: string
+  storageProvider: string
+  storageKey: string
+  contentType: string
+  availability: string
   altText: string
   sortOrder: number
   active: boolean
@@ -811,6 +832,17 @@ export interface ChatAdminConversationSupportViewDTO {
   recentAuditLimit: number
 }
 
+export interface ChatAttachmentAccessDTO {
+  attachmentName: string
+  attachmentMimeType: string
+  attachmentSizeBytes: number
+  attachmentStorageProvider: string
+  attachmentStorageKey: string
+  attachmentUrl: string
+  attachmentUrlExpiresAt: string
+  attachmentAvailability: string
+}
+
 export interface ChatAttachmentStorageStatusDTO {
   enabled: boolean
   provider: string
@@ -829,6 +861,8 @@ export interface ChatAttachmentUploadDTO {
   attachmentStorageKey: string
   attachmentUrl: string
   attachmentUrlExpiresAt: string
+  uploadState: string
+  retryable: boolean
 }
 
 export interface ChatAuditEventDTO {
@@ -961,8 +995,25 @@ export interface ChatCreateGroupConversationRequestDTO {
   participantUserIds: number[]
 }
 
+export interface ChatGroupEligibilityDTO {
+  eligible: boolean
+  reasonCode: string
+  message: string
+  selectedParticipantUserIds: number[]
+  minimumParticipantCount: number
+  allowedActions: string[]
+}
+
 export interface ChatMarkReadRequestDTO {
   upToMessageId?: number
+}
+
+export interface ChatMembershipTransitionDTO {
+  action: string
+  transitionState: string
+  conversationId: number
+  replacementOwnerUserId: number
+  message: string
 }
 
 export interface ChatMessageDTO {
@@ -980,6 +1031,7 @@ export interface ChatMessageDTO {
   attachmentStorageKey: string | null
   attachmentUrl: string | null
   attachmentUrlExpiresAt: string | null
+  attachmentAvailability: string | null
   attachmentSizeBytes: number | null
   replyToMessageId: number | null
   clientMessageId: string | null
@@ -1047,6 +1099,8 @@ export interface ChatSocketClientMessageDTO {
 
 export interface ChatSocketEventDTO {
   type: string
+  connectionState?: string | null
+  resyncRequired?: boolean | null
   conversationId?: number | null
   actorUserId?: number | null
   reason?: string | null
@@ -1506,6 +1560,7 @@ export interface LocationLookupRequestDTO {
 export interface LocationLookupResponseDTO {
   configured: boolean
   provider: string
+  resolutionStatus: LocationLookupResolutionStatus
   items: LocationLookupCandidateDTO[]
 }
 
@@ -1546,6 +1601,20 @@ export interface NativeHandoffIssueResponseDTO {
   contractVersion: string
 }
 
+export interface NativePresentationDTO {
+  contractVersion: string
+  targetDevice: string
+  presentationMode: string
+  maxVisibleActions: number
+  supportsVoiceInput: boolean
+  supportsTextInput: boolean
+  supportsHapticFeedback: boolean
+  supportsBackgroundRefresh: boolean
+  allowedCapabilities: string[]
+  offlinePolicy: string
+  accessibilityPolicy: string
+}
+
 export interface NavigationTargetDTO {
   type: NavigationTargetType
   entityId: number | null
@@ -1556,6 +1625,9 @@ export interface NotificationPreferenceItemDTO {
   level: NotificationPreferenceLevel
   enabled: boolean
   required: boolean
+  available: boolean
+  effectiveEnabled: boolean
+  unavailableReason: string
 }
 
 export interface NotificationPreferenceResponseDTO {
@@ -1906,6 +1978,10 @@ export interface WorkmarketQuestNewsItemResponseDTO {
   canDeclineCircleRequest: boolean
   readAt: string | null
   createdAt: string
+  deliveryState: string
+  readState: string
+  retryable: boolean
+  dedupeKey: string
 }
 
 export interface QuestPresentationDTO {
@@ -2169,6 +2245,8 @@ export interface ThingBorrowRequestResponseDTO {
   status: ThingBorrowRequestStatus
   approvedAt: string
   createdAt: string
+  stateExplanation: string
+  allowedActions: ThingAllowedActionDTO[]
 }
 
 export interface ThingListingListResponseDTO {
@@ -2210,10 +2288,22 @@ export interface ThingPreviewResponseDTO {
   canOpenDetail: boolean
 }
 
+export interface UserLocationContextDTO {
+  mode: UserLocationMode
+  resolutionStatus: LocationResolutionStatus
+  hasCoordinates: boolean
+  countryCode: string
+  country: string
+  locality: string
+  locationLabel: string
+  approximateLocationLabel: string
+}
+
 export interface UserLocationSettingsDTO {
   mode: UserLocationMode
   defaultRadiusKm: number
   hasCoordinates: boolean
+  resolutionStatus: LocationResolutionStatus
   sharingSummary: string | null
   visibilitySummary: string | null
   exactVisibilityScope: ExactLocationVisibilityScope
@@ -2373,6 +2463,8 @@ export interface VisionConversationTurnResponseDTO {
   agentState: string
   canvasMode: string
   nextAction: string
+  workflowState: string
+  allowedActions: string[]
   message: string
   requestedSlot: string
   normalizedPrompt: string
@@ -2402,6 +2494,8 @@ export interface VisionExecutionCandidateDTO {
   confirmationRequired: boolean
   nextRequiredSlot: string
   blockingReason: string
+  failureCode: string
+  retryable: boolean
   planningNote: string
   summary: string
 }
@@ -2462,6 +2556,10 @@ export interface VisionQuestDiscoveryDTO {
   query: string
   sort: string
   summary: string
+  page: number
+  pageSize: number
+  resultState: string
+  recoveryAction: string
   totalItems: number
   hasMore: boolean
   items: VisionQuestDiscoveryItemDTO[]
@@ -2538,10 +2636,19 @@ export interface VisionSearchComparisonItemDTO {
 }
 
 export interface VisionSearchDiscoveryDTO {
+  contractVersion: string
   capabilityId: string
   query: string
+  filterFamily: string
+  filterSchemaVersion: string
+  availableEntityFamilies: string[]
   sort: string
+  page: number
+  pageSize: number
   summary: string
+  resultState: string
+  recoveryAction: string
+  recoveryCode: VisionSearchRecoveryCode
   totalItems: number
   hasMore: boolean
   items: VisionSearchDiscoveryItemDTO[]
@@ -2555,6 +2662,7 @@ export interface VisionSearchDiscoveryItemDTO {
   summary: string
   matchSummary: string
   resolutionLabel: string
+  detailRoute: string
   exactResolutionEligible: boolean
 }
 

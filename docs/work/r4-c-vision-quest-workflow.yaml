@@ -1,0 +1,117 @@
+kind: work
+version: 1
+id: r4-c-vision-quest-workflow
+title: Expose typed Vision quest workflow actions
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Make Vision quest creation state and allowed next actions explicit for
+  Web, voice, and future native clients.
+tasks:
+- id: vision-quest-workflow-contract
+  title: Add backend-owned workflow state and allowed actions
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionConversationServiceTest
+    test
+- id: vision-quest-workflow-docs
+  title: Document typed quest creation workflow ownership
+  type: documentation
+  status: done
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/work/capability-30-gap-analysis.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  validation: make audit-docs && make audit-target-capability-catalog
+- id: vision-quest-execution-failure-boundary
+  title: Contain quest adapter failures in the typed workflow contract
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapterTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapterTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionCreateQuestExecutionAdapterTest,VisionConversationServiceTest
+    test
+evidence:
+- task: vision-quest-workflow-contract
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionConversationServiceTest
+    test
+  ranAt: '2026-07-19T15:03:09Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-quest-workflow-docs
+  command: make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T15:03:54Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/work/capability-30-gap-analysis.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 271
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-quest-execution-failure-boundary
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionCreateQuestExecutionAdapterTest,VisionConversationServiceTest
+    test
+  ranAt: '2026-07-19T15:04:03Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapterTest.java
+  output: "\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapter.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapterTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

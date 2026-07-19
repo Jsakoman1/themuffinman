@@ -36,7 +36,6 @@
 2026-07-18 Work detail evidence progress: fresh `run-route-archetype-evidence.mjs` completed successfully after the Work detail cleanup; the intentionally started stack was explicitly terminated and ports 8080/5173 confirmed free. Master plan remains active.
 2026-07-18 dev lifecycle hardening: root `make dev-doctor` now forwards to the app stack doctor, and `dev-stack.sh stop` waits for owned child processes then fails truthfully when 8080/5173 remain occupied instead of silently removing state. A clean `make dev-doctor` and `make dev-stop` pass with both ports free. Master plan remains active.
 2026-07-18 runtime acceptance progress: authenticated `web-runtime-smoke` now passes density switching, selected-row ArrowDown URL state, P preview, full worker replacement/release, and cross-module flows. Owned process-tree shutdown was corrected to terminate Java/Vite descendants through trusted parentage; an escalated start/stop verification leaves both ports free. Master plan remains active.
-WORKSPACE-CLOSEOUT-EVIDENCE-RECONCILIATION [ACTIVE]: Reconcile strict closeout plans with current runtime artifacts. Fresh workspace visual, Vision handoff, and route-archetype captures now exist under `docs/runtime-evidence/workspace-redesign`; matching final artifacts were materialized under `docs/runtime-evidence/linear-redesign`. The repository Makefile does forward `task` to `work-verify`; the remaining work is to perform a task-aware verification against a clean, isolated baseline and record the resulting changed-path/evidence fingerprints without bypassing active route/Vision gaps.
 2026-07-18 worker lifecycle contract closeout: backend `allowedActions`, Web Release/Replace controls, Vision review/confirmation, enabled execution, default-disabled review-only safety, recovery responses, and a targeted narrow Web capture now agree for the named worker lifecycle contract. Broader Web/Vision parity remains tracked separately.
 2026-07-18 Vision lifecycle progress: with the explicit dev execution flag enabled, authenticated `web-runtime-smoke` now also proves Vision worker replacement review → confirmation → backend execution, followed by Web release; the default disabled flag remains covered as a truthful review-only state. Vision gap closure remains active.
 2026-07-18 persisted Vision lifecycle evidence: the corrected authenticated enabled smoke passed the full cross-module sequence and wrote `docs/runtime-evidence/workspace-redesign/web-runtime-smoke-enabled.json`; the smoke assertion now scopes Activity dismissal to the canonical list surface because the same route is intentionally rendered in the context rail.
@@ -91,7 +90,11 @@ The target capability slice queue is generated with `make generate-target-capabi
 Generated queue rows are not implementation evidence; promote a selected critical
 or high row into a dedicated `docs/work/*.yaml` plan before implementation.
 
-## Open Items
+## Historical implementation log
+
+The entries below preserve prior implementation context only. They are not an
+active queue and must not be resumed as redesign, smoke-evidence, or parity
+masters. The active queue is the roadmap block below.
 
 The workspace-redesign residual queue is canonical in `docs/work/workspace-redesign-todo-register.yaml` and contains exactly three active IDs: `WORKSPACE-CLOSEOUT-EVIDENCE-RECONCILIATION`, `WEB-VISION-PARITY`, and `VISION-GAP-CLOSURE`.
 
@@ -132,6 +135,23 @@ RIDE-NOTIFICATION-FANOUT [COMPLETED]: Ride join/leave/update/cancel/start/comple
 
 VISION-GAP-CLOSURE [ACTIVE]: Close the remaining prioritized Vision surface gaps using the prioritized queue, the contract bundle in `docs/work/vision-deferred-contract-bundle.yaml`, and readiness gates in `docs/work/vision-gap-readiness.yaml`. All seven gates are contract-ready; promote each into an implementation plan before claiming coverage.
 
+
+## Open Items
+
+The current implementation queue is governed by
+`docs/work/capability-implementation-roadmap.yaml` and covers all 33 open
+capabilities exactly once.
+
+- `R1-web-trust-and-context`: authentication acceptance, profile visibility, location, and activity recovery.
+- `R2-domain-completion`: Work assignment, Chat continuity/media, Things lifecycle, and Business gallery.
+- `R3-vision-and-cross-module-coordination`: Vision recovery/discovery, unified search, and notifications.
+- `R4-car-sharing-module`: real car-sharing product design and implementation for selected circles.
+- `R5-later-account-recovery`: delivery provider, abuse controls, valid-token acceptance, and later mobile surface.
+- `R6-later-native-clients`: iPhone/Watch handoff and native presentation after those workspaces exist.
+
+Current start point: `R1-A-auth-and-visibility`. Recommended parallel slice:
+`R2-B-chat-continuity`. Account recovery and mobile/Watch are intentionally not
+current blockers; car sharing remains a planned product module.
 
 ## Intake Rules
 

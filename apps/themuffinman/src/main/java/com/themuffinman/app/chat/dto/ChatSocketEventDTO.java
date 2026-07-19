@@ -15,6 +15,12 @@ public class ChatSocketEventDTO {
     private String type;
     @ContractOptional
     @Nullable
+    private String connectionState;
+    @ContractOptional
+    @Nullable
+    private Boolean resyncRequired;
+    @ContractOptional
+    @Nullable
     private Long conversationId;
     @ContractOptional
     @Nullable

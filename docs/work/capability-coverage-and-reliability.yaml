@@ -40,10 +40,8 @@ children:
   - docs/work/plan-coverage-audit.yaml
   - docs/work/things-owner-borrow-workflow.yaml
   - docs/work/things-detail-surface.yaml
-  - docs/work/runtime-acceptance-catalog.yaml
   - docs/work/cross-module-search-contract.yaml
   - docs/work/native-client-handoff-contract.yaml
-  - docs/work/frontend-ux-modernization.yaml
 dependencies:
   - docs/work/work-capability-closure.yaml -> docs/work/business-capability-closure.yaml
   - docs/work/work-capability-closure.yaml -> docs/work/vision-execution-acceptance.yaml
@@ -77,11 +75,10 @@ tasks:
     title: Make native-client contracts and high-volume handoff explicit
     child_plan: docs/work/native-client-contract-readiness.yaml
   - id: remaining-critical-runtime
-    status: pending
+    status: deferred
     capability_ids: [work.quest.management, work.application, business.booking, business.availability, vision.execution, chat.realtime]
     title: Add browser/device runtime acceptance for implemented workflows
-    child_plan: docs/work/runtime-acceptance-catalog.yaml
-    note: Scenario catalog and route guards are verified; the remaining work is execution of real route interactions, reconnects, and failure recovery in a browser/device runtime.
+    note: Scenario execution is deferred because the browser/device runtime harness and native client workspaces are not retained in the current repository.
   - id: remaining-cross-module-contracts
     status: pending
     capability_ids: [circles.relationships, circles.visibility, cross_module.search, cross_module.auditability]

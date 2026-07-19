@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,4 +18,6 @@ public class ThingBorrowRequestResponseDTO {
     private ThingBorrowRequestStatus status;
     private Instant approvedAt;
     private Instant createdAt;
+    private String stateExplanation;
+    private List<ThingAllowedActionDTO> allowedActions;
 }

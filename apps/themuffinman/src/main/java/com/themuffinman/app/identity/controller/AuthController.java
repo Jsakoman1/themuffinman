@@ -9,6 +9,8 @@ import com.themuffinman.app.identity.dto.auth.PasswordResetRequestDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.AuthService;
 import com.themuffinman.app.identity.service.PasswordRecoveryService;
+import com.themuffinman.app.identity.service.AuthSessionService;
+import com.themuffinman.app.common.dto.ActionResultDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final PasswordRecoveryService passwordRecoveryService;
+    private final AuthSessionService authSessionService;
 
     @PostMapping("/register")
     public AuthResponseDTO register(@Valid @RequestBody RegisterRequestDTO registerRequest) {
@@ -49,5 +52,10 @@ public class AuthController {
     public AuthResponseDTO me(Authentication authentication) {
         AppUser appUser = (AppUser) authentication.getPrincipal();
         return authService.me(appUser);
+    }
+
+    @PostMapping("/logout")
+    public ActionResultDTO logout(@RequestHeader("Authorization") String authorizationHeader) {
+        return authSessionService.revoke(authorizationHeader);
     }
 }

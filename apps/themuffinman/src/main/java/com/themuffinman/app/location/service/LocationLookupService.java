@@ -9,12 +9,14 @@ import com.themuffinman.app.location.dto.LocationLookupCandidateDTO;
 import com.themuffinman.app.location.dto.LocationLookupResponseDTO;
 import com.themuffinman.app.location.model.LocationLookupEvent;
 import com.themuffinman.app.location.model.LocationLookupEventType;
+import com.themuffinman.app.location.model.LocationLookupResolutionStatus;
 import com.themuffinman.app.location.repository.LocationLookupEventRepository;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -90,10 +92,18 @@ public class LocationLookupService {
         assertWithinRateLimit(lookupRateLimitCache, actorKey, LOOKUP_LIMIT_PER_MINUTE, "location search");
         providerLookupCalls.incrementAndGet();
         recordProviderCall(client.providerName(), LocationLookupEventType.LOOKUP);
+        List<LocationLookupCandidateDTO> items;
+        try {
+            items = client.lookup(normalizedQuery);
+        } catch (RestClientException exception) {
+            log.warn("Location lookup provider failed for provider={}", client.providerName());
+            return unavailableResponse(client);
+        }
         LocationLookupResponseDTO response = LocationLookupResponseDTO.builder()
                 .configured(true)
                 .provider(client.providerName())
-                .items(client.lookup(normalizedQuery))
+                .resolutionStatus(items == null || items.isEmpty() ? LocationLookupResolutionStatus.NO_RESULTS : LocationLookupResolutionStatus.RESOLVED)
+                .items(items == null ? List.of() : items)
                 .build();
         lookupCache.put(cacheKey, response);
         maybeLogMetrics();
@@ -125,7 +135,7 @@ public class LocationLookupService {
                 : disabledLocationLookupClient;
 
         if (!client.isConfigured()) {
-            throw ServiceErrors.badRequest("Location lookup provider is not configured");
+            throw ServiceErrors.badRequest("LOCATION_PROVIDER_NOT_CONFIGURED", "Location lookup provider is not configured");
         }
 
         String cacheKey = buildReverseLookupCacheKey(client.providerName(), latitude, longitude);
@@ -138,9 +148,15 @@ public class LocationLookupService {
         assertWithinRateLimit(reverseLookupRateLimitCache, actorKey, REVERSE_LOOKUP_LIMIT_PER_MINUTE, "reverse location search");
         providerReverseLookupCalls.incrementAndGet();
         recordProviderCall(client.providerName(), LocationLookupEventType.REVERSE_LOOKUP);
-        LocationLookupCandidateDTO candidate = client.reverseLookup(latitude, longitude);
+        LocationLookupCandidateDTO candidate;
+        try {
+            candidate = client.reverseLookup(latitude, longitude);
+        } catch (RestClientException exception) {
+            log.warn("Reverse location lookup provider failed for provider={}", client.providerName());
+            throw ServiceErrors.serviceUnavailable("LOCATION_PROVIDER_UNAVAILABLE", "Location lookup provider is temporarily unavailable");
+        }
         if (candidate == null) {
-            throw ServiceErrors.notFound("Could not resolve a location for those coordinates");
+            throw ServiceErrors.notFound("LOCATION_NOT_RESOLVED", "Could not resolve a location for those coordinates");
         }
 
         reverseLookupCache.put(cacheKey, candidate);
@@ -197,6 +213,16 @@ public class LocationLookupService {
         return LocationLookupResponseDTO.builder()
                 .configured(client.isConfigured())
                 .provider(client.providerName())
+                .resolutionStatus(client.isConfigured() ? LocationLookupResolutionStatus.NO_RESULTS : LocationLookupResolutionStatus.NOT_CONFIGURED)
+                .items(List.of())
+                .build();
+    }
+
+    private LocationLookupResponseDTO unavailableResponse(LocationLookupClient client) {
+        return LocationLookupResponseDTO.builder()
+                .configured(true)
+                .provider(client.providerName())
+                .resolutionStatus(LocationLookupResolutionStatus.PROVIDER_UNAVAILABLE)
                 .items(List.of())
                 .build();
     }

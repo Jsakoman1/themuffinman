@@ -112,6 +112,22 @@ public class AppUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
+            name = "app_user_profile_description_circle",
+            joinColumns = @JoinColumn(name = "owner_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "circle_id")
+    )
+    private Set<CircleGroup> profileDescriptionVisibleToCircles = new LinkedHashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "app_user_profile_avatar_circle",
+            joinColumns = @JoinColumn(name = "owner_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "circle_id")
+    )
+    private Set<CircleGroup> profileAvatarVisibleToCircles = new LinkedHashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
             name = "app_user_exact_location_user",
             joinColumns = @JoinColumn(name = "owner_user_id"),
             inverseJoinColumns = @JoinColumn(name = "viewer_user_id")

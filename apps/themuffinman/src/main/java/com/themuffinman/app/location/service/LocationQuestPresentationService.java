@@ -1,19 +1,24 @@
 package com.themuffinman.app.location.service;
 
 import com.themuffinman.app.identity.model.AppUser;
+import com.themuffinman.app.location.dto.UserLocationContextDTO;
 import com.themuffinman.app.location.model.QuestLocationSource;
 import com.themuffinman.app.location.model.QuestLocationVisibility;
 import com.themuffinman.app.location.model.UserLocationMode;
 import com.themuffinman.app.workmarket.model.Quest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class LocationQuestPresentationService {
     private final LocationAccessPolicyService locationAccessPolicyService;
+    private final LocationContextService locationContextService;
+
+    public LocationQuestPresentationService(LocationAccessPolicyService locationAccessPolicyService, LocationContextService locationContextService) {
+        this.locationAccessPolicyService = locationAccessPolicyService;
+        this.locationContextService = locationContextService;
+    }
 
     public String resolveQuestLocationLabel(Quest quest, AppUser viewer) {
         QuestLocationVisibility visibility = resolveEffectiveQuestLocationVisibility(quest);
@@ -54,9 +59,8 @@ public class LocationQuestPresentationService {
             return visibility;
         }
 
-        UserLocationMode creatorMode = quest.getCreator() == null || quest.getCreator().getLocationMode() == null
-                ? UserLocationMode.OFF
-                : quest.getCreator().getLocationMode();
+        UserLocationContextDTO creatorLocation = locationContextService.buildUserContext(quest.getCreator());
+        UserLocationMode creatorMode = creatorLocation.getMode();
 
         return switch (creatorMode) {
             case OFF -> QuestLocationVisibility.OFF;

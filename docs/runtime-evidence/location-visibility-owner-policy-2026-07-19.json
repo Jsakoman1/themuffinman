@@ -1,0 +1,15 @@
+{
+  "scenario": "runtime-location-visibility-owner-policy",
+  "capabilityIds": ["platform.location.control_visibility"],
+  "target": "/profile/settings",
+  "actions": ["load", "resolve_place", "set_exact_nobody", "save", "reload"],
+  "statuses": {"register": 200, "save": 200},
+  "observations": {
+    "surface": true,
+    "suggestions": 3,
+    "saved": true,
+    "modeAfterReload": "EXACT",
+    "visibilityAfterReload": "NOBODY"
+  },
+  "endedAt": "2026-07-19T14:43:28.992Z"
+}

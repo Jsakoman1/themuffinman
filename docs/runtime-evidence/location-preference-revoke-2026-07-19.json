@@ -1,0 +1,8 @@
+{
+  "capability": "platform.location",
+  "route": "/profile/settings",
+  "actions": ["register", "set_location_mode_off", "save", "reload"],
+  "saved": true,
+  "reloadedMode": "OFF",
+  "failedResponses": []
+}

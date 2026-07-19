@@ -1,0 +1,54 @@
+kind: work
+version: 1
+id: runtime-business-gallery
+title: Browser verify business gallery upload
+status: verified
+baseline: bf7a9ef
+strict_verification: true
+objective: Prove authenticated business creation and storage-backed gallery upload/publish
+  rendering in Web.
+tasks:
+- id: business-gallery-browser
+  title: Create a business and upload a published gallery image
+  type: implementation
+  status: done
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/business-gallery-2026-07-19.json
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/business-gallery-2026-07-19.json
+  manual_runtime_command: Playwright authenticated Chromium business gallery upload
+    trace
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-gallery-2026-07-19.json
+  validation: make audit-runtime-acceptance && make audit-docs && make audit-target-capability-catalog
+evidence:
+- task: business-gallery-browser
+  command: make audit-runtime-acceptance && make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-19T11:35:20Z'
+  revision: bf7a9efc95482fb187bb7001e5f600a90a5435fb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/business-gallery-2026-07-19.json
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (5 passed, 27 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 264
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  requiredPaths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/business-gallery-2026-07-19.json
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-gallery-2026-07-19.json

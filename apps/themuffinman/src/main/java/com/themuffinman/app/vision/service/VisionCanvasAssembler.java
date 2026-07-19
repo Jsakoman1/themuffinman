@@ -87,6 +87,8 @@ public class VisionCanvasAssembler {
                 .agentState(turn.getAgentState().name())
                 .canvasMode(VisionSurfaceModeSupport.canvasModeFor(turn.getNextAction()))
                 .nextAction(turn.getNextAction().name())
+                .workflowState(workflowState(conversation, turn))
+                .allowedActions(allowedActions(conversation, turn))
                 .message(turn.getAssistantMessage())
                 .requestedSlot(turn.getRequestedSlot())
                 .normalizedPrompt(turn.getNormalizedPrompt())
@@ -106,6 +108,31 @@ public class VisionCanvasAssembler {
                 .review(toReview(conversation.getSlotData(), turn))
                 .recentConversations(recentConversations)
                 .build();
+    }
+
+    private String workflowState(VisionConversation conversation, VisionTurn turn) {
+        if (conversation.getStatus() == null) {
+            return "ACTIVE";
+        }
+        return switch (conversation.getStatus()) {
+            case ACTIVE -> turn.getNextAction() == com.themuffinman.app.vision.model.VisionNextAction.ASK_FOR_SLOT
+                    ? "DRAFT" : "ACTIVE";
+            case REVIEW_READY -> "REVIEW_READY";
+            case COMPLETED -> "COMPLETED";
+            case BLOCKED -> "FAILED";
+        };
+    }
+
+    private List<String> allowedActions(VisionConversation conversation, VisionTurn turn) {
+        if (conversation.getStatus() == null) {
+            return List.of("CANCEL");
+        }
+        return switch (conversation.getStatus()) {
+            case ACTIVE -> List.of("PROVIDE_INPUT", "CANCEL");
+            case REVIEW_READY -> List.of("CONFIRM", "EDIT", "CANCEL");
+            case COMPLETED -> List.of("OPEN_RESULT");
+            case BLOCKED -> List.of("RETRY", "CANCEL");
+        };
     }
 
     private List<VisionCanvasBlockDTO> toBlocks(

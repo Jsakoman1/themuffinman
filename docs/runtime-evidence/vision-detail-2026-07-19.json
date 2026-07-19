@@ -1,0 +1,8 @@
+{
+  "capability": "vision.discovery.open_detail",
+  "route": "/vision",
+  "actions": ["search", "select_result", "open_route"],
+  "href": "/work/quests/23",
+  "openedCanonicalDetail": true,
+  "failedResponses": []
+}

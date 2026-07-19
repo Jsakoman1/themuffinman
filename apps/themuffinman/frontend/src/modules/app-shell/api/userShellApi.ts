@@ -106,7 +106,7 @@ export type CommutePreference = {
 export type SavedSearchIntent = {id: number; query: string; entityFamily: string | null; paused: boolean; notifyEnabled: boolean; expiresAt: string | null; createdAt: string; updatedAt: string}
 export type SafetyReport = {id: number; targetFamily: string; targetId: number | null; reason: string; status: string; createdAt: string}
 export type OnboardingProgress = {id: number | null; currentStep: string; skipped: boolean; completed: boolean; updatedAt: string | null}
-export type ActivityItem = {kind: string; title: string; summary: string; route: string; occurredAt: string; resumeKey: string | null; resumable: boolean}
+export type ActivityItem = {kind: string; title: string; summary: string; route: string; primaryActionLabel: string; occurredAt: string; resumeKey: string | null; resumable: boolean}
 export type AttentionCenter = {unreadCount: number; items: ActivityItem[]}
 export type PersonalShortcut = {targetId: number; targetType: string; title: string; route: string}
 export type WorkspaceRailPreference = {railWidthPx: number}
@@ -159,8 +159,8 @@ export const userShellApi = {
     return (await api.get<QuestListResponseDTO>(path, {params, signal: query.signal, ...withAuth()})).data
   },
 
-  async searchUniversal(query: string, page = 0): Promise<import("../../../contracts/index.ts").VisionSearchDiscoveryDTO> {
-    return (await api.get<import("../../../contracts/index.ts").VisionSearchDiscoveryDTO>("/search", {params: {q: query, page}, ...withAuth()})).data
+  async searchUniversal(query: string, page = 0, family?: string): Promise<import("../../../contracts/index.ts").VisionSearchDiscoveryDTO> {
+    return (await api.get<import("../../../contracts/index.ts").VisionSearchDiscoveryDTO>("/search", {params: {q: query, page, family}, ...withAuth()})).data
   },
   async compareUniversal(query: string, selections: string[]): Promise<import("../../../contracts/index.ts").VisionSearchComparison> {
     return (await api.get<import("../../../contracts/index.ts").VisionSearchComparison>("/search/compare", {params: {q: query, selection: selections}, ...withAuth()})).data
@@ -287,13 +287,16 @@ export const userShellApi = {
   async createChatGroup(request: ChatCreateGroupConversationRequestDTO): Promise<ChatConversationSummaryDTO> {
     return (await api.post<ChatConversationSummaryDTO>("/chat/conversations/groups", request, withAuth())).data
   },
+  async checkChatGroupEligibility(request: ChatCreateGroupConversationRequestDTO): Promise<import("../../../contracts/index.ts").ChatGroupEligibilityDTO> {
+    return (await api.post<import("../../../contracts/index.ts").ChatGroupEligibilityDTO>("/chat/conversations/groups/eligibility", request, withAuth())).data
+  },
 
   async openChat(request: ChatOpenConversationRequestDTO): Promise<ChatConversationSummaryDTO> {
     return (await api.post<ChatConversationSummaryDTO>("/chat/conversations/open", request, withAuth())).data
   },
 
-  async leaveChatConversation(conversationId: number): Promise<ActionResultDTO> {
-    return (await api.delete<ActionResultDTO>(`/chat/conversations/${conversationId}/participants/me`, withAuth())).data
+  async leaveChatConversation(conversationId: number): Promise<import("../../../contracts/index.ts").ChatMembershipTransitionDTO> {
+    return (await api.delete<import("../../../contracts/index.ts").ChatMembershipTransitionDTO>(`/chat/conversations/${conversationId}/participants/me`, withAuth())).data
   },
 
   async getChatConversationSync(conversationId: number): Promise<ChatConversationSyncDTO> {
@@ -314,6 +317,12 @@ export const userShellApi = {
     const form = new FormData()
     form.append("file", file)
     return (await api.post<ChatAttachmentUploadDTO>("/chat/attachments", form, withAuth())).data
+  },
+  async cancelChatAttachment(uploadId: number): Promise<ChatAttachmentUploadDTO> {
+    return (await api.delete<ChatAttachmentUploadDTO>(`/chat/attachments/${uploadId}`, withAuth())).data
+  },
+  async refreshChatAttachment(storageKey: string): Promise<import("../../../contracts/index.ts").ChatAttachmentAccessDTO> {
+    return (await api.get<import("../../../contracts/index.ts").ChatAttachmentAccessDTO>("/chat/attachments/access", {params: {key: storageKey}, ...withAuth()})).data
   },
 
   async sendChatMessage(conversationId: number, messageBody: string, attachment?: ChatAttachmentUploadDTO | null, replyToMessageId?: number | null): Promise<ChatMessageDTO> {
@@ -386,6 +395,13 @@ export const userShellApi = {
 
   async createBusinessGalleryImage(request: BusinessGalleryImageRequestDTO): Promise<BusinessGalleryImageResponseDTO> {
     return (await api.post<BusinessGalleryImageResponseDTO>("/business/gallery/me", request, {params: activeBusinessParams(), ...withAuth()})).data
+  },
+
+  async uploadBusinessGalleryImage(file: File, altText = "", sortOrder = 0): Promise<BusinessGalleryImageResponseDTO> {
+    const form = new FormData()
+    form.append("file", file)
+    if (altText.trim()) form.append("altText", altText.trim())
+    return (await api.post<BusinessGalleryImageResponseDTO>("/business/gallery/me/upload", form, {params: {...activeBusinessParams(), sortOrder}, ...withAuth()})).data
   },
 
   async updateBusinessGalleryImage(imageId: number, request: BusinessGalleryImageRequestDTO): Promise<BusinessGalleryImageResponseDTO> {

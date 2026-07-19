@@ -2,10 +2,12 @@ package com.themuffinman.app.things.mapper;
 
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.things.dto.ThingBorrowRequestResponseDTO;
+import com.themuffinman.app.things.dto.ThingAllowedActionDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
 import com.themuffinman.app.things.model.ThingBorrowRequest;
 import com.themuffinman.app.things.model.ThingListing;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 @Component
 public class ThingSharingMgr {
@@ -44,6 +46,18 @@ public class ThingSharingMgr {
                 .status(request.getStatus())
                 .approvedAt(request.getApprovedAt())
                 .createdAt(request.getCreatedAt())
+                .stateExplanation(switch (request.getStatus()) {
+                    case PENDING -> "Waiting for the owner to decide.";
+                    case APPROVED -> "Approved and currently borrowed.";
+                    case RETURNED -> "Returned; the thing is available again.";
+                    case DECLINED -> "The owner declined this request.";
+                    case CANCELLED -> "The borrower cancelled this request.";
+                })
+                .allowedActions(switch (request.getStatus()) {
+                    case PENDING -> List.of(ThingAllowedActionDTO.APPROVE_BORROW_REQUEST, ThingAllowedActionDTO.DECLINE_BORROW_REQUEST, ThingAllowedActionDTO.CANCEL_BORROW_REQUEST);
+                    case APPROVED -> List.of(ThingAllowedActionDTO.RETURN_BORROWED_THING);
+                    default -> List.of();
+                })
                 .build();
     }
 }

@@ -20,6 +20,8 @@ public class VisionConversationTurnResponseDTO {
     private String agentState;
     private String canvasMode;
     private String nextAction;
+    private String workflowState;
+    private List<String> allowedActions;
     private String message;
     private String requestedSlot;
     private String normalizedPrompt;

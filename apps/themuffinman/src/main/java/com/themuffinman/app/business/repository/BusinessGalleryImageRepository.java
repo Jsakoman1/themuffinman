@@ -9,6 +9,9 @@ import java.util.Optional;
 
 public interface BusinessGalleryImageRepository extends JpaRepository<BusinessGalleryImage, Long> {
 
+    @Query("select image from BusinessGalleryImage image join fetch image.businessProfile profile where image.storageKey = :storageKey and image.active = true")
+    Optional<BusinessGalleryImage> findActiveByStorageKey(String storageKey);
+
     @Query("""
             select image
             from BusinessGalleryImage image

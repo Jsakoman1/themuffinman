@@ -4,6 +4,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.notification.dto.NotificationPreferenceUpdateDTO;
 import com.themuffinman.app.notification.model.NotificationPreferenceCategory;
 import com.themuffinman.app.notification.model.NotificationPreferenceLevel;
+import com.themuffinman.app.notification.model.NotificationPreference;
 import com.themuffinman.app.notification.repository.NotificationPreferenceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,6 +47,20 @@ class NotificationPreferenceServiceTest {
         update.setEnabled(false);
 
         assertThrows(ResponseStatusException.class, () -> service.update(user, List.of(update)));
+    }
+
+    @Test
+    void defaultsInAppDeliveryToEnabledAndHonorsSavedCategoryPreference() {
+        AppUser user = user(7L);
+        NotificationPreference disabled = new NotificationPreference();
+        disabled.setCategory(NotificationPreferenceCategory.WORK);
+        disabled.setLevel(NotificationPreferenceLevel.IN_APP);
+        disabled.setEnabled(false);
+        when(repository.findByUserId(7L)).thenReturn(List.of(disabled));
+
+        assertTrue(service.isInAppDeliveryEnabled(user, NotificationPreferenceCategory.CIRCLE));
+        assertFalse(service.isInAppDeliveryEnabled(user, NotificationPreferenceCategory.WORK));
+        assertTrue(service.isInAppDeliveryEnabled(user, NotificationPreferenceCategory.SYSTEM));
     }
 
     private AppUser user(Long id) {

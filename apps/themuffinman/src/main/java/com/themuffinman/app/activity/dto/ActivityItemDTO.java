@@ -13,7 +13,11 @@ public class ActivityItemDTO {
     private String title;
     private String summary;
     private String route;
+    private String primaryActionLabel;
     private Instant occurredAt;
     private String resumeKey;
     private boolean resumable;
+    private String deliveryState;
+    private String readState;
+    private boolean retryable;
 }
