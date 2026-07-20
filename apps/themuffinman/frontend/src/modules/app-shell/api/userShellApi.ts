@@ -112,9 +112,12 @@ export type ActivityItem = {kind: string; title: string; summary: string; route:
 export type AttentionCenter = {unreadCount: number; items: ActivityItem[]}
 export type PersonalShortcut = {targetId: number; targetType: string; title: string; route: string}
 export type WorkspaceRailPreference = {railWidthPx: number}
+export type AppearancePreference = {theme: "SYSTEM" | "DARK" | "LIGHT"}
 export type DisplayDensity = "compact" | "default" | "comfortable"
 export type WorkspaceCommandCatalog = import("../../../contracts/index.ts").WorkspaceCommandCatalog
 export type WorkspaceCommandGroup = "personal" | "navigation" | "create" | "vision"
+export type GuidedIntakeStep = {fieldId: string; inputKind: string; label: string; placeholder: string; choices: string[]; currentValue?: string; valid: boolean; error?: string; nextAction: string; complete: boolean}
+export type GuidedIntakeResponse = {flow: string; step: GuidedIntakeStep; draft: Record<string, string>; reviewReady: boolean}
 
 const activeBusinessParams = () => {
   const id = typeof window === "undefined" ? null : window.sessionStorage.getItem("activeBusinessProfileId")
@@ -133,6 +136,9 @@ export const setActiveBusinessProfileId = (profileId: number | null) => {
 }
 
 export const userShellApi = {
+  async advanceGuidedIntake(request: {flow: string; draft?: Record<string, string>; fieldId?: string; fieldValue?: string; action?: string}): Promise<GuidedIntakeResponse> {
+    return (await api.post<GuidedIntakeResponse>("/guided-intake/step", request, withAuth())).data
+  },
   async getDashboard(): Promise<DashboardResponseDTO> {
     return (await api.get<DashboardResponseDTO>("/dashboard/me", withAuth())).data
   },
@@ -182,6 +188,8 @@ export const userShellApi = {
   async getPersonalShortcuts(): Promise<PersonalShortcut[]> { return (await api.get<PersonalShortcut[]>("/personal-shortcuts/me", withAuth())).data },
   async getWorkspaceRailPreference(): Promise<WorkspaceRailPreference> { return (await api.get<WorkspaceRailPreference>("/personal-shortcuts/me/rail-preference", withAuth())).data },
   async updateWorkspaceRailPreference(railWidthPx: number): Promise<WorkspaceRailPreference> { return (await api.put<WorkspaceRailPreference>("/personal-shortcuts/me/rail-preference", {railWidthPx}, withAuth())).data },
+  async getAppearancePreference(): Promise<AppearancePreference> { return (await api.get<AppearancePreference>("/personal-shortcuts/me/appearance-preference", withAuth())).data },
+  async updateAppearancePreference(theme: AppearancePreference["theme"]): Promise<AppearancePreference> { return (await api.put<AppearancePreference>("/personal-shortcuts/me/appearance-preference", {theme}, withAuth())).data },
   async getWorkspaceCommandCatalog(signal?: AbortSignal): Promise<WorkspaceCommandCatalog> { return (await api.get<WorkspaceCommandCatalog>("/workspace/commands", {signal, ...withAuth()})).data },
   /** Navigation is a read-only shell contract; command actions remain on /workspace/commands. */
   async getWorkspaceNavigation(signal?: AbortSignal): Promise<WorkspaceNavigationResponse> { return workspaceNavigationApi.get(signal) },

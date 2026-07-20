@@ -21,7 +21,7 @@ const emit = defineEmits<{preview: []; open: []}>()
 .surface-row__main { display: grid; gap: var(--space-1); min-width: 0; }
 .surface-row__title-line { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
 .surface-row__title-line strong { overflow: hidden; color: var(--text); font-size: var(--text-size-title); font-weight: var(--text-weight-semibold); letter-spacing: var(--tracking-tight); text-overflow: ellipsis; white-space: nowrap; }
-.surface-row__description { overflow: hidden; color: var(--text-muted); font-size: var(--text-size-body); text-overflow: ellipsis; white-space: nowrap; }
+.surface-row__description { overflow: hidden; color: var(--text-muted); font-size: var(--text-size-body); line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
 .surface-row__meta { color: var(--text-soft); font-size: var(--text-size-meta); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
 .surface-row__badge { display: inline-flex; padding: 0 var(--space-1); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-muted); font-size: var(--text-size-label); font-weight: var(--text-weight-medium); line-height: 1.5; }
 .surface-row__vision { grid-column: 2; grid-row: 1 / span 2; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); padding: var(--space-1) var(--space-2); color: var(--text-muted); font-size: var(--text-size-meta); font-weight: var(--text-weight-semibold); }

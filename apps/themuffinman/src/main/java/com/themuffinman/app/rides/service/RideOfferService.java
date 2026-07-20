@@ -55,6 +55,9 @@ public class RideOfferService {
 
     @Transactional
     public RideOfferResponseDTO createOffer(RideOfferRequestDTO dto, AppUser user) {
+        // Guided Web intake supplies the draft; schedule, consent, and visibility
+        // rules remain enforced by this backend service and its validators; the
+        // frontend never decides whether a draft is schedulable or visible.
         validateFuture(dto);
         RideOffer ride = new RideOffer();
         ride.setDriver(user); applyFields(ride, dto, user);

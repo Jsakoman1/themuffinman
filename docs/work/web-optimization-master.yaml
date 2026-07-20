@@ -1,0 +1,184 @@
+kind: master
+version: 1
+id: web-optimization-master
+title: 'New Web Optimization: readable workspace, themes, guided intake, and Home
+  landing'
+status: verified
+baseline: 7972676741cdee89361012afb0a769b43f2c2dc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/web-optimization-execution-inventory.yaml
+objective: 'Make the authenticated Web app materially easier to read and operate:
+  increase visual scale and contrast, provide persisted dark/light theme selection,
+  replace oversized create forms with backend-driven one-step-at-a-time guided intake,
+  and migrate every relevant multi-field entity workflow to the same guided intake
+  contract before making Home the authenticated landing page, while keeping Vision
+  globally available as the contextual assistant rather than the default route.'
+product_direction:
+  workspace: 'One calm application frame inspired by Linear and the ChatGPT desktop
+    app: readable titles and controls, fewer tiny descriptions, progressive disclosure,
+    stable left navigation, and clear primary actions.'
+  vision: The future Vision console is a separate application boundary. The authenticated
+    Web app keeps only the inline VisionForWeb host and entry points, using the same
+    backend-owned semantic, slot, permission, and action contracts. VisionForWeb is
+    not removed; it stops being the automatic post-login destination.
+  mobile_portability: Theme, guided-intake step schema, validation, and completion
+    state must be exposed through backend/API contracts so future iPhone and Apple
+    Watch clients do not reimplement Web-only workflow logic.
+scope:
+  included:
+  - shared workspace typography, spacing, control sizing, contrast, and density defaults
+  - persisted authenticated dark/light appearance preference with system-safe fallback
+  - Home as post-auth and root landing route
+  - reusable backend-driven guided-intake contract and all relevant entity create/edit
+    migrations
+  - inline VisionForWeb and direct Web entry points remaining available after the
+    changes
+  excluded:
+  - redesigning domain rules or changing canonical domain URLs
+  - redesigning, visually migrating, or extracting the future standalone Vision console
+  - making the Web app depend on the current /vision console route
+  - implementing native iPhone or Apple Watch clients
+  - rewriting every module screen in one batch
+architecture_decisions:
+- id: reuse-and-backend-authority
+  decision: Treat standardization and code reuse as the primary implementation principle;
+    keep business rules, workflow orchestration, validation, permissions, entity transitions,
+    and personalization behind reusable backend/API contracts.
+  reason: Web, inline VisionForWeb, the standalone Vision console, iPhone, and Apple
+    Watch must consume the same authoritative behavior instead of rebuilding logic
+    per client.
+- id: standalone-vision-console-boundary
+  decision: Keep the future Vision console as a separate application; this Web master
+    changes only the authenticated Web shell and inline VisionForWeb host.
+  reason: The Web app needs embedded natural-language assistance without coupling
+    its landing, shell, or visual system to the console application's canvas.
+- id: shared-vision-backend-contract
+  decision: Keep semantic interpretation, personal context, capability resolution,
+    guided steps, permissions, and execution in shared backend/API contracts consumable
+    by Web and the future standalone Vision client.
+  reason: iPhone, Apple Watch, standalone Vision, and Web must not each implement
+    workflow or authority logic.
+- id: readable-by-default
+  decision: Increase semantic body/control/title sizes and minimum touch targets centrally
+    before route-specific polish.
+  reason: The current global tokens are too small and route CSS repeats tiny metadata
+    values.
+- id: theme-as-shared-contract
+  decision: Store a user appearance preference through an authenticated backend endpoint
+    and apply semantic CSS tokens at the app root.
+  reason: The choice must survive sessions and remain portable to future clients;
+    localStorage alone is not authoritative.
+- id: backend-guided-intake
+  decision: Expose one current step, allowed input kind, current draft summary, validation,
+    and next-step state from backend orchestration.
+  reason: The frontend must not own required-field order, conditional fields, or domain
+    validation.
+- id: home-first
+  decision: Login, registration, root redirect, and authenticated recovery land on
+    /home; VisionForWeb remains an inline shell/context action and the standalone
+    console is not the Web landing route.
+  reason: Home is the orientation surface, while Vision is an assistant surface.
+gates:
+- gate: baseline-before-visual-change
+  rule: Freeze shared tokens and shell measurements before editing individual module
+    CSS.
+- gate: theme-contract-before-theme-ui
+  rule: Backend preference and root application behavior must exist before exposing
+    theme controls.
+- gate: guided-intake-contract-before-form-migration
+  rule: Define step ordering, conditional rules, draft semantics, and error states
+    before converting create forms.
+- gate: home-routing-before-auth-closeout
+  rule: Login, register, root, and protected-route recovery must all consistently
+    land on Home before the slice closes.
+- gate: runtime-before-master-closeout
+  rule: Verify readable dark/light Web shell, Home landing, inline VisionForWeb availability,
+    and at least one guided create flow in authenticated runtime evidence; do not
+    use the standalone console as Web evidence.
+children:
+- docs/work/web-optimization-visual-scale.yaml
+- docs/work/web-optimization-large-screen-surfaces.yaml
+- docs/work/web-optimization-theme.yaml
+- docs/work/web-optimization-guided-intake.yaml
+- docs/work/web-optimization-home-landing.yaml
+- docs/work/web-optimization-runtime-closeout.yaml
+execution_contract:
+- sequence: 1
+  plan: docs/work/web-optimization-visual-scale.yaml
+  output: Central readable Web tokens and shell baseline, validated before theme or
+    flow work.
+- sequence: 2
+  plan: docs/work/web-optimization-large-screen-surfaces.yaml
+  output: Standardized readable surface system with intentional 5K layout behavior
+    and module audit.
+- sequence: 3
+  plan: docs/work/web-optimization-theme.yaml
+  output: Persisted System/Dark/Light Web appearance contract and semantic theme runtime.
+- sequence: 4
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: implement-turn-based-intake-contract
+  output: Backend-owned portable step contract with tests before any form migration.
+- sequence: 5
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-priority-create-flows
+  output: Work create migrated to one-step flow, with follow-up module assessment
+    recorded.
+- sequence: 6
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-business-intake-flows
+  output: Business profile, offerings, availability, exceptions, and booking multi-field
+    flows migrated.
+- sequence: 7
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-things-intake-flows
+  output: Things listing and borrowing/request multi-field flows migrated.
+- sequence: 8
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-rides-intake-flows
+  output: Ride offer and commute preference multi-field flows migrated.
+- sequence: 9
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-social-intake-flows
+  output: Circle membership, invite, and request multi-field flows migrated.
+- sequence: 10
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-identity-intake-flows
+  output: Profile, location, gallery, onboarding, and preference multi-field flows
+    migrated.
+- sequence: 11
+  plan: docs/work/web-optimization-home-landing.yaml
+  output: Authenticated Web login/register/root behavior lands on Home without redirect
+    loops.
+- sequence: 12
+  plan: docs/work/web-optimization-runtime-closeout.yaml
+  output: Current authenticated Web runtime evidence, validation results, documentation
+    sync, and cleanup.
+closeout:
+  current_state: implementation_complete_runtime_browser_evidence_pending
+  required_evidence:
+  - shared-token-and-route-preflight
+  - wide-5k-surface-runtime
+  - authenticated-dark-theme-runtime
+  - authenticated-light-theme-runtime
+  - home-post-auth-runtime
+  - guided-intake-work-runtime
+  - guided-intake-business-runtime
+  - guided-intake-things-runtime
+  - guided-intake-rides-runtime
+  - guided-intake-social-runtime
+  - guided-intake-identity-runtime
+  - backend-and-frontend-validation
+  cleanup: Remove temporary screenshots and smoke traces after retaining canonical
+    runtime JSON and verified child plans. Do not treat API-only probes as a substitute
+    for the required authenticated browser trace.
+evidence:
+- verifiedAt: '2026-07-20T19:24:17Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  children:
+  - docs/work/web-optimization-visual-scale.yaml
+  - docs/work/web-optimization-large-screen-surfaces.yaml
+  - docs/work/web-optimization-theme.yaml
+  - docs/work/web-optimization-guided-intake.yaml
+  - docs/work/web-optimization-home-landing.yaml
+  - docs/work/web-optimization-runtime-closeout.yaml

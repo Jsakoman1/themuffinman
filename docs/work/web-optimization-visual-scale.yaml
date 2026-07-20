@@ -1,0 +1,88 @@
+kind: work
+version: 1
+id: web-optimization-visual-scale
+title: Establish readable workspace scale and shared visual tokens
+status: verified
+baseline: 7972676741cdee89361012afb0a769b43f2c2dc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/web-optimization-execution-inventory.yaml
+master_plan: docs/work/web-optimization-master.yaml
+tasks:
+- id: establish-readable-workspace-scale
+  title: Raise shared typography, control, spacing, and contrast baselines
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: shared-visual-scale-and-tokens
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  acceptance:
+  - Body, labels, metadata, headings, controls, and touch targets are visibly larger
+    and readable without browser zoom.
+  - Shared tokens are changed centrally and route-local tiny text is removed or migrated
+    in the touched shared components.
+  - Desktop shell remains compact and app-like; increased scale does not turn the
+    rail into a dashboard.
+  - Inline VisionForWeb remains readable inside the Web shell; the future standalone
+    Vision console is not restyled by this task.
+  - Keyboard focus, reduced motion, responsive layout, and forced-colors behavior
+    remain intact.
+  must_prove:
+  - No domain logic or frontend permission logic is introduced.
+  started_at: '2026-07-20T18:37:11Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/styles/base.css: 0af9273830ff8dfd31235af737a921a088865266178d3e876aff5dd3ee4eb5f5
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 252800070c4247d2a3ad92ed05069033907fcc763a58a691b1abf6180dfc1060
+evidence:
+- task: establish-readable-workspace-scale
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T18:38:36Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |+
+    dist/assets/ThingsDiscoveryView-Ae44dsxk.js                   10.86 kB │ gzip:   3.39 kB
+    dist/assets/CirclesView-CeVZtw8U.js                           10.96 kB │ gzip:   3.28 kB
+    dist/assets/WorkspaceSurfaceView-BGfxODcJ.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-u1J6RBgh.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-CZ6K0qns.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-H3AVpvW3.js                             12.55 kB │ gzip:   3.93 kB
+    dist/assets/ChatSurfaceView-Slm-Fk3g.js                       15.52 kB │ gzip:   5.09 kB
+    dist/assets/userShellApi-CiMuNOSp.js                          16.44 kB │ gzip:   3.33 kB
+    dist/assets/useVisionForWeb-BcVR-8af.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-DNqm2uNX.js                         17.87 kB │ gzip:   5.32 kB
+    dist/assets/ProfileLocationSettingsView-xqvS2rsE.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/VisionSurfaceModernView-Dwse-Ah4.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-evnrir3j.js                28.89 kB │ gzip:   9.11 kB
+    dist/assets/index-DFdOHBUw.js                                 33.27 kB │ gzip:   9.11 kB
+    dist/assets/vendor-CXxuD-Mh.js                                50.26 kB │ gzip:  19.70 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 548ms
+
+  startedAt: '2026-07-20T18:37:11Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

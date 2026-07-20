@@ -1,0 +1,107 @@
+kind: work
+version: 1
+id: web-optimization-large-screen-surfaces
+title: Standardize Web surfaces for large screens and readable module density
+status: verified
+baseline: 7972676741cdee89361012afb0a769b43f2c2dc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/web-optimization-execution-inventory.yaml
+master_plan: docs/work/web-optimization-master.yaml
+depends_on:
+- docs/work/web-optimization-visual-scale.yaml
+tasks:
+- id: standardize-large-screen-surface-system
+  title: Add a readable 5K workspace measure and audit all authenticated Web surfaces
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: large-screen-surface-system
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views
+  required_paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  acceptance:
+  - 5K and wide desktop layouts use a centered readable content measure instead of
+    stretching text and rows across the entire viewport.
+  - Wide screens can use intentional secondary columns, detail utilities, or empty
+    breathing space where the surface supports it; no arbitrary full-width dashboard
+    grids are introduced.
+  - Authenticated module surfaces share the same page header, toolbar, row, detail,
+    empty, loading, error, and dialog primitives or document an explicit exception.
+  - Shared frontend primitives and backend-prepared DTOs are reused across module
+    surfaces; a visual exception requires a documented reason rather than a parallel
+    component.
+  - Hardcoded tiny typography in shared surfaces and touched module views is migrated
+    to semantic tokens; descriptions and metadata remain secondary without becoming
+    unreadable.
+  - The rail, header, content measure, detail rail, dialogs, keyboard focus, reduced
+    motion, forced colors, and 980px/640px responsive behavior remain coherent.
+  - The plan audits Work, Business, Things, Rides, Chat, Circles, People, Profile,
+    Notifications, Calendar, Search, and Home views; findings and exceptions are recorded
+    in the analysis artifact.
+  must_prove:
+  - No frontend domain rules, permissions, API interpretation, or Vision console UI
+    are introduced.
+  - The inline VisionForWeb host remains usable at wide and narrow Web widths.
+  started_at: '2026-07-20T18:40:19Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/styles/base.css: 7d589f49e6b3bd26c1fa893417dadadf71bf24b41d61ddec18c6018e7e08ecdf
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 825dd093db932958de3dd0bd41c9cd23ccd03de6e476cb070cf59935eb2b9e06
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue: 938ca4b913624b8397e5466efca86cb23060620aa28cadc1d3fc99b21babc0b5
+evidence:
+- task: standardize-large-screen-surface-system
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T18:40:43Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |+
+    dist/assets/ThingsDiscoveryView-jzb0IwHR.js                   10.86 kB │ gzip:   3.39 kB
+    dist/assets/CirclesView-Da6o_xIj.js                           10.96 kB │ gzip:   3.27 kB
+    dist/assets/WorkspaceSurfaceView-haoxUX_Z.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-zptzp6v3.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-D1K5Bn60.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-BlCHwhvY.js                             12.55 kB │ gzip:   3.93 kB
+    dist/assets/ChatSurfaceView-BjBzRC6y.js                       15.52 kB │ gzip:   5.10 kB
+    dist/assets/userShellApi-CHM4lK8F.js                          16.44 kB │ gzip:   3.33 kB
+    dist/assets/useVisionForWeb-DTmDe-4s.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-B1GotFlC.js                         17.87 kB │ gzip:   5.32 kB
+    dist/assets/ProfileLocationSettingsView-DCiMatA9.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/VisionSurfaceModernView-DSMV4V3s.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-zH_oAR8x.js                28.89 kB │ gzip:   9.11 kB
+    dist/assets/index-DvjiPfnE.js                                 33.27 kB │ gzip:   9.10 kB
+    dist/assets/vendor-CXxuD-Mh.js                                50.26 kB │ gzip:  19.70 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 510ms
+
+  startedAt: '2026-07-20T18:40:19Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

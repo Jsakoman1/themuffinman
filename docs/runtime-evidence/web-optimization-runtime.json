@@ -1,0 +1,59 @@
+{
+  "evidenceVersion": "web-optimization-runtime-v1",
+  "capturedAt": "2026-07-20T21:23:13+02:00",
+  "environment": "local-dev",
+  "runtimeMode": "authenticated-playwright-browser-and-api-probe",
+  "browserScreenshot": {
+    "status": "passed",
+    "browser": "Playwright Chromium",
+    "viewport": "5120x2880",
+    "transientArtifacts": ["/private/tmp/webopt-home-5120.png", "/private/tmp/webopt-guided-5120.png"],
+    "cleanup": "Transient screenshots were removed after inspection; canonical evidence remains this JSON."
+  },
+  "frontend": {
+    "baseUrl": "http://localhost:5173",
+    "homeRouteProbe": 200,
+    "standaloneVisionConsoleExcluded": true,
+    "inlineVisionForWebSource": "apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue"
+  },
+  "backend": {
+    "authenticatedSeedAccount": true,
+    "credentialsRecorded": false,
+    "appearancePreference": {
+      "before": "SYSTEM",
+      "updated": "LIGHT",
+      "after": "LIGHT"
+    },
+    "guidedIntakeStartSteps": {
+      "work.quest.create": {"fieldId": "title", "inputKind": "text", "reviewReady": false},
+      "business.profile.create": {"fieldId": "businessName", "inputKind": "text", "reviewReady": false},
+      "things.listing.create": {"fieldId": "title", "inputKind": "text", "reviewReady": false},
+      "rides.offer.create": {"fieldId": "origin", "inputKind": "text", "reviewReady": false},
+      "social.circle.create": {"fieldId": "name", "inputKind": "text", "reviewReady": false},
+      "identity.profile.update": {"fieldId": "description", "inputKind": "textarea", "reviewReady": false}
+    }
+  },
+  "browserScenarios": {
+    "loginLandsOnHome": "passed",
+    "homeContent": "passed",
+    "inlineVisionForWebEntryVisible": "passed",
+    "lightThemeApplied": "passed",
+    "darkThemeApplied": "passed",
+    "guidedIntakeFamilies": {
+      "Work": "passed",
+      "Business": "passed",
+      "Things": "passed",
+      "Rides": "passed",
+      "Social": "passed",
+      "Identity": "passed"
+    },
+    "workGuidedPanelShowsSingleCurrentField": "passed"
+  },
+  "validation": {
+    "backendTests": "passed",
+    "frontendTypeCheck": "passed",
+    "frontendBuild": "passed",
+    "runtimeLimitation": null
+  },
+  "result": "passed"
+}

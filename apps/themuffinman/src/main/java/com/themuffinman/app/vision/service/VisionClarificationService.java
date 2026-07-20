@@ -7,6 +7,8 @@ import java.util.Map;
 @Service
 public class VisionClarificationService {
 
+    /** Shared slot clarification remains the source for Vision; Web guided intake uses the same backend-owned step model. */
+
     private static final double MIN_CONFIDENT_PREFERENCE = 0.30d;
 
     public String nextMissingCreateQuestSlot(Map<String, String> slotData) {

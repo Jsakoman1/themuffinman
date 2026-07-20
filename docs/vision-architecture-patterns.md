@@ -1,6 +1,7 @@
 # Vision Architecture Patterns
 
-This document is the durable implementation guide for future `/vision` work.
+This document is the durable implementation guide for the future standalone Vision
+console and its shared backend runtime.
 
 Read it before implementing any backend, API, or frontend change that affects the adaptive vision surface, conversation orchestration, prompt handling, canvas state, or natural-language execution.
 
@@ -13,11 +14,17 @@ The compact companion set for daily work is:
 
 ## Product Target
 
-`/vision` is the long-term primary interface direction for TheMuffinMan.
+The Vision console is the long-term primary assistant direction for TheMuffinMan and
+will be deployed as a separate application. The authenticated Web app consumes the
+same backend runtime through the inline `VisionForWebHost`; it does not embed the
+console canvas or use the console route as its landing page.
 
 The target experience is a white, visually quiet, Her-like blank canvas that becomes useful only when the user has intent. It should reveal prompt fields, structured inputs, results, confirmations, and guidance only when needed.
 
-Legacy module screens may remain during transition, but new `/vision` architecture should not copy their form/page/dialog assumptions.
+Legacy module screens may remain during transition, but new Vision console
+architecture should not copy their form/page/dialog assumptions. Shared semantic,
+personal-context, guided-intake, permission, and execution contracts must remain
+client-neutral so Web, the standalone console, iPhone, and Apple Watch can reuse them.
 
 ## Implementation Start Pattern
 

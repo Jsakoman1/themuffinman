@@ -331,6 +331,8 @@ export const router = createRouter({
 })
 
 router.beforeEach((to) => {
+    // Home is the authenticated orientation surface; contextual Vision handoffs
+    // still resolve through their explicit /vision routes instead of replacing it.
     if (to.meta.requiresAuth && !isLoggedIn()) {
         return '/login';
     }

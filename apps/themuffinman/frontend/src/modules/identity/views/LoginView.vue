@@ -23,7 +23,7 @@ const login = async () => {
     loginUser(response)
     email.value = ""
     password.value = ""
-    await router.push("/vision")
+    await router.push("/home")
   } catch {
     error.value = "Invalid email or password"
   }
@@ -35,7 +35,7 @@ const login = async () => {
     <section class="auth-terminal__panel">
       <p class="auth-terminal__eyebrow">TheMuffinMan / access</p>
       <h1 class="auth-terminal__title">Login</h1>
-      <p class="auth-terminal__copy">Enter your account details to open the Vision surface.</p>
+      <p class="auth-terminal__copy">Enter your account details to open your workspace.</p>
 
       <form class="auth-terminal__form" @submit.prevent="login"><AppFormField label="Email" required><input v-model="email" aria-label="Email" class="auth-terminal__input" type="email" autocomplete="email" required /></AppFormField><AppFormField label="Password" required><input v-model="password" aria-label="Password" class="auth-terminal__input" type="password" autocomplete="current-password" required /></AppFormField><AppStatus v-if="error" :message="error" tone="error" /><AppFormFooter><template #primary><button type="submit">Enter</button></template></AppFormFooter></form>
 

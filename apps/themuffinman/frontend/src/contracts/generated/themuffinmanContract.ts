@@ -353,6 +353,14 @@ export interface ApiFieldErrorDTO {
   message: string
 }
 
+export interface AppearancePreferenceRequestDTO {
+  theme: string
+}
+
+export interface AppearancePreferenceResponseDTO {
+  theme: string
+}
+
 export interface AppUserRequestDTO {
   email: string
   username: string
@@ -1511,6 +1519,33 @@ export interface ExactLocationVisibilityScopeOptionDTO {
   value: ExactLocationVisibilityScope
   label: string
   description: string
+}
+
+export interface GuidedIntakeRequestDTO {
+  flow: string
+  fieldId: string
+  fieldValue: string
+  action: string
+}
+
+export interface GuidedIntakeResponseDTO {
+  flow: string
+  step: GuidedIntakeStepDTO
+  draft: Record<string, string>
+  reviewReady: boolean
+}
+
+export interface GuidedIntakeStepDTO {
+  fieldId: string
+  inputKind: string
+  label: string
+  placeholder: string
+  choices: string[]
+  currentValue: string
+  valid: boolean
+  error: string
+  nextAction: string
+  complete: boolean
 }
 
 export interface LabelValueDTO {

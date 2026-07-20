@@ -50,11 +50,13 @@ can understand a request through OpenAI, select one backend-published capability
 and open or control the canonical Web surface. The shell remains directly usable
 without Vision, while VisionForWeb becomes the fastest contextual path through it.
 
-`/vision` deliberately keeps a different visual grammar: an adaptive canvas that
-can become spacious, light, expressive, and voice-led when that helps the current
-task. The contrast is intentional: the Web workspace is the reliable structured
-place to navigate and inspect; Vision is the primary voice/context-aware assistant
-that helps a person decide, understand, and safely begin work.
+The future Vision console is a separate application with a deliberately different
+visual grammar: an adaptive canvas that can become spacious, light, expressive, and
+voice-led when that helps the current task. The contrast is intentional: the Web
+workspace is the reliable structured place to navigate and inspect, while
+VisionForWeb is the inline voice/context-aware assistant that helps a person decide,
+understand, and safely begin work inside Web. The current `/vision` route is a
+transitional console surface, not the Web app's landing page or shell dependency.
 
 ## VisionForWeb Assistant Layer
 
@@ -233,10 +235,11 @@ These archetypes should feel like different shapes of the same product, not unre
 
 ## Vision Authority And Workspace Boundary
 
-The redesigned Web workspace and `/vision` are complementary primary clients with
-deliberately different interaction grammars. The Web client uses a dark, dense,
+The redesigned Web workspace and the future standalone Vision console are
+complementary clients with deliberately different interaction grammars. The Web
+client uses a dark, readable,
 Linear-inspired application shell for navigation, collections, detail work, and
-keyboard-oriented command discovery. That choice must not turn `/vision` into a
+keyboard-oriented command discovery. That choice must not turn the Vision console into a
 dashboard, board, persistent sidebar, or command palette.
 
 Vision remains the future-facing primary assistant: voice-ready, context-aware, and

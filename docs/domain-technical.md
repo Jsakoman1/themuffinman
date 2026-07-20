@@ -1958,6 +1958,15 @@ Surface navigation and filtering remain backend-owned. `AVAILABLE` returns visib
 
 ## Authenticated interaction contract
 
+### Guided intake contract
+
+`POST /guided-intake/step` is the portable step contract for Work, Business,
+Things, Rides, Social, and Identity flows. The request carries a flow key and
+opaque draft values; the response exposes exactly one backend-selected field,
+its input kind, allowed choices, validation state, and whether review is ready.
+Clients render the step and must continue through the canonical domain service;
+they do not determine requiredness, permissions, or workflow order.
+
 - `docs/work/capability-inventory-audit.yaml` is the current route-to-read-model/action-source integrity snapshot for the authenticated product.
 - Collection membership, backend filters, ordering, visibility, action availability, and workflow transitions remain backend-owned. Vue may retain only local presentation state such as panel openness, selected preview, row density, or scroll restoration.
 - A preview is route-preserving and may only render data already available through a canonical backend detail model. It cannot become a competing detail endpoint or infer an allowed action.

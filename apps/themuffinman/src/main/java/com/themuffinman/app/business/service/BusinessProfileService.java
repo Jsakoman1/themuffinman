@@ -94,6 +94,8 @@ public class BusinessProfileService {
 
     @Transactional
     public BusinessProfileResponseDTO createMyProfile(BusinessProfileRequestDTO dto, AppUser currentUser) {
+        // Guided Web intake supplies the draft, while this service remains the
+        // single authoritative boundary for profile validation and persistence.
         return saveProfile(dto, currentUser, newProfile(currentUser));
     }
 

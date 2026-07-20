@@ -1,0 +1,101 @@
+kind: work
+version: 1
+id: web-optimization-theme
+title: Add persisted dark and light appearance themes
+status: verified
+baseline: 7972676741cdee89361012afb0a769b43f2c2dc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/web-optimization-execution-inventory.yaml
+master_plan: docs/work/web-optimization-master.yaml
+depends_on:
+- docs/work/web-optimization-visual-scale.yaml
+tasks:
+- id: implement-dark-light-theme-preference
+  title: Implement authenticated appearance preference and shared theme application
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: persisted-theme-selection
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/PersonalShortcutController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PersonalShortcutService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppearancePreference.java
+  - apps/themuffinman/src/main/resources/db/migration
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/App.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/PersonalShortcutController.java
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/App.vue
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  acceptance:
+  - User can select System, Dark, or Light from an authenticated settings surface.
+  - Preference is authenticated, persisted, validated, and portable through a typed
+    API.
+  - Dark and Light both cover shell, forms, dialogs, status, Vision host, and module
+    surfaces through semantic tokens.
+  - Web theme application includes inline VisionForWeb only; the future standalone
+    Vision console owns its later theme application.
+  - Initial theme application avoids a prolonged incorrect-theme flash and falls back
+    safely when the preference request fails.
+  must_prove:
+  - Theme selection does not store or expose private user data in client-only state.
+  started_at: '2026-07-20T18:44:34Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/PersonalShortcutController.java: 5ffbb3c7bdf93e4a3a9dfa29caea79fdf0ece5e348d5cd244a97d11f8a04482c
+    apps/themuffinman/frontend/src/styles/base.css: c23b661d8b3990a8991540fc82eb13acfdd479f0aa5d68255b7fcf65d32268ca
+    apps/themuffinman/frontend/src/App.vue: 6227a727a1751110ffcb34337b5a2321d56eba90d8129754700ec6f5227d1126
+evidence:
+- task: implement-dark-light-theme-preference
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-20T18:45:25Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/App.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/PersonalShortcutController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PersonalShortcutService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/AppearancePreference.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-B2ONHcV7.js               8.08 kB │ gzip:   2.66 kB
+    dist/assets/ThingsDiscoveryView-SsQZ-TWY.js                   10.86 kB │ gzip:   3.39 kB
+    dist/assets/CirclesView-BrMHclKL.js                           10.92 kB │ gzip:   3.25 kB
+    dist/assets/WorkspaceSurfaceView-rqhco5a5.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-DMvkkFVp.js                   11.97 kB │ gzip:   3.53 kB
+    dist/assets/WorkQuestDetailView-BcdCIL1A.js                   12.49 kB │ gzip:   3.93 kB
+    dist/assets/RidesView-C7Ely2Cr.js                             12.55 kB │ gzip:   3.94 kB
+    dist/assets/ChatSurfaceView-BVo8z89J.js                       15.48 kB │ gzip:   5.07 kB
+    dist/assets/useVisionForWeb-bFGUVCXB.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-B-DZNkJ_.js                         17.83 kB │ gzip:   5.30 kB
+    dist/assets/ProfileLocationSettingsView-rqDWNmTa.js           20.19 kB │ gzip:   6.35 kB
+    dist/assets/VisionSurfaceModernView-H0zgoWxh.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-DQWYapdm.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/index-C95xr7Pe.js                                 50.16 kB │ gzip:  12.70 kB
+    dist/assets/vendor-CXxuD-Mh.js                                50.26 kB │ gzip:  19.70 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 603ms
+
+  startedAt: '2026-07-20T18:44:34Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller/PersonalShortcutController.java
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/App.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

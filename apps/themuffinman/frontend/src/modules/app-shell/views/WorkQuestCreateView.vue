@@ -8,11 +8,14 @@ import RichTextEditor from "../components/RichTextEditor.vue"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppButton from "../components/AppButton.vue"
+import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 
 const router = useRouter()
 const form = ref<QuestRequestDTO>({title: "", description: "", awardAmount: 0, termFixed: false})
 const isSaving = ref(false)
 const error = ref("")
+const guidedDraft = ref<Record<string, string> | null>(null)
+const guidedComplete = (draft: Record<string, string>) => { guidedDraft.value = draft; form.value = {title: draft.title ?? "", description: draft.description ?? "", awardAmount: Number(draft.awardAmount ?? 0), termFixed: (draft.termFixed ?? "").toLowerCase() === "fixed"} }
 const save = async () => {
   isSaving.value = true; error.value = ""
   try { await userShellApi.createQuest(form.value); await router.push("/work/quests") }
@@ -25,11 +28,13 @@ const save = async () => {
   <section class="quest-create">
     <header class="quest-create__header"><div><p class="quest-create__eyebrow">Work / New quest</p><h1>Create a quest</h1></div><RouterLink :to="buildVisionRoute({prompt: 'help me create a quest', context: 'Work', source: 'work.create', returnTo: '/work/quests/new'})" class="quest-create__vision">Ask Vision</RouterLink></header>
     <div class="quest-create__workspace">
-      <form class="quest-create__form" @submit.prevent="save">
-        <p class="quest-create__draft-boundary">This form is local until you submit it. Cancelling does not create or share a draft.</p>
-        <AppFormField label="Title" hint="Use a short, outcome-focused title." required><input v-model="form.title" required maxlength="255" placeholder="What needs doing?"></AppFormField>
-        <AppFormField label="Description" hint="Add the useful detail."><RichTextEditor v-model="form.description" label="Quest description" placeholder="Add the useful detail." /></AppFormField>
-        <AppFormField label="Award" hint="Enter the amount offered." required><input v-model.number="form.awardAmount" type="number" min="0" step="0.01" required></AppFormField>
+      <GuidedIntakePanel v-if="!guidedDraft" flow="work.quest.create" title="Create a quest" description="Answer one useful question at a time, then review the complete draft." @completed="guidedComplete" @cancel="router.push('/work/quests')" />
+      <form v-if="guidedDraft" class="quest-create__form" @submit.prevent="save">
+        <p class="quest-create__draft-boundary">This guided draft is still private. Nothing is created or shared until you confirm the final review.</p>
+        <p class="quest-create__review-label">Review your guided draft</p>
+        <AppFormField label="Title" hint="Backend-validated draft" required><input v-model="form.title" required maxlength="255"></AppFormField>
+        <AppFormField label="Description" hint="Backend-validated draft"><RichTextEditor v-model="form.description" label="Quest description" /></AppFormField>
+        <AppFormField label="Award" hint="Backend-validated draft" required><input v-model.number="form.awardAmount" type="number" min="0" step="0.01" required></AppFormField>
         <label class="quest-create__checkbox"><input v-model="form.termFixed" type="checkbox"> Fixed terms</label>
         <p v-if="error" class="quest-create__error" role="alert">{{ error }}</p>
         <AppFormFooter sticky><template #secondary><RouterLink to="/work/quests">Cancel</RouterLink></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Creating" : "Create quest" }}</AppButton></template></AppFormFooter>

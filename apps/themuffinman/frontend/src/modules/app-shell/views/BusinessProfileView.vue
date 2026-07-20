@@ -10,6 +10,7 @@ import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
+import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 
 const form = ref<BusinessProfileRequestDTO | null>(null)
 const profiles = ref<Awaited<ReturnType<typeof userShellApi.getMyBusinessProfiles>>>([])
@@ -24,6 +25,8 @@ const isGallerySaving = ref(false)
 const galleryFile = ref<File | null>(null)
 const isCreateOpen = ref(false)
 const newBusinessName = ref("")
+const guidedBusinessDraft = ref<Record<string, string> | null>(null)
+const acceptGuidedBusinessDraft = (draft: Record<string, string>) => { guidedBusinessDraft.value = draft; newBusinessName.value = draft.businessName ?? "" }
 
 const load = async () => {
   isLoading.value = true; error.value = ""
@@ -45,15 +48,15 @@ const selectProfile = async () => {
 }
 const onProfileSelectionChanged = (event: Event) => { const value = Number((event.target as HTMLSelectElement).value); if (Number.isFinite(value)) selectedProfileId.value = value }
 const createBusiness = async () => {
-  const name = newBusinessName.value.trim()
+  const name = (guidedBusinessDraft.value?.businessName ?? newBusinessName.value).trim()
   if (!name) return
   try {
-    const created = await userShellApi.createBusinessProfile({businessName: name, slug: "", headline: "", description: "", contactEmail: "", contactPhone: "", websiteUrl: "", timezone: "Europe/Zurich", bookingEnabled: false, publicAddressLabel: "", latitude: undefined as unknown as number, longitude: undefined as unknown as number, contactWhatsapp: "", heroImageUrl: "", active: true})
+    const created = await userShellApi.createBusinessProfile({businessName: name, slug: "", headline: guidedBusinessDraft.value?.headline ?? "", description: guidedBusinessDraft.value?.description ?? "", contactEmail: "", contactPhone: "", websiteUrl: "", timezone: "Europe/Zurich", bookingEnabled: false, publicAddressLabel: "", latitude: undefined as unknown as number, longitude: undefined as unknown as number, contactWhatsapp: "", heroImageUrl: "", active: true})
     profiles.value = await userShellApi.getMyBusinessProfiles()
     selectedProfileId.value = created.id
     setActiveBusinessProfileId(created.id)
     form.value = toForm(created)
-    newBusinessName.value = ""
+    newBusinessName.value = ""; guidedBusinessDraft.value = null
     isCreateOpen.value = false
     feedback.value = "Business created."
   } catch { error.value = "Could not create this business." }
@@ -165,7 +168,7 @@ onMounted(() => void load())
       <p class="business-profile__utility-note">Save, archive, visibility, and booking permissions are validated by the server. This rail is context only.</p>
     </aside>
     </div>
-    <AppDialog :open="isCreateOpen" title="Create business" layout="workspace" @close="isCreateOpen = false"><form class="business-profile__create-form" @submit.prevent="createBusiness"><AppFormField label="Business name" required><input v-model="newBusinessName" required maxlength="160" autofocus></AppFormField><AppFormFooter><template #secondary><AppButton type="button" @click="isCreateOpen = false">Cancel</AppButton></template><template #primary><AppButton tone="primary" type="submit">Create business</AppButton></template></AppFormFooter></form><template #utility><p>Creating a business creates the backend-owned profile context used by bookings, offerings, availability, and public discovery.</p></template></AppDialog>
+    <AppDialog :open="isCreateOpen" title="Create business" layout="workspace" @close="isCreateOpen = false"><GuidedIntakePanel v-if="!guidedBusinessDraft" flow="business.profile.create" title="Set up the business" @completed="acceptGuidedBusinessDraft" @cancel="isCreateOpen = false" /><form v-else class="business-profile__create-form" @submit.prevent="createBusiness"><p>Review the guided business draft before creating it.</p><AppFormField label="Business name" required><input v-model="newBusinessName" required maxlength="160" autofocus></AppFormField><AppFormFooter><template #secondary><AppButton type="button" @click="guidedBusinessDraft = null">Back</AppButton></template><template #primary><AppButton tone="primary" type="submit">Create business</AppButton></template></AppFormFooter></form><template #utility><p>Creating a business creates the backend-owned profile context used by bookings, offerings, availability, and public discovery.</p></template></AppDialog>
   </section>
 </template>
 

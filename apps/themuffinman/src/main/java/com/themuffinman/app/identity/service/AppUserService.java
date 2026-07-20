@@ -56,6 +56,7 @@ public class AppUserService {
     }
 
     public AppUser updateAppUser(Long id, AppUserRequestDTO dto) {
+        // Guided profile drafts still enter the canonical identity validation path.
         validateAccountInput(dto, false);
         AppUser appUser = appUserLookupService.requireById(id);
         validateUniqueEmail(id, dto.getEmail());

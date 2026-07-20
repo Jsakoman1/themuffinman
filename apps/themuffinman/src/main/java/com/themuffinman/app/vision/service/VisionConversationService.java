@@ -49,6 +49,7 @@ import com.themuffinman.app.rides.service.RideOfferService;
 
 @Service
 public class VisionConversationService {
+    // Guided intake is intentionally exposed through the shared vision contract, not a Web-only workflow layer.
 
     @Autowired(required = false)
     private RideOfferService rideOfferService;

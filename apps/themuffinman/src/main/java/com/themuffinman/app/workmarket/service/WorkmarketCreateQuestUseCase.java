@@ -19,6 +19,8 @@ public class WorkmarketCreateQuestUseCase {
     private final com.themuffinman.app.location.service.LocationSettingsService locationSettingsService;
 
     public Quest execute(QuestRequestDTO dto, AppUser currentUser) {
+        // Guided Web intake ends at this canonical use case; the client may present
+        // one field at a time, but quest rules remain centralized here.
         questValidationService.validateCreateRequest(dto);
         Quest quest = questMgr.toEntity(dto, questExecutionPrimitiveService.resolveCreator(dto, currentUser));
         if (quest.getAudience() == null) {

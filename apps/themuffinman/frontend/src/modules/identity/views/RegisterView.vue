@@ -27,7 +27,7 @@ const register = async () => {
     email.value = ""
     username.value = ""
     password.value = ""
-    await router.push("/vision")
+    await router.push("/home")
   } catch {
     error.value = "Registration failed"
   }
@@ -39,7 +39,7 @@ const register = async () => {
     <section class="auth-terminal__panel">
       <p class="auth-terminal__eyebrow">TheMuffinMan / access</p>
       <h1 class="auth-terminal__title">Register</h1>
-      <p class="auth-terminal__copy">Create an account, then continue directly into Vision.</p>
+      <p class="auth-terminal__copy">Create an account, then continue to your workspace.</p>
 
       <form class="auth-terminal__form" @submit.prevent="register"><AppFormField label="Email" required><input v-model="email" aria-label="Email" class="auth-terminal__input" type="email" autocomplete="email" required /></AppFormField><AppFormField label="Username" required><input v-model="username" aria-label="Username" class="auth-terminal__input" autocomplete="username" required /></AppFormField><AppFormField label="Password" required><input v-model="password" aria-label="Password" class="auth-terminal__input" type="password" autocomplete="new-password" required /></AppFormField><AppStatus v-if="error" :message="error" tone="error" /><AppFormFooter><template #primary><button type="submit">Create account</button></template></AppFormFooter></form>
 

@@ -207,7 +207,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   letter-spacing: -0.02em;
 }
 
-.app-shell__brand-copy { margin: 0; color: var(--text-muted); font-size: 0.78rem; font-weight: 700; }
+.app-shell__brand-copy { margin: 0; color: var(--text-muted); font-size: var(--text-size-meta); font-weight: 700; }
 
 .app-shell__nav {
   display: grid;
@@ -217,7 +217,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 .app-shell__nav-heading {
   padding: var(--space-1) var(--space-3) var(--space-1);
   color: var(--text-soft);
-  font-size: 0.64rem;
+  font-size: var(--text-size-label);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -236,7 +236,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   transition: border-color 140ms ease, background-color 140ms ease, color 140ms ease;
 }
 
-.app-shell__nav-icon { display: inline-grid; place-items: center; width: 1rem; color: var(--text-soft); font-size: 0.9rem; }
+.app-shell__nav-icon { display: inline-grid; place-items: center; width: 1.15rem; color: var(--text-soft); font-size: var(--text-size-body); }
 .app-shell__nav-link--active .app-shell__nav-icon { color: var(--accent); }
 
 .app-shell__nav-link:hover,
@@ -384,8 +384,8 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 }
 
 .app-shell__title {
-  font-size: 0.94rem;
-  line-height: 1;
+  font-size: var(--text-size-title);
+  line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
@@ -400,7 +400,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   margin: 0;
   max-width: 22rem;
   color:var(--text-muted);
-  font-size: 0.82rem;
+  font-size: var(--text-size-meta);
   line-height: 1.35;
   text-align: right;
 }
@@ -442,7 +442,17 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 
 .app-shell__content {
   min-height: 0;
-  padding: var(--space-5);
+  width: 100%;
+  padding: var(--space-6) var(--workspace-content-gutter);
+}
+
+.app-shell__content > * {
+  width: min(100%, var(--workspace-content-max-width));
+  margin-inline: auto;
+}
+
+@media (min-width: 1800px) {
+  .app-shell__content { padding-inline: max(var(--workspace-content-gutter), 4vw); }
 }
 
 .app-shell__mobile-nav {

@@ -1,0 +1,521 @@
+kind: work
+version: 1
+id: web-optimization-guided-intake
+title: Introduce backend-driven turn-based guided intake
+status: verified
+baseline: 7972676741cdee89361012afb0a769b43f2c2dc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/web-optimization-execution-inventory.yaml
+master_plan: docs/work/web-optimization-master.yaml
+depends_on:
+- docs/work/web-optimization-theme.yaml
+coverage_contract:
+  rule: Turn-based intake applies to every multi-field create or edit workflow that
+    benefits from progressive disclosure; it does not replace collection browsing,
+    search, detail inspection, chat message composition, notifications, or single-action
+    confirmations.
+  architecture_rule: Implement one reusable backend/API guided-intake contract and
+    shared step model; do not create one bespoke wizard implementation per entity
+    family.
+  entity_families:
+  - Work: quest creation, application submission, and any multi-field quest edit flow.
+  - Business: business profile, offerings, availability, availability exceptions,
+      and booking intake.
+  - Things: listing creation/editing and borrowing/request intake.
+  - Rides: ride offer creation/editing and commute preference intake where multiple
+      fields exist.
+  - Social: circle creation/editing, membership/request forms, and invite flows.
+  - Identity: profile, location, gallery, onboarding, and account preference forms.
+  exclusions: Chat messages, notifications, search filters, list/detail pages, and
+    destructive actions keep their existing focused interaction unless a later plan
+    proves a multi-step workflow is needed.
+tasks:
+- id: implement-turn-based-intake-contract
+  title: Define and implement portable guided-intake step orchestration
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: backend-guided-intake-contract
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationViewModels.ts
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Response exposes exactly one current step, its input kind, label, placeholder,
+    allowed choices, current value, validation state, and next action.
+  - Backend owns step order, conditional fields, requiredness, normalization, and
+    draft state transitions.
+  - The step schema, transition semantics, validation errors, draft lifecycle, and
+    review boundary are reusable across all entity families and clients.
+  - Existing Vision slot turns and Web guided forms can consume the same step metadata
+    without introducing a local production parser.
+  - Contract is client-neutral and can later be rendered by Web, the standalone Vision
+    console, iPhone, and Apple Watch.
+  - This task changes the shared backend contract, not the future standalone Vision
+    console UI.
+  must_prove:
+  - Partial drafts cannot execute or submit before backend completion and review rules
+    pass.
+  started_at: '2026-07-20T18:46:38Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java: 63715e2c7cad35160f13bb2d4424bcb78a6bcff249831ba658f998d7b465fbfb
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: 3bf0571f689b1f7fb9de3edea7dc2ee27b0f9c34d2de175d06137022da861672
+- id: migrate-priority-create-flows
+  title: Migrate Work quest and application flows to guided intake
+  type: implementation
+  status: done
+  sequence: 2
+  inventory_item: migrate-create-flows-to-guided-intake
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/controller
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  acceptance:
+  - Work create no longer exposes all primary fields simultaneously; it advances one
+    meaningful step at a time.
+  - Draft summary, Back, Next, validation, cancel, and final review are clear and
+    recoverable.
+  - Existing quest creation rules, permissions, fixed-term behavior, and backend validation
+    remain authoritative.
+  - All other entity families are migrated by the later serial tasks in this plan;
+    none are silently left as frontend-owned multi-field forms.
+  must_prove:
+  - The frontend does not reconstruct domain requiredness or submit a client-invented
+    workflow state.
+  started_at: '2026-07-20T18:52:31Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue: 5582770473602dbcaa8211135013457b20463093dd0cfb71ec2e49814cc6f47c
+    apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service: __missing__
+- id: migrate-business-intake-flows
+  title: Migrate Business profile, offering, availability, and booking workflows
+  type: implementation
+  status: done
+  sequence: 3
+  inventory_item: migrate-business-intake-flows
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  acceptance:
+  - Each multi-field Business create/edit/booking flow exposes one backend-selected
+    step at a time with resumable draft and review.
+  - Profile, offering, schedule, exception, booking, gallery, timezone, and booking
+    policy rules remain server-authoritative.
+  - Single-field toggles and destructive actions remain focused actions rather than
+    artificial multi-step forms.
+  must_prove:
+  - No Business form submits a client-invented required-field order or partial domain
+    object.
+  started_at: '2026-07-20T18:55:20Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue: fb8beec5e477cf37bbdf88c5d4eacc903a5359906794e833c97d39c29ddf4d70
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service: __missing__
+- id: migrate-things-intake-flows
+  title: Migrate Things listing and borrowing request workflows
+  type: implementation
+  status: done
+  sequence: 4
+  inventory_item: migrate-things-intake-flows
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/controller
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service
+  - apps/themuffinman/src/test/java/com/themuffinman/app/things/service
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  acceptance:
+  - Listing creation/editing and borrowing/request intake use the shared step contract
+    when more than one meaningful field is required.
+  - Visibility, circle access, dates, condition, location, and request rules remain
+    backend-owned.
+  must_prove:
+  - Detail and collection browsing stay direct and are not converted into a form wizard.
+  started_at: '2026-07-20T18:57:47Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: 708f6ac598ef1f59ac35b8ca2026d56832a6425b21d03b241056e31378d81aaa
+    apps/themuffinman/src/main/java/com/themuffinman/app/things/service: __missing__
+- id: migrate-rides-intake-flows
+  title: Migrate Ride offer and commute preference workflows
+  type: implementation
+  status: done
+  sequence: 5
+  inventory_item: migrate-rides-intake-flows
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  acceptance:
+  - Ride offer and multi-field commute preference workflows use backend step order,
+    schedule validation, visibility, and consent rules.
+  - A simple join/cancel/confirm action remains a focused action and is not forced
+    through intake.
+  must_prove:
+  - No client-side route or local parser becomes the source of ride workflow authority.
+  started_at: '2026-07-20T19:01:54Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: 2600b26315f99623578563edb85f779858a27dc304e7916fe0ed68fa1a74d86d
+    apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java: 281970156825246a26491e15cd5cf313489ac7a1974aabfffb9542cdc63ddbec
+- id: migrate-social-intake-flows
+  title: Migrate Circles membership and invite workflows
+  type: implementation
+  status: done
+  sequence: 6
+  inventory_item: migrate-social-intake-flows
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/controller
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service
+  - apps/themuffinman/src/test/java/com/themuffinman/app/social/service
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  acceptance:
+  - Circle creation/editing and invite/request flows use progressive steps where multiple
+    fields or choices exist.
+  - Membership, consent, visibility, and authorization rules remain backend-owned.
+  must_prove:
+  - User-scoped permissions are not inferred by Vue from the current route or selected
+    entity.
+  started_at: '2026-07-20T19:03:01Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue: 5f849807c9f767545b0d593f4d55bc8b1235a0990f67a662274038b030388ce6
+    apps/themuffinman/src/main/java/com/themuffinman/app/social/service: __missing__
+- id: migrate-identity-intake-flows
+  title: Migrate profile, location, gallery, onboarding, and preference workflows
+  type: implementation
+  status: done
+  sequence: 7
+  inventory_item: migrate-identity-intake-flows
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/controller
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/controller
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service
+  - apps/themuffinman/src/test/java/com/themuffinman/app/identity/service
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  acceptance:
+  - Multi-field profile, location, onboarding, gallery, and preference workflows reveal
+    one meaningful step at a time.
+  - Account security, consent, privacy, and notification rules remain backend-owned.
+  - A single preference toggle remains a direct control and is not needlessly wizardized.
+  must_prove:
+  - Existing authentication, recovery, and account-protection flows are not changed
+    by this migration.
+  started_at: '2026-07-20T19:04:25Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue: 59a487e5cafff5c2fdabfe8d44faeea839670b0e652c4a073de658b698fe7508
+    apps/themuffinman/src/main/java/com/themuffinman/app/identity/service: __missing__
+evidence:
+- task: implement-turn-based-intake-contract
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T18:51:50Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 774, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  22.922 s\n[INFO] Finished at: 2026-07-20T20:52:14+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T18:46:38Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionClarificationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-priority-create-flows
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-20T18:54:34Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-mzMqEx3Z.js               8.08 kB │ gzip:   2.66 kB
+    dist/assets/ThingsDiscoveryView-Boc0CMoj.js                   10.86 kB │ gzip:   3.40 kB
+    dist/assets/CirclesView-BcUeTKbj.js                           10.92 kB │ gzip:   3.26 kB
+    dist/assets/WorkspaceSurfaceView-Di9a3V7-.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-BolVo0d3.js                   11.97 kB │ gzip:   3.53 kB
+    dist/assets/WorkQuestDetailView-DRmvUGjB.js                   12.49 kB │ gzip:   3.93 kB
+    dist/assets/RidesView-CbrwRFWN.js                             12.55 kB │ gzip:   3.94 kB
+    dist/assets/ChatSurfaceView-JNeCoaBi.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-DE8SlrSW.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-BYf_lsNW.js                         17.83 kB │ gzip:   5.30 kB
+    dist/assets/ProfileLocationSettingsView-qTOMGkvD.js           20.19 kB │ gzip:   6.35 kB
+    dist/assets/VisionSurfaceModernView-CYutGj0c.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-Cnk1mN6d.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/index-CSnPs1_y.js                                 50.24 kB │ gzip:  12.73 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 644ms
+
+  startedAt: '2026-07-20T18:52:31Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketCreateQuestUseCase.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-business-intake-flows
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-20T18:57:04Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-CDNBvuEu.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-Dcti706M.js                   10.86 kB │ gzip:   3.40 kB
+    dist/assets/CirclesView-Be-e_rYX.js                           10.92 kB │ gzip:   3.26 kB
+    dist/assets/WorkspaceSurfaceView-CAW7fz7L.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-woNOJF4R.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-CMygPWBU.js                   12.49 kB │ gzip:   3.93 kB
+    dist/assets/RidesView-D8dfsKEZ.js                             12.55 kB │ gzip:   3.94 kB
+    dist/assets/ChatSurfaceView-DjyzYOY6.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-J7lwwIWB.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-BCzEcx7N.js                         17.83 kB │ gzip:   5.31 kB
+    dist/assets/ProfileLocationSettingsView-Dn5xBlWp.js           20.19 kB │ gzip:   6.35 kB
+    dist/assets/VisionSurfaceModernView-soyM1hHR.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-D54-xlXG.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/index-BPr4-Nvh.js                                 50.33 kB │ gzip:  12.77 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 608ms
+
+  startedAt: '2026-07-20T18:55:20Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessProfileService.java
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-things-intake-flows
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-20T18:59:05Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-DhkJoINy.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/CirclesView-C5qPW_Kw.js                           10.92 kB │ gzip:   3.26 kB
+    dist/assets/WorkspaceSurfaceView-DKJHckK5.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/ThingsDiscoveryView-DjXeNuiI.js                   11.22 kB │ gzip:   3.52 kB
+    dist/assets/BusinessProfileView-Cr_mbHv_.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-DgifsFHy.js                   12.49 kB │ gzip:   3.93 kB
+    dist/assets/RidesView-CHG0a0IA.js                             12.55 kB │ gzip:   3.94 kB
+    dist/assets/ChatSurfaceView-DbOWSYbc.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-CJRK-0ed.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-DM4Enlf4.js                         17.83 kB │ gzip:   5.31 kB
+    dist/assets/ProfileLocationSettingsView-DZFuiURh.js           20.19 kB │ gzip:   6.35 kB
+    dist/assets/VisionSurfaceModernView-BpU-Amys.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BofO2Zi_.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/index-V0RmNXNO.js                                 50.34 kB │ gzip:  12.76 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 654ms
+
+  startedAt: '2026-07-20T18:57:47Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-rides-intake-flows
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-20T19:02:27Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-DH-1DzNZ.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/CirclesView-Bo1gyyCW.js                           10.92 kB │ gzip:   3.26 kB
+    dist/assets/WorkspaceSurfaceView-6-edUf8U.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/ThingsDiscoveryView-BCQQb6A4.js                   11.22 kB │ gzip:   3.52 kB
+    dist/assets/BusinessProfileView-CowOJHFg.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-B-xuVmDf.js                   12.49 kB │ gzip:   3.94 kB
+    dist/assets/RidesView-DannY4Q4.js                             12.94 kB │ gzip:   4.06 kB
+    dist/assets/ChatSurfaceView-1BIil2Hm.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-CsRbShAq.js                       17.49 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-Cgyuwt4h.js                         17.83 kB │ gzip:   5.31 kB
+    dist/assets/ProfileLocationSettingsView-C4cIum75.js           20.19 kB │ gzip:   6.35 kB
+    dist/assets/VisionSurfaceModernView-D9uGoAmu.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-iBGC0tid.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/index-YRcNW2bB.js                                 50.35 kB │ gzip:  12.77 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 626ms
+
+  startedAt: '2026-07-20T19:01:54Z'
+  changedAfterStart: &5
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-social-intake-flows
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-20T19:03:29Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-DZ1pT-ED.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-D2UKnSmo.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/CirclesView-B5hOmG1Y.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-BvN7f8Rx.js                   11.22 kB │ gzip:   3.51 kB
+    dist/assets/BusinessProfileView-_C_eazy-.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-D-oAr58r.js                   12.49 kB │ gzip:   3.93 kB
+    dist/assets/RidesView-BiY3tl2L.js                             12.94 kB │ gzip:   4.06 kB
+    dist/assets/ChatSurfaceView-B3bFnrwp.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-BDOuKPXY.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-DP6ajq1b.js                         17.83 kB │ gzip:   5.31 kB
+    dist/assets/ProfileLocationSettingsView-CmhhpCcl.js           20.19 kB │ gzip:   6.35 kB
+    dist/assets/VisionSurfaceModernView-_zZZ525X.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-C5tPowT8.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/index-CKp8DWv0.js                                 50.35 kB │ gzip:  12.76 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 586ms
+
+  startedAt: '2026-07-20T19:03:01Z'
+  changedAfterStart: &6
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java
+  requiredPaths: *6
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-identity-intake-flows
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-20T19:05:24Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-CqjczYhj.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-5u5NCjTe.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/CirclesView-BDoZ0ytq.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-C2Edc2qn.js                   11.22 kB │ gzip:   3.52 kB
+    dist/assets/BusinessProfileView-CfU6-eKy.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-lz28_ktW.js                   12.49 kB │ gzip:   3.94 kB
+    dist/assets/RidesView-4cZri7Eo.js                             12.94 kB │ gzip:   4.06 kB
+    dist/assets/ChatSurfaceView-B-0a5qR0.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-C_gu3ezm.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-CmjI7NE5.js                         17.83 kB │ gzip:   5.31 kB
+    dist/assets/ProfileLocationSettingsView-CB76b8BY.js           20.82 kB │ gzip:   6.59 kB
+    dist/assets/VisionSurfaceModernView-GXmqBiF1.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BMdZaTTU.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/index-tBH1B0aw.js                                 50.36 kB │ gzip:  12.77 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 590ms
+
+  startedAt: '2026-07-20T19:04:25Z'
+  changedAfterStart: &7
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/AppUserService.java
+  requiredPaths: *7
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

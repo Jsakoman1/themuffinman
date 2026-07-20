@@ -2,12 +2,14 @@
 
 ## Current VisionForWeb memory
 
-- Vision is an inline global assistant in the authenticated Web shell, with `/vision` retained as the full-screen canvas.
+- VisionForWeb is the inline global assistant in the authenticated Web shell. The Vision console is a future standalone application; its current `/vision` route is transitional and is not the Web landing surface.
 - Its first meaningful Web behavior is opening canonical surfaces such as My Work from natural text or voice.
 - The backend owns semantic interpretation, target resolution, permissions, action contracts, and route selection; future iPhone and Apple Watch clients consume the same contracts.
 - The assistant has a small, dismissible animated presence inspired by contextual helpers, without copying proprietary assets.
 
 This document is the canonical memory layer for stable lessons, repeated patterns, and proven product logic that should survive across Codex sessions without staying in the active backlog.
+
+- Standardization and reuse are the primary implementation inspiration: business and workflow logic belongs in reusable backend services and API contracts, while clients stay thin and focused on presentation and interaction.
 
 It is separate from:
 - `docs/implementation-backlog.md`, which tracks open product work

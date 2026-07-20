@@ -62,6 +62,7 @@ public class ThingSharingService {
 
     @Transactional
     public ThingListingResponseDTO saveMyListing(ThingListingRequestDTO dto, AppUser currentUser) {
+        // Guided Web intake ends here; listing validation and persistence stay server-owned.
         if (dto == null) {
             throw ServiceErrors.badRequest("Thing listing request is required");
         }

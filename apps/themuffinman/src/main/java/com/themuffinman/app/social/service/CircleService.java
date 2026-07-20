@@ -55,6 +55,8 @@ public class CircleService {
     }
 
     public CircleGroupResponseDTO createCircle(CircleGroupRequestDTO dto, AppUser currentUser) {
+        // Guided Web intake ends at this service; membership and trust-boundary
+        // permissions remain backend-owned.
         String normalizedName = normalizeCircleName(dto.getName());
         if (circleGroupRepository.existsByOwnerIdAndNameIgnoreCase(currentUser.getId(), normalizedName)) {
             throw ServiceErrors.conflict("You already have a circle with this name");

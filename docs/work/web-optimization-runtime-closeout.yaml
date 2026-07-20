@@ -1,0 +1,90 @@
+kind: work
+version: 1
+id: web-optimization-runtime-closeout
+title: Validate Web optimization and clean up evidence
+status: verified
+baseline: 7972676741cdee89361012afb0a769b43f2c2dc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/web-optimization-execution-inventory.yaml
+master_plan: docs/work/web-optimization-master.yaml
+depends_on:
+- docs/work/web-optimization-home-landing.yaml
+tasks:
+- id: capture-theme-home-guided-intake-evidence
+  title: Capture authenticated runtime evidence and close documentation
+  type: runtime
+  status: done
+  sequence: 1
+  inventory_item: optimization-runtime-closeout
+  paths:
+  - docs/runtime-evidence/web-optimization-runtime.json
+  - docs/work/web-optimization-master.yaml
+  - docs/work/web-optimization-analysis.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  required_paths:
+  - docs/runtime-evidence/web-optimization-runtime.json
+  - docs/work/web-optimization-master.yaml
+  - docs/work/web-optimization-analysis.md
+  manual_runtime_command: WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/web-optimization-runtime.json
+    make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/web-optimization-runtime.json
+  validation: test -s docs/runtime-evidence/web-optimization-runtime.json && make
+    audit-docs && make audit-work-plan-recursion && make audit-plan-coverage
+  acceptance:
+  - Runtime covers a wide 5K-class Web viewport with readable content measure, Home
+    post-login, dark theme, light theme, and inline VisionForWeb availability.
+  - Runtime proves at least one guided intake flow for each entity family: Work, Business,
+      Things, Rides, Social, and Identity.
+  - Runtime evidence does not treat the future standalone Vision console or its `/vision`
+    canvas as part of Web optimization completion.
+  - Backend tests, frontend type-check, frontend build, and route/theme contract audits
+    pass.
+  - Temporary screenshots and smoke traces are removed after canonical evidence is
+    retained.
+  must_prove:
+  - Master closeout evidence comes from the current implementation, not copied historical
+    screenshots.
+  started_at: '2026-07-20T19:06:58Z'
+  start_fingerprints:
+    docs/runtime-evidence/web-optimization-runtime.json: __missing__
+    docs/work/web-optimization-master.yaml: c0b2881989877df003348d820235b372aae2137d38186cd47aaaa195fb1de277
+    docs/work/web-optimization-analysis.md: 7011bc891a2bec14919b8a59967c4268bb5e0ebdbe208f178cc25fef4ef2679b
+evidence:
+- task: capture-theme-home-guided-intake-evidence
+  command: test -s docs/runtime-evidence/web-optimization-runtime.json && make audit-docs
+    && make audit-work-plan-recursion && make audit-plan-coverage
+  ranAt: '2026-07-20T19:24:05Z'
+  revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/runtime-evidence/web-optimization-runtime.json
+  - docs/work/web-optimization-analysis.md
+  - docs/work/web-optimization-master.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 288
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-20T19:06:58Z'
+  changedAfterStart: &1
+  - docs/runtime-evidence/web-optimization-runtime.json
+  - docs/work/web-optimization-master.yaml
+  - docs/work/web-optimization-analysis.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/web-optimization-runtime.json

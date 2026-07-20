@@ -1124,6 +1124,7 @@ Because an active quest can already have an approved worker, so changing the sch
 - Chat supports selecting an attachment, uploading it through the backend, and sending it as part of a message. The composer shows upload/send errors and lets the user remove a selected upload before sending; attachment access remains controlled by the backend.
 - Image attachments show a local preview before sending and release that browser object URL when replaced, removed, sent, or the Chat view closes. The preview is only a local selection aid; backend upload and access rules remain authoritative.
 - When exact location mode is enabled, Profile Settings exposes the supported visibility scopes: nobody, everyone, selected circles, or selected people. The backend validates circle membership and selected-person eligibility before saving.
+- Multi-field creation and profile setup can use guided intake: the Web asks one meaningful question at a time, while the backend owns step order, validation, draft transitions, and the final review boundary. A partial guided draft is not a created entity.
 ## Main surface behavior
 
 Home is an orientation dashboard. Sidebar navigation owns module discovery, so Home does not duplicate module quick-action links; dashboard metrics and attention rows lead to the relevant destination when one exists.

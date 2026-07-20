@@ -1,0 +1,158 @@
+kind: execution_inventory
+version: 1
+id: web-optimization-execution-inventory
+master_plan: docs/work/web-optimization-master.yaml
+purpose: Strict serial queue for the Web optimization master.
+rules:
+- Start exactly one child task at a time.
+- Verify each child before starting the next.
+- Keep domain rules and required-field decisions in backend services/contracts.
+- Do not treat screenshots or type-checks as a replacement for authenticated runtime
+  evidence.
+- Do not edit the standalone Vision console UI or make its /vision route a Web-shell
+  dependency; validate only inline VisionForWeb integration here.
+items:
+- id: shared-visual-scale-and-tokens
+  sequence: 1
+  plan: docs/work/web-optimization-visual-scale.yaml
+  task: establish-readable-workspace-scale
+  owner: frontend
+  status: verified
+  started_at: '2026-07-20T18:37:11Z'
+  verified_at: '2026-07-20T18:38:40Z'
+  evidence:
+    plan: docs/work/web-optimization-visual-scale.yaml
+    task: establish-readable-workspace-scale
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: large-screen-surface-system
+  sequence: 2
+  plan: docs/work/web-optimization-large-screen-surfaces.yaml
+  task: standardize-large-screen-surface-system
+  owner: frontend
+  status: verified
+  started_at: '2026-07-20T18:40:19Z'
+  verified_at: '2026-07-20T18:40:47Z'
+  evidence:
+    plan: docs/work/web-optimization-large-screen-surfaces.yaml
+    task: standardize-large-screen-surface-system
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: persisted-theme-selection
+  sequence: 3
+  plan: docs/work/web-optimization-theme.yaml
+  task: implement-dark-light-theme-preference
+  owner: backend-and-frontend
+  status: verified
+  started_at: '2026-07-20T18:44:34Z'
+  verified_at: '2026-07-20T18:45:54Z'
+  evidence:
+    plan: docs/work/web-optimization-theme.yaml
+    task: implement-dark-light-theme-preference
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: backend-guided-intake-contract
+  sequence: 4
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: implement-turn-based-intake-contract
+  owner: backend
+  status: verified
+  started_at: '2026-07-20T18:46:38Z'
+  verified_at: '2026-07-20T18:52:14Z'
+  evidence:
+    plan: docs/work/web-optimization-guided-intake.yaml
+    task: implement-turn-based-intake-contract
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: migrate-create-flows-to-guided-intake
+  sequence: 5
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-priority-create-flows
+  owner: backend-and-frontend
+  status: verified
+  started_at: '2026-07-20T18:52:31Z'
+  verified_at: '2026-07-20T18:55:05Z'
+  evidence:
+    plan: docs/work/web-optimization-guided-intake.yaml
+    task: migrate-priority-create-flows
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: migrate-business-intake-flows
+  sequence: 6
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-business-intake-flows
+  owner: backend-and-frontend
+  status: verified
+  started_at: '2026-07-20T18:55:20Z'
+  verified_at: '2026-07-20T18:57:33Z'
+  evidence:
+    plan: docs/work/web-optimization-guided-intake.yaml
+    task: migrate-business-intake-flows
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: migrate-things-intake-flows
+  sequence: 7
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-things-intake-flows
+  owner: backend-and-frontend
+  status: verified
+  started_at: '2026-07-20T18:57:47Z'
+  verified_at: '2026-07-20T18:59:32Z'
+  evidence:
+    plan: docs/work/web-optimization-guided-intake.yaml
+    task: migrate-things-intake-flows
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: migrate-rides-intake-flows
+  sequence: 8
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-rides-intake-flows
+  owner: backend-and-frontend
+  status: verified
+  started_at: '2026-07-20T19:01:54Z'
+  verified_at: '2026-07-20T19:02:54Z'
+  evidence:
+    plan: docs/work/web-optimization-guided-intake.yaml
+    task: migrate-rides-intake-flows
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: migrate-social-intake-flows
+  sequence: 9
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-social-intake-flows
+  owner: backend-and-frontend
+  status: verified
+  started_at: '2026-07-20T19:03:01Z'
+  verified_at: '2026-07-20T19:03:57Z'
+  evidence:
+    plan: docs/work/web-optimization-guided-intake.yaml
+    task: migrate-social-intake-flows
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: migrate-identity-intake-flows
+  sequence: 10
+  plan: docs/work/web-optimization-guided-intake.yaml
+  task: migrate-identity-intake-flows
+  owner: backend-and-frontend
+  status: verified
+  started_at: '2026-07-20T19:04:25Z'
+  verified_at: '2026-07-20T19:05:51Z'
+  evidence:
+    plan: docs/work/web-optimization-guided-intake.yaml
+    task: migrate-identity-intake-flows
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: home-first-authenticated-entry
+  sequence: 11
+  plan: docs/work/web-optimization-home-landing.yaml
+  task: make-home-authenticated-landing
+  owner: frontend
+  status: verified
+  started_at: '2026-07-20T19:05:59Z'
+  verified_at: '2026-07-20T19:06:26Z'
+  evidence:
+    plan: docs/work/web-optimization-home-landing.yaml
+    task: make-home-authenticated-landing
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4
+- id: optimization-runtime-closeout
+  sequence: 12
+  plan: docs/work/web-optimization-runtime-closeout.yaml
+  task: capture-theme-home-guided-intake-evidence
+  owner: runtime-and-documentation
+  status: verified
+  started_at: '2026-07-20T19:06:58Z'
+  verified_at: '2026-07-20T19:24:09Z'
+  evidence:
+    plan: docs/work/web-optimization-runtime-closeout.yaml
+    task: capture-theme-home-guided-intake-evidence
+    revision: 7972676741cdee89361012afb0a769b43f2c2dc4

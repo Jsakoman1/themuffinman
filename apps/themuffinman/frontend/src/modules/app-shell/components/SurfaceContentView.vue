@@ -130,6 +130,12 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   display: grid;
   gap: var(--surface-content-gap);
   min-width: 0;
+  width: 100%;
+  container-type: inline-size;
+}
+
+@container (min-width: 90rem) {
+  .surface-content__inbox-layout { grid-template-columns: minmax(20rem, 0.7fr) minmax(0, 1.8fr); }
 }
 
 .surface-content__header {
@@ -314,8 +320,8 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__inbox-layout {
   display: grid;
-  grid-template-columns: minmax(14rem, 0.8fr) minmax(0, 1.6fr);
-  gap: 0.7rem;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.6fr);
+  gap: var(--space-3);
 }
 
 .surface-content__inbox-index,
@@ -377,7 +383,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
 .surface-content__operations-heading > span {
   color:var(--text-muted);
-  font-size: 0.76rem;
+  font-size: var(--text-size-meta);
 }
 
 .surface-content--chat .surface-content__sections,
@@ -399,7 +405,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__card-title {
-  font-size: 0.83rem;
+  font-size: var(--text-size-title);
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -464,15 +470,15 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__row-link {
-  min-height: 1.9rem;
-  padding: 0.3rem 0.58rem;
-  font-size: 0.72rem;
+  min-height: var(--control-height-compact);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-size-meta);
 }
 
 .surface-content__empty-state,
 .surface-content__empty-surface {
   color:var(--text-muted);
-  font-size: 0.84rem;
+  font-size: var(--text-size-body);
 }
 
 .surface-content__calendar {
@@ -500,7 +506,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__calendar-toolbar span,
 .surface-content__calendar-toolbar small {
   color:var(--text-muted);
-  font-size: 0.78rem;
+  font-size: var(--text-size-meta);
 }
 
 .surface-content__calendar-actions button {
@@ -508,9 +514,10 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   border-radius: var(--radius-control);
   background: var(--control-bg);
   color: var(--control-ink);
-  padding: 0.42rem 0.65rem;
+  min-height: var(--control-height-compact);
+  padding: var(--space-1) var(--space-2);
   font: inherit;
-  font-size: 0.72rem;
+  font-size: var(--text-size-meta);
   cursor: pointer;
 }
 
@@ -529,9 +536,9 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 }
 
 .surface-content__weekday {
-  padding: 0.55rem;
+  padding: var(--space-2);
   color:var(--text-muted);
-  font-size: 0.7rem;
+  font-size: var(--text-size-meta);
   font-weight: 650;
   text-align: right;
 }
@@ -540,7 +547,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   display: grid;
   align-content: start;
   gap: 0.25rem;
-  min-height: 7rem;
+  min-height: 8rem;
   border: 1px solid var(--border-subtle);
   padding: 0.45rem;
 }
@@ -560,22 +567,22 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
   overflow: hidden;
   border-radius: var(--radius-control);
   background: var(--accent-muted);
-  padding: 0.3rem 0.4rem;
+  padding: var(--space-1) var(--space-2);
   color: var(--text);
-  font-size: 0.7rem;
-  line-height: 1.2;
+  font-size: var(--text-size-meta);
+  line-height: 1.3;
   text-decoration: none;
 }
 
 .surface-content__calendar-event small,
 .surface-content__calendar-event span {
   color:var(--text-muted);
-  font-size: 0.65rem;
+  font-size: var(--text-size-label);
 }
 
 .surface-content__more-events {
   color:var(--text-muted);
-  font-size: 0.68rem;
+  font-size: var(--text-size-label);
 }
 
 .surface-content__week-grid {
@@ -599,13 +606,19 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 .surface-content__week-grid h2,
 .surface-content__day-view h2 {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: var(--text-size-title);
 }
 
 .surface-content__week-grid p,
 .surface-content__day-view p {
   color:var(--text-muted);
-  font-size: 0.75rem;
+  font-size: var(--text-size-body);
+}
+
+@media (min-width: 1600px) {
+  .surface-content__inbox-layout { grid-template-columns: minmax(20rem, 0.7fr) minmax(0, 1.8fr); }
+  .surface-content__month-day { min-height: 9rem; padding: var(--space-3); }
+  .surface-content__week-grid { gap: var(--space-3); }
 }
 
 @media (max-width: 760px) {

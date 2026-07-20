@@ -25,11 +25,11 @@ const secondaryActions = computed(() => props.config.actions.filter(action => ac
 </template>
 
 <style scoped>
-.surface-header { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: var(--space-2) var(--space-4); padding: var(--space-1) 0; }
+.surface-header { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: var(--space-3) var(--space-5); padding: var(--space-2) 0; }
 .surface-header__location { display: flex; align-items: center; grid-column: 1/-1; min-width: 0; }
 .surface-header__title, .surface-header__detail { margin: 0; }
 .surface-header__detail { overflow: hidden; color: var(--text-soft); font-size: var(--text-size-body); text-overflow: ellipsis; white-space: nowrap; }
-.surface-header__title { min-width: 0; font-size: clamp(1.55rem,2.5vw,2.3rem); letter-spacing: var(--tracking-display); line-height: 1; }
+.surface-header__title { min-width: 0; font-size: var(--text-size-page-title); letter-spacing: var(--tracking-display); line-height: 1.08; }
 .surface-header__actions { display: flex; justify-content: flex-end; gap: var(--space-2); flex-wrap: wrap; }
 .surface-header__overflow { position: relative; }
 .surface-header__overflow summary { display: inline-flex; align-items: center; min-height: var(--control-height-default); border: 1px solid var(--control-border); border-radius: var(--radius-control); padding: var(--space-1) var(--space-3); color: var(--text-muted); cursor: pointer; list-style: none; }

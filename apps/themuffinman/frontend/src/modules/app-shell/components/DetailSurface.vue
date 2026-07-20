@@ -18,7 +18,7 @@ withDefaults(defineProps<{
 </template>
 
 <style scoped>
-.detail-surface { min-width: 0; }
+.detail-surface { width: 100%; min-width: 0; }
 .detail-surface__header { min-width: 0; border-bottom: 1px solid var(--border-subtle); }
 .detail-surface__workspace { display: grid; grid-template-columns: minmax(0, 1fr) var(--detail-rail-width); min-height: 0; }
 .detail-surface__main { min-width: 0; padding: var(--space-5); }

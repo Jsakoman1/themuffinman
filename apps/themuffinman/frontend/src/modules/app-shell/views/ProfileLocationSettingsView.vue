@@ -3,13 +3,14 @@ import {onMounted, ref} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import {updateSessionUser} from "../../identity/auth.ts"
 import type {AppUserResponseDTO, CircleContactDTO, CircleGroupResponseDTO, LocationLookupCandidateDTO, ProfileFieldVisibility, UserLocationMode, LocationResolutionStatus} from "../../../contracts/index.ts"
-import {userShellApi, type ProfileGalleryImage} from "../api/userShellApi.ts"
+import {userShellApi, type AppearancePreference, type ProfileGalleryImage} from "../api/userShellApi.ts"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppButton from "../components/AppButton.vue"
 import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import InlineEditText from "../components/InlineEditText.vue"
+import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 
 const user = ref<AppUserResponseDTO | null>(null)
 const username = ref("")
@@ -38,12 +39,16 @@ const isSearching = ref(false)
 const isSaving = ref(false)
 const error = ref("")
 const feedback = ref("")
+const guidedProfileOpen = ref(false)
+const acceptGuidedProfileDraft = (draft: Record<string, string>) => { profileDescription.value = draft.description ?? profileDescription.value; guidedProfileOpen.value = false; feedback.value = "Guided profile draft ready to review." }
 const gallery = ref<ProfileGalleryImage[]>([])
 const galleryUrl = ref("")
 const galleryAltText = ref("")
 const isGalleryActing = ref(false)
 const route = useRoute()
 const exactVisibilityInput = ref<HTMLSelectElement | null>(null)
+const appearanceTheme = ref<AppearancePreference["theme"]>("SYSTEM")
+const isAppearanceSaving = ref(false)
 
 const applyCandidate = (value: LocationLookupCandidateDTO) => {
   candidate.value = value
@@ -60,16 +65,18 @@ const handleLocationQueryInput = () => {
 const load = async () => {
   isLoading.value = true
   try {
-    const [currentUser, groups, connections, galleryResponse] = await Promise.all([
+    const [currentUser, groups, connections, galleryResponse, appearance] = await Promise.all([
       userShellApi.getCurrentAppUser(),
       userShellApi.getCircleGroups(),
       userShellApi.getCircleConnections(),
-      userShellApi.getMyProfileGallery()
+      userShellApi.getMyProfileGallery(),
+      userShellApi.getAppearancePreference()
     ])
     user.value = currentUser
     circleGroups.value = groups
     circleConnections.value = connections.items
     gallery.value = galleryResponse.items
+    appearanceTheme.value = appearance.theme
     username.value = user.value.username
     profileDescription.value = user.value.profileDescription ?? ""
     avatarDataUrl.value = user.value.profileAvatarDataUrl ?? null
@@ -103,6 +110,20 @@ const load = async () => {
     }
   } catch { error.value = "Could not load location settings." }
   finally { isLoading.value = false }
+}
+
+const updateAppearance = async () => {
+  isAppearanceSaving.value = true
+  try {
+    const updated = await userShellApi.updateAppearancePreference(appearanceTheme.value)
+    appearanceTheme.value = updated.theme
+    window.dispatchEvent(new CustomEvent("app:appearance-changed", {detail: updated.theme}))
+    feedback.value = "Appearance updated."
+  } catch {
+    error.value = "Could not update appearance."
+  } finally {
+    isAppearanceSaving.value = false
+  }
 }
 
 const addGalleryImage = async () => {
@@ -227,6 +248,7 @@ onMounted(async () => {
   <section class="location-settings">
     <header><p class="eyebrow">Profile settings</p><h1>Location</h1><p class="intro">Choose how your location supports nearby discovery. Exact address visibility remains governed by your existing privacy settings.</p><RouterLink class="settings-link" to="/profile/settings/notifications">Manage notification preferences</RouterLink></header>
     <CollectionToolbar title="Profile and location" :busy="isLoading"><template #actions><RouterLink to="/profile/settings/notifications">Notification preferences</RouterLink></template></CollectionToolbar>
+    <div class="guided-profile-entry"><AppButton type="button" tone="secondary" @click="guidedProfileOpen = !guidedProfileOpen">{{ guidedProfileOpen ? "Close guided profile setup" : "Use guided profile setup" }}</AppButton><GuidedIntakePanel v-if="guidedProfileOpen" flow="identity.profile.update" title="Update your profile" description="Answer the meaningful profile questions first, then review the rest of your privacy settings." @completed="acceptGuidedProfileDraft" @cancel="guidedProfileOpen = false" /></div>
     <AppStatus v-if="error" :message="error" tone="error" />
     <AppStatus v-if="feedback" :message="feedback" tone="success" />
     <AppStatus v-if="isLoading" message="Loading profile and location settings." busy />
@@ -237,6 +259,7 @@ onMounted(async () => {
     <form @submit.prevent="save">
       <fieldset class="profile-fields"><legend>Profile</legend><div class="avatar-editor"><img v-if="avatarDataUrl" :src="avatarDataUrl" alt="Profile preview" class="avatar-editor__image"><span v-else class="avatar-editor__image avatar-editor__image--fallback">{{ (username[0] ?? "A").toUpperCase() }}</span><div><label>Profile picture<input type="file" accept="image/*" @change="selectAvatar"></label><AppButton v-if="avatarDataUrl" type="button" tone="danger" class="avatar-editor__remove" @click="removeAvatar">Remove picture</AppButton><small>Optional. Use a clear image under 2 MB.</small></div></div><AppFormField label="Username"><InlineEditText :model-value="username" label="username" @save="username = $event" /></AppFormField><AppFormField label="Description" :hint="`${profileDescription.length}/2000`"><textarea v-model="profileDescription" maxlength="2000" rows="4" placeholder="What should people know about you?"></textarea></AppFormField><div class="profile-visibility-grid"><AppFormField label="Profile picture visibility"><select v-model="profileAvatarVisibility" aria-label="Profile picture visibility"><option value="PUBLIC">Everyone</option><option value="PRIVATE">Only me</option><option value="CIRCLES">Selected circles</option></select></AppFormField><AppFormField label="Description visibility"><select v-model="profileDescriptionVisibility" aria-label="Description visibility"><option value="PUBLIC">Everyone</option><option value="PRIVATE">Only me</option><option value="CIRCLES">Selected circles</option></select></AppFormField></div><fieldset v-if="profileAvatarVisibility === 'CIRCLES'" class="visibility-options"><legend>Profile picture circles</legend><label v-for="group in circleGroups" :key="`avatar-${group.id}`" class="check-option"><input v-model="profileAvatarVisibleCircleIds" type="checkbox" :value="group.id">{{ group.name }}</label><small v-if="circleGroups.length === 0">Create a circle before sharing your profile picture with it.</small></fieldset><fieldset v-if="profileDescriptionVisibility === 'CIRCLES'" class="visibility-options"><legend>Description circles</legend><label v-for="group in circleGroups" :key="`description-${group.id}`" class="check-option"><input v-model="profileDescriptionVisibleCircleIds" type="checkbox" :value="group.id">{{ group.name }}</label><small v-if="circleGroups.length === 0">Create a circle before sharing your description with it.</small></fieldset><small class="profile-visibility-note">Visibility is consent-based and enforced by the backend. Selected-circle access applies only to members of the circles you choose.</small></fieldset>
       <fieldset class="profile-gallery"><legend>Photo gallery</legend><p class="profile-gallery__intro">Optional photos for your profile. These are separate from your profile picture.</p><div class="profile-gallery__form"><AppFormField label="Image URL"><input v-model="galleryUrl" type="url" placeholder="https://…" aria-label="Image URL"></AppFormField><AppFormField label="Alt text" optional><input v-model="galleryAltText" maxlength="240" placeholder="Describe the photo" aria-label="Alt text"></AppFormField><AppButton type="button" tone="primary" :loading="isGalleryActing" @click="addGalleryImage">Add photo</AppButton></div><div v-if="gallery.length" class="profile-gallery__grid"><article v-for="image in gallery" :key="image.id" class="profile-gallery__item"><img :src="image.imageUrl" :alt="image.altText || 'Profile gallery photo'"><AppButton type="button" tone="danger" :loading="isGalleryActing" @click="removeGalleryImage(image)">Remove</AppButton></article></div><AppStatus v-else message="No profile gallery photos yet." /></fieldset>
+      <fieldset class="appearance-settings"><legend>Appearance</legend><p class="profile-gallery__intro">Choose the Web workspace theme. VisionForWeb follows this Web setting; the future standalone Vision console will have its own shell.</p><AppFormField label="Theme"><select v-model="appearanceTheme" aria-label="Theme"><option value="SYSTEM">System</option><option value="DARK">Dark</option><option value="LIGHT">Light</option></select></AppFormField><AppButton type="button" tone="primary" :loading="isAppearanceSaving" @click="updateAppearance">Save appearance</AppButton></fieldset>
       <fieldset><legend>Location</legend><AppFormField label="Location mode"><select v-model="mode" aria-label="Location mode"><option value="OFF">Off</option><option value="APPROXIMATE">Approximate</option><option value="EXACT">Exact</option></select></AppFormField>
       <AppFormField label="Default search radius (km)"><input v-model.number="radius" type="number" min="1" max="200"></AppFormField>
       <AppFormField v-if="mode === 'EXACT'" label="Exact address visibility" hint="Choose exactly who may see the resolved address."><select ref="exactVisibilityInput" v-model="exactVisibilityScope" aria-label="Exact address visibility"><option value="NOBODY">Nobody</option><option value="EVERYONE">Everyone</option><option value="CIRCLES">Selected circles</option><option value="USERS">Selected people</option></select></AppFormField>
