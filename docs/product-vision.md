@@ -45,14 +45,50 @@ The Web workspace is the structured application layer: navigation, collections,
 details, search, actions, and safe workflow completion. Vision remains the
 intelligent background and future primary assistant, with voice/text recognition,
 personal context, adaptive understanding, and backend-confirmed execution. The
-shell must make the product easy to operate before Vision becomes the dominant
-assistant surface.
+VisionForWeb layer is the inline Web host for that same backend Vision runtime: it
+can understand a request through OpenAI, select one backend-published capability,
+and open or control the canonical Web surface. The shell remains directly usable
+without Vision, while VisionForWeb becomes the fastest contextual path through it.
 
 `/vision` deliberately keeps a different visual grammar: an adaptive canvas that
 can become spacious, light, expressive, and voice-led when that helps the current
 task. The contrast is intentional: the Web workspace is the reliable structured
 place to navigate and inspect; Vision is the primary voice/context-aware assistant
 that helps a person decide, understand, and safely begin work.
+
+## VisionForWeb Assistant Layer
+
+VisionForWeb is a global, inline assistant host inside the authenticated Web shell.
+It reuses the persisted `/vision` conversation, semantic route catalog, entity
+resolvers, personal context, read-only previews, review flow, and typed execution
+adapters. It is not a second navigation system and not a frontend-only chatbot.
+
+Text and voice input both use the same OpenAI semantic interpretation path. The
+backend publishes the allowed route, capability, entity family, slot schema, and
+response contract for each turn, then validates the OpenAI result before any Web
+navigation or execution occurs. The frontend renders the assistant and executes
+only the backend-approved Web action.
+
+The first required behavior is:
+
+`Pokaži mi poslove koje sam ja postao` -> `work.quest.view_own` -> `/work/quests`.
+
+VisionForWeb may open a list, detail, preview, filter, focus state, or comparison,
+and may propose or execute an existing mutation only through the backend review and
+confirmation boundary. Ambiguous, inaccessible, stale, or unavailable targets
+produce clarification or recovery and never a guessed route.
+
+OpenAI is the only semantic interpreter in production. A deterministic local parser
+is allowed only in an explicit development/test profile for synthetic fixtures and
+contract tests. If OpenAI is unavailable, VisionForWeb pauses input processing,
+preserves retryable state, and leaves direct Web navigation available.
+
+The implementation master for this transition is `docs/work/vision-for-web-integration-master.yaml`.
+
+The animated assistant is a dismissible contextual helper inspired by the old
+Office assistant's helpful presence, not a copy of its assets or implementation.
+Its idle, listening, thinking, navigating, result, clarification, and recovery
+states must remain accessible and reduced-motion aware.
 
 ## Desktop Workspace Language
 

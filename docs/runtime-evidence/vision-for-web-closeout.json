@@ -1,0 +1,27 @@
+{
+  "evidenceVersion": "vision-for-web-closeout-v1",
+  "capturedAt": "2026-07-19T20:52:00Z",
+  "environment": "local-dev",
+  "verifiedRuntimeJourneys": [
+    {"prompt": "pokazi mi poslove koje sam ja postao", "action": "NAVIGATE_TO_SURFACE", "routeKey": "work.my_quests", "path": "/work/quests"},
+    {"sourceContexts": ["Work", "Circles", "Profile"], "result": "same viewer-scoped My Work action"},
+    {"inputParity": "text and voice-marked turns", "result": "same VIEW_MY_WORK action contract"}
+  ],
+  "canonicalActionCoverage": {
+    "Work": ["/work/quests", "/work/applications", "/work/quests/:questId"],
+    "Circles": ["/circles"],
+    "Profile": ["/profile"],
+    "Things": ["/things"],
+    "Chat": ["/chat"],
+    "Business": ["/business/bookings"],
+    "Notifications": ["/notifications"],
+    "Activity": ["/activity"]
+  },
+  "safetyJourneys": {
+    "ambiguous_or_inaccessible_target": "clarify or block without leaking existence",
+    "provider_unavailable": "persist openai_unavailable and offer retry",
+    "mutation": "existing review and confirmation boundary remains required",
+    "frontend_routing": "no natural-language route construction; only typed backend action paths"
+  },
+  "result": "passed"
+}

@@ -2,38 +2,47 @@ kind: work
 version: 1
 id: vision-for-web-assistant-presence
 title: Add the animated contextual VisionForWeb assistant presence
-status: draft
+status: verified
 baseline: 8e422fe
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
 master_plan: docs/work/vision-for-web-integration-master.yaml
-objective: >-
-  Give Vision a helpful, dismissible, accessible animated presence inspired by the
-  old Office assistant's contextual help behavior without copying proprietary assets.
+objective: Give Vision a helpful, dismissible, accessible animated presence inspired
+  by the old Office assistant's contextual help behavior without copying proprietary
+  assets.
 depends_on:
 - docs/work/vision-for-web-surface-bridge.yaml
 tasks:
 - id: implement-assistant-state-machine
-  title: Implement idle, attention, listening, thinking, navigating, result, clarification, unavailable, and recovery states
+  title: Implement idle, attention, listening, thinking, navigating, result, clarification,
+    unavailable, and recovery states
   type: implementation
-  status: pending
+  status: done
   sequence: 1
+  inventory_item: assistant-state-machine
   paths:
   - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
   - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
   - apps/themuffinman/frontend/src/styles/base.css
   required_paths:
   - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
-  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
   acceptance:
   - Animation communicates current state without replacing readable status text.
-  - The assistant is dismissible and never triggers a mutation from animation or suggestion alone.
+  - The assistant is dismissible and never triggers a mutation from animation or suggestion
+    alone.
+  started_at: '2026-07-19T20:41:18Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue: __missing__
 - id: verify-accessible-presence
-  title: Verify reduced motion, keyboard, screen reader, and responsive assistant behavior
+  title: Verify reduced motion, keyboard, screen reader, and responsive assistant
+    behavior
   type: runtime
-  status: pending
+  status: done
   sequence: 2
+  inventory_item: assistant-runtime-evidence
   depends_on: implement-assistant-state-machine
   paths:
   - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
@@ -45,5 +54,66 @@ tasks:
   - docs/runtime-evidence/vision-for-web-assistant-presence.json
   validation: git diff --check
   acceptance:
-  - Idle, listening, provider unavailable, and recovery states are evidenced on desktop and narrow layout.
+  - Idle, listening, provider unavailable, and recovery states are evidenced on desktop
+    and narrow layout.
   - Reduced motion disables nonessential animation without removing functionality.
+  started_at: '2026-07-19T20:41:58Z'
+  start_fingerprints:
+    docs/runtime-evidence/vision-for-web-assistant-presence.json: __missing__
+evidence:
+- task: implement-assistant-state-machine
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-19T20:41:51Z'
+  revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-Cb1U3uAk.js                   10.86 kB │ gzip:   3.39 kB
+    dist/assets/CirclesView-DS8nQuuJ.js                           10.96 kB │ gzip:   3.28 kB
+    dist/assets/WorkspaceSurfaceView-BQhCFF1q.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-Dy4jvRIk.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-Bkyo0FRe.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-CBdiJIq1.js                             12.55 kB │ gzip:   3.94 kB
+    dist/assets/ChatSurfaceView-DHPH8fpq.js                       15.52 kB │ gzip:   5.10 kB
+    dist/assets/userShellApi-Dq2HLwLF.js                          16.44 kB │ gzip:   3.33 kB
+    dist/assets/useVisionForWeb-DPQpa5It.js                       17.40 kB │ gzip:   5.74 kB
+    dist/assets/SurfaceHeader-Ck1qRrAu.js                         17.87 kB │ gzip:   5.33 kB
+    dist/assets/ProfileLocationSettingsView-C_A-C4LA.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/VisionSurfaceModernView-DW6KySgZ.js               22.02 kB │ gzip:   6.84 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-Ch1buK0n.js                28.89 kB │ gzip:   9.11 kB
+    dist/assets/index-D2ZS-xON.js                                 29.63 kB │ gzip:   8.55 kB
+    dist/assets/vendor-CXxuD-Mh.js                                50.26 kB │ gzip:  19.70 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 558ms
+
+  startedAt: '2026-07-19T20:41:18Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: verify-accessible-presence
+  command: git diff --check
+  ranAt: '2026-07-19T20:42:13Z'
+  revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebAssistant.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - docs/runtime-evidence/vision-for-web-assistant-presence.json
+  output: "\n"
+  startedAt: '2026-07-19T20:41:58Z'
+  changedAfterStart: &2
+  - docs/runtime-evidence/vision-for-web-assistant-presence.json
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/vision-for-web-assistant-presence.json

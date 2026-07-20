@@ -30,6 +30,7 @@ public class VisionConversationTurnResponseDTO {
     private boolean executionEnabled;
     private VisionRuntimeContextDTO runtimeContext;
     private VisionWorkspaceHandoffDTO workspaceHandoff;
+    private VisionWebActionDTO webAction;
     private VisionExecutionCandidateDTO executionCandidate;
     private VisionQuestDiscoveryDTO questDiscovery;
     private VisionSearchDiscoveryDTO searchDiscovery;

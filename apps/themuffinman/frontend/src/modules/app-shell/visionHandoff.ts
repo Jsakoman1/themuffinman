@@ -102,3 +102,13 @@ export const resolveVisionEntityRoute = (entityFamily: string, targetId: number)
 
   return null
 }
+
+export const visionWebActionQuery = (action: {focus?: string | null; preview?: boolean; filters?: Record<string, string>}): Record<string, string> => {
+  const query: Record<string, string> = {}
+  Object.entries(action.filters ?? {}).forEach(([key, value]) => {
+    if (key.trim() && value.trim()) query[key.trim()] = value.trim()
+  })
+  if (action.focus?.trim()) query.focus = action.focus.trim()
+  if (action.preview) query.preview = "1"
+  return query
+}

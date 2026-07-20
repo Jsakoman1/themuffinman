@@ -1,0 +1,31 @@
+{
+  "evidenceVersion": "vision-input-parity-v1",
+  "capturedAt": "2026-07-19T20:47:00Z",
+  "environment": "local-dev",
+  "prompt": "pokazi mi poslove koje sam ja postao",
+  "text": {
+    "inputType": "text",
+    "intent": "VIEW_MY_WORK",
+    "action": "NAVIGATE_TO_SURFACE",
+    "canonicalPath": "/work/quests",
+    "routeKey": "work.my_quests"
+  },
+  "voice": {
+    "inputType": "voice",
+    "intent": "VIEW_MY_WORK",
+    "action": "NAVIGATE_TO_SURFACE",
+    "canonicalPath": "/work/quests",
+    "routeKey": "work.my_quests"
+  },
+  "parity": {
+    "same_backend_action_contract": true,
+    "same_viewer_scope": true,
+    "local_parser_used_only_for_local_dev_fixture": true
+  },
+  "production_outage_policy": {
+    "local_emergency_enabled_default": false,
+    "provider_unavailable_state": "openai_unavailable",
+    "behavior": "preserve conversation, show retryable paused state, do not classify through a local parser"
+  },
+  "result": "passed"
+}

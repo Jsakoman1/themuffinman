@@ -134,6 +134,7 @@ final class VisionConversationSnapshotSupport {
             case VIEW_QUEST_DETAIL -> hasText(conversation.getSlotData().get("resolved_quest_id"))
                     ? visionCapabilityPreviewService.previewQuestDetail(currentUser, Long.parseLong(conversation.getSlotData().get("resolved_quest_id")))
                     : null;
+            case VIEW_MY_WORK -> null;
             case VIEW_NOTIFICATIONS -> visionCapabilityPreviewService.previewNotifications(currentUser);
             case VIEW_ACTIVITY -> visionCapabilityPreviewService.previewActivity(currentUser);
             case VIEW_QUEST_NEWS -> visionCapabilityPreviewService.previewQuestNews(currentUser);
@@ -169,6 +170,7 @@ final class VisionConversationSnapshotSupport {
             case VIEW_BUSINESS_AVAILABILITY -> "Business availability.";
             case VIEW_BUSINESS_BOOKINGS -> "Business bookings.";
             case VIEW_QUEST_DETAIL -> "Quest.";
+            case VIEW_MY_WORK -> "My Work.";
             case VIEW_THINGS -> "Things.";
             case VIEW_THING_DETAIL -> "Thing listing.";
             case VIEW_BORROW_REQUESTS -> "Borrow requests.";

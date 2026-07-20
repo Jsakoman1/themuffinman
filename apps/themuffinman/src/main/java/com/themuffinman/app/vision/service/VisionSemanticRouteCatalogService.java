@@ -109,6 +109,7 @@ public class VisionSemanticRouteCatalogService {
                 viewCircleDetailRoute(),
                 viewAccessibleCircleRoute(),
                 viewQuestDetailRoute(),
+                viewMyWorkRoute(),
                 viewNotificationsRoute(),
                 viewActivityRoute(),
                 viewQuestNewsRoute(),
@@ -183,7 +184,7 @@ public class VisionSemanticRouteCatalogService {
             return SemanticEntityFamily.UNKNOWN;
         }
         return switch (intent) {
-            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS, REOPEN_QUEST, CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST -> SemanticEntityFamily.QUEST;
+            case CREATE_QUEST, DISCOVER_QUESTS, VIEW_QUEST_DETAIL, VIEW_MY_WORK, VIEW_QUEST_NEWS, REOPEN_QUEST, CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST -> SemanticEntityFamily.QUEST;
             case RELEASE_WORKER, REPLACE_WORKER -> SemanticEntityFamily.QUEST;
             case RESCHEDULE_BOOKING -> SemanticEntityFamily.BUSINESS;
             case VIEW_NOTIFICATIONS, UPDATE_NOTIFICATION_PREFERENCES -> SemanticEntityFamily.NOTIFICATIONS;
@@ -250,6 +251,7 @@ public class VisionSemanticRouteCatalogService {
             case VIEW_CIRCLE_DETAIL -> "CircleGroupResponseDTO";
             case VIEW_ACCESSIBLE_CIRCLE -> "CircleGroupResponseDTO";
             case VIEW_QUEST_DETAIL -> "QuestDetailResponseDTO";
+            case VIEW_MY_WORK -> "List<QuestResponseDTO>";
             case VIEW_THING_DETAIL -> "ThingListingResponseDTO";
             case VIEW_NOTIFICATIONS -> "DashboardNotificationsSectionDTO";
             case VIEW_QUEST_NEWS -> "List<QuestNewsItemResponseDTO>";
@@ -1380,6 +1382,25 @@ public class VisionSemanticRouteCatalogService {
                         example("show quest #42", Map.of("target_quest_query", "#42")),
                         example("open quest move sofa", Map.of("target_quest_query", "move sofa"))
                 ))
+                .build();
+    }
+
+    private VisionSemanticRouteDescriptor viewMyWorkRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.view_my_work")
+                .entityType("quest")
+                .intent("VIEW_MY_WORK")
+                .capabilityId("work.quest.view_own")
+                .purpose("Read-only owner-scoped list of work opportunities posted by the authenticated user, with a canonical Web handoff to My Work.")
+                .mutating(false)
+                .requiresReview(false)
+                .examples(List.of(
+                        example("show my posted work", Map.of()),
+                        example("show me the jobs I posted", Map.of()),
+                        example("pokaži mi poslove koje sam ja postao", Map.of()),
+                        example("open my work", Map.of())
+                ))
+                .slots(List.of())
                 .build();
     }
 

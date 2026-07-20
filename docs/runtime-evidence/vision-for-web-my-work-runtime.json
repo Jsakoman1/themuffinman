@@ -1,0 +1,52 @@
+{
+  "evidenceVersion": "vision-runtime-v1",
+  "capturedAt": "2026-07-19T20:29:00Z",
+  "environment": "local-dev",
+  "authentication": {
+    "account": "seeded test user",
+    "protectedEndpoint": true,
+    "tokenValueRecorded": false
+  },
+  "request": {
+    "inputType": "text",
+    "prompt": "pokazi mi poslove koje sam ja postao",
+    "locale": "hr-HR",
+    "clientDeviceRole": "desktop",
+    "clientCapabilities": ["VISION_WEB_ACTIONS", "ROUTER_NAVIGATION"]
+  },
+  "observations": [
+    {
+      "sourceContext": "Work",
+      "returnTo": "/work",
+      "intent": "VIEW_MY_WORK",
+      "message": "My Work.",
+      "action": "NAVIGATE_TO_SURFACE",
+      "routeKey": "work.my_quests",
+      "canonicalPath": "/work/quests",
+      "entityFamily": "quest",
+      "ambiguous": false,
+      "requiresConfirmation": false
+    },
+    {
+      "sourceContext": "Circles",
+      "returnTo": "/circles",
+      "intent": "VIEW_MY_WORK",
+      "action": "NAVIGATE_TO_SURFACE",
+      "routeKey": "work.my_quests",
+      "canonicalPath": "/work/quests"
+    },
+    {
+      "sourceContext": "Profile",
+      "returnTo": "/profile",
+      "intent": "VIEW_MY_WORK",
+      "action": "NAVIGATE_TO_SURFACE",
+      "routeKey": "work.my_quests",
+      "canonicalPath": "/work/quests"
+    }
+  ],
+  "recovery": {
+    "actionContract": ["RETRY", "OPEN_DIRECTLY"],
+    "unsupported_or_provider_unavailable_behavior": "Vision remains blocked and does not invent a frontend route; development-only local routing was used for this local-dev proof because no OPENAI_API_KEY is configured. Production semantic interpretation remains OpenAI-owned."
+  },
+  "result": "passed"
+}

@@ -319,6 +319,17 @@ public class PromptSemanticPlan {
                 .build();
     }
 
+    public static PromptSemanticPlan viewMyWork(double confidence, String note) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("VIEW_MY_WORK")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("work.quest.view_own")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery("")
+                .build();
+    }
+
     public static PromptSemanticPlan viewApplicationDetail(double confidence, String note) {
         return PromptSemanticPlan.builder()
                 .candidateIntent("VIEW_APPLICATION_DETAIL")

@@ -119,10 +119,16 @@ export type VisionCanvasBlock = {
   searchDiscovery: VisionSearchDiscovery | null; searchComparison: VisionSearchComparison | null; review: VisionQuestReview | null; tone: string | null
 }
 export type VisionWorkspaceHandoff = {contractVersion: string; contextLabel: string | null; source: string | null; returnTo: string | null; explanation: string}
+export type VisionWebAction = {
+  contractVersion: string; action: string; routeKey: string; canonicalPath: string; entityFamily: string
+  targetId: number | null; preview: boolean; focus: string | null; filters: Record<string, string>; comparisonTargetIds: string[]
+  viewerSafeLabel: string; returnContext: string | null; allowedActions: string[]
+  requiresConfirmation: boolean; ambiguous: boolean; recoveryOptions: string[]
+}
 export type VisionConversationTurnResponse = {
   conversationId: number; turnId: number; intent: string; agentState: VisionAgentState; canvasMode: VisionCanvasMode; nextAction: VisionNextAction
   message: string; requestedSlot: string | null; normalizedPrompt: string; translationApplied: boolean; translationReliable: boolean
-  executionEnabled: boolean; runtimeContext: VisionRuntimeContext | null; workspaceHandoff: VisionWorkspaceHandoff | null
+  executionEnabled: boolean; runtimeContext: VisionRuntimeContext | null; workspaceHandoff: VisionWorkspaceHandoff | null; webAction: VisionWebAction | null
   executionCandidate: VisionExecutionCandidate | null; questDiscovery: VisionQuestDiscovery | null; searchDiscovery: VisionSearchDiscovery | null
   searchComparison: VisionSearchComparison | null; memoryTrail: VisionMemoryTrail | null; blocks: VisionCanvasBlock[]
   appliedSlotSummaries: VisionSlotSummary[]; slotSummaries: VisionSlotSummary[]; review: VisionQuestReview | null

@@ -33,6 +33,7 @@ public class VisionPromptUnderstandingService {
     static final String UNDERSTANDING_STATUS_OPENAI_UNSUPPORTED = "openai_unsupported";
     static final String UNDERSTANDING_STATUS_LOCAL_EMERGENCY = "local_emergency";
     static final String UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED = "local_fail_closed";
+    static final String UNDERSTANDING_STATUS_OPENAI_UNAVAILABLE = "openai_unavailable";
 
     private static final Set<VisionIntent> SAFE_LOCAL_EMERGENCY_INTENTS = EnumSet.of(
             VisionIntent.CREATE_QUEST,
@@ -52,6 +53,7 @@ public class VisionPromptUnderstandingService {
             VisionIntent.VIEW_NOTIFICATIONS,
             VisionIntent.VIEW_QUEST_NEWS,
             VisionIntent.VIEW_APPLICATIONS,
+            VisionIntent.VIEW_MY_WORK,
             VisionIntent.VIEW_APPLICATION_DETAIL,
             VisionIntent.VIEW_BORROW_REQUESTS
             ,VisionIntent.EDIT_CHAT_MESSAGE,
@@ -132,19 +134,37 @@ public class VisionPromptUnderstandingService {
         String trimmed = prompt.trim();
         VisionSemanticOrchestrationRequest orchestrationRequest = buildOrchestrationRequest(trimmed, conversation, currentUser, runtimeHints);
         if (!isConfigured()) {
-            return localEmergencyUnderstand(trimmed, conversation, currentUser,
-                    "OpenAI semantic understanding is not configured, so only emergency local routing is available.");
+            return unavailableOrDevelopmentFixture(trimmed, conversation, currentUser,
+                    "OpenAI semantic understanding is not configured.");
         }
 
         try {
                 return openAiUnderstand(orchestrationRequest, conversation, currentUser);
         } catch (RestClientException exception) {
-            return localEmergencyUnderstand(trimmed, conversation, currentUser,
+            return unavailableOrDevelopmentFixture(trimmed, conversation, currentUser,
                     "OpenAI semantic understanding is temporarily unavailable, so only emergency local routing is available.");
         } catch (RuntimeException exception) {
-            return localEmergencyUnderstand(trimmed, conversation, currentUser,
+            return unavailableOrDevelopmentFixture(trimmed, conversation, currentUser,
                     "OpenAI semantic understanding failed for this turn, so only emergency local routing is available.");
         }
+    }
+
+    private VisionPromptUnderstandingResult unavailableOrDevelopmentFixture(
+            String prompt,
+            VisionConversation conversation,
+            AppUser currentUser,
+            String reason
+    ) {
+        if (developmentFixtureEnabled()) {
+            return localEmergencyUnderstand(prompt, conversation, currentUser, reason + " Development-only local routing is enabled.");
+        }
+        VisionPromptUnderstandingResult unavailable = VisionPromptUnderstandingResult.empty(prompt);
+        unavailable.setUnderstandingProvider(UNDERSTANDING_PROVIDER_NONE);
+        unavailable.setUnderstandingStatus(UNDERSTANDING_STATUS_OPENAI_UNAVAILABLE);
+        unavailable.setTranslationProvider(UNDERSTANDING_PROVIDER_NONE);
+        unavailable.setTranslationReliable(false);
+        unavailable.getSemanticPlan().setPlanningNote("Vision is paused until the OpenAI semantic provider is available. Retry is safe; no local parser is used in this environment.");
+        return unavailable;
     }
 
     private VisionPromptUnderstandingResult openAiUnderstand(
@@ -457,7 +477,8 @@ public class VisionPromptUnderstandingService {
     }
 
     private void applySafeOpenAiRescueIfNeeded(VisionPromptUnderstandingResult understanding) {
-        if (understanding == null || understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported() != VisionIntent.UNSUPPORTED) {
+        if (!developmentFixtureEnabled()
+                || understanding == null || understanding.semanticPlanOrEmpty().candidateIntentOrUnsupported() != VisionIntent.UNSUPPORTED) {
             return;
         }
         String normalizedPrompt = understanding.getNormalizedPrompt() == null ? "" : understanding.getNormalizedPrompt().trim();
@@ -509,6 +530,11 @@ public class VisionPromptUnderstandingService {
         return "openai".equalsIgnoreCase(agentProperties.getProvider())
                 && agentProperties.getApiKey() != null
                 && !agentProperties.getApiKey().isBlank();
+    }
+
+    private boolean developmentFixtureEnabled() {
+        return agentProperties.isLocalEmergencyEnabled()
+                && !"production".equalsIgnoreCase(System.getProperty("spring.profiles.active", ""));
     }
 
     private String providerName() {

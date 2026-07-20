@@ -83,6 +83,9 @@ public class PromptSemanticsSupport {
         if (containsApplicationsSignals(lower)) {
             return PromptSemanticPlan.viewApplications(0.8d, "Local prompt signals match view_applications.");
         }
+        if (containsMyWorkSignals(lower)) {
+            return PromptSemanticPlan.viewMyWork(0.8d, "Development-only local prompt signals match view_my_work.");
+        }
         if (containsDiscoverySignals(lower)) {
             return PromptSemanticPlan.discoverQuests(0.8d, "Local prompt signals match discover_quests.", inferDiscoveryQuery(normalizedPrompt));
         }
@@ -378,6 +381,13 @@ public class PromptSemanticsSupport {
                 "job applications",
                 "quest applications",
                 "applications status");
+    }
+
+    private boolean containsMyWorkSignals(String value) {
+        return containsAny(value,
+                "my work", "work i posted", "work that i posted", "jobs i posted",
+                "poslove koje sam ja postao", "poslove koje sam ja postao",
+                "moje objavljene poslove", "moji poslovi");
     }
 
     private boolean containsApplicationDetailSignals(String value) {

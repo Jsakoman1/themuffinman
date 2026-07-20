@@ -61,6 +61,7 @@ export const useVisionConversation = () => {
   const voiceState = ref<VisionVoiceState>("idle")
   const composerExpanded = ref(true)
   const lastTranscript = ref("")
+  const providerUnavailable = computed(() => response.value?.message?.toLowerCase().includes("openai semantic provider") ?? false)
 
   const mediaRecorder = ref<MediaRecorder | null>(null)
   const activeMediaStream = ref<MediaStream | null>(null)
@@ -408,7 +409,10 @@ export const useVisionConversation = () => {
       }
     } catch (caught) {
       console.error(caught)
-      const failureMessage = "Vision conversation processing failed in the backend."
+      const backendMessage = typeof caught === "object" && caught !== null && "response" in caught
+        ? (caught as {response?: {data?: {message?: string}}}).response?.data?.message
+        : null
+      const failureMessage = backendMessage?.trim() || "Vision conversation processing failed in the backend."
       error.value = failureMessage
       voiceRuntimeError.value = failureMessage
       voiceState.value = "idle"
@@ -706,6 +710,7 @@ export const useVisionConversation = () => {
     error,
     inputText,
     response,
+    providerUnavailable,
     voiceState,
     voiceEnabled,
     speechToTextEnabled,

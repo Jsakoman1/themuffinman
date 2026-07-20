@@ -1,5 +1,9 @@
 # Business Logic
 
+## VisionForWeb assistant behavior
+
+VisionForWeb is available from the authenticated shell and can open canonical module surfaces from text or voice input. OpenAI owns production semantic interpretation; a provider outage pauses Vision and preserves retryable conversation state. Local deterministic routing exists only for explicitly labeled development/test fixtures. Opening a surface never bypasses backend permission, mutation review, or confirmation rules.
+
 This document explains the product in user-facing terms. It is meant to stay aligned with the code and serve as a future FAQ source for humans and chatbots.
 
 ## Authenticated Web completion rules
@@ -76,9 +80,9 @@ Current covered modules:
 - `/vision` now applies slot-specific normalization only at the final merge layer, so money, date, time, and location values are cleaned after semantic extraction instead of hardcoding punctuation rules into the parser.
 - `/vision` now runs a focused repair pass for weak or partial slot extraction when the backend sees a clear missing field, so the system can ask for one more targeted semantic extraction instead of treating every weak answer as final.
 - `/vision` now records repair and correction signals in learning memory, so later turns can see which slots were repaired, which feedback type happened, and which habits were reinforced by user corrections.
-- `/vision` now treats the backend semantic model as the primary interpreter for prompt understanding across quests, circles, applications, profiles, and chat, while the deterministic local parser is reduced to an English-only emergency path for safe read surfaces and fail-closes mutation-style prompts when OpenAI understanding is unavailable.
+- `/vision` and VisionForWeb use OpenAI as the only production interpreter for prompt understanding across quests, circles, applications, profiles, chat, and Web navigation. A deterministic local parser may be used only in an explicit development/test profile for synthetic fixtures and contract tests.
 - `/vision` now resolves target entities through backend resolver families and confidence thresholds, so a prompt like a circle request can keep its action domain in one family while still resolving the actual target person, quest, circle, or application separately before clarification or DTO mapping continues.
-- `/vision` turn and dashboard prompt responses now expose the prompt-understanding provider and understanding status, so the frontend can tell whether a turn came from primary OpenAI understanding, OpenAI-plus-local rescue, or degraded local emergency handling.
+- If OpenAI understanding is unavailable, Vision pauses input processing, preserves the current conversation and retryable input, and shows a recoverable provider-unavailable state. It does not silently translate, classify locally, or report the request as unsupported.
 - `/vision` now fail-closes any OpenAI semantic response that selects a capability or focus slot outside the backend-published response contract before routing continues.
 - `/vision` now rejects any OpenAI semantic response that tries to extract slots or generic semantic fields not exposed by the selected backend route, so model output stays aligned with the actual route contract before sanitization.
 - `/vision` now keeps create-quest descriptions as a core task summary and strips reward, schedule, and location noise from the fallback description so the preview stays readable.
@@ -120,7 +124,7 @@ Current covered modules:
 - `/vision` now parses explicit `am` / `pm` phrases before the generic hour-only fallback, so combined weekday-and-time input stays on the day/time split instead of drifting into the wrong hour.
 - `/vision` now also understands explicit evening phrasing such as `in the evening` when the hour is already present.
 - `/vision` now also understands a plain weekday reference such as `this Friday` without requiring the user to say `next Friday` first.
-- The deterministic local emergency fallback is English-only and still fail-closes on non-English prompts, but it can now keep simple English create-quest, create-circle, create-application, and profile-update turns alive when OpenAI is unavailable instead of forcing them into unsupported state.
+- Development/test fixtures may use deterministic English parser input, but production Vision never uses a local emergency fallback when OpenAI is unavailable.
 - The same `/vision` review state can now send the user back to one named field such as reward, schedule, or location, so corrections stay conversational instead of reopening a legacy edit surface.
 - The `/vision` conversation turn API now accepts explicit backend actions for review-to-execution confirmation and review-field correction targets, while reset and cancel still have dedicated lifecycle endpoints and also accept the common shortcut phrases `cancel`, `stop`, and `reset` during an active conversation.
 - When a Vision mutation reaches review-ready state, the Web renderer exposes explicit `Confirm and create` and `Cancel` controls; a review message alone is never treated as execution evidence.

@@ -235,7 +235,17 @@ public class VisionSemanticOrchestrationContextService {
                 .clientDeviceRole(normalizeDeviceRole(runtimeHints.getClientDeviceRole()))
                 .clientCapabilities(runtimeHints.getClientCapabilities() == null ? List.of() : runtimeHints.getClientCapabilities())
                 .clientStateVersion(clean(runtimeHints.getClientStateVersion()))
+                .workspaceContext(clean(runtimeHints.getWorkspaceContext()))
+                .workspaceSource(clean(runtimeHints.getWorkspaceSource()))
+                .workspaceReturnTo(cleanWorkspaceReturnTo(runtimeHints.getWorkspaceReturnTo()))
                 .build();
+    }
+
+    private String cleanWorkspaceReturnTo(String value) {
+        String cleaned = clean(value);
+        return cleaned != null && cleaned.startsWith("/") && !cleaned.startsWith("//") && !cleaned.contains("\\")
+                ? cleaned
+                : null;
     }
 
     String timezoneForCountry(String countryCode) {

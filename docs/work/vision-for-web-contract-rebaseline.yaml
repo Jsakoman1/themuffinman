@@ -2,25 +2,27 @@ kind: work
 version: 1
 id: vision-for-web-contract-rebaseline
 title: Rebaseline Vision capabilities, Web routes, and OpenAI semantic contracts
-status: draft
+status: verified
 baseline: 8e422fe
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
 master_plan: docs/work/vision-for-web-integration-master.yaml
-objective: >-
-  Produce the authoritative VisionForWeb capability-to-route matrix and reconcile
+objective: Produce the authoritative VisionForWeb capability-to-route matrix and reconcile
   product, domain, Vision, and Web ownership before implementation begins.
 rules:
 - OpenAI is the only production semantic interpreter.
-- Local parser use is limited to explicit development/test profiles and synthetic fixtures.
-- Existing Vision services, route catalog, entity resolvers, previews, review flow, and typed adapters are reused.
+- Local parser use is limited to explicit development/test profiles and synthetic
+  fixtures.
+- Existing Vision services, route catalog, entity resolvers, previews, review flow,
+  and typed adapters are reused.
 tasks:
 - id: freeze-capability-route-matrix
   title: Map current Vision capabilities to canonical Web routes and missing actions
   type: analysis
-  status: pending
+  status: done
   sequence: 1
+  inventory_item: contract-matrix
   paths:
   - docs/work/vision-for-web-contract-rebaseline.yaml
   - docs/work/vision-for-web-integration-master.yaml
@@ -29,16 +31,25 @@ tasks:
   - docs/vision-architecture-patterns.md
   required_paths:
   - docs/work/vision-for-web-contract-rebaseline.yaml
-  validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/vision-for-web-contract-rebaseline.yaml"); YAML.load_file("docs/work/vision-for-web-integration-master.yaml")'
+  validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/vision-for-web-contract-rebaseline.yaml");
+    YAML.load_file("docs/work/vision-for-web-integration-master.yaml")'
   acceptance:
-  - The matrix distinguishes implemented Vision behavior, partial Web handoff, missing navigation, and deferred native clients.
-  - My Work is explicitly mapped to work.quest.view_own, VIEW_MY_WORK, work.my_quests, and /work/quests.
-  - Every planned child plan has a bounded implementation outcome and no duplicate Vision engine.
+  - The matrix distinguishes implemented Vision behavior, partial Web handoff, missing
+    navigation, and deferred native clients.
+  - My Work is explicitly mapped to work.quest.view_own, VIEW_MY_WORK, work.my_quests,
+    and /work/quests.
+  - Every planned child plan has a bounded implementation outcome and no duplicate
+    Vision engine.
+  started_at: '2026-07-19T20:12:53Z'
+  start_fingerprints:
+    docs/work/vision-for-web-contract-rebaseline.yaml: 965e8485e758ba93be71967b887ab85c8119a186e05c9582ce0e11d55df66b7b
 - id: reconcile-product-architecture-docs
-  title: Align product and technical documentation with VisionForWeb and OpenAI-only production routing
+  title: Align product and technical documentation with VisionForWeb and OpenAI-only
+    production routing
   type: documentation
-  status: pending
+  status: done
   sequence: 2
+  inventory_item: architecture-docs
   depends_on: freeze-capability-route-matrix
   paths:
   - docs/product-vision.md
@@ -51,6 +62,52 @@ tasks:
   - docs/domain-technical.md
   validation: git diff --check && ruby -e 'require "yaml"; YAML.load_file("docs/work/vision-for-web-integration-master.yaml")'
   acceptance:
-  - VisionForWeb is described as a global Web interaction layer while /vision remains the full-screen canvas.
-  - Backend ownership, OpenAI-only production interpretation, development-only parser use, and native-client portability agree across docs.
+  - VisionForWeb is described as a global Web interaction layer while /vision remains
+    the full-screen canvas.
+  - Backend ownership, OpenAI-only production interpretation, development-only parser
+    use, and native-client portability agree across docs.
   - No document describes a local production translator or semantic fallback.
+  started_at: '2026-07-19T20:14:37Z'
+  start_fingerprints:
+    docs/product-vision.md: 744d0e76bee91ca6cc454e38a7c8d4e9e1cdbbc6886236d34dc5ee06e881e014
+    docs/domain-technical.md: e4d66e368fc5bea0ba1a9c76ce64375cf79ca995274c964406dbbf72b771ae8b
+evidence:
+- task: freeze-capability-route-matrix
+  command: ruby -e 'require "yaml"; YAML.load_file("docs/work/vision-for-web-contract-rebaseline.yaml");
+    YAML.load_file("docs/work/vision-for-web-integration-master.yaml")'
+  ranAt: '2026-07-19T20:14:28Z'
+  revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/vision-architecture-patterns.md
+  - docs/work/vision-for-web-contract-rebaseline.yaml
+  - docs/work/vision-for-web-integration-master.yaml
+  output: "\n"
+  startedAt: '2026-07-19T20:12:53Z'
+  changedAfterStart: &1
+  - docs/work/vision-for-web-contract-rebaseline.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: reconcile-product-architecture-docs
+  command: git diff --check && ruby -e 'require "yaml"; YAML.load_file("docs/work/vision-for-web-integration-master.yaml")'
+  ranAt: '2026-07-19T20:14:50Z'
+  revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/product-vision.md
+  - docs/vision-architecture-patterns.md
+  output: "\n"
+  startedAt: '2026-07-19T20:14:37Z'
+  changedAfterStart: &2
+  - docs/product-vision.md
+  - docs/domain-technical.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

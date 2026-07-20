@@ -2,7 +2,7 @@ kind: master
 version: 1
 id: vision-for-web-integration-master
 title: Complete VisionForWeb integration across the authenticated Web app
-status: draft
+status: verified
 baseline: 8e422fe
 strict_verification: true
 serial_task_execution: true

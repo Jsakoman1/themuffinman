@@ -49,7 +49,7 @@ final class VisionSemanticPromptPayloadBuilder {
                 Always return normalizedPrompt in English, even if the user spoke another language or used broken grammar.
                 If the prompt is vague or slot-follow-up, prefer the current session entity family unless the user clearly changes topic.
                 If required slots are missing or the target entity is ambiguous, set clarificationRequired to true and list missingRequiredSlotIds.
-                Supported intents: CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE, LEAVE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, UPDATE_NOTIFICATION_PREFERENCES, RELEASE_WORKER, REPLACE_WORKER, DISCOVER_QUESTS, SEARCH, OPEN_CHAT, VIEW_CHAT_WORKSPACE, SYNC_CHAT, VIEW_CHAT_ATTACHMENT, VIEW_PROFILE, VIEW_SETTINGS, VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS, VIEW_CIRCLES, VIEW_CIRCLE_DETAIL, VIEW_ACCESSIBLE_CIRCLE, VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS, VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, VIEW_THINGS, VIEW_THING_DETAIL, VIEW_BORROW_REQUESTS, UPDATE_THING, ARCHIVE_THING, EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE, CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE, CREATE_GALLERY_IMAGE, UPDATE_GALLERY_IMAGE, DELETE_GALLERY_IMAGE, CREATE_AVAILABILITY_RULE, UPDATE_AVAILABILITY_RULE, DELETE_AVAILABILITY_RULE, CREATE_AVAILABILITY_EXCEPTION, UPDATE_AVAILABILITY_EXCEPTION, DELETE_AVAILABILITY_EXCEPTION, CONFIRM_BOOKING, CANCEL_BOOKING, REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW, ARCHIVE_OFFERING, UPDATE_QUEST, CREATE_OFFERING, UPDATE_OFFERING, CREATE_BOOKING, RESCHEDULE_BOOKING, REOPEN_QUEST, CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST, UNSUPPORTED.
+                Supported intents are the route catalog intents; in particular, owner-scoped Work uses VIEW_MY_WORK and capability work.quest.view_own. Never invent an intent outside allowedRoutes.
                 For CREATE_QUEST, keep questTitle, questDescription, visibility, reward.amount, reward.freeQuest, schedule.mode, schedule.scheduledDate, schedule.scheduledTime, location.mode, and location.label separate.
                 For circle, application, profile, chat, search, things, notifications, and discover intents, fill only the matching slot family and leave unrelated slots null.
                 Use the userContext timezone when interpreting dates and times.
@@ -189,6 +189,9 @@ final class VisionSemanticPromptPayloadBuilder {
         compact.put("clientLocale", context.getClientLocale());
         compact.put("clientTimezone", context.getClientTimezone());
         compact.put("clientDeviceRole", context.getClientDeviceRole());
+        compact.put("workspaceContext", context.getWorkspaceContext());
+        compact.put("workspaceSource", context.getWorkspaceSource());
+        compact.put("workspaceReturnTo", context.getWorkspaceReturnTo());
         return compact;
     }
 

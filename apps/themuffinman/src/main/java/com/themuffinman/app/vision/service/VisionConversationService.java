@@ -243,6 +243,7 @@ public class VisionConversationService {
             return replayConversation(conversation, lastTurn, currentUser, understanding);
         }
         rememberRuntimeHints(conversation, runtimeHints);
+        rememberWorkspaceContext(conversation, dto);
         if (isDuplicateClientRequest(conversation, clientRequestId)) {
             VisionTurn lastTurn = visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)
                     .orElseThrow(() -> ServiceErrors.conflict("Vision conversation retry state was not found"));
@@ -408,6 +409,7 @@ public class VisionConversationService {
             case VIEW_CIRCLE_DETAIL -> handleViewCircleDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_ACCESSIBLE_CIRCLE -> handleViewAccessibleCircleTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_QUEST_DETAIL -> handleViewQuestDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
+            case VIEW_MY_WORK -> visionReadOnlyConversationTurnHandler.handleViewMyWorkTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_THING_DETAIL -> handleViewThingDetailTurn(conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_NOTIFICATIONS -> visionReadOnlyConversationTurnHandler.handleViewNotificationsTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
             case VIEW_ACTIVITY -> visionReadOnlyConversationTurnHandler.handleViewActivityTurn(this, conversation, prompt, normalizedPrompt, understanding, source);
@@ -1812,6 +1814,9 @@ public class VisionConversationService {
                 .clientDeviceRole(dto.getClientDeviceRole())
                 .clientCapabilities(dto.getClientCapabilities())
                 .clientStateVersion(dto.getClientStateVersion())
+                .workspaceContext(dto.getWorkspaceContext())
+                .workspaceSource(dto.getWorkspaceSource())
+                .workspaceReturnTo(dto.getWorkspaceReturnTo())
                 .build();
     }
 
@@ -1839,6 +1844,18 @@ public class VisionConversationService {
         if (clientDeviceRole != null) {
             conversation.getSlotData().put("client_device_role", clientDeviceRole);
         }
+    }
+
+    private void rememberWorkspaceContext(VisionConversation conversation, VisionConversationTurnRequestDTO dto) {
+        if (conversation == null || dto == null) {
+            return;
+        }
+        String context = cleanWorkspaceValue(dto.getWorkspaceContext(), 120);
+        String source = cleanWorkspaceSource(dto.getWorkspaceSource());
+        String returnTo = cleanWorkspaceReturnTo(dto.getWorkspaceReturnTo());
+        if (context != null) conversation.getSlotData().put("workspace_context", context);
+        if (source != null) conversation.getSlotData().put("workspace_source", source);
+        if (returnTo != null) conversation.getSlotData().put("workspace_return_to", returnTo);
     }
 
     private String cleanRuntimeHint(String value) {
@@ -1946,14 +1963,20 @@ public class VisionConversationService {
     }
 
     private VisionWorkspaceHandoffDTO workspaceHandoff(VisionConversationTurnRequestDTO dto, VisionTurn turn) {
-        if (dto == null) {
+        if (dto == null && turn == null) {
             return null;
         }
-        String contextLabel = cleanWorkspaceValue(dto.getWorkspaceContext(), 120);
-        String source = cleanWorkspaceSource(dto.getWorkspaceSource());
-        String returnTo = cleanWorkspaceReturnTo(dto.getWorkspaceReturnTo());
+        String contextLabel = dto == null ? null : cleanWorkspaceValue(dto.getWorkspaceContext(), 120);
+        String source = dto == null ? null : cleanWorkspaceSource(dto.getWorkspaceSource());
+        String returnTo = dto == null ? null : cleanWorkspaceReturnTo(dto.getWorkspaceReturnTo());
+        if (contextLabel == null && source == null && returnTo == null && turn != null && turn.getConversation() != null) {
+            Map<String, String> slotData = turn.getConversation().getSlotData();
+            contextLabel = cleanWorkspaceValue(slotData.get("workspace_context"), 120);
+            source = cleanWorkspaceSource(slotData.get("workspace_source"));
+            returnTo = cleanWorkspaceReturnTo(slotData.get("workspace_return_to"));
+        }
         if (contextLabel == null && source == null && returnTo == null
-                && isWorkspaceNavigationPrompt(dto.getEffectivePrompt()) && turn != null) {
+                && dto != null && isWorkspaceNavigationPrompt(dto.getEffectivePrompt()) && turn != null) {
             return inferredWorkspaceNavigation(turn.getDetectedIntent(), dto.getEffectivePrompt());
         }
         if (contextLabel == null && source == null && returnTo == null) {
@@ -1989,6 +2012,7 @@ public class VisionConversationService {
             case VIEW_NOTIFICATIONS -> "/notifications";
             case VIEW_ACTIVITY -> "/activity";
             case VIEW_APPLICATIONS -> "/work/applications";
+            case VIEW_MY_WORK -> "/work/quests";
             case VIEW_THINGS -> "/things";
             case VIEW_BORROW_REQUESTS -> "/things/requests";
             case VIEW_RIDES -> "/rides";
@@ -3828,7 +3852,15 @@ public class VisionConversationService {
             VisionPromptUnderstandingResult understanding,
             String source
     ) {
-        String message = "This vision backend currently supports quest creation, quest news, circles, circle requests, applications, profile updates, quest discovery, chat, profile, circles, and applications.";
+        boolean providerUnavailable = understanding != null && "openai_unavailable".equals(understanding.getUnderstandingStatus());
+        if (providerUnavailable) {
+            conversation.getSlotData().put("provider_unavailable", "true");
+        } else {
+            conversation.getSlotData().remove("provider_unavailable");
+        }
+        String message = providerUnavailable
+                ? "Vision is temporarily paused because its OpenAI semantic provider is unavailable. Your conversation is preserved; retry when the provider is available."
+                : "This vision backend currently supports quest creation, quest news, circles, circle requests, applications, profile updates, quest discovery, chat, profile, circles, and applications.";
         conversation.setStatus(VisionConversationStatus.BLOCKED);
         conversation.setRequestedSlot(null);
         updateConversationMetadata(conversation, prompt, normalizedPrompt, message, understanding.isTranslationReliable());
@@ -4250,6 +4282,13 @@ public class VisionConversationService {
         }
 
         if (hasText(questQuery)) {
+            questQuery = questQuery.trim();
+            String previousQuestQuery = conversation.getSlotData().get("target_quest_query");
+            if (previousQuestQuery != null && !previousQuestQuery.equalsIgnoreCase(questQuery.trim())) {
+                conversation.getSlotData().remove("resolved_quest_id");
+                conversation.getSlotData().remove("resolved_quest_title");
+                conversation.getSlotData().remove("resolved_quest_creator");
+            }
             VisionResolvedQuestTarget target = visionCapabilityPreviewService.resolveVisibleQuest(conversation.getOwner(), questQuery);
             if (!target.resolved()) {
                 return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,

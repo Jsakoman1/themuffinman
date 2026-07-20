@@ -21,7 +21,7 @@ final class VisionEntityFamilySupport {
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
                     WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
-            case DISCOVER_QUESTS, CREATE_QUEST, VIEW_QUEST_DETAIL -> "quests";
+            case DISCOVER_QUESTS, CREATE_QUEST, VIEW_QUEST_DETAIL, VIEW_MY_WORK -> "quests";
             case SEARCH -> "search";
             case OPEN_CHAT, VIEW_CHAT_WORKSPACE, VIEW_CHAT_ATTACHMENT -> "chat";
             default -> null;
@@ -41,7 +41,7 @@ final class VisionEntityFamilySupport {
                     DELETE_CIRCLE_REQUEST, UPDATE_CIRCLE, DELETE_CIRCLE -> "circles";
             case VIEW_APPLICATIONS, VIEW_APPLICATION_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION,
                     WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION -> "applications";
-            case DISCOVER_QUESTS, CREATE_QUEST, VIEW_QUEST_DETAIL -> "quests";
+            case DISCOVER_QUESTS, CREATE_QUEST, VIEW_QUEST_DETAIL, VIEW_MY_WORK -> "quests";
             case VIEW_QUEST_NEWS -> "quest news";
             case OPEN_CHAT, VIEW_CHAT_WORKSPACE, VIEW_CHAT_ATTACHMENT -> "chat";
             case SEARCH -> "search";

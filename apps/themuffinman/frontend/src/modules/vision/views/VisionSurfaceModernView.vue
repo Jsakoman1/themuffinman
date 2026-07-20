@@ -7,6 +7,7 @@ import VisionIntentPreviewPanel from "../components/VisionIntentPreviewPanel.vue
 import {useVisionConversation} from "../composables/useVisionConversation.ts"
 import {hasVisionPreviewContent, shouldShowVisionFlowDebugRail} from "../visionPreviewSupport.ts"
 import {normalizeWorkspaceVisionHandoff} from "../../app-shell/visionHandoff.ts"
+import {useVisionForWeb} from "../../app-shell/composables/useVisionForWeb.ts"
 
 const {
   isLoading,
@@ -44,7 +45,9 @@ const {
 
 const route = useRoute()
 const router = useRouter()
+const {execute: executeWebAction} = useVisionForWeb()
 const lastAutoPromptKey = ref("")
+const lastExecutedWebAction = ref("")
 
 const submitPrompt = async () => {
   await processPrompt(inputText.value, "text")
@@ -143,6 +146,17 @@ watch(
       return
     }
     await runRoutePromptIfNeeded()
+  }
+)
+
+watch(
+  () => response.value?.webAction,
+  async (action) => {
+    const actionKey = action ? `${action.action}:${action.canonicalPath}` : ""
+    if (action && actionKey !== lastExecutedWebAction.value) {
+      lastExecutedWebAction.value = actionKey
+      await executeWebAction(action)
+    }
   }
 )
 </script>

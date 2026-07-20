@@ -35,6 +35,7 @@ export type {
   VisionMemoryTrail,
   VisionCanvasBlock,
   VisionWorkspaceHandoff,
+  VisionWebAction,
   VisionConversationTurnResponse,
   VisionConversationListResponse
 } from "./visionConversationViewModels.ts"

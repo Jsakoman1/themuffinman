@@ -13,6 +13,7 @@ import com.themuffinman.app.vision.dto.VisionOptionDTO;
 import com.themuffinman.app.vision.dto.VisionRuntimeContextDTO;
 import com.themuffinman.app.vision.dto.VisionRuntimeCueDTO;
 import com.themuffinman.app.vision.dto.VisionWorkspaceHandoffDTO;
+import com.themuffinman.app.vision.dto.VisionWebActionDTO;
 import com.themuffinman.app.vision.dto.VisionQuestDiscoveryDTO;
 import com.themuffinman.app.vision.dto.VisionQuestReviewDTO;
 import com.themuffinman.app.vision.dto.VisionSearchDiscoveryDTO;
@@ -97,6 +98,7 @@ public class VisionCanvasAssembler {
                 .executionEnabled(visionProperties.isExecutionEnabled())
                 .runtimeContext(runtimeContext(conversation, turn))
                 .workspaceHandoff(workspaceHandoff)
+                .webAction(webAction(conversation, workspaceHandoff))
                 .executionCandidate(executionCandidate)
                 .questDiscovery(questDiscovery)
                 .searchDiscovery(searchDiscovery)
@@ -108,6 +110,119 @@ public class VisionCanvasAssembler {
                 .review(toReview(conversation.getSlotData(), turn))
                 .recentConversations(recentConversations)
                 .build();
+            }
+
+    private VisionWebActionDTO webAction(VisionConversation conversation, VisionWorkspaceHandoffDTO workspaceHandoff) {
+        if (conversation == null || conversation.getIntent() == null || workspaceHandoff == null) {
+            return null;
+        }
+
+        String routeKey;
+        String canonicalPath;
+        String entityFamily;
+        String label;
+        String targetId = null;
+        String action = "NAVIGATE_TO_SURFACE";
+        switch (conversation.getIntent()) {
+            case VIEW_MY_WORK -> {
+                routeKey = "work.my_quests";
+                canonicalPath = "/work/quests";
+                entityFamily = "quest";
+                label = "My Work";
+            }
+            case VIEW_APPLICATIONS -> {
+                routeKey = "work.applications";
+                canonicalPath = "/work/applications";
+                entityFamily = "application";
+                label = "Applications";
+            }
+            case VIEW_CIRCLES -> {
+                routeKey = "circles.index";
+                canonicalPath = "/circles";
+                entityFamily = "circle";
+                label = "Circles";
+            }
+            case VIEW_PROFILE -> {
+                routeKey = "profile.index";
+                canonicalPath = "/profile";
+                entityFamily = "profile";
+                label = "Profile";
+            }
+            case VIEW_THINGS -> {
+                routeKey = "things.index";
+                canonicalPath = "/things";
+                entityFamily = "thing";
+                label = "Things";
+            }
+            case VIEW_BUSINESS_BOOKINGS -> {
+                routeKey = "business.bookings";
+                canonicalPath = "/business/bookings";
+                entityFamily = "business";
+                label = "Business bookings";
+            }
+            case VIEW_CHAT_WORKSPACE, OPEN_CHAT, SYNC_CHAT -> {
+                routeKey = "chat.index";
+                canonicalPath = "/chat";
+                entityFamily = "chat";
+                label = "Chat";
+            }
+            case VIEW_NOTIFICATIONS -> {
+                routeKey = "notifications.index";
+                canonicalPath = "/notifications";
+                entityFamily = "notification";
+                label = "Notifications";
+            }
+            case VIEW_ACTIVITY, VIEW_QUEST_NEWS -> {
+                routeKey = "activity.index";
+                canonicalPath = "/activity";
+                entityFamily = "activity";
+                label = "Activity";
+            }
+            case VIEW_QUEST_DETAIL -> {
+                action = "OPEN_ENTITY_DETAIL";
+                routeKey = "work.quest_detail";
+                entityFamily = "quest";
+                label = conversation.getSlotData().getOrDefault("resolved_quest_title", "Work detail");
+                targetId = conversation.getSlotData().get("resolved_quest_id");
+                if (targetId == null || targetId.isBlank()) {
+                    return null;
+                }
+                canonicalPath = "/work/quests/" + targetId;
+            }
+            default -> {
+                return null;
+            }
+        }
+
+        return VisionWebActionDTO.builder()
+                .contractVersion("vision-web-action-v1")
+                .action(action)
+                .routeKey(routeKey)
+                .canonicalPath(canonicalPath)
+                .entityFamily(entityFamily)
+                .targetId(parseLong(targetId))
+                .preview(false)
+                .focus(null)
+                .filters(Map.of())
+                .comparisonTargetIds(List.of())
+                .viewerSafeLabel(label)
+                .returnContext(workspaceHandoff == null ? null : workspaceHandoff.getReturnTo())
+                .allowedActions(List.of("OPEN"))
+                .requiresConfirmation(false)
+                .ambiguous(false)
+                .recoveryOptions(List.of("RETRY", "OPEN_DIRECTLY"))
+                .build();
+    }
+
+    private Long parseLong(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        try {
+            return Long.valueOf(value);
+        } catch (NumberFormatException ignored) {
+            return null;
+        }
     }
 
     private String workflowState(VisionConversation conversation, VisionTurn turn) {

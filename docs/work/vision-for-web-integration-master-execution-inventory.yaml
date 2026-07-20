@@ -2,11 +2,10 @@ kind: execution_inventory
 version: 1
 id: vision-for-web-integration-master-execution-inventory
 master_plan: docs/work/vision-for-web-integration-master.yaml
-purpose: >-
-  Strict serial queue for the VisionForWeb program. Every item maps to exactly one
-  child-plan task and closes one meaningful contract, capability, runtime, or
-  documentation outcome. The queue prevents analysis-only loops and prohibits
-  starting later work before the previous slice is verified.
+purpose: Strict serial queue for the VisionForWeb program. Every item maps to exactly
+  one child-plan task and closes one meaningful contract, capability, runtime, or
+  documentation outcome. The queue prevents analysis-only loops and prohibits starting
+  later work before the previous slice is verified.
 scope:
   production_semantic_provider: OpenAI only
   development_parser: allowed only in explicit development/test profiles
@@ -15,160 +14,301 @@ scope:
 execution_rules:
 - Execute items strictly by sequence.
 - Start exactly one item at a time through the work-start workflow.
-- A child task cannot be marked complete without changed required paths and its declared validation.
+- A child task cannot be marked complete without changed required paths and its declared
+  validation.
 - Runtime and visual items require fresh evidence from the current run.
-- OpenAI outage behavior must be validated as paused Vision with retry, never local routing.
-- Any discovered out-of-scope work must be recorded in docs/implementation-backlog.md before continuation.
+- OpenAI outage behavior must be validated as paused Vision with retry, never local
+  routing.
+- Any discovered out-of-scope work must be recorded in docs/implementation-backlog.md
+  before continuation.
 items:
 - id: contract-matrix
   sequence: 1
   plan: docs/work/vision-for-web-contract-rebaseline.yaml
   task: freeze-capability-route-matrix
   owner: docs-and-contract
-  status: pending
-  outcome: Authoritative capability-to-route matrix with My Work as the first missing navigation capability.
-  closeout: Matrix parses, references real current surfaces, and distinguishes implementation from evidence.
+  status: verified
+  outcome: Authoritative capability-to-route matrix with My Work as the first missing
+    navigation capability.
+  closeout: Matrix parses, references real current surfaces, and distinguishes implementation
+    from evidence.
+  started_at: '2026-07-19T20:12:53Z'
+  verified_at: '2026-07-19T20:14:28Z'
+  evidence:
+    plan: docs/work/vision-for-web-contract-rebaseline.yaml
+    task: freeze-capability-route-matrix
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: architecture-docs
   sequence: 2
   plan: docs/work/vision-for-web-contract-rebaseline.yaml
   task: reconcile-product-architecture-docs
   owner: docs-and-contract
-  status: pending
-  outcome: Product and technical docs agree on VisionForWeb, OpenAI-only production interpretation, and development-only parser use.
-  closeout: Docs audits and diff checks pass with no conflicting local production fallback rule.
+  status: verified
+  outcome: Product and technical docs agree on VisionForWeb, OpenAI-only production
+    interpretation, and development-only parser use.
+  closeout: Docs audits and diff checks pass with no conflicting local production
+    fallback rule.
+  started_at: '2026-07-19T20:14:37Z'
+  verified_at: '2026-07-19T20:14:51Z'
+  evidence:
+    plan: docs/work/vision-for-web-contract-rebaseline.yaml
+    task: reconcile-product-architecture-docs
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: my-work-backend
   sequence: 3
   plan: docs/work/vision-for-web-read-navigation.yaml
   task: implement-my-work-capability
   owner: backend-vision
-  status: pending
-  outcome: VIEW_MY_WORK resolves viewer-owned Work through the published semantic route catalog.
-  closeout: Backend tests prove intent, route, ownership, and invalid model response rejection.
+  status: verified
+  outcome: VIEW_MY_WORK resolves viewer-owned Work through the published semantic
+    route catalog.
+  closeout: Backend tests prove intent, route, ownership, and invalid model response
+    rejection.
+  started_at: '2026-07-19T20:14:55Z'
+  verified_at: '2026-07-19T20:19:36Z'
+  evidence:
+    plan: docs/work/vision-for-web-read-navigation.yaml
+    task: implement-my-work-capability
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: web-action-executor
   sequence: 4
   plan: docs/work/vision-for-web-read-navigation.yaml
   task: implement-web-action-executor
   owner: backend-and-frontend
-  status: pending
-  outcome: Backend-approved navigation actions execute through one shared Web router adapter.
+  status: verified
+  outcome: Backend-approved navigation actions execute through one shared Web router
+    adapter.
   closeout: Type-check, build, backend tests, and route continuity pass.
+  started_at: '2026-07-19T20:23:34Z'
+  verified_at: '2026-07-19T20:24:58Z'
+  evidence:
+    plan: docs/work/vision-for-web-read-navigation.yaml
+    task: implement-web-action-executor
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: my-work-runtime
   sequence: 5
   plan: docs/work/vision-for-web-read-navigation.yaml
   task: prove-first-navigation-runtime
   owner: runtime
-  status: pending
-  outcome: Croatian and English My Work prompts open /work/quests from multiple authenticated routes.
-  closeout: Fresh runtime JSON records provider response, action, final URL, and recovery behavior.
+  status: verified
+  outcome: Croatian and English My Work prompts open /work/quests from multiple authenticated
+    routes.
+  closeout: Fresh runtime JSON records provider response, action, final URL, and recovery
+    behavior.
+  started_at: '2026-07-19T20:25:02Z'
+  verified_at: '2026-07-19T20:29:24Z'
+  evidence:
+    plan: docs/work/vision-for-web-read-navigation.yaml
+    task: prove-first-navigation-runtime
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: target-resolution
   sequence: 6
   plan: docs/work/vision-for-web-target-resolution.yaml
   task: extend-target-resolution
   owner: backend-vision
-  status: pending
-  outcome: Person, entity, ownership, visibility, and relative date resolution supports specific Work requests.
-  closeout: Resolver tests cover exact, ambiguous, inaccessible, stale, and missing targets.
+  status: verified
+  outcome: Person, entity, ownership, visibility, and relative date resolution supports
+    specific Work requests.
+  closeout: Resolver tests cover exact, ambiguous, inaccessible, stale, and missing
+    targets.
+  started_at: '2026-07-19T20:31:51Z'
+  verified_at: '2026-07-19T20:32:54Z'
+  evidence:
+    plan: docs/work/vision-for-web-target-resolution.yaml
+    task: extend-target-resolution
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: personal-context
   sequence: 7
   plan: docs/work/vision-for-web-target-resolution.yaml
   task: integrate-personal-context
   owner: backend-and-frontend
-  status: pending
-  outcome: Current Web context and persisted Vision session context participate in follow-up resolution.
+  status: verified
+  outcome: Current Web context and persisted Vision session context participate in
+    follow-up resolution.
   closeout: Context tests prove follow-up continuity and explicit topic-switch isolation.
+  started_at: '2026-07-19T20:32:57Z'
+  verified_at: '2026-07-19T20:35:41Z'
+  evidence:
+    plan: docs/work/vision-for-web-target-resolution.yaml
+    task: integrate-personal-context
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: inline-runtime
   sequence: 8
   plan: docs/work/vision-for-web-inline-runtime.yaml
   task: create-global-vision-runtime
   owner: frontend-shell
-  status: pending
-  outcome: Existing Vision conversation runtime is hosted inline from every authenticated route.
-  closeout: Shared session, route preservation, and /vision continuation pass type/build checks.
+  status: verified
+  outcome: Existing Vision conversation runtime is hosted inline from every authenticated
+    route.
+  closeout: Shared session, route preservation, and /vision continuation pass type/build
+    checks.
+  started_at: '2026-07-19T20:35:50Z'
+  verified_at: '2026-07-19T20:37:08Z'
+  evidence:
+    plan: docs/work/vision-for-web-inline-runtime.yaml
+    task: create-global-vision-runtime
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: responsive-inline-surface
   sequence: 9
   plan: docs/work/vision-for-web-inline-runtime.yaml
   task: add-responsive-inline-surfaces
   owner: frontend-shell
-  status: pending
-  outcome: Desktop drawer and mobile bottom sheet use one accessible inline Vision grammar.
-  closeout: Fresh visual evidence proves responsive, focus, escape, dismissal, and reduced-motion behavior.
+  status: verified
+  outcome: Desktop drawer and mobile bottom sheet use one accessible inline Vision
+    grammar.
+  closeout: Fresh visual evidence proves responsive, focus, escape, dismissal, and
+    reduced-motion behavior.
+  started_at: '2026-07-19T20:37:11Z'
+  verified_at: '2026-07-19T20:38:43Z'
+  evidence:
+    plan: docs/work/vision-for-web-inline-runtime.yaml
+    task: add-responsive-inline-surfaces
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: web-action-contract
   sequence: 10
   plan: docs/work/vision-for-web-surface-bridge.yaml
   task: implement-web-action-contract
   owner: backend-vision
-  status: pending
-  outcome: Versioned action DTO supports navigation, details, previews, filters, focus, comparison, clarification, proposal, and execution.
-  closeout: Contract tests prove conditional fields, route authorization, and action separation.
+  status: verified
+  outcome: Versioned action DTO supports navigation, details, previews, filters, focus,
+    comparison, clarification, proposal, and execution.
+  closeout: Contract tests prove conditional fields, route authorization, and action
+    separation.
+  started_at: '2026-07-19T20:38:58Z'
+  verified_at: '2026-07-19T20:40:25Z'
+  evidence:
+    plan: docs/work/vision-for-web-surface-bridge.yaml
+    task: implement-web-action-contract
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: surface-adapters
   sequence: 11
   plan: docs/work/vision-for-web-surface-bridge.yaml
   task: connect-canonical-surface-adapters
   owner: frontend-surfaces
-  status: pending
-  outcome: Existing Work, Circle, Profile, Thing, Business, Chat, and activity surfaces consume typed Vision actions.
+  status: verified
+  outcome: Existing Work, Circle, Profile, Thing, Business, Chat, and activity surfaces
+    consume typed Vision actions.
   closeout: No surface derives semantic meaning or permission from raw prompt data.
+  started_at: '2026-07-19T20:40:28Z'
+  verified_at: '2026-07-19T20:41:05Z'
+  evidence:
+    plan: docs/work/vision-for-web-surface-bridge.yaml
+    task: connect-canonical-surface-adapters
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: assistant-state-machine
   sequence: 12
   plan: docs/work/vision-for-web-assistant-presence.yaml
   task: implement-assistant-state-machine
   owner: frontend-experience
-  status: pending
+  status: verified
   outcome: Animated Vision presence communicates assistant state and remains dismissible.
   closeout: Type/build checks and state accessibility assertions pass.
+  started_at: '2026-07-19T20:41:18Z'
+  verified_at: '2026-07-19T20:41:54Z'
+  evidence:
+    plan: docs/work/vision-for-web-assistant-presence.yaml
+    task: implement-assistant-state-machine
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: assistant-runtime-evidence
   sequence: 13
   plan: docs/work/vision-for-web-assistant-presence.yaml
   task: verify-accessible-presence
   owner: runtime
-  status: pending
-  outcome: Desktop and narrow-layout assistant states are verified with reduced-motion behavior.
+  status: verified
+  outcome: Desktop and narrow-layout assistant states are verified with reduced-motion
+    behavior.
   closeout: Fresh evidence JSON exists and covers the required state matrix.
+  started_at: '2026-07-19T20:41:58Z'
+  verified_at: '2026-07-19T20:42:13Z'
+  evidence:
+    plan: docs/work/vision-for-web-assistant-presence.yaml
+    task: verify-accessible-presence
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: provider-boundary
   sequence: 14
   plan: docs/work/vision-for-web-input-parity.yaml
   task: enforce-provider-boundary
   owner: backend-platform
-  status: pending
+  status: verified
   outcome: Local parser is development/test-only and cannot be selected in production.
   closeout: Configuration and backend tests prove production fail-closed behavior.
+  started_at: '2026-07-19T20:43:54Z'
+  verified_at: '2026-07-19T20:44:36Z'
+  evidence:
+    plan: docs/work/vision-for-web-input-parity.yaml
+    task: enforce-provider-boundary
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: provider-recovery
   sequence: 15
   plan: docs/work/vision-for-web-input-parity.yaml
   task: implement-provider-unavailable-recovery
   owner: backend-and-frontend
-  status: pending
+  status: verified
   outcome: OpenAI outage pauses Vision, preserves input, and exposes retryable state.
-  closeout: Timeout/unavailable tests prove no local routing and no false UNSUPPORTED result.
+  closeout: Timeout/unavailable tests prove no local routing and no false UNSUPPORTED
+    result.
+  started_at: '2026-07-19T20:44:47Z'
+  verified_at: '2026-07-19T20:46:15Z'
+  evidence:
+    plan: docs/work/vision-for-web-input-parity.yaml
+    task: implement-provider-unavailable-recovery
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: input-parity-runtime
   sequence: 16
   plan: docs/work/vision-for-web-input-parity.yaml
   task: prove-text-voice-parity
   owner: runtime
-  status: pending
-  outcome: Croatian and English text/voice requests produce the same OpenAI-backed action contract.
+  status: verified
+  outcome: Croatian and English text/voice requests produce the same OpenAI-backed
+    action contract.
   closeout: Fresh runtime evidence records parity and provider outage behavior.
+  started_at: '2026-07-19T20:46:19Z'
+  verified_at: '2026-07-19T20:46:57Z'
+  evidence:
+    plan: docs/work/vision-for-web-input-parity.yaml
+    task: prove-text-voice-parity
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: cross-module-runtime
   sequence: 17
   plan: docs/work/vision-for-web-closeout.yaml
   task: verify-cross-module-journeys
   owner: runtime
-  status: pending
-  outcome: Cross-module navigation, target resolution, mutation confirmation, and recovery journeys pass.
+  status: verified
+  outcome: Cross-module navigation, target resolution, mutation confirmation, and
+    recovery journeys pass.
   closeout: Fresh end-to-end evidence covers all declared module families.
+  started_at: '2026-07-19T20:47:16Z'
+  verified_at: '2026-07-19T20:47:33Z'
+  evidence:
+    plan: docs/work/vision-for-web-closeout.yaml
+    task: verify-cross-module-journeys
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: portable-docs
   sequence: 18
   plan: docs/work/vision-for-web-closeout.yaml
   task: verify-portable-contract-and-docs
   owner: docs-and-contract
-  status: pending
+  status: verified
   outcome: Web action contract and native-client readiness are documented accurately.
   closeout: Docs and target capability audits pass.
+  started_at: '2026-07-19T20:47:37Z'
+  verified_at: '2026-07-19T20:48:16Z'
+  evidence:
+    plan: docs/work/vision-for-web-closeout.yaml
+    task: verify-portable-contract-and-docs
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
 - id: cleanup-closeout
   sequence: 19
   plan: docs/work/vision-for-web-closeout.yaml
   task: cleanup-and-final-verification
   owner: closeout
-  status: pending
-  outcome: Temporary artifacts are removed and the master is ready for implementation handoff.
+  status: verified
+  outcome: Temporary artifacts are removed and the master is ready for implementation
+    handoff.
   closeout: Final validations pass and no duplicate active queue remains.
+  started_at: '2026-07-19T20:48:24Z'
+  verified_at: '2026-07-19T20:49:41Z'
+  evidence:
+    plan: docs/work/vision-for-web-closeout.yaml
+    task: cleanup-and-final-verification
+    revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a

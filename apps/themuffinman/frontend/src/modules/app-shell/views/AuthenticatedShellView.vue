@@ -4,6 +4,7 @@ import {RouterLink, RouterView, useRoute} from "vue-router"
 import {appPersonalShortcuts, authenticatedShellContract, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
 import {buildSurfaceVisionPrompt, buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
 import GlobalVisionEntry from "../components/GlobalVisionEntry.vue"
+import VisionForWebHost from "../components/VisionForWebHost.vue"
 import AccountMenu from "../components/AccountMenu.vue"
 import UniversalCreateMenu from "../components/UniversalCreateMenu.vue"
 import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
@@ -115,6 +116,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
           <GlobalSearchEntry />
           <QuickSwitcher />
           <GlobalVisionEntry :context="currentContextLabel" :placeholder="visionPlaceholder" :contextual-route="contextualVisionRoute" />
+          <VisionForWebHost :context="currentContextLabel" :source="`shell.surface.${currentSurfaceId ?? 'workspace'}`" :return-to="route.fullPath" />
           <WorkspaceKeyboardHelp />
           <AppActionMenu label="Open personal shortcuts">
             <RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to">{{ item.label }}</RouterLink>

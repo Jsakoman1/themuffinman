@@ -1,0 +1,28 @@
+{
+  "evidenceVersion": "vision-assistant-presence-v1",
+  "capturedAt": "2026-07-19T20:42:00Z",
+  "environment": "local-dev",
+  "desktop": {
+    "surface": "/work",
+    "host": "VisionForWebHost",
+    "states": ["idle", "thinking", "navigating", "result", "clarification", "unavailable", "recovery"],
+    "keyboard": ["Enter submits", "Escape dismisses"],
+    "screenshot": "docs/runtime-evidence/vision-for-web-inline-visual.png"
+  },
+  "narrow_layout": {
+    "presentation": "fixed responsive panel",
+    "same_state_grammar": true,
+    "dismissible": true
+  },
+  "accessibility": {
+    "assistant_role": "img",
+    "status_text_remains_visible": true,
+    "reduced_motion": "pulse animation disabled with prefers-reduced-motion",
+    "animation_triggers_no_mutation": true
+  },
+  "provider_unavailable": {
+    "state": "unavailable",
+    "recovery": "retry remains user initiated"
+  },
+  "result": "passed"
+}

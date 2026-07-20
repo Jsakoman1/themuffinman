@@ -1,5 +1,12 @@
 # Vision Status Ledger
 
+## VisionForWeb implementation status
+
+- Verified: backend-owned `VIEW_MY_WORK` route and `vision-web-action-v1` navigation/detail contract.
+- Verified: authenticated-shell inline host with responsive presentation, keyboard dismissal, and reduced-motion behavior.
+- Verified: production configuration disables local emergency parsing by default; development profile may use labeled deterministic fixtures.
+- Deferred: OpenAI-backed production runtime evidence requires a configured `OPENAI_API_KEY`; local-dev evidence does not claim provider evidence.
+
 This file is the compact continuity ledger for `/vision`.
 
 It should stay short, factual, and updated when a vision batch materially changes current capability or intentionally defers a capability.

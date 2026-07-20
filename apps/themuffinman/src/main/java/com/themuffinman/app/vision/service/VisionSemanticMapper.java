@@ -66,7 +66,7 @@ public class VisionSemanticMapper {
             return null;
         }
         return switch (intent) {
-            case CREATE_QUEST, VIEW_QUEST_DETAIL, VIEW_QUEST_NEWS -> "quests";
+            case CREATE_QUEST, VIEW_QUEST_DETAIL, VIEW_MY_WORK, VIEW_QUEST_NEWS -> "quests";
             case VIEW_NOTIFICATIONS -> "notifications";
             case VIEW_ACTIVITY -> "activity";
             case DISCOVER_QUESTS, SEARCH -> "search";

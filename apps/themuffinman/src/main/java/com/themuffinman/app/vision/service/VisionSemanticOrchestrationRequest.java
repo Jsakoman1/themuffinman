@@ -143,6 +143,9 @@ class VisionSemanticRuntimeContext {
     private String clientDeviceRole;
     private List<String> clientCapabilities;
     private String clientStateVersion;
+    private String workspaceContext;
+    private String workspaceSource;
+    private String workspaceReturnTo;
 }
 
 @Getter

@@ -25,10 +25,11 @@ class VisionSemanticRouteCatalogServiceTest {
 
         var routes = service.allowedRoutes(user);
 
-        assertEquals(89, routes.size());
+        assertEquals(90, routes.size());
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals(SemanticEntityFamily.NOTIFICATIONS, service.entityFamilyForIntent(VisionIntent.VIEW_NOTIFICATIONS));
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.VIEW_QUEST_NEWS));
+        assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.VIEW_MY_WORK));
         assertEquals(SemanticEntityFamily.BUSINESS, service.entityFamilyForIntent(VisionIntent.VIEW_BUSINESS));
         assertEquals(SemanticEntityFamily.BUSINESS, service.entityFamilyForIntent(VisionIntent.VIEW_BUSINESS_AVAILABILITY));
         assertEquals("QuestRequestDTO", service.dtoTypeForIntent(VisionIntent.CREATE_QUEST));
@@ -138,6 +139,7 @@ class VisionSemanticRouteCatalogServiceTest {
                         "VIEW_CIRCLE_DETAIL",
                         "VIEW_ACCESSIBLE_CIRCLE",
                         "VIEW_QUEST_DETAIL",
+                        "VIEW_MY_WORK",
                         "VIEW_NOTIFICATIONS",
                         "VIEW_ACTIVITY",
                         "VIEW_QUEST_NEWS",
@@ -233,6 +235,7 @@ class VisionSemanticRouteCatalogServiceTest {
                         "view_circle_detail",
                         "view_accessible_circle",
                         "view_quest_detail",
+                        "work.quest.view_own",
                         "view_notifications",
                         "view_activity",
                         "view_quest_news",
@@ -245,6 +248,7 @@ class VisionSemanticRouteCatalogServiceTest {
         assertNotNull(service.routeForIntent("CREATE_QUEST"));
         assertNotNull(service.routeForIntent("VIEW_NOTIFICATIONS"));
         assertNotNull(service.routeForIntent("VIEW_THINGS"));
+        assertNotNull(service.routeForIntent("VIEW_MY_WORK"));
         assertNotNull(service.routeForIntent("VIEW_THING_DETAIL"));
         assertNotNull(service.routeForIntent("VIEW_SETTINGS"));
         assertNotNull(service.routeForIntent("SEARCH"));
@@ -413,7 +417,7 @@ class VisionSemanticRouteCatalogServiceTest {
             }
         }
 
-        assertEquals(89, routes.size());
+        assertEquals(90, routes.size());
         assertEquals(
                 Set.of(
                         "create_quest",

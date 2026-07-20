@@ -259,7 +259,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="vision-console" aria-live="polite" :aria-busy="props.isLoading || props.voiceState === 'processing'">
+  <section class="vision-console" aria-live="polite" :aria-busy="props.isLoading || props.voiceState === 'processing'" :data-provider-state="props.response?.message?.includes('OpenAI semantic provider') ? 'unavailable' : 'ready'">
     <div class="vision-console__paper">
       <header v-if="props.runtimeContext" class="vision-console__runtime">
         <div class="vision-console__runtime-state">

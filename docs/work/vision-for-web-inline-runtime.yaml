@@ -2,14 +2,13 @@ kind: work
 version: 1
 id: vision-for-web-inline-runtime
 title: Host the existing Vision conversation runtime inline across the Web shell
-status: draft
+status: verified
 baseline: 8e422fe
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/vision-for-web-integration-master-execution-inventory.yaml
 master_plan: docs/work/vision-for-web-integration-master.yaml
-objective: >-
-  Add one shared inline VisionForWeb host to the authenticated shell while
+objective: Add one shared inline VisionForWeb host to the authenticated shell while
   retaining the existing /vision full-screen canvas and persisted conversation API.
 depends_on:
 - docs/work/vision-for-web-read-navigation.yaml
@@ -17,8 +16,9 @@ tasks:
 - id: create-global-vision-runtime
   title: Create a shared Web Vision session and context host
   type: implementation
-  status: pending
+  status: done
   sequence: 1
+  inventory_item: inline-runtime
   paths:
   - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
   - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
@@ -27,16 +27,24 @@ tasks:
   required_paths:
   - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
   - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
-  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
   acceptance:
-  - Vision can open and close from every authenticated route without losing the current route or conversation.
+  - Vision can open and close from every authenticated route without losing the current
+    route or conversation.
   - The host reuses the existing conversation endpoint and renderer contracts.
-  - /vision remains available as a full-screen host for the same persisted session.
+  - "/vision remains available as a full-screen host for the same persisted session."
+  started_at: '2026-07-19T20:35:50Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts: f295bd6465e911250a1f09f5791405bc97c1df3858f5d457fdda3451761deb21
+    apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue: __missing__
 - id: add-responsive-inline-surfaces
-  title: Add desktop drawer, mobile bottom sheet, keyboard access, and dismissible behavior
+  title: Add desktop drawer, mobile bottom sheet, keyboard access, and dismissible
+    behavior
   type: implementation
-  status: pending
+  status: done
   sequence: 2
+  inventory_item: responsive-inline-surface
   depends_on: create-global-vision-runtime
   paths:
   - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
@@ -44,10 +52,94 @@ tasks:
   - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
   required_paths:
   - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
-  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
   requires_visual_evidence: true
   visual_evidence_paths:
   - docs/runtime-evidence/vision-for-web-inline-visual.png
   acceptance:
   - Desktop and mobile use one interaction grammar with appropriate presentation.
   - Focus, escape, reduced motion, and dismissal behavior are accessible.
+  started_at: '2026-07-19T20:37:11Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue: 2be8ad4d5f82367e9ebb9918c7a0daf14a3c5d5b5b430d80237e5a574b80e1a3
+evidence:
+- task: create-global-vision-runtime
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-19T20:37:04Z'
+  revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  output: |+
+    dist/assets/ThingsDiscoveryView-C9VJpOyo.js                   10.86 kB │ gzip:   3.39 kB
+    dist/assets/CirclesView-DDfYLRCJ.js                           10.96 kB │ gzip:   3.27 kB
+    dist/assets/WorkspaceSurfaceView-BD6jkPZy.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-DPCZnGXb.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-g7aNutbE.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-Dn8IvnBI.js                             12.55 kB │ gzip:   3.93 kB
+    dist/assets/ChatSurfaceView-Bu4-nqLQ.js                       15.52 kB │ gzip:   5.10 kB
+    dist/assets/userShellApi-Ba22PryV.js                          16.44 kB │ gzip:   3.34 kB
+    dist/assets/useVisionForWeb-h2ujusPO.js                       17.26 kB │ gzip:   5.69 kB
+    dist/assets/SurfaceHeader-CaVl24g_.js                         17.87 kB │ gzip:   5.32 kB
+    dist/assets/ProfileLocationSettingsView-CIfrGrjF.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/VisionSurfaceModernView-DSNVeLT1.js               22.02 kB │ gzip:   6.84 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BvNZO178.js                27.78 kB │ gzip:   8.78 kB
+    dist/assets/index-CKKJ8R8O.js                                 29.63 kB │ gzip:   8.54 kB
+    dist/assets/vendor-CXxuD-Mh.js                                50.26 kB │ gzip:  19.70 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 520ms
+
+  startedAt: '2026-07-19T20:35:50Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: add-responsive-inline-surfaces
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-19T20:38:39Z'
+  revision: 247bc7597f4c85bdf50f9196869ffcff5268f72a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-Cg9I_8W4.js                   10.86 kB │ gzip:   3.39 kB
+    dist/assets/CirclesView-yTDvcku7.js                           10.96 kB │ gzip:   3.27 kB
+    dist/assets/WorkspaceSurfaceView-B0HFm1I0.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-B6oK36R_.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-B_IpoWJN.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-BEnwX3T8.js                             12.55 kB │ gzip:   3.93 kB
+    dist/assets/ChatSurfaceView-CESpNjuX.js                       15.52 kB │ gzip:   5.09 kB
+    dist/assets/userShellApi-DQs7bSXv.js                          16.44 kB │ gzip:   3.33 kB
+    dist/assets/useVisionForWeb-CCEk3cQl.js                       17.26 kB │ gzip:   5.69 kB
+    dist/assets/SurfaceHeader-DAuGscTU.js                         17.87 kB │ gzip:   5.32 kB
+    dist/assets/ProfileLocationSettingsView-DGzT_W0f.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/VisionSurfaceModernView-CqaMu7W9.js               22.02 kB │ gzip:   6.84 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-PCcy598V.js                27.93 kB │ gzip:   8.81 kB
+    dist/assets/index-6K5ilFmR.js                                 29.63 kB │ gzip:   8.53 kB
+    dist/assets/vendor-CXxuD-Mh.js                                50.26 kB │ gzip:  19.70 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 574ms
+
+  startedAt: '2026-07-19T20:37:11Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  requiredPaths: *2
+  visualEvidencePaths:
+  - docs/runtime-evidence/vision-for-web-inline-visual.png
+  runtimeEvidencePaths: []
