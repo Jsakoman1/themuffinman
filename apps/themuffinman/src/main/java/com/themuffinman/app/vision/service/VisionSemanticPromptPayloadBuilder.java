@@ -36,6 +36,8 @@ final class VisionSemanticPromptPayloadBuilder {
                 Use memoryContext.recentConversations only as lightweight reminders when topics switch.
                 Use runtimeContext to know whether the turn came from text or voice.
                 Use conversationContext for already collected slot data, activeSlot, and draftSnapshot.
+                Use candidateContexts as request-scoped, viewer-authorized semantic evidence. Select only a supplied candidate; candidate ids never grant permission.
+                If candidateContexts is complete, all eligible candidates are present. If it is partial, absence is not proof of non-existence; set broadenSearch or clarificationRequired when needed.
                 Use semanticHints.familyAliases to map multilingual aliases and paraphrases to the correct family before choosing targetEntityQuery.
                 Use route examples and slot aliases to resolve the shortest valid slot value from the user wording.
                 Use slot anti-examples to avoid mapping instruction words into slot values.
@@ -71,9 +73,29 @@ final class VisionSemanticPromptPayloadBuilder {
         compact.put("conversationContext", compactConversationContext(orchestrationRequest.getConversationContext()));
         compact.put("memoryContext", compactMemoryContext(orchestrationRequest.getMemoryContext()));
         compact.put("runtimeContext", compactRuntimeContext(orchestrationRequest.getRuntimeContext()));
+        compact.put("candidateContexts", compactCandidateContexts(orchestrationRequest.getCandidateContexts()));
         compact.put("allowedRoutes", compactRoutes(orchestrationRequest.getAllowedRoutes()));
         compact.put("responseContract", orchestrationRequest.getResponseContract());
         return compact;
+    }
+
+    private List<Map<String, Object>> compactCandidateContexts(List<VisionCandidateContext> contexts) {
+        if (contexts == null || contexts.isEmpty()) {
+            return List.of();
+        }
+        return contexts.stream().map(context -> {
+            Map<String, Object> compact = new LinkedHashMap<>();
+            compact.put("contractVersion", context.getContractVersion());
+            compact.put("family", context.getFamily());
+            compact.put("scope", context.getScope());
+            compact.put("requestId", context.getRequestId());
+            compact.put("complete", context.isComplete());
+            compact.put("totalCandidates", context.getTotalCandidates());
+            compact.put("returnedCandidates", context.getReturnedCandidates());
+            compact.put("retrievalStrategy", context.getRetrievalStrategy());
+            compact.put("items", context.getItems());
+            return compact;
+        }).toList();
     }
 
     private Map<String, Object> compactUserContext(VisionSemanticUserContext context) {

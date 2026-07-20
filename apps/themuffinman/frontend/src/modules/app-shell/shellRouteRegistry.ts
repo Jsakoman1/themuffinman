@@ -312,6 +312,8 @@ export type VisionWebRouteContract = {
   requiresTarget: boolean
 }
 
+export const visionWebActionContractVersion = "vision-web-action-v2"
+
 // Backend publishes routeKey/action/canonicalPath. The Web client only accepts
 // combinations declared here; it never turns a natural-language target into a URL.
 export const visionWebRouteContracts: VisionWebRouteContract[] = [
@@ -350,9 +352,11 @@ export const visionWebRouteContracts: VisionWebRouteContract[] = [
 
 export const isVisionWebActionRouteAllowed = (action: {action: string; routeKey: string; canonicalPath: string; targetId: number | null}) => {
   const contract = visionWebRouteContracts.find((candidate) => candidate.routeKey === action.routeKey && candidate.action === action.action)
+  const pathTargetId = action.canonicalPath.match(/\/(\d+)$/)?.[1] ?? null
   return contract !== undefined
     && contract.pathPattern.test(action.canonicalPath)
     && (!contract.requiresTarget || action.targetId != null)
+    && (!contract.requiresTarget || pathTargetId === String(action.targetId))
 }
 
 export const resolveSurfaceDetailRoute = (surfaceId: AppSurfaceId, targetId: number): RouteLocationRaw | null => {

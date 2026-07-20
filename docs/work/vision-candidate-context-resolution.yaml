@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: vision-candidate-context-resolution
+title: Re-resolve, authorize, and recover candidate targets
+status: verified
+baseline: f637bef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-candidate-context-execution-inventory.yaml
+master_plan: docs/work/vision-candidate-context-master.yaml
+depends_on:
+- docs/work/vision-candidate-context-openai-integration.yaml
+tasks:
+- id: implement-requery-authorization-and-recovery
+  title: Apply shared target resolution, authorization, ambiguity, and stale recovery
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: harden-resolution-authorization-and-recovery
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionDetailConversationTurnSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Unique owned and visible targets open canonical detail routes.
+  - Multiple matches produce a typed clarification or candidate choices without navigation.
+  - Stale, inaccessible, and revoked targets fail closed without private-existence
+    leakage.
+  - Partial retrieval can request broaden-search rather than falsely report no result.
+  - Mutations preserve review and confirmation boundaries.
+  must_prove:
+  - Every emitted target id is freshly authorized by the backend.
+  started_at: '2026-07-20T17:55:49Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java: 57cb042406e62a1313967aad9403501193701b1c571e86dfc7f666aca7293410
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: 5d9dc76389e312d3fbde7f7f1ed0ff0892e93fb0ffa234f2b67dd177a105a900
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service: __missing__
+evidence:
+- task: implement-requery-authorization-and-recovery
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T17:57:25Z'
+  revision: f637bef1795ca5d291cd8f215db8c26205393647
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 770, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  21.239 s\n[INFO] Finished at: 2026-07-20T19:57:47+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T17:55:49Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,91 @@
+kind: work
+version: 1
+id: vision-candidate-context-providers
+title: Build authorized candidate providers and retrieval
+status: verified
+baseline: f637bef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-candidate-context-execution-inventory.yaml
+master_plan: docs/work/vision-candidate-context-master.yaml
+depends_on:
+- docs/work/vision-candidate-context-contract.yaml
+tasks:
+- id: implement-authorized-candidate-providers
+  title: Add shared candidate providers for all supported Vision entity families
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: build-candidate-provider-and-retrieval-layer
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContext.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateItem.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContextService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContextBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContextProvider.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionWorkCandidateContextProvider.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionApplicationCandidateContextProvider.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCandidateContextProviderTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContext.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContextService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionWorkCandidateContextProvider.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionApplicationCandidateContextProvider.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCandidateContextProviderTest.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Small eligible collections return complete candidate sets.
+  - Large collections return bounded authorized retrieval results with total-count
+    and strategy metadata.
+  - Providers reuse domain read services and never expose inaccessible candidates.
+  - Candidate summaries omit secrets, exact private addresses, and unrelated private
+    fields.
+  must_prove:
+  - Work, applications, people, circles, things, rides, business, bookings, chat,
+    notifications, and activity scopes are covered or explicitly documented as no-candidate
+    navigation.
+  started_at: '2026-07-20T17:45:00Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service: __missing__
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service: __missing__
+evidence:
+- task: implement-authorized-candidate-providers
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T17:48:42Z'
+  revision: f637bef1795ca5d291cd8f215db8c26205393647
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionApplicationCandidateContextProvider.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContext.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContextBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContextProvider.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContextService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateItem.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionWorkCandidateContextProvider.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCandidateContextProviderTest.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 766, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  22.877 s\n[INFO] Finished at: 2026-07-20T19:49:06+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T17:45:00Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContext.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCandidateContextService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionWorkCandidateContextProvider.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionApplicationCandidateContextProvider.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCandidateContextProviderTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

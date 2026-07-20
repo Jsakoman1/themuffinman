@@ -21,6 +21,11 @@ public class PromptSemanticPlan {
     private String planningNote;
     private String searchQuery;
     private String targetUserQuery;
+    private String targetScope;
+    private String selectedCandidateId;
+    private Double selectedCandidateConfidence;
+    private Boolean clarificationRequired;
+    private Boolean broadenSearch;
 
     public static PromptSemanticPlan empty() {
         return PromptSemanticPlan.builder()
@@ -30,6 +35,10 @@ public class PromptSemanticPlan {
                 .planningNote("")
                 .searchQuery("")
                 .targetUserQuery("")
+                .targetScope("")
+                .selectedCandidateId("")
+                .clarificationRequired(false)
+                .broadenSearch(false)
                 .build();
     }
 

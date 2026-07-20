@@ -271,8 +271,16 @@ public class VisionCapabilityPreviewService {
         return visionCapabilityEntityResolutionSupport.resolveMyApplicationDetail(currentUser, query);
     }
 
+    public VisionResolvedApplicationTarget resolveMyApplicationCandidate(AppUser currentUser, String stableCandidateId) {
+        return visionCapabilityEntityResolutionSupport.resolveMyApplicationCandidate(currentUser, stableCandidateId);
+    }
+
     public VisionResolvedQuestTarget resolveVisibleQuest(AppUser currentUser, String query) {
         return visionCapabilityEntityResolutionSupport.resolveVisibleQuest(currentUser, query);
+    }
+
+    public VisionResolvedQuestTarget resolveVisibleQuestCandidate(AppUser currentUser, String stableCandidateId) {
+        return visionCapabilityEntityResolutionSupport.resolveVisibleQuestCandidate(currentUser, stableCandidateId);
     }
 
     public VisionResolvedUserTarget resolveUserProfileTarget(AppUser currentUser, String query) {

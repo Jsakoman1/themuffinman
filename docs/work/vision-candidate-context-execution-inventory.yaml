@@ -1,0 +1,99 @@
+kind: execution_inventory
+version: 1
+id: vision-candidate-context-execution-inventory
+master_plan: docs/work/vision-candidate-context-master.yaml
+purpose: Strict serial queue for the Vision candidate-context program. Each item closes
+  one architectural or implementation contract and must be verified before the next
+  item starts.
+rules:
+- Start exactly one item at a time.
+- Every item maps to one child-plan task and exact required paths.
+- Do not use a fixed top-N rule without complete or partial metadata.
+- Do not treat OpenAI candidate selection as authorization.
+- Keep production interpretation OpenAI-only; local parsing is limited to tests and
+  development fixtures.
+items:
+- id: freeze-contract-and-scope-matrix
+  sequence: 1
+  plan: docs/work/vision-candidate-context-contract.yaml
+  task: define-candidate-and-scope-contract
+  owner: architecture-and-backend
+  status: verified
+  started_at: '2026-07-20T17:42:45Z'
+  verified_at: '2026-07-20T17:44:51Z'
+  evidence:
+    plan: docs/work/vision-candidate-context-contract.yaml
+    task: define-candidate-and-scope-contract
+    revision: f637bef1795ca5d291cd8f215db8c26205393647
+- id: build-candidate-provider-and-retrieval-layer
+  sequence: 2
+  plan: docs/work/vision-candidate-context-providers.yaml
+  task: implement-authorized-candidate-providers
+  owner: backend
+  status: verified
+  started_at: '2026-07-20T17:45:00Z'
+  verified_at: '2026-07-20T17:49:06Z'
+  evidence:
+    plan: docs/work/vision-candidate-context-providers.yaml
+    task: implement-authorized-candidate-providers
+    revision: f637bef1795ca5d291cd8f215db8c26205393647
+- id: integrate-openai-semantic-candidate-contract
+  sequence: 3
+  plan: docs/work/vision-candidate-context-openai-integration.yaml
+  task: integrate-candidate-context-with-openai
+  owner: backend-semantic
+  status: verified
+  started_at: '2026-07-20T17:49:19Z'
+  verified_at: '2026-07-20T17:54:25Z'
+  evidence:
+    plan: docs/work/vision-candidate-context-openai-integration.yaml
+    task: integrate-candidate-context-with-openai
+    revision: f637bef1795ca5d291cd8f215db8c26205393647
+- id: harden-resolution-authorization-and-recovery
+  sequence: 4
+  plan: docs/work/vision-candidate-context-resolution.yaml
+  task: implement-requery-authorization-and-recovery
+  owner: backend
+  status: verified
+  started_at: '2026-07-20T17:55:49Z'
+  verified_at: '2026-07-20T17:57:47Z'
+  evidence:
+    plan: docs/work/vision-candidate-context-resolution.yaml
+    task: implement-requery-authorization-and-recovery
+    revision: f637bef1795ca5d291cd8f215db8c26205393647
+- id: connect-web-actions-and-mutation-boundaries
+  sequence: 5
+  plan: docs/work/vision-candidate-context-client-actions.yaml
+  task: connect-typed-actions-and-client-contracts
+  owner: backend-and-frontend
+  status: verified
+  started_at: '2026-07-20T17:59:52Z'
+  verified_at: '2026-07-20T18:00:36Z'
+  evidence:
+    plan: docs/work/vision-candidate-context-client-actions.yaml
+    task: connect-typed-actions-and-client-contracts
+    revision: f637bef1795ca5d291cd8f215db8c26205393647
+- id: prove-all-supported-action-families
+  sequence: 6
+  plan: docs/work/vision-candidate-context-runtime-closeout.yaml
+  task: capture-action-family-runtime-matrix
+  owner: runtime
+  status: verified
+  started_at: '2026-07-20T18:00:54Z'
+  verified_at: '2026-07-20T18:02:11Z'
+  evidence:
+    plan: docs/work/vision-candidate-context-runtime-closeout.yaml
+    task: capture-action-family-runtime-matrix
+    revision: f637bef1795ca5d291cd8f215db8c26205393647
+- id: runtime-closeout-and-documentation
+  sequence: 7
+  plan: docs/work/vision-candidate-context-runtime-closeout.yaml
+  task: validate-portability-and-closeout
+  owner: control-and-documentation
+  status: verified
+  started_at: '2026-07-20T18:02:19Z'
+  evidence:
+    plan: docs/work/vision-candidate-context-runtime-closeout.yaml
+    task: validate-portability-and-closeout
+    revision: f637bef1795ca5d291cd8f215db8c26205393647
+  verified_at: '2026-07-20T18:04:14Z'

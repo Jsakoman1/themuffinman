@@ -1963,3 +1963,25 @@ Surface navigation and filtering remain backend-owned. `AVAILABLE` returns visib
 - A preview is route-preserving and may only render data already available through a canonical backend detail model. It cannot become a competing detail endpoint or infer an allowed action.
 - Object actions must use the backend DTO's allowed action/primary action fields or an existing authorized endpoint path. `AppActionDialog` confirms intent only; it is not authorization or workflow logic.
 - Board mutation, timeline mutation, bulk actions, shared saved views, generalized favorites/subscriptions, client caching, optimistic updates, virtualization, and infinite scrolling are blocked until their own backend, ordering, accessibility, ownership, and recovery contracts exist.
+## Vision candidate context
+
+Vision semantic understanding may receive a request-scoped
+`vision-candidate-context-v1` envelope. It declares the entity family, viewer scope,
+request id, whether the set is complete, total/returned counts, retrieval strategy,
+and compact privacy-safe candidate items. Candidate context is input to OpenAI
+interpretation only; it is never an authorization source. The backend must re-query
+the authoritative read service and re-check visibility, ownership, freshness, and
+action permission before emitting a detail action or executing a mutation.
+
+Small eligible collections may be complete. Large collections must be explicitly
+partial and carry enough metadata for OpenAI to request clarification or broadened
+retrieval. Missing items from a partial set never prove non-existence.
+### Vision candidate context implementation status
+
+The `vision-candidate-context-v1` contract is implemented as request-scoped
+backend evidence. Work and applicant-owned Application providers publish compact
+candidate items with explicit complete/partial metadata. OpenAI may interpret and
+select from those items, but `VisionCapabilityEntityResolutionSupport` performs a
+fresh viewer-authorized read before any detail action or canonical route is
+published. The web client accepts only the versioned typed action contract and
+does not resolve natural-language targets.

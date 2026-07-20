@@ -4277,8 +4277,25 @@ public class VisionConversationService {
             String prompt,
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding,
-            String source
+        String source
     ) {
+        if (understanding != null && understanding.semanticPlanOrEmpty().requiresCandidateClarification()) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.VIEW_QUEST_DETAIL, "target_quest_query",
+                    "I found more than one matching quest. Say the exact title or quest id.");
+        }
+        String selectedCandidateId = understanding == null ? null : understanding.semanticPlanOrEmpty().selectedCandidateIdOrEmpty();
+        if (hasText(selectedCandidateId)) {
+            VisionResolvedQuestTarget target = visionCapabilityPreviewService.resolveVisibleQuestCandidate(conversation.getOwner(), selectedCandidateId);
+            if (!target.resolved()) {
+                return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                        VisionIntent.VIEW_QUEST_DETAIL, "target_quest_query", target.blockingMessage());
+            }
+            visionDetailConversationTurnSupport.applyResolvedQuestViewTarget(conversation, selectedCandidateId, target);
+            return handleReadOnlySnapshotTurn(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.VIEW_QUEST_DETAIL,
+                    VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_QUEST_DETAIL));
+        }
         String questQuery = visionDetailConversationTurnSupport.resolveQuestDetailQuery(conversation, normalizedPrompt, understanding);
         if (!hasText(questQuery) && !hasText(conversation.getSlotData().get("resolved_quest_id"))) {
             return askForSlot(
@@ -4347,8 +4364,25 @@ public class VisionConversationService {
             String prompt,
             String normalizedPrompt,
             VisionPromptUnderstandingResult understanding,
-            String source
+        String source
     ) {
+        if (understanding != null && understanding.semanticPlanOrEmpty().requiresCandidateClarification()) {
+            return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.VIEW_APPLICATION_DETAIL, "target_application_query",
+                    "I found more than one matching application. Say the exact quest title or application id.");
+        }
+        String selectedCandidateId = understanding == null ? null : understanding.semanticPlanOrEmpty().selectedCandidateIdOrEmpty();
+        if (hasText(selectedCandidateId)) {
+            VisionResolvedApplicationTarget target = visionCapabilityPreviewService.resolveMyApplicationCandidate(conversation.getOwner(), selectedCandidateId);
+            if (!target.resolved()) {
+                return askForSlot(conversation, prompt, normalizedPrompt, understanding, source,
+                        VisionIntent.VIEW_APPLICATION_DETAIL, "target_application_query", target.blockingMessage());
+            }
+            visionDetailConversationTurnSupport.applyResolvedApplicationTarget(conversation, selectedCandidateId, target);
+            return handleReadOnlySnapshotTurn(conversation, prompt, normalizedPrompt, understanding, source,
+                    VisionIntent.VIEW_APPLICATION_DETAIL,
+                    VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_APPLICATION_DETAIL));
+        }
         String applicationQuery = visionDetailConversationTurnSupport.resolveApplicationDetailQuery(conversation, normalizedPrompt, understanding);
         if (!hasText(applicationQuery) && !hasText(conversation.getSlotData().get("application_id"))) {
             return askForSlot(

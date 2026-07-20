@@ -123,7 +123,8 @@ class VisionPromptUnderstandingServiceTest {
                 new VisionSemanticContractSanitizer(),
                 new VisionSemanticResponseValidator(),
                 new VisionEntityResolverRegistry(List.of(), new SemanticAliasRegistry()),
-                new SemanticAliasRegistry()
+                new SemanticAliasRegistry(),
+                new VisionCandidateContextService(List.of())
         ) {
             @Override
             protected String requestOpenAiOutputText(Map<String, Object> payload) {
@@ -498,7 +499,8 @@ class VisionPromptUnderstandingServiceTest {
                 new VisionSemanticContractSanitizer(),
                 new VisionSemanticResponseValidator(),
                 new VisionEntityResolverRegistry(List.of(), new SemanticAliasRegistry()),
-                new SemanticAliasRegistry()
+                new SemanticAliasRegistry(),
+                new VisionCandidateContextService(List.of())
         ) {
             @Override
             protected String requestOpenAiOutputText(Map<String, Object> payload) {
@@ -692,7 +694,8 @@ class VisionPromptUnderstandingServiceTest {
                 new VisionSemanticContractSanitizer(),
                 new VisionSemanticResponseValidator(),
                 visionEntityResolverRegistry,
-                new SemanticAliasRegistry()
+                new SemanticAliasRegistry(),
+                new VisionCandidateContextService(List.of())
         ) {
             @Override
             protected String requestOpenAiOutputText(Map<String, Object> payload) {
@@ -714,7 +717,8 @@ class VisionPromptUnderstandingServiceTest {
                 new VisionSemanticContractSanitizer(),
                 new VisionSemanticResponseValidator(),
                 new VisionEntityResolverRegistry(List.of(), new SemanticAliasRegistry()),
-                new SemanticAliasRegistry()
+                new SemanticAliasRegistry(),
+                new VisionCandidateContextService(List.of())
         ) {
             @Override
             protected String requestOpenAiOutputText(Map<String, Object> payload) {

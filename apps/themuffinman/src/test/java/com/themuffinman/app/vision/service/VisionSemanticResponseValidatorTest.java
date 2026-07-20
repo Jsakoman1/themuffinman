@@ -10,8 +10,37 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VisionSemanticResponseValidatorTest {
+
+    @Test
+    void rejectsCandidateSelectionOutsideAuthorizedContext() {
+        VisionSemanticResponseValidator validator = new VisionSemanticResponseValidator();
+        VisionSemanticPlan plan = VisionSemanticPlan.builder()
+                .candidateIntent("VIEW_QUEST_DETAIL")
+                .capabilityId("view_quest_detail")
+                .selectedCandidateId("quest-999")
+                .build();
+        VisionPromptUnderstandingResult understanding = VisionPromptUnderstandingResult.builder()
+                .semanticPlan(plan)
+                .build();
+        VisionSemanticOrchestrationRequest request = VisionSemanticOrchestrationRequest.builder()
+                .responseContract(Map.of("candidateIntents", List.of("VIEW_QUEST_DETAIL"),
+                        "capabilityIds", List.of("view_quest_detail")))
+                .allowedRoutes(List.of(VisionSemanticRouteDescriptor.builder()
+                        .intent("VIEW_QUEST_DETAIL")
+                        .capabilityId("view_quest_detail")
+                        .slots(List.of())
+                        .build()))
+                .candidateContexts(List.of(VisionCandidateContext.builder()
+                        .items(List.of(VisionCandidateItem.builder().stableCandidateId("quest-1").build()))
+                        .build()))
+                .build();
+
+        Exception exception = assertThrows(Exception.class, () -> validator.validate(understanding, request));
+        assertTrue(exception.getMessage().contains("not supplied"));
+    }
 
     private final VisionSemanticResponseValidator validator = new VisionSemanticResponseValidator();
     private final VisionSemanticRouteCatalogService routeCatalogService = new VisionSemanticRouteCatalogService();

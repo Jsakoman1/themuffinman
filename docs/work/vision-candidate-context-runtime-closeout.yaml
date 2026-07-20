@@ -1,0 +1,133 @@
+kind: work
+version: 1
+id: vision-candidate-context-runtime-closeout
+title: Prove candidate-context action families and close out evidence
+status: verified
+baseline: f637bef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-candidate-context-execution-inventory.yaml
+master_plan: docs/work/vision-candidate-context-master.yaml
+depends_on:
+- docs/work/vision-candidate-context-client-actions.yaml
+tasks:
+- id: capture-action-family-runtime-matrix
+  title: Capture authenticated text and voice runtime evidence for candidate actions
+  type: runtime
+  status: done
+  sequence: 1
+  inventory_item: prove-all-supported-action-families
+  paths:
+  - docs/runtime-evidence/vision-candidate-context-runtime.json
+  - docs/work/vision-candidate-context-runtime-closeout.yaml
+  required_paths:
+  - docs/runtime-evidence/vision-candidate-context-runtime.json
+  manual_runtime_command: WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/vision-candidate-context-runtime.json
+    make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-candidate-context-runtime.json
+  validation: test -s docs/runtime-evidence/vision-candidate-context-runtime.json
+    && make audit-docs
+  acceptance:
+  - Runtime matrix covers complete small sets, partial large sets, unique match, ambiguity,
+    stale, inaccessible, and broaden-search recovery.
+  - Work, applications, people, circles, things, rides, business/bookings, chat, and
+    attention families are represented where target actions exist.
+  - Text and voice paths use the same backend semantic and authorization pipeline.
+  must_prove:
+  - Runtime evidence records provider, semantic plan, candidate metadata, authorization
+    result, action, final route, and recovery outcome.
+  started_at: '2026-07-20T18:00:54Z'
+  start_fingerprints:
+    docs/runtime-evidence/vision-candidate-context-runtime.json: __missing__
+- id: validate-portability-and-closeout
+  title: Validate contract portability, docs, cleanup, and master readiness
+  type: documentation_and_validation
+  status: done
+  sequence: 2
+  inventory_item: runtime-closeout-and-documentation
+  depends_on: capture-action-family-runtime-matrix
+  paths:
+  - docs/work/vision-candidate-context-master.yaml
+  - docs/work/vision-candidate-context-execution-inventory.yaml
+  - docs/work/vision-candidate-context-analysis.md
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  required_paths:
+  - docs/work/vision-candidate-context-master.yaml
+  - docs/work/vision-candidate-context-execution-inventory.yaml
+  - docs/work/vision-candidate-context-analysis.md
+  validation: make audit-docs && make audit-work-plan-recursion && make audit-plan-coverage
+  acceptance:
+  - All child plans are independently verified before the master is verified.
+  - Runtime evidence and action contract are sufficient for future iPhone and Apple
+    Watch clients.
+  - Temporary screenshots, smoke traces, and unreferenced analysis artifacts are removed.
+  must_prove:
+  - The active queue contains only the canonical master, children, and retained evidence
+    for this program.
+  started_at: '2026-07-20T18:02:19Z'
+  start_fingerprints:
+    docs/work/vision-candidate-context-master.yaml: '0940e97145ab03426477eb55b4376f97b665404c03fd2fb16141be22c09b4138'
+    docs/work/vision-candidate-context-execution-inventory.yaml: 99117f2b3cfbb8b46ed0fa050187eec8a7096b9ca332a6bdacb0a0ee400019e9
+    docs/work/vision-candidate-context-analysis.md: 37f6c9c50f86a283baf57b2278bf8fcd48bbf38317f28fa6e9b40f3d00b5658d
+evidence:
+- task: capture-action-family-runtime-matrix
+  command: test -s docs/runtime-evidence/vision-candidate-context-runtime.json &&
+    make audit-docs
+  ranAt: '2026-07-20T18:02:07Z'
+  revision: f637bef1795ca5d291cd8f215db8c26205393647
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-evidence/vision-candidate-context-runtime.json
+  - docs/work/vision-candidate-context-runtime-closeout.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 287
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-20T18:00:54Z'
+  changedAfterStart: &1
+  - docs/runtime-evidence/vision-candidate-context-runtime.json
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/vision-candidate-context-runtime.json
+- task: validate-portability-and-closeout
+  command: make audit-docs && make audit-work-plan-recursion && make audit-plan-coverage
+  ranAt: '2026-07-20T18:04:10Z'
+  revision: f637bef1795ca5d291cd8f215db8c26205393647
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/work/vision-candidate-context-analysis.md
+  - docs/work/vision-candidate-context-execution-inventory.yaml
+  - docs/work/vision-candidate-context-master.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 288
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-20T18:02:19Z'
+  changedAfterStart: &2
+  - docs/work/vision-candidate-context-master.yaml
+  - docs/work/vision-candidate-context-execution-inventory.yaml
+  - docs/work/vision-candidate-context-analysis.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

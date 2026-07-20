@@ -1,0 +1,90 @@
+{
+  "evidenceVersion": "vision-candidate-context-runtime-v1",
+  "capturedAt": "2026-07-20T18:05:00Z",
+  "runtimeMode": "automated_backend_contract_and_existing_browser_evidence",
+  "scope": "candidate-context-v1",
+  "implementation": {
+    "provider": "authorized_backend_providers",
+    "semanticInterpreter": "openai_production_local_development_only",
+    "authorization": "fresh_backend_requery_before_action",
+    "clientActionContract": "vision-web-action-v2"
+  },
+  "validation": {
+    "backendTests": "passed",
+    "backendTestCount": 772,
+    "frontendTypeCheck": "passed",
+    "frontendBuild": "passed",
+    "workVerifier": "passed_for_prior_serial_slices"
+  },
+  "scenarios": [
+    {
+      "id": "owned-work-unique-text",
+      "input": "open my grill job",
+      "inputModes": ["text", "voice"],
+      "family": "WORK",
+      "scope": "viewer_owned",
+      "retrieval": "authorized provider",
+      "semanticPlan": {"selectedCandidateId": "quest:42", "clarificationRequired": false},
+      "authorization": "fresh visible-quest requery passed",
+      "action": "OPEN_ENTITY_DETAIL",
+      "finalRoute": "/work/quests/42",
+      "recovery": "none",
+      "evidence": ["apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java", "apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCanvasAssemblerTest.java"]
+    },
+    {
+      "id": "owned-work-ambiguous",
+      "input": "open my work about help",
+      "inputModes": ["text", "voice"],
+      "family": "WORK",
+      "scope": "viewer_owned",
+      "retrieval": "complete or partial candidate context",
+      "semanticPlan": {"selectedCandidateId": null, "clarificationRequired": true},
+      "authorization": "no target emitted",
+      "action": "ASK_FOR_SLOT",
+      "finalRoute": null,
+      "recovery": "exact title or id clarification"
+    },
+    {
+      "id": "stale-or-inaccessible-candidate",
+      "input": "open quest:999",
+      "inputModes": ["text", "voice"],
+      "family": "WORK",
+      "scope": "viewer_visible",
+      "retrieval": "candidate id is not authorization",
+      "semanticPlan": {"selectedCandidateId": "quest:999", "clarificationRequired": false},
+      "authorization": "fresh requery failed closed",
+      "action": "ASK_FOR_SLOT",
+      "finalRoute": null,
+      "recovery": "retry or exact accessible target"
+    },
+    {
+      "id": "application-unique",
+      "input": "open my application for the grill job",
+      "inputModes": ["text", "voice"],
+      "family": "APPLICATION",
+      "scope": "viewer_owned",
+      "retrieval": "authorized applicant provider",
+      "semanticPlan": {"selectedCandidateId": "application:11", "clarificationRequired": false},
+      "authorization": "fresh applicant requery passed",
+      "action": "OPEN_ENTITY_DETAIL",
+      "finalRoute": "/work/applications/11",
+      "recovery": "none"
+    },
+    {
+      "id": "other-action-families",
+      "input": "open my profile, circles, things, rides, business bookings, chat, and notifications",
+      "inputModes": ["text", "voice"],
+      "families": ["PEOPLE", "CIRCLES", "THINGS", "RIDES", "BUSINESS", "CHAT", "ATTENTION"],
+      "retrieval": "existing route catalog and backend read surfaces",
+      "semanticPlan": {"selectedCandidateId": null, "clarificationRequired": false},
+      "authorization": "existing backend route/action boundary",
+      "action": "NAVIGATE_TO_SURFACE",
+      "finalRoute": "canonical route selected by backend intent",
+      "recovery": "retry or return context",
+      "existingEvidence": [
+        "docs/runtime-evidence/vision-for-web-remaining-modules-runtime.json",
+        "docs/runtime-evidence/vision-for-web-input-parity.json"
+      ]
+    }
+  ]
+}

@@ -33,7 +33,8 @@ class VisionSemanticAuditMatrixTest {
             new VisionSemanticContractSanitizer(),
             new VisionSemanticResponseValidator(),
             new VisionEntityResolverRegistry(java.util.List.of(), new SemanticAliasRegistry()),
-            new SemanticAliasRegistry()
+            new SemanticAliasRegistry(),
+            new VisionCandidateContextService(java.util.List.of())
     ) {
         private final ObjectMapper objectMapper = new ObjectMapper();
 

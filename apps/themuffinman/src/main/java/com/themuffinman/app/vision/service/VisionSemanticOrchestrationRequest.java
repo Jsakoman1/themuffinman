@@ -20,6 +20,7 @@ public class VisionSemanticOrchestrationRequest {
     private VisionSemanticMemoryContext memoryContext;
     private VisionSemanticConversationContext conversationContext;
     private VisionSemanticRuntimeContext runtimeContext;
+    private List<VisionCandidateContext> candidateContexts;
     private List<VisionSemanticRouteDescriptor> allowedRoutes;
     private Map<String, Object> responseContract;
 }

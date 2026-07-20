@@ -70,6 +70,11 @@ public class VisionSemanticContractSanitizer {
                 .candidateIntentConfidence(normalizeConfidence(semanticPlan.getCandidateIntentConfidence()))
                 .capabilityId(route.getCapabilityId())
                 .planningNote(trimToNull(semanticPlan.getPlanningNote()))
+                .targetScope(trimToNull(semanticPlan.getTargetScope()))
+                .selectedCandidateId(trimToNull(semanticPlan.getSelectedCandidateId()))
+                .selectedCandidateConfidence(normalizeConfidence(semanticPlan.getSelectedCandidateConfidence()))
+                .clarificationRequired(Boolean.TRUE.equals(semanticPlan.getClarificationRequired()))
+                .broadenSearch(Boolean.TRUE.equals(semanticPlan.getBroadenSearch()))
                 .build();
         if (allowedSlotIds.contains("search_query")) {
             sanitized.setSearchQuery(trimToNull(semanticPlan.getSearchQuery()));

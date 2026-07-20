@@ -53,7 +53,29 @@ public class VisionSemanticResponseValidator {
         }
         Set<String> allowedSlotIds = allowedSlotIds(selectedRoute);
         validateSemanticPlanFields(semanticPlan, allowedSlotIds);
+        validateCandidateSelection(semanticPlan, request.getCandidateContexts());
         validateExtractedSlots(understanding.toExtractedSlotMap(), allowedSlotIds);
+    }
+
+    private void validateCandidateSelection(VisionSemanticPlan plan, List<VisionCandidateContext> contexts) {
+        String selectedId = normalize(plan.getSelectedCandidateId());
+        if (selectedId == null || contexts == null || contexts.isEmpty()) {
+            return;
+        }
+        boolean supplied = contexts.stream()
+                .filter(context -> context != null && context.getItems() != null)
+                .flatMap(context -> context.getItems().stream())
+                .filter(item -> item != null)
+                .anyMatch(item -> selectedId.equals(item.getStableCandidateId()));
+        if (!supplied) {
+            throw ServiceErrors.badRequest("Semantic response selected a candidate that was not supplied in authorized context");
+        }
+        if (plan.getSelectedCandidateConfidence() != null) {
+            double confidence = plan.getSelectedCandidateConfidence();
+            if (confidence < 0.0d || confidence > 1.0d) {
+                throw ServiceErrors.badRequest("Semantic response selected an invalid candidate confidence");
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")

@@ -1,0 +1,171 @@
+kind: master
+version: 1
+id: vision-candidate-context-master
+title: Standardize Vision candidate context and authorized entity resolution
+status: verified
+baseline: f637bef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-candidate-context-execution-inventory.yaml
+analysis_reference: docs/work/vision-candidate-context-analysis.md
+objective: Create one backend-owned candidate-context and entity-resolution architecture
+  for every currently supported Vision action. OpenAI remains the only production
+  interpreter; it receives bounded, scope-aware candidate context when useful, proposes
+  intent and target selection, and the backend always re-resolves and authorizes the
+  target before returning a Web action or executing a mutation.
+scope:
+  included:
+  - Request-scoped candidate context for quests, applications, users, circles, things,
+    rides, businesses, bookings, conversations, notifications, and activity targets.
+  - Complete candidate sets for small collections and backend retrieval for large collections.
+  - Explicit viewer scopes such as current_user, visible_to_viewer, circle_accessible,
+    owned, manageable, applicant_owned, customer_owned, and public_discovery.
+  - OpenAI semantic contract for candidate selection, target query extraction, confidence,
+    completeness, ambiguity, and broaden-search requests.
+  - Backend authorization, stale-target handling, privacy-safe clarification, and typed
+    Vision Web action generation.
+  - Shared behavior for text and voice input and future iPhone/Apple Watch clients.
+  - Automated, runtime, recovery, and portability evidence for all supported action families.
+  excluded:
+  - Production local natural-language translation or local fallback intent classification.
+  - Sending unrestricted database rows, private descriptions, or inaccessible entities to OpenAI.
+  - Rebuilding module domain services that already provide authoritative read models and permissions.
+  - Native iPhone or Apple Watch UI implementation.
+production_semantic_policy:
+  interpreter: OpenAI
+  local_parser: development_and_test_fixtures_only
+  outage_behavior: pause semantic Vision, preserve conversation, expose retry, never guess a target
+architecture:
+  layers:
+  - name: semantic_understanding
+    owner: OpenAI
+    responsibility: Select allowed intent, extract scope and search constraints, and select or rank only supplied candidates.
+  - name: candidate_context
+    owner: backend
+    responsibility: Build an authorized, bounded candidate set or retrieval result with completeness metadata.
+  - name: target_resolution
+    owner: backend
+    responsibility: Re-query authoritative services, verify visibility and action permission, and resolve ambiguity.
+  - name: action_and_execution
+    owner: backend_and_shared_web_client
+    responsibility: Publish typed route/action contracts or existing review candidates; never derive domain URLs from raw text.
+candidate_contract:
+  version: vision-candidate-context-v1
+  implementation_status: frozen_for_provider_implementation
+  required_fields:
+  - family
+  - scope
+  - requestId
+  - complete
+  - totalCandidates
+  - returnedCandidates
+  - retrievalStrategy
+  - items
+  item_fields:
+  - stableCandidateId
+  - family
+  - titleOrLabel
+  - compactSummary
+  - searchableFields
+  - viewerSafeMetadata
+  - allowedActionHints
+  invariants:
+  - Candidate context contains only entities visible to the authenticated viewer under the declared scope.
+  - Complete true means every eligible candidate is present, not merely that retrieval succeeded.
+  - A partial set must include totalCandidates and retrieval metadata; absence from it never proves non-existence.
+  - OpenAI may propose a candidate id or query but cannot grant permission or invent an id.
+  - Backend re-resolves every target against current authoritative data before detail navigation or mutation.
+  - Ambiguous, stale, inaccessible, and broaden-search states never emit a guessed detail route.
+  - Candidate text is compact, redacted, and bounded; secrets, tokens, exact private addresses, and hidden fields are excluded.
+  - Mutations continue through existing review and confirmation contracts.
+semantic_response_contract:
+  required_outputs:
+  - candidateIntent
+  - capabilityId
+  - candidateIntentConfidence
+  - targetScope
+  - targetQuery
+  - selectedCandidateId
+  - selectedCandidateConfidence
+  - clarificationRequired
+  - broadenSearch
+  - normalizedPrompt
+  rules:
+  - Use only allowed routes and supplied candidate families.
+  - Prefer a unique candidate only when the candidate evidence supports it.
+  - Ask for clarification when multiple candidates remain plausible.
+  - Request broaden_search when the supplied set is partial and no candidate is reliable.
+  - Never treat a candidate id as authorization.
+  - Preserve user language understanding while normalizing internal semantic meaning to English.
+supported_action_families:
+- family: navigation_and_lists
+  candidates_required: false
+  intents: [VIEW_MY_WORK, VIEW_APPLICATIONS, VIEW_PROFILE, VIEW_SETTINGS, VIEW_CIRCLES, VIEW_THINGS, VIEW_RIDES, VIEW_NOTIFICATIONS, VIEW_ACTIVITY, DISCOVER_QUESTS, SEARCH]
+- family: work_and_applications
+  scopes: [current_user_owned_quests, visible_quests, manageable_quests, current_user_applications, authorized_application_targets]
+  intents: [CREATE_QUEST, VIEW_QUEST_DETAIL, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION, APPROVE_APPLICATION, DECLINE_APPLICATION, VIEW_APPLICATION_DETAIL, UPDATE_QUEST, REOPEN_QUEST, CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST, RELEASE_WORKER, REPLACE_WORKER]
+- family: social_identity
+  scopes: [visible_profiles, accessible_circles, owned_circles, authorized_circle_requests]
+  intents: [CREATE_CIRCLE, VIEW_USER_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION, VIEW_CIRCLE_DETAIL, VIEW_ACCESSIBLE_CIRCLE, UPDATE_CIRCLE, DELETE_CIRCLE, LEAVE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST]
+- family: sharing_and_rides
+  scopes: [visible_things, owned_things, borrowable_things, visible_rides, owned_rides, authorized_borrow_requests]
+  intents: [CREATE_THING, VIEW_THING_DETAIL, VIEW_BORROW_REQUESTS, REQUEST_BORROW, CANCEL_BORROW, DECIDE_BORROW, RETURN_BORROW, UPDATE_THING, ARCHIVE_THING, CREATE_RIDE, VIEW_RIDES, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, START_RIDE, COMPLETE_RIDE]
+- family: business_and_bookings
+  scopes: [public_businesses, owned_business_profiles, customer_bookings, owner_bookings, business_availability, authorized_offerings]
+  intents: [VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS, CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE, CREATE_GALLERY_IMAGE, UPDATE_GALLERY_IMAGE, DELETE_GALLERY_IMAGE, CREATE_AVAILABILITY_RULE, UPDATE_AVAILABILITY_RULE, DELETE_AVAILABILITY_RULE, CREATE_AVAILABILITY_EXCEPTION, UPDATE_AVAILABILITY_EXCEPTION, DELETE_AVAILABILITY_EXCEPTION, CREATE_OFFERING, UPDATE_OFFERING, ARCHIVE_OFFERING, CREATE_BOOKING, RESCHEDULE_BOOKING, CONFIRM_BOOKING, CANCEL_BOOKING, REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW]
+- family: chat_and_attention
+  scopes: [visible_conversations, accessible_attachments, viewer_notifications, viewer_activity]
+  intents: [OPEN_CHAT, VIEW_CHAT_WORKSPACE, SYNC_CHAT, VIEW_CHAT_ATTACHMENT, EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE, MARK_CHAT_READ, MARK_NOTIFICATIONS_READ, MARK_NOTIFICATION_READ, UPDATE_NOTIFICATION_PREFERENCES, VIEW_NOTIFICATIONS, VIEW_ACTIVITY, VIEW_QUEST_NEWS]
+execution_sequence:
+- freeze-contract-and-scope-matrix
+- build-candidate-provider-and-retrieval-layer
+- integrate-openai-semantic-candidate-contract
+- harden-resolution-authorization-and-recovery
+- connect-web-actions-and-mutation-boundaries
+- prove-all-supported-action-families
+- runtime-closeout-and-documentation
+implementation_gates:
+- gate: contract_before_provider
+  rule: Do not implement or validate family providers until candidate fields, scope names, and complete-versus-partial semantics are frozen.
+- gate: provider_before_openai
+  rule: Do not add candidate-selection instructions to OpenAI until backend providers can produce authorized candidate context without relying on model permissions.
+- gate: openai_before_resolution
+  rule: Do not broaden family resolver behavior until semantic responses expose target query, selected candidate, confidence, and broaden-search state.
+- gate: resolution_before_client
+  rule: Do not add client action variants until backend re-resolution proves unique, ambiguous, stale, and inaccessible outcomes.
+- gate: implementation_before_runtime
+  rule: Runtime evidence must be captured only after the corresponding implementation task changes its required paths; repeated smoke tests cannot close a missing implementation.
+planning_decisions:
+- decision: request_scoped_not_durable_inventory
+  reason: Entity inventories are volatile and permission-sensitive; learned memory remains limited to preferences and session continuity.
+- decision: dynamic_completeness
+  reason: Small collections may be sent completely, while large collections require backend retrieval with explicit partial-set metadata.
+- decision: backend_authority
+  reason: OpenAI interprets language and ranks supplied candidates, but the backend owns visibility, ownership, freshness, permissions, and route generation.
+- decision: no_local_production_fallback
+  reason: Production semantic understanding remains OpenAI-only as previously defined; local parser behavior is limited to development and tests.
+children:
+- docs/work/vision-candidate-context-contract.yaml
+- docs/work/vision-candidate-context-providers.yaml
+- docs/work/vision-candidate-context-openai-integration.yaml
+- docs/work/vision-candidate-context-resolution.yaml
+- docs/work/vision-candidate-context-client-actions.yaml
+- docs/work/vision-candidate-context-runtime-closeout.yaml
+closeout:
+  required_evidence:
+  - backend_candidate_contract_tests
+  - openai_payload_and_response_validation_tests
+  - authorization_and_privacy_tests
+  - complete_and_partial_retrieval_tests
+  - ambiguity_stale_and_no_access_recovery_tests
+  - authenticated_text_and_voice_runtime_matrix
+  - typed_web_action_and_native_client_contract_validation
+  cleanup: Remove temporary smoke traces and screenshots; retain canonical runtime JSON, plan evidence, and living architecture documentation.
+implementation_status:
+  contract: verified
+  providers: verified
+  openai_semantic_contract: verified
+  backend_resolution_authorization_recovery: verified
+  typed_client_actions: verified
+  runtime_matrix: verified
+  documentation_closeout: verified

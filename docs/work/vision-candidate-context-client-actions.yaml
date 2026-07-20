@@ -1,0 +1,90 @@
+kind: work
+version: 1
+id: vision-candidate-context-client-actions
+title: Connect candidate resolution to typed Web and native-client actions
+status: verified
+baseline: f637bef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-candidate-context-execution-inventory.yaml
+master_plan: docs/work/vision-candidate-context-master.yaml
+depends_on:
+- docs/work/vision-candidate-context-resolution.yaml
+tasks:
+- id: connect-typed-actions-and-client-contracts
+  title: Standardize detail, clarification, recovery, and mutation action payloads
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: connect-web-actions-and-mutation-boundaries
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionWebActionDTO.java
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  - apps/themuffinman/frontend/src/modules/vision/api/visionConversationViewModels.ts
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCanvasAssemblerTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  acceptance:
+  - Web executes only backend-published typed actions and never constructs URLs from
+    raw semantic text.
+  - Action payloads preserve scope-safe labels, ambiguity, recovery options, and return
+    context.
+  - Contract remains portable for iPhone and Apple Watch clients.
+  - Existing navigation and mutation flows remain compatible.
+  must_prove:
+  - No client-side permission or target-resolution logic is introduced.
+  started_at: '2026-07-20T17:59:52Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java: 55a3b3b7310c39bc3474f1bf581f93fb3faaa3db1dc5f5f903fd402e223dd1f1
+    apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts: dba8b28aaa23f3ff7749b3d39a6baf07fa727a62e0df200c4f03314658e32aaf
+    apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts: ba3a7b01da6a5b99d433b145da8798ca643533f3526e7df310ef10fa2bb51c29
+evidence:
+- task: connect-typed-actions-and-client-contracts
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build"
+  ranAt: '2026-07-20T18:00:09Z'
+  revision: f637bef1795ca5d291cd8f215db8c26205393647
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCanvasAssemblerTest.java
+  output: |+
+    dist/assets/ThingsDiscoveryView-DrSAdnZ1.js                   10.86 kB │ gzip:   3.39 kB
+    dist/assets/CirclesView-BfRtbpg6.js                           10.96 kB │ gzip:   3.28 kB
+    dist/assets/WorkspaceSurfaceView-0AW8ayg0.js                  11.04 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-CHDt0W6B.js                   12.01 kB │ gzip:   3.55 kB
+    dist/assets/WorkQuestDetailView-C6Aan-fk.js                   12.53 kB │ gzip:   3.95 kB
+    dist/assets/RidesView-54M8Bmar.js                             12.55 kB │ gzip:   3.93 kB
+    dist/assets/ChatSurfaceView-Bq1oWl5P.js                       15.52 kB │ gzip:   5.10 kB
+    dist/assets/userShellApi-3JS9sazA.js                          16.44 kB │ gzip:   3.34 kB
+    dist/assets/useVisionForWeb-_2_HMo16.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-DEhs9PN4.js                         17.87 kB │ gzip:   5.32 kB
+    dist/assets/ProfileLocationSettingsView-Byaq193m.js           19.19 kB │ gzip:   6.06 kB
+    dist/assets/VisionSurfaceModernView-05SwGaBr.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-D8Xow9FD.js                28.89 kB │ gzip:   9.11 kB
+    dist/assets/index-DEA18BFM.js                                 33.27 kB │ gzip:   9.10 kB
+    dist/assets/vendor-CXxuD-Mh.js                                50.26 kB │ gzip:  19.70 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 604ms
+
+  startedAt: '2026-07-20T17:59:52Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

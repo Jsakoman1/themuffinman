@@ -25,6 +25,44 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class VisionCanvasAssemblerTest {
 
     @Test
+    void publishesMyWorkNavigationWithoutWorkspaceHandoff() {
+        VisionCanvasAssembler assembler = new VisionCanvasAssembler(new VisionProperties());
+
+        AppUser currentUser = new AppUser();
+        currentUser.setId(11L);
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(42L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(VisionIntent.VIEW_MY_WORK);
+        conversation.setStatus(com.themuffinman.app.vision.model.VisionConversationStatus.ACTIVE);
+        conversation.setSlotData(Map.of());
+
+        VisionTurn turn = new VisionTurn();
+        turn.setId(7L);
+        turn.setConversation(conversation);
+        turn.setTurnIndex(1);
+        turn.setSource(VisionTurnSource.TEXT);
+        turn.setPrompt("open my work");
+        turn.setNormalizedPrompt("open my work");
+        turn.setDetectedIntent(VisionIntent.VIEW_MY_WORK);
+        turn.setAgentState(VisionAgentState.RECOMMENDING);
+        turn.setNextAction(VisionNextAction.SHOW_RESULTS);
+        turn.setTranslationApplied(false);
+        turn.setTranslationReliable(true);
+        turn.setAssistantMessage("My Work.");
+        turn.setAppliedSlotIds(List.of());
+
+        VisionConversationTurnResponseDTO response = assembler.assemble(
+                conversation, turn, List.<VisionConversationSummaryDTO>of(), null, null, null, null, null
+        );
+
+        assertNotNull(response.getWebAction());
+        assertEquals("vision-web-action-v2", response.getWebAction().getContractVersion());
+        assertEquals("work.my_quests", response.getWebAction().getRouteKey());
+        assertEquals("/work/quests", response.getWebAction().getCanonicalPath());
+    }
+
+    @Test
     void publishesTypedApplicationsNavigationForTheSharedWebShell() {
         VisionCanvasAssembler assembler = new VisionCanvasAssembler(new VisionProperties());
 
@@ -63,6 +101,40 @@ class VisionCanvasAssemblerTest {
         assertEquals("NAVIGATE_TO_SURFACE", response.getWebAction().getAction());
         assertEquals("/work/applications", response.getWebAction().getCanonicalPath());
         assertEquals("/work", response.getWebAction().getReturnContext());
+    }
+
+    @Test
+    void publishesResolvedQuestDetailAsTypedCanonicalAction() {
+        VisionCanvasAssembler assembler = new VisionCanvasAssembler(new VisionProperties());
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(42L);
+        conversation.setIntent(VisionIntent.VIEW_QUEST_DETAIL);
+        conversation.setStatus(com.themuffinman.app.vision.model.VisionConversationStatus.ACTIVE);
+        conversation.setSlotData(Map.of("resolved_quest_id", "99", "resolved_quest_title", "Grill help"));
+
+        VisionTurn turn = new VisionTurn();
+        turn.setId(7L);
+        turn.setConversation(conversation);
+        turn.setTurnIndex(1);
+        turn.setSource(VisionTurnSource.TEXT);
+        turn.setPrompt("open the grill job");
+        turn.setNormalizedPrompt("open the grill job");
+        turn.setDetectedIntent(VisionIntent.VIEW_QUEST_DETAIL);
+        turn.setAgentState(VisionAgentState.RECOMMENDING);
+        turn.setNextAction(VisionNextAction.SHOW_RESULTS);
+        turn.setTranslationApplied(false);
+        turn.setTranslationReliable(true);
+        turn.setAssistantMessage("Opening Grill help.");
+        turn.setAppliedSlotIds(List.of());
+
+        VisionConversationTurnResponseDTO response = assembler.assemble(
+                conversation, turn, List.<VisionConversationSummaryDTO>of(), null, null, null, null, null
+        );
+
+        assertEquals("OPEN_ENTITY_DETAIL", response.getWebAction().getAction());
+        assertEquals("work.quest_detail", response.getWebAction().getRouteKey());
+        assertEquals("/work/quests/99", response.getWebAction().getCanonicalPath());
+        assertEquals(99L, response.getWebAction().getTargetId());
     }
 
     @Test

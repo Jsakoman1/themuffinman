@@ -1,0 +1,85 @@
+kind: work
+version: 1
+id: vision-candidate-context-openai-integration
+title: Integrate candidate context with OpenAI semantic orchestration
+status: verified
+baseline: f637bef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-candidate-context-execution-inventory.yaml
+master_plan: docs/work/vision-candidate-context-master.yaml
+depends_on:
+- docs/work/vision-candidate-context-providers.yaml
+tasks:
+- id: integrate-candidate-context-with-openai
+  title: Extend the semantic request and response contract for candidate selection
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: integrate-openai-semantic-candidate-contract
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilderTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - OpenAI receives candidate family, scope, completeness, and compact candidate items.
+  - OpenAI is instructed to select only supplied candidates and to broaden or clarify
+    when partial results are insufficient.
+  - Unsupported or malformed semantic responses fail closed and preserve retry behavior.
+  - Croatian, English, and voice-equivalent examples cover owner-scoped and external
+    target phrasing.
+  must_prove:
+  - No production local parser is used to replace OpenAI candidate interpretation.
+  started_at: '2026-07-20T17:49:19Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java: 2577047db608edb0636f9f5fdecd619e48393f8aa0972120e0e02aea6abbc1ce
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java: 57c168b94b6697d0c30a3cca151be3fbc2ce56821f2245679c91904f81233f9f
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java: 83357858c7a4ead0aa0d0c2d1e9e547aca60845fd449400798900738c34000cf
+evidence:
+- task: integrate-candidate-context-with-openai
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T17:54:02Z'
+  revision: f637bef1795ca5d291cd8f215db8c26205393647
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationRequest.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilderTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidatorTest.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 767, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  22.349 s\n[INFO] Finished at: 2026-07-20T19:54:25+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T17:49:19Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPromptPayloadBuilder.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

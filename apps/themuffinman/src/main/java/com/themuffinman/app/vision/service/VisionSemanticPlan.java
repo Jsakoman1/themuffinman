@@ -24,6 +24,11 @@ public class VisionSemanticPlan {
     private String planningNote;
     private String searchQuery;
     private String targetUserQuery;
+    private String targetScope;
+    private String selectedCandidateId;
+    private Double selectedCandidateConfidence;
+    private Boolean clarificationRequired;
+    private Boolean broadenSearch;
 
     public static VisionSemanticPlan empty() {
         return VisionSemanticPlan.builder()
@@ -31,7 +36,19 @@ public class VisionSemanticPlan {
                 .candidateIntentConfidence(0.0d)
                 .capabilityId("unsupported")
                 .planningNote("")
+                .targetScope("")
+                .selectedCandidateId("")
+                .clarificationRequired(false)
+                .broadenSearch(false)
                 .build();
+    }
+
+    public String selectedCandidateIdOrEmpty() {
+        return selectedCandidateId == null ? "" : selectedCandidateId.trim();
+    }
+
+    public boolean requiresCandidateClarification() {
+        return Boolean.TRUE.equals(clarificationRequired);
     }
 
     public static VisionSemanticPlan createQuest(double confidence, String note) {
@@ -278,6 +295,11 @@ public class VisionSemanticPlan {
                 .planningNote(plan.getPlanningNote())
                 .searchQuery(plan.getSearchQuery())
                 .targetUserQuery(plan.getTargetUserQuery())
+                .targetScope(plan.getTargetScope())
+                .selectedCandidateId(plan.getSelectedCandidateId())
+                .selectedCandidateConfidence(plan.getSelectedCandidateConfidence())
+                .clarificationRequired(plan.getClarificationRequired())
+                .broadenSearch(plan.getBroadenSearch())
                 .build();
     }
 

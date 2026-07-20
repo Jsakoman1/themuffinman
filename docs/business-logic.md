@@ -1140,3 +1140,10 @@ The authenticated desktop shell separates global destinations, module navigation
 Business booking and ride lists use the same compact workspace-row language as the rest of the authenticated app. Their status, visibility, capacity, and available actions still come from the relevant backend DTOs; changing the row presentation never grants an action or changes a booking or ride lifecycle.
 
 Vision may receive a typed shell handoff with an optional context label and safe return path. It explains that context and can offer the return link, but the handoff does not choose a capability, bypass review, or execute an action.
+### Vision target selection
+
+When a user asks Vision to open a specific work item or application, Vision uses
+the user's current authorized candidates to understand the request. A candidate
+ID is not permission: the backend checks the target again before opening it. If
+several items match, or if an item is stale or no longer accessible, Vision asks
+for a clearer or currently accessible target instead of opening a guessed page.

@@ -1,0 +1,70 @@
+kind: work
+version: 1
+id: vision-candidate-context-contract
+title: Define candidate context, scope, and semantic response contracts
+status: verified
+baseline: f637bef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-candidate-context-execution-inventory.yaml
+master_plan: docs/work/vision-candidate-context-master.yaml
+tasks:
+- id: define-candidate-and-scope-contract
+  title: Freeze candidate context schema and supported scope matrix
+  type: documentation_and_contract
+  status: done
+  sequence: 1
+  inventory_item: freeze-contract-and-scope-matrix
+  paths:
+  - docs/work/vision-candidate-context-master.yaml
+  - docs/work/vision-candidate-context-analysis.md
+  - docs/domain-technical.md
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java
+  required_paths:
+  - docs/work/vision-candidate-context-master.yaml
+  - docs/work/vision-candidate-context-analysis.md
+  - docs/domain-technical.md
+  validation: make audit-docs && make audit-work-plan-recursion
+  acceptance:
+  - Contract distinguishes complete candidate sets from partial retrieval results.
+  - Every supported entity family has explicit viewer scopes and privacy rules.
+  - Semantic response fields define candidate selection, clarification, and broaden-search
+    behavior.
+  must_prove:
+  - No implementation task can treat a candidate id as authorization.
+  started_at: '2026-07-20T17:42:45Z'
+  start_fingerprints:
+    docs/work/vision-candidate-context-master.yaml: b8f92457359e3ec43ac64c0c5b3fd9c7bcbc8aada10f5eb106a188e17587552a
+    docs/work/vision-candidate-context-analysis.md: 44c05ee2dac6389e2a8664cf3cb07c9a4ec227a65cbb0ba16848aa39721af8a5
+    docs/domain-technical.md: f70fc9425d43ef19f6ea7f5a942af1615cc8214ad115e5a74b7651c4353b4b83
+evidence:
+- task: define-candidate-and-scope-contract
+  command: make audit-docs && make audit-work-plan-recursion
+  ranAt: '2026-07-20T17:44:47Z'
+  revision: f637bef1795ca5d291cd8f215db8c26205393647
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java
+  - docs/domain-technical.md
+  - docs/work/vision-candidate-context-analysis.md
+  - docs/work/vision-candidate-context-master.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 287
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+
+  startedAt: '2026-07-20T17:42:45Z'
+  changedAfterStart: &1
+  - docs/work/vision-candidate-context-master.yaml
+  - docs/work/vision-candidate-context-analysis.md
+  - docs/domain-technical.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

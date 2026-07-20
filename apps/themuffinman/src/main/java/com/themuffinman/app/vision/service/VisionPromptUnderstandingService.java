@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class VisionPromptUnderstandingService {
@@ -90,6 +91,7 @@ public class VisionPromptUnderstandingService {
     private final VisionSemanticResponseValidator semanticResponseValidator;
     private final VisionSemanticPromptPayloadBuilder visionSemanticPromptPayloadBuilder;
     private final VisionSemanticEnvelopeSupport visionSemanticEnvelopeSupport;
+    private final VisionCandidateContextService visionCandidateContextService;
     private final RestClient restClient = RestClient.create();
     private final ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
 
@@ -102,7 +104,8 @@ public class VisionPromptUnderstandingService {
             VisionSemanticContractSanitizer semanticContractSanitizer,
             VisionSemanticResponseValidator semanticResponseValidator,
             VisionEntityResolverRegistry visionEntityResolverRegistry,
-            com.themuffinman.app.semantic.SemanticAliasRegistry semanticAliasRegistry
+            com.themuffinman.app.semantic.SemanticAliasRegistry semanticAliasRegistry,
+            VisionCandidateContextService visionCandidateContextService
     ) {
         this.agentProperties = agentProperties;
         this.visionSemanticMapper = visionSemanticMapper;
@@ -111,6 +114,7 @@ public class VisionPromptUnderstandingService {
         this.semanticRouteCatalogService = semanticRouteCatalogService;
         this.semanticContractSanitizer = semanticContractSanitizer;
         this.semanticResponseValidator = semanticResponseValidator;
+        this.visionCandidateContextService = visionCandidateContextService;
         this.visionSemanticPromptPayloadBuilder = new VisionSemanticPromptPayloadBuilder(objectMapper, semanticAliasRegistry);
         this.visionSemanticEnvelopeSupport = new VisionSemanticEnvelopeSupport(
                 semanticRouteCatalogService,
@@ -329,6 +333,7 @@ public class VisionPromptUnderstandingService {
                 .memoryContext(originalRequest.getMemoryContext())
                 .conversationContext(repairConversationContext)
                 .runtimeContext(originalRequest.getRuntimeContext())
+                .candidateContexts(originalRequest.getCandidateContexts())
                 .allowedRoutes(List.of(route))
                 .responseContract(originalRequest.getResponseContract())
                 .build();
@@ -409,6 +414,11 @@ public class VisionPromptUnderstandingService {
                 .memoryContext(semanticContextService.buildMemoryContext(effectiveUser, conversation))
                 .conversationContext(semanticContextService.buildConversationContext(conversation))
                 .runtimeContext(semanticContextService.buildRuntimeContext(runtimeHints))
+                .candidateContexts(visionCandidateContextService.buildForSemanticRequest(
+                        effectiveUser,
+                        UUID.randomUUID().toString(),
+                        prompt
+                ))
                 .allowedRoutes(semanticRouteCatalogService.allowedRoutes(effectiveUser))
                 .responseContract(responseContract())
                 .build();
@@ -564,6 +574,9 @@ public class VisionPromptUnderstandingService {
         responseContract.put("format", "VisionPromptUnderstandingResult");
         responseContract.put("semanticContractVersion", SEMANTIC_CONTRACT_VERSION);
         responseContract.put("candidateIntents", semanticRouteCatalogService.supportedCandidateIntents());
+        responseContract.put("candidateSelectionFields", java.util.List.of(
+                "targetScope", "selectedCandidateId", "selectedCandidateConfidence", "clarificationRequired", "broadenSearch"
+        ));
         responseContract.put("clarificationRequired", java.util.List.of(Boolean.TRUE, Boolean.FALSE));
         responseContract.put("requiredSlotIds", java.util.List.of());
         responseContract.put("missingRequiredSlotIds", java.util.List.of());

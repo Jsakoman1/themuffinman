@@ -32,6 +32,7 @@ import java.util.Map;
 
 @Service
 public class VisionCanvasAssembler {
+    private static final String WEB_ACTION_CONTRACT_VERSION = "vision-web-action-v2";
     private static final DateTimeFormatter REVIEW_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm");
 
     private final VisionProperties visionProperties;
@@ -113,7 +114,7 @@ public class VisionCanvasAssembler {
             }
 
     private VisionWebActionDTO webAction(VisionConversation conversation, VisionWorkspaceHandoffDTO workspaceHandoff) {
-        if (conversation == null || conversation.getIntent() == null || workspaceHandoff == null) {
+        if (conversation == null || conversation.getIntent() == null) {
             return null;
         }
 
@@ -294,7 +295,7 @@ public class VisionCanvasAssembler {
         }
 
         return VisionWebActionDTO.builder()
-                .contractVersion("vision-web-action-v2")
+                .contractVersion(WEB_ACTION_CONTRACT_VERSION)
                 .action(action)
                 .routeKey(routeKey)
                 .canonicalPath(canonicalPath)

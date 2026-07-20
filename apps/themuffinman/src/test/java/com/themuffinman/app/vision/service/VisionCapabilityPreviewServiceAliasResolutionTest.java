@@ -176,6 +176,36 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
     }
 
     @Test
+    void resolveVisibleQuestCandidateRequeriesAndAuthorizesStableId() {
+        AppUser currentUser = new AppUser();
+        QuestResponseDTO quest = QuestResponseDTO.builder()
+                .id(42L)
+                .title("Grill help")
+                .creatorUsername("Frank")
+                .build();
+        when(questReadService.getQuestResponseById(42L, currentUser)).thenReturn(quest);
+
+        VisionResolvedQuestTarget result = service.resolveVisibleQuestCandidate(currentUser, "quest:42");
+
+        assertTrue(result.resolved());
+        assertEquals(42L, result.questId());
+    }
+
+    @Test
+    void invalidStableCandidateIdFailsClosed() {
+        VisionResolvedQuestTarget result = service.resolveVisibleQuestCandidate(new AppUser(), "quest:not-a-number");
+
+        assertTrue(!result.resolved());
+    }
+
+    @Test
+    void zeroStableCandidateIdFailsClosed() {
+        VisionResolvedQuestTarget result = service.resolveVisibleQuestCandidate(new AppUser(), "quest:0");
+
+        assertTrue(!result.resolved());
+    }
+
+    @Test
     void resolveOwnedCircleUsesCircleAliases() {
         AppUser currentUser = new AppUser();
         CircleGroupResponseDTO circle = CircleGroupResponseDTO.builder()

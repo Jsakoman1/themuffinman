@@ -63,6 +63,21 @@ class VisionSemanticPromptPayloadBuilderTest {
                                 .build()))
                         .build()))
                 .responseContract(Map.of("format", "VisionPromptUnderstandingResult"))
+                .candidateContexts(List.of(VisionCandidateContext.builder()
+                        .contractVersion("vision-candidate-context-v1")
+                        .family("WORK")
+                        .scope("viewer_owned")
+                        .requestId("req-1")
+                        .complete(true)
+                        .totalCandidates(1)
+                        .returnedCandidates(1)
+                        .retrievalStrategy("authorized_provider")
+                        .items(List.of(VisionCandidateItem.builder()
+                                .stableCandidateId("quest-42")
+                                .family("WORK")
+                                .titleOrLabel("Grill help")
+                                .build()))
+                        .build()))
                 .build();
 
         String input = builder.buildInput(request);
@@ -73,5 +88,7 @@ class VisionSemanticPromptPayloadBuilderTest {
         assertTrue(input.contains("show application #42"));
         assertTrue(input.contains("target_application_query"));
         assertTrue(input.contains("Europe/Zurich"));
+        assertTrue(input.contains("candidateContexts"));
+        assertTrue(input.contains("quest-42"));
     }
 }

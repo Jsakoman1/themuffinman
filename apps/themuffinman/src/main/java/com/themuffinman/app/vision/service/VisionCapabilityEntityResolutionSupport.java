@@ -307,6 +307,13 @@ final class VisionCapabilityEntityResolutionSupport {
         );
     }
 
+    VisionResolvedApplicationTarget resolveMyApplicationCandidate(AppUser currentUser, String stableCandidateId) {
+        Long id = extractStableId(stableCandidateId, "application:");
+        return id == null
+                ? VisionResolvedApplicationTarget.unresolved("I could not verify that application candidate.")
+                : resolveMyApplicationDetail(currentUser, "application " + id);
+    }
+
     VisionResolvedQuestTarget resolveVisibleQuest(AppUser currentUser, String query) {
         if (!hasText(query)) {
             return VisionResolvedQuestTarget.unresolved("What quest should I open? Say the quest title or quest id.");
@@ -348,6 +355,28 @@ final class VisionCapabilityEntityResolutionSupport {
                 .reduce((left, right) -> left + ", " + right)
                 .orElse("matching quests");
         return VisionResolvedQuestTarget.unresolved("I found several visible quests matching \"" + query.trim() + "\": " + suggestions + ". Say the exact quest title or quest id.");
+    }
+
+    VisionResolvedQuestTarget resolveVisibleQuestCandidate(AppUser currentUser, String stableCandidateId) {
+        Long id = extractStableId(stableCandidateId, "quest:");
+        return id == null
+                ? VisionResolvedQuestTarget.unresolved("I could not verify that quest candidate.")
+                : resolveVisibleQuest(currentUser, "quest " + id);
+    }
+
+    private Long extractStableId(String stableCandidateId, String prefix) {
+        if (!hasText(stableCandidateId) || !stableCandidateId.trim().startsWith(prefix)) {
+            return null;
+        }
+        String numericPart = stableCandidateId.trim().substring(prefix.length());
+        if (!numericPart.matches("[1-9][0-9]*")) {
+            return null;
+        }
+        try {
+            return Long.valueOf(numericPart);
+        } catch (NumberFormatException ignored) {
+            return null;
+        }
     }
 
     VisionResolvedUserTarget resolveUserProfileTarget(AppUser currentUser, String query) {

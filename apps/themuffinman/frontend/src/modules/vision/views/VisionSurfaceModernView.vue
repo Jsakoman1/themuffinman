@@ -130,7 +130,12 @@ const runRoutePromptIfNeeded = async () => {
   try {
     await processPrompt(routePrompt.value, "text", "SUBMIT_PROMPT", null, null, null, null, workspaceHandoff.value)
   } finally {
-    await clearRoutePrompt()
+    // Keep the route untouched while a typed web action is being executed. A
+    // concurrent router.replace here can win the navigation race and leave the
+    // user on the Vision console instead of the requested workspace surface.
+    if (!response.value?.webAction) {
+      await clearRoutePrompt()
+    }
   }
 }
 
