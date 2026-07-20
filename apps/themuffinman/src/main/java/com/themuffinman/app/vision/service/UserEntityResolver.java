@@ -24,18 +24,25 @@ public class UserEntityResolver implements VisionEntityResolver<VisionResolvedUs
         return SemanticEntityFamily.USER;
     }
 
+    /**
+     * Delegates identity, visibility, and ambiguity decisions to the existing
+     * privacy-aware read path. This resolver exposes only a safe id/label pair
+     * to the Web action assembler.
+     */
     @Override
     public SemanticEntityResolution<VisionResolvedUserTarget> resolve(AppUser currentUser, String targetEntityQuery) {
         VisionResolvedUserTarget target = visionCapabilityPreviewService.resolveUserProfileTarget(currentUser, targetEntityQuery);
+        SemanticEntityResolutionStatus status = target != null && target.resolved()
+                ? SemanticEntityResolutionStatus.RESOLVED : inferStatus(target);
         return SemanticEntityResolution.<VisionResolvedUserTarget>builder()
                 .entityFamily(SemanticEntityFamily.USER)
-                .status(target != null && target.resolved() ? SemanticEntityResolutionStatus.RESOLVED : inferStatus(target))
+                .status(status)
                 .targetEntityQuery(targetEntityQuery)
                 .entity(target)
                 .canonicalLabel(target == null ? null : target.username())
                 .ambiguityReason(target == null ? "No user resolver result." : target.blockingMessage())
                 .confidence(SemanticEntityResolutionSupport.confidenceForResolution(
-                        target != null && target.resolved() ? SemanticEntityResolutionStatus.RESOLVED : inferStatus(target),
+                        status,
                         targetEntityQuery,
                         target == null ? null : target.username(),
                         target == null ? "No user resolver result." : target.blockingMessage(),

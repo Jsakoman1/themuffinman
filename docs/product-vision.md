@@ -83,7 +83,7 @@ is allowed only in an explicit development/test profile for synthetic fixtures a
 contract tests. If OpenAI is unavailable, VisionForWeb pauses input processing,
 preserves retryable state, and leaves direct Web navigation available.
 
-The implementation master for this transition is `docs/work/vision-for-web-integration-master.yaml`.
+The original shell transition is tracked by `docs/work/vision-for-web-integration-master.yaml`; the remaining-module completion master is `docs/work/vision-for-web-remaining-modules-master.yaml`. Together they define the backend-owned route/action boundary and the runtime proof required before this capability is considered complete.
 
 The animated assistant is a dismissible contextual helper inspired by the old
 Office assistant's helpful presence, not a copy of its assets or implementation.

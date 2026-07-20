@@ -1,0 +1,127 @@
+kind: work
+version: 1
+id: vision-for-web-remaining-business
+title: Connect Business discovery, bookings, and calendar to VisionForWeb
+status: verified
+baseline: 479332c
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-remaining-modules-master.yaml
+tasks:
+- id: connect-business-discovery-and-profile
+  title: Add business directory, public profile, offering, and owner profile actions
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: remaining-business-surfaces
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Public and private Business navigation preserves viewer context and backend access
+    policy.
+  deliverables:
+  - Business discovery
+  - public profile
+  - offering
+  - and owner-profile route descriptors with public/private target policies.
+  must_prove:
+  - A public business target can open without leaking private owner data
+  - while private surfaces require the correct viewer role.
+  started_at: '2026-07-20T16:11:18Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java: fa8b2d0bbedca079c7ae1927707066de7f63d2d7f1732268edf09869f4798614
+- id: connect-business-bookings-and-calendar
+  title: Add booking, customer booking, availability, exception, and calendar actions
+  type: implementation
+  status: done
+  sequence: 2
+  inventory_item: remaining-business-bookings
+  depends_on: connect-business-discovery-and-profile
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Owner and customer booking requests open the correct canonical surface without
+    bypassing booking permissions.
+  deliverables:
+  - Bookings
+  - customer bookings
+  - availability
+  - exceptions
+  - and calendar actions with owner/customer regression tests.
+  must_prove:
+  - Vision only navigates to permitted surfaces; booking mutations remain behind existing
+    confirmation and backend workflow rules.
+  started_at: '2026-07-20T16:12:14Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java: 280376853e46f533777ec7db32606a6d00fbb3f068c55ec7ce26217ffd2325d2
+evidence:
+- task: connect-business-discovery-and-profile
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T16:11:40Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 759, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  24.297 s\n[INFO] Finished at: 2026-07-20T18:12:05+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T16:11:18Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: connect-business-bookings-and-calendar
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T16:12:34Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 759, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  33.428 s\n[INFO] Finished at: 2026-07-20T18:13:08+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T16:12:14Z'
+  changedAfterStart: &2
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

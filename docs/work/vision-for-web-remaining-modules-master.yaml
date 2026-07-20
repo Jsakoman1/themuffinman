@@ -1,0 +1,447 @@
+kind: master
+version: 1
+id: vision-for-web-remaining-modules-master
+title: Complete VisionForWeb navigation across remaining Web modules
+status: verified
+baseline: 479332c
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+analysis_reference: docs/work/vision-for-web-remaining-modules-analysis.md
+objective: Analyze and complete the remaining module integrations so VisionForWeb
+  can use OpenAI semantic interpretation to select backend-published actions, resolve
+  authorized targets, and navigate to real canonical Web surfaces for Work, Circles,
+  Profile, People, Things, Rides, Business, Chat, Notifications, and Activity. Preserve
+  backend ownership of permissions, workflow rules, and route selection, and produce
+  runtime evidence for every module family.
+scope:
+  included:
+  - Work applications and Work/application detail navigation
+  - Circles, people, profile, and authorized person/circle target resolution
+  - Things, borrow requests, thing detail, and rides
+  - Business discovery, public profile, offerings, bookings, availability, and calendar
+  - Chat workspace, conversation targets, and conversation detail navigation
+  - Notifications and Activity entry points
+  - One versioned portable Vision Web action contract for future iPhone and Apple
+    Watch clients
+  excluded:
+  - Rebuilding existing module domain behavior that already works
+  - Native iPhone or Apple Watch UI implementation
+  - Local natural-language translation or production fallback classification
+semantic_policy:
+  production_interpreter: OpenAI
+  local_parser: development_and_test_fixtures_only
+  outage_behavior: pause Vision, preserve conversation, expose retry; never invent
+    a route
+execution_rules:
+- Start inventory items strictly in sequence; never mark a later item complete before
+  its dependency is verified.
+- Inspect the existing domain service and route registry before adding an adapter;
+  reuse existing authorization and DTO assembly paths.
+- Publish intent, route key, target policy, and canonical path from backend services;
+  the Vue client may only execute typed actions.
+- Every implementation task must change its required backend/frontend paths and add
+  focused automated coverage for its new behavior.
+- Every runtime task must use the real authenticated Web stack and record input, OpenAI
+  interpretation, action payload, final URL, and recovery result.
+- Closeout removes temporary smoke outputs while retaining only canonical runtime
+  evidence and living documentation.
+execution_sequence:
+- contract-matrix
+- work
+- social-identity
+- things-rides
+- business
+- chat
+- attention-activity
+- cross-module-targets
+- runtime-closeout
+action_contract:
+  version: vision-web-action-v2
+  action_types:
+  - NAVIGATE_TO_SURFACE
+  - OPEN_ENTITY_DETAIL
+  - OPEN_ENTITY_PREVIEW
+  - APPLY_SURFACE_STATE
+  - OPEN_CONVERSATION
+  - SHOW_CLARIFICATION
+  - SHOW_PROVIDER_RECOVERY
+  required_fields:
+  - action
+  - routeKey
+  - canonicalPath
+  - entityFamily
+  - targetId
+  - viewerSafeLabel
+  - returnContext
+  - allowedActions
+  - requiresConfirmation
+  - ambiguous
+  - recoveryOptions
+  invariants:
+  - Frontend never constructs a domain route from raw natural language.
+  - Backend resolves viewer scope, permissions, entity targets, and canonical routes.
+  - Detail actions contain an authorized target id; ambiguous targets never navigate.
+  - Mutation actions remain behind existing Vision review and confirmation boundaries.
+  - Every runtime proof records input, semantic intent, action contract, final URL,
+    and recovery behavior.
+canonical_module_matrix:
+- module: work
+  surfaces:
+  - "/work"
+  - "/work/quests"
+  - "/work/applications"
+  - "/work/applications/:applicationId"
+  - "/work/quests/:questId"
+  initial_prompts:
+  - Open my applications
+  - Open this application
+  - Show my posted work
+- module: circles_identity
+  surfaces:
+  - "/circles"
+  - "/people"
+  - "/people/:userId"
+  - "/profile"
+  - "/profile/settings"
+  initial_prompts:
+  - Open my circles
+  - Open Frank's profile
+  - Show my profile
+- module: things_rides
+  surfaces:
+  - "/things"
+  - "/things/mine"
+  - "/things/:listingId"
+  - "/rides"
+  - "/rides/mine"
+  - "/rides/:rideId"
+  initial_prompts:
+  - Open my things
+  - Open the drill listing
+  - Show available rides
+- module: business
+  surfaces:
+  - "/business"
+  - "/business/find"
+  - "/business/public/:slug"
+  - "/business/bookings"
+  - "/business/my-bookings"
+  - "/business/calendar"
+  initial_prompts:
+  - Find a business
+  - Open my bookings
+  - Open business calendar
+- module: chat
+  surfaces:
+  - "/chat"
+  - "/chat/:conversationId"
+  initial_prompts:
+  - Open chat
+  - Open my chat with Frank
+- module: attention_activity
+  surfaces:
+  - "/notifications"
+  - "/activity"
+  initial_prompts:
+  - Open notifications
+  - Show my activity
+children:
+- docs/work/vision-for-web-remaining-modules-contract-matrix.yaml
+- docs/work/vision-for-web-remaining-work.yaml
+- docs/work/vision-for-web-remaining-social-identity.yaml
+- docs/work/vision-for-web-remaining-things-rides.yaml
+- docs/work/vision-for-web-remaining-business.yaml
+- docs/work/vision-for-web-remaining-chat.yaml
+- docs/work/vision-for-web-remaining-attention-activity.yaml
+- docs/work/vision-for-web-remaining-cross-module-targets.yaml
+- docs/work/vision-for-web-remaining-runtime-closeout.yaml
+route_action_matrix:
+- route_key: work.applications
+  intent: VIEW_APPLICATIONS
+  capability_id: view_applications
+  canonical_path: "/work/applications"
+  entity_family: application
+  target_policy: viewer_own_applications
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open my applications
+  - Show the applications I sent
+- route_key: work.application_detail
+  intent: VIEW_APPLICATION_DETAIL
+  capability_id: view_application_detail
+  canonical_path: "/work/applications/:applicationId"
+  entity_family: application
+  target_policy: resolve_authorized_application
+  action: OPEN_ENTITY_DETAIL
+  prompts:
+  - Open this application
+  - Show my application for the mowing job
+- route_key: work.quest_detail
+  intent: VIEW_QUEST_DETAIL
+  capability_id: view_quest_detail
+  canonical_path: "/work/quests/:questId"
+  entity_family: quest
+  target_policy: resolve_visible_quest
+  action: OPEN_ENTITY_DETAIL
+  prompts:
+  - Open Frank's mowing job
+  - Show the quest from yesterday
+- route_key: circles.list
+  intent: VIEW_CIRCLES
+  capability_id: view_circles
+  canonical_path: "/circles"
+  entity_family: circle
+  target_policy: viewer_accessible_circles
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open my circles
+  - Show my groups
+- route_key: people.profile
+  intent: VIEW_USER_PROFILE
+  capability_id: view_user_profile
+  canonical_path: "/people/:userId"
+  entity_family: user
+  target_policy: resolve_visible_user_profile
+  action: OPEN_ENTITY_DETAIL
+  prompts:
+  - Open Frank's profile
+  - Show the profile of Ana
+- route_key: profile.self
+  intent: VIEW_PROFILE
+  capability_id: view_profile
+  canonical_path: "/profile"
+  entity_family: profile
+  target_policy: viewer_self
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Show my profile
+  - Open my account
+- route_key: things.list
+  intent: VIEW_THINGS
+  capability_id: view_things
+  canonical_path: "/things"
+  entity_family: thing
+  target_policy: viewer_visible_things
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open things
+  - Show available things
+- route_key: things.mine
+  intent: VIEW_THINGS
+  capability_id: view_things
+  canonical_path: "/things/mine"
+  entity_family: thing
+  target_policy: viewer_owned_things
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open my things
+  - Show things I share
+- route_key: things.detail
+  intent: VIEW_THING_DETAIL
+  capability_id: view_thing_detail
+  canonical_path: "/things/:listingId"
+  entity_family: thing
+  target_policy: resolve_visible_thing_listing
+  action: OPEN_ENTITY_DETAIL
+  prompts:
+  - Open the drill listing
+  - Show thing 42
+- route_key: things.borrow
+  intent: VIEW_BORROW_REQUESTS
+  capability_id: view_borrow_requests
+  canonical_path: "/things/requests"
+  entity_family: borrow_request
+  target_policy: viewer_borrow_requests
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Show my borrow requests
+  - Open my loans
+- route_key: rides.list
+  intent: VIEW_RIDES
+  capability_id: view_rides
+  canonical_path: "/rides"
+  entity_family: ride
+  target_policy: viewer_visible_rides
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Show available rides
+  - Open rides
+- route_key: rides.mine
+  intent: VIEW_RIDES
+  capability_id: view_rides
+  canonical_path: "/rides/mine"
+  entity_family: ride
+  target_policy: viewer_owned_or_joined_rides
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Show my rides
+  - Open rides I offer
+- route_key: rides.detail
+  intent: VIEW_RIDES
+  capability_id: view_rides
+  canonical_path: "/rides/:rideId"
+  entity_family: ride
+  target_policy: resolve_visible_ride
+  action: OPEN_ENTITY_DETAIL
+  prompts:
+  - Open ride 42
+  - Show the ride with Frank
+- route_key: business.discovery
+  intent: VIEW_BUSINESS
+  capability_id: view_business
+  canonical_path: "/business/find"
+  entity_family: business
+  target_policy: public_business_discovery
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Find a business
+  - Show businesses near me
+- route_key: business.public_profile
+  intent: VIEW_BUSINESS
+  capability_id: view_business
+  canonical_path: "/business/public/:slug"
+  entity_family: business
+  target_policy: resolve_public_business
+  action: OPEN_ENTITY_DETAIL
+  prompts:
+  - Open Frank's bike repair business
+  - Show that business profile
+- route_key: business.owner_profile
+  intent: VIEW_BUSINESS
+  capability_id: view_business
+  canonical_path: "/business/profile"
+  entity_family: business
+  target_policy: viewer_business_owner
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open my business profile
+  - Show my business
+- route_key: business.bookings
+  intent: VIEW_BUSINESS_BOOKINGS
+  capability_id: view_business_bookings
+  canonical_path: "/business/bookings"
+  entity_family: business
+  target_policy: viewer_business_booking_scope
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open my business bookings
+  - Show booking requests
+- route_key: business.my_bookings
+  intent: VIEW_BUSINESS_BOOKINGS
+  capability_id: view_business_bookings
+  canonical_path: "/business/my-bookings"
+  entity_family: business
+  target_policy: viewer_customer_bookings
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open my appointments
+  - Show bookings I made
+- route_key: business.calendar
+  intent: VIEW_BUSINESS_AVAILABILITY
+  capability_id: view_business_availability
+  canonical_path: "/business/calendar"
+  entity_family: business
+  target_policy: viewer_business_owner
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open business calendar
+  - Show my availability
+- route_key: chat.workspace
+  intent: VIEW_CHAT_WORKSPACE
+  capability_id: view_chat_workspace
+  canonical_path: "/chat"
+  entity_family: chat
+  target_policy: viewer_chat_workspace
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open chat
+  - Show my conversations
+- route_key: chat.conversation
+  intent: OPEN_CHAT
+  capability_id: open_chat
+  canonical_path: "/chat/:conversationId"
+  entity_family: chat
+  target_policy: resolve_authorized_conversation
+  action: OPEN_CONVERSATION
+  prompts:
+  - Open my chat with Frank
+  - Open the conversation with Ana
+- route_key: attention.notifications
+  intent: VIEW_NOTIFICATIONS
+  capability_id: view_notifications
+  canonical_path: "/notifications"
+  entity_family: notification
+  target_policy: viewer_notifications
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Open notifications
+  - Show unread notifications
+- route_key: attention.activity
+  intent: VIEW_ACTIVITY
+  capability_id: view_activity
+  canonical_path: "/activity"
+  entity_family: activity
+  target_policy: viewer_activity
+  action: NAVIGATE_TO_SURFACE
+  prompts:
+  - Show my activity
+  - Open recent activity
+phases:
+- id: contract-matrix
+  title: Freeze remaining module capability-to-route/action matrix
+  child_plan: docs/work/vision-for-web-remaining-modules-contract-matrix.yaml
+  outcome: Every included module has one backend route descriptor, canonical Web route,
+    target policy, and E2E acceptance scenario.
+- id: work
+  title: Connect Work application and detail surfaces
+  child_plan: docs/work/vision-for-web-remaining-work.yaml
+  outcome: Vision opens Work applications and authorized Work/application details
+    from any authenticated route.
+- id: social-identity
+  title: Connect Circles, People, and Profile surfaces
+  child_plan: docs/work/vision-for-web-remaining-social-identity.yaml
+  outcome: Vision opens social and identity surfaces and clarifies ambiguous or unauthorized
+    person/circle targets.
+- id: things-rides
+  title: Connect Things, borrowing, and Rides surfaces
+  child_plan: docs/work/vision-for-web-remaining-things-rides.yaml
+  outcome: Vision navigates to listings, borrow workspaces, thing details, and ride
+    surfaces with viewer-safe targets.
+- id: business
+  title: Connect Business discovery, bookings, and calendar surfaces
+  child_plan: docs/work/vision-for-web-remaining-business.yaml
+  outcome: Vision opens the correct business surface while preserving public/private
+    and owner/customer boundaries.
+- id: chat
+  title: Connect Chat workspace and conversation targets
+  child_plan: docs/work/vision-for-web-remaining-chat.yaml
+  outcome: Vision opens Chat and authorized conversations without frontend person
+    matching or permission logic.
+- id: attention-activity
+  title: Connect Notifications and Activity entry points
+  child_plan: docs/work/vision-for-web-remaining-attention-activity.yaml
+  outcome: Vision opens attention and activity surfaces with typed recovery behavior.
+- id: cross-module-targets
+  title: Unify target resolution, personal context, and follow-up navigation
+  child_plan: docs/work/vision-for-web-remaining-cross-module-targets.yaml
+  outcome: Person, entity, time, and conversation context are resolved once in backend
+    services and reused by all modules.
+- id: runtime-closeout
+  title: Prove every module family and close out documentation and artifacts
+  child_plan: docs/work/vision-for-web-remaining-runtime-closeout.yaml
+  outcome: Each module has real runtime evidence from input to final URL, with portable
+    contract and cleanup verification.
+evidence:
+- verifiedAt: '2026-07-20T17:05:07Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  children:
+  - docs/work/vision-for-web-remaining-modules-contract-matrix.yaml
+  - docs/work/vision-for-web-remaining-work.yaml
+  - docs/work/vision-for-web-remaining-social-identity.yaml
+  - docs/work/vision-for-web-remaining-things-rides.yaml
+  - docs/work/vision-for-web-remaining-business.yaml
+  - docs/work/vision-for-web-remaining-chat.yaml
+  - docs/work/vision-for-web-remaining-attention-activity.yaml
+  - docs/work/vision-for-web-remaining-cross-module-targets.yaml
+  - docs/work/vision-for-web-remaining-runtime-closeout.yaml

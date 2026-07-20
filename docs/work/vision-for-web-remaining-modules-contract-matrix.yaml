@@ -1,0 +1,104 @@
+kind: work
+version: 1
+id: vision-for-web-remaining-modules-contract-matrix
+title: Freeze remaining module Vision route and action matrix
+status: verified
+baseline: 479332c
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-remaining-modules-master.yaml
+tasks:
+- id: freeze-module-route-action-matrix
+  title: Publish backend route descriptors for every remaining module surface
+  type: analysis
+  status: done
+  sequence: 1
+  inventory_item: remaining-contract-matrix
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+  required_paths:
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+  validation: git diff --check
+  acceptance:
+  - Every canonical route has an intent
+  - capability id
+  - entity family
+  - target policy
+  - and prompt examples.
+  deliverables:
+  - Backend route descriptors for every matrix surface
+  - explicit target policy
+  - prompt fixtures
+  - and a documented gap list.
+  must_prove:
+  - No route is represented only by a frontend literal
+  - and every target-bearing route declares authorization and ambiguity behavior.
+  started_at: '2026-07-20T16:01:13Z'
+  start_fingerprints:
+    docs/work/vision-for-web-remaining-modules-master.yaml: 3436a94b173e93cb3381891c11843c05a280acb43bafac466ea5dc3965a546f7
+- id: validate-action-contract-coverage
+  title: Validate action types, frontend route registry, and missing target fields
+  type: analysis
+  status: done
+  sequence: 2
+  inventory_item: remaining-contract-validation
+  depends_on: freeze-module-route-action-matrix
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && git diff --check
+  acceptance:
+  - Frontend executes only typed backend actions and every action path resolves through
+    the canonical route registry.
+  deliverables:
+  - Typed action fields
+  - route-key registry entries
+  - detail-route resolver coverage
+  - and frontend rejection of unknown or malformed actions.
+  must_prove:
+  - The client never derives a domain URL from natural-language text or an untrusted
+    target label.
+  started_at: '2026-07-20T16:02:19Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts: bee44b8bddde86f4822bb2de6a764ea12de8c598c671a3ca68e5088c9a8ae77f
+evidence:
+- task: freeze-module-route-action-matrix
+  command: git diff --check
+  ranAt: '2026-07-20T16:02:14Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+  output: "\n"
+  startedAt: '2026-07-20T16:01:13Z'
+  changedAfterStart: &1
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: validate-action-contract-coverage
+  command: npm --prefix apps/themuffinman/frontend run type-check && git diff --check
+  ranAt: '2026-07-20T16:03:35Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  startedAt: '2026-07-20T16:02:19Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

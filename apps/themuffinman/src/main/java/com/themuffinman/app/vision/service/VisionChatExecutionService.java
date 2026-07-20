@@ -63,8 +63,15 @@ public class VisionChatExecutionService {
     }
 
     private String resolveTargetQuery(String prompt, VisionSemanticPlan semanticPlan) {
-        if (semanticPlan != null && semanticPlan.getTargetUserQuery() != null && !semanticPlan.getTargetUserQuery().isBlank()) {
-            return semanticPlan.getTargetUserQuery().trim();
+        if (semanticPlan != null) {
+            // Production target extraction belongs to the OpenAI semantic plan.
+            // Prompt-prefix parsing remains available only for development fixtures.
+            if (semanticPlan.getTargetUserQuery() != null && !semanticPlan.getTargetUserQuery().isBlank()) {
+                return semanticPlan.getTargetUserQuery().trim();
+            }
+            if (semanticPlan.getCapabilityId() != null && !semanticPlan.getCapabilityId().isBlank()) {
+                return "";
+            }
         }
         String normalizedPrompt = prompt == null ? "" : prompt.trim();
         String stripped = VisionPromptTextSupport.extractAfterAnyPrefix(

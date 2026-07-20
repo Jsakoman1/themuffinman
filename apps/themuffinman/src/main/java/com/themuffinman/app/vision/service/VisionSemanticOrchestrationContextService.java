@@ -626,16 +626,25 @@ public class VisionSemanticOrchestrationContextService {
 
     private String retrievedEntityFamily(VisionLearningPreferenceDTO preferredEntityFamily, List<String> recentEntityFamilies) {
         double confidenceThreshold = VisionPreferenceConfidenceSupport.threshold(visionProperties == null ? null : visionProperties.getMemory());
+        String recentFamily = firstRecentEntityFamily(recentEntityFamilies);
+        // A fresh module context wins over a stale learned preference. This
+        // prevents follow-up prompts from silently inheriting an old target.
+        if (recentFamily != null) {
+            return recentFamily;
+        }
         if (preferredEntityFamily != null
                 && preferredEntityFamily.getConfidenceScore() != null
                 && preferredEntityFamily.getConfidenceScore() >= confidenceThreshold) {
             return clean(preferredEntityFamily.getPreferenceValue());
         }
 
+        return null;
+    }
+
+    private String firstRecentEntityFamily(List<String> recentEntityFamilies) {
         if (recentEntityFamilies == null || recentEntityFamilies.isEmpty()) {
             return null;
         }
-
         for (String family : recentEntityFamilies) {
             if (family != null && !family.isBlank()) {
                 return clean(family);

@@ -1,0 +1,71 @@
+kind: work
+version: 1
+id: vision-for-web-remaining-cross-module-targets
+title: Unify cross-module Vision target resolution and personal context
+status: verified
+baseline: 479332c
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-remaining-modules-master.yaml
+tasks:
+- id: unify-target-resolution-and-personal-context
+  title: Reuse one backend resolver pipeline for people, entities, time, and current
+    Web context
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: remaining-cross-module-targets
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/semantic
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticEnvelopeSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticEnvelopeSupport.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Follow-up prompts preserve valid context
+  - explicit topic switches clear stale targets
+  - and all inaccessible targets fail closed.
+  deliverables:
+  - One resolver pipeline for person/entity/time/context slots
+  - explicit stale-context clearing
+  - and cross-module orchestration tests.
+  must_prove:
+  - A target resolved in one module cannot silently leak into another module after
+    an explicit topic switch.
+  started_at: '2026-07-20T16:18:55Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticEnvelopeSupport.java: c6b6dcd5a82a00521778c2d9275d2f4053302eca9c4adf6d4c5da950d1b2400f
+evidence:
+- task: unify-target-resolution-and-personal-context
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T16:19:43Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticEnvelopeSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 759, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  20.502 s\n[INFO] Finished at: 2026-07-20T18:20:05+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T16:18:55Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticEnvelopeSupport.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

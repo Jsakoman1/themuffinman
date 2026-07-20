@@ -1,0 +1,125 @@
+kind: work
+version: 1
+id: vision-for-web-remaining-work
+title: Connect remaining Work surfaces to VisionForWeb
+status: verified
+baseline: 479332c
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-remaining-modules-master.yaml
+tasks:
+- id: connect-work-application-surfaces
+  title: Add backend actions and Web navigation for applications
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: remaining-work-navigation
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check"
+  acceptance:
+  - Open my applications from any authenticated route reaches /work/applications through
+    a backend action.
+  deliverables:
+  - Application-list route descriptor
+  - typed NAVIGATE_TO_SURFACE action
+  - shell registry handoff
+  - and backend/frontend regression tests.
+  must_prove:
+  - The same action works from multiple authenticated entry routes and preserves the
+    current viewer context.
+  started_at: '2026-07-20T16:03:44Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java: 54e9428809a6987199ce2e6a6cb00fecf43ad2d30a0b1e9ba963d724e55580e1
+- id: connect-work-detail-and-application-detail
+  title: Resolve and open authorized Work and application detail targets
+  type: implementation
+  status: done
+  sequence: 2
+  inventory_item: remaining-work-detail
+  depends_on: connect-work-application-surfaces
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - One authorized target opens its canonical detail URL; ambiguous
+  - inaccessible
+  - and stale targets clarify or block.
+  deliverables:
+  - Application and quest target resolution
+  - OPEN_ENTITY_DETAIL payloads
+  - fail-closed clarification/recovery responses
+  - and resolver tests.
+  must_prove:
+  - No detail URL is emitted without an authorized id resolved by backend code.
+  started_at: '2026-07-20T16:06:04Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java: 6b41009030b453cd1acf72a916d6a181402092881aab49f2b2f183986ed1459c
+evidence:
+- task: connect-work-application-surfaces
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check"
+  ranAt: '2026-07-20T16:05:29Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/visionWebAction.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 759, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  26.540 s\n[INFO] Finished at: 2026-07-20T18:05:56+02:00\n[INFO] ------------------------------------------------------------------------\n\n>
+    frontend@0.0.0 type-check\n> vue-tsc --noEmit\n\n\n"
+  startedAt: '2026-07-20T16:03:44Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: connect-work-detail-and-application-detail
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T16:06:36Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 759, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  23.139 s\n[INFO] Finished at: 2026-07-20T18:07:00+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T16:06:04Z'
+  changedAfterStart: &2
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

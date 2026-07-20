@@ -11,6 +11,7 @@ import com.themuffinman.app.business.dto.BusinessGalleryImageResponseDTO;
 import com.themuffinman.app.business.service.BusinessBookingReadService;
 import com.themuffinman.app.business.service.BusinessOwnerDashboardReadService;
 import com.themuffinman.app.business.service.BusinessPublicReadService;
+import com.themuffinman.app.business.repository.BusinessProfileRepository;
 import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
@@ -32,9 +33,18 @@ class VisionBusinessPreviewRenderer {
     private final BusinessPublicReadService businessPublicReadService;
     private final BusinessOwnerDashboardReadService businessOwnerDashboardReadService;
     private final BusinessBookingReadService businessBookingReadService;
+    private final BusinessProfileRepository businessProfileRepository;
 
     VisionCapabilityPreviewDTO previewBusiness(AppUser currentUser) {
         if (currentUser == null) {
+            return null;
+        }
+
+        // Public Business discovery is valid without an owner profile. Check
+        // existence before entering the owner-dashboard path because that path
+        // intentionally throws when no private profile exists; catching that
+        // exception inside the Vision transaction leaves it rollback-only.
+        if (businessProfileRepository.findByOwnerId(currentUser.getId()).isEmpty()) {
             return null;
         }
 

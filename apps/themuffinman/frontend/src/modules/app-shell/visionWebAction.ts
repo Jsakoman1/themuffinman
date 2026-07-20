@@ -1,14 +1,12 @@
 import type {Router} from "vue-router"
 import type {VisionWebAction} from "../vision/api/visionConversationViewModels.ts"
 import {visionWebActionQuery} from "./visionHandoff.ts"
-
-const allowedActions = new Set(["NAVIGATE_TO_SURFACE", "OPEN_ENTITY_DETAIL", "OPEN_ENTITY_PREVIEW"])
+import {isVisionWebActionRouteAllowed} from "./shellRouteRegistry.ts"
 
 const isSafeInternalPath = (path: string) => path.startsWith("/") && !path.startsWith("//") && !path.includes("\\")
 
 export const executeVisionWebAction = async (router: Router, action: VisionWebAction | null | undefined) => {
-  if (!action || action.ambiguous || !allowedActions.has(action.action) || !isSafeInternalPath(action.canonicalPath)
-    || (action.action === "OPEN_ENTITY_DETAIL" && action.targetId == null)) {
+  if (!action || action.ambiguous || !isSafeInternalPath(action.canonicalPath) || !isVisionWebActionRouteAllowed(action)) {
     return false
   }
 

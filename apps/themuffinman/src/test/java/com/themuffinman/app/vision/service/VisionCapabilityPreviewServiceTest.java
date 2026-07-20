@@ -17,6 +17,8 @@ import com.themuffinman.app.business.model.BusinessBookingStatus;
 import com.themuffinman.app.business.service.BusinessOwnerDashboardReadService;
 import com.themuffinman.app.business.service.BusinessBookingReadService;
 import com.themuffinman.app.business.service.BusinessPublicReadService;
+import com.themuffinman.app.business.repository.BusinessProfileRepository;
+import com.themuffinman.app.business.model.BusinessProfile;
 import com.themuffinman.app.identity.dto.AppUserResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
@@ -50,10 +52,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 import java.util.List;
+import java.util.Optional;
 import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -118,6 +122,9 @@ class VisionCapabilityPreviewServiceTest {
     private BusinessBookingReadService businessBookingReadService;
 
     @Mock
+    private BusinessProfileRepository businessProfileRepository;
+
+    @Mock
     private ActivityReadService activityReadService;
 
     private VisionCapabilityPreviewService service;
@@ -141,7 +148,8 @@ class VisionCapabilityPreviewServiceTest {
         VisionBusinessPreviewRenderer businessPreviewRenderer = new VisionBusinessPreviewRenderer(
                 businessPublicReadService,
                 businessOwnerDashboardReadService,
-                businessBookingReadService
+                businessBookingReadService,
+                businessProfileRepository
         );
         VisionSocialPreviewRenderer socialPreviewRenderer = new VisionSocialPreviewRenderer(circleReadService);
         VisionSocialMutationAdapter socialMutationAdapter = new VisionSocialMutationAdapter(circleService);
@@ -330,6 +338,7 @@ class VisionCapabilityPreviewServiceTest {
     @Test
     void previewBusinessUsesPublicPageAndOfferings() {
         AppUser currentUser = new AppUser();
+        when(businessProfileRepository.findByOwnerId(currentUser.getId())).thenReturn(Optional.of(new BusinessProfile()));
         BusinessOwnerDashboardDTO dashboard = BusinessOwnerDashboardDTO.builder()
                 .businessName("Dog Groomer")
                 .slug("dog-groomer")
@@ -373,6 +382,15 @@ class VisionCapabilityPreviewServiceTest {
         assertTrue(preview.getItems().stream().anyMatch(item -> "business_name".equals(item.getSlotId()) && "Dog Groomer".equals(item.getValue())));
         assertTrue(preview.getItems().stream().anyMatch(item -> "business_offering_9".equals(item.getSlotId()) && item.getValue().contains("CHF")));
         assertTrue(preview.getItems().stream().anyMatch(item -> "business_gallery_3".equals(item.getSlotId()) && "https://example.com/front.jpg".equals(item.getValue())));
+    }
+
+    @Test
+    void previewBusinessSkipsOwnerDashboardWhenViewerHasNoBusinessProfile() {
+        AppUser currentUser = new AppUser();
+        when(businessProfileRepository.findByOwnerId(currentUser.getId())).thenReturn(Optional.empty());
+
+        assertNull(service.previewBusiness(currentUser));
+        org.mockito.Mockito.verifyNoInteractions(businessOwnerDashboardReadService, businessPublicReadService);
     }
 
     @Test

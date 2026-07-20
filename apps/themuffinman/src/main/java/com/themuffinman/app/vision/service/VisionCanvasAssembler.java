@@ -148,35 +148,101 @@ public class VisionCanvasAssembler {
                 entityFamily = "profile";
                 label = "Profile";
             }
+            case VIEW_SETTINGS -> {
+                routeKey = "profile.settings";
+                canonicalPath = "/profile/settings";
+                entityFamily = "settings";
+                label = "Profile settings";
+            }
+            case VIEW_RIDES -> {
+                String rideId = conversation.getSlotData().get("ride_id");
+                if (rideId != null && !rideId.isBlank()) {
+                    action = "OPEN_ENTITY_DETAIL";
+                    routeKey = "rides.detail";
+                    canonicalPath = "/rides/" + rideId;
+                    entityFamily = "ride";
+                    label = "Ride detail";
+                    targetId = rideId;
+                } else {
+                    routeKey = "rides.list";
+                    canonicalPath = "/rides";
+                    entityFamily = "ride";
+                    label = "Rides";
+                }
+            }
             case VIEW_THINGS -> {
                 routeKey = "things.index";
                 canonicalPath = "/things";
                 entityFamily = "thing";
                 label = "Things";
             }
+            case VIEW_BORROW_REQUESTS -> {
+                routeKey = "things.borrow";
+                canonicalPath = "/things/requests";
+                entityFamily = "borrow_request";
+                label = "Borrow requests";
+            }
             case VIEW_BUSINESS_BOOKINGS -> {
                 routeKey = "business.bookings";
-                canonicalPath = "/business/bookings";
+                canonicalPath = "customer".equalsIgnoreCase(conversation.getSlotData().get("booking_scope"))
+                        ? "/business/my-bookings" : "/business/bookings";
+                if (canonicalPath.endsWith("my-bookings")) {
+                    routeKey = "business.my_bookings";
+                }
                 entityFamily = "business";
-                label = "Business bookings";
+                label = canonicalPath.endsWith("my-bookings") ? "My appointments" : "Business bookings";
+            }
+            case VIEW_BUSINESS -> {
+                String businessSlug = conversation.getSlotData().get("resolved_business_slug");
+                if (businessSlug != null && !businessSlug.isBlank()) {
+                    action = "OPEN_ENTITY_DETAIL";
+                    routeKey = "business.public_profile";
+                    canonicalPath = "/business/public/" + businessSlug;
+                    label = conversation.getSlotData().getOrDefault("resolved_business_name", "Business profile");
+                } else if ("owner".equalsIgnoreCase(conversation.getSlotData().get("business_scope"))) {
+                    routeKey = "business.owner_profile";
+                    canonicalPath = "/business/profile";
+                    label = "My business profile";
+                } else {
+                    routeKey = "business.discovery";
+                    canonicalPath = "/business/find";
+                    label = "Business discovery";
+                }
+                entityFamily = "business";
+            }
+            case VIEW_BUSINESS_AVAILABILITY -> {
+                routeKey = "business.calendar";
+                canonicalPath = "/business/calendar";
+                entityFamily = "business";
+                label = "Business calendar";
             }
             case VIEW_CHAT_WORKSPACE, OPEN_CHAT, SYNC_CHAT -> {
-                routeKey = "chat.index";
-                canonicalPath = "/chat";
+                String conversationId = conversation.getSlotData().getOrDefault(
+                        "resolved_conversation_id", conversation.getSlotData().get("conversation_id"));
+                if (conversationId != null && !conversationId.isBlank()) {
+                    action = "OPEN_CONVERSATION";
+                    routeKey = "chat.conversation";
+                    canonicalPath = "/chat/" + conversationId;
+                    label = conversation.getSlotData().getOrDefault("resolved_conversation_label", "Conversation");
+                } else {
+                    routeKey = "chat.workspace";
+                    canonicalPath = "/chat";
+                    label = "Chat";
+                }
                 entityFamily = "chat";
-                label = "Chat";
             }
             case VIEW_NOTIFICATIONS -> {
                 routeKey = "notifications.index";
                 canonicalPath = "/notifications";
                 entityFamily = "notification";
-                label = "Notifications";
+                label = "true".equalsIgnoreCase(conversation.getSlotData().get("unread_only"))
+                        ? "Unread notifications" : "Notifications";
             }
             case VIEW_ACTIVITY, VIEW_QUEST_NEWS -> {
                 routeKey = "activity.index";
                 canonicalPath = "/activity";
                 entityFamily = "activity";
-                label = "Activity";
+                label = com.themuffinman.app.vision.model.VisionIntent.VIEW_QUEST_NEWS.equals(conversation.getIntent()) ? "Quest news" : "Activity";
             }
             case VIEW_QUEST_DETAIL -> {
                 action = "OPEN_ENTITY_DETAIL";
@@ -189,13 +255,46 @@ public class VisionCanvasAssembler {
                 }
                 canonicalPath = "/work/quests/" + targetId;
             }
+            case VIEW_USER_PROFILE -> {
+                action = "OPEN_ENTITY_DETAIL";
+                routeKey = "people.profile";
+                entityFamily = "user";
+                label = conversation.getSlotData().getOrDefault("resolved_user_username", "People profile");
+                targetId = conversation.getSlotData().get("resolved_user_id");
+                if (targetId == null || targetId.isBlank()) {
+                    return null;
+                }
+                canonicalPath = "/people/" + targetId;
+            }
+            case VIEW_THING_DETAIL -> {
+                action = "OPEN_ENTITY_DETAIL";
+                routeKey = "things.detail";
+                entityFamily = "thing";
+                label = conversation.getSlotData().getOrDefault("resolved_thing_title", "Thing detail");
+                targetId = conversation.getSlotData().get("thing_listing_id");
+                if (targetId == null || targetId.isBlank()) {
+                    return null;
+                }
+                canonicalPath = "/things/" + targetId;
+            }
+            case VIEW_APPLICATION_DETAIL -> {
+                action = "OPEN_ENTITY_DETAIL";
+                routeKey = "work.application_detail";
+                entityFamily = "application";
+                label = conversation.getSlotData().getOrDefault("resolved_application_title", "Application detail");
+                targetId = conversation.getSlotData().get("resolved_application_id");
+                if (targetId == null || targetId.isBlank()) {
+                    return null;
+                }
+                canonicalPath = "/work/applications/" + targetId;
+            }
             default -> {
                 return null;
             }
         }
 
         return VisionWebActionDTO.builder()
-                .contractVersion("vision-web-action-v1")
+                .contractVersion("vision-web-action-v2")
                 .action(action)
                 .routeKey(routeKey)
                 .canonicalPath(canonicalPath)

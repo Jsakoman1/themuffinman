@@ -5,6 +5,7 @@ import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionRuntimeContextDTO;
+import com.themuffinman.app.vision.dto.VisionWorkspaceHandoffDTO;
 import com.themuffinman.app.vision.model.VisionAgentState;
 import com.themuffinman.app.vision.model.VisionConversation;
 import com.themuffinman.app.vision.model.VisionIntent;
@@ -22,6 +23,47 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VisionCanvasAssemblerTest {
+
+    @Test
+    void publishesTypedApplicationsNavigationForTheSharedWebShell() {
+        VisionCanvasAssembler assembler = new VisionCanvasAssembler(new VisionProperties());
+
+        AppUser currentUser = new AppUser();
+        currentUser.setId(11L);
+        VisionConversation conversation = new VisionConversation();
+        conversation.setId(42L);
+        conversation.setOwner(currentUser);
+        conversation.setIntent(VisionIntent.VIEW_APPLICATIONS);
+        conversation.setStatus(com.themuffinman.app.vision.model.VisionConversationStatus.ACTIVE);
+        conversation.setSlotData(Map.of());
+
+        VisionTurn turn = new VisionTurn();
+        turn.setId(7L);
+        turn.setConversation(conversation);
+        turn.setTurnIndex(1);
+        turn.setSource(VisionTurnSource.TEXT);
+        turn.setPrompt("show my applications");
+        turn.setNormalizedPrompt("show my applications");
+        turn.setDetectedIntent(VisionIntent.VIEW_APPLICATIONS);
+        turn.setAgentState(VisionAgentState.RECOMMENDING);
+        turn.setNextAction(VisionNextAction.SHOW_RESULTS);
+        turn.setTranslationApplied(false);
+        turn.setTranslationReliable(true);
+        turn.setAssistantMessage("Here are your applications.");
+        turn.setAppliedSlotIds(List.of());
+
+        VisionConversationTurnResponseDTO response = assembler.assemble(
+                conversation, turn, List.<VisionConversationSummaryDTO>of(), null, null, null, null, null,
+                VisionWorkspaceHandoffDTO.builder().returnTo("/work").build()
+        );
+
+        assertNotNull(response.getWebAction());
+        assertEquals("vision-web-action-v2", response.getWebAction().getContractVersion());
+        assertEquals("work.applications", response.getWebAction().getRouteKey());
+        assertEquals("NAVIGATE_TO_SURFACE", response.getWebAction().getAction());
+        assertEquals("/work/applications", response.getWebAction().getCanonicalPath());
+        assertEquals("/work", response.getWebAction().getReturnContext());
+    }
 
     @Test
     void buildsRuntimeContextFromTurnState() {

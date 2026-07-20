@@ -224,6 +224,9 @@ public class VisionIntentRouter {
         if (visionIntentSignalSupport.containsNotificationsSignals(lower)) {
             return VisionIntent.VIEW_NOTIFICATIONS;
         }
+        if (visionIntentSignalSupport.containsAny(lower, "activity", "recent activity", "my history", "recent history", "continue task")) {
+            return VisionIntent.VIEW_ACTIVITY;
+        }
         if (visionIntentSignalSupport.containsQuestNewsSignals(lower)) {
             return VisionIntent.VIEW_QUEST_NEWS;
         }

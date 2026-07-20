@@ -1,0 +1,173 @@
+{
+  "evidenceVersion": "vision-for-web-remaining-modules-runtime-v1",
+  "capturedAt": "2026-07-20T19:00:17+02:00",
+  "baseUrl": "http://localhost:5173",
+  "fixture": {
+    "user": "test@test.com",
+    "credentialPolicy": "local development fixture; no credential or token is stored"
+  },
+  "sourceSurface": "/work",
+  "providerPolicy": {
+    "production": "OpenAI semantic understanding is authoritative",
+    "development": "local emergency fixtures are permitted only for deterministic development validation"
+  },
+  "scenarios": [
+    {
+      "input": "show my applications",
+      "module": "work",
+      "expectedPath": "/work/applications",
+      "observedPath": "/work/applications",
+      "status": "passed",
+      "semanticIntent": "VIEW_APPLICATIONS",
+      "action": {
+        "contractVersion": "vision-web-action-v2",
+        "action": "NAVIGATE_TO_SURFACE",
+        "routeKey": "work.applications",
+        "canonicalPath": "/work/applications",
+        "entityFamily": "application",
+        "targetId": null,
+        "returnContext": "/work"
+      }
+    },
+    {
+      "input": "open my circles",
+      "module": "social",
+      "expectedPath": "/circles",
+      "observedPath": "/circles",
+      "status": "passed"
+      ,"semanticIntent": "VIEW_CIRCLES",
+      "action": {"contractVersion":"vision-web-action-v2","action":"NAVIGATE_TO_SURFACE","routeKey":"circles.index","canonicalPath":"/circles","entityFamily":"circle","targetId":null,"returnContext":"/work"}
+    },
+    {
+      "input": "show my profile",
+      "module": "identity",
+      "expectedPath": "/profile",
+      "observedPath": "/profile",
+      "status": "passed",
+      "semanticIntent": "VIEW_PROFILE",
+      "action": {"contractVersion":"vision-web-action-v2","action":"NAVIGATE_TO_SURFACE","routeKey":"profile.index","canonicalPath":"/profile","entityFamily":"profile","targetId":null,"returnContext":"/work"}
+    },
+    {
+      "input": "open my things",
+      "module": "things",
+      "expectedPath": "/things",
+      "observedPath": "/things",
+      "status": "passed",
+      "semanticIntent": "VIEW_THINGS",
+      "action": {"contractVersion":"vision-web-action-v2","action":"NAVIGATE_TO_SURFACE","routeKey":"things.index","canonicalPath":"/things","entityFamily":"thing","targetId":null,"returnContext":"/work"}
+    },
+    {
+      "input": "show available rides",
+      "module": "rides",
+      "expectedPath": "/rides",
+      "observedPath": "/rides",
+      "status": "passed",
+      "semanticIntent": "VIEW_RIDES",
+      "action": {"contractVersion":"vision-web-action-v2","action":"NAVIGATE_TO_SURFACE","routeKey":"rides.list","canonicalPath":"/rides","entityFamily":"ride","targetId":null,"returnContext":"/work"}
+    },
+    {
+      "input": "open chat",
+      "module": "chat",
+      "expectedPath": "/chat",
+      "observedPath": "/chat",
+      "status": "passed",
+      "semanticIntent": "OPEN_CHAT",
+      "action": {"contractVersion":"vision-web-action-v2","action":"NAVIGATE_TO_SURFACE","routeKey":"chat.workspace","canonicalPath":"/chat","entityFamily":"chat","targetId":null,"returnContext":"/work"}
+    },
+    {
+      "input": "open notifications",
+      "module": "attention",
+      "expectedPath": "/notifications",
+      "observedPath": "/notifications",
+      "status": "passed",
+      "semanticIntent": "VIEW_NOTIFICATIONS",
+      "action": {"contractVersion":"vision-web-action-v2","action":"NAVIGATE_TO_SURFACE","routeKey":"notifications.index","canonicalPath":"/notifications","entityFamily":"notification","targetId":null,"returnContext":"/work"}
+    },
+    {
+      "input": "show my activity",
+      "module": "activity",
+      "expectedPath": "/activity",
+      "observedPath": "/activity",
+      "status": "passed",
+      "semanticIntent": "VIEW_ACTIVITY",
+      "action": {"contractVersion":"vision-web-action-v2","action":"NAVIGATE_TO_SURFACE","routeKey":"activity.index","canonicalPath":"/activity","entityFamily":"activity","targetId":null,"returnContext":"/work"},
+      "transport": "POST /vision/conversations/turns returned 200"
+    },
+    {
+      "input": "find a business",
+      "module": "business",
+      "expectedPath": "/business/find",
+      "observedPath": "/business/find",
+      "status": "passed",
+      "semanticIntent": "VIEW_BUSINESS",
+      "action": {
+        "contractVersion": "vision-web-action-v2",
+        "action": "NAVIGATE_TO_SURFACE",
+        "routeKey": "business.discovery",
+        "canonicalPath": "/business/find",
+        "entityFamily": "business",
+        "targetId": null,
+        "returnContext": "/work"
+      },
+      "recovery": "A viewer without an owner profile is sent to public Business discovery; the private dashboard preview is not entered."
+    },
+    {
+      "input": "open quest 25",
+      "module": "work.detail",
+      "expectedPath": "/work/quests/25",
+      "observedPath": "/work/quests/25",
+      "status": "passed",
+      "action": {
+        "contractVersion": "vision-web-action-v2",
+        "action": "OPEN_ENTITY_DETAIL",
+        "routeKey": "work.quest_detail",
+        "canonicalPath": "/work/quests/25",
+        "entityFamily": "quest",
+        "targetId": 25,
+        "viewerSafeLabel": "Wash my suitcases",
+        "returnContext": "/work"
+      }
+    },
+    {
+      "input": "open thing 229",
+      "module": "things.detail",
+      "expectedPath": "/things/229",
+      "observedPath": "/things/229",
+      "status": "passed",
+      "action": {
+        "contractVersion": "vision-web-action-v2",
+        "action": "OPEN_ENTITY_DETAIL",
+        "routeKey": "things.detail",
+        "canonicalPath": "/things/229",
+        "entityFamily": "thing",
+        "targetId": 229,
+        "returnContext": "/work"
+      }
+    },
+    {
+      "input": "open ride 79",
+      "module": "rides.detail",
+      "expectedPath": "/rides/79",
+      "observedPath": "/rides/79",
+      "status": "passed",
+      "action": {
+        "contractVersion": "vision-web-action-v2",
+        "action": "OPEN_ENTITY_DETAIL",
+        "routeKey": "rides.detail",
+        "canonicalPath": "/rides/79",
+        "entityFamily": "ride",
+        "targetId": 79,
+        "returnContext": "/work"
+      }
+    },
+    {
+      "input": "open circle Runtime Attachment 1784465825681",
+      "module": "social.target-recovery",
+      "expectedPath": "/work",
+      "observedPath": "/work",
+      "status": "passed",
+      "recovery": "The backend requested a circle name or id and did not navigate because the authenticated viewer had no authorized matching circle."
+    }
+  ],
+  "scopeNote": "This artifact records authenticated entry navigation, authorized Work/Things/Rides detail targets, Business public-directory recovery, and an unauthorized-circle recovery. Application, People, Chat-conversation, and Business-public-profile detail targets remain unclaimed where the test fixture has no authorized target for the viewer."
+}

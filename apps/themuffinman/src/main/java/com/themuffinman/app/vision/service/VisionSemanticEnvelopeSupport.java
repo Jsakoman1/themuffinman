@@ -19,7 +19,7 @@ import java.util.Set;
 final class VisionSemanticEnvelopeSupport {
 
     private static final Map<SemanticEntityFamily, List<String>> TARGET_QUERY_PRIORITY = Map.of(
-            SemanticEntityFamily.USER, List.of("plan:targetUserQuery", "slot:profile_username", "slot:profile_description"),
+            SemanticEntityFamily.USER, List.of("slot:target_user", "plan:targetUserQuery", "slot:profile_username", "slot:profile_description"),
             SemanticEntityFamily.CIRCLE, List.of("slot:target_circle_query", "slot:circle_name"),
             SemanticEntityFamily.QUEST, List.of("slot:target_quest_query", "plan:searchQuery", "slot:quest_title", "slot:quest_description"),
             SemanticEntityFamily.APPLICATION, List.of("slot:target_application_query", "slot:target_quest_query", "plan:searchQuery"),
@@ -217,7 +217,9 @@ final class VisionSemanticEnvelopeSupport {
             resolvedCandidates.add(resolveSlotOrPlanCandidate(candidateSource, semanticPlan, slotCandidates));
         }
         String resolvedQuery = firstNonBlank(resolvedCandidates.toArray(String[]::new));
-        return normalizeTargetEntityQuery(entityFamily, resolvedQuery);
+        // Never carry a target from a previous module when the current OpenAI
+        // plan did not provide a target for the current entity family.
+        return resolvedQuery == null ? "" : normalizeTargetEntityQuery(entityFamily, resolvedQuery);
     }
 
     private Map<String, String> canonicalizeSlotCandidates(VisionIntent candidateIntent, VisionPromptUnderstandingResult understanding) {

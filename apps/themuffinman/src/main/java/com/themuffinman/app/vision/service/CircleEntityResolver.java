@@ -24,18 +24,24 @@ public class CircleEntityResolver implements VisionEntityResolver<VisionResolved
         return SemanticEntityFamily.CIRCLE;
     }
 
+    /**
+     * Resolves owned circles through the existing visibility-aware service;
+     * unresolved and ambiguous circles remain non-navigable.
+     */
     @Override
     public SemanticEntityResolution<VisionResolvedCircleTarget> resolve(AppUser currentUser, String targetEntityQuery) {
         VisionResolvedCircleTarget target = visionCapabilityPreviewService.resolveOwnedCircle(currentUser, targetEntityQuery);
+        SemanticEntityResolutionStatus status = target != null && target.resolved()
+                ? SemanticEntityResolutionStatus.RESOLVED : inferStatus(target);
         return SemanticEntityResolution.<VisionResolvedCircleTarget>builder()
                 .entityFamily(SemanticEntityFamily.CIRCLE)
-                .status(target != null && target.resolved() ? SemanticEntityResolutionStatus.RESOLVED : inferStatus(target))
+                .status(status)
                 .targetEntityQuery(targetEntityQuery)
                 .entity(target)
                 .canonicalLabel(target == null ? null : target.circleName())
                 .ambiguityReason(target == null ? "No circle resolver result." : target.blockingMessage())
                 .confidence(SemanticEntityResolutionSupport.confidenceForResolution(
-                        target != null && target.resolved() ? SemanticEntityResolutionStatus.RESOLVED : inferStatus(target),
+                        status,
                         targetEntityQuery,
                         target == null ? null : target.circleName(),
                         target == null ? "No circle resolver result." : target.blockingMessage(),

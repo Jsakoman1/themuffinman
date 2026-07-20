@@ -305,6 +305,56 @@ export const getSurfaceOwnership = (surfaceId: AppSurfaceId) => surfaceOwnership
 
 export const getSurfaceVisionPrompt = (surfaceId: AppSurfaceId) => surfaceOwnershipMatrix[surfaceId].visionPrompt
 
+export type VisionWebRouteContract = {
+  routeKey: string
+  action: "NAVIGATE_TO_SURFACE" | "OPEN_ENTITY_DETAIL" | "OPEN_ENTITY_PREVIEW" | "OPEN_CONVERSATION"
+  pathPattern: RegExp
+  requiresTarget: boolean
+}
+
+// Backend publishes routeKey/action/canonicalPath. The Web client only accepts
+// combinations declared here; it never turns a natural-language target into a URL.
+export const visionWebRouteContracts: VisionWebRouteContract[] = [
+  {routeKey: "work.my_quests", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/work\/quests$/, requiresTarget: false},
+  {routeKey: "work.applications", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/work\/applications$/, requiresTarget: false},
+  {routeKey: "work.application_detail", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/work\/applications\/\d+$/, requiresTarget: true},
+  {routeKey: "work.quest_detail", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/work\/quests\/\d+$/, requiresTarget: true},
+  {routeKey: "circles.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/circles$/, requiresTarget: false},
+  {routeKey: "circles.list", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/circles$/, requiresTarget: false},
+  {routeKey: "people.profile", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/people\/\d+$/, requiresTarget: true},
+  {routeKey: "profile.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/profile$/, requiresTarget: false},
+  {routeKey: "profile.settings", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/profile\/settings$/, requiresTarget: false},
+  {routeKey: "things.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/things$/, requiresTarget: false},
+  {routeKey: "things.list", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/things$/, requiresTarget: false},
+  {routeKey: "things.mine", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/things\/mine$/, requiresTarget: false},
+  {routeKey: "things.detail", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/things\/\d+$/, requiresTarget: true},
+  {routeKey: "things.borrow", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/things\/requests$/, requiresTarget: false},
+  {routeKey: "rides.list", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/rides$/, requiresTarget: false},
+  {routeKey: "rides.mine", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/rides\/mine$/, requiresTarget: false},
+  {routeKey: "rides.detail", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/rides\/\d+$/, requiresTarget: true},
+  {routeKey: "business.bookings", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/bookings$/, requiresTarget: false},
+  {routeKey: "business.my_bookings", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/my-bookings$/, requiresTarget: false},
+  {routeKey: "business.discovery", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/find$/, requiresTarget: false},
+  {routeKey: "business.public_profile", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/business\/public\/[^/]+$/, requiresTarget: false},
+  {routeKey: "business.owner_profile", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/profile$/, requiresTarget: false},
+  {routeKey: "business.my_bookings", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/my-bookings$/, requiresTarget: false},
+  {routeKey: "business.calendar", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/calendar$/, requiresTarget: false},
+  {routeKey: "chat.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/chat$/, requiresTarget: false},
+  {routeKey: "chat.workspace", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/chat$/, requiresTarget: false},
+  {routeKey: "chat.conversation", action: "OPEN_CONVERSATION", pathPattern: /^\/chat\/\d+$/, requiresTarget: true},
+  {routeKey: "notifications.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/notifications$/, requiresTarget: false},
+  {routeKey: "attention.notifications", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/notifications$/, requiresTarget: false},
+  {routeKey: "activity.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/activity$/, requiresTarget: false},
+  {routeKey: "attention.activity", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/activity$/, requiresTarget: false}
+]
+
+export const isVisionWebActionRouteAllowed = (action: {action: string; routeKey: string; canonicalPath: string; targetId: number | null}) => {
+  const contract = visionWebRouteContracts.find((candidate) => candidate.routeKey === action.routeKey && candidate.action === action.action)
+  return contract !== undefined
+    && contract.pathPattern.test(action.canonicalPath)
+    && (!contract.requiresTarget || action.targetId != null)
+}
+
 export const resolveSurfaceDetailRoute = (surfaceId: AppSurfaceId, targetId: number): RouteLocationRaw | null => {
   const ownership = surfaceOwnershipMatrix[surfaceId]
   if (!ownership.canonicalDetailRoute) {

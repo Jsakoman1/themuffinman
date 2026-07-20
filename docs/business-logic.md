@@ -4,6 +4,8 @@
 
 VisionForWeb is available from the authenticated shell and can open canonical module surfaces from text or voice input. OpenAI owns production semantic interpretation; a provider outage pauses Vision and preserves retryable conversation state. Local deterministic routing exists only for explicitly labeled development/test fixtures. Opening a surface never bypasses backend permission, mutation review, or confirmation rules.
 
+Supported navigation families share one backend-published action contract: Work, Circles/People/Profile, Things, Rides, Business, Chat, Notifications, and Activity. Vision can open an entry surface from any authenticated shell context and can open a detail surface only after the backend resolves an authorized entity. A user without a business owner profile can still ask to find businesses; that request opens the public Business directory rather than incorrectly requiring the private dashboard.
+
 This document explains the product in user-facing terms. It is meant to stay aligned with the code and serve as a future FAQ source for humans and chatbots.
 
 ## Authenticated Web completion rules

@@ -99,6 +99,7 @@ class VisionChatExecutionServiceTest {
                 VisionSemanticPlan.builder()
                         .candidateIntent(VisionIntent.OPEN_CHAT.name())
                         .capabilityId("open_chat")
+                        .targetUserQuery("Josip")
                         .build()
         );
 
@@ -131,6 +132,7 @@ class VisionChatExecutionServiceTest {
                 VisionSemanticPlan.builder()
                         .candidateIntent(VisionIntent.OPEN_CHAT.name())
                         .capabilityId("open_chat")
+                        .targetUserQuery("Josip")
                         .build()
         );
 

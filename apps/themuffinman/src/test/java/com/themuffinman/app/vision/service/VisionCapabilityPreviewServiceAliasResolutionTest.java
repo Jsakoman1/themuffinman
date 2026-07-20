@@ -5,6 +5,7 @@ import com.themuffinman.app.activity.service.ActivityReadService;
 import com.themuffinman.app.business.service.BusinessOwnerDashboardReadService;
 import com.themuffinman.app.business.service.BusinessBookingReadService;
 import com.themuffinman.app.business.service.BusinessPublicReadService;
+import com.themuffinman.app.business.repository.BusinessProfileRepository;
 import com.themuffinman.app.identity.mapper.AppUserMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
@@ -107,7 +108,8 @@ class VisionCapabilityPreviewServiceAliasResolutionTest {
         VisionBusinessPreviewRenderer businessPreviewRenderer = new VisionBusinessPreviewRenderer(
                 businessPublicReadService,
                 businessOwnerDashboardReadService,
-                businessBookingReadService
+                businessBookingReadService,
+                org.mockito.Mockito.mock(BusinessProfileRepository.class)
         );
         VisionSocialPreviewRenderer socialPreviewRenderer = new VisionSocialPreviewRenderer(circleReadService);
         VisionSocialMutationAdapter socialMutationAdapter = new VisionSocialMutationAdapter(circleService);

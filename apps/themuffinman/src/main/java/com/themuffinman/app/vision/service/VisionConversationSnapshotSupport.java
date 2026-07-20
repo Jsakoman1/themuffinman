@@ -118,7 +118,10 @@ final class VisionConversationSnapshotSupport {
             case CANCEL_BORROW, DECIDE_BORROW, RETURN_BORROW, UPDATE_THING, ARCHIVE_THING, EDIT_CHAT_MESSAGE, REPLY_TO_CHAT_MESSAGE, REACT_TO_CHAT_MESSAGE, CREATE_BUSINESS_PROFILE, UPDATE_BUSINESS_PROFILE, CREATE_GALLERY_IMAGE, UPDATE_GALLERY_IMAGE, DELETE_GALLERY_IMAGE, CREATE_AVAILABILITY_RULE, UPDATE_AVAILABILITY_RULE, DELETE_AVAILABILITY_RULE, CREATE_AVAILABILITY_EXCEPTION, UPDATE_AVAILABILITY_EXCEPTION, DELETE_AVAILABILITY_EXCEPTION, LEAVE_CIRCLE, CONFIRM_BOOKING, CANCEL_BOOKING, REJECT_BOOKING, COMPLETE_BOOKING, MARK_BOOKING_NO_SHOW, ARCHIVE_OFFERING, UPDATE_QUEST, CREATE_OFFERING, UPDATE_OFFERING, CREATE_BOOKING -> null;
             case VIEW_PROFILE -> visionCapabilityPreviewService.previewProfile(currentUser);
             case VIEW_SETTINGS -> visionCapabilityPreviewService.previewSettings(currentUser);
-            case VIEW_BUSINESS -> visionCapabilityPreviewService.previewBusiness(currentUser);
+            // Business discovery is valid before an owner profile exists. A
+            // missing private dashboard must not prevent the typed Web action
+            // from opening the public Business directory.
+            case VIEW_BUSINESS -> safeBusinessPreview(currentUser, visionCapabilityPreviewService);
             case VIEW_BUSINESS_AVAILABILITY -> visionCapabilityPreviewService.previewBusinessAvailability(currentUser);
             case VIEW_BUSINESS_BOOKINGS -> visionCapabilityPreviewService.previewBusinessBookings(currentUser);
             case VIEW_USER_PROFILE -> hasText(conversation.getSlotData().get("resolved_profile_user_id"))
@@ -185,6 +188,17 @@ final class VisionConversationSnapshotSupport {
                     "The current view was reset. " + readOnlySnapshotMessage(intent);
             default -> "The current view was reset.";
         };
+    }
+
+    private static VisionCapabilityPreviewDTO safeBusinessPreview(
+            AppUser currentUser,
+            VisionCapabilityPreviewService visionCapabilityPreviewService
+    ) {
+        try {
+            return visionCapabilityPreviewService.previewBusiness(currentUser);
+        } catch (RuntimeException ignored) {
+            return null;
+        }
     }
 
     private static boolean hasText(String value) {

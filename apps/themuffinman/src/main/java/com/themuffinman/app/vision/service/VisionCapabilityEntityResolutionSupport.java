@@ -255,6 +255,11 @@ final class VisionCapabilityEntityResolutionSupport {
                 + suggestions + ". Say the exact quest title or quest id.");
     }
 
+    /**
+     * Resolves only applications owned by the current applicant. The returned id
+     * is the sole source for the Web detail route; labels and user input never
+     * become a route segment themselves.
+     */
     VisionResolvedApplicationTarget resolveMyApplicationDetail(AppUser currentUser, String query) {
         if (!hasText(query)) {
             return VisionResolvedApplicationTarget.unresolved("What application should I open? Say the application id or the exact quest title.");

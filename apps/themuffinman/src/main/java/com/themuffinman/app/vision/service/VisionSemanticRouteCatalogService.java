@@ -90,7 +90,7 @@ public class VisionSemanticRouteCatalogService {
                 decideBorrowRoute(),
                 returnBorrowRoute(),
                 rideRoute("vision.create_ride", "CREATE_RIDE", "create_ride", "Offer a voluntary ride after explicit review and confirmation.", true),
-                rideRoute("vision.view_rides", "VIEW_RIDES", "view_rides", "Show permitted voluntary rides.", false),
+                rideRoute("vision.view_rides", "VIEW_RIDES", "view_rides", "Show permitted voluntary rides or open one backend-authorized ride detail at /rides/{rideId}.", false),
                 rideRoute("vision.join_ride", "JOIN_RIDE", "join_ride", "Join a permitted ride after explicit confirmation.", true),
                 rideRoute("vision.update_ride", "UPDATE_RIDE", "update_ride", "Update an owned ride after explicit confirmation.", true),
                 rideRoute("vision.leave_ride", "LEAVE_RIDE", "leave_ride", "Leave a joined ride after explicit confirmation.", true),
@@ -750,7 +750,7 @@ public class VisionSemanticRouteCatalogService {
                 .entityType("thing")
                 .intent("VIEW_THING_DETAIL")
                 .capabilityId("view_thing_detail")
-                .purpose("Read-only detailed snapshot of one shared thing listing.")
+                .purpose("Read-only detailed snapshot of one authorized shared thing listing; the Web client opens things.detail at /things/{listingId} only after backend target resolution.")
                 .mutating(false)
                 .requiresReview(false)
                 .slots(List.of(slot("thing_listing_id", "thingListing.id", "identifier", true,
@@ -765,7 +765,7 @@ public class VisionSemanticRouteCatalogService {
                 .entityType("borrow_request")
                 .intent("VIEW_BORROW_REQUESTS")
                 .capabilityId("view_borrow_requests")
-                .purpose("Read-only list of the authenticated user's Things borrow requests and loans.")
+                .purpose("Read-only list of the authenticated user's Things borrow requests and loans; the Web client opens things.borrow at /things/requests.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(example("show my borrow requests", Map.of()), example("show my loans", Map.of())))
@@ -798,7 +798,7 @@ public class VisionSemanticRouteCatalogService {
                 .entityType("chat")
                 .intent("OPEN_CHAT")
                 .capabilityId("open_chat")
-                .purpose("Open an existing permitted chat boundary with a contact identified by the user.")
+                .purpose("Open an existing permitted chat boundary with a contact identified by the user; the Web action opens chat.conversation at /chat/{conversationId} only after backend conversation resolution.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(
@@ -817,7 +817,7 @@ public class VisionSemanticRouteCatalogService {
                 .entityType("chat")
                 .intent("VIEW_CHAT_WORKSPACE")
                 .capabilityId("view_chat_workspace")
-                .purpose("Read-only summary of the authenticated user's chat workspace inside the Vision terminal flow.")
+                .purpose("Read-only summary of the authenticated user's chat workspace; the Web action opens chat.workspace at /chat when no specific authorized conversation is resolved.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(
@@ -1255,12 +1255,14 @@ public class VisionSemanticRouteCatalogService {
                 .intent("VIEW_BUSINESS")
                 .capabilityId("view_business")
                 .dtoType("BusinessPublicPageDTO")
-                .purpose("Read-only business page snapshot for the authenticated owner inside the Vision terminal flow.")
+                .purpose("Read-only Business discovery, public profile, or owner profile handoff; the backend selects /business/find, /business/public/{slug}, or /business/profile from authorized context.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(
                         example("show my business", Map.of()),
-                        example("open business page", Map.of())
+                        example("open business page", Map.of()),
+                        example("find a business", Map.of()),
+                        example("discover businesses", Map.of())
                 ))
                 .slots(List.of())
                 .build();
@@ -1273,7 +1275,7 @@ public class VisionSemanticRouteCatalogService {
                 .intent("VIEW_BUSINESS_AVAILABILITY")
                 .capabilityId("view_business_availability")
                 .dtoType("BusinessOwnerDashboardDTO")
-                .purpose("Read-only business availability and owner schedule snapshot inside the Vision terminal flow.")
+                .purpose("Read-only business availability and owner schedule snapshot; the backend-published Web action opens /business/calendar and keeps exception/booking mutations behind existing confirmation boundaries.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(
@@ -1291,7 +1293,7 @@ public class VisionSemanticRouteCatalogService {
                 .intent("VIEW_BUSINESS_BOOKINGS")
                 .capabilityId("view_business_bookings")
                 .dtoType("BusinessBookingListResponseDTO")
-                .purpose("Read-only booking list and booking request snapshot inside the Vision terminal flow.")
+                .purpose("Read-only owner or customer booking surface; the backend selects /business/bookings or /business/my-bookings from authorized viewer context.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(
@@ -1308,7 +1310,7 @@ public class VisionSemanticRouteCatalogService {
                 .entityType("profile")
                 .intent("VIEW_USER_PROFILE")
                 .capabilityId("view_user_profile")
-                .purpose("Read-only detailed snapshot of one user profile inside the Vision terminal flow.")
+                .purpose("Read-only detailed snapshot of one privacy-authorized user profile; the Web client opens the backend-resolved people.profile action at /people/{userId}.")
                 .mutating(false)
                 .requiresReview(false)
                 .slots(List.of(
@@ -1410,7 +1412,7 @@ public class VisionSemanticRouteCatalogService {
                 .entityType("notification")
                 .intent("VIEW_NOTIFICATIONS")
                 .capabilityId("view_notifications")
-                .purpose("Read-only notifications inbox for the authenticated user inside the Vision terminal flow.")
+                .purpose("Read-only notifications inbox for the authenticated user; the Web action opens /notifications and preserves viewer scope, with optional unread-only surface state.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(
@@ -1427,7 +1429,7 @@ public class VisionSemanticRouteCatalogService {
                 .entityType("activity")
                 .intent("VIEW_ACTIVITY")
                 .capabilityId("view_activity")
-                .purpose("Read-only viewer-scoped activity and resumable Vision tasks inside the Vision terminal flow.")
+                .purpose("Read-only viewer-scoped activity and resumable Vision tasks; the Web action opens /activity without moving read-state or permission rules into Vue.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(
@@ -1462,7 +1464,7 @@ public class VisionSemanticRouteCatalogService {
                 .entityType("application")
                 .intent("VIEW_APPLICATIONS")
                 .capabilityId("view_applications")
-                .purpose("Read-only summary of the authenticated user's quest applications inside the Vision terminal flow.")
+                .purpose("Read-only summary of the authenticated user's quest applications; the Web client opens the backend-published work.applications action at /work/applications.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(

@@ -1,0 +1,123 @@
+kind: work
+version: 1
+id: vision-for-web-remaining-runtime-closeout
+title: Runtime-prove and close out remaining VisionForWeb module integrations
+status: verified
+baseline: 479332c
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-remaining-modules-master.yaml
+tasks:
+- id: capture-module-runtime-evidence
+  title: Capture authenticated text and voice runtime evidence for every module family
+  type: runtime
+  status: done
+  sequence: 1
+  inventory_item: remaining-runtime-matrix
+  paths:
+  - docs/runtime-evidence/vision-for-web-remaining-modules-runtime.json
+  required_paths:
+  - docs/runtime-evidence/vision-for-web-remaining-modules-runtime.json
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-for-web-remaining-modules-runtime.json
+  manual_runtime_command: make dev
+  validation: git diff --check
+  acceptance:
+  - Each module family records input
+  - OpenAI semantic intent
+  - backend action
+  - final URL
+  - target scope
+  - and recovery behavior.
+  deliverables:
+  - One canonical runtime JSON matrix covering every module family
+  - happy paths
+  - ambiguity
+  - unauthorized targets
+  - and provider recovery.
+  must_prove:
+  - Evidence comes from the current authenticated browser runtime and is not a copied
+    screenshot
+  - HAR
+  - or pre-existing trace.
+  started_at: '2026-07-20T16:20:14Z'
+  start_fingerprints:
+    docs/runtime-evidence/vision-for-web-remaining-modules-runtime.json: __missing__
+- id: validate-portability-and-closeout
+  title: Validate portable action contract, documentation, and cleanup
+  type: closeout
+  status: done
+  sequence: 2
+  inventory_item: remaining-runtime-closeout
+  depends_on: capture-module-runtime-evidence
+  paths:
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  - docs/product-vision.md
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+  required_paths:
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+  validation: make audit-docs && make audit-target-capability-catalog && git diff
+    --check
+  acceptance:
+  - All child plans are verified
+  - native clients are future consumers only
+  - and no transient smoke artifacts remain.
+  deliverables:
+  - Updated living domain/product docs
+  - capability links
+  - verified master state
+  - and cleanup of transient validation artifacts.
+  must_prove:
+  - The master cannot close while any child/inventory item is pending
+  - undocumented
+  - or missing runtime evidence.
+  started_at: '2026-07-20T16:49:08Z'
+  start_fingerprints:
+    docs/work/vision-for-web-remaining-modules-master.yaml: b73a0c6c1208b144b488fb8aad8bcf6676b9020282b7d6742181893d5443901e
+evidence:
+- task: capture-module-runtime-evidence
+  command: git diff --check
+  ranAt: '2026-07-20T16:48:57Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-evidence/vision-for-web-remaining-modules-runtime.json
+  output: "\n"
+  startedAt: '2026-07-20T16:20:14Z'
+  changedAfterStart: &1
+  - docs/runtime-evidence/vision-for-web-remaining-modules-runtime.json
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/vision-for-web-remaining-modules-runtime.json
+- task: validate-portability-and-closeout
+  command: make audit-docs && make audit-target-capability-catalog && git diff --check
+  ranAt: '2026-07-20T16:49:39Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-vision.md
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 287
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+
+  startedAt: '2026-07-20T16:49:08Z'
+  changedAfterStart: &2
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

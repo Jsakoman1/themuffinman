@@ -2,7 +2,9 @@
 
 ## VisionForWeb portable action boundary
 
-VisionForWeb exposes a versioned backend-owned `vision-web-action-v1` contract. The Web client executes only the backend-provided action, canonical path, target id, preview/focus/filter state, and recovery options; it does not translate natural language into domain routes. The same contract is portable for future iPhone and Apple Watch clients, which remain future consumers rather than implemented clients.
+VisionForWeb exposes the backend-owned `vision-web-action-v2` contract. The Web client executes only the backend-provided action, route key, canonical path, target id, preview/focus/filter state, and recovery options; it does not translate natural language into domain routes. The same contract is portable for future iPhone and Apple Watch clients, which remain future consumers rather than implemented clients.
+
+The remaining module coverage is centralized in `shellRouteRegistry.ts` and the backend semantic route catalog. Work, social identity, Things, rides, Business, Chat, Notifications, and Activity entry/detail actions therefore share one route/action vocabulary. Entity detail navigation is allowed only when backend resolution supplies an authorized target; list navigation can still succeed when a private preview is unavailable, such as Business discovery before an owner profile exists.
 
 This document is the technical source of truth for core product behavior. It should track entities, relations, validations, permissions, and workflow rules as they exist in code.
 

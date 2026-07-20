@@ -1,0 +1,68 @@
+kind: work
+version: 1
+id: vision-for-web-remaining-attention-activity
+title: Connect Notifications and Activity to VisionForWeb
+status: verified
+baseline: 479332c
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-remaining-modules-master.yaml
+tasks:
+- id: connect-notifications-and-activity
+  title: Add notification and activity surface actions with read-state context
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: remaining-attention-activity
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Vision opens /notifications and /activity
+  - preserving viewer scope and allowing read-state actions only through backend capabilities.
+  deliverables:
+  - Notification/activity route descriptors
+  - read-state context
+  - typed actions
+  - and authenticated regression tests.
+  must_prove:
+  - Opening attention surfaces does not broaden notification visibility or move read-state
+    logic into Vue.
+  started_at: '2026-07-20T16:17:30Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java: 3965cc030f2d90e919aba6dd2f23d79fc284fed98ee34e8cc2be93b378f1f883
+evidence:
+- task: connect-notifications-and-activity
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T16:18:25Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 759, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  21.745 s\n[INFO] Finished at: 2026-07-20T18:18:48+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T16:17:30Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

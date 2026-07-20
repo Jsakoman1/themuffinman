@@ -1,0 +1,132 @@
+kind: work
+version: 1
+id: vision-for-web-remaining-social-identity
+title: Connect Circles, People, and Profile to VisionForWeb
+status: verified
+baseline: 479332c
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+master_plan: docs/work/vision-for-web-remaining-modules-master.yaml
+tasks:
+- id: connect-circles-people-and-profile
+  title: Add canonical actions for circles, people, profile, and settings
+  type: implementation
+  status: done
+  sequence: 1
+  inventory_item: remaining-social-identity
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Vision opens /circles
+  - "/people"
+  - "/profile"
+  - and settings without frontend semantic routing.
+  deliverables:
+  - Route descriptors and typed navigation actions for circles
+  - people
+  - profile
+  - and settings
+  - plus route-registry coverage.
+  must_prove:
+  - Navigation is available from the shared Vision surface on every authenticated
+    shell route.
+  started_at: '2026-07-20T16:07:11Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java: 448796ec3754faa0b20d8d4016fe43247593d4cd86213b177b911815785e70ae
+- id: resolve-person-and-circle-targets
+  title: Resolve person and circle targets through existing privacy-aware resolvers
+  type: implementation
+  status: done
+  sequence: 2
+  inventory_item: remaining-social-targets
+  depends_on: connect-circles-people-and-profile
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserEntityResolver.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CircleEntityResolver.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserEntityResolver.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  acceptance:
+  - Profile and circle detail targets respect visibility
+  - ownership
+  - ambiguity
+  - and non-disclosure rules.
+  deliverables:
+  - Reuse of UserEntityResolver/CircleEntityResolver
+  - viewer-safe labels
+  - ambiguity actions
+  - and privacy regression tests.
+  must_prove:
+  - Unauthorized or ambiguous people/circles never reveal existence through route
+  - label
+  - or error text.
+  started_at: '2026-07-20T16:08:17Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserEntityResolver.java: 89b60d994bed3d1cc45f082009d1256b14fdfe29c9d06de65b4a0aeb3ea580f0
+evidence:
+- task: connect-circles-people-and-profile
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T16:07:30Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 759, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  20.743 s\n[INFO] Finished at: 2026-07-20T18:07:52+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T16:07:11Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: resolve-person-and-circle-targets
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test"
+  ranAt: '2026-07-20T16:08:37Z'
+  revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/CircleEntityResolver.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserEntityResolver.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestStateTransitionServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.themuffinman.app.workmarket.service.QuestDetailReadServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 759, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  21.835 s\n[INFO] Finished at: 2026-07-20T18:09:00+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-20T16:08:17Z'
+  changedAfterStart: &2
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/UserEntityResolver.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

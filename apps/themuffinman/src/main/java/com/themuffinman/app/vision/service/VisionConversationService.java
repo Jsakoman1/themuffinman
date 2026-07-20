@@ -1409,9 +1409,21 @@ public class VisionConversationService {
         String message = "Rides are available in the Web Rides surface. I can also help you offer, join, leave, update, cancel, start, or complete a ride when you give me a ride number.";
         if (rideOfferService != null) {
             List<RideOfferResponseDTO> offers = rideOfferService.getVisibleOffers(conversation.getOwner()).getItems();
+            java.util.regex.Matcher requestedRide = java.util.regex.Pattern.compile("(?i)\\b(?:ride|offer|trip)\\s*#?(\\d+)\\b").matcher(normalizedPrompt == null ? "" : normalizedPrompt);
+            if (requestedRide.find()) {
+                String requestedRideId = requestedRide.group(1);
+                boolean visible = offers.stream().anyMatch(ride -> ride != null && ride.getId() != null
+                        && requestedRideId.equals(String.valueOf(ride.getId())));
+                if (visible) {
+                    conversation.getSlotData().put("ride_id", requestedRideId);
+                    message = "Ride #" + requestedRideId + ".";
+                } else {
+                    message = "I could not find one visible ride with id " + requestedRideId + ". Say a visible ride number or open the Rides surface.";
+                }
+            }
             if (offers.isEmpty()) {
                 message = "There are no rides currently visible to you. I can help you offer one.";
-            } else {
+            } else if (!conversation.getSlotData().containsKey("ride_id")) {
                 message = "Visible rides:\n" + offers.stream().limit(8)
                         .map(ride -> "#" + ride.getId() + " " + ride.getOrigin() + " → " + ride.getDestination()
                                 + " · " + ride.getDepartureAt() + " · " + ride.getJoinedSeats() + "/" + ride.getSeats() + " seats")

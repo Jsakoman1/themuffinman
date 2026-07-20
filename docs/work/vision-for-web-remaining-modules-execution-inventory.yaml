@@ -1,0 +1,168 @@
+kind: execution_inventory
+version: 1
+id: vision-for-web-remaining-modules-execution-inventory
+title: VisionForWeb remaining module execution inventory
+status: verified
+master_plan: docs/work/vision-for-web-remaining-modules-master.yaml
+serial_execution: true
+items:
+- id: remaining-contract-matrix
+  plan: docs/work/vision-for-web-remaining-modules-contract-matrix.yaml
+  task: freeze-module-route-action-matrix
+  status: verified
+  started_at: '2026-07-20T16:01:13Z'
+  verified_at: '2026-07-20T16:02:14Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-modules-contract-matrix.yaml
+    task: freeze-module-route-action-matrix
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-contract-validation
+  plan: docs/work/vision-for-web-remaining-modules-contract-matrix.yaml
+  task: validate-action-contract-coverage
+  status: verified
+  started_at: '2026-07-20T16:02:19Z'
+  verified_at: '2026-07-20T16:03:37Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-modules-contract-matrix.yaml
+    task: validate-action-contract-coverage
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-work-navigation
+  plan: docs/work/vision-for-web-remaining-work.yaml
+  task: connect-work-application-surfaces
+  status: verified
+  started_at: '2026-07-20T16:03:44Z'
+  verified_at: '2026-07-20T16:06:00Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-work.yaml
+    task: connect-work-application-surfaces
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-work-detail
+  plan: docs/work/vision-for-web-remaining-work.yaml
+  task: connect-work-detail-and-application-detail
+  status: verified
+  started_at: '2026-07-20T16:06:04Z'
+  verified_at: '2026-07-20T16:07:00Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-work.yaml
+    task: connect-work-detail-and-application-detail
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-social-identity
+  plan: docs/work/vision-for-web-remaining-social-identity.yaml
+  task: connect-circles-people-and-profile
+  status: verified
+  started_at: '2026-07-20T16:07:11Z'
+  verified_at: '2026-07-20T16:07:52Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-social-identity.yaml
+    task: connect-circles-people-and-profile
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-social-targets
+  plan: docs/work/vision-for-web-remaining-social-identity.yaml
+  task: resolve-person-and-circle-targets
+  status: verified
+  started_at: '2026-07-20T16:08:17Z'
+  verified_at: '2026-07-20T16:09:00Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-social-identity.yaml
+    task: resolve-person-and-circle-targets
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-things-rides
+  plan: docs/work/vision-for-web-remaining-things-rides.yaml
+  task: connect-things-and-borrow-surfaces
+  status: verified
+  started_at: '2026-07-20T16:09:06Z'
+  verified_at: '2026-07-20T16:09:55Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-things-rides.yaml
+    task: connect-things-and-borrow-surfaces
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-rides
+  plan: docs/work/vision-for-web-remaining-things-rides.yaml
+  task: connect-rides-surfaces
+  status: verified
+  started_at: '2026-07-20T16:10:07Z'
+  verified_at: '2026-07-20T16:11:04Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-things-rides.yaml
+    task: connect-rides-surfaces
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-business-surfaces
+  plan: docs/work/vision-for-web-remaining-business.yaml
+  task: connect-business-discovery-and-profile
+  status: verified
+  started_at: '2026-07-20T16:11:18Z'
+  verified_at: '2026-07-20T16:12:06Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-business.yaml
+    task: connect-business-discovery-and-profile
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-business-bookings
+  plan: docs/work/vision-for-web-remaining-business.yaml
+  task: connect-business-bookings-and-calendar
+  status: verified
+  started_at: '2026-07-20T16:12:14Z'
+  verified_at: '2026-07-20T16:13:08Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-business.yaml
+    task: connect-business-bookings-and-calendar
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-chat-navigation
+  plan: docs/work/vision-for-web-remaining-chat.yaml
+  task: connect-chat-workspace-and-conversation
+  status: verified
+  started_at: '2026-07-20T16:13:14Z'
+  verified_at: '2026-07-20T16:14:07Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-chat.yaml
+    task: connect-chat-workspace-and-conversation
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-chat-targets
+  plan: docs/work/vision-for-web-remaining-chat.yaml
+  task: resolve-chat-person-and-conversation-targets
+  status: verified
+  started_at: '2026-07-20T16:14:12Z'
+  verified_at: '2026-07-20T16:17:21Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-chat.yaml
+    task: resolve-chat-person-and-conversation-targets
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-attention-activity
+  plan: docs/work/vision-for-web-remaining-attention-activity.yaml
+  task: connect-notifications-and-activity
+  status: verified
+  started_at: '2026-07-20T16:17:30Z'
+  verified_at: '2026-07-20T16:18:48Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-attention-activity.yaml
+    task: connect-notifications-and-activity
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-cross-module-targets
+  plan: docs/work/vision-for-web-remaining-cross-module-targets.yaml
+  task: unify-target-resolution-and-personal-context
+  status: verified
+  started_at: '2026-07-20T16:18:55Z'
+  verified_at: '2026-07-20T16:20:05Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-cross-module-targets.yaml
+    task: unify-target-resolution-and-personal-context
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-runtime-matrix
+  plan: docs/work/vision-for-web-remaining-runtime-closeout.yaml
+  task: capture-module-runtime-evidence
+  status: verified
+  started_at: '2026-07-20T16:20:14Z'
+  verified_at: '2026-07-20T16:48:57Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-runtime-closeout.yaml
+    task: capture-module-runtime-evidence
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
+- id: remaining-runtime-closeout
+  plan: docs/work/vision-for-web-remaining-runtime-closeout.yaml
+  task: validate-portability-and-closeout
+  status: verified
+  started_at: '2026-07-20T16:49:08Z'
+  verified_at: '2026-07-20T16:49:42Z'
+  evidence:
+    plan: docs/work/vision-for-web-remaining-runtime-closeout.yaml
+    task: validate-portability-and-closeout
+    revision: 479332c98b62d8d3b1fda5560065d6dbe5cda424
