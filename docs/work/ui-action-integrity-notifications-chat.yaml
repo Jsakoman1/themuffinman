@@ -1,0 +1,166 @@
+kind: work
+version: 1
+id: ui-action-integrity-notifications-chat
+title: Repair Notifications, Activity, and Chat destinations and actions
+status: verified
+master_plan: docs/work/ui-action-integrity-master.yaml
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+tasks:
+- id: repair-notification-and-activity-actions
+  title: Make attention, notification, and activity actions honest and target-specific
+  type: implementation
+  status: done
+  inventory_item: notification-and-activity-actions
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/AttentionCenterService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/AttentionCenterService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Activity renders one coherent timeline; the main list and context rail do not
+    duplicate identical events without distinct added value.
+  - Activity items use stable ids and show only actions that resume or open a real
+    destination.
+  - Notification types resolve to canonical Work, Application, Circle, Chat, Business,
+    Activity, or Profile destinations.
+  - A notification with no destination is intentionally informational and explains
+    why.
+  - Attention items labeled Continue invoke a real resumable flow; nonresumable items
+    say Open.
+  - Activity exposes the backend dismissal contract only for resumable items and retains
+    route safety.
+  started_at: '2026-07-20T20:42:53Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue: af7f39ffbe4ed9f2905922590cf87686b711981ba74c9551eb57f0529cf78ba5
+    apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue: 213a2d3e82f0741d2185ed7dd98dc3b8a1072032e4aac7860d48d3eeddc607a7
+    apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts: 264b937f4482f8c5252032bbf4889b9cc78a8f693f98c3a9ec0d2ac72ffcea98
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 8c9757829b65abd5351489f6dc3ed7b20bcb895dd1945637a24978e85eb6cf76
+    apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/AttentionCenterService.java: 2f543fb207bd559de7df6ca700dcebbc9ff06fda03ab2833cde11dc9c9eadff3
+    apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java: 8d21e81796408a030e8456e92b55f9ef34bf2b53eeaa2f329d7c1e5f9b45a01e
+- id: repair-chat-actions
+  title: Make conversation navigation and message actions target-specific and authorized
+  type: implementation
+  status: done
+  inventory_item: chat-actions
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatSyncService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatSyncService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - New direct chat uses explicit form state, not whitespace sentinels.
+  - People-to-chat navigation opens or prepares the intended direct conversation.
+  - Conversation, participant, message, attachment, reaction, reply, edit, delete,
+    leave, and read actions are shown only when server-authorized.
+  - Chat action failures preserve draft/attachment state and expose retry/recovery.
+  started_at: '2026-07-20T20:44:57Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 35c58758eb5bf5607e9b427f0db0dc26c6ff5935269fb781968ddf048caef77f
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 69000a8861b61b290569c46204535a13f1fab796f4ae0ac12359d85e045e7af5
+    apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatSyncService.java: fd768702abd6b6bdaf124fba9589da2add40eb65ef43f19185a753d5567a3a8a
+evidence:
+- task: repair-notification-and-activity-actions
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:44:25Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/AttentionCenterService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-Dx7kPHMz.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-BVucKEHo.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-Clfo7W05.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-B6ZxW0ef.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-rL14DhSK.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-B98BQeOx.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-CUOE8jTb.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-5MZH2rh9.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-CAjcZtN_.js                       17.49 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-F5procui.js                         18.04 kB │ gzip:   5.40 kB
+    dist/assets/ProfileLocationSettingsView-gUAyKGuS.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-BdpO8XbT.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BG0SMwy5.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-_2c0P6gv.js                                 51.04 kB │ gzip:  12.98 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 552ms
+
+  startedAt: '2026-07-20T20:42:53Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/notification/service/AttentionCenterService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-chat-actions
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:46:05Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatSyncService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-C_hdIAJg.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-JVhOX35X.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-Ctjlg9tl.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-BpHgPkhC.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-C_RGC6dE.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-CGJhgk5y.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-BrgTkKR6.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-iSLfqwUX.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/useVisionForWeb-BouvUcN1.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-DzC2iYd4.js                         18.04 kB │ gzip:   5.40 kB
+    dist/assets/ProfileLocationSettingsView-JfQjsO2u.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-DtcDIAGM.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CHNqjRAq.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-OdSHlcyp.js                                 51.18 kB │ gzip:  13.03 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 555ms
+
+  startedAt: '2026-07-20T20:44:57Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatSyncService.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

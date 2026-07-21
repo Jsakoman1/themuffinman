@@ -1,0 +1,217 @@
+kind: work
+version: 1
+id: ui-action-integrity-rides-social
+title: Repair Rides, Circles, People, and profile relationship actions
+status: verified
+master_plan: docs/work/ui-action-integrity-master.yaml
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+tasks:
+- id: simplify-rides-workflows
+  title: Separate Rides discovery, offer, and commute workflows while preserving privacy
+  type: implementation
+  status: done
+  inventory_item: rides-workflows
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/CommutePreferenceService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/CommutePreferenceService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Rides separates Find a ride, Offer a ride, and Commute preferences into clear
+    entry points or progressive sections; discovery is usable without displaying every
+    commute field.
+  - Ride preview is concise and has one obvious next action; privacy explanation remains
+    available as supporting context rather than dominating the collection.
+  - Ride edit preserves visibleCircleIds and all unchanged privacy fields.
+  - Ride detail and list expose the same edit/join/leave/start/complete/cancel contract.
+  - Destructive or irreversible ride lifecycle actions require appropriate confirmation
+    and recover after stale state.
+  - Commute preferences are separated from the primary ride discovery flow or made
+    intentionally collapsible.
+  started_at: '2026-07-20T20:38:13Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: a235409338baefe52f733fde64fc2a38aa2ca9b9d2a519ba816aee492cca7374
+    apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue: 1f93f4de128208c4299706d802d8bf90bffa0a1aa5c878b9594db3d836cb2c53
+    apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts: fe414d311a517a852b33a226d27af0a9537a5eefb2f7380e7136083ed73015f5
+    apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/CommutePreferenceService.java: b7e0982f0b1bbd9e1d0830c4028446874cdc5c51dcc1ac6217336a12580abfaf
+- id: repair-circles-actions
+  title: Make Circle owner/member actions and state transitions coherent
+  type: implementation
+  status: done
+  inventory_item: circles-actions
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Circle group actions distinguish owner, member, and non-member; owners never receive
+    Leave.
+  - Destructive group/member actions use confirmation and refresh server state.
+  started_at: '2026-07-20T20:40:06Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue: 045e68fc2afaeca0212b77d7b78d7e7dd5dc67094ff4bf8828e99a818573f74a
+    apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java: b42f86ee7ae59727408058e0c4488a84a8b10520ed97850a2c40d5f71600fa8f
+- id: repair-people-actions
+  title: Dispatch People relationship, report, block, and chat actions by backend
+    type
+  type: implementation
+  status: done
+  inventory_item: people-actions
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationshipReadService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationshipReadService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - People search and profile execute SEND_INVITE, UNBLOCK, OPEN_CIRCLES, EDIT_PROFILE,
+    and future action types correctly.
+  - Profile Open Chat opens the correct direct conversation or an explicit person-targeted
+    chat flow.
+  - Relationship actions refresh server state after success instead of patching only
+    a frontend label.
+  - Report and block actions are shown only when backend policy permits them.
+  started_at: '2026-07-20T20:41:24Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue: c81bc8128f56f451073d333cbc08c261642c5df11820e4bb834a34cc43043b17
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue: 7b00d193f0bb5cd32f96488a5f8d6107eab5af63fa4ce792be561c3b31e6b177
+    apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationshipReadService.java: 5e709cd7b6811dd7ad02c47c15f9d7e03444ae31e99d54a197b8c9f43c4d5f08
+evidence:
+- task: simplify-rides-workflows
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:39:34Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/CommutePreferenceService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-CDzKSU4y.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-wH9AvDZX.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-BitjaTHM.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-DM3TA5nQ.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-BT2h4eRD.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-CjH6nKhl.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-BdftfeaF.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-C2jl1KOk.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-CnR5K3rw.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-fgqqeQ2y.js                         18.02 kB │ gzip:   5.39 kB
+    dist/assets/ProfileLocationSettingsView-DzsEQ3dr.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-5iq8JVDX.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CBiz6ymy.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-Bz3rCuMC.js                                 50.92 kB │ gzip:  12.91 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 551ms
+
+  startedAt: '2026-07-20T20:38:13Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/CommutePreferenceService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-circles-actions
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:40:51Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-CFc3cM3s.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-_45p7_jc.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-ootJc0il.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-Du8qlRm8.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-DtEyAXjH.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-BUNhN8jr.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-CaAdAGTY.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-BL6hbmZq.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-Dgy9d_-D.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-BYijezvW.js                         18.02 kB │ gzip:   5.39 kB
+    dist/assets/ProfileLocationSettingsView-DJ_ht0gB.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-D6fw9VRU.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-xbDZLse4.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BOBwUusK.js                                 50.92 kB │ gzip:  12.90 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 577ms
+
+  startedAt: '2026-07-20T20:40:06Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleService.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-people-actions
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:41:55Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationshipReadService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-LxCiTlvd.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-B3TdQyCV.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-Ck-WQcok.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-BAkilWrc.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-K2HyyBn9.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-CskgwnR3.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-BYgXQYKM.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-W-bx-Eoe.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-f39_C8Wt.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-tAe4TlFs.js                         18.02 kB │ gzip:   5.39 kB
+    dist/assets/ProfileLocationSettingsView-D279_N50.js           20.82 kB │ gzip:   6.59 kB
+    dist/assets/VisionSurfaceModernView-D2X9KGyM.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-DBS5Wnsh.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DKMJ1Vvs.js                                 50.92 kB │ gzip:  12.91 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 567ms
+
+  startedAt: '2026-07-20T20:41:24Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social/service/CircleRelationshipReadService.java
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,242 @@
+kind: work
+version: 1
+id: ui-action-integrity-home-profile-vision
+title: Repair Home, Profile, statistics, and VisionForWeb navigation integrity
+status: verified
+master_plan: docs/work/ui-action-integrity-master.yaml
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+tasks:
+- id: repair-home-summary-and-shell-context
+  title: Make Home metrics, destinations, and shell context canonical
+  type: implementation
+  status: done
+  inventory_item: home-summary-and-shell-context
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Home presents real next actions or clearly informational summaries; “Resume work”
+    is not a label for static metrics.
+  - Every Home count is backed by the same query scope as its destination; “Open work”,
+    “My active quests”, and similar labels never open an unrelated or differently
+    scoped list.
+  - Home is an orientation surface with a small number of meaningful cards, not a
+    duplicate Work dashboard with explanatory filler.
+  - Every clickable metric applies a meaningful destination/filter/focus, and nonclickable
+    metrics are visually noninteractive.
+  - Work, Thing, Ride, Circle, Business, People, Chat, Application, and Profile object
+    routes remain direct Web routes.
+  - Home counts, labels, query scope, and opened collection agree; zero metrics are
+    not misleading action buttons.
+  - Home remains a small orientation surface and does not duplicate the Work collection
+    toolbar or explanatory filler.
+  started_at: '2026-07-20T20:23:56Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue: 04e5d5066ef13a1446d6f1dd336fc14c19f493c65e42b0c58c4c431a6f5a12ec
+    apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts: 5a282bc2f1ea1319991b70875cfc885bb6e71b3c6e00d2d4e6e6286ec95dc468
+    apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts: b636849abb01ed0d9037b5e1874b072d400f80b116c4986f2962bef4ee8ded82
+    apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java: a074bbd4eb5caa305615ba53e41c640b532aa2ebd613c8c2ab63075f2a6f6b15
+- id: repair-profile-onboarding-and-search-settings
+  title: Make Profile settings, onboarding, and saved search actions real and resilient
+  type: implementation
+  status: done
+  inventory_item: profile-onboarding-and-search-settings
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SavedSearchIntentsView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SavedSearchIntentsView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Onboarding steps navigate to or execute the setup surface they describe; users
+    cannot mark DONE merely by clicking a row.
+  - Saved searches have an explicit edit/run path and show notification/expiry state
+    when those fields are server-owned.
+  - Profile/location settings load independent optional panels, cancel stale location
+    searches, and preserve usable controls after a partial dependency failure.
+  - Settings, onboarding, activity, notifications, and saved-search routes have truthful
+    shell context.
+  started_at: '2026-07-20T20:49:42Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue: a3fb8e118dcafb5af08dd05d4bfa97919288acc087e6b0efc222f450a86dc9a1
+    apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue: 71c18062c944ce1d31875a3418f6838b46d807562bff52e3d91843ac8e9bee82
+    apps/themuffinman/frontend/src/modules/app-shell/views/SavedSearchIntentsView.vue: 1e58f854d707ed58751c46d1e1706415f388922220c107ed675958a64a0d46a5
+    apps/themuffinman/frontend/src/router.ts: 54edfce2d4148c9456704ac6e0c7f18c7a69e39b549465f03ddabad4ddce9390
+- id: repair-profile-and-vision-actions
+  title: Make Profile relationship actions and VisionForWeb handoffs canonical
+  type: implementation
+  status: done
+  inventory_item: profile-and-vision-actions
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Profile action rows have real handlers/routes or are removed.
+  - People profile actions are viewer-aware, target-aware, and only show reporting/blocking/chat
+    actions when the backend contract permits them.
+  - VisionForWeb is available as assistance from supported screens but never replaces
+    known object navigation.
+  - Vision handoffs preserve source, context, return route, target entity, and permission
+    scope without opening a console fallback.
+  - Vision web action validation rejects unknown routes, mismatched target ids, and
+    unauthorized entity families.
+  started_at: '2026-07-20T20:51:06Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue: bd70cff3d970dd8c5f21398fa5b5012d11edcafafc0d8423199a4dda68a27819
+    apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts: b910e091da386a213340982f18b0b0e02228d41eb5689d2bf9562d4d16504ab9
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts: 6497e37e0e23d599bfadfac55ee9853a519d3bcb7a296dde98e4a547d8ffd8ff
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java: db64db633ee54bbcdb781e039022d7a07b3551c9cc2c92a59d13f5ad96781e0f
+evidence:
+- task: repair-home-summary-and-shell-context
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:27:55Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-D65AXCPB.js               8.08 kB │ gzip:   2.66 kB
+    dist/assets/WorkspaceSurfaceView-B4c-n4A7.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-g1Pkx2Jh.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-DtNrTNSz.js                   11.22 kB │ gzip:   3.51 kB
+    dist/assets/BusinessProfileView-D4ZL-ahs.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-DpU4c7aJ.js                   12.49 kB │ gzip:   3.93 kB
+    dist/assets/RidesView-DHEhtYSN.js                             12.94 kB │ gzip:   4.06 kB
+    dist/assets/ChatSurfaceView-CBjBNZtM.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-BTdM7s50.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-Bt6QVmI3.js                         18.02 kB │ gzip:   5.39 kB
+    dist/assets/ProfileLocationSettingsView-B05ymZtD.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-BNjyW4LQ.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CNjYLO0L.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-C6jhLziG.js                                 50.92 kB │ gzip:  12.91 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 614ms
+
+  startedAt: '2026-07-20T20:23:56Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-profile-onboarding-and-search-settings
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:50:30Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SavedSearchIntentsView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  output: |+
+    dist/assets/BusinessAvailabilityView-Cwfplrgx.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-Dxjgjt9z.js                  11.06 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-C50FFvrJ.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-Dkz2hdUw.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-CU6qAdYW.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-dJPbw_9r.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-Cp0WZvry.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-DbT61skh.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/useVisionForWeb-DmCPVJ4W.js                       17.49 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-BLsQJxH_.js                         18.04 kB │ gzip:   5.40 kB
+    dist/assets/ProfileLocationSettingsView-BHcdBRjq.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-k_dy3EsF.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-D9wq-Wiq.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DJn38SXT.js                                 51.22 kB │ gzip:  13.03 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 593ms
+
+  startedAt: '2026-07-20T20:49:42Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SavedSearchIntentsView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-profile-and-vision-actions
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:51:30Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-0MSR-bpj.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-BBuSzVMt.js                  11.06 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-whCPOvOv.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-DEQH7bAd.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-BOUKHymH.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-D3zvtdzL.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-_BGv8vOh.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-iLj_lwI5.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/useVisionForWeb-D0BWiPwS.js                       17.53 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-CxTeMtu2.js                         18.04 kB │ gzip:   5.40 kB
+    dist/assets/ProfileLocationSettingsView-CSlOxheW.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-BZdQhMvg.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CPCn3T-O.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BQQsUF4I.js                                 51.22 kB │ gzip:  13.04 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 560ms
+
+  startedAt: '2026-07-20T20:51:06Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useVisionForWeb.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationLifecycleService.java
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

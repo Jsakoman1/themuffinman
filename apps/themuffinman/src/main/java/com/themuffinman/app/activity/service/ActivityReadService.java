@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service @RequiredArgsConstructor @Transactional(readOnly = true)
 public class ActivityReadService {
@@ -57,7 +59,12 @@ public class ActivityReadService {
                 .limit(6)
                 .filter(request -> !dismissalRepository.existsByUserIdAndResumeKey(user.getId(), thingResumeKey(request, "borrower")))
                 .forEach(request -> items.add(toThingActivity(request, false)));
-        return items.stream().sorted(Comparator.comparing(ActivityItemDTO::getOccurredAt, Comparator.nullsLast(Comparator.reverseOrder()))).limit(limit).toList();
+        Set<String> seen = new HashSet<>();
+        return items.stream().filter(item -> seen.add(activityKey(item))).sorted(Comparator.comparing(ActivityItemDTO::getOccurredAt, Comparator.nullsLast(Comparator.reverseOrder()))).limit(limit).toList();
+    }
+
+    private String activityKey(ActivityItemDTO item) {
+        return item.getResumeKey() != null ? item.getResumeKey() : item.getSource() + ":" + item.getKind() + ":" + item.getOccurredAt() + ":" + item.getTitle();
     }
 
     private ActivityItemDTO toChatActivity(ChatConversation conversation, AppUser user) {

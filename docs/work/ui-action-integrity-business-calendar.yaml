@@ -1,0 +1,177 @@
+kind: work
+version: 1
+id: ui-action-integrity-business-calendar
+title: Repair Business owner/customer actions and Calendar focus
+status: verified
+master_plan: docs/work/ui-action-integrity-master.yaml
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+tasks:
+- id: repair-business-customer-and-owner-actions
+  title: Align business profile, offering, discovery, and customer booking actions
+  type: implementation
+  status: done
+  inventory_item: business-customer-and-owner-actions
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - No-profile state offers clear setup instead of a generic load error.
+  - Business profile responsibilities are grouped coherently and active-business context
+    is explicit.
+  - Offerings distinguish edit, publish/unpublish, and delete; form fields match the
+    backend contract or clearly defer unsupported fields.
+  - Owner and customer booking actions use distinct labels and exact allowed action
+    ids.
+  - Successful customer booking closes or transitions the request flow to My bookings
+    with a clear next step.
+  - Public business discovery, save, book, and return-to-results navigation are coherent.
+  - Public booking uses availability-aware slot selection or clearly communicates
+    that the requested datetime is only a validated proposal; success closes or transitions
+    the dialog to the created booking.
+  started_at: '2026-07-20T20:47:04Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue: 1d3a5f94a12c4e692caa4848631eae9cc4d01044d56eb26849e493d9c25fda2e
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue: 4911f3c3862cb189a763bc02078e21b2ceb77da6aae79eb93b254d7e4cdc2e6a
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue: c1bde948c87297711a47fb804b7b2aa647d6651e6487cef5afd1e78aed33b815
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue: f82c773ccfe89c07b341e0a31cc246cc65188168e6352c61d97e202ddee97875
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: 4d014015a835604088616538c26901aa8e745d30b058f907fe9aba04e67da3bf
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue: 7bfb8e60f0811b942bce5ca80a42d37da7037fcc9b40b9f687515f33ecdacf7d
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java: e65343ec96dcfd00ee61cd5946ba0e441b085a59f2bd28063ef0102845623dea
+- id: repair-business-calendar-and-schedule
+  title: Align business availability, exceptions, and calendar object focus
+  type: implementation
+  status: done
+  inventory_item: business-calendar-and-schedule
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Calendar events link to the owning booking/work detail or an explicit filtered
+    list with object focus.
+  - Availability rules and exceptions expose effective schedule state and preserve
+    server validation/recovery.
+  - Exception type changes clear incompatible stale fields before save.
+  started_at: '2026-07-20T20:48:13Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue: 94ed9715e221e89b1c6981efcbd128900d66c747453cc92c0660f73621d93b4a
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue: a63593f662ad0a2102367db92043433aa16201a02a203489c440d96d85d374d8
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue: 169f78ea4fb954cf14616feff78888fc76e652e3b95480698b28b4a4f7c2ef94
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java: 8e020488bad708e6a4ed6014ec2894d5527ae488db91ea6b9a274af589d92b6d
+evidence:
+- task: repair-business-customer-and-owner-actions
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:47:39Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-Su5jJ79v.js               8.08 kB │ gzip:   2.66 kB
+    dist/assets/WorkspaceSurfaceView-CiAnbZGI.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-BCPOaN7j.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-BMEm72XK.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-yxeaDyzU.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-D43kkWXQ.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-BlA_1aPj.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-BnuGJBjS.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/useVisionForWeb-B897Nm_O.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-CZgXzl6l.js                         18.04 kB │ gzip:   5.40 kB
+    dist/assets/ProfileLocationSettingsView-B61bXIf_.js           20.82 kB │ gzip:   6.59 kB
+    dist/assets/VisionSurfaceModernView-Chmr_LnK.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-D2w0z9Wd.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BcK5nMg3.js                                 51.18 kB │ gzip:  13.02 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 617ms
+
+  startedAt: '2026-07-20T20:47:04Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-business-calendar-and-schedule
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:48:39Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-CPYDCMvj.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-BD1MR-HZ.js                  11.06 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-wpseRWUd.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-BUtOPDA8.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-CZYpy5LX.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-CqhW85zK.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-Bp_rCGJu.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-CBCxHL-A.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/useVisionForWeb-DJH3vwte.js                       17.49 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-Bb-w4bri.js                         18.04 kB │ gzip:   5.40 kB
+    dist/assets/ProfileLocationSettingsView-D60qjshj.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-CvQbqAF1.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CZbrbpwj.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-9Msx3_q8.js                                 51.18 kB │ gzip:  13.01 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 550ms
+
+  startedAt: '2026-07-20T20:48:13Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

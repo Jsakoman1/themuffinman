@@ -1,0 +1,64 @@
+kind: runtime_scenario_catalog
+version: 1
+id: ui-action-integrity-runtime-scenarios
+title: Meaningful UI action integrity runtime scenarios
+status: active
+master_plan: docs/work/ui-action-integrity-master.yaml
+purpose: >-
+  Small end-to-end user journeys used as runtime evidence. These scenarios replace
+  broad screenshot-heavy smoke passes and each proves one product contract.
+scenarios:
+  - id: home-open-work-scope
+    journey: Home Open work card to Work collection
+    setup: Seed visible open work with at least one unrelated work state
+    expect: Home count, query scope, collection count, and first result agree
+  - id: home-my-active-scope
+    journey: Home My active quests to owned active quests
+    setup: Seed owned active, owned completed, and visible public work
+    expect: Destination excludes public and completed work
+  - id: work-primary-flow
+    journey: Work collection to preview to detail
+    setup: Seed one visible open quest
+    expect: One primary action, compact secondary controls, direct Web detail route
+  - id: work-offer-flow
+    journey: Offer work to create, save, and return to collection
+    setup: Authenticated user with valid create permissions
+    expect: Guided create flow saves one quest and collection refreshes without duplicate rows
+  - id: activity-single-timeline
+    journey: Activity open and dismiss a resumable item
+    setup: Seed one resumable and one informational event
+    expect: Each event renders once; only resumable item has Continue and Dismiss
+  - id: rides-progressive-entry
+    journey: Rides entry to Find ride, Offer ride, and Commute preferences
+    setup: Authenticated user with no commute preferences
+    expect: Find flow is usable without commute fields; privacy settings remain explicit
+  - id: action-denied-recovery
+    journey: Attempt an action after server state changes
+    setup: Render action, revoke permission or change entity state before command
+    expect: Backend denial is shown, draft/context is preserved, stale action is removed after reload
+  - id: notification-canonical-target
+    journey: Notification to target detail
+    setup: Seed Work, Circle, Chat, and informational notifications
+    expect: Each actionable notification opens canonical Web route; informational item explains absence
+  - id: business-booking-completion
+    journey: Public business offering to available slot to My bookings
+    setup: Business with one active offering and availability
+    expect: Slot is validated, success closes/transitions the dialog, booking appears in My bookings
+  - id: vision-known-object-navigation
+    journey: VisionForWeb request to known Work/Thing/Ride object
+    setup: Seed target object visible to viewer
+    expect: Vision opens canonical Web detail and never opens Vision console as fallback
+evidence_rules:
+  - Each scenario records setup, command, expected route/state, and one compact evidence artifact.
+  - Screenshots are optional and only retained when visual layout is part of the assertion.
+  - A scenario is not passing merely because the page loaded or the backend returned HTTP 200.
+evidence:
+  validation_mode: route-and-state-transitions
+  screenshot_policy: optional-only-for-visual-assertions
+  note: Runtime closeout retains compact evidence and removes page-load smoke artifacts.
+runtime_attempt:
+  command: make dev
+  result: blocked_by_existing_development_ports
+  backend_probe: GET /dashboard/me returned 401 without authentication
+  frontend_probe: existing port process was reported but the listener was not reachable through localhost
+  next_required_step: stop or reconcile the owning development stack, then walk the scenario catalog with an authenticated browser session

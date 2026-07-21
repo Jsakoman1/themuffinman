@@ -12,7 +12,7 @@ const detail = ref<QuestApplicationDetailResponseDTO | null>(null)
 const isLoading = ref(true)
 const error = ref("")
 const applicationId = () => Number(route.params.applicationId)
-const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("en-US", {dateStyle: "medium", timeStyle: "short"}).format(new Date(value)) : "Not scheduled"
+const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat(undefined, {dateStyle: "medium", timeStyle: "short"}).format(new Date(value)) : "Not scheduled"
 
 const load = async () => {
   isLoading.value = true

@@ -20,6 +20,30 @@ export type ThingPreview = { id: number; title: string; summary: string; ownerUs
 export type ThingAllowedAction = import("./generated/themuffinmanContract.ts").ThingAllowedActionDTO
 export type PersonalWorkspaceAttentionItem = import("./generated/themuffinmanContract.ts").ActivityItemDTO
 
+export type UiActionKind = "navigation" | "mutation" | "review" | "destructive" | "informational"
+export type UiActionConfirmation = "none" | "explicit" | "backend_required"
+export type UiActionDescriptor = {
+  id: string
+  kind: UiActionKind
+  label: string
+  enabled: boolean
+  visible: boolean
+  command: string | null
+  destination: string | null
+  confirmation: UiActionConfirmation
+  successState: string
+  failureRecovery: string
+}
+export type HomeMetricScope = {
+  id: string
+  module: string
+  lifecycleState: string | null
+  ownership: string | null
+  participation: string | null
+  visibilityContext: string | null
+  destination: string
+}
+
 export type WorkspaceCommandItem = {id: string; group: string; label: string; description: string; route: string; kind: "NAVIGATE" | "CREATE_ROUTE" | "VISION_ROUTE"}
 export type WorkspaceCommandCatalog = {personal: WorkspaceCommandItem[]; navigation: WorkspaceCommandItem[]; create: WorkspaceCommandItem[]; vision: WorkspaceCommandItem[]}
 export type WorkspaceNavigationChild = {id: string; label: string; route: string; order: number; visible: boolean; attentionCount: number; unreadCount: number; relevanceReason: string}

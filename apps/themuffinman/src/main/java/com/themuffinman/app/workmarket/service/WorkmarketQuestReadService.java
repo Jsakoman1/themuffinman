@@ -71,7 +71,10 @@ public class WorkmarketQuestReadService {
         return buildQuestListResponse(
                 scopedQuests.stream()
                         .filter(quest -> questVisibilityService.canViewQuest(currentUser, quest))
-                        .filter(quest -> !Boolean.TRUE.equals(excludeMine) || currentUser == null || !quest.getCreator().getId().equals(currentUser.getId()))
+                        .filter(quest -> !Boolean.TRUE.equals(excludeMine)
+                                || currentUser == null
+                                || quest.getCreator() == null
+                                || !currentUser.getId().equals(quest.getCreator().getId()))
                         .filter(quest -> status == null || status == quest.getStatus())
                         .toList(),
                 currentUser,

@@ -30,7 +30,7 @@ const editPrice = ref<number | null>(null)
 const {state: viewState} = useSurfaceViewState("work-applications", computed(() => currentUser.value?.id), computed(() => route.fullPath))
 const hasMore = computed(() => items.value.length < totalItems.value)
 const previewApplication = computed(() => items.value.find(item => item.id === viewState.value.previewId) ?? null)
-const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric"}).format(new Date(value)) : "No date"
+const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat(undefined, {month: "short", day: "numeric"}).format(new Date(value)) : "No date"
 
 const load = async (reset = true) => {
   if (reset) { isLoading.value = true; page.value = 0; items.value = [] } else { isLoadingMore.value = true }

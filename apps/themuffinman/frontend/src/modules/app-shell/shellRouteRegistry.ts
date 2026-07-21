@@ -90,7 +90,7 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     primaryNavDescription: "Browse quests and applications.",
     canonicalEntryRoute: {path: "/work"},
     visionPrompt: "help me find the best side jobs and work opportunities right now",
-    moduleSpaceRule: "Stay in Work for browse, scan, and stable list ownership.",
+    moduleSpaceRule: "Stay in Work for browse and scan. `/work/find?scope=open-visible` owns visible open-work results; `/work/quests?scope=owned-active` owns the viewer's active quests, and Home must not mix those scopes.",
     visionRule: "Escalate into Vision when the task becomes create, review, update, or semantic search.",
     topLevelNavEligible: true
   },
@@ -317,6 +317,7 @@ export const visionWebActionContractVersion = "vision-web-action-v2"
 // Backend publishes routeKey/action/canonicalPath. The Web client only accepts
 // combinations declared here; it never turns a natural-language target into a URL.
 export const visionWebRouteContracts: VisionWebRouteContract[] = [
+  {routeKey: "work.find", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/work\/find$/, requiresTarget: false},
   {routeKey: "work.my_quests", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/work\/quests$/, requiresTarget: false},
   {routeKey: "work.applications", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/work\/applications$/, requiresTarget: false},
   {routeKey: "work.application_detail", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/work\/applications\/\d+$/, requiresTarget: true},
@@ -347,7 +348,9 @@ export const visionWebRouteContracts: VisionWebRouteContract[] = [
   {routeKey: "notifications.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/notifications$/, requiresTarget: false},
   {routeKey: "attention.notifications", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/notifications$/, requiresTarget: false},
   {routeKey: "activity.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/activity$/, requiresTarget: false},
-  {routeKey: "attention.activity", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/activity$/, requiresTarget: false}
+  {routeKey: "attention.activity", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/activity$/, requiresTarget: false},
+  {routeKey: "search.saved", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/search\/saved$/, requiresTarget: false},
+  {routeKey: "profile.notifications", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/profile\/settings\/notifications$/, requiresTarget: false}
 ]
 
 export const isVisionWebActionRouteAllowed = (action: {action: string; routeKey: string; canonicalPath: string; targetId: number | null}) => {

@@ -181,7 +181,7 @@ export const userShellApi = {
   async getOnboardingProgress(): Promise<OnboardingProgress> { return (await api.get<OnboardingProgress>("/profile/onboarding/me", withAuth())).data },
   async updateOnboardingProgress(request: {currentStep: string; skipped?: boolean; completed?: boolean}): Promise<OnboardingProgress> { return (await api.put<OnboardingProgress>("/profile/onboarding/me", request, withAuth())).data },
   async resetOnboardingProgress(): Promise<OnboardingProgress> { return (await api.post<OnboardingProgress>("/profile/onboarding/me/reset", undefined, withAuth())).data },
-  async getActivity(): Promise<ActivityItem[]> { return (await api.get<ActivityItem[]>("/activity/me", withAuth())).data },
+  async getActivity(): Promise<ActivityItem[]> { const items = (await api.get<ActivityItem[]>("/activity/me", withAuth())).data; return items.filter((item, index, all) => all.findIndex(candidate => `${candidate.kind}:${candidate.resumeKey || candidate.occurredAt}` === `${item.kind}:${item.resumeKey || item.occurredAt}`) === index) },
   async getRecentActivity(): Promise<ActivityItem[]> { return (await api.get<ActivityItem[]>("/activity/me/recent", withAuth())).data },
   async dismissActivityResume(resumeKey: string): Promise<void> { await api.post(`/activity/resume/${encodeURIComponent(resumeKey)}/dismiss`, undefined, withAuth()) },
   async getAttentionCenter(signal?: AbortSignal): Promise<AttentionCenter> { return (await api.get<AttentionCenter>("/attention/me", {signal, ...withAuth()})).data },
@@ -193,6 +193,11 @@ export const userShellApi = {
   async getWorkspaceCommandCatalog(signal?: AbortSignal): Promise<WorkspaceCommandCatalog> { return (await api.get<WorkspaceCommandCatalog>("/workspace/commands", {signal, ...withAuth()})).data },
   /** Navigation is a read-only shell contract; command actions remain on /workspace/commands. */
   async getWorkspaceNavigation(signal?: AbortSignal): Promise<WorkspaceNavigationResponse> { return workspaceNavigationApi.get(signal) },
+  /** Keep action failures recoverable without converting server policy into client rules. */
+  actionFailureMessage: (fallback: string, cause?: unknown) => {
+    const response = (cause as {response?: {data?: {message?: string}}} | undefined)?.response
+    return response?.data?.message || fallback
+  },
   async pinQuest(questId: number): Promise<void> { await api.put(`/personal-shortcuts/me/quests/${questId}`, undefined, withAuth()) },
   async unpinQuest(questId: number): Promise<void> { await api.delete(`/personal-shortcuts/me/quests/${questId}`, withAuth()) },
 
@@ -305,6 +310,10 @@ export const userShellApi = {
 
   async openChat(request: ChatOpenConversationRequestDTO): Promise<ChatConversationSummaryDTO> {
     return (await api.post<ChatConversationSummaryDTO>("/chat/conversations/open", request, withAuth())).data
+  },
+  async openDirectChat(userId: number): Promise<ChatConversationSummaryDTO> {
+    if (!Number.isInteger(userId) || userId <= 0) throw new Error("A valid direct-chat user is required")
+    return this.openChat({otherUserId: userId})
   },
 
   async leaveChatConversation(conversationId: number): Promise<import("../../../contracts/index.ts").ChatMembershipTransitionDTO> {

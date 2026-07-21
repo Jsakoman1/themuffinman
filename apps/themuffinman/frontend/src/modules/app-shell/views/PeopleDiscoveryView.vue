@@ -11,6 +11,8 @@ import SurfaceRow from "../components/SurfaceRow.vue"
 
 const query = ref("")
 const items = ref<CircleSearchResultDTO[]>([])
+// Search rows stay lightweight; relationship decisions are dispatched from the
+// backend-authorized profile action contract rather than inferred from labels.
 const isLoading = ref(false)
 const error = ref("")
 const searched = ref(false)

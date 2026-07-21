@@ -1,0 +1,108 @@
+kind: work
+version: 1
+id: ui-action-integrity-contract
+title: Freeze the backend-owned UI action and canonical route contract
+status: verified
+master_plan: docs/work/ui-action-integrity-master.yaml
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+tasks:
+- id: freeze-action-route-contract
+  title: Define action descriptors, route identity, matrix schema, and formatting
+    ownership
+  type: contract_and_documentation
+  status: done
+  inventory_item: contract-and-route-foundation
+  required_paths:
+  - docs/work/ui-action-integrity-master.yaml
+  - docs/work/ui-action-integrity-contract.yaml
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  paths:
+  - docs/work/ui-action-integrity-master.yaml
+  - docs/work/ui-action-integrity-contract.yaml
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  validation: make audit-docs && make audit-plan-coverage && git diff --check
+  acceptance:
+  - Action ids are stable and entity-scoped; labels are presentation, not authority.
+  - Each action declares visibility, enabled state, command route, confirmation policy,
+    success state, failure recovery, and canonical destination where applicable.
+  - The contract distinguishes navigation, mutation, review, destructive, and informational
+    metric behavior.
+  - The route registry contains canonical Web routes for every audited entity family
+    and explicitly forbids Vision fallback detail routes.
+  - The matrix schema can represent viewer role and entity lifecycle state without
+    frontend inference.
+  - Currency, locale, and timezone formatting ownership is documented as shared client
+    presentation over backend values.
+  - The action matrix is populated for Home, Work, Things, Rides, Circles, People,
+    Notifications, Activity, Chat, Business, Calendar, Profile, and VisionForWeb handoff
+    surfaces.
+  - Home metric scope ids and canonical destinations are frozen before any Home or
+    Work implementation slice begins.
+  outputs:
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  started_at: '2026-07-20T20:15:23Z'
+  start_fingerprints:
+    docs/work/ui-action-integrity-master.yaml: 15f49ab3efe8b4c34981233bfc203aca9f196031212f0f45df1097ba2a8b8b03
+    docs/work/ui-action-integrity-contract.yaml: 90b01774ca9811def56817a84ee5f8bcd097311fe2e825d56559c075a6c09dd5
+    docs/work/action-contract-matrix.yaml: d3a81f244f08f9534982179dce7d67e68e5fd924897652b9260dc29a70f06371
+    docs/work/home-query-scope-contract.yaml: 222a35016aebe00368716a8a1ed18286d32594d24f4e195aaff29f6dec92011f
+    docs/domain-technical.md: 42f1a46bb36fbf13338d31d70e51ff7d5c546101e815b197b4cbb49d36d64f99
+    docs/business-logic.md: 66d7adb540cab915c4da2e12ce5ee790fde13888203eb1b6ce20be1cd3f2fc17
+    apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts: 8c8fb97d5aeabcbbedd5df33e212e833625bb6f7f8f6061fbd94032b46cb4278
+    apps/themuffinman/frontend/src/contracts/index.ts: a281c6c58375259f90425b3cb6686901b9a44fcdfbe1e069d7c345b2c4c0536d
+evidence:
+- task: freeze-action-route-contract
+  command: make audit-docs && make audit-plan-coverage && git diff --check
+  ranAt: '2026-07-20T20:19:52Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/work/ui-action-integrity-contract.yaml
+  - docs/work/ui-action-integrity-master.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 292
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-20T20:15:23Z'
+  changedAfterStart: &1
+  - docs/work/ui-action-integrity-master.yaml
+  - docs/work/ui-action-integrity-contract.yaml
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

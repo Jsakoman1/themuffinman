@@ -12,6 +12,7 @@ import CollectionToolbar from "../components/CollectionToolbar.vue"
 import InlineEditText from "../components/InlineEditText.vue"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 
+// Optional location panels fail independently so profile editing remains usable.
 const user = ref<AppUserResponseDTO | null>(null)
 const username = ref("")
 const profileDescription = ref("")

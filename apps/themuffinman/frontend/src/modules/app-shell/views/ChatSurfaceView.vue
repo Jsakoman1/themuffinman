@@ -47,7 +47,7 @@ const isOpeningDirect = ref(false)
 const selectedId = computed(() => Number(route.params.conversationId) || null)
 const selectedConversation = computed(() => conversations.value.find(item => item.conversationId === selectedId.value) ?? null)
 const attachmentRequested = computed(() => route.query.attach === "1")
-const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value)) : ""
+const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat(undefined, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value)) : ""
 const describeRequestError = (errorValue: unknown, fallback: string) => {
   const response = (errorValue as {response?: {status?: number}} | null)?.response
   return response?.status ? `${fallback} (HTTP ${response.status}).` : fallback
@@ -160,7 +160,7 @@ const searchDirectParticipants = async () => {
 }
 const openDirectChat = async (userId: number) => {
   isOpeningDirect.value = true; error.value = ""
-  try { const conversation = await userShellApi.openChat({otherUserId: userId}); directQuery.value = ""; directCandidates.value = []; await loadConversations(); await router.push(`/chat/${conversation.conversationId}`) } catch { error.value = "Could not open this conversation." } finally { isOpeningDirect.value = false }
+  try { const conversation = await userShellApi.openDirectChat(userId); directQuery.value = ""; directCandidates.value = []; await loadConversations(); await router.push(`/chat/${conversation.conversationId}`) } catch { error.value = "Could not open this conversation." } finally { isOpeningDirect.value = false }
 }
 const leaveGroup = async () => {
   if (!selectedId.value || selectedConversation.value?.conversationType !== "GROUP" || !await confirmAction("Leave this group conversation?", "Leave conversation")) return
@@ -205,6 +205,8 @@ watch(selectedId, () => {
 onMounted(() => {
   void loadConversations()
   void loadMessages()
+  const requestedUserId = Number(route.query.userId)
+  if (Number.isInteger(requestedUserId) && requestedUserId > 0) void openDirectChat(requestedUserId)
   chatRealtime.connect()
   if (attachmentRequested.value && !selectedId.value) syncStatus.value = "Select a conversation to attach a file."
   document.addEventListener("visibilitychange", recoverConversation)

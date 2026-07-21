@@ -22,6 +22,8 @@ future slice is explicitly selected:
 
 ## Planning rule
 
+The UI action-integrity closeout uses the canonical action matrix and runtime scenario catalog; it does not create screenshot or smoke-test artifacts.
+
 Capability status and implementation-plan status are separate. Update the capability record in the canonical inventory
 when product support changes; add a new `docs/work/*.yaml` plan only when a specific capability slice is opened. When a
 plan is verified, run closeout cleanup and remove temporary validation outputs, screenshots, smoke traces, and

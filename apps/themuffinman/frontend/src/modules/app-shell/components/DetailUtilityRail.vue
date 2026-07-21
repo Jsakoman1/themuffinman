@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{
   title?: string
 }>(), {
   actions: () => [],
-  title: "Actions",
+  title: "",
 })
 
 const runningActionId = ref<string | null>(null)
@@ -20,8 +20,8 @@ const run = async (action: ObjectActionDescriptor) => {
 </script>
 
 <template>
-  <aside class="detail-utility-rail" :aria-label="title">
-    <header><h2>{{ title }}</h2></header>
+  <aside class="detail-utility-rail" :aria-label="title || 'Object actions'">
+    <header v-if="title"><h2>{{ title }}</h2></header>
     <div v-if="actionGroups.primary.length" class="detail-utility-rail__group">
       <AppButton v-for="action in actionGroups.primary" :key="action.id" tone="primary" :loading="runningActionId === action.id" :disabled="action.disabled" @click="run(action)">{{ action.label }}</AppButton>
     </div>

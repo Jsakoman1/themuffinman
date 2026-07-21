@@ -11,6 +11,8 @@ import CollectionToolbar from "../components/CollectionToolbar.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 
+// This surface lists circles owned by the viewer; membership actions for other
+// circles belong to the relationship request flow, not this owner dashboard.
 const groups = ref<CircleGroupResponseDTO[]>([])
 const requests = ref<CircleRequestResponseDTO[]>([])
 const outgoing = ref<CircleRequestResponseDTO[]>([])

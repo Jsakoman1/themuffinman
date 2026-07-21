@@ -1,0 +1,63 @@
+kind: query_scope_contract
+version: 1
+id: home-query-scope-contract
+title: Home summary metric and destination scope contract
+status: active
+closeout_reference: docs/work/ui-action-integrity-runtime-scenarios.yaml
+master_plan: docs/work/ui-action-integrity-master.yaml
+purpose: >-
+  Prevent Home cards from presenting one backend count and opening a differently
+  scoped collection. Counts and destinations must share a named query scope.
+scope_fields:
+  - viewer_id
+  - visibility_context
+  - module
+  - lifecycle_state
+  - ownership
+  - participation
+  - pagination
+metrics:
+  - id: open-work
+    label: Open work
+    scope:
+      module: work
+      lifecycle_state: OPEN
+      visibility_context: viewer-visible
+      ownership: any
+      participation: any
+    destination: /work/find?scope=open-visible
+    expected_relation: destination total equals metric total for the declared scope
+  - id: my-active-quests
+    label: My active quests
+    scope:
+      module: work
+      lifecycle_state: active
+      ownership: viewer-owned
+      participation: any
+    destination: /work/quests?scope=owned-active
+    expected_relation: destination total equals metric total for the declared scope
+  - id: pending-applications
+    label: Pending applications
+    scope:
+      module: work
+      lifecycle_state: pending
+      ownership: any
+      participation: viewer-applicant
+    destination: /work/applications?scope=pending
+    expected_relation: destination total equals metric total for the declared scope
+  - id: unread-news
+    label: Unread news
+    scope:
+      module: notifications
+      lifecycle_state: unread
+      ownership: viewer-targeted
+    destination: /notifications?scope=unread
+    expected_relation: destination total equals unread metric or clearly labels pagination
+contract_rules:
+  - Backend returns scope metadata with each metric or exposes one shared named scope enum.
+  - Frontend does not guess filters from labels.
+  - A zero metric is informational unless the destination has a useful empty-state action.
+  - Runtime evidence checks count, destination query, and visible collection result together.
+implementation_status: >-
+  Scope ids are frozen for the first Home/Work implementation slice. Backend DTO
+  wiring and endpoint-level parity are completed by the home-summary slice.

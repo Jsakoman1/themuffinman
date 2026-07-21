@@ -30,6 +30,11 @@ public class CommutePreferenceService {
         String home = trim(dto.getHomeArea());
         String work = trim(dto.getWorkArea());
         if (dto.isEnabled() && !dto.isConsentGranted()) throw ServiceErrors.badRequest("Commute matching requires explicit consent");
+        if (!dto.isEnabled()) {
+            // Disabled matching keeps the saved areas available for a later resume,
+            // but the matcher never uses them while enabled is false.
+            dto.setConsentGranted(false);
+        }
         if (dto.isEnabled() && (home == null || work == null || dto.getDepartureTime() == null || weekdays.isEmpty())) {
             throw ServiceErrors.badRequest("Enabled commute matching requires approximate areas, weekdays, and departure time");
         }

@@ -8,7 +8,7 @@ defineProps<{metrics: ShellSurfaceMetric[]}>()
 <template>
   <div v-if="metrics.length > 0" class="surface-metric-grid" aria-label="Summary">
     <component v-for="metric in metrics" :key="metric.label" :is="metric.to ? RouterLink : 'article'" v-bind="metric.to ? {to: metric.to} : {}" class="surface-metric" :class="{'surface-metric--emphasis': metric.tone === 'emphasis'}">
-      <span class="surface-metric__label">{{ metric.label }}</span><strong class="surface-metric__value">{{ metric.value }}</strong><span class="surface-metric__detail">{{ metric.detail }}</span>
+      <span class="surface-metric__label">{{ metric.label }}</span><strong class="surface-metric__value">{{ metric.value }}</strong><span v-if="metric.detail" class="surface-metric__detail">{{ metric.detail }}</span>
     </component>
   </div>
 </template>
@@ -22,5 +22,5 @@ defineProps<{metrics: ShellSurfaceMetric[]}>()
 .surface-metric__label { color: var(--text-muted); font-size: var(--text-size-meta); }
 .surface-metric--emphasis .surface-metric__label { color: color-mix(in srgb, var(--canvas) 70%, transparent); }
 .surface-metric__value { font-size: var(--text-size-body); letter-spacing: var(--tracking-tight); }
-.surface-metric__detail { display: none; }
+.surface-metric__detail { color: var(--text-soft); font-size: var(--text-size-meta); }
 </style>

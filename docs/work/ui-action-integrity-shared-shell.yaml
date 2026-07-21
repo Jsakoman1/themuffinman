@@ -1,0 +1,120 @@
+kind: work
+version: 1
+id: ui-action-integrity-shared-shell
+title: Standardize shared action rendering, detail parity, and display formatting
+status: verified
+master_plan: docs/work/ui-action-integrity-master.yaml
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+tasks:
+- id: implement-shared-action-rendering
+  title: Replace duplicated action presentation with one shared contract-driven renderer
+  type: implementation
+  status: done
+  inventory_item: shared-action-rendering-and-formatting
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceMetricGrid.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useObjectActions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/router.ts
+  - docs/work/action-contract-matrix.yaml
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceMetricGrid.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useObjectActions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/router.ts
+  - docs/work/action-contract-matrix.yaml
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  acceptance:
+  - Preview/open/detail/action menu behavior has one consistent grammar.
+  - Informational rows cannot appear as actionable rows without a route or handler.
+  - Shared rendering never invents permission state; it only consumes backend action
+    descriptors.
+  - Hidden, disabled, confirmation, destructive, and retry states render consistently.
+  - Stats expose an explicit filter/destination or render as noninteractive metrics.
+  - Locale-aware date, timezone, and money formatting is reused by Work, Business,
+    Things, and Rides.
+  - Route metadata, active navigation, and shell context agree for Home, Profile,
+    Settings, Notifications, Activity, Onboarding, and Saved searches.
+  - Every keyboard shortcut and metric affordance resolves to a real action, and collection
+    rows retain a stable identity when the same kind/time appears more than once.
+  - Shared hierarchy defines one primary action, compact secondary action access,
+    one preview/detail transition, and one nonduplicated utility rail per surface.
+  - Redundant headings, explanatory paragraphs, repeated summaries, and display-density
+    controls are removed or collapsed when they do not add a distinct decision or
+    action.
+  started_at: '2026-07-20T20:20:02Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue: 835de72a7043807c61937dc6c1f576f60257ae870b42e10698cb722e834144b3
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue: fd99ce29e09dc350b5691831a69198ccf7ba239b5931d7bf6fe77a89260b5c54
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue: 7da5cea01076a546d5de2bcba408175e94a28ffddbd31e7ff4e8ecc5858913b4
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceMetricGrid.vue: 592afc7d3e32eaba9ede12d8dca59a9da244af303ff56f0164198e9a9e660772
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useObjectActions.ts: 02d35ea6988283b6012271b6ebfc4a10f157cfef87e7a2fb7caae7202ee630f4
+    apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts: 561e58b93d2ae52c42ecb07c4d6b8617db0f307c98dd75b7511076bd8736772a
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 725a0cdd0ed8879dbf8c4b75d450048a1fabbbe0b82085ef9b21933a356ba61c
+    apps/themuffinman/frontend/src/router.ts: d6f11c2bc37c92f2c0c873546d44780fcc06f3fa0e6da46ee434b44aaee4fb79
+    docs/work/action-contract-matrix.yaml: 7a8c094ab6abaa2d811b214170cb165280bc76c0165804f3654e85ff42697398
+evidence:
+- task: implement-shared-action-rendering
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:21:40Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceMetricGrid.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useObjectActions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/router.ts
+  - docs/work/action-contract-matrix.yaml
+  output: |+
+    dist/assets/BusinessAvailabilityView-BsDx0xmQ.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-Dqzp9Oiq.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-Cy84el0A.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-dmAxNvWB.js                   11.22 kB │ gzip:   3.51 kB
+    dist/assets/BusinessProfileView-RkoHWV2r.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-Bfewuoms.js                   12.49 kB │ gzip:   3.94 kB
+    dist/assets/RidesView-ClmwHrHu.js                             12.94 kB │ gzip:   4.06 kB
+    dist/assets/ChatSurfaceView-CW7Nr60h.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-CyYOhqAa.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-Tv2pA3eT.js                         18.02 kB │ gzip:   5.38 kB
+    dist/assets/ProfileLocationSettingsView-BD2k1NZQ.js           20.82 kB │ gzip:   6.59 kB
+    dist/assets/VisionSurfaceModernView-BWIO2bZQ.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-DoLARFjG.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/index-Cg9OzC7v.js                                 50.78 kB │ gzip:  12.82 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 534ms
+
+  startedAt: '2026-07-20T20:20:02Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceMetricGrid.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useObjectActions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/router.ts
+  - docs/work/action-contract-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

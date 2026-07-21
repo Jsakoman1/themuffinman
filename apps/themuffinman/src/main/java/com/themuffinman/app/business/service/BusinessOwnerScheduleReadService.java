@@ -32,6 +32,7 @@ public class BusinessOwnerScheduleReadService {
     private final BusinessBookingRepository businessBookingRepository;
     private final BusinessBookingPresentationService businessBookingPresentationService;
 
+    /** Calendar data carries canonical booking targets for object-focused navigation. */
     public BusinessOwnerScheduleSummaryDTO getMyScheduleSummary(AppUser currentUser) {
         BusinessProfile profile = businessProfileRepository.findByOwnerId(currentUser.getId())
                 .orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before viewing schedule"));

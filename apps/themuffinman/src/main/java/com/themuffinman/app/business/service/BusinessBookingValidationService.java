@@ -33,6 +33,7 @@ public class BusinessBookingValidationService {
     private final BusinessAvailabilityComputationService businessAvailabilityComputationService;
     private final BusinessBookingPrimitiveService businessBookingPrimitiveService;
 
+    /** Public and owner flows share this availability/policy validation boundary. */
     public CapacityDecision validateCreate(
             BusinessOffering offering,
             AppUser customerUser,

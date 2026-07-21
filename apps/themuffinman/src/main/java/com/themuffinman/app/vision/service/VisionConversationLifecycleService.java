@@ -17,6 +17,9 @@ public class VisionConversationLifecycleService {
 
     @Transactional(readOnly = true)
     public VisionConversationTurnResponseDTO loadConversation(Long conversationId, AppUser currentUser) {
+        if (conversationId == null || conversationId <= 0) {
+            throw new IllegalArgumentException("Conversation id must be positive");
+        }
         return visionConversationService.loadConversation(conversationId, currentUser);
     }
 

@@ -1,5 +1,6 @@
 package com.themuffinman.app.social.service;
 
+import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.social.dto.CircleRelationDTO;
 import com.themuffinman.app.social.model.CircleGroup;
@@ -41,6 +42,9 @@ public class CircleRelationshipReadService {
     }
 
     public CircleRelationDTO getRelationWithUser(AppUser currentUser, Long otherUserId) {
+        if (currentUser == null || otherUserId == null) {
+            throw ServiceErrors.badRequest("A viewer and target user are required");
+        }
         return circleDiscoveryService.getRelationWithUser(currentUser, otherUserId);
     }
 }

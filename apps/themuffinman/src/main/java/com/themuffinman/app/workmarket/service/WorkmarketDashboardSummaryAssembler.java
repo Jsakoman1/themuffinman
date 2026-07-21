@@ -32,7 +32,9 @@ public class WorkmarketDashboardSummaryAssembler {
                 status -> status == QuestStatus.OPEN || status == QuestStatus.WAITING_CONFIRMATION);
         long activeMyQuestsCount = countActiveMyQuests(quests, currentUser.getId());
         long completedMyQuestsCount = countMyQuestsByStatus(quests, currentUser.getId(), status -> status == QuestStatus.COMPLETED);
-        long openQuestCount = countQuestsByStatus(quests, QuestStatus.OPEN);
+        // Home's Open work card opens the AVAILABLE Web preset, which excludes the
+        // viewer's own quests. Keep the metric on that same query scope.
+        long openQuestCount = countAvailableOpenQuests(quests, currentUser);
         long assignedQuestCount = countQuestsByStatus(quests, QuestStatus.ASSIGNED);
         long waitingConfirmationQuestCount = countQuestsByStatus(quests, QuestStatus.WAITING_CONFIRMATION);
         long pendingWorkApplicationsCount = countApplicationsByStatus(applications, QuestApplicationStatus.PENDING);
@@ -63,14 +65,14 @@ public class WorkmarketDashboardSummaryAssembler {
             Predicate<QuestStatus> statusPredicate
     ) {
         return quests.stream()
-                .filter(quest -> quest.getCreator() != null && quest.getCreator().getId().equals(currentUserId))
+                .filter(quest -> belongsToUser(quest, currentUserId))
                 .filter(quest -> statusPredicate.test(quest.getStatus()))
                 .count();
     }
 
     private long countActiveMyQuests(List<Quest> quests, Long currentUserId) {
         return quests.stream()
-                .filter(quest -> quest.getCreator() != null && quest.getCreator().getId().equals(currentUserId))
+                .filter(quest -> belongsToUser(quest, currentUserId))
                 .filter(quest -> quest.getStatus() == QuestStatus.ASSIGNED || quest.getStatus() == QuestStatus.IN_PROGRESS)
                 .count();
     }
@@ -79,6 +81,20 @@ public class WorkmarketDashboardSummaryAssembler {
         return quests.stream()
                 .filter(quest -> quest.getStatus() == status)
                 .count();
+    }
+
+    private long countAvailableOpenQuests(List<Quest> quests, AppUser currentUser) {
+        return quests.stream()
+                .filter(quest -> quest.getStatus() == QuestStatus.OPEN)
+                .filter(quest -> quest.getCreator() != null)
+                .filter(quest -> !belongsToUser(quest, currentUser.getId()))
+                .count();
+    }
+
+    private boolean belongsToUser(Quest quest, Long userId) {
+        return quest.getCreator() != null
+                && quest.getCreator().getId() != null
+                && quest.getCreator().getId().equals(userId);
     }
 
     private long countApplicationsByStatus(List<QuestApplication> applications, QuestApplicationStatus status) {

@@ -1,0 +1,226 @@
+kind: contract_matrix
+version: 1
+id: ui-action-contract-matrix
+title: Backend-owned UI action contract matrix
+status: active
+closeout_reference: docs/work/ui-action-integrity-runtime-scenarios.yaml
+master_plan: docs/work/ui-action-integrity-master.yaml
+purpose: >-
+  Concrete machine-readable contract for visible Web actions. Every row names the
+  viewer/entity state, backend action id, destination or command, confirmation rule,
+  and recovery expectation. Child plans extend this matrix before implementation.
+schema:
+  required_fields:
+    - module
+    - surface
+    - viewer_state
+    - entity_state
+    - action_id
+    - kind
+    - visible_when
+    - destination_or_command
+    - confirmation
+    - success_state
+    - failure_recovery
+  kinds: [navigation, mutation, review, destructive, informational]
+  confirmation: [none, explicit, backend_required]
+  destination_rule: >-
+    Navigation actions must resolve to a canonical Web route. Mutation actions must
+    name one typed API command and a deterministic post-success state.
+entries:
+  - module: home
+    surface: home-summary
+    viewer_state: authenticated
+    entity_state: summary-ready
+    action_id: OPEN_WORK
+    kind: navigation
+    visible_when: backend_count_open_work > 0
+    destination_or_command: /work/find?scope=open-visible
+    confirmation: none
+    success_state: Work collection shows the same scoped count
+    failure_recovery: retain Home and show route/load retry
+  - module: work
+    surface: work-collection
+    viewer_state: authenticated
+    entity_state: collection-ready
+    action_id: OFFER_WORK
+    kind: navigation
+    visible_when: authenticated
+    destination_or_command: /work/offer
+    confirmation: none
+    success_state: guided create flow opens
+    failure_recovery: remain on collection
+  - module: work
+    surface: work-row
+    viewer_state: authenticated
+    entity_state: visible-open-quest
+    action_id: OPEN_WORK_DETAIL
+    kind: navigation
+    visible_when: canonical_detail_route_exists
+    destination_or_command: /work/quests/:questId
+    confirmation: none
+    success_state: detail opens for the selected quest
+    failure_recovery: show unavailable detail state without Vision fallback
+  - module: activity
+    surface: activity-row
+    viewer_state: authenticated
+    entity_state: resumable
+    action_id: RESUME_ACTIVITY
+    kind: navigation
+    visible_when: item.resumable == true and route != null
+    destination_or_command: item.route
+    confirmation: none
+    success_state: declared resumable flow opens
+    failure_recovery: keep item and show retry
+  - module: activity
+    surface: activity-row
+    viewer_state: authenticated
+    entity_state: resumable
+    action_id: DISMISS_ACTIVITY_RESUME
+    kind: mutation
+    visible_when: item.resumable == true and item.resumeKey != null
+    destination_or_command: POST /activity/resume/:resumeKey/dismiss
+    confirmation: none
+    success_state: item disappears once server confirms dismissal
+    failure_recovery: keep item and show retry
+  - module: rides
+    surface: rides-entry
+    viewer_state: authenticated
+    entity_state: discovery-ready
+    action_id: FIND_RIDE
+    kind: navigation
+    visible_when: authenticated
+    destination_or_command: /rides?mode=find
+    confirmation: none
+    success_state: discovery-only surface opens
+    failure_recovery: remain on rides entry
+  - module: rides
+    surface: rides-entry
+    viewer_state: authenticated
+    entity_state: discovery-ready
+    action_id: OFFER_RIDE
+    kind: navigation
+    visible_when: authenticated
+    destination_or_command: /rides?mode=offer
+    confirmation: none
+    success_state: offer flow opens
+    failure_recovery: remain on rides entry
+  - module: rides
+    surface: commute-preferences
+    viewer_state: authenticated
+    entity_state: preferences-editable
+    action_id: SAVE_COMMUTE_PREFERENCES
+    kind: mutation
+    visible_when: user opens commute preferences
+    destination_or_command: PUT /rides/commute-preference
+    confirmation: backend_required
+    success_state: preferences summary updates
+    failure_recovery: preserve draft and show validation/retry
+  - module: things
+    surface: things-collection
+    viewer_state: authenticated
+    entity_state: visible-listing
+    action_id: OPEN_THING_DETAIL
+    kind: navigation
+    visible_when: canonical_detail_route_exists
+    destination_or_command: /things/:listingId
+    confirmation: none
+    success_state: selected listing detail opens
+    failure_recovery: show unavailable listing state
+  - module: circles
+    surface: circle-group
+    viewer_state: authenticated
+    entity_state: owner-or-member
+    action_id: MANAGE_CIRCLE
+    kind: navigation
+    visible_when: backend_action_allowed
+    destination_or_command: /circles?selected=:circleId
+    confirmation: none
+    success_state: circle context opens with allowed actions
+    failure_recovery: reload circle state
+  - module: people
+    surface: people-profile
+    viewer_state: authenticated
+    entity_state: relationship-action-available
+    action_id: RELATIONSHIP_ACTION
+    kind: mutation
+    visible_when: backend_action_descriptor.enabled
+    destination_or_command: backend action descriptor command
+    confirmation: backend_required
+    success_state: profile relationship state reloads
+    failure_recovery: preserve profile and show retry
+  - module: notifications
+    surface: notification-row
+    viewer_state: authenticated
+    entity_state: actionable-or-informational
+    action_id: OPEN_NOTIFICATION_TARGET
+    kind: navigation
+    visible_when: canonical_destination != null
+    destination_or_command: backend canonical destination
+    confirmation: none
+    success_state: target detail opens or item is explicitly informational
+    failure_recovery: retain notification and explain unavailable target
+  - module: chat
+    surface: conversation
+    viewer_state: participant
+    entity_state: server-authorized
+    action_id: SEND_MESSAGE
+    kind: mutation
+    visible_when: backend_action_descriptor.enabled
+    destination_or_command: typed chat message command
+    confirmation: none
+    success_state: message appears once and draft clears
+    failure_recovery: preserve draft/attachment and allow retry
+  - module: business
+    surface: public-offering
+    viewer_state: authenticated-customer
+    entity_state: offering-bookable
+    action_id: REQUEST_BOOKING
+    kind: mutation
+    visible_when: offering.active and booking_enabled
+    destination_or_command: preview slot then create booking
+    confirmation: backend_required
+    success_state: booking confirmation and My bookings destination
+    failure_recovery: preserve selected offering and form draft
+  - module: calendar
+    surface: calendar-event
+    viewer_state: authenticated
+    entity_state: scheduled-object
+    action_id: OPEN_CALENDAR_OBJECT
+    kind: navigation
+    visible_when: canonical_object_route_exists
+    destination_or_command: owning booking/work detail or filtered list
+    confirmation: none
+    success_state: object context opens
+    failure_recovery: show filtered fallback with object focus
+  - module: profile
+    surface: profile-settings
+    viewer_state: authenticated-owner
+    entity_state: editable
+    action_id: SAVE_PROFILE_SETTINGS
+    kind: mutation
+    visible_when: settings_loaded
+    destination_or_command: typed profile settings command
+    confirmation: none
+    success_state: saved profile summary and session context update
+    failure_recovery: preserve draft and identify failed panel
+  - module: vision-for-web
+    surface: contextual-assistant
+    viewer_state: authenticated
+    entity_state: known-target-request
+    action_id: OPEN_KNOWN_WEB_TARGET
+    kind: navigation
+    visible_when: target resolved and authorized
+    destination_or_command: canonical Web route
+    confirmation: none
+    success_state: requested Web screen/detail opens
+    failure_recovery: explain unresolved target without console fallback
+extension_rule: >-
+  Before closing contract-and-route-foundation, every audited module must add its
+  rows here or explicitly record that the surface is informational and has no action.
+  The current matrix covers the initial contract surface; child slices may add
+  entity-state rows but may not remove stable action ids without a documented decision.
+shared_renderer_rules:
+  - Surface rows expose one primary interaction and only render keyboard preview shortcuts for preview rows.
+  - Metrics render their detail text only when provided and never pretend that hidden text is an affordance.
+  - A route/query scope is part of the destination contract, not a frontend-only label.

@@ -43,7 +43,7 @@ const save = async () => {
         <p class="quest-create__summary-eyebrow">Draft summary</p>
         <h2>{{ form.title.trim() || "Untitled quest" }}</h2>
         <p>{{ form.description.trim() || "Add a description to give the worker useful context." }}</p>
-        <dl><div><dt>Award</dt><dd>{{ form.awardAmount || 0 }}</dd></div><div><dt>Terms</dt><dd>{{ form.termFixed ? "Fixed" : "Flexible" }}</dd></div><div><dt>Visibility</dt><dd>Backend governed</dd></div></dl>
+        <dl><div><dt>Award</dt><dd>{{ new Intl.NumberFormat(undefined, {style: "currency", currency: "EUR"}).format(form.awardAmount || 0) }}</dd></div><div><dt>Terms</dt><dd>{{ form.termFixed ? "Fixed" : "Flexible" }}</dd></div><div><dt>Visibility</dt><dd>Backend governed</dd></div></dl>
         <p class="quest-create__summary-note">Vision can help refine the draft, but creation only happens after the explicit submit action.</p>
       </aside>
     </div>

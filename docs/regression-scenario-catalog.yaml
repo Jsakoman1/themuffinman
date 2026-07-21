@@ -1,5 +1,6 @@
 ---
 interaction_contract_regressions:
+  latest_action_integrity_source: docs/work/action-contract-matrix.yaml
   source: docs/work/capability-inventory-audit.yaml
   required_for_linear_inspired_changes:
     - direct route remains canonical when a preview or utility panel is introduced

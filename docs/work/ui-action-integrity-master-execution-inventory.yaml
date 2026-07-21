@@ -1,0 +1,199 @@
+kind: execution_inventory
+version: 1
+id: ui-action-integrity-master-execution-inventory
+master_plan: docs/work/ui-action-integrity-master.yaml
+serial_task_execution: true
+purpose: One ordered queue for the action-integrity program. Only one child task may
+  be started at a time; each item maps to exactly one child-plan task or closeout.
+items:
+- id: contract-and-route-foundation
+  sequence: 1
+  plan: docs/work/ui-action-integrity-contract.yaml
+  task: freeze-action-route-contract
+  closeout: Action matrix, Home query scopes, canonical route rules, formatter ownership,
+    and schema are approved and tested.
+  status: verified
+  started_at: '2026-07-20T20:15:23Z'
+  verified_at: '2026-07-20T20:19:56Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-contract.yaml
+    task: freeze-action-route-contract
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: shared-action-rendering-and-formatting
+  sequence: 2
+  plan: docs/work/ui-action-integrity-shared-shell.yaml
+  task: implement-shared-action-rendering
+  closeout: Shared action hierarchy, detail/list parity primitives, and locale formatter
+    are used by affected shell surfaces.
+  status: verified
+  started_at: '2026-07-20T20:20:02Z'
+  verified_at: '2026-07-20T20:21:44Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-shared-shell.yaml
+    task: implement-shared-action-rendering
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: home-summary-and-shell-context
+  sequence: 3
+  plan: docs/work/ui-action-integrity-home-profile-vision.yaml
+  task: repair-home-summary-and-shell-context
+  closeout: Home metrics and destinations share backend query scopes and shell metadata
+    is truthful.
+  status: verified
+  started_at: '2026-07-20T20:23:56Z'
+  verified_at: '2026-07-20T20:28:23Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-home-profile-vision.yaml
+    task: repair-home-summary-and-shell-context
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: work-actions
+  sequence: 4
+  plan: docs/work/ui-action-integrity-work-things.yaml
+  task: repair-work-actions
+  closeout: Work collection, offer flow, preview/detail hierarchy, action states,
+    and formatting pass.
+  status: verified
+  started_at: '2026-07-20T20:28:43Z'
+  verified_at: '2026-07-20T20:35:33Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-work-things.yaml
+    task: repair-work-actions
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: things-actions
+  sequence: 5
+  plan: docs/work/ui-action-integrity-work-things.yaml
+  task: simplify-things-actions
+  closeout: Things discovery/mine/detail/request actions and URL scope pass.
+  status: verified
+  started_at: '2026-07-20T20:35:49Z'
+  verified_at: '2026-07-20T20:37:56Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-work-things.yaml
+    task: simplify-things-actions
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: rides-workflows
+  sequence: 6
+  plan: docs/work/ui-action-integrity-rides-social.yaml
+  task: simplify-rides-workflows
+  closeout: Find, offer, commute preferences, privacy, and ride preview are separated
+    and coherent.
+  status: verified
+  started_at: '2026-07-20T20:38:13Z'
+  verified_at: '2026-07-20T20:40:00Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-rides-social.yaml
+    task: simplify-rides-workflows
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: circles-actions
+  sequence: 7
+  plan: docs/work/ui-action-integrity-rides-social.yaml
+  task: repair-circles-actions
+  closeout: Circle owner/member actions and transitions are correct.
+  status: verified
+  started_at: '2026-07-20T20:40:06Z'
+  verified_at: '2026-07-20T20:41:18Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-rides-social.yaml
+    task: repair-circles-actions
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: people-actions
+  sequence: 8
+  plan: docs/work/ui-action-integrity-rides-social.yaml
+  task: repair-people-actions
+  closeout: People relationship, report, block, and chat actions dispatch by backend
+    type.
+  status: verified
+  started_at: '2026-07-20T20:41:24Z'
+  verified_at: '2026-07-20T20:42:22Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-rides-social.yaml
+    task: repair-people-actions
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: notification-and-activity-actions
+  sequence: 9
+  plan: docs/work/ui-action-integrity-notifications-chat.yaml
+  task: repair-notification-and-activity-actions
+  closeout: Notifications and Activity form one honest, nonduplicated timeline/destination
+    contract.
+  status: verified
+  started_at: '2026-07-20T20:42:53Z'
+  verified_at: '2026-07-20T20:44:52Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-notifications-chat.yaml
+    task: repair-notification-and-activity-actions
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: chat-actions
+  sequence: 10
+  plan: docs/work/ui-action-integrity-notifications-chat.yaml
+  task: repair-chat-actions
+  closeout: Chat navigation, message actions, and failure recovery pass.
+  status: verified
+  started_at: '2026-07-20T20:44:57Z'
+  verified_at: '2026-07-20T20:46:32Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-notifications-chat.yaml
+    task: repair-chat-actions
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: business-customer-and-owner-actions
+  sequence: 11
+  plan: docs/work/ui-action-integrity-business-calendar.yaml
+  task: repair-business-customer-and-owner-actions
+  closeout: Business profile, offerings, discovery, and customer/owner booking actions
+    pass.
+  status: verified
+  started_at: '2026-07-20T20:47:04Z'
+  verified_at: '2026-07-20T20:48:06Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-business-calendar.yaml
+    task: repair-business-customer-and-owner-actions
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: business-calendar-and-schedule
+  sequence: 12
+  plan: docs/work/ui-action-integrity-business-calendar.yaml
+  task: repair-business-calendar-and-schedule
+  closeout: Availability, exceptions, effective schedule, and calendar object focus
+    pass.
+  status: verified
+  started_at: '2026-07-20T20:48:13Z'
+  verified_at: '2026-07-20T20:49:05Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-business-calendar.yaml
+    task: repair-business-calendar-and-schedule
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: profile-onboarding-and-search-settings
+  sequence: 13
+  plan: docs/work/ui-action-integrity-home-profile-vision.yaml
+  task: repair-profile-onboarding-and-search-settings
+  closeout: Profile settings, onboarding, saved searches, and account shell context
+    pass.
+  status: verified
+  started_at: '2026-07-20T20:49:42Z'
+  verified_at: '2026-07-20T20:50:59Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-home-profile-vision.yaml
+    task: repair-profile-onboarding-and-search-settings
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: profile-and-vision-actions
+  sequence: 14
+  plan: docs/work/ui-action-integrity-home-profile-vision.yaml
+  task: repair-profile-and-vision-actions
+  closeout: Profile relationship actions and VisionForWeb canonical handoffs pass.
+  status: verified
+  started_at: '2026-07-20T20:51:06Z'
+  verified_at: '2026-07-20T20:51:59Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-home-profile-vision.yaml
+    task: repair-profile-and-vision-actions
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+- id: integrated-runtime-closeout
+  sequence: 15
+  plan: docs/work/ui-action-integrity-runtime-closeout.yaml
+  task: run-integrated-action-audit-and-closeout
+  closeout: Meaningful runtime scenarios, docs, backlog, inventory, and cleanup are
+    synchronized.
+  status: verified
+  started_at: '2026-07-20T20:52:27Z'
+  verified_at: '2026-07-20T20:55:03Z'
+  evidence:
+    plan: docs/work/ui-action-integrity-runtime-closeout.yaml
+    task: run-integrated-action-audit-and-closeout
+    revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f

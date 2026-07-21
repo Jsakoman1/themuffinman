@@ -11,6 +11,7 @@ import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 const bookings = ref<BusinessBookingResponseDTO[]>([])
+// Customer actions stay separate from the owner booking queue.
 const isLoading = ref(true)
 const isActing = ref<number | null>(null)
 const error = ref("")

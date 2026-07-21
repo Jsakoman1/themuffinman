@@ -12,6 +12,7 @@ import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 
 const rules = ref<BusinessAvailabilityRuleResponseDTO[]>([])
+// Effective availability is read from the backend; this view only edits rules.
 const offerings = ref<BusinessOfferingResponseDTO[]>([])
 const form = ref<BusinessAvailabilityRuleRequestDTO | null>(null)
 const editingId = ref<number | null>(null)

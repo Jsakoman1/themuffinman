@@ -14,5 +14,10 @@ import java.util.List;
 public class AttentionCenterService {
     private final WorkmarketQuestNewsService newsService;
     private final ActivityReadService activityReadService;
-    public AttentionCenterDTO getMine(AppUser user) { List<ActivityItemDTO> items = activityReadService.getMine(user); return AttentionCenterDTO.builder().unreadCount(newsService.getUnreadCount(user)).items(items.stream().limit(12).toList()).build(); }
+    public AttentionCenterDTO getMine(AppUser user) {
+        // Attention reuses the deduplicated activity contract; it only limits the
+        // visible subset for the compact notification surface.
+        List<ActivityItemDTO> items = activityReadService.getMine(user);
+        return AttentionCenterDTO.builder().unreadCount(newsService.getUnreadCount(user)).items(items.stream().limit(12).toList()).build();
+    }
 }

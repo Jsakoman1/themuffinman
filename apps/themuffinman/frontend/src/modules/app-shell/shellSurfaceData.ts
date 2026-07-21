@@ -64,6 +64,8 @@ const safeRequest = async <T>(request: () => Promise<T>) => {
 
 const formatCount = (value: number) => new Intl.NumberFormat("en-US").format(value)
 
+const homeMetricRoute = (scope: string): RouteLocationRaw => ({path: "/work/find", query: {scope}})
+
 const formatDateTime = (value: string | null | undefined) => {
   if (!value) {
     return "No scheduled time"
@@ -235,20 +237,20 @@ const loadHomeData = async (): Promise<ShellSurfaceViewModel> => {
         label: "Open work",
         value: formatCount(summary.openQuestCount),
         detail: "Available work visible to you.",
-        to: {path: "/work/find"},
+        to: homeMetricRoute("open-visible"),
         tone: "emphasis"
       },
       {
         label: "My active quests",
         value: formatCount(summary.activeMyQuestsCount),
         detail: "Owned work that still needs attention.",
-        to: {path: "/work/quests"}
+        to: {path: "/work/quests", query: {scope: "owned-active"}}
       },
       {
         label: "Pending applications",
         value: formatCount(summary.pendingWorkApplicationsCount),
         detail: "Applications waiting on a next step.",
-        to: {path: "/work/applications"}
+        to: {path: "/work/applications", query: {scope: "pending"}}
       },
       {
         label: "Unread news",
@@ -287,7 +289,7 @@ const loadHomeData = async (): Promise<ShellSurfaceViewModel> => {
         ]
       }
     ],
-    note: "Home remains a thin orientation layer until a dedicated backend-prepared home summary read model arrives."
+    note: "Home is a compact orientation layer; Notifications cover unread delivery while Activity is the deduplicated resume timeline."
   }
 }
 

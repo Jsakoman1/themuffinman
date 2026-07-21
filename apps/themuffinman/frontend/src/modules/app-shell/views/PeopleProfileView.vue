@@ -12,6 +12,9 @@ import DetailSurface from "../components/DetailSurface.vue"
 import DetailUtilityRail from "../components/DetailUtilityRail.vue"
 import {confirmAction, showActionNotice} from "../composables/useActionDialog.ts"
 const route = useRoute(); const router = useRouter(); const profile = ref<UserProfileViewDTO | null>(null); const isLoading = ref(true); const isActing = ref(false); const error = ref(""); const reportReason = ref(""); const reportOpen = ref(false)
+// Vision/profile handoffs must preserve this target context; profile actions are
+// always reloaded after mutation so stale relationship
+// labels cannot remain actionable in the utility rail.
 const load = async () => { isLoading.value = true; error.value = ""; try { profile.value = await userShellApi.getCurrentProfileView(Number(route.params.userId)) } catch { error.value = "Could not load this profile." } finally { isLoading.value = false } }
 const sendInvite = async () => {
   if (!profile.value || !profile.value.primaryAction?.enabled) return

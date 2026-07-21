@@ -16,7 +16,7 @@ const feedback = ref("")
 const attention = ref<AttentionCenter | null>(null)
 const selectedNotificationId = ref<number | null>(null)
 const selectedNotification = computed(() => items.value.find((item) => item.id === selectedNotificationId.value) ?? null)
-const formatDate = (value: string) => new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value))
+const formatDate = (value: string) => new Intl.DateTimeFormat(undefined, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value))
 const load = async () => { isLoading.value = true; error.value = ""; try { const [news, center] = await Promise.all([userShellApi.getMyNews(), userShellApi.getAttentionCenter()]); items.value = news; attention.value = center } catch { error.value = "Could not load notifications." } finally { isLoading.value = false } }
 const markAllRead = async () => { isActing.value = true; error.value = ""; try { await userShellApi.markNewsAsRead(); feedback.value = "All notifications marked as read."; await load() } catch { error.value = "Could not update notifications." } finally { isActing.value = false } }
 const markRead = async (item: QuestNewsItemResponseDTO) => { selectedNotificationId.value = item.id; if (!item.readAt) { try { await userShellApi.markNewsItemAsRead(item.id); item.readAt = new Date().toISOString() } catch { error.value = "Could not update this notification." } } }

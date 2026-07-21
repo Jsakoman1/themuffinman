@@ -13,7 +13,7 @@ export const useVisionForWeb = () => {
   const contextFor = (context: string, source: string, returnTo: string): VisionForWebContext => ({
     workspaceContext: context.trim() || null,
     workspaceSource: source.trim() || null,
-    workspaceReturnTo: returnTo.startsWith("/") ? returnTo : null
+    workspaceReturnTo: returnTo.startsWith("/") && !returnTo.startsWith("//") && !returnTo.includes("://") ? returnTo : null
   })
   const execute = async (action: VisionWebAction | null | undefined) => {
     if (!action?.canonicalPath) {

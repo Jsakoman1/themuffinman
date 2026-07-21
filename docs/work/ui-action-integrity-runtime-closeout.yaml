@@ -1,0 +1,122 @@
+kind: work
+version: 1
+id: ui-action-integrity-runtime-closeout
+title: Integrated action audit, runtime evidence, documentation, and cleanup
+status: verified
+master_plan: docs/work/ui-action-integrity-master.yaml
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+tasks:
+- id: run-integrated-action-audit-and-closeout
+  title: Verify every module action journey and synchronize living documentation
+  type: verification_and_closeout
+  status: done
+  inventory_item: integrated-runtime-closeout
+  required_paths:
+  - docs/work/ui-action-integrity-runtime-closeout.yaml
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/work/ui-action-integrity-runtime-scenarios.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  paths:
+  - docs/work/ui-action-integrity-runtime-closeout.yaml
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/work/ui-action-integrity-runtime-scenarios.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  validation: make audit-docs && make audit-plan-coverage && make audit-target-capability-coverage
+    && git diff --check
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/work/ui-action-integrity-runtime-scenarios.yaml
+  acceptance:
+  - The meaningful runtime scenario catalog covers discovery, detail, primary mutation,
+    destructive mutation, denied action, stale-state recovery, and canonical navigation
+    for every named module.
+  - Runtime evidence explicitly covers Work, Things, Rides, Circles, Notifications,
+    Activity, Chat, Business, Calendar, Home, Profile, People, and VisionForWeb handoff.
+  - Evidence records expected route/state transitions and does not rely on page-load
+    screenshots as proof.
+  - No smoke screenshots, temporary traces, stale validation reports, or duplicate
+    plans remain after closeout.
+  - Capability inventory, business logic, domain technical, regression catalog, and
+    backlog agree with the final action contract.
+  - The final report records unresolved items only when they are genuine product decisions
+    or external blockers.
+  started_at: '2026-07-20T20:52:27Z'
+  start_fingerprints:
+    docs/work/ui-action-integrity-runtime-closeout.yaml: 385320489f938f7517d129530694fa77522823f9313b09122c8283842aa96481
+    docs/work/action-contract-matrix.yaml: 743a07875d61b62d4cbb3ea37a1f686c541c5ccc59762e56a8922dbc3786b549
+    docs/work/home-query-scope-contract.yaml: cb1f43254d5c40e8520c15de8b664e7735615ab2a5f705ffd483b3247d98412e
+    docs/work/ui-action-integrity-runtime-scenarios.yaml: 0f0cc0611aec0aa33ed83981df0828672803bd61494136f0e3998a777c8a1bd2
+    docs/business-logic.md: 46423420776d4f0d9a4732667e34c00225e4179e5e3a97376f79f813faa16015
+    docs/domain-technical.md: 8b23f8cacc8825fa20173da5130cc3796500954d2bbf0bc0dc978e6d8c9b56e2
+    docs/capability-inventory.yaml: 22b05554981239dc6aedf4874eabb3967565184d9d7bde2b98982b552e47f950
+    docs/implementation-backlog.md: 46d1bb3e10b504d01cb573a244015859a1b627b31fcea9b3cbfb22373c7ec854
+    docs/regression-scenario-catalog.yaml: b5bb8a8bcaccf5f341d68a1b5a1c96a6eb0f2dd33bbf73d6bfdaf902e6ad9875
+closeout_note: All child action-integrity slices are verifier-verified; remaining
+  evidence is the compact runtime walkthrough.
+evidence:
+- task: run-integrated-action-audit-and-closeout
+  command: make audit-docs && make audit-plan-coverage && make audit-target-capability-coverage
+    && git diff --check
+  ranAt: '2026-07-20T20:54:59Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/work/ui-action-integrity-runtime-closeout.yaml
+  - docs/work/ui-action-integrity-runtime-scenarios.yaml
+  output: |2+
+      current_inventory_ids:
+      - chat.message.view_attachment
+      mapping_quality: exact
+      current_statuses:
+      - implemented
+      current_status: implemented
+      target_surfaces:
+        vision: true
+        web_ui: true
+        mobile: true
+        watch: false
+        api: true
+      current_surfaces:
+        web_ui: true
+        vision: true
+      surface_coverage:
+        web_ui: covered
+        vision: covered
+      gaps: []
+
+  startedAt: '2026-07-20T20:52:27Z'
+  changedAfterStart: &1
+  - docs/work/ui-action-integrity-runtime-closeout.yaml
+  - docs/work/action-contract-matrix.yaml
+  - docs/work/home-query-scope-contract.yaml
+  - docs/work/ui-action-integrity-runtime-scenarios.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/work/ui-action-integrity-runtime-scenarios.yaml

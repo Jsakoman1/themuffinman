@@ -1,0 +1,185 @@
+kind: work
+version: 1
+id: ui-action-integrity-work-things
+title: Repair Work and Things action parity and state navigation
+status: verified
+master_plan: docs/work/ui-action-integrity-master.yaml
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+tasks:
+- id: repair-work-actions
+  title: Make Work collection, preview, detail, application, and create actions logically
+    complete
+  type: implementation
+  status: done
+  inventory_item: work-actions
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Work collection has one obvious primary action; search, filters, sorting, density,
+    Vision, preview, and detail remain available without competing as equal-weight
+    controls.
+  - Display density controls are local preferences in a compact view menu and do not
+    occupy the main action row by default.
+  - Work preview and full detail have clear hierarchy and do not repeat the same title,
+    metadata, and action grammar unnecessarily.
+  - Work owner assignment explicitly resolves the selected approved worker or exposes
+    a clear backend selection contract.
+  - Application list and detail expose the same allowed self-service actions and canonical
+    routes.
+  - Apply, edit, withdraw, approve, decline, release, replace, pause, resume, start,
+    complete, cancel, and delete have exact state-aware visibility.
+  - Work currency/date text uses shared formatting and no hardcoded euro/en-US assumptions
+    remain.
+  started_at: '2026-07-20T20:28:43Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue: 1f1c31888ff72dd144ba55bc44115e9bef6a6fcf0e4ec26fe6b80061a5283994
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue: 2b197a59c763854079956a6d0b987cecf72824eacce7148fdf1a08317769625f
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue: 20cf3eac37aea69b307b0f452cc747a648fd0ca4638f7bba0d9cd4003c3b804f
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue: 91df6bce75f1b9af13df0dd150a2e1a108e25b00ce9f4bae24932447999f2271
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue: ccaff5cca6d55a72a71f25ef29850888d8d95fa4dd5531d50499f223da85cb2e
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue: 1138eebf32f3ab7fd80a3b02c2bf5b21732aabb78a5adbd1728fb8bd22b238c7
+    apps/themuffinman/src/main/java/com/themuffinman/app/workmarket: __missing__
+- id: simplify-things-actions
+  title: Make Things discovery, mine, request, and detail actions coherent
+  type: implementation
+  status: done
+  inventory_item: things-actions
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  validation: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  acceptance:
+  - Things discovery has one primary action and hides secondary density/filter controls
+    behind compact context UI.
+  - Mine/discover scope is URL-owned and visible in the screen title and empty state.
+  - Borrower and owner actions are distinct, backend-authorized, and recover from
+    stale state.
+  - Thing preview/detail does not repeat the same content or expose dead actions.
+  started_at: '2026-07-20T20:35:49Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: bb31d26ff643f6043307935bf8544cdbc6ed01b0d30a775a471d88f4ed3b23e3
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue: 6a5088f68b6b4dd6bac6d8f23ac7f84299806d6f6990c2de1013631393e3c0f2
+    apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts: 73f5ea4b4f3c26306f4b1a203bea5998932822ff4705cbfb2402ddeb5629b043
+    apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java: df4818f0f15847253bfc29680e42de40f88a288e32e90c02c608fb4ff3b1c791
+evidence:
+- task: repair-work-actions
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:35:08Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-CA7JURQC.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-C9cIjFnw.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-B8MEZS45.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-CSnDPflm.js                   11.22 kB │ gzip:   3.52 kB
+    dist/assets/BusinessProfileView-B_96CxY-.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-DS2L_uVN.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-BX5IvRoQ.js                             12.94 kB │ gzip:   4.06 kB
+    dist/assets/ChatSurfaceView-CPI63Vjd.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-BTzYWf1I.js                       17.49 kB │ gzip:   5.77 kB
+    dist/assets/SurfaceHeader-C0Yrri96.js                         18.02 kB │ gzip:   5.39 kB
+    dist/assets/ProfileLocationSettingsView-Cb7gyMy5.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-Ba-RQpQt.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-N0i8XNRu.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DeAgd1Wx.js                                 50.92 kB │ gzip:  12.90 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 546ms
+
+  startedAt: '2026-07-20T20:28:43Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketDashboardSummaryAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestReadService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: simplify-things-actions
+  command: cd apps/themuffinman && ./mvnw -q test && cd ../.. && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-20T20:37:30Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-BOg5-DnC.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-dMafu_yI.js                  11.07 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-B9Qum4v0.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-C6Q1CpJ_.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-DVZReP8x.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-BvdZvHrW.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-D_0MMEJC.js                             12.94 kB │ gzip:   4.06 kB
+    dist/assets/ChatSurfaceView-DL6c4xn7.js                       15.48 kB │ gzip:   5.08 kB
+    dist/assets/useVisionForWeb-BmMraLR1.js                       17.49 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-DFRJhfxf.js                         18.02 kB │ gzip:   5.39 kB
+    dist/assets/ProfileLocationSettingsView-BXOg5HxG.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-CRt4t8_O.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BnVylbv-.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-Cof_WzOG.js                                 50.92 kB │ gzip:  12.91 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 562ms
+
+  startedAt: '2026-07-20T20:35:49Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/service/ThingSharingService.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

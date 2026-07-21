@@ -12,6 +12,7 @@ import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 
 const bookings = ref<BusinessBookingResponseDTO[]>([])
+// Owner booking controls are rendered only from each booking's allowedActions.
 const isLoading = ref(true)
 const isActing = ref<number | null>(null)
 const error = ref("")

@@ -20,6 +20,7 @@ const isLoading = ref(true)
 const error = ref("")
 const {state: viewState} = useSurfaceViewState("business-discovery", computed(() => currentUser.value?.id), computed(() => route.fullPath))
 const previewBusiness = computed(() => items.value.find(item => item.id === viewState.value.previewId) ?? null)
+// Discovery previews remain read-only; booking and save actions belong to the public business surface.
 
 const load = async () => {
   isLoading.value = true

@@ -1,0 +1,206 @@
+kind: master
+version: 1
+id: ui-action-integrity-master
+title: UI action, route, context, and workflow integrity across the authenticated
+  workspace
+status: verified
+readiness: implementation_in_progress
+baseline: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-action-integrity-master-execution-inventory.yaml
+contract_matrix: docs/work/action-contract-matrix.yaml
+query_scope_contract: docs/work/home-query-scope-contract.yaml
+runtime_scenario_catalog: docs/work/ui-action-integrity-runtime-scenarios.yaml
+objective: Make every offered Web action, link, statistic, status label, and detail
+  surface logically correct, backend-authoritative, route-safe, and consistent across
+  Work, Things, Rides, Circles, People, Notifications, Activity, Chat, Business, Calendar,
+  Home, Profile, and VisionForWeb handoffs.
+product_goal: 'The authenticated Web app should feel like one clear desktop application:
+  each screen exposes only actions that are valid in the current viewer/entity state,
+  every action has one canonical destination and one backend/API contract, lists and
+  details have parity, and text/metrics explain the next useful step without clutter.'
+source_audit:
+  findings: 'The current UI has duplicated action grammars, incomplete list/detail
+    parity, invalid or misleading context actions, route fallbacks into Vision console,
+    stale URL state in Things, ride privacy loss during edit, incorrect People action
+    dispatch, owner Leave-circle exposure, incomplete notification destinations, direct-chat
+    navigation loss, and stats that look actionable without reliable filters or object
+    focus. A second screen pass also found onboarding controls that only change progress
+    without opening the promised setup surface, saved searches that cannot be edited
+    or executed, public booking that leaves a successful request dialog open and requires
+    blind datetime entry, Profile settings whose unrelated optional requests fail
+    the whole screen, location search without stale-response protection, route metadata
+    that presents Notifications and Saved searches as Home, duplicated business action
+    headings, Activity rows without a stable object identity, and shared keyboard/metric
+    affordances that can be visually or functionally inert. Runtime review of the
+    Home and Work surfaces additionally shows summary/list semantic drift: Home labels
+    a destination as Open work while navigating to a different result set, and the
+    displayed summary count does not match the opened collection. Work exposes density
+    controls, search, filters, Vision, offer-work, preview, and detail actions before
+    the user has a simple primary path. Activity duplicates the same nine items in
+    both the main list and Recent context rail, while Rides combines discovery, creation,
+    commute preferences, consent, and a preview workflow on one screen without progressive
+    disclosure.'
+  audited_paths:
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  - apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app
+references:
+  product:
+  - docs/product-memory.md
+  - docs/product-vision.md
+  architecture:
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  - docs/vision-architecture-patterns.md
+  control:
+  - docs/implementation-control.md
+  - docs/codex-fast-path.md
+  related_plans:
+  - docs/work/workspace-app-shell-first-layer.yaml
+  - docs/work/web-optimization-master.yaml
+  - docs/work/vision-for-web-integration-master.yaml
+  - docs/work/vision-for-web-remaining-modules-master.yaml
+scope:
+  included:
+  - backend-published action descriptors and canonical route contracts
+  - explicit action contract matrix and Home query-scope contract
+  - list/detail action parity and viewer/entity-state rendering
+  - Work, Things, Rides, Circles, People, Notifications, Activity, Chat, Business,
+    Calendar, Home, Profile
+  - stats and metrics that navigate or filter data
+  - labels, status text, currency, date, and timezone formatting
+  - VisionForWeb handoff and entity-target routing from Web
+  - targeted backend, frontend, controller, service, contract, and browser regression
+    evidence
+  - meaningful runtime scenario evidence instead of screenshot-heavy smoke coverage
+  excluded:
+  - new domain capabilities unrelated to an existing UI action
+  - iPhone or Apple Watch UI implementation
+  - redesigning Vision console into a Web module
+  - replacing domain services with frontend workflow logic
+  - production notification provider work or account recovery delivery
+invariants:
+- Backend services remain authoritative for permission, workflow state, validation,
+  and mutation safety.
+- Frontend renders backend-published actions and owns only presentation state, form
+  draft state, and navigation.
+- Every mutation action has one typed API command, one stable action id, one confirmation
+  policy, and one success/failure recovery path.
+- Every navigational action resolves to a canonical existing Web route; Vision is
+  never used as a missing-detail fallback.
+- Every list entity and detail entity exposes the same permitted action set for the
+  same viewer and entity state.
+- A statistic is either informational or a real navigation/filter affordance; it may
+  not look actionable while doing nothing meaningful.
+- Privacy-sensitive state, including Circle visibility and location scope, must survive
+  read-edit-save cycles unchanged unless explicitly edited.
+- User locale, currency, and timezone come from backend/user context; no module-specific
+  hardcoded display format is allowed.
+- A Vision handoff may provide semantic assistance, but known object navigation remains
+  a direct Web route.
+- Setup, settings, activity, notification, and saved-search routes must identify their
+  real workspace context; they may not masquerade as Home solely because they share
+  the authenticated shell.
+- A progress control must either execute or navigate to the step it names; changing
+  a server progress enum alone is not completion of the promised setup work.
+- Optional panels on a settings screen fail independently and preserve usable profile/location
+  controls when gallery, appearance, or relationship context is unavailable.
+- Saved search lifecycle actions must expose an explicit edit/run contract, or the
+  screen must clearly declare the item read-only; pause/delete alone cannot imply
+  resumable discovery.
+- Public booking must expose availability-aware input and a deterministic post-success
+  state; a successful mutation may not leave a stale request form open.
+- Shared rows, metrics, shortcuts, and keyboard handlers must have a meaningful destination
+  or handler for every visible affordance and a stable object identity for selection
+  and recovery.
+- Home summary labels, counts, filters, and destinations must describe the same backend
+  query; a summary count may not open a different collection with a different count
+  without an explicit label explaining the scope.
+- Each primary collection screen has one clear next action and keeps secondary controls
+  behind a compact filter/view menu or context surface; density/debug controls are
+  not primary product content.
+- Activity is a single actionable timeline with one item rendered once; context, dismissal,
+  and destination belong to the item and are not duplicated in a second rail unless
+  the rail adds distinct information.
+- Rides separates discover, offer, and commute-preference workflows; privacy consent
+  and commute configuration are progressive steps rather than a permanent wall of
+  fields on the discovery surface.
+execution_order:
+- contract-and-route-foundation
+- shared-action-rendering-and-formatting
+- home-summary-and-shell-context
+- work-actions
+- things-actions
+- rides-workflows
+- circles-actions
+- people-actions
+- notification-and-activity-actions
+- chat-actions
+- business-customer-and-owner-actions
+- business-calendar-and-schedule
+- profile-onboarding-and-search-settings
+- profile-and-vision-actions
+- integrated-runtime-closeout
+children:
+- docs/work/ui-action-integrity-contract.yaml
+- docs/work/ui-action-integrity-shared-shell.yaml
+- docs/work/ui-action-integrity-work-things.yaml
+- docs/work/ui-action-integrity-rides-social.yaml
+- docs/work/ui-action-integrity-notifications-chat.yaml
+- docs/work/ui-action-integrity-business-calendar.yaml
+- docs/work/ui-action-integrity-home-profile-vision.yaml
+- docs/work/ui-action-integrity-runtime-closeout.yaml
+control_artifacts:
+- docs/work/action-contract-matrix.yaml
+- docs/work/home-query-scope-contract.yaml
+- docs/work/ui-action-integrity-runtime-scenarios.yaml
+preflight:
+- Action matrix has entries for every audited module before implementation starts.
+- Home metric scope ids and destinations are frozen before Home or Work slices start.
+- Shared action hierarchy rules are approved before component refactoring starts.
+- Each execution-inventory item closes one functional slice and records its result.
+- Runtime closeout uses the scenario catalog and retains only evidence tied to an
+  assertion.
+close_when:
+- All child plans are independently verifier-verified in the declared order.
+- Every audited module has a documented action matrix covering viewer, entity state,
+  visible action, command, confirmation, destination, and recovery.
+- The action matrix and Home query-scope contract are complete for every audited surface
+  and referenced by the implementation slices.
+- No known P0 finding remains open: ride privacy loss, wrong People action dispatch,
+    owner Leave-circle exposure, or Vision console detail fallback.
+- Frontend type-check/build, backend tests, contract audits, route/action static audit,
+  and declared browser scenarios pass.
+- The runtime scenario catalog passes without requiring a broad screenshot suite;
+  each scenario proves a meaningful user-visible state transition.
+- Each large domain is closed by functional slices with a recorded implementation
+  result before the next slice starts.
+- Living product/domain/control docs and capability inventory reflect the final action
+  contract.
+cleanup:
+- Remove temporary screenshots, smoke traces, generated reports, and analysis files
+  created only by this master.
+- Retain only the master, active child plans, canonical docs, and explicitly referenced
+  runtime evidence.
+evidence:
+- verifiedAt: '2026-07-20T20:56:27Z'
+  revision: 7430caea5458bcd8f779cb06577a6c9f1126a18f
+  children:
+  - docs/work/ui-action-integrity-contract.yaml
+  - docs/work/ui-action-integrity-shared-shell.yaml
+  - docs/work/ui-action-integrity-work-things.yaml
+  - docs/work/ui-action-integrity-rides-social.yaml
+  - docs/work/ui-action-integrity-notifications-chat.yaml
+  - docs/work/ui-action-integrity-business-calendar.yaml
+  - docs/work/ui-action-integrity-home-profile-vision.yaml
+  - docs/work/ui-action-integrity-runtime-closeout.yaml

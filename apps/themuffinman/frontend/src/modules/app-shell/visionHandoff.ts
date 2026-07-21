@@ -76,6 +76,7 @@ export const normalizeWorkspaceVisionHandoff = (value: Partial<WorkspaceVisionHa
 })
 
 export const resolveVisionEntityRoute = (entityFamily: string, targetId: number): RouteLocationRaw | null => {
+  if (!Number.isInteger(targetId) || targetId <= 0) return null
   const normalized = entityFamily.trim().toLowerCase()
 
   if (normalized === "quest") {

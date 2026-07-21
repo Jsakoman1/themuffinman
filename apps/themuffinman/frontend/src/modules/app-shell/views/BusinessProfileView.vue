@@ -13,6 +13,7 @@ import {confirmAction} from "../composables/useActionDialog.ts"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 
 const form = ref<BusinessProfileRequestDTO | null>(null)
+// Profile editing and publication remain one owner responsibility surface.
 const profiles = ref<Awaited<ReturnType<typeof userShellApi.getMyBusinessProfiles>>>([])
 const selectedProfileId = ref<number | null>(null)
 const isLoading = ref(true)

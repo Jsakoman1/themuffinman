@@ -22,6 +22,11 @@ export const splitObjectActions = (actions: ObjectActionDescriptor[]) => ({
   destructive: actions.filter((action) => isObjectActionAvailable(action) && action.tone === "danger"),
 })
 
+/** A surface may promote one permitted action; all remaining actions stay secondary or destructive. */
+export const selectPrimaryObjectAction = (actions: ObjectActionDescriptor[]) =>
+  actions.find((action) => isObjectActionAvailable(action) && action.tone === "primary")
+  ?? actions.find((action) => isObjectActionAvailable(action) && action.tone !== "danger")
+
 export const isEditableTarget = (target: EventTarget | null) => target instanceof HTMLElement && Boolean(target.closest("input,textarea,select,[contenteditable='true']"))
 
 export const matchesObjectShortcut = (event: KeyboardEvent, key: string) =>

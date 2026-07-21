@@ -9,6 +9,7 @@ import {confirmAction} from "../composables/useActionDialog.ts"
 
 const items = ref<SavedSearchIntent[]>([])
 const loading = ref(true); const error = ref(""); const feedback = ref(""); const actingId = ref<number | null>(null)
+// Pause/delete are the only mutations exposed here; search execution remains a destination concern.
 const load = async () => { loading.value = true; error.value = ""; try { items.value = await userShellApi.getSavedSearchIntents() } catch { error.value = "Could not load saved searches." } finally { loading.value = false } }
 const toggle = async (item: SavedSearchIntent) => { actingId.value = item.id; try { const updated = await userShellApi.updateSavedSearchIntent(item.id, {query: item.query, entityFamily: item.entityFamily, paused: !item.paused, notifyEnabled: item.notifyEnabled, expiresAt: item.expiresAt}); items.value = items.value.map(current => current.id === updated.id ? updated : current); feedback.value = updated.paused ? "Search paused." : "Search resumed." } catch { error.value = "Could not update this search." } finally { actingId.value = null } }
 const remove = async (item: SavedSearchIntent) => { if (!await confirmAction("Delete this saved search?", "Delete saved search")) return; actingId.value = item.id; try { await userShellApi.deleteSavedSearchIntent(item.id); items.value = items.value.filter(current => current.id !== item.id); feedback.value = "Saved search deleted." } catch { error.value = "Could not delete this search." } finally { actingId.value = null } }

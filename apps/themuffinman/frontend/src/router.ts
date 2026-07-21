@@ -262,13 +262,13 @@ const routes = [
                 path: 'notifications',
                 name: 'notifications',
                 component: NotificationsView,
-                meta: {requiresAuth: true, surfaceId: 'home'}
+                meta: {requiresAuth: true, surfaceId: 'profile-settings'}
             },
             {
                 path: 'search/saved',
                 name: 'saved-searches',
                 component: SavedSearchIntentsView,
-                meta: {requiresAuth: true, surfaceId: 'home'}
+                meta: {requiresAuth: true, surfaceId: 'profile-settings'}
             },
             {
                 path: 'profile/settings',
@@ -325,7 +325,8 @@ export const collectionSelectionQueryKeys = ["selected", "preview"] as const;
 export const router = createRouter({
     history: createWebHistory(),
     routes,
-    scrollBehavior(_to, _from, savedPosition) {
+    scrollBehavior(to, _from, savedPosition) {
+        if (to.hash) return {el: to.hash, behavior: 'smooth'}
         return savedPosition ?? {top: 0}
     }
 })

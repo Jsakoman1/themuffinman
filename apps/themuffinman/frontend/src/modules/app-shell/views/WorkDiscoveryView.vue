@@ -34,7 +34,9 @@ let requestSequence = 0
 let activeRequest: AbortController | null = null
 
 const isMine = computed(() => route.name === "work-quests")
-const title = computed(() => isMine.value ? "My quests" : route.name === "work-find" ? "Find work" : "Work")
+const scope = computed(() => typeof route.query.scope === "string" ? route.query.scope : (isMine.value ? "owned-active" : "open-visible"))
+const isOwnedActive = computed(() => scope.value === "owned-active")
+const title = computed(() => isOwnedActive.value ? "My active work" : route.name === "work-find" ? "Find work" : "Work")
 const visionRoute = computed(() => buildSurfaceVisionRoute(
   isMine.value ? "work-quests" : "work",
   route.fullPath,
@@ -64,7 +66,7 @@ const load = async (reset = true) => {
   try {
     const response = await userShellApi.searchQuests({
       q: query.value,
-      preset: isMine.value ? "MY_VISIBLE" : "AVAILABLE",
+      preset: isOwnedActive.value ? "MY_ACTIVE" : "AVAILABLE",
       sort: sort.value === "recommended" ? undefined : sort.value,
       page: page.value,
       size: 12,
@@ -156,17 +158,14 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
         <span class="sr-only">Search work</span>
         <input v-model="query" type="search" placeholder="Search work" @keyup.enter="load()">
       </label>
-      <select v-model="sort" aria-label="Sort work">
-        <option value="recommended">Recommended</option>
-        <option value="newest">Newest</option>
-        <option value="soonest">Soonest</option>
-        <option value="highest_reward">Highest reward</option>
-      </select>
-      <label class="work-discovery__toggle">
-        <input v-model="scheduledOnly" type="checkbox">
-        <span>Scheduled</span>
-      </label>
-      <DisplayDensityControl v-model="viewState.displayDensity" />
+      <details class="work-discovery__options">
+        <summary>View options</summary>
+        <div class="work-discovery__options-panel">
+          <label>Sort <select v-model="sort" aria-label="Sort work"><option value="recommended">Recommended</option><option value="newest">Newest</option><option value="soonest">Soonest</option><option value="highest_reward">Highest reward</option></select></label>
+          <label class="work-discovery__toggle"><input v-model="scheduledOnly" type="checkbox"><span>Scheduled only</span></label>
+          <DisplayDensityControl v-model="viewState.displayDensity" />
+        </div>
+      </details>
       </template>
       <template #actions>
         <RouterLink :to="visionRoute" class="work-discovery__vision">Ask Vision</RouterLink>
@@ -178,7 +177,7 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
     <div v-else-if="error" class="work-discovery__status work-discovery__status--error" role="alert"><strong>Work could not be loaded.</strong><span>{{ error }}</span><AppButton type="button" tone="secondary" @click="load()">Try again</AppButton></div>
     <AppEmptyState v-else-if="items.length === 0" title="No matching work" message="Try another search or adjust the filters." />
 
-    <p v-if="items.length" class="work-discovery__scope">Filters and sort change backend results. Display density is local to this page.</p>
+    <p v-if="items.length" class="work-discovery__scope">{{ isOwnedActive ? "Owned work that still needs attention." : "Available work visible to you." }}</p>
     <div v-if="items.length" class="work-discovery__workspace">
     <div class="work-discovery__list">
       <SurfaceRow v-for="quest in items" :key="quest.id" :row="{id: String(quest.id), title: quest.title, description: `${quest.presentation.statusLabel} · ${locationLabel(quest)}`, meta: `${quest.awardAmount} € · ${formatDate(quest.scheduledAt)}`, to: detailRoute(quest.id)}" :density="viewState.displayDensity" :selected="viewState.selectedId === quest.id" :previewed="previewQuest?.id === quest.id" @click="handleRowClick($event, quest.id)" @preview="openPreview(quest.id)">
@@ -220,6 +219,10 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
 .work-discovery__workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); overflow: hidden; }
 .work-discovery__workspace .work-discovery__list { padding: 0.45rem; }
 .work-discovery__preview-meta { color: var(--text-muted); font-size: 0.84rem; }
+.work-discovery__options { position: relative; }
+.work-discovery__options summary { cursor: pointer; color: var(--text-muted); font-size: var(--text-size-meta); font-weight: var(--text-weight-semibold); }
+.work-discovery__options-panel { position: absolute; z-index: 2; right: 0; display: grid; gap: var(--space-2); min-width: 13rem; margin-top: var(--space-1); padding: var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--surface-raised); box-shadow: var(--shadow-popover); }
+.work-discovery__options-panel label { display: grid; gap: var(--space-1); color: var(--text-muted); font-size: var(--text-size-meta); }
 @media (max-width: 860px) { .work-discovery__workspace { grid-template-columns: 1fr; } .work-discovery__workspace :deep(.object-preview) { border-left: 0; border-top: 1px solid var(--border-subtle); } }
 
 .work-discovery__header {

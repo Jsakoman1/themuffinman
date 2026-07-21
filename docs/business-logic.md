@@ -1148,3 +1148,16 @@ the user's current authorized candidates to understand the request. A candidate
 ID is not permission: the backend checks the target again before opening it. If
 several items match, or if an item is stale or no longer accessible, Vision asks
 for a clearer or currently accessible target instead of opening a guessed page.
+
+## UI action behavior
+
+The Web workspace exposes only actions that are valid for the current viewer and
+entity state. A Home metric and the collection it opens use the same backend query
+scope; for example, `Open work` means visible open work and does not silently become
+the user's owned quests. Collection screens keep one obvious primary action and move
+secondary controls into compact context surfaces. Preview is a short inspection step,
+not a duplicate detail page. Activity is one timeline where each event appears once;
+Rides separates finding a ride, offering a ride, and commute preferences so discovery
+does not require reading or completing settings first.
+
+Runtime closeout validates meaningful route and state transitions rather than page-load screenshots or broad smoke traces.

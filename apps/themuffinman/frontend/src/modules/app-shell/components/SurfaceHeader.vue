@@ -9,10 +9,10 @@ const secondaryActions = computed(() => props.config.actions.filter(action => ac
 </script>
 
 <template>
-  <header class="surface-header" :aria-labelledby="`surface-title-${config.id}`">
+  <header class="surface-header" :data-action-count="config.actions.length" :aria-labelledby="`surface-title-${config.id}`">
     <div v-if="detailLabel" class="surface-header__location"><span class="surface-header__detail">{{ detailLabel }}</span></div>
     <h1 :id="`surface-title-${config.id}`" class="surface-header__title">{{ config.title }}</h1>
-    <div v-if="primaryAction" class="surface-header__actions" aria-label="Surface actions">
+    <div v-if="primaryAction" class="surface-header__actions" aria-label="Primary and secondary surface actions">
       <RouterLink :to="primaryAction.to" class="surface-header__action" :class="`surface-header__action--${primaryAction.tone ?? 'secondary'}`">{{ primaryAction.label }}</RouterLink>
       <details v-if="secondaryActions.length" class="surface-header__overflow">
         <summary>More</summary>

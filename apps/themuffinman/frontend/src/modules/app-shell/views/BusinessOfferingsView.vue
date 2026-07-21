@@ -12,6 +12,7 @@ import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 
 const offerings = ref<BusinessOfferingResponseDTO[]>([])
+// Offering visibility is represented by the server-provided active state.
 const form = ref<BusinessOfferingRequestDTO | null>(null)
 const editingId = ref<number | null>(null)
 const isLoading = ref(true)

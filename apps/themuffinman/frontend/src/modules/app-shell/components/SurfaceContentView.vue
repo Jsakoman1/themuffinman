@@ -52,7 +52,7 @@ const calendarWeekDays = computed(() => Array.from({length: 7}, (_, index) => {
   date.setDate(date.getDate() + index)
   return {date, events: calendarEventsForDate(date)}
 }))
-const calendarTitle = computed(() => new Intl.DateTimeFormat("en-US", {month: "long", year: "numeric"}).format(calendarCursor.value))
+const calendarTitle = computed(() => new Intl.DateTimeFormat(undefined, {month: "long", year: "numeric"}).format(calendarCursor.value))
 const calendarTimezone = new Intl.DateTimeFormat().resolvedOptions().timeZone || "local time"
 const moveCalendar = (amount: number) => {
   const next = new Date(calendarCursor.value)

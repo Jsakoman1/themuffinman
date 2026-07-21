@@ -70,6 +70,9 @@ public class CircleService {
 
     public CircleGroupResponseDTO updateCircle(Long circleId, CircleGroupRequestDTO dto, AppUser currentUser) {
         CircleGroup circle = requireCircleOwnedByCurrentUser(circleId, currentUser);
+        if (dto == null) {
+            throw ServiceErrors.badRequest("Circle update request is required");
+        }
         String normalizedName = normalizeCircleName(dto.getName());
 
         if (!circle.getName().equalsIgnoreCase(normalizedName)

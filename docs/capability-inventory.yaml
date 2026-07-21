@@ -5,7 +5,8 @@ description: >
   Canonical product truth for what TheMuffinMan should support, what the current
   code exposes, and what remains missing, broken, or only partially implemented.
   This file is the machine-readable source for future implementation planning.
-last_reviewed: 2026-07-19
+last_reviewed: 2026-07-20
+latest_interaction_contract_review: docs/work/action-contract-matrix.yaml
 inventory_audit: docs/work/capability-inventory-audit.yaml
 execution_board: docs/work/capability-30-execution-board.yaml
 interaction_contract_audit:

@@ -235,6 +235,8 @@ Test fixture standard:
 Validation standard:
 - A work plan in `docs/work/*.yaml` owns the required validation commands for its change.
 - `scripts/verify-work.rb` runs every task command and records pass/fail evidence before allowing `status: verified`. High-risk serial programs additionally require an explicit one-task start snapshot, a post-start required-path change, and a verifier-controlled execution inventory before master closeout.
+
+UI action integrity is governed by the versioned action matrix and runtime scenario catalog; backend permissions remain authoritative for every route and state transition.
 - `make audit-all` is diagnostic only; its reports do not change plan state.
 
 Service layering standard:
@@ -1941,6 +1943,14 @@ The cross-module product capability map is maintained in `docs/capability-invent
 - Chat image preview uses a browser object URL with explicit revoke cleanup on replacement, removal, send, and component unmount. It does not persist local preview data or replace the backend attachment URL contract.
 - `docs/cross-module-visibility-acceptance.yaml` is the machine-readable matrix for circle, location, Work, Chat, and Things visibility boundaries. It records backend policy, frontend explanation/surface, and targeted-test evidence separately from browser/device runtime evidence.
 - `ProfileLocationSettingsView` forwards `exactVisibilityScope` plus the existing circle/user target ids to `UserLocationSettingsRequestDTO`; it does not validate or synthesize target membership locally.
+
+## UI action and route contract
+
+- `docs/work/action-contract-matrix.yaml` is the machine-readable source for visible Web actions. It records viewer state, entity state, stable action id, action kind, backend command or canonical route, confirmation policy, success state, and recovery behavior.
+- The browser may render an action only when its backend descriptor or an explicitly documented informational contract permits it. Labels and button tone are presentation and never authorization.
+- Canonical Web detail routes are owned by `shellRouteRegistry.ts`. VisionForWeb may hand off to those routes, but it is not a fallback detail renderer.
+- `docs/work/home-query-scope-contract.yaml` defines the shared scope identifier between Home metrics and the collection destination they open. A frontend label cannot create or infer a scope.
+- A collection surface has one primary action. Filters, sorting, density, Vision assistance, preview, and destructive actions are secondary context and must not compete with the primary action.
 # Web surface domain invariants
 
 - `WorkmarketQuestService.createQuest` executes in a write transaction even though the service's read methods default to read-only transactions.
