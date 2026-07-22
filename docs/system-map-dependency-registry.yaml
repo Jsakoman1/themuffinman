@@ -1,0 +1,34 @@
+version: 1
+purpose: Logical dependency direction and accepted exception index for System Map hardening; package co-location is not ownership.
+status_authority: docs/module-dependency-registry.yaml
+reviewed_at: '2026-07-22'
+dependency_layers: [platform, shared_policy, domain_modules, cross_module_read_and_side_effects, clients_and_handoffs, external_providers]
+rules:
+  - platform_foundation_may_be_consumed_by_domain_modules
+  - domain_modules_must_not_use_client_presentation_as_authority
+  - vision_delegates_to_domain_services_and_does_not_reimplement_domain_rules
+  - cross_module_consumers_use_explicit_contracts
+  - dependency_exception_requires_owner_reason_and_review_date
+edges:
+  - {from: identity_security, to: [all_domain_modules, app_shell, vision], kind: foundation, status: accepted, authority: identity_and_security_services}
+  - {from: social_circles_visibility, to: [workmarket, business, things, rides, chat, vision], kind: policy_input, status: accepted, authority: social_and_visibility_services}
+  - {from: location, to: [workmarket, business, rides, vision], kind: provider_and_policy_input, status: accepted, authority: location_services}
+  - {from: workmarket, to: [notification, activity, chat, vision], kind: domain_contract_consumer, status: accepted, authority: workmarket_services}
+  - {from: business, to: [notification, activity, vision], kind: domain_contract_consumer, status: accepted, authority: business_services}
+  - {from: things, to: [notification, activity, vision], kind: domain_contract_consumer, status: accepted, authority: things_services}
+  - {from: rides, to: [notification, activity, vision], kind: domain_contract_consumer, status: accepted, authority: rides_services}
+  - {from: chat, to: [notification, activity, vision], kind: domain_contract_consumer, status: accepted, authority: chat_services}
+  - {from: vision, to: [workmarket, business, things, rides, chat, identity, location], kind: delegated_execution_or_read, status: accepted_with_boundary, authority: delegated_domain_service}
+  - {from: notification_activity_search, to: [all_domain_modules, app_shell], kind: cross_module_read_or_side_effect, status: accepted_with_runtime_gaps, authority: cross_module_registries}
+  - {from: frontend_clients, to: [backend_controllers_and_dtos], kind: presentation_contract, status: accepted, authority: backend_api_contracts}
+forbidden_or_review_edges:
+  - {edge: frontend_to_repository, status: forbidden, reason: frontend must not own persistence or authorization}
+  - {edge: vision_to_direct_entity_mutation, status: forbidden, reason: Vision must delegate to domain execution services}
+  - {edge: domain_module_to_other_module_private_repository, status: review_required, reason: use explicit service or contract boundary}
+  - {edge: shared_module_to_domain_specific_state_transition, status: review_required, reason: shared surfaces must not invent domain authority}
+exceptions:
+  - {id: shared_modular_monolith_database, status: accepted_with_logical_ownership, owner: architecture, review_date: '2026-10-01'}
+  - {id: workmarket_news_outbox_cross_module_delivery, status: accepted_contract, owner: workmarket, review_date: '2026-10-01'}
+gaps:
+  - {id: package_dependency_enforcement, owner: architecture, required_evidence: machine_checkable_dependency_audit, next_action: define_allowed_and_forbidden_package_directions, review_date: '2026-08-15'}
+  - {id: cross_module_contract_adoption, owner: domain_owners, required_evidence: endpoint_and_runtime_reconciliation, next_action: review_unclassified_non_web_endpoints, review_date: '2026-08-15'}

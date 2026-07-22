@@ -1,0 +1,100 @@
+version: 1
+purpose: Current and planned module topology index for System Map hardening; this registry does not own capability status.
+status_authority: docs/capability-inventory.yaml
+reviewed_at: '2026-07-22'
+implementation_shape: modular_monolith
+deployment_unit: apps/themuffinman
+modules:
+  - id: platform_identity_security
+    state: current
+    backend_areas: [identity, security, location, trust]
+    frontend_areas: [identity, app-shell, profile, settings]
+    owns: [users, authentication_sessions, profile_identity, location_preferences, trust_reports]
+    canonical_sources: [docs/domain-technical.md, docs/permission-visibility-matrix.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/identity]
+    runtime_boundary: browser_and_backend; native_and_provider_proof_partial
+  - id: social_circles_visibility_consent
+    state: current
+    backend_areas: [social, location, trust]
+    frontend_areas: [app-shell]
+    owns: [circles, relations, membership, visibility_policy, consent_inputs]
+    canonical_sources: [docs/visibility-consent-parity-contract.yaml, docs/permission-visibility-matrix.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/social]
+    runtime_boundary: web_fresh_read_proven; vision_and_native_parity_pending
+  - id: work_marketplace
+    state: current
+    backend_areas: [workmarket]
+    frontend_areas: [app-shell]
+    owns: [quests, applications, worker_assignment, quest_state, work_reviews, application_news_outbox]
+    canonical_sources: [docs/business-logic.md, docs/workflow-state-machines.yaml, docs/side-effect-delivery-registry.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket]
+    runtime_boundary: web_core_flows_proven; failure_and_process_replay_partial
+  - id: business_websites_bookings
+    state: current
+    backend_areas: [business]
+    frontend_areas: [business, app-shell]
+    owns: [business_profiles, offerings, availability, bookings, booking_audits]
+    canonical_sources: [docs/domain-technical.md, docs/permission-visibility-matrix.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/business]
+    runtime_boundary: representative_web_read_and_booking_evidence; durable_side_effect_boundary_partial
+  - id: things_sharing_lending
+    state: current
+    backend_areas: [things]
+    frontend_areas: [things, app-shell]
+    owns: [thing_listings, borrow_requests, lending_states]
+    canonical_sources: [docs/domain-technical.md, apps/themuffinman/src/main/java/com/themuffinman/app/things]
+    runtime_boundary: web_lifecycle_evidence_present; cross_module_side_effects_partial
+  - id: rides
+    state: current
+    backend_areas: [rides]
+    frontend_areas: [rides, app-shell]
+    owns: [ride_offers, ride_participation, commute_preferences]
+    canonical_sources: [docs/domain-technical.md, apps/themuffinman/src/main/java/com/themuffinman/app/rides]
+    runtime_boundary: web_evidence_partial; privacy_and_future_native_boundary_explicit
+  - id: shared_chat_messaging
+    state: current
+    backend_areas: [chat, storage]
+    frontend_areas: [chat, app-shell]
+    owns: [conversations, messages, membership_state, attachments, realtime_delivery]
+    canonical_sources: [docs/domain-technical.md, docs/side-effect-delivery-registry.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/chat]
+    runtime_boundary: web_reconnect_and_attachment_evidence_present; websocket_delivery_process_local
+  - id: notifications_activity
+    state: current
+    backend_areas: [notification, activity, workmarket]
+    frontend_areas: [app-shell]
+    owns: [notification_read_state, activity_items, canonical_action_targets]
+    canonical_sources: [docs/runtime-acceptance-matrix.yaml, docs/side-effect-delivery-registry.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/notification]
+    runtime_boundary: web_delivery_and_readback_proven; generic_replay_partial
+  - id: vision_agent_orchestration
+    state: current
+    backend_areas: [vision, semantic, prompt, agent]
+    frontend_areas: [vision, app-shell_bridge]
+    owns: [conversation_turns, intent_resolution, confirmation, delegated_execution, provider_context]
+    canonical_sources: [docs/vision-architecture-patterns.md, docs/visibility-consent-parity-contract.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/vision]
+    runtime_boundary: text_and_execution_core_flows_proven; provider_failure_and_timing_partial
+  - id: native_handoff_and_device_contracts
+    state: contract_only
+    backend_areas: [nativehandoff]
+    frontend_areas: [vision, app-shell_bridge]
+    owns: [handoff_contracts, allowed_actions_metadata]
+    canonical_sources: [docs/native-client-contract.yaml, docs/native-client-handoff-contract.yaml]
+    runtime_boundary: contract_evidence_only; no_device_runtime_proof
+  - id: shared_backend_services_and_scheduled_jobs
+    state: current
+    backend_areas: [common, config, search, storage, repository, mapper, dto, controller]
+    frontend_areas: [shared_api_clients, app-shell]
+    owns: [cross_cutting_context, typed_config, search_contracts, retention_jobs, shared_transport]
+    canonical_sources: [docs/system-map.md, docs/security-operations-recovery-registry.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/config]
+    runtime_boundary: local_runtime_and_source_evidence; deployed_operations_partial
+  - id: web_frontend_and_shared_app_shell
+    state: current
+    backend_areas: [controller_and_dto_boundaries]
+    frontend_areas: [app-shell, router, shared_components, api_clients]
+    owns: [navigation_presentation, route_context, loading_error_states, client_orchestration]
+    canonical_sources: [docs/client-surface-registry.yaml, apps/themuffinman/frontend/src/modules/app-shell, apps/themuffinman/frontend/src/router.ts]
+    runtime_boundary: authenticated_web_runtime_evidence; native_client_absent
+planned_boundaries:
+  - {id: native_iphone, state: planned_deferred, owner: native_client_boundary, evidence_class: device_trace}
+  - {id: native_watch, state: planned_deferred, owner: native_client_boundary, evidence_class: device_trace}
+  - {id: broader_business_mini_websites, state: product_planned, owner: business_websites_bookings, evidence_class: product_intent}
+  - {id: broader_circle_car_sharing, state: product_planned, owner: rides, evidence_class: product_intent}
+rules:
+  - planned_boundary_is_not_implemented_module
+  - shared_backend_area_is_not_automatically_shared_data_ownership
+  - runtime_boundary_describes_evidence_not_capability_status

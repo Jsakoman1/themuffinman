@@ -1,0 +1,80 @@
+kind: work
+version: 1
+id: system-map-hardening-04-workflows-permissions
+title: Map workflows, states, permissions, and invariants
+status: verified
+baseline: 4bcd499
+master_plan: docs/work/system-map-hardening-master.yaml
+execution_inventory: docs/work/system-map-hardening-master-execution-inventory.yaml
+serial_task_execution: true
+strict_verification: true
+objective: Connect each module's lifecycle states, transitions, validations, permissions,
+  visibility, consent, and recovery behavior to authoritative services.
+depends_on:
+- system-map-hardening-01-module-topology
+- system-map-hardening-03-dependencies-data-ownership
+source_reuse:
+- docs/workflow-state-machines.yaml
+- docs/permission-visibility-matrix.yaml
+- docs/business-logic.md
+- docs/domain-technical.md
+- docs/visibility-consent-parity-contract.yaml
+scope_rule: Record the authoritative service and invariant for each transition; frontend
+  action labels are evidence of presentation only.
+tasks:
+- id: map-workflows-and-permissions
+  title: Create workflow and permission registry
+  type: analysis
+  status: done
+  inventory_item: workflows-permissions
+  paths:
+  - docs/system-map-workflow-registry.yaml
+  - docs/workflow-state-machines.yaml
+  - docs/permission-visibility-matrix.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  required_paths:
+  - docs/system-map-workflow-registry.yaml
+  - docs/workflow-state-machines.yaml
+  - docs/permission-visibility-matrix.yaml
+  validation: make audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T16:27:02Z'
+  start_fingerprints:
+    docs/system-map-workflow-registry.yaml: __missing__
+    docs/workflow-state-machines.yaml: ae505af6adc73cee6a0dc35235ee783886c4e51c17ea545350262a26c2953aef
+    docs/permission-visibility-matrix.yaml: b1229fe9abbc6cb94b13b61b2de0a216d187aab4e7c9ce664ef078f9ac9a1687
+exit_evidence: Workmarket, Business, Things, Rides, Chat, Circles, Identity, Vision,
+  and shared notification workflows have explicit authority and recovery boundaries.
+evidence:
+- task: map-workflows-and-permissions
+  command: make audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T16:27:35Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-technical.md
+  - docs/permission-visibility-matrix.yaml
+  - docs/workflow-state-machines.yaml
+  - docs/system-map-workflow-registry.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 311
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T16:27:02Z'
+  changedAfterStart: &1
+  - docs/system-map-workflow-registry.yaml
+  - docs/workflow-state-machines.yaml
+  - docs/permission-visibility-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

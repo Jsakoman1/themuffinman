@@ -56,3 +56,14 @@ coverage_contract:
   missing_edge_semantics: Missing evidence is a navigable gap; it does not imply capability absence or runtime failure.
   pending_runtime_semantics: Pending runtime rows remain pending until their declared evidence class is present and reconciled.
   generated_report: docs/audit-output/capability-evidence-coverage.json
+runtime_pending_vision_contract:
+  owner_plan: docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+  capability_families: [vision]
+  status_authority: docs/runtime-acceptance-matrix.yaml
+  evidence_boundary: browser/runtime trace must include provider outcome, correlation, recovery, final state, and separated timing where applicable
+  static_or_aggregate_evidence_is_insufficient: true
+  latest_partial_trace: docs/runtime-evidence/browser-runtime-vision-provider-failure-attempt-2026-07-22.json
+  latest_partial_trace_status: not_promoted
+  latest_partial_trace_blocker: missing_observable_provider_failure_contract
+runtime_pending_web_operations_closeout: docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml
+system_map_hardening_endpoint_index: docs/system-map-endpoint-evidence-registry.yaml

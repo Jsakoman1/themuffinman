@@ -1,0 +1,37 @@
+kind: runtime_reliability_boundary
+captured_at: '2026-07-22T17:45:00+02:00'
+environment: local-dev
+owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+status: structured_external_blocker
+controls:
+  side_effect_failure_mode: implemented_and_backend_tested
+  outbox_state_machine: source_and_unit_test_evidenced
+  process_replay_control: not_available_in_browser_pass
+rows:
+  - id: runtime-mutation-timeout-readback
+    status: pending_runtime
+    blocker_type: missing_transport_interruption_harness
+    required_next: controlled request interruption with correlation and authoritative readback
+  - id: runtime-mutation-side-effect-failure
+    status: pending_runtime
+    blocker_type: missing_seeded_notification_mutation_fixture
+    required_next: execute a real domain mutation under side_effect_failure and read domain/outbox/news states
+  - id: runtime-side-effect-no-precommit-news
+    status: pending_runtime
+    blocker_type: missing_precommit_observation_harness
+    required_next: inspect database state before and after commit boundary
+  - id: runtime-side-effect-rollback-no-news
+    status: pending_runtime
+    blocker_type: missing_rollback_fixture
+    required_next: force rollback and verify no domain or news row
+  - id: runtime-side-effect-after-commit-failure
+    status: pending_runtime
+    blocker_type: runtime_trace_not_captured
+    required_next: capture domain commit, failed outbox delivery, retry state, and correlation
+  - id: runtime-side-effect-duplicate-consumer-delivery
+    status: pending_runtime
+    blocker_type: duplicate_consumer_injection_not_exposed
+    required_next: invoke the same event identity twice and compare durable side-effect rows
+evidence_boundary:
+  source_and_unit_tests_do_not_promote_runtime_rows: true
+  failure_control_is_local_only: true

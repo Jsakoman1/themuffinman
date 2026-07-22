@@ -1,0 +1,11 @@
+{
+  "scenario": "runtime-mutation-provider-failure-correlation",
+  "capturedAt": "2026-07-22T17:39:00+02:00",
+  "environment": "local-dev",
+  "control": {"requestedFailureMode": "provider_failure", "scope": "development-only", "resetAfterCapture": true},
+  "fixture": {"user": "fresh disposable registration", "prompt": "Show my work profile"},
+  "observed": {"registration": "passed", "visionRouteLoaded": true, "textareaPresent": true, "submitAccepted": true, "finalRoute": "/work/quests", "finalHttpOutcome": 200, "visibleProviderFailure": false, "correlationId": null, "authoritativeFinalState": "not established"},
+  "classification": "partial_runtime_evidence",
+  "promotion": "not_promoted",
+  "blocker": {"type": "missing_observable_provider_failure_contract", "owner": "vision-runtime", "requiredEvidence": ["provider_outcome", "correlation_id", "retry_trace", "authoritative_final_state"], "nextAction": "Expose the controlled provider outcome and correlation in the Vision response/UI trace, then repeat with failure and recovery branches.", "reviewDate": "2026-07-29"}
+}

@@ -66,6 +66,13 @@ endpoint_review_batches:
     authority_rows: [identity_profile]
     endpoint_registry: docs/endpoint-reconciliation-review.yaml
     runtime_promotion: forbidden_without_runtime_evidence
+runtime_pending_web_vision_parity:
+  owner_plan: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+  scenario: runtime-visibility-web-vision-parity
+  assertions: [same_viewer_policy, same_fields, same_allowed_actions, same_redaction, fresh_read_after_revoke]
+  evidence_boundary: Existing Web trace is supporting evidence only; Vision parity remains pending until captured in the same policy fixture.
+  latest_boundary_artifact: docs/runtime-evidence/browser-runtime-web-vision-parity-boundary-2026-07-22.yaml
+system_map_hardening_workflow_index: docs/system-map-workflow-registry.yaml
   - batch: chat_social
     authority_rows: [chat_social]
     endpoint_registry: docs/endpoint-reconciliation-review.yaml

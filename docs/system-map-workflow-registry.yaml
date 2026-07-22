@@ -1,0 +1,26 @@
+version: 1
+purpose: Cross-module workflow, state, permission, invariant, and recovery index; domain services remain state authorities.
+status_authority: [docs/workflow-state-machines.yaml, docs/permission-visibility-matrix.yaml, docs/capability-inventory.yaml]
+reviewed_at: '2026-07-22'
+workflows:
+  - {id: identity_access, owner: identity, states: [registered, authenticated, expired, revoked, recovered], authority: AuthService_and_AuthSessionService, permissions: [session_validity, account_ownership], recovery: [relogin, password_recovery, forbidden]}
+  - {id: circle_membership_visibility, owner: social, states: [requested, accepted, blocked, revoked], authority: CircleRelationService_and_visibility_policy, permissions: [membership, consent, block_state], recovery: [deny, revoke, fresh_redaction]}
+  - {id: work_quest, owner: workmarket, states: [draft, open, assigned, in_progress, completed, cancelled], authority: QuestStateTransitionService, permissions: [owner, visible_user, approved_worker, admin], recovery: [stale_state, forbidden, validation_error]}
+  - {id: work_application, owner: workmarket, states: [pending, approved, declined, withdrawn], authority: application_workflow_use_cases, permissions: [quest_owner, applicant, admin], recovery: [stale_state, duplicate, forbidden]}
+  - {id: business_booking, owner: business, states: [requested, confirmed, cancelled, completed, no_show], authority: booking_policy_and_state_services, permissions: [customer, owner, admin], recovery: [capacity_conflict, idempotency_replay, validation_error]}
+  - {id: thing_lending, owner: things, states: [available, requested, approved, returned, archived], authority: ThingSharingService, permissions: [owner, borrower, admin], recovery: [duplicate_request, conflict, forbidden]}
+  - {id: ride_participation, owner: rides, states: [offered, joined, left, cancelled], authority: RideOfferService, permissions: [driver, participant, visible_user, admin], recovery: [capacity_conflict, duplicate_join, forbidden]}
+  - {id: chat_membership_and_message, owner: chat, states: [eligible, active, left, blocked], authority: ChatService_and_CircleRelationService, permissions: [member, accepted_relation, owner, admin], recovery: [eligibility_denial, stale_membership, reconnect_sync]}
+  - {id: notification_activity, owner: notification_activity, states: [unread, read, unavailable_target, dismissed], authority: notification_and_activity_services, permissions: [recipient, actor, admin], recovery: [canonical_target_fallback, reconnect, retry]}
+  - {id: vision_turn_execution, owner: vision, states: [received, clarifying, review, awaiting_confirmation, executing, completed, blocked, cancelled], authority: VisionConversationService_and_delegated_domain_services, permissions: [conversation_owner, delegated_domain_actor], recovery: [provider_unavailable, retryable_turn, blocked_action, authoritative_readback]}
+invariants:
+  - clients_cannot_authorize_state_transitions
+  - visibility_and_consent_are_current_policy_inputs
+  - stale_writers_must_not_overwrite_newer_authoritative_state
+  - successful_mutations_must_return_or_support_authoritative_readback
+  - unavailable_targets_must_not_route_to_dead_canonical_surfaces
+  - vision_execution_requires_confirmation_when_mutating_domain_state
+evidence_boundary:
+  source: source_trace_and_targeted_tests
+  runtime: docs/runtime-acceptance-matrix.yaml
+  unknowns_are_not_passes: true

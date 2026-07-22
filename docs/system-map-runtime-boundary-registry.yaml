@@ -1,0 +1,36 @@
+version: 1
+purpose: Runtime boundary index for delivery durability, jobs, providers, storage, retries, replay, and operator control.
+status_authority: [docs/side-effect-delivery-registry.yaml, docs/security-operations-recovery-registry.yaml, docs/runtime-acceptance-matrix.yaml]
+reviewed_at: '2026-07-22'
+side_effect_classes: [durable_outbox, durable_domain_row, process_local_event, process_local_realtime, scheduled_job, external_provider, object_storage, operator_replay, unknown]
+module_boundaries:
+  - {id: workmarket, side_effects: [application_news], class: durable_outbox, implementation: WorkmarketApplicationNewsOutbox, retry: persisted_attempts_and_leases, replay: operator_endpoint_present, runtime_proof: normal_delivery_proven_failure_and_crash_partial}
+  - {id: business, side_effects: [booking_audit, notification_candidate], class: process_local_event_and_durable_audit_row, implementation: BusinessBookingEventHandler, retry: not_universal, replay: unknown, runtime_proof: booking_flow_partial}
+  - {id: chat, side_effects: [websocket_message_and_state_hints, attachment_storage], class: process_local_realtime_and_object_storage, implementation: ChatRealtimeService_and_storage_services, retry: http_sync_after_reconnect, replay: client_resync_not_event_replay, runtime_proof: reconnect_and_attachment_proven}
+  - {id: notification_activity, side_effects: [read_state_and_activity_targets], class: durable_domain_rows, implementation: notification_activity_services, retry: endpoint_retry, replay: target_resolution_not_generic_event_replay, runtime_proof: delivery_readback_proven}
+  - {id: vision, side_effects: [provider_call, delegated_mutation, memory_compaction], class: external_provider_and_scheduled_job, implementation: Vision services and VisionMemoryCompactionService, retry: typed_turn_recovery_partial, replay: execution_ledger_missing, runtime_proof: aggregate_turn_proven_provider_failure_partial}
+  - {id: identity, side_effects: [password_recovery, session_cleanup], class: process_local_event_and_scheduled_job, implementation: PasswordRecoveryService_and_AuthSessionService, retry: provider_and_job_behavior_partial, replay: unknown, runtime_proof: source_trace}
+  - {id: location, side_effects: [geocoding_provider, lookup_audit], class: external_provider_and_durable_audit_row, implementation: location services, retry: bounded_provider_retry_or_error, replay: unknown, runtime_proof: web_boundary_partial}
+  - {id: things_and_rides, side_effects: [domain_audit_or_notifications], class: durable_domain_row_or_process_local, implementation: domain services, retry: module_specific, replay: unknown, runtime_proof: web_lifecycle_partial}
+jobs:
+  - {id: workmarket_news_outbox_poll, owner: workmarket, schedule_source: app.side-effects.workmarket-news-outbox.poll-ms, run_ledger: outbox_row_state, replay: operator_replay}
+  - {id: notification_cleanup, owner: workmarket_or_notification, schedule_source: app.retention.notifications.cleanup-cron, run_ledger: none_explicit, replay: unknown}
+  - {id: chat_retention, owner: chat, schedule_source: app.retention.chat.cleanup-cron, run_ledger: none_explicit, replay: unknown}
+  - {id: auth_session_cleanup, owner: identity, schedule_source: app.retention.auth-tokens.cleanup-cron, run_ledger: none_explicit, replay: unknown}
+  - {id: vision_memory_compaction, owner: vision, schedule_source: app.vision.memory.compaction-cron, run_ledger: none_explicit, replay: unknown}
+provider_and_storage_boundaries:
+  - {id: openai_or_agent_provider, owner: vision, failure: typed_blocked_or_unavailable, credential_lifecycle: external_unknown, evidence: source_and_partial_runtime}
+  - {id: geocoding_provider, owner: location, failure: service_unavailable_or_blocked, credential_lifecycle: external_unknown, evidence: source_trace}
+  - {id: object_storage, owner: chat_storage, failure: unavailable_or_expired_object, credential_lifecycle: external_unknown, evidence: browser_lifecycle}
+operator_controls:
+  - {id: workmarket_news_replay, owner: workmarket_admin, evidence: endpoint_and_source_trace, runtime: browser_replay_proven}
+  - {id: process_crash_replay, owner: operations_runtime, evidence: operator_trace, status: pending}
+gaps:
+  - {id: generic_durable_event_ledger, owner: architecture, next_action: decide_module_specific_durability_requirements_before_building_shared_outbox, review_date: '2026-08-15'}
+  - {id: scheduled_job_run_ledger, owner: operations, next_action: add run identity outcome affected_rows and replay reference where operationally required, review_date: '2026-08-15'}
+  - {id: provider_timeout_and_outcome_observability, owner: vision_and_location, next_action: expose safe correlation and provider duration without leaking secrets, review_date: '2026-08-15'}
+rules:
+  - durable_outbox_is_not_required_for_every_process_local_signal
+  - domain_commit_and_side_effect_delivery_must_be_separable_when_recovery_requires_it
+  - browser_retry_does_not_prove_process_replay
+  - source_trace_does_not_prove_deployed_operations

@@ -169,6 +169,12 @@ The report also marks `mapping_quality` as `exact`, `broad`, or `unmapped`.
 needs independent implementation/evidence decomposition. The report is
 diagnostic output only; it does not become a second status source of truth.
 
+For the runtime-pending Vision slice, `app.agent.runtime-failure-mode=provider_failure`
+is a development-only deterministic provider control. It must remain `none` outside
+local/dev evidence capture, must never be used as production behavior, and must be
+reset after the trace. A valid provider-failure trace records the control state,
+correlation ID, unavailable outcome, retry, and authoritative final state.
+
 Run `make generate-target-capability-slices` to produce the next implementation
 queue from the target catalog. The output is planning input only. A selected slice
 must still become its own `docs/work/*.yaml` plan and reach `verified` through the
@@ -203,3 +209,19 @@ The current cross-layer control optimization program is governed by
 `docs/work/system-map-optimization-master.yaml`. It is a serial maintenance and
 control program, not a product capability board. Its execution inventory is the
 sole queue for its child tasks and must be advanced in order.
+
+The runtime-pending Vision control uses `app.agent.runtime-failure-mode=provider_failure`
+only for local evidence capture. It must be reset to `none` before the owned stack is
+reused for ordinary scenarios; production profiles must never activate the control.
+
+The same development-only property may use `side_effect_failure` to force the Workmarket
+application-news consumer into its existing failed-outbox path. This is a bounded local
+control for observing domain commit versus delivery failure; it is not a production
+feature and must be reset to `none` after capture.
+
+The reliability slice also requires this outbox control to remain local-only and
+covered by the backend test suite before any runtime evidence is promoted.
+
+The System Map hardening runtime boundary index is
+`docs/system-map-runtime-boundary-registry.yaml`; it classifies durability and
+replay requirements without prescribing a universal outbox for every module.

@@ -1,0 +1,25 @@
+version: 1
+purpose: Logical data ownership, schema boundary, retention, and mutation authority index for all current domains.
+status_authority: docs/data-ownership-registry.yaml
+reviewed_at: '2026-07-22'
+ownership_rule: Physical database co-location does not grant cross-module write authority.
+domains:
+  - {id: identity_security, owner: identity, entities: [AppUser, AuthSession, RevokedAuthToken, ProfileVisibility], write_authority: identity_services, shared_readers: [all_authorized_modules], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: social_circles, owner: social, entities: [Circle, CircleMembership, CircleRelation], write_authority: social_services, shared_readers: [workmarket, business, things, rides, chat, vision], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: location_consent, owner: location_and_identity_policy, entities: [LocationPreference, LocationLookupAudit], write_authority: location_policy_services, shared_readers: [workmarket, business, rides, vision], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: workmarket, owner: workmarket, entities: [Quest, QuestApplication, WorkmarketApplicationNewsOutbox, Review], write_authority: workmarket_services, shared_readers: [activity, notification, vision, chat], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: business, owner: business, entities: [BusinessProfile, BusinessOffering, BusinessAvailability, BusinessBooking, BusinessBookingAudit], write_authority: business_services, shared_readers: [activity, notification, vision], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: things, owner: things, entities: [ThingListing, ThingBorrowRequest], write_authority: things_services, shared_readers: [activity, notification, vision], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: rides, owner: rides, entities: [RideOffer, RideParticipant, CommutePreference], write_authority: rides_services, shared_readers: [activity, notification, vision], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: chat_storage, owner: chat_and_storage, entities: [ChatConversation, ChatConversationMemberState, ChatMessage, ChatAttachmentUpload], write_authority: chat_services, shared_readers: [activity, notification, vision], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: notification_activity, owner: notification_and_activity, entities: [NotificationReadState, ActivityItem], write_authority: notification_activity_services, shared_readers: [app_shell, domain_modules], retention_source: docs/entity-relation-retention-registry.yaml}
+  - {id: vision_agent, owner: vision, entities: [VisionConversation, VisionTurn, VisionMemory], write_authority: vision_services, shared_readers: [app_shell, delegated_domain_services], retention_source: docs/entity-relation-retention-registry.yaml}
+schema_authority: apps/themuffinman/src/main/resources/db/migration
+cross_cutting_write_rules:
+  - domain_module_writes_own_state
+  - read_models_may_denormalize_but_must_reference_authority
+  - side_effect_rows_are_not_domain_authority
+  - retention_and_cleanup_require_owner_and_operational_evidence
+gaps:
+  - {id: field_level_data_classification, owner: security, required_evidence: data_classification_registry, next_action: classify_sensitive_and_external_egress_fields, review_date: '2026-08-15'}
+  - {id: deletion_and_restore_proof, owner: operations, required_evidence: deletion_restore_runtime_trace, next_action: map_retention_job_outcomes, review_date: '2026-08-15'}

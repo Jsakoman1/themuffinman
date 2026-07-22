@@ -1,0 +1,151 @@
+kind: work
+version: 1
+id: runtime-pending-web-operations-01-vision-runtime
+title: Close Vision execution, provider-failure, and context timing rows
+status: verified
+baseline: 4bcd499
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-web-operations-master.yaml
+execution_inventory: docs/work/runtime-pending-web-operations-master-execution-inventory.yaml
+objective: Produce fresh browser/runtime evidence for Vision execution recovery, provider
+  failure correlation, and separated context/provider timing.
+tasks:
+- id: analyze-vision-rows
+  title: Define controls and evidence for the three Vision rows
+  type: analysis
+  status: done
+  inventory_item: vision-pending-analysis
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+  - docs/capability-evidence-registry.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+  - docs/capability-evidence-registry.yaml
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs
+  started_at: '2026-07-22T15:23:24Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: c89260b92c897d815d309d633a4cb895b5c4352d66f1f2a78c116f57900cfbf0
+    docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml: a2f069d42b456ef655e6783285a08e756c5d5d811fd7e1f72151d1d349f5ed73
+    docs/capability-evidence-registry.yaml: ec4bb4b410a046a702011f310f46e084eab7113cb9bf38358824ae2a526dd9a6
+- id: implement-vision-controls
+  title: Implement deterministic provider outcome and timing controls
+  type: implementation
+  status: done
+  inventory_item: vision-runtime-controls
+  paths:
+  - apps/themuffinman/src/main/java
+  - docs/implementation-control.md
+  - scripts/audits
+  required_paths:
+  - docs/implementation-control.md
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && make audit-docs
+  started_at: '2026-07-22T15:26:38Z'
+  start_fingerprints:
+    docs/implementation-control.md: 127e0699d0c6cfb54e21a76b7d4eea130d61984840e2bbe72a99fd1745b87da3
+- id: capture-vision-evidence
+  title: Capture execution, provider failure, and context timing evidence
+  type: verification
+  status: done
+  inventory_item: vision-runtime-evidence
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence
+  - docs/capability-evidence-registry.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  started_at: '2026-07-22T15:27:40Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: df391f3945b49c46468723c69d87f447da75412b255b2c68f6350b422bdc9859
+    docs/capability-evidence-registry.yaml: 422adbe0fb0cd1ce2fed1a490e36a3c6d53646ba00d99a36078c897e4055518e
+exit_evidence: Fresh browser/runtime traces with provider outcome, retry, correlation,
+  final state, and separated timing fields.
+evidence:
+- task: analyze-vision-rows
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs
+  ranAt: '2026-07-22T15:23:49Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 307
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:23:24Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+  - docs/capability-evidence-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: implement-vision-controls
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && make audit-docs
+  ranAt: '2026-07-22T15:27:07Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  output: "[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed:
+    0.006 s -- in com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandlerTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 797, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  21.852 s\n[INFO] Finished at: 2026-07-22T17:27:30+02:00\n[INFO] ------------------------------------------------------------------------\nruby
+    scripts/audits/audit-work-plan-recursion.rb\nWork-plan recursion audit passed
+    (no recursive validation commands).\nruby scripts/audits/audit-docs-as-tests.rb\nDocs
+    as tests\n  statements scanned: 310\n  review needed: 0\n  high priority: 0\n\n"
+  startedAt: '2026-07-22T15:26:38Z'
+  changedAfterStart: &2
+  - docs/implementation-control.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: capture-vision-evidence
+  command: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  ranAt: '2026-07-22T15:40:35Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+
+  startedAt: '2026-07-22T15:27:40Z'
+  changedAfterStart: &3
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

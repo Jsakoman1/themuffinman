@@ -1,0 +1,29 @@
+version: 1
+purpose: Change-impact index for shared concepts and cross-layer surfaces; advisory until a work plan records its dispositions.
+status_authority: docs/implementation-control.md
+reviewed_at: '2026-07-22'
+impact_dimensions: [domain_state, data_schema, permission_visibility, endpoint_contract, web_client, vision_client, native_contract, side_effect, provider_storage, scheduled_job, runtime_evidence, documentation_control]
+shared_concepts:
+  - {id: users, owners: [identity], affected: [all_modules, chat, vision, notifications], checks: [authorization, profile_visibility, session, test_fixtures]}
+  - {id: circles_membership, owners: [social], affected: [workmarket, business, things, rides, chat, visibility, vision], checks: [eligibility, consent, redaction, reconnect, native_boundary]}
+  - {id: scheduling, owners: [business, rides], affected: [booking, availability, ride_capacity, notifications, vision], checks: [timezone, conflict, idempotency, readback]}
+  - {id: bookings, owners: [business], affected: [notifications, activity, audit, vision], checks: [state_transition, capacity, side_effect, replay, client_action_targets]}
+  - {id: messaging, owners: [chat], affected: [realtime, attachments, activity, notifications, vision], checks: [membership, storage, reconnect, readback, retention]}
+  - {id: visibility_consent, owners: [identity, social, location], affected: [profile, circles, work, business, rides, vision, native], checks: [viewer_variants, fresh_read, cached_read, redaction, revocation]}
+  - {id: provider_configuration, owners: [config, vision, location, storage], affected: [runtime_failures, secrets, latency, cost, recovery], checks: [typed_config, local_fixture, production_separation, observability]}
+change_review_contract:
+  before_change: [identify_owner, identify_affected_modules, identify_authoritative_sources, identify_client_and_runtime_edges]
+  after_change: [update_code, update_domain_docs, update_machine_registry, update_tests, update_runtime_evidence_or_gap, run_work_verify]
+  no_impact_claim_without_evidence: true
+client_boundaries:
+  - {id: web, authority: backend_dto_and_allowed_actions, evidence: browser_trace, native_substitution_forbidden: true}
+  - {id: vision, authority: delegated_domain_services, evidence: browser_or_runtime_trace, aggregate_success_insufficient: true}
+  - {id: native_handoff, authority: backend_contract, evidence: device_trace, contract_only_until_device_proof: true}
+external_boundaries:
+  - {id: openai_or_agent_provider, owner: vision, contract: typed_provider_outcome_and_safe_error, unknowns: [availability, quota, cost, credential_rotation]}
+  - {id: geocoding_provider, owner: location, contract: bounded_lookup_and_failure, unknowns: [provider_sla, credential_rotation, outage_recovery]}
+  - {id: object_storage, owner: storage, contract: upload_access_expiry_unavailable, unknowns: [backup, restore, bucket_policy]}
+  - {id: database_and_scheduler, owner: operations, contract: migration_retention_and_job_execution, unknowns: [deployed_topology, backup_restore, job_ledger]}
+gaps:
+  - {id: automated_changed_file_impact_enforcement, owner: architecture, next_action: connect registry to work-start review without making advisory output status authority, review_date: '2026-08-15'}
+  - {id: same_policy_web_vision_parity, owner: visibility_and_vision, next_action: capture shared fixture trace, review_date: '2026-08-15'}

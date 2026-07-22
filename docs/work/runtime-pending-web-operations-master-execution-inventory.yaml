@@ -1,0 +1,116 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-web-operations-master-execution-inventory
+master_plan: docs/work/runtime-pending-web-operations-master.yaml
+status: verified
+items:
+- id: vision-pending-analysis
+  plan: docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+  task: analyze-vision-rows
+  status: verified
+  order: 1
+  started_at: '2026-07-22T15:23:24Z'
+  verified_at: '2026-07-22T15:23:53Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+    task: analyze-vision-rows
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: vision-runtime-controls
+  plan: docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+  task: implement-vision-controls
+  status: verified
+  order: 2
+  started_at: '2026-07-22T15:26:38Z'
+  verified_at: '2026-07-22T15:27:35Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+    task: implement-vision-controls
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: vision-runtime-evidence
+  plan: docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+  task: capture-vision-evidence
+  status: verified
+  order: 3
+  started_at: '2026-07-22T15:27:40Z'
+  verified_at: '2026-07-22T15:40:35Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+    task: capture-vision-evidence
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: reliability-contract
+  plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+  task: define-failure-contract
+  status: verified
+  order: 4
+  started_at: '2026-07-22T15:40:42Z'
+  verified_at: '2026-07-22T15:41:21Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+    task: define-failure-contract
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: reliability-controls
+  plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+  task: implement-reliability-controls
+  status: verified
+  order: 5
+  started_at: '2026-07-22T15:41:52Z'
+  verified_at: '2026-07-22T15:43:41Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+    task: implement-reliability-controls
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: reliability-web-evidence
+  plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+  task: capture-web-reliability-evidence
+  status: verified
+  order: 6
+  started_at: '2026-07-22T15:43:50Z'
+  verified_at: '2026-07-22T15:44:38Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+    task: capture-web-reliability-evidence
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: reliability-process-evidence
+  plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+  task: capture-process-replay-evidence
+  status: verified
+  order: 7
+  started_at: '2026-07-22T15:44:42Z'
+  verified_at: '2026-07-22T15:45:00Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+    task: capture-process-replay-evidence
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: parity-analysis
+  plan: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+  task: analyze-parity-row
+  status: verified
+  order: 8
+  started_at: '2026-07-22T15:45:05Z'
+  verified_at: '2026-07-22T15:45:35Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+    task: analyze-parity-row
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: parity-runtime-evidence
+  plan: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+  task: capture-parity-evidence
+  status: verified
+  order: 9
+  started_at: '2026-07-22T15:45:42Z'
+  verified_at: '2026-07-22T15:46:08Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+    task: capture-parity-evidence
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+- id: runtime-pending-closeout
+  plan: docs/work/runtime-pending-web-operations-04-closeout.yaml
+  task: closeout-in-scope-pending
+  status: verified
+  order: 10
+  started_at: '2026-07-22T15:46:19Z'
+  verified_at: '2026-07-22T15:47:55Z'
+  evidence:
+    plan: docs/work/runtime-pending-web-operations-04-closeout.yaml
+    task: closeout-in-scope-pending
+    revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21

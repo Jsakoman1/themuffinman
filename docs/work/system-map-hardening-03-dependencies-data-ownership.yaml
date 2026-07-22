@@ -1,0 +1,75 @@
+kind: work
+version: 1
+id: system-map-hardening-03-dependencies-data-ownership
+title: Map dependency directions and data ownership
+status: verified
+baseline: 4bcd499
+master_plan: docs/work/system-map-hardening-master.yaml
+execution_inventory: docs/work/system-map-hardening-master-execution-inventory.yaml
+serial_task_execution: true
+strict_verification: true
+objective: Make module dependencies, shared concepts, database ownership, schema boundaries,
+  and accepted exceptions explicit.
+depends_on:
+- system-map-hardening-01-module-topology
+source_reuse:
+- docs/module-dependency-registry.yaml
+- docs/domain-technical.md
+- docs/system-map-complete-analysis-round-22.yaml
+- apps/themuffinman/src/main/resources/db/migration
+scope_rule: Separate physical database co-location from logical ownership; shared
+  tables do not imply shared write authority.
+tasks:
+- id: map-dependencies-and-data
+  title: Create dependency and data ownership registries
+  type: analysis
+  status: done
+  inventory_item: dependencies-data-ownership
+  paths:
+  - docs/system-map-dependency-registry.yaml
+  - docs/system-map-data-ownership-registry.yaml
+  - docs/domain-technical.md
+  required_paths:
+  - docs/system-map-dependency-registry.yaml
+  - docs/system-map-data-ownership-registry.yaml
+  - docs/domain-technical.md
+  validation: make audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T16:25:57Z'
+  start_fingerprints:
+    docs/system-map-dependency-registry.yaml: __missing__
+    docs/system-map-data-ownership-registry.yaml: __missing__
+    docs/domain-technical.md: 39b2b4dd95a7ae707a9d21fd68dbc41bbbd974652f39b2e9be126511868c750c
+exit_evidence: Each module has data owners, dependency directions, accepted exceptions,
+  and forbidden coupling candidates.
+evidence:
+- task: map-dependencies-and-data
+  command: make audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T16:26:45Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-technical.md
+  - docs/system-map-data-ownership-registry.yaml
+  - docs/system-map-dependency-registry.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 311
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T16:25:57Z'
+  changedAfterStart: &1
+  - docs/system-map-dependency-registry.yaml
+  - docs/system-map-data-ownership-registry.yaml
+  - docs/domain-technical.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

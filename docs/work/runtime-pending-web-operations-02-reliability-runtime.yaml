@@ -1,0 +1,197 @@
+kind: work
+version: 1
+id: runtime-pending-web-operations-02-reliability-runtime
+title: Close mutation, transaction, side-effect, and replay rows
+status: verified
+baseline: 4bcd499
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-web-operations-master.yaml
+execution_inventory: docs/work/runtime-pending-web-operations-master-execution-inventory.yaml
+objective: Prove timeout/readback, precommit rollback, after-commit failure, duplicate
+  delivery, and process-replay boundaries with controlled evidence.
+tasks:
+- id: define-failure-contract
+  title: Define deterministic failure injection and observation contract
+  type: analysis
+  status: done
+  inventory_item: reliability-contract
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/side-effect-delivery-registry.yaml
+  - docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/side-effect-delivery-registry.yaml
+  - docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+  validation: make audit-runtime-acceptance && make audit-truth-registry && make audit-docs
+  started_at: '2026-07-22T15:40:42Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 444a4c25128ae7c024f8696042c21aa482110ecf3a033d20748705383be4ccfd
+    docs/side-effect-delivery-registry.yaml: ee9787b9380a2f742e6736c02e808ec250dd1dc873fc6c032a45c9e37f3a41f5
+    docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml: 9186e43c5c54cf26bfec308154bd6e9e291b0ee72cc0ee548f4044189fc64a5d
+- id: implement-reliability-controls
+  title: Implement bounded dev failure injection and replay observation controls
+  type: implementation
+  status: done
+  inventory_item: reliability-controls
+  paths:
+  - apps/themuffinman/src/main/java
+  - apps/themuffinman/src/test
+  - docs/security-operations-recovery-registry.yaml
+  - docs/implementation-control.md
+  required_paths:
+  - docs/security-operations-recovery-registry.yaml
+  - docs/implementation-control.md
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && make audit-docs
+  started_at: '2026-07-22T15:41:52Z'
+  start_fingerprints:
+    docs/security-operations-recovery-registry.yaml: b03cca15bf4c7a6b03ce36605ef4cb44293cd2f386f7b1e1f335c1981ed1cb15
+    docs/implementation-control.md: 4dffd327f3bfe5b8e2dfbb083eb128c0428d8bfe1b287233d6180ee318faac3e
+- id: capture-web-reliability-evidence
+  title: Capture timeout, transaction, side-effect, and duplicate-delivery traces
+  type: verification
+  status: done
+  inventory_item: reliability-web-evidence
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence
+  - docs/side-effect-delivery-registry.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/side-effect-delivery-registry.yaml
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  started_at: '2026-07-22T15:43:50Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: bab4a075ec7e7d6c2c9cc0755ea44c209bfb67f53dfd8882a6d794ca03e972ec
+    docs/side-effect-delivery-registry.yaml: 72b967b0e8e5baf4e202a59efb0cf630727b1293b89f296322c6dd7021cac6c8
+- id: capture-process-replay-evidence
+  title: Capture controlled process termination, restart, and replay observation
+  type: verification
+  status: done
+  inventory_item: reliability-process-evidence
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence
+  - docs/security-operations-recovery-registry.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/security-operations-recovery-registry.yaml
+  validation: make audit-runtime-acceptance && make audit-truth-registry && git diff
+    --check
+  started_at: '2026-07-22T15:44:42Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 88a1005c877f44800eb6e8760922b783b75b7a73a69281189a4d45d9b4296f12
+    docs/security-operations-recovery-registry.yaml: d72d28f38fe25c2ebf5f0b5f796fffcc6f510e845e3b1c2aec4f026939d51567
+exit_evidence: Evidence for all seven reliability rows, with failure controls bounded
+  to local/dev operation and process replay separately identified.
+evidence:
+- task: define-failure-contract
+  command: make audit-runtime-acceptance && make audit-truth-registry && make audit-docs
+  ranAt: '2026-07-22T15:41:17Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+  - docs/side-effect-delivery-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 310
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:40:42Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/side-effect-delivery-registry.yaml
+  - docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: implement-reliability-controls
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && make audit-docs
+  ranAt: '2026-07-22T15:43:15Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  - docs/security-operations-recovery-registry.yaml
+  output: "[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed:
+    0.007 s -- in com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandlerTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 797, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  20.433 s\n[INFO] Finished at: 2026-07-22T17:43:36+02:00\n[INFO] ------------------------------------------------------------------------\nruby
+    scripts/audits/audit-work-plan-recursion.rb\nWork-plan recursion audit passed
+    (no recursive validation commands).\nruby scripts/audits/audit-docs-as-tests.rb\nDocs
+    as tests\n  statements scanned: 311\n  review needed: 0\n  high priority: 0\n\n"
+  startedAt: '2026-07-22T15:41:52Z'
+  changedAfterStart: &2
+  - docs/security-operations-recovery-registry.yaml
+  - docs/implementation-control.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: capture-web-reliability-evidence
+  command: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  ranAt: '2026-07-22T15:44:38Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/side-effect-delivery-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+
+  startedAt: '2026-07-22T15:43:50Z'
+  changedAfterStart: &3
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/side-effect-delivery-registry.yaml
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: capture-process-replay-evidence
+  command: make audit-runtime-acceptance && make audit-truth-registry && git diff
+    --check
+  ranAt: '2026-07-22T15:44:59Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/security-operations-recovery-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+
+  startedAt: '2026-07-22T15:44:42Z'
+  changedAfterStart: &4
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/security-operations-recovery-registry.yaml
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

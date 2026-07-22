@@ -35,3 +35,13 @@ consent_revocation:
   remaining: [cached_view, vision_read, websocket_reconnect, native_device, offline_background]
   required_checks: [fresh_read, cached_view, vision_read, websocket_reconnect, forbidden_or_redacted_response]
 client_evidence_scenarios: [runtime-visibility-web-vision-parity, runtime-visibility-native-handoff, runtime-visibility-device-revoke]
+web_vision_runtime_contract:
+  owner_plan: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+  viewer_variants: [owner, circle_member, public_viewer]
+  compared_fields: [visibility_scope, exact_location_presence, redaction_state, allowed_actions]
+  compared_outcomes: [authorized_read, redacted_read, forbidden_or_not_found, recovery_after_revoke]
+  same_policy_requirement: Web and Vision traces must use the same viewer identity, target, policy state, and fresh-read boundary.
+  current_gap: Web fresh-read consent revocation is proven, but a same-policy Vision read and action parity trace is not.
+  latest_boundary_artifact: docs/runtime-evidence/browser-runtime-web-vision-parity-boundary-2026-07-22.yaml
+  latest_boundary_status: structured_external_blocker
+system_map_hardening_change_impact_index: docs/system-map-change-impact-registry.yaml

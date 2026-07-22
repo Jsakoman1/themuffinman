@@ -1,0 +1,84 @@
+kind: work
+version: 1
+id: system-map-hardening-06-client-parity-external-boundaries
+title: Map Web, Vision, native handoff, storage, and external provider parity
+status: verified
+baseline: 4bcd499
+master_plan: docs/work/system-map-hardening-master.yaml
+execution_inventory: docs/work/system-map-hardening-master-execution-inventory.yaml
+serial_task_execution: true
+strict_verification: true
+objective: Make client ownership, Web–Vision parity, native/device contract boundaries,
+  provider/storage integrations, and environment assumptions explicit.
+depends_on:
+- system-map-hardening-02-interface-evidence
+- system-map-hardening-04-workflows-permissions
+- system-map-hardening-05-side-effects-operations
+source_reuse:
+- docs/visibility-consent-parity-contract.yaml
+- docs/native-client-contract.yaml
+- docs/security-operations-recovery-registry.yaml
+- docs/configuration-environment-registry.yaml
+- docs/runtime-acceptance-matrix.yaml
+scope_rule: Web, Vision, native, and external-provider evidence classes remain separate
+  even when they use the same backend contract.
+tasks:
+- id: map-client-parity-and-external
+  title: Create client and external-boundary registry
+  type: analysis
+  status: done
+  inventory_item: client-parity-external
+  paths:
+  - docs/system-map-change-impact-registry.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/security-operations-recovery-registry.yaml
+  - docs/system-map.md
+  required_paths:
+  - docs/system-map-change-impact-registry.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/security-operations-recovery-registry.yaml
+  validation: make audit-truth-registry && make audit-runtime-acceptance && make audit-docs
+    && git diff --check
+  started_at: '2026-07-22T16:28:53Z'
+  start_fingerprints:
+    docs/system-map-change-impact-registry.yaml: __missing__
+    docs/visibility-consent-parity-contract.yaml: 33e91a77e951e44d3e0412d66ffd940149ec75e8a16e6c22fc5da31d10abd941
+    docs/security-operations-recovery-registry.yaml: 9232815edfb1c397f48b1666b083812038cf5a5c03fa466995b156f5cf5e5d10
+exit_evidence: Every client and external boundary has an owner, contract, parity rule,
+  runtime evidence class, and typed limitation where proof is unavailable.
+evidence:
+- task: map-client-parity-and-external
+  command: make audit-truth-registry && make audit-runtime-acceptance && make audit-docs
+    && git diff --check
+  ranAt: '2026-07-22T16:29:27Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/security-operations-recovery-registry.yaml
+  - docs/system-map.md
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/system-map-change-impact-registry.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 311
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T16:28:53Z'
+  changedAfterStart: &1
+  - docs/system-map-change-impact-registry.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/security-operations-recovery-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

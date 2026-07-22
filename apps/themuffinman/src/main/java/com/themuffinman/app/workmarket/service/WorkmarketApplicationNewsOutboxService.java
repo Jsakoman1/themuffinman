@@ -2,6 +2,7 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.config.RetentionProperties;
+import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEvent;
 import com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandler;
@@ -32,6 +33,7 @@ public class WorkmarketApplicationNewsOutboxService implements WorkmarketApplica
     private final WorkmarketApplicationNewsOutboxClaimService claimService;
     private final PlatformTransactionManager transactionManager;
     private final RetentionProperties retentionProperties;
+    private final AgentProperties agentProperties;
 
     @Override
     @Transactional
@@ -100,6 +102,9 @@ public class WorkmarketApplicationNewsOutboxService implements WorkmarketApplica
 
         WorkmarketApplicationNewsOutbox item = claimed.get();
         try {
+            if (developmentSideEffectFailureEnabled()) {
+                throw new IllegalStateException("Deterministic development side-effect failure");
+            }
             QuestApplication application = new QuestApplication();
             application.setId(item.getApplicationId());
             AppUser actor = new AppUser();
@@ -134,5 +139,11 @@ public class WorkmarketApplicationNewsOutboxService implements WorkmarketApplica
     private String safeMessage(RuntimeException failure) {
         String message = failure.getMessage();
         return message == null ? failure.getClass().getSimpleName() : message.substring(0, Math.min(message.length(), 1000));
+    }
+
+    private boolean developmentSideEffectFailureEnabled() {
+        return agentProperties.isLocalEmergencyEnabled()
+                && !"production".equalsIgnoreCase(System.getProperty("spring.profiles.active", ""))
+                && "side_effect_failure".equalsIgnoreCase(agentProperties.getRuntimeFailureMode());
     }
 }

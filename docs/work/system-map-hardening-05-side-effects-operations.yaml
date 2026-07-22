@@ -1,0 +1,87 @@
+kind: work
+version: 1
+id: system-map-hardening-05-side-effects-operations
+title: Map side-effects, jobs, providers, storage, and replay boundaries
+status: verified
+baseline: 4bcd499
+master_plan: docs/work/system-map-hardening-master.yaml
+execution_inventory: docs/work/system-map-hardening-master-execution-inventory.yaml
+serial_task_execution: true
+strict_verification: true
+objective: Capture durable and process-local side-effects, scheduled jobs, provider
+  failures, object storage, retention, retries, replay, and operator controls.
+depends_on:
+- system-map-hardening-03-dependencies-data-ownership
+- system-map-hardening-04-workflows-permissions
+source_reuse:
+- docs/side-effect-delivery-registry.yaml
+- docs/security-operations-recovery-registry.yaml
+- docs/runtime-acceptance-matrix.yaml
+- docs/runtime-evidence
+- docs/implementation-control.md
+scope_rule: Do not prescribe outbox construction for every module; classify whether
+  each side-effect requires durable delivery, process-local notification, direct persistence,
+  or a future decision.
+tasks:
+- id: map-side-effects-and-operations
+  title: Create runtime boundary registry
+  type: analysis
+  status: done
+  inventory_item: side-effects-operations
+  paths:
+  - docs/system-map-runtime-boundary-registry.yaml
+  - docs/side-effect-delivery-registry.yaml
+  - docs/security-operations-recovery-registry.yaml
+  - docs/implementation-control.md
+  required_paths:
+  - docs/system-map-runtime-boundary-registry.yaml
+  - docs/side-effect-delivery-registry.yaml
+  - docs/security-operations-recovery-registry.yaml
+  validation: make audit-truth-registry && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  started_at: '2026-07-22T16:27:44Z'
+  start_fingerprints:
+    docs/system-map-runtime-boundary-registry.yaml: __missing__
+    docs/side-effect-delivery-registry.yaml: 0d985c03436258cc059b4b7f3784ec64d94414b878ccf4944518eee21db59fbc
+    docs/security-operations-recovery-registry.yaml: cada55097b833fa0cdf82d73e0fd8bdfef482dfd12f423a4c8966d6d2f7aa718
+exit_evidence: Every module's side-effects and operational boundaries are classified
+  as durable, process-local, external, scheduled, or unknown with an owner and evidence
+  requirement.
+evidence:
+- task: map-side-effects-and-operations
+  command: make audit-truth-registry && make audit-capability-evidence && make audit-docs
+    && git diff --check
+  ranAt: '2026-07-22T16:28:29Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  - docs/security-operations-recovery-registry.yaml
+  - docs/side-effect-delivery-registry.yaml
+  - docs/system-map-runtime-boundary-registry.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 311
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T16:27:44Z'
+  changedAfterStart: &1
+  - docs/system-map-runtime-boundary-registry.yaml
+  - docs/side-effect-delivery-registry.yaml
+  - docs/security-operations-recovery-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -13,6 +13,10 @@ executed:
   - scenario: runtime-vision-search
     outcome: partial_runtime_read
     observation: Work-to-Vision command-center handoff succeeded; family-specific quest search returned the expected no-match state and rendered `Try another search`. The current fixture exposes no more-page result, so pagination proof remains open.
+  - scenario: runtime-mutation-provider-failure-correlation
+    outcome: partial_runtime_evidence
+    evidence: docs/runtime-evidence/browser-runtime-vision-provider-failure-attempt-2026-07-22.json
+    observation: Fresh disposable authenticated browser trace loaded Vision and accepted a text submit, but the controlled provider failure was not observable as a provider outcome; the flow ended at `/work/quests` with HTTP 200 and no correlation ID or authoritative final-state readback. The row remains pending.
   - scenario: runtime-read-vision-context
     outcome: partial_runtime_pending
     evidence: docs/runtime-evidence/browser-runtime-read-vision-context-2026-07-22.json
@@ -52,3 +56,15 @@ next_controls:
   - Add deterministic failure-injection controls before promoting reliability and provider-failure rows; keep dev observability headers opt-in and bounded to local evidence.
   - Prepare multi-user and object-storage fixtures for Chat, worker, visibility, and notification lifecycles.
   - Run native/device pass separately; Web evidence must not be substituted for device evidence.
+reliability_contract_review:
+  owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+  status: contract_defined
+  source_boundary: Existing Workmarket application-news outbox provides a durable database anchor, while generic Spring event, booking audit, and process-replay semantics are not universally replayable.
+  required_runtime_classes: [transport_timeout, precommit_rollback, after_commit_delivery_failure, duplicate_delivery, process_replay]
+goal_preflight:
+  master_plan: docs/work/runtime-pending-web-operations-master.yaml
+  group: vision_runtime
+  scenario_ids: [runtime-vision-execution, runtime-mutation-provider-failure-correlation, runtime-read-vision-context]
+  shared_requirements: [fresh_fixture_or_control, correlation_id, recovery_observation, authoritative_readback]
+  timing_requirement: Split provider duration from context/database assembly duration when the provider is involved.
+  known_boundary: Existing browser traces prove aggregate flows only; they do not prove controlled provider failure or separated timing.

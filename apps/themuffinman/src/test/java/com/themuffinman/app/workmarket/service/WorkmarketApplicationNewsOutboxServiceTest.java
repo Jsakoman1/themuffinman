@@ -2,6 +2,7 @@ package com.themuffinman.app.workmarket.service;
 
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.config.RetentionProperties;
+import com.themuffinman.app.config.AgentProperties;
 import com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEvent;
 import com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandler;
 import com.themuffinman.app.workmarket.model.WorkmarketApplicationNewsOutbox;
@@ -84,7 +85,8 @@ class WorkmarketApplicationNewsOutboxServiceTest {
                 mock(WorkmarketQuestApplicationNewsEventHandler.class),
                 mock(WorkmarketApplicationNewsOutboxClaimService.class),
                 mock(PlatformTransactionManager.class),
-                retention
+                retention,
+                new AgentProperties()
         );
 
         service.deleteExpiredDeliveredItems();
@@ -102,7 +104,8 @@ class WorkmarketApplicationNewsOutboxServiceTest {
                 handler,
                 claimService,
                 mock(PlatformTransactionManager.class),
-                new RetentionProperties()
+                new RetentionProperties(),
+                new AgentProperties()
         );
     }
 

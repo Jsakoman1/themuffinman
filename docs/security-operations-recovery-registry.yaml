@@ -44,3 +44,18 @@ configuration_drift_contract:
   secret_handling: redact_values_and_report_names_only
   external_state: unknown_without_deployment_or_provider_evidence
   generated_report: docs/audit-output/configuration-environment-drift.json
+runtime_failure_injection:
+  owner: AgentProperties.runtimeFailureMode
+  allowed_local_values: [none, provider_failure, side_effect_failure]
+  production_value: none
+  control_boundary: local_emergency_enabled_and_non_production_profile
+  evidence_requirement: Every injected failure must record correlation, durable state, recovery action, and reset confirmation.
+  implementation_status: Workmarket outbox now consumes the same bounded development control for deterministic consumer-failure observation.
+process_replay_runtime_boundary:
+  scenario: runtime-side-effect-replay-after-process-crash
+  evidence: docs/runtime-evidence/operator-process-replay-boundary-2026-07-22.yaml
+  status: structured_external_blocker
+  durable_anchor: WorkmarketApplicationNewsOutbox
+  browser_substitution_forbidden: true
+system_map_hardening_runtime_boundary_index: docs/system-map-runtime-boundary-registry.yaml
+system_map_hardening_change_impact_index: docs/system-map-change-impact-registry.yaml

@@ -1,0 +1,236 @@
+kind: master
+version: 1
+id: system-map-hardening-master
+title: Harden the complete System Map across every module and runtime boundary
+status: verified
+baseline: 4bcd499
+strict_verification: true
+serial_task_execution: true
+objective: Build a complete, evidence-linked, change-usable System Map for all current
+  and planned TheMuffinMan modules, shared services, clients, data ownership, workflows,
+  dependencies, side effects, operations, and external boundaries.
+readiness: prepared_for_goal_pursuing
+system_map_source: docs/system-map.md
+execution_inventory: docs/work/system-map-hardening-master-execution-inventory.yaml
+preflight_source: docs/system-map-hardening-preflight.md
+module_scope:
+- platform_identity_security
+- social_circles_visibility_consent
+- work_marketplace
+- business_websites_bookings
+- things_sharing_lending
+- rides
+- shared_chat_messaging
+- notifications_activity
+- vision_agent_orchestration
+- native_handoff_and_device_contracts
+- shared_backend_services_and_scheduled_jobs
+- web_frontend_and_shared_app_shell
+architecture_scope:
+- backend_domain_layers
+- frontend_modules_and_routes
+- database_schema_and_migrations
+- cross_module_events_and_side_effects
+- external_providers_and_storage
+- configuration_and_environment
+- tests_runtime_evidence_and_operator_controls
+module_contract:
+  current_backend_domains:
+  - identity
+  - chat
+  - circles
+  - workmarket
+  - business
+  - things
+  - rides
+  - vision
+  - agent
+  - location
+  - notifications
+  - nativehandoff
+  - trust
+  current_frontend_surfaces:
+  - home
+  - work
+  - business
+  - things
+  - rides
+  - chat
+  - circles
+  - profile
+  - activity
+  - notifications
+  - vision
+  - settings
+  planned_or_deferred_boundaries:
+  - work_marketplace_expansion
+  - business_mini_websites
+  - thing_sharing_expansion
+  - circle_car_sharing_expansion
+  - shared_chat_expansion
+  - native_iphone
+  - native_watch
+  rule: Current implementation, planned product scope, and deferred client contracts
+    must be separate registry states.
+coverage_dimensions:
+- module_topology
+- data_ownership
+- dependency_direction
+- schema_migrations
+- endpoint_capability
+- client_surface
+- workflow_state
+- permission_visibility
+- test_coverage
+- runtime_evidence
+- side_effect_delivery
+- scheduled_jobs
+- provider_storage
+- configuration_environment
+- change_impact
+- drift_control
+non_duplication_sources:
+  endpoint_evidence:
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/capability-evidence-registry.yaml
+  dependencies:
+  - docs/module-dependency-registry.yaml
+  - docs/system-map-dependency-registry.yaml
+  side_effects:
+  - docs/side-effect-delivery-registry.yaml
+  - docs/security-operations-recovery-registry.yaml
+  visibility:
+  - docs/permission-visibility-matrix.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  runtime:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence
+  rule: New hardening registries must reference and reconcile existing canonical sources;
+    they must not create competing status authorities.
+outputs:
+- docs/system-map.md
+- docs/system-map-module-registry.yaml
+- docs/system-map-endpoint-evidence-registry.yaml
+- docs/system-map-data-ownership-registry.yaml
+- docs/system-map-dependency-registry.yaml
+- docs/system-map-workflow-registry.yaml
+- docs/system-map-runtime-boundary-registry.yaml
+- docs/system-map-change-impact-registry.yaml
+- docs/system-map-hardening-closeout-2026-07-22.yaml
+principles:
+- System Map describes current code and evidence, not aspirational architecture.
+- Runtime evidence, source evidence, and product intent remain separate evidence classes.
+- Each module has one authoritative owner for data, permissions, state transitions,
+  and external side effects.
+- Frontend and Vision may present actions but backend services remain authoritative.
+- Missing evidence is recorded as a typed gap with owner, next action, and review
+  date.
+- Planned modules are mapped as planned boundaries and never represented as implemented.
+- Native/device readiness is separate from native/device implementation proof.
+children:
+- docs/work/system-map-hardening-01-module-topology.yaml
+- docs/work/system-map-hardening-02-interface-evidence.yaml
+- docs/work/system-map-hardening-03-dependencies-data-ownership.yaml
+- docs/work/system-map-hardening-04-workflows-permissions.yaml
+- docs/work/system-map-hardening-05-side-effects-operations.yaml
+- docs/work/system-map-hardening-06-client-parity-external-boundaries.yaml
+- docs/work/system-map-hardening-07-closeout.yaml
+entry_gate:
+  required_commands:
+  - make audit-docs
+  - make audit-truth-registry
+  - make audit-plan-coverage
+  required_state:
+  - current_system_map_and_existing_registries_are_read
+  - all_current_backend_domains_and_frontend_modules_are_enumerated
+  - historical_analysis_is_not_promoted_to_current_truth
+  preflight_artifact: docs/system-map-hardening-deepdive-2026-07-22.md
+  baseline_required:
+  - git status reviewed
+  - existing System Map plans classified as reused_or_extended
+  - generated outputs excluded from canonical inputs
+sequence:
+- order: 1
+  child: module-topology
+  reason: Establish complete denominator before relationship mapping
+- order: 2
+  child: interface-evidence
+  depends_on:
+  - module-topology
+  reason: Use the module denominator to classify endpoint and client edges
+- order: 3
+  child: dependencies-data-ownership
+  depends_on:
+  - module-topology
+  reason: Ownership must precede impact and workflow conclusions
+- order: 4
+  child: workflows-permissions
+  depends_on:
+  - module-topology
+  - dependencies-data-ownership
+  reason: State and permission authority depend on ownership boundaries
+- order: 5
+  child: side-effects-operations
+  depends_on:
+  - dependencies-data-ownership
+  - workflows-permissions
+  reason: Side-effects are classified against domain owners and transitions
+- order: 6
+  child: client-parity-external
+  depends_on:
+  - interface-evidence
+  - workflows-permissions
+  - side-effects-operations
+  reason: Client and provider boundaries require authoritative contracts
+- order: 7
+  child: closeout
+  depends_on:
+  - module-topology
+  - interface-evidence
+  - dependencies-data-ownership
+  - workflows-permissions
+  - side-effects-operations
+  - client-parity-external
+  reason: Reconcile only after all registries exist
+quality_gates:
+- no_registry_claim_without_canonical_source
+- no_current_status_from_historical_analysis_only
+- no_module_marked_complete_when_runtime_or_external_edges_are_unknown
+- no_dependency_exception_without_owner_and_expiry_or_review_date
+- no_cross_module_change_without_impact_record
+completion_policy:
+  every_scope_item: Must have an owner, canonical source, evidence class, current
+    status, and known gap or verification path.
+  module_completion: A module is mapped only when domain, data, endpoints, clients,
+    workflows, permissions, side effects, tests, and runtime boundaries are addressed.
+  no_false_closure: Mapping completeness does not imply product completeness or runtime
+    success.
+exit_gate:
+  required_conditions:
+  - all_module_scope_items_have_registry_entries
+  - all_selected_endpoints_have_client_capability_test_and_runtime_edges_or_typed_gaps
+  - data_ownership_and_dependency_boundaries_are_explicit
+  - workflows_permissions_and_invariants_are_linked_to_authoritative_services
+  - side_effects_jobs_providers_storage_and_replay_boundaries_are_explicit
+  - web_vision_native_and_external_boundaries_are_separated
+  - change_impact_and_drift_control_process_is_documented
+  - closeout_audits_and_plan_verification_pass
+success_measures:
+- System Map can identify the likely owner and affected surfaces before a repair or
+  feature change.
+- Every important claim can be traced to current code, a test, runtime evidence, or
+  a typed external gap.
+- Cross-module changes expose their downstream data, permission, client, side-effect,
+  and evidence impact.
+evidence:
+- verifiedAt: '2026-07-22T16:31:13Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  children:
+  - docs/work/system-map-hardening-01-module-topology.yaml
+  - docs/work/system-map-hardening-02-interface-evidence.yaml
+  - docs/work/system-map-hardening-03-dependencies-data-ownership.yaml
+  - docs/work/system-map-hardening-04-workflows-permissions.yaml
+  - docs/work/system-map-hardening-05-side-effects-operations.yaml
+  - docs/work/system-map-hardening-06-client-parity-external-boundaries.yaml
+  - docs/work/system-map-hardening-07-closeout.yaml

@@ -33,6 +33,28 @@ rules:
 - no_universal_outbox_or_replay_semantics_claim
 - side_effect_failure_and_transaction_phase_require_explicit_classification
 - scheduled_job_reliability_requires_runtime_or_operator_evidence
+runtime_pending_reliability_contract:
+  owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+  status_authority: docs/runtime-acceptance-matrix.yaml
+  failure_classes:
+    transport_timeout:
+      required_observations: [request_correlation, timeout_outcome, authoritative_readback, safe_retry_result]
+      promotion_rule: Never infer a committed or rolled-back state from the client timeout alone.
+    precommit_rollback:
+      required_observations: [transaction_failure, no_domain_row, no_news_row, correlation]
+      promotion_rule: No precommit side effect may be promoted without an authoritative database readback.
+    after_commit_delivery_failure:
+      required_observations: [domain_commit, outbox_or_delivery_failure, persisted_delivery_state, recovery_or_replay]
+      promotion_rule: Domain commit and side-effect delivery must be separately observable.
+    duplicate_delivery:
+      required_observations: [stable_event_identity, repeated_delivery, single_authoritative_side_effect, idempotency_result]
+      promotion_rule: A repeated consumer invocation must not create an ambiguous duplicate state.
+    process_replay:
+      required_observations: [process_termination_trace, restart_trace, durable_pending_item, replay_result]
+      promotion_rule: Process restart evidence is an operator trace and cannot be substituted by a browser retry.
+current_boundary: Source inspection and existing outbox tests establish contracts, but the seven runtime rows remain pending until controlled traces are captured.
+  latest_boundary_artifact: docs/runtime-evidence/browser-runtime-reliability-control-boundary-2026-07-22.yaml
+system_map_hardening_runtime_boundary_index: docs/system-map-runtime-boundary-registry.yaml
 event_consumers:
 - id: business_booking_event_handler
   source_evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java]

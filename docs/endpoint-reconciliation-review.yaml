@@ -1,4 +1,5 @@
 version: 1
+system_map_hardening_index: docs/system-map-endpoint-evidence-registry.yaml
 id: arch-001-endpoint-reconciliation-review
 purpose: Endpoint-level review queue for the 67 endpoints not linked by the Web callsite audit.
 source: docs/audit-output/interface-evidence-reconciliation.json

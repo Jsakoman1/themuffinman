@@ -1,0 +1,18 @@
+kind: operator_process_replay_boundary
+captured_at: '2026-07-22T17:47:00+02:00'
+environment: local-dev
+owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+status: structured_external_blocker
+scenario: runtime-side-effect-replay-after-process-crash
+observed:
+  durable_outbox_source: present
+  operator_replay_api: present
+  controlled_termination: not_run_in_this_pass
+  restart_trace: not_run_in_this_pass
+  replay_observation: not_run_in_this_pass
+blocker:
+  type: operator_crash_restart_trace_not_captured
+  owner: operations-runtime
+  required: [process_termination_trace, restart_trace, durable_pending_item, replay_result]
+  next_action: Run a dedicated supervised process termination and restart pass against a disposable outbox event, then reconcile the event identity and delivery count.
+  review_date: '2026-07-29'

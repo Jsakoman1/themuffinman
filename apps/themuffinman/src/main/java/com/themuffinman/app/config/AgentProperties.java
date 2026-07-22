@@ -18,6 +18,8 @@ public class AgentProperties {
     private String reasoningEffort = "medium";
     private String apiKey;
     private String baseUrl = "https://api.openai.com/v1";
+    /** Development-only deterministic runtime control; production must keep this at none. */
+    private String runtimeFailureMode = "none";
     /** Development/test fixture switch; production application.properties disables it explicitly. */
     private boolean localEmergencyEnabled = true;
     private boolean adminExecutionEnabled = false;

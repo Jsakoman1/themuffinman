@@ -1,0 +1,31 @@
+version: 1
+purpose: Hardened index from endpoint families to capability, client, authority, test, runtime, and unresolved review edges; does not own capability status.
+status_authority: docs/capability-inventory.yaml
+canonical_sources: [docs/endpoint-client-evidence-registry.yaml, docs/endpoint-capability-traceability-registry.yaml, docs/endpoint-reconciliation-review.yaml, docs/capability-evidence-registry.yaml, docs/runtime-acceptance-matrix.yaml]
+reviewed_at: '2026-07-22'
+inventory_counts:
+  backend_endpoints: 214
+  web_source_linked: 140
+  admin_or_agent: 4
+  native_handoff: 3
+  unclassified_non_web: 67
+  owner_review_required: 62
+  interpretation: static_reconciliation_not_runtime_proof
+edge_contract: [capability, owner, endpoint_family, authority_service, consumer_client, source_test, runtime_scenario, evidence_artifact, gap_owner]
+families:
+  - {id: platform_identity_location, owner: identity_or_location, endpoints: [/auth, /app_users, /profile, /location, /onboarding, /personal-shortcuts, /trust], clients: [web, vision, admin], authorities: [docs/permission-visibility-matrix.yaml, docs/domain-technical.md], tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, unresolved: [owner_review_rows, provider_and_native_boundaries]}
+  - {id: workmarket, owner: workmarket, endpoints: [/quests, /applications, /dashboard, /quest-news, /reviews, /admin/operations/workmarket-news-outbox], clients: [web, vision, admin], authorities: [docs/permission-visibility-matrix.yaml, docs/side-effect-delivery-registry.yaml], tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, unresolved: [failure_recovery, process_replay, non_web_owner_review]}
+  - {id: business, owner: business, endpoints: [/business], clients: [web, vision], authorities: [docs/permission-visibility-matrix.yaml, docs/domain-technical.md], tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, unresolved: [durable_side_effect_boundary, non_web_owner_review]}
+  - {id: chat_social, owner: chat_or_social, endpoints: [/chat, /circles], clients: [web, vision, admin], authorities: [docs/permission-visibility-matrix.yaml, docs/visibility-consent-parity-contract.yaml], tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, unresolved: [websocket_process_boundary, non_web_owner_review]}
+  - {id: sharing_rides, owner: things_or_rides, endpoints: [/things, /rides], clients: [web, vision], authorities: [docs/permission-visibility-matrix.yaml, docs/domain-technical.md], tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, unresolved: [cross_module_side_effects, non_web_owner_review]}
+  - {id: cross_module_vision_native, owner: vision_or_platform, endpoints: [/vision, /guided-intake, /search, /native, /workspace, /activity, /notifications, /notification-preferences], clients: [web, vision, native_handoff, admin], authorities: [docs/visibility-consent-parity-contract.yaml, docs/native-client-contract.yaml], tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, unresolved: [provider_failure, vision_parity, native_device_proof, non_web_owner_review]}
+review_queue:
+  source: docs/endpoint-reconciliation-review.yaml
+  unresolved_rows: 62
+  required_fields: [owner, consumer, authority, tests, runtime, evidence, review_status]
+  rule: Unresolved rows remain explicit review items and cannot be promoted by this index.
+evidence_rules:
+  - static_endpoint_link_is_not_runtime_proof
+  - family_mapping_does_not_replace_per_endpoint_review
+  - native_handoff_contract_is_not_device_implementation
+  - registry_indexes_existing_status_authorities

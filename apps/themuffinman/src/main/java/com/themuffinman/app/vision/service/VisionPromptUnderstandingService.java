@@ -143,6 +143,10 @@ public class VisionPromptUnderstandingService {
 
         String trimmed = prompt.trim();
         VisionSemanticOrchestrationRequest orchestrationRequest = buildOrchestrationRequest(trimmed, conversation, currentUser, runtimeHints);
+        if (providerFailureInjectionEnabled()) {
+            return unavailableOrDevelopmentFixture(trimmed, conversation, currentUser,
+                    "Deterministic development provider failure injection is enabled.");
+        }
         if (!isConfigured()) {
             return unavailableOrDevelopmentFixture(trimmed, conversation, currentUser,
                     "OpenAI semantic understanding is not configured.");
@@ -551,6 +555,11 @@ public class VisionPromptUnderstandingService {
     private boolean developmentFixtureEnabled() {
         return agentProperties.isLocalEmergencyEnabled()
                 && !"production".equalsIgnoreCase(System.getProperty("spring.profiles.active", ""));
+    }
+
+    private boolean providerFailureInjectionEnabled() {
+        return developmentFixtureEnabled()
+                && "provider_failure".equalsIgnoreCase(agentProperties.getRuntimeFailureMode());
     }
 
     private String providerName() {

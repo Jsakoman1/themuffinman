@@ -1,0 +1,18 @@
+kind: web_vision_parity_boundary
+captured_at: '2026-07-22T17:50:00+02:00'
+environment: local-dev
+owner_plan: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+scenario: runtime-visibility-web-vision-parity
+status: structured_external_blocker
+web_evidence:
+  status: passed_supporting_evidence
+  source: docs/runtime-evidence/browser-runtime-location-consent-revocation-2026-07-22.json
+  proves: [owner_grant, authorized_viewer_read, revoke, fresh_redaction, owner_restore]
+vision_evidence:
+  status: not_captured
+  missing: [same_viewer_policy_trace, vision_fields, vision_allowed_actions, vision_redaction, post_revoke_read]
+blocker:
+  type: missing_same_policy_vision_fixture
+  owner: visibility-vision-runtime
+  next_action: Seed a circle/location policy fixture shared by Web and Vision, then compare fresh reads and allowed actions before and after revocation.
+  review_date: '2026-07-29'

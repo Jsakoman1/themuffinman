@@ -270,3 +270,4 @@ stateMachines:
         to: COMPLETED
         intentId: future_booking_flow
         authority: owner
+system_map_hardening_workflow_index: docs/system-map-workflow-registry.yaml

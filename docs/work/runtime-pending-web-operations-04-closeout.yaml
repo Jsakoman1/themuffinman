@@ -1,0 +1,87 @@
+kind: work
+version: 1
+id: runtime-pending-web-operations-04-closeout
+title: Close non-native pending runtime program
+status: verified
+baseline: 4bcd499
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-web-operations-master.yaml
+execution_inventory: docs/work/runtime-pending-web-operations-master-execution-inventory.yaml
+objective: Reconcile the 11 in-scope runtime rows, preserve five deferred native/device
+  rows, and publish a truthful closeout.
+tasks:
+- id: closeout-in-scope-pending
+  title: Run final runtime gates and publish next native/device queue
+  type: verification
+  status: done
+  inventory_item: runtime-pending-closeout
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-capability-evidence &&
+    make audit-truth-registry && make audit-docs && make audit-plan-coverage && git
+    diff --check
+  started_at: '2026-07-22T15:46:19Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 4395da291a7e8c9ad27365df8c1270a8fa994f731c183c373fbf859c35ecf26e
+    docs/capability-evidence-registry.yaml: 48983038ab6e414915c668698f5dc0f864bf14ed63dea6c01921ebe2c83a6096
+    docs/implementation-backlog.md: ab61f99267275635ff09e63b22eadd40ec8cdb99d5eef3bdd078c6fb8acc77db
+    docs/system-map.md: cc7fad4aa1887de04fa53003b65d87b73632ac7668504a53298b4fb19d6c3d57
+exit_evidence: Closeout report with 11 in-scope decisions and five native/device rows
+  explicitly deferred.
+evidence:
+- task: closeout-in-scope-pending
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-capability-evidence &&
+    make audit-truth-registry && make audit-docs && make audit-plan-coverage && git
+    diff --check
+  ranAt: '2026-07-22T15:47:25Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/system-map.md
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 311
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-22T15:46:19Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

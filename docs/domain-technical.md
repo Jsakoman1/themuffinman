@@ -2019,3 +2019,7 @@ owner, configuration source, and control plan before changing code. The System M
 only describes relationships; domain services remain authoritative for permissions,
 validation, workflow transitions, and state. A static relationship or generated
 impact report does not prove runtime behavior or capability completion.
+System Map hardening indexes logical dependency and data ownership boundaries in
+`docs/system-map-dependency-registry.yaml` and
+`docs/system-map-data-ownership-registry.yaml`. These indexes do not change domain
+authority: each module remains responsible for its own state transitions and writes.

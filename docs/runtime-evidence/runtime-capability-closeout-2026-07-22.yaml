@@ -1,6 +1,6 @@
 kind: runtime_capability_closeout
 version: 1
-captured_at: '2026-07-22T16:15:00+02:00'
+captured_at: '2026-07-22T17:55:00+02:00'
 matrix: docs/runtime-acceptance-matrix.yaml
 evidence_registry: docs/capability-evidence-registry.yaml
 pending_triage: docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
@@ -22,8 +22,20 @@ pending_evidence_boundaries:
   vision_provider_and_timing: [runtime-vision-execution, runtime-read-vision-context]
   vision_cross_surface_parity: [runtime-visibility-web-vision-parity]
   next_pass_required: true
+runtime_pending_web_operations_master:
+  owner_plan: docs/work/runtime-pending-web-operations-master.yaml
+  in_scope_denominator: 11
+  structured_blockers:
+    - docs/runtime-evidence/browser-runtime-vision-provider-failure-attempt-2026-07-22.json
+    - docs/runtime-evidence/browser-runtime-reliability-control-boundary-2026-07-22.yaml
+    - docs/runtime-evidence/operator-process-replay-boundary-2026-07-22.yaml
+    - docs/runtime-evidence/browser-runtime-web-vision-parity-boundary-2026-07-22.yaml
+  in_scope_status: all_11_classified_pending_or_partial; none_promoted_without_declared_evidence
+  native_device_status: five_rows_explicitly_deferred
+  implementation_result: bounded provider and outbox failure controls implemented and backend-tested; runtime promotion remains blocked by missing observability/fixtures/operator trace
 closeout_status: passed_with_explicit_pending_boundaries
 notes:
   - Passed means evidence-backed runtime behavior, not universal capability completeness.
   - Pending rows remain pending because their required external, device, provider, process, or failure-injection evidence is not available in the current Web/local environment.
   - No pending row is unclassified or silently treated as passed.
+  - The master plan's structured-blocker rule is satisfied for the current local pass; the next runtime pass must target the listed fixture and observability gaps.

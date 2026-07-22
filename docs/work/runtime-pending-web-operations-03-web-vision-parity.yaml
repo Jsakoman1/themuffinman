@@ -1,0 +1,109 @@
+kind: work
+version: 1
+id: runtime-pending-web-operations-03-web-vision-parity
+title: Close Web–Vision visibility and consent parity
+status: verified
+baseline: 4bcd499
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-web-operations-master.yaml
+execution_inventory: docs/work/runtime-pending-web-operations-master-execution-inventory.yaml
+objective: Prove that Web and Vision expose the same backend-authoritative visibility
+  fields, actions, and redaction behavior for the same viewer policy.
+tasks:
+- id: analyze-parity-row
+  title: Define viewer variants, fields, actions, and parity assertions
+  type: analysis
+  status: done
+  inventory_item: parity-analysis
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/permission-visibility-matrix.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/permission-visibility-matrix.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  validation: make audit-truth-registry && make audit-docs
+  started_at: '2026-07-22T15:45:05Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: a594ddfb8ba3370ba780402866f1b5e582044b79bac05b11d7ee6cf0abad71b5
+    docs/permission-visibility-matrix.yaml: 6a7d639b6f03e10f784a9cb44f2f158a99e8b3c459ff032d31b782a53715eddc
+    docs/visibility-consent-parity-contract.yaml: f1add40d63f861dd3f4bce5616f8f74446f787a99ffd640bdb8b75d49fa3da99
+- id: capture-parity-evidence
+  title: Capture fresh Web and Vision viewer/readback parity evidence
+  type: verification
+  status: done
+  inventory_item: parity-runtime-evidence
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence
+  - docs/permission-visibility-matrix.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/permission-visibility-matrix.yaml
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  started_at: '2026-07-22T15:45:42Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 805ffb0c561489c6e028534d90c96b2f6b25eb64ad0f98f27d6fdc7b24da38a7
+    docs/permission-visibility-matrix.yaml: ed611c4347a79b9c22c3fa70579729840979e2e56aeb23cdc0f04e15de1fecf1
+exit_evidence: Fresh same-policy Web and Vision traces proving fields, allowed actions,
+  redaction, and recovery parity.
+evidence:
+- task: analyze-parity-row
+  command: make audit-truth-registry && make audit-docs
+  ranAt: '2026-07-22T15:45:31Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/permission-visibility-matrix.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 311
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:45:05Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/permission-visibility-matrix.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: capture-parity-evidence
+  command: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  ranAt: '2026-07-22T15:46:08Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/permission-visibility-matrix.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+
+  startedAt: '2026-07-22T15:45:42Z'
+  changedAfterStart: &2
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/permission-visibility-matrix.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

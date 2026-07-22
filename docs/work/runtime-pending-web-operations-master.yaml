@@ -1,0 +1,133 @@
+kind: master
+version: 1
+id: runtime-pending-web-operations-master
+title: Close pending Web, Vision, reliability, and operational runtime scenarios
+status: verified
+baseline: 4bcd499
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/runtime-pending-web-operations-master-execution-inventory.yaml
+objective: Close the 11 pending runtime scenarios that are achievable through Web/Vision,
+  controlled local failure injection, database/outbox observation, and operator process-restart
+  evidence, while deferring all native/device/offline scenarios.
+preflight_source: docs/runtime-pending-web-operations-preflight.md
+system_map_source: docs/system-map.md
+runtime_matrix: docs/runtime-acceptance-matrix.yaml
+registry_sources:
+- docs/runtime-acceptance-matrix.yaml
+- docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+- docs/capability-evidence-registry.yaml
+- docs/side-effect-delivery-registry.yaml
+- docs/security-operations-recovery-registry.yaml
+scope:
+- runtime-vision-execution
+- runtime-mutation-provider-failure-correlation
+- runtime-read-vision-context
+- runtime-mutation-timeout-readback
+- runtime-mutation-side-effect-failure
+- runtime-side-effect-no-precommit-news
+- runtime-side-effect-rollback-no-news
+- runtime-side-effect-after-commit-failure
+- runtime-side-effect-replay-after-process-crash
+- runtime-side-effect-duplicate-consumer-delivery
+- runtime-visibility-web-vision-parity
+out_of_scope:
+- runtime-mobile-presentation
+- runtime-watch-presentation
+- runtime-cross-client-contract
+- runtime-visibility-native-handoff
+- runtime-visibility-device-revoke
+- native source, device permission, offline storage, background execution, and device
+  reconnect proof
+- silently converting static or browser evidence into device evidence
+scenario_groups:
+  vision_runtime:
+    owner_plan: docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+    scenario_ids:
+    - runtime-vision-execution
+    - runtime-mutation-provider-failure-correlation
+    - runtime-read-vision-context
+    evidence_classes:
+    - browser_trace
+    - runtime_trace
+  reliability_runtime:
+    owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+    scenario_ids:
+    - runtime-mutation-timeout-readback
+    - runtime-mutation-side-effect-failure
+    - runtime-side-effect-no-precommit-news
+    - runtime-side-effect-rollback-no-news
+    - runtime-side-effect-after-commit-failure
+    - runtime-side-effect-replay-after-process-crash
+    - runtime-side-effect-duplicate-consumer-delivery
+    evidence_classes:
+    - browser_trace
+    - database_trace
+    - operator_trace
+  web_vision_parity:
+    owner_plan: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+    scenario_ids:
+    - runtime-visibility-web-vision-parity
+    evidence_classes:
+    - browser_trace
+completion_policy:
+  in_scope_denominator: 11
+  excluded_denominator: 5
+  promotion_rule: A row changes from pending only after its declared evidence, actions,
+    recovery, correlation, and authoritative readback are recorded in the runtime
+    matrix and evidence artifact.
+  blocker_rule: An external blocker may be recorded only with blocker_type, owner,
+    required_environment_or_evidence, next_action, and review_date; an unclassified
+    pending row is a closeout failure.
+  native_boundary: The five excluded rows remain pending and are reported separately
+    from this program's denominator.
+children:
+- docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+- docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+- docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+- docs/work/runtime-pending-web-operations-04-closeout.yaml
+principles:
+- Runtime matrix status remains authoritative; closeout artifacts only reconcile evidence.
+- Every scenario must prove its declared actions, recovery, and final authoritative
+  state.
+- Failure injection must be deterministic, local-only, bounded, and removed or explicitly
+  controlled after evidence capture.
+- Provider failure, database/outbox failure, and process-crash evidence are separate
+  evidence classes.
+- Native/device rows remain pending and are not counted in this program's completion
+  denominator.
+entry_gate:
+  required_state:
+  - previous_optimization_is_committed_and_pushed_at_4bcd499_or_newer
+  - worktree_is_clean_or_pre_existing_changes_are_explicitly_baselined
+  - runtime_matrix_reconciles_at_65_passed_and_16_pending
+  - exactly_11_in_scope_pending_rows_are_present
+  - exactly_5_native_device_rows_are_excluded
+  required_commands:
+  - make audit-runtime-acceptance
+  - make audit-capability-evidence
+  - make audit-truth-registry
+  - make audit-docs
+  - make audit-plan-coverage
+exit_gate:
+  required_conditions:
+  - all_11_in_scope_rows_have_fresh_declared_evidence_or_structured_external_blocker
+  - no_native_device_row_is_promoted_by_this_plan
+  - provider_failure_and_retry_outcomes_are_correlated_to_final_state
+  - precommit_rollback_and_after_commit_side_effect_boundaries_are_proven
+  - duplicate_delivery_and_process_replay_observations_are_explicit
+  - web_vision_visibility_fields_and_actions_reconcile_for_same_viewer_policy
+  - final_runtime_audit_and_closeout_report_pass
+success_measures:
+- pending runtime count decreases only for evidence-backed in-scope rows
+- deterministic failure branches produce correlation, recovery, and authoritative
+  readback evidence
+- native/device pending count remains 5 and explicitly deferred
+evidence:
+- verifiedAt: '2026-07-22T15:48:27Z'
+  revision: 4bcd4999f525c17e9fcaa5bdf60743e7c4afef21
+  children:
+  - docs/work/runtime-pending-web-operations-01-vision-runtime.yaml
+  - docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
+  - docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+  - docs/work/runtime-pending-web-operations-04-closeout.yaml

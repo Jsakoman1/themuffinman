@@ -1,0 +1,31 @@
+kind: system_map_hardening_closeout
+version: 1
+status: verified
+captured_at: '2026-07-22T18:20:00+02:00'
+master_plan: docs/work/system-map-hardening-master.yaml
+preflight: docs/system-map-hardening-preflight.md
+deepdive: docs/system-map-hardening-deepdive-2026-07-22.md
+registries:
+  - docs/system-map-module-registry.yaml
+  - docs/system-map-endpoint-evidence-registry.yaml
+  - docs/system-map-dependency-registry.yaml
+  - docs/system-map-data-ownership-registry.yaml
+  - docs/system-map-workflow-registry.yaml
+  - docs/system-map-runtime-boundary-registry.yaml
+  - docs/system-map-change-impact-registry.yaml
+coverage:
+  modules_mapped: 12
+  planned_or_deferred_boundaries: 4
+  dimensions: [topology, ownership, dependencies, schema, endpoints, capabilities, clients, workflows, permissions, tests, runtime_evidence, side_effects, scheduled_jobs, providers_storage, configuration, change_impact, drift_control]
+  status_rule: Mapped does not mean implemented, runtime-passed, or production-ready.
+known_boundaries:
+  - {id: endpoint_owner_review, source: docs/endpoint-reconciliation-review.yaml, status: 62_rows_review_required}
+  - {id: runtime_pending, source: docs/runtime-acceptance-matrix.yaml, status: 65_passed_16_pending}
+  - {id: native_device, source: docs/native-client-contract.yaml, status: contract_only}
+  - {id: production_operations, source: docs/security-operations-recovery-registry.yaml, status: external_evidence_required}
+  - {id: data_classification_and_restore, source: docs/system-map-data-ownership-registry.yaml, status: gap_recorded}
+operating_rule:
+  before_change: Use system-map-change-impact-registry.yaml and identify owner/dependencies/client/runtime edges.
+  after_change: Update canonical code/docs/registries, run work-start/work-verify, and preserve typed gaps.
+  drift_check: Re-run relevant truth, capability, runtime, docs, and plan audits.
+verification_commands: [make audit-runtime-acceptance, make audit-capability-evidence, make audit-truth-registry, make audit-docs, make audit-plan-coverage, git diff --check]

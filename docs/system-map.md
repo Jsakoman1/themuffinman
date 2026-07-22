@@ -80,6 +80,14 @@ services/ no implemented extracted service subtree at this baseline
 
 The application is a modular monolith, not a set of independently deployable services. The `services/` directory must not be interpreted as evidence that service extraction already exists.
 
+The complete module topology and current/planned state classification is indexed in [`system-map-module-registry.yaml`](system-map-module-registry.yaml). That registry is a navigation aid; capability status remains owned by `docs/capability-inventory.yaml`.
+
+The hardened endpoint evidence index is [`system-map-endpoint-evidence-registry.yaml`](system-map-endpoint-evidence-registry.yaml). It reconciles endpoint families with existing capability, client, authority, test, runtime, and review registries without replacing their status ownership.
+
+Shared-concept and cross-layer change impact is indexed in [`system-map-change-impact-registry.yaml`](system-map-change-impact-registry.yaml). It is advisory until a work plan records the review disposition.
+
+The current hardening closeout is [`system-map-hardening-closeout-2026-07-22.yaml`](system-map-hardening-closeout-2026-07-22.yaml). It records the mapped denominator and preserves endpoint-review, runtime, native/device, production-operation, and data-lifecycle gaps as separate boundaries.
+
 ## Product module map
 
 The machine-readable current inventory owns capability records. At the architectural level, the eight current modules are:
@@ -172,6 +180,11 @@ any pending runtime, native, or production-operation boundary.
 The next planned optimization program is [`work/system-map-next-optimization-master.yaml`](work/system-map-next-optimization-master.yaml), with preflight in [`system-map-next-optimization-preflight.md`](system-map-next-optimization-preflight.md). It covers dependency boundaries, endpoint review batches, canonical-source lint, change-impact closeout, evidence coverage, and configuration drift.
 
 The next optimization program is now executing serially through its verifier inventory. Completed slices include dependency boundaries, endpoint review batch design and four domain batches, canonical-source lint, advisory change-impact closeout, capability evidence coverage, and configuration/environment drift. Runtime remains 65 passed / 16 pending; these controls do not promote pending evidence.
+
+The next runtime closeout program is prepared in [`work/runtime-pending-web-operations-master.yaml`](work/runtime-pending-web-operations-master.yaml), with preflight in [`runtime-pending-web-operations-preflight.md`](runtime-pending-web-operations-preflight.md). It covers 11 Web/Vision, failure-injection, side-effect, replay, and Web–Vision parity rows; five native/device rows remain deferred.
+Round 1 execution has now verified the child control/analysis tasks and recorded fresh partial or structured-blocker artifacts. The matrix remains authoritative at 65 passed and 16 pending; no runtime row was promoted from source or aggregate evidence. The main open edges are the provider failure observability contract, transport/database harnesses, supervised process replay, and same-policy Vision parity fixtures.
+
+The next complete mapping hardening program is [`work/system-map-hardening-master.yaml`](work/system-map-hardening-master.yaml), with preflight in [`system-map-hardening-preflight.md`](system-map-hardening-preflight.md). It extends coverage across every current and planned module, data ownership, dependency direction, workflows, permissions, side-effects, scheduled jobs, clients, providers, storage, and change-impact boundaries. It strengthens the map as an operating tool without claiming that mapped capabilities or runtime gaps are complete.
 
 ## Operating rule for future analysis rounds
 
