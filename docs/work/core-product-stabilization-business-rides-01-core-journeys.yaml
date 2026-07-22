@@ -1,0 +1,101 @@
+kind: work
+version: 1
+id: core-product-stabilization-business-rides-01-core-journeys
+title: Define and reconcile the core product journeys
+status: verified
+baseline: a3d58c9
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+execution_inventory: docs/work/core-product-stabilization-business-rides-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/repair-and-stabilize-master.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/system-map-change-impact-registry.yaml
+  - docs/system-map-module-registry.yaml
+  baseline_only_surfaces:
+  - login
+  - standalone_chat
+  - standalone_work_core_lifecycle
+  - standalone_notification_delivery
+  residual_scope:
+  - business_and_rides_cross_module_journeys
+  - newly_observed_core_regressions
+  retest_triggers:
+  - changed_shared_code
+  - changed_permission_or_visibility_contract
+  - changed_route_or_action_target
+  - changed_notification_or_readback_contract
+  - new_cross_module_regression
+  non_duplication_rule: Prior verified evidence is reconciled as baseline and is not
+    copied as new acceptance.
+depends_on: []
+objective: Reconcile existing verified evidence and identify only residual cross-module
+  journey gaps affecting Business and Rides; do not repeat standalone login, Chat,
+  or Work audits without a retest trigger.
+source_reuse:
+- docs/repair-and-stabilize-closeout-2026-07-22.yaml
+- docs/runtime-acceptance-matrix.yaml
+- docs/system-map-change-impact-registry.yaml
+- docs/system-map-module-registry.yaml
+tasks:
+- id: define-core-journeys
+  title: Reconcile core journey matrix and residual defects
+  type: analysis
+  status: done
+  inventory_item: core-journeys
+  paths:
+  - docs/core-product-journey-matrix.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/core-product-journey-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-docs && git diff --check
+  started_at: '2026-07-22T16:59:40Z'
+  start_fingerprints:
+    docs/core-product-journey-matrix.yaml: de898a1ed13457158b18cd07334b604e64c0a165e345cf4605490de05ecf14b3
+    docs/implementation-backlog.md: 42698530631f30ce1f6d4c4613345d2ac661a6c47bedc738b4989e86bf888694
+exit_evidence: Core journeys have entry, authority, expected state, recovery, client
+  surfaces, runtime evidence, and typed residual gaps.
+scope_boundary:
+  baseline_only:
+  - login
+  - standalone_chat
+  - standalone_work_core_lifecycle
+  - standalone_notification_delivery
+  new_work_only:
+  - business_or_rides_integration
+  - changed_shared_contract
+  - changed_permission_visibility
+  - changed_route_action_target
+  - newly_observed_regression
+evidence:
+- task: define-core-journeys
+  command: make audit-runtime-acceptance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T16:59:58Z'
+  revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/core-product-journey-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T16:59:40Z'
+  changedAfterStart: &1
+  - docs/core-product-journey-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

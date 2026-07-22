@@ -1,0 +1,57 @@
+kind: business_hardening_matrix
+version: 1
+status: active_residual_hardening
+reviewed_on: 2026-07-22
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+child_plan: docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml
+baseline_sources:
+  - docs/work/main-surfaces-business-landing.yaml
+  - docs/work/ui-action-integrity-business-calendar.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/mutation-reliability-evidence.yaml
+scope_control:
+  baseline_only: [verified_business_landing, verified_business_calendar_actions, duplicate_booking_runtime]
+  residual_scope: [schedule_and_exception_correctness, timezone_handling, capacity_and_conflict, idempotency_replay, stale_state, owner_customer_action_parity, booking_audit_and_side_effects, fresh_runtime_evidence]
+  retest_triggers: [changed_shared_code, changed_permission_or_visibility_contract, changed_route_or_action_target, changed_notification_or_readback_contract, new_cross_module_regression]
+  non_duplication_rule: Existing Business landing, Calendar, and duplicate-booking evidence is baseline; only residual hardening and trigger-affected behavior is new work.
+dimensions:
+  - id: effective_schedule
+    authority: Business availability and exception services
+    expected: requested slot is evaluated against recurring availability and exceptions in the business timezone
+    evidence: [source_tests, runtime_read_business_booking]
+    status: residual_review_required
+  - id: timezone_and_snapshot
+    authority: booking creation service and persisted booking snapshots
+    expected: booking stores the effective business timezone and stable offering/duration snapshots
+    evidence: [apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java]
+    status: verified_source_contract
+  - id: capacity_and_conflict
+    authority: transactional booking validation and persistence constraints
+    expected: competing or overlapping requests cannot create an invalid capacity state
+    evidence: [source_tests]
+    status: residual_runtime_and_concurrency_gap
+  - id: idempotency_replay
+    authority: MutationIdempotencyService and booking use case
+    expected: same key and same logical payload returns the original booking, including when end time is derived from offering duration
+    evidence: [apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java, docs/runtime-evidence/browser-runtime-duplicate-booking-idempotency-2026-07-22.json]
+    status: verified_source_contract_and_runtime_baseline
+  - id: owner_customer_action_parity
+    authority: backend booking permission and action services
+    expected: owner and customer receive only actions allowed for their role and current booking state
+    evidence: [docs/work/ui-action-integrity-business-calendar.yaml]
+    status: residual_review_required
+  - id: stale_and_partial_recovery
+    authority: booking state transition service and readback surfaces
+    expected: stale, unavailable, duplicate, and partial-side-effect outcomes remain typed and recoverable
+    evidence: [docs/mutation-reliability-evidence.yaml]
+    status: residual_runtime_gap
+  - id: audit_and_side_effects
+    authority: booking domain events, activity, notification, and audit read models
+    expected: side effects reflect committed booking state and pending delivery is not represented as committed business state
+    evidence: [docs/runtime-acceptance-matrix.yaml]
+    status: residual_evidence_gap
+execution:
+  task: docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml#harden-business
+  repair_completed: idempotency replay now accepts an omitted end time when it deterministically matches the persisted duration snapshot
+  implementation_tests: apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  remaining_gate: Run full backend/frontend validation and preserve concurrency, failure-injection, and runtime boundaries.

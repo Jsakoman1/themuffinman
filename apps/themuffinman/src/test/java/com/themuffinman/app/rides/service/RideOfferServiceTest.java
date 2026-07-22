@@ -22,6 +22,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -92,6 +94,20 @@ class RideOfferServiceTest {
                 .departureAt(Instant.now().minusSeconds(60))
                 .seats(2)
                 .build(), driver));
+    }
+
+    @Test
+    void createOfferRejectsSeatCountOutsideBackendLimit() {
+        AppUser driver = user(1L, "driver");
+
+        assertThrows(ResponseStatusException.class, () -> rideOfferService.createOffer(RideOfferRequestDTO.builder()
+                .origin("Zug")
+                .destination("Zurich")
+                .departureAt(Instant.now().plusSeconds(3600))
+                .seats(9)
+                .build(), driver));
+
+        verify(rideOfferRepository, never()).save(any(RideOffer.class));
     }
 
     @Test

@@ -1,0 +1,46 @@
+version: 1
+id: plan-scope-control-standard
+title: Prevent duplicate verification and uncontrolled plan scope
+purpose: Ensure every new master or non-trivial child plan distinguishes already verified baseline behavior from residual work and genuinely new verification.
+canonical_owner: docs/implementation-control.md
+applies_to: [docs/master-plan.template.yaml, docs/work-plan.template.yaml, docs/work/*.yaml]
+required_scope_fields:
+  reused_verified_plans:
+    type: list
+    rule: Name prior verified plans, runtime artifacts, or audits reused as baseline evidence.
+  baseline_only_surfaces:
+    type: list
+    rule: Name surfaces that must not be fully re-tested unless a retest trigger is present.
+  residual_scope:
+    type: list
+    rule: Describe only the remaining defects, integration gaps, or evidence gaps.
+  retest_triggers:
+    type: list
+    rule: Define the concrete code, contract, route, permission, or regression changes that justify re-testing baseline behavior.
+  non_duplication_rule:
+    type: string
+    rule: State that prior verified evidence is not counted as new completion.
+required_preflight_checks:
+  - verify_baseline_commit
+  - reconcile_reused_verified_plans
+  - classify_each_scope_item_as_baseline_only_residual_or_new
+  - identify_changed_shared_surfaces_and_retest_triggers
+  - check_child_and_inventory_scope_consistency
+  - confirm_required_code_test_or_runtime_paths_for_new_work
+required_closeout_checks:
+  - compare_before_and_after_verified_evidence
+  - report_only_new_repairs_and_new_evidence
+  - preserve_existing_pending_and_external_boundaries
+  - run_work_verify_and_relevant_audits
+forbidden_patterns:
+  - broad_core_retest_without_trigger
+  - copying_historical_acceptance_as_new_evidence
+  - marking_a_capability_complete_because_it_is_mapped
+  - replacing_runtime_evidence_with_source_or_build_success
+  - using_a_new_registry_as_a_second_status_authority
+review_questions:
+  - What was already verified before this plan?
+  - What exactly remains broken, incomplete, or unproven?
+  - Which changed surface justifies each new test?
+  - Which existing evidence is reused rather than repeated?
+  - What will the closeout count as genuinely new?

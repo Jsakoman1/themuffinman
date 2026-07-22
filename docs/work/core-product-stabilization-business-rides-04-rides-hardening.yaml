@@ -1,0 +1,113 @@
+kind: work
+version: 1
+id: core-product-stabilization-business-rides-04-rides-hardening
+title: Harden Rides lifecycle, privacy, capacity, and recovery
+status: verified
+baseline: a3d58c9
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+execution_inventory: docs/work/core-product-stabilization-business-rides-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-action-integrity-rides-social.yaml
+  - docs/work/rides-production-completion-master.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  baseline_only_surfaces:
+  - verified_rides_ui_actions
+  - verified_rides_production_completion
+  residual_scope:
+  - circle_visibility_and_privacy
+  - capacity_concurrency
+  - join_leave_and_lifecycle
+  - commute_preference_separation
+  - stale_recovery
+  - owner_participant_action_parity
+  - fresh_rides_runtime_evidence
+  retest_triggers:
+  - changed_shared_code
+  - changed_permission_or_visibility_contract
+  - changed_route_or_action_target
+  - changed_notification_or_readback_contract
+  - new_cross_module_regression
+  non_duplication_rule: Verified Rides UI and production evidence is baseline; only
+    residual hardening and trigger-affected behavior is new work.
+depends_on:
+- core-product-stabilization-business-rides-01-core-journeys
+- core-product-stabilization-business-rides-02-core-reliability
+objective: Close residual Rides gaps across circle scope, participant privacy, capacity
+  concurrency, lifecycle transitions, join/leave, commute preferences, stale recovery,
+  and Web/Vision evidence.
+source_reuse:
+- docs/work/rides-production-completion-master.yaml
+- docs/work/ui-action-integrity-rides-social.yaml
+- docs/work/vision-for-web-remaining-things-rides.yaml
+- docs/runtime-acceptance-matrix.yaml
+tasks:
+- id: harden-rides
+  title: Repair and verify Rides privacy, lifecycle, and capacity boundaries
+  type: implementation
+  status: done
+  inventory_item: rides-hardening
+  paths:
+  - docs/rides-hardening-matrix.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  required_paths:
+  - docs/rides-hardening-matrix.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-docs && git diff --check
+  started_at: '2026-07-22T17:08:18Z'
+  start_fingerprints:
+    docs/rides-hardening-matrix.yaml: __missing__
+    docs/implementation-backlog.md: 1a86aa96c53f97b16d292eb8a272f6003e1f46ef7313db695716f15ca6ead3b2
+    apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java: 58228885d9148631289d0963563eccddcba4322500d1f7e887135dd217883905
+exit_evidence: Rides matrix covers privacy, circle consent, capacity conflict, lifecycle
+  state, owner/participant parity, commute preferences, and runtime evidence or typed
+  blockers.
+evidence:
+- task: harden-rides
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T17:10:47Z'
+  revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  - docs/implementation-backlog.md
+  - docs/rides-hardening-matrix.yaml
+  output: |+
+    dist/assets/SurfaceHeader-DY2v7BOX.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-CdFd3t6f.js           20.82 kB │ gzip:   6.59 kB
+    dist/assets/VisionSurfaceModernView-Cu3dJXi4.js               22.56 kB │ gzip:   7.01 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-Cz6lgPs-.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DjCK4jhN.js                                 52.32 kB │ gzip:  13.34 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 561ms
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T17:08:18Z'
+  changedAfterStart: &1
+  - docs/rides-hardening-matrix.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

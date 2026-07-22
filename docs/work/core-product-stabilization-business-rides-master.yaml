@@ -1,0 +1,97 @@
+kind: master
+version: 1
+id: core-product-stabilization-business-rides-master
+title: Stabilize core product journeys and harden Business and Rides
+status: verified_with_pending_gaps
+readiness: verified_with_explicit_pending_gaps
+baseline: a3d58c9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/core-product-stabilization-business-rides-master-execution-inventory.yaml
+preflight_source: docs/core-product-stabilization-business-rides-preflight.md
+system_map_source: docs/system-map.md
+objective: Make the existing core product journeys dependable end to end, then harden Business booking and Rides coordination across domain rules, privacy, concurrency, clients, runtime evidence, and release regression gates.
+deepdive_source: docs/core-product-stabilization-business-rides-deepdive-2026-07-22.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/repair-and-stabilize-master.yaml, docs/work/main-surfaces-business-landing.yaml, docs/work/ui-action-integrity-business-calendar.yaml, docs/work/ui-action-integrity-rides-social.yaml, docs/work/rides-production-completion-master.yaml]
+  baseline_only_surfaces: [identity_and_sessions, chat_and_realtime, work_marketplace_core_lifecycle, notifications_and_activity_core_delivery]
+  residual_scope: [core_cross_module_integration, business_booking_correctness, rides_coordination_correctness, fresh_runtime_and_release_evidence]
+  retest_triggers: [changed_shared_code, changed_permission_or_visibility_contract, changed_route_or_action_target, changed_notification_or_readback_contract, new_cross_module_regression]
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted as new completion.
+priority: P0_maintenance_before_unrelated_feature_expansion
+scope:
+  core_product: [identity_and_sessions, app_shell_and_navigation, work_marketplace, chat_and_realtime, notifications_and_activity, circles_visibility_and_consent]
+  business: [business_profile, offerings, availability, exceptions, booking_creation, booking_state_transitions, owner_customer_actions, calendar_focus, audit_and_side_effects]
+  rides: [ride_creation, discovery, join_leave, capacity, lifecycle_transitions, circle_visibility, privacy, commute_preferences, owner_participant_actions]
+  cross_cutting: [backend_authority, idempotency, stale_state, error_recovery, readback, runtime_evidence, regression_release_gate]
+baseline_only_surfaces:
+  - identity_and_sessions
+  - chat_and_realtime
+  - work_marketplace_core_lifecycle
+  - notifications_and_activity_core_delivery
+baseline_only_rule: These surfaces are reused from existing verified evidence and are not re-tested as full standalone features unless a current change touches them or a Business/Rides integration depends on them.
+retest_triggers: [changed_shared_code, changed_permission_or_visibility_contract, changed_route_or_action_target, changed_notification_or_readback_contract, new_cross_module_regression]
+reused_verified_plans:
+  - docs/work/repair-and-stabilize-master.yaml
+  - docs/work/main-surfaces-business-landing.yaml
+  - docs/work/ui-action-integrity-business-calendar.yaml
+  - docs/work/ui-action-integrity-rides-social.yaml
+  - docs/work/rides-production-completion-master.yaml
+reuse_rule: Reused plans are baseline evidence; this master addresses residual integration, hardening, and release gaps only.
+non_duplication_controls:
+  - Existing verified plan evidence is reused but not re-marked as new completion.
+  - New matrices must record residual gaps and cross-surface integration, not copy historical acceptance text.
+  - Capability status remains owned by docs/capability-inventory.yaml.
+  - Runtime status remains owned by docs/runtime-acceptance-matrix.yaml.
+non_goals:
+  - unrelated new product features
+  - native/device implementation
+  - universal outbox construction without a module-specific durability requirement
+  - replacing backend authority with frontend or Vision logic
+children:
+  - docs/work/core-product-stabilization-business-rides-01-core-journeys.yaml
+  - docs/work/core-product-stabilization-business-rides-02-core-reliability.yaml
+  - docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml
+  - docs/work/core-product-stabilization-business-rides-04-rides-hardening.yaml
+  - docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml
+  - docs/work/core-product-stabilization-business-rides-06-closeout.yaml
+entry_gate:
+  required_sources: [docs/system-map.md, docs/capability-inventory.yaml, docs/runtime-acceptance-matrix.yaml, docs/implementation-backlog.md, docs/repair-and-stabilize-closeout-2026-07-22.yaml]
+  required_commands: [make audit-runtime-acceptance, make audit-capability-evidence, make audit-truth-registry, make audit-docs]
+  required_state: [verified_baseline_plans_reconciled, current_worktree_baseline_is_a3d58c9_or_newer, business_and_rides_residual_gaps_are_explicit]
+  preflight_artifact: docs/core-product-stabilization-business-rides-deepdive-2026-07-22.md
+quality_gates:
+  - every_repair_has_source_test_or_runtime_evidence_impact
+  - business_and_rides_mutations_preserve_backend_authority
+  - concurrency_and_privacy_claims_require_matching_evidence_class
+  - implementation_tasks_must_change_declared_code_or_test_paths
+  - runtime_task_must_change_declared_runtime_evidence_path
+  - unresolved_external_or_native_boundaries_keep_owner_next_action_and_review_date
+sequence:
+  - {order: 1, child: core-journeys, reason: Reconcile verified baseline evidence and define only residual cross-module acceptance gaps; do not repeat standalone feature audits}
+  - {order: 2, child: core-reliability, depends_on: [core-journeys], reason: Core authority, recovery, and cross-module state must be stable first}
+  - {order: 3, child: business-hardening, depends_on: [core-journeys, core-reliability], reason: Booking depends on identity, scheduling, permissions, and reliable readback}
+  - {order: 4, child: rides-hardening, depends_on: [core-journeys, core-reliability], reason: Rides depends on circles, privacy, capacity, and lifecycle recovery}
+  - {order: 5, child: runtime-regression-release, depends_on: [core-reliability, business-hardening, rides-hardening], reason: Evidence must cover repaired sibling surfaces and release boundaries}
+  - {order: 6, child: closeout, depends_on: [core-journeys, core-reliability, business-hardening, rides-hardening, runtime-regression-release], reason: Closeout only after all residual scopes are classified}
+completion_policy:
+  repair_rule: Existing behavior must be repaired or explicitly classified as external/deferred; no silent scope reduction.
+  status_rule: Source tests, runtime evidence, capability status, and work-plan verification remain separate.
+  business_rule: Booking correctness includes availability, timezone, capacity, ownership, stale state, idempotency, readback, and owner/customer action parity.
+  rides_rule: Ride correctness includes circle scope, participant privacy, capacity concurrency, join/leave/lifecycle transitions, stale state, and recovery.
+  evidence_rule: A normal success trace does not prove failure, concurrency, privacy, or replay behavior.
+exit_gate:
+  required_conditions:
+    - core_journeys_have_one_authoritative_acceptance_matrix
+    - auth_shell_work_chat_notifications_and_visibility_regressions_are_reconciled
+    - business_booking_and_schedule_boundaries_have_tests_and_runtime_evidence_or_typed_gaps
+    - rides_capacity_privacy_and_lifecycle_boundaries_have_tests_and_runtime_evidence_or_typed_gaps
+    - all repaired defects_have_regression_scenarios
+    - release_and_runtime_audits_pass
+    - unavailable_native_provider_database_and_production_boundaries_remain_explicit
+success_measures:
+  - A user can complete the affected core product integrations without dead routes, stale actions, or unexplained blank states.
+  - Business booking behavior is authoritative, timezone-aware, conflict-safe, and recoverable.
+  - Rides are privacy-safe, circle-scoped, capacity-safe, and recoverable.
+  - Future changes have a clear regression and evidence gate.

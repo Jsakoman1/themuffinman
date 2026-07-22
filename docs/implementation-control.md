@@ -7,6 +7,15 @@ Optimization closeout: `docs/system-map-optimization-closeout-2026-07-22.yaml`.
 
 This is the single active workflow for implementation work.
 
+Every new master and non-trivial work plan must apply
+`docs/plan-scope-control-standard.yaml`. Before goal pursuing, the plan must state
+which verified plans and surfaces are baseline-only, what residual scope remains,
+which concrete changes trigger a retest, and how duplicate verification will be
+avoided. A broad feature or module name is not sufficient residual scope.
+
+At closeout, report only new repairs and new evidence. Preserve prior verified
+evidence and existing pending/external boundaries instead of counting them again.
+
 Every non-trivial change has one YAML work plan under `docs/work/`. It contains the change identity, Git baseline,
 ordered tasks, expected paths, validation commands, and verifier-generated evidence.
 

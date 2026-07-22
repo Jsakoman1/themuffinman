@@ -1,0 +1,73 @@
+kind: execution_inventory
+version: 1
+id: core-product-stabilization-business-rides-master-execution-inventory
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+status: verified_with_pending_gaps
+serial_order:
+- core-journeys
+- core-reliability
+- business-hardening
+- rides-hardening
+- runtime-regression-release
+- closeout
+items:
+- id: core-journeys
+  plan: docs/work/core-product-stabilization-business-rides-01-core-journeys.yaml
+  task: define-core-journeys
+  status: verified
+  started_at: '2026-07-22T16:59:40Z'
+  verified_at: '2026-07-22T17:00:03Z'
+  evidence:
+    plan: docs/work/core-product-stabilization-business-rides-01-core-journeys.yaml
+    task: define-core-journeys
+    revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+- id: core-reliability
+  plan: docs/work/core-product-stabilization-business-rides-02-core-reliability.yaml
+  task: stabilize-core-reliability
+  status: verified
+  started_at: '2026-07-22T17:01:54Z'
+  verified_at: '2026-07-22T17:04:31Z'
+  evidence:
+    plan: docs/work/core-product-stabilization-business-rides-02-core-reliability.yaml
+    task: stabilize-core-reliability
+    revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+- id: business-hardening
+  plan: docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml
+  task: harden-business
+  status: verified
+  started_at: '2026-07-22T17:04:45Z'
+  verified_at: '2026-07-22T17:08:05Z'
+  evidence:
+    plan: docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml
+    task: harden-business
+    revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+- id: rides-hardening
+  plan: docs/work/core-product-stabilization-business-rides-04-rides-hardening.yaml
+  task: harden-rides
+  status: verified
+  started_at: '2026-07-22T17:08:18Z'
+  verified_at: '2026-07-22T17:11:19Z'
+  evidence:
+    plan: docs/work/core-product-stabilization-business-rides-04-rides-hardening.yaml
+    task: harden-rides
+    revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+- id: runtime-regression-release
+  plan: docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml
+  task: run-regression-release-gate
+  status: verified
+  started_at: '2026-07-22T17:11:38Z'
+  verified_at: '2026-07-22T17:15:19Z'
+  evidence:
+    plan: docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml
+    task: run-regression-release-gate
+    revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+- id: closeout
+  plan: docs/work/core-product-stabilization-business-rides-06-closeout.yaml
+  task: publish-stabilization-closeout
+  status: verified
+  started_at: '2026-07-22T17:15:35Z'
+  verified_at: '2026-07-22T17:16:26Z'
+  evidence:
+    plan: docs/work/core-product-stabilization-business-rides-06-closeout.yaml
+    task: publish-stabilization-closeout
+    revision: a3d58c9ce10406f4ab5cd283bb5155f191697147

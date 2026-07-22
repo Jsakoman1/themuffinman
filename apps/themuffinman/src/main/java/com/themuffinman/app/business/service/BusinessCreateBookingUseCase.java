@@ -149,9 +149,13 @@ public class BusinessCreateBookingUseCase {
     }
 
     private void validateSamePayload(BusinessBooking existing, Long offeringId, java.time.Instant startsAt, java.time.Instant endsAt) {
+        java.time.Instant effectiveEndsAt = endsAt;
+        if (effectiveEndsAt == null && startsAt != null && existing.getDurationSnapshotMinutes() != null) {
+            effectiveEndsAt = startsAt.plus(java.time.Duration.ofMinutes(existing.getDurationSnapshotMinutes()));
+        }
         if (!Objects.equals(existing.getBusinessOffering().getId(), offeringId)
                 || !Objects.equals(existing.getStartsAt(), startsAt)
-                || !Objects.equals(existing.getEndsAt(), endsAt)) {
+                || !Objects.equals(existing.getEndsAt(), effectiveEndsAt)) {
             throw ServiceErrors.conflict("Idempotency key is already used for a different booking request");
         }
     }

@@ -5,6 +5,13 @@ title: Replace me
 status: draft
 baseline: replace-with-git-revision
 strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces: []
+  residual_scope: []
+  retest_triggers: []
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted as new completion.
 # For non-trivial work, record the advisory System Map report consumed during closeout.
 # This is review evidence only and never replaces verifier status.
 change_impact_review:

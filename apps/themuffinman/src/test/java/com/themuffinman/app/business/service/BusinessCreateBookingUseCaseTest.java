@@ -122,6 +122,36 @@ class BusinessCreateBookingUseCaseTest {
         verify(businessBookingRepository, never()).save(any());
     }
 
+    @Test
+    void customerIdempotencyReplayCanOmitDerivedEndTime() {
+        AppUser owner = user(1L, "owner");
+        AppUser customer = user(2L, "customer");
+        BusinessOffering offering = offering(owner, BusinessOfferingBookingMode.REQUEST);
+        BusinessBooking existing = new BusinessBooking();
+        existing.setId(10L);
+        existing.setBusinessProfile(offering.getBusinessProfile());
+        existing.setBusinessOffering(offering);
+        existing.setCustomerUser(customer);
+        existing.setStartsAt(Instant.parse("2026-07-09T09:00:00Z"));
+        existing.setEndsAt(Instant.parse("2026-07-09T10:00:00Z"));
+        existing.setDurationSnapshotMinutes(60);
+        existing.setIdempotencyKey("idem-derived-end");
+
+        when(businessBookingRepository.findByCustomerUserIdAndIdempotencyKey(customer.getId(), "idem-derived-end"))
+                .thenReturn(Optional.of(existing));
+        when(businessBookingPresentationService.enrichForCustomer(any(), any(), any()))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        var result = businessCreateBookingUseCase.createCustomerBooking(
+                request(offering.getId(), existing.getStartsAt(), null, "idem-derived-end"),
+                customer
+        );
+
+        assertEquals(10L, result.getId());
+        verify(businessBookingPrimitiveService, never()).lockOffering(any());
+        verify(businessBookingRepository, never()).save(any());
+    }
+
     private BusinessBookingRequestDTO request(Long offeringId, Instant startsAt, Instant endsAt, String idempotencyKey) {
         BusinessBookingRequestDTO dto = new BusinessBookingRequestDTO();
         dto.setBusinessOfferingId(offeringId);

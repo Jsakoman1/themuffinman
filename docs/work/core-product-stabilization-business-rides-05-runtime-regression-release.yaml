@@ -1,0 +1,118 @@
+kind: work
+version: 1
+id: core-product-stabilization-business-rides-05-runtime-regression-release
+title: Run runtime, regression, and release gates for stabilized core flows
+status: verified
+baseline: a3d58c9
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+execution_inventory: docs/work/core-product-stabilization-business-rides-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/security-operations-recovery-registry.yaml
+  baseline_only_surfaces:
+  - existing_runtime_evidence_rows_not_touched_by_this_program
+  residual_scope:
+  - fresh_core_runtime_evidence
+  - fresh_business_runtime_evidence
+  - fresh_rides_runtime_evidence
+  - regression_catalog_reconciliation
+  - release_gate_reconciliation
+  retest_triggers:
+  - changed_shared_code
+  - changed_permission_or_visibility_contract
+  - changed_route_or_action_target
+  - changed_notification_or_readback_contract
+  - new_cross_module_regression
+  non_duplication_rule: Existing runtime and regression evidence remains baseline;
+    only fresh or trigger-required evidence is new.
+depends_on:
+- core-product-stabilization-business-rides-02-core-reliability
+- core-product-stabilization-business-rides-03-business-hardening
+- core-product-stabilization-business-rides-04-rides-hardening
+objective: Capture fresh browser/runtime evidence for core, Business, and Rides journeys
+  and enforce the regression/release gate without promoting unsupported external or
+  native claims.
+source_reuse:
+- docs/runtime-acceptance-matrix.yaml
+- docs/regression-scenario-catalog.yaml
+- docs/capability-evidence-registry.yaml
+- docs/security-operations-recovery-registry.yaml
+tasks:
+- id: run-regression-release-gate
+  title: Execute fresh runtime evidence and final regression checks
+  type: verification
+  status: done
+  inventory_item: runtime-regression-release
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-evidence
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/regression-scenario-catalog.yaml
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-capability-evidence &&
+    make audit-truth-registry && make audit-docs && git diff --check
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json
+  started_at: '2026-07-22T17:11:38Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 6c4a5902ae78c42cd738fb422f5e1f277ff80b6ea3dde8c9bc4980b9a45a57a1
+    docs/capability-evidence-registry.yaml: a86f432cb7c7a435cf67bf0dbdb8149eefe9b80a32c2fd633d84a3ed0eefec83
+    docs/regression-scenario-catalog.yaml: 00207d986315a27b6152e190cb8838613fff15de613442706fa27b60737b63f5
+exit_evidence: Fresh runtime evidence, regression catalog updates, and release checks
+  reconcile all in-scope core, Business, and Rides decisions.
+evidence:
+- task: run-regression-release-gate
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-capability-evidence &&
+    make audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T17:14:46Z'
+  revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  output: |2+
+
+    ✓ built in 547ms
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T17:11:38Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json

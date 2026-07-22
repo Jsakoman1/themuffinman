@@ -1,0 +1,168 @@
+kind: core_product_journey_matrix
+version: 1
+status: residual_reconciliation_baseline
+reviewed_on: 2026-07-22
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+source_references:
+  - docs/repair-and-stabilize-closeout-2026-07-22.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-inventory.yaml
+  - docs/system-map.md
+  - docs/system-map-change-impact-registry.yaml
+  - docs/system-map-module-registry.yaml
+status_authority: this_matrix_for_core_journey_denominator_only
+reconciliation_execution:
+  task: docs/work/core-product-stabilization-business-rides-01-core-journeys.yaml#define-core-journeys
+  result: Core denominator reconciled against verified baseline plans; only residual integration and trigger-affected gaps remain in scope.
+  verified_baseline_count: 4
+  residual_journey_count: 5
+  implementation_children_unblocked: false
+  next_gate: Complete residual review and verify this child before starting core reliability implementation.
+scope_rule: Standalone verified evidence is baseline; residual work covers cross-module integration, trigger-affected behavior, and newly observed regressions.
+baseline_only_surfaces:
+  - login_and_session
+  - standalone_chat_and_reconnect
+  - standalone_work_core_lifecycle
+  - standalone_notification_delivery
+retest_triggers:
+  - changed_shared_code
+  - changed_permission_or_visibility_contract
+  - changed_route_or_action_target
+  - changed_notification_or_readback_contract
+  - new_cross_module_regression
+journeys:
+  - id: authenticated_product_entry
+    classification: baseline_only
+    entry: User registers or logs in and reaches an authenticated product route.
+    authority: identity backend session and authenticated route guards
+    expected_state: authenticated user and current-user context are available to the app shell
+    recovery: logout and relogin remain available; route/API failures must be surfaced rather than treated as anonymous success
+    client_surfaces: [web_login, web_register, authenticated_app_shell]
+    evidence:
+      runtime: docs/runtime-evidence/platform-authentication-login-logout-2026-07-19.json
+      acceptance: docs/runtime-acceptance-matrix.yaml#runtime-platform-authentication
+    status: verified_baseline
+    retest_required: false
+
+  - id: shell_to_module_discovery
+    classification: residual
+    entry: Authenticated user opens the shared shell and selects Work, Business, Rides, Chat, or Activity.
+    authority: frontend route ownership backed by authenticated module read models
+    expected_state: selected module opens the intended route, loads its initial state, and preserves viewer scope
+    recovery: route or initial-read failure produces an actionable error and allows retry or return to shell
+    client_surfaces: [web_app_shell, web_module_routes, vision_handoffs_where_supported]
+    evidence:
+      baseline: docs/runtime-acceptance-matrix.yaml#runtime-authenticated-web-route-matrix
+      architecture: docs/system-map.md
+    status: residual_integration_gap
+    residual_questions:
+      - Are all Business and Rides shell actions mapped to the intended backend route and read model?
+      - Are empty, unauthorized, and failed initial reads distinguishable from a blank state?
+
+  - id: discovery_to_authoritative_domain_action
+    classification: residual
+    entry: User discovers a domain item and starts an action such as booking, joining a ride, or opening a conversation.
+    authority: backend service authorization, validation, and state transition
+    expected_state: action target and allowed action set are derived from current backend state and viewer permissions
+    recovery: stale, duplicate, unauthorized, unavailable, and validation failures return typed outcomes and preserve authoritative state
+    client_surfaces: [web_work, web_business, web_rides, web_chat, vision_discovery]
+    evidence:
+      stale_work: docs/runtime-evidence/browser-runtime-stale-quest-update-repaired-2026-07-22.json
+      duplicate_booking: docs/runtime-evidence/browser-runtime-duplicate-booking-idempotency-2026-07-22.json
+      duplicate_ride_join: docs/runtime-evidence/browser-runtime-duplicate-ride-join-idempotency-2026-07-22.json
+    status: partial_baseline_with_business_rides_residuals
+    residual_questions:
+      - Are Business and Rides action contracts identical across list, detail, calendar, and participant surfaces?
+      - Do all changed shared mutation paths preserve correlation, idempotency, and typed stale handling?
+
+  - id: authoritative_readback
+    classification: residual
+    entry: After a mutation, the user or another viewer reloads or reads the affected domain state.
+    authority: persisted backend state and service-level DTO assembly
+    expected_state: readback reflects the committed state, viewer permissions, and allowed next actions
+    recovery: uncertain transport outcome requires readback before retry; partial failure remains distinguishable
+    client_surfaces: [web_detail, web_calendar, web_activity, web_notifications, web_chat, vision_readback]
+    evidence:
+      reliability: docs/mutation-reliability-evidence.yaml
+      runtime_matrix: docs/runtime-acceptance-matrix.yaml#runtime-mutation-timeout-readback
+    status: residual_reliability_gap
+    residual_questions:
+      - Which Business and Rides mutations lack a documented authoritative readback path?
+      - Which side effects are committed, pending, failed, or replayable after an uncertain result?
+
+  - id: mutation_context_and_failure_cleanup
+    classification: residual_core_reliability
+    entry: A shared mutation enters the backend with request, correlation, operation, and optional idempotency context.
+    authority: MutationRequestContextFilter and backend mutation services
+    expected_state: Safe identifiers are available to the mutation and error response, while request context and MDC are cleared after completion or failure.
+    recovery: A failed mutation does not leak context into a later request on the same worker thread.
+    client_surfaces: [web_mutations, vision_mutations, future_api_clients]
+    evidence:
+      test: apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java
+      registry: docs/mutation-reliability-evidence.yaml#transport_context_cleanup_on_failure
+    status: verified_source_contract
+    retest_required: false
+    implementation_note: Core reliability slice verified request metadata propagation and cleanup without promoting pending runtime failure or replay claims.
+
+  - id: visibility_and_consent_boundary
+    classification: baseline_only_with_trigger_retest
+    entry: A different viewer or client reads the same resource under a different circle, visibility, or consent context.
+    authority: backend permission, circle membership, and consent policies
+    expected_state: fields and actions are redacted or allowed consistently with viewer scope
+    recovery: denied or revoked access is rendered as a safe boundary and does not leak stale data
+    client_surfaces: [web_profile, web_business, web_rides, web_work, vision_where_supported]
+    evidence:
+      web_visibility: docs/runtime-evidence/browser-runtime-visibility-cross-viewer-redaction-2026-07-22.json
+      web_vision_boundary: docs/runtime-evidence/browser-runtime-web-vision-parity-boundary-2026-07-22.yaml
+    status: verified_baseline_with_explicit_vision_gap
+    retest_required: false
+    retest_condition: Reopen only when shared permission/visibility code, Business/Rides visibility, or a new regression changes the contract.
+
+  - id: activity_and_side_effect_feedback
+    classification: baseline_only_with_trigger_retest
+    entry: A committed domain action produces notification, activity, or other user-facing feedback.
+    authority: committed domain state plus declared side-effect delivery policy
+    expected_state: feedback is linked to the committed action and read state; no pre-commit success is presented
+    recovery: delivery failure, replay, duplicate delivery, and reconnect behavior remain typed by evidence class
+    client_surfaces: [web_activity, web_notifications, web_chat_realtime]
+    evidence:
+      delivery: docs/runtime-evidence/browser-runtime-notification-receive-2026-07-22.json
+      pending_reliability: docs/runtime-evidence/browser-runtime-reliability-control-boundary-2026-07-22.yaml
+    status: verified_delivery_with_pending_failure_replay_boundaries
+    retest_required: false
+    retest_condition: Reopen when notification/readback contracts or shared side-effect code changes.
+
+  - id: business_booking_loop
+    classification: residual_business
+    entry: Viewer selects an offering, chooses effective availability, creates a booking, and opens the booking/calendar readback.
+    authority: Business booking service, effective schedule/exception rules, capacity, idempotency, and owner/customer permissions
+    expected_state: one valid booking exists with correct timezone, status, participants, allowed actions, audit, and side-effect classification
+    recovery: duplicate, stale, unavailable, capacity conflict, and partial side-effect outcomes are typed and recoverable
+    client_surfaces: [web_business_landing, web_business_calendar, web_business_booking_detail, vision_if_exposed]
+    evidence:
+      baseline_landing: docs/work/main-surfaces-business-landing.yaml
+      baseline_calendar: docs/work/ui-action-integrity-business-calendar.yaml
+      duplicate_runtime: docs/runtime-evidence/browser-runtime-duplicate-booking-idempotency-2026-07-22.json
+    status: baseline_partial_residual_hardening_required
+
+  - id: rides_coordination_loop
+    classification: residual_rides
+    entry: Viewer discovers a circle-scoped ride, joins or leaves, and sees authoritative capacity and lifecycle readback.
+    authority: Rides service, circle/privacy policy, capacity locking, idempotency, and lifecycle transitions
+    expected_state: membership, capacity, owner/participant actions, privacy, and ride status agree across affected surfaces
+    recovery: duplicate join, competing capacity, stale leave/join, cancellation, and lifecycle errors are typed and recoverable
+    client_surfaces: [web_rides_discovery, web_ride_detail, web_rides_social_surfaces, vision_if_exposed]
+    evidence:
+      baseline_ui: docs/work/ui-action-integrity-rides-social.yaml
+      baseline_completion: docs/work/rides-production-completion-master.yaml
+      duplicate_runtime: docs/runtime-evidence/browser-runtime-duplicate-ride-join-idempotency-2026-07-22.json
+    status: baseline_partial_residual_hardening_required
+
+residual_scope:
+  - core shell-to-module and cross-module action/readback reconciliation
+  - shared mutation reliability and stale/error recovery where not already verified
+  - Business schedule, timezone, capacity, booking transition, permission, and side-effect hardening
+  - Rides privacy, capacity concurrency, join/leave, lifecycle, and action parity hardening
+  - fresh runtime evidence for repaired or trigger-affected paths
+  - explicit typed gaps for provider, database-failure injection, process replay, native/device, and production-scale boundaries
+completion_rule: A journey is complete only when its declared authority, expected state, recovery behavior, client surface, and evidence class are reconciled; baseline-only rows are not re-counted as new completion.

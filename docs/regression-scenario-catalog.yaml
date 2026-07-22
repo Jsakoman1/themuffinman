@@ -181,3 +181,21 @@ regression_scenarios:
       - docs/runtime-evidence/browser-runtime-stale-quest-update-repaired-2026-07-22.json
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=WorkmarketUpdateQuestUseCaseTest
+  - id: business-booking-derived-end-idempotency
+    domain: business
+    risk: high
+    scenario: Replaying a customer booking idempotency key without an explicit end time must return the original booking when the derived duration matches the persisted snapshot.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+      - docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=BusinessCreateBookingUseCaseTest
+  - id: rides-backend-seat-limit
+    domain: rides
+    risk: medium
+    scenario: Ride creation rejects seat counts outside the backend-supported 1..8 range for controller and non-controller callers.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+      - docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=RideOfferServiceTest

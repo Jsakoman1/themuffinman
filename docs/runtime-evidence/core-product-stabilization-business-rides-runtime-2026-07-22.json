@@ -1,0 +1,55 @@
+{
+  "kind": "runtime_http_smoke_trace",
+  "capturedAt": "2026-07-22T17:13:22Z",
+  "plan": "docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml",
+  "environment": {
+    "frontend": "Vite local dev server on http://localhost:5173",
+    "backend": "Spring Boot dev profile on http://localhost:8080",
+    "database": "local PostgreSQL side_quest_db",
+    "migrationVersion": 81
+  },
+  "evidenceClass": "runtime_trace",
+  "scope": "Fresh authenticated HTTP smoke evidence for auth readback, backend-prepared workspace navigation, Business directory, and Rides discovery.",
+  "observations": [
+    {
+      "id": "authenticated_registration",
+      "request": "POST /auth/register",
+      "status": 200,
+      "observed": ["user_created", "token_returned", "request_id_header", "correlation_id_header", "runtime_query_count", "runtime_duration"]
+    },
+    {
+      "id": "authenticated_me_readback",
+      "request": "GET /auth/me",
+      "status": 200,
+      "observed": ["same_user_id", "same_username", "token_not_reissued", "correlation_id_header"]
+    },
+    {
+      "id": "workspace_navigation",
+      "request": "GET /workspace/navigation",
+      "status": 200,
+      "observed": ["contractVersion_workspace-navigation-v1", "Work", "Chat", "Business", "Rides", "backend_prepared_routes", "runtime_query_count", "runtime_duration"]
+    },
+    {
+      "id": "business_directory",
+      "request": "GET /business/profiles",
+      "status": 200,
+      "observed": ["active_business_directory_item", "booking_enabled_flag", "business_timezone", "runtime_query_count", "runtime_duration"]
+    },
+    {
+      "id": "rides_discovery",
+      "request": "GET /rides/offers",
+      "status": 200,
+      "observed": ["active_open_ride", "allowed_actions_from_backend", "circle_visibility_fields", "capacity_fields", "runtime_query_count", "runtime_duration"]
+    }
+  ],
+  "not_proven": [
+    "browser_rendering_and_click_path",
+    "booking_creation_and_conflict_runtime",
+    "ride_join_concurrency_runtime",
+    "provider_or_database_failure_injection",
+    "process_crash_replay",
+    "native_or_device_behavior",
+    "production_scale_behavior"
+  ],
+  "promotion": "partial_runtime_evidence_only; do not alter canonical runtime acceptance counts or promote pending scenarios"
+}

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.slf4j.MDC;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -48,5 +49,32 @@ class MutationRequestContextFilterTest {
         assertThat(response.getHeader(MutationRequestContext.REQUEST_ID_HEADER)).isEqualTo("client.request-1");
         assertThat(response.getHeader(MutationRequestContext.CORRELATION_ID_HEADER)).isEqualTo("trace:1");
         assertThat(MutationRequestContext.current()).isEmpty();
+    }
+
+    @Test
+    void clearsRequestContextAndMdcWhenTheMutationFails() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/bookings");
+        request.addHeader(MutationRequestContext.CORRELATION_ID_HEADER, "booking.trace-1");
+        request.addHeader(MutationRequestContext.IDEMPOTENCY_KEY_HEADER, "booking-key-1");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        FilterChain chain = (currentRequest, currentResponse) -> {
+            assertThat(MutationRequestContext.correlationId()).isEqualTo("booking.trace-1");
+            assertThat(MutationRequestContext.current()).get()
+                    .extracting(MutationRequestContext.Snapshot::idempotencyKey)
+                    .isEqualTo("booking-key-1");
+            assertThat(MDC.get("correlationId")).isEqualTo("booking.trace-1");
+            throw new IllegalStateException("simulated mutation failure");
+        };
+
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> filter.doFilter(request, response, chain))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("simulated mutation failure");
+
+        assertThat(response.getHeader(MutationRequestContext.CORRELATION_ID_HEADER)).isEqualTo("booking.trace-1");
+        assertThat(MutationRequestContext.current()).isEmpty();
+        assertThat(MDC.get("requestId")).isNull();
+        assertThat(MDC.get("correlationId")).isNull();
+        assertThat(MDC.get("idempotencyKey")).isNull();
+        assertThat(MDC.get("operationKey")).isNull();
     }
 }

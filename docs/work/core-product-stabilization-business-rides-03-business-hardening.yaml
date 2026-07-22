@@ -1,0 +1,114 @@
+kind: work
+version: 1
+id: core-product-stabilization-business-rides-03-business-hardening
+title: Harden Business profiles, schedules, bookings, and owner/customer parity
+status: verified
+baseline: a3d58c9
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+execution_inventory: docs/work/core-product-stabilization-business-rides-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/main-surfaces-business-landing.yaml
+  - docs/work/ui-action-integrity-business-calendar.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  baseline_only_surfaces:
+  - verified_business_landing
+  - verified_business_calendar_actions
+  residual_scope:
+  - schedule_and_exception_correctness
+  - timezone_handling
+  - capacity_and_conflict
+  - idempotency
+  - stale_state
+  - owner_customer_action_parity
+  - booking_audit_and_side_effects
+  - fresh_business_runtime_evidence
+  retest_triggers:
+  - changed_shared_code
+  - changed_permission_or_visibility_contract
+  - changed_route_or_action_target
+  - changed_notification_or_readback_contract
+  - new_cross_module_regression
+  non_duplication_rule: Verified Business landing and Calendar evidence is baseline;
+    only residual hardening and trigger-affected behavior is new work.
+depends_on:
+- core-product-stabilization-business-rides-01-core-journeys
+- core-product-stabilization-business-rides-02-core-reliability
+objective: Close residual Business correctness gaps across availability, timezone,
+  exceptions, capacity, booking transitions, idempotency, stale conflicts, actions,
+  calendar focus, audit, and runtime evidence.
+source_reuse:
+- docs/work/main-surfaces-business-landing.yaml
+- docs/work/ui-action-integrity-business-calendar.yaml
+- docs/work/target-capability-production-readiness-business.yaml
+- docs/runtime-evidence/browser-runtime-read-business-booking-2026-07-22.json
+tasks:
+- id: harden-business
+  title: Repair and verify Business booking and schedule boundaries
+  type: implementation
+  status: done
+  inventory_item: business-hardening
+  paths:
+  - docs/business-hardening-matrix.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  required_paths:
+  - docs/business-hardening-matrix.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-docs && git diff --check
+  started_at: '2026-07-22T17:04:45Z'
+  start_fingerprints:
+    docs/business-hardening-matrix.yaml: __missing__
+    docs/implementation-backlog.md: ce2d10cf30dbac297f5ae28568d332fb25c6bc4def2044d1be5927e0fdb639cb
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java: 976b26a24f65fc6dad0f796a335c62f41dd5104acbe890e8fc7cc66499a619d0
+exit_evidence: Business matrix covers owner/customer actions, effective schedule,
+  timezone, conflict/idempotency, stale recovery, audit/side-effect boundary, and
+  fresh runtime evidence or blockers.
+evidence:
+- task: harden-business
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T17:07:27Z'
+  revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  - docs/implementation-backlog.md
+  - docs/business-hardening-matrix.yaml
+  output: |+
+    dist/assets/SurfaceHeader-DY2v7BOX.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-CdFd3t6f.js           20.82 kB │ gzip:   6.59 kB
+    dist/assets/VisionSurfaceModernView-Cu3dJXi4.js               22.56 kB │ gzip:   7.01 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-Cz6lgPs-.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DjCK4jhN.js                                 52.32 kB │ gzip:  13.34 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 694ms
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T17:04:45Z'
+  changedAfterStart: &1
+  - docs/business-hardening-matrix.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

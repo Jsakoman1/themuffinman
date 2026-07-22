@@ -5,6 +5,7 @@ purpose: Separate current source/test evidence from pending runtime proof for mu
 evidence_classes: [source-trace, validated-contract, runtime-proof, inferred-risk, unknown]
 validated_contract_evidence:
 - {id: transport_context_filter, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java, result: passed, scope: generated_and_preserved_request_correlation_headers}
+- {id: transport_context_cleanup_on_failure, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java, result: passed, scope: request_context_and_mdc_are_cleared_after_exceptional_mutation_path}
 - {id: idempotency_primitives, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/common/reliability/MutationIdempotencyServiceTest.java, result: passed, scope: deterministic_fingerprint_key_policy_and_mismatch_conflict}
 - {id: booking_reference_adoption, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java, result: passed, scope: existing_booking_replay_path_preserved}
 - {id: ride_reference_adoption, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java, result: passed, scope: domain_idempotent_join_and_locking_path_preserved}
@@ -20,3 +21,11 @@ rules:
 - validated_contract_is_not_runtime_proof
 - pending_runtime_is_not_failed_or_absent
 - no capability status changes from this evidence catalog alone
+core_reliability_execution:
+  task: docs/work/core-product-stabilization-business-rides-02-core-reliability.yaml#stabilize-core-reliability
+  source_contract_repair: request_context_and_mdc_cleanup_on_exceptional_mutation_path
+  regression_test_count: 3
+  backend_test_result: passed
+  frontend_type_check_result: passed
+  frontend_build_result: passed
+  runtime_boundary: No runtime status was promoted; timeout, provider failure, database observation, and process replay remain pending evidence classes.

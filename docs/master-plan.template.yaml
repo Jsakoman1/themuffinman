@@ -5,6 +5,13 @@ title: Replace me
 status: draft
 baseline: replace-with-git-revision
 strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces: []
+  residual_scope: []
+  retest_triggers: []
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted as new completion.
 # High-risk implementation masters should declare execution_inventory and use
 # serial_task_execution on every child work plan.
 # execution_inventory: docs/work/<master>-execution-inventory.yaml

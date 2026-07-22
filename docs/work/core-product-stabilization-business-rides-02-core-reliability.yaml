@@ -1,0 +1,115 @@
+kind: work
+version: 1
+id: core-product-stabilization-business-rides-02-core-reliability
+title: Stabilize core cross-module reliability and recovery
+status: verified
+baseline: a3d58c9
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+execution_inventory: docs/work/core-product-stabilization-business-rides-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/repair-and-stabilize-master.yaml
+  - docs/work/ui-action-integrity-master.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/system-map-runtime-boundary-registry.yaml
+  baseline_only_surfaces:
+  - standalone_authentication
+  - standalone_chat
+  - standalone_work_core_lifecycle
+  - standalone_notification_delivery
+  residual_scope:
+  - shared_mutation_reliability
+  - stale_state_and_recovery
+  - cross_module_action_integrity
+  - affected_business_and_rides_integrations
+  retest_triggers:
+  - changed_shared_code
+  - changed_permission_or_visibility_contract
+  - changed_route_or_action_target
+  - changed_notification_or_readback_contract
+  - new_cross_module_regression
+  non_duplication_rule: Existing reliability evidence is baseline; implementation
+    is limited to residual or trigger-affected paths.
+depends_on:
+- core-product-stabilization-business-rides-01-core-journeys
+objective: Repair or classify auth/session, app-shell navigation, Work/Chat/notification
+  readback, visibility, stale state, error recovery, and cross-module action integrity.
+source_reuse:
+- docs/work/repair-and-stabilize-master.yaml
+- docs/work/ui-action-integrity-master.yaml
+- docs/runtime-acceptance-matrix.yaml
+- docs/system-map-runtime-boundary-registry.yaml
+tasks:
+- id: stabilize-core-reliability
+  title: Execute core reliability repairs and regression coverage
+  type: implementation
+  status: done
+  inventory_item: core-reliability
+  paths:
+  - docs/core-product-journey-matrix.yaml
+  - docs/mutation-reliability-evidence.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java
+  required_paths:
+  - docs/core-product-journey-matrix.yaml
+  - docs/mutation-reliability-evidence.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-docs && git diff --check
+  started_at: '2026-07-22T17:01:54Z'
+  start_fingerprints:
+    docs/core-product-journey-matrix.yaml: aa9cd5ce9951a513583c211a39cbe7fed7521ed8ba3f65944c208e44dcf0672b
+    docs/mutation-reliability-evidence.yaml: 5d0a037dfb49c96ab25e38854cb00d459d7d6ff28c54a6c0d477407f18b23c6a
+    docs/implementation-backlog.md: 53ee56ff540c4002456e4bae743b4bd5baf4c1f559d2b96323d79276113562a9
+    apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java: 387385c04bdea9a6bd1816c02ce396d8624a60e42c413a80eb348888d52dceb6
+exit_evidence: Core cross-module failures, stale actions, authorization boundaries,
+  and regression scenarios are fixed or explicitly typed as external gaps.
+evidence:
+- task: stabilize-core-reliability
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-docs && git diff --check
+  ranAt: '2026-07-22T17:03:55Z'
+  revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java
+  - docs/implementation-backlog.md
+  - docs/mutation-reliability-evidence.yaml
+  - docs/core-product-journey-matrix.yaml
+  output: |+
+    dist/assets/ChatSurfaceView-9K97eLds.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/useVisionForWeb-CTSTFWKn.js                       17.53 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-DY2v7BOX.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-CdFd3t6f.js           20.82 kB │ gzip:   6.59 kB
+    dist/assets/VisionSurfaceModernView-Cu3dJXi4.js               22.56 kB │ gzip:   7.01 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-Cz6lgPs-.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DjCK4jhN.js                                 52.32 kB │ gzip:  13.34 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 582ms
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T17:01:54Z'
+  changedAfterStart: &1
+  - docs/core-product-journey-matrix.yaml
+  - docs/mutation-reliability-evidence.yaml
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,54 @@
+kind: core_product_stabilization_closeout
+version: 1
+captured_at: 2026-07-22
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+baseline: a3d58c9
+status: verified_with_explicit_pending_gaps
+verified_child_plans:
+  - docs/work/core-product-stabilization-business-rides-01-core-journeys.yaml
+  - docs/work/core-product-stabilization-business-rides-02-core-reliability.yaml
+  - docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml
+  - docs/work/core-product-stabilization-business-rides-04-rides-hardening.yaml
+  - docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml
+new_repairs:
+  - id: CORE-MUTATION-CONTEXT-CLEANUP
+    area: core_reliability
+    result: Request/correlation/idempotency context is available during mutations and cleared from ThreadLocal and MDC after exceptional completion.
+    evidence: apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java
+  - id: BUSINESS-IDEMPOTENCY-DERIVED-END
+    area: business
+    result: Replaying a booking idempotency key without endsAt is accepted when the persisted duration snapshot derives the same end time.
+    evidence: apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  - id: RIDES-BACKEND-SEAT-LIMIT
+    area: rides
+    result: RideOfferService enforces the 1..8 seat boundary for direct and controller-mediated callers.
+    evidence: apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+runtime_evidence:
+  artifact: docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json
+  status: partial_runtime_evidence_only
+  observations: [authenticated_registration, authenticated_me_readback, workspace_navigation, business_directory, rides_discovery]
+  canonical_runtime_counts_unchanged: {passed: 65, pending_runtime: 16}
+  limitation: HTTP smoke evidence is not browser interaction evidence and does not prove mutation conflict, concurrency, failure injection, replay, native/device, or production-scale behavior.
+validation:
+  backend_tests: {status: passed, tests: 800, failures: 0, errors: 0}
+  frontend_type_check: passed
+  frontend_build: passed
+  audits: [audit-runtime-acceptance, audit-capability-evidence, audit-truth-registry, audit-docs, audit-plan-coverage, git-diff-check]
+pending_gaps:
+  - fresh browser click-path evidence for Business booking and Rides lifecycle mutations
+  - capacity concurrency and provider/database failure injection
+  - uncertain transport readback and durable process-crash replay
+  - Vision/cache/reconnect consent parity where existing rows remain pending
+  - native/device/offline/background behavior
+  - production-scale and SQL-level performance measurement
+deferred_boundaries:
+  - native_device
+  - provider_failure_injection
+  - database_failure_injection
+  - process_crash_replay
+  - production_operations
+next_queue:
+  - Capture browser mutation traces for Business booking and Rides join/lifecycle using the existing runtime evidence contract.
+  - Close only trigger-affected pending runtime rows; do not re-run verified standalone Login, Chat, Work, or notification audits.
+  - Keep capability and runtime status authorities unchanged until their declared evidence class is present.
+completion_rule: This closeout records verified repairs and evidence without claiming the full product or all pending runtime boundaries are complete.

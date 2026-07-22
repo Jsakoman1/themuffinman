@@ -9,6 +9,12 @@ optimization_pilot:
   completion_rule: audit_runtime_acceptance_must_reconcile_all_runtime_summary_sources
 optimization_closeout: docs/system-map-optimization-closeout-2026-07-22.yaml
 runtime_pending_web_operations_closeout: docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml
+core_product_stabilization_runtime_observation:
+  owner_plan: docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml
+  artifact: docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json
+  status: partial_runtime_evidence_only
+  canonical_counts_unchanged: true
+  note: Fresh HTTP smoke trace covers authenticated core, Business directory, and Rides discovery read paths; it does not promote browser mutation, failure, replay, native, or production scenarios.
 runtime_pending_reliability_contract:
   owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
   scenario_ids: [runtime-mutation-timeout-readback, runtime-mutation-side-effect-failure, runtime-side-effect-no-precommit-news, runtime-side-effect-rollback-no-news, runtime-side-effect-after-commit-failure, runtime-side-effect-replay-after-process-crash, runtime-side-effect-duplicate-consumer-delivery]

@@ -1,0 +1,52 @@
+kind: rides_hardening_matrix
+version: 1
+status: active_residual_hardening
+reviewed_on: 2026-07-22
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+child_plan: docs/work/core-product-stabilization-business-rides-04-rides-hardening.yaml
+baseline_sources:
+  - docs/work/ui-action-integrity-rides-social.yaml
+  - docs/work/rides-production-completion-master.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/mutation-reliability-evidence.yaml
+scope_control:
+  baseline_only: [verified_rides_ui_actions, verified_rides_production_completion, duplicate_ride_join_runtime]
+  residual_scope: [circle_visibility_and_privacy, capacity_concurrency, join_leave_and_lifecycle, commute_preference_separation, stale_recovery, owner_participant_action_parity, fresh_runtime_evidence]
+  retest_triggers: [changed_shared_code, changed_permission_or_visibility_contract, changed_route_or_action_target, changed_notification_or_readback_contract, new_cross_module_regression]
+  non_duplication_rule: Existing Rides UI, production, and duplicate-join evidence is baseline; only residual hardening and trigger-affected behavior is new work.
+dimensions:
+  - id: circle_visibility
+    authority: RideOfferService visibility selection and backend circle membership policy
+    expected: only the driver, unrestricted offers, or members of selected circles can read a ride
+    evidence: [docs/work/ui-action-integrity-rides-social.yaml, docs/runtime-acceptance-matrix.yaml]
+    status: baseline_with_residual_viewer_retest_boundary
+  - id: capacity_and_join
+    authority: locked ride aggregate, participant state, and transactional capacity checks
+    expected: duplicate joins remain idempotent and competing joins cannot exceed seats
+    evidence: [apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java, docs/runtime-evidence/browser-runtime-duplicate-ride-join-idempotency-2026-07-22.json]
+    status: source_and_duplicate_runtime_verified_concurrency_gap_explicit
+  - id: lifecycle_transitions
+    authority: RideOfferService driver-only state transitions
+    expected: open/full/in-progress/completed/cancelled transitions expose role-appropriate actions and reject invalid transitions
+    evidence: [docs/work/rides-production-completion-master.yaml, apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java]
+    status: residual_action_parity_and_runtime_review_required
+  - id: backend_input_limits
+    authority: RideOfferService field validation plus DTO validation
+    expected: direct service and controller paths reject seat counts outside 1..8
+    evidence: [apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java]
+    status: verified_source_contract
+  - id: commute_separation
+    authority: CommutePreferenceService and distinct discovery/read surfaces
+    expected: commute preferences do not silently become ride visibility or discovery permissions
+    evidence: [docs/work/ui-action-integrity-rides-social.yaml]
+    status: baseline_with_residual_runtime_boundary
+  - id: stale_and_side_effect_recovery
+    authority: ride versioning, state transitions, audit, and notification/outbox policy
+    expected: stale actions are rejected or refreshed and side effects reflect committed lifecycle state
+    evidence: [docs/mutation-reliability-evidence.yaml, docs/runtime-acceptance-matrix.yaml]
+    status: residual_runtime_evidence_gap
+execution:
+  task: docs/work/core-product-stabilization-business-rides-04-rides-hardening.yaml#harden-rides
+  repair_completed: RideOfferService now enforces the 1..8 seat limit in the backend service path, including non-controller callers.
+  implementation_tests: apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  remaining_gate: Run full backend/frontend validation and preserve concurrency, privacy, process, native, and production boundaries.

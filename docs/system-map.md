@@ -278,6 +278,16 @@ The operational expansion is master-verified in [`docs/work/system-map-operation
 
 Future rounds should extend this register rather than creating competing system-map documents.
 
+The core product stabilization and Business/Rides hardening pass is recorded in
+[`docs/work/core-product-stabilization-business-rides-master.yaml`](work/core-product-stabilization-business-rides-master.yaml)
+with its final status in
+[`core-product-stabilization-business-rides-closeout-2026-07-22.yaml`](core-product-stabilization-business-rides-closeout-2026-07-22.yaml).
+It repaired shared mutation-context cleanup, Business derived-end idempotency
+replay, and the Rides backend seat boundary. Its fresh runtime artifact is
+partial HTTP smoke evidence only; canonical runtime status remains 65 passed / 16
+pending and existing native, provider, database, replay, and production boundaries
+remain explicit.
+
 The current completeness baseline and score are recorded in
 [`system-map-completeness-review.md`](system-map-completeness-review.md). Its
 follow-up IDs are `MAP-001` through `MAP-009` in the implementation backlog.

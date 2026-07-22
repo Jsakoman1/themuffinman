@@ -67,3 +67,9 @@ runtime_pending_vision_contract:
   latest_partial_trace_blocker: missing_observable_provider_failure_contract
 runtime_pending_web_operations_closeout: docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml
 system_map_hardening_endpoint_index: docs/system-map-endpoint-evidence-registry.yaml
+core_product_stabilization_runtime:
+  owner_plan: docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml
+  artifact: docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json
+  status: partial_runtime_evidence_only
+  canonical_runtime_matrix_unchanged: true
+  reason: HTTP smoke trace covers authenticated core/Business/Rides read paths but does not prove browser interaction, mutation conflict, failure injection, replay, native, or production behavior.

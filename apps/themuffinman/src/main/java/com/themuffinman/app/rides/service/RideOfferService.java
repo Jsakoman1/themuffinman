@@ -173,7 +173,9 @@ public class RideOfferService {
         if (dto == null || dto.getDepartureAt() == null || new SchedulingWindow(dto.getDepartureAt(), null).startsBefore(TimeSupport.now())) throw ServiceErrors.badRequest("Ride departure time must be in the future");
     }
     private void applyFields(RideOffer ride, RideOfferRequestDTO dto, AppUser user) {
-        ride.setOrigin(TextValueNormalizer.requireTrimmed(dto.getOrigin(), "Ride origin is required")); ride.setDestination(TextValueNormalizer.requireTrimmed(dto.getDestination(), "Ride destination is required")); ride.setDepartureAt(dto.getDepartureAt()); ride.setSeats(dto.getSeats() == null ? 1 : dto.getSeats()); ride.setNote(RichTextInputValidator.sanitize(dto.getNote())); ride.setVisibleCircles(new LinkedHashSet<>(resolveVisibleCircles(dto.getVisibleCircleIds(), user)));
+        int seats = dto.getSeats() == null ? 1 : dto.getSeats();
+        if (seats < 1 || seats > 8) throw ServiceErrors.badRequest("Ride seat count must be between 1 and 8");
+        ride.setOrigin(TextValueNormalizer.requireTrimmed(dto.getOrigin(), "Ride origin is required")); ride.setDestination(TextValueNormalizer.requireTrimmed(dto.getDestination(), "Ride destination is required")); ride.setDepartureAt(dto.getDepartureAt()); ride.setSeats(seats); ride.setNote(RichTextInputValidator.sanitize(dto.getNote())); ride.setVisibleCircles(new LinkedHashSet<>(resolveVisibleCircles(dto.getVisibleCircleIds(), user)));
     }
     private List<CircleGroup> resolveVisibleCircles(List<Long> ids, AppUser user) {
         CircleVisibilitySelection selection = CircleVisibilitySelection.from(ids); if (selection.unrestricted()) return List.of();

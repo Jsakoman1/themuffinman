@@ -1,0 +1,112 @@
+kind: work
+version: 1
+id: core-product-stabilization-business-rides-06-closeout
+title: Publish core stabilization and Business/Rides hardening closeout
+status: verified
+baseline: a3d58c9
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
+execution_inventory: docs/work/core-product-stabilization-business-rides-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/repair-and-stabilize-master.yaml
+  - docs/work/main-surfaces-business-landing.yaml
+  - docs/work/ui-action-integrity-business-calendar.yaml
+  - docs/work/ui-action-integrity-rides-social.yaml
+  - docs/work/rides-production-completion-master.yaml
+  baseline_only_surfaces:
+  - all_prior_verified_surfaces_and_evidence
+  residual_scope:
+  - new_repairs
+  - new_regression_evidence
+  - unresolved_typed_gaps
+  - final_status_reconciliation
+  retest_triggers:
+  - changed_shared_code
+  - changed_permission_or_visibility_contract
+  - changed_route_or_action_target
+  - changed_notification_or_readback_contract
+  - new_cross_module_regression
+  non_duplication_rule: Closeout reports only new repairs, evidence, and residual
+    decisions; it does not re-count historical completion.
+depends_on:
+- core-product-stabilization-business-rides-01-core-journeys
+- core-product-stabilization-business-rides-02-core-reliability
+- core-product-stabilization-business-rides-03-business-hardening
+- core-product-stabilization-business-rides-04-rides-hardening
+- core-product-stabilization-business-rides-05-runtime-regression-release
+objective: Reconcile code, tests, runtime evidence, capability records, backlog, and
+  System Map for the stabilization pass.
+source_reuse:
+- docs/system-map.md
+- docs/system-map-change-impact-registry.yaml
+- docs/implementation-backlog.md
+- docs/capability-inventory.yaml
+tasks:
+- id: publish-stabilization-closeout
+  title: Publish truthful stabilization closeout and next queue
+  type: verification
+  status: done
+  inventory_item: closeout
+  paths:
+  - docs/core-product-stabilization-business-rides-closeout-2026-07-22.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  required_paths:
+  - docs/core-product-stabilization-business-rides-closeout-2026-07-22.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && make audit-plan-coverage && git diff
+    --check
+  started_at: '2026-07-22T17:15:35Z'
+  start_fingerprints:
+    docs/core-product-stabilization-business-rides-closeout-2026-07-22.yaml: __missing__
+    docs/implementation-backlog.md: 795b7a1f92541c35d8957c796500e09b0cea2951d4cfb5dd8caa6b6c9bf94951
+    docs/system-map.md: ec49e78bfb7888b2caceaeb51419a0617dc195da545b112c364581c7592003a1
+exit_evidence: Closeout separates repaired behavior, verified runtime behavior, pending
+  evidence, external blockers, and deferred features.
+evidence:
+- task: publish-stabilization-closeout
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && make audit-plan-coverage && git diff
+    --check
+  ranAt: '2026-07-22T17:16:21Z'
+  revision: a3d58c9ce10406f4ab5cd283bb5155f191697147
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  - docs/core-product-stabilization-business-rides-closeout-2026-07-22.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-22T17:15:35Z'
+  changedAfterStart: &1
+  - docs/core-product-stabilization-business-rides-closeout-2026-07-22.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
