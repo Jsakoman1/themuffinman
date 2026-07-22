@@ -1,0 +1,49 @@
+version: 1
+purpose: Repository-visible release and recovery evidence index; external operations remain unknown until evidenced.
+reviewed_round: 36
+operations:
+- id: local_build_and_test
+  owner: repository_makefiles_and_package_manifests
+  evidence: [Makefile, apps/themuffinman/Makefile, apps/themuffinman/pom.xml, apps/themuffinman/frontend/package.json]
+  evidence_class: source-trace
+  state: repository_visible
+- id: generated_contract_validation
+  owner: frontend_contract_generator
+  evidence: [apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs, apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts]
+  evidence_class: validated-contract
+  state: repository_visible
+- id: local_development_stack
+  owner: apps_themuffinman_makefile
+  evidence: [apps/themuffinman/scripts/dev-stack.sh, apps/themuffinman/docker-compose.object-storage.dev.yaml]
+  evidence_class: source-trace
+  state: local_only
+- id: ci_pipeline
+  owner: unknown
+  evidence: []
+  evidence_class: unknown
+  state: external_unknown
+- id: deployment_and_promotion
+  owner: unknown
+  evidence: []
+  evidence_class: unknown
+  state: external_unknown
+- id: backup_and_restore
+  owner: unknown
+  evidence: []
+  evidence_class: unknown
+  state: external_unknown
+- id: release_and_rollback
+  owner: unknown
+  evidence: []
+  evidence_class: unknown
+  state: external_unknown
+- id: incident_response
+  owner: unknown
+  evidence: []
+  evidence_class: unknown
+  state: external_unknown
+rules:
+- repository_visible_local_controls_do_not_prove_production_operations
+- external_unknown_requires_explicit_evidence_before_promotion
+- recovery_claim_requires_exercise_or_operator_evidence
+extension_review: docs/release-operations-extension-review.yaml

@@ -1,0 +1,18 @@
+{
+  "scenario": "runtime-work-workers",
+  "capabilityIds": ["work.quest.manage_workers"],
+  "target": "/work/quests/:id",
+  "environment": "local-dev-web",
+  "owner": "test@test.com",
+  "temporaryFixture": {"questId": 417, "firstApplicantId": 278, "replacementApplicantId": 279, "replacementUser": "temporary authenticated user"},
+  "actions": ["create", "apply_first", "apply_replacement", "approve_first", "replace", "repeat_stale_replace", "refresh", "release", "delete_fixture"],
+  "trace": {
+    "approve": {"httpStatus": 200, "result": "APPROVE_APPLICATION"},
+    "replace": {"httpStatus": 200, "questStatus": "ASSIGNED", "applicationId": 279, "applicationStatus": "APPROVED", "applicantId": 1308},
+    "staleRetry": {"httpStatus": 409, "code": "WORKER_ASSIGNMENT_STALE", "message": "Worker assignment changed; refresh the applications before trying again", "correlationIdPresent": true},
+    "release": {"httpStatus": 200},
+    "cleanup": {"questDeleteStatus": 200, "temporaryUserDeleteStatus": 200}
+  },
+  "result": "passed_worker_replacement_and_stale_conflict",
+  "notes": ["Replacement and repeated stale write were executed against the real local PostgreSQL-backed runtime.", "The disposable quest and replacement user were removed after authoritative state capture."]
+}

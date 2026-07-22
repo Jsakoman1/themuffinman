@@ -1,0 +1,16 @@
+version: 1
+status: reference-adoption-baseline
+purpose: Current adoption matrix for ARCH-002. `reference_adopted` means the shared primitive is used in the mutation path; `domain_only` means local safeguards exist but shared transport/policy adoption remains.
+reviewed_round: ARCH-002-adoption
+modules:
+- {module: business, state: reference_adopted, operations: [business.booking.create.customer, business.booking.create.owner], evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java, docs/mutation-reliability-operation-policy.yaml]}
+- {module: rides, state: reference_adopted, operations: [rides.offer.join], evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java, apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java]}
+- {module: workmarket, state: domain_only, operations: [work.quest.mutation], evidence: [docs/mutation-reliability-operation-policy.yaml], gap: dedicated adoption slice needed}
+- {module: things, state: domain_only, operations: [things.borrow.transition], evidence: [docs/mutation-reliability-operation-policy.yaml], gap: dedicated adoption slice needed}
+- {module: social, state: domain_only, operations: [social.relationship.mutation], evidence: [docs/mutation-reliability-operation-policy.yaml], gap: dedicated adoption slice needed}
+- {module: chat, state: domain_only, operations: [chat.message.mutation], evidence: [docs/mutation-reliability-operation-policy.yaml], gap: message/upload deduplication requires operation-specific design}
+- {module: vision, state: inherited_context_only, operations: [vision.delegated_mutation], evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionRuntimeContextDTO.java], gap: propagate operation identity into every delegated mutation and side effect}
+rules:
+- reference adoption does not create a universal replay store
+- domain_only modules retain their existing state and permission behavior
+- no module is marked fully adopted until retry, conflict, and side-effect evidence exists

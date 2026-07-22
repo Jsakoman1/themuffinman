@@ -1,0 +1,32 @@
+kind: master
+version: 1
+id: browser-runtime-evidence-pass-master
+title: Browser runtime evidence pass
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/browser-runtime-evidence-pass-master-execution-inventory.yaml
+objective: Capture fresh local browser evidence for high-risk mutation, visibility,
+  realtime, and read-model scenarios without claiming unsupported proof.
+analysis_source: docs/browser-runtime-evidence-pass.md
+children:
+- docs/work/browser-runtime-evidence-pass-01-environment.yaml
+- docs/work/browser-runtime-evidence-pass-02-mutations.yaml
+- docs/work/browser-runtime-evidence-pass-03-visibility-realtime.yaml
+- docs/work/browser-runtime-evidence-pass-04-read-models.yaml
+- docs/work/browser-runtime-evidence-pass-05-closeout.yaml
+rules:
+- Browser evidence requires an actual browser trace artifact.
+- Backend tests do not substitute for browser evidence.
+- Always stop the workspace-owned stack after capture or failed setup.
+- Unsupported failure injection and device scenarios remain pending.
+evidence:
+- verifiedAt: '2026-07-22T11:13:15Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/browser-runtime-evidence-pass-01-environment.yaml
+  - docs/work/browser-runtime-evidence-pass-02-mutations.yaml
+  - docs/work/browser-runtime-evidence-pass-03-visibility-realtime.yaml
+  - docs/work/browser-runtime-evidence-pass-04-read-models.yaml
+  - docs/work/browser-runtime-evidence-pass-05-closeout.yaml

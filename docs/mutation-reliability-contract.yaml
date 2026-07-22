@@ -1,0 +1,74 @@
+version: 1
+status: proposed_target_contract
+purpose: Cross-module mutation reliability contract for ARCH-002. This document defines the target vocabulary and adoption rules; current implementation remains in the coverage matrix.
+owner: backend_common_contract_and_domain_services
+evidence_class: validated-contract
+reviewed_round: ARCH-002
+implemented_transport_slice:
+  status: partial
+  available_headers: [X-Request-Id, X-Correlation-Id, Idempotency-Key, X-Operation-Key]
+  response_metadata: [correlationId, operationKey, retryable]
+  backend_context: MutationRequestContext and MutationRequestContextFilter
+  frontend_helpers: [withMutation, correlationIdFromError]
+  not_implemented_here: [operation_policy_enforcement, idempotency_replay_storage, module_adoption, runtime_failure_evidence]
+implemented_domain_slices:
+  - operation_key: work.quest.mutation
+    status: partial
+    resource_version: Quest.version exposed as QuestResponseDTO.resourceVersion and required on PUT /quests/{id}
+    stale_conflict: HTTP 409 with code STALE_RESOURCE before field mutation
+    runtime_evidence: docs/runtime-evidence/browser-runtime-stale-quest-update-repaired-2026-07-22.json
+    remaining: Vision dedicated title mutation and broader module adoption require separate review
+definitions:
+- id: request_id
+  meaning: Client-generated identifier for one user mutation attempt; stable across a safe transport retry of that attempt.
+  scope: mutation_request
+- id: correlation_id
+  meaning: Server-visible trace identifier connecting transport, service, persistence, side effects, and response/error evidence.
+  scope: request_and_derived_work
+- id: idempotency_key
+  meaning: Client-provided key that identifies the intended logical mutation and permits safe replay according to operation policy.
+  scope: retryable_mutation
+- id: operation_key
+  meaning: Stable server operation name used to classify idempotency, retry, conflict, and audit behavior.
+  scope: every_mutation
+- id: resource_version
+  meaning: Server version or equivalent state token used to reject stale updates where last-write-wins is unsafe.
+  scope: versioned_resource_mutation
+rules:
+- Every mutation has an operation_key and correlation_id, including Vision-delegated mutations.
+- Retry-safe mutations accept or derive a request_id; logical create/command operations additionally define idempotency behavior.
+- An idempotency replay returns the original logical result when the actor, operation, key, and payload fingerprint match.
+- Reusing a key with a different actor, operation, or payload fingerprint returns a typed conflict and creates no second mutation.
+- A mutation must define whether retry is safe, unsafe, or conditional; clients must not infer retryability from HTTP status alone.
+- Resource-version or equivalent stale-state checks are required for mutations where silent last-write-wins can lose user intent.
+- Side effects must carry the originating correlation_id and operation_key; delivery success is separate from domain commit success.
+- Error responses expose stable code, safe message, correlation_id, retryability, and optional conflict/resource metadata.
+- Logs and audit records may contain identifiers and classifications, but never raw credentials or unrestricted sensitive payloads.
+- Reference adoption may begin with optional keys where legacy clients do not yet provide them; the operation matrix must mark that transitional state explicitly.
+operation_policy:
+- class: idempotent_command
+  examples: [ride_join, booking_create, mark_read, leave_relationship]
+  replay: return_original_or_current_authoritative_result
+- class: idempotent_create
+  examples: [booking_create, quest_create_when_key_supported]
+  replay: return_original_resource_result
+- class: versioned_update
+  examples: [quest_update, ride_update, profile_update, chat_message_update]
+  replay: require_resource_version_or_explicit_last_write_policy
+- class: state_transition
+  examples: [approve_application, cancel_booking, complete_booking, decide_borrow_request]
+  replay: return_current_state_or_typed_conflict
+- class: non_retryable_side_effect
+  examples: [provider_send, attachment_upload_without_resume_key]
+  replay: require_explicit_operation_policy_and_compensation
+error_contract:
+  fields: [code, message, correlationId, operationKey, retryable, conflictType, resourceId, resourceVersion, fieldErrors]
+  conflict_types: [duplicate_idempotency_key, idempotency_payload_mismatch, stale_resource, invalid_state, capacity_exhausted, authorization_changed]
+  status_mapping: {validation: 400, unauthorized: 401, forbidden: 403, not_found: 404, conflict: 409, rate_limited: 429, unavailable: 503}
+adoption_order:
+- common_transport_context_and_error_envelope
+- operation_policy_registry
+- booking_and_ride_adapters_as_reference_implementations
+- workmarket_business_social_things_chat_mutation_adoption
+- Vision_delegation_and_side_effect_propagation
+- failure_injection_and_retry_runtime_evidence

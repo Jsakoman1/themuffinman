@@ -1,0 +1,41 @@
+{
+  "artifact_type": "runtime_mutation_evidence",
+  "captured_at": "2026-07-22",
+  "environment": "local-dev",
+  "execution_surface": "authenticated_web_api_probe",
+  "scenario": "duplicate_ride_join_same_idempotency_key",
+  "endpoint": "/rides/offers/{id}/join",
+  "fixture": {
+    "ride_offer_id": 83,
+    "driver_user_id": 7,
+    "passenger_user_id": 1305,
+    "origin": "Runtime Origin",
+    "destination": "Runtime Destination",
+    "seats": 2
+  },
+  "requests": {
+    "request_count": 2,
+    "same_idempotency_key": true,
+    "first": {"http_status": 200, "ride_status": "OPEN", "joined_seats": 1, "viewer_joined": true},
+    "second": {"http_status": 200, "ride_status": "OPEN", "joined_seats": 1, "viewer_joined": true}
+  },
+  "authoritative_readback": {
+    "http_status": 200,
+    "joined_seats": 1,
+    "viewer_joined": true,
+    "active": true
+  },
+  "result": "passed",
+  "interpretation": "Repeated passenger join did not create a second membership and returned the same successful state.",
+  "cleanup": {
+    "leave_http_status": 200,
+    "cancel_http_status": 200,
+    "passenger_delete_http_status": 200,
+    "final_ride_status": "CANCELLED",
+    "final_ride_active": false
+  },
+  "limitations": [
+    "This proves the local authenticated API path, not timeout recovery, process-crash replay, provider failure handling, or native/device behavior."
+  ],
+  "secrets_stored": false
+}

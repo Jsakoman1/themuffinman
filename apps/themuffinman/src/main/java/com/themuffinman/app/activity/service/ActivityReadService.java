@@ -41,7 +41,7 @@ public class ActivityReadService {
     public List<ActivityItemDTO> getWorkspaceActivity(AppUser user, int limit) {
         if (limit < 1 || limit > 50) throw new IllegalArgumentException("Activity limit must be between 1 and 50");
         List<ActivityItemDTO> items = new ArrayList<>();
-        newsService.getMyNews(user).stream().limit(12).map(newsMapper::toDto).forEach(item -> items.add(ActivityItemDTO.builder().source("workmarket").kind("notification").title(item.getTitle()).summary(item.getMessage()).route(item.getQuestId() == null ? "/notifications" : "/work/quests/" + item.getQuestId()).primaryActionLabel("Open").occurredAt(item.getCreatedAt()).resumeKey("news:" + item.getId()).resumable(false).deliveryState(item.getDeliveryState()).readState(item.getReadState()).retryable(item.isRetryable()).build()));
+        newsService.getMyNews(user).stream().limit(12).map(newsMapper::toDto).forEach(item -> items.add(ActivityItemDTO.builder().source("workmarket").kind("notification").title(item.getTitle()).summary(item.getMessage()).route(notificationRoute(item)).primaryActionLabel("Open").occurredAt(item.getCreatedAt()).resumeKey("news:" + item.getId()).resumable(false).deliveryState(item.getDeliveryState()).readState(item.getReadState()).retryable(item.isRetryable()).build()));
         conversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(user).stream().filter(conversation -> conversation.getUpdatedAt() != null).forEach(conversation -> {
             String key = "vision:" + conversation.getId();
             if (!dismissalRepository.existsByUserIdAndResumeKey(user.getId(), key)) items.add(ActivityItemDTO.builder().source("vision").kind("vision").title("Continue Vision").summary("Resume your last guided task.").route("/vision?conversationId=" + conversation.getId()).primaryActionLabel("Continue").occurredAt(conversation.getUpdatedAt()).resumeKey(key).resumable(true).build());
@@ -65,6 +65,18 @@ public class ActivityReadService {
 
     private String activityKey(ActivityItemDTO item) {
         return item.getResumeKey() != null ? item.getResumeKey() : item.getSource() + ":" + item.getKind() + ":" + item.getOccurredAt() + ":" + item.getTitle();
+    }
+
+    private String notificationRoute(com.themuffinman.app.workmarket.dto.QuestNewsItemResponseDTO item) {
+        if (item.getDestinationType() == com.themuffinman.app.workmarket.dto.QuestNewsDestinationTypeDTO.APPLICATION
+                && item.getDestinationId() != null) {
+            return "/work/applications/" + item.getDestinationId();
+        }
+        if (item.getDestinationType() == com.themuffinman.app.workmarket.dto.QuestNewsDestinationTypeDTO.QUEST
+                && item.getDestinationId() != null) {
+            return "/work/quests/" + item.getDestinationId();
+        }
+        return "/notifications";
     }
 
     private ActivityItemDTO toChatActivity(ChatConversation conversation, AppUser user) {

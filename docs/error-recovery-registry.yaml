@@ -1,0 +1,40 @@
+version: 1
+purpose: Error, retry, recovery, and operator-action relationship index; domain services and API contracts remain authoritative.
+reviewed_round: MAP-002
+coverage_state: partial
+evidence_class: source-trace
+sources: [apps/themuffinman/src/main/java/com/themuffinman/app/common/errors, apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java, apps/themuffinman/frontend/src/api/httpClient.ts, docs/runtime-acceptance-matrix.yaml]
+layers:
+- id: domain_coded_errors
+  owner: common.errors.ServiceErrors
+  states: [bad_request, unauthorized, forbidden, not_found, conflict, service_unavailable]
+  evidence_class: source-trace
+- id: http_translation
+  owner: common.controller.GlobalExceptionHandler
+  output: structured error code, message, HTTP status
+  evidence_class: source-trace
+- id: frontend_transport_handling
+  owner: frontend_http_client
+  output: normalized API failure for surfaces
+  evidence_class: source-trace
+- id: user_retry_signals
+  owner: backend_prepared DTOs and Vision execution planners
+  examples: [ActivityItemDTO.retryable, VisionExecutionCandidateDTO.retryable, ChatAttachmentUploadDTO.retryable]
+  evidence_class: source-trace
+- id: websocket_recovery
+  owner: chat_realtime_and_frontend_chat_surface
+  examples: [connect, disconnect, reconnect, resync]
+  evidence_class: validated-contract
+  runtime_state: pending_for_some_scenarios
+failure_classes:
+- {id: validation_or_bad_request, user_action: correct_input, operator_action: none, evidence_class: source-trace}
+- {id: authorization_or_visibility, user_action: change_context_or_request_access, operator_action: inspect_policy, evidence_class: source-trace}
+- {id: conflict_or_stale_state, user_action: refresh_and_retry, operator_action: inspect_concurrency_evidence, evidence_class: inferred-risk}
+- {id: provider_unavailable, user_action: retry_later, operator_action: inspect_provider_health_and_credentials, evidence_class: source-trace}
+- {id: storage_unavailable, user_action: retry_or_remove_attachment, operator_action: inspect_storage, evidence_class: source-trace}
+- {id: unknown_internal_failure, user_action: generic_retry, operator_action: inspect_logs_and_trace, evidence_class: unknown}
+gaps:
+- no unified error-code catalog across all modules
+- no correlation-id contract consistently traced across HTTP, events, and WebSocket
+- no universal idempotency/retry policy for mutations
+- operator recovery and incident actions are not runtime-proven

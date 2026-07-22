@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-closeout-12-execution-inventory
+master_plan: docs/work/runtime-pending-closeout-12.yaml
+serial_task_execution: true
+items:
+- id: runtime-capability-closeout
+  sequence: 1
+  plan: docs/work/runtime-pending-closeout-12.yaml
+  task: generate-runtime-capability-closeout
+  depends_on: []
+  output: runtime-capability-closeout-report
+  status: verified
+  started_at: '2026-07-22T14:08:55Z'
+  verified_at: '2026-07-22T14:09:52Z'
+  evidence:
+    plan: docs/work/runtime-pending-closeout-12.yaml
+    task: generate-runtime-capability-closeout
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

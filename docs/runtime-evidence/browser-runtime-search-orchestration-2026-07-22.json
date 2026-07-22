@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-07-22T15:32:00+02:00",
+  "evidenceClass": "browser_trace",
+  "environment": "local-dev; authenticated Chromium",
+  "viewer": "test@test.com",
+  "scenario": "runtime-search-orchestration",
+  "openCommandCenter": {"source": "/work/find?scope=open-visible", "action": "Ask Vision", "destination": "/vision", "returnTo": "/work/find?scope=open-visible", "status": 200},
+  "orchestrationEvidence": "docs/runtime-evidence/search-orchestration-2026-07-19.json",
+  "status": "passed",
+  "boundary": "Combined fresh Work-to-Vision handoff evidence with the existing authenticated search-v1 query/version/family-filter/repeat/compare trace. Vision-specific pagination and empty-state coverage remains a separate pending row."
+}

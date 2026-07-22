@@ -1,0 +1,62 @@
+kind: execution_inventory
+version: 1
+id: arch-003-side-effect-delivery-master-execution-inventory
+master_plan: docs/work/arch-003-side-effect-delivery-master.yaml
+serial_task_execution: true
+purpose: Ordered implementation and evidence queue for ARCH-003.
+items:
+- id: arch-003-boundary
+  sequence: 1
+  plan: docs/work/arch-003-side-effect-delivery-01-boundary.yaml
+  task: implement-after-commit-boundary
+  depends_on: []
+  output: shared_after_commit_event_boundary
+  status: verified
+  started_at: '2026-07-22T09:16:11Z'
+  verified_at: '2026-07-22T09:18:36Z'
+  evidence:
+    plan: docs/work/arch-003-side-effect-delivery-01-boundary.yaml
+    task: implement-after-commit-boundary
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-003-adoption
+  sequence: 2
+  plan: docs/work/arch-003-side-effect-delivery-02-adoption.yaml
+  task: classify-and-adopt-event-consumers
+  depends_on:
+  - arch-003-boundary
+  output: event_consumer_adoption_matrix
+  status: verified
+  started_at: '2026-07-22T09:18:43Z'
+  verified_at: '2026-07-22T09:19:10Z'
+  evidence:
+    plan: docs/work/arch-003-side-effect-delivery-02-adoption.yaml
+    task: classify-and-adopt-event-consumers
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-003-replay
+  sequence: 3
+  plan: docs/work/arch-003-side-effect-delivery-03-replay.yaml
+  task: define-outbox-and-replay-slice
+  depends_on:
+  - arch-003-adoption
+  output: durable_replay_design_and_runtime_matrix
+  status: verified
+  started_at: '2026-07-22T09:19:17Z'
+  verified_at: '2026-07-22T09:19:52Z'
+  evidence:
+    plan: docs/work/arch-003-side-effect-delivery-03-replay.yaml
+    task: define-outbox-and-replay-slice
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-003-operations
+  sequence: 4
+  plan: docs/work/arch-003-side-effect-delivery-04-operations.yaml
+  task: define-scheduled-side-effect-operations
+  depends_on:
+  - arch-003-replay
+  output: scheduler_run_ledger_and_operator_controls
+  status: verified
+  started_at: '2026-07-22T09:20:01Z'
+  verified_at: '2026-07-22T09:20:20Z'
+  evidence:
+    plan: docs/work/arch-003-side-effect-delivery-04-operations.yaml
+    task: define-scheduled-side-effect-operations
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

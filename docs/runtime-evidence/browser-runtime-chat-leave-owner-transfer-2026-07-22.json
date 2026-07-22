@@ -1,0 +1,18 @@
+{
+  "scenario": "runtime-chat-leave",
+  "capabilityIds": ["chat.conversation.leave"],
+  "target": "/chat/:conversationId",
+  "environment": "local-dev-web",
+  "temporaryFixture": {"conversationId": 383, "participantCount": 3, "temporaryUsers": [1309, 1310], "circleId": 187},
+  "actions": ["three_user_group_setup", "owner_leave", "owner_transfer", "stale_repeat", "refresh", "minimum_membership_recovery", "cleanup"],
+  "trace": {
+    "eligibility": {"httpStatus": 200, "eligible": true, "reasonCode": "ELIGIBLE"},
+    "ownerLeave": {"httpStatus": 200, "transitionState": "LEFT", "replacementOwnerUserId": 1309},
+    "staleRepeat": {"httpStatus": 403, "code": "FORBIDDEN", "correlationIdPresent": true},
+    "transferredState": {"replacementOwnerRole": "OWNER", "remainingMemberRole": "MEMBER", "participantCount": 2},
+    "replacementOwnerLeave": {"httpStatus": 400, "message": "Group conversations must keep at least two participants"},
+    "remainingMemberLeave": {"httpStatus": 400, "message": "Group conversations must keep at least two participants"},
+    "cleanup": {"temporaryCircleRemoved": true, "temporaryUsersRemoved": true}
+  },
+  "result": "passed_owner_leave_transfer_stale_recovery_refresh"
+}

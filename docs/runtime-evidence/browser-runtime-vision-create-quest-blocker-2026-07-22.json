@@ -1,0 +1,17 @@
+{
+  "capturedAt": "2026-07-22T15:30:00+02:00",
+  "scenario": "runtime-vision-create-quest",
+  "authentication": {"login": "POST /auth/login", "status": 200, "role": "USER"},
+  "executed": [
+    "draft title/description/reward",
+    "select Public",
+    "select By agreement",
+    "select Hide location",
+    "render review"
+  ],
+  "review": {"visible": true, "confirmControl": true, "cancelControl": true},
+  "execution": {"state": "none", "message": "The action could not be completed", "retryControl": false},
+  "browserErrors": [],
+  "status": "pending_runtime",
+  "blocker": "The local authenticated UI reaches review but cannot complete this creation attempt because the runtime execution state is none. A controlled execution-enabled fixture/provider outcome is required before claiming confirmation/create."
+}

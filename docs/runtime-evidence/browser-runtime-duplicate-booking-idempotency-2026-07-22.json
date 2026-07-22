@@ -1,0 +1,38 @@
+{
+  "artifact_type": "runtime_mutation_evidence",
+  "captured_at": "2026-07-22T12:52:10+02:00",
+  "environment": "local-dev",
+  "execution_surface": "authenticated_web_api_probe",
+  "scenario": "duplicate_business_booking_same_idempotency_key",
+  "endpoint": "/business/bookings",
+  "request_count": 2,
+  "same_idempotency_key": true,
+  "fixture": {
+    "business_profile_id": 227,
+    "offering_id": 111,
+    "availability_rule_id": 109,
+    "customer_user_id": 1302,
+    "booking_slot": "2026-07-23T12:00:00+02:00/2026-07-23T13:00:00+02:00"
+  },
+  "authoritative_readback": {
+    "matching_booking_count": 1,
+    "booking_id": 104,
+    "idempotency_key": "runtime-idempotency-1784717530273",
+    "initial_status": "PENDING_CONFIRMATION",
+    "cleanup_status": "CANCELLED_BY_OWNER"
+  },
+  "result": "passed",
+  "interpretation": "Repeated submission with the same key did not create a second booking. The persisted row was read back authoritatively before cleanup.",
+  "limitations": [
+    "The raw HTTP response status pair was not retained in the durable artifact; the durable database read-back is the source for the one-row outcome.",
+    "This proves the local authenticated API path, not transport timeout recovery, process-crash replay, or provider failure handling."
+  ],
+  "cleanup": {
+    "performed_through_normal_api": true,
+    "rule_delete_http_status": 200,
+    "offering_delete_http_status": 200,
+    "profile_archive_http_status": 200,
+    "booking_cancel_http_status": 200
+  },
+  "secrets_stored": false
+}

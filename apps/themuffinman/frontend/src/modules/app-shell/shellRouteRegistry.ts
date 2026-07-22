@@ -274,6 +274,28 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     moduleSpaceRule: "Stay in Profile for settings browsing.",
     visionRule: "Use Vision only when the settings task needs guided help.",
     topLevelNavEligible: false
+  },
+  notifications: {
+    id: "notifications",
+    primaryNavId: "profile",
+    primaryNavLabel: "Notifications",
+    primaryNavDescription: "Viewer-scoped updates and safe destinations.",
+    canonicalEntryRoute: {path: "/notifications"},
+    visionPrompt: "show my notifications",
+    moduleSpaceRule: "Stay in Notifications for updates and their backend-provided destinations.",
+    visionRule: "Use Vision only for read-only notification review or explicit read actions.",
+    topLevelNavEligible: false
+  },
+  activity: {
+    id: "activity",
+    primaryNavId: "profile",
+    primaryNavLabel: "Activity",
+    primaryNavDescription: "Viewer-scoped history and resumable tasks.",
+    canonicalEntryRoute: {path: "/activity"},
+    visionPrompt: "show my recent activity",
+    moduleSpaceRule: "Stay in Activity for history, resume, and dismiss actions.",
+    visionRule: "Use Vision only for guided continuation of an explicitly selected item.",
+    topLevelNavEligible: false
   }
 }
 

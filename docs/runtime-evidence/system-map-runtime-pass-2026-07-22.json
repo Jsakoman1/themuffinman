@@ -1,0 +1,26 @@
+{
+  "evidenceClass": "local_backend_test",
+  "capturedAt": "2026-07-22T11:50:36+02:00",
+  "revision": "ec8d3d6",
+  "environment": "local Maven/JUnit test execution; no HTTP server or browser session",
+  "command": "./mvnw -Dtest=SpringDomainEventPublisherTest,MutationRequestContextFilterTest,MutationIdempotencyServiceTest,LocationAccessPolicyServiceTest,ProfileVisibilityServiceTest test",
+  "result": "passed",
+  "testsRun": 13,
+  "failures": 0,
+  "errors": 0,
+  "covered": [
+    "after_commit_event_registration",
+    "mutation_request_context",
+    "mutation_idempotency_fingerprint_and_conflict",
+    "location_visibility_policy",
+    "profile_visibility_policy"
+  ],
+  "notProven": [
+    "browser_runtime_flow",
+    "production_commit_or_crash_recovery",
+    "database_failure_injection",
+    "websocket_reconnect",
+    "provider_timeout_and_retry",
+    "native_device_or_offline_behavior"
+  ]
+}

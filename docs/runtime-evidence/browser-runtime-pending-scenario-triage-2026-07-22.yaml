@@ -1,0 +1,54 @@
+kind: runtime_pending_scenario_triage
+captured_at: '2026-07-22T13:15:00+02:00'
+environment: local-dev
+viewer: test@test.com
+purpose: Record what was exercised in the current browser pass and why remaining matrix scenarios cannot be promoted without stronger evidence.
+executed:
+  - scenario: runtime-activity-recovery
+    outcome: passed
+    evidence: docs/runtime-evidence/browser-runtime-activity-recovery-2026-07-22.json
+  - scenario: runtime-read-business-booking
+    outcome: passed
+    evidence: docs/runtime-evidence/browser-runtime-read-business-booking-2026-07-22.json
+  - scenario: runtime-vision-search
+    outcome: partial_runtime_read
+    observation: Work-to-Vision command-center handoff succeeded; family-specific quest search returned the expected no-match state and rendered `Try another search`. The current fixture exposes no more-page result, so pagination proof remains open.
+  - scenario: runtime-read-vision-context
+    outcome: partial_runtime_pending
+    evidence: docs/runtime-evidence/browser-runtime-read-vision-context-2026-07-22.json
+    observation: Authenticated Vision turn, recent-conversation readback, runtime context, web action, query counts, and aggregate durations succeeded; separate provider-versus-context-assembly timing is not exposed.
+  - scenario: runtime-chat-attachments
+    outcome: control_surface_reached
+    observation: Authenticated conversation rendered Attach control and message composer; upload/preview/refresh/unavailable lifecycle was not promoted because the matrix requires a fresh lifecycle trace.
+  - scenario: runtime-authenticated-web-route-matrix
+    outcome: partial_route_matrix
+    evidence: docs/runtime-evidence/browser-runtime-authenticated-route-matrix-2026-07-22.json
+    observation: Main authenticated routes plus Business and Vision were reachable without browser errors; fresh registration and API-error assertions passed in the dedicated route-matrix artifact.
+blocked_by_evidence_boundary:
+  - ids: [runtime-mobile-presentation, runtime-watch-presentation, runtime-cross-client-contract, runtime-visibility-native-handoff, runtime-visibility-device-revoke]
+    blocker: Native/device/offline/background evidence is unavailable in the Web-only local environment.
+    required: [native_source, device_permission_trace, offline_storage_trace, background_execution_trace, reconnect_mutation_trace]
+  - ids: [runtime-side-effect-replay-after-process-crash]
+    blocker: Requires controlled process termination and restart with operator trace; not safe to claim from browser evidence alone.
+    required: [process_termination_trace, restart_trace, replay_observation]
+  - ids: [runtime-mutation-timeout-readback, runtime-mutation-provider-failure-correlation, runtime-mutation-side-effect-failure, runtime-side-effect-no-precommit-news, runtime-side-effect-rollback-no-news, runtime-side-effect-after-commit-failure, runtime-side-effect-duplicate-consumer-delivery]
+    blocker: Requires deterministic failure injection and/or database/outbox correlation not exposed by the ordinary browser surface.
+    required: [failure_injection_control, correlation_id, domain_readback, side_effect_readback]
+  - ids: [runtime-read-vision-context]
+    blocker: Browser resource timing exists, but the remaining Vision context row still needs its own complete read/provider trace; the local runtime exposes opt-in server-side query count and request duration headers.
+    required: [query_count, query_duration_ms, row_volume, provider_duration_ms_when_applicable]
+  - ids: [runtime-vision-execution]
+    blocker: Create review/confirm/execute/readback and confirm cancel/retry are now proven, but execution failure, provider-outcome, and recovery branches require controlled provider/configuration outcomes.
+    required: [provider_outcome_control, retry_trace, final_state_readback, voice_trace]
+  - ids: [runtime-visibility-web-vision-parity]
+    blocker: Web public/circle/private location boundaries are now proven, but Vision field parity remains unverified.
+    required: [viewer_variant_trace, authorization_result, fresh_readback, vision_field_parity]
+  - ids: [runtime-capability-closeout]
+    blocker: Must be generated only after the matrix's other pending rows have evidence-backed statuses.
+    required: [fresh_matrix_audit, evidence_link_audit, closeout_report]
+status: pending_runtime
+closeout_report: docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml
+next_controls:
+  - Add deterministic failure-injection controls before promoting reliability and provider-failure rows; keep dev observability headers opt-in and bounded to local evidence.
+  - Prepare multi-user and object-storage fixtures for Chat, worker, visibility, and notification lifecycles.
+  - Run native/device pass separately; Web evidence must not be substituted for device evidence.

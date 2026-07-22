@@ -1,0 +1,59 @@
+kind: work
+version: 1
+id: browser-runtime-evidence-pass-01-environment
+title: Establish browser runtime environment
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/browser-runtime-evidence-pass-master.yaml
+execution_inventory: docs/work/browser-runtime-evidence-pass-master-execution-inventory.yaml
+tasks:
+- id: establish-browser-environment
+  title: Check and start workspace-owned local Web stack
+  type: runtime
+  status: done
+  inventory_item: browser-runtime-environment
+  paths:
+  - docs/browser-runtime-evidence-pass.md
+  required_paths:
+  - docs/browser-runtime-evidence-pass.md
+  validation: make dev-doctor && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:53:49Z'
+  start_fingerprints:
+    docs/browser-runtime-evidence-pass.md: c4995f4477469cb59d437422b29605acc1d549e394b45a09dd5615af98115fc8
+evidence:
+- task: establish-browser-environment
+  command: make dev-doctor && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:54:02Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/browser-runtime-evidence-pass.md
+  output: |+
+    /Library/Developer/CommandLineTools/usr/bin/make -C apps/themuffinman dev-doctor
+    SPRING_PROFILES_ACTIVE=dev
+    SIDEQUEST_OBJECT_STORAGE_ENABLED=true
+    SIDEQUEST_OBJECT_STORAGE_PROVIDER=local
+    SIDEQUEST_OBJECT_STORAGE_ENDPOINT=
+    SIDEQUEST_OBJECT_STORAGE_BUCKET=
+    SIDEQUEST_OBJECT_STORAGE_LOCAL_BASE_PATH=/tmp/themuffinman-object-storage
+    [doctor] docker: missing
+    [doctor] docker compose: missing
+    [doctor] backend port 8080: free
+    [doctor] frontend port 5173: free
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:53:49Z'
+  changedAfterStart: &1
+  - docs/browser-runtime-evidence-pass.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

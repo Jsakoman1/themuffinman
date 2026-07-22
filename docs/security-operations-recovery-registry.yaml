@@ -1,0 +1,39 @@
+version: 1
+purpose: Security, operations, and recovery ownership index; external operational claims require evidence outside static source inspection.
+reviewed_round: 28
+controls:
+- id: authentication_and_session
+  owners: [SecurityConfig, SecurityProperties, AuthSessionService]
+  sources: [apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityConfig.java, apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityProperties.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/RevokedAuthToken.java]
+  evidence_class: source-trace
+  external_proof_needed: [secret_rotation, deployed_session_expiry]
+- id: authorization_visibility_consent
+  owners: [backend_domain_services]
+  sources: [docs/domain-technical.md, docs/business-logic.md, docs/workflow-state-machines.yaml]
+  evidence_class: source-trace
+  external_proof_needed: [cross_domain_policy_matrix_runtime_cases]
+- id: retention_cleanup
+  owners: [RetentionProperties, ChatRetentionService, AuthSessionService, VisionMemoryCompactionService]
+  sources: [apps/themuffinman/src/main/java/com/themuffinman/app/config/RetentionProperties.java]
+  evidence_class: source-trace
+  external_proof_needed: [job_execution, deletion_outcome, operator_replay]
+- id: external_providers
+  owners: [LocationProviderProperties, AgentProperties, VoiceProperties, ObjectStorageProperties]
+  sources: [apps/themuffinman/src/main/resources/application.properties]
+  evidence_class: source-trace
+  external_proof_needed: [provider_outage_recovery, credential_rotation, provider_sla]
+- id: object_storage
+  owners: [ObjectStorageProperties, chat_attachment_lifecycle]
+  sources: [apps/themuffinman/src/main/java/com/themuffinman/app/config/ObjectStorageProperties.java]
+  evidence_class: source-trace
+  external_proof_needed: [bucket_policy, backup, restore, presigned_url_runtime]
+- id: sandbox_separation
+  owners: [agent_operating_model]
+  sources: [docs/agent-operating-model.yaml, docs/implementation-control.md]
+  evidence_class: validated-contract
+  external_proof_needed: []
+rules:
+- typed_operational_config_is_authoritative_over_scattered_runtime_values
+- static_configuration_does_not_prove_deployed_secret_or_backup_behavior
+- visibility_and_consent_remain_backend_policy_decisions
+- synthetic_and_sandbox_flows_must_remain_separate_from_production_like_behavior

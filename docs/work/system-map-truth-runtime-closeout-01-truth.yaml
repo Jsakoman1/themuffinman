@@ -1,0 +1,53 @@
+kind: work
+version: 1
+id: system-map-truth-runtime-closeout-01-truth
+title: Reconcile System Map truth
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-truth-runtime-closeout-master.yaml
+execution_inventory: docs/work/system-map-truth-runtime-closeout-master-execution-inventory.yaml
+tasks:
+- id: reconcile-system-map-truth
+  title: Remove stale references and align map navigation with completed plans
+  type: documentation
+  status: done
+  inventory_item: system-map-truth
+  paths:
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  validation: make audit-docs && git diff --check
+  started_at: '2026-07-22T09:47:07Z'
+  start_fingerprints:
+    docs/system-map.md: d26238aabab60709cde82f711fc266583dc6a483cf77d4a6a80004c9fecc8835
+    docs/implementation-backlog.md: f4ff09fbea3f2d4424ddfde40f8db7f27ffa8bd39023d0f013197fcc5a458a62
+evidence:
+- task: reconcile-system-map-truth
+  command: make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:47:25Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:47:07Z'
+  changedAfterStart: &1
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

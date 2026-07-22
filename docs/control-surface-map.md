@@ -1,5 +1,7 @@
 # Control Surface Map
 
+For the cross-system architecture and documentation index, start with [`docs/system-map.md`](system-map.md). This file remains intentionally scoped to implementation control.
+
 There is one active implementation control surface:
 
 - `docs/work/*.yaml` — current work and master plans;

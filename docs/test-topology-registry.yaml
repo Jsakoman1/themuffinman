@@ -1,0 +1,19 @@
+version: 1
+purpose: Test, fixture, capability, browser, device, and runtime evidence topology.
+reviewed_round: MAP-006
+coverage_state: partial
+evidence_class: validated-contract
+sources: [docs/regression-scenario-catalog.yaml, docs/runtime-acceptance-matrix.yaml, docs/capability-evidence-registry.yaml, apps/themuffinman/src/test, apps/themuffinman/frontend]
+layers:
+- {id: backend_unit_and_integration, owner: apps/themuffinman/src/test, evidence_class: source-trace, proof: test_result_required}
+- {id: frontend_type_and_build, owner: apps/themuffinman/frontend, evidence_class: validated-contract, proof: type_check_and_build}
+- {id: regression_catalog, owner: docs/regression-scenario-catalog.yaml, evidence_class: validated-contract, proof: scenario_execution_required}
+- {id: browser_runtime, owner: docs/runtime-acceptance-matrix.yaml, evidence_class: runtime-proof, proof: browser_trace, state: mixed_passed_and_pending}
+- {id: device_runtime, owner: docs/runtime-acceptance-matrix.yaml, evidence_class: runtime-proof, proof: device_trace, state: pending_or_unknown}
+- {id: synthetic_and_sandbox, owner: docs/agent-operating-model.yaml, evidence_class: validated-contract, proof: separation_rules}
+coverage_rules:
+- unit_or_integration_pass_does_not_prove_browser_or_device_behavior
+- browser_trace_does_not_prove_production_operations
+- fixture_presence_does_not_prove representative_data_or_privacy_coverage
+- capability_closeout_requires capability_specific_evidence
+gaps: [one_capability_to_test_graph, fixture_lineage, browser_trace_index, device_test_harness, negative_and_recovery_coverage]

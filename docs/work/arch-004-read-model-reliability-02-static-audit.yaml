@@ -1,0 +1,69 @@
+kind: work
+version: 1
+id: arch-004-read-model-reliability-02-static-audit
+title: Reconcile static read audits
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-004-read-model-reliability-master.yaml
+execution_inventory: docs/work/arch-004-read-model-reliability-master-execution-inventory.yaml
+tasks:
+- id: reconcile-static-read-audits
+  title: Reconcile repository fetch
+  mapper: 
+  and read-surface findings: 
+  type: analysis
+  status: done
+  inventory_item: arch-004-static-audit
+  paths:
+  - docs/read-model-reliability-contract.yaml
+  - docs/performance-evidence-catalog.yaml
+  required_paths:
+  - docs/read-model-reliability-contract.yaml
+  - docs/performance-evidence-catalog.yaml
+  validation: ruby scripts/audits/audit-repository-fetch.rb && make audit-backend
+    && git diff --check
+  started_at: '2026-07-22T09:25:31Z'
+  start_fingerprints:
+    docs/read-model-reliability-contract.yaml: d61ab2afc78c8fa0122471d315a18c20be5eaa4929ed247c09d0a67b498988f0
+    docs/performance-evidence-catalog.yaml: 61abef5ad54c2d4123b185432a4626b88780dc9b4b6e23284502532ab73ba106
+evidence:
+- task: reconcile-static-read-audits
+  command: ruby scripts/audits/audit-repository-fetch.rb && make audit-backend &&
+    git diff --check
+  ranAt: '2026-07-22T09:25:43Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/performance-evidence-catalog.yaml
+  - docs/read-model-reliability-contract.yaml
+  output: |2+
+      - ChatAttachmentUploadRepository.findByStorageKey risk=high fetch=
+      - ChatConversationMemberStateRepository.findByConversationIdInAndUserId risk=high fetch=
+      - ChatConversationRepository.findDetailedById risk=high fetch=createdBy,lastMessageSender,leftParticipant,owner,participants,rightParticipant,user
+      - ChatConversationRepository.findDetailedByParticipantId risk=high fetch=createdBy,lastMessageSender,leftParticipant,owner,participants,rightParticipant,user
+      - ChatMessageRepository.findDetailedByAttachmentStorageKey risk=high fetch=sender
+      - ChatMessageRepository.findDetailedPageByConversationId risk=high fetch=sender
+    ruby scripts/audits/audit-mapper-usage.rb
+    Mapper usage audit
+      mappers scanned: 16
+      - RideOfferMgr usages=10 flags=relation_dereference,rich_text_sanitization
+      - ThingSharingMgr usages=9 flags=relation_dereference,rich_text_sanitization
+      - AppUserMgr usages=7 flags=navigation_logic,relation_dereference,rich_text_sanitization,service_backed
+      - BusinessAvailabilityMgr usages=4 flags=relation_dereference
+      - BusinessBookingMgr usages=4 flags=relation_dereference
+    ruby scripts/audits/audit-mutation-safety.rb
+    Mutation safety
+      mutation surfaces scanned: 378
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:25:31Z'
+  changedAfterStart: &1
+  - docs/read-model-reliability-contract.yaml
+  - docs/performance-evidence-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

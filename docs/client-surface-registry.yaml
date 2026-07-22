@@ -1,0 +1,45 @@
+version: 1
+purpose: Client surface ownership and parity index; capability inventory remains the authority for current support status.
+reviewed_round: 24
+source_inventory:
+  routes: 45
+  concrete_surfaces: 44
+  redirects: 1
+  detached_routes: 0
+  likely_unused_surface_candidates: [apps/themuffinman/frontend/src/modules/app-shell/components/ActivityRail.vue]
+clients:
+- id: web_workspace
+  owner: frontend_app_shell
+  canonical_sources: [apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts, apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts, apps/themuffinman/frontend/src/router.ts]
+  evidence_class: source-trace
+  confidence: high
+  parity_status: implemented_surface_inventory
+- id: vision_for_web
+  owner: vision_backend_and_web_host
+  canonical_sources: [docs/product-vision.md, docs/vision-architecture-patterns.md, apps/themuffinman/frontend/src/modules/vision]
+  evidence_class: source-trace
+  confidence: high
+  parity_status: contract_and_surface_dependent
+- id: vision_console
+  owner: vision_module
+  canonical_sources: [apps/themuffinman/frontend/src/modules/vision]
+  evidence_class: source-trace
+  confidence: medium
+  parity_status: transitional_console
+- id: admin
+  owner: protected_admin_boundary
+  canonical_sources: [apps/themuffinman/src/main/java/com/themuffinman/app/agent/controller/AdminAgentController.java]
+  evidence_class: source-trace
+  confidence: medium
+  parity_status: separate_authority_class
+- id: native_handoff
+  owner: native_handoff_contract
+  canonical_sources: [docs/native-client-handoff-contract.yaml, apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff]
+  evidence_class: source-trace
+  confidence: high
+  parity_status: contract_ready_no_native_source_proof
+rules:
+- web_and_vision_are_equal_product_clients_not_substitutes
+- route_presence_does_not_prove_discoverability_completion_or_runtime_behavior
+- frontend_may_present_backend_owned_action_flags_but_not_reimplement_authority
+- native_handoff_contract_does_not_prove_native_client_or_device_behavior

@@ -1,0 +1,52 @@
+kind: work
+version: 1
+id: browser-runtime-evidence-pass-04-read-models
+title: Capture read-model browser evidence
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/browser-runtime-evidence-pass-master.yaml
+execution_inventory: docs/work/browser-runtime-evidence-pass-master-execution-inventory.yaml
+tasks:
+- id: capture-read-model-evidence
+  title: Capture representative read timing, result shape, and recovery traces
+  type: runtime
+  status: done
+  inventory_item: browser-runtime-read-models
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  runtime_evidence_paths:
+  - docs/runtime-evidence/browser-runtime-read-models-2026-07-22.json
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  started_at: '2026-07-22T11:12:25Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: e44ac47f5ba5486ca2164211ef5447e340677247563eb7ed1b7007cd76a8aa23
+evidence:
+- task: capture-read-model-evidence
+  command: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  ranAt: '2026-07-22T11:12:36Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (41 passed, 40 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 41
+      pending runtime scenarios: 40
+      passed evidence paths checked: 37
+
+  startedAt: '2026-07-22T11:12:25Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/browser-runtime-read-models-2026-07-22.json

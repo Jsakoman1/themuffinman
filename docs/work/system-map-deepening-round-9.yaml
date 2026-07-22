@@ -1,0 +1,71 @@
+kind: work
+version: 1
+id: system-map-deepening-round-9
+title: API, client, and evidence linkage
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-deepening-master-execution-inventory.yaml
+master_plan: docs/work/system-map-deepening-master.yaml
+objective: Classify backend endpoints by ownership and connect them to Web, Vision,
+  native, admin, tests, contracts, and runtime evidence.
+scope:
+- apps/themuffinman/src/main/java/com/themuffinman/app/*/controller
+- apps/themuffinman/frontend/src
+- apps/themuffinman/frontend/scripts
+- docs/agent-operating-model/sections
+- docs/runtime-acceptance-matrix.yaml
+- docs/capability-inventory.yaml
+deliverables:
+- docs/system-map-deepening-round-9-api-client-evidence.md
+tasks:
+- id: analyze-api-client-and-evidence-linkage
+  title: Analyze API, client, and evidence linkage
+  inventory_item: api-client-evidence-graph
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-deepening-round-9-api-client-evidence.md
+  required_paths:
+  - docs/system-map-deepening-round-9-api-client-evidence.md
+  validation: make audit-backend && make audit-frontend && make audit-runtime-acceptance
+  started_at: '2026-07-22T06:30:28Z'
+  start_fingerprints:
+    docs/system-map-deepening-round-9-api-client-evidence.md: __missing__
+evidence:
+- task: analyze-api-client-and-evidence-linkage
+  command: make audit-backend && make audit-frontend && make audit-runtime-acceptance
+  ranAt: '2026-07-22T06:31:39Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-deepening-round-9-api-client-evidence.md
+  output: |2+
+      frontend files scanned: 95
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+
+  startedAt: '2026-07-22T06:30:28Z'
+  changedAfterStart: &1
+  - docs/system-map-deepening-round-9-api-client-evidence.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

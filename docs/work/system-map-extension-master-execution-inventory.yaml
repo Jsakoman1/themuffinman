@@ -1,0 +1,77 @@
+kind: execution_inventory
+version: 1
+id: system-map-extension-master-execution-inventory
+master_plan: docs/work/system-map-extension-master.yaml
+serial_task_execution: true
+purpose: Ordered execution queue for System Map completeness extensions.
+items:
+- id: map-001-module-dependencies
+  sequence: 1
+  plan: docs/work/system-map-extension-map-001.yaml
+  task: build-module-dependency-registry
+  depends_on: []
+  output: docs/module-dependency-registry.yaml
+  status: verified
+- id: map-002-error-recovery
+  sequence: 2
+  plan: docs/work/system-map-extension-map-002.yaml
+  task: build-error-recovery-registry
+  depends_on: [map-001-module-dependencies]
+  output: docs/error-recovery-registry.yaml
+  status: verified
+- id: map-003-integrations-config
+  sequence: 3
+  plan: docs/work/system-map-extension-map-003.yaml
+  task: build-integration-environment-registry
+  depends_on: [map-001-module-dependencies]
+  output: docs/integration-environment-registry.yaml
+  status: verified
+- id: map-004-data-classification
+  sequence: 4
+  plan: docs/work/system-map-extension-map-004.yaml
+  task: build-data-classification-registry
+  depends_on: [map-001-module-dependencies, map-003-integrations-config]
+  output: docs/data-classification-registry.yaml
+  status: verified
+- id: map-005-job-replay
+  sequence: 5
+  plan: docs/work/system-map-extension-map-005.yaml
+  task: build-job-replay-registry
+  depends_on: [map-002-error-recovery, map-003-integrations-config, map-004-data-classification]
+  output: docs/job-replay-operations-registry.yaml
+  status: verified
+- id: map-006-test-topology
+  sequence: 6
+  plan: docs/work/system-map-extension-map-006.yaml
+  task: build-test-topology-registry
+  depends_on: [map-001-module-dependencies, map-002-error-recovery]
+  output: docs/test-topology-registry.yaml
+  status: verified
+- id: map-007-release-operations
+  sequence: 7
+  plan: docs/work/system-map-extension-map-007.yaml
+  task: extend-release-deployment-evidence
+  depends_on: [map-003-integrations-config, map-005-job-replay, map-006-test-topology]
+  output: docs/release-operations-registry.yaml
+  status: verified
+- id: map-008-observability-performance
+  sequence: 8
+  plan: docs/work/system-map-extension-map-008.yaml
+  task: collect-observability-performance-evidence
+  depends_on: [map-002-error-recovery, map-005-job-replay, map-006-test-topology, map-007-release-operations]
+  output: docs/performance-evidence-catalog.yaml
+  status: verified
+- id: map-009-native-device
+  sequence: 9
+  plan: docs/work/system-map-extension-map-009.yaml
+  task: trace-native-device-runtime-evidence
+  depends_on: [map-002-error-recovery, map-003-integrations-config, map-006-test-topology, map-008-observability-performance]
+  output: docs/native-client-contract.yaml
+  status: verified
+- id: consolidate-extension-baseline
+  sequence: 10
+  plan: docs/work/system-map-extension-master.yaml
+  task: consolidate-extension-baseline
+  depends_on: [map-001-module-dependencies, map-002-error-recovery, map-003-integrations-config, map-004-data-classification, map-005-job-replay, map-006-test-topology, map-007-release-operations, map-008-observability-performance, map-009-native-device]
+  output: docs/system-map-extension-final-baseline.md
+  status: verified

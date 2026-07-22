@@ -1,0 +1,59 @@
+kind: work
+version: 1
+id: arch-003-side-effect-delivery-01-boundary
+title: Implement shared after-commit event boundary
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-003-side-effect-delivery-master.yaml
+execution_inventory: docs/work/arch-003-side-effect-delivery-master-execution-inventory.yaml
+objective: Defer shared in-process domain event publication until successful commit
+  when a transaction is active, while retaining synchronous behavior outside transactions.
+tasks:
+- id: implement-after-commit-boundary
+  title: Add and test transaction-aware domain event publication
+  type: implementation
+  status: done
+  inventory_item: arch-003-boundary
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/event/SpringDomainEventPublisherTest.java
+  - docs/side-effect-delivery-contract.yaml
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/event/SpringDomainEventPublisherTest.java
+  validation: cd apps/themuffinman && ./mvnw -Dtest=SpringDomainEventPublisherTest
+    test && cd ../.. && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:16:11Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java: c136afbcfd25e9eecee2759f2401a428c1e68fca067359c640160cb9454ca3a7
+    apps/themuffinman/src/test/java/com/themuffinman/app/common/event/SpringDomainEventPublisherTest.java: __missing__
+evidence:
+- task: implement-after-commit-boundary
+  command: cd apps/themuffinman && ./mvnw -Dtest=SpringDomainEventPublisherTest test
+    && cd ../.. && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:18:20Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/event/SpringDomainEventPublisherTest.java
+  - docs/side-effect-delivery-contract.yaml
+  output: "[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed:
+    0.215 s -- in com.themuffinman.app.common.event.SpringDomainEventPublisherTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  10.376 s\n[INFO] Finished at: 2026-07-22T11:18:31+02:00\n[INFO] ------------------------------------------------------------------------\nruby
+    scripts/audits/audit-work-plan-recursion.rb\nWork-plan recursion audit passed
+    (no recursive validation commands).\nruby scripts/audits/audit-docs-as-tests.rb\nDocs
+    as tests\n  statements scanned: 295\n  review needed: 0\n  high priority: 0\n\n"
+  startedAt: '2026-07-22T09:16:11Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/event/SpringDomainEventPublisherTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

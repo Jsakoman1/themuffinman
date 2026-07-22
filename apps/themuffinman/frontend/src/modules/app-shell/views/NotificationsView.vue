@@ -20,7 +20,11 @@ const formatDate = (value: string) => new Intl.DateTimeFormat(undefined, {month:
 const load = async () => { isLoading.value = true; error.value = ""; try { const [news, center] = await Promise.all([userShellApi.getMyNews(), userShellApi.getAttentionCenter()]); items.value = news; attention.value = center } catch { error.value = "Could not load notifications." } finally { isLoading.value = false } }
 const markAllRead = async () => { isActing.value = true; error.value = ""; try { await userShellApi.markNewsAsRead(); feedback.value = "All notifications marked as read."; await load() } catch { error.value = "Could not update notifications." } finally { isActing.value = false } }
 const markRead = async (item: QuestNewsItemResponseDTO) => { selectedNotificationId.value = item.id; if (!item.readAt) { try { await userShellApi.markNewsItemAsRead(item.id); item.readAt = new Date().toISOString() } catch { error.value = "Could not update this notification." } } }
-const destination = (item: QuestNewsItemResponseDTO) => item.questId ? `/work/quests/${item.questId}` : null
+const destination = (item: QuestNewsItemResponseDTO) => {
+  if (item.destinationType === "APPLICATION" && item.destinationId) return `/work/applications/${item.destinationId}`
+  if (item.destinationType === "QUEST" && item.destinationId) return `/work/quests/${item.destinationId}`
+  return null
+}
 const attentionDestination = (item: ActivityItem) => item.route || null
 onMounted(() => void load())
 </script>

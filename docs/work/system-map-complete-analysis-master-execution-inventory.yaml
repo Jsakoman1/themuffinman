@@ -1,0 +1,221 @@
+kind: execution_inventory
+version: 1
+id: system-map-complete-analysis-master-execution-inventory
+master_plan: docs/work/system-map-complete-analysis-master.yaml
+serial_task_execution: true
+purpose: Ordered queue for the complete system truth and drift analysis program.
+items:
+- id: canonical-truth-graph
+  sequence: 1
+  plan: docs/work/system-map-complete-analysis-round-20.yaml
+  task: establish-canonical-truth-graph
+  closeout: Canonical ownership, reference direction, status authority, and stale-source
+    rules are explicitly mapped.
+  depends_on: []
+  output: docs/system-truth-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:12:36Z'
+  verified_at: '2026-07-22T07:13:30Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-20.yaml
+    task: establish-canonical-truth-graph
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: endpoint-client-registry
+  sequence: 2
+  plan: docs/work/system-map-complete-analysis-round-21.yaml
+  task: map-endpoints-dtos-and-client-consumers
+  closeout: Endpoint, DTO, route, action, client, capability, test, and runtime evidence
+    relationships are mapped.
+  depends_on:
+  - canonical-truth-graph
+  output: docs/interface-evidence-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:13:40Z'
+  verified_at: '2026-07-22T07:14:36Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-21.yaml
+    task: map-endpoints-dtos-and-client-consumers
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: data-schema-ownership
+  sequence: 3
+  plan: docs/work/system-map-complete-analysis-round-22.yaml
+  task: map-data-schema-and-persistence-ownership
+  closeout: Entities, tables, migrations, repositories, foreign keys, ownership, and
+    cross-domain data dependencies are mapped.
+  depends_on:
+  - canonical-truth-graph
+  output: docs/data-ownership-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:14:46Z'
+  verified_at: '2026-07-22T07:15:38Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-22.yaml
+    task: map-data-schema-and-persistence-ownership
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: workflow-invariant-matrix
+  sequence: 4
+  plan: docs/work/system-map-complete-analysis-round-23.yaml
+  task: map-workflows-states-and-invariants
+  closeout: State machines, permissions, validations, invariants, concurrency rules,
+    and terminal states are reconciled.
+  depends_on:
+  - canonical-truth-graph
+  - data-schema-ownership
+  output: docs/workflow-invariant-coverage.yaml
+  status: verified
+  started_at: '2026-07-22T07:15:45Z'
+  verified_at: '2026-07-22T07:16:32Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-23.yaml
+    task: map-workflows-states-and-invariants
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: frontend-surface-parity
+  sequence: 5
+  plan: docs/work/system-map-complete-analysis-round-24.yaml
+  task: map-frontend-routes-components-and-actions
+  closeout: Frontend route, shell, component, action, error, loading, and backend
+    parity coverage is mapped.
+  depends_on:
+  - canonical-truth-graph
+  - endpoint-client-registry
+  output: docs/client-surface-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:16:39Z'
+  verified_at: '2026-07-22T07:17:13Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-24.yaml
+    task: map-frontend-routes-components-and-actions
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: evidence-traceability
+  sequence: 6
+  plan: docs/work/system-map-complete-analysis-round-25.yaml
+  task: map-tests-runtime-evidence-and-capability-traceability
+  closeout: Capability-to-code-to-test-to-runtime evidence coverage and unproven claims
+    are classified.
+  depends_on:
+  - endpoint-client-registry
+  - workflow-invariant-matrix
+  - frontend-surface-parity
+  output: docs/capability-evidence-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:17:20Z'
+  verified_at: '2026-07-22T07:18:22Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-25.yaml
+    task: map-tests-runtime-evidence-and-capability-traceability
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: empirical-performance
+  sequence: 7
+  plan: docs/work/system-map-complete-analysis-round-26.yaml
+  task: analyze-query-performance-and-resource-behavior
+  closeout: Query shapes, N+1 risk, pagination, cache, and the exact missing latency,
+    memory, and scale evidence are documented without claiming empirical proof.
+  depends_on:
+  - data-schema-ownership
+  - evidence-traceability
+  output: docs/performance-evidence-catalog.yaml
+  status: verified
+  started_at: '2026-07-22T07:18:29Z'
+  verified_at: '2026-07-22T07:19:00Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-26.yaml
+    task: analyze-query-performance-and-resource-behavior
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: event-job-replay-architecture
+  sequence: 8
+  plan: docs/work/system-map-complete-analysis-round-27.yaml
+  task: map-events-jobs-realtime-and-replay
+  closeout: Event, notification, WebSocket, scheduled-job, retry, outbox, replay,
+    and observability behavior is mapped.
+  depends_on:
+  - endpoint-client-registry
+  - data-schema-ownership
+  - workflow-invariant-matrix
+  - evidence-traceability
+  output: docs/side-effect-delivery-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:19:07Z'
+  verified_at: '2026-07-22T07:19:54Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-27.yaml
+    task: map-events-jobs-realtime-and-replay
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: security-operations-boundaries
+  sequence: 9
+  plan: docs/work/system-map-complete-analysis-round-28.yaml
+  task: map-security-operations-and-recovery-boundaries
+  closeout: Auth, consent, retention, secrets, providers, storage, deployment, backup,
+    recovery, and abuse boundaries are reconciled.
+  depends_on:
+  - canonical-truth-graph
+  - data-schema-ownership
+  - workflow-invariant-matrix
+  - event-job-replay-architecture
+  output: docs/security-operations-recovery-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:20:03Z'
+  verified_at: '2026-07-22T07:21:31Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-28.yaml
+    task: map-security-operations-and-recovery-boundaries
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: delivery-dependency-release
+  sequence: 10
+  plan: docs/work/system-map-complete-analysis-round-31.yaml
+  task: map-delivery-dependencies-and-release-provenance
+  closeout: Build, generator, dependency, CI, release, rollback, environment provenance,
+    and third-party provider boundaries are mapped.
+  depends_on:
+  - canonical-truth-graph
+  - endpoint-client-registry
+  - data-schema-ownership
+  - security-operations-boundaries
+  output: docs/delivery-dependency-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:21:39Z'
+  verified_at: '2026-07-22T07:22:23Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-31.yaml
+    task: map-delivery-dependencies-and-release-provenance
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: drift-control-design
+  sequence: 11
+  plan: docs/work/system-map-complete-analysis-round-29.yaml
+  task: design-drift-detection-and-maintenance-controls
+  closeout: Machine-checkable freshness, link, ownership, generated-artifact, and
+    change-impact controls are specified.
+  depends_on:
+  - canonical-truth-graph
+  - endpoint-client-registry
+  - data-schema-ownership
+  - workflow-invariant-matrix
+  - frontend-surface-parity
+  - evidence-traceability
+  - empirical-performance
+  - event-job-replay-architecture
+  - security-operations-boundaries
+  - delivery-dependency-release
+  output: docs/system-drift-control-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:22:32Z'
+  verified_at: '2026-07-22T07:23:15Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-29.yaml
+    task: design-drift-detection-and-maintenance-controls
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: complete-system-baseline
+  sequence: 12
+  plan: docs/work/system-map-complete-analysis-round-30.yaml
+  task: consolidate-complete-system-baseline
+  closeout: The living system map, truth graph, risk register, backlog, and next implementation
+    slices are reconciled and verified.
+  depends_on:
+  - drift-control-design
+  output: docs/system-map.md
+  status: verified
+  started_at: '2026-07-22T07:23:22Z'
+  verified_at: '2026-07-22T07:24:10Z'
+  evidence:
+    plan: docs/work/system-map-complete-analysis-round-30.yaml
+    task: consolidate-complete-system-baseline
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

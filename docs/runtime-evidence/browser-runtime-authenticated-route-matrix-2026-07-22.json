@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-07-22T15:03:00+02:00",
+  "scenario": "runtime-authenticated-web-route-matrix",
+  "authentication": {"register": "POST /auth/register", "status": 200, "role": "USER", "fixture": "fresh local runtime user"},
+  "routes": [
+    "/home", "/work/find?scope=open-visible", "/work/quests?scope=owned-active", "/notifications", "/activity", "/chat", "/circles", "/people", "/profile", "/profile/settings", "/things", "/rides", "/business/find", "/business/public/jsak-home-repairs", "/vision"
+  ],
+  "documentStatuses": "all 200",
+  "apiErrorScan": {"authenticatedApiResponses": 151, "failedResponses": [], "pageErrors": []},
+  "shellAssertions": {"notificationsHeading": "Notifications", "activityHeading": "Activity", "businessHeading": "Find a business", "visionDocumentStatus": 200},
+  "status": "passed",
+  "boundary": "Authenticated Web route and API-error matrix; native/device, provider-failure, and deep mutation lifecycle scenarios remain separate matrix rows."
+}

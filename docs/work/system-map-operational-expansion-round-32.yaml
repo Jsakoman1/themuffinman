@@ -1,0 +1,65 @@
+kind: work
+version: 1
+id: system-map-operational-expansion-round-32
+title: Endpoint to capability traceability registry
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-operational-expansion-master-execution-inventory.yaml
+master_plan: docs/work/system-map-operational-expansion-master.yaml
+objective: Map relevant endpoint families to capability IDs, consumer classes, contract
+  sources, tests, and runtime scenarios while preserving unknown and unclassified
+  evidence states.
+deliverables:
+- docs/system-map-operational-expansion-round-32-endpoint-capability-traceability.md
+- docs/endpoint-capability-traceability-registry.yaml
+tasks:
+- id: build-endpoint-capability-traceability
+  title: Build endpoint capability traceability
+  inventory_item: endpoint-capability-traceability
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-operational-expansion-round-32-endpoint-capability-traceability.md
+  - docs/endpoint-capability-traceability-registry.yaml
+  required_paths:
+  - docs/system-map-operational-expansion-round-32-endpoint-capability-traceability.md
+  - docs/endpoint-capability-traceability-registry.yaml
+  validation: make audit-interface-evidence && make audit-docs && git diff --check
+  started_at: '2026-07-22T07:45:06Z'
+  start_fingerprints:
+    docs/system-map-operational-expansion-round-32-endpoint-capability-traceability.md: __missing__
+    docs/endpoint-capability-traceability-registry.yaml: __missing__
+evidence:
+- task: build-endpoint-capability-traceability
+  command: make audit-interface-evidence && make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:45:46Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/system-map-operational-expansion-round-32-endpoint-capability-traceability.md
+  output: |+
+    Interface evidence reconciliation audit passed
+      endpoints classified: 214
+      admin_or_agent: 4
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 140
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T07:45:06Z'
+  changedAfterStart: &1
+  - docs/system-map-operational-expansion-round-32-endpoint-capability-traceability.md
+  - docs/endpoint-capability-traceability-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

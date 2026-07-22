@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: runtime-pending-closeout-04
+title: Execute remaining fixture-backed visibility and read-model runtime scenarios
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-closeout.yaml
+execution_inventory: docs/work/runtime-pending-closeout-04-execution-inventory.yaml
+objective: Continue pending runtime closeout with reproducible dev multi-user fixtures,
+  complete visibility/read-model traces, and precise evidence boundaries for scenarios
+  that still require failure injection, storage faults, or device state.
+scope: docs/runtime-acceptance-matrix.yaml pending_runtime rows for visibility, social
+  read models, Vision context/search, Chat lifecycle, workers, and notifications
+out_of_scope:
+- native device implementation
+- process-crash or production deployment exercises
+- inventing provider or database failure evidence
+tasks:
+- id: execute-fixture-backed-visibility-and-read-models
+  title: Execute fixture-backed visibility and read-model scenarios
+  type: verification
+  status: done
+  inventory_item: fixture-backed-visibility-and-read-models
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/social
+  - apps/themuffinman/src/main/java/com/themuffinman/app/location
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision
+  - apps/themuffinman/frontend/src/modules/app-shell
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T13:40:31Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 97df4a50f728e9d7e2b9e92e42ecbd276deddbee408313c3aee690c58189e0f7
+    docs/implementation-backlog.md: bbbb642a55c7351c1b75083978ad85ed37f3fafef59ea7b737347f063535be09
+evidence:
+- task: execute-fixture-backed-visibility-and-read-models
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T13:42:01Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (55 passed, 26 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 55
+      pending runtime scenarios: 26
+      passed evidence paths checked: 52
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 299
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T13:40:31Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

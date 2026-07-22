@@ -1,0 +1,23 @@
+{
+  "artifact_type": "runtime_mutation_finding",
+  "captured_at": "2026-07-22",
+  "environment": "local-dev",
+  "execution_surface": "authenticated_web_api_probe",
+  "scenario": "stale_work_quest_update",
+  "endpoint": "/quests/{id}",
+  "fixture": {"quest_id": 406, "owner_user_id": 7},
+  "sequence": [
+    {"step": "create", "http_status": 200, "title": "Runtime stale quest 1784718345130"},
+    {"step": "read_snapshot_a", "http_status": 200, "title": "Runtime stale quest 1784718345130"},
+    {"step": "first_writer_update", "http_status": 200, "title": "Runtime stale quest 1784718345130 first writer"},
+    {"step": "authoritative_read_after_first", "http_status": 200, "title": "Runtime stale quest 1784718345130 first writer"},
+    {"step": "stale_writer_update", "http_status": 200, "title": "Runtime stale quest 1784718345130 stale writer"},
+    {"step": "authoritative_read_after_stale_write", "http_status": 200, "title": "Runtime stale quest 1784718345130 stale writer"},
+    {"step": "cleanup_delete", "http_status": 200}
+  ],
+  "result": "finding",
+  "finding": "The quest update endpoint accepts a stale write and silently applies last-write-wins. No stale resource conflict, resource version, or equivalent state token was returned.",
+  "expected_contract": "docs/mutation-reliability-contract.yaml requires a stale-state check where silent last-write-wins can lose user intent.",
+  "related_backlog_id": "RUNTIME-STALE-QUEST-UPDATE",
+  "secrets_stored": false
+}

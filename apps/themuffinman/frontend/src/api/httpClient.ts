@@ -32,3 +32,35 @@ api.interceptors.response.use(
 export const withAuth = () => ({
   headers: authHeader()
 })
+
+export type MutationRequestOptions = {
+  requestId?: string
+  correlationId?: string
+  idempotencyKey?: string
+  operationKey?: string
+}
+
+const newRequestId = () => crypto.randomUUID()
+
+export const withMutation = (options: MutationRequestOptions = {}) => {
+  const requestId = options.requestId || newRequestId()
+  return {
+    headers: {
+      ...authHeader(),
+      "X-Request-Id": requestId,
+      "X-Correlation-Id": options.correlationId || requestId,
+      ...(options.idempotencyKey ? {"Idempotency-Key": options.idempotencyKey} : {}),
+      ...(options.operationKey ? {"X-Operation-Key": options.operationKey} : {})
+    }
+  }
+}
+
+export const correlationIdFromError = (error: unknown): string | undefined => {
+  const response = (error as { response?: { data?: { correlationId?: unknown }, headers?: Record<string, unknown> } } | null)?.response
+  const bodyCorrelationId = response?.data?.correlationId
+  if (typeof bodyCorrelationId === "string" && bodyCorrelationId.length > 0) {
+    return bodyCorrelationId
+  }
+  const headerCorrelationId = response?.headers?.["x-correlation-id"]
+  return typeof headerCorrelationId === "string" && headerCorrelationId.length > 0 ? headerCorrelationId : undefined
+}

@@ -1,0 +1,88 @@
+kind: work
+version: 1
+id: drift-002-interface-evidence-reconciliation
+title: Interface evidence reconciliation audit
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+objective: Implement DRIFT-002 by classifying endpoint linker results into explicit
+  consumer-evidence classes without inferring Web completion, runtime proof, or capability
+  status.
+scope:
+- scripts/audits
+- docs/interface-evidence-registry.yaml
+- docs/system-drift-control-registry.yaml
+- docs/implementation-backlog.md
+- Makefile
+- docs/implementation-control.md
+- docs/audits.md
+tasks:
+- id: implement-interface-evidence-reconciliation
+  title: Implement interface evidence reconciliation audit
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-interface-evidence-reconciliation.rb
+  - Makefile
+  - docs/interface-evidence-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  required_paths:
+  - scripts/audits/audit-interface-evidence-reconciliation.rb
+  - Makefile
+  - docs/interface-evidence-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  validation: make audit-interface-evidence && make audit-frontend && make audit-docs
+    && git diff --check
+evidence:
+- task: implement-interface-evidence-reconciliation
+  command: make audit-interface-evidence && make audit-frontend && make audit-docs
+    && git diff --check
+  ranAt: '2026-07-22T07:32:51Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/audits.md
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/interface-evidence-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - scripts/audits/audit-interface-evidence-reconciliation.rb
+  output: |2+
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 294
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - scripts/audits/audit-interface-evidence-reconciliation.rb
+  - Makefile
+  - docs/interface-evidence-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

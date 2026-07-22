@@ -1,0 +1,51 @@
+kind: master
+version: 1
+id: repair-and-stabilize-master
+title: Repair and stabilize existing system before new features
+status: verified_with_pending_gaps
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/repair-and-stabilize-master-execution-inventory.yaml
+closeout_report: docs/repair-and-stabilize-closeout-2026-07-22.yaml
+objective: Repair correctness, reliability, observability, consent parity, and regression gaps in existing capabilities before opening new product feature work.
+analysis_source: docs/repair-and-stabilize-analysis.md
+preflight_source: docs/repair-and-stabilize-preflight.md
+system_map_source: docs/system-map.md
+registry_sources:
+  - docs/system-map-runtime-closeout-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/mutation-reliability-contract.yaml
+  - docs/side-effect-delivery-contract.yaml
+  - docs/read-model-reliability-contract.yaml
+  - docs/visibility-consent-parity-contract.yaml
+children:
+  - docs/work/repair-and-stabilize-01-baseline-triage.yaml
+  - docs/work/repair-and-stabilize-02-mutation-correctness.yaml
+  - docs/work/repair-and-stabilize-03-side-effect-durability.yaml
+  - docs/work/repair-and-stabilize-04-read-model-observability.yaml
+  - docs/work/repair-and-stabilize-05-consent-client-parity.yaml
+  - docs/work/repair-and-stabilize-06-regression-release-gate.yaml
+rules:
+  - Existing capability repair takes priority over unrelated feature expansion.
+  - Domain services remain authoritative for permissions, validation, workflows, and state transitions.
+  - Runtime evidence, capability status, and work-plan verification remain separate statuses.
+  - Unsupported database/provider failure, process-crash, native/device, offline/background, and production-scale scenarios remain explicitly pending.
+  - Every discovered defect receives a stable backlog ID before a slice closes.
+  - No performance or reliability claim is made without evidence matching the claim scope.
+  - Every logical repair updates affected code, tests, living documentation, registries, and regression evidence together.
+  - Child plans must remain single-outcome repair slices; cross-cutting changes require an explicit impact note before scope expands.
+entry_gate:
+  required_sources: [docs/system-map.md, docs/system-map-runtime-closeout-registry.yaml, docs/runtime-acceptance-matrix.yaml, docs/implementation-backlog.md]
+  required_state: current_map_and_pending_matrix_reconciled
+exit_gate:
+  required_conditions:
+    - p0_correctness_gaps_fixed_or_explicitly_external_blocked
+    - retry_and_stale_state_policy_proven_for_supported_mutations
+    - required_side_effects_have_durable_strategy_or_explicit_non_durable_classification
+    - priority_read_models_have_empirical_evidence_or_explicit_performance_exclusion
+    - supported_web_visibility_paths_have_revoke_and_redaction_proof
+    - repaired_defects_have_regression_scenarios
+    - all_child_plans_and_final_audits_verified
+    - unavailable_external_scenarios_remain_pending

@@ -1,0 +1,87 @@
+kind: work
+version: 1
+id: arch-002-mutation-reliability-01-transport
+title: Shared mutation transport context and error contract
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-002-mutation-reliability-master.yaml
+execution_inventory: docs/work/arch-002-mutation-reliability-master-execution-inventory.yaml
+objective: Add request/correlation context propagation and structured error metadata
+  without placing domain rules in transport infrastructure.
+deliverables:
+- docs/mutation-reliability-contract.yaml
+- docs/error-recovery-registry.yaml
+tasks:
+- id: implement-transport-context
+  title: Implement server request context, correlation response metadata, and client
+    propagation
+  type: implementation
+  status: done
+  inventory_item: arch-002-transport
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContext.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContextFilter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java
+  - apps/themuffinman/frontend/src/api/httpClient.ts
+  - docs/mutation-reliability-contract.yaml
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContext.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContextFilter.java
+  - apps/themuffinman/frontend/src/api/httpClient.ts
+  - docs/mutation-reliability-contract.yaml
+  validation: make audit-backend && make audit-frontend && make audit-docs && git
+    diff --check
+  started_at: '2026-07-22T08:56:13Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContext.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContextFilter.java: __missing__
+    apps/themuffinman/frontend/src/api/httpClient.ts: e76a0b9e5e41724bd77110ebc63c41650cf551028000661d7dcc360d571ee952
+    docs/mutation-reliability-contract.yaml: ad14b61cc7ccf33dc2135aa0ecde30416135687ed36ccf3981cd1c8d56ce5f78
+evidence:
+- task: implement-transport-context
+  command: make audit-backend && make audit-frontend && make audit-docs && git diff
+    --check
+  ranAt: '2026-07-22T09:00:56Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/api/httpClient.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/controller/GlobalExceptionHandler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/dto/ApiErrorResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContext.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContextFilter.java
+  - docs/mutation-reliability-contract.yaml
+  output: |2+
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T08:56:13Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContext.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/request/MutationRequestContextFilter.java
+  - apps/themuffinman/frontend/src/api/httpClient.ts
+  - docs/mutation-reliability-contract.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

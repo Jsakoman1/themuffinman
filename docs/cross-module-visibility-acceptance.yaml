@@ -32,3 +32,7 @@ scenarios:
 evidence_policy:
   completion_requires: [backend-policy, frontend-explanation-or-surface, targeted-test-or-validator]
   runtime_gap_note: Browser/device interaction and mobile background acceptance remain separate from this contract matrix.
+revocation_scenarios:
+  - {id: visibility-revoke-fresh-read, status: pending_runtime, required: [revoke_scope, fresh_read, redacted_or_denied_result]}
+  - {id: visibility-revoke-vision-read, status: pending_runtime, required: [revoke_scope, vision_request, canonical_denial_or_redaction]}
+  - {id: visibility-revoke-reconnect, status: pending_runtime, required: [revoke_scope, reconnect, no_stale_realtime_exposure]}

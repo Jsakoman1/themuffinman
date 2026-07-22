@@ -1,0 +1,57 @@
+kind: work
+version: 1
+id: system-map-third-pass-round-15
+title: Events, notifications, and asynchronous side effects
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-third-pass-master-execution-inventory.yaml
+master_plan: docs/work/system-map-third-pass-master.yaml
+objective: Map domain events, notification producers, activity/read models, WebSocket
+  effects, scheduled jobs, and side-effect failure behavior.
+scope:
+- apps/themuffinman/src/main/java/com/themuffinman/app/**/event
+- apps/themuffinman/src/main/java/com/themuffinman/app/notification
+- apps/themuffinman/src/main/java/com/themuffinman/app/activity
+- apps/themuffinman/src/main/java/com/themuffinman/app/chat
+- apps/themuffinman/src/main/java/com/themuffinman/app/**/service
+deliverables:
+- docs/system-map-third-pass-round-15-events-side-effects.md
+tasks:
+- id: analyze-events-notifications-and-async-side-effects
+  title: Analyze events, notifications, and async side effects
+  inventory_item: event-side-effect-graph
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-third-pass-round-15-events-side-effects.md
+  required_paths:
+  - docs/system-map-third-pass-round-15-events-side-effects.md
+  validation: ruby scripts/audits/audit-mutation-safety.rb && make audit-runtime-acceptance
+  started_at: '2026-07-22T06:48:25Z'
+  start_fingerprints:
+    docs/system-map-third-pass-round-15-events-side-effects.md: __missing__
+evidence:
+- task: analyze-events-notifications-and-async-side-effects
+  command: ruby scripts/audits/audit-mutation-safety.rb && make audit-runtime-acceptance
+  ranAt: '2026-07-22T06:49:25Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-third-pass-round-15-events-side-effects.md
+  output: |+
+    Mutation safety
+      mutation surfaces scanned: 378
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+
+  startedAt: '2026-07-22T06:48:25Z'
+  changedAfterStart: &1
+  - docs/system-map-third-pass-round-15-events-side-effects.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

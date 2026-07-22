@@ -1,0 +1,88 @@
+kind: work
+version: 1
+id: system-map-operational-expansion-round-37
+title: Generated system-map change impact report
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-operational-expansion-master-execution-inventory.yaml
+master_plan: docs/work/system-map-operational-expansion-master.yaml
+objective: Implement one local report command that maps changed paths to relevant
+  capabilities, registries, canonical docs, tests, and runtime scenarios without claiming
+  completion.
+deliverables:
+- docs/system-map-operational-expansion-round-37-change-impact.md
+- scripts/audits/generate-system-map-change-impact.rb
+tasks:
+- id: implement-generated-change-impact-report
+  title: Implement generated change impact report
+  inventory_item: generated-change-impact-report
+  type: implementation
+  status: done
+  paths:
+  - docs/system-map-operational-expansion-round-37-change-impact.md
+  - scripts/audits/generate-system-map-change-impact.rb
+  - Makefile
+  - docs/implementation-control.md
+  - docs/audits.md
+  required_paths:
+  - docs/system-map-operational-expansion-round-37-change-impact.md
+  - scripts/audits/generate-system-map-change-impact.rb
+  - Makefile
+  - docs/implementation-control.md
+  - docs/audits.md
+  validation: make system-map-impact && make audit-impact && make audit-docs && git
+    diff --check
+  started_at: '2026-07-22T07:49:15Z'
+  start_fingerprints:
+    docs/system-map-operational-expansion-round-37-change-impact.md: __missing__
+    scripts/audits/generate-system-map-change-impact.rb: __missing__
+    Makefile: d2e6fef253d9b3d36545ce051fdd0b7e434def42bcb5891b9756b29701468759
+    docs/implementation-control.md: 63575ba7a2cb2cbc69ca0e136928922e2772f899d7bd22686a768e66e7dddef7
+    docs/audits.md: 6915dcaa5282811a295f2f2d2248c84886b1196c69d1c3573e54611705bf9a81
+evidence:
+- task: implement-generated-change-impact-report
+  command: make system-map-impact && make audit-impact && make audit-docs && git diff
+    --check
+  ranAt: '2026-07-22T07:50:34Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/audits.md
+  - docs/implementation-control.md
+  - docs/system-map-operational-expansion-round-37-change-impact.md
+  - scripts/audits/generate-system-map-change-impact.rb
+  output: |2+
+      scope guardrail warnings: 1
+      ! unexpected_generated_reports: Generated report changes include files not predicted by changed source files.
+      - Makefile -> docs=0, tests=0, siblings=0
+      - apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs -> docs=1, tests=0, siblings=0
+      - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts -> docs=0, tests=0, siblings=0
+      - docs/audits.md -> docs=0, tests=0, siblings=0
+      - docs/control-surface-map.md -> docs=0, tests=0, siblings=0
+    ruby scripts/audits/score-changeset-risk.rb
+    Changeset risk
+      changed files: 125
+      score: 30
+      tier: medium
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T07:49:15Z'
+  changedAfterStart: &1
+  - docs/system-map-operational-expansion-round-37-change-impact.md
+  - scripts/audits/generate-system-map-change-impact.rb
+  - Makefile
+  - docs/implementation-control.md
+  - docs/audits.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

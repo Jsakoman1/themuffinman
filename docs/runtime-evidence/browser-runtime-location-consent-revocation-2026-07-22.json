@@ -1,0 +1,52 @@
+{
+  "artifact_type": "runtime_visibility_consent_evidence",
+  "captured_at": "2026-07-22",
+  "environment": "local-dev",
+  "execution_surface": "authenticated_web_api_probe",
+  "scenario": "exact_location_grant_then_revoke",
+  "owner_user_id": 7,
+  "viewer_user_id": 1304,
+  "grant": {
+    "http_status": 200,
+    "owner_scope": "EVERYONE",
+    "viewer_read": {
+      "http_status": 200,
+      "mode": "EXACT",
+      "has_coordinates": true,
+      "label": "Runtime consent location",
+      "street": "Runtime Street",
+      "house_number": "1",
+      "visibility_summary": "Exact address shared with you"
+    }
+  },
+  "revoke": {
+    "http_status": 200,
+    "owner_mode": "OFF",
+    "owner_scope": "NOBODY",
+    "viewer_fresh_read": {
+      "http_status": 200,
+      "mode": "OFF",
+      "has_coordinates": false,
+      "label": null,
+      "street": null,
+      "house_number": null,
+      "visibility_summary": "Hidden"
+    }
+  },
+  "restore": {
+    "http_status": 200,
+    "owner_original_mode": "OFF",
+    "owner_original_scope": "NOBODY"
+  },
+  "result": "passed",
+  "proves": [
+    "A second authenticated Web viewer can receive exact location fields while owner scope is EVERYONE.",
+    "A fresh viewer read after revoke is redacted to OFF with no coordinates or exact address fields.",
+    "The owner setting is restored after the probe."
+  ],
+  "limitations": [
+    "This is Web/API evidence only; cached view invalidation, Vision parity, WebSocket reconnect, native/device handoff, and offline behavior remain pending.",
+    "Temporary viewer 1304 was deleted through the normal admin API after capture. Older temporary user 1302 remains because its deletion returned HTTP 401 and it is retained as an explicit cleanup limitation."
+  ],
+  "secrets_stored": false
+}

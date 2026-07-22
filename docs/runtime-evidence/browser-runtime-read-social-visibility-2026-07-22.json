@@ -1,0 +1,16 @@
+{
+  "scenario": "runtime-read-social-visibility",
+  "capabilityIds": ["social.visibility"],
+  "target": "/app_users/:id/profile-view",
+  "environment": "local-dev-web",
+  "owner": "test@test.com",
+  "viewer": "admin@sidequest.local",
+  "actions": ["public_read", "circle_member_read", "private_read", "restore"],
+  "readModel": {
+    "public": {"httpStatus": 200, "queryCount": 7, "durationMs": 12, "rowVolume": 1, "descriptionVisible": true},
+    "circle": {"httpStatus": 200, "queryCount": 8, "durationMs": 13, "rowVolume": 1, "relation": "CIRCLE", "descriptionVisible": true},
+    "private": {"httpStatus": 200, "queryCount": 7, "durationMs": 7, "rowVolume": 1, "descriptionVisible": false, "description": null}
+  },
+  "result": "passed_authenticated_social_visibility_read_model",
+  "notes": ["The circle variant used a temporary circle containing the authenticated viewer.", "Owner profile settings, circle membership, and temporary circle were restored/removed after capture."]
+}

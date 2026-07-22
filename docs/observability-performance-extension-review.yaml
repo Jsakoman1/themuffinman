@@ -1,0 +1,10 @@
+version: 1
+purpose: MAP-008 execution and evidence contract for empirical performance and observability.
+reviewed_round: MAP-008
+coverage_state: partial
+evidence_class: inferred-risk
+sources: [docs/performance-evidence-catalog.yaml, docs/runtime-observability-registry.yaml, docs/system-map-third-pass-round-19-architecture-risk-register.md]
+measurement_schema: [scenario_id, environment, revision, dataset_shape, sample_count, p50, p95, p99, error_rate, resource_observation, raw_evidence_path, collected_at]
+scenarios: [high_centrality_read_queries, endpoint_latency_by_module, websocket_connect_reconnect, scheduled_job_duration_and_outcome, provider_timeout_and_retry, object_storage_upload_and_access]
+current_state: no_empirical_measurements_in_repository_baseline
+gaps: [instrumentation_implementation, repeatable_dataset, threshold_policy, production_or_load_environment]

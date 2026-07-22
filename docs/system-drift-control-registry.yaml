@@ -1,0 +1,34 @@
+version: 1
+purpose: Design registry for machine-checkable maintenance controls; implementation status lives in the backlog and selected work plans.
+reviewed_round: 29
+controls:
+- id: truth_registry_integrity
+  trigger_paths: [docs/system-truth-registry.yaml, docs/system-map.md, docs/capability-inventory.yaml, docs/target-capability-catalog.yaml]
+  assertions: [path_exists, owner_present, evidence_class_present, confidence_present, reviewed_round_present]
+  implementation_status: implemented
+  implementation_plan: docs/work/drift-001-truth-registry-integrity.yaml
+- id: endpoint_client_evidence_reconciliation
+  trigger_paths: [apps/themuffinman/src/main/java, apps/themuffinman/frontend/src, docs/interface-evidence-registry.yaml]
+  assertions: [consumer_class_present, endpoint_link_classified, contract_generation_reviewed, runtime_evidence_not_inferred]
+  implementation_status: implemented
+  implementation_plan: docs/work/drift-002-interface-evidence-reconciliation.yaml
+- id: data_and_workflow_impact
+  trigger_paths: [apps/themuffinman/src/main/resources/db/migration, apps/themuffinman/src/main/java, docs/data-ownership-registry.yaml, docs/workflow-invariant-coverage.yaml]
+  assertions: [ownership_reviewed, workflow_reviewed, migration_append_only]
+  implementation_status: implemented
+  implementation_plan: docs/work/drift-003-data-workflow-impact.yaml
+- id: evidence_freshness
+  trigger_paths: [docs/capability-inventory.yaml, docs/runtime-acceptance-matrix.yaml, docs/regression-scenario-catalog.yaml, docs/capability-evidence-registry.yaml]
+  assertions: [status_separate_from_evidence, evidence_path_exists, pending_runtime_not_promoted]
+  implementation_status: implemented
+  implementation_plan: docs/work/drift-004-evidence-freshness.yaml
+- id: delivery_provenance
+  trigger_paths: [apps/themuffinman/pom.xml, apps/themuffinman/frontend/package.json, apps/themuffinman/frontend/package-lock.json, Makefile, docs/delivery-dependency-registry.yaml]
+  assertions: [generated_artifact_source_known, dependency_policy_reviewed, external_release_unknown_explicit]
+  implementation_status: implemented
+  implementation_plan: docs/work/drift-005-delivery-provenance.yaml
+rules:
+- audit_pass_is_not_capability_completion
+- runtime_proof_requires_fresh_runtime_artifact
+- registry_must_reference_canonical_source
+- selected_drift_control_requires_its_own_strict_work_plan

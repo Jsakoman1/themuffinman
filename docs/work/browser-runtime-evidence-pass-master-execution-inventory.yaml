@@ -1,0 +1,76 @@
+kind: execution_inventory
+version: 1
+id: browser-runtime-evidence-pass-master-execution-inventory
+master_plan: docs/work/browser-runtime-evidence-pass-master.yaml
+serial_task_execution: true
+purpose: Ordered browser runtime evidence queue.
+items:
+- id: browser-runtime-environment
+  sequence: 1
+  plan: docs/work/browser-runtime-evidence-pass-01-environment.yaml
+  task: establish-browser-environment
+  depends_on: []
+  output: reproducible_local_runtime_status
+  status: verified
+  started_at: '2026-07-22T09:53:49Z'
+  verified_at: '2026-07-22T09:54:06Z'
+  evidence:
+    plan: docs/work/browser-runtime-evidence-pass-01-environment.yaml
+    task: establish-browser-environment
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: browser-runtime-mutations
+  sequence: 2
+  plan: docs/work/browser-runtime-evidence-pass-02-mutations.yaml
+  task: capture-mutation-browser-evidence
+  depends_on:
+  - browser-runtime-environment
+  output: mutation_browser_trace
+  status: verified
+  evidence:
+    plan: docs/work/browser-runtime-evidence-pass-02-mutations.yaml
+    task: capture-mutation-browser-evidence
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  started_at: '2026-07-22T11:11:37Z'
+  verified_at: '2026-07-22T11:11:55Z'
+- id: browser-runtime-visibility-realtime
+  sequence: 3
+  plan: docs/work/browser-runtime-evidence-pass-03-visibility-realtime.yaml
+  task: capture-visibility-realtime-evidence
+  depends_on:
+  - browser-runtime-mutations
+  output: visibility_and_realtime_browser_trace
+  status: verified
+  evidence:
+    plan: docs/work/browser-runtime-evidence-pass-03-visibility-realtime.yaml
+    task: capture-visibility-realtime-evidence
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  started_at: '2026-07-22T11:12:05Z'
+  verified_at: '2026-07-22T11:12:17Z'
+- id: browser-runtime-read-models
+  sequence: 4
+  plan: docs/work/browser-runtime-evidence-pass-04-read-models.yaml
+  task: capture-read-model-evidence
+  depends_on:
+  - browser-runtime-visibility-realtime
+  output: read_model_browser_trace
+  status: verified
+  evidence:
+    plan: docs/work/browser-runtime-evidence-pass-04-read-models.yaml
+    task: capture-read-model-evidence
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  started_at: '2026-07-22T11:12:25Z'
+  verified_at: '2026-07-22T11:12:36Z'
+- id: browser-runtime-closeout
+  sequence: 5
+  plan: docs/work/browser-runtime-evidence-pass-05-closeout.yaml
+  task: closeout-browser-evidence
+  depends_on:
+  - browser-runtime-read-models
+  output: fresh_runtime_closeout
+  status: verified
+  started_at: '2026-07-22T11:12:42Z'
+  verified_at: '2026-07-22T11:13:09Z'
+  evidence:
+    plan: docs/work/browser-runtime-evidence-pass-05-closeout.yaml
+    task: closeout-browser-evidence
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

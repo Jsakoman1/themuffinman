@@ -1,0 +1,47 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T12:15:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "browser_read_model_request_timing",
+  "surfaces": {
+    "/work": {
+      "requestCount": 9,
+      "apiPaths": [
+        "/personal-shortcuts/me/appearance-preference",
+        "/dashboard/me/voice-config",
+        "/quests/presets/AVAILABLE",
+        "/workspace/navigation",
+        "/personal-shortcuts/me/rail-preference",
+        "/auth/me",
+        "/vision/conversations/recent",
+        "/personal-shortcuts/me",
+        "/attention/me"
+      ],
+      "resourceDurationsMs": [62, 21, 125, 147, 23, 29, 33, 33, 76]
+    },
+    "/chat": {
+      "requestCount": 11,
+      "apiPaths": [
+        "/personal-shortcuts/me/appearance-preference",
+        "/auth/me",
+        "/dashboard/me/voice-config",
+        "/chat/conversations",
+        "/workspace/navigation",
+        "/personal-shortcuts/me/rail-preference",
+        "/vision/conversations/recent",
+        "/personal-shortcuts/me",
+        "/attention/me"
+      ],
+      "resourceDurationsMs": [15, 10, 11, 74, 122, 12, 15, 13, 65, 116, 82]
+    }
+  },
+  "result": "captured_browser_timing_only",
+  "measurementLimits": [
+    "browser_resource_duration_only",
+    "no_sql_query_count",
+    "no_row_volume",
+    "no_scale_claim",
+    "no_db_provider_timing_separation"
+  ]
+}

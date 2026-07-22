@@ -1,0 +1,23 @@
+version: 1
+purpose: External integration, data-egress, environment, and secret ownership index; configuration source remains application.properties and typed properties.
+reviewed_round: MAP-003
+coverage_state: partial
+evidence_class: source-trace
+sources: [apps/themuffinman/src/main/resources/application.properties, apps/themuffinman/src/main/java/com/themuffinman/app/config, docs/security-operations-recovery-registry.yaml, docs/release-operations-registry.yaml]
+integrations:
+- {id: postgres, owner: spring_datasource, data_egress: application_data_to_database, credentials: environment_or_local_config, outage_behavior: unknown}
+- {id: geoapify, owner: LocationProviderProperties, data_egress: location_query_to_provider, credentials: SIDEQUEST_GEOAPIFY_API_KEY, outage_behavior: source_traced_provider_error}
+- {id: openai_agent, owner: AgentProperties, data_egress: prompts_and_semantic_payloads_to_provider, credentials: OPENAI_API_KEY, outage_behavior: Vision_paused_and_retry_message}
+- {id: openai_voice, owner: VoiceProperties, data_egress: audio_or_text_to_provider, credentials: OPENAI_API_KEY, outage_behavior: unknown_runtime}
+- {id: object_storage, owner: ObjectStorageProperties, data_egress: chat_attachment_bytes_and_metadata, credentials: object_storage_access_and_secret_key, outage_behavior: disabled_or_provider_specific}
+- {id: local_object_storage, owner: LocalObjectStorageService, data_egress: local_filesystem_only, credentials: none, outage_behavior: local_only}
+environment_layers:
+- {id: typed_operational_properties, source: apps/themuffinman/src/main/java/com/themuffinman/app/config, evidence_class: source-trace}
+- {id: application_property_mapping, source: apps/themuffinman/src/main/resources/application.properties, evidence_class: source-trace}
+- {id: local_dev_defaults, source: .env.backend.dev, evidence_class: source-trace}
+- {id: deployed_environment, source: unknown, evidence_class: unknown}
+secret_controls:
+- {id: jwt_secret, source: SIDEQUEST_JWT_SECRET, rotation: unknown, evidence_class: source-trace}
+- {id: provider_keys, source: OPENAI_API_KEY/SIDEQUEST_GEOAPIFY_API_KEY, rotation: unknown, evidence_class: source-trace}
+- {id: storage_keys, source: SIDEQUEST_OBJECT_STORAGE_ACCESS_KEY/SIDEQUEST_OBJECT_STORAGE_SECRET_KEY, rotation: unknown, evidence_class: source-trace}
+gaps: [provider_sla_and_outage_exercises, payload_field_classification, secret_rotation_evidence, deployed_value_inventory, network_egress_policy]

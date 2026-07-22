@@ -1,0 +1,59 @@
+kind: work
+version: 1
+id: system-map-extension-map-007
+title: Deployment, promotion, rollback, and recovery operations
+status: verified
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-extension-master.yaml
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+objective: Extend repository-visible release mapping with supplied CI, deployment
+  topology, promotion gates, rollback, backup/restore, incident response, and ownership
+  evidence.
+deliverables:
+- docs/release-operations-registry.yaml
+- docs/release-operations-extension-review.yaml
+- docs/system-map.md
+tasks:
+- id: extend-release-deployment-evidence
+  title: Reconcile local evidence with external release and recovery evidence
+  type: analysis
+  status: done
+  paths:
+  - docs/release-operations-registry.yaml
+  - docs/system-map.md
+  - docs/delivery-dependency-registry.yaml
+  required_paths:
+  - docs/release-operations-registry.yaml
+  - docs/release-operations-extension-review.yaml
+  - docs/system-map.md
+  validation: make audit-delivery-provenance && make audit-docs && git diff --check
+evidence:
+- task: extend-release-deployment-evidence
+  command: make audit-delivery-provenance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T08:17:42Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/delivery-dependency-registry.yaml
+  - docs/release-operations-registry.yaml
+  - docs/system-map.md
+  output: |+
+    Delivery provenance audit passed
+      build paths: 4
+      external release state: unknown_not_absent_in_external_environment
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - docs/release-operations-registry.yaml
+  - docs/release-operations-extension-review.yaml
+  - docs/system-map.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

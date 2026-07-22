@@ -1,0 +1,40 @@
+kind: master
+version: 1
+id: system-map-third-pass-master
+title: System map third-pass flow, evidence, and evolution analysis
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-third-pass-master-execution-inventory.yaml
+objective: 'Extend the verified system map with execution-flow, event, read-model,
+  failure-recovery, cross-client parity, and architecture-risk evidence without repeating
+  the completed ownership and control analyses.
+
+'
+completed_prerequisites:
+- docs/work/system-map-deepening-master.yaml
+- docs/system-map.md
+- docs/system-map-deepening-round-8-data-ownership.md
+- docs/system-map-deepening-round-9-api-client-evidence.md
+- docs/system-map-deepening-round-10-runtime-operations.md
+- docs/system-map-deepening-round-11-security-privacy-consent.md
+- docs/system-map-deepening-round-12-control-graph.md
+- docs/system-map-deepening-round-13-target-state-architecture.md
+children:
+- docs/work/system-map-third-pass-round-14.yaml
+- docs/work/system-map-third-pass-round-15.yaml
+- docs/work/system-map-third-pass-round-16.yaml
+- docs/work/system-map-third-pass-round-17.yaml
+- docs/work/system-map-third-pass-round-18.yaml
+- docs/work/system-map-third-pass-round-19.yaml
+evidence:
+- verifiedAt: '2026-07-22T06:57:39Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/system-map-third-pass-round-14.yaml
+  - docs/work/system-map-third-pass-round-15.yaml
+  - docs/work/system-map-third-pass-round-16.yaml
+  - docs/work/system-map-third-pass-round-17.yaml
+  - docs/work/system-map-third-pass-round-18.yaml
+  - docs/work/system-map-third-pass-round-19.yaml

@@ -1,0 +1,28 @@
+kind: master
+version: 1
+id: arch-005-visibility-consent-parity-master
+title: Visibility, consent, and cross-client parity
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/arch-005-visibility-consent-parity-master-execution-inventory.yaml
+objective: Consolidate visibility and consent evidence without moving authority out
+  of owning domain services or claiming native runtime support.
+analysis_source: docs/arch-005-visibility-consent-parity-analysis.md
+contract_source: docs/visibility-consent-parity-contract.yaml
+children:
+- docs/work/arch-005-visibility-consent-parity-01-registry.yaml
+- docs/work/arch-005-visibility-consent-parity-02-consent.yaml
+- docs/work/arch-005-visibility-consent-parity-03-client-evidence.yaml
+rules:
+- Backend policy remains authoritative.
+- Client parity means compatible policy and projection, not identical UI.
+- Runtime/device evidence remains separate from source contracts.
+evidence:
+- verifiedAt: '2026-07-22T09:31:18Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/arch-005-visibility-consent-parity-01-registry.yaml
+  - docs/work/arch-005-visibility-consent-parity-02-consent.yaml
+  - docs/work/arch-005-visibility-consent-parity-03-client-evidence.yaml

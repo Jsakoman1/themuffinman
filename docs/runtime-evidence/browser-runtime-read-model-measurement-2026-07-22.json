@@ -1,0 +1,19 @@
+{
+  "artifact_type": "browser_runtime_read_model_measurement",
+  "captured_at": "2026-07-22",
+  "environment": "local-dev",
+  "execution_surface": "playwright_chromium_browser_context",
+  "viewer": "test@test.com",
+  "fixture": {"temporary_quests_created": 3, "temporary_quests_deleted": 3},
+  "measurements": [
+    {"surface": "GET /quests", "status": 200, "row_count": 11, "response_bytes": 615989, "wall_time_ms": 96},
+    {"surface": "GET /quests/search?q=Read%20model%20probe&page=0&size=20", "status": 200, "row_count": 11, "response_bytes": 616215, "wall_time_ms": 44, "total_count": "not_exposed_in_response_shape"},
+    {"surface": "GET /quests/{id}/detail", "status": 200, "section_count": 7, "response_bytes": 6794, "wall_time_ms": 38}
+  ],
+  "query_count": "not_instrumented",
+  "sql_timing": "not_instrumented",
+  "row_volume_interpretation": "11 returned rows produced approximately 616 KB list payload in this local dataset; this is an optimization candidate, not a scale claim.",
+  "outcome": "partial_measurement",
+  "follow_up": "Add server-side query-count/SQL-timing instrumentation or a controlled integration measurement before changing fetch graphs, pagination, or caching.",
+  "secrets_stored": false
+}

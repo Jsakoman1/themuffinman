@@ -1,0 +1,73 @@
+kind: work
+version: 1
+id: runtime-pending-closeout-06
+title: Close worker replacement and stale-conflict runtime scenario
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-closeout.yaml
+execution_inventory: docs/work/runtime-pending-closeout-06-execution-inventory.yaml
+objective: Execute and evidence the pending Work worker replacement lifecycle using
+  temporary authenticated applicants, authoritative state conflict readback, and cleanup.
+scope: runtime-work-workers and its runtime evidence/backlog/matrix records
+out_of_scope:
+- native device implementation
+- process-crash or production deployment exercises
+tasks:
+- id: execute-worker-replacement-stale-conflict
+  title: Execute worker replacement and stale conflict
+  type: verification
+  status: done
+  inventory_item: worker-replacement-stale-conflict
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T13:54:17Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 19154dd8ffb63b16aeee0f680357a41611de47056056007dc6fbadd885e44826
+    docs/implementation-backlog.md: 00a8bb833612f7d83215a159659de6c945ca70cb39f36840efd0e8d235e7f1da
+evidence:
+- task: execute-worker-replacement-stale-conflict
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T13:54:45Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (58 passed, 23 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 58
+      pending runtime scenarios: 23
+      passed evidence paths checked: 55
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 299
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T13:54:17Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

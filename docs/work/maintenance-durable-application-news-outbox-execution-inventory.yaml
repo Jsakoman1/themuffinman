@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: maintenance-durable-application-news-outbox-execution-inventory
+master_plan: docs/work/maintenance-durable-application-news-outbox.yaml
+serial_task_execution: true
+items:
+- id: durable-application-news-outbox
+  sequence: 1
+  plan: docs/work/maintenance-durable-application-news-outbox.yaml
+  task: implement-and-verify-durable-news-outbox
+  depends_on: []
+  output: durable_workmarket_application_news_delivery
+  status: verified
+  started_at: '2026-07-22T12:01:34Z'
+  verified_at: '2026-07-22T12:08:31Z'
+  evidence:
+    plan: docs/work/maintenance-durable-application-news-outbox.yaml
+    task: implement-and-verify-durable-news-outbox
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

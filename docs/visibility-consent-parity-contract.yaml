@@ -1,0 +1,37 @@
+version: 1
+id: arch-005-visibility-consent-parity-contract
+status: web_fresh_read_verified_vision_runtime_pending
+reviewed_round: ARCH-005
+analysis_source: docs/arch-005-visibility-consent-parity-analysis.md
+authorities:
+  profile_and_circle_policy: identity_and_social_services
+  exact_location_policy: location_access_policy_service
+  module_resource_policy: owning_module_service
+  delegated_vision_actions: canonical_domain_service
+  native_presentation: backend_handoff_contract
+parity_rules:
+- A client may render only backend-provided viewer-scoped fields and actions.
+- Circle membership is not equivalent to exact-location consent.
+- Consent revocation must be tested against fresh reads, cached views, Vision, and reconnect flows.
+- Native handoff readiness is not native implementation or device proof.
+- Forbidden and not-found behavior must remain explicit per resource family.
+field_families:
+- {id: profile_identity, viewers: [owner, authorized_viewer, admin], policy_inputs: [profile_visibility, circle_consent, block_state], native_status: contract_only}
+- {id: location, viewers: [owner, circle_member, public_viewer], policy_inputs: [location_scope, circle_consent, explicit_user_scope], native_status: contract_only}
+- {id: work_resource, viewers: [owner, visible_user, approved_worker, admin], policy_inputs: [audience, status, location_visibility], native_status: handoff_dependent}
+- {id: chat_resource, viewers: [member, accepted_relation, admin], policy_inputs: [membership, accepted_relation, blocked_state], native_status: not_defined}
+- {id: thing_or_ride_resource, viewers: [owner, visible_user, participant, admin], policy_inputs: [circle_visibility, status, capacity], native_status: not_defined}
+- {id: vision_delegated_action, viewers: [conversation_owner, delegated_actor], policy_inputs: [resolved_target, backend_allowed_action], native_status: contract_only}
+evidence_boundary:
+  source_trace: present
+  targeted_tests: partial
+  browser_runtime: partial
+  device_runtime: absent
+  offline_background: absent
+consent_revocation:
+  status: web_fresh_read_verified
+  evidence: docs/runtime-evidence/browser-runtime-location-consent-revocation-2026-07-22.json
+  verified: [owner_grant, authorized_viewer_read, owner_revoke, fresh_view_redaction, owner_restore]
+  remaining: [cached_view, vision_read, websocket_reconnect, native_device, offline_background]
+  required_checks: [fresh_read, cached_view, vision_read, websocket_reconnect, forbidden_or_redacted_response]
+client_evidence_scenarios: [runtime-visibility-web-vision-parity, runtime-visibility-native-handoff, runtime-visibility-device-revoke]

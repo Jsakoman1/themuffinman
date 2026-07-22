@@ -1,0 +1,76 @@
+kind: work
+version: 1
+id: runtime-pending-closeout
+title: Close pending runtime acceptance scenarios
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/runtime-pending-closeout-execution-inventory.yaml
+objective: Execute the pending runtime acceptance matrix with authenticated route/state
+  evidence, repair safe defects discovered in scope, and classify external or device-only
+  evidence gaps.
+scope: docs/runtime-acceptance-matrix.yaml pending_runtime scenarios
+out_of_scope:
+- production deployment or provider credentials
+- native device implementation
+- inventing evidence for unavailable external systems
+tasks:
+- id: execute-pending-runtime-scenarios
+  title: Execute pending runtime scenarios and reconcile evidence
+  type: verification
+  status: done
+  inventory_item: pending-runtime-scenarios
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/ui-action-integrity-runtime-scenarios.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map-runtime-closeout-registry.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T12:40:27Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 22f69abc17efa1adf5ee5a5f2be28df3f28ac81b674d65736539232f438163f2
+    docs/implementation-backlog.md: 6e43ba361334dd7c6fbb49b68551efd67de273e1dbbf48cab67b5fc1cc25bfae
+evidence:
+- task: execute-pending-runtime-scenarios
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T12:59:48Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/ui-action-integrity-runtime-scenarios.yaml
+  - docs/system-map-runtime-closeout-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (43 passed, 38 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 43
+      pending runtime scenarios: 38
+      passed evidence paths checked: 41
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 298
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T12:40:27Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

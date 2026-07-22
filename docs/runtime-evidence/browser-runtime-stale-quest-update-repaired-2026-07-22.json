@@ -1,0 +1,23 @@
+{
+  "artifact_type": "browser_runtime_mutation_repair",
+  "captured_at": "2026-07-22",
+  "environment": "local-dev",
+  "execution_surface": "playwright_chromium_browser_context",
+  "browser_url": "http://localhost:5173/",
+  "scenario": "stale_work_quest_update_after_version_guard",
+  "endpoint": "/quests/{id}",
+  "fixture": {"quest_id": 409, "owner_user_id": "test@test.com"},
+  "sequence": [
+    {"step": "create", "http_status": 200},
+    {"step": "initial_authoritative_read", "http_status": 200, "resource_version": 0},
+    {"step": "first_writer_update", "http_status": 200, "resource_version_after": 1},
+    {"step": "authoritative_read_after_first", "http_status": 200, "title": "repair-first-writer", "resource_version": 1},
+    {"step": "stale_writer_update", "http_status": 409, "error_code": "STALE_RESOURCE"},
+    {"step": "authoritative_read_after_stale_write", "http_status": 200, "title": "repair-first-writer", "resource_version": 1},
+    {"step": "cleanup_delete", "http_status": 200}
+  ],
+  "result": "repair_verified",
+  "finding": "A stale quest update is rejected with HTTP 409 STALE_RESOURCE and cannot overwrite the first writer; the authoritative read remains unchanged.",
+  "related_backlog_id": "RUNTIME-STALE-QUEST-UPDATE",
+  "secrets_stored": false
+}

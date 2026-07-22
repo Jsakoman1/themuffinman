@@ -1,0 +1,21 @@
+{
+  "artifact_type": "browser_runtime_outbox_operations",
+  "captured_at": "2026-07-22",
+  "environment": "local-dev",
+  "execution_surface": "playwright_chromium_browser_context",
+  "scenario": "admin_replay_control_and_outbox_operational_metadata",
+  "sequence": [
+    {"step": "admin_login", "http_status": 200, "role": "ADMIN"},
+    {"step": "admin_replay_existing_event", "http_status": 200, "action": "REPLAY_WORKMARKET_NEWS_OUTBOX"},
+    {"step": "database_readback", "status": "DELIVERED", "attempts": 0, "lease_cleared": true},
+    {"step": "temporary_fixture_cleanup", "http_status": 200}
+  ],
+  "result": "operations_slice_verified",
+  "proves": [
+    "Replay control is protected by the admin role and returns a stable action result.",
+    "A replayed delivered event remains deduplicated and reaches DELIVERED without a retry increment.",
+    "Lease and replay metadata are persisted operational fields even though this successful replay clears them on completion."
+  ],
+  "limitations": ["No process crash, concurrent multi-node race, alert delivery, retention deletion, or production-scale proof."],
+  "secrets_stored": false
+}

@@ -1,0 +1,59 @@
+kind: work
+version: 1
+id: arch-001-endpoint-client-evidence-01-baseline
+title: Establish endpoint traceability baseline
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-001-endpoint-client-evidence-master.yaml
+execution_inventory: docs/work/arch-001-endpoint-client-evidence-master-execution-inventory.yaml
+tasks:
+- id: establish-traceability-baseline
+  title: Create canonical endpoint/client/evidence registry
+  type: analysis
+  status: done
+  inventory_item: arch-001-baseline
+  paths:
+  - docs/arch-001-endpoint-client-evidence-analysis.md
+  - docs/endpoint-client-evidence-registry.yaml
+  required_paths:
+  - docs/arch-001-endpoint-client-evidence-analysis.md
+  - docs/endpoint-client-evidence-registry.yaml
+  validation: make audit-interface-evidence && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:35:46Z'
+  start_fingerprints:
+    docs/arch-001-endpoint-client-evidence-analysis.md: b3f7fe06b53ee2048f726f67ec19d6f92f04c54fdac9fface20960a292e50fbf
+    docs/endpoint-client-evidence-registry.yaml: c396d7549aff21c72885f211cb98797e6f9a261fda80ffea117e0ff0d490c668
+evidence:
+- task: establish-traceability-baseline
+  command: make audit-interface-evidence && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:36:01Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/arch-001-endpoint-client-evidence-analysis.md
+  - docs/endpoint-client-evidence-registry.yaml
+  output: |+
+    Interface evidence reconciliation audit passed
+      endpoints classified: 214
+      admin_or_agent: 4
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 140
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:35:46Z'
+  changedAfterStart: &1
+  - docs/arch-001-endpoint-client-evidence-analysis.md
+  - docs/endpoint-client-evidence-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

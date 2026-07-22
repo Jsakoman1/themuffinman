@@ -1,0 +1,70 @@
+kind: work
+version: 1
+id: arch-002-mutation-reliability-04-evidence
+title: Mutation reliability and failure-injection evidence
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-002-mutation-reliability-master.yaml
+execution_inventory: docs/work/arch-002-mutation-reliability-master-execution-inventory.yaml
+objective: Record current mutation reliability evidence, distinguish validated contract
+  tests from runtime proof, and register remaining duplicate submission, timeout/read-back,
+  stale update, provider failure, side-effect failure, and reconnect scenarios.
+deliverables:
+- docs/mutation-reliability-evidence.yaml
+- docs/runtime-acceptance-matrix.yaml
+tasks:
+- id: verify-reliability-evidence
+  title: Execute mutation retry and failure-recovery scenarios and record evidence
+    class
+  type: analysis
+  status: done
+  inventory_item: arch-002-evidence
+  paths:
+  - docs/mutation-reliability-evidence.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/arch-002-mutation-reliability-analysis.md
+  required_paths:
+  - docs/mutation-reliability-evidence.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  started_at: '2026-07-22T09:08:40Z'
+  start_fingerprints:
+    docs/mutation-reliability-evidence.yaml: __missing__
+    docs/runtime-acceptance-matrix.yaml: 874c5a07d1aafe97727dc42a8e32c72f2e0c1a802bf1931803e5f8773f7b6063
+evidence:
+- task: verify-reliability-evidence
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  ranAt: '2026-07-22T09:09:53Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/arch-002-mutation-reliability-analysis.md
+  - docs/mutation-reliability-evidence.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 31 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 30
+      pending runtime scenarios: 31
+      passed evidence paths checked: 28
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:08:40Z'
+  changedAfterStart: &1
+  - docs/mutation-reliability-evidence.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

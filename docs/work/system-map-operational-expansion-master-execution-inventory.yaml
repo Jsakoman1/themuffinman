@@ -1,0 +1,109 @@
+kind: execution_inventory
+version: 1
+id: system-map-operational-expansion-master-execution-inventory
+master_plan: docs/work/system-map-operational-expansion-master.yaml
+serial_task_execution: true
+purpose: Ordered queue for operational system-map expansion.
+items:
+- id: endpoint-capability-traceability
+  sequence: 1
+  plan: docs/work/system-map-operational-expansion-round-32.yaml
+  task: build-endpoint-capability-traceability
+  closeout: Relevant endpoints map to capability IDs, consumer classes, tests, and
+    runtime scenarios without inferred proof.
+  depends_on: []
+  output: docs/endpoint-capability-traceability-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:45:06Z'
+  verified_at: '2026-07-22T07:45:50Z'
+  evidence:
+    plan: docs/work/system-map-operational-expansion-round-32.yaml
+    task: build-endpoint-capability-traceability
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: entity-relation-retention-graph
+  sequence: 2
+  plan: docs/work/system-map-operational-expansion-round-33.yaml
+  task: build-entity-relation-retention-graph
+  closeout: Entity relationships, ownership, retention, and migration boundaries are
+    mapped.
+  depends_on: []
+  output: docs/entity-relation-retention-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:46:00Z'
+  verified_at: '2026-07-22T07:46:41Z'
+  evidence:
+    plan: docs/work/system-map-operational-expansion-round-33.yaml
+    task: build-entity-relation-retention-graph
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: permission-visibility-matrix
+  sequence: 3
+  plan: docs/work/system-map-operational-expansion-round-34.yaml
+  task: build-permission-visibility-matrix
+  closeout: Actions, roles, object states, visibility, consent, and backend authority
+    are reconciled.
+  depends_on:
+  - endpoint-capability-traceability
+  - entity-relation-retention-graph
+  output: docs/permission-visibility-matrix.yaml
+  status: verified
+  started_at: '2026-07-22T07:46:48Z'
+  verified_at: '2026-07-22T07:47:39Z'
+  evidence:
+    plan: docs/work/system-map-operational-expansion-round-34.yaml
+    task: build-permission-visibility-matrix
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: runtime-observability-registry
+  sequence: 4
+  plan: docs/work/system-map-operational-expansion-round-35.yaml
+  task: design-runtime-observability-registry
+  closeout: Runtime metric sources, evidence schema, and coverage gaps are defined
+    without fabricated measurements.
+  depends_on:
+  - endpoint-capability-traceability
+  - entity-relation-retention-graph
+  - permission-visibility-matrix
+  output: docs/runtime-observability-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:47:50Z'
+  verified_at: '2026-07-22T07:48:18Z'
+  evidence:
+    plan: docs/work/system-map-operational-expansion-round-35.yaml
+    task: design-runtime-observability-registry
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: release-operations-registry
+  sequence: 5
+  plan: docs/work/system-map-operational-expansion-round-36.yaml
+  task: build-release-operations-registry
+  closeout: CI, deployment, backup, restore, release, and rollback evidence are mapped
+    or explicitly unknown.
+  depends_on:
+  - entity-relation-retention-graph
+  - runtime-observability-registry
+  output: docs/release-operations-registry.yaml
+  status: verified
+  started_at: '2026-07-22T07:48:27Z'
+  verified_at: '2026-07-22T07:49:06Z'
+  evidence:
+    plan: docs/work/system-map-operational-expansion-round-36.yaml
+    task: build-release-operations-registry
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: generated-change-impact-report
+  sequence: 6
+  plan: docs/work/system-map-operational-expansion-round-37.yaml
+  task: implement-generated-change-impact-report
+  closeout: One local command reports changed-file relationships to capabilities,
+    registries, docs, tests, and runtime scenarios.
+  depends_on:
+  - endpoint-capability-traceability
+  - entity-relation-retention-graph
+  - permission-visibility-matrix
+  - runtime-observability-registry
+  - release-operations-registry
+  output: scripts/audits/generate-system-map-change-impact.rb
+  status: verified
+  started_at: '2026-07-22T07:49:15Z'
+  verified_at: '2026-07-22T07:50:38Z'
+  evidence:
+    plan: docs/work/system-map-operational-expansion-round-37.yaml
+    task: implement-generated-change-impact-report
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

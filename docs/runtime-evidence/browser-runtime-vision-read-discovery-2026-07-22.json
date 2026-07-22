@@ -1,0 +1,14 @@
+{
+  "capturedAt": "2026-07-22T15:15:00+02:00",
+  "scenario": "runtime-vision-read-discovery",
+  "authentication": {"login": "POST /auth/login", "status": 200, "role": "USER"},
+  "actions": [
+    {"action": "read", "path": "/vision", "documentStatus": 200},
+    {"action": "empty", "query": "find quests for no_such_runtime", "resultState": "NO_MATCHES", "recoveryAction": "REFINE_QUERY"},
+    {"action": "recover", "control": "Try another search", "inputCleared": true, "focused": true},
+    {"action": "retry", "query": "find quests for kitchen tap", "resultCount": 1, "resultState": "RESULTS"}
+  ],
+  "browserErrors": [],
+  "status": "passed",
+  "finding": "Backend recoveryAction was previously not rendered by the Vision canvas. The renderer now exposes a recovery control that clears and focuses the prompt, and a subsequent valid discovery request succeeds."
+}

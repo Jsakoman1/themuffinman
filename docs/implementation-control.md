@@ -96,6 +96,29 @@ production-ready user capability scope and required client surfaces. It does not
 `make audit-target-capability-catalog` to validate target capability structure, module/object indexing, current
 inventory links, and coverage of documented inventory modules.
 
+Run `make audit-truth-registry` after changing `docs/system-truth-registry.yaml` or a path it owns. It checks required
+ownership/evidence metadata, duplicate IDs, approved evidence and confidence values, and referenced canonical or
+derived paths. It verifies registry integrity only; it never promotes capability, runtime, or work-plan status.
+
+Run `make audit-interface-evidence` after changing controllers, frontend API calls, or the interface-evidence registry.
+It assigns every statically discovered endpoint an explicit evidence class and retains non-Web endpoints as a review
+queue. A static Web link is not a usability or runtime claim.
+
+Run `make audit-data-workflow-impact` after migration, entity/repository, ownership-registry, or workflow-coverage
+changes. It checks source links and required metadata only; it does not infer a live schema or runtime workflow proof.
+
+Run `make audit-capability-evidence` after changing runtime acceptance or capability evidence registries. It checks
+that passed runtime scenarios reference current artifacts and preserves the rule that evidence alone does not set a
+capability's inventory status.
+
+Run `make audit-delivery-provenance` after changing build sources, dependency manifests, generated-contract paths, or
+delivery provenance. It validates repository-visible paths and requires external CI/release behavior to stay explicitly
+unknown until independent evidence is available.
+
+Run `make system-map-impact` before a non-trivial feature closeout or with explicit changed paths to generate an
+advisory relationship report. It recommends registries, canonical docs, and runtime sources for review; it never sets
+capability status, runtime proof, permissions, or work-plan completion.
+
 Vision surface coverage in the target report requires explicit `current.vision` evidence, a Vision-prefixed capability ID, or an unambiguous Vision path in current web/backend evidence; generic backend implementation alone is not treated as Vision support.
 
 Web UI coverage is also more than a route or component reference. A capability is web-ready only when the user can discover its entry point, complete its direct interaction flow, see backend-owned validation and permissions, and recover from failure. Web and Vision are equal production clients; “Vision available” does not compensate for an incomplete web flow, and “web route exists” does not compensate for an incomplete Vision flow.

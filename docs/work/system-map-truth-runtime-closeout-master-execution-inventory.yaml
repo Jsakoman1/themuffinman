@@ -1,0 +1,48 @@
+kind: execution_inventory
+version: 1
+id: system-map-truth-runtime-closeout-master-execution-inventory
+master_plan: docs/work/system-map-truth-runtime-closeout-master.yaml
+serial_task_execution: true
+purpose: Ordered truth reconciliation and closeout queue.
+items:
+- id: system-map-truth
+  sequence: 1
+  plan: docs/work/system-map-truth-runtime-closeout-01-truth.yaml
+  task: reconcile-system-map-truth
+  depends_on: []
+  output: stale_reference_cleanup
+  status: verified
+  started_at: '2026-07-22T09:47:07Z'
+  verified_at: '2026-07-22T09:47:30Z'
+  evidence:
+    plan: docs/work/system-map-truth-runtime-closeout-01-truth.yaml
+    task: reconcile-system-map-truth
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: system-map-gaps
+  sequence: 2
+  plan: docs/work/system-map-truth-runtime-closeout-02-gaps.yaml
+  task: consolidate-closeout-gaps
+  depends_on:
+  - system-map-truth
+  output: canonical_closeout_registry
+  status: verified
+  started_at: '2026-07-22T09:47:43Z'
+  verified_at: '2026-07-22T09:48:01Z'
+  evidence:
+    plan: docs/work/system-map-truth-runtime-closeout-02-gaps.yaml
+    task: consolidate-closeout-gaps
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: system-map-verification
+  sequence: 3
+  plan: docs/work/system-map-truth-runtime-closeout-03-verification.yaml
+  task: verify-closeout-baseline
+  depends_on:
+  - system-map-gaps
+  output: verified_closeout_baseline
+  status: verified
+  started_at: '2026-07-22T09:48:14Z'
+  verified_at: '2026-07-22T09:48:33Z'
+  evidence:
+    plan: docs/work/system-map-truth-runtime-closeout-03-verification.yaml
+    task: verify-closeout-baseline
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

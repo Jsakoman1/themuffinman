@@ -1,0 +1,25 @@
+version: 1
+purpose: Scheduled, asynchronous, event, replay, and operator ownership index.
+reviewed_round: MAP-005
+coverage_state: partial
+evidence_class: source-trace
+sources: [apps/themuffinman/src/main/java/com/themuffinman/app, docs/side-effect-delivery-registry.yaml, docs/security-operations-recovery-registry.yaml]
+jobs:
+- {id: workmarket_application_news_outbox_dispatch, owner: WorkmarketApplicationNewsOutboxService, trigger: scheduled_fixed_delay, input: pending_or_failed_outbox_rows, side_effect: quest_news_item_insert_and_realtime_hint, replay: bounded_failed_row_retry_and_admin_replay_endpoint, evidence: docs/runtime-evidence/browser-runtime-workmarket-news-outbox-operations-2026-07-22.json, evidence_class: browser_runtime_plus_unit}
+- {id: auth_token_cleanup, owner: AuthSessionService, trigger: scheduled_cron, input: expired_or_revoked_tokens, side_effect: database_delete, replay: unknown, evidence_class: source-trace}
+- {id: chat_retention_cleanup, owner: ChatRetentionService, trigger: scheduled_cron, input: expired_chat_messages_or_images, side_effect: database_and_storage_cleanup, replay: unknown, evidence_class: source-trace}
+- {id: vision_memory_compaction, owner: VisionMemoryCompactionService, trigger: scheduled_cron, input: old_conversation_memory, side_effect: summary_or_compaction_update, replay: unknown, evidence_class: source-trace}
+- {id: domain_news_events, owner: module_event_handlers, trigger: in_process_event_listener, input: domain_event, side_effect: news_or_notification_record, replay: no_durable_replay_evidenced, evidence_class: source-trace}
+- {id: chat_realtime_delivery, owner: ChatRealtimeService, trigger: in_process_and_websocket_session, input: chat_event, side_effect: websocket_delivery, replay: resync_contract_only, evidence_class: source-trace}
+operational_fields: [run_id, started_at, completed_at, outcome, affected_count, failure_code, correlation_id, replay_reference, operator]
+gaps: [failure_alerting, operator_runbook, deployed_execution_proof, process_crash_runtime_proof]
+arch_003_operational_contract:
+  status: partial_workmarket_outbox_operational_slice
+  run_identity: required_run_id_per_triggered_execution
+  overlap: persisted_lease_for_workmarket_news_outbox; other_jobs_unverified
+  outcome: required_completed_at_outcome_affected_count_failure_code
+  failure_handling: persist_failure_code_and_bounded_retry; alerting_pending
+  retention: delivered_rows_follow_app_retention_notifications_days_via_scheduled_cleanup
+  replay: operator_replay_reference_required_for_workmarket_news_outbox; automatic_replay_is_bounded_only
+  observability: correlation_id_and_job_id_required_when_available
+  evidence_boundary: source_trace_does_not_prove_scheduler_fired_or_recovered

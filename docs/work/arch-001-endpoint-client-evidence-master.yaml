@@ -1,0 +1,28 @@
+kind: master
+version: 1
+id: arch-001-endpoint-client-evidence-master
+title: Endpoint, client, capability, and evidence traceability
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/arch-001-endpoint-client-evidence-master-execution-inventory.yaml
+objective: Establish one canonical cross-reference while preserving specialized registries
+  and explicit unknown states.
+analysis_source: docs/arch-001-endpoint-client-evidence-analysis.md
+registry_source: docs/endpoint-client-evidence-registry.yaml
+children:
+- docs/work/arch-001-endpoint-client-evidence-01-baseline.yaml
+- docs/work/arch-001-endpoint-client-evidence-02-reconciliation.yaml
+- docs/work/arch-001-endpoint-client-evidence-03-closeout.yaml
+rules:
+- Do not hand-copy generated endpoint diagnostics into canonical status.
+- Preserve capability inventory as product-support authority.
+- Preserve runtime matrix as runtime-evidence authority.
+evidence:
+- verifiedAt: '2026-07-22T09:37:13Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/arch-001-endpoint-client-evidence-01-baseline.yaml
+  - docs/work/arch-001-endpoint-client-evidence-02-reconciliation.yaml
+  - docs/work/arch-001-endpoint-client-evidence-03-closeout.yaml

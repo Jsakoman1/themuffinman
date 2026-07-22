@@ -1,0 +1,16 @@
+{
+  "scenario": "runtime-vision-confirm",
+  "capabilityIds": ["vision.task.confirm", "vision.create_quest"],
+  "target": "/vision",
+  "environment": "local-dev-web",
+  "actions": ["review", "confirm", "cancel", "retry"],
+  "reviewCancelRetryTrace": {
+    "conversationId": 573,
+    "review": {"httpStatus": 200, "agentState": "REVIEW_READY", "nextAction": "SHOW_REVIEW", "allowedActions": ["CONFIRM", "EDIT", "CANCEL"], "executionEnabled": true},
+    "cancel": {"httpStatus": 200, "agentState": "COMPLETE", "nextAction": "COMPLETE", "allowedActions": ["OPEN_RESULT"], "message": "The current vision task was cancelled."},
+    "retry": {"httpStatus": 200, "agentState": "REVIEW_READY", "nextAction": "SHOW_REVIEW", "allowedActions": ["CONFIRM", "EDIT", "CANCEL"], "message": "I have enough to prepare a quest review."}
+  },
+  "referencedConfirmCreateEvidence": "docs/runtime-evidence/browser-runtime-vision-create-quest-execution-2026-07-22.json",
+  "result": "passed_review_confirm_cancel_retry",
+  "notes": ["Confirm/create is proven by the referenced disposable-quest trace; this fresh trace proves cancel and retry without mutation.", "Provider failure and execution recovery remain in runtime-vision-execution."]
+}

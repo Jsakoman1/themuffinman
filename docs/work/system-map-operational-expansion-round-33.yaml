@@ -1,0 +1,62 @@
+kind: work
+version: 1
+id: system-map-operational-expansion-round-33
+title: Entity relation and retention graph
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-operational-expansion-master-execution-inventory.yaml
+master_plan: docs/work/system-map-operational-expansion-master.yaml
+objective: Map persisted entity relations, ownership, deletion/retention boundaries,
+  and migration provenance without asserting live schema behavior.
+deliverables:
+- docs/system-map-operational-expansion-round-33-entity-relation-retention.md
+- docs/entity-relation-retention-registry.yaml
+tasks:
+- id: build-entity-relation-retention-graph
+  title: Build entity relation retention graph
+  inventory_item: entity-relation-retention-graph
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-operational-expansion-round-33-entity-relation-retention.md
+  - docs/entity-relation-retention-registry.yaml
+  required_paths:
+  - docs/system-map-operational-expansion-round-33-entity-relation-retention.md
+  - docs/entity-relation-retention-registry.yaml
+  validation: make audit-data-workflow-impact && make audit-docs && git diff --check
+  started_at: '2026-07-22T07:46:00Z'
+  start_fingerprints:
+    docs/system-map-operational-expansion-round-33-entity-relation-retention.md: __missing__
+    docs/entity-relation-retention-registry.yaml: __missing__
+evidence:
+- task: build-entity-relation-retention-graph
+  command: make audit-data-workflow-impact && make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:46:37Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/entity-relation-retention-registry.yaml
+  - docs/system-map-operational-expansion-round-33-entity-relation-retention.md
+  output: |+
+    Data and workflow impact audit passed
+      Flyway migrations: 76
+      ownership domains: 8
+      workflow coverage rows: 6
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T07:46:00Z'
+  changedAfterStart: &1
+  - docs/system-map-operational-expansion-round-33-entity-relation-retention.md
+  - docs/entity-relation-retention-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

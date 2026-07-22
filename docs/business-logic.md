@@ -154,6 +154,7 @@ Current covered modules:
 ### Activity recovery
 
 - Activity is viewer-scoped and backend-prepared. Each item provides its source, route, timestamp, and primary action label; the Web client does not infer action meaning from item type.
+- Activity notification rows reuse the backend-owned notification destination. If a referenced quest or application is no longer available to the viewer, the row remains informational and opens Notifications rather than a dead detail route.
 - A resumable Vision item can be dismissed for the current user. Dismissal is idempotent and does not alter the underlying conversation or task.
 - Resumable Chat activity follows the same viewer-scoped dismissal rule; dismissing a Chat suggestion hides that suggestion without changing the conversation or messages.
 - Things borrow requests are also projected into activity for the authorized owner or borrower. Owner rows open My things, borrower rows open Things, and each role receives a distinct backend-owned resume key.
@@ -716,6 +717,7 @@ Location lookup recovery:
 - Quest creation requires title, description, award amount, and valid time/location input.
 - By default a quest is circle-oriented unless the creator explicitly opens it to everyone.
 - Owners can edit most quest fields.
+- Quest edits carry the server-provided `resourceVersion`. If another writer changes the quest first, the backend returns `409 STALE_RESOURCE`, preserves the first writer's state, and the Web detail surface reloads the authoritative version before the user retries.
 - Future automation must resolve exactly one owned quest before owner-side actions such as approve, decline, or delete.
 - The same read-before-write rule should be reused for owner-side quest update, owner-circle update or delete, outgoing circle-request cancellation, and chat read actions.
 - The terminal-first Vision surface can now rename or delete one exact owned circle after review confirmation instead of relying on legacy circle dialogs.
@@ -784,7 +786,7 @@ Location lookup recovery:
 - Notifications are trimmed to recent items and also expose unread items.
 - Dashboard summary is role-aware and includes admin-only context when the viewer is an admin.
 - Anonymous dashboard requests do not fail; they return empty sections plus shared options.
-- Notifications are navigable items, not just messages. They can point the user to a quest, an application, or the circles area.
+- Notifications are navigable items, not just messages. They can point the user to a quest, an application, or the circles area. The backend owns the destination type and suppresses detail links when the referenced quest or application is no longer available; stale updates remain readable as informational items rather than opening a dead route.
 - Circle request notifications can also expose direct accept/decline affordances in the response layer.
 
 ### Reviews and ratings

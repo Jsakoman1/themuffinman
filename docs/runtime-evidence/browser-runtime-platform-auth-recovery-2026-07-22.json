@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-07-22T15:05:00+02:00",
+  "scenario": "runtime-platform-auth-recovery",
+  "authentication": {"initialLogin": "POST /auth/login", "status": 200},
+  "actions": [
+    {"action": "expired_session", "method": "replaced local JWT with invalid token"},
+    {"action": "redirect", "target": "/profile", "result": "/login", "unauthorizedResponses": ["/auth/me", "/personal-shortcuts/me/appearance-preference"]},
+    {"action": "recover", "method": "fresh login", "result": "/home", "status": 200}
+  ],
+  "browserErrors": [],
+  "status": "passed",
+  "boundary": "Local Web expired-token recovery; distributed token expiry and multi-device session revocation remain outside this row."
+}

@@ -22,6 +22,8 @@ export type AppSurfaceId =
   | "rides"
   | "profile"
   | "profile-settings"
+  | "notifications"
+  | "activity"
 
 export type AppSurfaceArchetype = "home" | "work" | "chat" | "calendar" | "business" | "circles" | "profile" | "things"
 
@@ -167,6 +169,14 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   },
   "profile-settings": {
     id: "profile-settings", archetype: "profile", navId: "profile", eyebrow: "Profile / Settings", title: "Settings",
+    actions: [{label: "Profile", to: {path: "/profile"}}]
+  },
+  notifications: {
+    id: "notifications", archetype: "profile", navId: "profile", eyebrow: "Notifications", title: "Notifications",
+    actions: [{label: "Profile", to: {path: "/profile"}}]
+  },
+  activity: {
+    id: "activity", archetype: "profile", navId: "profile", eyebrow: "Activity", title: "Activity",
     actions: [{label: "Profile", to: {path: "/profile"}}]
   }
 }

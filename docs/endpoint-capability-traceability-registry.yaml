@@ -1,0 +1,67 @@
+version: 1
+purpose: Capability-family interface traceability index; inventory status and per-endpoint reconciliation remain separate canonical sources.
+reviewed_round: 32
+canonical_cross_reference: docs/endpoint-client-evidence-registry.yaml
+per_endpoint_source: docs/audit-output/interface-evidence-reconciliation.json
+consumer_evidence_source: docs/interface-evidence-registry.yaml
+families:
+- id: platform_identity_location
+  capability_prefixes: [platform.]
+  endpoint_families: [/auth, /app_users, /profile, /location, /onboarding, /personal-shortcuts, /trust]
+  consumers: [web_source_linked, admin_or_agent, unclassified_non_web]
+  test_sources: [docs/docs-as-contract-slices.yaml, docs/regression-scenario-catalog.yaml]
+  runtime_sources: [docs/runtime-acceptance-matrix.yaml]
+  evidence_class: source-trace
+  confidence: medium
+- id: vision
+  capability_prefixes: [vision.]
+  endpoint_families: [/vision, /guided-intake, /search]
+  consumers: [web_source_linked, native_handoff, unclassified_non_web]
+  test_sources: [docs/regression-scenario-catalog.yaml]
+  runtime_sources: [docs/runtime-acceptance-matrix.yaml]
+  evidence_class: source-trace
+  confidence: medium
+- id: workmarket
+  capability_prefixes: [work.]
+  endpoint_families: [/quests, /applications, /dashboard, /quest-news, /reviews]
+  consumers: [web_source_linked, admin_or_agent, unclassified_non_web]
+  test_sources: [docs/regression-scenario-catalog.yaml]
+  runtime_sources: [docs/runtime-acceptance-matrix.yaml]
+  evidence_class: source-trace
+  confidence: medium
+- id: chat_social
+  capability_prefixes: [chat., circles.]
+  endpoint_families: [/chat, /circles]
+  consumers: [web_source_linked, admin_or_agent, unclassified_non_web]
+  test_sources: [docs/docs-as-contract-slices.yaml, docs/regression-scenario-catalog.yaml]
+  runtime_sources: [docs/runtime-acceptance-matrix.yaml]
+  evidence_class: source-trace
+  confidence: medium
+- id: business
+  capability_prefixes: [business.]
+  endpoint_families: [/business]
+  consumers: [web_source_linked, unclassified_non_web]
+  test_sources: [docs/regression-scenario-catalog.yaml]
+  runtime_sources: [docs/runtime-acceptance-matrix.yaml]
+  evidence_class: source-trace
+  confidence: medium
+- id: sharing_rides
+  capability_prefixes: [things., rides.]
+  endpoint_families: [/things, /rides]
+  consumers: [web_source_linked, unclassified_non_web]
+  test_sources: [docs/regression-scenario-catalog.yaml]
+  runtime_sources: [docs/runtime-acceptance-matrix.yaml]
+  evidence_class: source-trace
+  confidence: medium
+- id: cross_module
+  capability_prefixes: [cross_module.]
+  endpoint_families: [/activity, /notifications, /notification-preferences, /workspace, /native, /search]
+  consumers: [web_source_linked, native_handoff, unclassified_non_web]
+  test_sources: [docs/regression-scenario-catalog.yaml]
+  runtime_sources: [docs/runtime-acceptance-matrix.yaml]
+  evidence_class: source-trace
+  confidence: medium
+rules:
+- registry_rows_do_not_set_capability_status
+- static_consumer_link_does_not_prove_runtime_or_user_flow_completion
+- unclassified_non_web_endpoints_remain_explicit_review_items

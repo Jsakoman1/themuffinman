@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: runtime-pending-closeout-07
+title: Close Chat attachment and message-attach runtime scenarios
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-closeout.yaml
+execution_inventory: docs/work/runtime-pending-closeout-07-execution-inventory.yaml
+objective: Execute fresh authenticated Chat attachment upload, storage access, unavailable,
+  cancellation, send, retry, and sync readback traces.
+scope: runtime-chat-attachments and runtime-chat-message-attach
+out_of_scope:
+- native device implementation
+- process-crash or production deployment exercises
+tasks:
+- id: execute-chat-attachment-lifecycle
+  title: Execute Chat attachment and message attachment lifecycle
+  type: verification
+  status: done
+  inventory_item: chat-attachment-lifecycle
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat
+  - apps/themuffinman/frontend/src/modules/chat
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T13:56:47Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: a140c9b01dbbdb50b17a6963b3708cdb5971cd7dfc06f3fcf83a58529b23f090
+    docs/implementation-backlog.md: ed02f22f7049cd0c079267d38fbee1f437574deb10d79b7e2059f8661d1642f3
+evidence:
+- task: execute-chat-attachment-lifecycle
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T13:57:21Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (60 passed, 21 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 60
+      pending runtime scenarios: 21
+      passed evidence paths checked: 56
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 299
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T13:56:47Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

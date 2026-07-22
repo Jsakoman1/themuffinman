@@ -1,0 +1,60 @@
+version: 1
+purpose: Side-effect and recovery relationship index; does not assert durable delivery without runtime or operator evidence.
+reviewed_round: ARCH-003
+mechanisms:
+- id: spring_domain_events
+  owners: [workmarket, business, identity]
+  source_evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/common/event/SpringDomainEventPublisher.java, apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/WorkmarketQuestApplicationNewsEventHandler.java, apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java]
+  durability: application_process_only_after_commit_boundary
+  replay: unknown
+  confidence: source-trace
+- id: chat_websocket_delivery
+  owners: [chat]
+  source_evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/websocket/ChatWebSocketHandler.java]
+  durability: process_local_transport
+  recovery: http_sync_after_reconnect
+  replay: client_resync_not_event_replay
+  confidence: source-trace
+- id: scheduled_retention_and_compaction
+  owners: [chat, identity, vision]
+  source_evidence: [ChatRetentionService, AuthSessionService, VisionMemoryCompactionService]
+  durability: scheduled_execution_configuration
+  recovery: operator_observability_unknown
+  replay: unknown
+  confidence: source-trace
+- id: audit_records
+  owners: [business, chat, rides, location]
+  source_evidence: [BusinessBookingAuditEvent, ChatAuditEvent, RideAuditEvent, LocationLookupEvent]
+  durability: persisted_domain_audit_rows
+  replay: not_universal_event_outbox
+  confidence: source-trace
+rules:
+- database_state_is_authoritative_for_recovery_not_process_local_transport
+- no_universal_outbox_or_replay_semantics_claim
+- side_effect_failure_and_transaction_phase_require_explicit_classification
+- scheduled_job_reliability_requires_runtime_or_operator_evidence
+event_consumers:
+- id: business_booking_event_handler
+  source_evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java]
+  delivery_phase: after_commit_registration_then_synchronous_listener
+  side_effect: persisted_booking_audit
+  payload_risk: entity_graph_must_be_audited_for_detached_lazy_access
+  idempotency: audit_service_behavior_requires_explicit_runtime_or_source_confirmation
+  replay: no_durable_event_replay
+  status: boundary_adopted_consumer_audit_pending
+- id: workmarket_application_news_handler
+  source_evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/event/WorkmarketQuestApplicationNewsEventHandler.java]
+  delivery_phase: after_commit_registration_then_synchronous_listener
+  side_effect: persisted_news_and_best_effort_realtime_hint
+  payload_risk: entity_graph_must_be_audited_for_detached_lazy_access
+  idempotency: news_creation_behavior_requires_explicit_runtime_or_source_confirmation
+  replay: database_news_resync_only
+  status: boundary_adopted_consumer_audit_pending
+- id: password_recovery_direct_application_publisher
+  source_evidence: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/service/PasswordRecoveryService.java]
+  delivery_phase: direct_spring_publisher_uncovered_by_shared_domain_boundary
+  side_effect: recovery_token_or_notification_flow
+  payload_risk: pending
+  idempotency: pending
+  replay: unknown
+  status: direct_path_requires_separate_adoption

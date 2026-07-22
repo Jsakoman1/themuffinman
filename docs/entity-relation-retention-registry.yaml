@@ -1,0 +1,62 @@
+version: 1
+purpose: Principal persisted relationship and retention index; Java entities and Flyway migrations remain authoritative for field and constraint detail.
+reviewed_round: 33
+entities:
+- id: app_user
+  owner: identity
+  relations_out: [profile_preferences, auth_tokens, circles, quests, applications, bookings, chat_participation, vision_conversations, listings, rides]
+  retention: revoked_auth_token_cleanup
+  evidence_class: source-trace
+  confidence: high
+- id: quest
+  owner: workmarket
+  relations_out: [owner_user, applications, news, reviews, location_visibility, circle_audience]
+  retention: unknown
+  evidence_class: source-trace
+  confidence: medium
+- id: business_booking
+  owner: business
+  relations_out: [offering, business_profile, customer_user, booking_audit]
+  retention: unknown
+  evidence_class: source-trace
+  confidence: high
+- id: chat_conversation
+  owner: chat
+  relations_out: [participants, member_state, messages, reactions, attachment_uploads, audit]
+  retention: typed_chat_retention_and_upload_expiry
+  evidence_class: source-trace
+  confidence: high
+- id: circle_group
+  owner: social
+  relations_out: [memberships, requests, relationship_eligibility]
+  retention: unknown
+  evidence_class: source-trace
+  confidence: medium
+- id: thing_listing_and_borrow_request
+  owner: things
+  relations_out: [owner_user, borrower_user, request_state]
+  retention: archive_state_not_global_deletion_policy
+  evidence_class: source-trace
+  confidence: medium
+- id: ride_offer
+  owner: rides
+  relations_out: [driver_user, participants, circles, audit, commute_preference]
+  retention: unknown
+  evidence_class: source-trace
+  confidence: medium
+- id: vision_conversation
+  owner: vision
+  relations_out: [owner_user, turns, memory_summaries, feedback, preferences]
+  retention: typed_conversation_ttl_and_memory_compaction
+  evidence_class: source-trace
+  confidence: high
+- id: supporting_cross_module_records
+  owner: activity_notification_search_location_nativehandoff_trust
+  relations_out: [actor_or_target_reference, audit_or_preference_or_handoff]
+  retention: domain_specific_or_unknown
+  evidence_class: source-trace
+  confidence: medium
+rules:
+- entity_relation_registry_does_not_replace_entity_or_migration_source
+- unknown_retention_is_not_a_deletion_guarantee
+- cross_domain_reference_does_not_grant_cross_domain_mutation_authority

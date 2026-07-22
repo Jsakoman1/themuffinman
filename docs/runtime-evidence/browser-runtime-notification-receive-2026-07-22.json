@@ -1,0 +1,20 @@
+{
+  "scenario": "runtime-notification-receive",
+  "capabilityIds": ["cross_module.notification.receive"],
+  "target": "/notifications",
+  "environment": "local-dev-web",
+  "receiver": "test@test.com",
+  "producer": "admin@sidequest.local",
+  "temporaryQuestId": 418,
+  "actions": ["event_produce", "receive", "read", "reconnect", "retry", "cleanup"],
+  "trace": {
+    "eventProduce": {"httpStatus": 200, "event": "quest application"},
+    "newsRead": {"httpStatus": 200, "newItemId": 1523, "title": "New application", "readState": "UNREAD", "deliveryState": "DELIVERED", "unreadCount": 11},
+    "attentionCenter": {"httpStatus": 200, "unreadCount": 11, "itemCount": 12},
+    "markRead": {"httpStatus": 200, "unreadCountAfter": 10},
+    "reconnectRead": {"httpStatus": 200, "itemStillReadable": true},
+    "retryRead": {"httpStatus": 200, "unreadCount": 10},
+    "cleanup": {"questDeleteStatus": 200}
+  },
+  "result": "passed_receive_read_reconnect_retry"
+}

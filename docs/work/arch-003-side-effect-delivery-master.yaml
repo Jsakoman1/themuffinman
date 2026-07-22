@@ -1,0 +1,31 @@
+kind: master
+version: 1
+id: arch-003-side-effect-delivery-master
+title: Side-effect commit, durability, and replay reliability
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/arch-003-side-effect-delivery-master-execution-inventory.yaml
+objective: Establish and verify shared after-commit semantics while mapping the remaining
+  outbox, replay, realtime, and scheduled-job gaps.
+analysis_source: docs/arch-003-side-effect-delivery-analysis.md
+contract_source: docs/side-effect-delivery-contract.yaml
+children:
+- docs/work/arch-003-side-effect-delivery-01-boundary.yaml
+- docs/work/arch-003-side-effect-delivery-02-adoption.yaml
+- docs/work/arch-003-side-effect-delivery-03-replay.yaml
+- docs/work/arch-003-side-effect-delivery-04-operations.yaml
+rules:
+- Domain commits remain authoritative.
+- After-commit is not durable replay.
+- WebSocket delivery remains best effort.
+- Runtime evidence must be recorded separately from static source evidence.
+evidence:
+- verifiedAt: '2026-07-22T09:21:20Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/arch-003-side-effect-delivery-01-boundary.yaml
+  - docs/work/arch-003-side-effect-delivery-02-adoption.yaml
+  - docs/work/arch-003-side-effect-delivery-03-replay.yaml
+  - docs/work/arch-003-side-effect-delivery-04-operations.yaml

@@ -1,0 +1,71 @@
+kind: work
+version: 1
+id: runtime-pending-closeout-12
+title: Generate final runtime capability closeout report
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-closeout.yaml
+execution_inventory: docs/work/runtime-pending-closeout-12-execution-inventory.yaml
+objective: Reconcile the current runtime matrix, evidence links, and explicit pending
+  blocker boundaries into the capability closeout report.
+scope: runtime-capability-closeout and current runtime acceptance evidence registry
+out_of_scope:
+- claiming blocked native/provider/failure-injection rows as passed
+tasks:
+- id: generate-runtime-capability-closeout
+  title: Generate and audit runtime capability closeout
+  type: verification
+  status: done
+  inventory_item: runtime-capability-closeout
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T14:08:55Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 189459945e89cc3348b1abee01a72da368cb8df07b5e5eb580377a3eff77d1db
+    docs/implementation-backlog.md: 877ebd64d06b487b7eb7147b583a74e015857cb904b90b4ace59cf07a657a8ec
+evidence:
+- task: generate-runtime-capability-closeout
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T14:09:48Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 299
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T14:08:55Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

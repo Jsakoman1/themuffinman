@@ -1,0 +1,77 @@
+kind: work
+version: 1
+id: runtime-pending-closeout-05
+title: Continue Vision runtime context and remaining pending scenario closeout
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-closeout.yaml
+execution_inventory: docs/work/runtime-pending-closeout-05-execution-inventory.yaml
+objective: Continue authenticated runtime execution for Vision context and remaining
+  pending catalog rows, while retaining explicit blockers for provider, failure-injection,
+  process-crash, storage-fault, and device-only evidence.
+scope: docs/runtime-acceptance-matrix.yaml pending_runtime scenarios and their runtime
+  evidence
+out_of_scope:
+- native device implementation
+- process-crash or production deployment exercises
+- inventing provider or database failure evidence
+tasks:
+- id: execute-vision-context-and-next-pending-runtime
+  title: Execute Vision context and next pending runtime slice
+  type: verification
+  status: done
+  inventory_item: vision-context-and-next-pending-runtime
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision
+  - apps/themuffinman/frontend/src/modules/vision
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T13:47:09Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 65e9be51fdbb6ba20bb82d4f85cd7c135903639eaad81ac91213eaf921321c41
+    docs/implementation-backlog.md: 697ad6d281a896c40d647c9dd3c07c505281b1fea963269ce28a21abfbd958bf
+evidence:
+- task: execute-vision-context-and-next-pending-runtime
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T13:48:13Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (56 passed, 25 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 56
+      pending runtime scenarios: 25
+      passed evidence paths checked: 53
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 299
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T13:47:09Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

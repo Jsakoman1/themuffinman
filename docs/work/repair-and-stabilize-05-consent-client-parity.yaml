@@ -1,0 +1,84 @@
+kind: work
+version: 1
+id: repair-and-stabilize-05-consent-client-parity
+title: Repair supported Web consent and client parity
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/repair-and-stabilize-master.yaml
+execution_inventory: docs/work/repair-and-stabilize-master-execution-inventory.yaml
+objective: Close supported Web visibility and consent gaps across fresh reads, cache
+  behavior, Viewer-scoped DTOs, and Vision handoff while leaving native/device claims
+  pending.
+repair_ids:
+- ARCH-005
+entry_gate: Backend visibility policy and viewer-scoped DTO sources are identified
+  for each selected field family.
+exit_evidence: Supported Web paths prove revoke, fresh-read redaction, cache behavior,
+  and Vision parity where applicable; native/device/offline scenarios remain pending.
+scope_boundary: Native implementation, device permission behavior, offline/background
+  behavior, and unsupported provider/database failure injection are outside this child
+  plan.
+tasks:
+- id: repair-consent-client-parity
+  title: Verify and repair Web consent revocation and viewer projections
+  type: implementation
+  status: done
+  inventory_item: repair-consent-client-parity
+  paths:
+  - apps/themuffinman/src/main/java
+  - apps/themuffinman/frontend/src
+  - apps/themuffinman/src/test/java
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: cd apps/themuffinman && ./mvnw test && cd frontend && npm run type-check
+    && cd ../../.. && make audit-runtime-acceptance && make audit-capability-evidence
+    && make audit-docs && git diff --check
+  started_at: '2026-07-22T11:47:00Z'
+  start_fingerprints:
+    docs/visibility-consent-parity-contract.yaml: 91ef1595b76fe11f3a3d6c92d81ef3f8be0c9e12a5d5ac37fb71f4f490edff45
+    docs/runtime-acceptance-matrix.yaml: b96f97de238bbf529cc4b9686bf5e52d696a0f482b56b7c624c8d77a4a9a9542
+evidence:
+- task: repair-consent-client-parity
+  command: cd apps/themuffinman && ./mvnw test && cd frontend && npm run type-check
+    && cd ../../.. && make audit-runtime-acceptance && make audit-capability-evidence
+    && make audit-docs && git diff --check
+  ranAt: '2026-07-22T11:49:41Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  output: |+
+    [INFO] Finished at: 2026-07-22T13:50:02+02:00
+    [INFO] ------------------------------------------------------------------------
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (42 passed, 39 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 42
+      pending runtime scenarios: 39
+      passed evidence paths checked: 40
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 297
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T11:47:00Z'
+  changedAfterStart: &1
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

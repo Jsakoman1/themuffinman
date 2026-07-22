@@ -28,21 +28,23 @@ const applicationMessage = ref("")
 const applicationPrice = ref<number | null>(null)
 const utilityOpen = ref(true)
 const questId = computed(() => Number(route.params.questId))
+const returnToVision = computed(() => typeof route.query.returnTo === "string" && route.query.returnTo.startsWith("/vision") ? route.query.returnTo : null)
 const can = (action: string) => detail.value?.quest.allowedActions.includes(action as never) ?? false
 const formatCurrency = (value: number | null | undefined) => value == null ? "Not specified" : new Intl.NumberFormat(undefined, {style: "currency", currency: "EUR"}).format(value)
+const isStaleResourceError = (value: unknown) => (value as {response?: {data?: {code?: string}}} | null)?.response?.data?.code === "STALE_RESOURCE"
 
 const load = async () => {
   isLoading.value = true; error.value = ""
   try {
     detail.value = await userShellApi.getQuestDetail(questId.value)
     const quest = detail.value.quest
-    form.value = {title: quest.title, description: quest.description, awardAmount: quest.awardAmount, assigneeTarget: quest.assigneeTarget, showApprovedApplicants: quest.showApprovedApplicants, scheduledAt: quest.scheduledAt, endsAt: quest.endsAt, termFixed: quest.termFixed, audience: quest.audience, locationVisibility: quest.locationVisibility, locationSource: quest.locationSource, locationLabel: quest.locationLabel, locationCountry: quest.locationCountry, locationLocality: quest.locationLocality, locationPostalCode: quest.locationPostalCode, locationStreet: quest.locationStreet, locationHouseNumber: quest.locationHouseNumber}
+    form.value = {title: quest.title, resourceVersion: quest.resourceVersion, description: quest.description, awardAmount: quest.awardAmount, assigneeTarget: quest.assigneeTarget, showApprovedApplicants: quest.showApprovedApplicants, scheduledAt: quest.scheduledAt, endsAt: quest.endsAt, termFixed: quest.termFixed, audience: quest.audience, locationVisibility: quest.locationVisibility, locationSource: quest.locationSource, locationLabel: quest.locationLabel, locationCountry: quest.locationCountry, locationLocality: quest.locationLocality, locationPostalCode: quest.locationPostalCode, locationStreet: quest.locationStreet, locationHouseNumber: quest.locationHouseNumber}
   } catch { error.value = "Could not load this quest." } finally { isLoading.value = false }
 }
 const save = async () => {
   if (!form.value) return
   isSaving.value = true; error.value = ""; feedback.value = ""
-  try { await userShellApi.updateQuest(questId.value, form.value); feedback.value = "Quest updated."; editing.value = false; await load() } catch { error.value = "Could not update this quest." } finally { isSaving.value = false }
+  try { await userShellApi.updateQuest(questId.value, form.value); feedback.value = "Quest updated."; editing.value = false; await load() } catch (requestError) { error.value = isStaleResourceError(requestError) ? "This quest changed elsewhere. Reloaded the latest version; review your edits before saving again." : "Could not update this quest."; if (isStaleResourceError(requestError)) await load() } finally { isSaving.value = false }
 }
 const runAction = async (action: "START" | "COMPLETE" | "DELETE" | "CANCEL" | "PAUSE" | "RESUME") => {
   if (action === "DELETE" && !await confirmAction("Delete this quest?", "Delete quest")) return
@@ -59,7 +61,7 @@ const changeLifecycle = async (status: "ASSIGNED" | "OPEN") => {
   if (!form.value) return
   isSaving.value = true; error.value = ""; feedback.value = ""
   try { await userShellApi.updateQuest(questId.value, {...form.value, status}); feedback.value = status === "ASSIGNED" ? "Quest assigned." : "Quest reopened."; await load() }
-  catch { error.value = status === "ASSIGNED" ? "Could not assign this quest." : "Could not reopen this quest." }
+  catch (requestError) { error.value = isStaleResourceError(requestError) ? "This quest changed elsewhere. Reloaded the latest version; try the action again." : status === "ASSIGNED" ? "Could not assign this quest." : "Could not reopen this quest."; if (isStaleResourceError(requestError)) await load() }
   finally { isSaving.value = false }
 }
 const openApplication = () => {
@@ -87,7 +89,7 @@ onMounted(() => void load())
 
 <template>
   <section class="quest-detail">
-    <header class="quest-detail__header"><div><p class="quest-detail__eyebrow">Work / Quest</p><h1>{{ detail?.quest.title || "Quest" }}</h1></div><div class="quest-detail__header-actions"><AppButton type="button" tone="secondary" :aria-expanded="utilityOpen" aria-controls="quest-detail-actions" @click="utilityOpen = !utilityOpen">{{ utilityOpen ? "Hide actions" : "Show actions" }}</AppButton><RouterLink :to="buildSurfaceVisionRoute('work-quests', `/work/quests/${questId}`, 'Work quest')" class="quest-detail__vision">Ask Vision</RouterLink></div></header>
+    <header class="quest-detail__header"><div><p class="quest-detail__eyebrow">Work / Quest</p><h1>{{ detail?.quest.title || "Quest" }}</h1></div><div class="quest-detail__header-actions"><RouterLink v-if="returnToVision" :to="returnToVision" class="quest-detail__return">Back to Vision</RouterLink><AppButton type="button" tone="secondary" :aria-expanded="utilityOpen" aria-controls="quest-detail-actions" @click="utilityOpen = !utilityOpen">{{ utilityOpen ? "Hide actions" : "Show actions" }}</AppButton><RouterLink :to="buildSurfaceVisionRoute('work-quests', `/work/quests/${questId}`, 'Work quest')" class="quest-detail__vision">Ask Vision</RouterLink></div></header>
     <div v-if="isLoading" class="quest-detail__status" role="status">Loading.</div>
     <div v-else-if="error" class="quest-detail__status quest-detail__status--error" role="alert">{{ error }} <AppButton type="button" tone="secondary" @click="load">Retry</AppButton></div>
     <template v-else-if="detail">

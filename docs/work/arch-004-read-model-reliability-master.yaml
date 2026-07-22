@@ -1,0 +1,28 @@
+kind: master
+version: 1
+id: arch-004-read-model-reliability-master
+title: Read-model reliability and empirical evidence contract
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/arch-004-read-model-reliability-master-execution-inventory.yaml
+objective: Standardize read-surface authority and runtime evidence without converting
+  static fetch findings into unsupported performance claims.
+analysis_source: docs/arch-004-read-model-reliability-analysis.md
+contract_source: docs/read-model-reliability-contract.yaml
+children:
+- docs/work/arch-004-read-model-reliability-01-contract.yaml
+- docs/work/arch-004-read-model-reliability-02-static-audit.yaml
+- docs/work/arch-004-read-model-reliability-03-runtime-evidence.yaml
+rules:
+- Service DTO assembly remains authoritative.
+- Static audits prioritize; runtime artifacts prove.
+- Mapper and fetch changes require sibling-surface review.
+evidence:
+- verifiedAt: '2026-07-22T09:26:36Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/arch-004-read-model-reliability-01-contract.yaml
+  - docs/work/arch-004-read-model-reliability-02-static-audit.yaml
+  - docs/work/arch-004-read-model-reliability-03-runtime-evidence.yaml

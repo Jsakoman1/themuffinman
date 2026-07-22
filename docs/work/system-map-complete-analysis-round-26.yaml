@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: system-map-complete-analysis-round-26
+title: Query performance evidence design and resource behavior
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-complete-analysis-master-execution-inventory.yaml
+master_plan: docs/work/system-map-complete-analysis-master.yaml
+objective: Move from static fetch-risk findings to a machine-readable measurement
+  plan for query count, latency, row volume, memory, pagination, caching, and scale-sensitive
+  read paths; do not claim empirical proof until runtime traces are collected in a
+  dedicated execution slice.
+scope:
+- apps/themuffinman/src/main/java
+- apps/themuffinman/src/test
+- docs/system-map-third-pass-round-16-read-model-performance.md
+- docs/implementation-backlog.md
+deliverables:
+- docs/system-map-complete-analysis-round-26-performance-evidence-design.md
+- docs/performance-evidence-catalog.yaml
+tasks:
+- id: analyze-query-performance-and-resource-behavior
+  title: Design query performance evidence and resource analysis
+  inventory_item: empirical-performance
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-complete-analysis-round-26-performance-evidence-design.md
+  - docs/performance-evidence-catalog.yaml
+  required_paths:
+  - docs/system-map-complete-analysis-round-26-performance-evidence-design.md
+  - docs/performance-evidence-catalog.yaml
+  validation: ruby scripts/audits/audit-repository-fetch.rb && make audit-docs &&
+    git diff --check
+  started_at: '2026-07-22T07:18:29Z'
+  start_fingerprints:
+    docs/system-map-complete-analysis-round-26-performance-evidence-design.md: __missing__
+    docs/performance-evidence-catalog.yaml: __missing__
+evidence:
+- task: analyze-query-performance-and-resource-behavior
+  command: ruby scripts/audits/audit-repository-fetch.rb && make audit-docs && git
+    diff --check
+  ranAt: '2026-07-22T07:18:56Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/performance-evidence-catalog.yaml
+  - docs/system-map-complete-analysis-round-26-performance-evidence-design.md
+  output: |2+
+      high risk: 14
+      medium risk: 24
+      - BusinessBookingRepository.findDetailedByCustomerUserId risk=high fetch=businessOffering,businessProfile,customerUser,owner
+      - BusinessBookingRepository.findDetailedByOwnerId risk=high fetch=businessOffering,businessProfile,customerUser,owner
+      - BusinessBookingRepository.findDetailedByOwnerIdAndStartsAtBetween risk=high fetch=businessOffering,businessProfile,customerUser,owner
+      - BusinessOfferingRepository.findByOwnerId risk=high fetch=businessProfile,owner
+      - ChatAttachmentUploadRepository.findByStorageKey risk=high fetch=
+      - ChatConversationMemberStateRepository.findByConversationIdInAndUserId risk=high fetch=
+      - ChatConversationRepository.findDetailedById risk=high fetch=createdBy,lastMessageSender,leftParticipant,owner,participants,rightParticipant,user
+      - ChatConversationRepository.findDetailedByParticipantId risk=high fetch=createdBy,lastMessageSender,leftParticipant,owner,participants,rightParticipant,user
+      - ChatMessageRepository.findDetailedByAttachmentStorageKey risk=high fetch=sender
+      - ChatMessageRepository.findDetailedPageByConversationId risk=high fetch=sender
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 292
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T07:18:29Z'
+  changedAfterStart: &1
+  - docs/system-map-complete-analysis-round-26-performance-evidence-design.md
+  - docs/performance-evidence-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

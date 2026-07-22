@@ -1,0 +1,64 @@
+kind: work
+version: 1
+id: system-map-extension-map-002
+title: Unified error and recovery contract map
+status: verified
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-extension-master.yaml
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+objective: Map domain errors, HTTP and WebSocket failure contracts, retries, idempotency,
+  user recovery actions, and operator actions across modules.
+deliverables:
+- docs/error-recovery-registry.yaml
+- docs/system-map.md
+tasks:
+- id: build-error-recovery-registry
+  title: Reconcile exception handlers, error DTOs, client handling, and recovery scenarios
+  type: analysis
+  status: done
+  paths:
+  - docs/error-recovery-registry.yaml
+  - docs/system-map.md
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/error-recovery-registry.yaml
+  - docs/system-map.md
+  validation: ruby scripts/audits/audit-api-contract-drift.rb && make audit-runtime-acceptance
+    && make audit-docs && git diff --check
+evidence:
+- task: build-error-recovery-registry
+  command: ruby scripts/audits/audit-api-contract-drift.rb && make audit-runtime-acceptance
+    && make audit-docs && git diff --check
+  ranAt: '2026-07-22T08:13:18Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/error-recovery-registry.yaml
+  - docs/system-map.md
+  output: |+
+    API contract drift audit
+      backend DTOs scanned: 269
+      DTOs missing contracts: 20
+      zero-usage fields: 460
+      - ActionResultDTO suspicious_fields=0
+      - ActivityItemDTO suspicious_fields=2
+      - AdminAgentExecutionRequestDTO suspicious_fields=1
+      - AdminAgentExecutionResponseDTO suspicious_fields=9
+      - AdminApplicationsQueryDTO suspicious_fields=0
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - docs/error-recovery-registry.yaml
+  - docs/system-map.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

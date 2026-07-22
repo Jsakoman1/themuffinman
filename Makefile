@@ -69,6 +69,24 @@ audit-target-capability-coverage:
 audit-inventory-freshness:
 	@ruby scripts/audits/audit-inventory-freshness.rb
 
+audit-truth-registry:
+	@ruby scripts/audits/audit-truth-registry-integrity.rb
+
+audit-interface-evidence:
+	@ruby scripts/audits/audit-interface-evidence-reconciliation.rb
+
+audit-data-workflow-impact:
+	@ruby scripts/audits/audit-data-workflow-impact.rb
+
+audit-capability-evidence:
+	@ruby scripts/audits/audit-capability-evidence-freshness.rb
+
+audit-delivery-provenance:
+	@ruby scripts/audits/audit-delivery-provenance.rb
+
+system-map-impact:
+	@ruby scripts/audits/generate-system-map-change-impact.rb
+
 generate-target-capability-slices:
 	@ruby scripts/audits/generate-target-capability-slices.rb
 

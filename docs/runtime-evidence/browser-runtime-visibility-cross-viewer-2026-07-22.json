@@ -1,0 +1,28 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T12:38:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "browser_visibility_cross_viewer_redaction_controlled_transition",
+  "owner": {
+    "before": "PRIVATE",
+    "afterPublic": "PUBLIC",
+    "afterPrivate": "PRIVATE",
+    "restored": "PUBLIC",
+    "mutationResponses": [
+      {"status": 200, "mutationHeadersObserved": ["x-request-id", "x-correlation-id"]},
+      {"status": 200, "mutationHeadersObserved": ["x-request-id", "x-correlation-id"]}
+    ]
+  },
+  "viewer": {
+    "registrationStatus": 200,
+    "profileReadStatus": 200,
+    "profileUsername": "test",
+    "profileDescription": null,
+    "profileDescriptionVisibility": "PRIVATE",
+    "relationStatus": "NONE",
+    "primaryAction": {"type": "SEND_INVITE", "enabled": true}
+  },
+  "result": "passed_web_cross_viewer_redaction",
+  "limits": ["no_vision_parity", "no_native_device_revoke", "no_cache_invalidation_probe"]
+}

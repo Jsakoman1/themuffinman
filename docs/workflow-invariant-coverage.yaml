@@ -1,0 +1,56 @@
+version: 1
+purpose: Coverage index for declared workflows, invariants, authority, and concurrency evidence.
+reviewed_round: 23
+workflows:
+- id: quest_lifecycle
+  canonical_source: docs/workflow-state-machines.yaml
+  owner: QuestStateTransitionService
+  evidence_class: source-trace
+  coverage: declared_current
+  confidence: high
+- id: quest_application_lifecycle
+  canonical_source: docs/workflow-state-machines.yaml
+  owner: QuestApplicationWorkflowSupport
+  evidence_class: source-trace
+  coverage: declared_current
+  confidence: high
+- id: circle_relation_lifecycle
+  canonical_source: docs/workflow-state-machines.yaml
+  owner: CircleRelationService
+  evidence_class: source-trace
+  coverage: declared_current
+  confidence: high
+- id: chat_conversation_access_lifecycle
+  canonical_source: docs/workflow-state-machines.yaml
+  owner: ChatService
+  evidence_class: source-trace
+  coverage: derived_access_state
+  confidence: medium
+- id: thing_borrow_request_lifecycle
+  canonical_source: docs/workflow-state-machines.yaml
+  owner: ThingSharingService
+  evidence_class: source-trace
+  coverage: declared_current
+  confidence: high
+- id: booking_lifecycle
+  canonical_source: docs/workflow-state-machines.yaml
+  owner: future_module
+  implementation_owner: business_booking_services
+  evidence_class: inferred-risk
+  coverage: declared_owner_drift
+  confidence: high
+  disposition: reconcile_workflow_owner_before_claiming_full_coverage
+concurrency_controls:
+- scope: business_booking
+  controls: [offering_row_lock, idempotency_key, booking_audit]
+  evidence_class: source-trace
+- scope: ride_offer
+  controls: [pessimistic_lock, optimistic_version, idempotent_join]
+  evidence_class: source-trace
+- scope: vision_turn
+  controls: [last_client_request_id, replay_candidate_logic]
+  evidence_class: source-trace
+rules:
+- frontend_must_not_own_authoritative_transition_or_permission_rules
+- local_idempotency_does_not_establish_cross_module_idempotency
+- derived_access_state_requires_current_relationship_and_membership_checks

@@ -1,0 +1,37 @@
+extension_review: docs/observability-performance-extension-review.yaml
+version: 1
+purpose: Required metric and trace schema for runtime observability; no row is a measured production result.
+reviewed_round: 35
+runtime_measurement_state: dev_opt_in_headers_available
+runtime_measurement_source: apps/themuffinman/src/main/java/com/themuffinman/app/common/observability/RuntimeObservabilityFilter.java
+runtime_measurement_limits: [single_local_instance, hibernate_statistics_delta, no_production_scale_claim, no_provider_duration]
+signal_families:
+- id: http_and_domain_request
+  owners: [controllers, domain_services]
+  required_fields: [operation_key, correlation_id, endpoint_or_use_case, viewer_role_class, outcome, failure_class, duration_ms, environment]
+  evidence_class: unknown
+- id: database_read_write
+  owners: [repositories, service_transactions]
+  required_fields: [operation_key, query_count, query_duration_ms, row_volume, transaction_outcome, environment]
+  evidence_class: unknown
+- id: external_provider
+  owners: [location, agent, voice, object_storage]
+  required_fields: [provider, operation_key, request_class, outcome, provider_duration_ms, retry_count, failure_class]
+  evidence_class: unknown
+- id: scheduled_job
+  owners: [retention, auth_session, vision_memory]
+  required_fields: [job_name, start_time, finish_time, outcome, processed_count, failed_count, retry_or_replay_reference]
+  evidence_class: unknown
+- id: websocket_realtime
+  owners: [chat]
+  required_fields: [connection_event, user_role_class, conversation_scope_class, reconnect_required, sync_outcome, delivery_failure_class]
+  evidence_class: unknown
+- id: storage_lifecycle
+  owners: [chat_attachments, business_gallery]
+  required_fields: [storage_operation, provider, object_class, authorization_outcome, url_expiry_state, failure_class]
+  evidence_class: unknown
+trace_rules:
+- no_raw_user_content_or_credentials
+- runtime_metrics_require_fresh_artifact
+- static_audit_does_not_fill_metric_values
+- unknown_metric_source_remains_unknown_until_instrumented

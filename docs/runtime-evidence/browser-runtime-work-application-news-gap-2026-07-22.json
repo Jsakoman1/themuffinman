@@ -1,0 +1,26 @@
+{
+  "evidenceClass": "browser_trace_plus_database_trace",
+  "capturedAt": "2026-07-22T12:30:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "browser_work_application_side_effect_ordering",
+  "operation": "POST /quests/401/applications",
+  "browser": {
+    "temporaryUserRegistrationStatus": 200,
+    "applicationStatus": 200,
+    "applicationResponse": {"action": "APPLY_FOR_QUEST", "message": "Application sent."},
+    "applicationReadbackStatus": 403,
+    "traceHeadersSent": ["X-Request-Id", "X-Correlation-Id"]
+  },
+  "database": {
+    "applicationRow": {"id": 270, "questId": 401, "status": "PENDING"},
+    "applicationCountForQuestBefore": 1,
+    "applicationCountForQuestAfter": 2,
+    "questNewsApplicationCreatedCountBefore": 0,
+    "questNewsApplicationCreatedCountAfter": 0,
+    "observedAfterWait": "multiple minutes"
+  },
+  "result": "missing_persisted_side_effect_finding",
+  "interpretation": "The domain application committed and the browser received success, but no corresponding APPLICATION_CREATED quest_news_item was observed for the quest creator. This does not prove whether the after-commit listener failed, was skipped, or used a different recipient path.",
+  "limits": ["no_listener_failure_injection", "no_process_crash", "recipient_http_readback_not_authorized_for_temporary_user"]
+}

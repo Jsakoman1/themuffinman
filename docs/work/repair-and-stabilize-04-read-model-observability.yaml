@@ -1,0 +1,68 @@
+kind: work
+version: 1
+id: repair-and-stabilize-04-read-model-observability
+title: Add read-model observability and evidence-backed optimization
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/repair-and-stabilize-master.yaml
+execution_inventory: docs/work/repair-and-stabilize-master-execution-inventory.yaml
+objective: Instrument priority read surfaces, verify DTO and authorization behavior,
+  and optimize only where fresh evidence identifies a real cost.
+repair_ids:
+- ARCH-004
+entry_gate: Priority read surfaces and their viewer roles are selected from the read-model
+  contract.
+exit_evidence: Fresh traces contain dataset shape, sample count, query count, query
+  timing, request latency, row volume, and outcome, or each missing measurement is
+  explicitly excluded from the claim.
+scope_boundary: No fetch, mapper, cache, or query optimization is accepted solely
+  from a static risk score; sibling read surfaces must be reviewed with every read-path
+  change.
+tasks:
+- id: repair-read-model-observability
+  title: Instrument priority queries and verify sibling read surfaces
+  type: implementation
+  status: done
+  inventory_item: repair-read-model-observability
+  paths:
+  - apps/themuffinman/src/main/java
+  - apps/themuffinman/src/test/java
+  - docs/read-model-reliability-contract.yaml
+  - docs/performance-evidence-catalog.yaml
+  required_paths:
+  - docs/read-model-reliability-contract.yaml
+  - docs/performance-evidence-catalog.yaml
+  validation: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-capability-evidence
+    && make audit-docs && git diff --check
+  started_at: '2026-07-22T11:44:09Z'
+  start_fingerprints:
+    docs/read-model-reliability-contract.yaml: 8590dcca51917cfe7ad51fb646a0529f5184648ae030777becb7982c109ab19f
+    docs/performance-evidence-catalog.yaml: ff7dfc674ab0775be09664412ea0f34a47a6c344c7fbe75090d73f7622907210
+evidence:
+- task: repair-read-model-observability
+  command: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-capability-evidence
+    && make audit-docs && git diff --check
+  ranAt: '2026-07-22T11:46:23Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/performance-evidence-catalog.yaml
+  - docs/read-model-reliability-contract.yaml
+  output: "[INFO] Tests run: 787, Failures: 0, Errors: 0, Skipped: 0\n[INFO] \n[INFO]
+    ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  19.727 s\n[INFO] Finished at: 2026-07-22T13:46:44+02:00\n[INFO] ------------------------------------------------------------------------\nCapability
+    evidence freshness audit passed\n  passed runtime scenarios: 42\n  pending runtime
+    scenarios: 39\n  passed evidence paths checked: 40\nruby scripts/audits/audit-work-plan-recursion.rb\nWork-plan
+    recursion audit passed (no recursive validation commands).\nruby scripts/audits/audit-docs-as-tests.rb\nDocs
+    as tests\n  statements scanned: 297\n  review needed: 0\n  high priority: 0\n\n"
+  startedAt: '2026-07-22T11:44:09Z'
+  changedAfterStart: &1
+  - docs/read-model-reliability-contract.yaml
+  - docs/performance-evidence-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

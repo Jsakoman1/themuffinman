@@ -1,0 +1,50 @@
+{
+  "capturedAt": "2026-07-22T12:29:15Z",
+  "scenarioCatalog": "docs/work/ui-action-integrity-runtime-scenarios.yaml",
+  "auth": {
+    "login": "POST /auth/login",
+    "status": 200,
+    "role": "USER"
+  },
+  "scenarios": {
+    "home-open-work-scope": {
+      "status": "passed",
+      "summaryEndpoint": "GET /dashboard/me/summary",
+      "summaryOpenQuestCount": 6,
+      "canonicalEndpoint": "GET /quests/presets/AVAILABLE?page=0&size=100",
+      "canonicalTotalItems": 6,
+      "assertion": "Home open-work count equals the canonical available-work total."
+    },
+    "home-my-active-scope": {
+      "status": "passed",
+      "summaryActiveMyQuestsCount": 0,
+      "canonicalEndpoint": "GET /quests/presets/MY_ACTIVE?page=0&size=100",
+      "canonicalTotalItems": 0,
+      "assertion": "Home owned-active count equals the canonical MY_ACTIVE total."
+    },
+    "work-primary-flow": {
+      "status": "partial",
+      "previewEndpoint": "GET /quests/401/preview",
+      "previewStatus": 200,
+      "detailEndpoint": "GET /quests/401/detail",
+      "detailStatus": 200,
+      "detailStatusValue": "OPEN",
+      "detailAllowedActions": ["APPLY"],
+      "assertion": "A visible available quest reaches a canonical detail resource with a backend-published action."
+    },
+    "notification-canonical-target": {
+      "status": "passed_after_repair",
+      "notificationsEndpoint": "GET /news/me",
+      "actionableNotificationQuestIds": [415, 414, 413],
+      "beforeRepair": {"questIds": [415, 414, 413], "detailStatus": 404},
+      "afterRepair": {
+        "destinationTypes": ["QUEST_LIST", "QUEST_LIST", "QUEST_LIST"],
+        "destinationIds": [null, null, null],
+        "navigationTypes": ["QUEST_LIST", "QUEST_LIST", "QUEST_LIST"]
+      },
+      "assertion": "Actionable notification targets must resolve to canonical Web detail routes.",
+      "finding": "Repaired: stale or inaccessible quest/application references are now downgraded to an informational list destination, and the frontend follows backend destination metadata."
+    }
+  },
+  "evidenceBoundary": "Local authenticated runtime evidence only; this does not prove production data hygiene or cross-client parity."
+}

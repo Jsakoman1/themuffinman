@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: drift-001-truth-registry-integrity
+title: Canonical truth-registry integrity audit
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+objective: Implement DRIFT-001 by validating canonical truth-registry row metadata
+  and referenced repository paths without creating a second capability, runtime, or
+  plan-status authority.
+scope:
+- docs/system-truth-registry.yaml
+- scripts/audits/audit-truth-registry-integrity.rb
+- Makefile
+- docs/implementation-control.md
+- docs/audits.md
+- docs/system-drift-control-registry.yaml
+- docs/implementation-backlog.md
+tasks:
+- id: implement-truth-registry-integrity-audit
+  title: Implement truth registry integrity audit and operating contract
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-truth-registry-integrity.rb
+  - Makefile
+  - docs/implementation-control.md
+  - docs/audits.md
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - scripts/audits/audit-truth-registry-integrity.rb
+  - Makefile
+  - docs/implementation-control.md
+  - docs/audits.md
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-truth-registry && make audit-docs && git diff --check
+evidence:
+- task: implement-truth-registry-integrity-audit
+  command: make audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:30:45Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/audits.md
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/system-drift-control-registry.yaml
+  - scripts/audits/audit-truth-registry-integrity.rb
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 294
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - scripts/audits/audit-truth-registry-integrity.rb
+  - Makefile
+  - docs/implementation-control.md
+  - docs/audits.md
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

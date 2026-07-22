@@ -1,0 +1,119 @@
+version: 1
+purpose: Cross-cutting completeness index for the system map. This registry records
+  whether an important system dimension is mapped, partially mapped, or still lacks
+  repository or runtime evidence. It does not own capability status, plan status, or
+  production readiness.
+reviewed_round: extension-final-baseline
+reviewed_at: '2026-07-22'
+evidence_classes:
+- source-trace
+- validated-contract
+- runtime-proof
+- inferred-risk
+- unknown
+coverage_states:
+- mapped
+- partial
+- unknown
+dimensions:
+- id: product-and-domain-meaning
+  owner: product-and-domain-docs
+  state: mapped
+  evidence_class: source-trace
+  sources: [docs/product-vision.md, docs/product-memory.md, docs/business-logic.md, docs/domain-technical.md]
+  gap: Product meaning and domain invariants have canonical owners.
+- id: target-and-current-capabilities
+  owner: capability-catalogs
+  state: mapped
+  evidence_class: validated-contract
+  sources: [docs/target-capability-catalog.yaml, docs/capability-inventory.yaml]
+  gap: Capability status remains separate from implementation and runtime proof.
+- id: backend-module-and-layer-structure
+  owner: backend-source
+  state: mapped
+  evidence_class: source-trace
+  sources: [docs/system-map.md, apps/themuffinman/src/main/java/com/themuffinman/app]
+  gap: Actual package dependency direction and ownership graph are not yet generated.
+- id: frontend-route-and-client-surfaces
+  owner: frontend-surface-registry
+  state: mapped
+  evidence_class: source-trace
+  sources: [docs/client-surface-registry.yaml, docs/endpoint-capability-traceability-registry.yaml, apps/themuffinman/frontend]
+  gap: Native/device implementation remains outside repository evidence.
+- id: endpoint-capability-consumer-evidence
+  owner: interface-registries
+  state: partial
+  evidence_class: source-trace
+  sources: [docs/interface-evidence-registry.yaml, docs/endpoint-capability-traceability-registry.yaml]
+  gap: All 67 previously unclassified non-Web endpoints now have an explicit review row; 62 remain owner-review items and runtime consumer proof is still absent.
+- id: persistence-relations-and-retention
+  owner: data-ownership-registries
+  state: mapped
+  evidence_class: source-trace
+  sources: [docs/data-ownership-registry.yaml, docs/entity-relation-retention-registry.yaml]
+  gap: Field-level sensitivity and deletion proof are not complete.
+- id: workflow-permission-visibility-consent
+  owner: domain-and-policy-registries
+  state: partial
+  evidence_class: source-trace
+  sources: [docs/workflow-state-machines.yaml, docs/workflow-invariant-coverage.yaml, docs/permission-visibility-matrix.yaml]
+  gap: Booking ownership documentation drift and distributed cross-module policy parity remain review items.
+- id: errors-failures-and-recovery
+  owner: backend-and-client-contracts
+  state: partial
+  evidence_class: inferred-risk
+  sources: [docs/error-recovery-registry.yaml, docs/system-map-third-pass-round-19-architecture-risk-register.md, docs/runtime-acceptance-matrix.yaml]
+  gap: There is no unified error taxonomy mapping failure codes to user recovery, retry, and operator action.
+- id: events-realtime-jobs-and-replay
+  owner: side-effect-and-operations-registries
+  state: partial
+  evidence_class: source-trace
+  sources: [docs/side-effect-delivery-registry.yaml, docs/security-operations-recovery-registry.yaml, docs/runtime-observability-registry.yaml]
+  gap: Durable delivery, replay ledger, and deployed job execution are not proven.
+- id: external-integrations-and-data-egress
+  owner: security-and-runtime-config
+  state: partial
+  evidence_class: source-trace
+  sources: [docs/integration-environment-registry.yaml, docs/security-operations-recovery-registry.yaml, apps/themuffinman/src/main/resources/application.properties]
+  gap: Provider contracts, payload/data-egress classification, outage behavior, and credential lifecycle need a dedicated map.
+- id: configuration-and-environment-contract
+  owner: typed-operational-config
+  state: partial
+  evidence_class: source-trace
+  sources: [docs/security-operations-recovery-registry.yaml, docs/release-operations-registry.yaml, apps/themuffinman/src/main/resources/application.properties]
+  gap: Property-to-environment-to-secret classification and deployment-specific values are not fully indexed.
+- id: observability-and-performance-measurement
+  owner: runtime-observability-registry
+  state: partial
+  evidence_class: inferred-risk
+  sources: [docs/observability-performance-extension-review.yaml, docs/performance-evidence-catalog.yaml, docs/runtime-observability-registry.yaml]
+  gap: Measurement requirements exist, but actual latency, query, job, provider, storage, and WebSocket traces are absent.
+- id: test-topology-and-fixture-coverage
+  owner: test-and-regression-catalogs
+  state: partial
+  evidence_class: validated-contract
+  sources: [docs/test-topology-registry.yaml, docs/regression-scenario-catalog.yaml, docs/runtime-acceptance-matrix.yaml, docs/capability-evidence-registry.yaml]
+  gap: Unit/integration/browser/device ownership, fixture lineage, and capability-to-test coverage are not one navigable map.
+- id: release-deployment-backup-and-incident-operations
+  owner: release-operations-registry
+  state: partial
+  evidence_class: source-trace
+  sources: [docs/release-operations-registry.yaml, docs/release-operations-extension-review.yaml, docs/delivery-dependency-registry.yaml]
+  gap: CI, deployed topology, promotion, rollback, backup/restore, and incident response are externally unknown.
+- id: code-ownership-and-module-dependency-direction
+  owner: repository-architecture
+  state: partial
+  evidence_class: source-trace
+  sources: [docs/module-dependency-registry.yaml]
+  gap: Package relationships are mapped from imports, but forbidden directions and repository ownership enforcement are not proven.
+- id: native-device-and-offline-runtime
+  owner: native-client-boundary
+  state: unknown
+  evidence_class: unknown
+  sources: [docs/native-device-extension-review.yaml, docs/native-client-contract.yaml, docs/native-client-handoff-contract.yaml]
+  gap: Contracts exist, but no native source, device trace, offline store, or background execution proof exists.
+rules:
+- unknown_means_not_evidenced_not_absent
+- partial_means_a_source_or_contract_exists_but_a_required_relationship_or_runtime_proof_is_missing
+- runtime_proof_must_not_be_inferred_from_static_source_trace
+- every_new_system_dimension_requires_owner_sources_evidence_class_and_stable_follow_up

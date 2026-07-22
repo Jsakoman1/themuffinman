@@ -1,0 +1,52 @@
+kind: work
+version: 1
+id: browser-runtime-evidence-pass-02-mutations
+title: Capture mutation browser evidence
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/browser-runtime-evidence-pass-master.yaml
+execution_inventory: docs/work/browser-runtime-evidence-pass-master-execution-inventory.yaml
+tasks:
+- id: capture-mutation-browser-evidence
+  title: Capture duplicate, retry, correlation, and read-back traces
+  type: runtime
+  status: done
+  inventory_item: browser-runtime-mutations
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  runtime_evidence_paths:
+  - docs/runtime-evidence/browser-runtime-mutations-2026-07-22.json
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  started_at: '2026-07-22T11:11:37Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: d7af7cb556f033b667c9c3b960a5a24b520b1f2a172c945d4953a09fc2378da5
+evidence:
+- task: capture-mutation-browser-evidence
+  command: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  ranAt: '2026-07-22T11:11:55Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (41 passed, 40 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 41
+      pending runtime scenarios: 40
+      passed evidence paths checked: 37
+
+  startedAt: '2026-07-22T11:11:37Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/browser-runtime-mutations-2026-07-22.json

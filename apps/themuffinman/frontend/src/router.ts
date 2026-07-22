@@ -262,7 +262,7 @@ const routes = [
                 path: 'notifications',
                 name: 'notifications',
                 component: NotificationsView,
-                meta: {requiresAuth: true, surfaceId: 'profile-settings'}
+                meta: {requiresAuth: true, surfaceId: 'notifications'}
             },
             {
                 path: 'search/saved',
@@ -286,7 +286,7 @@ const routes = [
                 path: 'activity',
                 name: 'activity',
                 component: ActivityView,
-                meta: {requiresAuth: true, surfaceId: 'profile-settings'}
+                meta: {requiresAuth: true, surfaceId: 'activity'}
             },
             {
                 path: 'profile/settings/notifications',

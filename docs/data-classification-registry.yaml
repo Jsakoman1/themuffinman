@@ -1,0 +1,20 @@
+version: 1
+purpose: Field-level sensitivity, visibility, retention, deletion, and egress index; unknown policy is not inferred.
+reviewed_round: MAP-004
+coverage_state: partial
+evidence_class: source-trace
+sources: [docs/entity-relation-retention-registry.yaml, docs/permission-visibility-matrix.yaml, docs/security-operations-recovery-registry.yaml, apps/themuffinman/src/main/java/com/themuffinman/app]
+classification_vocabulary: [public, circle_scoped, owner_scoped, participant_scoped, private, secret, operational, unknown]
+records:
+- {id: account_identity, owner: identity, examples: [email, username, profile, auth_token], classification: private, retention: policy_and_entity_specific, deletion_evidence: unknown}
+- {id: location_data, owner: location, examples: [coordinates, locality, location_mode], classification: circle_scoped_or_private, retention: configured_or_entity_specific, deletion_evidence: unknown}
+- {id: chat_content, owner: chat, examples: [message_text, reactions, audit_events], classification: participant_scoped, retention: configured_chat_retention, deletion_evidence: source-trace_only}
+- {id: chat_attachments, owner: storage_and_chat, examples: [attachment_bytes, storage_key, mime_type], classification: participant_scoped, retention: configured_image_or_message_retention, deletion_evidence: unknown}
+- {id: vision_memory, owner: vision, examples: [turns, summaries, prompt_payloads], classification: private, retention: configured_ttl_and_compaction, deletion_evidence: unknown}
+- {id: business_and_work_records, owner: business_and_workmarket, examples: [quests, applications, bookings, offerings], classification: owner_or_participant_scoped, retention: unknown, deletion_evidence: unknown}
+- {id: credentials_and_tokens, owner: config_and_identity, examples: [JWT secret, provider keys, refresh/recovery tokens], classification: secret, retention: operational, deletion_evidence: unknown}
+rules:
+- visibility classification is not a substitute for field-level privacy policy
+- retention configuration proves intent, not deletion outcome
+- provider egress must be linked to field classification before production claims
+gaps: [complete_entity_field_inventory, deletion_outcome_evidence, legal_policy_mapping, provider_payload_minimization]

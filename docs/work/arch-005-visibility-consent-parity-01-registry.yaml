@@ -1,0 +1,53 @@
+kind: work
+version: 1
+id: arch-005-visibility-consent-parity-01-registry
+title: Establish field and resource parity registry
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-005-visibility-consent-parity-master.yaml
+execution_inventory: docs/work/arch-005-visibility-consent-parity-master-execution-inventory.yaml
+tasks:
+- id: establish-field-parity-registry
+  title: Record viewer policy inputs and client evidence classes
+  type: analysis
+  status: done
+  inventory_item: arch-005-registry
+  paths:
+  - docs/arch-005-visibility-consent-parity-analysis.md
+  - docs/visibility-consent-parity-contract.yaml
+  required_paths:
+  - docs/arch-005-visibility-consent-parity-analysis.md
+  - docs/visibility-consent-parity-contract.yaml
+  validation: make audit-docs && git diff --check
+  started_at: '2026-07-22T09:29:14Z'
+  start_fingerprints:
+    docs/arch-005-visibility-consent-parity-analysis.md: 6c7cb2d306384455fd4b561c25ab73864aff3a86ec89d417a8166a0617aa6d4a
+    docs/visibility-consent-parity-contract.yaml: 327a06ac7127545c3d633679ec53344567ee37a83cb810c718a6be10d73151ef
+evidence:
+- task: establish-field-parity-registry
+  command: make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:29:29Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/arch-005-visibility-consent-parity-analysis.md
+  - docs/visibility-consent-parity-contract.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:29:14Z'
+  changedAfterStart: &1
+  - docs/arch-005-visibility-consent-parity-analysis.md
+  - docs/visibility-consent-parity-contract.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

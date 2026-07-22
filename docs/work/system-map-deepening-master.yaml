@@ -1,0 +1,36 @@
+kind: master
+version: 1
+id: system-map-deepening-master
+title: System map deepening and architecture evidence program
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-deepening-master-execution-inventory.yaml
+objective: 'Deepen the system map with missing ownership, dependency, evidence, operational,
+  privacy, control-graph, and target-architecture facts discovered during the first
+  system-analysis program.
+
+'
+completed_prerequisites:
+- docs/work/system-analysis-master.yaml
+- docs/system-map.md
+- docs/work/system-map-deepening-preflight.yaml
+- docs/system-map-deepening-preflight.md
+children:
+- docs/work/system-map-deepening-round-8.yaml
+- docs/work/system-map-deepening-round-9.yaml
+- docs/work/system-map-deepening-round-10.yaml
+- docs/work/system-map-deepening-round-11.yaml
+- docs/work/system-map-deepening-round-12.yaml
+- docs/work/system-map-deepening-round-13.yaml
+evidence:
+- verifiedAt: '2026-07-22T06:37:31Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/system-map-deepening-round-8.yaml
+  - docs/work/system-map-deepening-round-9.yaml
+  - docs/work/system-map-deepening-round-10.yaml
+  - docs/work/system-map-deepening-round-11.yaml
+  - docs/work/system-map-deepening-round-12.yaml
+  - docs/work/system-map-deepening-round-13.yaml

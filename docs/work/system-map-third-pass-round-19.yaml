@@ -1,0 +1,73 @@
+kind: work
+version: 1
+id: system-map-third-pass-round-19
+title: Architecture risk and decision register
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-third-pass-master-execution-inventory.yaml
+master_plan: docs/work/system-map-third-pass-master.yaml
+objective: Consolidate evidence-backed architecture risks, decisions, ownership, impact,
+  mitigation, and the next investigation or implementation slice.
+scope:
+- docs/system-map.md
+- docs/system-map-deepening-*.md
+- docs/system-map-third-pass-round-*.md
+- docs/implementation-backlog.md
+- docs/domain-technical.md
+- docs/business-logic.md
+deliverables:
+- docs/system-map-third-pass-round-19-architecture-risk-register.md
+tasks:
+- id: build-architecture-risk-and-decision-register
+  title: Build architecture risk and decision register
+  inventory_item: architecture-risk-register
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-third-pass-round-19-architecture-risk-register.md
+  required_paths:
+  - docs/system-map-third-pass-round-19-architecture-risk-register.md
+  validation: make audit-plan-coverage && make audit-docs && make audit-impact &&
+    git diff --check
+  started_at: '2026-07-22T06:54:14Z'
+  start_fingerprints:
+    docs/system-map-third-pass-round-19-architecture-risk-register.md: __missing__
+evidence:
+- task: build-architecture-risk-and-decision-register
+  command: make audit-plan-coverage && make audit-docs && make audit-impact && git
+    diff --check
+  ranAt: '2026-07-22T06:55:46Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-third-pass-round-19-architecture-risk-register.md
+  output: |2+
+      high priority: 0
+    ruby scripts/audits/audit-change-impact-preflight.rb
+    Change impact preflight
+      changed files: 53
+      docs to review: 1
+      tests to consider: 0
+      generated artifacts: 1
+      scope guardrail warnings: 1
+      ! unexpected_generated_reports: Generated report changes include files not predicted by changed source files.
+      - apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs -> docs=1, tests=0, siblings=0
+      - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts -> docs=0, tests=0, siblings=0
+      - docs/control-surface-map.md -> docs=0, tests=0, siblings=0
+      - docs/implementation-backlog.md -> docs=0, tests=0, siblings=0
+      - docs/system-analysis-round-1.md -> docs=0, tests=0, siblings=0
+    ruby scripts/audits/score-changeset-risk.rb
+    Changeset risk
+      changed files: 53
+      score: 18
+      tier: low
+
+  startedAt: '2026-07-22T06:54:14Z'
+  changedAfterStart: &1
+  - docs/system-map-third-pass-round-19-architecture-risk-register.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

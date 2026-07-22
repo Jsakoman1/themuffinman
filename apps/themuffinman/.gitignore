@@ -2,6 +2,7 @@ HELP.md
 .env.backend.dev.local
 target/
 .m2repo/
+tmp/*.state
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

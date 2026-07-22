@@ -53,12 +53,16 @@ evidence_rules:
   - Screenshots are optional and only retained when visual layout is part of the assertion.
   - A scenario is not passing merely because the page loaded or the backend returned HTTP 200.
 evidence:
-  validation_mode: route-and-state-transitions
-  screenshot_policy: optional-only-for-visual-assertions
-  note: Runtime closeout retains compact evidence and removes page-load smoke artifacts.
+  - artifact: docs/runtime-evidence/browser-runtime-ui-action-integrity-2026-07-22.json
+    status: passed_after_repair
+    covered: [home-open-work-scope, home-my-active-scope, work-primary-flow, notification-canonical-target]
+    finding: notification_stale_target_downgraded_to_informational_destination
+validation_mode: route-and-state-transitions
+screenshot_policy: optional-only-for-visual-assertions
+note: Runtime closeout retains compact evidence and removes page-load smoke artifacts.
 runtime_attempt:
   command: make dev
-  result: blocked_by_existing_development_ports
-  backend_probe: GET /dashboard/me returned 401 without authentication
-  frontend_probe: existing port process was reported but the listener was not reachable through localhost
-  next_required_step: stop or reconcile the owning development stack, then walk the scenario catalog with an authenticated browser session
+  result: active_local_dev_stack
+  backend_probe: authenticated Playwright access to the local Spring Boot stack is available
+  frontend_probe: authenticated Playwright access to the Vite frontend is available
+  next_required_step: continue the pending scenario catalog with authenticated route-and-state evidence

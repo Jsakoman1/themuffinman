@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-closeout-11-execution-inventory
+master_plan: docs/work/runtime-pending-closeout-11.yaml
+serial_task_execution: true
+items:
+- id: vision-confirm-cancel-retry
+  sequence: 1
+  plan: docs/work/runtime-pending-closeout-11.yaml
+  task: execute-vision-confirm-cancel-retry
+  depends_on: []
+  output: vision-confirm-cancel-retry-evidence
+  status: verified
+  started_at: '2026-07-22T14:07:09Z'
+  verified_at: '2026-07-22T14:07:45Z'
+  evidence:
+    plan: docs/work/runtime-pending-closeout-11.yaml
+    task: execute-vision-confirm-cancel-retry
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

@@ -1,0 +1,15 @@
+{
+  "capturedAt": "2026-07-22T12:55:00Z",
+  "scenario": "runtime-activity-recovery",
+  "authentication": {"login": "POST /auth/login", "status": 200, "role": "USER"},
+  "surface": {"path": "/activity", "documentStatus": 200, "contentHeading": "Activity"},
+  "actions": [
+    {"action": "load", "status": "passed", "itemsBefore": 8},
+    {"action": "open_resume", "href": "/chat/382", "opened": "/chat/382", "documentStatus": 200},
+    {"action": "dismiss", "target": "chat:382", "status": "passed"},
+    {"action": "reload", "status": "passed", "remainingResumableItems": 0}
+  ],
+  "browserErrors": [],
+  "status": "passed",
+  "finding": "Activity recovery and dismissal work for a resumable Chat item. Stale Workmarket application-news rows are now informational and route to /notifications when their canonical target is unavailable; the same backend destination contract is consumed by Activity."
+}

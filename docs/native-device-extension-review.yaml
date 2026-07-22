@@ -1,0 +1,14 @@
+version: 1
+purpose: MAP-009 native/device/offline/background evidence boundary.
+reviewed_round: MAP-009
+coverage_state: unknown
+evidence_class: unknown
+sources: [docs/native-client-contract.yaml, docs/native-client-handoff-contract.yaml, docs/runtime-acceptance-matrix.yaml]
+contract_state: backend_handoff_contract_present
+implementation_state: no_native_source_evidenced
+device_state: no_device_trace_evidenced
+required_evidence: [native_source, device_permission_trace, offline_storage_trace, background_execution_trace, reconnect_mutation_trace]
+rules:
+- contract_presence_does_not_prove_client_implementation
+- web_handoff_does_not_prove_native_parity
+- unknown_device_state_remains_explicit_until_device_evidence_exists

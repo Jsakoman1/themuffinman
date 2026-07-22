@@ -1,0 +1,80 @@
+kind: work
+version: 1
+id: runtime-pending-closeout-02
+title: Continue pending runtime acceptance scenarios
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-closeout.yaml
+execution_inventory: docs/work/runtime-pending-closeout-02-execution-inventory.yaml
+objective: Execute the next pending runtime scenarios after the first verified browser
+  pass, preserve precise blockers, and verify all safe repairs and evidence updates.
+scope: docs/runtime-acceptance-matrix.yaml pending_runtime scenarios not covered by
+  the first child pass
+out_of_scope:
+- production deployment or provider credentials
+- native device implementation
+- inventing evidence for unavailable external systems
+tasks:
+- id: execute-next-pending-runtime-batch
+  title: Execute next pending runtime batch and reconcile evidence
+  type: verification
+  status: done
+  inventory_item: next-pending-runtime-batch
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/observability
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/dto
+  - apps/themuffinman/frontend/src/modules/vision
+  - apps/themuffinman/frontend/src/modules/app-shell
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T13:13:47Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 58c205be7932546e24a481cf4edb1ac1dcafcbb87cc5d31dbfefecfb8c76fd6d
+    docs/implementation-backlog.md: ec8d108612eb488b361f7a160da55b0cab5c0145588bfb47fddcaea51100fdd1
+evidence:
+- task: execute-next-pending-runtime-batch
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T13:30:02Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (53 passed, 28 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 53
+      pending runtime scenarios: 28
+      passed evidence paths checked: 50
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 299
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T13:13:47Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

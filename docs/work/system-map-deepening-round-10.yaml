@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: system-map-deepening-round-10
+title: Runtime operations and observability
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-deepening-master-execution-inventory.yaml
+master_plan: docs/work/system-map-deepening-master.yaml
+objective: Map local and production runtime assumptions, deployment topology gaps,
+  scheduled jobs, health, logging, metrics, provider failures, and recovery operations.
+scope:
+- Makefile
+- apps/themuffinman/Makefile
+- apps/themuffinman/scripts
+- apps/themuffinman/src/main/java/com/themuffinman/app/config
+- apps/themuffinman/src/main/resources
+- docs/runtime-evidence
+- docs/runtime-acceptance-matrix.yaml
+deliverables:
+- docs/system-map-deepening-round-10-runtime-operations.md
+tasks:
+- id: analyze-runtime-operations-and-observability
+  title: Analyze runtime operations and observability
+  inventory_item: runtime-operations-observability
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-deepening-round-10-runtime-operations.md
+  required_paths:
+  - docs/system-map-deepening-round-10-runtime-operations.md
+  validation: make audit-runtime-acceptance && make audit-native-client-handoff &&
+    make audit-agent-safety
+  started_at: '2026-07-22T06:31:51Z'
+  start_fingerprints:
+    docs/system-map-deepening-round-10-runtime-operations.md: __missing__
+evidence:
+- task: analyze-runtime-operations-and-observability
+  command: make audit-runtime-acceptance && make audit-native-client-handoff && make
+    audit-agent-safety
+  ranAt: '2026-07-22T06:32:52Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-deepening-round-10-runtime-operations.md
+  output: |+
+    dist/assets/BusinessAvailabilityView-0MSR-bpj.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-BBuSzVMt.js                  11.06 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-whCPOvOv.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-DEQH7bAd.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-BOUKHymH.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-D3zvtdzL.js                   12.65 kB │ gzip:   4.02 kB
+    dist/assets/RidesView-_BGv8vOh.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-iLj_lwI5.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/useVisionForWeb-D0BWiPwS.js                       17.53 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-CxTeMtu2.js                         18.04 kB │ gzip:   5.40 kB
+    dist/assets/ProfileLocationSettingsView-CSlOxheW.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-BZdQhMvg.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CPCn3T-O.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BQQsUF4I.js                                 51.22 kB │ gzip:  13.04 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 541ms
+
+  startedAt: '2026-07-22T06:31:51Z'
+  changedAfterStart: &1
+  - docs/system-map-deepening-round-10-runtime-operations.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,77 @@
+kind: work
+version: 1
+id: drift-004-evidence-freshness
+title: Capability evidence freshness audit
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+objective: Implement DRIFT-004 by checking runtime evidence references and separation
+  rules without deriving capability status from evidence alone.
+scope:
+- scripts/audits
+- docs/capability-evidence-registry.yaml
+- docs/system-drift-control-registry.yaml
+- docs/implementation-backlog.md
+- Makefile
+- docs/implementation-control.md
+- docs/audits.md
+tasks:
+- id: implement-evidence-freshness-audit
+  title: Implement capability evidence freshness audit
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-capability-evidence-freshness.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  required_paths:
+  - scripts/audits/audit-capability-evidence-freshness.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  validation: make audit-capability-evidence && make audit-runtime-acceptance && make
+    audit-docs && git diff --check
+evidence:
+- task: implement-evidence-freshness-audit
+  command: make audit-capability-evidence && make audit-runtime-acceptance && make
+    audit-docs && git diff --check
+  ranAt: '2026-07-22T07:35:33Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/audits.md
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/system-drift-control-registry.yaml
+  - scripts/audits/audit-capability-evidence-freshness.rb
+  output: |+
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 30
+      pending runtime scenarios: 24
+      passed evidence paths checked: 28
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - scripts/audits/audit-capability-evidence-freshness.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,45 @@
+version: 1
+purpose: Evidence relationship index; docs/capability-inventory.yaml remains canonical for capability status.
+reviewed_round: 25
+canonical_cross_reference: docs/endpoint-client-evidence-registry.yaml
+runtime_matrix:
+  canonical_source: docs/runtime-acceptance-matrix.yaml
+  passed_scenarios: 30
+  pending_runtime_scenarios: 24
+  rule: pending_runtime_is_not_runtime_proof
+test_diagnostic:
+  canonical_diagnostic: docs/audit-output/contract-test-gaps.json
+  endpoints_scanned: 241
+  review_needed: 32
+  high_priority: 0
+  rule: diagnostic_gap_is_not_completion_status
+capability_families:
+- id: platform
+  evidence_layers: [source_trace, test_contract, browser_trace]
+  runtime_state: partial_scenario_coverage
+  known_pending: [authenticated_web_route_matrix, activity_recovery, authentication_recovery, location_visibility]
+- id: vision
+  evidence_layers: [source_trace, test_contract, browser_trace]
+  runtime_state: mixed_passed_and_pending
+  known_pending: [confirm, execution, search, detail, create_quest, read_discovery, voice_parity]
+- id: workmarket
+  evidence_layers: [source_trace, test_contract, browser_trace]
+  runtime_state: partial_scenario_coverage
+  known_pending: [worker_management_stale_recovery]
+- id: chat
+  evidence_layers: [source_trace, test_contract, browser_trace]
+  runtime_state: mixed_passed_and_pending
+  known_pending: [realtime_resync, attachment_unavailable, group_create, leave_stale_recovery]
+- id: business_and_sharing
+  evidence_layers: [source_trace, test_contract, browser_trace]
+  runtime_state: selected_flow_coverage
+  known_pending: []
+- id: native_mobile_watch
+  evidence_layers: [contract_source, device_trace]
+  runtime_state: no_device_proof
+  known_pending: [mobile_presentation, watch_presentation, cross_client_contract]
+rules:
+- implemented_and_verified_are_distinct_inventory_states
+- static_audit_and_source_trace_do_not_replace_runtime_evidence
+- runtime_artifact_must_be_fresh_and_declared_by_owning_plan
+- native_contract_readiness_is_not_device_implementation_proof

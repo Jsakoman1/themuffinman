@@ -1,0 +1,65 @@
+kind: work
+version: 1
+id: arch-001-endpoint-reconciliation-02-closeout
+title: Verify endpoint reconciliation closeout
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-001-endpoint-reconciliation-master.yaml
+execution_inventory: docs/work/arch-001-endpoint-reconciliation-master-execution-inventory.yaml
+tasks:
+- id: verify-endpoint-closeout
+  title: Verify review queue integrity and canonical registry linkage
+  type: verification
+  status: done
+  inventory_item: arch-001-endpoint-closeout
+  paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  required_paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  validation: make audit-interface-evidence && make audit-truth-registry && make audit-docs
+    && git diff --check
+  started_at: '2026-07-22T09:42:52Z'
+  start_fingerprints:
+    docs/endpoint-reconciliation-review.yaml: 77fe9bc15f43d3d9a98f6b0595109f5dae863ec93fd6e5406898acc5453c83dc
+    docs/endpoint-client-evidence-registry.yaml: 3c7ba9bd3dd2733fa4fae71ea88fce0c0643245c005f68fcc8c4dbd2f6269f8c
+evidence:
+- task: verify-endpoint-closeout
+  command: make audit-interface-evidence && make audit-truth-registry && make audit-docs
+    && git diff --check
+  ranAt: '2026-07-22T09:43:02Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  output: |+
+    Interface evidence reconciliation audit passed
+      endpoints classified: 214
+      admin_or_agent: 4
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 140
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:42:52Z'
+  changedAfterStart: &1
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

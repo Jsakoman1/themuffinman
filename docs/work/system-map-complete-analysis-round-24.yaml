@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: system-map-complete-analysis-round-24
+title: Frontend route, component, action, and parity map
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-complete-analysis-master-execution-inventory.yaml
+master_plan: docs/work/system-map-complete-analysis-master.yaml
+objective: Map frontend routes, shared shell surfaces, modules, actions, loading/error
+  states, backend-owned decisions, and parity gaps across Web and Vision.
+scope:
+- apps/themuffinman/frontend/src
+- docs/action-contract-matrix.yaml
+- docs/capability-inventory.yaml
+deliverables:
+- docs/system-map-complete-analysis-round-24-frontend-surface-parity.md
+- docs/client-surface-registry.yaml
+tasks:
+- id: map-frontend-routes-components-and-actions
+  title: Map frontend routes components and actions
+  inventory_item: frontend-surface-parity
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-complete-analysis-round-24-frontend-surface-parity.md
+  - docs/client-surface-registry.yaml
+  required_paths:
+  - docs/system-map-complete-analysis-round-24-frontend-surface-parity.md
+  - docs/client-surface-registry.yaml
+  validation: make audit-frontend && make audit-docs && git diff --check
+  started_at: '2026-07-22T07:16:39Z'
+  start_fingerprints:
+    docs/system-map-complete-analysis-round-24-frontend-surface-parity.md: __missing__
+    docs/client-surface-registry.yaml: __missing__
+evidence:
+- task: map-frontend-routes-components-and-actions
+  command: make audit-frontend && make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:17:08Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/client-surface-registry.yaml
+  - docs/system-map-complete-analysis-round-24-frontend-surface-parity.md
+  output: |2+
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 292
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T07:16:39Z'
+  changedAfterStart: &1
+  - docs/system-map-complete-analysis-round-24-frontend-surface-parity.md
+  - docs/client-surface-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

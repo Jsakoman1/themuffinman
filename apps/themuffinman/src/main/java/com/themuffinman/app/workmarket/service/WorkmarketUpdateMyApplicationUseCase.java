@@ -1,6 +1,5 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.common.event.DomainEventPublisher;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
@@ -16,7 +15,7 @@ public class WorkmarketUpdateMyApplicationUseCase {
 
     private final WorkmarketQuestApplicationWorkflowSupport workflowSupport;
     private final WorkmarketQuestApplicationRepository questApplicationRepository;
-    private final DomainEventPublisher domainEventPublisher;
+    private final WorkmarketApplicationNewsPublisher applicationNewsPublisher;
 
     public QuestApplication execute(Long questId, QuestApplicationRequestDTO dto, AppUser currentUser) {
         QuestApplication application = workflowSupport.requirePendingMyApplication(questId, currentUser);
@@ -24,12 +23,7 @@ public class WorkmarketUpdateMyApplicationUseCase {
         application.setMessage(RichTextInputValidator.sanitize(dto.getMessage()));
         application.setProposedPrice(dto.getProposedPrice());
         QuestApplication savedApplication = questApplicationRepository.save(application);
-        domainEventPublisher.publish(new WorkmarketQuestApplicationNewsEvent(
-                WorkmarketQuestApplicationNewsEvent.Type.UPDATED,
-                savedApplication.getQuest(),
-                savedApplication,
-                currentUser
-        ));
+        applicationNewsPublisher.publish(WorkmarketQuestApplicationNewsEvent.Type.UPDATED, savedApplication, currentUser);
         return savedApplication;
     }
 }

@@ -17,6 +17,12 @@ import java.time.Instant;
 @Table(name = "quest_news_item")
 public class QuestNewsItem {
 
+    @jakarta.persistence.Transient
+    private boolean canonicalQuestTargetAvailable = true;
+
+    @jakarta.persistence.Transient
+    private boolean canonicalApplicationTargetAvailable = true;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,6 +47,9 @@ public class QuestNewsItem {
 
     @Column(name = "circle_request_id")
     private Long circleRequestId;
+
+    @Column(name = "delivery_key", unique = true)
+    private String deliveryKey;
 
     @jakarta.persistence.Enumerated(jakarta.persistence.EnumType.STRING)
     @Column(nullable = false)

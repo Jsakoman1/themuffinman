@@ -1,0 +1,14 @@
+{
+  "scenario": "runtime-vision-create-quest",
+  "capabilityIds": ["vision.create_quest", "vision.execution"],
+  "target": "/vision",
+  "environment": "local-dev-web",
+  "viewer": "test@test.com",
+  "actions": ["draft", "correct", "review", "confirm", "create", "authoritative_readback", "cleanup"],
+  "review": {"conversationId": 568, "httpStatus": 200, "agentState": "REVIEW_READY", "nextAction": "SHOW_REVIEW", "executionEnabled": true, "allowedActions": ["CONFIRM", "EDIT", "CANCEL"], "title": "Runtime execution probe quest", "reward": "80", "visibility": "PUBLIC", "schedule": "By agreement", "location": "Hidden", "queryCount": 69, "durationMs": 383},
+  "confirmation": {"httpStatus": 200, "agentState": "COMPLETE", "nextAction": "COMPLETE", "intent": "CREATE_QUEST", "executionEnabled": true, "message": "Quest created successfully.", "queryCount": 69, "durationMs": 310},
+  "authoritativeReadback": {"questId": 416, "statusBeforeCleanup": "OPEN", "deleteStatus": 200},
+  "referencedUiEvidence": ["docs/runtime-evidence/browser-runtime-vision-create-quest-blocker-2026-07-22.json"],
+  "result": "passed_execution_enabled_create_and_cleanup",
+  "notes": ["The earlier UI review trace is retained as UI evidence; this fresh authenticated execution trace proves the execution-enabled provider/configuration path.", "The disposable quest was deleted through the normal owner endpoint after readback.", "Provider-failure/retry branches remain separate pending scenarios."]
+}

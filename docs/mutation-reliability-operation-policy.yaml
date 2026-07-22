@@ -1,0 +1,23 @@
+version: 1
+status: implemented_policy_catalog
+purpose: Operation-level retry, idempotency, and stale-state policy metadata. Domain services remain responsible for enforcing the policy.
+reviewed_round: ARCH-002-policy
+evidence_class: validated-contract
+operations:
+- {operation_key: business.booking.create.customer, module: business, class: idempotent_create, requires_idempotency_key: recommended, requires_resource_version: false, retryable: conditional, current_support: explicit_booking_key}
+- {operation_key: business.booking.create.owner, module: business, class: idempotent_create, requires_idempotency_key: recommended, requires_resource_version: false, retryable: conditional, current_support: explicit_booking_key}
+- {operation_key: rides.offer.join, module: rides, class: idempotent_command, requires_idempotency_key: target, requires_resource_version: false, retryable: conditional, current_support: domain_idempotent_join}
+- {operation_key: rides.offer.update, module: rides, class: versioned_update, requires_idempotency_key: target, requires_resource_version: target, retryable: conditional, current_support: pessimistic_lock_and_version_entity}
+- {operation_key: work.quest.mutation, module: workmarket, class: state_transition, requires_idempotency_key: target, requires_resource_version: target, retryable: conditional, current_support: state_and_constraint_checks_and_quest_version_guard}
+- {operation_key: business.booking.transition, module: business, class: state_transition, requires_idempotency_key: target, requires_resource_version: target, retryable: conditional, current_support: status_and_policy_checks}
+- {operation_key: things.borrow.transition, module: things, class: state_transition, requires_idempotency_key: target, requires_resource_version: target, retryable: conditional, current_support: duplicate_pending_and_state_checks}
+- {operation_key: social.relationship.mutation, module: social, class: state_transition, requires_idempotency_key: target, requires_resource_version: target, retryable: conditional, current_support: relationship_state_checks}
+- {operation_key: chat.message.mutation, module: chat, class: idempotent_command, requires_idempotency_key: target, requires_resource_version: target, retryable: conditional, current_support: lifecycle_and_rate_limit_checks}
+- {operation_key: vision.delegated_mutation, module: vision, class: state_transition, requires_idempotency_key: inherited_request_identity, requires_resource_version: inherited_conversation_state, retryable: conditional, current_support: conversation_request_identity}
+primitive_rules:
+- key_length: 1..120
+- fingerprint: SHA-256 over a canonical operation payload representation
+- replay_binding: actor_id + operation_key + idempotency_key + payload_fingerprint
+- mismatch: typed_conflict_without_second_mutation
+- missing_key: allowed_only_when_operation_policy_marks_optional
+- unknown_commit_outcome: read_back_before_retry

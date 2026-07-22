@@ -1,0 +1,72 @@
+kind: work
+version: 1
+id: system-map-third-pass-round-16
+title: Read models, query shapes, and performance
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-third-pass-master-execution-inventory.yaml
+master_plan: docs/work/system-map-third-pass-master.yaml
+objective: Classify read models, query composition, fetch plans, pagination, projections,
+  caching, and likely N+1 or over-fetching hotspots.
+scope:
+- apps/themuffinman/src/main/java/com/themuffinman/app/**/repository
+- apps/themuffinman/src/main/java/com/themuffinman/app/**/service
+- apps/themuffinman/src/main/java/com/themuffinman/app/**/dto
+- apps/themuffinman/frontend/src
+- docs/domain-technical.md
+deliverables:
+- docs/system-map-third-pass-round-16-read-model-performance.md
+tasks:
+- id: analyze-read-models-query-shapes-and-performance
+  title: Analyze read models, query shapes, and performance
+  inventory_item: read-model-query-graph
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-third-pass-round-16-read-model-performance.md
+  required_paths:
+  - docs/system-map-third-pass-round-16-read-model-performance.md
+  validation: ruby scripts/audits/audit-repository-fetch.rb && ruby scripts/audits/audit-mapper-usage.rb
+    && ruby scripts/audits/audit-mutation-safety.rb
+  started_at: '2026-07-22T06:49:47Z'
+  start_fingerprints:
+    docs/system-map-third-pass-round-16-read-model-performance.md: __missing__
+evidence:
+- task: analyze-read-models-query-shapes-and-performance
+  command: ruby scripts/audits/audit-repository-fetch.rb && ruby scripts/audits/audit-mapper-usage.rb
+    && ruby scripts/audits/audit-mutation-safety.rb
+  ranAt: '2026-07-22T06:50:30Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-third-pass-round-16-read-model-performance.md
+  output: |2+
+      - BusinessBookingRepository.findDetailedByOwnerIdAndStartsAtBetween risk=high fetch=businessOffering,businessProfile,customerUser,owner
+      - BusinessOfferingRepository.findByOwnerId risk=high fetch=businessProfile,owner
+      - ChatAttachmentUploadRepository.findByStorageKey risk=high fetch=
+      - ChatConversationMemberStateRepository.findByConversationIdInAndUserId risk=high fetch=
+      - ChatConversationRepository.findDetailedById risk=high fetch=createdBy,lastMessageSender,leftParticipant,owner,participants,rightParticipant,user
+      - ChatConversationRepository.findDetailedByParticipantId risk=high fetch=createdBy,lastMessageSender,leftParticipant,owner,participants,rightParticipant,user
+      - ChatMessageRepository.findDetailedByAttachmentStorageKey risk=high fetch=sender
+      - ChatMessageRepository.findDetailedPageByConversationId risk=high fetch=sender
+    Mapper usage audit
+      mappers scanned: 16
+      - RideOfferMgr usages=10 flags=relation_dereference,rich_text_sanitization
+      - ThingSharingMgr usages=9 flags=relation_dereference,rich_text_sanitization
+      - AppUserMgr usages=7 flags=navigation_logic,relation_dereference,rich_text_sanitization,service_backed
+      - BusinessAvailabilityMgr usages=4 flags=relation_dereference
+      - BusinessBookingMgr usages=4 flags=relation_dereference
+    Mutation safety
+      mutation surfaces scanned: 378
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T06:49:47Z'
+  changedAfterStart: &1
+  - docs/system-map-third-pass-round-16-read-model-performance.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

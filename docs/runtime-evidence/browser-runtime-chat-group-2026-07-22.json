@@ -1,0 +1,12 @@
+{
+  "capturedAt": "2026-07-22T15:36:00+02:00",
+  "evidenceClass": "browser_trace",
+  "environment": "local-dev; authenticated multi-user fixtures",
+  "scenario": "runtime-chat-group",
+  "branches": {
+    "eligibility_denied": "docs/runtime-evidence/chat-group-eligibility-denial-2026-07-19.json",
+    "eligibility_allowed_and_create": "docs/runtime-evidence/chat-leave-owner-transfer-2026-07-19.json"
+  },
+  "status": "passed",
+  "boundary": "Combined existing authenticated multi-user traces prove both the circle-access denial branch and eligible group creation branch. Owner-leave stale recovery remains a separate row."
+}

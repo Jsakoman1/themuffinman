@@ -1,0 +1,50 @@
+kind: work
+version: 1
+id: arch-001-endpoint-reconciliation-01-review
+title: Record endpoint-level review decisions
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-001-endpoint-reconciliation-master.yaml
+execution_inventory: docs/work/arch-001-endpoint-reconciliation-master-execution-inventory.yaml
+tasks:
+- id: record-endpoint-review
+  title: Record all 67 endpoint classifications and review reasons
+  type: analysis
+  status: done
+  inventory_item: arch-001-endpoint-review
+  paths:
+  - docs/endpoint-reconciliation-review.yaml
+  required_paths:
+  - docs/endpoint-reconciliation-review.yaml
+  validation: ruby -e 'require "yaml"; x=YAML.load_file("docs/endpoint-reconciliation-review.yaml");
+    abort unless x["rows"].length == 67' && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:42:37Z'
+  start_fingerprints:
+    docs/endpoint-reconciliation-review.yaml: db7f543e31fe443c0c680c5c2e5aff18c850f86624b7ab294ee5a34a42799768
+evidence:
+- task: record-endpoint-review
+  command: ruby -e 'require "yaml"; x=YAML.load_file("docs/endpoint-reconciliation-review.yaml");
+    abort unless x["rows"].length == 67' && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:42:44Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/endpoint-reconciliation-review.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:42:37Z'
+  changedAfterStart: &1
+  - docs/endpoint-reconciliation-review.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

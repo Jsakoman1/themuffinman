@@ -26,7 +26,7 @@ public class WorkmarketQuestNewsMgr {
                 .type(NavigationTargetType.QUEST_LIST)
                 .entityId(null)
                 .build();
-        if (item.getApplicationId() != null) {
+        if (item.getApplicationId() != null && item.isCanonicalApplicationTargetAvailable()) {
             destinationType = QuestNewsDestinationTypeDTO.APPLICATION;
             destinationId = item.getApplicationId();
             navigation = NavigationTargetDTO.builder()
@@ -39,7 +39,7 @@ public class WorkmarketQuestNewsMgr {
                     .type(NavigationTargetType.CIRCLES)
                     .entityId(null)
                     .build();
-        } else if (item.getQuestId() != null) {
+        } else if (item.getQuestId() != null && item.getType() != QuestNewsType.QUEST_DELETED && item.isCanonicalQuestTargetAvailable()) {
             destinationType = QuestNewsDestinationTypeDTO.QUEST;
             destinationId = item.getQuestId();
             navigation = NavigationTargetDTO.builder()

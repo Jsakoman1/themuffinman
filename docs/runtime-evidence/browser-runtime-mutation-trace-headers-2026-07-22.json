@@ -1,0 +1,25 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T12:16:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "browser_profile_mutation_trace_headers_after_cors_fix",
+  "operation": "PUT /app_users/me",
+  "originalVisibility": "PUBLIC",
+  "temporaryVisibility": "PRIVATE",
+  "saveFeedbackObserved": true,
+  "requests": [
+    {
+      "status": 200,
+      "allowOrigin": "http://localhost:5173",
+      "exposedHeaders": ["Authorization", "X-Request-Id", "X-Correlation-Id"],
+      "mutationHeadersObserved": ["x-request-id", "x-correlation-id"]
+    }
+  ],
+  "result": "passed_browser_trace_header_propagation",
+  "limits": [
+    "single_local_user",
+    "no_retry_replay",
+    "no_side_effect_failure"
+  ]
+}

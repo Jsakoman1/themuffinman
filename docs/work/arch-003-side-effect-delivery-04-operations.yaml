@@ -1,0 +1,59 @@
+kind: work
+version: 1
+id: arch-003-side-effect-delivery-04-operations
+title: Define scheduled side-effect operations
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-003-side-effect-delivery-master.yaml
+execution_inventory: docs/work/arch-003-side-effect-delivery-master-execution-inventory.yaml
+objective: Map scheduled cleanup and compaction operations to run identity, overlap,
+  failure, alerting, and replay controls.
+tasks:
+- id: define-scheduled-side-effect-operations
+  title: Produce scheduler operations contract and evidence gaps
+  type: analysis
+  status: done
+  inventory_item: arch-003-operations
+  paths:
+  - docs/job-replay-operations-registry.yaml
+  - docs/side-effect-delivery-contract.yaml
+  required_paths:
+  - docs/job-replay-operations-registry.yaml
+  - docs/side-effect-delivery-contract.yaml
+  validation: make audit-docs && make audit-truth-registry && git diff --check
+  started_at: '2026-07-22T09:20:01Z'
+  start_fingerprints:
+    docs/job-replay-operations-registry.yaml: f294e264f3af8dd05679deb9ba1524b02954ac371dfcfefbbc486ec29051c0f0
+    docs/side-effect-delivery-contract.yaml: 96eac88ef3568f15ced5e6d358f846f05be754195ee1231c240b164ec88e0052
+evidence:
+- task: define-scheduled-side-effect-operations
+  command: make audit-docs && make audit-truth-registry && git diff --check
+  ranAt: '2026-07-22T09:20:16Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/job-replay-operations-registry.yaml
+  - docs/side-effect-delivery-contract.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+
+  startedAt: '2026-07-22T09:20:01Z'
+  changedAfterStart: &1
+  - docs/job-replay-operations-registry.yaml
+  - docs/side-effect-delivery-contract.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

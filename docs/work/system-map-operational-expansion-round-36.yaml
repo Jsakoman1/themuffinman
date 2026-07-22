@@ -1,0 +1,61 @@
+kind: work
+version: 1
+id: system-map-operational-expansion-round-36
+title: Release operations and recovery evidence registry
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-operational-expansion-master-execution-inventory.yaml
+master_plan: docs/work/system-map-operational-expansion-master.yaml
+objective: Map repository-visible CI, deployment, backup, restore, release, rollback,
+  and operator evidence; record unavailable external facts as unknown.
+deliverables:
+- docs/system-map-operational-expansion-round-36-release-operations.md
+- docs/release-operations-registry.yaml
+tasks:
+- id: build-release-operations-registry
+  title: Build release operations registry
+  inventory_item: release-operations-registry
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-operational-expansion-round-36-release-operations.md
+  - docs/release-operations-registry.yaml
+  required_paths:
+  - docs/system-map-operational-expansion-round-36-release-operations.md
+  - docs/release-operations-registry.yaml
+  validation: make audit-delivery-provenance && make audit-docs && git diff --check
+  started_at: '2026-07-22T07:48:27Z'
+  start_fingerprints:
+    docs/system-map-operational-expansion-round-36-release-operations.md: __missing__
+    docs/release-operations-registry.yaml: __missing__
+evidence:
+- task: build-release-operations-registry
+  command: make audit-delivery-provenance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:49:02Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/release-operations-registry.yaml
+  - docs/system-map-operational-expansion-round-36-release-operations.md
+  output: |+
+    Delivery provenance audit passed
+      build paths: 4
+      external release state: unknown_not_absent_in_external_environment
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T07:48:27Z'
+  changedAfterStart: &1
+  - docs/system-map-operational-expansion-round-36-release-operations.md
+  - docs/release-operations-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

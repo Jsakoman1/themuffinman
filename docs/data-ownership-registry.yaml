@@ -1,0 +1,53 @@
+version: 1
+purpose: Persistence ownership index; entity source and Flyway migrations remain authoritative for schema detail.
+reviewed_round: 22
+schema_history:
+  migration_directory: apps/themuffinman/src/main/resources/db/migration
+  migration_range: V1-V76
+  authority: flyway_migrations
+domains:
+- id: identity
+  owner_package: identity
+  repositories: [AppUserRepository, AppearancePreferenceRepository, OnboardingProgressRepository, PasswordRecoveryTokenRepository, PersonalWorkspaceShortcutRepository, ProfileGalleryImageRepository, RevokedAuthTokenRepository, WorkspaceRailPreferenceRepository]
+  aggregates: [AppUser, preferences, profile, recovery, token_revocation]
+  cross_domain_role: shared_actor_and_profile_reference
+- id: workmarket
+  owner_package: workmarket
+  repositories: [WorkmarketQuestRepository, WorkmarketQuestApplicationRepository, WorkmarketQuestNewsRepository, WorkmarketUserReviewRepository]
+  aggregates: [Quest, QuestApplication, QuestNewsItem, UserReview]
+  cross_domain_role: location_visibility_social_notification_consumer
+- id: business
+  owner_package: business
+  repositories: [BusinessProfileRepository, BusinessOfferingRepository, BusinessBookingRepository, BusinessBookingPolicyRepository, BusinessBookingAuditEventRepository, BusinessAvailabilityRuleRepository, BusinessAvailabilityExceptionRepository, BusinessFavoriteRepository, BusinessGalleryImageRepository]
+  aggregates: [BusinessProfile, BusinessOffering, BusinessBooking, availability, booking_audit, gallery]
+  cross_domain_role: identity_storage_notification_consumer
+- id: chat
+  owner_package: chat
+  repositories: [ChatConversationRepository, ChatConversationParticipantRepository, ChatConversationMemberStateRepository, ChatMessageRepository, ChatMessageReactionRepository, ChatAttachmentUploadRepository, ChatPresenceRepository, ChatAuditEventRepository]
+  aggregates: [ChatConversation, participants, messages, reactions, uploads, presence, audit]
+  cross_domain_role: identity_social_eligibility_storage_consumer
+- id: social
+  owner_package: social
+  repositories: [CircleGroupRepository, CircleMembershipRepository, CircleRequestRepository]
+  aggregates: [CircleGroup, CircleMembership, CircleRequest]
+  cross_domain_role: identity_relationship_and_visibility_authority
+- id: sharing_and_rides
+  owner_package: things_and_rides
+  repositories: [ThingListingRepository, ThingBorrowRequestRepository, RideOfferRepository, RideParticipantRepository, RideAuditEventRepository, CommutePreferenceRepository]
+  aggregates: [ThingListing, ThingBorrowRequest, RideOffer, RideParticipant, RideAuditEvent, CommutePreference]
+  cross_domain_role: identity_circle_location_consumer
+- id: vision
+  owner_package: vision
+  repositories: [VisionConversationRepository, VisionTurnRepository, VisionMemorySummaryRepository, VisionMemoryFeedbackEventRepository, VisionUserPreferenceRepository]
+  aggregates: [VisionConversation, VisionTurn, memory, feedback, preference]
+  cross_domain_role: identity_context_and_domain_execution_orchestrator
+- id: cross_module_support
+  owner_package: activity_notification_search_location_nativehandoff_trust
+  repositories: [ActivityResumeDismissalRepository, NotificationPreferenceRepository, SavedSearchIntentRepository, LocationLookupEventRepository, NativeHandoffTokenRepository, SafetyReportRepository]
+  aggregates: [activity_dismissal, notification_preference, saved_search, location_audit, native_token, safety_report]
+  cross_domain_role: supporting_policy_and_handoff_records
+rules:
+- flyway_migrations_are_append_only
+- repository_ownership_does_not_transfer_domain_rule_authority
+- shared_identity_reference_does_not_authorize_cross_domain_mutation
+- static_fetch_risk_requires_measurement_before_performance_claim

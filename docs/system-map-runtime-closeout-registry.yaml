@@ -1,0 +1,52 @@
+version: 1
+id: system-map-runtime-closeout-registry
+purpose: Canonical closeout queue for remaining System Map proof and enforcement gaps.
+status: evidence_closeout_verified
+closeout_owner: system-map-control
+verification_status: verified_with_pending_runtime
+verified_work_plan: docs/work/repair-and-stabilize-master.yaml
+repair_closeout: docs/repair-and-stabilize-closeout-2026-07-22.yaml
+local_evidence:
+  latest_artifact: docs/runtime-evidence/system-map-runtime-pass-2026-07-22.json
+  result: 13_tests_passed
+  evidence_class: local_backend_test
+  does_not_promote_runtime_matrix: true
+browser_evidence:
+  baseline_artifact: docs/runtime-evidence/browser-runtime-baseline-2026-07-22.json
+  chat_reconnect_artifact: docs/runtime-evidence/browser-runtime-chat-reconnect-2026-07-22.json
+  status: partial_browser_pass
+  mutation_finding: docs/runtime-evidence/browser-runtime-mutation-cors-finding-2026-07-22.json
+  mutation_trace_headers_artifact: docs/runtime-evidence/browser-runtime-mutation-trace-headers-2026-07-22.json
+  work_application_news_gap_artifact: docs/runtime-evidence/browser-runtime-work-application-news-gap-2026-07-22.json
+  work_application_news_after_commit_artifact: docs/runtime-evidence/browser-runtime-work-application-news-after-commit-2026-07-22.json
+  profile_visibility_artifact: docs/runtime-evidence/browser-runtime-profile-visibility-2026-07-22.json
+  read_model_artifact: docs/runtime-evidence/browser-runtime-read-models-2026-07-22.json
+  visibility_cross_viewer_artifact: docs/runtime-evidence/browser-runtime-visibility-cross-viewer-2026-07-22.json
+  chat_message_reconnect_artifact: docs/runtime-evidence/browser-runtime-chat-message-reconnect-2026-07-22.json
+  duplicate_booking_idempotency_artifact: docs/runtime-evidence/browser-runtime-duplicate-booking-idempotency-2026-07-22.json
+  location_consent_revocation_artifact: docs/runtime-evidence/browser-runtime-location-consent-revocation-2026-07-22.json
+  stale_quest_update_repaired_artifact: docs/runtime-evidence/browser-runtime-stale-quest-update-repaired-2026-07-22.json
+  read_model_measurement_artifact: docs/runtime-evidence/browser-runtime-read-model-measurement-2026-07-22.json
+  duplicate_ride_join_idempotency_artifact: docs/runtime-evidence/browser-runtime-duplicate-ride-join-idempotency-2026-07-22.json
+  stale_quest_update_browser_finding_artifact: docs/runtime-evidence/browser-runtime-stale-quest-update-browser-finding-2026-07-22.json
+  remaining: [consent_cached_view_and_vision_parity, read_model_query_and_sql_measurement, side_effect_failure_and_crash_replay]
+reviewed_round: truth-runtime-closeout
+sources: [docs/system-map-coverage-registry.yaml, docs/runtime-acceptance-matrix.yaml, docs/endpoint-reconciliation-review.yaml, docs/implementation-backlog.md]
+baseline:
+  system_map_masters: verified
+  arch_masters: [ARCH-001, ARCH-002, ARCH-003, ARCH-004, ARCH-005]
+  runtime_passed: 42
+  runtime_pending: 39
+  endpoint_review_required: 62
+workstreams:
+- {id: endpoint_review, owner: interface_registry, status: review_required, source: docs/endpoint-reconciliation-review.yaml, next_action: owner_review_and_evidence_linkage}
+- {id: runtime_acceptance, owner: runtime_evidence, status: pending_runtime, source: docs/runtime-acceptance-matrix.yaml, next_action: execute_high_risk_scenarios}
+  - {id: side_effect_replay, owner: operations, status: partial_workmarket_outbox_verified, source: docs/side-effect-delivery-contract.yaml, next_action: process_crash_runtime_proof_alerting_and_broader_consumer_adoption}
+- {id: read_observability, owner: runtime_observability, status: partial_measurement, source: docs/read-model-reliability-contract.yaml, next_action: instrument_query_count_and_sql_timing}
+- {id: consent_client_parity, owner: privacy_and_clients, status: web_fresh_read_verified, source: docs/visibility-consent-parity-contract.yaml, next_action: cached_view_vision_reconnect_and_device_acceptance}
+- {id: native_device, owner: native_client_boundary, status: unknown, source: docs/native-client-contract.yaml, next_action: native_source_and_device_proof}
+- {id: production_operations, owner: release_operations, status: externally_unknown, source: docs/release-operations-registry.yaml, next_action: deployment_backup_restore_and_incident_evidence}
+rules:
+- closeout_is_not_capability_completion
+- no_pending_item_is_promoted_without_fresh_evidence
+- each_workstream_requires_owner_source_and_next_action

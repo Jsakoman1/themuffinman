@@ -1,0 +1,26 @@
+kind: master
+version: 1
+id: arch-001-endpoint-reconciliation-master
+title: Endpoint-level reconciliation of unclassified non-Web endpoints
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/arch-001-endpoint-reconciliation-master-execution-inventory.yaml
+objective: Classify all 67 unclassified endpoints with explicit evidence, owner, and
+  review status.
+source_registry: docs/endpoint-client-evidence-registry.yaml
+review_registry: docs/endpoint-reconciliation-review.yaml
+children:
+- docs/work/arch-001-endpoint-reconciliation-01-review.yaml
+- docs/work/arch-001-endpoint-reconciliation-02-closeout.yaml
+rules:
+- Review-required is an explicit controlled state, not a completeness failure.
+- Proposed consumer class is not runtime proof.
+- No endpoint is promoted to native or Vision support without corresponding evidence.
+evidence:
+- verifiedAt: '2026-07-22T09:43:20Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/arch-001-endpoint-reconciliation-01-review.yaml
+  - docs/work/arch-001-endpoint-reconciliation-02-closeout.yaml

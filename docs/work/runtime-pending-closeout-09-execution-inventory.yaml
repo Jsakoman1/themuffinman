@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-closeout-09-execution-inventory
+master_plan: docs/work/runtime-pending-closeout-09.yaml
+serial_task_execution: true
+items:
+- id: notification-receive-readback
+  sequence: 1
+  plan: docs/work/runtime-pending-closeout-09.yaml
+  task: execute-notification-receive-readback
+  depends_on: []
+  output: notification-receive-readback-evidence
+  status: verified
+  started_at: '2026-07-22T14:02:31Z'
+  verified_at: '2026-07-22T14:03:05Z'
+  evidence:
+    plan: docs/work/runtime-pending-closeout-09.yaml
+    task: execute-notification-receive-readback
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

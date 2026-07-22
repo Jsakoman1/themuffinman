@@ -1,0 +1,62 @@
+kind: execution_inventory
+version: 1
+id: arch-002-mutation-reliability-master-execution-inventory
+master_plan: docs/work/arch-002-mutation-reliability-master.yaml
+serial_task_execution: true
+purpose: Ordered implementation queue for ARCH-002.
+items:
+- id: arch-002-transport
+  sequence: 1
+  plan: docs/work/arch-002-mutation-reliability-01-transport.yaml
+  task: implement-transport-context
+  depends_on: []
+  output: shared_transport_context_and_error_contract
+  status: verified
+  started_at: '2026-07-22T08:56:13Z'
+  verified_at: '2026-07-22T09:01:05Z'
+  evidence:
+    plan: docs/work/arch-002-mutation-reliability-01-transport.yaml
+    task: implement-transport-context
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-002-policy
+  sequence: 2
+  plan: docs/work/arch-002-mutation-reliability-02-policy.yaml
+  task: implement-operation-policy
+  depends_on:
+  - arch-002-transport
+  output: mutation_operation_policy_registry
+  status: verified
+  started_at: '2026-07-22T09:01:47Z'
+  verified_at: '2026-07-22T09:04:28Z'
+  evidence:
+    plan: docs/work/arch-002-mutation-reliability-02-policy.yaml
+    task: implement-operation-policy
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-002-adoption
+  sequence: 3
+  plan: docs/work/arch-002-mutation-reliability-03-adoption.yaml
+  task: adopt-module-mutations
+  depends_on:
+  - arch-002-policy
+  output: module_mutation_adapters_and_tests
+  status: verified
+  started_at: '2026-07-22T09:05:31Z'
+  verified_at: '2026-07-22T09:07:39Z'
+  evidence:
+    plan: docs/work/arch-002-mutation-reliability-03-adoption.yaml
+    task: adopt-module-mutations
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-002-evidence
+  sequence: 4
+  plan: docs/work/arch-002-mutation-reliability-04-evidence.yaml
+  task: verify-reliability-evidence
+  depends_on:
+  - arch-002-adoption
+  output: runtime_failure_injection_evidence
+  status: verified
+  started_at: '2026-07-22T09:08:40Z'
+  verified_at: '2026-07-22T09:09:57Z'
+  evidence:
+    plan: docs/work/arch-002-mutation-reliability-04-evidence.yaml
+    task: verify-reliability-evidence
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

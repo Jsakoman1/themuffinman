@@ -1,0 +1,18 @@
+{
+  "capturedAt": "2026-07-22T15:25:00+02:00",
+  "evidenceClass": "runtime_trace",
+  "environment": "local-dev; observability headers enabled; Chromium headless; PostgreSQL local",
+  "viewer": "test@test.com",
+  "scenario": "runtime-read-chat-sync",
+  "conversationId": 382,
+  "measurements": {
+    "firstPage": {"path": "/chat/conversations/382/messages?limit=1", "status": 200, "queryCount": 117, "requestDurationMs": 123, "messageCount": 1, "hasMore": true, "nextBeforeMessageId": 239},
+    "olderPage": {"path": "/chat/conversations/382/messages?limit=1&beforeMessageId=239", "status": 200, "queryCount": 34, "requestDurationMs": 35, "messageCount": 1},
+    "sync": {"path": "/chat/conversations/382/sync?limit=50", "status": 200, "queryCount": 15, "requestDurationMs": 38},
+    "refreshHint": {"path": "/chat/conversations/382/refresh-hint", "status": 200, "queryCount": 14, "requestDurationMs": 28}
+  },
+  "reconnectEvidence": "docs/runtime-evidence/browser-runtime-chat-message-reconnect-2026-07-22.json",
+  "status": "passed",
+  "boundary": "Local single-instance read/pagination/reconnect measurement. The query-count headers are dev-only Hibernate statistics and do not establish production-scale behavior.",
+  "secretsStored": false
+}

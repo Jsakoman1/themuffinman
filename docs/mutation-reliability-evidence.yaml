@@ -1,0 +1,22 @@
+version: 1
+status: evidence-boundary-baseline
+reviewed_round: ARCH-002-evidence
+purpose: Separate current source/test evidence from pending runtime proof for mutation reliability.
+evidence_classes: [source-trace, validated-contract, runtime-proof, inferred-risk, unknown]
+validated_contract_evidence:
+- {id: transport_context_filter, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/common/request/MutationRequestContextFilterTest.java, result: passed, scope: generated_and_preserved_request_correlation_headers}
+- {id: idempotency_primitives, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/common/reliability/MutationIdempotencyServiceTest.java, result: passed, scope: deterministic_fingerprint_key_policy_and_mismatch_conflict}
+- {id: booking_reference_adoption, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java, result: passed, scope: existing_booking_replay_path_preserved}
+- {id: ride_reference_adoption, evidence: apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java, result: passed, scope: domain_idempotent_join_and_locking_path_preserved}
+runtime_scenarios:
+- {id: mutation-duplicate-booking-browser, capability_ids: [business.booking.create], required_evidence: [browser_trace], evidence: docs/runtime-evidence/browser-runtime-duplicate-booking-idempotency-2026-07-22.json, status: passed, note: repeat same key and compare one authoritative booking}
+- {id: mutation-duplicate-ride-join-browser, capability_ids: [sharing.rides], required_evidence: [browser_trace], evidence: docs/runtime-evidence/browser-runtime-duplicate-ride-join-idempotency-2026-07-22.json, status: passed, note: repeat join key and compare one passenger membership}
+- {id: mutation-timeout-readback, capability_ids: [cross_module.auditability.trace], required_evidence: [browser_trace], status: pending_runtime, note: simulate uncertain transport outcome and require read-back before retry}
+- {id: mutation-stale-update, capability_ids: [work.quest.update], required_evidence: [browser_trace], evidence: docs/runtime-evidence/browser-runtime-stale-quest-update-finding-2026-07-22.json, status: pending_runtime, note: runtime finding shows stale quest writes currently use silent last-write-wins; typed conflict remains required}
+- {id: mutation-provider-failure-correlation, capability_ids: [vision.execution], required_evidence: [browser_trace], status: pending_runtime, note: error must expose safe correlation metadata and preserve retry boundary}
+- {id: mutation-side-effect-failure, capability_ids: [cross_module.notification.receive], required_evidence: [browser_trace], status: pending_runtime, note: domain commit and side-effect delivery must be distinguishable}
+- {id: mutation-reconnect-readback, capability_ids: [chat.realtime], required_evidence: [browser_trace], status: pending_runtime, note: reconnect must resync authoritative state without duplicate mutation}
+rules:
+- validated_contract_is_not_runtime_proof
+- pending_runtime_is_not_failed_or_absent
+- no capability status changes from this evidence catalog alone

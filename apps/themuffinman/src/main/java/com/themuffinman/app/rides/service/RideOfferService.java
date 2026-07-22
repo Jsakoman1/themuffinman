@@ -6,6 +6,7 @@ import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.common.validation.RichTextInputValidator;
+import com.themuffinman.app.common.reliability.MutationIdempotencyService;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.rides.dto.*;
 import com.themuffinman.app.rides.mapper.RideOfferMgr;
@@ -28,6 +29,7 @@ public class RideOfferService {
     private final RideAuditEventRepository auditRepository;
     private final RideOfferMgr rideOfferMgr;
     private final WorkmarketQuestNewsService questNewsService;
+    private final MutationIdempotencyService mutationIdempotencyService;
 
     public RideOfferListResponseDTO getVisibleOffers(AppUser user) {
         return RideOfferListResponseDTO.builder().items(rideOfferRepository.findVisibleActiveOffers(user.getId()).stream().map(r -> rideOfferMgr.toDto(r, user)).toList()).build();
@@ -101,6 +103,14 @@ public class RideOfferService {
 
     @Transactional
     public RideOfferResponseDTO join(Long id, AppUser user) {
+        return join(id, user, null);
+    }
+
+    @Transactional
+    public RideOfferResponseDTO join(Long id, AppUser user, String idempotencyKey) {
+        if (idempotencyKey != null && !idempotencyKey.isBlank()) {
+            mutationIdempotencyService.normalizeKey(idempotencyKey);
+        }
         RideOffer ride = loadForUpdate(id); requireVisible(ride, user);
         if (ride.getDriver().getId().equals(user.getId())) throw ServiceErrors.conflict("The driver cannot join their own ride");
         if (ride.getStatus() != RideStatus.OPEN) throw ServiceErrors.conflict("This ride is not accepting passengers");

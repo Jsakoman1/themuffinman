@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-closeout-03-execution-inventory
+master_plan: docs/work/runtime-pending-closeout-03.yaml
+serial_task_execution: true
+items:
+- id: worker-attachment-visibility-batch
+  sequence: 1
+  plan: docs/work/runtime-pending-closeout-03.yaml
+  task: execute-worker-attachment-visibility-batch
+  depends_on: []
+  output: worker-attachment-visibility-evidence-and-blocker-reconciliation
+  status: verified
+  started_at: '2026-07-22T13:31:17Z'
+  verified_at: '2026-07-22T13:35:56Z'
+  evidence:
+    plan: docs/work/runtime-pending-closeout-03.yaml
+    task: execute-worker-attachment-visibility-batch
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

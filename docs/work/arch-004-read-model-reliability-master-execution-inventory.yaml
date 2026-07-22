@@ -1,0 +1,48 @@
+kind: execution_inventory
+version: 1
+id: arch-004-read-model-reliability-master-execution-inventory
+master_plan: docs/work/arch-004-read-model-reliability-master.yaml
+serial_task_execution: true
+purpose: Ordered ARCH-004 evidence and implementation queue.
+items:
+- id: arch-004-contract
+  sequence: 1
+  plan: docs/work/arch-004-read-model-reliability-01-contract.yaml
+  task: establish-read-model-contract
+  depends_on: []
+  output: read_model_contract
+  status: verified
+  started_at: '2026-07-22T09:25:00Z'
+  verified_at: '2026-07-22T09:25:26Z'
+  evidence:
+    plan: docs/work/arch-004-read-model-reliability-01-contract.yaml
+    task: establish-read-model-contract
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-004-static-audit
+  sequence: 2
+  plan: docs/work/arch-004-read-model-reliability-02-static-audit.yaml
+  task: reconcile-static-read-audits
+  depends_on:
+  - arch-004-contract
+  output: reconciled_static_registry
+  status: verified
+  started_at: '2026-07-22T09:25:31Z'
+  verified_at: '2026-07-22T09:25:47Z'
+  evidence:
+    plan: docs/work/arch-004-read-model-reliability-02-static-audit.yaml
+    task: reconcile-static-read-audits
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-004-runtime-evidence
+  sequence: 3
+  plan: docs/work/arch-004-read-model-reliability-03-runtime-evidence.yaml
+  task: define-runtime-read-evidence
+  depends_on:
+  - arch-004-static-audit
+  output: runtime_measurement_queue
+  status: verified
+  started_at: '2026-07-22T09:25:51Z'
+  verified_at: '2026-07-22T09:26:14Z'
+  evidence:
+    plan: docs/work/arch-004-read-model-reliability-03-runtime-evidence.yaml
+    task: define-runtime-read-evidence
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: system-map-third-pass-round-18
+title: Cross-client parity and contract readiness
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-third-pass-master-execution-inventory.yaml
+master_plan: docs/work/system-map-third-pass-master.yaml
+objective: Compare direct Web, Vision, admin, native handoff, mobile, and Watch surfaces
+  against shared capability, permission, state, and recovery contracts.
+scope:
+- apps/themuffinman/frontend/src
+- apps/themuffinman/src/main/java/com/themuffinman/app/agent
+- apps/themuffinman/src/main/java/com/themuffinman/app/vision
+- apps/themuffinman/src/main/java/com/themuffinman/app/nativehandoff
+- docs/target-capability-catalog.yaml
+- docs/capability-inventory.yaml
+- docs/agent-operating-model/sections
+deliverables:
+- docs/system-map-third-pass-round-18-cross-client-parity.md
+tasks:
+- id: analyze-cross-client-parity-and-contract-readiness
+  title: Analyze cross-client parity and contract readiness
+  inventory_item: cross-client-parity-graph
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-third-pass-round-18-cross-client-parity.md
+  required_paths:
+  - docs/system-map-third-pass-round-18-cross-client-parity.md
+  validation: make audit-target-capability-catalog && make audit-native-client-handoff
+    && make audit-frontend
+  started_at: '2026-07-22T06:52:40Z'
+  start_fingerprints:
+    docs/system-map-third-pass-round-18-cross-client-parity.md: __missing__
+evidence:
+- task: analyze-cross-client-parity-and-contract-readiness
+  command: make audit-target-capability-catalog && make audit-native-client-handoff
+    && make audit-frontend
+  ranAt: '2026-07-22T06:53:57Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-third-pass-round-18-cross-client-parity.md
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 95
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  startedAt: '2026-07-22T06:52:40Z'
+  changedAfterStart: &1
+  - docs/system-map-third-pass-round-18-cross-client-parity.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

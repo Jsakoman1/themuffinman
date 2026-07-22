@@ -1,3 +1,4 @@
+extension_review: docs/native-device-extension-review.yaml
 kind: client_handoff_contract
 version: 1
 id: native-client-handoff

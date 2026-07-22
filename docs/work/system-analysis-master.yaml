@@ -1,0 +1,34 @@
+kind: master
+version: 1
+id: system-analysis-master
+title: TheMuffinMan deep system analysis program
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-analysis-master-execution-inventory.yaml
+objective: 'Execute a sequenced set of deep analytical rounds covering current capability
+  truth, backend/domain architecture, frontend surface ownership, Vision orchestration,
+  runtime and production readiness, and the documentation/control system.
+
+'
+completed_prerequisites:
+- docs/work/system-analysis-round-1.yaml
+- docs/system-analysis-round-1.md
+children:
+- docs/work/system-analysis-round-2.yaml
+- docs/work/system-analysis-round-3.yaml
+- docs/work/system-analysis-round-4.yaml
+- docs/work/system-analysis-round-5.yaml
+- docs/work/system-analysis-round-6.yaml
+- docs/work/system-analysis-round-7.yaml
+evidence:
+- verifiedAt: '2026-07-22T06:07:52Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/system-analysis-round-2.yaml
+  - docs/work/system-analysis-round-3.yaml
+  - docs/work/system-analysis-round-4.yaml
+  - docs/work/system-analysis-round-5.yaml
+  - docs/work/system-analysis-round-6.yaml
+  - docs/work/system-analysis-round-7.yaml

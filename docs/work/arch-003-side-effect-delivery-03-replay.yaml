@@ -1,0 +1,57 @@
+kind: work
+version: 1
+id: arch-003-side-effect-delivery-03-replay
+title: Define durable outbox and replay scope
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-003-side-effect-delivery-master.yaml
+execution_inventory: docs/work/arch-003-side-effect-delivery-master-execution-inventory.yaml
+objective: Define the smallest durable outbox slice only after event identity, payload
+  serialization, consumer idempotency, and retention are mapped.
+tasks:
+- id: define-outbox-and-replay-slice
+  title: Produce outbox design and runtime acceptance scenarios
+  type: analysis
+  status: done
+  inventory_item: arch-003-replay
+  paths:
+  - docs/side-effect-delivery-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/side-effect-delivery-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-runtime-acceptance && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:19:17Z'
+  start_fingerprints:
+    docs/side-effect-delivery-contract.yaml: 30ed68e5870d9d543c9f84557c3183eaa49df8740f580402c414def6d553c6fd
+    docs/runtime-acceptance-matrix.yaml: 8760f1cfbdfba68ca50083edabc2878561251aaa95c675bd96680e8077e9399d
+evidence:
+- task: define-outbox-and-replay-slice
+  command: make audit-runtime-acceptance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:19:47Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/side-effect-delivery-contract.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 36 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:19:17Z'
+  changedAfterStart: &1
+  - docs/side-effect-delivery-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

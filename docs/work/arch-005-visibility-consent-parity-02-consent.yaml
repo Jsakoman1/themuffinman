@@ -1,0 +1,59 @@
+kind: work
+version: 1
+id: arch-005-visibility-consent-parity-02-consent
+title: Map consent revocation behavior
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-005-visibility-consent-parity-master.yaml
+execution_inventory: docs/work/arch-005-visibility-consent-parity-master-execution-inventory.yaml
+tasks:
+- id: map-consent-revocation
+  title: Define revoke
+  stale-read: 
+  and reconnect acceptance cases: 
+  type: analysis
+  status: done
+  inventory_item: arch-005-consent
+  paths:
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/cross-module-visibility-acceptance.yaml
+  required_paths:
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/cross-module-visibility-acceptance.yaml
+  validation: make audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:29:43Z'
+  start_fingerprints:
+    docs/visibility-consent-parity-contract.yaml: 2bec3a9f86b080636b42554b33cc04639f6dd3886ef49aa879a223007c3a44ef
+    docs/cross-module-visibility-acceptance.yaml: dfeefd4816d2e5a2e110736e4f21ce8e206e52aa3b5718792f19f667d62f5611
+evidence:
+- task: map-consent-revocation
+  command: make audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:30:16Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/cross-module-visibility-acceptance.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:29:43Z'
+  changedAfterStart: &1
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/cross-module-visibility-acceptance.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

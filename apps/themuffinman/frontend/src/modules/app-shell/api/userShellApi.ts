@@ -1,4 +1,4 @@
-import {api, withAuth} from "../../../api/httpClient.ts"
+import {api, withAuth, withMutation} from "../../../api/httpClient.ts"
 import {workspaceNavigationApi} from "./workspaceNavigationApi.ts"
 import type {
   AppUserResponseDTO,
@@ -618,7 +618,7 @@ export const userShellApi = {
   },
 
   async updateCurrentAppUser(request: AppUserRequestDTO): Promise<AppUserResponseDTO> {
-    return (await api.put<AppUserResponseDTO>("/app_users/me", request, withAuth())).data
+    return (await api.put<AppUserResponseDTO>("/app_users/me", request, withMutation())).data
   },
 
   async getMyProfileGallery(): Promise<{items: ProfileGalleryImage[]}> {

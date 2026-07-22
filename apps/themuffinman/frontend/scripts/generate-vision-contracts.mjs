@@ -10,6 +10,26 @@ const backendRoot = path.resolve(__dirname, "../../src/main/java/com/themuffinma
 const outputPath = path.resolve(__dirname, "../src/contracts/generated/themuffinmanContract.ts")
 const operatingModelPath = path.resolve(__dirname, "../../../../docs/agent-operating-model.yaml")
 
+async function loadAgentOperatingModel() {
+  const operatingModel = parseYaml(await readFile(operatingModelPath, "utf8"))
+  const apiCatalogPath = operatingModel.product_sources?.api_catalog
+  const intentCatalogPath = operatingModel.product_sources?.intent_catalog
+  const repositoryRoot = path.resolve(__dirname, "../../../..")
+
+  const apiCatalog = apiCatalogPath
+    ? parseYaml(await readFile(path.resolve(repositoryRoot, apiCatalogPath), "utf8"))
+    : {}
+  const intentCatalog = intentCatalogPath
+    ? parseYaml(await readFile(path.resolve(repositoryRoot, intentCatalogPath), "utf8"))
+    : []
+
+  return {
+    ...operatingModel,
+    api: apiCatalog.api ?? apiCatalog,
+    intents: Array.isArray(intentCatalog) ? intentCatalog : intentCatalog.intents ?? []
+  }
+}
+
 const adminAgentSafetyFlagIds = [
   "translation_unreliable",
   "ambiguity",
@@ -568,7 +588,7 @@ async function main() {
     .filter((entry) => entry !== null)
     .sort((left, right) => left.interfaceName.localeCompare(right.interfaceName) || left.filePath.localeCompare(right.filePath))
   const dtoLookup = buildDtoLookup(parsedDtos)
-  const operatingModel = parseYaml(await readFile(operatingModelPath, "utf8"))
+  const operatingModel = await loadAgentOperatingModel()
 
   const outputLines = [
     ...buildOutput(parsedEnums, enumLookup),

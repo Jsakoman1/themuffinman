@@ -11,6 +11,7 @@ import com.themuffinman.app.business.model.BusinessProfile;
 import com.themuffinman.app.business.repository.BusinessBookingRepository;
 import com.themuffinman.app.common.event.DomainEvent;
 import com.themuffinman.app.common.event.DomainEventPublisher;
+import com.themuffinman.app.common.reliability.MutationIdempotencyService;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,9 @@ class BusinessCreateBookingUseCaseTest {
 
     @Mock
     private DomainEventPublisher domainEventPublisher;
+
+    @Spy
+    private MutationIdempotencyService mutationIdempotencyService = new MutationIdempotencyService();
 
     @InjectMocks
     private BusinessCreateBookingUseCase businessCreateBookingUseCase;

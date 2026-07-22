@@ -1,0 +1,70 @@
+kind: work
+version: 1
+id: system-analysis-round-3
+title: Backend and domain architecture analysis
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-analysis-master-execution-inventory.yaml
+master_plan: docs/work/system-analysis-master.yaml
+objective: Map backend domain boundaries, cross-domain dependencies, persistence coupling,
+  service authority, DTO assembly, and workflow ownership.
+scope:
+- apps/themuffinman/src/main/java/com/themuffinman/app
+- apps/themuffinman/src/main/resources/db/migration
+- docs/domain-technical.md
+- docs/workflow-state-machines.yaml
+- docs/cross-domain-glossary.md
+deliverables:
+- docs/system-analysis-round-3-backend-domain.md
+tasks:
+- id: analyze-backend-domain-architecture
+  title: Analyze backend domain architecture
+  inventory_item: backend-domain-architecture
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-analysis-round-3-backend-domain.md
+  required_paths:
+  - docs/system-analysis-round-3-backend-domain.md
+  validation: make audit-backend && make audit-tests
+  started_at: '2026-07-22T05:57:38Z'
+  start_fingerprints:
+    docs/system-analysis-round-3-backend-domain.md: __missing__
+evidence:
+- task: analyze-backend-domain-architecture
+  command: make audit-backend && make audit-tests
+  ranAt: '2026-07-22T05:58:56Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-analysis-round-3-backend-domain.md
+  output: |2+
+      - ThingSharingMgr usages=9 flags=relation_dereference,rich_text_sanitization
+      - AppUserMgr usages=7 flags=navigation_logic,relation_dereference,rich_text_sanitization,service_backed
+      - BusinessAvailabilityMgr usages=4 flags=relation_dereference
+      - BusinessBookingMgr usages=4 flags=relation_dereference
+    ruby scripts/audits/audit-mutation-safety.rb
+    Mutation safety
+      mutation surfaces scanned: 378
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-contract-test-gaps.rb
+    Contract test gaps
+      endpoints scanned: 241
+      review needed: 32
+      high priority: 0
+    ruby scripts/audits/audit-test-fixture-duplication.rb
+    Test fixture duplication audit
+      tests scanned: 155
+      extraction candidates: 6
+      high setup files: 20
+
+  startedAt: '2026-07-22T05:57:38Z'
+  changedAfterStart: &1
+  - docs/system-analysis-round-3-backend-domain.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

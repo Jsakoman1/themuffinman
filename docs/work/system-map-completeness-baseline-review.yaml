@@ -1,0 +1,103 @@
+kind: work
+version: 1
+id: system-map-completeness-baseline-review
+title: Complete system-map coverage baseline review
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+objective: Review the current system map after the completed analysis programs, assess
+  architecture and documentation quality, explicitly classify mapped and unmapped
+  dimensions, and record the next evidence-bound coverage work without overstating
+  implementation or runtime proof.
+deliverables:
+- docs/system-map-completeness-review.md
+- docs/system-map-coverage-registry.yaml
+- docs/system-map.md
+- docs/implementation-backlog.md
+tasks:
+- id: establish-completeness-baseline
+  title: Establish evidence-backed completeness baseline and score
+  type: analysis
+  status: done
+  paths:
+  - docs/system-map-completeness-review.md
+  - docs/system-map-coverage-registry.yaml
+  required_paths:
+  - docs/system-map-completeness-review.md
+  - docs/system-map-coverage-registry.yaml
+  validation: make audit-all && make audit-truth-registry && make audit-interface-evidence
+    && make audit-data-workflow-impact && make audit-capability-evidence && make audit-delivery-provenance
+    && make system-map-impact && git diff --check
+- id: integrate-coverage-index
+  title: Integrate the coverage registry and stable follow-up IDs into the system
+    map
+  type: documentation
+  status: done
+  paths:
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  validation: make audit-docs && git diff --check
+evidence:
+- task: establish-completeness-baseline
+  command: make audit-all && make audit-truth-registry && make audit-interface-evidence
+    && make audit-data-workflow-impact && make audit-capability-evidence && make audit-delivery-provenance
+    && make system-map-impact && git diff --check
+  ranAt: '2026-07-22T07:58:04Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-completeness-review.md
+  - docs/system-map-coverage-registry.yaml
+  output: |2+
+      endpoints classified: 214
+      admin_or_agent: 4
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 140
+    Data and workflow impact audit passed
+      Flyway migrations: 76
+      ownership domains: 8
+      workflow coverage rows: 6
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 30
+      pending runtime scenarios: 24
+      passed evidence paths checked: 28
+    Delivery provenance audit passed
+      build paths: 4
+      external release state: unknown_not_absent_in_external_environment
+    System-map change impact report generated
+      changed files: 128
+      registries to review: 3
+
+  requiredPaths:
+  - docs/system-map-completeness-review.md
+  - docs/system-map-coverage-registry.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: integrate-coverage-index
+  command: make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:58:15Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

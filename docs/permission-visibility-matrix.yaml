@@ -1,0 +1,63 @@
+version: 1
+purpose: Backend authority navigation matrix for actions, roles, state, visibility, consent, and recovery.
+reviewed_round: 34
+rows:
+- id: identity_profile
+  owner: identity
+  actions: [view_profile, update_profile, manage_visibility, admin_detail]
+  viewers: [owner, authorized_viewer, admin]
+  state_inputs: [profile_visibility, circle_consent, block_state]
+  authority_source: [AppUserService, profile_and_location_policy_services]
+  recovery: [forbidden, not_found, validation_error]
+  evidence_class: source-trace
+  confidence: medium
+- id: workmarket_quest
+  owner: workmarket
+  actions: [create, update, apply, approve, assign, start, complete, term_change]
+  viewers: [owner, visible_user, approved_worker, admin]
+  state_inputs: [quest_status, application_status, audience, location_visibility]
+  authority_source: [QuestStateTransitionService, QuestApplicationWorkflowSupport]
+  recovery: [stale_state, forbidden, validation_error]
+  evidence_class: source-trace
+  confidence: high
+- id: business_booking
+  owner: business
+  actions: [discover, book, reschedule, cancel, owner_manage]
+  viewers: [customer, business_owner, public_viewer, admin]
+  state_inputs: [offering_state, booking_status, capacity, policy, schedule]
+  authority_source: [BusinessBookingPrimitiveService, booking_policy_services]
+  recovery: [idempotency_replay, capacity_conflict, validation_error]
+  evidence_class: source-trace
+  confidence: high
+- id: chat_social
+  owner: chat_and_social
+  actions: [open_conversation, create_group, send_message, upload_attachment, leave_group, block]
+  viewers: [accepted_circle_participant, conversation_member, owner, admin]
+  state_inputs: [accepted_relation, membership, blocked_state, upload_lifecycle]
+  authority_source: [ChatService, CircleRelationService]
+  recovery: [eligibility_denial, reconnect_sync, attachment_expiry]
+  evidence_class: source-trace
+  confidence: high
+- id: sharing_rides
+  owner: things_and_rides
+  actions: [list, request_borrow, approve_return, offer_ride, join_leave_ride]
+  viewers: [owner_or_driver, visible_user, participant, admin]
+  state_inputs: [listing_or_ride_status, circle_visibility, schedule, capacity]
+  authority_source: [ThingSharingService, RideOfferService]
+  recovery: [duplicate_request, lock_or_version_conflict, forbidden]
+  evidence_class: source-trace
+  confidence: medium
+- id: vision_execution
+  owner: vision
+  actions: [interpret, preview, request_confirmation, execute, retry, cancel]
+  viewers: [conversation_owner, delegated_domain_actor]
+  state_inputs: [conversation_status, resolved_target, backend_allowed_action]
+  authority_source: [VisionConversationService, delegated_domain_services]
+  recovery: [provider_unavailable, blocked_state, retryable_turn]
+  evidence_class: source-trace
+  confidence: high
+rules:
+- backend_services_remain_authoritative
+- frontend_action_flags_are_presentation_not_authority
+- visibility_and_consent_are_current_policy_inputs_not_cached_permissions
+- matrix_rows_do_not_replace_domain_tests_or_state_machines

@@ -1,0 +1,12 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T12:06:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "workspace-owned local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "browser_mutation_repeated_preference_readback",
+  "operation": "PUT /personal-shortcuts/me/rail-preference",
+  "plainMutation": {"status": 200, "readBackStatus": 200, "readBackValue": 240},
+  "correlationHeaderMutation": {"result": "browser_fetch_failed", "error": "TypeError: Failed to fetch", "interpretation": "CORS preflight or allowed-header configuration blocks browser custom mutation headers"},
+  "result": "partial_failure_finding",
+  "notProven": ["idempotency_replay", "side_effect_failure", "unknown_commit_readback", "database_failure_injection"]
+}

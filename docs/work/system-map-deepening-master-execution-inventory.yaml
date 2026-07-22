@@ -1,0 +1,86 @@
+kind: execution_inventory
+version: 1
+id: system-map-deepening-master-execution-inventory
+master_plan: docs/work/system-map-deepening-master.yaml
+serial_task_execution: true
+purpose: Ordered queue for the second system-map deepening program; one analysis slice
+  is started and verified at a time.
+items:
+- id: data-ownership-graph
+  sequence: 1
+  plan: docs/work/system-map-deepening-round-8.yaml
+  task: analyze-data-ownership-and-domain-dependencies
+  closeout: Entity, table, repository, service, event, and cross-module ownership
+    is mapped.
+  status: verified
+  started_at: '2026-07-22T06:28:33Z'
+  verified_at: '2026-07-22T06:30:20Z'
+  evidence:
+    plan: docs/work/system-map-deepening-round-8.yaml
+    task: analyze-data-ownership-and-domain-dependencies
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: api-client-evidence-graph
+  sequence: 2
+  plan: docs/work/system-map-deepening-round-9.yaml
+  task: analyze-api-client-and-evidence-linkage
+  closeout: Endpoint ownership, client consumers, contract generation, and unlinked
+    endpoint classes are classified.
+  status: verified
+  started_at: '2026-07-22T06:30:28Z'
+  verified_at: '2026-07-22T06:31:44Z'
+  evidence:
+    plan: docs/work/system-map-deepening-round-9.yaml
+    task: analyze-api-client-and-evidence-linkage
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: runtime-operations-observability
+  sequence: 3
+  plan: docs/work/system-map-deepening-round-10.yaml
+  task: analyze-runtime-operations-and-observability
+  closeout: Runtime topology, deployment assumptions, health, metrics, logs, jobs,
+    providers, and failure recovery are mapped.
+  status: verified
+  started_at: '2026-07-22T06:31:51Z'
+  verified_at: '2026-07-22T06:33:09Z'
+  evidence:
+    plan: docs/work/system-map-deepening-round-10.yaml
+    task: analyze-runtime-operations-and-observability
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: security-privacy-consent
+  sequence: 4
+  plan: docs/work/system-map-deepening-round-11.yaml
+  task: analyze-security-privacy-and-consent
+  closeout: Identity, authorization, visibility, consent, retention, secrets, abuse
+    controls, and threat boundaries are mapped.
+  status: verified
+  started_at: '2026-07-22T06:33:15Z'
+  verified_at: '2026-07-22T06:34:41Z'
+  evidence:
+    plan: docs/work/system-map-deepening-round-11.yaml
+    task: analyze-security-privacy-and-consent
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: control-graph-integrity
+  sequence: 5
+  plan: docs/work/system-map-deepening-round-12.yaml
+  task: analyze-control-graph-and-source-reference-integrity
+  closeout: Canonical-source graph, generated artifacts, plan statuses, audit freshness,
+    and backlog linkage are mechanically assessed.
+  status: verified
+  started_at: '2026-07-22T06:34:51Z'
+  verified_at: '2026-07-22T06:35:49Z'
+  evidence:
+    plan: docs/work/system-map-deepening-round-12.yaml
+    task: analyze-control-graph-and-source-reference-integrity
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: target-state-architecture
+  sequence: 6
+  plan: docs/work/system-map-deepening-round-13.yaml
+  task: analyze-target-state-and-architecture-evolution
+  closeout: Current architecture is compared to target product direction, native clients,
+    service extraction options, and evolution constraints.
+  status: verified
+  started_at: '2026-07-22T06:35:58Z'
+  verified_at: '2026-07-22T06:37:03Z'
+  evidence:
+    plan: docs/work/system-map-deepening-round-13.yaml
+    task: analyze-target-state-and-architecture-evolution
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

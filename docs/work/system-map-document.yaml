@@ -1,0 +1,81 @@
+kind: work
+version: 1
+id: system-map-document
+title: Add the living system map
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+objective: Create one durable navigation document for the product, architecture, documentation,
+  and control systems while keeping detailed canonical sources in their owning files.
+tasks:
+- id: create-system-map
+  title: Create and connect the living system map
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map.md
+  - docs/control-surface-map.md
+  required_paths:
+  - docs/system-map.md
+  - docs/control-surface-map.md
+  validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/system-map-document.yaml");
+    abort unless File.read("docs/system-map.md").include?("control-surface-map.md")'
+    && ruby scripts/audits/audit-work-plan-recursion.rb
+- id: validate-system-map
+  title: Validate system-map references and documentation contracts
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map.md
+  - docs/control-surface-map.md
+  required_paths:
+  - docs/system-map.md
+  - docs/control-surface-map.md
+  validation: make audit-plan-coverage && make audit-inventory-freshness && ruby scripts/audits/audit-docs-as-tests.rb
+evidence:
+- task: create-system-map
+  command: ruby -e 'require "yaml"; YAML.load_file("docs/work/system-map-document.yaml");
+    abort unless File.read("docs/system-map.md").include?("control-surface-map.md")'
+    && ruby scripts/audits/audit-work-plan-recursion.rb
+  ranAt: '2026-07-22T05:42:31Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/control-surface-map.md
+  - docs/system-map.md
+  output: "Work-plan recursion audit passed (no recursive validation commands).\n\n"
+  requiredPaths:
+  - docs/system-map.md
+  - docs/control-surface-map.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: validate-system-map
+  command: make audit-plan-coverage && make audit-inventory-freshness && ruby scripts/audits/audit-docs-as-tests.rb
+  ranAt: '2026-07-22T05:42:31Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/control-surface-map.md
+  - docs/system-map.md
+  output: |+
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+    Inventory freshness audit passed
+      modules: 8
+      capabilities: 152
+      statuses: {"implemented"=>143, "partial"=>2, "planned"=>2, "verified"=>5}
+      declared gaps: 140
+      evidence-bearing capabilities: 72
+      evidence paths checked: 138
+    Docs as tests
+      statements scanned: 292
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - docs/system-map.md
+  - docs/control-surface-map.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,48 @@
+kind: execution_inventory
+version: 1
+id: arch-005-visibility-consent-parity-master-execution-inventory
+master_plan: docs/work/arch-005-visibility-consent-parity-master.yaml
+serial_task_execution: true
+purpose: Ordered ARCH-005 privacy and client-parity queue.
+items:
+- id: arch-005-registry
+  sequence: 1
+  plan: docs/work/arch-005-visibility-consent-parity-01-registry.yaml
+  task: establish-field-parity-registry
+  depends_on: []
+  output: field_and_resource_parity_contract
+  status: verified
+  started_at: '2026-07-22T09:29:14Z'
+  verified_at: '2026-07-22T09:29:33Z'
+  evidence:
+    plan: docs/work/arch-005-visibility-consent-parity-01-registry.yaml
+    task: establish-field-parity-registry
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-005-consent
+  sequence: 2
+  plan: docs/work/arch-005-visibility-consent-parity-02-consent.yaml
+  task: map-consent-revocation
+  depends_on:
+  - arch-005-registry
+  output: consent_revocation_acceptance
+  status: verified
+  started_at: '2026-07-22T09:29:43Z'
+  verified_at: '2026-07-22T09:30:20Z'
+  evidence:
+    plan: docs/work/arch-005-visibility-consent-parity-02-consent.yaml
+    task: map-consent-revocation
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-005-client-evidence
+  sequence: 3
+  plan: docs/work/arch-005-visibility-consent-parity-03-client-evidence.yaml
+  task: define-client-parity-evidence
+  depends_on:
+  - arch-005-consent
+  output: browser_device_evidence_queue
+  status: verified
+  started_at: '2026-07-22T09:30:31Z'
+  verified_at: '2026-07-22T09:30:56Z'
+  evidence:
+    plan: docs/work/arch-005-visibility-consent-parity-03-client-evidence.yaml
+    task: define-client-parity-evidence
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

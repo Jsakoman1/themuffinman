@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-closeout-06-execution-inventory
+master_plan: docs/work/runtime-pending-closeout-06.yaml
+serial_task_execution: true
+items:
+- id: worker-replacement-stale-conflict
+  sequence: 1
+  plan: docs/work/runtime-pending-closeout-06.yaml
+  task: execute-worker-replacement-stale-conflict
+  depends_on: []
+  output: worker-replacement-stale-conflict-evidence
+  status: verified
+  started_at: '2026-07-22T13:54:17Z'
+  verified_at: '2026-07-22T13:54:49Z'
+  evidence:
+    plan: docs/work/runtime-pending-closeout-06.yaml
+    task: execute-worker-replacement-stale-conflict
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

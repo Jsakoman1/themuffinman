@@ -1,0 +1,66 @@
+kind: work
+version: 1
+id: system-analysis-round-2
+title: Capability, plan, and evidence reconciliation
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-analysis-master-execution-inventory.yaml
+master_plan: docs/work/system-analysis-master.yaml
+objective: Reconcile target capabilities, current inventory statuses, implementation
+  plans, code, client surfaces, tests, audits, and runtime evidence.
+scope:
+- docs/target-capability-catalog.yaml
+- docs/capability-inventory.yaml
+- docs/work/*.yaml
+- apps/themuffinman/src/main/java
+- apps/themuffinman/frontend/src
+- docs/runtime-acceptance-matrix.yaml
+- docs/runtime-evidence
+deliverables:
+- docs/system-analysis-round-2-capability-reconciliation.md
+tasks:
+- id: reconcile-capability-status-and-evidence
+  title: Reconcile capability status and evidence
+  inventory_item: capability-reconciliation
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-analysis-round-2-capability-reconciliation.md
+  required_paths:
+  - docs/system-analysis-round-2-capability-reconciliation.md
+  validation: make audit-target-capability-catalog && make audit-inventory-freshness
+    && make audit-runtime-acceptance
+  started_at: '2026-07-22T05:56:08Z'
+  start_fingerprints:
+    docs/system-analysis-round-2-capability-reconciliation.md: __missing__
+evidence:
+- task: reconcile-capability-status-and-evidence
+  command: make audit-target-capability-catalog && make audit-inventory-freshness
+    && make audit-runtime-acceptance
+  ranAt: '2026-07-22T05:57:33Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-analysis-round-2-capability-reconciliation.md
+  output: |+
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+    Inventory freshness audit passed
+      modules: 8
+      capabilities: 152
+      statuses: {"implemented"=>143, "partial"=>2, "planned"=>2, "verified"=>5}
+      declared gaps: 140
+      evidence-bearing capabilities: 72
+      evidence paths checked: 138
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+
+  startedAt: '2026-07-22T05:56:08Z'
+  changedAfterStart: &1
+  - docs/system-analysis-round-2-capability-reconciliation.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

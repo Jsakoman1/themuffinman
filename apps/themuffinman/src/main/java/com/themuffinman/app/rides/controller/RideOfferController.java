@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
+import com.themuffinman.app.common.request.MutationRequestContext;
 
 @RestController
 @RequestMapping("/rides/offers")
@@ -56,7 +57,11 @@ public class RideOfferController {
     }
 
     @PostMapping("/{id}/join")
-    public RideOfferResponseDTO join(@PathVariable Long id, @AuthenticationPrincipal AppUser currentUser) { return rideOfferService.join(id, currentUser); }
+    public RideOfferResponseDTO join(
+            @PathVariable Long id,
+            @RequestHeader(value = MutationRequestContext.IDEMPOTENCY_KEY_HEADER, required = false) String idempotencyKey,
+            @AuthenticationPrincipal AppUser currentUser
+    ) { return rideOfferService.join(id, currentUser, idempotencyKey); }
 
     @PostMapping("/{id}/leave")
     public RideOfferResponseDTO leave(@PathVariable Long id, @AuthenticationPrincipal AppUser currentUser) { return rideOfferService.leave(id, currentUser); }

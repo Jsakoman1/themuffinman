@@ -1,0 +1,91 @@
+kind: work
+version: 1
+id: maintenance-outbox-operations
+title: Harden Workmarket application-news outbox operations
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/maintenance-outbox-operations-execution-inventory.yaml
+objective: Add persisted lease claims, bounded retry failure metadata, retention cleanup,
+  and admin replay control to the Workmarket application-news outbox.
+scope: Workmarket application-news outbox only
+out_of_scope:
+- generic_outbox
+- other_modules
+- process_crash_injection
+- production_scale
+tasks:
+- id: harden-outbox-operations
+  title: Implement and verify lease, retry metadata, and operator replay
+  type: implementation
+  status: done
+  inventory_item: outbox-operations
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityConfig.java
+  - apps/themuffinman/src/main/resources/db/migration/V81__add_workmarket_news_outbox_operations.sql
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket
+  - docs/job-replay-operations-registry.yaml
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  - docs/durable-application-news-outbox-implementation.md
+  required_paths:
+  - docs/job-replay-operations-registry.yaml
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  - docs/durable-application-news-outbox-implementation.md
+  validation: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-runtime-acceptance
+    && make audit-capability-evidence && make audit-truth-registry && make audit-docs
+    && git diff --check
+  started_at: '2026-07-22T12:14:39Z'
+  start_fingerprints:
+    docs/job-replay-operations-registry.yaml: 830e4eb07c19ec960b4d1c7c0030a2101d444f1fe0b163fbd14991601bef1d71
+    docs/side-effect-delivery-contract.yaml: 58ee30db88ceb760bdd4bacb2e980cd6c77892af4b937230debd555fa5480519
+    docs/implementation-backlog.md: 8410252bf4a2c1dd161312f34eaf3d777252fcb09feede59f8a3e8dcefce6396
+evidence:
+- task: harden-outbox-operations
+  command: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-runtime-acceptance
+    && make audit-capability-evidence && make audit-truth-registry && make audit-docs
+    && git diff --check
+  ranAt: '2026-07-22T12:24:42Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/SecurityConfig.java
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/main/resources/db/migration/V81__add_workmarket_news_outbox_operations.sql
+  - docs/durable-application-news-outbox-implementation.md
+  - docs/job-replay-operations-registry.yaml
+  - docs/side-effect-delivery-contract.yaml
+  output: |+
+    [INFO] Finished at: 2026-07-22T14:25:04+02:00
+    [INFO] ------------------------------------------------------------------------
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (42 passed, 39 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 42
+      pending runtime scenarios: 39
+      passed evidence paths checked: 40
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 297
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T12:14:39Z'
+  changedAfterStart: &1
+  - docs/job-replay-operations-registry.yaml
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  - docs/durable-application-news-outbox-implementation.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

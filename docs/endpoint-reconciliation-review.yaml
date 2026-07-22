@@ -1,0 +1,85 @@
+version: 1
+id: arch-001-endpoint-reconciliation-review
+purpose: Endpoint-level review queue for the 67 endpoints not linked by the Web callsite audit.
+source: docs/audit-output/interface-evidence-reconciliation.json
+status: classified_with_explicit_review_states
+reviewed_round: ARCH-001-ENDPOINT-RECONCILIATION
+repair_stabilization_baseline: docs/repair-and-stabilize-baseline-2026-07-22.yaml
+rules:
+- proposed_class_is_not_runtime_proof
+- review_required_is_a_valid_outcome_until_owner_evidence_exists
+- admin_class_requires_controller_scope_or_service_authority_confirmation
+- vision_or_web_class_requires_client_callsite_or_contract_confirmation
+rows:
+- {endpoint: 'GET /app_users', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: review_required, reason: broad_user_directory_endpoint_has_no_web_callsite}
+- {endpoint: 'POST /app_users', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: review_required, reason: account_creation_scope_requires_security_confirmation}
+- {endpoint: 'DELETE /app_users/:param', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: review_required, reason: destructive_admin_mutation_without_web_callsite}
+- {endpoint: 'GET /app_users/:param', domain: identity, controller: AppUserController, proposed_class: web_or_vision, owner: identity, decision: review_required, reason: profile_read_can_have_multiple_consumers}
+- {endpoint: 'PUT /app_users/:param', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: review_required, reason: controller_delegates_admin_update}
+- {endpoint: 'GET /app_users/:param/admin-detail', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: classified, reason: explicit_admin_detail_contract}
+- {endpoint: 'GET /app_users/options', domain: identity, controller: AppUserController, proposed_class: web_or_vision, owner: identity, decision: review_required, reason: shared_options_read_without_direct_link}
+- {endpoint: 'GET /business/booking-policy/me', domain: business, controller: BusinessBookingPolicyController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_policy_surface_without_direct_link}
+- {endpoint: 'PUT /business/booking-policy/me', domain: business, controller: BusinessBookingPolicyController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_policy_mutation_without_direct_link}
+- {endpoint: 'GET /business/bookings/me/:param', domain: business, controller: BusinessBookingController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: customer_booking_read_without_direct_link}
+- {endpoint: 'POST /business/bookings/owner', domain: business, controller: BusinessBookingController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_booking_create_without_direct_link}
+- {endpoint: 'GET /business/bookings/owner/:param', domain: business, controller: BusinessBookingController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_booking_read_without_direct_link}
+- {endpoint: 'POST /business/bookings/owner/:param/cancel', domain: business, controller: BusinessBookingController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_mutation_without_direct_link}
+- {endpoint: 'POST /business/bookings/owner/:param/complete', domain: business, controller: BusinessBookingController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_mutation_without_direct_link}
+- {endpoint: 'POST /business/bookings/owner/:param/confirm', domain: business, controller: BusinessBookingController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_mutation_without_direct_link}
+- {endpoint: 'POST /business/bookings/owner/:param/mark-no-show', domain: business, controller: BusinessBookingController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_mutation_without_direct_link}
+- {endpoint: 'POST /business/bookings/owner/:param/reject', domain: business, controller: BusinessBookingController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_mutation_without_direct_link}
+- {endpoint: 'GET /business/dashboard/me/schedule', domain: business, controller: BusinessOwnerDashboardController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: owner_dashboard_read_without_direct_link}
+- {endpoint: 'POST /business/gallery', domain: business, controller: BusinessGalleryController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: upload_surface_without_direct_link}
+- {endpoint: 'GET /business/gallery/object', domain: business, controller: BusinessGalleryController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: storage_read_surface_without_direct_link}
+- {endpoint: 'GET /business/profiles/:param', domain: business, controller: BusinessProfileController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: public_or_owner_profile_read}
+- {endpoint: 'GET /business/public/:param/availability', domain: business, controller: BusinessAvailabilityController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: public_booking_read_without_direct_link}
+- {endpoint: 'GET /business/public/:param/offerings', domain: business, controller: BusinessPublicController, proposed_class: web_or_vision, owner: business, decision: review_required, reason: public_booking_read_without_direct_link}
+- {endpoint: 'GET /chat/admin/audit-events', domain: chat, controller: ChatAdminController, proposed_class: admin_or_agent, owner: chat, decision: classified, reason: explicit_admin_controller}
+- {endpoint: 'DELETE /chat/admin/conversations/:param/messages/:param', domain: chat, controller: ChatAdminController, proposed_class: admin_or_agent, owner: chat, decision: classified, reason: explicit_admin_controller}
+- {endpoint: 'GET /chat/admin/conversations/:param/support-view', domain: chat, controller: ChatAdminController, proposed_class: admin_or_agent, owner: chat, decision: classified, reason: explicit_admin_controller}
+- {endpoint: 'GET /chat/applications/:param/thread', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: module_thread_surface_without_direct_link}
+- {endpoint: 'POST /chat/applications/:param/thread', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: module_thread_mutation_without_direct_link}
+- {endpoint: 'GET /chat/attachments/object', domain: chat, controller: ChatController, proposed_class: server_only_candidate, owner: chat, decision: review_required, reason: storage_object_access_needs_client_and_authority_link}
+- {endpoint: 'GET /chat/attachments/storage-status', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: upload_state_surface_without_direct_link}
+- {endpoint: 'GET /chat/circles/:param/room', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: circle_chat_surface_without_direct_link}
+- {endpoint: 'POST /chat/circles/:param/room', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: circle_chat_mutation_without_direct_link}
+- {endpoint: 'PATCH /chat/conversations/:param/delivery', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: realtime_state_mutation_needs_protocol_link}
+- {endpoint: 'PATCH /chat/conversations/:param/group', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: group_state_mutation_without_direct_link}
+- {endpoint: 'POST /chat/conversations/:param/participants', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: membership_mutation_without_direct_link}
+- {endpoint: 'DELETE /chat/conversations/:param/participants/:param', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: membership_mutation_without_direct_link}
+- {endpoint: 'PATCH /chat/conversations/:param/participants/:param/role', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: role_mutation_without_direct_link}
+- {endpoint: 'PATCH /chat/conversations/:param/state', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: conversation_state_mutation_without_direct_link}
+- {endpoint: 'POST /chat/presence/heartbeat', domain: chat, controller: ChatController, proposed_class: server_only_candidate, owner: chat, decision: review_required, reason: realtime_protocol_callsite_not_linked}
+- {endpoint: 'GET /chat/quests/:param/thread', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: module_thread_surface_without_direct_link}
+- {endpoint: 'POST /chat/quests/:param/thread', domain: chat, controller: ChatController, proposed_class: web_or_vision, owner: chat, decision: review_required, reason: module_thread_mutation_without_direct_link}
+- {endpoint: 'DELETE /circles/admin/groups/:param', domain: social, controller: CircleController, proposed_class: admin_or_agent, owner: social, decision: review_required, reason: admin_path_requires_security_annotation_confirmation}
+- {endpoint: 'GET /circles/admin/overview', domain: social, controller: CircleController, proposed_class: admin_or_agent, owner: social, decision: review_required, reason: admin_path_requires_security_annotation_confirmation}
+- {endpoint: 'GET /circles/candidates', domain: social, controller: CircleController, proposed_class: web_or_vision, owner: social, decision: review_required, reason: relationship_candidate_read_without_direct_link}
+- {endpoint: 'PUT /circles/connections/:param/circles', domain: social, controller: CircleController, proposed_class: web_or_vision, owner: social, decision: review_required, reason: visibility_mutation_without_direct_link}
+- {endpoint: 'GET /circles/groups/:param/accessible', domain: social, controller: CircleController, proposed_class: web_or_vision, owner: social, decision: review_required, reason: visibility_read_without_direct_link}
+- {endpoint: 'GET /circles/nearby', domain: social, controller: CircleController, proposed_class: web_or_vision, owner: social, decision: review_required, reason: discovery_read_without_direct_link}
+- {endpoint: 'GET /circles/relations/:param', domain: social, controller: CircleController, proposed_class: web_or_vision, owner: social, decision: review_required, reason: relationship_read_without_direct_link}
+- {endpoint: 'POST /dashboard/me/vision/prompt', domain: workmarket, controller: DashboardController, proposed_class: vision, owner: vision, decision: classified, reason: explicit_vision_prompt_path}
+- {endpoint: 'GET /location/admin/status', domain: location, controller: LocationLookupController, proposed_class: admin_or_agent, owner: location, decision: review_required, reason: admin_path_requires_security_annotation_confirmation}
+- {endpoint: 'GET /news/me/unread-count', domain: workmarket, controller: QuestNewsController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: notification_read_without_direct_link}
+- {endpoint: 'PUT /profile/gallery/me/:param', domain: identity, controller: ProfileGalleryController, proposed_class: web_or_vision, owner: identity, decision: review_required, reason: owner_gallery_mutation_without_direct_link}
+- {endpoint: 'GET /quests', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: discovery_read_without_direct_link}
+- {endpoint: 'DELETE /quests/:param', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: owner_mutation_without_direct_link}
+- {endpoint: 'GET /quests/:param', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: detail_read_without_direct_link}
+- {endpoint: 'GET /quests/:param/applications', domain: workmarket, controller: QuestApplicationController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: application_read_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/applications/:param/approve', domain: workmarket, controller: QuestApplicationController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/applications/:param/decline', domain: workmarket, controller: QuestApplicationController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/cancel', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/complete', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/pause', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/resume', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/start', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/term/confirm', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'PATCH /quests/:param/term/reject', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: workflow_mutation_without_direct_link}
+- {endpoint: 'GET /quests/presets/:param', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: options_read_without_direct_link}
+- {endpoint: 'GET /quests/search', domain: workmarket, controller: QuestController, proposed_class: web_or_vision, owner: workmarket, decision: review_required, reason: discovery_read_without_direct_link}
+closeout:
+  row_count: 67
+  classified_count: 5
+  review_required_count: 62
+  runtime_proof_claimed: false

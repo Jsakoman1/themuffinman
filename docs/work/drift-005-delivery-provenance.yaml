@@ -1,0 +1,80 @@
+kind: work
+version: 1
+id: drift-005-delivery-provenance
+title: Delivery dependency provenance audit
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+objective: Implement DRIFT-005 by validating delivery/dependency provenance paths
+  and explicit external release unknowns without inferring deployment behavior.
+scope:
+- scripts/audits
+- docs/delivery-dependency-registry.yaml
+- docs/system-drift-control-registry.yaml
+- docs/implementation-backlog.md
+- Makefile
+- docs/implementation-control.md
+- docs/audits.md
+tasks:
+- id: implement-delivery-provenance-audit
+  title: Implement delivery dependency provenance audit
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-delivery-provenance.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  required_paths:
+  - scripts/audits/audit-delivery-provenance.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  validation: make audit-delivery-provenance && make validate-frontend-contracts &&
+    make audit-docs && git diff --check
+evidence:
+- task: implement-delivery-provenance-audit
+  command: make audit-delivery-provenance && make validate-frontend-contracts && make
+    audit-docs && git diff --check
+  ranAt: '2026-07-22T07:37:16Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/audits.md
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/system-drift-control-registry.yaml
+  - scripts/audits/audit-delivery-provenance.rb
+  output: |+
+    Delivery provenance audit passed
+      build paths: 4
+      external release state: unknown_not_absent_in_external_environment
+    npm --prefix apps/themuffinman/frontend run validate:contracts
+
+    > frontend@0.0.0 validate:contracts
+    > node ./scripts/generate-vision-contracts.mjs --check
+
+    Generated frontend contract is fresh.
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - scripts/audits/audit-delivery-provenance.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

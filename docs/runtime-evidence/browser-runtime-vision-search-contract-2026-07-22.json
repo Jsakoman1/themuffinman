@@ -1,0 +1,20 @@
+{
+  "scenario": "runtime-vision-search",
+  "capabilityIds": ["vision.discovery.search", "vision.discovery.open_detail"],
+  "target": "/vision",
+  "environment": "local-dev-web",
+  "actions": ["text_request", "render_result", "select", "empty", "recover", "pagination", "version_filter", "compare", "detail_return"],
+  "freshServerTrace": {
+    "query": "kitchen tap",
+    "contractVersion": "search-v1",
+    "filterFamily": "quest",
+    "filterSchemaVersion": "search-filter-v1",
+    "page0": {"httpStatus": 200, "page": 0, "pageSize": 8, "resultState": "RESULTS", "totalItems": 1, "hasMore": false, "item": {"targetId": 402, "detailRoute": "/work/quests/402"}, "queryCount": 30, "durationMs": 34},
+    "page1": {"httpStatus": 200, "page": 1, "resultState": "NO_MATCHES", "totalItems": 0, "hasMore": false, "queryCount": 30, "durationMs": 20},
+    "emptyRecovery": {"httpStatus": 200, "resultState": "NO_MATCHES", "recoveryAction": "REMOVE_FILTER", "recoveryCode": "REMOVE_FILTER", "totalItems": 0},
+    "compare": {"httpStatus": 200, "selection": "quest:402", "itemCount": 1, "capabilityId": "cross_module.search.compare"}
+  },
+  "referencedUiEvidence": ["docs/runtime-evidence/browser-runtime-vision-read-discovery-2026-07-22.json", "docs/runtime-evidence/browser-runtime-vision-detail-return-2026-07-22.json", "docs/runtime-evidence/browser-runtime-search-orchestration-2026-07-22.json"],
+  "result": "passed_combined_vision_search_contract",
+  "notes": ["Fresh Vision search trace supplies pagination, filter schema, empty recovery, and comparison; referenced authenticated browser traces supply rendered no-match recovery and detail return."]
+}

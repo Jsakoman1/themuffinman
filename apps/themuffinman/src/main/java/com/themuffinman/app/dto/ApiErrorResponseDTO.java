@@ -15,4 +15,10 @@ public class ApiErrorResponseDTO {
     private String code;
     private String message;
     private List<ApiFieldErrorDTO> fieldErrors;
+    private String correlationId;
+    private String operationKey;
+    private Boolean retryable;
+    private String conflictType;
+    private String resourceId;
+    private String resourceVersion;
 }

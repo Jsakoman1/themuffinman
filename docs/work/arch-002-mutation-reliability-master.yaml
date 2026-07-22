@@ -1,0 +1,35 @@
+kind: master
+version: 1
+id: arch-002-mutation-reliability-master
+title: Unified cross-module mutation reliability contract
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/arch-002-mutation-reliability-master-execution-inventory.yaml
+objective: Implement and verify a shared mutation reliability contract for request
+  correlation, idempotency, retry, stale-state conflicts, structured errors, and side-effect
+  trace propagation without moving domain authority out of module services.
+analysis_source: docs/arch-002-mutation-reliability-analysis.md
+contract_source: docs/mutation-reliability-contract.yaml
+children:
+- docs/work/arch-002-mutation-reliability-01-transport.yaml
+- docs/work/arch-002-mutation-reliability-02-policy.yaml
+- docs/work/arch-002-mutation-reliability-03-adoption.yaml
+- docs/work/arch-002-mutation-reliability-04-evidence.yaml
+rules:
+- Domain services remain authoritative for permissions, validation, transitions, and
+  resource ownership.
+- Transport context must not become a second business-rule layer.
+- Idempotency replay must bind actor, operation, key, and payload fingerprint.
+- Unknown commit outcome requires read-back semantics before a retry is permitted.
+- Side-effect delivery evidence remains separate from domain commit evidence.
+- No runtime or production claim is made from static implementation alone.
+evidence:
+- verifiedAt: '2026-07-22T09:11:18Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/arch-002-mutation-reliability-01-transport.yaml
+  - docs/work/arch-002-mutation-reliability-02-policy.yaml
+  - docs/work/arch-002-mutation-reliability-03-adoption.yaml
+  - docs/work/arch-002-mutation-reliability-04-evidence.yaml

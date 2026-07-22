@@ -1,0 +1,60 @@
+kind: work
+version: 1
+id: system-map-operational-expansion-round-35
+title: Runtime observability evidence registry
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-operational-expansion-master-execution-inventory.yaml
+master_plan: docs/work/system-map-operational-expansion-master.yaml
+objective: Define metric and trace requirements for query, latency, provider, job,
+  storage, and WebSocket behavior without inventing production measurements.
+deliverables:
+- docs/system-map-operational-expansion-round-35-runtime-observability.md
+- docs/runtime-observability-registry.yaml
+tasks:
+- id: design-runtime-observability-registry
+  title: Design runtime observability registry
+  inventory_item: runtime-observability-registry
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-operational-expansion-round-35-runtime-observability.md
+  - docs/runtime-observability-registry.yaml
+  required_paths:
+  - docs/system-map-operational-expansion-round-35-runtime-observability.md
+  - docs/runtime-observability-registry.yaml
+  validation: make audit-runtime-acceptance && make audit-docs && git diff --check
+  started_at: '2026-07-22T07:47:50Z'
+  start_fingerprints:
+    docs/system-map-operational-expansion-round-35-runtime-observability.md: __missing__
+    docs/runtime-observability-registry.yaml: __missing__
+evidence:
+- task: design-runtime-observability-registry
+  command: make audit-runtime-acceptance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:48:14Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-observability-registry.yaml
+  - docs/system-map-operational-expansion-round-35-runtime-observability.md
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T07:47:50Z'
+  changedAfterStart: &1
+  - docs/system-map-operational-expansion-round-35-runtime-observability.md
+  - docs/runtime-observability-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

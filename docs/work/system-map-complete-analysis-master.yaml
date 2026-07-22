@@ -1,0 +1,80 @@
+kind: master
+version: 1
+id: system-map-complete-analysis-master
+title: Complete system truth, dependency, evidence, and drift analysis
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-complete-analysis-master-execution-inventory.yaml
+objective: Extend the living system map into a complete, evidence-backed system truth
+  model for features, fixes, and future analysis. Map canonical ownership, backend
+  and database structure, APIs and clients, workflows and invariants, tests and runtime
+  evidence, operations, security, and drift-control mechanisms without confusing target
+  scope with current implementation.
+completed_prerequisites:
+- docs/system-map-complete-analysis-preflight.md
+- docs/system-map.md
+- docs/implementation-control.md
+- docs/capability-inventory.yaml
+- docs/target-capability-catalog.yaml
+- docs/domain-technical.md
+- docs/business-logic.md
+- docs/work/system-map-third-pass-master.yaml
+- docs/system-map-third-pass-round-19-architecture-risk-register.md
+analysis_protocol:
+  evidence_classes:
+  - source-trace: Directly traced from code, schema, configuration, or generated contract.
+  - validated-contract: Supported by a focused test, audit, or verifier result.
+  - runtime-proof: Supported by current browser, device, or runtime evidence.
+  - inferred-risk: A bounded inference that must identify its source basis and uncertainty.
+  - unknown: A deliberately recorded gap; it must not be presented as implemented
+      or verified.
+  required_finding_disposition:
+  - update_the_owning_canonical_source
+  - add_or_update_a_machine_readable_registry_row
+  - create_or_link_a_stable_backlog_ID
+  - record_no_change_with_evidence
+  output_rules:
+  - Each round document must distinguish current implementation, target intent, and
+    unverified assumption.
+  - Each registry row must contain an owner, source links, evidence class, confidence,
+    and last-reviewed round.
+  - Each analysis boundary must state what was not inspected and why.
+  - No analysis result may infer production behavior solely from static source inspection.
+readiness_criteria:
+- Every child has a unique serial inventory item, explicit dependency, registry or
+  canonical output, and leaf validation.
+- Runtime and performance claims remain classified as unproven until current runtime
+  evidence exists.
+- The final round updates the living system map rather than creating a competing narrative
+  map.
+children:
+- docs/work/system-map-complete-analysis-round-20.yaml
+- docs/work/system-map-complete-analysis-round-21.yaml
+- docs/work/system-map-complete-analysis-round-22.yaml
+- docs/work/system-map-complete-analysis-round-23.yaml
+- docs/work/system-map-complete-analysis-round-24.yaml
+- docs/work/system-map-complete-analysis-round-25.yaml
+- docs/work/system-map-complete-analysis-round-26.yaml
+- docs/work/system-map-complete-analysis-round-27.yaml
+- docs/work/system-map-complete-analysis-round-28.yaml
+- docs/work/system-map-complete-analysis-round-31.yaml
+- docs/work/system-map-complete-analysis-round-29.yaml
+- docs/work/system-map-complete-analysis-round-30.yaml
+evidence:
+- verifiedAt: '2026-07-22T07:25:19Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/system-map-complete-analysis-round-20.yaml
+  - docs/work/system-map-complete-analysis-round-21.yaml
+  - docs/work/system-map-complete-analysis-round-22.yaml
+  - docs/work/system-map-complete-analysis-round-23.yaml
+  - docs/work/system-map-complete-analysis-round-24.yaml
+  - docs/work/system-map-complete-analysis-round-25.yaml
+  - docs/work/system-map-complete-analysis-round-26.yaml
+  - docs/work/system-map-complete-analysis-round-27.yaml
+  - docs/work/system-map-complete-analysis-round-28.yaml
+  - docs/work/system-map-complete-analysis-round-31.yaml
+  - docs/work/system-map-complete-analysis-round-29.yaml
+  - docs/work/system-map-complete-analysis-round-30.yaml

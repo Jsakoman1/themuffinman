@@ -9,6 +9,8 @@ import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestNewsItem;
 import com.themuffinman.app.workmarket.model.QuestNewsType;
 import com.themuffinman.app.workmarket.repository.WorkmarketQuestNewsRepository;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestApplicationRepository;
+import com.themuffinman.app.workmarket.repository.WorkmarketQuestRepository;
 import com.themuffinman.app.notification.model.NotificationPreferenceCategory;
 import com.themuffinman.app.notification.service.NotificationPreferenceService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service("workmarketQuestNewsService")
 @RequiredArgsConstructor
@@ -27,12 +30,17 @@ public class WorkmarketQuestNewsService {
     private static final int DEFAULT_LIMIT = 8;
 
     private final WorkmarketQuestNewsRepository questNewsRepository;
+    private final WorkmarketQuestApplicationRepository questApplicationRepository;
+    private final WorkmarketQuestRepository questRepository;
     private final RetentionProperties retentionProperties;
     private final ChatRealtimeService chatRealtimeService;
     private final NotificationPreferenceService notificationPreferenceService;
 
     public List<QuestNewsItem> getMyNews(AppUser currentUser) {
-        return questNewsRepository.findByRecipientUserIdOrderByCreatedAtDesc(currentUser.getId(), PageRequest.of(0, DEFAULT_LIMIT));
+        return questNewsRepository.findByRecipientUserIdOrderByCreatedAtDesc(currentUser.getId(), PageRequest.of(0, DEFAULT_LIMIT))
+                .stream()
+                .peek(this::resolveCanonicalTargetAvailability)
+                .toList();
     }
 
     public long getUnreadCount(AppUser currentUser) {
@@ -60,7 +68,7 @@ public class WorkmarketQuestNewsService {
     }
 
     @Transactional
-    public void notifyApplicationCreated(Quest quest, QuestApplication application, AppUser actor) {
+    public void notifyApplicationCreated(Quest quest, QuestApplication application, AppUser actor, UUID eventId) {
         storeItem(
                 quest.getCreator(),
                 actor,
@@ -70,12 +78,13 @@ public class WorkmarketQuestNewsService {
                 null,
                 QuestNewsType.APPLICATION_CREATED,
                 "New application",
-                application.getApplicant().getUsername() + " applied for \"" + quest.getTitle() + "\"."
+                application.getApplicant().getUsername() + " applied for \"" + quest.getTitle() + "\".",
+                deliveryKey(eventId)
         );
     }
 
     @Transactional
-    public void notifyApplicationUpdated(Quest quest, QuestApplication application, AppUser actor) {
+    public void notifyApplicationUpdated(Quest quest, QuestApplication application, AppUser actor, UUID eventId) {
         storeItem(
                 quest.getCreator(),
                 actor,
@@ -85,12 +94,13 @@ public class WorkmarketQuestNewsService {
                 null,
                 QuestNewsType.APPLICATION_UPDATED,
                 "Application updated",
-                application.getApplicant().getUsername() + " updated their application for \"" + quest.getTitle() + "\"."
+                application.getApplicant().getUsername() + " updated their application for \"" + quest.getTitle() + "\".",
+                deliveryKey(eventId)
         );
     }
 
     @Transactional
-    public void notifyApplicationWithdrawn(Quest quest, QuestApplication application, AppUser actor) {
+    public void notifyApplicationWithdrawn(Quest quest, QuestApplication application, AppUser actor, UUID eventId) {
         storeItem(
                 quest.getCreator(),
                 actor,
@@ -100,12 +110,13 @@ public class WorkmarketQuestNewsService {
                 null,
                 QuestNewsType.APPLICATION_WITHDRAWN,
                 "Application withdrawn",
-                application.getApplicant().getUsername() + " withdrew their application for \"" + quest.getTitle() + "\"."
+                application.getApplicant().getUsername() + " withdrew their application for \"" + quest.getTitle() + "\".",
+                deliveryKey(eventId)
         );
     }
 
     @Transactional
-    public void notifyApplicationApproved(Quest quest, QuestApplication application, AppUser actor) {
+    public void notifyApplicationApproved(Quest quest, QuestApplication application, AppUser actor, UUID eventId) {
         storeItem(
                 application.getApplicant(),
                 actor,
@@ -115,12 +126,13 @@ public class WorkmarketQuestNewsService {
                 null,
                 QuestNewsType.APPLICATION_APPROVED,
                 "Application approved",
-                "Your application for \"" + quest.getTitle() + "\" was approved."
+                "Your application for \"" + quest.getTitle() + "\" was approved.",
+                deliveryKey(eventId)
         );
     }
 
     @Transactional
-    public void notifyApplicationDeclined(Quest quest, QuestApplication application, AppUser actor) {
+    public void notifyApplicationDeclined(Quest quest, QuestApplication application, AppUser actor, UUID eventId) {
         storeItem(
                 application.getApplicant(),
                 actor,
@@ -130,7 +142,8 @@ public class WorkmarketQuestNewsService {
                 null,
                 QuestNewsType.APPLICATION_DECLINED,
                 "Application declined",
-                "Your application for \"" + quest.getTitle() + "\" was declined."
+                "Your application for \"" + quest.getTitle() + "\" was declined.",
+                deliveryKey(eventId)
         );
     }
 
@@ -215,7 +228,25 @@ public class WorkmarketQuestNewsService {
             String title,
             String message
     ) {
+        storeItem(recipient, actor, quest, questTitleOverride, applicationId, circleRequestId, type, title, message, null);
+    }
+
+    private void storeItem(
+            AppUser recipient,
+            AppUser actor,
+            Quest quest,
+            String questTitleOverride,
+            Long applicationId,
+            Long circleRequestId,
+            QuestNewsType type,
+            String title,
+            String message,
+            String deliveryKey
+    ) {
         if (recipient == null || actor == null) {
+            return;
+        }
+        if (deliveryKey != null && questNewsRepository.existsByDeliveryKey(deliveryKey)) {
             return;
         }
 
@@ -227,12 +258,26 @@ public class WorkmarketQuestNewsService {
         item.setQuestTitle(questTitleOverride != null ? questTitleOverride : quest == null ? null : quest.getTitle());
         item.setApplicationId(applicationId);
         item.setCircleRequestId(circleRequestId);
+        item.setDeliveryKey(deliveryKey);
         item.setType(type);
         item.setTitle(title);
         item.setMessage(message);
         questNewsRepository.save(item);
         if (notificationPreferenceService.isInAppDeliveryEnabled(recipient, preferenceCategory(type))) {
             notifyUnreadCountChanged(recipient.getId(), actor.getId(), "news_created");
+        }
+    }
+
+    private String deliveryKey(UUID eventId) {
+        return eventId == null ? null : "workmarket-application-news:" + eventId;
+    }
+
+    private void resolveCanonicalTargetAvailability(QuestNewsItem item) {
+        if (item.getQuestId() != null) {
+            item.setCanonicalQuestTargetAvailable(questRepository.existsById(item.getQuestId()));
+        }
+        if (item.getApplicationId() != null) {
+            item.setCanonicalApplicationTargetAvailable(questApplicationRepository.existsById(item.getApplicationId()));
         }
     }
 

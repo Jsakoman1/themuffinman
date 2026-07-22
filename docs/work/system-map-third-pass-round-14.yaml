@@ -1,0 +1,70 @@
+kind: work
+version: 1
+id: system-map-third-pass-round-14
+title: Request-to-persistence execution flows
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-third-pass-master-execution-inventory.yaml
+master_plan: docs/work/system-map-third-pass-master.yaml
+objective: Trace representative client reads and mutations through transport, controller,
+  service, repository, transaction, persistence, and response assembly.
+scope:
+- apps/themuffinman/src/main/java/com/themuffinman/app
+- apps/themuffinman/frontend/src
+- apps/themuffinman/src/main/resources/db/migration
+deliverables:
+- docs/system-map-third-pass-round-14-request-persistence-flows.md
+tasks:
+- id: analyze-request-to-persistence-flows
+  title: Analyze request-to-persistence flows
+  inventory_item: request-persistence-flow
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-third-pass-round-14-request-persistence-flows.md
+  required_paths:
+  - docs/system-map-third-pass-round-14-request-persistence-flows.md
+  validation: ruby scripts/audits/audit-mutation-safety.rb && ruby scripts/audits/audit-repository-fetch.rb
+    && make audit-frontend
+  started_at: '2026-07-22T06:45:15Z'
+  start_fingerprints:
+    docs/system-map-third-pass-round-14-request-persistence-flows.md: __missing__
+evidence:
+- task: analyze-request-to-persistence-flows
+  command: ruby scripts/audits/audit-mutation-safety.rb && ruby scripts/audits/audit-repository-fetch.rb
+    && make audit-frontend
+  ranAt: '2026-07-22T06:48:09Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-third-pass-round-14-request-persistence-flows.md
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 95
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  startedAt: '2026-07-22T06:45:15Z'
+  changedAfterStart: &1
+  - docs/system-map-third-pass-round-14-request-persistence-flows.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

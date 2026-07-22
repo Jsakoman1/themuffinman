@@ -1,0 +1,20 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T11:59:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "workspace-owned local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "chat_realtime_disconnect_reconnect",
+  "route": "/chat",
+  "connectedBefore": true,
+  "offlineStateObserved": "Realtime disconnected",
+  "reconnectedStateObserved": "Realtime connected",
+  "applicationWebSocket": {
+    "endpoint": "/ws/chat",
+    "authenticated": true,
+    "connectionsObserved": 5,
+    "closuresObserved": 2,
+    "tokenPersisted": false
+  },
+  "result": "passed",
+  "notProven": ["message_delivery_during_disconnect", "server_side_resync_payload", "multi_instance_reconnect"]
+}

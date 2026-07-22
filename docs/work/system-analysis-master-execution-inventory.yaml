@@ -1,0 +1,88 @@
+kind: execution_inventory
+version: 1
+id: system-analysis-master-execution-inventory
+master_plan: docs/work/system-analysis-master.yaml
+serial_task_execution: true
+purpose: 'Ordered queue for the deep system-analysis program. One analytical round
+  is started and verified at a time; each item maps to exactly one child-plan task.
+
+'
+items:
+- id: capability-reconciliation
+  sequence: 1
+  plan: docs/work/system-analysis-round-2.yaml
+  task: reconcile-capability-status-and-evidence
+  closeout: Capability, plan, code, client, test, and runtime statuses are reconciled
+    with explicit findings and follow-ups.
+  status: verified
+  started_at: '2026-07-22T05:56:08Z'
+  verified_at: '2026-07-22T05:57:33Z'
+  evidence:
+    plan: docs/work/system-analysis-round-2.yaml
+    task: reconcile-capability-status-and-evidence
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: backend-domain-architecture
+  sequence: 2
+  plan: docs/work/system-analysis-round-3.yaml
+  task: analyze-backend-domain-architecture
+  closeout: Backend module boundaries, dependencies, persistence coupling, and authority
+    patterns are mapped.
+  status: verified
+  started_at: '2026-07-22T05:57:38Z'
+  verified_at: '2026-07-22T05:59:01Z'
+  evidence:
+    plan: docs/work/system-analysis-round-3.yaml
+    task: analyze-backend-domain-architecture
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: frontend-surface-architecture
+  sequence: 3
+  plan: docs/work/system-analysis-round-4.yaml
+  task: analyze-frontend-surface-architecture
+  closeout: Route ownership, app-shell concentration, API linkage, UI action authority,
+    and frontend seams are mapped.
+  status: verified
+  started_at: '2026-07-22T05:59:07Z'
+  verified_at: '2026-07-22T06:00:16Z'
+  evidence:
+    plan: docs/work/system-analysis-round-4.yaml
+    task: analyze-frontend-surface-architecture
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: vision-orchestration
+  sequence: 4
+  plan: docs/work/system-analysis-round-5.yaml
+  task: analyze-vision-orchestration
+  closeout: Vision intent, semantic routing, context, confirmation, execution adapters,
+    failure recovery, and client parity are mapped.
+  status: verified
+  started_at: '2026-07-22T06:00:23Z'
+  verified_at: '2026-07-22T06:01:46Z'
+  evidence:
+    plan: docs/work/system-analysis-round-5.yaml
+    task: analyze-vision-orchestration
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: runtime-production-readiness
+  sequence: 5
+  plan: docs/work/system-analysis-round-6.yaml
+  task: analyze-runtime-production-readiness
+  closeout: Runtime topology, configuration, security, storage, retention, external
+    providers, and pending acceptance are assessed.
+  status: verified
+  started_at: '2026-07-22T06:01:58Z'
+  verified_at: '2026-07-22T06:06:00Z'
+  evidence:
+    plan: docs/work/system-analysis-round-6.yaml
+    task: analyze-runtime-production-readiness
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: control-system-audit
+  sequence: 6
+  plan: docs/work/system-analysis-round-7.yaml
+  task: analyze-control-system-and-plan-graph
+  closeout: Documentation hierarchy, audit quality, plan graph, evidence lifecycle,
+    and control-system risks are assessed.
+  status: verified
+  started_at: '2026-07-22T06:06:14Z'
+  verified_at: '2026-07-22T06:07:32Z'
+  evidence:
+    plan: docs/work/system-analysis-round-7.yaml
+    task: analyze-control-system-and-plan-graph
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

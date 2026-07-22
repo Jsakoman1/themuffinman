@@ -1,0 +1,61 @@
+kind: work
+version: 1
+id: browser-runtime-evidence-pass-05-closeout
+title: Close out browser runtime evidence
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/browser-runtime-evidence-pass-master.yaml
+execution_inventory: docs/work/browser-runtime-evidence-pass-master-execution-inventory.yaml
+tasks:
+- id: closeout-browser-evidence
+  title: Verify fresh artifacts, statuses, and explicit remaining gaps
+  type: verification
+  status: done
+  inventory_item: browser-runtime-closeout
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/browser-runtime-evidence-pass.md
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/browser-runtime-evidence-pass.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  started_at: '2026-07-22T11:12:42Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 56c4f663ace3229ec9e279ef2eafe54ba86237a7e8afcebfdd84a1cdfbacc60c
+    docs/browser-runtime-evidence-pass.md: 98f4d659262996a218348bdaab02e35a4b00a4c00fed4ac286f6acf8739da215
+evidence:
+- task: closeout-browser-evidence
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  ranAt: '2026-07-22T11:13:05Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/browser-runtime-evidence-pass.md
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (41 passed, 40 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 41
+      pending runtime scenarios: 40
+      passed evidence paths checked: 37
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T11:12:42Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/browser-runtime-evidence-pass.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-closeout-02-execution-inventory
+master_plan: docs/work/runtime-pending-closeout-02.yaml
+serial_task_execution: true
+items:
+- id: next-pending-runtime-batch
+  sequence: 1
+  plan: docs/work/runtime-pending-closeout-02.yaml
+  task: execute-next-pending-runtime-batch
+  depends_on: []
+  output: pending-runtime-evidence-and-blocker-reconciliation
+  status: verified
+  started_at: '2026-07-22T13:13:47Z'
+  verified_at: '2026-07-22T13:30:07Z'
+  evidence:
+    plan: docs/work/runtime-pending-closeout-02.yaml
+    task: execute-next-pending-runtime-batch
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

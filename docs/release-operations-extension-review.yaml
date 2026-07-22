@@ -1,0 +1,12 @@
+version: 1
+purpose: MAP-007 extension review for release, deployment, promotion, rollback, backup, restore, and incident evidence.
+reviewed_round: MAP-007
+coverage_state: partial
+evidence_class: source-trace
+canonical_registry: docs/release-operations-registry.yaml
+repository_visible: [local_build_and_test, generated_contract_validation, local_development_stack]
+external_evidence_required: [ci_pipeline, deployment_and_promotion, backup_and_restore, release_and_rollback, incident_response]
+rules:
+- local_make_targets_do_not_prove_deployed_ci_or_production_operations
+- recovery_claim_requires_exercise_or_operator_evidence
+- external_unknown_is_not_absence

@@ -1,0 +1,77 @@
+version: 1
+purpose: Cross-cutting ownership index for system facts; registry rows point to authoritative sources and never replace their status or rules.
+reviewed_round: 20
+fact_classes:
+- id: product_direction
+  owner: product
+  canonical_sources: [docs/product-vision.md, docs/product-memory.md]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: product direction or durable proven lesson changes
+- id: user_facing_business_rules
+  owner: product-domain
+  canonical_sources: [docs/business-logic.md]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: user-visible behavior, rule, recovery, or FAQ meaning changes
+- id: domain_invariants
+  owner: backend-domain
+  canonical_sources: [docs/domain-technical.md, docs/workflow-state-machines.yaml]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: entity relation, validation, permission, transition, or invariant changes
+- id: target_capability_scope
+  owner: product-planning
+  canonical_sources: [docs/target-capability-catalog.yaml]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: desired production-ready capability scope changes
+- id: current_capability_state
+  owner: implementation-inventory
+  canonical_sources: [docs/capability-inventory.yaml]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: implemented, partial, planned, verified, gap, or evidence linkage changes
+- id: implementation_completion
+  owner: work-plan-verifier
+  canonical_sources: [docs/work, scripts/verify-work.rb, docs/implementation-control.md]
+  evidence_class: validated-contract
+  confidence: high
+  update_trigger: verifier-run task state and evidence change
+- id: runtime_acceptance
+  owner: runtime-evidence
+  canonical_sources: [docs/runtime-acceptance-matrix.yaml, docs/regression-scenario-catalog.yaml, docs/runtime-evidence]
+  evidence_class: runtime-proof
+  confidence: medium
+  update_trigger: fresh browser, device, or runtime evidence changes
+- id: agent_safety
+  owner: agent-control
+  canonical_sources: [docs/agent-operating-model.yaml, docs/agent-operating-model/sections]
+  evidence_class: validated-contract
+  confidence: high
+  update_trigger: agent permission, safety, sandbox, or generated-admin behavior changes
+- id: frontend_contract_generation
+  owner: api-contract
+  canonical_sources: [apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs, apps/themuffinman/src/main/java]
+  derived_artifacts: [apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: supported backend DTO or contract-generator changes
+- id: architecture_navigation
+  owner: architecture
+  canonical_sources: [docs/system-map.md, docs/control-surface-map.md]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: ownership, navigation, or cross-system relationship changes
+- id: deferred_work
+  owner: delivery-planning
+  canonical_sources: [docs/implementation-backlog.md]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: stable discovered follow-up is opened, delivered, or retired
+rules:
+- registries_reference_canonical_sources_not_replace_them
+- verified_work_plan_status_does_not_promote_capability_or_runtime_status
+- target_scope_and_current_state_remain_separate
+- static_source_evidence_does_not_prove_runtime_behavior
+- every_registry_row_requires_owner_evidence_class_confidence_and_review_round

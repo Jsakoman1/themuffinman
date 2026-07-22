@@ -1,0 +1,84 @@
+kind: work
+version: 1
+id: arch-002-mutation-reliability-03-adoption
+title: Cross-module mutation reliability adoption
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-002-mutation-reliability-master.yaml
+execution_inventory: docs/work/arch-002-mutation-reliability-master-execution-inventory.yaml
+objective: Adopt the shared contract in booking and rides reference mutations, map
+  adoption boundaries across Work, Things, Circles, Chat, and Vision, and preserve
+  module-specific aggregate rules until each module has a dedicated safe policy.
+deliverables:
+- docs/mutation-reliability-adoption-matrix.yaml
+- docs/system-map.md
+tasks:
+- id: adopt-module-mutations
+  title: Add operation keys, idempotency/version handling, and typed conflict behavior
+    by module
+  type: implementation
+  status: done
+  inventory_item: arch-002-adoption
+  paths:
+  - docs/mutation-reliability-adoption-matrix.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java
+  required_paths:
+  - docs/mutation-reliability-adoption-matrix.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java
+  validation: make audit-backend && make audit-tests && make audit-interface-evidence
+    && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:05:31Z'
+  start_fingerprints:
+    docs/mutation-reliability-adoption-matrix.yaml: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java: 1158e3cec090538cf539543161ae43db538f593fdb64c970b4afcce185379316
+    apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java: c08bb4ab834a50727c4fec7693fd98e41ae1a38da52c012837667215fb4a1b5a
+    apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java: e168ada3c9ca0c593223de8c1f10ff3f26e6446cf3def158ac237c696a0649f1
+evidence:
+- task: adopt-module-mutations
+  command: make audit-backend && make audit-tests && make audit-interface-evidence
+    && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:07:30Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java
+  - docs/mutation-reliability-adoption-matrix.yaml
+  output: |2+
+      high priority: 0
+    ruby scripts/audits/audit-test-fixture-duplication.rb
+    Test fixture duplication audit
+      tests scanned: 157
+      extraction candidates: 6
+      high setup files: 20
+    Interface evidence reconciliation audit passed
+      endpoints classified: 214
+      admin_or_agent: 4
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 140
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:05:31Z'
+  changedAfterStart: &1
+  - docs/mutation-reliability-adoption-matrix.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/service/RideOfferService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/controller/RideOfferController.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

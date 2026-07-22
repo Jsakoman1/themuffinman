@@ -1,0 +1,100 @@
+kind: work
+version: 1
+id: maintenance-durable-application-news-outbox
+title: Implement durable Workmarket application-news outbox
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/maintenance-durable-application-news-outbox-execution-inventory.yaml
+objective: Persist Workmarket application-news delivery intent in the domain transaction
+  and dispatch/retry it from a durable outbox without claiming universal module replay
+  guarantees.
+scope: Workmarket application-news consumer only
+out_of_scope:
+- business_consumers
+- chat_realtime
+- password_recovery
+- generic_outbox
+- process_crash_runtime_injection
+- production_scale
+paths:
+- apps/themuffinman/src/main/java/com/themuffinman/app/workmarket
+- apps/themuffinman/src/main/resources/db/migration/V79__create_workmarket_application_news_outbox.sql
+- apps/themuffinman/src/test/java/com/themuffinman/app/workmarket
+- docs/side-effect-delivery-contract.yaml
+- docs/job-replay-operations-registry.yaml
+- docs/implementation-backlog.md
+validation: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-runtime-acceptance
+  && make audit-capability-evidence && make audit-truth-registry && make audit-docs
+  && git diff --check
+tasks:
+- id: implement-and-verify-durable-news-outbox
+  title: Persist, dispatch, retry, and document application-news outbox
+  type: implementation
+  status: done
+  inventory_item: durable-application-news-outbox
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket
+  - apps/themuffinman/src/main/resources/db/migration/V79__create_workmarket_application_news_outbox.sql
+  - apps/themuffinman/src/main/resources/db/migration/V80__use_uuid_for_workmarket_news_outbox_event_id.sql
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  validation: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-runtime-acceptance
+    && make audit-capability-evidence && make audit-truth-registry && make audit-docs
+    && git diff --check
+  required_paths:
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  required_evidence:
+  - unit_test
+  - migration_bootstrap
+  - contract_update
+  - audit_pass
+  started_at: '2026-07-22T12:01:34Z'
+  start_fingerprints:
+    docs/side-effect-delivery-contract.yaml: 9ffadf3678725de1d96734e981be72f5771549352d19cbf62497bab0edf4bc6a
+    docs/implementation-backlog.md: 0abd7f7434e42a7e2d903a7eee845a18db88454800779e704fcbe5ed3a7ab22a
+evidence:
+- task: implement-and-verify-durable-news-outbox
+  command: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-runtime-acceptance
+    && make audit-capability-evidence && make audit-truth-registry && make audit-docs
+    && git diff --check
+  ranAt: '2026-07-22T12:08:04Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - apps/themuffinman/src/main/resources/db/migration/V79__create_workmarket_application_news_outbox.sql
+  - apps/themuffinman/src/main/resources/db/migration/V80__use_uuid_for_workmarket_news_outbox_event_id.sql
+  - docs/side-effect-delivery-contract.yaml
+  output: |+
+    [INFO] Finished at: 2026-07-22T14:08:26+02:00
+    [INFO] ------------------------------------------------------------------------
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (42 passed, 39 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 42
+      pending runtime scenarios: 39
+      passed evidence paths checked: 40
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 297
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T12:01:34Z'
+  changedAfterStart: &1
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

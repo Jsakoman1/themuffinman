@@ -1,0 +1,100 @@
+kind: work
+version: 1
+id: repair-and-stabilize-01-baseline-triage
+title: Establish repair baseline and priority triage
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/repair-and-stabilize-master.yaml
+execution_inventory: docs/work/repair-and-stabilize-master-execution-inventory.yaml
+objective: Reconcile current System Map, runtime matrix, capability inventory, backlog,
+  and endpoint review into a ranked repair baseline.
+repair_ids:
+- ARCH-001
+- ARCH-002
+- ARCH-003
+- ARCH-004
+- ARCH-005
+- RUNTIME-STALE-QUEST-UPDATE
+entry_gate: Current System Map and runtime closeout registry are readable and all
+  pending states are preserved.
+exit_evidence: Ranked P0/P1/P2 queue with one owner source, implementation target,
+  runtime scenario, and regression target for every selected repair ID.
+tasks:
+- id: reconcile-baseline-and-priorities
+  title: Confirm P0/P1/P2 repair queue and evidence owners
+  type: analysis
+  status: done
+  inventory_item: repair-baseline-triage
+  paths:
+  - docs/repair-and-stabilize-analysis.md
+  - docs/repair-and-stabilize-preflight.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map-runtime-closeout-registry.yaml
+  - docs/capability-inventory.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  required_paths:
+  - docs/repair-and-stabilize-analysis.md
+  - docs/repair-and-stabilize-preflight.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/capability-inventory.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T11:23:53Z'
+  start_fingerprints:
+    docs/repair-and-stabilize-analysis.md: 70dbcbabf7ea83ccaf001b2b2dac0516e8a217b613f6844c76bfcc2b057f732b
+    docs/repair-and-stabilize-preflight.md: 234621a4a6af9c95a2c9f5470384bd7dd63095110a0852e60d8b2e4b58fee970
+    docs/runtime-acceptance-matrix.yaml: 20e0bab7e8af0b790cb558aef7433ae33bde0c7537bd4f2fbdb4fd49b3cc1ffa
+    docs/implementation-backlog.md: 0c6c9d7b3b841a1c0795b29dcb267cb27b5c4ba9ede9752c90ce2f56b8c3ab95
+    docs/capability-inventory.yaml: db4bfeb4981e44b9c942525c6fe42b684836694a693d729b5c938eeb5471fdf0
+    docs/endpoint-reconciliation-review.yaml: 61e4ffff9545562442233b42ef2c13ec07a87a691d6e0a9fa5e45c5d44c036ad
+evidence:
+- task: reconcile-baseline-and-priorities
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T11:25:09Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/repair-and-stabilize-analysis.md
+  - docs/repair-and-stabilize-preflight.md
+  - docs/system-map-runtime-closeout-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (41 passed, 40 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 41
+      pending runtime scenarios: 40
+      passed evidence paths checked: 37
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T11:23:53Z'
+  changedAfterStart: &1
+  - docs/repair-and-stabilize-analysis.md
+  - docs/repair-and-stabilize-preflight.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/capability-inventory.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

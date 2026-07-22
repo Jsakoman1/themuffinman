@@ -1,0 +1,25 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T12:45:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "browser_chat_message_disconnect_reconnect_resync",
+  "conversationId": 382,
+  "setup": {"circleInviteStatus": 200, "circleAcceptStatus": 200, "conversationOpenStatus": 200},
+  "onlineMessage": {"status": 200, "messageObservedInOwnerBrowser": true},
+  "disconnect": {"ownerOfflineObserved": true, "realtimeDisconnectedObserved": true},
+  "messageDuringDisconnect": {"senderStatus": 200, "messageObservedAfterReconnect": true},
+  "reconnect": {"realtimeConnectedObserved": true},
+  "authoritativeHttpSync": {
+    "status": 200,
+    "messageBodiesObserved": ["ws-before-1784717187531", "ws-during-offline-1784717187659"]
+  },
+  "result": "passed_message_reconnect_resync",
+  "limits": [
+    "single_local_instance",
+    "no_process_crash",
+    "no_multi_instance_replay",
+    "temporary_circle_and_chat_users",
+    "direct_conversation_leave_endpoint_returned_400_during_cleanup"
+  ]
+}

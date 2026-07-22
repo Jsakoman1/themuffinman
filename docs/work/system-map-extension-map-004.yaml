@@ -1,0 +1,63 @@
+kind: work
+version: 1
+id: system-map-extension-map-004
+title: Field-level data classification and deletion evidence
+status: verified
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-extension-master.yaml
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+objective: Map sensitive fields, purpose, visibility, retention, deletion paths, legal
+  or operational dependencies, and evidence of deletion outcomes without inventing
+  policy.
+deliverables:
+- docs/data-classification-registry.yaml
+- docs/system-map.md
+tasks:
+- id: build-data-classification-registry
+  title: Classify persisted and externally transmitted data fields and deletion boundaries
+  type: analysis
+  status: done
+  paths:
+  - docs/data-classification-registry.yaml
+  - docs/system-map.md
+  - docs/entity-relation-retention-registry.yaml
+  required_paths:
+  - docs/data-classification-registry.yaml
+  - docs/system-map.md
+  validation: make audit-data-workflow-impact && make audit-truth-registry && make
+    audit-docs && git diff --check
+evidence:
+- task: build-data-classification-registry
+  command: make audit-data-workflow-impact && make audit-truth-registry && make audit-docs
+    && git diff --check
+  ranAt: '2026-07-22T08:15:31Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/data-classification-registry.yaml
+  - docs/entity-relation-retention-registry.yaml
+  - docs/system-map.md
+  output: |+
+    Data and workflow impact audit passed
+      Flyway migrations: 76
+      ownership domains: 8
+      workflow coverage rows: 6
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - docs/data-classification-registry.yaml
+  - docs/system-map.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

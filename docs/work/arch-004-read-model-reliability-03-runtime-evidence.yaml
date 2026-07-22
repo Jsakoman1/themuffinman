@@ -1,0 +1,55 @@
+kind: work
+version: 1
+id: arch-004-read-model-reliability-03-runtime-evidence
+title: Define runtime read evidence queue
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-004-read-model-reliability-master.yaml
+execution_inventory: docs/work/arch-004-read-model-reliability-master-execution-inventory.yaml
+tasks:
+- id: define-runtime-read-evidence
+  title: Add runtime scenarios while preserving unknown status
+  type: analysis
+  status: done
+  inventory_item: arch-004-runtime-evidence
+  paths:
+  - docs/read-model-reliability-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/read-model-reliability-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-runtime-acceptance && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:25:51Z'
+  start_fingerprints:
+    docs/read-model-reliability-contract.yaml: 94d4b777adf95f6cc0653eed2798e5e41d27219196560f07246f54c17d80c188
+    docs/runtime-acceptance-matrix.yaml: 57b76440f6e15bcd5695e07262600467d2d22ce42b0e3cf11362f48197336cc4
+evidence:
+- task: define-runtime-read-evidence
+  command: make audit-runtime-acceptance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:26:09Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/read-model-reliability-contract.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 41 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:25:51Z'
+  changedAfterStart: &1
+  - docs/read-model-reliability-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

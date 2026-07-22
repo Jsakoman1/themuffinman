@@ -1,0 +1,83 @@
+kind: work
+version: 1
+id: repair-and-stabilize-03-side-effect-durability
+title: Repair side-effect durability and replay boundaries
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/repair-and-stabilize-master.yaml
+execution_inventory: docs/work/repair-and-stabilize-master-execution-inventory.yaml
+objective: Classify existing side effects, implement the smallest durable delivery
+  boundary where required, and preserve explicit best-effort semantics where durability
+  is not required.
+repair_ids:
+- ARCH-003
+entry_gate: Mutation operation identity and domain commit boundaries are documented
+  for each selected consumer.
+exit_evidence: Each selected side effect is classified as durable or explicitly best-effort;
+  durable paths have identity, serialized payload, consumer idempotency, retention,
+  replay, and failure evidence.
+scope_boundary: Do not implement a generic outbox before event identity, payload serialization,
+  consumer idempotency, retention, ownership, and migration scope are approved in
+  the task evidence.
+tasks:
+- id: repair-side-effect-durability
+  title: Implement durable side-effect slice and failure/replay evidence
+  type: implementation
+  status: done
+  inventory_item: repair-side-effect-durability
+  paths:
+  - apps/themuffinman/src/main/java
+  - apps/themuffinman/src/main/resources/db/migration
+  - apps/themuffinman/src/test/java
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  validation: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-runtime-acceptance
+    && make audit-capability-evidence && make audit-docs && git diff --check
+  started_at: '2026-07-22T11:39:00Z'
+  start_fingerprints:
+    docs/side-effect-delivery-contract.yaml: a132c8757df8f1642bb18715d576c3b6579e0d26133be873444e1e9a2b1d6479
+    docs/implementation-backlog.md: bf9ca5054887cf686055e3bae829e5e6924599fb3124bfd1947958d320916a70
+evidence:
+- task: repair-side-effect-durability
+  command: cd apps/themuffinman && ./mvnw test && cd ../.. && make audit-runtime-acceptance
+    && make audit-capability-evidence && make audit-docs && git diff --check
+  ranAt: '2026-07-22T11:43:27Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/side-effect-delivery-contract.yaml
+  output: |+
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time:  19.496 s
+    [INFO] Finished at: 2026-07-22T13:43:47+02:00
+    [INFO] ------------------------------------------------------------------------
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (42 passed, 39 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 42
+      pending runtime scenarios: 39
+      passed evidence paths checked: 40
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 297
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T11:39:00Z'
+  changedAfterStart: &1
+  - docs/side-effect-delivery-contract.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

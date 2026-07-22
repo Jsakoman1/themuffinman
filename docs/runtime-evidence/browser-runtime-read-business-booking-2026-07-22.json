@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-07-22T15:18:00+02:00",
+  "evidenceClass": "runtime_trace",
+  "environment": "local-dev; observability headers enabled; Chromium headless; PostgreSQL local",
+  "viewer": "test@test.com",
+  "scenario": "runtime-read-business-booking",
+  "surface": "/business/public/jsak-home-repairs",
+  "readback": {"documentStatus": 200, "heading": "Business", "offeringCount": 1, "bookingAction": "Book", "bookingFormRendered": true, "startField": "datetime-local", "requestNoteField": true},
+  "serverMeasurement": {"endpoint": "/business/public/jsak-home-repairs", "status": 200, "queryCount": 70, "requestDurationMs": 48},
+  "status": "passed",
+  "boundary": "Local dev request measurement only. Hibernate statistics are opt-in and headers are disabled by default outside the dev profile; this is not production-scale or provider-timing evidence.",
+  "secretsStored": false
+}

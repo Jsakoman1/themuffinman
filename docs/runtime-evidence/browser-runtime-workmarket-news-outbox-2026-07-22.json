@@ -1,0 +1,25 @@
+{
+  "artifact_type": "browser_runtime_durable_side_effect_repair",
+  "captured_at": "2026-07-22",
+  "environment": "local-dev",
+  "execution_surface": "playwright_chromium_browser_context",
+  "scenario": "workmarket_application_news_outbox_enqueue_dispatch_and_dedupe",
+  "fixture": {"owner": "test@test.com", "actor": "admin@sidequest.local", "quest_id": 414},
+  "sequence": [
+    {"step": "owner_login", "http_status": 200},
+    {"step": "actor_login", "http_status": 200},
+    {"step": "create_temporary_quest", "http_status": 200},
+    {"step": "apply_for_quest", "http_status": 200, "wall_time_ms": 72},
+    {"step": "owner_news_read_after_commit", "http_status": 200, "wall_time_ms_from_mutation_ms": 300, "matching_news_count": 1, "delivery_state": "DELIVERED"},
+    {"step": "cleanup_delete", "http_status": 200}
+  ],
+  "database_confirmation": {"outbox_status": "DELIVERED", "attempts": 0, "event_type": "CREATED"},
+  "result": "repair_verified",
+  "proves": [
+    "Application mutation commits with a durable outbox intent.",
+    "After-commit dispatch preserves fast news visibility while the scheduler remains recovery support.",
+    "One owner news item is produced for the application event."
+  ],
+  "limitations": ["This does not prove process-crash recovery, cross-process lease safety, alerting, retention, or production-scale behavior."],
+  "secrets_stored": false
+}

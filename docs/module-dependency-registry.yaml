@@ -1,0 +1,61 @@
+version: 1
+purpose: Source-traced backend and frontend module dependency and ownership index; it does not enforce architectural rules.
+reviewed_round: MAP-001
+evidence_class: source-trace
+confidence: medium-high
+sources: [apps/themuffinman/src/main/java/com/themuffinman/app, apps/themuffinman/frontend/src/modules, docs/system-map.md]
+modules:
+- id: common
+  owner: shared_backend
+  role: errors, events, validation, normalization, pagination, search, time, shared DTO concepts
+- id: platform
+  owner: identity_location_security_trust
+  packages: [identity, location, security, trust]
+- id: vision
+  owner: vision_domain
+  packages: [vision, semantic, prompt, agent]
+- id: work
+  owner: workmarket_domain
+  packages: [workmarket]
+- id: business
+  owner: business_domain
+  packages: [business]
+- id: chat
+  owner: chat_domain
+  packages: [chat, storage]
+- id: social
+  owner: circles_domain
+  packages: [social]
+- id: sharing
+  owner: sharing_domain
+  packages: [things, rides]
+- id: cross_module
+  owner: shared_product_surfaces
+  packages: [activity, notification, search, nativehandoff]
+- id: frontend_shell
+  owner: frontend_platform
+  packages: [apps/themuffinman/frontend/src/modules/app-shell]
+edges:
+- {from: vision, to: [common, platform, work, business, chat, social, sharing, cross_module], relationship: orchestration_and_adapters, evidence: source-trace}
+- {from: work, to: [common, platform], relationship: domain_identity_and_shared_primitives, evidence: source-trace}
+- {from: business, to: [common, platform], relationship: domain_identity_and_shared_primitives, evidence: source-trace}
+- {from: chat, to: [common, platform, storage], relationship: domain_identity_storage_and_realtime, evidence: source-trace}
+- {from: social, to: [common, platform], relationship: circle_identity_and_visibility, evidence: source-trace}
+- {from: sharing, to: [common, platform], relationship: identity_and_shared_primitives, evidence: source-trace}
+- {from: cross_module, to: [common, platform, work, chat], relationship: aggregation_and_notifications, evidence: source-trace}
+- {from: frontend_shell, to: [frontend_feature_modules, backend_api_contracts], relationship: presentation_and_api_consumption, evidence: source-trace}
+constraints:
+- id: backend_domain_services_are_authoritative
+  state: documented_constraint
+  evidence: [AGENTS.md, docs/domain-technical.md]
+- id: vision_may_orchestrate_but_not_bypass_domain_authority
+  state: documented_constraint
+  evidence: [docs/vision-architecture-patterns.md, docs/system-map.md]
+- id: package_dependency_forbidden_directions
+  state: not_enforced
+  evidence: []
+  gap: No automated package rule currently proves or rejects forbidden dependency directions.
+- id: code_ownership_enforcement
+  state: unknown
+  evidence: []
+  gap: No CODEOWNERS or equivalent repository ownership policy was evidenced.

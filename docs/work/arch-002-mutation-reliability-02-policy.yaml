@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: arch-002-mutation-reliability-02-policy
+title: Mutation operation policy and idempotency primitives
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-002-mutation-reliability-master.yaml
+execution_inventory: docs/work/arch-002-mutation-reliability-master-execution-inventory.yaml
+objective: Define operation policy metadata, payload fingerprinting, replay binding,
+  stale-resource semantics, and reusable backend primitives.
+deliverables:
+- docs/mutation-reliability-contract.yaml
+- docs/mutation-reliability-operation-policy.yaml
+tasks:
+- id: implement-operation-policy
+  title: Implement operation policy registry and reusable idempotency/version primitives
+  type: implementation
+  status: done
+  inventory_item: arch-002-policy
+  paths:
+  - docs/mutation-reliability-operation-policy.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationIdempotencyService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationOperationPolicy.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/reliability/MutationIdempotencyServiceTest.java
+  required_paths:
+  - docs/mutation-reliability-operation-policy.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationIdempotencyService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationOperationPolicy.java
+  validation: make audit-backend && make audit-tests && make audit-docs && git diff
+    --check
+  started_at: '2026-07-22T09:01:47Z'
+  start_fingerprints:
+    docs/mutation-reliability-operation-policy.yaml: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationIdempotencyService.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationOperationPolicy.java: __missing__
+evidence:
+- task: implement-operation-policy
+  command: make audit-backend && make audit-tests && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:04:19Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationIdempotencyService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationOperationPolicy.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/common/reliability/MutationIdempotencyServiceTest.java
+  - docs/mutation-reliability-operation-policy.yaml
+  output: |2+
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-contract-test-gaps.rb
+    Contract test gaps
+      endpoints scanned: 241
+      review needed: 32
+      high priority: 0
+    ruby scripts/audits/audit-test-fixture-duplication.rb
+    Test fixture duplication audit
+      tests scanned: 157
+      extraction candidates: 6
+      high setup files: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:01:47Z'
+  changedAfterStart: &1
+  - docs/mutation-reliability-operation-policy.yaml
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationIdempotencyService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/reliability/MutationOperationPolicy.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

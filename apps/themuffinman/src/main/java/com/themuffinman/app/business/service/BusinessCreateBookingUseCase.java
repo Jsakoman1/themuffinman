@@ -13,6 +13,8 @@ import com.themuffinman.app.business.model.BusinessOffering;
 import com.themuffinman.app.business.repository.BusinessBookingRepository;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.common.event.DomainEventPublisher;
+import com.themuffinman.app.common.reliability.MutationIdempotencyService;
+import com.themuffinman.app.common.reliability.MutationOperationPolicy;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,12 @@ public class BusinessCreateBookingUseCase {
     private final BusinessBookingMgr businessBookingMgr;
     private final BusinessBookingPresentationService businessBookingPresentationService;
     private final DomainEventPublisher domainEventPublisher;
+    private final MutationIdempotencyService mutationIdempotencyService;
+
+    private static final MutationOperationPolicy CUSTOMER_BOOKING_POLICY =
+            new MutationOperationPolicy("business.booking.create.customer", false, false, true);
+    private static final MutationOperationPolicy OWNER_BOOKING_POLICY =
+            new MutationOperationPolicy("business.booking.create.owner", false, false, true);
 
     @Transactional
     public com.themuffinman.app.business.dto.BusinessBookingResponseDTO createCustomerBooking(
@@ -43,8 +51,9 @@ public class BusinessCreateBookingUseCase {
         if (dto == null) {
             throw ServiceErrors.badRequest("Booking request is required");
         }
-        if (dto.getIdempotencyKey() != null && !dto.getIdempotencyKey().isBlank()) {
-            BusinessBooking existing = businessBookingRepository.findByCustomerUserIdAndIdempotencyKey(currentUser.getId(), dto.getIdempotencyKey())
+        String idempotencyKey = mutationIdempotencyService.requireKey(dto.getIdempotencyKey(), CUSTOMER_BOOKING_POLICY);
+        if (idempotencyKey != null) {
+            BusinessBooking existing = businessBookingRepository.findByCustomerUserIdAndIdempotencyKey(currentUser.getId(), idempotencyKey)
                     .orElse(null);
             if (existing != null) {
                 validateSamePayload(existing, dto.getBusinessOfferingId(), dto.getStartsAt(), dto.getEndsAt());
@@ -69,7 +78,7 @@ public class BusinessCreateBookingUseCase {
         booking.setEndsAt(dto.getEndsAt());
         booking.setTimezone(offering.getBusinessProfile().getTimezone());
         booking.setCustomerNote(dto.getCustomerNote());
-        booking.setIdempotencyKey(blankToNull(dto.getIdempotencyKey()));
+        booking.setIdempotencyKey(idempotencyKey);
         applySnapshots(booking, offering);
 
         BusinessBooking saved = businessBookingRepository.save(booking);
@@ -85,8 +94,9 @@ public class BusinessCreateBookingUseCase {
         if (dto == null) {
             throw ServiceErrors.badRequest("Owner booking request is required");
         }
-        if (dto.getIdempotencyKey() != null && !dto.getIdempotencyKey().isBlank()) {
-            BusinessBooking existing = businessBookingRepository.findByBusinessProfileOwnerIdAndIdempotencyKey(currentUser.getId(), dto.getIdempotencyKey())
+        String idempotencyKey = mutationIdempotencyService.requireKey(dto.getIdempotencyKey(), OWNER_BOOKING_POLICY);
+        if (idempotencyKey != null) {
+            BusinessBooking existing = businessBookingRepository.findByBusinessProfileOwnerIdAndIdempotencyKey(currentUser.getId(), idempotencyKey)
                     .orElse(null);
             if (existing != null) {
                 validateSamePayload(existing, dto.getBusinessOfferingId(), dto.getStartsAt(), dto.getEndsAt());
@@ -113,7 +123,7 @@ public class BusinessCreateBookingUseCase {
         booking.setEndsAt(dto.getEndsAt());
         booking.setTimezone(offering.getBusinessProfile().getTimezone());
         booking.setOwnerNote(dto.getOwnerNote());
-        booking.setIdempotencyKey(blankToNull(dto.getIdempotencyKey()));
+        booking.setIdempotencyKey(idempotencyKey);
         applySnapshots(booking, offering);
 
         BusinessBooking saved = businessBookingRepository.save(booking);

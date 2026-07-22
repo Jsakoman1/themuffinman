@@ -1,0 +1,56 @@
+kind: repair_stabilization_baseline
+version: 1
+captured_at: 2026-07-22
+master_plan: docs/work/repair-and-stabilize-master.yaml
+system_map: docs/system-map.md
+runtime:
+  passed: 41
+  pending: 40
+  evidence_paths_checked: 37
+  unsupported_pending: [database_failure, provider_failure, process_crash_replay, native_device, offline_background, production_scale]
+architecture:
+  verified_arch_masters: [ARCH-001, ARCH-002, ARCH-003, ARCH-004, ARCH-005]
+  endpoint_review_required: 62
+priority_queue:
+  p0:
+    - id: RUNTIME-STALE-QUEST-UPDATE
+      owner_source: docs/mutation-reliability-contract.yaml
+      implementation_target: /quests/{id} update service and resource-version contract
+      runtime_evidence: docs/runtime-evidence/browser-runtime-stale-quest-update-browser-finding-2026-07-22.json
+      regression_target: runtime-mutation-stale-update
+    - id: ARCH-002-MUTATION-ADOPTION
+      owner_source: docs/mutation-reliability-operation-policy.yaml
+      implementation_target: remaining retry/idempotency/stale-state module adoption
+      runtime_evidence: docs/runtime-acceptance-matrix.yaml
+      regression_target: runtime-mutation-timeout-readback
+    - id: ARCH-003-SIDE-EFFECT-DURABILITY
+      owner_source: docs/side-effect-delivery-contract.yaml
+      implementation_target: classify and durable-deliver required side effects
+      runtime_evidence: docs/runtime-acceptance-matrix.yaml
+      regression_target: runtime-mutation-side-effect-failure
+  p1:
+    - id: ARCH-004-READ-MODEL-OBSERVABILITY
+      owner_source: docs/read-model-reliability-contract.yaml
+      implementation_target: priority read query/latency/row evidence
+      runtime_evidence: docs/runtime-evidence/browser-runtime-read-models-2026-07-22.json
+      regression_target: runtime-read-business-booking
+    - id: ARCH-005-CONSENT-PARITY
+      owner_source: docs/visibility-consent-parity-contract.yaml
+      implementation_target: Web cache/fresh-read/Vision parity within supported scope
+      runtime_evidence: docs/runtime-evidence/browser-runtime-location-consent-revocation-2026-07-22.json
+      regression_target: runtime-visibility-web-vision-parity
+    - id: ARCH-001-ENDPOINT-REVIEW
+      owner_source: docs/endpoint-reconciliation-review.yaml
+      implementation_target: owner-review and capability/client/evidence linkage for 62 endpoints
+      runtime_evidence: docs/endpoint-client-evidence-registry.yaml
+      regression_target: runtime-capability-closeout
+  p2:
+    - id: REPAIR-REGRESSION-GATE
+      owner_source: docs/regression-scenario-catalog.yaml
+      implementation_target: repaired defect regression coverage and final feature-intake decision
+      runtime_evidence: docs/runtime-acceptance-matrix.yaml
+      regression_target: runtime-capability-closeout
+decisions:
+  new_unrelated_features: paused_until_exit_gate
+  unsupported_scenarios: remain_pending
+  performance_claims_without_empirical_evidence: prohibited

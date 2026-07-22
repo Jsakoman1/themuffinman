@@ -1,0 +1,29 @@
+{
+  "scenarios": ["runtime-chat-attachments", "runtime-chat-message-attach"],
+  "capabilityIds": ["chat.attachments", "chat.message.attach", "chat.message.view_attachment"],
+  "target": "/chat",
+  "environment": "local-dev-web",
+  "viewer": "test@test.com",
+  "conversationId": 382,
+  "attachmentLifecycle": {
+    "upload": {"httpStatus": 200, "uploadState": "READY_TO_SEND", "storageProvider": "local"},
+    "previewAccess": {"httpStatus": 200, "availability": "AVAILABLE"},
+    "objectRead": {"httpStatus": 200, "contentType": "text/plain", "contentPresent": true},
+    "storageStatus": {"httpStatus": 200},
+    "unavailable": {"httpStatus": 404, "storageKey": "runtime/missing/nonexistent-key"}
+  },
+  "cancelRetry": {"uploadStatus": 200, "cancelStatus": 200, "state": "CANCELLED", "repeatCancelStatus": 200},
+  "messageAttachment": {
+    "uploadId": 10,
+    "sendStatus": 200,
+    "messageId": 240,
+    "attachmentName": "runtime-message.txt",
+    "availability": "AVAILABLE",
+    "syncStatus": 200,
+    "syncMessageId": 240,
+    "readbackStatus": 200,
+    "readbackAttachmentName": "runtime-message.txt"
+  },
+  "result": "passed_upload_preview_refresh_unavailable_cancel_send_retry_sync",
+  "notes": ["The attachment message was verified through the conversation sync/read model after send.", "The local storage provider was exercised; external object-storage outage remains a separate failure-injection scenario."]
+}

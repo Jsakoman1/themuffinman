@@ -1,0 +1,16 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T12:23:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "browser_duplicate_booking_blocker_diagnosis",
+  "operation": "POST /business/bookings",
+  "attempts": [
+    {"startsAt": "2026-07-24T10:00:00Z", "status": 409, "code": "CONFLICT", "message": "Requested booking slot is not available"},
+    {"startsAt": "2026-07-25T10:00:00Z", "status": 409, "code": "CONFLICT", "message": "Requested booking slot is not available"},
+    {"startsAt": "2026-07-28T10:00:00Z", "status": 409, "code": "CONFLICT", "message": "Requested booking slot is not available"}
+  ],
+  "databaseReadOnlyFinding": "business_availability_rule and business_availability_exception contain zero rows; business_booking contains zero rows",
+  "result": "blocked_by_seeded_availability",
+  "limits": ["no_successful_creation", "no_duplicate_persistence_evidence", "idempotency_remains_pending"]
+}

@@ -1,0 +1,52 @@
+kind: work
+version: 1
+id: browser-runtime-evidence-pass-03-visibility-realtime
+title: Capture visibility and realtime browser evidence
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/browser-runtime-evidence-pass-master.yaml
+execution_inventory: docs/work/browser-runtime-evidence-pass-master-execution-inventory.yaml
+tasks:
+- id: capture-visibility-realtime-evidence
+  title: Capture consent revoke, stale-read, reconnect, and resync traces
+  type: runtime
+  status: done
+  inventory_item: browser-runtime-visibility-realtime
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  runtime_evidence_paths:
+  - docs/runtime-evidence/browser-runtime-visibility-realtime-2026-07-22.json
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  started_at: '2026-07-22T11:12:05Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: aa658a5c3b3a0c2b87be7fb78a7d60e33cb17f84ee4ca95ff8d8d80f60dbf60f
+evidence:
+- task: capture-visibility-realtime-evidence
+  command: make audit-runtime-acceptance && make audit-capability-evidence && git
+    diff --check
+  ranAt: '2026-07-22T11:12:17Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (41 passed, 40 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 41
+      pending runtime scenarios: 40
+      passed evidence paths checked: 37
+
+  startedAt: '2026-07-22T11:12:05Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/browser-runtime-visibility-realtime-2026-07-22.json

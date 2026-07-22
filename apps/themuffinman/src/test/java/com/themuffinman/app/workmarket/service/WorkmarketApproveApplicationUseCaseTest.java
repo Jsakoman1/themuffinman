@@ -1,6 +1,5 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.common.event.DomainEventPublisher;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.model.Quest;
 import com.themuffinman.app.workmarket.model.QuestApplication;
@@ -28,12 +27,12 @@ class WorkmarketApproveApplicationUseCaseTest {
     @Mock
     private WorkmarketQuestRepository questRepository;
     @Mock
-    private DomainEventPublisher domainEventPublisher;
+    private WorkmarketApplicationNewsPublisher applicationNewsPublisher;
 
     @Test
     void fillingFinalSlotKeepsOtherPendingApplicantsAvailableForReplacement() {
         WorkmarketApproveApplicationUseCase useCase = new WorkmarketApproveApplicationUseCase(
-                workflowSupport, applicationRepository, questRepository, domainEventPublisher
+                workflowSupport, applicationRepository, questRepository, applicationNewsPublisher
         );
         AppUser owner = user(1L, "owner");
         Quest quest = quest(10L, QuestStatus.OPEN, 1);
@@ -52,7 +51,7 @@ class WorkmarketApproveApplicationUseCaseTest {
         assertEquals(QuestApplicationStatus.PENDING, pendingReplacement.getStatus());
         assertEquals(QuestStatus.ASSIGNED, quest.getStatus());
         verify(applicationRepository, never()).saveAll(org.mockito.ArgumentMatchers.anyList());
-        verify(domainEventPublisher).publish(org.mockito.ArgumentMatchers.any());
+        verify(applicationNewsPublisher).publish(com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEvent.Type.APPROVED, approved, owner);
     }
 
     private Quest quest(Long id, QuestStatus status, int target) {

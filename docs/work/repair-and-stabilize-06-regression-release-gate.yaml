@@ -1,0 +1,86 @@
+kind: work
+version: 1
+id: repair-and-stabilize-06-regression-release-gate
+title: Run stabilization regression and feature-intake gate
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/repair-and-stabilize-master.yaml
+execution_inventory: docs/work/repair-and-stabilize-master-execution-inventory.yaml
+objective: Re-run repaired runtime scenarios, reconcile all authoritative registries,
+  and decide whether the system is ready for new feature intake.
+repair_ids:
+- ARCH-001
+- ARCH-002
+- ARCH-003
+- ARCH-004
+- ARCH-005
+- RUNTIME-STALE-QUEST-UPDATE
+entry_gate: All prior child plans are verified and their pending/unknown evidence
+  states are current.
+exit_evidence: Regression catalog, runtime matrix, backlog, capability inventory,
+  System Map registry, and final audits agree; feature intake decision names remaining
+  external blockers.
+tasks:
+- id: run-stabilization-closeout
+  title: Execute regression catalog, audits, and final repair readiness report
+  type: verification
+  status: done
+  inventory_item: repair-regression-release-gate
+  paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map-runtime-closeout-registry.yaml
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map-runtime-closeout-registry.yaml
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T11:50:22Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 0d557c2fbfcd2d50ed613c3722d565207b45bb0ff14167dcb232f162f240be45
+    docs/implementation-backlog.md: 1c1da28ad66d6c11d9f2c59983bfe2aa58cce3b4ebc9ef682739c5861806910e
+    docs/system-map-runtime-closeout-registry.yaml: 95c9e1952aa6102c5cce670c8524d6d498ca92b20f22084999ab0c8e6d0fa91e
+evidence:
+- task: run-stabilization-closeout
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T11:52:28Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/system-map-runtime-closeout-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (42 passed, 39 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 42
+      pending runtime scenarios: 39
+      passed evidence paths checked: 40
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 297
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T11:50:22Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/system-map-runtime-closeout-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

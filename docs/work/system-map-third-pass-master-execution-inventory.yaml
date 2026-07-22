@@ -1,0 +1,85 @@
+kind: execution_inventory
+version: 1
+id: system-map-third-pass-master-execution-inventory
+master_plan: docs/work/system-map-third-pass-master.yaml
+serial_task_execution: true
+purpose: Ordered queue for the third system-map analysis pass.
+items:
+- id: request-persistence-flow
+  sequence: 1
+  plan: docs/work/system-map-third-pass-round-14.yaml
+  task: analyze-request-to-persistence-flows
+  closeout: Representative read and mutation flows are traced from client entry through
+    controller, service, repository, transaction, and response.
+  status: verified
+  started_at: '2026-07-22T06:45:15Z'
+  verified_at: '2026-07-22T06:48:13Z'
+  evidence:
+    plan: docs/work/system-map-third-pass-round-14.yaml
+    task: analyze-request-to-persistence-flows
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: event-side-effect-graph
+  sequence: 2
+  plan: docs/work/system-map-third-pass-round-15.yaml
+  task: analyze-events-notifications-and-async-side-effects
+  closeout: Domain events, notifications, activity, WebSocket effects, jobs, and failure
+    semantics are mapped.
+  status: verified
+  started_at: '2026-07-22T06:48:25Z'
+  verified_at: '2026-07-22T06:49:28Z'
+  evidence:
+    plan: docs/work/system-map-third-pass-round-15.yaml
+    task: analyze-events-notifications-and-async-side-effects
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: read-model-query-graph
+  sequence: 3
+  plan: docs/work/system-map-third-pass-round-16.yaml
+  task: analyze-read-models-query-shapes-and-performance
+  closeout: Read surfaces, fetch strategies, pagination, projections, caches, and
+    likely performance hotspots are classified.
+  status: verified
+  started_at: '2026-07-22T06:49:47Z'
+  verified_at: '2026-07-22T06:50:34Z'
+  evidence:
+    plan: docs/work/system-map-third-pass-round-16.yaml
+    task: analyze-read-models-query-shapes-and-performance
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: failure-recovery-graph
+  sequence: 4
+  plan: docs/work/system-map-third-pass-round-17.yaml
+  task: analyze-failure-recovery-and-boundary-cases
+  closeout: Validation, stale state, provider failure, retries, idempotency, concurrency,
+    and recovery paths are mapped.
+  status: verified
+  started_at: '2026-07-22T06:50:43Z'
+  verified_at: '2026-07-22T06:52:29Z'
+  evidence:
+    plan: docs/work/system-map-third-pass-round-17.yaml
+    task: analyze-failure-recovery-and-boundary-cases
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: cross-client-parity-graph
+  sequence: 5
+  plan: docs/work/system-map-third-pass-round-18.yaml
+  task: analyze-cross-client-parity-and-contract-readiness
+  closeout: Web, Vision, native handoff, admin, and future device consumers are compared
+    against shared capability contracts.
+  status: verified
+  started_at: '2026-07-22T06:52:40Z'
+  verified_at: '2026-07-22T06:53:58Z'
+  evidence:
+    plan: docs/work/system-map-third-pass-round-18.yaml
+    task: analyze-cross-client-parity-and-contract-readiness
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: architecture-risk-register
+  sequence: 6
+  plan: docs/work/system-map-third-pass-round-19.yaml
+  task: build-architecture-risk-and-decision-register
+  closeout: Evidence-backed risks, architectural decisions, ownership, impact, and
+    next investigation slices are consolidated.
+  status: verified
+  started_at: '2026-07-22T06:54:14Z'
+  verified_at: '2026-07-22T06:55:50Z'
+  evidence:
+    plan: docs/work/system-map-third-pass-round-19.yaml
+    task: build-architecture-risk-and-decision-register
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

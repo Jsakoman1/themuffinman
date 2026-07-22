@@ -1,0 +1,32 @@
+version: 1
+id: arch-004-read-model-reliability-contract
+status: evidence_contract_with_partial_workmarket_measurement
+reviewed_round: ARCH-004
+analysis_source: docs/arch-004-read-model-reliability-analysis.md
+authorities:
+  dto_assembly: service_level_read_model_service
+  authorization: backend_domain_service_and_viewer_scope
+  persistence: repository_fetch_contract
+evidence_required:
+  static: [endpoint, service, repository_methods, mapper, transaction_boundary, viewer_scope]
+  runtime: [environment, revision, dataset_shape, sample_count, query_count, query_timing, request_latency, row_volume, outcome]
+rules:
+- Do not treat a repository risk score as a runtime regression.
+- Do not return an entity beyond its transaction boundary when a DTO can be assembled in the service.
+- Audit sibling read surfaces when changing a mapper or fetch graph.
+- Keep authorization and visibility in backend-owned read assembly.
+- Do not claim scale, latency, cache, or N+1 guarantees without fresh runtime evidence.
+priority_surfaces:
+- {id: business_booking_reads, evidence_source: docs/performance-evidence-catalog.yaml, status: runtime_pending}
+- {id: chat_conversation_sync, evidence_source: docs/performance-evidence-catalog.yaml, status: runtime_pending}
+- {id: workmarket_read_models, evidence_source: docs/performance-evidence-catalog.yaml, status: partial_runtime_measurement}
+- {id: social_visibility_reads, evidence_source: docs/performance-evidence-catalog.yaml, status: runtime_pending}
+- {id: vision_context_assembly, evidence_source: docs/performance-evidence-catalog.yaml, status: runtime_pending}
+static_audit_reconciliation:
+  repository_fetch_high_risk_count: 14
+  repository_fetch_medium_risk_count: 24
+  interpretation: prioritization_only
+  next_action: collect runtime query and latency traces for priority surfaces
+runtime_scenarios:
+  status: pending_runtime
+  scenarios: [runtime-read-business-booking, runtime-read-chat-sync, runtime-read-work-discovery, runtime-read-social-visibility, runtime-read-vision-context]

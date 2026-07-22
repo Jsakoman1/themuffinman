@@ -1,0 +1,67 @@
+kind: work
+version: 1
+id: system-map-extension-map-001
+title: Module dependency direction and code ownership map
+status: verified
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-extension-master.yaml
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+objective: Map actual backend package and frontend module dependencies, ownership
+  boundaries, allowed directions, forbidden coupling, and extraction seams.
+deliverables:
+- docs/module-dependency-registry.yaml
+- docs/system-map.md
+tasks:
+- id: build-module-dependency-registry
+  title: Inspect imports, package ownership, shared infrastructure, and dependency
+    direction
+  type: analysis
+  status: done
+  paths:
+  - docs/module-dependency-registry.yaml
+  - docs/system-map.md
+  - apps/themuffinman/src/main/java
+  - apps/themuffinman/frontend/src
+  required_paths:
+  - docs/module-dependency-registry.yaml
+  - docs/system-map.md
+  validation: make audit-backend && make audit-frontend && make audit-docs && git
+    diff --check
+evidence:
+- task: build-module-dependency-registry
+  command: make audit-backend && make audit-frontend && make audit-docs && git diff
+    --check
+  ranAt: '2026-07-22T08:11:25Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/module-dependency-registry.yaml
+  - docs/system-map.md
+  output: |2+
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - docs/module-dependency-registry.yaml
+  - docs/system-map.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

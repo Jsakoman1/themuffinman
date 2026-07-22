@@ -1,0 +1,39 @@
+version: 1
+purpose: Build, dependency, generated-artifact, and release provenance index.
+reviewed_round: 31
+build_paths:
+- id: backend
+  source: apps/themuffinman/pom.xml
+  commands: ["./mvnw test", "./mvnw package", "./mvnw spring-boot:run"]
+  runtime: java_21
+  lock_or_resolution: maven_dependency_resolution
+- id: frontend
+  source: apps/themuffinman/frontend/package.json
+  lockfile: apps/themuffinman/frontend/package-lock.json
+  commands: ["npm run type-check", "npm run build", "npm run dev"]
+  runtime: node_version_not_pinned_in_repository
+- id: generated_frontend_contract
+  source: apps/themuffinman/frontend/scripts/generate-vision-contracts.mjs
+  input: backend_supported_dto_sources
+  output: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  validation: "npm --prefix apps/themuffinman/frontend run validate:contracts"
+  rule: generated_output_is_not_manual_authority
+- id: work_plan_verification
+  source: scripts/verify-work.rb
+  commands: ["make work-start", "make work-verify"]
+  output: verifier_evidence_in_owning_yaml_plan
+dependencies:
+  backend_families: [spring_boot, spring_security, spring_data_jpa, websocket, flyway, postgresql, caffeine, jjwt, aws_s3]
+  frontend_families: [vue, vite, typescript, vue_router, axios, playwright, tiptap]
+  confidence: source-trace
+release_provenance:
+  repository_visible_ci: absent
+  repository_visible_containerization: absent
+  repository_visible_deployment_manifest: absent
+  repository_visible_rollback_automation: absent
+  interpretation: unknown_not_absent_in_external_environment
+required_future_evidence: [ci_workflow, dependency_update_policy, vulnerability_scanning, artifact_provenance, environment_promotion, release_approval, rollback_runbook]
+rules:
+- build_success_does_not_prove_release_or_deployment
+- lockfile_presence_does_not_prove_dependency_update_policy
+- generated_contract_changes_require_source_and_generator_review

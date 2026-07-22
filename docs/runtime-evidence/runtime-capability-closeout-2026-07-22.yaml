@@ -1,0 +1,29 @@
+kind: runtime_capability_closeout
+version: 1
+captured_at: '2026-07-22T16:15:00+02:00'
+matrix: docs/runtime-acceptance-matrix.yaml
+evidence_registry: docs/capability-evidence-registry.yaml
+pending_triage: docs/runtime-evidence/browser-runtime-pending-scenario-triage-2026-07-22.yaml
+audit:
+  command: make audit-runtime-acceptance
+  passed: 65
+  pending_runtime: 16
+  result: passed
+  pending_classification: complete
+  unclassified_pending: 0
+passed_evidence:
+  freshness_audit: make audit-capability-evidence
+  evidence_paths_checked: 60
+  runtime_rows_with_evidence: 65
+pending_evidence_boundaries:
+  native_device: [runtime-mobile-presentation, runtime-watch-presentation, runtime-cross-client-contract, runtime-visibility-native-handoff, runtime-visibility-device-revoke]
+  deterministic_failure_injection: [runtime-mutation-timeout-readback, runtime-mutation-provider-failure-correlation, runtime-mutation-side-effect-failure, runtime-side-effect-no-precommit-news, runtime-side-effect-rollback-no-news, runtime-side-effect-after-commit-failure, runtime-side-effect-duplicate-consumer-delivery]
+  process_crash: [runtime-side-effect-replay-after-process-crash]
+  vision_provider_and_timing: [runtime-vision-execution, runtime-read-vision-context]
+  vision_cross_surface_parity: [runtime-visibility-web-vision-parity]
+  next_pass_required: true
+closeout_status: passed_with_explicit_pending_boundaries
+notes:
+  - Passed means evidence-backed runtime behavior, not universal capability completeness.
+  - Pending rows remain pending because their required external, device, provider, process, or failure-injection evidence is not available in the current Web/local environment.
+  - No pending row is unclassified or silently treated as passed.

@@ -70,6 +70,8 @@ const username = computed(() => currentUser.value?.username ?? "there")
 const questionBlock = computed(() => props.displayBlocks.find((block) => block.type === "field_request") ?? null)
 const activeFlowLabel = computed(() => props.activeEntityContextLabel.trim() || props.activeEntityFamilyLabel.trim())
 const hasMoreResults = computed(() => props.displayBlocks.some((block) => block.questDiscovery?.hasMore || block.searchDiscovery?.hasMore))
+const questRecoveryAction = computed(() => props.displayBlocks.find((block) => block.questDiscovery?.recoveryAction)?.questDiscovery?.recoveryAction ?? null)
+const questRecoveryLabel = computed(() => questRecoveryAction.value === "ENTER_QUERY" ? "Enter a search" : "Try another search")
 
 const runtimeActionLabel = computed(() => props.runtimeContext?.primaryActionLabel ?? "Ready")
 const runtimeDensityLabel = computed(() => props.runtimeContext?.density ?? "inspect")
@@ -106,7 +108,7 @@ const terminalRows = computed<TerminalRow[]>(() => props.displayBlocks.flatMap<T
         item.scheduledAt ?? ""
       ].filter(isNonEmptyText).join(" · "),
       actionValue: item.title,
-      routeTo: resolveVisionEntityRoute("quest", item.questId),
+      routeTo: {path: `/work/quests/${item.questId}`, query: {returnTo: "/vision"}},
       routeLabel: "Open detail"
     }))
   }
@@ -222,6 +224,11 @@ const submitFromInput = () => {
     return
   }
   emit("submit")
+}
+
+const recoverQuestDiscovery = () => {
+  emit("update:inputText", "")
+  nextTick(() => textareaRef.value?.focus())
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
@@ -373,6 +380,7 @@ onMounted(() => {
         </div>
 
         <button v-if="hasMoreResults" type="button" class="vision-console__more" @click="emit('fetchMore')">Show more</button>
+        <button v-if="questRecoveryAction" type="button" class="vision-console__recovery" @click="recoverQuestDiscovery">{{ questRecoveryLabel }}</button>
       </div>
 
       <div v-if="props.error" class="vision-console__error-actions">

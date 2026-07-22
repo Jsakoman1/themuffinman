@@ -1,0 +1,44 @@
+extension_review: docs/observability-performance-extension-review.yaml
+version: 1
+purpose: Required measurement catalog for performance claims; contains no measured results.
+reviewed_round: 26
+static_signal:
+  source: scripts/audits/audit-repository-fetch.rb
+  high_risk_methods: 14
+  medium_risk_methods: 24
+  interpretation: prioritization_only
+measurements:
+- id: business_booking_read_paths
+  owner: business
+  candidates: [BusinessBookingRepository.findDetailedByCustomerUserId, BusinessBookingRepository.findDetailedByOwnerId, BusinessBookingRepository.findDetailedByOwnerIdAndStartsAtBetween]
+  required_metrics: [query_count, sql_timing, row_count, request_latency, concurrent_booking_outcome]
+  evidence_class: unknown
+- id: chat_conversation_sync
+  owner: chat
+  candidates: [detailed_conversation_load, message_page_load, reconnect_sync]
+  required_metrics: [query_count, page_row_count, request_latency, websocket_resync_timing]
+  evidence_class: unknown
+- id: workmarket_read_models
+  owner: workmarket
+  candidates: [quest_discovery, quest_detail, applications, dashboard]
+  required_metrics: [query_count, pagination_latency, result_size, viewer_role]
+  evidence_class: partial_runtime_measurement
+  latest_evidence: docs/runtime-evidence/browser-runtime-read-model-measurement-2026-07-22.json
+  measured: [request_latency, response_bytes, result_size, viewer_role]
+  unmeasured: [query_count, sql_timing, database_row_volume]
+- id: social_visibility_reads
+  owner: social
+  candidates: [circle_relationship, profile_view, discovery]
+  required_metrics: [query_count, authorization_outcome, result_size]
+  evidence_class: unknown
+- id: vision_context_assembly
+  owner: vision
+  candidates: [conversation_load, turn_execution, memory_assembly]
+  required_metrics: [db_time, provider_time, response_assembly_time, request_correlation]
+  evidence_class: unknown
+trace_requirements: [dataset_shape, viewer_role, operation, query_count, wall_time, row_volume, cache_state, provider_participation, environment]
+rules:
+- static_fetch_risk_is_not_a_measured_regression
+- no_scale_or_latency_claim_without_fresh_trace
+- performance_measurement_requires_a_dedicated_runtime_plan
+reconciled_arch_004: true

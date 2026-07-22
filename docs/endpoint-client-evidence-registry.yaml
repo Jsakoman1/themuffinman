@@ -1,0 +1,40 @@
+version: 1
+id: arch-001-endpoint-client-evidence-registry
+purpose: Canonical cross-reference from endpoint families to capabilities, clients, authorities, and evidence.
+status: source_traced_runtime_partial
+baseline_reviewed: ARCH-001
+reviewed_round: ARCH-001
+diagnostic_sources:
+  canonical_registry: docs/endpoint-client-evidence-registry.yaml
+  interface_reconciliation: docs/audit-output/interface-evidence-reconciliation.json
+  endpoint_callsite_linker: docs/audit-output/endpoint-callsite-linker.json
+  capability_inventory: docs/capability-inventory.yaml
+  client_surfaces: docs/client-surface-registry.yaml
+  runtime_matrix: docs/runtime-acceptance-matrix.yaml
+  endpoint_review_queue: docs/endpoint-reconciliation-review.yaml
+baseline:
+  backend_endpoints: 214
+  web_source_linked: 140
+  admin_or_agent: 4
+  native_handoff: 3
+  unclassified_non_web: 67
+  interpretation: static_reconciliation_not_runtime_proof
+families:
+- {id: platform, capability_prefixes: [platform.], endpoint_families: [/auth, /app_users, /profile, /location, /onboarding, /personal-shortcuts, /trust], owner: identity_or_location, consumers: [web, vision, admin], protocol_classes: [rest, provider_boundary], authority: docs/permission-visibility-matrix.yaml, tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, native_status: contract_only, coverage: partially_evidenced}
+- {id: workmarket, capability_prefixes: [work.], endpoint_families: [/quests, /applications, /dashboard, /quest-news, /reviews], owner: workmarket, consumers: [web, vision, admin], protocol_classes: [rest, in_process_event], authority: docs/permission-visibility-matrix.yaml, tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, native_status: not_defined, coverage: partially_evidenced}
+- {id: business, capability_prefixes: [business.], endpoint_families: [/business], owner: business, consumers: [web, vision], protocol_classes: [rest, in_process_event], authority: docs/permission-visibility-matrix.yaml, tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, native_status: not_defined, coverage: partially_evidenced}
+- {id: chat_social, capability_prefixes: [chat., circles.], endpoint_families: [/chat, /circles], owner: chat_or_social, consumers: [web, vision, admin], protocol_classes: [rest, websocket], authority: docs/permission-visibility-matrix.yaml, tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, native_status: not_defined, coverage: partially_evidenced}
+- {id: sharing, capability_prefixes: [things., rides.], endpoint_families: [/things, /rides], owner: things_or_rides, consumers: [web, vision], protocol_classes: [rest, in_process_event], authority: docs/permission-visibility-matrix.yaml, tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, native_status: not_defined, coverage: partially_evidenced}
+- {id: vision_native, capability_prefixes: [vision., cross_module.], endpoint_families: [/vision, /guided-intake, /search, /native, /workspace, /activity, /notifications], owner: vision_or_platform, consumers: [web, vision, native_handoff, admin], protocol_classes: [rest, semantic_contract, native_handoff], authority: docs/visibility-consent-parity-contract.yaml, tests: [docs/regression-scenario-catalog.yaml], runtime: docs/runtime-acceptance-matrix.yaml, native_status: native_contract_only, coverage: partially_evidenced}
+rules:
+- capability_inventory_remains_status_authority
+- diagnostic_endpoint_links_do_not_prove_runtime_completion
+- unclassified_non_web_requires_explicit_review
+- native_handoff_contract_does_not_prove_native_implementation
+- family_registry_must_reference_specialized_canonical_sources
+- specialized_registries_remain_authoritative_for_their_own_fact_class
+closeout:
+  registry_integrity: pending_verification
+  runtime_completeness: not_claimed
+  native_completeness: not_claimed
+  remaining_review_queue: [unclassified_non_web, pending_runtime_scenarios, native_contract_only]

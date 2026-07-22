@@ -17,6 +17,8 @@ public interface WorkmarketQuestNewsRepository extends JpaRepository<QuestNewsIt
 
     Optional<QuestNewsItem> findByIdAndRecipientUserId(Long id, Long recipientUserId);
 
+    boolean existsByDeliveryKey(String deliveryKey);
+
     long countByRecipientUserIdAndReadAtIsNull(Long recipientUserId);
 
     @Modifying

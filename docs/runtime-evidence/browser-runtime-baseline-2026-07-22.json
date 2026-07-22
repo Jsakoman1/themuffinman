@@ -1,0 +1,24 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T11:56:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "workspace-owned local dev stack; Chromium headless; PostgreSQL local; local object storage",
+  "actions": ["open_login", "login_as_seeded_test_user", "open_home", "open_work", "open_chat"],
+  "routes": ["/login", "/home", "/work", "/chat"],
+  "observed": ["login_redirected_to_home", "workspace_shell_rendered", "work_surface_rendered", "chat_surface_rendered"],
+  "apiResponses": {
+    "successful": 28,
+    "failed": 0,
+    "notable": ["/auth/login", "/auth/me", "/workspace/navigation", "/quests/presets/AVAILABLE", "/chat/conversations"]
+  },
+  "notProven": [
+    "mutation_idempotency_or_retry",
+    "side_effect_failure_or_rollback",
+    "consent_revocation",
+    "websocket_disconnect_and_resync",
+    "query_count_or_latency_measurement",
+    "provider_failure",
+    "database_failure",
+    "native_or_device_behavior"
+  ]
+}

@@ -1,0 +1,75 @@
+kind: work
+version: 1
+id: drift-003-data-workflow-impact
+title: Data and workflow impact integrity audit
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+objective: Implement DRIFT-003 by validating migration naming, data ownership registry
+  source references, and workflow coverage ownership metadata without inferring runtime
+  schema or workflow completion.
+scope:
+- scripts/audits
+- docs/data-ownership-registry.yaml
+- docs/workflow-invariant-coverage.yaml
+- docs/system-drift-control-registry.yaml
+- docs/implementation-backlog.md
+- Makefile
+- docs/implementation-control.md
+- docs/audits.md
+tasks:
+- id: implement-data-workflow-impact-audit
+  title: Implement data and workflow impact integrity audit
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-data-workflow-impact.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  required_paths:
+  - scripts/audits/audit-data-workflow-impact.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  validation: make audit-data-workflow-impact && make audit-docs && git diff --check
+evidence:
+- task: implement-data-workflow-impact-audit
+  command: make audit-data-workflow-impact && make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:34:14Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/audits.md
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/system-drift-control-registry.yaml
+  - scripts/audits/audit-data-workflow-impact.rb
+  output: |+
+    Data and workflow impact audit passed
+      Flyway migrations: 76
+      ownership domains: 8
+      workflow coverage rows: 6
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  requiredPaths:
+  - scripts/audits/audit-data-workflow-impact.rb
+  - Makefile
+  - docs/system-drift-control-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  - docs/audits.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

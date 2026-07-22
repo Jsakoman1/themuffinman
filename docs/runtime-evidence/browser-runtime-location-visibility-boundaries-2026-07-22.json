@@ -1,0 +1,17 @@
+{
+  "scenario": "runtime-location-visibility",
+  "capabilityIds": ["platform.location", "circles.visibility"],
+  "target": "/profile",
+  "environment": "local-dev-web",
+  "owner": "test@test.com",
+  "viewer": "admin@sidequest.local",
+  "temporaryCircleId": 185,
+  "actions": ["set_public", "fresh_viewer_read", "set_circle", "fresh_viewer_read", "set_private", "fresh_viewer_read", "restore_and_cleanup"],
+  "rows": {
+    "public": {"mode": "EXACT", "resolutionStatus": "RESOLVED", "hasCoordinates": true, "visibilitySummary": "Exact address shared with you", "streetVisible": "Runtime Street"},
+    "circle": {"mode": "EXACT", "resolutionStatus": "RESOLVED", "hasCoordinates": true, "visibilitySummary": "Exact address shared with you", "streetVisible": "Runtime Street", "relation": "CIRCLE"},
+    "private": {"mode": "APPROXIMATE", "resolutionStatus": "RESOLVED", "hasCoordinates": true, "visibilitySummary": "Approximate area only", "streetVisible": null, "coordinatesVisible": false}
+  },
+  "result": "passed_web_public_circle_private_boundary",
+  "notes": ["Temporary circle and owner settings were restored/removed after readback.", "This proves the web boundary only; Vision/native parity remains separately pending."]
+}

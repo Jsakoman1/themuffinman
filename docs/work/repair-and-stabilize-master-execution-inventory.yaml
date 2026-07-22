@@ -1,0 +1,91 @@
+kind: execution_inventory
+version: 1
+id: repair-and-stabilize-master-execution-inventory
+master_plan: docs/work/repair-and-stabilize-master.yaml
+serial_task_execution: true
+purpose: Ordered repair and stabilization queue; capability completion remains separate
+  from plan verification.
+items:
+- id: repair-baseline-triage
+  sequence: 1
+  plan: docs/work/repair-and-stabilize-01-baseline-triage.yaml
+  task: reconcile-baseline-and-priorities
+  depends_on: []
+  output: verified_repair_baseline
+  status: verified
+  started_at: '2026-07-22T11:23:53Z'
+  verified_at: '2026-07-22T11:25:14Z'
+  evidence:
+    plan: docs/work/repair-and-stabilize-01-baseline-triage.yaml
+    task: reconcile-baseline-and-priorities
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: repair-mutation-correctness
+  sequence: 2
+  plan: docs/work/repair-and-stabilize-02-mutation-correctness.yaml
+  task: repair-mutation-correctness
+  depends_on:
+  - repair-baseline-triage
+  output: mutation_correctness_repairs_and_evidence
+  status: verified
+  started_at: '2026-07-22T11:25:45Z'
+  verified_at: '2026-07-22T11:38:31Z'
+  evidence:
+    plan: docs/work/repair-and-stabilize-02-mutation-correctness.yaml
+    task: repair-mutation-correctness
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: repair-side-effect-durability
+  sequence: 3
+  plan: docs/work/repair-and-stabilize-03-side-effect-durability.yaml
+  task: repair-side-effect-durability
+  depends_on:
+  - repair-mutation-correctness
+  output: side_effect_durability_and_replay_boundary
+  status: verified
+  started_at: '2026-07-22T11:39:00Z'
+  verified_at: '2026-07-22T11:43:51Z'
+  evidence:
+    plan: docs/work/repair-and-stabilize-03-side-effect-durability.yaml
+    task: repair-side-effect-durability
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: repair-read-model-observability
+  sequence: 4
+  plan: docs/work/repair-and-stabilize-04-read-model-observability.yaml
+  task: repair-read-model-observability
+  depends_on:
+  - repair-side-effect-durability
+  output: empirical_read_model_evidence
+  status: verified
+  started_at: '2026-07-22T11:44:09Z'
+  verified_at: '2026-07-22T11:46:48Z'
+  evidence:
+    plan: docs/work/repair-and-stabilize-04-read-model-observability.yaml
+    task: repair-read-model-observability
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: repair-consent-client-parity
+  sequence: 5
+  plan: docs/work/repair-and-stabilize-05-consent-client-parity.yaml
+  task: repair-consent-client-parity
+  depends_on:
+  - repair-read-model-observability
+  output: supported_web_consent_parity
+  status: verified
+  started_at: '2026-07-22T11:47:00Z'
+  verified_at: '2026-07-22T11:50:09Z'
+  evidence:
+    plan: docs/work/repair-and-stabilize-05-consent-client-parity.yaml
+    task: repair-consent-client-parity
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: repair-regression-release-gate
+  sequence: 6
+  plan: docs/work/repair-and-stabilize-06-regression-release-gate.yaml
+  task: run-stabilization-closeout
+  depends_on:
+  - repair-consent-client-parity
+  output: stabilization_closeout_and_feature-intake-decision
+  status: verified
+  started_at: '2026-07-22T11:50:22Z'
+  verified_at: '2026-07-22T11:52:33Z'
+  evidence:
+    plan: docs/work/repair-and-stabilize-06-regression-release-gate.yaml
+    task: run-stabilization-closeout
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

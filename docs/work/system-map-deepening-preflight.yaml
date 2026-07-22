@@ -1,0 +1,61 @@
+kind: work
+version: 1
+id: system-map-deepening-preflight
+title: Preflight for system-map deepening program
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+objective: Validate the post-program repository, canonical-source graph, generated
+  artifacts, audit health, and plan queue before starting system-map deepening rounds
+  8–13.
+master_plan: docs/work/system-map-deepening-master.yaml
+deliverables:
+- docs/system-map-deepening-preflight.md
+tasks:
+- id: run-system-map-deepening-preflight
+  title: Run detailed system-map deepening preflight
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-deepening-preflight.md
+  required_paths:
+  - docs/system-map-deepening-preflight.md
+  validation: make audit-plan-coverage && make audit-work-plan-recursion && make audit-target-capability-catalog
+    && make audit-inventory-freshness && make audit-runtime-acceptance && npm --prefix
+    apps/themuffinman/frontend run validate:contracts && git diff --check
+evidence:
+- task: run-system-map-deepening-preflight
+  command: make audit-plan-coverage && make audit-work-plan-recursion && make audit-target-capability-catalog
+    && make audit-inventory-freshness && make audit-runtime-acceptance && npm --prefix
+    apps/themuffinman/frontend run validate:contracts && git diff --check
+  ranAt: '2026-07-22T06:25:16Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-deepening-preflight.md
+  output: |+
+    Plan coverage audit passed (0 open inventory plans).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-target-capability-catalog.rb
+    Target capability catalog audit passed (123 capabilities, 8 modules, 152 inventory IDs available).
+    Inventory freshness audit passed
+      modules: 8
+      capabilities: 152
+      statuses: {"implemented"=>143, "partial"=>2, "planned"=>2, "verified"=>5}
+      declared gaps: 140
+      evidence-bearing capabilities: 72
+      evidence paths checked: 138
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+
+    > frontend@0.0.0 validate:contracts
+    > node ./scripts/generate-vision-contracts.mjs --check
+
+    Generated frontend contract is fresh.
+
+  requiredPaths:
+  - docs/system-map-deepening-preflight.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

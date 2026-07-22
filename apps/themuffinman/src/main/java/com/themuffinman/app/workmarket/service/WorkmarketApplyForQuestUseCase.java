@@ -1,6 +1,5 @@
 package com.themuffinman.app.workmarket.service;
 
-import com.themuffinman.app.common.event.DomainEventPublisher;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.workmarket.dto.QuestApplicationRequestDTO;
 import com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEvent;
@@ -18,7 +17,7 @@ public class WorkmarketApplyForQuestUseCase {
     private final WorkmarketQuestApplicationWorkflowSupport workflowSupport;
     private final WorkmarketQuestApplicationRepository questApplicationRepository;
     private final WorkmarketQuestApplicationMgr questApplicationMgr;
-    private final DomainEventPublisher domainEventPublisher;
+    private final WorkmarketApplicationNewsPublisher applicationNewsPublisher;
 
     public QuestApplication execute(Long questId, QuestApplicationRequestDTO dto, AppUser currentUser) {
         Quest quest = workflowSupport.requireVisibleOpenQuest(questId, currentUser);
@@ -28,12 +27,7 @@ public class WorkmarketApplyForQuestUseCase {
 
         QuestApplication application = questApplicationMgr.toEntity(dto, quest, currentUser);
         QuestApplication savedApplication = questApplicationRepository.save(application);
-        domainEventPublisher.publish(new WorkmarketQuestApplicationNewsEvent(
-                WorkmarketQuestApplicationNewsEvent.Type.CREATED,
-                quest,
-                savedApplication,
-                currentUser
-        ));
+        applicationNewsPublisher.publish(WorkmarketQuestApplicationNewsEvent.Type.CREATED, savedApplication, currentUser);
         return savedApplication;
     }
 }

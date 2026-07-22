@@ -854,6 +854,9 @@ const resolveSurfaceData = async (surfaceId: AppSurfaceId, route: RouteLocationN
     case "profile":
     case "profile-settings":
       return loadProfileData(surfaceId)
+    case "notifications":
+    case "activity":
+      return {metrics: [], sections: []}
     default:
       return {metrics: [], sections: []}
   }

@@ -1,0 +1,28 @@
+kind: master
+version: 1
+id: system-map-truth-runtime-closeout-master
+title: System Map truth and runtime closeout
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-truth-runtime-closeout-master-execution-inventory.yaml
+objective: Reconcile canonical map truth and consolidate remaining runtime and enforcement
+  gaps without claiming unsupported proof.
+analysis_source: docs/system-map-truth-runtime-closeout.md
+registry_source: docs/system-map-runtime-closeout-registry.yaml
+children:
+- docs/work/system-map-truth-runtime-closeout-01-truth.yaml
+- docs/work/system-map-truth-runtime-closeout-02-gaps.yaml
+- docs/work/system-map-truth-runtime-closeout-03-verification.yaml
+rules:
+- System Map navigation does not own capability status.
+- Runtime evidence must remain fresh and artifact-backed.
+- Unknown and pending states remain explicit.
+evidence:
+- verifiedAt: '2026-07-22T09:48:41Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/system-map-truth-runtime-closeout-01-truth.yaml
+  - docs/work/system-map-truth-runtime-closeout-02-gaps.yaml
+  - docs/work/system-map-truth-runtime-closeout-03-verification.yaml

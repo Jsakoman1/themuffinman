@@ -1,0 +1,72 @@
+version: 1
+purpose: Interface relationship index. Detailed per-endpoint source links remain in docs/audit-output/endpoint-callsite-linker.json and are diagnostic, not status authority.
+reviewed_round: 21
+source_inventory:
+  backend_controller_files: 39
+  backend_endpoints: 214
+  frontend_client_methods: 194
+  statically_linked_endpoints: 140
+  statically_unlinked_endpoints: 74
+  linker: scripts/audits/audit-endpoint-callsite-linker.rb
+  reconciliation_audit: scripts/audits/audit-interface-evidence-reconciliation.rb
+reconciliation_classes:
+- web_source_linked: A frontend API callsite was statically linked; this is not usability or runtime proof.
+- admin_or_agent: The endpoint is protected admin or agent scope and is not expected to be a normal-user Web consumer.
+- native_handoff: The endpoint supports handoff contract scope; this is not native implementation proof.
+- unclassified_non_web: No direct Web source link was found and no narrow scope rule classified the endpoint; retain for review.
+consumer_classes:
+- id: web
+  owner: frontend-app-shell
+  required_evidence: [frontend_api_call, reachable_route_or_action]
+  runtime_proof_required: true
+- id: vision
+  owner: vision-backend-contract
+  required_evidence: [semantic_or_execution_contract, backend_authorization]
+  runtime_proof_required: true
+- id: admin
+  owner: protected-admin-boundary
+  required_evidence: [admin_authorization, admin_consumer_or_test]
+  runtime_proof_required: true
+- id: native_handoff
+  owner: native-handoff-contract
+  required_evidence: [handoff_contract, backend_endpoint]
+  runtime_proof_required: true
+- id: server_only
+  owner: backend-domain
+  required_evidence: [service_or_job_or_provider_call_path]
+  runtime_proof_required: false
+- id: unknown
+  owner: architecture-follow-up
+  required_evidence: [classification_decision]
+  runtime_proof_required: false
+domain_boundaries:
+- domain: platform_identity_location_trust
+  controllers: [AppUserController, AuthController, OnboardingProgressController, PersonalShortcutController, ProfileGalleryController, LocationLookupController, SafetyReportController]
+  expected_consumers: [web, vision, admin]
+  confidence: source-trace
+- domain: workmarket_activity_search_notifications
+  controllers: [QuestController, QuestApplicationController, QuestNewsController, DashboardController, UserReviewController, ActivityController, WorkspaceCommandController, WorkspaceNavigationController, SavedSearchIntentController, AttentionCenterController, NotificationPreferenceController]
+  expected_consumers: [web, vision, admin]
+  confidence: source-trace
+- domain: business
+  controllers: [BusinessAvailabilityController, BusinessBookingController, BusinessBookingPolicyController, BusinessFavoriteController, BusinessGalleryController, BusinessOfferingController, BusinessOwnerDashboardController, BusinessProfileController, BusinessPublicController]
+  expected_consumers: [web, vision, admin]
+  confidence: source-trace
+- domain: chat_social
+  controllers: [ChatController, ChatAdminController, CircleController]
+  expected_consumers: [web, vision, admin]
+  confidence: source-trace
+- domain: sharing_rides
+  controllers: [ThingSharingController, RideOfferController, CommutePreferenceController]
+  expected_consumers: [web, vision]
+  confidence: source-trace
+- domain: vision_native_agent
+  controllers: [VisionConversationController, GuidedIntakeController, UniversalSearchController, NativeHandoffController, AdminAgentController]
+  expected_consumers: [web, vision, native_handoff, admin]
+  confidence: source-trace
+evidence_rules:
+- endpoint_link_does_not_prove_discoverability_or_runtime_completion
+- unlinked_endpoint_requires_classification_not_automatic_defect_status
+- reconciliation_class_does_not_promote_capability_or_runtime_status
+- generated_dto_contract_is_derived_from_backend_source_and_generator
+- native_handoff_contract_is_not_native_client_implementation_proof

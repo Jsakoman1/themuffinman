@@ -1,0 +1,39 @@
+kind: runtime_pending_batch_evidence
+version: 1
+scenario_batch: worker-attachment-visibility
+captured_at: '2026-07-22T15:36:00+02:00'
+environment: local-dev-web
+matrix_audit:
+  command: make audit-runtime-acceptance
+  passed: 53
+  pending_runtime: 28
+  result: passed
+observed:
+  - id: runtime-location-consent-revocation-web
+    status: passed
+    evidence: docs/runtime-evidence/browser-runtime-location-consent-revocation-2026-07-22.json
+    boundary: Fresh web cross-viewer read and revoke redaction are proven; circle and Vision/native parity are not inferred.
+  - id: runtime-chat-attachments
+    status: pending_runtime
+    boundary: Existing upload/send/access traces do not prove the pending preview/refresh/unavailable contract as one fresh trace.
+  - id: runtime-work-workers
+    status: pending_runtime
+    boundary: Existing assignment lifecycle does not prove replacement-candidate and stale-version conflict branches.
+  - id: runtime-read-social-visibility
+    status: pending_runtime
+    boundary: No fresh per-viewer server timing/row-volume trace was promoted; authenticated fixture credentials for a second controlled probe were unavailable in this pass.
+controls_not_claimed:
+  - failure_injection
+  - process_crash_replay
+  - native_device_offline
+  - provider_failure
+  - circle_boundary_without_circle_fixture
+next_fixture_requirements:
+  - two reproducible authenticated users with known credentials
+  - seeded circle membership and profile/location visibility variants
+  - seeded worker replacement and stale-version fixture
+  - storage attachment with preview, refresh, unavailable, and retry control
+  - deterministic notification/realtime event producer and readback
+notes:
+  - This artifact records evidence boundaries, not capability failures.
+  - Do not promote a matrix row from pending_runtime until its row-specific trace exists.

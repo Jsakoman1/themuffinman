@@ -1,0 +1,17 @@
+{
+  "scenario": "runtime-chat-view-attachment",
+  "capabilityIds": ["chat.message.view_attachment"],
+  "target": "/chat",
+  "environment": "local-dev-web",
+  "viewer": "test@test.com",
+  "conversationId": 382,
+  "actions": ["open", "refresh", "expired", "unavailable", "restore_fixture"],
+  "trace": {
+    "authorizedMessageObject": {"httpStatus": 200, "contentType": "text/plain", "contentPresent": true},
+    "authorizedRefresh": {"httpStatus": 200, "attachmentAvailability": "AVAILABLE"},
+    "expiredUnconsumedUpload": {"httpStatus": 200, "attachmentAvailability": "EXPIRED", "attachmentUrl": null, "attachmentStorageProvider": null},
+    "unavailableStorageKey": {"httpStatus": 404},
+    "fixtureRestore": {"restored": true}
+  },
+  "result": "passed_authorized_open_refresh_expired_unavailable"
+}

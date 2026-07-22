@@ -1,0 +1,19 @@
+{
+  "scenario": "runtime-read-vision-context",
+  "capabilityIds": ["vision.execution"],
+  "target": "/vision",
+  "environment": "local-dev-web",
+  "viewer": "test@test.com",
+  "actions": ["load_context", "execute", "read_back"],
+  "trace": {
+    "turn": {"httpStatus": 200, "conversationId": 563, "turnId": 1470, "intent": "VIEW_PROFILE", "queryCount": 71, "durationMs": 1311},
+    "recentConversations": {"httpStatus": 200, "queryCount": 6, "durationMs": 4, "rowVolume": 5},
+    "conversationReadBack": {"httpStatus": 200, "queryCount": 22, "durationMs": 13, "turnId": 1470},
+    "runtimeContext": {"contractVersion": "vision-shell-v1", "correlationId": "vision-turn:1470", "redactions": ["private_profile_fields", "exact_location_without_viewer_consent"], "resumeAvailable": true, "watchFriendly": true, "visibleFields": ["title", "status", "next_action"]},
+    "webAction": {"contractVersion": "vision-web-action-v2", "action": "NAVIGATE_TO_SURFACE", "routeKey": "profile.index", "canonicalPath": "/profile", "returnContext": "/work"}
+  },
+  "status": "partial_runtime_pending",
+  "not_proven": ["separate_provider_duration_ms", "provider_failure_boundary", "execution_side_effect_timing"],
+  "blocker": "The ordinary runtime observability contract exposes aggregate request/query timing but does not expose a separate provider-versus-context-assembly timing trace for this Vision turn.",
+  "required_next_evidence": ["provider_duration_ms", "assembly_duration_ms", "provider_outcome", "domain_readback"]
+}

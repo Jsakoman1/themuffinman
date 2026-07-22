@@ -1,0 +1,57 @@
+kind: work
+version: 1
+id: arch-005-visibility-consent-parity-03-client-evidence
+title: Define browser and device parity evidence
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-005-visibility-consent-parity-master.yaml
+execution_inventory: docs/work/arch-005-visibility-consent-parity-master-execution-inventory.yaml
+tasks:
+- id: define-client-parity-evidence
+  title: Add web
+  Vision: 
+  and native evidence scenarios with honest status: 
+  type: analysis
+  status: done
+  inventory_item: arch-005-client-evidence
+  paths:
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-runtime-acceptance && make audit-docs && git diff --check
+  started_at: '2026-07-22T09:30:31Z'
+  start_fingerprints:
+    docs/visibility-consent-parity-contract.yaml: 7fe28d4703e1bb40f46ae33417f5c618f9370ab40c4955bf7a0380751c03ae08
+    docs/runtime-acceptance-matrix.yaml: db5b02b9ce50331addef134d34faa73a4346f18085620dcbd905fcf7610abe56
+evidence:
+- task: define-client-parity-evidence
+  command: make audit-runtime-acceptance && make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:30:52Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/visibility-consent-parity-contract.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 44 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:30:31Z'
+  changedAfterStart: &1
+  - docs/visibility-consent-parity-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

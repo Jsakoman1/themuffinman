@@ -1,0 +1,64 @@
+kind: work
+version: 1
+id: arch-001-endpoint-client-evidence-02-reconciliation
+title: Reconcile specialized evidence registries
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-001-endpoint-client-evidence-master.yaml
+execution_inventory: docs/work/arch-001-endpoint-client-evidence-master-execution-inventory.yaml
+tasks:
+- id: reconcile-specialized-registries
+  title: Link capability
+  client: 
+  interface: 
+  permission: 
+  and runtime authorities: 
+  type: analysis
+  status: done
+  inventory_item: arch-001-reconciliation
+  paths:
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  required_paths:
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  validation: make audit-interface-evidence && make audit-truth-registry && git diff
+    --check
+  started_at: '2026-07-22T09:36:13Z'
+  start_fingerprints:
+    docs/endpoint-client-evidence-registry.yaml: 3e82d684fee01be72b50638451c3e31e53d8d1d6a4775faa2cd9ab309fd8289b
+    docs/capability-evidence-registry.yaml: 9242184b3d302bd33f3736df66828e97ec9216f4ae1c91b6378578448d6843c4
+evidence:
+- task: reconcile-specialized-registries
+  command: make audit-interface-evidence && make audit-truth-registry && git diff
+    --check
+  ranAt: '2026-07-22T09:36:31Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  output: |+
+    Interface evidence reconciliation audit passed
+      endpoints classified: 214
+      admin_or_agent: 4
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 140
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+
+  startedAt: '2026-07-22T09:36:13Z'
+  changedAfterStart: &1
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

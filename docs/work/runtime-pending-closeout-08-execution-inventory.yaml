@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-closeout-08-execution-inventory
+master_plan: docs/work/runtime-pending-closeout-08.yaml
+serial_task_execution: true
+items:
+- id: chat-attachment-view-expiry
+  sequence: 1
+  plan: docs/work/runtime-pending-closeout-08.yaml
+  task: execute-chat-attachment-view-expiry
+  depends_on: []
+  output: chat-attachment-view-expiry-evidence
+  status: verified
+  started_at: '2026-07-22T14:00:50Z'
+  verified_at: '2026-07-22T14:01:25Z'
+  evidence:
+    plan: docs/work/runtime-pending-closeout-08.yaml
+    task: execute-chat-attachment-view-expiry
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

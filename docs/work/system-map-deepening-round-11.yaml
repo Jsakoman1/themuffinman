@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: system-map-deepening-round-11
+title: Security, privacy, and consent boundaries
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-deepening-master-execution-inventory.yaml
+master_plan: docs/work/system-map-deepening-master.yaml
+objective: Map authentication, authorization, profile/location/circle consent, data
+  retention, secrets, abuse controls, and threat boundaries across modules and clients.
+scope:
+- apps/themuffinman/src/main/java/com/themuffinman/app/security
+- apps/themuffinman/src/main/java/com/themuffinman/app/identity
+- apps/themuffinman/src/main/java/com/themuffinman/app/location
+- apps/themuffinman/src/main/java/com/themuffinman/app/social
+- apps/themuffinman/src/main/java/com/themuffinman/app/config
+- docs/business-logic.md
+- docs/domain-technical.md
+- docs/cross-module-visibility-acceptance.yaml
+- docs/agent-operating-model.yaml
+deliverables:
+- docs/system-map-deepening-round-11-security-privacy-consent.md
+tasks:
+- id: analyze-security-privacy-and-consent
+  title: Analyze security, privacy, and consent
+  inventory_item: security-privacy-consent
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-deepening-round-11-security-privacy-consent.md
+  required_paths:
+  - docs/system-map-deepening-round-11-security-privacy-consent.md
+  validation: make audit-agent-safety && make audit-runtime-acceptance && make audit-docs
+  started_at: '2026-07-22T06:33:15Z'
+  start_fingerprints:
+    docs/system-map-deepening-round-11-security-privacy-consent.md: __missing__
+evidence:
+- task: analyze-security-privacy-and-consent
+  command: make audit-agent-safety && make audit-runtime-acceptance && make audit-docs
+  ranAt: '2026-07-22T06:34:20Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/system-map-deepening-round-11-security-privacy-consent.md
+  output: |+
+    dist/assets/SurfaceHeader-CxTeMtu2.js                         18.04 kB │ gzip:   5.40 kB
+    dist/assets/ProfileLocationSettingsView-CSlOxheW.js           20.82 kB │ gzip:   6.58 kB
+    dist/assets/VisionSurfaceModernView-BZdQhMvg.js               22.17 kB │ gzip:   6.90 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CPCn3T-O.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BQQsUF4I.js                                 51.22 kB │ gzip:  13.04 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 552ms
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 292
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T06:33:15Z'
+  changedAfterStart: &1
+  - docs/system-map-deepening-round-11-security-privacy-consent.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,67 @@
+version: 1
+id: arch-003-side-effect-delivery-contract
+purpose: Define commit, durability, replay, and transport semantics for application side effects.
+status: implemented_boundary_partial_adoption
+source_analysis: docs/arch-003-side-effect-delivery-analysis.md
+semantics:
+  after_commit:
+    use_for: [in_process_database_audit, in_process_database_news]
+    guarantee: listener_is_not_invoked_before_successful_commit_when_transaction_is_active
+    durability: none
+    crash_recovery: not_guaranteed
+  outbox:
+    use_for: [durable_external_delivery, guaranteed_replay, cross_process_consumers]
+    status: implemented_for_workmarket_application_news
+    implementation: docs/durable-application-news-outbox-implementation.md
+    durable_payload: [event_id, event_type, application_id, actor_user_id]
+    retry: bounded_backoff_with_failed_status
+    lease: persisted_processing_status_with_60_second_expiry
+    operator_replay: POST /admin/operations/workmarket-news-outbox/{eventId}/replay
+    operations_evidence: docs/runtime-evidence/browser-runtime-workmarket-news-outbox-operations-2026-07-22.json
+    consumer_idempotency: quest_news_item.delivery_key
+    retention: pending_operational_policy
+    runtime_evidence: docs/runtime-evidence/browser-runtime-workmarket-news-outbox-2026-07-22.json
+    prerequisites: [stable_event_id, serializable_payload, consumer_idempotency, retention_policy]
+  websocket:
+    use_for: [best_effort_realtime_hint]
+    authoritative_recovery: persisted_state_and_http_resync
+    replay: not_event_replay
+  scheduled:
+    use_for: [retention_cleanup, memory_compaction]
+    required_future_controls: [run_id, lease_or_overlap_policy, outcome, failure_alert, replay_reference]
+    deployed_proof: unknown
+adoption:
+  shared_domain_event_publisher: implemented_after_commit_registration
+  business_booking_handlers: pending_payload_and_listener_audit
+  workmarket_news_handlers: durable_outbox_and_consumer_dedupe_implemented; lease_and_typed_retention_implemented; crash_runtime_proof_and_alerting_still_pending
+  password_recovery_direct_publisher: uncovered_direct_path
+  chat_realtime_direct_calls: best_effort_direct_path
+consumer_audit:
+  completed: partial
+  blocking_questions:
+  - Are all event payload relations initialized before commit?
+  - Are all audit/news writes idempotent under an eventual replay? Workmarket application news now has a unique delivery key; other consumers remain open.
+  - Which direct ApplicationEventPublisher paths are domain side effects versus framework notifications?
+scheduled_operations:
+  source_registry: docs/job-replay-operations-registry.yaml
+  implementation_status: not_started
+  no_production_guarantee: true
+evidence:
+  source_trace: true
+  runtime_commit_boundary: pending
+  crash_recovery: pending
+  replay: unit_source_and_operator_control_verified_for_workmarket_application_news; process_crash_runtime_pending
+  consumer_dedupe_unit: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsServiceTest.java
+  scheduler_operations: pending
+runtime_acceptance:
+  scenarios:
+  - runtime-side-effect-no-precommit-news
+  - runtime-side-effect-rollback-no-news
+  - runtime-side-effect-after-commit-failure
+  - runtime-side-effect-replay-after-process-crash
+  - runtime-side-effect-duplicate-consumer-delivery
+  interpretation: Pending scenarios test commit ordering and replay gaps; they do not become passing from source inspection.
+rules:
+  - Never call websocket delivery the source of truth for committed state.
+  - Never claim outbox or replay guarantees without a durable ledger and evidence.
+  - Do not publish detached-entity lazy access as safe after commit without an explicit audit.

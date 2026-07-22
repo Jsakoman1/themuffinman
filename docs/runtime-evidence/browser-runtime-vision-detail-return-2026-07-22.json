@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-07-22T15:22:00+02:00",
+  "scenario": "runtime-vision-detail",
+  "authentication": {"login": "POST /auth/login", "status": 200, "role": "USER"},
+  "actions": [
+    {"action": "open_detail", "source": "/vision", "query": "find quests for kitchen tap", "href": "/work/quests/402?returnTo=/vision", "documentStatus": 200},
+    {"action": "return_to_vision", "control": "Back to Vision", "result": "/vision", "promptVisible": true}
+  ],
+  "browserErrors": [],
+  "failedApiResponses": [],
+  "status": "passed",
+  "finding": "Vision quest detail links now carry an explicit safe return context and the Work detail surface renders a Back to Vision action."
+}

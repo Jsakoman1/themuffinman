@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: maintenance-outbox-operations-execution-inventory
+master_plan: docs/work/maintenance-outbox-operations.yaml
+serial_task_execution: true
+items:
+- id: outbox-operations
+  sequence: 1
+  plan: docs/work/maintenance-outbox-operations.yaml
+  task: harden-outbox-operations
+  depends_on: []
+  output: leased_retryable_operator_replayable_outbox
+  status: verified
+  started_at: '2026-07-22T12:14:39Z'
+  verified_at: '2026-07-22T12:25:09Z'
+  evidence:
+    plan: docs/work/maintenance-outbox-operations.yaml
+    task: harden-outbox-operations
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

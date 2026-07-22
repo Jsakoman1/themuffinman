@@ -1,0 +1,19 @@
+kind: execution_inventory
+version: 1
+id: runtime-pending-closeout-07-execution-inventory
+master_plan: docs/work/runtime-pending-closeout-07.yaml
+serial_task_execution: true
+items:
+- id: chat-attachment-lifecycle
+  sequence: 1
+  plan: docs/work/runtime-pending-closeout-07.yaml
+  task: execute-chat-attachment-lifecycle
+  depends_on: []
+  output: chat-attachment-lifecycle-evidence
+  status: verified
+  started_at: '2026-07-22T13:56:47Z'
+  verified_at: '2026-07-22T13:57:26Z'
+  evidence:
+    plan: docs/work/runtime-pending-closeout-07.yaml
+    task: execute-chat-attachment-lifecycle
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

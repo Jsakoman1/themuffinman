@@ -1,0 +1,16 @@
+{
+  "evidenceClass": "browser_trace",
+  "capturedAt": "2026-07-22T12:10:00+02:00",
+  "revision": "ec8d3d6",
+  "environment": "workspace-owned local dev stack; Chromium headless; PostgreSQL local",
+  "scenario": "profile_visibility_mutation_and_readback",
+  "route": "/profile/settings",
+  "before": "PUBLIC",
+  "temporaryMutation": "PRIVATE",
+  "afterReload": "PRIVATE",
+  "afterRestoreReload": "PUBLIC",
+  "failedResponses": 0,
+  "result": "passed",
+  "interpretation": "The seeded test user's profile description visibility persisted through reload and was restored to its original value.",
+  "notProven": ["second_viewer_denial", "Vision_parity", "consent_revocation_across_cached_clients"]
+}

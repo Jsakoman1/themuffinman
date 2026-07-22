@@ -1,0 +1,41 @@
+kind: repair_stabilization_closeout
+version: 1
+captured_at: 2026-07-22
+master_plan: docs/work/repair-and-stabilize-master.yaml
+status: verified_with_explicit_pending_gaps
+child_plans_verified:
+  - docs/work/repair-and-stabilize-01-baseline-triage.yaml
+  - docs/work/repair-and-stabilize-02-mutation-correctness.yaml
+  - docs/work/repair-and-stabilize-03-side-effect-durability.yaml
+  - docs/work/repair-and-stabilize-04-read-model-observability.yaml
+  - docs/work/repair-and-stabilize-05-consent-client-parity.yaml
+  - docs/work/repair-and-stabilize-06-regression-release-gate.yaml
+verified_repairs:
+  - id: RUNTIME-STALE-QUEST-UPDATE
+    evidence: docs/runtime-evidence/browser-runtime-stale-quest-update-repaired-2026-07-22.json
+    result: HTTP_409_STALE_RESOURCE_and_first_writer_preserved
+  - id: ARCH-003-CONSUMER-DEDUPE
+    evidence: apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestNewsServiceTest.java
+    result: application_news_duplicate_delivery_does_not_insert_duplicate_row
+  - id: ARCH-004-READ-MODEL-MEASUREMENT
+    evidence: docs/runtime-evidence/browser-runtime-read-model-measurement-2026-07-22.json
+    result: partial_latency_and_payload_measurement; query_and_sql_timing_uninstrumented
+  - id: ARCH-005-WEB-CONSENT-REVOCATION
+    evidence: docs/runtime-evidence/browser-runtime-location-consent-revocation-2026-07-22.json
+    result: fresh_viewer_read_redacted_after_revoke
+regression_gate:
+  backend_tests: {status: passed, tests: 787, failures: 0, errors: 0}
+  frontend_type_check: passed
+  runtime_acceptance: {passed: 42, pending: 39}
+  audits: [audit-runtime-acceptance, audit-capability-evidence, audit-truth-registry, audit-docs, git-diff-check]
+feature_intake_decision:
+  status: maintenance_only
+  rationale: Existing repair evidence is materially stronger, but durable crash replay, provider/database failure injection, Vision/cache/reconnect consent parity, native/device/offline behavior, and production-scale measurements remain open.
+  allowed: repair_and_regression_work_from_repair_and_stabilize_master
+  not_allowed: unrelated_new_product_features
+pending_external_or_unmeasured:
+  - durable_outbox_and_process_crash_replay
+  - provider_and_database_failure_injection
+  - Vision_cache_and_reconnect_consent_parity
+  - native_device_offline_background_behavior
+  - production_scale_and_sql_query_measurement

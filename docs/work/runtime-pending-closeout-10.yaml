@@ -1,0 +1,73 @@
+kind: work
+version: 1
+id: runtime-pending-closeout-10
+title: Close Chat leave owner transfer and stale recovery runtime scenario
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/runtime-pending-closeout.yaml
+execution_inventory: docs/work/runtime-pending-closeout-10-execution-inventory.yaml
+objective: Execute fresh three-user Chat group owner leave, replacement-owner transfer,
+  stale repeat, refresh state, and minimum-membership recovery evidence.
+scope: runtime-chat-leave and its runtime evidence/matrix/backlog records
+out_of_scope:
+- native device implementation
+- process-crash or production deployment exercises
+tasks:
+- id: execute-chat-leave-owner-transfer
+  title: Execute Chat leave, owner transfer, stale recovery, and refresh
+  type: verification
+  status: done
+  inventory_item: chat-leave-owner-transfer
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/chat
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence
+  required_paths:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  started_at: '2026-07-22T14:04:49Z'
+  start_fingerprints:
+    docs/runtime-acceptance-matrix.yaml: 1bc7d789f514bbf5dd50e995bbca1ed3c27999b6d4c61e69c9402782f4d2b14c
+    docs/implementation-backlog.md: 5cc958b19cccf45fecaf7abcf1d905b224ae4ed136cdf3b4805e0685ec9767e9
+evidence:
+- task: execute-chat-leave-owner-transfer
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-truth-registry && make audit-docs && git diff --check
+  ranAt: '2026-07-22T14:05:20Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (63 passed, 18 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 63
+      pending runtime scenarios: 18
+      passed evidence paths checked: 59
+    Truth registry integrity audit passed
+      fact classes: 11
+      canonical and derived paths checked: 21
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 299
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T14:04:49Z'
+  changedAfterStart: &1
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,67 @@
+kind: master
+version: 1
+id: system-map-operational-expansion-master
+title: System map operational traceability and observability expansion
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-operational-expansion-master-execution-inventory.yaml
+objective: 'Extend the verified system map from cross-cutting ownership registries
+  into operational feature navigation: endpoint-to-capability traceability, entity
+  relations, permission and visibility matrices, runtime observability evidence, release
+  operations proof, and generated change-impact reporting.'
+completed_prerequisites:
+- docs/system-map-operational-expansion-preflight.md
+- docs/system-map.md
+- docs/system-truth-registry.yaml
+- docs/interface-evidence-registry.yaml
+- docs/data-ownership-registry.yaml
+- docs/workflow-invariant-coverage.yaml
+- docs/capability-evidence-registry.yaml
+- docs/security-operations-recovery-registry.yaml
+- docs/delivery-dependency-registry.yaml
+- docs/system-drift-control-registry.yaml
+analysis_protocol:
+  evidence_classes:
+  - source-trace
+  - validated-contract
+  - runtime-proof
+  - inferred-risk
+  - unknown
+  required_row_fields:
+  - owner
+  - source_links
+  - evidence_class
+  - confidence
+  - last_reviewed_round
+  rules:
+  - Registries index relationships and do not replace capability, plan, or runtime
+    status.
+  - Static inspection may not be reported as runtime, device, production, or operational
+    proof.
+  - Every unknown external or native fact stays explicit rather than inferred absent.
+  - Every finding updates a canonical source, a registry row, or a stable backlog
+    ID.
+readiness_criteria:
+- Every inventory item declares dependencies and a machine-readable output or implementation
+  path.
+- The final generated report consumes registries but never promotes completion status.
+- Runtime and release evidence remain separate from source and contract evidence.
+children:
+- docs/work/system-map-operational-expansion-round-32.yaml
+- docs/work/system-map-operational-expansion-round-33.yaml
+- docs/work/system-map-operational-expansion-round-34.yaml
+- docs/work/system-map-operational-expansion-round-35.yaml
+- docs/work/system-map-operational-expansion-round-36.yaml
+- docs/work/system-map-operational-expansion-round-37.yaml
+evidence:
+- verifiedAt: '2026-07-22T07:51:03Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/system-map-operational-expansion-round-32.yaml
+  - docs/work/system-map-operational-expansion-round-33.yaml
+  - docs/work/system-map-operational-expansion-round-34.yaml
+  - docs/work/system-map-operational-expansion-round-35.yaml
+  - docs/work/system-map-operational-expansion-round-36.yaml
+  - docs/work/system-map-operational-expansion-round-37.yaml

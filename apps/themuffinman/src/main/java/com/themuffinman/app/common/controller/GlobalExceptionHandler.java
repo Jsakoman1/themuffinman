@@ -3,6 +3,7 @@ package com.themuffinman.app.common.controller;
 import com.themuffinman.app.dto.ApiErrorResponseDTO;
 import com.themuffinman.app.dto.ApiFieldErrorDTO;
 import com.themuffinman.app.common.errors.CodedResponseStatusException;
+import com.themuffinman.app.common.request.MutationRequestContext;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ConstraintViolation;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +29,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleResponseStatusException(ResponseStatusException ex) {
         HttpStatus status = HttpStatus.valueOf(ex.getStatusCode().value());
         String code = ex instanceof CodedResponseStatusException coded ? coded.getCode() : status.name();
-        return buildResponse(status, code, resolveMessage(ex.getReason(), status.getReasonPhrase()), List.of());
+        return buildResponse(status, code, resolveMessage(ex.getReason(), status.getReasonPhrase()), List.of(), null);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -41,7 +42,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                         .build())
                 .toList();
 
-        return buildResponse(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR", "Validation failed", fieldErrors);
+        return buildResponse(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR", "Validation failed", fieldErrors, null);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                         .build())
                 .toList();
 
-        return buildResponse(HttpStatus.valueOf(status.value()), "VALIDATION_ERROR", "Validation failed", fieldErrors);
+        return buildResponse(HttpStatus.valueOf(status.value()), "VALIDATION_ERROR", "Validation failed", fieldErrors, null);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .field(ex.getParameterName())
                 .code("REQUIRED")
                 .message(ex.getMessage())
-                .build()));
+                .build()), null);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatusCode status,
             WebRequest request
     ) {
-        return buildResponse(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "Malformed request body", List.of());
+        return buildResponse(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "Malformed request body", List.of(), null);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .field(fieldName)
                 .code("TYPE_MISMATCH")
                 .message(resolveMessage(ex.getMessage(), "Invalid request"))
-                .build()));
+                .build()), null);
     }
 
     @Override
@@ -120,12 +121,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status,
             String code,
             String message,
-            List<ApiFieldErrorDTO> fieldErrors
+            List<ApiFieldErrorDTO> fieldErrors,
+            Boolean retryable
     ) {
         return ResponseEntity.status(status).body((Object) ApiErrorResponseDTO.builder()
                 .code(code)
                 .message(message)
                 .fieldErrors(fieldErrors)
+                .correlationId(MutationRequestContext.correlationId())
+                .operationKey(MutationRequestContext.operationKey())
+                .retryable(retryable)
                 .build());
     }
 

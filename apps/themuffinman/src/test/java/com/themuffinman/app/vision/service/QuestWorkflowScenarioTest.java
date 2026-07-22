@@ -112,6 +112,7 @@ class QuestWorkflowScenarioTest {
                 quest.getId(),
                 QuestRequestDTO.builder()
                         .title(quest.getTitle())
+                        .resourceVersion(quest.getVersion())
                         .description(quest.getDescription())
                         .awardAmount(quest.getAwardAmount())
                         .scheduledAt(updatedStart)
@@ -147,6 +148,7 @@ class QuestWorkflowScenarioTest {
                 quest.getId(),
                 QuestRequestDTO.builder()
                         .title(quest.getTitle())
+                        .resourceVersion(quest.getVersion())
                         .description(quest.getDescription())
                         .awardAmount(quest.getAwardAmount())
                         .scheduledAt(updatedStart)

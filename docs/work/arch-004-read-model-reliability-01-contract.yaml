@@ -1,0 +1,53 @@
+kind: work
+version: 1
+id: arch-004-read-model-reliability-01-contract
+title: Establish read-model reliability contract
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/arch-004-read-model-reliability-master.yaml
+execution_inventory: docs/work/arch-004-read-model-reliability-master-execution-inventory.yaml
+tasks:
+- id: establish-read-model-contract
+  title: Write canonical read-model authority and evidence rules
+  type: analysis
+  status: done
+  inventory_item: arch-004-contract
+  paths:
+  - docs/arch-004-read-model-reliability-analysis.md
+  - docs/read-model-reliability-contract.yaml
+  required_paths:
+  - docs/arch-004-read-model-reliability-analysis.md
+  - docs/read-model-reliability-contract.yaml
+  validation: make audit-docs && git diff --check
+  started_at: '2026-07-22T09:25:00Z'
+  start_fingerprints:
+    docs/arch-004-read-model-reliability-analysis.md: 85e67a8073aa38c06dce41529bea72162a4b4001ee6cef56c6665709ed2d8295
+    docs/read-model-reliability-contract.yaml: a6fa6b0587b975d2249159c15f67691afab75d4a4c6c6808ec566263960640b6
+evidence:
+- task: establish-read-model-contract
+  command: make audit-docs && git diff --check
+  ranAt: '2026-07-22T09:25:22Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/arch-004-read-model-reliability-analysis.md
+  - docs/read-model-reliability-contract.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 295
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T09:25:00Z'
+  changedAfterStart: &1
+  - docs/arch-004-read-model-reliability-analysis.md
+  - docs/read-model-reliability-contract.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

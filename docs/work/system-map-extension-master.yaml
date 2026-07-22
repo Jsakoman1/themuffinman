@@ -1,0 +1,101 @@
+kind: master
+version: 1
+id: system-map-extension-master
+title: System Map completeness and architecture extensions
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-extension-master-execution-inventory.yaml
+objective: Extend the current System Map across the nine remaining partial or unknown
+  dimensions while preserving canonical ownership, evidence-class separation, and
+  explicit unknown boundaries.
+source_baseline: docs/system-map-completeness-review.md
+coverage_source: docs/system-map-coverage-registry.yaml
+preflight: docs/system-map-extension-preflight.md
+protocol:
+  evidence_classes:
+  - source-trace
+  - validated-contract
+  - runtime-proof
+  - inferred-risk
+  - unknown
+  coverage_states:
+  - mapped
+  - partial
+  - unknown
+  rules:
+  - New registries index relationships and do not replace product, domain, capability,
+    plan, or runtime sources.
+  - Static source inspection cannot be promoted to runtime, device, production, or
+    operational proof.
+  - External unknowns stay unknown until supplied by an environment or exercised operation.
+  - Every child updates the coverage registry and either closes or refines its MAP
+    follow-up.
+  - Every discovered implementation gap receives a stable backlog ID before closeout.
+children:
+- docs/work/system-map-extension-map-001.yaml
+- docs/work/system-map-extension-map-002.yaml
+- docs/work/system-map-extension-map-003.yaml
+- docs/work/system-map-extension-map-004.yaml
+- docs/work/system-map-extension-map-005.yaml
+- docs/work/system-map-extension-map-006.yaml
+- docs/work/system-map-extension-map-007.yaml
+- docs/work/system-map-extension-map-008.yaml
+- docs/work/system-map-extension-map-009.yaml
+deliverables:
+- docs/system-map-extension-final-baseline.md
+- docs/system-map.md
+- docs/system-map-coverage-registry.yaml
+- docs/work/system-map-extension-master-execution-inventory.yaml
+readiness_criteria:
+- Every extension has an owner, source links, output registry or report, evidence
+  class, and explicit gap state.
+- The coverage registry remains the single index of mapped, partial, and unknown dimensions.
+- No child plan claims completion solely from an audit report.
+- Cross-cutting changes update System Map navigation and affected living documentation.
+- Every child plan has required output paths and a verifier-compatible validation
+  command.
+- External blockers are recorded as explicit unknown evidence with a stable follow-up
+  ID.
+tasks:
+- id: consolidate-extension-baseline
+  title: Consolidate all extension registries and final coverage state
+  type: analysis
+  status: in_progress
+  paths:
+  - docs/system-map-extension-final-baseline.md
+  - docs/system-map.md
+  - docs/system-map-coverage-registry.yaml
+  - docs/work/system-map-extension-master-execution-inventory.yaml
+  required_paths:
+  - docs/system-map-extension-final-baseline.md
+  - docs/system-map.md
+  - docs/system-map-coverage-registry.yaml
+  - docs/work/system-map-extension-master-execution-inventory.yaml
+  validation: make audit-all && make audit-truth-registry && make audit-interface-evidence
+    && make audit-data-workflow-impact && make audit-capability-evidence && make audit-delivery-provenance
+    && make audit-native-client-handoff && make system-map-impact && git diff --check
+successor_order: 
+1: MAP-001 module dependency and code ownership
+2: MAP-002 error and recovery contracts
+3: MAP-003 integrations, egress, environment, and secrets
+4: MAP-004 data classification and deletion evidence
+5: MAP-005 jobs, replay, and operator runbooks
+6: MAP-006 test and fixture topology
+7: MAP-007 deployment and recovery operations
+8: MAP-008 empirical observability and performance
+9: MAP-009 native and device evidence
+evidence:
+- verifiedAt: '2026-07-22T08:29:29Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  children:
+  - docs/work/system-map-extension-map-001.yaml
+  - docs/work/system-map-extension-map-002.yaml
+  - docs/work/system-map-extension-map-003.yaml
+  - docs/work/system-map-extension-map-004.yaml
+  - docs/work/system-map-extension-map-005.yaml
+  - docs/work/system-map-extension-map-006.yaml
+  - docs/work/system-map-extension-map-007.yaml
+  - docs/work/system-map-extension-map-008.yaml
+  - docs/work/system-map-extension-map-009.yaml

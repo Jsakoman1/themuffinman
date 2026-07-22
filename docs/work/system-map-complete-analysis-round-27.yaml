@@ -1,0 +1,70 @@
+kind: work
+version: 1
+id: system-map-complete-analysis-round-27
+title: Events jobs realtime and replay architecture
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/system-map-complete-analysis-master-execution-inventory.yaml
+master_plan: docs/work/system-map-complete-analysis-master.yaml
+objective: Map domain events, notifications, activity projections, WebSocket delivery,
+  scheduled jobs, retries, after-commit behavior, replay, and observability boundaries.
+scope:
+- apps/themuffinman/src/main/java/com/themuffinman/app
+- docs/system-map-third-pass-round-15-events-side-effects.md
+- docs/system-map-third-pass-round-17-failure-recovery.md
+deliverables:
+- docs/system-map-complete-analysis-round-27-events-jobs-replay.md
+- docs/side-effect-delivery-registry.yaml
+tasks:
+- id: map-events-jobs-realtime-and-replay
+  title: Map events jobs realtime and replay
+  inventory_item: event-job-replay-architecture
+  type: docs-only
+  status: done
+  paths:
+  - docs/system-map-complete-analysis-round-27-events-jobs-replay.md
+  - docs/side-effect-delivery-registry.yaml
+  required_paths:
+  - docs/system-map-complete-analysis-round-27-events-jobs-replay.md
+  - docs/side-effect-delivery-registry.yaml
+  validation: ruby scripts/audits/audit-mutation-safety.rb && make audit-runtime-acceptance
+    && make audit-docs && git diff --check
+  started_at: '2026-07-22T07:19:07Z'
+  start_fingerprints:
+    docs/system-map-complete-analysis-round-27-events-jobs-replay.md: __missing__
+    docs/side-effect-delivery-registry.yaml: __missing__
+evidence:
+- task: map-events-jobs-realtime-and-replay
+  command: ruby scripts/audits/audit-mutation-safety.rb && make audit-runtime-acceptance
+    && make audit-docs && git diff --check
+  ranAt: '2026-07-22T07:19:47Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/side-effect-delivery-registry.yaml
+  - docs/system-map-complete-analysis-round-27-events-jobs-replay.md
+  output: |+
+    Mutation safety
+      mutation surfaces scanned: 378
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (30 passed, 24 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 292
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T07:19:07Z'
+  changedAfterStart: &1
+  - docs/system-map-complete-analysis-round-27-events-jobs-replay.md
+  - docs/side-effect-delivery-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,48 @@
+kind: execution_inventory
+version: 1
+id: arch-001-endpoint-client-evidence-master-execution-inventory
+master_plan: docs/work/arch-001-endpoint-client-evidence-master.yaml
+serial_task_execution: true
+purpose: Ordered ARCH-001 registry and evidence queue.
+items:
+- id: arch-001-baseline
+  sequence: 1
+  plan: docs/work/arch-001-endpoint-client-evidence-01-baseline.yaml
+  task: establish-traceability-baseline
+  depends_on: []
+  output: canonical_registry_baseline
+  status: verified
+  started_at: '2026-07-22T09:35:46Z'
+  verified_at: '2026-07-22T09:36:05Z'
+  evidence:
+    plan: docs/work/arch-001-endpoint-client-evidence-01-baseline.yaml
+    task: establish-traceability-baseline
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-001-reconciliation
+  sequence: 2
+  plan: docs/work/arch-001-endpoint-client-evidence-02-reconciliation.yaml
+  task: reconcile-specialized-registries
+  depends_on:
+  - arch-001-baseline
+  output: reconciled_registry_and_diagnostics
+  status: verified
+  started_at: '2026-07-22T09:36:13Z'
+  verified_at: '2026-07-22T09:36:31Z'
+  evidence:
+    plan: docs/work/arch-001-endpoint-client-evidence-02-reconciliation.yaml
+    task: reconcile-specialized-registries
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+- id: arch-001-closeout
+  sequence: 3
+  plan: docs/work/arch-001-endpoint-client-evidence-03-closeout.yaml
+  task: verify-traceability-closeout
+  depends_on:
+  - arch-001-reconciliation
+  output: verified_architecture_traceability
+  status: verified
+  started_at: '2026-07-22T09:36:38Z'
+  verified_at: '2026-07-22T09:37:01Z'
+  evidence:
+    plan: docs/work/arch-001-endpoint-client-evidence-03-closeout.yaml
+    task: verify-traceability-closeout
+    revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2

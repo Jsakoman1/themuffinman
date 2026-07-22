@@ -1,0 +1,87 @@
+kind: work
+version: 1
+id: repair-and-stabilize-02-mutation-correctness
+title: Repair mutation correctness and concurrency behavior
+status: verified
+baseline: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/repair-and-stabilize-master.yaml
+execution_inventory: docs/work/repair-and-stabilize-master-execution-inventory.yaml
+objective: Fix stale quest updates, complete supported mutation policy adoption, and
+  prove retry/read-back behavior without moving business authority into transport
+  code.
+repair_ids:
+- ARCH-002
+- RUNTIME-STALE-QUEST-UPDATE
+entry_gate: Baseline triage identifies exact mutation operations and confirms the
+  quest stale-write contract.
+exit_evidence: Typed stale conflict and authoritative recovery are proven for quest
+  updates; every changed mutation path has tests, policy metadata, and runtime evidence
+  or an explicit pending record.
+tasks:
+- id: repair-mutation-correctness
+  title: Implement stale-state guard, adoption fixes, and runtime regression evidence
+  type: implementation
+  status: done
+  inventory_item: repair-mutation-correctness
+  paths:
+  - apps/themuffinman/src/main/java
+  - apps/themuffinman/src/test/java
+  - docs/mutation-reliability-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/mutation-reliability-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  validation: cd apps/themuffinman && ./mvnw test && cd frontend && npm run type-check
+    && cd ../../.. && make audit-runtime-acceptance && make audit-capability-evidence
+    && make audit-docs && git diff --check
+  started_at: '2026-07-22T11:25:45Z'
+  start_fingerprints:
+    docs/mutation-reliability-contract.yaml: 0d0fe6fc37363b3531ce9e59224f322258d06d5d46d4f59033f225fd76339252
+    docs/runtime-acceptance-matrix.yaml: 37f642ac9a9b253f24f643617b59d37b66fed88da8c13f153fe0a4c7fc40a416
+    docs/implementation-backlog.md: '0937110542330375fde3f8812e85b47614645236e71fbbb1d3f2b58f1725be96'
+evidence:
+- task: repair-mutation-correctness
+  command: cd apps/themuffinman && ./mvnw test && cd frontend && npm run type-check
+    && cd ../../.. && make audit-runtime-acceptance && make audit-capability-evidence
+    && make audit-docs && git diff --check
+  ranAt: '2026-07-22T11:38:02Z'
+  revision: ec8d3d6b1f29e46009705aa6ff29f89544e763d2
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/mutation-reliability-contract.yaml
+  output: |+
+    [INFO] Finished at: 2026-07-22T13:38:23+02:00
+    [INFO] ------------------------------------------------------------------------
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (42 passed, 39 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 42
+      pending runtime scenarios: 39
+      passed evidence paths checked: 40
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 296
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T11:25:45Z'
+  changedAfterStart: &1
+  - docs/mutation-reliability-contract.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

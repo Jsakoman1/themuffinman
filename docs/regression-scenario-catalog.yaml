@@ -172,3 +172,12 @@ regression_scenarios:
       - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceAliasResolutionTest.java
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest
+  - id: workmarket-quest-stale-update
+    domain: workmarket
+    risk: high
+    scenario: Concurrent quest editors must not silently overwrite a newer quest version; stale writes return a typed conflict and the authoritative state remains unchanged.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketUpdateQuestUseCaseTest.java
+      - docs/runtime-evidence/browser-runtime-stale-quest-update-repaired-2026-07-22.json
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=WorkmarketUpdateQuestUseCaseTest

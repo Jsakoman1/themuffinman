@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-07-22T15:27:00+02:00",
+  "evidenceClass": "runtime_trace",
+  "environment": "local-dev; observability headers enabled; Chromium headless; PostgreSQL local",
+  "viewer": "test@test.com",
+  "scenario": "runtime-read-work-discovery",
+  "measurements": {
+    "page0": {"path": "/quests/presets/AVAILABLE?page=0&size=3", "status": 200, "queryCount": 50, "requestDurationMs": 97, "rowCount": 3, "totalItems": 6, "page": 0},
+    "page1": {"path": "/quests/presets/AVAILABLE?page=1&size=3", "status": 200, "queryCount": 38, "requestDurationMs": 26, "rowCount": 3, "totalItems": 6, "page": 1},
+    "empty": {"path": "/quests/presets/AVAILABLE?q=no_such_runtime_work&page=0&size=3", "status": 200, "queryCount": 28, "requestDurationMs": 26, "rowCount": 0, "totalItems": 0, "page": 0}
+  },
+  "status": "passed",
+  "finding": "QuestSearchRequestDTO was missing setters, causing Spring model binding to ignore query/page/size. Setters were added and the authenticated runtime now proves search, pagination, and empty state.",
+  "boundary": "Local dev read measurement only; headers are disabled outside dev and do not establish production-scale behavior.",
+  "secretsStored": false
+}
