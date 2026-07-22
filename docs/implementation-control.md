@@ -1,5 +1,10 @@
 # Implementation Control
 
+Optimization baseline: `docs/system-map-optimization-baseline-2026-07-22.yaml`.
+Documentation class: execution_control. This file owns the implementation workflow; active task state is verifier-generated in YAML plans and inventories.
+Control optimization review: `docs/system-map-optimization-control-review-2026-07-22.yaml`.
+Optimization closeout: `docs/system-map-optimization-closeout-2026-07-22.yaml`.
+
 This is the single active workflow for implementation work.
 
 Every non-trivial change has one YAML work plan under `docs/work/`. It contains the change identity, Git baseline,
@@ -24,6 +29,10 @@ resume. A task may be `blocked`; a blocked or pending task prevents the work pla
 
 Only `ruby scripts/verify-work.rb plan=<path>` may create final `verified` state. A checkbox or manually written
 evidence paragraph is not proof.
+
+`draft` is preparation state and is intentionally excluded from the active inventory
+queue until `make work-start` promotes a selected child/task to `active`. A strict
+serial program must keep one global execution inventory and one in-progress item.
 
 ## Workflow
 
@@ -80,6 +89,22 @@ make work-verify plan=docs/work/my-program.yaml
 
 Use only the current work-plan and verifier workflow for new implementation work.
 
+## System Map optimization entrypoint
+
+For a normal non-trivial repair or feature, the smallest reliable control path is:
+
+```text
+make system-map-impact
+make work-start plan=<child-plan> task=<task-id>   # serial plans only
+make work-verify plan=<child-plan> task=<task-id>
+make audit-truth-registry
+make audit-docs
+```
+
+Add `make audit-runtime-acceptance` and
+`make audit-capability-evidence` when runtime or capability evidence is affected.
+The impact report is advisory; the work plan and verifier remain the completion path.
+
 ## Autonomous batch continuation
 
 When the user authorizes autonomous continuation, the active work plan is a batch rather than a single-slice
@@ -118,6 +143,11 @@ unknown until independent evidence is available.
 Run `make system-map-impact` before a non-trivial feature closeout or with explicit changed paths to generate an
 advisory relationship report. It recommends registries, canonical docs, and runtime sources for review; it never sets
 capability status, runtime proof, permissions, or work-plan completion.
+
+For the System Map optimization program, the impact report is an entrypoint diagnostic:
+the selected task must still name exact changed paths, canonical owners, and leaf
+validations in its work plan. The report does not replace the execution inventory or
+the verifier.
 
 Vision surface coverage in the target report requires explicit `current.vision` evidence, a Vision-prefixed capability ID, or an unambiguous Vision path in current web/backend evidence; generic backend implementation alone is not treated as Vision support.
 
@@ -159,3 +189,8 @@ backend/frontend ownership boundaries recorded in the child objectives, exact
 verifier-safe paths, and non-recursive leaf validations.
 
 The active 30-capability pursuit is governed by `docs/work/capability-30-execution-board.yaml`. It is the frozen ordered list of partial capability IDs, owner plans, required source files, close criteria, and explicit product deferrals. Do not create an unlisted continuation slice; update the board first when scope genuinely changes.
+
+The current cross-layer control optimization program is governed by
+`docs/work/system-map-optimization-master.yaml`. It is a serial maintenance and
+control program, not a product capability board. Its execution inventory is the
+sole queue for its child tasks and must be advanced in order.

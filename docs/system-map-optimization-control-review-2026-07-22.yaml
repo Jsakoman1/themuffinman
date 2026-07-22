@@ -1,0 +1,28 @@
+kind: control_layer_optimization_review
+version: 1
+id: system-map-optimization-control-review-2026-07-22
+source_revision: 62cdb7f
+master_plan: docs/work/system-map-optimization-master.yaml
+findings:
+  - id: CTRL-OPT-001
+    status: working_as_designed
+    finding: Draft plans are preparation state; audit-plan-coverage considers only active inventory plans, and work-start promotes the selected child to active.
+    evidence: [docs/implementation-control.md, scripts/audits/audit-plan-coverage.rb, docs/work/system-map-optimization-master-execution-inventory.yaml]
+  - id: CTRL-OPT-002
+    status: working_as_designed
+    finding: Strict serial tasks require inventory_item, exact required_paths, changed-after-start evidence, and one in-progress inventory item.
+    evidence: [scripts/verify-work.rb, docs/work/system-map-optimization-master-execution-inventory.yaml]
+  - id: CTRL-OPT-003
+    status: optimization_applied
+    finding: Repository-root-safe validation commands are required because backend Maven wrapper and frontend package live below the repository root.
+    evidence: [docs/work/system-map-optimization-02-implementation.yaml]
+  - id: CTRL-OPT-004
+    status: open
+    finding: Future optimization can add a dedicated audit for active-master visibility and cross-plan source ownership; current plan coverage checks active plans and path integrity.
+    owner: docs/work/system-map-optimization-04-control.yaml
+control_contract:
+  draft: prepared_but_not_active
+  active: work_started_and_inventory_controlled
+  verified: verifier_generated_task_and_plan_evidence
+  blocked: validation_or_external_boundary_prevents_completion
+status: reviewed

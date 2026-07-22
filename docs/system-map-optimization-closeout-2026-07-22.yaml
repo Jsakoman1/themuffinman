@@ -1,0 +1,28 @@
+kind: system_map_optimization_closeout
+version: 1
+id: system-map-optimization-closeout-2026-07-22
+master_plan: docs/work/system-map-optimization-master.yaml
+source_revision: 62cdb7f
+status: verified
+completed_slices:
+  - baseline_ownership_and_ranked_findings
+  - implementation_module_and_endpoint_linkage_review
+  - documentation_classification_duplicate_claim_policy_and_navigation
+  - control_lifecycle_and_cross_registry_drift_checks
+  - runtime_truth_synchronization_cross_layer_pilot
+current_verified_controls:
+  runtime_summary: {passed: 65, pending_runtime: 16}
+  endpoint_review_required: 62
+  evidence_paths_checked: 61
+  audits: [audit-runtime-acceptance, audit-capability-evidence, audit-truth-registry, audit-docs, audit-plan-coverage]
+open_queue:
+  - {id: OPT-BASELINE-002, next: endpoint_owner_review_and_consumer_evidence_batches}
+  - {id: OPT-BASELINE-003, next: forbidden_dependency_direction_audit}
+  - {id: OPT-BASELINE-004, next: selected_current_claim_reconciliation}
+  - {id: OPT-BASELINE-005, next: native_device_and_production_operations_evidence_boundaries}
+  - {id: SYSTEM-MAP-OPTIMIZATION-CONTROL-001, next: keep_compact_entrypoint_and_extend_only_when_measured}
+known_limits:
+  - historical_plan_outputs_are_not_rewritten
+  - native_device_runtime_is_not_proven
+  - production_operations_are_externally_unknown
+  - failure_injection_and_process_crash_replay_remain_pending

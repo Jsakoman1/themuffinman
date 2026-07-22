@@ -1,0 +1,175 @@
+kind: work
+version: 1
+id: system-map-optimization-03-documentation
+title: Optimize documentation ownership and navigation
+status: verified
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-optimization-master.yaml
+execution_inventory: docs/work/system-map-optimization-master-execution-inventory.yaml
+objective: Make documentation easier to maintain by separating canonical facts, derived
+  navigation, historical analysis, runtime evidence, and disposable output.
+tasks:
+- id: classify-documentation-sources
+  title: Classify docs as canonical, derived, historical, evidence, plan, or disposable
+  type: analysis
+  status: done
+  inventory_item: documentation-classify-sources
+  paths:
+  - docs/system-map.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-control.md
+  - docs/system-truth-registry.yaml
+  required_paths:
+  - docs/system-map.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-control.md
+  - docs/system-truth-registry.yaml
+  validation: make audit-docs && make audit-truth-registry
+  started_at: '2026-07-22T14:37:43Z'
+  start_fingerprints:
+    docs/system-map.md: ccaf3b5fe84217e53d1aa2b89df936668d611034ca3571b9d2e5fb259124d116
+    docs/business-logic.md: 2ddcd5fd8a97da66c929083cb1f135c3ab6aa7c867a3494d1edc2bb3c439a629
+    docs/domain-technical.md: f6ca7f5fc34baa80f8c7ef2d4c6311cba11f2c40e4fa8677fd83342bbdd03b59
+    docs/implementation-control.md: 9ffe0b31e57c685a91a2be6bccf4bf97092a4ec53dd07d94b9594de9a6de4fbf
+    docs/system-truth-registry.yaml: 1887b129fc7a5d051b7c6f8203b63e21b61eb9eed0c6c3880a5cd65a4d1ff74f
+- id: reconcile-duplicate-claims
+  title: Find and resolve current-state claims duplicated across markdown and YAML
+  type: analysis
+  status: done
+  inventory_item: documentation-reconcile-claims
+  paths:
+  - docs/system-map.md
+  - docs/system-truth-registry.yaml
+  - docs/capability-inventory.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/system-map.md
+  - docs/system-truth-registry.yaml
+  - docs/capability-inventory.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-docs && git diff --check
+  started_at: '2026-07-22T14:38:25Z'
+  start_fingerprints:
+    docs/system-map.md: 6ff8870adee14b5bdc84f29b5e904d8cbcbd67afd8dd3ab3f6a751549928b516
+    docs/system-truth-registry.yaml: c9d8aa4c628b60fb9c060554ab8422d42ef6969828d69cda25e2420e23718c67
+    docs/capability-inventory.yaml: 12abf33d958af4a9062403397e413d98f5cc8732375027b7986a60dfa2d65178
+    docs/runtime-acceptance-matrix.yaml: 74a7f530a248f46fa89ac923b6f0f5eebc275add85ba2f6cdb93e17119a1d596
+- id: improve-navigation
+  title: Improve System Map read order, domain capsules, and change-entry links
+  type: documentation
+  status: done
+  inventory_item: documentation-improve-navigation
+  paths:
+  - docs/system-map.md
+  - docs/codex-fast-path.md
+  - docs/implementation-control.md
+  required_paths:
+  - docs/system-map.md
+  - docs/codex-fast-path.md
+  - docs/implementation-control.md
+  validation: make audit-docs && make audit-plan-coverage
+  started_at: '2026-07-22T14:38:57Z'
+  start_fingerprints:
+    docs/system-map.md: 3d82905ff1b4bea0af56ea6e04dd88eef31889bb2e24d4049fb52bd0adaf63af
+    docs/codex-fast-path.md: ef8778cb847f55285fb105f6c79acb5de7cc77586ea086cf69c04a25b32b9fd8
+    docs/implementation-control.md: 509664d7b65015065a3cabb581326aa3a24fb2a734d789c3ade22795408e71d3
+exit_evidence: Documentation ownership matrix, resolved current-state duplicates,
+  and an updated navigation contract.
+evidence:
+- task: classify-documentation-sources
+  command: make audit-docs && make audit-truth-registry
+  ranAt: '2026-07-22T14:38:13Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-control.md
+  - docs/system-map.md
+  - docs/system-truth-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 302
+      review needed: 0
+      high priority: 0
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+
+  startedAt: '2026-07-22T14:37:43Z'
+  changedAfterStart: &1
+  - docs/system-map.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-control.md
+  - docs/system-truth-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: reconcile-duplicate-claims
+  command: make audit-docs && git diff --check
+  ranAt: '2026-07-22T14:38:45Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-inventory.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/system-map.md
+  - docs/system-truth-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 302
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T14:38:25Z'
+  changedAfterStart: &2
+  - docs/system-map.md
+  - docs/system-truth-registry.yaml
+  - docs/capability-inventory.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: improve-navigation
+  command: make audit-docs && make audit-plan-coverage
+  ranAt: '2026-07-22T14:39:16Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/codex-fast-path.md
+  - docs/implementation-control.md
+  - docs/system-map.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 302
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-22T14:38:57Z'
+  changedAfterStart: &3
+  - docs/system-map.md
+  - docs/codex-fast-path.md
+  - docs/implementation-control.md
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

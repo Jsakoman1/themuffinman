@@ -1,0 +1,29 @@
+kind: work
+version: 1
+id: system-map-next-optimization-04-change-impact-closeout
+title: Integrate change impact into work closeout
+status: draft
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-next-optimization-master.yaml
+execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
+objective: Make the advisory System Map change-impact report a declared review input for selected non-trivial work-plan closeouts.
+tasks:
+  - id: integrate-impact-closeout
+    title: Define report ownership, freshness, and closeout linkage
+    type: implementation
+    status: pending
+    inventory_item: change-impact-integration
+    paths: [scripts/audits/generate-system-map-change-impact.rb, docs/implementation-control.md, docs/work-plan.template.yaml]
+    required_paths: [scripts/audits/generate-system-map-change-impact.rb, docs/implementation-control.md, docs/work-plan.template.yaml]
+    validation: make system-map-impact && make audit-docs
+  - id: prove-impact-pilot
+    title: Prove one work-plan closeout consumes the generated impact report
+    type: analysis
+    status: pending
+    inventory_item: change-impact-pilot
+    paths: [docs/system-map-next-optimization-preflight.md, docs/implementation-backlog.md]
+    required_paths: [docs/system-map-next-optimization-preflight.md, docs/implementation-backlog.md]
+    validation: make audit-plan-coverage && make audit-docs && git diff --check
+exit_evidence: One verified pilot showing report consumption without treating advisory output as status authority.

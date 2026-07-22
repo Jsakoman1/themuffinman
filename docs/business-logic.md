@@ -1,3 +1,5 @@
+Documentation class: canonical_product_domain. This file owns user-facing product meaning and behavioral rules; current implementation and runtime status remain in their canonical machine-readable sources.
+
 # Business Logic
 
 ## VisionForWeb assistant behavior

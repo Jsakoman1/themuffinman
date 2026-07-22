@@ -1,0 +1,39 @@
+kind: documentation_ownership_classification
+version: 1
+id: system-map-optimization-documentation-ownership-2026-07-22
+source_revision: 62cdb7f
+master_plan: docs/work/system-map-optimization-master.yaml
+purpose: Classify documentation by authority and lifecycle so current facts are updated at one owner and historical evidence is not mistaken for active state.
+classes:
+  - id: canonical_product_domain
+    rule: Owns product meaning, user-facing behavior, entities, invariants, permissions, and workflows.
+    sources: [docs/product-vision.md, docs/product-memory.md, docs/business-logic.md, docs/domain-technical.md]
+  - id: canonical_machine_state
+    rule: Owns active capability, runtime, truth, relationship, evidence, and operational records.
+    sources: [docs/capability-inventory.yaml, docs/runtime-acceptance-matrix.yaml, docs/system-truth-registry.yaml, docs/system-map-coverage-registry.yaml]
+  - id: derived_navigation
+    rule: Links systems and points to canonical sources without replacing their facts or statuses.
+    sources: [docs/system-map.md, docs/control-surface-map.md, docs/codex-fast-path.md]
+  - id: execution_control
+    rule: Defines work-plan lifecycle, verifier workflow, agent safety, and delivery queue behavior.
+    sources: [docs/implementation-control.md, docs/agent-operating-model.yaml, docs/work]
+  - id: evidence_and_diagnostics
+    rule: Records validation or runtime observations; evidence does not promote capability status by itself.
+    sources: [docs/runtime-evidence, docs/audits.md, docs/audit-output]
+  - id: historical_analysis
+    rule: Preserves dated analysis and completed plan context; it is not current status unless referenced by a canonical source.
+    sources: [docs/system-analysis-round-*.md, docs/system-map-*-round-*.md, docs/work]
+  - id: disposable_output
+    rule: May be regenerated and must not be used as a canonical source.
+    sources: [docs/audit-output]
+update_rules:
+  - Current fact changes update the canonical owner first.
+  - Derived navigation may be updated in the same change but cannot contradict the owner.
+  - Historical documents are amended only to correct provenance or explicit links, not to rewrite old outcomes.
+  - Evidence artifacts are retained when referenced by current registries or plans.
+  - Disposable output is excluded from durable truth and may be regenerated.
+known_risks:
+  - markdown_current_state_claims_can_drift_from_yaml_state
+  - historical_plan_status_can_be_mistaken_for_active_status
+  - disposable_audit_output_can_be_cited_as_completion_evidence
+status: classified

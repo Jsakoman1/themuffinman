@@ -1,0 +1,29 @@
+kind: work
+version: 1
+id: system-map-next-optimization-01-dependency-boundaries
+title: Add machine-checkable module dependency boundaries
+status: draft
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-next-optimization-master.yaml
+execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
+objective: Turn high-risk documented dependency constraints into a small actionable audit with explicit exceptions.
+tasks:
+  - id: analyze-boundaries
+    title: Select forbidden directions and accepted exceptions
+    type: analysis
+    status: pending
+    inventory_item: dependency-boundaries-analysis
+    paths: [docs/module-dependency-registry.yaml, docs/system-map-coverage-registry.yaml]
+    required_paths: [docs/module-dependency-registry.yaml, docs/system-map-coverage-registry.yaml]
+    validation: make audit-truth-registry && git diff --check
+  - id: implement-boundary-audit
+    title: Implement and validate the dependency-direction audit
+    type: implementation
+    status: pending
+    inventory_item: dependency-boundaries-audit
+    paths: [scripts/audits/audit-module-dependency-direction.rb, Makefile, docs/module-dependency-registry.yaml]
+    required_paths: [scripts/audits/audit-module-dependency-direction.rb, Makefile, docs/module-dependency-registry.yaml]
+    validation: make audit-module-dependency-direction && make audit-docs
+exit_evidence: Machine-checkable dependency rules, actionable failures, and documented exceptions.

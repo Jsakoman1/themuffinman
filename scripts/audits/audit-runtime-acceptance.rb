@@ -52,4 +52,14 @@ unless note.include?("#{passed} passed") && note.include?("#{pending} explicitly
   raise "Runtime capability closeout matrix note is stale"
 end
 
+capability_evidence = YAML.load_file("docs/capability-evidence-registry.yaml")
+runtime_summary = capability_evidence.fetch("runtime_matrix")
+unless runtime_summary.fetch("passed_scenarios") == passed && runtime_summary.fetch("pending_runtime_scenarios") == pending
+  raise "Capability evidence registry runtime summary is stale: matrix=#{passed}/#{pending}, registry=#{runtime_summary.fetch("passed_scenarios")}/#{runtime_summary.fetch("pending_runtime_scenarios")}"
+end
+
+truth_registry = YAML.load_file("docs/system-truth-registry.yaml")
+raise "Truth registry is missing optimization baseline link" unless truth_registry.fetch("optimization_baseline") == "docs/system-map-optimization-baseline-2026-07-22.yaml"
+raise "Runtime matrix is missing status authority metadata" unless matrix.fetch("status_authority") == "runtime_acceptance_matrix"
+
 puts "Runtime acceptance audit passed (#{passed} passed, #{pending} pending runtime scenarios)."

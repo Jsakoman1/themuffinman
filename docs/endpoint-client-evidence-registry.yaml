@@ -4,6 +4,7 @@ purpose: Canonical cross-reference from endpoint families to capabilities, clien
 status: source_traced_runtime_partial
 baseline_reviewed: ARCH-001
 reviewed_round: ARCH-001
+optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 diagnostic_sources:
   canonical_registry: docs/endpoint-client-evidence-registry.yaml
   interface_reconciliation: docs/audit-output/interface-evidence-reconciliation.json
@@ -38,3 +39,8 @@ closeout:
   runtime_completeness: not_claimed
   native_completeness: not_claimed
   remaining_review_queue: [unclassified_non_web, pending_runtime_scenarios, native_contract_only]
+optimization_actions:
+- id: OPT-BASELINE-002
+  status: open
+  current_counts: {backend_endpoints: 214, web_source_linked: 140, admin_or_agent: 4, native_handoff: 3, unclassified_non_web: 67}
+  next_action: Resolve the 62 review_required rows in the endpoint reconciliation queue with owner, consumer, authority, test, and evidence linkage.

@@ -1,3 +1,5 @@
+Documentation class: canonical_product_domain. This file owns domain meaning, invariants, permissions, and workflow explanations; implementation completion and runtime proof remain separate.
+
 # Domain Technical Notes
 
 ## VisionForWeb portable action boundary
@@ -2008,3 +2010,12 @@ select from those items, but `VisionCapabilityEntityResolutionSupport` performs 
 fresh viewer-authorized read before any detail action or canonical route is
 published. The web client accepts only the versioned typed action contract and
 does not resolve natural-language targets.
+
+## System Map implementation impact rule
+
+For a non-trivial implementation change, use `docs/system-map.md` to locate the
+affected domain authority, endpoint/client relationship, test and runtime evidence
+owner, configuration source, and control plan before changing code. The System Map
+only describes relationships; domain services remain authoritative for permissions,
+validation, workflow transitions, and state. A static relationship or generated
+impact report does not prove runtime behavior or capability completion.

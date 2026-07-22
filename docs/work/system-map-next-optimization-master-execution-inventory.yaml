@@ -1,0 +1,22 @@
+kind: execution_inventory
+version: 1
+id: system-map-next-optimization-master-execution-inventory
+master_plan: docs/work/system-map-next-optimization-master.yaml
+status: draft
+items:
+  - {id: dependency-boundaries-analysis, plan: docs/work/system-map-next-optimization-01-dependency-boundaries.yaml, task: analyze-boundaries, status: pending, order: 1}
+  - {id: dependency-boundaries-audit, plan: docs/work/system-map-next-optimization-01-dependency-boundaries.yaml, task: implement-boundary-audit, status: pending, order: 2}
+  - {id: endpoint-review-batch-design, plan: docs/work/system-map-next-optimization-02-endpoint-review.yaml, task: design-review-batches, status: pending, order: 3}
+  - {id: endpoint-review-batch-platform, plan: docs/work/system-map-next-optimization-02-endpoint-review.yaml, task: review-platform-batch, status: pending, order: 4}
+  - {id: endpoint-review-batch-business, plan: docs/work/system-map-next-optimization-02-endpoint-review.yaml, task: review-business-batch, status: pending, order: 5}
+  - {id: endpoint-review-batch-chat-social, plan: docs/work/system-map-next-optimization-02-endpoint-review.yaml, task: review-chat-social-batch, status: pending, order: 6}
+  - {id: endpoint-review-batch-work-sharing, plan: docs/work/system-map-next-optimization-02-endpoint-review.yaml, task: review-work-sharing-batch, status: pending, order: 7}
+  - {id: canonical-lint-design, plan: docs/work/system-map-next-optimization-03-canonical-source-lint.yaml, task: define-lint-contract, status: pending, order: 8}
+  - {id: canonical-lint-implementation, plan: docs/work/system-map-next-optimization-03-canonical-source-lint.yaml, task: implement-canonical-lint, status: pending, order: 9}
+  - {id: change-impact-integration, plan: docs/work/system-map-next-optimization-04-change-impact-closeout.yaml, task: integrate-impact-closeout, status: pending, order: 10}
+  - {id: change-impact-pilot, plan: docs/work/system-map-next-optimization-04-change-impact-closeout.yaml, task: prove-impact-pilot, status: pending, order: 11}
+  - {id: evidence-coverage-design, plan: docs/work/system-map-next-optimization-05-test-evidence-coverage.yaml, task: define-coverage-model, status: pending, order: 12}
+  - {id: evidence-coverage-report, plan: docs/work/system-map-next-optimization-05-test-evidence-coverage.yaml, task: implement-coverage-report, status: pending, order: 13}
+  - {id: config-drift-analysis, plan: docs/work/system-map-next-optimization-06-config-environment-drift.yaml, task: analyze-config-surface, status: pending, order: 14}
+  - {id: config-drift-audit, plan: docs/work/system-map-next-optimization-06-config-environment-drift.yaml, task: implement-config-audit, status: pending, order: 15}
+  - {id: next-optimization-closeout, plan: docs/work/system-map-next-optimization-07-closeout.yaml, task: closeout-and-next-queue, status: pending, order: 16}

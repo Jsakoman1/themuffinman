@@ -1,0 +1,29 @@
+kind: work
+version: 1
+id: system-map-next-optimization-06-config-environment-drift
+title: Detect configuration and environment drift
+status: draft
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-next-optimization-master.yaml
+execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
+objective: Reconcile typed operational configuration, properties, local defaults, environment names, and secret classification without claiming deployment proof.
+tasks:
+  - id: analyze-config-surface
+    title: Inventory operational settings and classify source, environment, and secret ownership
+    type: analysis
+    status: pending
+    inventory_item: config-drift-analysis
+    paths: [docs/security-operations-recovery-registry.yaml, docs/integration-environment-registry.yaml, apps/themuffinman/src/main/resources/application.properties]
+    required_paths: [docs/security-operations-recovery-registry.yaml, docs/integration-environment-registry.yaml, apps/themuffinman/src/main/resources/application.properties]
+    validation: make audit-truth-registry && make audit-docs
+  - id: implement-config-audit
+    title: Implement config/environment drift audit with explicit external limits
+    type: implementation
+    status: pending
+    inventory_item: config-drift-audit
+    paths: [scripts/audits/audit-configuration-environment-drift.rb, Makefile, docs/security-operations-recovery-registry.yaml]
+    required_paths: [scripts/audits/audit-configuration-environment-drift.rb, Makefile, docs/security-operations-recovery-registry.yaml]
+    validation: make audit-configuration-environment-drift && make audit-truth-registry && make audit-docs
+exit_evidence: Actionable repository-visible configuration drift audit with deployment/external state explicitly unknown.

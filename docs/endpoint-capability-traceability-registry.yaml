@@ -1,9 +1,11 @@
 version: 1
 purpose: Capability-family interface traceability index; inventory status and per-endpoint reconciliation remain separate canonical sources.
 reviewed_round: 32
+optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 canonical_cross_reference: docs/endpoint-client-evidence-registry.yaml
 per_endpoint_source: docs/audit-output/interface-evidence-reconciliation.json
 consumer_evidence_source: docs/interface-evidence-registry.yaml
+optimization_status: 62_non_web_rows_require_owner_review_before_consumer_proof_is_claimed
 families:
 - id: platform_identity_location
   capability_prefixes: [platform.]

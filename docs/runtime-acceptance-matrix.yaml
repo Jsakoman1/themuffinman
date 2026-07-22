@@ -1,4 +1,14 @@
 kind: runtime_acceptance_matrix
+status_authority: runtime_acceptance_matrix
+duplicate_claim_policy: Runtime scenario status is owned here; closeout artifacts and summaries must reconcile to this matrix and historical plans retain historical results.
+drift_checks: [scripts/audits/audit-runtime-acceptance.rb]
+optimization_pilot:
+  id: SYSTEM-MAP-OPTIMIZATION-PILOT-001
+  scope: runtime_truth_synchronization
+  related_sources: [docs/capability-evidence-registry.yaml, docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml, docs/system-map-runtime-closeout-registry.yaml, docs/system-truth-registry.yaml]
+  completion_rule: audit_runtime_acceptance_must_reconcile_all_runtime_summary_sources
+optimization_closeout: docs/system-map-optimization-closeout-2026-07-22.yaml
+
 version: 1
 title: Capability runtime acceptance matrix
 purpose: Track browser and device evidence separately from source-level validation.

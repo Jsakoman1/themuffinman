@@ -1,0 +1,29 @@
+kind: work
+version: 1
+id: system-map-next-optimization-03-canonical-source-lint
+title: Add canonical-source and current-claim lint
+status: draft
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-next-optimization-master.yaml
+execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
+objective: Detect stale current-state claims, missing canonical links, and invalid registry references before closeout.
+tasks:
+  - id: define-lint-contract
+    title: Define selected claim classes and failure messages
+    type: analysis
+    status: pending
+    inventory_item: canonical-lint-design
+    paths: [docs/system-truth-registry.yaml, docs/system-map-optimization-documentation-ownership-2026-07-22.yaml, docs/implementation-control.md]
+    required_paths: [docs/system-truth-registry.yaml, docs/system-map-optimization-documentation-ownership-2026-07-22.yaml, docs/implementation-control.md]
+    validation: make audit-truth-registry && make audit-docs
+  - id: implement-canonical-lint
+    title: Implement lint and add it to the standard audit path
+    type: implementation
+    status: pending
+    inventory_item: canonical-lint-implementation
+    paths: [scripts/audits/audit-canonical-source-integrity.rb, Makefile, docs/system-truth-registry.yaml]
+    required_paths: [scripts/audits/audit-canonical-source-integrity.rb, Makefile, docs/system-truth-registry.yaml]
+    validation: make audit-canonical-source-integrity && make audit-truth-registry && make audit-docs
+exit_evidence: Actionable canonical-source lint with selected current-claim drift coverage.

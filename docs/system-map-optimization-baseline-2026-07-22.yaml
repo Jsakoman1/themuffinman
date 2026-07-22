@@ -1,0 +1,59 @@
+kind: system_map_optimization_baseline
+version: 1
+id: system-map-optimization-baseline-2026-07-22
+captured_at: '2026-07-22'
+source_revision: 62cdb7f
+master_plan: docs/work/system-map-optimization-master.yaml
+purpose: Ranked baseline of implementation, documentation, and control optimization findings before the first optimization changes.
+canonical_ownership:
+  - {fact_class: product_and_domain_meaning, owner: product-domain-docs, sources: [docs/product-vision.md, docs/product-memory.md, docs/business-logic.md, docs/domain-technical.md]}
+  - {fact_class: target_and_current_capability_state, owner: capability-catalogs, sources: [docs/target-capability-catalog.yaml, docs/capability-inventory.yaml]}
+  - {fact_class: implementation_completion, owner: work-plan-verifier, sources: [docs/work, scripts/verify-work.rb, docs/implementation-control.md]}
+  - {fact_class: runtime_acceptance, owner: runtime-evidence, sources: [docs/runtime-acceptance-matrix.yaml, docs/runtime-evidence, docs/regression-scenario-catalog.yaml]}
+  - {fact_class: architecture_relationships, owner: architecture-navigation, sources: [docs/system-map.md, docs/control-surface-map.md, docs/module-dependency-registry.yaml]}
+  - {fact_class: deferred_work, owner: delivery-planning, sources: [docs/implementation-backlog.md]}
+  - {fact_class: optimization_findings, owner: system-map-optimization, sources: [docs/system-map-optimization-baseline-2026-07-22.yaml, docs/work/system-map-optimization-master.yaml]}
+findings:
+  - id: OPT-BASELINE-001
+    priority: p0
+    class: truth-synchronization
+    finding: Runtime matrix, closeout artifact, and System Map runtime registry are now synchronized at 65 passed and 16 pending; the audit enforces this relationship.
+    owner_source: scripts/audits/audit-runtime-acceptance.rb
+    affected_sources: [docs/runtime-acceptance-matrix.yaml, docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml, docs/system-map-runtime-closeout-registry.yaml]
+    success_measure: Any mismatch fails audit-runtime-acceptance.
+  - id: OPT-BASELINE-002
+    priority: p1
+    class: endpoint-consumer-evidence
+    finding: Endpoint-to-capability-to-client-to-test linkage exists, but 62 non-Web endpoints remain explicit owner-review items without complete consumer/runtime proof.
+    owner_source: docs/endpoint-reconciliation-review.yaml
+    affected_sources: [docs/endpoint-capability-traceability-registry.yaml, docs/endpoint-client-evidence-registry.yaml, docs/endpoint-reconciliation-review.yaml]
+    success_measure: Selected endpoint rows have owner, consumer, permission, test, runtime class, and evidence linkage.
+  - id: OPT-BASELINE-003
+    priority: p1
+    class: dependency-enforcement
+    finding: Package relationships are mapped from imports, but forbidden directions and ownership boundaries are not enforced by an automated check.
+    owner_source: docs/module-dependency-registry.yaml
+    affected_sources: [docs/module-dependency-registry.yaml, docs/system-map-coverage-registry.yaml]
+    success_measure: High-risk forbidden directions have machine-checkable rules or explicit accepted exceptions.
+  - id: OPT-BASELINE-004
+    priority: p1
+    class: documentation-ownership
+    finding: Canonical documentation layers are defined, but historical plans and current-state summaries can still be confused without a consistent classification and navigation policy.
+    owner_source: docs/system-map.md
+    affected_sources: [docs/system-map.md, docs/implementation-control.md, docs/codex-fast-path.md, docs/system-truth-registry.yaml]
+    success_measure: Selected current-state claims have one canonical owner and historical documents are clearly labeled.
+  - id: OPT-BASELINE-005
+    priority: p2
+    class: external-and-native-boundaries
+    finding: Native/device/offline runtime and production operations remain unknown or externally unproven; static repository mapping must not promote them to verified.
+    owner_source: docs/system-map-coverage-registry.yaml
+    affected_sources: [docs/native-client-contract.yaml, docs/release-operations-registry.yaml, docs/system-map-coverage-registry.yaml]
+    success_measure: Each boundary has an owner, evidence class, explicit next action, and no accidental capability promotion.
+priority_order: [OPT-BASELINE-001, OPT-BASELINE-002, OPT-BASELINE-003, OPT-BASELINE-004, OPT-BASELINE-005]
+known_unmapped_edges:
+  - endpoint_review_to_runtime_consumer_proof
+  - package_dependency_to_forbidden_direction_enforcement
+  - documentation_claim_to_historical_or_canonical_classification
+  - native_contract_to_device_runtime_evidence
+  - release_registry_to_deployed_topology_and_recovery_evidence
+status: baseline_ready_for_optimization

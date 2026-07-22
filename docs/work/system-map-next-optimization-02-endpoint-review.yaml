@@ -1,0 +1,53 @@
+kind: work
+version: 1
+id: system-map-next-optimization-02-endpoint-review
+title: Resolve endpoint review in bounded domain batches
+status: draft
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-next-optimization-master.yaml
+execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
+objective: Reduce the 62 endpoint owner-review queue without converting static classification into runtime proof.
+tasks:
+  - id: design-review-batches
+    title: Define batch ownership, evidence fields, and review order
+    type: analysis
+    status: pending
+    inventory_item: endpoint-review-batch-design
+    paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-client-evidence-registry.yaml, docs/implementation-backlog.md]
+    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-client-evidence-registry.yaml, docs/implementation-backlog.md]
+    validation: make audit-capability-evidence && make audit-plan-coverage
+  - id: review-platform-batch
+    title: Review Identity, Location, and Platform endpoints
+    type: analysis
+    status: pending
+    inventory_item: endpoint-review-batch-platform
+    paths: [docs/endpoint-reconciliation-review.yaml, docs/permission-visibility-matrix.yaml]
+    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/permission-visibility-matrix.yaml]
+    validation: make audit-truth-registry && make audit-docs
+  - id: review-business-batch
+    title: Review Business and booking endpoints
+    type: analysis
+    status: pending
+    inventory_item: endpoint-review-batch-business
+    paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-client-evidence-registry.yaml]
+    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-client-evidence-registry.yaml]
+    validation: make audit-capability-evidence && git diff --check
+  - id: review-chat-social-batch
+    title: Review Chat and Circles endpoints
+    type: analysis
+    status: pending
+    inventory_item: endpoint-review-batch-chat-social
+    paths: [docs/endpoint-reconciliation-review.yaml, docs/permission-visibility-matrix.yaml]
+    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/permission-visibility-matrix.yaml]
+    validation: make audit-truth-registry && make audit-docs
+  - id: review-work-sharing-batch
+    title: Review Work, Things, and Rides endpoints
+    type: analysis
+    status: pending
+    inventory_item: endpoint-review-batch-work-sharing
+    paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-capability-traceability-registry.yaml]
+    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-capability-traceability-registry.yaml]
+    validation: make audit-capability-evidence && git diff --check
+exit_evidence: Bounded endpoint batches with owner, consumer, authority, test, runtime class, and explicit unresolved evidence gaps.

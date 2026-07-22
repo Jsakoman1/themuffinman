@@ -1,0 +1,184 @@
+kind: work
+version: 1
+id: system-map-optimization-05-cross-layer-pilot
+title: Prove the optimized operating model on one real change
+status: verified
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-optimization-master.yaml
+execution_inventory: docs/work/system-map-optimization-master-execution-inventory.yaml
+objective: Apply the optimized System Map workflow to one selected repair or small
+  maintenance change and measure whether impact analysis, implementation, documentation,
+  and verification are complete without unnecessary control overhead.
+pilot:
+  id: SYSTEM-MAP-OPTIMIZATION-PILOT-001
+  change: Reconcile runtime truth summaries and enforce cross-registry consistency
+    through audit-runtime-acceptance.
+  before: Closeout registry, capability evidence registry, and historical summaries
+    could contain divergent runtime counts; stale claims were not uniformly rejected.
+  after: Matrix, closeout artifact, System Map registry, capability evidence registry,
+    and truth/matrix authority metadata are reconciled and checked by the runtime
+    audit.
+  implementation_surfaces:
+  - scripts/audits/audit-runtime-acceptance.rb
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/system-map-runtime-closeout-registry.yaml
+  - docs/system-truth-registry.yaml
+  runtime_claim: No new runtime behavior is claimed; the pilot validates control and
+    evidence synchronization only.
+tasks:
+- id: select-pilot
+  title: Select a bounded repair with meaningful cross-layer impact
+  type: analysis
+  status: done
+  inventory_item: pilot-select
+  paths:
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-runtime-acceptance && make audit-plan-coverage
+  started_at: '2026-07-22T14:42:00Z'
+  start_fingerprints:
+    docs/system-map.md: cfc48e6c9c60ba8be57d8781300ec025a46f2811008c2511771505313339ad8b
+    docs/implementation-backlog.md: 57f04beb1bc5bf6a5ae7c4226164c507bd2dc12a854a3407002cf0aa462a7026
+    docs/runtime-acceptance-matrix.yaml: e30f9883ab6060354a3968b7b7428451bc49c4a64a4becfaf0f7f180bdbc2165
+- id: execute-pilot
+  title: Run System Map impact analysis through implementation and evidence closeout
+  type: implementation
+  status: done
+  inventory_item: pilot-execute
+  paths:
+  - docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+  - docs/implementation-backlog.md
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-22T14:43:01Z'
+  start_fingerprints:
+    docs/work/system-map-optimization-05-cross-layer-pilot.yaml: 1e7e2124314c9ded22d44c6dfc5e3a12e006db79422316c6cf69076edbc7e55d
+    docs/implementation-backlog.md: cac52ae4cf3a73e68f29c4bd2135efd78a2763792d7988344d531fb7cfcdafe5
+- id: measure-pilot
+  title: Record friction, missing links, duplicate work, and control improvements
+  type: analysis
+  status: done
+  inventory_item: pilot-measure
+  paths:
+  - docs/system-map-optimization-preflight.md
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  required_paths:
+  - docs/system-map-optimization-preflight.md
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  validation: make audit-docs && make audit-truth-registry && git diff --check
+  started_at: '2026-07-22T14:44:33Z'
+  start_fingerprints:
+    docs/system-map-optimization-preflight.md: 8f6651e15774894dff2678abc16c396190a64013cf7084ba5600392340c7898f
+    docs/implementation-backlog.md: 5b2505a69d3d595969bf98bc228905fe9bd5cbd89ee56856ab0fcb171f71dc30
+    docs/system-map.md: 36c4f1eff07c3ddb5601f7467a382d6207f64c94bd5027c4a014ce6a95603c26
+exit_evidence: Pilot report with before/after findings and concrete amendments to
+  the operating model.
+evidence:
+- task: select-pilot
+  command: make audit-runtime-acceptance && make audit-plan-coverage
+  ranAt: '2026-07-22T14:42:37Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/system-map.md
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-22T14:42:00Z'
+  changedAfterStart: &1
+  - docs/system-map.md
+  - docs/implementation-backlog.md
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: execute-pilot
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-22T14:43:54Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+  output: |+
+    dist/assets/BusinessAvailabilityView-B2EmDCsy.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-hvm99-p7.js                  11.06 kB │ gzip:   3.64 kB
+    dist/assets/CirclesView-DRKcGNYd.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/ThingsDiscoveryView-th7Vfrg1.js                   11.57 kB │ gzip:   3.63 kB
+    dist/assets/BusinessProfileView-BD8zh_b4.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-BxcCk6zV.js                             13.09 kB │ gzip:   4.12 kB
+    dist/assets/WorkQuestDetailView-CImQaYJK.js                   13.22 kB │ gzip:   4.24 kB
+    dist/assets/ChatSurfaceView-9K97eLds.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/useVisionForWeb-CTSTFWKn.js                       17.53 kB │ gzip:   5.78 kB
+    dist/assets/SurfaceHeader-DY2v7BOX.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-CdFd3t6f.js           20.82 kB │ gzip:   6.59 kB
+    dist/assets/VisionSurfaceModernView-Cu3dJXi4.js               22.56 kB │ gzip:   7.01 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-Cz6lgPs-.js                28.85 kB │ gzip:   9.10 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DjCK4jhN.js                                 52.32 kB │ gzip:  13.34 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 568ms
+
+  startedAt: '2026-07-22T14:43:01Z'
+  changedAfterStart: &2
+  - docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: measure-pilot
+  command: make audit-docs && make audit-truth-registry && git diff --check
+  ranAt: '2026-07-22T14:44:52Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  - docs/system-map-optimization-preflight.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 303
+      review needed: 0
+      high priority: 0
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+
+  startedAt: '2026-07-22T14:44:33Z'
+  changedAfterStart: &3
+  - docs/system-map-optimization-preflight.md
+  - docs/implementation-backlog.md
+  - docs/system-map.md
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

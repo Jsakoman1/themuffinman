@@ -4,12 +4,17 @@ purpose: Endpoint-level review queue for the 67 endpoints not linked by the Web 
 source: docs/audit-output/interface-evidence-reconciliation.json
 status: classified_with_explicit_review_states
 reviewed_round: ARCH-001-ENDPOINT-RECONCILIATION
+optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 repair_stabilization_baseline: docs/repair-and-stabilize-baseline-2026-07-22.yaml
 rules:
 - proposed_class_is_not_runtime_proof
 - review_required_is_a_valid_outcome_until_owner_evidence_exists
 - admin_class_requires_controller_scope_or_service_authority_confirmation
 - vision_or_web_class_requires_client_callsite_or_contract_confirmation
+optimization_status:
+  classified_rows: 5
+  review_required_rows: 62
+  next_action: Select bounded owner-review batches; do not promote proposed classes to runtime-complete capability evidence.
 rows:
 - {endpoint: 'GET /app_users', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: review_required, reason: broad_user_directory_endpoint_has_no_web_callsite}
 - {endpoint: 'POST /app_users', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: review_required, reason: account_creation_scope_requires_security_confirmation}

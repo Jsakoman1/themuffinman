@@ -1,0 +1,160 @@
+kind: work
+version: 1
+id: system-map-optimization-04-control
+title: Optimize implementation control and drift prevention
+status: verified
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-optimization-master.yaml
+execution_inventory: docs/work/system-map-optimization-master-execution-inventory.yaml
+objective: Reduce control-layer friction while strengthening automated checks for
+  plan coverage, truth synchronization, evidence freshness, and closeout integrity.
+tasks:
+- id: audit-control-workflow
+  title: Review work-plan states, serial execution, verification, and closeout rules
+  type: analysis
+  status: done
+  inventory_item: control-audit-workflow
+  paths:
+  - docs/implementation-control.md
+  - docs/codex-fast-path.md
+  - docs/agent-operating-model.yaml
+  required_paths:
+  - docs/implementation-control.md
+  - docs/codex-fast-path.md
+  - docs/agent-operating-model.yaml
+  validation: make audit-plan-coverage && make audit-docs
+  started_at: '2026-07-22T14:39:30Z'
+  start_fingerprints:
+    docs/implementation-control.md: 0d1bf81e919dd8f24cb71c2fcaec940c53de120256fb3acf176abc8ef23788dd
+    docs/codex-fast-path.md: 3b57a7b76f5a2ac0ec491fe43b2e9de2c990c2d8b50534ff0cb714610b1e2256
+    docs/agent-operating-model.yaml: 9e2d9d941aa7d593617490832de6b847dcd5bf81b359c01db7ea014a2b35dfe1
+- id: strengthen-drift-detection
+  title: Identify high-value cross-file consistency checks beyond runtime counts
+  type: implementation
+  status: done
+  inventory_item: control-strengthen-drift-detection
+  paths:
+  - scripts/audits/audit-runtime-acceptance.rb
+  - docs/system-truth-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - scripts/audits/audit-runtime-acceptance.rb
+  - docs/system-truth-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-runtime-acceptance && make audit-truth-registry && make audit-capability-evidence
+  started_at: '2026-07-22T14:40:52Z'
+  start_fingerprints:
+    scripts/audits/audit-runtime-acceptance.rb: 864bf33e541bd29e5b034024c6e084c470b5e07ecfd5a32241129e78bd48017c
+    docs/system-truth-registry.yaml: 6d13259e16b65e756e7f15daa763493e6da9afafa029de67e41f5adb50d693da
+    docs/runtime-acceptance-matrix.yaml: 8278636e15980a46dd43b7e42608c27a2d877a94455306db96403d38119b1ee2
+- id: simplify-control-entrypoint
+  title: Define the smallest reliable command set for ordinary feature and repair
+    work
+  type: documentation
+  status: done
+  inventory_item: control-simplify-entrypoint
+  paths:
+  - docs/implementation-control.md
+  - docs/codex-fast-path.md
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/implementation-control.md
+  - docs/codex-fast-path.md
+  - docs/implementation-backlog.md
+  validation: make audit-docs && git diff --check
+  started_at: '2026-07-22T14:41:19Z'
+  start_fingerprints:
+    docs/implementation-control.md: 7564fa0c9ce8e6bcef9274b91c92d45bd10e6a3200bff8ee19ccc7f0cc10dab5
+    docs/codex-fast-path.md: 4b6d24ee2a62f762159087e03163f483f0cbec6ac542754d7944ef8db0627b4f
+    docs/implementation-backlog.md: 3a931260a6c10bef27d82a8afe5b16a0cdce36201491c4db1fce6d799822ab3e
+exit_evidence: Control optimization report, automated checks for selected drift classes,
+  and a concise verified operating path.
+evidence:
+- task: audit-control-workflow
+  command: make audit-plan-coverage && make audit-docs
+  ranAt: '2026-07-22T14:40:38Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/agent-operating-model.yaml
+  - docs/codex-fast-path.md
+  - docs/implementation-control.md
+  output: |+
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 302
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T14:39:30Z'
+  changedAfterStart: &1
+  - docs/implementation-control.md
+  - docs/codex-fast-path.md
+  - docs/agent-operating-model.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: strengthen-drift-detection
+  command: make audit-runtime-acceptance && make audit-truth-registry && make audit-capability-evidence
+  ranAt: '2026-07-22T14:41:12Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/system-truth-registry.yaml
+  - scripts/audits/audit-runtime-acceptance.rb
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+
+  startedAt: '2026-07-22T14:40:52Z'
+  changedAfterStart: &2
+  - scripts/audits/audit-runtime-acceptance.rb
+  - docs/system-truth-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: simplify-control-entrypoint
+  command: make audit-docs && git diff --check
+  ranAt: '2026-07-22T14:41:39Z'
+  revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/codex-fast-path.md
+  - docs/implementation-backlog.md
+  - docs/implementation-control.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 303
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T14:41:19Z'
+  changedAfterStart: &3
+  - docs/implementation-control.md
+  - docs/codex-fast-path.md
+  - docs/implementation-backlog.md
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

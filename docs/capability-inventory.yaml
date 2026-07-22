@@ -7,6 +7,9 @@ description: >
   This file is the machine-readable source for future implementation planning.
 last_reviewed: 2026-07-22
 repair_stabilization_baseline: docs/repair-and-stabilize-baseline-2026-07-22.yaml
+system_map_optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
+status_authority: capability_inventory
+duplicate_claim_policy: Current capability status is owned here; summaries and historical analysis must link here and must not redefine status.
 latest_interaction_contract_review: docs/work/action-contract-matrix.yaml
 inventory_audit: docs/work/capability-inventory-audit.yaml
 execution_board: docs/work/capability-30-execution-board.yaml

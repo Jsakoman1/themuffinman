@@ -1,6 +1,10 @@
 version: 1
 purpose: Cross-cutting ownership index for system facts; registry rows point to authoritative sources and never replace their status or rules.
+documentation_class: canonical_machine_state
+documentation_ownership_classification: docs/system-map-optimization-documentation-ownership-2026-07-22.yaml
 reviewed_round: 20
+optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
+optimization_closeout: docs/system-map-optimization-closeout-2026-07-22.yaml
 fact_classes:
 - id: product_direction
   owner: product
@@ -69,9 +73,19 @@ fact_classes:
   evidence_class: source-trace
   confidence: high
   update_trigger: stable discovered follow-up is opened, delivered, or retired
+- id: system_map_optimization_findings
+  owner: system-map-optimization
+  canonical_sources: [docs/system-map-optimization-baseline-2026-07-22.yaml, docs/work/system-map-optimization-master.yaml]
+  evidence_class: source-trace
+  confidence: high
+  update_trigger: optimization baseline finding, owner, priority, or success measure changes
 rules:
 - registries_reference_canonical_sources_not_replace_them
 - verified_work_plan_status_does_not_promote_capability_or_runtime_status
 - target_scope_and_current_state_remain_separate
 - static_source_evidence_does_not_prove_runtime_behavior
 - every_registry_row_requires_owner_evidence_class_confidence_and_review_round
+- current_numeric_status_claims_must_reference_the_machine_readable_owner
+- historical_analysis_must_not_be_used_as_current_status
+- runtime_status_cross_registry_counts_must_reconcile
+- optimization_baseline_links_must_remain_current

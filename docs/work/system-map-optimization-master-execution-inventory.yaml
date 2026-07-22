@@ -1,0 +1,182 @@
+kind: execution_inventory
+version: 1
+id: system-map-optimization-master-execution-inventory
+master_plan: docs/work/system-map-optimization-master.yaml
+status: verified
+items:
+- id: optimization-baseline-inventory-relationships
+  plan: docs/work/system-map-optimization-01-baseline.yaml
+  task: inventory-relationships
+  status: verified
+  order: 1
+  started_at: '2026-07-22T14:31:49Z'
+  verified_at: '2026-07-22T14:32:54Z'
+  evidence:
+    plan: docs/work/system-map-optimization-01-baseline.yaml
+    task: inventory-relationships
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: optimization-baseline-rank-optimization-work
+  plan: docs/work/system-map-optimization-01-baseline.yaml
+  task: rank-optimization-work
+  status: verified
+  order: 2
+  started_at: '2026-07-22T14:33:06Z'
+  verified_at: '2026-07-22T14:33:27Z'
+  evidence:
+    plan: docs/work/system-map-optimization-01-baseline.yaml
+    task: rank-optimization-work
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: implementation-audit-module-ownership
+  plan: docs/work/system-map-optimization-02-implementation.yaml
+  task: audit-module-ownership
+  status: verified
+  order: 3
+  started_at: '2026-07-22T14:33:34Z'
+  verified_at: '2026-07-22T14:33:53Z'
+  evidence:
+    plan: docs/work/system-map-optimization-02-implementation.yaml
+    task: audit-module-ownership
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: implementation-audit-endpoint-consumer-links
+  plan: docs/work/system-map-optimization-02-implementation.yaml
+  task: audit-endpoint-consumer-links
+  status: verified
+  order: 4
+  started_at: '2026-07-22T14:34:01Z'
+  verified_at: '2026-07-22T14:34:39Z'
+  evidence:
+    plan: docs/work/system-map-optimization-02-implementation.yaml
+    task: audit-endpoint-consumer-links
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: implementation-audit-conventions
+  plan: docs/work/system-map-optimization-02-implementation.yaml
+  task: audit-implementation-conventions
+  status: verified
+  order: 5
+  started_at: '2026-07-22T14:34:48Z'
+  verified_at: '2026-07-22T14:37:29Z'
+  evidence:
+    plan: docs/work/system-map-optimization-02-implementation.yaml
+    task: audit-implementation-conventions
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: documentation-classify-sources
+  plan: docs/work/system-map-optimization-03-documentation.yaml
+  task: classify-documentation-sources
+  status: verified
+  order: 6
+  started_at: '2026-07-22T14:37:43Z'
+  verified_at: '2026-07-22T14:38:18Z'
+  evidence:
+    plan: docs/work/system-map-optimization-03-documentation.yaml
+    task: classify-documentation-sources
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: documentation-reconcile-claims
+  plan: docs/work/system-map-optimization-03-documentation.yaml
+  task: reconcile-duplicate-claims
+  status: verified
+  order: 7
+  started_at: '2026-07-22T14:38:25Z'
+  verified_at: '2026-07-22T14:38:50Z'
+  evidence:
+    plan: docs/work/system-map-optimization-03-documentation.yaml
+    task: reconcile-duplicate-claims
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: documentation-improve-navigation
+  plan: docs/work/system-map-optimization-03-documentation.yaml
+  task: improve-navigation
+  status: verified
+  order: 8
+  started_at: '2026-07-22T14:38:57Z'
+  verified_at: '2026-07-22T14:39:20Z'
+  evidence:
+    plan: docs/work/system-map-optimization-03-documentation.yaml
+    task: improve-navigation
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: control-audit-workflow
+  plan: docs/work/system-map-optimization-04-control.yaml
+  task: audit-control-workflow
+  status: verified
+  order: 9
+  started_at: '2026-07-22T14:39:30Z'
+  verified_at: '2026-07-22T14:40:43Z'
+  evidence:
+    plan: docs/work/system-map-optimization-04-control.yaml
+    task: audit-control-workflow
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: control-strengthen-drift-detection
+  plan: docs/work/system-map-optimization-04-control.yaml
+  task: strengthen-drift-detection
+  status: verified
+  order: 10
+  started_at: '2026-07-22T14:40:52Z'
+  verified_at: '2026-07-22T14:41:12Z'
+  evidence:
+    plan: docs/work/system-map-optimization-04-control.yaml
+    task: strengthen-drift-detection
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: control-simplify-entrypoint
+  plan: docs/work/system-map-optimization-04-control.yaml
+  task: simplify-control-entrypoint
+  status: verified
+  order: 11
+  started_at: '2026-07-22T14:41:19Z'
+  verified_at: '2026-07-22T14:41:43Z'
+  evidence:
+    plan: docs/work/system-map-optimization-04-control.yaml
+    task: simplify-control-entrypoint
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: pilot-select
+  plan: docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+  task: select-pilot
+  status: verified
+  order: 12
+  started_at: '2026-07-22T14:42:00Z'
+  verified_at: '2026-07-22T14:42:37Z'
+  evidence:
+    plan: docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+    task: select-pilot
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: pilot-execute
+  plan: docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+  task: execute-pilot
+  status: verified
+  order: 13
+  started_at: '2026-07-22T14:43:01Z'
+  verified_at: '2026-07-22T14:44:24Z'
+  evidence:
+    plan: docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+    task: execute-pilot
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: pilot-measure
+  plan: docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+  task: measure-pilot
+  status: verified
+  order: 14
+  started_at: '2026-07-22T14:44:33Z'
+  verified_at: '2026-07-22T14:44:57Z'
+  evidence:
+    plan: docs/work/system-map-optimization-05-cross-layer-pilot.yaml
+    task: measure-pilot
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: closeout-reconcile-sources
+  plan: docs/work/system-map-optimization-06-closeout.yaml
+  task: reconcile-final-sources
+  status: verified
+  order: 15
+  started_at: '2026-07-22T14:45:08Z'
+  verified_at: '2026-07-22T14:45:38Z'
+  evidence:
+    plan: docs/work/system-map-optimization-06-closeout.yaml
+    task: reconcile-final-sources
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b
+- id: closeout-run-final-gates
+  plan: docs/work/system-map-optimization-06-closeout.yaml
+  task: run-final-gates
+  status: verified
+  order: 16
+  started_at: '2026-07-22T14:46:03Z'
+  verified_at: '2026-07-22T14:46:50Z'
+  evidence:
+    plan: docs/work/system-map-optimization-06-closeout.yaml
+    task: run-final-gates
+    revision: 62cdb7f72119f528395bb003454a5a14d808ba9b

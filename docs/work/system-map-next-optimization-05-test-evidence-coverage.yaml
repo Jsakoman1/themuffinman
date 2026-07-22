@@ -1,0 +1,29 @@
+kind: work
+version: 1
+id: system-map-next-optimization-05-test-evidence-coverage
+title: Build capability-to-test-to-runtime evidence coverage
+status: draft
+baseline: 62cdb7f
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/system-map-next-optimization-master.yaml
+execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
+objective: Produce a navigable coverage view from capability through source, endpoint, client, test, runtime scenario, and evidence.
+tasks:
+  - id: define-coverage-model
+    title: Define coverage edge classes and missing-edge semantics
+    type: analysis
+    status: pending
+    inventory_item: evidence-coverage-design
+    paths: [docs/capability-evidence-registry.yaml, docs/test-topology-registry.yaml, docs/runtime-acceptance-matrix.yaml]
+    required_paths: [docs/capability-evidence-registry.yaml, docs/test-topology-registry.yaml, docs/runtime-acceptance-matrix.yaml]
+    validation: make audit-capability-evidence && make audit-docs
+  - id: implement-coverage-report
+    title: Implement a coverage report with explicit missing edges
+    type: implementation
+    status: pending
+    inventory_item: evidence-coverage-report
+    paths: [scripts/audits/generate-capability-evidence-coverage.rb, Makefile, docs/capability-evidence-registry.yaml]
+    required_paths: [scripts/audits/generate-capability-evidence-coverage.rb, Makefile, docs/capability-evidence-registry.yaml]
+    validation: make capability-evidence-coverage && make audit-capability-evidence && make audit-docs
+exit_evidence: Navigable coverage report that distinguishes source, test, runtime, and native evidence gaps.

@@ -1,12 +1,18 @@
 version: 1
 purpose: Evidence relationship index; docs/capability-inventory.yaml remains canonical for capability status.
 reviewed_round: 25
+optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 canonical_cross_reference: docs/endpoint-client-evidence-registry.yaml
 runtime_matrix:
   canonical_source: docs/runtime-acceptance-matrix.yaml
-  passed_scenarios: 30
-  pending_runtime_scenarios: 24
+  passed_scenarios: 65
+  pending_runtime_scenarios: 16
   rule: pending_runtime_is_not_runtime_proof
+endpoint_consumer_review:
+  source: docs/endpoint-reconciliation-review.yaml
+  review_required_rows: 62
+  classified_rows: 5
+  rule: endpoint_classification_does_not_prove_runtime_consumer_completion
 test_diagnostic:
   canonical_diagnostic: docs/audit-output/contract-test-gaps.json
   endpoints_scanned: 241

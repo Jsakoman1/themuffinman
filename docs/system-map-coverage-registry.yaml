@@ -5,6 +5,8 @@ purpose: Cross-cutting completeness index for the system map. This registry reco
   production readiness.
 reviewed_round: extension-final-baseline
 reviewed_at: '2026-07-22'
+optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
+optimization_closeout: docs/system-map-optimization-closeout-2026-07-22.yaml
 evidence_classes:
 - source-trace
 - validated-contract
@@ -33,7 +35,7 @@ dimensions:
   state: mapped
   evidence_class: source-trace
   sources: [docs/system-map.md, apps/themuffinman/src/main/java/com/themuffinman/app]
-  gap: Actual package dependency direction and ownership graph are not yet generated.
+  gap: A generated changed-file impact report exists, but forbidden package directions and ownership enforcement are not yet checked automatically.
 - id: frontend-route-and-client-surfaces
   owner: frontend-surface-registry
   state: mapped
@@ -105,7 +107,7 @@ dimensions:
   state: partial
   evidence_class: source-trace
   sources: [docs/module-dependency-registry.yaml]
-  gap: Package relationships are mapped from imports, but forbidden directions and repository ownership enforcement are not proven.
+  gap: Package relationships and advisory change impact are mapped, but forbidden directions and repository ownership enforcement are not proven.
 - id: native-device-and-offline-runtime
   owner: native-client-boundary
   state: unknown

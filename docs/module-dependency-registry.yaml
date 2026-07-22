@@ -1,6 +1,7 @@
 version: 1
 purpose: Source-traced backend and frontend module dependency and ownership index; it does not enforce architectural rules.
 reviewed_round: MAP-001
+optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 evidence_class: source-trace
 confidence: medium-high
 sources: [apps/themuffinman/src/main/java/com/themuffinman/app, apps/themuffinman/frontend/src/modules, docs/system-map.md]
@@ -59,3 +60,8 @@ constraints:
   state: unknown
   evidence: []
   gap: No CODEOWNERS or equivalent repository ownership policy was evidenced.
+optimization_actions:
+- id: OPT-BASELINE-003
+  status: open
+  next_action: Define a small machine-checkable forbidden-direction rule set for high-risk backend and frontend boundaries, with explicit exceptions.
+  validation_target: make audit-module-dependency-direction

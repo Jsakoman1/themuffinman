@@ -1,5 +1,7 @@
 # TheMuffinMan System Map
 
+Documentation class: derived_navigation. This file owns cross-system relationships and read order; canonical facts and statuses remain in the linked source registries.
+
 Status: living navigation document. Last reviewed: 2026-07-22.
 
 This document is the durable entry point for understanding how TheMuffinMan is organized. It intentionally points to canonical sources instead of copying their detailed rules, capability records, or implementation evidence.
@@ -153,6 +155,22 @@ runtime evidence is currently available. It does not replace the registries abov
 
 The narrower [control-surface-map.md](control-surface-map.md) remains the canonical map of implementation control specifically. This document is the cross-system index that points to it.
 
+The current optimization baseline is [`system-map-optimization-baseline-2026-07-22.yaml`](system-map-optimization-baseline-2026-07-22.yaml). It records ranked relationship, ownership, documentation, and control findings without replacing the canonical sources or promoting runtime status.
+
+The active optimization program is [`work/system-map-optimization-master.yaml`](work/system-map-optimization-master.yaml). Its preflight is [`system-map-optimization-preflight.md`](system-map-optimization-preflight.md), and its serial execution inventory is [`work/system-map-optimization-master-execution-inventory.yaml`](work/system-map-optimization-master-execution-inventory.yaml).
+
+The selected cross-layer pilot is runtime truth synchronization: reconcile the runtime
+matrix, capability evidence registry, closeout artifact, System Map runtime registry,
+truth registry, and their automated audit. It is bounded to control/evidence behavior
+and does not claim broader runtime capability completion.
+The pilot is now measured and verified in the optimization child plan; its result is
+recorded in `docs/system-map-optimization-preflight.md`.
+The closeout artifact is `docs/system-map-optimization-closeout-2026-07-22.yaml`.
+Optimization closeout remains subject to the final verifier gates and does not promote
+any pending runtime, native, or production-operation boundary.
+
+The next planned optimization program is [`work/system-map-next-optimization-master.yaml`](work/system-map-next-optimization-master.yaml), with preflight in [`system-map-next-optimization-preflight.md`](system-map-next-optimization-preflight.md). It covers dependency boundaries, endpoint review batches, canonical-source lint, change-impact closeout, evidence coverage, and configuration drift.
+
 ## Operating rule for future analysis rounds
 
 Each round should:
@@ -165,6 +183,13 @@ Each round should:
 6. add the round document to the analysis register below.
 
 Round documents are historical analysis snapshots. This map remains the stable index and should stay concise.
+
+Current-state claims in this map are navigational only. Capability status belongs to
+`docs/capability-inventory.yaml`, runtime status belongs to
+`docs/runtime-acceptance-matrix.yaml`, truth ownership belongs to
+`docs/system-truth-registry.yaml`, and implementation completion belongs to verifier
+evidence in `docs/work/*.yaml`. Historical round documents may contain older counts
+and outcomes; they must not be used as current status.
 
 ## Analysis register
 
