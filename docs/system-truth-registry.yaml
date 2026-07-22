@@ -89,3 +89,16 @@ rules:
 - historical_analysis_must_not_be_used_as_current_status
 - runtime_status_cross_registry_counts_must_reconcile
 - optimization_baseline_links_must_remain_current
+canonical_lint_contract:
+  status: implemented
+  current_claim_classes: [current_capability_state, implementation_completion, runtime_acceptance, architecture_navigation, deferred_work]
+  canonical_link_requirement: Every selected current claim must name or resolve to its fact-class owner; dated analysis and disposable output are excluded from ownership.
+  historical_exclusion: [docs/system-analysis-round-*.md, docs/system-map-*-round-*.md, docs/audit-output]
+  failure_fields: [claim_path, claim_excerpt, fact_class, canonical_owner, remediation]
+  seeded_drift_test: passed_in_audit
+next_optimization_control_state:
+  owner: system-map-optimization
+  canonical_sources: [docs/work/system-map-next-optimization-master.yaml, docs/work/system-map-next-optimization-master-execution-inventory.yaml, docs/system-map-next-optimization-preflight.md]
+  evidence_class: validated-contract
+  confidence: high
+  update_trigger: serial task verification, closeout, or next queue change

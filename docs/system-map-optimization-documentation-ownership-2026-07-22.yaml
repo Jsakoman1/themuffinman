@@ -36,4 +36,9 @@ known_risks:
   - markdown_current_state_claims_can_drift_from_yaml_state
   - historical_plan_status_can_be_mistaken_for_active_status
   - disposable_audit_output_can_be_cited_as_completion_evidence
+canonical_lint_scope:
+  status: defined
+  current_claim_classes: [canonical_machine_state, derived_navigation, execution_control]
+  historical_and_disposable_exclusions: [historical_analysis, disposable_output]
+  rule: Lint selected current claims and canonical links; do not rewrite historical outcomes or treat generated diagnostics as truth.
 status: classified

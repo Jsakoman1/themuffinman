@@ -125,6 +125,10 @@ Run `make audit-truth-registry` after changing `docs/system-truth-registry.yaml`
 ownership/evidence metadata, duplicate IDs, approved evidence and confidence values, and referenced canonical or
 derived paths. It verifies registry integrity only; it never promotes capability, runtime, or work-plan status.
 
+The canonical-source lint, when enabled by the System Map optimization plan, checks only its declared current-claim
+classes. Historical analysis and disposable audit output are excluded. A lint finding must identify the claim path,
+canonical owner, and remediation; the lint is a consistency control and does not become a second status authority.
+
 Run `make audit-interface-evidence` after changing controllers, frontend API calls, or the interface-evidence registry.
 It assigns every statically discovered endpoint an explicit evidence class and retains non-Web endpoints as a review
 queue. A static Web link is not a usability or runtime claim.
@@ -148,6 +152,11 @@ For the System Map optimization program, the impact report is an entrypoint diag
 the selected task must still name exact changed paths, canonical owners, and leaf
 validations in its work plan. The report does not replace the execution inventory or
 the verifier.
+
+For non-trivial closeouts that consume the report, the work plan must record the
+report path, generation time, and a disposition for each material recommendation:
+`reviewed`, `deferred_with_backlog_id`, or `not_applicable_with_reason`. The report
+is advisory evidence only and cannot set task, capability, runtime, or release status.
 
 Vision surface coverage in the target report requires explicit `current.vision` evidence, a Vision-prefixed capability ID, or an unambiguous Vision path in current web/backend evidence; generic backend implementation alone is not treated as Vision support.
 

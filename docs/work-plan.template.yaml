@@ -5,6 +5,13 @@ title: Replace me
 status: draft
 baseline: replace-with-git-revision
 strict_verification: true
+# For non-trivial work, record the advisory System Map report consumed during closeout.
+# This is review evidence only and never replaces verifier status.
+change_impact_review:
+  required: false
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: pending
+# Allowed dispositions: reviewed, deferred_with_backlog_id, not_applicable_with_reason.
 # For high-risk masters, add serial_task_execution and execution_inventory so
 # each task must be explicitly started and independently verified.
 # serial_task_execution: true

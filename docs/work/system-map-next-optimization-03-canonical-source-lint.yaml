@@ -2,28 +2,123 @@ kind: work
 version: 1
 id: system-map-next-optimization-03-canonical-source-lint
 title: Add canonical-source and current-claim lint
-status: draft
+status: verified
 baseline: 62cdb7f
 strict_verification: true
 serial_task_execution: true
 master_plan: docs/work/system-map-next-optimization-master.yaml
 execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
-objective: Detect stale current-state claims, missing canonical links, and invalid registry references before closeout.
+objective: Detect stale current-state claims, missing canonical links, and invalid
+  registry references before closeout.
 tasks:
-  - id: define-lint-contract
-    title: Define selected claim classes and failure messages
-    type: analysis
-    status: pending
-    inventory_item: canonical-lint-design
-    paths: [docs/system-truth-registry.yaml, docs/system-map-optimization-documentation-ownership-2026-07-22.yaml, docs/implementation-control.md]
-    required_paths: [docs/system-truth-registry.yaml, docs/system-map-optimization-documentation-ownership-2026-07-22.yaml, docs/implementation-control.md]
-    validation: make audit-truth-registry && make audit-docs
-  - id: implement-canonical-lint
-    title: Implement lint and add it to the standard audit path
-    type: implementation
-    status: pending
-    inventory_item: canonical-lint-implementation
-    paths: [scripts/audits/audit-canonical-source-integrity.rb, Makefile, docs/system-truth-registry.yaml]
-    required_paths: [scripts/audits/audit-canonical-source-integrity.rb, Makefile, docs/system-truth-registry.yaml]
-    validation: make audit-canonical-source-integrity && make audit-truth-registry && make audit-docs
-exit_evidence: Actionable canonical-source lint with selected current-claim drift coverage.
+- id: define-lint-contract
+  title: Define selected claim classes and failure messages
+  type: analysis
+  status: done
+  inventory_item: canonical-lint-design
+  paths:
+  - docs/system-truth-registry.yaml
+  - docs/system-map-optimization-documentation-ownership-2026-07-22.yaml
+  - docs/implementation-control.md
+  required_paths:
+  - docs/system-truth-registry.yaml
+  - docs/system-map-optimization-documentation-ownership-2026-07-22.yaml
+  - docs/implementation-control.md
+  validation: make audit-truth-registry && make audit-docs
+  started_at: '2026-07-22T15:07:43Z'
+  start_fingerprints:
+    docs/system-truth-registry.yaml: a99d27a9ada19a3dc0ba99c528997f33597e4f8dba7e63e699e68d9c5332814b
+    docs/system-map-optimization-documentation-ownership-2026-07-22.yaml: 3ea830d09e984284d34e0ab9806b54e0ea7168915d9babb33aeb4814af2d3648
+    docs/implementation-control.md: e64b640e2da9b42159f5d232947439a18f2e0c86026f179355c1dcca20aec4f4
+- id: implement-canonical-lint
+  title: Implement lint and add it to the standard audit path
+  type: implementation
+  status: done
+  inventory_item: canonical-lint-implementation
+  paths:
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - Makefile
+  - docs/system-truth-registry.yaml
+  required_paths:
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - Makefile
+  - docs/system-truth-registry.yaml
+  validation: make audit-canonical-source-integrity && make audit-truth-registry &&
+    make audit-docs
+  started_at: '2026-07-22T15:08:32Z'
+  start_fingerprints:
+    scripts/audits/audit-canonical-source-integrity.rb: __missing__
+    Makefile: aaa1f0f14be8c54c64a24863dce8a0dce0d5b33d0e5cd445cd3333b8127213d2
+    docs/system-truth-registry.yaml: 7d5ac3bf5f67bbf506729fdea01112eda733e27e5641e4f433f11f3fddd45c23
+exit_evidence: Actionable canonical-source lint with selected current-claim drift
+  coverage.
+evidence:
+- task: define-lint-contract
+  command: make audit-truth-registry && make audit-docs
+  ranAt: '2026-07-22T15:08:16Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  - docs/system-map-optimization-documentation-ownership-2026-07-22.yaml
+  - docs/system-truth-registry.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 305
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:07:43Z'
+  changedAfterStart: &1
+  - docs/system-truth-registry.yaml
+  - docs/system-map-optimization-documentation-ownership-2026-07-22.yaml
+  - docs/implementation-control.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: implement-canonical-lint
+  command: make audit-canonical-source-integrity && make audit-truth-registry && make
+    audit-docs
+  ranAt: '2026-07-22T15:09:02Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/system-truth-registry.yaml
+  - scripts/audits/audit-canonical-source-integrity.rb
+  output: |+
+    Canonical source integrity audit passed
+      fact classes checked: 12
+      selected current claim classes: current_capability_state, implementation_completion, runtime_acceptance, architecture_navigation, deferred_work
+      canonical source paths checked: 22
+      historical/disposable exclusions: 3
+      seeded stale-claim control: detected
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 305
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:08:32Z'
+  changedAfterStart: &2
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - Makefile
+  - docs/system-truth-registry.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -8,6 +8,12 @@ optimization_pilot:
   related_sources: [docs/capability-evidence-registry.yaml, docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml, docs/system-map-runtime-closeout-registry.yaml, docs/system-truth-registry.yaml]
   completion_rule: audit_runtime_acceptance_must_reconcile_all_runtime_summary_sources
 optimization_closeout: docs/system-map-optimization-closeout-2026-07-22.yaml
+evidence_coverage_contract:
+  source: docs/capability-evidence-registry.yaml
+  passed_count: 65
+  pending_count: 16
+  pending_is_not_runtime_proof: true
+  missing_edge_report_must_preserve_native_provider_and_operator_boundaries: true
 
 version: 1
 title: Capability runtime acceptance matrix

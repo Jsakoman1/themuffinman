@@ -2,28 +2,104 @@ kind: work
 version: 1
 id: system-map-next-optimization-01-dependency-boundaries
 title: Add machine-checkable module dependency boundaries
-status: draft
+status: verified
 baseline: 62cdb7f
 strict_verification: true
 serial_task_execution: true
 master_plan: docs/work/system-map-next-optimization-master.yaml
 execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
-objective: Turn high-risk documented dependency constraints into a small actionable audit with explicit exceptions.
+objective: Turn high-risk documented dependency constraints into a small actionable
+  audit with explicit exceptions.
 tasks:
-  - id: analyze-boundaries
-    title: Select forbidden directions and accepted exceptions
-    type: analysis
-    status: pending
-    inventory_item: dependency-boundaries-analysis
-    paths: [docs/module-dependency-registry.yaml, docs/system-map-coverage-registry.yaml]
-    required_paths: [docs/module-dependency-registry.yaml, docs/system-map-coverage-registry.yaml]
-    validation: make audit-truth-registry && git diff --check
-  - id: implement-boundary-audit
-    title: Implement and validate the dependency-direction audit
-    type: implementation
-    status: pending
-    inventory_item: dependency-boundaries-audit
-    paths: [scripts/audits/audit-module-dependency-direction.rb, Makefile, docs/module-dependency-registry.yaml]
-    required_paths: [scripts/audits/audit-module-dependency-direction.rb, Makefile, docs/module-dependency-registry.yaml]
-    validation: make audit-module-dependency-direction && make audit-docs
-exit_evidence: Machine-checkable dependency rules, actionable failures, and documented exceptions.
+- id: analyze-boundaries
+  title: Select forbidden directions and accepted exceptions
+  type: analysis
+  status: done
+  inventory_item: dependency-boundaries-analysis
+  paths:
+  - docs/module-dependency-registry.yaml
+  - docs/system-map-coverage-registry.yaml
+  required_paths:
+  - docs/module-dependency-registry.yaml
+  - docs/system-map-coverage-registry.yaml
+  validation: make audit-truth-registry && git diff --check
+  started_at: '2026-07-22T14:57:53Z'
+  start_fingerprints:
+    docs/module-dependency-registry.yaml: 00f30c2492666432fbb869823f36208b2daae2f4e02b042358f24f01e6cf4962
+    docs/system-map-coverage-registry.yaml: ad555b71393051b80e4306e303124c2b643383c89181b16323a76fb0ad6a50bc
+- id: implement-boundary-audit
+  title: Implement and validate the dependency-direction audit
+  type: implementation
+  status: done
+  inventory_item: dependency-boundaries-audit
+  paths:
+  - scripts/audits/audit-module-dependency-direction.rb
+  - Makefile
+  - docs/module-dependency-registry.yaml
+  required_paths:
+  - scripts/audits/audit-module-dependency-direction.rb
+  - Makefile
+  - docs/module-dependency-registry.yaml
+  validation: make audit-module-dependency-direction && make audit-docs
+  started_at: '2026-07-22T15:04:54Z'
+  start_fingerprints:
+    scripts/audits/audit-module-dependency-direction.rb: 6101a5cd039d111f062d5c447962b745c923f7cd7c2354d284b346d895702ad5
+    Makefile: 5d8fbdcbf43531e3fa67c90788703f789bc890f2930edd57c5c86887699de3f7
+    docs/module-dependency-registry.yaml: 03de6d754a5cdf16f5a3c06ca0f93a38cd5145e87b9a8ab58b1a2181e5ac811a
+exit_evidence: Machine-checkable dependency rules, actionable failures, and documented
+  exceptions.
+evidence:
+- task: analyze-boundaries
+  command: make audit-truth-registry && git diff --check
+  ranAt: '2026-07-22T14:58:12Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/module-dependency-registry.yaml
+  - docs/system-map-coverage-registry.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+
+  startedAt: '2026-07-22T14:57:53Z'
+  changedAfterStart: &1
+  - docs/module-dependency-registry.yaml
+  - docs/system-map-coverage-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: implement-boundary-audit
+  command: make audit-module-dependency-direction && make audit-docs
+  ranAt: '2026-07-22T15:05:12Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/module-dependency-registry.yaml
+  - scripts/audits/audit-module-dependency-direction.rb
+  output: |+
+    Dependency boundary audit passed
+      backend files checked: 833
+      frontend source files checked: 116
+      forbidden directions checked: domain_to_frontend, feature_to_vision_internal, frontend_feature_to_backend_internals
+      explicit exception schema: valid
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 303
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:04:54Z'
+  changedAfterStart: &2
+  - scripts/audits/audit-module-dependency-direction.rb
+  - Makefile
+  - docs/module-dependency-registry.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

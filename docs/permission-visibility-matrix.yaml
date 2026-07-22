@@ -61,3 +61,12 @@ rules:
 - frontend_action_flags_are_presentation_not_authority
 - visibility_and_consent_are_current_policy_inputs_not_cached_permissions
 - matrix_rows_do_not_replace_domain_tests_or_state_machines
+endpoint_review_batches:
+  - batch: platform
+    authority_rows: [identity_profile]
+    endpoint_registry: docs/endpoint-reconciliation-review.yaml
+    runtime_promotion: forbidden_without_runtime_evidence
+  - batch: chat_social
+    authority_rows: [chat_social]
+    endpoint_registry: docs/endpoint-reconciliation-review.yaml
+    runtime_promotion: forbidden_without_runtime_evidence

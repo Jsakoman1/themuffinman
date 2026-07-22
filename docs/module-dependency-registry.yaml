@@ -60,8 +60,32 @@ constraints:
   state: unknown
   evidence: []
   gap: No CODEOWNERS or equivalent repository ownership policy was evidenced.
+dependency_boundary_analysis:
+  reviewed_at: '2026-07-22'
+  status: analysis_complete
+  enforcement_scope: repository_visible_backend_packages_and_frontend_modules
+  proposed_forbidden_directions:
+    - id: domain_to_frontend
+      from: backend_domain_services
+      to: frontend_sources
+      reason: Backend authority must remain client-independent.
+    - id: feature_to_vision_internal
+      from: [work, business, chat, social, sharing]
+      to: [vision_internal_implementation]
+      reason: Vision may orchestrate domain services; feature domains must not depend on vision internals.
+    - id: frontend_feature_to_backend_internals
+      from: frontend_feature_modules
+      to: backend_domain_implementation
+      reason: Frontend consumers may use API contracts, never backend package internals.
+  accepted_exception_shape:
+    required_fields: [id, from, to, owner, reason, expiry_or_review, evidence]
+    rule: Exceptions must be narrow, named, owner-reviewed, and evidenced; wildcard exceptions are forbidden.
+  implementation_notes:
+    - The first audit should begin with source imports and package paths, then compare only against these explicit rules; ordinary cross-module collaboration remains governed by the registry edges.
+    - A detected edge must report source file, importing symbol/package, target package, and remediation or exception path.
+    - This analysis does not assert that every proposed direction is currently violated; implementation must prove the selected rules against source.
 optimization_actions:
 - id: OPT-BASELINE-003
-  status: open
-  next_action: Define a small machine-checkable forbidden-direction rule set for high-risk backend and frontend boundaries, with explicit exceptions.
+  status: implemented_pending_closeout
+  next_action: Verify the dependency-direction audit through the next optimization work plan and retain explicit exceptions.
   validation_target: make audit-module-dependency-direction

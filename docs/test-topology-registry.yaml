@@ -17,3 +17,8 @@ coverage_rules:
 - fixture_presence_does_not_prove representative_data_or_privacy_coverage
 - capability_closeout_requires capability_specific_evidence
 gaps: [one_capability_to_test_graph, fixture_lineage, browser_trace_index, device_test_harness, negative_and_recovery_coverage]
+coverage_contract:
+  source: docs/capability-evidence-registry.yaml
+  capability_edge_required: true
+  runtime_status_owner: docs/runtime-acceptance-matrix.yaml
+  native_provider_operation_boundaries: explicit_unknown_until_evidence

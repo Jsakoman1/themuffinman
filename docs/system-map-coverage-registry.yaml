@@ -108,6 +108,8 @@ dimensions:
   evidence_class: source-trace
   sources: [docs/module-dependency-registry.yaml]
   gap: Package relationships and advisory change impact are mapped, but forbidden directions and repository ownership enforcement are not proven.
+  follow_up: system-map-next-optimization-01-dependency-boundaries
+  optimization_program: docs/work/system-map-next-optimization-master.yaml
 - id: native-device-and-offline-runtime
   owner: native-client-boundary
   state: unknown

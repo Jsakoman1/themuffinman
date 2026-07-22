@@ -2,20 +2,86 @@ kind: work
 version: 1
 id: system-map-next-optimization-07-closeout
 title: Close next System Map optimization program
-status: draft
+status: verified
 baseline: 62cdb7f
 strict_verification: true
 serial_task_execution: true
 master_plan: docs/work/system-map-next-optimization-master.yaml
 execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
-objective: Reconcile all new audits, registries, evidence coverage, backlog items, and explicit external boundaries into a verified closeout.
+objective: Reconcile all new audits, registries, evidence coverage, backlog items,
+  and explicit external boundaries into a verified closeout.
 tasks:
-  - id: closeout-and-next-queue
-    title: Run final gates and publish the next durable queue
-    type: verification
-    status: pending
-    inventory_item: next-optimization-closeout
-    paths: [docs/system-map.md, docs/system-map-coverage-registry.yaml, docs/system-truth-registry.yaml, docs/implementation-backlog.md]
-    required_paths: [docs/system-map.md, docs/system-map-coverage-registry.yaml, docs/system-truth-registry.yaml, docs/implementation-backlog.md]
-    validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend run build && make audit-runtime-acceptance && make audit-capability-evidence && make audit-truth-registry && make audit-docs && make audit-plan-coverage && git diff --check
-exit_evidence: Verified next-optimization closeout, actionable open queue, and explicit native/provider/process/release boundaries.
+- id: closeout-and-next-queue
+  title: Run final gates and publish the next durable queue
+  type: verification
+  status: done
+  inventory_item: next-optimization-closeout
+  paths:
+  - docs/system-map.md
+  - docs/system-map-coverage-registry.yaml
+  - docs/system-truth-registry.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/system-map.md
+  - docs/system-map-coverage-registry.yaml
+  - docs/system-truth-registry.yaml
+  - docs/implementation-backlog.md
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-capability-evidence &&
+    make audit-truth-registry && make audit-docs && make audit-plan-coverage && git
+    diff --check
+  started_at: '2026-07-22T15:13:43Z'
+  start_fingerprints:
+    docs/system-map.md: 63dcecf49ad2eef289ec5fd7f37434da68a75dbb5afe56446cdef197e9cf7286
+    docs/system-map-coverage-registry.yaml: 30ced98073c04be9d07c6b1efb7882178daebc040c5861a48d0b81dfac8f5c40
+    docs/system-truth-registry.yaml: 6da94443395a541cc319bca0ba7e46462381e25f2760abd62dfd66bf2ba81379
+    docs/implementation-backlog.md: c9ea3ba107ac7909ceee1ef629db608f1ba18d01e3b69bae7cc95ba9f59074e1
+exit_evidence: Verified next-optimization closeout, actionable open queue, and explicit
+  native/provider/process/release boundaries.
+evidence:
+- task: closeout-and-next-queue
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-runtime-acceptance && make audit-capability-evidence &&
+    make audit-truth-registry && make audit-docs && make audit-plan-coverage && git
+    diff --check
+  ranAt: '2026-07-22T15:15:38Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/system-map-coverage-registry.yaml
+  - docs/system-map.md
+  - docs/system-truth-registry.yaml
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 307
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-22T15:13:43Z'
+  changedAfterStart: &1
+  - docs/system-map.md
+  - docs/system-map-coverage-registry.yaml
+  - docs/system-truth-registry.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

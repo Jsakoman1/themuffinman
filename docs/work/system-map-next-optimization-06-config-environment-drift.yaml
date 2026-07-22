@@ -2,28 +2,123 @@ kind: work
 version: 1
 id: system-map-next-optimization-06-config-environment-drift
 title: Detect configuration and environment drift
-status: draft
+status: verified
 baseline: 62cdb7f
 strict_verification: true
 serial_task_execution: true
 master_plan: docs/work/system-map-next-optimization-master.yaml
 execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
-objective: Reconcile typed operational configuration, properties, local defaults, environment names, and secret classification without claiming deployment proof.
+objective: Reconcile typed operational configuration, properties, local defaults,
+  environment names, and secret classification without claiming deployment proof.
 tasks:
-  - id: analyze-config-surface
-    title: Inventory operational settings and classify source, environment, and secret ownership
-    type: analysis
-    status: pending
-    inventory_item: config-drift-analysis
-    paths: [docs/security-operations-recovery-registry.yaml, docs/integration-environment-registry.yaml, apps/themuffinman/src/main/resources/application.properties]
-    required_paths: [docs/security-operations-recovery-registry.yaml, docs/integration-environment-registry.yaml, apps/themuffinman/src/main/resources/application.properties]
-    validation: make audit-truth-registry && make audit-docs
-  - id: implement-config-audit
-    title: Implement config/environment drift audit with explicit external limits
-    type: implementation
-    status: pending
-    inventory_item: config-drift-audit
-    paths: [scripts/audits/audit-configuration-environment-drift.rb, Makefile, docs/security-operations-recovery-registry.yaml]
-    required_paths: [scripts/audits/audit-configuration-environment-drift.rb, Makefile, docs/security-operations-recovery-registry.yaml]
-    validation: make audit-configuration-environment-drift && make audit-truth-registry && make audit-docs
-exit_evidence: Actionable repository-visible configuration drift audit with deployment/external state explicitly unknown.
+- id: analyze-config-surface
+  title: Inventory operational settings and classify source, environment, and secret
+    ownership
+  type: analysis
+  status: done
+  inventory_item: config-drift-analysis
+  paths:
+  - docs/security-operations-recovery-registry.yaml
+  - docs/integration-environment-registry.yaml
+  - apps/themuffinman/src/main/resources/application.properties
+  required_paths:
+  - docs/security-operations-recovery-registry.yaml
+  - docs/integration-environment-registry.yaml
+  - apps/themuffinman/src/main/resources/application.properties
+  validation: make audit-truth-registry && make audit-docs
+  started_at: '2026-07-22T15:12:01Z'
+  start_fingerprints:
+    docs/security-operations-recovery-registry.yaml: a862d82c5e81c09114f20bd8cb0d028a096228a095413775ba713b612d67d364
+    docs/integration-environment-registry.yaml: 39bc81d810a73a7ed3a221e51f30f5b0f6702c46014ae5d9f1d2584541c472e4
+    apps/themuffinman/src/main/resources/application.properties: 8955bbd7170510698245537b9a7e1696cb032713ff5ef8b1a62c4a29e90d97a6
+- id: implement-config-audit
+  title: Implement config/environment drift audit with explicit external limits
+  type: implementation
+  status: done
+  inventory_item: config-drift-audit
+  paths:
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - Makefile
+  - docs/security-operations-recovery-registry.yaml
+  required_paths:
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - Makefile
+  - docs/security-operations-recovery-registry.yaml
+  validation: make audit-configuration-environment-drift && make audit-truth-registry
+    && make audit-docs
+  started_at: '2026-07-22T15:12:33Z'
+  start_fingerprints:
+    scripts/audits/audit-configuration-environment-drift.rb: __missing__
+    Makefile: aa6f9cf078ced01d64fdbc0153d14197f8672e8c48a024ddf87134649a2dc9c3
+    docs/security-operations-recovery-registry.yaml: e019a2e1e7a46fbcc322d28d0c4fd5bb1f7a7b570dd375585c64567b41ad827d
+exit_evidence: Actionable repository-visible configuration drift audit with deployment/external
+  state explicitly unknown.
+evidence:
+- task: analyze-config-surface
+  command: make audit-truth-registry && make audit-docs
+  ranAt: '2026-07-22T15:12:23Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/resources/application.properties
+  - docs/integration-environment-registry.yaml
+  - docs/security-operations-recovery-registry.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 307
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:12:01Z'
+  changedAfterStart: &1
+  - docs/security-operations-recovery-registry.yaml
+  - docs/integration-environment-registry.yaml
+  - apps/themuffinman/src/main/resources/application.properties
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: implement-config-audit
+  command: make audit-configuration-environment-drift && make audit-truth-registry
+    && make audit-docs
+  ranAt: '2026-07-22T15:13:29Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/security-operations-recovery-registry.yaml
+  - scripts/audits/audit-configuration-environment-drift.rb
+  output: |+
+    Configuration/environment drift audit passed
+      properties checked: 121
+      environment mappings: 108
+      secret property names classified: 10 (values redacted)
+      external deployment/provider state: unknown
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 307
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:12:33Z'
+  changedAfterStart: &2
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - Makefile
+  - docs/security-operations-recovery-registry.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

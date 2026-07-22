@@ -67,3 +67,8 @@ rules:
 - registry_rows_do_not_set_capability_status
 - static_consumer_link_does_not_prove_runtime_or_user_flow_completion
 - unclassified_non_web_endpoints_remain_explicit_review_items
+review_batch_contract:
+  source: docs/endpoint-reconciliation-review.yaml
+  batch: work_sharing
+  authority: docs/permission-visibility-matrix.yaml#workmarket_quest
+  runtime_promotion: forbidden_without_runtime_evidence

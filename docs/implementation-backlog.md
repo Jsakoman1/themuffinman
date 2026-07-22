@@ -4,7 +4,8 @@
 
 REPAIR-AND-STABILIZE [ACTIVE-PLANNED]: Execute `docs/work/repair-and-stabilize-master.yaml` before unrelated new features; baseline snapshot is `docs/repair-and-stabilize-baseline-2026-07-22.yaml`.
 SYSTEM-MAP-OPTIMIZATION [ACTIVE]: Optimize implementation, documentation, and control layers through the serial master plan `docs/work/system-map-optimization-master.yaml`; baseline, implementation, documentation, control, and pilot slices are complete, with final closeout gates and explicit follow-up queue remaining.
-SYSTEM-MAP-NEXT-OPTIMIZATION [PLANNED]: Extend the verified System Map operating model through `docs/work/system-map-next-optimization-master.yaml` after the previous optimization program is committed and the clean-baseline preflight passes.
+SYSTEM-MAP-NEXT-OPTIMIZATION [ACTIVE]: Extend the verified System Map operating model through `docs/work/system-map-next-optimization-master.yaml`; dependency, endpoint, canonical-source, impact, evidence, and configuration slices are implemented and in verifier closeout.
+SYSTEM-MAP-CHANGE-IMPACT-PILOT [VERIFIED-SLICE]: The advisory System Map impact report is now referenced as a closeout review input with explicit dispositions; it does not control work-plan or capability status.
 SYSTEM-MAP-OPTIMIZATION-BASELINE-001 [OPEN 2026-07-22]: Baseline findings are ranked in `docs/system-map-optimization-baseline-2026-07-22.yaml`; next slices prioritize endpoint/evidence linkage, dependency enforcement, documentation ownership, and explicit external/native boundaries.
 - OPT-BASELINE-001 [P0 OPEN]: Keep runtime matrix, closeout artifact, and System Map registry synchronized through the enforced runtime audit.
 - OPT-BASELINE-002 [P1 OPEN]: Complete selected endpoint-to-capability-to-client-to-test evidence linkage; 62 non-Web endpoint rows remain owner-review items.

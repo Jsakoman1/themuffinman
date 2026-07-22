@@ -2,52 +2,226 @@ kind: work
 version: 1
 id: system-map-next-optimization-02-endpoint-review
 title: Resolve endpoint review in bounded domain batches
-status: draft
+status: verified
 baseline: 62cdb7f
 strict_verification: true
 serial_task_execution: true
 master_plan: docs/work/system-map-next-optimization-master.yaml
 execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
-objective: Reduce the 62 endpoint owner-review queue without converting static classification into runtime proof.
+objective: Reduce the 62 endpoint owner-review queue without converting static classification
+  into runtime proof.
 tasks:
-  - id: design-review-batches
-    title: Define batch ownership, evidence fields, and review order
-    type: analysis
-    status: pending
-    inventory_item: endpoint-review-batch-design
-    paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-client-evidence-registry.yaml, docs/implementation-backlog.md]
-    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-client-evidence-registry.yaml, docs/implementation-backlog.md]
-    validation: make audit-capability-evidence && make audit-plan-coverage
-  - id: review-platform-batch
-    title: Review Identity, Location, and Platform endpoints
-    type: analysis
-    status: pending
-    inventory_item: endpoint-review-batch-platform
-    paths: [docs/endpoint-reconciliation-review.yaml, docs/permission-visibility-matrix.yaml]
-    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/permission-visibility-matrix.yaml]
-    validation: make audit-truth-registry && make audit-docs
-  - id: review-business-batch
-    title: Review Business and booking endpoints
-    type: analysis
-    status: pending
-    inventory_item: endpoint-review-batch-business
-    paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-client-evidence-registry.yaml]
-    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-client-evidence-registry.yaml]
-    validation: make audit-capability-evidence && git diff --check
-  - id: review-chat-social-batch
-    title: Review Chat and Circles endpoints
-    type: analysis
-    status: pending
-    inventory_item: endpoint-review-batch-chat-social
-    paths: [docs/endpoint-reconciliation-review.yaml, docs/permission-visibility-matrix.yaml]
-    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/permission-visibility-matrix.yaml]
-    validation: make audit-truth-registry && make audit-docs
-  - id: review-work-sharing-batch
-    title: Review Work, Things, and Rides endpoints
-    type: analysis
-    status: pending
-    inventory_item: endpoint-review-batch-work-sharing
-    paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-capability-traceability-registry.yaml]
-    required_paths: [docs/endpoint-reconciliation-review.yaml, docs/endpoint-capability-traceability-registry.yaml]
-    validation: make audit-capability-evidence && git diff --check
-exit_evidence: Bounded endpoint batches with owner, consumer, authority, test, runtime class, and explicit unresolved evidence gaps.
+- id: design-review-batches
+  title: Define batch ownership, evidence fields, and review order
+  type: analysis
+  status: done
+  inventory_item: endpoint-review-batch-design
+  paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  validation: make audit-capability-evidence && make audit-plan-coverage
+  started_at: '2026-07-22T15:05:23Z'
+  start_fingerprints:
+    docs/endpoint-reconciliation-review.yaml: 1f249c7feaf4a41fd2fce6e704b24bd2c3e52af25e5778a23783f5be57c4c61b
+    docs/endpoint-client-evidence-registry.yaml: 240ebbe4fe35d6924029988eb61e7e2086f35dd49e57d412d5bdb76ff7494d41
+    docs/implementation-backlog.md: d8df368048723a7a0272e18e20d784103990262f093742e87661feceeb44cfbc
+- id: review-platform-batch
+  title: Review Identity, Location, and Platform endpoints
+  type: analysis
+  status: done
+  inventory_item: endpoint-review-batch-platform
+  paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/permission-visibility-matrix.yaml
+  required_paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/permission-visibility-matrix.yaml
+  validation: make audit-truth-registry && make audit-docs
+  started_at: '2026-07-22T15:05:53Z'
+  start_fingerprints:
+    docs/endpoint-reconciliation-review.yaml: 5dc0e4c8122979d9392f4e1fb6532fd8a17f684959c7098ee5fad2287d77c875
+    docs/permission-visibility-matrix.yaml: 8e00e1a6b78f74ef2b5868f48b4d55c93de49785c35e8423c8fe96d76160b8f1
+- id: review-business-batch
+  title: Review Business and booking endpoints
+  type: analysis
+  status: done
+  inventory_item: endpoint-review-batch-business
+  paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  required_paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  validation: make audit-capability-evidence && git diff --check
+  started_at: '2026-07-22T15:06:24Z'
+  start_fingerprints:
+    docs/endpoint-reconciliation-review.yaml: 5f678fe497a2585ae2e874ccbb39a16c6f4ba8f4962c7b61618ba150b442651a
+    docs/endpoint-client-evidence-registry.yaml: aba8bd538020cb3a01a0e8687214d1e71b8f321c7c09786032471f9adfb3ff90
+- id: review-chat-social-batch
+  title: Review Chat and Circles endpoints
+  type: analysis
+  status: done
+  inventory_item: endpoint-review-batch-chat-social
+  paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/permission-visibility-matrix.yaml
+  required_paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/permission-visibility-matrix.yaml
+  validation: make audit-truth-registry && make audit-docs
+  started_at: '2026-07-22T15:06:40Z'
+  start_fingerprints:
+    docs/endpoint-reconciliation-review.yaml: 48eb028ab52d5c225f5abe212e112cb654966db92ec56dfc69aec212dab724d7
+    docs/permission-visibility-matrix.yaml: fa1e643ad950cee1cf338ff2d6e67298288c920552eec648c71913f49451ff13
+- id: review-work-sharing-batch
+  title: Review Work, Things, and Rides endpoints
+  type: analysis
+  status: done
+  inventory_item: endpoint-review-batch-work-sharing
+  paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  required_paths:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  validation: make audit-capability-evidence && git diff --check
+  started_at: '2026-07-22T15:07:02Z'
+  start_fingerprints:
+    docs/endpoint-reconciliation-review.yaml: 5cbfd7a096f5a26d4b133ec74d88442b461c2ac2d778da70f3cd39378f6a30db
+    docs/endpoint-capability-traceability-registry.yaml: bc86e5585e43c4ec78ee9692c43df4769eeb1ffd5cf31cc03768081a7703c396
+exit_evidence: Bounded endpoint batches with owner, consumer, authority, test, runtime
+  class, and explicit unresolved evidence gaps.
+evidence:
+- task: design-review-batches
+  command: make audit-capability-evidence && make audit-plan-coverage
+  ranAt: '2026-07-22T15:05:45Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/implementation-backlog.md
+  output: |+
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-22T15:05:23Z'
+  changedAfterStart: &1
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: review-platform-batch
+  command: make audit-truth-registry && make audit-docs
+  ranAt: '2026-07-22T15:06:14Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/permission-visibility-matrix.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 303
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:05:53Z'
+  changedAfterStart: &2
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/permission-visibility-matrix.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: review-business-batch
+  command: make audit-capability-evidence && git diff --check
+  ranAt: '2026-07-22T15:06:40Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/endpoint-client-evidence-registry.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  output: |+
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+
+  startedAt: '2026-07-22T15:06:24Z'
+  changedAfterStart: &3
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-client-evidence-registry.yaml
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: review-chat-social-batch
+  command: make audit-truth-registry && make audit-docs
+  ranAt: '2026-07-22T15:06:58Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/permission-visibility-matrix.yaml
+  output: |+
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 303
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:06:40Z'
+  changedAfterStart: &4
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/permission-visibility-matrix.yaml
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: review-work-sharing-batch
+  command: make audit-capability-evidence && git diff --check
+  ranAt: '2026-07-22T15:07:33Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/endpoint-reconciliation-review.yaml
+  output: |+
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+
+  startedAt: '2026-07-22T15:07:02Z'
+  changedAfterStart: &5
+  - docs/endpoint-reconciliation-review.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

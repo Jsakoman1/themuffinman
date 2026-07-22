@@ -36,6 +36,12 @@ module SystemMapChangeImpact
         canonical_docs: rows.flat_map { |row| row[:canonical_docs] }.uniq.sort,
         runtime_sources: rows.flat_map { |row| row[:runtime_sources] }.uniq.sort
       },
+      closeout_contract: {
+        required_review: true,
+        freshness: "generated_at must be recorded in the consuming closeout",
+        status_authority: false,
+        disposition_required: "Each material registry, canonical-doc, and runtime-source recommendation requires reviewed, deferred, or not-applicable disposition."
+      },
       boundary: "The report recommends review relationships only. It does not determine capability status, permission, runtime proof, or work-plan completion."
     }
     AuditSupport.write_json("docs/audit-output/system-map-change-impact.json", report)

@@ -171,6 +171,8 @@ any pending runtime, native, or production-operation boundary.
 
 The next planned optimization program is [`work/system-map-next-optimization-master.yaml`](work/system-map-next-optimization-master.yaml), with preflight in [`system-map-next-optimization-preflight.md`](system-map-next-optimization-preflight.md). It covers dependency boundaries, endpoint review batches, canonical-source lint, change-impact closeout, evidence coverage, and configuration drift.
 
+The next optimization program is now executing serially through its verifier inventory. Completed slices include dependency boundaries, endpoint review batch design and four domain batches, canonical-source lint, advisory change-impact closeout, capability evidence coverage, and configuration/environment drift. Runtime remains 65 passed / 16 pending; these controls do not promote pending evidence.
+
 ## Operating rule for future analysis rounds
 
 Each round should:

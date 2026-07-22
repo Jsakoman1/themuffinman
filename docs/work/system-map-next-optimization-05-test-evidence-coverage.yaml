@@ -2,28 +2,121 @@ kind: work
 version: 1
 id: system-map-next-optimization-05-test-evidence-coverage
 title: Build capability-to-test-to-runtime evidence coverage
-status: draft
+status: verified
 baseline: 62cdb7f
 strict_verification: true
 serial_task_execution: true
 master_plan: docs/work/system-map-next-optimization-master.yaml
 execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
-objective: Produce a navigable coverage view from capability through source, endpoint, client, test, runtime scenario, and evidence.
+objective: Produce a navigable coverage view from capability through source, endpoint,
+  client, test, runtime scenario, and evidence.
 tasks:
-  - id: define-coverage-model
-    title: Define coverage edge classes and missing-edge semantics
-    type: analysis
-    status: pending
-    inventory_item: evidence-coverage-design
-    paths: [docs/capability-evidence-registry.yaml, docs/test-topology-registry.yaml, docs/runtime-acceptance-matrix.yaml]
-    required_paths: [docs/capability-evidence-registry.yaml, docs/test-topology-registry.yaml, docs/runtime-acceptance-matrix.yaml]
-    validation: make audit-capability-evidence && make audit-docs
-  - id: implement-coverage-report
-    title: Implement a coverage report with explicit missing edges
-    type: implementation
-    status: pending
-    inventory_item: evidence-coverage-report
-    paths: [scripts/audits/generate-capability-evidence-coverage.rb, Makefile, docs/capability-evidence-registry.yaml]
-    required_paths: [scripts/audits/generate-capability-evidence-coverage.rb, Makefile, docs/capability-evidence-registry.yaml]
-    validation: make capability-evidence-coverage && make audit-capability-evidence && make audit-docs
-exit_evidence: Navigable coverage report that distinguishes source, test, runtime, and native evidence gaps.
+- id: define-coverage-model
+  title: Define coverage edge classes and missing-edge semantics
+  type: analysis
+  status: done
+  inventory_item: evidence-coverage-design
+  paths:
+  - docs/capability-evidence-registry.yaml
+  - docs/test-topology-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  required_paths:
+  - docs/capability-evidence-registry.yaml
+  - docs/test-topology-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  validation: make audit-capability-evidence && make audit-docs
+  started_at: '2026-07-22T15:10:31Z'
+  start_fingerprints:
+    docs/capability-evidence-registry.yaml: 790a29a2138adecff03e87de94b2287b017a56f1f6074d3d6f87a15af639031f
+    docs/test-topology-registry.yaml: 907993403bce063e59b07422fd0d87e8f167a7837bdd71b2d63fd6cea0ca26b3
+    docs/runtime-acceptance-matrix.yaml: bcdcad680628186b5156530ccd750e1f73eec5bd7069b9109ec49e45c8d34d71
+- id: implement-coverage-report
+  title: Implement a coverage report with explicit missing edges
+  type: implementation
+  status: done
+  inventory_item: evidence-coverage-report
+  paths:
+  - scripts/audits/generate-capability-evidence-coverage.rb
+  - Makefile
+  - docs/capability-evidence-registry.yaml
+  required_paths:
+  - scripts/audits/generate-capability-evidence-coverage.rb
+  - Makefile
+  - docs/capability-evidence-registry.yaml
+  validation: make capability-evidence-coverage && make audit-capability-evidence
+    && make audit-docs
+  started_at: '2026-07-22T15:11:01Z'
+  start_fingerprints:
+    scripts/audits/generate-capability-evidence-coverage.rb: __missing__
+    Makefile: 74beb434cbc586f42fb215bdb9b012afda84b1001941c023ffa9b62e644bc158
+    docs/capability-evidence-registry.yaml: 4a7b46d78ada07fb4c56a91641a98975c1e7c6a7e67e79a3333fffaa64ed1fbb
+exit_evidence: Navigable coverage report that distinguishes source, test, runtime,
+  and native evidence gaps.
+evidence:
+- task: define-coverage-model
+  command: make audit-capability-evidence && make audit-docs
+  ranAt: '2026-07-22T15:10:48Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/test-topology-registry.yaml
+  output: |+
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 307
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:10:31Z'
+  changedAfterStart: &1
+  - docs/capability-evidence-registry.yaml
+  - docs/test-topology-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: implement-coverage-report
+  command: make capability-evidence-coverage && make audit-capability-evidence &&
+    make audit-docs
+  ranAt: '2026-07-22T15:11:48Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/capability-evidence-registry.yaml
+  - scripts/audits/generate-capability-evidence-coverage.rb
+  output: |+
+    Capability evidence coverage report generated
+      capability families: 6
+      runtime counts: 65 passed / 16 pending
+      missing-edge semantics: explicit and advisory
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 307
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:11:01Z'
+  changedAfterStart: &2
+  - scripts/audits/generate-capability-evidence-coverage.rb
+  - Makefile
+  - docs/capability-evidence-registry.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -15,6 +15,54 @@ optimization_status:
   classified_rows: 5
   review_required_rows: 62
   next_action: Select bounded owner-review batches; do not promote proposed classes to runtime-complete capability evidence.
+review_batch_model:
+  status: designed
+  order: [platform, business, chat_social, work_sharing]
+  required_review_fields: [endpoint, domain, controller, owner, consumer, authority, test, runtime_class, evidence, decision, unresolved_gap]
+  completion_rule: A row may leave review_required only when owner, consumer, authority, test, and source or runtime evidence are recorded.
+  non_promotion_rule: Static classification, controller inspection, or client linkage alone cannot change runtime acceptance status.
+  batch_boundary: Each batch is verified independently and updates only its owned rows; unresolved rows retain review_required.
+batch_reviews:
+  - batch: platform
+    owner: identity_or_location
+    endpoints: [GET /app_users, POST /app_users, DELETE /app_users/:param, GET /app_users/:param, PUT /app_users/:param, GET /app_users/options, GET /location/admin/status, PUT /profile/gallery/me/:param]
+    consumers: [admin, web, vision]
+    authority: docs/permission-visibility-matrix.yaml#identity_profile
+    tests: [docs/regression-scenario-catalog.yaml]
+    runtime_class: runtime_evidence_not_reconciled
+    evidence: [docs/endpoint-client-evidence-registry.yaml, source-traced-controller]
+    decision: reviewed_with_gaps
+    unresolved_gap: Direct client callsite or runtime consumer evidence is still missing for these non-Web rows; no runtime status promotion is made.
+  - batch: business
+    owner: business
+    endpoints: [GET /business/booking-policy/me, PUT /business/booking-policy/me, GET /business/bookings/me/:param, POST /business/bookings/owner, GET /business/bookings/owner/:param, POST /business/bookings/owner/:param/cancel, POST /business/bookings/owner/:param/complete, POST /business/bookings/owner/:param/confirm, POST /business/bookings/owner/:param/mark-no-show, POST /business/bookings/owner/:param/reject, GET /business/dashboard/me/schedule, POST /business/gallery, GET /business/gallery/object, GET /business/profiles/:param, GET /business/public/:param/availability, GET /business/public/:param/offerings]
+    consumers: [web, vision, admin]
+    authority: docs/permission-visibility-matrix.yaml#business_booking
+    tests: [docs/regression-scenario-catalog.yaml]
+    runtime_class: runtime_evidence_not_reconciled
+    evidence: [docs/endpoint-client-evidence-registry.yaml, source-traced-controller]
+    decision: reviewed_with_gaps
+    unresolved_gap: Business owner/customer consumer links and fresh runtime evidence remain incomplete; authority and policy ownership are identified.
+  - batch: chat_social
+    owner: chat_or_social
+    endpoints: [GET /chat/applications/:param/thread, POST /chat/applications/:param/thread, GET /chat/attachments/object, GET /chat/attachments/storage-status, GET /chat/circles/:param/room, POST /chat/circles/:param/room, PATCH /chat/conversations/:param/delivery, PATCH /chat/conversations/:param/group, POST /chat/conversations/:param/participants, DELETE /chat/conversations/:param/participants/:param, PATCH /chat/conversations/:param/participants/:param/role, PATCH /chat/conversations/:param/state, POST /chat/presence/heartbeat, GET /chat/quests/:param/thread, POST /chat/quests/:param/thread, DELETE /circles/admin/groups/:param, GET /circles/admin/overview, GET /circles/candidates, PUT /circles/connections/:param/circles, GET /circles/groups/:param/accessible, GET /circles/nearby, GET /circles/relations/:param]
+    consumers: [web, vision, admin, websocket]
+    authority: docs/permission-visibility-matrix.yaml#chat_social
+    tests: [docs/regression-scenario-catalog.yaml]
+    runtime_class: runtime_evidence_not_reconciled
+    evidence: [docs/endpoint-client-evidence-registry.yaml, source-traced-controller]
+    decision: reviewed_with_gaps
+    unresolved_gap: Chat protocol, circle eligibility, attachment lifecycle, and direct consumer/runtime links require row-level follow-up.
+  - batch: work_sharing
+    owner: workmarket_or_sharing
+    endpoints: [GET /news/me/unread-count, GET /quests, DELETE /quests/:param, GET /quests/:param, GET /quests/:param/applications, PATCH /quests/:param/applications/:param/approve, PATCH /quests/:param/applications/:param/decline, PATCH /quests/:param/cancel, PATCH /quests/:param/complete, PATCH /quests/:param/pause, PATCH /quests/:param/resume, PATCH /quests/:param/start, PATCH /quests/:param/term/confirm, PATCH /quests/:param/term/reject, GET /quests/presets/:param, GET /quests/search]
+    consumers: [web, vision, admin]
+    authority: docs/permission-visibility-matrix.yaml#workmarket_quest
+    tests: [docs/regression-scenario-catalog.yaml]
+    runtime_class: runtime_evidence_not_reconciled
+    evidence: [docs/endpoint-capability-traceability-registry.yaml, source-traced-controller]
+    decision: reviewed_with_gaps
+    unresolved_gap: Work and sharing rows need per-endpoint consumer/test/runtime linkage; static controller ownership is not runtime proof.
 rows:
 - {endpoint: 'GET /app_users', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: review_required, reason: broad_user_directory_endpoint_has_no_web_callsite}
 - {endpoint: 'POST /app_users', domain: identity, controller: AppUserController, proposed_class: admin_or_agent, owner: identity, decision: review_required, reason: account_creation_scope_requires_security_confirmation}

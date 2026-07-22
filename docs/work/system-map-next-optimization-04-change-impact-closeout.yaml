@@ -2,28 +2,107 @@ kind: work
 version: 1
 id: system-map-next-optimization-04-change-impact-closeout
 title: Integrate change impact into work closeout
-status: draft
+status: verified
 baseline: 62cdb7f
 strict_verification: true
 serial_task_execution: true
 master_plan: docs/work/system-map-next-optimization-master.yaml
 execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
-objective: Make the advisory System Map change-impact report a declared review input for selected non-trivial work-plan closeouts.
+objective: Make the advisory System Map change-impact report a declared review input
+  for selected non-trivial work-plan closeouts.
 tasks:
-  - id: integrate-impact-closeout
-    title: Define report ownership, freshness, and closeout linkage
-    type: implementation
-    status: pending
-    inventory_item: change-impact-integration
-    paths: [scripts/audits/generate-system-map-change-impact.rb, docs/implementation-control.md, docs/work-plan.template.yaml]
-    required_paths: [scripts/audits/generate-system-map-change-impact.rb, docs/implementation-control.md, docs/work-plan.template.yaml]
-    validation: make system-map-impact && make audit-docs
-  - id: prove-impact-pilot
-    title: Prove one work-plan closeout consumes the generated impact report
-    type: analysis
-    status: pending
-    inventory_item: change-impact-pilot
-    paths: [docs/system-map-next-optimization-preflight.md, docs/implementation-backlog.md]
-    required_paths: [docs/system-map-next-optimization-preflight.md, docs/implementation-backlog.md]
-    validation: make audit-plan-coverage && make audit-docs && git diff --check
-exit_evidence: One verified pilot showing report consumption without treating advisory output as status authority.
+- id: integrate-impact-closeout
+  title: Define report ownership, freshness, and closeout linkage
+  type: implementation
+  status: done
+  inventory_item: change-impact-integration
+  paths:
+  - scripts/audits/generate-system-map-change-impact.rb
+  - docs/implementation-control.md
+  - docs/work-plan.template.yaml
+  required_paths:
+  - scripts/audits/generate-system-map-change-impact.rb
+  - docs/implementation-control.md
+  - docs/work-plan.template.yaml
+  validation: make system-map-impact && make audit-docs
+  started_at: '2026-07-22T15:09:17Z'
+  start_fingerprints:
+    scripts/audits/generate-system-map-change-impact.rb: b9bedab03ad0da217b6884da3ca1b556b47b287f2a25578874242dc2e0e89932
+    docs/implementation-control.md: 889ef90a71b028b50b95f664f2dd3fcf3988bf2b2c1472293d9b9ff32e6f8952
+    docs/work-plan.template.yaml: 77c942cb25dca13b99d3fbcbf6850ab160a14783fed26eed60c07e3dca7c46c1
+- id: prove-impact-pilot
+  title: Prove one work-plan closeout consumes the generated impact report
+  type: analysis
+  status: done
+  inventory_item: change-impact-pilot
+  paths:
+  - docs/system-map-next-optimization-preflight.md
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/system-map-next-optimization-preflight.md
+  - docs/implementation-backlog.md
+  validation: make audit-plan-coverage && make audit-docs && git diff --check
+  started_at: '2026-07-22T15:09:59Z'
+  start_fingerprints:
+    docs/system-map-next-optimization-preflight.md: 175c5f1d1da743a9620ead1a29f9ad42169849bbc40fdbbabed7664e8eee7609
+    docs/implementation-backlog.md: f012fb2a9fc0eef1c4dc573ee35211b777eb1790fc44b0c19ee4072146fc1e05
+exit_evidence: One verified pilot showing report consumption without treating advisory
+  output as status authority.
+evidence:
+- task: integrate-impact-closeout
+  command: make system-map-impact && make audit-docs
+  ranAt: '2026-07-22T15:09:53Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  - docs/work-plan.template.yaml
+  - scripts/audits/generate-system-map-change-impact.rb
+  output: |+
+    System-map change impact report generated
+      changed files: 21
+      registries to review: 3
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 307
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:09:17Z'
+  changedAfterStart: &1
+  - scripts/audits/generate-system-map-change-impact.rb
+  - docs/implementation-control.md
+  - docs/work-plan.template.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: prove-impact-pilot
+  command: make audit-plan-coverage && make audit-docs && git diff --check
+  ranAt: '2026-07-22T15:10:19Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/system-map-next-optimization-preflight.md
+  output: |+
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 307
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-22T15:09:59Z'
+  changedAfterStart: &2
+  - docs/system-map-next-optimization-preflight.md
+  - docs/implementation-backlog.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

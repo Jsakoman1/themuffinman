@@ -49,3 +49,10 @@ rules:
 - static_audit_and_source_trace_do_not_replace_runtime_evidence
 - runtime_artifact_must_be_fresh_and_declared_by_owning_plan
 - native_contract_readiness_is_not_device_implementation_proof
+coverage_contract:
+  status: implemented
+  edge_order: [capability, source, endpoint, client, test, runtime, evidence]
+  evidence_classes: [source_trace, validated_contract, test_result, browser_trace, device_trace, provider_trace, operator_trace]
+  missing_edge_semantics: Missing evidence is a navigable gap; it does not imply capability absence or runtime failure.
+  pending_runtime_semantics: Pending runtime rows remain pending until their declared evidence class is present and reconciled.
+  generated_report: docs/audit-output/capability-evidence-coverage.json

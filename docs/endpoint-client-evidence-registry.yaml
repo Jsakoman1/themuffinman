@@ -34,6 +34,20 @@ rules:
 - native_handoff_contract_does_not_prove_native_implementation
 - family_registry_must_reference_specialized_canonical_sources
 - specialized_registries_remain_authoritative_for_their_own_fact_class
+review_batch_contract:
+  source: docs/endpoint-reconciliation-review.yaml
+  required_fields: [owner, consumer, authority, tests, runtime, evidence]
+  review_order: [platform, business, chat_social, work_sharing]
+  runtime_promotion: forbidden_without_runtime_evidence
+  unresolved_rows: remain_review_required
+batch_reviews:
+  - batch: business
+    owner: business
+    authority: docs/permission-visibility-matrix.yaml#business_booking
+    endpoint_registry: docs/endpoint-reconciliation-review.yaml
+    tests: docs/regression-scenario-catalog.yaml
+    runtime_class: runtime_evidence_not_reconciled
+    unresolved_gap: direct consumer and runtime proof remain open
 closeout:
   registry_integrity: pending_verification
   runtime_completeness: not_claimed

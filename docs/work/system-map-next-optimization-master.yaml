@@ -2,35 +2,89 @@ kind: master
 version: 1
 id: system-map-next-optimization-master
 title: Strengthen System Map boundaries, evidence coverage, and change-impact automation
-status: draft
+status: verified
 baseline: 62cdb7f
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/system-map-next-optimization-master-execution-inventory.yaml
-objective: Extend the verified System Map operating model with dependency-boundary enforcement, endpoint review batches, canonical-source linting, automated change-impact closeout, capability-to-evidence coverage, and configuration/environment drift detection.
+objective: Extend the verified System Map operating model with dependency-boundary
+  enforcement, endpoint review batches, canonical-source linting, automated change-impact
+  closeout, capability-to-evidence coverage, and configuration/environment drift detection.
 preflight_source: docs/system-map-next-optimization-preflight.md
 system_map_source: docs/system-map.md
 registry_sources:
-  - docs/system-map-coverage-registry.yaml
-  - docs/system-truth-registry.yaml
-  - docs/module-dependency-registry.yaml
-  - docs/endpoint-reconciliation-review.yaml
-  - docs/capability-evidence-registry.yaml
-  - docs/runtime-acceptance-matrix.yaml
-  - docs/security-operations-recovery-registry.yaml
+- docs/system-map-coverage-registry.yaml
+- docs/system-truth-registry.yaml
+- docs/module-dependency-registry.yaml
+- docs/endpoint-reconciliation-review.yaml
+- docs/capability-evidence-registry.yaml
+- docs/runtime-acceptance-matrix.yaml
+- docs/security-operations-recovery-registry.yaml
 scope:
-  - machine-checkable backend and frontend dependency boundaries
-  - endpoint review in bounded domain batches with owner and evidence linkage
-  - canonical-source and current-claim consistency lint
-  - change-impact report integration into work-plan closeout
-  - capability-to-source-to-test-to-runtime evidence coverage
-  - typed configuration, environment, and secret classification drift
+- machine-checkable backend and frontend dependency boundaries
+- endpoint review in bounded domain batches with owner and evidence linkage
+- canonical-source and current-claim consistency lint
+- change-impact report integration into work-plan closeout
+- capability-to-source-to-test-to-runtime evidence coverage
+- typed configuration, environment, and secret classification drift
 out_of_scope:
-  - product feature development unrelated to these controls
-  - native application implementation
-  - production infrastructure changes not represented in the repository
-  - silently promoting pending runtime or external-operation evidence
+- product feature development unrelated to these controls
+- native application implementation
+- production infrastructure changes not represented in the repository
+- silently promoting pending runtime or external-operation evidence
 children:
+- docs/work/system-map-next-optimization-01-dependency-boundaries.yaml
+- docs/work/system-map-next-optimization-02-endpoint-review.yaml
+- docs/work/system-map-next-optimization-03-canonical-source-lint.yaml
+- docs/work/system-map-next-optimization-04-change-impact-closeout.yaml
+- docs/work/system-map-next-optimization-05-test-evidence-coverage.yaml
+- docs/work/system-map-next-optimization-06-config-environment-drift.yaml
+- docs/work/system-map-next-optimization-07-closeout.yaml
+principles:
+- Backend domain services remain authoritative for permissions, validation, workflows,
+  and state transitions.
+- Static mapping, audit output, and source traces never prove runtime behavior by
+  themselves.
+- Current status belongs to machine-readable canonical sources; historical analysis
+  remains historical.
+- Every new check must have a clear failure message and a documented remediation path.
+- Endpoint review batches may classify ownership but must not promote runtime completion
+  without evidence.
+- New control must reduce ambiguity or repeated manual work rather than add ceremony.
+entry_gate:
+  required_state:
+  - previous_system_map_optimization_is_committed_and_pushed
+  - worktree_is_clean_or_pre_existing_changes_are_explicitly_baselined
+  - current_runtime_counts_reconcile_at_65_passed_and_16_pending
+  - no_unclassified_pending_runtime_rows
+  required_commands:
+  - make audit-runtime-acceptance
+  - make audit-capability-evidence
+  - make audit-truth-registry
+  - make audit-docs
+  - make audit-plan-coverage
+exit_gate:
+  required_conditions:
+  - forbidden_dependency_directions_have_machine_checkable_rules_or_explicit_exceptions
+  - endpoint_review_batches_have_owner_consumer_authority_test_and_evidence_linkage
+  - canonical_source_lint_rejects_selected_current_claim_drift
+  - change_impact_report_is_referenced_by_work_closeout_without_becoming_status_authority
+  - capability_evidence_coverage_exposes_missing_source_test_or_runtime_edges
+  - configuration_environment_and_secret_classification_drift_is_checked
+  - all child plans and final audits are verifier-verified
+  - native, provider, process-crash, and production-operation boundaries remain explicit
+success_measures:
+- dependency audit reports forbidden edges with actionable paths
+- endpoint review queue decreases in verified owner batches without false runtime
+  promotion
+- canonical-source lint catches an intentionally seeded stale claim
+- one work-plan closeout consumes a generated change-impact report
+- coverage report identifies missing evidence edges per capability
+- config audit identifies unclassified or mismatched operational settings
+evidence:
+- verifiedAt: '2026-07-22T15:16:56Z'
+  revision: acc9581b9ef64729e5bca88f99fb3632478e1875
+  children:
   - docs/work/system-map-next-optimization-01-dependency-boundaries.yaml
   - docs/work/system-map-next-optimization-02-endpoint-review.yaml
   - docs/work/system-map-next-optimization-03-canonical-source-lint.yaml
@@ -38,39 +92,3 @@ children:
   - docs/work/system-map-next-optimization-05-test-evidence-coverage.yaml
   - docs/work/system-map-next-optimization-06-config-environment-drift.yaml
   - docs/work/system-map-next-optimization-07-closeout.yaml
-principles:
-  - Backend domain services remain authoritative for permissions, validation, workflows, and state transitions.
-  - Static mapping, audit output, and source traces never prove runtime behavior by themselves.
-  - Current status belongs to machine-readable canonical sources; historical analysis remains historical.
-  - Every new check must have a clear failure message and a documented remediation path.
-  - Endpoint review batches may classify ownership but must not promote runtime completion without evidence.
-  - New control must reduce ambiguity or repeated manual work rather than add ceremony.
-entry_gate:
-  required_state:
-    - previous_system_map_optimization_is_committed_and_pushed
-    - worktree_is_clean_or_pre_existing_changes_are_explicitly_baselined
-    - current_runtime_counts_reconcile_at_65_passed_and_16_pending
-    - no_unclassified_pending_runtime_rows
-  required_commands:
-    - make audit-runtime-acceptance
-    - make audit-capability-evidence
-    - make audit-truth-registry
-    - make audit-docs
-    - make audit-plan-coverage
-exit_gate:
-  required_conditions:
-    - forbidden_dependency_directions_have_machine_checkable_rules_or_explicit_exceptions
-    - endpoint_review_batches_have_owner_consumer_authority_test_and_evidence_linkage
-    - canonical_source_lint_rejects_selected_current_claim_drift
-    - change_impact_report_is_referenced_by_work_closeout_without_becoming_status_authority
-    - capability_evidence_coverage_exposes_missing_source_test_or_runtime_edges
-    - configuration_environment_and_secret_classification_drift_is_checked
-    - all child plans and final audits are verifier-verified
-    - native, provider, process-crash, and production-operation boundaries remain explicit
-success_measures:
-  - dependency audit reports forbidden edges with actionable paths
-  - endpoint review queue decreases in verified owner batches without false runtime promotion
-  - canonical-source lint catches an intentionally seeded stale claim
-  - one work-plan closeout consumes a generated change-impact report
-  - coverage report identifies missing evidence edges per capability
-  - config audit identifies unclassified or mismatched operational settings

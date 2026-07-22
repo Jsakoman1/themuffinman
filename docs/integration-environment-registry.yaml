@@ -21,3 +21,10 @@ secret_controls:
 - {id: provider_keys, source: OPENAI_API_KEY/SIDEQUEST_GEOAPIFY_API_KEY, rotation: unknown, evidence_class: source-trace}
 - {id: storage_keys, source: SIDEQUEST_OBJECT_STORAGE_ACCESS_KEY/SIDEQUEST_OBJECT_STORAGE_SECRET_KEY, rotation: unknown, evidence_class: source-trace}
 gaps: [provider_sla_and_outage_exercises, payload_field_classification, secret_rotation_evidence, deployed_value_inventory, network_egress_policy]
+configuration_surface_analysis:
+  status: analyzed
+  source_of_property_names: apps/themuffinman/src/main/resources/application.properties
+  typed_owner_root: apps/themuffinman/src/main/java/com/themuffinman/app/config
+  environment_override_sources: [.env.backend.dev, .env.backend.dev.local, deployed_environment_unknown]
+  secret_value_policy: names_and_classification_only; never print values
+  external_limits: deployed values, provider rotation, network egress, and production rollout remain unknown

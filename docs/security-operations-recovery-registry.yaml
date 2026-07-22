@@ -37,3 +37,10 @@ rules:
 - static_configuration_does_not_prove_deployed_secret_or_backup_behavior
 - visibility_and_consent_remain_backend_policy_decisions
 - synthetic_and_sandbox_flows_must_remain_separate_from_production_like_behavior
+configuration_drift_contract:
+  status: implemented
+  canonical_property_source: apps/themuffinman/src/main/resources/application.properties
+  typed_config_owner: apps/themuffinman/src/main/java/com/themuffinman/app/config
+  secret_handling: redact_values_and_report_names_only
+  external_state: unknown_without_deployment_or_provider_evidence
+  generated_report: docs/audit-output/configuration-environment-drift.json

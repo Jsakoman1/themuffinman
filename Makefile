@@ -41,6 +41,7 @@ audit-backend:
 	ruby scripts/audits/audit-repository-fetch.rb
 	ruby scripts/audits/audit-mapper-usage.rb
 	ruby scripts/audits/audit-mutation-safety.rb
+	$(MAKE) audit-module-dependency-direction
 
 audit-frontend:
 	ruby scripts/audits/audit-ui-entrypoints.rb
@@ -80,6 +81,18 @@ audit-data-workflow-impact:
 
 audit-capability-evidence:
 	@ruby scripts/audits/audit-capability-evidence-freshness.rb
+
+audit-module-dependency-direction:
+	@ruby scripts/audits/audit-module-dependency-direction.rb
+
+audit-canonical-source-integrity:
+	@ruby scripts/audits/audit-canonical-source-integrity.rb
+
+capability-evidence-coverage:
+	@ruby scripts/audits/generate-capability-evidence-coverage.rb
+
+audit-configuration-environment-drift:
+	@ruby scripts/audits/audit-configuration-environment-drift.rb
 
 audit-delivery-provenance:
 	@ruby scripts/audits/audit-delivery-provenance.rb
