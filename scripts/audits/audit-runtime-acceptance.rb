@@ -34,4 +34,22 @@ raise "Runtime targets missing from router: #{missing_targets.join(', ')}" unles
 
 pending = scenarios.count { |scenario| scenario["status"] == "pending_runtime" }
 passed = scenarios.count { |scenario| scenario["status"] == "passed" }
+
+closeout = YAML.load_file("docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml")
+closeout_audit = closeout.fetch("audit")
+unless closeout_audit.fetch("passed") == passed && closeout_audit.fetch("pending_runtime") == pending
+  raise "Runtime closeout artifact is stale: matrix=#{passed}/#{pending}, closeout=#{closeout_audit.fetch("passed")}/#{closeout_audit.fetch("pending_runtime")}"
+end
+
+closeout_registry = YAML.load_file("docs/system-map-runtime-closeout-registry.yaml").fetch("baseline")
+unless closeout_registry.fetch("runtime_passed") == passed && closeout_registry.fetch("runtime_pending") == pending
+  raise "System-map runtime closeout registry is stale: matrix=#{passed}/#{pending}, registry=#{closeout_registry.fetch("runtime_passed")}/#{closeout_registry.fetch("runtime_pending")}"
+end
+
+closeout_row = scenarios.find { |scenario| scenario["id"] == "runtime-capability-closeout" }
+note = closeout_row&.fetch("note", "")
+unless note.include?("#{passed} passed") && note.include?("#{pending} explicitly classified pending")
+  raise "Runtime capability closeout matrix note is stale"
+end
+
 puts "Runtime acceptance audit passed (#{passed} passed, #{pending} pending runtime scenarios)."

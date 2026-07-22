@@ -13,7 +13,7 @@ audit:
   unclassified_pending: 0
 passed_evidence:
   freshness_audit: make audit-capability-evidence
-  evidence_paths_checked: 60
+  evidence_paths_checked: 61
   runtime_rows_with_evidence: 65
 pending_evidence_boundaries:
   native_device: [runtime-mobile-presentation, runtime-watch-presentation, runtime-cross-client-contract, runtime-visibility-native-handoff, runtime-visibility-device-revoke]

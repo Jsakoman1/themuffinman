@@ -35,13 +35,13 @@ sources: [docs/system-map-coverage-registry.yaml, docs/runtime-acceptance-matrix
 baseline:
   system_map_masters: verified
   arch_masters: [ARCH-001, ARCH-002, ARCH-003, ARCH-004, ARCH-005]
-  runtime_passed: 42
-  runtime_pending: 39
+  runtime_passed: 65
+  runtime_pending: 16
   endpoint_review_required: 62
 workstreams:
 - {id: endpoint_review, owner: interface_registry, status: review_required, source: docs/endpoint-reconciliation-review.yaml, next_action: owner_review_and_evidence_linkage}
 - {id: runtime_acceptance, owner: runtime_evidence, status: pending_runtime, source: docs/runtime-acceptance-matrix.yaml, next_action: execute_high_risk_scenarios}
-  - {id: side_effect_replay, owner: operations, status: partial_workmarket_outbox_verified, source: docs/side-effect-delivery-contract.yaml, next_action: process_crash_runtime_proof_alerting_and_broader_consumer_adoption}
+- {id: side_effect_replay, owner: operations, status: partial_workmarket_outbox_verified, source: docs/side-effect-delivery-contract.yaml, next_action: process_crash_runtime_proof_alerting_and_broader_consumer_adoption}
 - {id: read_observability, owner: runtime_observability, status: partial_measurement, source: docs/read-model-reliability-contract.yaml, next_action: instrument_query_count_and_sql_timing}
 - {id: consent_client_parity, owner: privacy_and_clients, status: web_fresh_read_verified, source: docs/visibility-consent-parity-contract.yaml, next_action: cached_view_vision_reconnect_and_device_acceptance}
 - {id: native_device, owner: native_client_boundary, status: unknown, source: docs/native-client-contract.yaml, next_action: native_source_and_device_proof}
