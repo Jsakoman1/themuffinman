@@ -1,0 +1,148 @@
+kind: work
+version: 1
+id: frontend-form-and-action-standardization
+title: Standardize frontend forms and action hierarchy
+status: verified
+baseline: 2997ba0
+master_plan: docs/work/frontend-next-standardization-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-next-standardization-execution-inventory.yaml
+objective: Reduce native one-off form and action patterns while preserving backend-authorized
+  behavior.
+tasks:
+- id: audit-form-primitives
+  inventory_item: forms-actions
+  type: analysis
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue
+  - docs/audit-output/frontend-form-action-audit-2026-07-22.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  validation: git diff --check
+  started_at: '2026-07-22T20:03:23Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue: 763ee5944fee1fe82cce89f7341bb4c602bea584b9390609665e4336884d505c
+- id: migrate-form-surfaces
+  inventory_item: forms-surfaces
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-22T20:03:54Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: 27413106478aa9731d69babfaf2430feb90607b89d6a9a3cd26cd67d7083d521
+- id: normalize-action-copy
+  inventory_item: forms-copy
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-22T20:04:28Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue: f8573c426d171e20493c0706cf7719fa0d4a26557fe4efb6b86c1e97bffce3f7
+acceptance:
+- Primary, secondary, quiet, and danger actions have consistent meaning.
+- Save/cancel/close behavior is consistent across dialogs and inline forms.
+- No frontend action invents permissions or workflow transitions.
+validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+  apps/themuffinman/frontend run build
+evidence:
+- task: audit-form-primitives
+  command: git diff --check
+  ranAt: '2026-07-22T20:03:49Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue
+  output: "\n"
+  startedAt: '2026-07-22T20:03:23Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-form-surfaces
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T20:04:19Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-rWwpFDIk.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-CaPX0aeT.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-Jli58oFj.js                  10.50 kB │ gzip:   3.49 kB
+    dist/assets/CirclesView-VOxngS0y.js                           11.09 kB │ gzip:   3.33 kB
+    dist/assets/ThingsDiscoveryView-xatL7ys2.js                   11.87 kB │ gzip:   3.80 kB
+    dist/assets/BusinessProfileView-BA8tKsgg.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-BOiZ55a9.js                             13.03 kB │ gzip:   4.10 kB
+    dist/assets/WorkQuestDetailView-7GolTasv.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-DtZlLjKT.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-DJ8Y5tHx.js                         18.10 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-D9E7QtYD.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-mtVhRD-b.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-sBUqtH_Z.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Uph5BoSV.js                                 52.51 kB │ gzip:  13.47 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 593ms
+
+  startedAt: '2026-07-22T20:03:54Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: normalize-action-copy
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T20:04:57Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-CZvrjCgj.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-73os_SAE.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-7HeS9vor.js                  10.50 kB │ gzip:   3.49 kB
+    dist/assets/CirclesView-D8Ay8sye.js                           11.09 kB │ gzip:   3.33 kB
+    dist/assets/ThingsDiscoveryView-lqCFi7BH.js                   11.87 kB │ gzip:   3.80 kB
+    dist/assets/BusinessProfileView-DfLa69En.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-CW91W-Te.js                             13.03 kB │ gzip:   4.10 kB
+    dist/assets/WorkQuestDetailView-CjSxlLqC.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-C9FCF2cw.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-CEg8wxS-.js                         18.10 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-B1znPaU5.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DGQLANJW.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BoTPL5lc.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-2tfLDb52.js                                 52.51 kB │ gzip:  13.46 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 596ms
+
+  startedAt: '2026-07-22T20:04:28Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

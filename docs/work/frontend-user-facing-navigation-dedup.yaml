@@ -1,0 +1,172 @@
+kind: work
+version: 1
+id: frontend-user-facing-navigation-dedup
+title: Remove duplicate frontend navigation and action entry points
+status: verified
+baseline: 2997ba0
+master_plan: docs/work/frontend-standardization-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - backend navigation contracts
+  - domain workflow permissions and action availability
+  residual_scope:
+  - surface archetype composition
+  - responsive and visual consolidation
+  retest_triggers:
+  - shell navigation
+  - route metadata
+  - page header action changes
+  non_duplication_rule: Prior verified shell and route evidence is reused; this plan
+    verifies only newly removed duplicate entry points.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: Make shell and context navigation authoritative for sibling routes and
+  remove duplicate route buttons from high- visibility page headers while preserving
+  the primary task action.
+tasks:
+- id: route-action-matrix
+  inventory_item: p0-route-action-matrix
+  title: Map shell, context, and local route/action duplication
+  type: analysis
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  required_paths:
+  - docs/work/frontend-route-action-matrix.yaml
+  validation: git diff --check
+  started_at: '2026-07-22T18:25:55Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts: af584a73614cf454bacf2139b49b32350b95de063dcd6853649fa0a380414349
+    docs/audit-output/frontend-route-action-matrix.yaml: b23de89fe7847ecfd6421db49130c80c36332f17bb64a11a4e5c8b1e715979e8
+- id: remove-duplicate-route-actions
+  inventory_item: p0-remove-duplicate-actions
+  title: Keep one authoritative sibling-route navigation layer
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+  started_at: '2026-07-22T18:27:34Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: 710b001dc9771498eb803a8f3dd072d3d6eb99c7a9c2656e84ec28772f647003
+- id: browser-navigation-walkthrough
+  title: Verify navigation ownership in the browser
+  type: runtime
+  status: done
+  inventory_item: p0-browser-walkthrough
+  paths:
+  - docs/work/frontend-route-action-matrix.yaml
+  required_paths:
+  - docs/work/frontend-route-action-matrix.yaml
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-navigation-dedup-2026-07-22.json
+  validation: make audit-frontend && git diff --check
+  started_at: '2026-07-22T18:35:17Z'
+  start_fingerprints:
+    docs/audit-output/frontend-route-action-matrix.yaml: __missing__
+acceptance:
+- Sibling routes are not duplicated in local page headers when context navigation
+  already exposes them.
+- Each affected page retains at most one primary task action and any server-authorized
+  workflow actions.
+- No route target or backend behavior changes.
+closeout:
+  required:
+  - npm --prefix apps/themuffinman/frontend run type-check
+  - npm --prefix apps/themuffinman/frontend run build
+evidence:
+- task: route-action-matrix
+  command: git diff --check
+  ranAt: '2026-07-22T18:27:26Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  output: "\n"
+  startedAt: '2026-07-22T18:25:55Z'
+  changedAfterStart: &1
+  - docs/work/frontend-route-action-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: remove-duplicate-route-actions
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-22T18:28:19Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  startedAt: '2026-07-22T18:27:34Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: browser-navigation-walkthrough
+  command: make audit-frontend && git diff --check
+  ranAt: '2026-07-22T18:35:44Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-route-action-matrix.yaml
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 96
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  startedAt: '2026-07-22T18:35:17Z'
+  changedAfterStart: &3
+  - docs/work/frontend-route-action-matrix.yaml
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-navigation-dedup-2026-07-22.json

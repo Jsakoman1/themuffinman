@@ -1,0 +1,193 @@
+kind: execution_inventory
+version: 1
+id: frontend-standardization-master-execution-inventory
+master_plan: docs/work/frontend-standardization-master.yaml
+serial_task_execution: true
+purpose: Ordered frontend standardization queue; one child task is pursued at a time.
+items:
+- id: foundation-shell
+  sequence: 1
+  plan: docs/work/frontend-standardization-foundation.yaml
+  task: standardize-authenticated-shell
+  status: verified
+- id: foundation-collection-flow
+  sequence: 2
+  plan: docs/work/frontend-standardization-foundation.yaml
+  task: standardize-collection-detail-flow
+  status: verified
+- id: foundation-things-recovery
+  sequence: 3
+  plan: docs/work/frontend-standardization-foundation.yaml
+  task: repair-things-partial-loading
+  status: verified
+- id: rides-detail-flow
+  sequence: 4
+  plan: docs/work/frontend-standardization-module-sweep.yaml
+  task: standardize-rides-detail-flow
+  status: verified
+- id: rides-surface-validation
+  sequence: 5
+  plan: docs/work/frontend-standardization-module-sweep.yaml
+  task: validate-rides-surface
+  status: verified
+- id: rides-child-navigation
+  sequence: 6
+  plan: docs/work/frontend-standardization-navigation-coverage.yaml
+  task: add-rides-child-navigation
+  status: verified
+- id: business-discovery
+  sequence: 7
+  plan: docs/work/frontend-standardization-business-discovery.yaml
+  task: standardize-business-discovery-detail-flow
+  status: verified
+- id: business-surface-validation
+  sequence: 8
+  plan: docs/work/frontend-standardization-business-discovery.yaml
+  task: validate-business-discovery-surface
+  status: verified
+- id: people-detail-flow
+  sequence: 9
+  plan: docs/work/frontend-standardization-social-surfaces.yaml
+  task: standardize-people-detail-flow
+  status: verified
+- id: circles-context-copy
+  sequence: 10
+  plan: docs/work/frontend-standardization-social-surfaces.yaml
+  task: simplify-circles-context-copy
+  status: verified
+- id: business-context-copy
+  sequence: 11
+  plan: docs/work/frontend-standardization-context-copy.yaml
+  task: simplify-context-and-settings-copy
+  status: verified
+- id: chat-context-copy
+  sequence: 12
+  plan: docs/work/frontend-standardization-context-copy.yaml
+  task: simplify-chat-action-copy
+  status: verified
+- id: work-applications-detail-flow
+  sequence: 13
+  plan: docs/work/frontend-standardization-work-applications.yaml
+  task: direct-application-detail-navigation
+  status: verified
+- id: p0-route-action-matrix
+  sequence: 14
+  plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+  task: route-action-matrix
+  status: verified
+  started_at: '2026-07-22T18:25:55Z'
+  verified_at: '2026-07-22T18:27:26Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+    task: route-action-matrix
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p0-remove-duplicate-actions
+  sequence: 15
+  plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+  task: remove-duplicate-route-actions
+  status: verified
+  started_at: '2026-07-22T18:27:34Z'
+  verified_at: '2026-07-22T18:28:21Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+    task: remove-duplicate-route-actions
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p0-browser-walkthrough
+  sequence: 16
+  plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+  task: browser-navigation-walkthrough
+  status: verified
+  started_at: '2026-07-22T18:35:17Z'
+  verified_at: '2026-07-22T18:35:45Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+    task: browser-navigation-walkthrough
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p1-surface-matrix
+  sequence: 17
+  plan: docs/work/frontend-user-facing-surface-archetypes.yaml
+  task: classify-collection-surfaces
+  status: verified
+  started_at: '2026-07-22T18:35:58Z'
+  verified_at: '2026-07-22T18:36:50Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-surface-archetypes.yaml
+    task: classify-collection-surfaces
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p1-detail-frame
+  sequence: 18
+  plan: docs/work/frontend-user-facing-surface-archetypes.yaml
+  task: standardize-detail-frame
+  status: verified
+  started_at: '2026-07-22T18:39:57Z'
+  verified_at: '2026-07-22T18:40:13Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-surface-archetypes.yaml
+    task: standardize-detail-frame
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p1-browser-walkthrough
+  sequence: 19
+  plan: docs/work/frontend-user-facing-surface-archetypes.yaml
+  task: browser-surface-walkthrough
+  status: verified
+  started_at: '2026-07-22T18:40:31Z'
+  verified_at: '2026-07-22T18:41:40Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-surface-archetypes.yaml
+    task: browser-surface-walkthrough
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p2-state-copy
+  sequence: 20
+  plan: docs/work/frontend-user-facing-state-form-standardization.yaml
+  task: normalize-state-copy
+  status: verified
+  started_at: '2026-07-22T18:42:00Z'
+  verified_at: '2026-07-22T18:46:11Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-state-form-standardization.yaml
+    task: normalize-state-copy
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p2-form-actions
+  sequence: 21
+  plan: docs/work/frontend-user-facing-state-form-standardization.yaml
+  task: normalize-form-actions
+  status: verified
+  started_at: '2026-07-22T18:46:17Z'
+  verified_at: '2026-07-22T18:46:46Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-state-form-standardization.yaml
+    task: normalize-form-actions
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p3-viewport-matrix
+  sequence: 22
+  plan: docs/work/frontend-user-facing-responsive-consolidation.yaml
+  task: viewport-matrix
+  status: verified
+  started_at: '2026-07-22T18:47:13Z'
+  verified_at: '2026-07-22T18:48:34Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-responsive-consolidation.yaml
+    task: viewport-matrix
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p3-css-consolidation
+  sequence: 23
+  plan: docs/work/frontend-user-facing-responsive-consolidation.yaml
+  task: consolidate-repeated-surface-css
+  status: verified
+  started_at: '2026-07-22T18:48:47Z'
+  verified_at: '2026-07-22T18:49:14Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-responsive-consolidation.yaml
+    task: consolidate-repeated-surface-css
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: p3-browser-visual-walkthrough
+  sequence: 24
+  plan: docs/work/frontend-user-facing-responsive-consolidation.yaml
+  task: browser-visual-walkthrough
+  status: verified
+  started_at: '2026-07-22T18:49:18Z'
+  verified_at: '2026-07-22T18:51:33Z'
+  evidence:
+    plan: docs/work/frontend-user-facing-responsive-consolidation.yaml
+    task: browser-visual-walkthrough
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26

@@ -37,7 +37,7 @@ const save = async () => {
         <AppFormField label="Award" hint="Backend-validated draft" required><input v-model.number="form.awardAmount" type="number" min="0" step="0.01" required></AppFormField>
         <label class="quest-create__checkbox"><input v-model="form.termFixed" type="checkbox"> Fixed terms</label>
         <p v-if="error" class="quest-create__error" role="alert">{{ error }}</p>
-        <AppFormFooter sticky><template #secondary><RouterLink to="/work/quests">Cancel</RouterLink></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Creating" : "Create quest" }}</AppButton></template></AppFormFooter>
+        <AppFormFooter sticky><template #secondary><RouterLink to="/work/quests">Cancel</RouterLink></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Creating…" : "Create quest" }}</AppButton></template></AppFormFooter>
       </form>
       <aside class="quest-create__summary" aria-label="Quest draft summary">
         <p class="quest-create__summary-eyebrow">Draft summary</p>

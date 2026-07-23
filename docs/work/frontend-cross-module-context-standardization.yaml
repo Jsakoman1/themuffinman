@@ -1,0 +1,331 @@
+kind: work
+version: 1
+id: frontend-cross-module-context-standardization
+title: Standardize cross-module collection and detail behavior
+status: verified
+baseline: 2997ba0
+objective: Keep discovery collections in place while a selected item is inspected,
+  and make dashboard counts and labels match their destination scope.
+strict_verification: true
+serial_task_execution: false
+tasks:
+- id: align-home-work-semantics
+  title: Align Home work metric with My work scope
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+- id: standardize-things-context
+  title: Add in-place Things context and explicit detail action
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+- id: standardize-rides-context
+  title: Add in-place Rides context and explicit detail action
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+- id: standardize-business-context
+  title: Add in-place Business context and explicit detail action
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+- id: standardize-people-context
+  title: Add in-place People context and explicit profile action
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+- id: standardize-application-context
+  title: Add in-place application context and explicit detail action
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+- id: remove-implicit-timeline-navigation
+  title: Keep Activity and notification collections in place
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+validation:
+- npm --prefix apps/themuffinman/frontend run type-check
+- npm --prefix apps/themuffinman/frontend run build
+- git diff --check
+acceptance:
+- Home labels and counts describe My work rather than only active owned work.
+- Things, Rides, and Business discovery rows select in place and expose an explicit
+  full-detail action.
+- No discovery row silently navigates away on click.
+evidence:
+- task: align-home-work-semantics
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:27:44Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-Ca7CJVAQ.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DiXDLpTL.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-JqEHqUtF.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-DFaf9GGk.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-cyMqH9EZ.js                   11.95 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-CYHlAxPt.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-Br0aUDFz.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-DWm96Vx_.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-D_X6Y9u9.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-UkV7kOd1.js                         18.08 kB │ gzip:   5.42 kB
+    dist/assets/AuthenticatedShellView-D9Db15_P.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DAqQL6wF.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BZqimDWv.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Dt-IHgYM.js                                 52.46 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 596ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: standardize-things-context
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:27:48Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-Ca7CJVAQ.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DiXDLpTL.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-JqEHqUtF.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-DFaf9GGk.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-cyMqH9EZ.js                   11.95 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-CYHlAxPt.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-Br0aUDFz.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-DWm96Vx_.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-D_X6Y9u9.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-UkV7kOd1.js                         18.08 kB │ gzip:   5.42 kB
+    dist/assets/AuthenticatedShellView-D9Db15_P.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DAqQL6wF.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BZqimDWv.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Dt-IHgYM.js                                 52.46 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 513ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: standardize-rides-context
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:27:52Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-Ca7CJVAQ.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DiXDLpTL.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-JqEHqUtF.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-DFaf9GGk.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-cyMqH9EZ.js                   11.95 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-CYHlAxPt.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-Br0aUDFz.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-DWm96Vx_.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-D_X6Y9u9.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-UkV7kOd1.js                         18.08 kB │ gzip:   5.42 kB
+    dist/assets/AuthenticatedShellView-D9Db15_P.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DAqQL6wF.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BZqimDWv.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Dt-IHgYM.js                                 52.46 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 504ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: standardize-business-context
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:27:56Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-Ca7CJVAQ.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DiXDLpTL.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-JqEHqUtF.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-DFaf9GGk.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-cyMqH9EZ.js                   11.95 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-CYHlAxPt.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-Br0aUDFz.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-DWm96Vx_.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-D_X6Y9u9.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-UkV7kOd1.js                         18.08 kB │ gzip:   5.42 kB
+    dist/assets/AuthenticatedShellView-D9Db15_P.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DAqQL6wF.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BZqimDWv.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Dt-IHgYM.js                                 52.46 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 599ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: standardize-people-context
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:28:00Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-Ca7CJVAQ.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DiXDLpTL.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-JqEHqUtF.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-DFaf9GGk.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-cyMqH9EZ.js                   11.95 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-CYHlAxPt.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-Br0aUDFz.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-DWm96Vx_.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-D_X6Y9u9.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-UkV7kOd1.js                         18.08 kB │ gzip:   5.42 kB
+    dist/assets/AuthenticatedShellView-D9Db15_P.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DAqQL6wF.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BZqimDWv.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Dt-IHgYM.js                                 52.46 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 513ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: standardize-application-context
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:28:04Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-Ca7CJVAQ.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DiXDLpTL.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-JqEHqUtF.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-DFaf9GGk.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-cyMqH9EZ.js                   11.95 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-CYHlAxPt.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-Br0aUDFz.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-DWm96Vx_.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-D_X6Y9u9.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-UkV7kOd1.js                         18.08 kB │ gzip:   5.42 kB
+    dist/assets/AuthenticatedShellView-D9Db15_P.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DAqQL6wF.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BZqimDWv.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Dt-IHgYM.js                                 52.46 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 500ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: remove-implicit-timeline-navigation
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:28:08Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-Ca7CJVAQ.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DiXDLpTL.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-JqEHqUtF.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-DFaf9GGk.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-cyMqH9EZ.js                   11.95 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-CYHlAxPt.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-Br0aUDFz.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-DWm96Vx_.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-D_X6Y9u9.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-UkV7kOd1.js                         18.08 kB │ gzip:   5.42 kB
+    dist/assets/AuthenticatedShellView-D9Db15_P.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DAqQL6wF.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BZqimDWv.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Dt-IHgYM.js                                 52.46 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 535ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

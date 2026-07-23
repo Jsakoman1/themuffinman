@@ -3,7 +3,7 @@ withDefaults(defineProps<{sticky?: boolean}>(), {sticky: false})
 </script>
 
 <template>
-  <footer class="app-form-footer" :class="{'app-form-footer--sticky': sticky}"><div class="app-form-footer__secondary"><slot name="secondary" /></div><div class="app-form-footer__primary"><slot name="primary" /></div></footer>
+  <footer class="app-form-footer" :class="{'app-form-footer--sticky': sticky}" aria-label="Form actions"><div class="app-form-footer__secondary"><slot name="secondary" /></div><div class="app-form-footer__primary"><slot name="primary" /></div></footer>
 </template>
 
 <style scoped>

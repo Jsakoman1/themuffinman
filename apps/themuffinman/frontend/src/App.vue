@@ -5,11 +5,11 @@ import {authApi} from "./modules/identity/api/authApi.ts"
 import {clearSession, saveSession, token} from "./services/sessionService.ts"
 import AppActionDialog from "./modules/app-shell/components/AppActionDialog.vue"
 import {userShellApi, type AppearancePreference} from "./modules/app-shell/api/userShellApi.ts"
+import {applyAppearanceTheme, readCachedAppearanceTheme} from "./services/appearanceTheme.ts"
 
-const applyAppearanceTheme = (theme: AppearancePreference["theme"]) => {
-  document.documentElement.dataset.theme = theme.toLowerCase()
-  document.documentElement.style.colorScheme = theme === "SYSTEM" ? "light dark" : theme.toLowerCase()
-}
+// Apply the last known choice before the authenticated preference request returns.
+applyAppearanceTheme(readCachedAppearanceTheme())
+
 const handleAppearanceChanged = (event: Event) => applyAppearanceTheme((event as CustomEvent<AppearancePreference["theme"]>).detail)
 
 onMounted(() => {
@@ -36,7 +36,6 @@ onMounted(() => {
 })
 
 onMounted(() => {
-  if (!token.value) return
   window.addEventListener("app:appearance-changed", handleAppearanceChanged)
 })
 onBeforeUnmount(() => window.removeEventListener("app:appearance-changed", handleAppearanceChanged))

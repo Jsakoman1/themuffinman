@@ -1,0 +1,38 @@
+kind: frontend-route-action-matrix
+version: 1
+status: reviewed
+source_plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+purpose: Durable matrix for shell, context, and local page navigation ownership.
+entries:
+  - surface: authenticated-shell
+    route: all-authenticated-routes
+    shell_owner: [primary-module-rail, WorkspaceContextNav]
+    local_actions: []
+    decision: shell-and-context-navigation-authoritative
+  - surface: rides
+    route: /rides
+    context_owner: Rides child navigation
+    local_actions:
+      - {label: Discover, route: /rides, disposition: remove-duplicate}
+      - {label: My rides, route: /rides/mine, disposition: remove-duplicate}
+      - {label: Offer a ride, route: /rides?create=1, disposition: retain-primary-task}
+    reason: Discover and My rides are context children; Offer a ride creates a new object.
+  - surface: business-discovery
+    route: /business/find
+    context_owner: Business child navigation
+    local_actions:
+      - {label: My business, route: /business, disposition: remove-duplicate}
+    reason: Business context navigation owns the transition to owner surfaces.
+  - surface: work-discovery
+    route: /work
+    context_owner: Work child navigation
+    local_actions:
+      - {label: Offer work, route: /work/offer, disposition: retain-primary-task}
+      - {label: Ask Vision, route: /vision, disposition: retain-contextual-assistance}
+    reason: These are task entry points, not sibling-route tabs.
+  - surface: profile-location-settings
+    route: /profile/settings
+    context_owner: Profile settings route
+    local_actions:
+      - {label: Notification preferences, route: /profile/settings/notifications, disposition: retain-until-profile-subnavigation-exists}
+    reason: Profile does not currently expose Notifications as a backend-prepared child.

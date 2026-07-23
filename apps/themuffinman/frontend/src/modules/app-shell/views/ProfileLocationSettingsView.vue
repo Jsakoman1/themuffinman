@@ -247,7 +247,7 @@ onMounted(async () => {
 
 <template>
   <section class="location-settings">
-    <header><p class="eyebrow">Profile settings</p><h1>Location</h1><p class="intro">Choose how your location supports nearby discovery. Exact address visibility remains governed by your existing privacy settings.</p><RouterLink class="settings-link" to="/profile/settings/notifications">Manage notification preferences</RouterLink></header>
+    <header><p class="eyebrow">Profile settings</p><h1>Profile and location</h1><p class="intro">Manage your profile, appearance, location, and privacy.</p></header>
     <CollectionToolbar title="Profile and location" :busy="isLoading"><template #actions><RouterLink to="/profile/settings/notifications">Notification preferences</RouterLink></template></CollectionToolbar>
     <div class="guided-profile-entry"><AppButton type="button" tone="secondary" @click="guidedProfileOpen = !guidedProfileOpen">{{ guidedProfileOpen ? "Close guided profile setup" : "Use guided profile setup" }}</AppButton><GuidedIntakePanel v-if="guidedProfileOpen" flow="identity.profile.update" title="Update your profile" description="Answer the meaningful profile questions first, then review the rest of your privacy settings." @completed="acceptGuidedProfileDraft" @cancel="guidedProfileOpen = false" /></div>
     <AppStatus v-if="error" :message="error" tone="error" />

@@ -1,5 +1,4 @@
 import {computed, ref, watch, type Ref} from "vue"
-import {useRoute, useRouter} from "vue-router"
 import type {DisplayDensity} from "../api/userShellApi.ts"
 
 export type SurfaceViewState = {
@@ -20,7 +19,7 @@ export const collectionPerformancePolicy = Object.freeze({
   selection: "presentation-only"
 })
 
-export type CollectionKeyboardCallbacks = {open: (id: number) => void; preview: (id: number) => void; clear: () => void}
+export type CollectionKeyboardCallbacks = {open: (id: number) => void; preview?: (id: number) => void; clear: () => void}
 export const handleCollectionKeyboard = (event: KeyboardEvent, ids: number[], state: SurfaceViewState, callbacks: CollectionKeyboardCallbacks) => {
   const target = event.target
   if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || (target instanceof HTMLElement && target.isContentEditable) || !ids.length) return false
@@ -29,7 +28,7 @@ export const handleCollectionKeyboard = (event: KeyboardEvent, ids: number[], st
   if (event.key === "ArrowDown" || event.key.toLowerCase() === "j") { move(1); return true }
   if (event.key === "ArrowUp" || event.key.toLowerCase() === "k") { move(-1); return true }
   if (event.key === "Enter" && state.selectedId !== null) { event.preventDefault(); callbacks.open(state.selectedId); return true }
-  if (event.key.toLowerCase() === "p" && state.selectedId !== null) { event.preventDefault(); state.previewId = state.selectedId; callbacks.preview(state.selectedId); return true }
+  if (event.key.toLowerCase() === "p" && state.selectedId !== null && callbacks.preview) { event.preventDefault(); state.previewId = state.selectedId; callbacks.preview(state.selectedId); return true }
   if (event.key === "Escape") { event.preventDefault(); callbacks.clear(); return true }
   return false
 }
@@ -57,13 +56,8 @@ const readState = (key: string): SurfaceViewState => {
 }
 
 export const useSurfaceViewState = (surface: string, viewerId: Ref<number | undefined>, context: Ref<string>) => {
-  const route = useRoute()
-  const router = useRouter()
   const storageKey = computed(() => `surface-view-state:${surface}:viewer:${viewerId.value ?? "anonymous"}:${stableContext(context.value)}`)
   const state = ref<SurfaceViewState>(readState(storageKey.value))
-  const queryId = (value: unknown) => typeof value === "string" && /^\d+$/.test(value) ? Number(value) : null
-  const applyUrlState = () => { const selectedId = queryId(route.query.selected); const previewId = queryId(route.query.preview); if (selectedId !== null) state.value.selectedId = selectedId; if (previewId !== null) state.value.previewId = previewId }
-  applyUrlState()
 
   const persist = () => {
     if (typeof window !== "undefined") window.sessionStorage.setItem(storageKey.value, JSON.stringify(state.value))
@@ -71,9 +65,8 @@ export const useSurfaceViewState = (surface: string, viewerId: Ref<number | unde
 
   watch(storageKey, (nextKey) => { state.value = readState(nextKey) })
   watch(state, persist, {deep: true})
-  watch(() => [route.query.selected, route.query.preview], applyUrlState)
-  watch(() => [state.value.selectedId, state.value.previewId], async ([selectedId, previewId]) => { const selected = selectedId === null ? undefined : String(selectedId); const preview = previewId === null ? undefined : String(previewId); if (route.query.selected === selected && route.query.preview === preview) return; await router.replace({query: {...route.query, selected, preview}}) })
-  const clearStaleSelection = async () => { state.value.selectedId = null; state.value.previewId = null; await router.replace({query: {...route.query, selected: undefined, preview: undefined}}) }
+  const applyUrlState = () => undefined
+  const clearStaleSelection = () => { state.value.selectedId = null; state.value.previewId = null }
 
   return {state, persist, applyUrlState, clearStaleSelection}
 }

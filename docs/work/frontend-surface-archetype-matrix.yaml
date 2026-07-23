@@ -1,0 +1,65 @@
+kind: frontend-surface-archetype-matrix
+version: 1
+status: reviewed
+source_plan: docs/work/frontend-user-facing-surface-archetypes.yaml
+purpose: Durable classification of direct-detail collections and intentional review/context surfaces.
+entries:
+  - id: work-discovery
+    routes: [/work, /work/find, /work/quests]
+    archetype: direct-list-to-detail
+    detail_route: /work/quests/:questId
+    reason: A quest has a canonical detail surface; row click is navigation.
+  - id: work-applications
+    routes: [/work/applications]
+    archetype: direct-list-to-detail
+    detail_route: /work/applications/:applicationId
+    reason: Applications now open their canonical detail route directly.
+  - id: business-discovery
+    routes: [/business/find]
+    archetype: direct-list-to-detail
+    detail_route: /business/public/:slug
+    reason: Public business profiles have a canonical detail route.
+  - id: things
+    routes: [/things, /things/mine]
+    archetype: direct-list-to-detail
+    detail_route: /things/:listingId
+    reason: Thing listings have a canonical detail surface; borrow actions remain on detail or row actions as authorized.
+  - id: rides
+    routes: [/rides, /rides/mine]
+    archetype: direct-list-to-detail
+    detail_route: /rides/:rideId
+    reason: Ride rows navigate to a detail route; lifecycle actions remain server-authorized row actions.
+  - id: people
+    routes: [/people]
+    archetype: direct-list-to-detail
+    detail_route: /people/:userId
+    reason: People results open a canonical profile route.
+  - id: notifications
+    routes: [/notifications]
+    archetype: in-place-review-context
+    detail_route: null
+    reason: The selected update is triaged in place and may have no canonical destination; preserve a compact context rail.
+  - id: quest-application-review
+    routes: [/work/quests/:questId/applications]
+    archetype: in-place-review-context
+    detail_route: null
+    reason: Owner review, approve/decline, release, and replace actions are performed against the quest review context.
+  - id: circles
+    routes: [/circles]
+    archetype: in-place-management-context
+    detail_route: null
+    reason: Circle selection changes management context and no separate circle detail route exists.
+  - id: chat
+    routes: [/chat, /chat/:conversationId]
+    archetype: split-pane-workspace
+    detail_route: /chat/:conversationId
+    reason: Conversation list, thread, and context are a deliberate split-pane workspace rather than a preview panel.
+detail_frame_targets:
+  - /work/quests/:questId
+  - /work/applications/:applicationId
+  - /things/:listingId
+  - /rides/:rideId
+  - /people/:userId
+  - /business/public/:slug
+runtime_evidence:
+  - docs/runtime-evidence/frontend-surface-archetypes-2026-07-22.json

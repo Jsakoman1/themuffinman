@@ -1,0 +1,109 @@
+kind: work
+version: 1
+id: frontend-standardization-module-sweep
+title: Standardize Rides collection navigation and remove duplicate preview interaction
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+master_plan: docs/work/frontend-standardization-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-standardization-foundation.yaml
+  baseline_only_surfaces:
+  - Work and Things collection interaction, already verified by the foundation child
+  - backend Rides permissions, lifecycle, and visibility rules
+  residual_scope:
+  - Business, Circles, Chat, Profile, and remaining module-specific copy/action cleanup
+  - browser visual evidence for the Rides detail handoff
+  retest_triggers:
+  - Rides collection row, detail route, action, loading, or error-state changes
+  non_duplication_rule: Verify only new Rides collection behavior; prior shell and
+    Work/Things evidence remains baseline-only.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: 'Make Rides follow the same collection grammar as Work and Things: the
+  result row is the direct entry to detail, Preview is removed, and the collection
+  no longer spends layout space on a duplicate side panel.'
+tasks:
+- id: standardize-rides-detail-flow
+  inventory_item: rides-detail-flow
+  title: Make Rides rows open detail routes and remove the preview panel
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: validate-rides-surface
+  inventory_item: rides-surface-validation
+  title: Validate shared route and frontend surface contracts after the Rides cleanup
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+acceptance:
+- Clicking a Rides result opens its canonical `/rides/:rideId` detail route.
+- Rides no longer exposes a Preview button or side preview panel.
+- Server-provided Rides actions remain available on the result row.
+- Existing matching, commute, create, edit, and recovery behavior remains intact.
+evidence:
+- task: standardize-rides-detail-flow
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-22T17:54:37Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: validate-rides-surface
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T17:54:40Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-DIjtYUrE.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-Hkunm78d.js               8.08 kB │ gzip:   2.66 kB
+    dist/assets/ThingsDiscoveryView-DFer4yBV.js                   10.80 kB │ gzip:   3.43 kB
+    dist/assets/WorkspaceSurfaceView-Ey6g141f.js                  11.07 kB │ gzip:   3.65 kB
+    dist/assets/CirclesView-D8gPDwao.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/RidesView-DJYEeWYM.js                             12.04 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-BO4N6QBB.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-6cGqxrQT.js                   13.22 kB │ gzip:   4.24 kB
+    dist/assets/ChatSurfaceView-DGLxnwPr.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/SurfaceHeader-DDknT2ug.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-Cax3Ehw0.js           20.81 kB │ gzip:   6.57 kB
+    dist/assets/AuthenticatedShellView-B-ZiTX7a.js                21.99 kB │ gzip:   7.17 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-eg25zH40.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-DceqKnny.js                                 52.46 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 522ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

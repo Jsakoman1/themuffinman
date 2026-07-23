@@ -1,0 +1,110 @@
+kind: work
+version: 1
+id: frontend-standardization-social-surfaces
+title: Standardize People discovery and Circles context surfaces
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+master_plan: docs/work/frontend-standardization-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-standardization-foundation.yaml
+  - docs/work/frontend-standardization-module-sweep.yaml
+  baseline_only_surfaces:
+  - backend relationship permissions and consent rules
+  - existing Circle request and blocking workflows
+  residual_scope:
+  - Chat and Profile module cleanup
+  - Circle detail-route design if circles later become routable objects
+  retest_triggers:
+  - People/Circles route, relationship action, or contextual selection changes
+  non_duplication_rule: Direct People detail navigation is new evidence; Circles selected
+    context remains intentionally local because no circle detail route exists.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: Remove duplicate People preview navigation, preserve direct profile routing,
+  and simplify Circles copy while retaining the selected-circle context needed for
+  member management.
+tasks:
+- id: standardize-people-detail-flow
+  inventory_item: people-detail-flow
+  title: Make People rows open profiles directly and remove preview competition
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: simplify-circles-context-copy
+  inventory_item: circles-context-copy
+  title: Rename Circle context and reduce duplicated privacy copy
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+acceptance:
+- Clicking a People result opens `/people/:userId` directly.
+- People no longer exposes a Preview button or preview-only empty panel.
+- Circles retains selected member context but no longer labels it as Preview.
+- Circle privacy guidance is concise and remains accurate.
+evidence:
+- task: standardize-people-detail-flow
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-22T17:59:57Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: simplify-circles-context-copy
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T18:00:00Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-CXWzM1rE.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DQqfBjgd.js               8.08 kB │ gzip:   2.66 kB
+    dist/assets/ThingsDiscoveryView-WFgKINIf.js                   10.80 kB │ gzip:   3.43 kB
+    dist/assets/WorkspaceSurfaceView-Cy41XGdk.js                  11.07 kB │ gzip:   3.65 kB
+    dist/assets/CirclesView-BZiupzNu.js                           11.08 kB │ gzip:   3.33 kB
+    dist/assets/RidesView-Dh0WLATN.js                             12.04 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-jHEs6_e4.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-C1ZbzEab.js                   13.22 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-Bb0Is9jr.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/SurfaceHeader-CZdgzurc.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-Cpm8-AEG.js           20.81 kB │ gzip:   6.58 kB
+    dist/assets/AuthenticatedShellView-BuK_7yq8.js                21.99 kB │ gzip:   7.17 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-CzW4GNmi.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-BT9lob0m.js                                 52.44 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 568ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

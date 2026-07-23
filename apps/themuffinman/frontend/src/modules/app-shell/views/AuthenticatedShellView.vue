@@ -4,13 +4,9 @@ import {RouterLink, RouterView, useRoute} from "vue-router"
 import {appPersonalShortcuts, authenticatedShellContract, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
 import {buildSurfaceVisionPrompt, buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
 import GlobalVisionEntry from "../components/GlobalVisionEntry.vue"
-import VisionForWebHost from "../components/VisionForWebHost.vue"
 import AccountMenu from "../components/AccountMenu.vue"
 import UniversalCreateMenu from "../components/UniversalCreateMenu.vue"
 import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
-import AppActionMenu from "../components/AppActionMenu.vue"
-import WorkspaceKeyboardHelp from "../components/WorkspaceKeyboardHelp.vue"
-import QuickSwitcher from "../components/QuickSwitcher.vue"
 import WorkspaceModuleRail from "../components/WorkspaceModuleRail.vue"
 import AppButton from "../components/AppButton.vue"
 import {userShellApi, type AttentionCenter, type PersonalShortcut} from "../api/userShellApi.ts"
@@ -30,14 +26,6 @@ const activeNavId = computed<AppPrimaryNavId | null>(() => {
 })
 
 const workspaceNavigation = useWorkspaceNavigation()
-
-const shellTitle = computed(() => {
-  if (!currentSurfaceId.value) {
-    return "TheMuffinMan"
-  }
-
-  return getAppSurfaceConfig(currentSurfaceId.value).title
-})
 
 const currentContextLabel = computed(() => {
   if (!currentSurfaceId.value) {
@@ -83,7 +71,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 </script>
 
 <template>
-  <div class="app-shell" data-workspace-shell="authenticated" :data-workspace-layout="authenticatedShellContract.layout" :style="{'--workspace-rail-width': `${railWidthPx}px`}">
+  <div class="app-shell" data-workspace-shell="authenticated" data-responsive-policy="shared-shell" :data-workspace-layout="authenticatedShellContract.layout" :style="{'--workspace-rail-width': `${railWidthPx}px`}">
     <aside class="app-shell__rail" aria-label="Primary navigation">
       <div class="app-shell__brand">
         <p class="app-shell__brand-mark" aria-label="TheMuffinMan">TM</p>
@@ -107,20 +95,10 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 
     <div class="app-shell__frame">
       <header class="app-shell__header" aria-label="Workspace context">
-        <div class="app-shell__context">
-          <h1 class="app-shell__title">{{ shellTitle }}</h1>
-        </div>
-
         <div class="app-shell__header-actions">
           <UniversalCreateMenu />
           <GlobalSearchEntry />
-          <QuickSwitcher />
           <GlobalVisionEntry :context="currentContextLabel" :placeholder="visionPlaceholder" :contextual-route="contextualVisionRoute" />
-          <VisionForWebHost :context="currentContextLabel" :source="`shell.surface.${currentSurfaceId ?? 'workspace'}`" :return-to="route.fullPath" />
-          <WorkspaceKeyboardHelp />
-          <AppActionMenu label="Open personal shortcuts">
-            <RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to">{{ item.label }}</RouterLink>
-          </AppActionMenu>
           <AccountMenu />
         </div>
       </header>
@@ -139,7 +117,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
       <div v-if="mobileDrawerOpen" class="app-shell__drawer-backdrop" @click.self="closeMobileDrawer">
         <aside id="mobile-workspace-drawer" ref="mobileDrawer" class="app-shell__drawer" aria-label="Workspace navigation" tabindex="-1" @keydown.esc.prevent="closeMobileDrawer">
           <header class="app-shell__drawer-header"><span>Workspace</span><AppButton type="button" tone="quiet" aria-label="Close navigation" @click="closeMobileDrawer">×</AppButton></header>
-          <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" @click="closeMobileDrawer" />
+          <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" show-children @click="closeMobileDrawer" />
           <nav class="app-shell__drawer-nav" aria-label="Personal"><p class="app-shell__nav-heading">Personal</p><RouterLink v-for="item in pinned" :key="`drawer-pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link" @click="closeMobileDrawer">★ {{ item.title }}</RouterLink><RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link" @click="closeMobileDrawer">{{ item.label }}</RouterLink><RouterLink to="/profile" class="app-shell__account-link" @click="closeMobileDrawer">Profile</RouterLink><RouterLink to="/profile/settings" class="app-shell__account-link" @click="closeMobileDrawer">Settings</RouterLink></nav>
         </aside>
       </div>
@@ -502,6 +480,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   .app-shell__header,
   .app-shell__header-actions {
     align-items: stretch;
+    min-width: 0;
   }
 
   .app-shell__header {
@@ -510,6 +489,9 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   }
 
   .app-shell__header-actions {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
     justify-items: stretch;
   }
 

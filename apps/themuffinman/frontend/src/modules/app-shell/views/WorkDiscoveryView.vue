@@ -7,7 +7,6 @@ import {resolveSurfaceDetailRoute} from "../shellRouteRegistry.ts"
 import {buildSurfaceVisionRoute} from "../visionHandoff.ts"
 import {currentUser} from "../../identity/auth.ts"
 import {handleCollectionKeyboard, useSurfaceViewState} from "../composables/useSurfaceViewState.ts"
-import ObjectPreviewPanel from "../components/ObjectPreviewPanel.vue"
 import {isEditableTarget} from "../composables/useObjectActions.ts"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
@@ -15,6 +14,7 @@ import AppEmptyState from "../components/AppEmptyState.vue"
 import AppLoadingState from "../components/AppLoadingState.vue"
 import DisplayDensityControl from "../components/DisplayDensityControl.vue"
 import AppButton from "../components/AppButton.vue"
+import {formatDateTime} from "../../../services/formatters.ts"
 
 const route = useRoute()
 const router = useRouter()
@@ -34,19 +34,16 @@ let requestSequence = 0
 let activeRequest: AbortController | null = null
 
 const isMine = computed(() => route.name === "work-quests")
-const scope = computed(() => typeof route.query.scope === "string" ? route.query.scope : (isMine.value ? "owned-active" : "open-visible"))
-const isOwnedActive = computed(() => scope.value === "owned-active")
-const title = computed(() => isOwnedActive.value ? "My active work" : route.name === "work-find" ? "Find work" : "Work")
+// Keep the viewer scope explicit at the request boundary. The backend owns
+// visibility and ownership rules; the page only selects the matching preset.
+const workPreset = computed(() => isMine.value ? "MY_VISIBLE" as const : "AVAILABLE" as const)
+const title = computed(() => isMine.value ? "My work" : route.name === "work-find" ? "Find work" : "Work")
+const selectedQuest = computed(() => items.value.find(item => item.id === viewState.value.selectedId) ?? null)
 const visionRoute = computed(() => buildSurfaceVisionRoute(
   isMine.value ? "work-quests" : "work",
   route.fullPath,
   `${title.value}${query.value.trim() ? ` · ${query.value.trim()}` : ""}`
 ))
-
-const formatDate = (value: string | null) => {
-  if (!value) return "Flexible"
-  return new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value))
-}
 
 const locationLabel = (quest: QuestResponseDTO) => quest.presentation.locationLabel || quest.locationLocality || "Anywhere"
 
@@ -66,7 +63,7 @@ const load = async (reset = true) => {
   try {
     const response = await userShellApi.searchQuests({
       q: query.value,
-      preset: isOwnedActive.value ? "MY_ACTIVE" : "AVAILABLE",
+      preset: workPreset.value,
       sort: sort.value === "recommended" ? undefined : sort.value,
       page: page.value,
       size: 12,
@@ -114,13 +111,6 @@ const rememberSelection = (id: number) => {
   viewState.value.scrollY = window.scrollY
 }
 const detailRoute = (id: number) => resolveSurfaceDetailRoute("work-quests", id) ?? `/vision/quests/${id}`
-const previewQuest = computed(() => items.value.find(item => item.id === viewState.value.previewId) ?? null)
-const previewSummary = ref("")
-const openPreview = async (id: number) => {
-  rememberSelection(id)
-  viewState.value.previewId = id
-  try { previewSummary.value = (await userShellApi.getQuestPreview(id)).summary || "No description provided." } catch { previewSummary.value = "This work item is no longer available." }
-}
 const handleRowClick = (event: MouseEvent, id: number) => {
   // Primary row links own navigation. Do not let the selection-state watcher
   // race that navigation by replacing the canonical detail route with a
@@ -129,8 +119,7 @@ const handleRowClick = (event: MouseEvent, id: number) => {
   if (!isEditableTarget(event.target)) rememberSelection(id)
 }
 const handleKeyboard = (event: KeyboardEvent) => handleCollectionKeyboard(event, items.value.map(item => item.id), viewState.value, {
-  open: (id) => { void router.push(detailRoute(id)) },
-  preview: (id) => { void openPreview(id) },
+  open: rememberSelection,
   clear: () => { viewState.value.selectedId = null; viewState.value.previewId = null },
 })
 
@@ -177,17 +166,30 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
     <div v-else-if="error" class="work-discovery__status work-discovery__status--error" role="alert"><strong>Work could not be loaded.</strong><span>{{ error }}</span><AppButton type="button" tone="secondary" @click="load()">Try again</AppButton></div>
     <AppEmptyState v-else-if="items.length === 0" title="No matching work" message="Try another search or adjust the filters." />
 
-    <p v-if="items.length" class="work-discovery__scope">{{ isOwnedActive ? "Owned work that still needs attention." : "Available work visible to you." }}</p>
+    <p v-if="items.length" class="work-discovery__scope">{{ isMine ? "Work you created and can manage." : "Available work visible to you." }}</p>
     <div v-if="items.length" class="work-discovery__workspace">
     <div class="work-discovery__list">
-      <SurfaceRow v-for="quest in items" :key="quest.id" :row="{id: String(quest.id), title: quest.title, description: `${quest.presentation.statusLabel} · ${locationLabel(quest)}`, meta: `${quest.awardAmount} € · ${formatDate(quest.scheduledAt)}`, to: detailRoute(quest.id)}" :density="viewState.displayDensity" :selected="viewState.selectedId === quest.id" :previewed="previewQuest?.id === quest.id" @click="handleRowClick($event, quest.id)" @preview="openPreview(quest.id)">
-        <template #actions><AppButton type="button" tone="quiet" @click.stop="openPreview(quest.id)">Preview</AppButton></template>
-      </SurfaceRow>
+      <SurfaceRow v-for="quest in items" :key="quest.id" :row="{id: String(quest.id), title: quest.title, description: `${quest.presentation.statusLabel} · ${locationLabel(quest)}`, meta: `${quest.awardAmount} € · ${formatDateTime(quest.scheduledAt)}`}" :density="viewState.displayDensity" :selected="viewState.selectedId === quest.id" @click="handleRowClick($event, quest.id)" @open="rememberSelection(quest.id)" />
     </div>
-    <ObjectPreviewPanel :title="previewQuest?.title ?? 'Work'" subtitle="Work preview" :open="previewQuest !== null" @close="viewState.previewId = null" @open-detail="previewQuest && router.push(detailRoute(previewQuest.id))">
-      <p v-if="previewQuest">{{ previewSummary || previewQuest.description || 'No description provided.' }}</p>
-      <p v-if="previewQuest" class="work-discovery__preview-meta">{{ previewQuest.presentation.statusLabel }} · {{ previewQuest.creatorUsername }}</p>
-    </ObjectPreviewPanel>
+    <aside class="work-discovery__context" aria-label="Selected work context">
+      <template v-if="selectedQuest">
+        <p class="work-discovery__eyebrow">Work context</p>
+        <h2>{{ selectedQuest.title }}</h2>
+        <p>{{ selectedQuest.description || "No description provided." }}</p>
+        <dl>
+          <div><dt>Status</dt><dd>{{ selectedQuest.presentation.statusLabel }}</dd></div>
+          <div><dt>Location</dt><dd>{{ locationLabel(selectedQuest) }}</dd></div>
+          <div><dt>Reward</dt><dd>{{ selectedQuest.awardAmount }} €</dd></div>
+          <div><dt>When</dt><dd>{{ formatDateTime(selectedQuest.scheduledAt) }}</dd></div>
+        </dl>
+        <RouterLink class="work-discovery__context-link" :to="detailRoute(selectedQuest.id)">Open full detail</RouterLink>
+      </template>
+      <template v-else>
+        <p class="work-discovery__eyebrow">Work context</p>
+        <h2>Select a work item</h2>
+        <p>Choose a work item to inspect its summary without leaving this list.</p>
+      </template>
+    </aside>
     </div>
 
     <AppButton
@@ -218,12 +220,19 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
 
 .work-discovery__workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); overflow: hidden; }
 .work-discovery__workspace .work-discovery__list { padding: 0.45rem; }
-.work-discovery__preview-meta { color: var(--text-muted); font-size: 0.84rem; }
+.work-discovery__context { display: grid; align-content: start; gap: var(--space-2); padding: var(--space-4); border-left: 1px solid var(--border-subtle); background: var(--surface-muted); }
+.work-discovery__context h2, .work-discovery__context p { margin: 0; }
+.work-discovery__context h2 { font-size: var(--text-size-title); }
+.work-discovery__context dl { display: grid; gap: var(--space-2); margin: var(--space-2) 0; }
+.work-discovery__context dl div { display: flex; justify-content: space-between; gap: var(--space-3); }
+.work-discovery__context dt { color: var(--text-muted); }
+.work-discovery__context dd { margin: 0; color: var(--text); font-weight: var(--text-weight-semibold); text-align: right; }
+.work-discovery__context-link { justify-self: start; color: var(--accent); font-weight: var(--text-weight-semibold); }
 .work-discovery__options { position: relative; }
 .work-discovery__options summary { cursor: pointer; color: var(--text-muted); font-size: var(--text-size-meta); font-weight: var(--text-weight-semibold); }
 .work-discovery__options-panel { position: absolute; z-index: 2; right: 0; display: grid; gap: var(--space-2); min-width: 13rem; margin-top: var(--space-1); padding: var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--surface-raised); box-shadow: var(--shadow-popover); }
 .work-discovery__options-panel label { display: grid; gap: var(--space-1); color: var(--text-muted); font-size: var(--text-size-meta); }
-@media (max-width: 860px) { .work-discovery__workspace { grid-template-columns: 1fr; } .work-discovery__workspace :deep(.object-preview) { border-left: 0; border-top: 1px solid var(--border-subtle); } }
+@media (max-width: 860px) { .work-discovery__workspace { grid-template-columns: 1fr; } .work-discovery__context { border-top: 1px solid var(--border-subtle); border-left: 0; } }
 
 .work-discovery__header {
   justify-content: space-between;
@@ -429,8 +438,6 @@ select {
 .work-discovery__meta{border-radius:var(--radius-control);background:var(--surface-muted)}
 .work-discovery__status{border-radius:var(--radius-surface);background:var(--surface-base)}
 .work-discovery__status--error{color:var(--danger)}
-</style>
-<style scoped>
 .work-discovery .app-button { min-height:2.25rem; border-radius:var(--radius-control); padding:.45rem .7rem; background:var(--control-bg); color:var(--control-ink); }
 .work-discovery .app-button--primary { border-color:var(--accent); background:var(--accent); color:var(--canvas); }
 </style>

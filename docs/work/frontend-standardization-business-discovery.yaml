@@ -1,0 +1,109 @@
+kind: work
+version: 1
+id: frontend-standardization-business-discovery
+title: Standardize Business discovery direct navigation
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+master_plan: docs/work/frontend-standardization-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-standardization-foundation.yaml
+  - docs/work/frontend-standardization-module-sweep.yaml
+  baseline_only_surfaces:
+  - Business owner operations and booking workflow
+  - backend Business visibility and booking permissions
+  residual_scope:
+  - Business owner surfaces and booking contextual detail panels
+  - Circles, Chat, and Profile module cleanup
+  retest_triggers:
+  - Business discovery row, route, search, or empty/error-state changes
+  non_duplication_rule: Verify only the public Business discovery direct-detail interaction;
+    preserve owner workflow evidence as baseline.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: Make public Business discovery follow the same direct list-to-detail grammar
+  as Work, Things, and Rides.
+tasks:
+- id: standardize-business-discovery-detail-flow
+  inventory_item: business-discovery
+  title: Remove Business discovery preview competition and open public detail on row
+    click
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: validate-business-discovery-surface
+  inventory_item: business-surface-validation
+  title: Validate Business discovery build and web surface contract
+  type: validation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+acceptance:
+- Clicking a public Business result opens `/business/public/:slug`.
+- Business discovery no longer exposes a Preview button or preview side panel.
+- Search, empty state, and error recovery remain intact.
+evidence:
+- task: standardize-business-discovery-detail-flow
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-22T17:57:31Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: validate-business-discovery-surface
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T17:57:34Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-_yH0gkId.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-D1bZffDy.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-Clzsg1mF.js                   10.80 kB │ gzip:   3.44 kB
+    dist/assets/WorkspaceSurfaceView-CbiQe7ZV.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-CKd_qqdN.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/RidesView-CfZq89kh.js                             12.04 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-kZ4SkG4Y.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-CK6mgIzb.js                   13.22 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-B3UbsAFW.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/SurfaceHeader-c_arU6qU.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-DZgFXdqV.js           20.81 kB │ gzip:   6.58 kB
+    dist/assets/AuthenticatedShellView-DuAWb3-l.js                21.99 kB │ gzip:   7.17 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-C9HikV3k.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-ZFyTcZAu.js                                 52.44 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 554ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

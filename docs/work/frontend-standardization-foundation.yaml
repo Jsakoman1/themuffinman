@@ -1,0 +1,159 @@
+kind: work
+version: 1
+id: frontend-standardization-foundation
+title: Standardize the authenticated frontend shell and collection interactions
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/main-surfaces-modernization-master.yaml
+  - docs/work/ui-action-integrity-master.yaml
+  baseline_only_surfaces:
+  - backend domain rules and permissions
+  - authenticated API contracts not touched by this slice
+  residual_scope:
+  - module-by-module visual cleanup after the shared shell and collection interaction
+    contract is stable
+  - remaining long-form copy and duplicate actions on Business, Rides, Circles, Chat,
+    and Profile surfaces
+  - browser visual evidence for responsive and authenticated navigation behavior
+  retest_triggers:
+  - any route, navigation, shared shell, collection row, or loading/error-state change
+  non_duplication_rule: Reuse prior route and action-integrity evidence as baseline;
+    verify only the new shell, collection, and Things recovery behavior.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: 'Establish one calm authenticated frontend grammar: a stable shell with
+  a small set of global actions, persistent module context navigation, direct collection-row
+  navigation to detail routes, no competing preview action in Work and Things, and
+  resilient partial loading for Things.'
+tasks:
+- id: standardize-authenticated-shell
+  inventory_item: foundation-shell
+  title: Reduce global shell controls and expose persistent module context navigation
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceContextNav.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceContextNav.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: standardize-collection-detail-flow
+  inventory_item: foundation-collection-flow
+  title: Make Work and Things rows open canonical detail routes and remove preview
+    competition
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+- id: repair-things-partial-loading
+  inventory_item: foundation-things-recovery
+  title: Preserve Things listings when secondary borrow-request reads fail
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run validate:web-surface
+acceptance:
+- Authenticated pages retain the left shell and a stable module context when navigating
+  to child routes.
+- The global header exposes only Create, Search, Vision, and Account as primary controls.
+- Clicking a Work or Things result opens its canonical detail route; Preview is not
+  a competing primary action.
+- Things listings remain visible when borrow-request enrichment fails, with a recoverable
+  status.
+- Existing backend authority, route ownership, and permissions remain unchanged.
+evidence:
+- task: standardize-authenticated-shell
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-22T17:52:05Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceContextNav.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceContextNav.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: standardize-collection-detail-flow
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T17:52:08Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-B1swMw8m.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-Dmby5rsw.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-C9Jz7mQ2.js                   10.80 kB │ gzip:   3.44 kB
+    dist/assets/WorkspaceSurfaceView-sZR9_YvM.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-MWMjgmkH.js                           11.21 kB │ gzip:   3.37 kB
+    dist/assets/BusinessProfileView-Cxx8huHm.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-0WdzhExH.js                             13.08 kB │ gzip:   4.12 kB
+    dist/assets/WorkQuestDetailView-Baqcx-Lf.js                   13.22 kB │ gzip:   4.24 kB
+    dist/assets/ChatSurfaceView-CvzPfDXB.js                       15.53 kB │ gzip:   5.11 kB
+    dist/assets/SurfaceHeader-B1SQU67x.js                         18.10 kB │ gzip:   5.42 kB
+    dist/assets/ProfileLocationSettingsView-Ck2U6AB5.js           20.81 kB │ gzip:   6.58 kB
+    dist/assets/AuthenticatedShellView-BL1ERfeO.js                21.99 kB │ gzip:   7.17 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-CH9pGz3N.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-K2ltevMz.js                                 52.46 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 613ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-things-partial-loading
+  command: npm --prefix apps/themuffinman/frontend run validate:web-surface
+  ranAt: '2026-07-22T17:52:10Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  output: |2+
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

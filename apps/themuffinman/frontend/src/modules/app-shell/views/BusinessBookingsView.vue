@@ -52,7 +52,7 @@ onMounted(() => void load())
   <section class="bookings-surface">
     <header class="bookings-surface__header"><div><p class="bookings-surface__eyebrow">Business / Bookings</p><h1>Bookings</h1></div></header>
     <CollectionToolbar title="Owner bookings" :count="bookings.length" :busy="isLoading" />
-    <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading." /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" /><AppStatus v-else-if="bookings.length === 0" message="No bookings yet." />
+    <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading bookings." busy /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" /><AppStatus v-else-if="bookings.length === 0" message="No bookings yet." />
     <div v-else class="bookings-surface__workspace">
       <div class="bookings-surface__list">
       <SurfaceRow v-for="booking in bookings" :key="booking.id" :row="{id: `booking-${booking.id}`, title: booking.businessOfferingTitle, description: `${booking.customerUsername} · ${formatDate(booking.startsAt)}`, meta: booking.blockingReason || booking.statusLabel, badge: booking.statusLabel}" :selected="selectedBookingId === booking.id" @click="selectedBookingId = booking.id">
@@ -63,24 +63,23 @@ onMounted(() => void load())
           <AppButton v-if="booking.allowedActions.includes('MARK_NO_SHOW')" type="button" tone="danger" :loading="isActing === booking.id" @click="execute(booking, 'mark-no-show')">No-show</AppButton>
           <AppButton v-if="booking.allowedActions.includes('RESCHEDULE')" type="button" tone="secondary" :disabled="isActing === booking.id" @click="beginReschedule(booking)">Reschedule</AppButton>
           <AppButton v-if="booking.allowedActions.includes('CANCEL') || booking.allowedActions.includes('CANCEL_AS_OWNER')" type="button" tone="danger" :loading="isActing === booking.id" @click="execute(booking, 'cancel')">Cancel</AppButton>
-          <AppDialog :open="rescheduling === booking.id" title="Reschedule booking" layout="workspace" @close="rescheduling = null"><form class="bookings-surface__reschedule" @submit.prevent="reschedule(booking)"><AppFormField label="Start" required><input v-model="rescheduleStart" type="datetime-local" required></AppFormField><AppFormField label="End" required><input v-model="rescheduleEnd" type="datetime-local" required></AppFormField><AppFormFooter><template #secondary><AppButton type="button" tone="secondary" @click="rescheduling = null">Cancel</AppButton></template><template #primary><AppButton type="submit" tone="primary" :loading="isActing === booking.id">Save time</AppButton></template></AppFormFooter></form><template #utility><p>The server checks the requested period against availability and existing booking rules before accepting the reschedule.</p></template></AppDialog></div></template>
+          <AppDialog :open="rescheduling === booking.id" title="Reschedule booking" layout="workspace" @close="rescheduling = null"><form class="bookings-surface__reschedule" @submit.prevent="reschedule(booking)"><AppFormField label="Start" required><input v-model="rescheduleStart" type="datetime-local" required></AppFormField><AppFormField label="End" required><input v-model="rescheduleEnd" type="datetime-local" required></AppFormField><AppFormFooter><template #secondary><AppButton type="button" tone="secondary" @click="rescheduling = null">Cancel</AppButton></template><template #primary><AppButton type="submit" tone="primary" :loading="isActing === booking.id">Save changes</AppButton></template></AppFormFooter></form><template #utility><p>The server checks the requested period against availability and existing booking rules before accepting the reschedule.</p></template></AppDialog></div></template>
       </SurfaceRow>
       </div>
-      <aside v-if="selectedBooking" class="bookings-surface__preview" aria-label="Booking preview">
-        <p class="bookings-surface__eyebrow">Selected booking</p>
+      <aside v-if="selectedBooking" class="bookings-surface__preview" aria-label="Booking context">
+        <p class="bookings-surface__eyebrow">Booking context</p>
         <h2>{{ selectedBooking.businessOfferingTitle }}</h2>
         <p>{{ selectedBooking.customerUsername }} · {{ formatDate(selectedBooking.startsAt) }}</p>
         <dl>
           <div><dt>Status</dt><dd>{{ selectedBooking.statusLabel }}</dd></div>
           <div><dt>Duration</dt><dd>{{ selectedBooking.durationSnapshotMinutes }} min</dd></div>
           <div><dt>Timezone</dt><dd>{{ selectedBooking.timezone }}</dd></div>
-          <div><dt>Allowed actions</dt><dd>{{ selectedBooking.allowedActions.length }}</dd></div>
         </dl>
         <p v-if="selectedBooking.blockingReason" class="bookings-surface__preview-note">{{ selectedBooking.blockingReason }}</p>
         <p v-if="selectedBooking.customerNote" class="bookings-surface__preview-note"><strong>Customer note:</strong> {{ selectedBooking.customerNote }}</p>
-        <p class="bookings-surface__preview-note">Actions remain controlled by the server-provided allowed action list.</p>
+        <p class="bookings-surface__preview-note">Available actions are controlled by the booking policy.</p>
       </aside>
-      <aside v-else class="bookings-surface__preview bookings-surface__preview--empty" aria-label="Booking preview"><p class="bookings-surface__eyebrow">Preview</p><h2>Select a booking</h2><p>Inspect booking context without leaving the owner collection.</p></aside>
+      <aside v-else class="bookings-surface__preview bookings-surface__preview--empty" aria-label="Booking context"><p class="bookings-surface__eyebrow">Booking context</p><h2>Select a booking</h2><p>Details appear here when you select a booking.</p></aside>
     </div>
   </section>
 </template>

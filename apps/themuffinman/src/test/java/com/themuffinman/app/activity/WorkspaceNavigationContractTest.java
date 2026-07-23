@@ -37,6 +37,7 @@ class WorkspaceNavigationContractTest {
         assertThat(result.module("chat").getRoute()).isEqualTo("/chat");
         assertThat(result.module("chat").getUnreadCount()).isEqualTo(1);
         assertThat(result.module("work").getChildren()).extracting("route").contains("/work/find", "/work/quests", "/work/applications");
+        assertThat(result.module("rides").getChildren()).extracting("route").containsExactly("/rides", "/rides/mine");
         assertThat(result.modules()).allMatch(module -> module.isVisible() && module.getRelevanceReason() != null);
         assertThat(result.generatedAt()).isNotNull();
     }

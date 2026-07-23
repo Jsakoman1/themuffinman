@@ -1,0 +1,408 @@
+kind: work
+version: 1
+id: frontend-runtime-correctness-regressions
+title: Repair frontend runtime correctness regressions
+status: verified
+baseline: 2997ba0
+master_plan: docs/work/frontend-next-standardization-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-next-standardization-execution-inventory.yaml
+objective: Resolve the reported runtime correctness regressions before further visual
+  cleanup.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  non_duplication_rule: Reuse the existing backend AVAILABLE and MY_VISIBLE Work presets
+    and existing Things API contract; do not add frontend-side ownership or visibility
+    filtering.
+reported_regressions:
+- The same quest IDs appear under My work and Find work.
+- The Applications surface is ambiguous and should be labeled My applications when
+  it represents applications submitted by the current viewer.
+- Create and Search popovers can extend beyond the viewport and become clipped on
+  the left.
+tasks:
+- id: separate-work-runtime-results
+  title: Prove and repair My work versus Find work result separation
+  inventory_item: runtime-work-scope
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml
+    -q -Dtest=WorkspaceNavigationContractTest test
+  acceptance:
+  - My work requests MY_VISIBLE and Find work requests AVAILABLE.
+  - Viewer-owned quests do not appear in Find work when the backend says they are
+    excluded.
+  - Home links and navigation labels preserve the same scope semantics.
+  started_at: '2026-07-22T19:42:03Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue: 65155dcde8dce6271f69edd0a707d98925c3e9e83203563a3e8a95d129988412
+- id: repair-things-load-and-retry
+  title: Repair Things loading and retry behavior
+  inventory_item: runtime-things-load
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml
+    -q test
+  acceptance:
+  - Discover and My things use the correct endpoint and scope.
+  - A failed request exposes the real actionable state and Retry repeats the same
+    valid request.
+  - Partial request failures do not incorrectly replace usable listings with a generic
+    total failure.
+  - Backend errors are not hidden by frontend fallback text.
+  started_at: '2026-07-22T19:50:05Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: 74862c45a5bac060d4ce96b950049aa525f6040853ee66160e6d72075234bfa2
+- id: clarify-my-applications-surface
+  title: Rename and verify the viewer-owned application surface
+  inventory_item: runtime-my-applications
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  acceptance:
+  - The surface title and navigation label are My applications.
+  - The route uses the current viewer's submitted applications endpoint.
+  - Owner-side applicant review remains separately labeled Applications for a specific
+    quest.
+  - No My applications list is assembled from owner-side dashboard application sections.
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml
+    -q -Dtest=WorkspaceNavigationContractTest test
+  started_at: '2026-07-22T19:51:23Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue: dc9225edca3cfdf02da79c9da64c21e838afb6adac76a16918a5af00b1788686
+- id: repair-global-popover-overflow
+  title: Keep Create and Search popovers inside the viewport
+  inventory_item: runtime-global-popovers
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+  acceptance:
+  - Create and Search panels are fully visible at desktop, tablet, and mobile widths.
+  - Panels never create horizontal document overflow.
+  - Search and Create retain focus, Escape close, and action behavior.
+  - Panel width is constrained by the viewport rather than only by the trigger's containing
+    block.
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  started_at: '2026-07-22T19:52:08Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue: d017a4fead3936af70e965e5670b5eaa92e23f5c1cef8653fc85563439e1fcbd
+- id: simplify-chat-navigation
+  title: Remove redundant Inbox-only navigation and keep Chat landing semantics clear
+  inventory_item: runtime-chat-navigation
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  acceptance:
+  - Chat has one clear landing destination: "/chat."
+  - No child navigation item points to an indistinguishable Inbox-only duplicate.
+  - The two-pane Chat surface still supports selecting conversations and returning
+    to the inbox state.
+  - Direct conversation routes remain available only when they represent a selected
+    conversation.
+  started_at: '2026-07-22T19:53:21Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 99d7ec43536386601be56d858a18258f7296c2da1727a0bbabc9fa1d273e9d81
+- id: runtime-regression-walkthrough
+  title: Capture runtime evidence for the three regressions
+  inventory_item: runtime-evidence
+  type: runtime
+  status: done
+  paths:
+  - docs/runtime-evidence/frontend-next-runtime-correctness.json
+  required_paths:
+  - docs/runtime-evidence/frontend-next-runtime-correctness.json
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-next-runtime-correctness.json
+  validation: make audit-frontend && git diff --check
+  manual_runtime_command: make dev
+  acceptance:
+  - Work results are compared by stable IDs between My work and Find work.
+  - My applications is checked against the submitted-application endpoint and is not
+    confused with owner-side applicant review.
+  - Things Discover and My things are loaded and Retry is exercised after a controlled
+    failure or unavailable backend.
+  - Chat rail and Chat landing routes are captured and checked for redundant Inbox
+    navigation.
+  - Create and Search panels are checked at 1440px, 980px, 700px, and 390px widths
+    for clipping and horizontal overflow.
+  started_at: '2026-07-22T19:54:25Z'
+  start_fingerprints:
+    docs/runtime-evidence/frontend-next-runtime-correctness.json: 22f38bc4e01727b677277dbad9bceba3a98062b9def2021b305ffce60e093751
+closeout:
+  required:
+  - npm --prefix apps/themuffinman/frontend run type-check
+  - npm --prefix apps/themuffinman/frontend run build
+  - make audit-frontend
+evidence:
+- docs/runtime-evidence/frontend-next-runtime-correctness.json
+- task: separate-work-runtime-results
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml
+    -q -Dtest=WorkspaceNavigationContractTest test
+  ranAt: '2026-07-22T19:49:33Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-C-4Igsle.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-BbyyVcD1.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-CGCx1bA2.js                  11.07 kB │ gzip:   3.65 kB
+    dist/assets/CirclesView-BQOn7ohI.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-BJXey4U7.js                   11.95 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-rpWIAiW0.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-BgQNq9hz.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-DGd1NhXN.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-DNZVGDAL.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-FVv6VOa_.js                         18.11 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-CQnOIbDl.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-D_Gh75C7.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-DLhtPo-i.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-C_gn3kRi.js                                 52.47 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 707ms
+
+  startedAt: '2026-07-22T19:42:03Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-things-load-and-retry
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml
+    -q test
+  ranAt: '2026-07-22T19:50:44Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  output: |+
+    2026-07-22T21:51:10.846+02:00  INFO 96886 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+    2026-07-22T21:51:10.911+02:00  INFO 96886 --- [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+    2026-07-22T21:51:13.230+02:00  INFO 96886 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name repositoryUserDetailsService
+    2026-07-22T21:51:13.762+02:00  INFO 96886 --- [           main] c.t.a.v.s.QuestWorkflowScenarioTest      : Started QuestWorkflowScenarioTest in 5.497 seconds (process running for 9.633)
+    2026-07-22T21:51:14.050+02:00  INFO 96886 --- [           main] c.t.app.config.AdminBootstrapConfig      : Seeded admin account: admin@sidequest.test
+    2026-07-22T21:51:14.156+02:00  INFO 96886 --- [           main] c.t.app.config.AdminBootstrapConfig      : Seeded user account: test@sidequest.test
+    2026-07-22T21:51:16.055+02:00  INFO 96886 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+    2026-07-22T21:51:16.055+02:00  INFO 96886 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+    2026-07-22T21:51:16.055+02:00  INFO 96886 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+    2026-07-22T21:51:16.078+02:00  INFO 96886 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+    2026-07-22T21:51:16.078+02:00  INFO 96886 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+    2026-07-22T21:51:16.078+02:00  INFO 96886 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+    2026-07-22T21:51:16.092+02:00  INFO 96886 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+    2026-07-22T21:51:16.093+02:00  INFO 96886 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+    2026-07-22T21:51:16.093+02:00  INFO 96886 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+    2026-07-22T21:51:16.137+02:00  INFO 96886 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.themuffinman.app.TheMuffinManApplicationTests]: TheMuffinManApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-07-22T21:51:16.172+02:00  INFO 96886 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.themuffinman.app.TheMuffinManApplication for test class com.themuffinman.app.TheMuffinManApplicationTests
+    2026-07-22T21:51:16.173+02:00  INFO 96886 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.themuffinman.app.TheMuffinManApplicationTests]: TheMuffinManApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    2026-07-22T21:51:16.174+02:00  INFO 96886 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.themuffinman.app.TheMuffinManApplication for test class com.themuffinman.app.TheMuffinManApplicationTests
+
+  startedAt: '2026-07-22T19:50:05Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: clarify-my-applications-surface
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml
+    -q -Dtest=WorkspaceNavigationContractTest test
+  ranAt: '2026-07-22T19:51:45Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-CHKEPrdS.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DQPnmhWf.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-Bb1NtyYW.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-1frn_e9U.js                           11.09 kB │ gzip:   3.33 kB
+    dist/assets/ThingsDiscoveryView-35JrswEv.js                   11.96 kB │ gzip:   3.80 kB
+    dist/assets/BusinessProfileView-Z4TPucN9.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-DsAk3diD.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-YAZXdVwk.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-CGCtjKYb.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-CZtouYyW.js                         18.11 kB │ gzip:   5.45 kB
+    dist/assets/AuthenticatedShellView-IdZbdJm4.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-BxlGs_Hd.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-DwIHp8wD.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Bk9p6ign.js                                 52.47 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 626ms
+
+  startedAt: '2026-07-22T19:51:23Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-global-popover-overflow
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:53:10Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-DbgYnTBs.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-Ch_oCYJj.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-mUCg738T.js                  11.07 kB │ gzip:   3.65 kB
+    dist/assets/CirclesView-FHAjUzC-.js                           11.09 kB │ gzip:   3.33 kB
+    dist/assets/ThingsDiscoveryView-7FimnWGp.js                   11.96 kB │ gzip:   3.80 kB
+    dist/assets/BusinessProfileView-D7UMjALI.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-CN6-0NQf.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-D3PY64pV.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-BkYeyuuY.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-KcTtfu5K.js                         18.11 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-DOeR0IwS.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-BM6SOSf8.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BLv_jTIv.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-C5avu955.js                                 52.47 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 654ms
+
+  startedAt: '2026-07-22T19:52:08Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: simplify-chat-navigation
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-22T19:54:13Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-CEjwCkDm.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-DytO5VZS.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-BzOlgAVD.js                  11.07 kB │ gzip:   3.65 kB
+    dist/assets/CirclesView-CQzDHQPe.js                           11.09 kB │ gzip:   3.33 kB
+    dist/assets/ThingsDiscoveryView-Dg0o1ACR.js                   11.96 kB │ gzip:   3.80 kB
+    dist/assets/BusinessProfileView-AJ0Y6qF_.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/RidesView-CtunCkUp.js                             12.98 kB │ gzip:   4.06 kB
+    dist/assets/WorkQuestDetailView-C2WiwYK5.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-DagF_uRq.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-BAmahpcv.js                         18.10 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-jZLuqf0O.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DnEl6dhW.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-Dhal8X2m.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-D1Nw2Ny8.js                                 52.37 kB │ gzip:  13.39 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 552ms
+
+  startedAt: '2026-07-22T19:53:21Z'
+  changedAfterStart: &5
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: runtime-regression-walkthrough
+  command: make audit-frontend && git diff --check
+  ranAt: '2026-07-22T19:54:57Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-evidence/frontend-next-runtime-correctness.json
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 97
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  startedAt: '2026-07-22T19:54:25Z'
+  changedAfterStart: &6
+  - docs/runtime-evidence/frontend-next-runtime-correctness.json
+  requiredPaths: *6
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-next-runtime-correctness.json

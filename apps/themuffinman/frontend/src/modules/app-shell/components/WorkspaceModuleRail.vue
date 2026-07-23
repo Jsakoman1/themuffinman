@@ -3,7 +3,7 @@ import {computed} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import type {WorkspaceNavigationModule} from "../../../contracts/index.ts"
 
-const props = defineProps<{modules: WorkspaceNavigationModule[]; activeModuleId: string | null}>()
+const props = withDefaults(defineProps<{modules: WorkspaceNavigationModule[]; activeModuleId: string | null; showChildren?: boolean}>(), {showChildren: true})
 const route = useRoute()
 const visibleModules = computed(() => props.modules.filter((module) => module.visible))
 const childrenFor = (module: WorkspaceNavigationModule) => module.children.filter((child) => child.visible).sort((a, b) => a.order - b.order)
@@ -13,19 +13,17 @@ const iconFor = (key: string) => ({home: "⌂", work: "▤", chat: "◌", calend
 
 <template>
   <nav class="workspace-module-rail" aria-label="Modules" :aria-busy="props.modules.length === 0 ? 'true' : 'false'">
-    <RouterLink
-      v-for="module in visibleModules"
-      :key="module.id"
-      :to="module.route"
-      class="workspace-module-rail__module"
-      :class="{'workspace-module-rail__module--active': activeModuleId === module.id}"
-      :aria-current="activeModuleId === module.id ? 'page' : undefined"
-    >
-      <span class="workspace-module-rail__icon" aria-hidden="true">{{ iconFor(module.iconKey) }}</span>
-      <span class="workspace-module-rail__label">{{ module.label }}</span>
-      <span v-if="module.unreadCount > 0" class="workspace-module-rail__badge" :aria-label="`${module.unreadCount} unread`">{{ module.unreadCount }}</span>
-    </RouterLink>
-    <div v-for="module in visibleModules.filter((item) => item.id === props.activeModuleId && childrenFor(item).length > 0)" :key="`${module.id}-children`" class="workspace-module-rail__children" :data-module="module.id">
+    <template v-for="module in visibleModules" :key="module.id">
+      <RouterLink
+        :to="module.route"
+        class="workspace-module-rail__module"
+        :class="{'workspace-module-rail__module--active': activeModuleId === module.id}"
+        :aria-current="activeModuleId === module.id ? 'page' : undefined"
+      >
+        <span class="workspace-module-rail__icon" aria-hidden="true">{{ iconFor(module.iconKey) }}</span>
+        <span class="workspace-module-rail__label">{{ module.label }}</span>
+      </RouterLink>
+      <div v-if="props.showChildren && module.id === props.activeModuleId && childrenFor(module).length > 0" class="workspace-module-rail__children" :data-module="module.id">
       <RouterLink
         v-for="child in childrenFor(module)"
         :key="child.id"
@@ -35,9 +33,9 @@ const iconFor = (key: string) => ({home: "⌂", work: "▤", chat: "◌", calend
         :aria-current="isChildActive(child.route) ? 'page' : undefined"
       >
         <span>{{ child.label }}</span>
-        <span v-if="child.unreadCount > 0" class="workspace-module-rail__badge">{{ child.unreadCount }}</span>
       </RouterLink>
-    </div>
+      </div>
+    </template>
     <p v-if="visibleModules.length === 0" class="workspace-module-rail__status">Navigation is loading or unavailable.</p>
   </nav>
 </template>

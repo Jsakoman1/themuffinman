@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: frontend-work-context-navigation-standardization
+title: Standardize module child navigation and in-place Work context
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: false
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - backend APIs
+  - business workflow rules
+  non_duplication_rule: Navigation counts are not shown until they represent a defined
+    backend-owned unread contract; Work selection remains presentation-only.
+objective: Keep module children directly below their active module, remove misleading
+  navigation badges, and inspect Work items in-place before deliberately opening canonical
+  full detail.
+tasks:
+- id: standardize-work-context-navigation
+  title: Place module children correctly and make Work selection in-place
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+acceptance:
+- Active module children render directly below the active module.
+- No misleading numeric badges appear in module navigation.
+- Selecting Work changes only the in-place context panel and does not add a selection
+  query or navigate away.
+- Full detail remains available as an explicit secondary action.
+evidence:
+- task: standardize-work-context-navigation
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T19:06:56Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  output: |+
+    dist/assets/WorkDiscoveryView-DLA37wyK.js                      8.10 kB │ gzip:   3.39 kB
+    dist/assets/BusinessAvailabilityView-Vup3-z89.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-CX7S0Pos.js                   10.87 kB │ gzip:   3.45 kB
+    dist/assets/WorkspaceSurfaceView-jWSa9YaI.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-B2K8Ftju.js                           11.09 kB │ gzip:   3.33 kB
+    dist/assets/RidesView-BMS48Kcm.js                             11.74 kB │ gzip:   3.70 kB
+    dist/assets/BusinessProfileView-Q2nNaCoP.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-ClSBOJHX.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-Cd9mAHSo.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-svAXcQGI.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/AuthenticatedShellView-LceP5T8t.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-D7CTzz0R.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-Q3f1HTsx.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-CU6u7qLA.js                                 52.46 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 577ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

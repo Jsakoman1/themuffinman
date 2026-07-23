@@ -60,9 +60,9 @@ public class WorkspaceNavigationService {
         return List.of(
                 module("home", "Home", "home", "/home", 1, "workspace orientation", activityBySource, unreadBySource, List.of()),
                 module("work", "Work", "work", "/work", 2, reason("workmarket", shortcuts, "primary work workspace"), activityBySource, unreadBySource,
-                        List.of(child("work-find", "Find work", "/work/find", 1, "work discovery"), child("work-quests", "My quests", "/work/quests", 2, "owned work"), child("work-applications", "Applications", "/work/applications", 3, "work applications"))),
+                        List.of(child("work-find", "Find work", "/work/find", 1, "work discovery"), child("work-quests", "My work", "/work/quests", 2, "owned work"), child("work-applications", "My applications", "/work/applications", 3, "submitted work applications"))),
                 module("chat", "Chat", "chat", "/chat", 3, "conversations and coordination", activityBySource, unreadBySource,
-                        List.of(child("chat-inbox", "Inbox", "/chat", 1, "latest conversations"))),
+                        List.of()),
                 module("calendar", "Calendar", "calendar", "/calendar", 4, "time coordination", activityBySource, unreadBySource, List.of()),
                 module("business", "Business", "business", "/business", 5, "owner operations and discovery", activityBySource, unreadBySource,
                         List.of(child("business-profile", "Profile", "/business/profile", 1, "business identity"), child("business-bookings", "Bookings", "/business/bookings", 2, "booking operations"), child("business-calendar", "Calendar", "/business/calendar", 3, "business availability"))),
@@ -70,7 +70,8 @@ public class WorkspaceNavigationService {
                         List.of(child("circles-groups", "Groups", "/circles", 1, "circle membership"), child("circles-people", "People", "/people", 2, "trusted people"))),
                 module("things", "Things", "things", "/things", 7, "lending and borrowing", activityBySource, unreadBySource,
                         List.of(child("things-discover", "Discover", "/things", 1, "available listings"), child("things-mine", "My things", "/things/mine", 2, "owned listings"))),
-                module("rides", "Rides", "rides", "/rides", 8, "circle-scoped ride coordination", activityBySource, unreadBySource, List.of())
+                module("rides", "Rides", "rides", "/rides", 8, "circle-scoped ride coordination", activityBySource, unreadBySource,
+                        List.of(child("rides-discover", "Discover", "/rides", 1, "available rides"), child("rides-mine", "My rides", "/rides/mine", 2, "owned rides")))
         );
     }
 

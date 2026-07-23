@@ -1,0 +1,63 @@
+{
+  "date": "2026-07-22",
+  "task": "separate-work-runtime-results",
+  "environment": "local development",
+  "viewer": {
+    "username": "runtime_scope_goal_20260722",
+    "id": 1330,
+    "fixture": "isolated local account"
+  },
+  "requests": [
+    {
+      "surface": "Find work",
+      "endpoint": "/quests/presets/AVAILABLE",
+      "totalItems": 8,
+      "returnedIds": [23, 25, 404, 402, 405, 403, 401, 408],
+      "returnedCreatorIds": [3, 7, 3, 3, 3, 3, 3, 7]
+    },
+    {
+      "surface": "My work",
+      "endpoint": "/quests/presets/MY_VISIBLE",
+      "totalItems": 0,
+      "returnedIds": [],
+      "returnedCreatorIds": []
+    },
+    {
+      "surface": "My work after isolated quest creation",
+      "endpoint": "/quests/presets/MY_VISIBLE",
+      "totalItems": 1,
+      "returnedIds": [419],
+      "returnedCreatorIds": [1330]
+    },
+    {
+      "surface": "Find work after isolated quest creation",
+      "endpoint": "/quests/presets/AVAILABLE",
+      "totalItems": 8,
+      "returnedIds": [23, 25, 404, 402, 405, 403, 401, 408],
+      "returnedCreatorIds": [3, 7, 3, 3, 3, 3, 3, 7]
+    }
+  ],
+  "assertions": {
+    "presetRequestsAreDistinct": true,
+    "ownedQuestExcludedFromAvailable": true,
+    "resultIntersectionAfterIsolatedCreation": [],
+    "backendScopeContractPasses": true,
+    "myApplicationsUsesSubmittedApplicationsEndpoint": true,
+    "thingsRetryReusesCurrentScope": true,
+    "thingsStaleRequestsCannotOverwriteNewerScope": true,
+    "chatHasNoRedundantInboxChild": true,
+    "chatConversationRouteRemainsDistinct": true,
+    "createAndSearchPanelsHaveViewportStartAndEndConstraints": true
+  },
+  "source_checks": {
+    "myApplicationsEndpoint": "/quests/applications/me",
+    "chatEntryRoute": "/chat",
+    "chatConversationRoute": "/chat/:conversationId",
+    "popoverViewportWidths": [1440, 980, 700, 390]
+  },
+  "limitations": [
+    "The existing jsak account credentials were not available for direct authenticated browser replay.",
+    "The reported seven-item UI duplication still requires browser evidence with the affected account; backend preset behavior is not the source of duplication for the isolated viewer.",
+    "The local Vite server could not be started inside the restricted sandbox, so viewport checks are source/build checks rather than a fresh browser capture in this pass."
+  ]
+}

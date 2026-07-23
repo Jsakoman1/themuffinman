@@ -1,0 +1,125 @@
+{
+  "capturedAt": "2026-07-22T18:51:18.851Z",
+  "scenario": "frontend-viewport-matrix",
+  "viewportWidths": [
+    390,
+    700,
+    980,
+    1440
+  ],
+  "routes": [
+    "/work",
+    "/chat",
+    "/things",
+    "/rides"
+  ],
+  "observations": [
+    {
+      "width": 390,
+      "route": "/work",
+      "metrics": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "shell": true,
+        "context": true,
+        "rows": 8
+      },
+      "overflow": false,
+      "screenshot": "../../../docs/runtime-evidence/frontend-viewport-390.png"
+    },
+    {
+      "width": 700,
+      "route": "/work",
+      "metrics": {
+        "innerWidth": 700,
+        "scrollWidth": 700,
+        "bodyScrollWidth": 700,
+        "shell": true,
+        "context": true,
+        "rows": 8
+      },
+      "overflow": false,
+      "screenshot": "../../../docs/runtime-evidence/frontend-viewport-700.png"
+    },
+    {
+      "width": 980,
+      "route": "/work",
+      "metrics": {
+        "innerWidth": 980,
+        "scrollWidth": 980,
+        "bodyScrollWidth": 980,
+        "shell": true,
+        "context": true,
+        "rows": 8
+      },
+      "overflow": false,
+      "screenshot": "../../../docs/runtime-evidence/frontend-viewport-980.png"
+    },
+    {
+      "width": 1440,
+      "route": "/work",
+      "metrics": {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "shell": true,
+        "context": true,
+        "rows": 8
+      },
+      "overflow": false,
+      "screenshot": "../../../docs/runtime-evidence/frontend-viewport-1440.png"
+    },
+    {
+      "width": 390,
+      "route": "/chat",
+      "metrics": {
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "overflow": false,
+        "shell": true
+      }
+    },
+    {
+      "width": 390,
+      "route": "/things",
+      "metrics": {
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "overflow": false,
+        "shell": true
+      }
+    },
+    {
+      "width": 390,
+      "route": "/rides",
+      "metrics": {
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "overflow": false,
+        "shell": true
+      }
+    }
+  ],
+  "pageErrors": [],
+  "requestFailures": [
+    {
+      "url": "http://localhost:8080/dashboard/me/summary",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://localhost:8080/attention/me",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://localhost:8080/workspace/navigation",
+      "failure": "net::ERR_ABORTED"
+    },
+    {
+      "url": "http://localhost:8080/personal-shortcuts/me",
+      "failure": "net::ERR_ABORTED"
+    }
+  ],
+  "realRequestFailures": [],
+  "status": "passed"
+}

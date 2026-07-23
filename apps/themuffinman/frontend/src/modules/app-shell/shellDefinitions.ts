@@ -89,16 +89,16 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
     actions: [
       {label: "Offer work", to: {path: "/work/offer"}, tone: "primary"},
       {label: "Find work", to: {path: "/work/find"}},
-      {label: "My quests", to: {path: "/work/quests"}},
+      {label: "My work", to: {path: "/work/quests"}},
       {label: "Ask Vision", to: visionRoute("find work for me"), tone: "vision"}
     ]
   },
   "work-quests": {
-    id: "work-quests", archetype: "work", navId: "work", eyebrow: "Work / Mine", title: "My quests",
+    id: "work-quests", archetype: "work", navId: "work", eyebrow: "Work / Mine", title: "My work",
     actions: [{label: "Offer work", to: {path: "/work/offer"}}, {label: "Work", to: {path: "/work"}}]
   },
   "work-applications": {
-    id: "work-applications", archetype: "work", navId: "work", eyebrow: "Work / Applications", title: "Applications",
+    id: "work-applications", archetype: "work", navId: "work", eyebrow: "Work / My applications", title: "My applications",
     actions: [{label: "Work", to: {path: "/work"}}]
   },
   chat: {

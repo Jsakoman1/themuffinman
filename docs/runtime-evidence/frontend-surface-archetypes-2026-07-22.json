@@ -1,0 +1,23 @@
+{
+  "capturedAt": "2026-07-22T18:41:08.109Z",
+  "scenario": "frontend-surface-archetypes",
+  "baseUrl": "http://localhost:5173",
+  "browser": "chromium",
+  "viewport": {"width": 1440, "height": 1000},
+  "routes": ["/home", "/work", "/work/quests/23", "/chat", "/notifications"],
+  "assertions": {
+    "workDetail": {"rowCount": 8, "detailHeaderCount": 1, "hasBackToQuests": true, "previewPanelCount": 0},
+    "chat": {"splitPaneCount": 1, "hasConversationIndex": true},
+    "notifications": {"hasPreviewClass": false, "hasContextTerminology": false}
+  },
+  "expectedRequestAborts": [
+    "/dashboard/me/summary",
+    "/personal-shortcuts/me/rail-preference",
+    "/workspace/navigation",
+    "/quests/23/detail"
+  ],
+  "realRequestFailures": [],
+  "pageErrors": [],
+  "status": "passed",
+  "boundary": "Direct Work detail and Chat split-pane behavior proven at 1440px; Notifications had no selected item in this fixture, so its intentional context state remains source-classified rather than runtime-proven."
+}

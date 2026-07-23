@@ -8,6 +8,7 @@ import RichTextEditor from "../components/RichTextEditor.vue"
 import RichTextPreview from "../components/RichTextPreview.vue"
 import AppDialog from "../components/AppDialog.vue"
 import DetailSurface from "../components/DetailSurface.vue"
+import DetailSurfaceHeader from "../components/DetailSurfaceHeader.vue"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppButton from "../components/AppButton.vue"
@@ -89,7 +90,7 @@ onMounted(() => void load())
 
 <template>
   <section class="quest-detail">
-    <header class="quest-detail__header"><div><p class="quest-detail__eyebrow">Work / Quest</p><h1>{{ detail?.quest.title || "Quest" }}</h1></div><div class="quest-detail__header-actions"><RouterLink v-if="returnToVision" :to="returnToVision" class="quest-detail__return">Back to Vision</RouterLink><AppButton type="button" tone="secondary" :aria-expanded="utilityOpen" aria-controls="quest-detail-actions" @click="utilityOpen = !utilityOpen">{{ utilityOpen ? "Hide actions" : "Show actions" }}</AppButton><RouterLink :to="buildSurfaceVisionRoute('work-quests', `/work/quests/${questId}`, 'Work quest')" class="quest-detail__vision">Ask Vision</RouterLink></div></header>
+    <DetailSurfaceHeader eyebrow="Work / Quest" :title="detail?.quest.title || 'Quest'" back-to="/work/quests" back-label="Back to quests"><template #actions><RouterLink v-if="returnToVision" :to="returnToVision" class="quest-detail__return">Back to Vision</RouterLink><AppButton type="button" tone="secondary" :aria-expanded="utilityOpen" aria-controls="quest-detail-actions" @click="utilityOpen = !utilityOpen">{{ utilityOpen ? "Hide actions" : "Show actions" }}</AppButton><RouterLink :to="buildSurfaceVisionRoute('work-quests', `/work/quests/${questId}`, 'Work quest')" class="quest-detail__vision">Ask Vision</RouterLink></template></DetailSurfaceHeader>
     <div v-if="isLoading" class="quest-detail__status" role="status">Loading.</div>
     <div v-else-if="error" class="quest-detail__status quest-detail__status--error" role="alert">{{ error }} <AppButton type="button" tone="secondary" @click="load">Retry</AppButton></div>
     <template v-else-if="detail">

@@ -1,0 +1,77 @@
+kind: work
+version: 1
+id: frontend-work-scope-separation
+title: Separate My work from Find work
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: false
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - quest visibility and lifecycle rules
+  non_duplication_rule: Reuse the existing backend AVAILABLE and MY_VISIBLE presets;
+    do not duplicate filtering in the frontend.
+objective: Make My work show viewer-owned visible work while Find work shows non-owned
+  open work.
+tasks:
+- id: separate-work-presets
+  title: Use distinct Work list presets and labels
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml
+    -q -Dtest=WorkspaceNavigationContractTest test
+acceptance:
+- My work requests MY_VISIBLE.
+- Find work requests AVAILABLE.
+- Navigation and workspace copy use My work consistently.
+- No frontend-side ownership or status filtering is added.
+evidence:
+- task: separate-work-presets
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && ./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml
+    -q -Dtest=WorkspaceNavigationContractTest test
+  ranAt: '2026-07-22T19:13:28Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-CN03qu2K.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-BsrEMjGh.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-Cw6C0Di8.js                   10.87 kB │ gzip:   3.45 kB
+    dist/assets/WorkspaceSurfaceView-LZvEa1ht.js                  11.07 kB │ gzip:   3.65 kB
+    dist/assets/CirclesView-d-VsMjKk.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/RidesView-CWv7jXEu.js                             11.74 kB │ gzip:   3.70 kB
+    dist/assets/BusinessProfileView-ZhrXxhT7.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-c6_xQT7b.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-Bbc_Tfpg.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader--tQCBQZU.js                         18.09 kB │ gzip:   5.43 kB
+    dist/assets/AuthenticatedShellView-DoUvgR5s.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-DcGGU8Wg.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-_k5yP5dL.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-BXY0bQ6X.js                                 52.46 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 564ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -44,6 +44,7 @@ audit-backend:
 	$(MAKE) audit-module-dependency-direction
 
 audit-frontend:
+	ruby scripts/audits/audit-frontend-interaction-contract.rb
 	ruby scripts/audits/audit-ui-entrypoints.rb
 	ruby scripts/audits/audit-endpoint-callsite-linker.rb
 	ruby scripts/audits/audit-frontend-route-surfaces.rb

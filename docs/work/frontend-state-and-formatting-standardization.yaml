@@ -1,0 +1,150 @@
+kind: work
+version: 1
+id: frontend-state-and-formatting-standardization
+title: Standardize frontend state and date/time vocabulary
+status: verified
+baseline: 2997ba0
+master_plan: docs/work/frontend-next-standardization-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-next-standardization-execution-inventory.yaml
+objective: Use shared loading, error, empty, stale, success, and locale-safe date/time
+  presentation patterns.
+tasks:
+- id: audit-state-components
+  inventory_item: state-time-inventory
+  type: analysis
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - docs/audit-output/frontend-state-time-audit-2026-07-22.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  validation: git diff --check
+  started_at: '2026-07-22T19:59:40Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue: 514c8a195863eb5b04caee76a997bf76152ecbf6e60a926f2c89cbb28385808b
+- id: add-date-formatters
+  inventory_item: state-time-implementation
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-22T20:00:55Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/services/formatters.ts: __missing__
+- id: migrate-state-copy
+  inventory_item: state-copy-implementation
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-22T20:01:55Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: fa3f6a2b7d1d670a03a4daf0e03786e095f6a0e12507582e352810d891531a25
+acceptance:
+- Loading states consistently expose busy semantics.
+- Error states consistently offer retry when retry is safe.
+- Empty and partial data states are distinguishable.
+- Date/time formatting does not hard-code an unrelated locale.
+validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+  apps/themuffinman/frontend run build
+evidence:
+- task: audit-state-components
+  command: git diff --check
+  ranAt: '2026-07-22T20:00:12Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  output: "\n"
+  startedAt: '2026-07-22T19:59:40Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: add-date-formatters
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T20:01:23Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  output: |+
+    dist/assets/WorkDiscoveryView-BX2g3QGz.js                      8.08 kB │ gzip:   3.39 kB
+    dist/assets/BusinessAvailabilityView-CmwFl36u.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-COiJ8K-o.js                  10.50 kB │ gzip:   3.49 kB
+    dist/assets/CirclesView-CClz09R6.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-BwCQuqbd.js                   11.96 kB │ gzip:   3.81 kB
+    dist/assets/BusinessProfileView-CAdyqzsE.js                   12.41 kB │ gzip:   3.71 kB
+    dist/assets/RidesView-nf5YQvUU.js                             12.98 kB │ gzip:   4.07 kB
+    dist/assets/WorkQuestDetailView-CxmyDNw7.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-DAOqvDte.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-BCKzL6Ex.js                         18.10 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-CqtZWrMm.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-BQ0byEPL.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-CM6u8rf3.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-D-3-P_9t.js                                 52.48 kB │ gzip:  13.43 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 681ms
+
+  startedAt: '2026-07-22T20:00:55Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-state-copy
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T20:02:41Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-0fslmPtJ.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-3ly2IvnQ.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-DT-Ai9vM.js                  10.50 kB │ gzip:   3.49 kB
+    dist/assets/CirclesView-Cv2fyaeE.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-CNdPQSG6.js                   11.96 kB │ gzip:   3.81 kB
+    dist/assets/BusinessProfileView-Ba6b8NXP.js                   12.41 kB │ gzip:   3.71 kB
+    dist/assets/RidesView-BQJS0618.js                             13.03 kB │ gzip:   4.10 kB
+    dist/assets/WorkQuestDetailView-DZ14N0uX.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-C-e4GT78.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-fz8kGOyM.js                         18.10 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-iKPQ_sDj.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-Dcvx-UPq.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-heewsYir.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Uzo9KGNz.js                                 52.51 kB │ gzip:  13.47 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 584ms
+
+  startedAt: '2026-07-22T20:01:55Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

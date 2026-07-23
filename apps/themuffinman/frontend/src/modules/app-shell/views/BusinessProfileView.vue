@@ -9,6 +9,7 @@ import AppFormFooter from "../components/AppFormFooter.vue"
 import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
+import DetailUtilityRail from "../components/DetailUtilityRail.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 
@@ -123,9 +124,9 @@ onMounted(() => void load())
 
 <template>
   <section class="business-profile">
-    <header><p class="business-profile__eyebrow">Business / Profile</p><h1>Profile</h1><p class="business-profile__intro">Keep the public identity and booking switch in one place.</p></header>
+    <header><p class="business-profile__eyebrow">Business / Profile</p><h1>Business profile</h1><p class="business-profile__intro">Keep the public identity, booking switch, and gallery in one place.</p></header>
     <CollectionToolbar title="Business identity" :count="profiles.length" :busy="isLoading"><template #filters><label v-if="profiles.length" class="business-profile__selector">Business<select v-model="selectedProfileId" @change="onProfileSelectionChanged"><option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.businessName }}</option></select></label><AppButton v-if="profiles.length" type="button" @click="selectProfile">Switch</AppButton></template><template #actions><AppButton tone="primary" type="button" @click="isCreateOpen = true">Create business</AppButton></template></CollectionToolbar>
-    <AppStatus v-if="isLoading" message="Loading." />
+    <AppStatus v-if="isLoading" message="Loading your business profile." busy />
     <AppStatus v-else-if="error && !form" :message="error" tone="error" retry @retry="load" />
     <div class="business-profile__workspace">
     <div class="business-profile__main">
@@ -152,12 +153,11 @@ onMounted(() => void load())
         <AppFormField label="Upload image" hint="Images only, up to 10 MB."><input type="file" accept="image/*" @change="onGalleryFileChanged"></AppFormField>
         <AppButton tone="primary" type="submit" :loading="isGallerySaving" :disabled="!galleryFile">Upload image</AppButton>
       </form>
-      <div v-if="gallery.length" class="business-profile__gallery-list"><SurfaceRow v-for="image in gallery" :key="image.id" :row="{id: String(image.id), title: image.altText || 'Gallery image', description: image.imageUrl, badge: image.active ? 'Published' : 'Hidden', meta: `Order ${image.sortOrder}`}" ><template #actions><AppButton :loading="isGallerySaving" @click="toggleGalleryImage(image)">{{ image.active ? "Hide" : "Publish" }}</AppButton><AppButton tone="danger" :loading="isGallerySaving" @click="removeGalleryImage(image)">Remove</AppButton></template></SurfaceRow></div>
+      <div v-if="gallery.length" class="business-profile__gallery-list"><SurfaceRow v-for="image in gallery" :key="image.id" :row="{id: String(image.id), title: image.altText || 'Gallery image', description: image.active ? 'Published business image' : 'Hidden business image', thumbnailUrl: image.imageUrl, badge: image.active ? 'Published' : 'Hidden', meta: `Order ${image.sortOrder}`}" ><template #actions><AppButton :loading="isGallerySaving" @click="toggleGalleryImage(image)">{{ image.active ? "Hide" : "Publish" }}</AppButton><AppButton tone="danger" :loading="isGallerySaving" @click="removeGalleryImage(image)">Remove</AppButton></template></SurfaceRow></div>
       <AppStatus v-else message="No gallery images yet." />
     </section>
     </div>
-    <aside v-if="form" class="business-profile__utility" aria-label="Business profile context">
-      <p class="business-profile__eyebrow">Workspace context</p>
+    <DetailUtilityRail v-if="form" class="business-profile__utility" title="Business context">
       <h2>{{ form.businessName || "Business identity" }}</h2>
       <p>Keep the public profile, booking switch, and gallery aligned with the backend-owned business context.</p>
       <dl>
@@ -167,7 +167,7 @@ onMounted(() => void load())
         <div><dt>Gallery</dt><dd>{{ gallery.length }} images</dd></div>
       </dl>
       <p class="business-profile__utility-note">Save, archive, visibility, and booking permissions are validated by the server. This rail is context only.</p>
-    </aside>
+    </DetailUtilityRail>
     </div>
     <AppDialog :open="isCreateOpen" title="Create business" layout="workspace" @close="isCreateOpen = false"><GuidedIntakePanel v-if="!guidedBusinessDraft" flow="business.profile.create" title="Set up the business" @completed="acceptGuidedBusinessDraft" @cancel="isCreateOpen = false" /><form v-else class="business-profile__create-form" @submit.prevent="createBusiness"><p>Review the guided business draft before creating it.</p><AppFormField label="Business name" required><input v-model="newBusinessName" required maxlength="160" autofocus></AppFormField><AppFormFooter><template #secondary><AppButton type="button" @click="guidedBusinessDraft = null">Back</AppButton></template><template #primary><AppButton tone="primary" type="submit">Create business</AppButton></template></AppFormFooter></form><template #utility><p>Creating a business creates the backend-owned profile context used by bookings, offerings, availability, and public discovery.</p></template></AppDialog>
   </section>

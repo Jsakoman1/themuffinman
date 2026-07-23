@@ -1,0 +1,75 @@
+kind: work
+version: 1
+id: frontend-standardization-navigation-coverage
+title: Add Rides child navigation to the backend-prepared workspace tree
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+master_plan: docs/work/frontend-standardization-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-standardization-foundation.yaml
+  - docs/work/frontend-standardization-module-sweep.yaml
+  baseline_only_surfaces:
+  - all domain permissions and Rides lifecycle behavior
+  residual_scope:
+  - child navigation coverage for any later module routes discovered during the remaining
+    frontend sweep
+  retest_triggers:
+  - workspace navigation DTO or Rides route ownership changes
+  non_duplication_rule: Add only the missing Rides navigation contract; do not re-verify
+    the already verified shell behavior.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: Keep Rides Discover and My rides available as stable subnavigation on every
+  Rides-owned route.
+tasks:
+- id: add-rides-child-navigation
+  inventory_item: rides-child-navigation
+  title: Expose Rides Discover and My rides in the backend-prepared navigation tree
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml -Dtest=WorkspaceNavigationContractTest
+    test"
+acceptance:
+- Rides navigation exposes Discover and My rides child routes.
+- Child navigation remains viewer-scoped and backend-prepared.
+- Existing module order and route ownership remain unchanged.
+evidence:
+- task: add-rides-child-navigation
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml -Dtest=WorkspaceNavigationContractTest
+    test"
+  ranAt: '2026-07-22T17:55:32Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  output: "[INFO] --- surefire:3.5.5:test (default-test) @ themuffinman ---\n[INFO]
+    Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO]
+    \n[INFO] -------------------------------------------------------\n[INFO]  T E
+    S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.activity.WorkspaceNavigationContractTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.303 s -- in
+    com.themuffinman.app.activity.WorkspaceNavigationContractTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  14.022 s\n[INFO] Finished at: 2026-07-22T19:55:47+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

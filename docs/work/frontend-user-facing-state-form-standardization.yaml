@@ -1,0 +1,124 @@
+kind: work
+version: 1
+id: frontend-user-facing-state-form-standardization
+title: Standardize frontend forms and visible state vocabulary
+status: verified
+baseline: 2997ba0
+master_plan: docs/work/frontend-standardization-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - backend validation and workflow policy
+  residual_scope:
+  - responsive visual consolidation
+  retest_triggers:
+  - shared AppStatus behavior
+  - shared AppDialog or AppFormFooter behavior
+  - user-visible state or form copy
+  non_duplication_rule: Existing workflow and runtime evidence remains baseline; this
+    plan verifies only shared presentation grammar changes.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: Give forms, dialogs, loading, error, empty, success, and partial-data states
+  one concise user-facing vocabulary and consistent action order.
+tasks:
+- id: normalize-state-copy
+  inventory_item: p2-state-copy
+  title: Normalize loading, error, empty, and partial-data states
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+  started_at: '2026-07-22T18:42:00Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue: 7ac991f7a52015bdf73bb1fe91d38ec982031e7a27b7ed42433966b31b76bf93
+- id: normalize-form-actions
+  inventory_item: p2-form-actions
+  title: Standardize dialog widths, labels, and form footer verbs
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+  started_at: '2026-07-22T18:46:17Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue: 5618e8e277c8fe583d65012b30860b59df5cf548dc4603738be11b1544f3595b
+acceptance:
+- Loading, error, empty, success, and partial states use consistent placement and
+  concise copy.
+- Form footers use Cancel plus a clear create/save primary action.
+- No backend behavior or validation rules change.
+closeout:
+  required:
+  - npm --prefix apps/themuffinman/frontend run type-check
+  - npm --prefix apps/themuffinman/frontend run build
+evidence:
+- task: normalize-state-copy
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-22T18:46:08Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  startedAt: '2026-07-22T18:42:00Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: normalize-form-actions
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T18:46:44Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-DrCEfFsY.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-GYfzRo_t.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-BwTJy-bt.js                   10.87 kB │ gzip:   3.45 kB
+    dist/assets/WorkspaceSurfaceView-D1KLtdWY.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-kzwHNKfa.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/RidesView-D1BljWY2.js                             11.74 kB │ gzip:   3.70 kB
+    dist/assets/BusinessProfileView-UbqjokFk.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-Dxqn1Van.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-Cr3W8e5K.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-DqNCQM3X.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-DW-JZ2d2.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/AuthenticatedShellView-Czq-q8Pp.js                21.99 kB │ gzip:   7.17 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BNY0LyUV.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-Dx1ODSYa.js                                 52.46 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 743ms
+
+  startedAt: '2026-07-22T18:46:17Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -48,6 +48,23 @@ backend-prepared module navigation tree with relevant nested destinations, count
 responsive drawer behavior, and explicit backend/frontend ownership boundaries. Do not make Vision a persistent
 sidebar dashboard.
 
+FRONTEND-STANDARDIZATION [ACTIVE]: Foundation, Rides collection, backend Rides child-navigation, public Business
+discovery, Work Applications, People/Circles, social-surface, and Business/Profile/Chat context-copy slices are
+verified in `docs/work/frontend-standardization-foundation.yaml`,
+`docs/work/frontend-standardization-module-sweep.yaml`, and
+`docs/work/frontend-standardization-navigation-coverage.yaml`, and
+`docs/work/frontend-standardization-business-discovery.yaml`,
+`docs/work/frontend-standardization-social-surfaces.yaml`, and
+`docs/work/frontend-standardization-context-copy.yaml`, and
+`docs/work/frontend-standardization-work-applications.yaml`;
+the broader master remains draft while remaining visual, responsive, and route/detail cleanup is handled in subsequent
+module passes.
+
+FRONTEND-USER-FACING-CLEANUP [PLANNED]: The user-facing audit is recorded in
+`docs/audit-output/frontend-user-facing-audit-2026-07-22.md`; the executable follow-up is owned by
+`docs/work/frontend-standardization-master.yaml` and its navigation, surface-archetype, state/form, and responsive
+child plans. Start with P0 navigation deduplication.
+
 ## Deferred capability gaps
 
 These gaps remain visible in `docs/capability-inventory.yaml`, but they do not have an open implementation plan until a

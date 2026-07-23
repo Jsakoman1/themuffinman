@@ -1,0 +1,69 @@
+kind: work
+version: 1
+id: frontend-shell-header-subnav-regression
+title: Remove duplicated shell title block and restore rail subnavigation
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: false
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - backend APIs
+  - route ownership
+  non_duplication_rule: Preserve existing route contracts and only change shared shell
+    presentation.
+objective: Keep page titles in page content, keep global actions in the compact shell
+  header, and show active module children in the primary rail.
+tasks:
+- id: fix-shell-header-and-subnav
+  title: Remove duplicate title/context surface and restore rail children
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+acceptance:
+- Authenticated pages have one visible page title in the content surface.
+- The shared shell does not render the obsolete context-navigation block above every
+  page.
+- The active module rail shows its visible child routes, including Work subpages.
+- No route or backend behavior changes.
+evidence:
+- task: fix-shell-header-and-subnav
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T18:58:21Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-BB86L01Y.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-CaXziS4i.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-Ba4OUEal.js                   10.87 kB │ gzip:   3.45 kB
+    dist/assets/WorkspaceSurfaceView-Cd1iZEV_.js                  11.07 kB │ gzip:   3.65 kB
+    dist/assets/CirclesView-VMeHEu1r.js                           11.09 kB │ gzip:   3.33 kB
+    dist/assets/RidesView-ZiQK4NdC.js                             11.74 kB │ gzip:   3.70 kB
+    dist/assets/BusinessProfileView-Ckacl4AE.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-CeyvfdTe.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-B2lYraFG.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-CupG6i5k.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-C8Mq5d4Z.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/AuthenticatedShellView-DPMOYXOp.js                20.68 kB │ gzip:   6.95 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-Ci69SDQ8.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-CDkjfcXA.js                                 52.46 kB │ gzip:  13.40 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 575ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

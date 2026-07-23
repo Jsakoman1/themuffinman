@@ -1,0 +1,135 @@
+kind: master
+version: 1
+id: frontend-next-standardization-master
+title: Frontend next-pass standardization and cleanup
+status: verified
+readiness: ready_for_goal_pursuing
+preflight: passed_2026-07-22
+verified_at: '2026-07-22T20:18:00Z'
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-next-standardization-execution-inventory.yaml
+audit: docs/audit-output/frontend-next-standardization-master-deep-dive-2026-07-22.md
+plan_review: docs/audit-output/frontend-next-standardization-master-deep-dive-2026-07-22.md
+goal_pursuing:
+  objective: Repair the reported runtime regressions first, then complete the residual frontend standardization pass with shared interaction, state, form, CSS, responsive, and drift-prevention contracts.
+  execution_mode: serial
+  first_plan: docs/work/frontend-runtime-correctness-regressions.yaml
+  first_task: separate-work-runtime-results
+  start_command: make work-start plan=docs/work/frontend-runtime-correctness-regressions.yaml task=separate-work-runtime-results
+  verification_command: make work-verify plan=docs/work/frontend-runtime-correctness-regressions.yaml task=separate-work-runtime-results
+  continue_rule: Advance only after the current task is verifier-marked done/verified and its runtime or visual evidence is recorded when required.
+  stop_conditions:
+  - Work result intersection remains unexplained after request and database evidence.
+  - Things failure requires a backend contract or infrastructure decision.
+  - Chat Inbox navigation requires a product decision about the canonical landing route.
+  - Shared SurfaceRow changes regress an already verified surface.
+objective: Complete the next frontend cleanup pass by unifying collection context surfaces, interaction accessibility, state vocabulary, date formatting, forms, responsive behavior, and the remaining intentional exceptions.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - backend domain rules
+  - backend permissions and workflow transitions
+  - already verified shell and collection behavior unless a listed retest trigger occurs
+  non_duplication_rule: Reuse the verified navigation, shell, collection, and detail work as baseline evidence; this master plan owns only the residual cleanup and standardization listed below.
+  retest_triggers:
+  - shared component behavior changes
+  - route or row interaction changes
+  - accessibility behavior changes
+  - date/time or user-facing state meaning changes
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: required_before_implementation
+children:
+- docs/work/frontend-runtime-correctness-regressions.yaml
+- docs/work/frontend-context-panel-standardization.yaml
+- docs/work/frontend-accessibility-keyboard-standardization.yaml
+- docs/work/frontend-state-and-formatting-standardization.yaml
+- docs/work/frontend-form-and-action-standardization.yaml
+- docs/work/frontend-css-responsive-consolidation.yaml
+- docs/work/frontend-business-profile-cleanup.yaml
+- docs/work/frontend-chat-exception-standardization.yaml
+- docs/work/frontend-contract-audit.yaml
+phases:
+- id: runtime-correctness
+  priority: P0
+  plan: docs/work/frontend-runtime-correctness-regressions.yaml
+  outcome: Work scopes are separated, Things loads reliably with a usable retry path, and Chat navigation exposes only meaningful destinations.
+- id: shared-context
+  priority: P0
+  plan: docs/work/frontend-context-panel-standardization.yaml
+  outcome: All collection review surfaces use one context-panel contract and the Work application review surface points to the correct detail target.
+- id: accessibility
+  priority: P0
+  plan: docs/work/frontend-accessibility-keyboard-standardization.yaml
+  outcome: Selection, focus, keyboard navigation, and screen-reader semantics are consistent across collection rows.
+- id: state-and-time
+  priority: P1
+  plan: docs/work/frontend-state-and-formatting-standardization.yaml
+  outcome: Loading, error, empty, stale, date, and time states use one visible vocabulary and locale-safe formatting.
+- id: forms-and-actions
+  priority: P1
+  plan: docs/work/frontend-form-and-action-standardization.yaml
+  outcome: Forms, destructive actions, submit/cancel behavior, and action hierarchy use shared components and predictable labels.
+- id: css-and-responsive
+  priority: P1
+  plan: docs/work/frontend-css-responsive-consolidation.yaml
+  outcome: Repeated local CSS is reduced and page/context/detail layouts share tokens and responsive breakpoints.
+- id: business-profile
+  priority: P2
+  plan: docs/work/frontend-business-profile-cleanup.yaml
+  outcome: Business profile and gallery surfaces are concise, visual, and consistent with the shared collection grammar.
+- id: chat-exception
+  priority: P2
+  plan: docs/work/frontend-chat-exception-standardization.yaml
+  outcome: Chat remains a deliberate two-pane exception with consistent header, empty, mobile, and composer behavior.
+- id: contract-audit
+  priority: P0
+  plan: docs/work/frontend-contract-audit.yaml
+  outcome: Automated checks detect implicit row navigation, invalid detail destinations, inconsistent scopes, and missing accessibility semantics.
+dependencies:
+- runtime-correctness -> shared-context
+- shared-context -> accessibility
+- shared-context -> forms-and-actions
+- shared-context -> css-and-responsive
+- accessibility -> contract-audit
+- state-and-time -> contract-audit
+- forms-and-actions -> css-and-responsive
+acceptance:
+- My work and Find work never render the same owned/discoverable items unless the backend visibility contract explicitly allows it.
+- Things discovery does not fail silently with a generic load error, and Retry re-runs the correct request.
+- The viewer-owned Applications surface is clearly named My applications and uses only submitted applications; owner-side applicant review remains a separate surface.
+- Create and Search popovers remain fully inside the viewport at all supported widths without horizontal overflow.
+  - Chat navigation does not expose a redundant Inbox-only child route; Chat is the canonical landing surface.
+- Every collection is classified as direct-detail, in-place-context, or an explicit intentional exception.
+- Every in-place collection has one shared context-panel pattern and one explicit full-detail action where applicable.
+- Clicking a row never causes an unexpected route change.
+- Keyboard and screen-reader users can select, inspect, clear, and open collection items.
+- Loading, error, empty, stale, and success states use shared visible patterns.
+- Dates and times are formatted through one locale/timezone-aware utility.
+- Forms use shared field/footer/action primitives unless an exception is documented.
+- Frontend type-check, build, static audits, browser walkthroughs, and responsive evidence pass.
+closeout:
+  required:
+  - npm --prefix apps/themuffinman/frontend run type-check
+  - npm --prefix apps/themuffinman/frontend run build
+  - make audit-frontend
+  - ruby scripts/audits/audit-frontend-interaction-contract.rb
+  - git diff --check
+evidence:
+  - docs/runtime-evidence/frontend-next-standardization.json
+  - docs/runtime-evidence/frontend-next-standardization-responsive.json
+  - scripts/audits/audit-frontend-interaction-contract.rb
+validation:
+  frontend_type_check: passed
+  frontend_build: passed
+  frontend_audit: passed
+  plan_coverage: passed
+  inventory_freshness: passed
+  diff_check: passed
+  stop_conditions:
+  - A change requires backend permission or workflow redesign.
+  - A shared component change regresses an already verified surface.
+  - A product decision is required to choose between direct detail and in-place context.

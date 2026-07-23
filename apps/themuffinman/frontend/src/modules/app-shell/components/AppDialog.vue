@@ -6,8 +6,8 @@ const emit = defineEmits<{close: []}>()
 <template>
   <Teleport to="body">
     <div v-if="open" class="app-dialog__backdrop" role="presentation" @click.self="emit('close')" @keydown.escape="emit('close')">
-      <section class="app-dialog" :class="`app-dialog--${layout}`" role="dialog" aria-modal="true" :aria-label="title" aria-describedby="app-dialog-body">
-        <header class="app-dialog__header"><h2>{{ title }}</h2><button type="button" class="app-dialog__close" :aria-label="`Close ${title}`" :title="`Close ${title}`" @click="emit('close')">×</button></header>
+      <section class="app-dialog" :class="`app-dialog--${layout}`" role="dialog" aria-modal="true" aria-labelledby="app-dialog-title" aria-describedby="app-dialog-body">
+        <header class="app-dialog__header"><h2 id="app-dialog-title">{{ title }}</h2><button type="button" class="app-dialog__close" :aria-label="`Close ${title}`" :title="`Close ${title}`" @click="emit('close')">×</button></header>
         <div class="app-dialog__workspace"><div id="app-dialog-body" class="app-dialog__body"><slot /></div><aside v-if="$slots.utility" class="app-dialog__utility" aria-label="Form details and actions"><slot name="utility" /></aside></div>
       </section>
     </div>

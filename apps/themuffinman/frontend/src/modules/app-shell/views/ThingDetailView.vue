@@ -7,6 +7,7 @@ import AppButton from "../components/AppButton.vue"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import DetailSurface from "../components/DetailSurface.vue"
+import DetailSurfaceHeader from "../components/DetailSurfaceHeader.vue"
 
 const route = useRoute()
 const userShellApi = {getThingListing: thingsApi.getListing, requestThingBorrow: thingsApi.requestBorrow}
@@ -51,12 +52,10 @@ onMounted(() => void load())
 
 <template>
   <section class="thing-detail">
-    <router-link to="/things" class="back">← Back to things</router-link>
     <div v-if="isLoading" class="status">Loading.</div>
     <div v-else-if="error" class="status status--error" role="alert">{{ error }} <AppButton type="button" tone="quiet" @click="load">Retry</AppButton></div>
     <article v-else-if="listing" class="detail-card" aria-label="Thing narrative and permitted borrowing action">
-      <p class="eyebrow">Thing listing</p>
-      <h1>{{ listing.title }}</h1>
+      <DetailSurfaceHeader eyebrow="Thing listing" :title="listing.title" back-to="/things" back-label="Back to things" aria-label="Thing detail header" />
       <p class="owner">Offered by {{ listing.ownerUsername }}</p>
       <DetailSurface title="Thing detail" utility-label="Thing properties"><p class="description">{{ listing.description || "No description yet." }}</p><section class="thing-detail__activity"><h2>Current availability</h2><p>{{ listing.availabilityLabel }}</p></section><template #utility><div class="thing-detail__properties"><p class="eyebrow">Properties</p><dl><div><dt>Condition</dt><dd>{{ listing.conditionNote || "Not specified" }}</dd></div><div><dt>Listed</dt><dd>{{ new Date(listing.createdAt).toLocaleDateString(undefined, {dateStyle: "medium"}) }}</dd></div></dl></div></template></DetailSurface>
       <p v-if="feedback" class="status status--success" role="status">{{ feedback }}</p>

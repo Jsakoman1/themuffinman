@@ -1,0 +1,183 @@
+kind: work
+version: 1
+id: frontend-user-facing-responsive-consolidation
+title: Consolidate frontend responsive and repeated visual patterns
+status: verified
+baseline: 2997ba0
+master_plan: docs/work/frontend-standardization-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - backend APIs and workflow behavior
+  residual_scope:
+  - browser evidence and future visual regression automation
+  retest_triggers:
+  - shared responsive token or breakpoint
+  - shared surface CSS
+  - viewport-specific layout change
+  non_duplication_rule: Existing desktop and responsive implementation evidence is
+    baseline; this plan adds only new viewport matrix and consolidation evidence.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: Reduce one-off CSS and align shared surface behavior at desktop, tablet,
+  and mobile widths after navigation and state grammar are stable.
+tasks:
+- id: viewport-matrix
+  inventory_item: p3-viewport-matrix
+  title: Capture the shared viewport matrix
+  type: analysis
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - docs/work/frontend-viewport-matrix-2026-07-22.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - docs/work/frontend-viewport-matrix-2026-07-22.md
+  validation: git diff --check
+  started_at: '2026-07-22T18:47:13Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 7713459029afacf826771513ee3ee54274332c1fee4f4c9faa7e193fa2105af0
+    docs/work/frontend-viewport-matrix-2026-07-22.md: d6a287661f86188898dd8dd4cc47beed5968873d0ed50e2688ba065898b28058
+- id: consolidate-repeated-surface-css
+  inventory_item: p3-css-consolidation
+  title: Consolidate repeated page, context, form, and action styles
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+  started_at: '2026-07-22T18:48:47Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue: 0caed0a7f6ea8873de771eef9868be32d30f461bd07b468e795250e910ec3ffe
+- id: browser-visual-walkthrough
+  title: Capture viewport evidence for shared surface archetypes
+  type: runtime
+  status: done
+  inventory_item: p3-browser-visual-walkthrough
+  paths:
+  - docs/work/frontend-viewport-matrix-2026-07-22.md
+  required_paths:
+  - docs/work/frontend-viewport-matrix-2026-07-22.md
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-viewport-matrix-2026-07-22.json
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-viewport-390.png
+  - docs/runtime-evidence/frontend-viewport-700.png
+  - docs/runtime-evidence/frontend-viewport-980.png
+  - docs/runtime-evidence/frontend-viewport-1440.png
+  validation: make audit-frontend && git diff --check
+  started_at: '2026-07-22T18:49:18Z'
+  start_fingerprints:
+    docs/work/frontend-viewport-matrix-2026-07-22.md: d118f469484e6c94f249e1ab21d42c6a51994803c8c9ef3e3d4cb577b59738d1
+acceptance:
+- Shared surfaces behave predictably at 1440px, 980px, 700px, and 390px.
+- View-specific breakpoints have an explicit reason or are removed.
+- Repeated user-visible CSS is centralized only where the pattern is proven.
+closeout:
+  required:
+  - npm --prefix apps/themuffinman/frontend run type-check
+  - npm --prefix apps/themuffinman/frontend run build
+evidence:
+- task: viewport-matrix
+  command: git diff --check
+  ranAt: '2026-07-22T18:48:34Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - docs/work/frontend-viewport-matrix-2026-07-22.md
+  output: "\n"
+  startedAt: '2026-07-22T18:47:13Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - docs/work/frontend-viewport-matrix-2026-07-22.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: consolidate-repeated-surface-css
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T18:49:12Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-BZnCcwhu.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-CnUpeYyZ.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-BEIEeglV.js                   10.87 kB │ gzip:   3.45 kB
+    dist/assets/WorkspaceSurfaceView-BBfdWXZz.js                  11.07 kB │ gzip:   3.66 kB
+    dist/assets/CirclesView-BeDSKRit.js                           11.09 kB │ gzip:   3.33 kB
+    dist/assets/RidesView-YMWF6Lxg.js                             11.74 kB │ gzip:   3.70 kB
+    dist/assets/BusinessProfileView-BQ72iCmI.js                   12.41 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-DfjANZn9.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-80RpZxI4.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-MzHc7caj.js                         18.10 kB │ gzip:   5.42 kB
+    dist/assets/ProfileLocationSettingsView-EqtL1Q9S.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/AuthenticatedShellView-Cq6VoS7M.js                22.03 kB │ gzip:   7.19 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-CrQd490S.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-D8H6AEvi.js                                 52.46 kB │ gzip:  13.41 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 626ms
+
+  startedAt: '2026-07-22T18:48:47Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: browser-visual-walkthrough
+  command: make audit-frontend && git diff --check
+  ranAt: '2026-07-22T18:51:31Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-viewport-matrix-2026-07-22.md
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 97
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  startedAt: '2026-07-22T18:49:18Z'
+  changedAfterStart: &3
+  - docs/work/frontend-viewport-matrix-2026-07-22.md
+  requiredPaths: *3
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-viewport-390.png
+  - docs/runtime-evidence/frontend-viewport-700.png
+  - docs/runtime-evidence/frontend-viewport-980.png
+  - docs/runtime-evidence/frontend-viewport-1440.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-viewport-matrix-2026-07-22.json

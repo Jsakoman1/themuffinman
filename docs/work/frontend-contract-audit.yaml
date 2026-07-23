@@ -1,0 +1,147 @@
+kind: work
+version: 1
+id: frontend-contract-audit
+title: Add automated frontend interaction contract audits
+status: verified
+baseline: 2997ba0
+master_plan: docs/work/frontend-next-standardization-master.yaml
+strict_verification: true
+serial_task_execution: false
+objective: Prevent frontend navigation, scope, accessibility, and surface drift from
+  returning.
+tasks:
+- id: audit-row-navigation
+  inventory_item: contract-audit
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  required_paths:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  validation: make audit-frontend && git diff --check
+- id: audit-scope-and-detail-targets
+  inventory_item: contract-scope-detail
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - docs/work/frontend-next-standardization-master.yaml
+  required_paths:
+  - docs/work/frontend-next-standardization-master.yaml
+  validation: make audit-frontend && git diff --check
+- id: audit-accessibility-contract
+  inventory_item: contract-accessibility
+  type: implementation
+  status: done
+  paths:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  required_paths:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  validation: make audit-frontend && git diff --check
+acceptance:
+- Audit detects implicit row navigation without an explicit surface decision.
+- Audit detects Work scope label/preset mismatches.
+- Audit detects context panels without a valid selection/open contract.
+- Audit output is recorded in the work-plan evidence path.
+validation: make audit-frontend && git diff --check
+evidence:
+- task: audit-row-navigation
+  command: make audit-frontend && git diff --check
+  ranAt: '2026-07-22T20:11:39Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 97
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  requiredPaths:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: audit-scope-and-detail-targets
+  command: make audit-frontend && git diff --check
+  ranAt: '2026-07-22T20:11:41Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-next-standardization-master.yaml
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 97
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  requiredPaths:
+  - docs/work/frontend-next-standardization-master.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: audit-accessibility-contract
+  command: make audit-frontend && git diff --check
+  ranAt: '2026-07-22T20:11:42Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 97
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  requiredPaths:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

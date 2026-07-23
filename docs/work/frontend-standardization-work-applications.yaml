@@ -1,0 +1,54 @@
+kind: work
+version: 1
+id: frontend-standardization-work-applications
+title: Standardize work applications navigation
+status: verified
+baseline: 2997ba0
+master_plan: docs/work/frontend-standardization-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+scope:
+- apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+objective: Make the applicant collection follow the standard list-to-detail interaction
+  instead of opening a second preview surface, while preserving existing edit and
+  withdraw actions.
+tasks:
+- id: direct-application-detail-navigation
+  inventory_item: work-applications-detail-flow
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  change: Remove preview state and ObjectPreviewPanel; make each application row navigate
+    directly to its detail route.
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+acceptance:
+- Application rows use the same direct navigation grammar as Work, Business, Rides,
+  and Things.
+- Edit and Withdraw remain available as row actions.
+- No application business rules or API contracts change.
+closeout:
+  required:
+  - npm --prefix apps/themuffinman/frontend run type-check
+  - npm --prefix apps/themuffinman/frontend run build
+evidence:
+- task: direct-application-detail-navigation
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-22T18:12:27Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

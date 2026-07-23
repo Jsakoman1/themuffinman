@@ -1,0 +1,22 @@
+{
+  "date": "2026-07-22",
+  "task": "capture-responsive-evidence",
+  "viewports": [1440, 980, 700, 390],
+  "checks": {
+    "surfaceRowFocusRingUsesSharedToken": true,
+    "popoverViewportConstraintsArePresent": true,
+    "collectionContextRailHasDesktopAndNarrowModes": true,
+    "workDiscoveryHasSingleScopedStyleBlock": true,
+    "horizontalOverflowContract": "source/build validated; browser capture limited by sandbox"
+  },
+  "source_paths": [
+    "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue",
+    "apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue",
+    "apps/themuffinman/frontend/src/modules/app-shell/components/UniversalCreateMenu.vue",
+    "apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue",
+    "apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue"
+  ],
+  "limitations": [
+    "Fresh browser screenshots at all four widths were not captured in this restricted environment; existing viewport artifacts remain available for comparison."
+  ]
+}

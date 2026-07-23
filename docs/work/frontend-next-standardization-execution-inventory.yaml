@@ -1,0 +1,308 @@
+kind: execution_inventory
+version: 1
+id: frontend-next-standardization-execution-inventory
+master_plan: docs/work/frontend-next-standardization-master.yaml
+serial_task_execution: true
+purpose: Ordered execution queue for the frontend next standardization pass.
+items:
+- id: runtime-work-scope
+  sequence: 1
+  plan: docs/work/frontend-runtime-correctness-regressions.yaml
+  task: separate-work-runtime-results
+  status: verified
+  started_at: '2026-07-22T19:42:03Z'
+  verified_at: '2026-07-22T19:49:54Z'
+  evidence:
+    plan: docs/work/frontend-runtime-correctness-regressions.yaml
+    task: separate-work-runtime-results
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: runtime-things-load
+  sequence: 2
+  plan: docs/work/frontend-runtime-correctness-regressions.yaml
+  task: repair-things-load-and-retry
+  status: verified
+  started_at: '2026-07-22T19:50:05Z'
+  verified_at: '2026-07-22T19:51:16Z'
+  evidence:
+    plan: docs/work/frontend-runtime-correctness-regressions.yaml
+    task: repair-things-load-and-retry
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: runtime-my-applications
+  sequence: 3
+  plan: docs/work/frontend-runtime-correctness-regressions.yaml
+  task: clarify-my-applications-surface
+  status: verified
+  started_at: '2026-07-22T19:51:23Z'
+  verified_at: '2026-07-22T19:52:03Z'
+  evidence:
+    plan: docs/work/frontend-runtime-correctness-regressions.yaml
+    task: clarify-my-applications-surface
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: runtime-global-popovers
+  sequence: 4
+  plan: docs/work/frontend-runtime-correctness-regressions.yaml
+  task: repair-global-popover-overflow
+  status: verified
+  started_at: '2026-07-22T19:52:08Z'
+  verified_at: '2026-07-22T19:53:15Z'
+  evidence:
+    plan: docs/work/frontend-runtime-correctness-regressions.yaml
+    task: repair-global-popover-overflow
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: runtime-chat-navigation
+  sequence: 5
+  plan: docs/work/frontend-runtime-correctness-regressions.yaml
+  task: simplify-chat-navigation
+  status: verified
+  started_at: '2026-07-22T19:53:21Z'
+  verified_at: '2026-07-22T19:54:17Z'
+  evidence:
+    plan: docs/work/frontend-runtime-correctness-regressions.yaml
+    task: simplify-chat-navigation
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: runtime-evidence
+  sequence: 6
+  plan: docs/work/frontend-runtime-correctness-regressions.yaml
+  task: runtime-regression-walkthrough
+  status: verified
+  started_at: '2026-07-22T19:54:25Z'
+  verified_at: '2026-07-22T19:54:58Z'
+  evidence:
+    plan: docs/work/frontend-runtime-correctness-regressions.yaml
+    task: runtime-regression-walkthrough
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: shared-context-contract
+  sequence: 7
+  plan: docs/work/frontend-context-panel-standardization.yaml
+  task: define-context-contract
+  status: verified
+  started_at: '2026-07-22T19:55:17Z'
+  verified_at: '2026-07-22T19:56:14Z'
+  evidence:
+    plan: docs/work/frontend-context-panel-standardization.yaml
+    task: define-context-contract
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: shared-context-migration
+  sequence: 8
+  plan: docs/work/frontend-context-panel-standardization.yaml
+  task: migrate-collections
+  status: verified
+  started_at: '2026-07-22T19:56:46Z'
+  verified_at: '2026-07-22T19:57:18Z'
+  evidence:
+    plan: docs/work/frontend-context-panel-standardization.yaml
+    task: migrate-collections
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: accessibility-surface-row
+  sequence: 9
+  plan: docs/work/frontend-accessibility-keyboard-standardization.yaml
+  task: extend-surface-row
+  status: verified
+  started_at: '2026-07-22T19:57:46Z'
+  verified_at: '2026-07-22T19:58:14Z'
+  evidence:
+    plan: docs/work/frontend-accessibility-keyboard-standardization.yaml
+    task: extend-surface-row
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: accessibility-view-migration
+  sequence: 10
+  plan: docs/work/frontend-accessibility-keyboard-standardization.yaml
+  task: migrate-selection-handlers
+  status: verified
+  started_at: '2026-07-22T19:58:40Z'
+  verified_at: '2026-07-22T19:59:07Z'
+  evidence:
+    plan: docs/work/frontend-accessibility-keyboard-standardization.yaml
+    task: migrate-selection-handlers
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: accessibility-evidence
+  sequence: 11
+  plan: docs/work/frontend-accessibility-keyboard-standardization.yaml
+  task: add-accessibility-walkthrough
+  status: verified
+  started_at: '2026-07-22T19:59:11Z'
+  verified_at: '2026-07-22T19:59:24Z'
+  evidence:
+    plan: docs/work/frontend-accessibility-keyboard-standardization.yaml
+    task: add-accessibility-walkthrough
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: state-time-inventory
+  sequence: 12
+  plan: docs/work/frontend-state-and-formatting-standardization.yaml
+  task: audit-state-components
+  status: verified
+  started_at: '2026-07-22T19:59:40Z'
+  verified_at: '2026-07-22T20:00:12Z'
+  evidence:
+    plan: docs/work/frontend-state-and-formatting-standardization.yaml
+    task: audit-state-components
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: state-time-implementation
+  sequence: 13
+  plan: docs/work/frontend-state-and-formatting-standardization.yaml
+  task: add-date-formatters
+  status: verified
+  started_at: '2026-07-22T20:00:55Z'
+  verified_at: '2026-07-22T20:01:27Z'
+  evidence:
+    plan: docs/work/frontend-state-and-formatting-standardization.yaml
+    task: add-date-formatters
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: state-copy-implementation
+  sequence: 14
+  plan: docs/work/frontend-state-and-formatting-standardization.yaml
+  task: migrate-state-copy
+  status: verified
+  started_at: '2026-07-22T20:01:55Z'
+  verified_at: '2026-07-22T20:02:45Z'
+  evidence:
+    plan: docs/work/frontend-state-and-formatting-standardization.yaml
+    task: migrate-state-copy
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: forms-actions
+  sequence: 15
+  plan: docs/work/frontend-form-and-action-standardization.yaml
+  task: audit-form-primitives
+  status: verified
+  started_at: '2026-07-22T20:03:23Z'
+  verified_at: '2026-07-22T20:03:49Z'
+  evidence:
+    plan: docs/work/frontend-form-and-action-standardization.yaml
+    task: audit-form-primitives
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: forms-surfaces
+  sequence: 16
+  plan: docs/work/frontend-form-and-action-standardization.yaml
+  task: migrate-form-surfaces
+  status: verified
+  started_at: '2026-07-22T20:03:54Z'
+  verified_at: '2026-07-22T20:04:23Z'
+  evidence:
+    plan: docs/work/frontend-form-and-action-standardization.yaml
+    task: migrate-form-surfaces
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: forms-copy
+  sequence: 17
+  plan: docs/work/frontend-form-and-action-standardization.yaml
+  task: normalize-action-copy
+  status: verified
+  started_at: '2026-07-22T20:04:28Z'
+  verified_at: '2026-07-22T20:05:01Z'
+  evidence:
+    plan: docs/work/frontend-form-and-action-standardization.yaml
+    task: normalize-action-copy
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: css-responsive
+  sequence: 18
+  plan: docs/work/frontend-css-responsive-consolidation.yaml
+  task: extract-shared-layout-rules
+  status: verified
+  started_at: '2026-07-22T20:05:23Z'
+  verified_at: '2026-07-22T20:06:00Z'
+  evidence:
+    plan: docs/work/frontend-css-responsive-consolidation.yaml
+    task: extract-shared-layout-rules
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: css-local-cleanup
+  sequence: 19
+  plan: docs/work/frontend-css-responsive-consolidation.yaml
+  task: remove-local-css-duplication
+  status: verified
+  started_at: '2026-07-22T20:06:05Z'
+  verified_at: '2026-07-22T20:06:28Z'
+  evidence:
+    plan: docs/work/frontend-css-responsive-consolidation.yaml
+    task: remove-local-css-duplication
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: css-responsive-evidence
+  sequence: 20
+  plan: docs/work/frontend-css-responsive-consolidation.yaml
+  task: capture-responsive-evidence
+  status: verified
+  started_at: '2026-07-22T20:06:32Z'
+  verified_at: '2026-07-22T20:06:52Z'
+  evidence:
+    plan: docs/work/frontend-css-responsive-consolidation.yaml
+    task: capture-responsive-evidence
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: business-profile
+  sequence: 21
+  plan: docs/work/frontend-business-profile-cleanup.yaml
+  task: standardize-gallery-rows
+  status: verified
+  started_at: '2026-07-22T20:07:14Z'
+  verified_at: '2026-07-22T20:08:01Z'
+  evidence:
+    plan: docs/work/frontend-business-profile-cleanup.yaml
+    task: standardize-gallery-rows
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: business-profile-sections
+  sequence: 22
+  plan: docs/work/frontend-business-profile-cleanup.yaml
+  task: normalize-profile-sections
+  status: verified
+  started_at: '2026-07-22T20:08:06Z'
+  verified_at: '2026-07-22T20:08:34Z'
+  evidence:
+    plan: docs/work/frontend-business-profile-cleanup.yaml
+    task: normalize-profile-sections
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: business-profile-evidence
+  sequence: 23
+  plan: docs/work/frontend-business-profile-cleanup.yaml
+  task: validate-business-profile
+  status: verified
+  started_at: '2026-07-22T20:08:38Z'
+  verified_at: '2026-07-22T20:08:49Z'
+  evidence:
+    plan: docs/work/frontend-business-profile-cleanup.yaml
+    task: validate-business-profile
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: chat-exception
+  sequence: 24
+  plan: docs/work/frontend-chat-exception-standardization.yaml
+  task: normalize-chat-header
+  status: verified
+  started_at: '2026-07-22T20:09:12Z'
+  verified_at: '2026-07-22T20:09:30Z'
+  evidence:
+    plan: docs/work/frontend-chat-exception-standardization.yaml
+    task: normalize-chat-header
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: chat-mobile-empty
+  sequence: 25
+  plan: docs/work/frontend-chat-exception-standardization.yaml
+  task: normalize-chat-empty-mobile-states
+  status: verified
+  started_at: '2026-07-22T20:09:39Z'
+  verified_at: '2026-07-22T20:10:01Z'
+  evidence:
+    plan: docs/work/frontend-chat-exception-standardization.yaml
+    task: normalize-chat-empty-mobile-states
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: chat-exception-evidence
+  sequence: 26
+  plan: docs/work/frontend-chat-exception-standardization.yaml
+  task: validate-chat-exception
+  status: verified
+  started_at: '2026-07-22T20:10:05Z'
+  verified_at: '2026-07-22T20:10:18Z'
+  evidence:
+    plan: docs/work/frontend-chat-exception-standardization.yaml
+    task: validate-chat-exception
+    revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+- id: contract-audit
+  sequence: 27
+  plan: docs/work/frontend-contract-audit.yaml
+  task: audit-row-navigation
+  status: planned
+- id: contract-scope-detail
+  sequence: 28
+  plan: docs/work/frontend-contract-audit.yaml
+  task: audit-scope-and-detail-targets
+  status: planned
+- id: contract-accessibility
+  sequence: 29
+  plan: docs/work/frontend-contract-audit.yaml
+  task: audit-accessibility-contract
+  status: planned

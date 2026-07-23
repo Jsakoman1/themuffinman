@@ -10,9 +10,10 @@ const fieldRoot = ref<HTMLElement | null>(null)
 // explicit aria-label/aria-labelledby supplied by the caller.
 const ensureAccessibleName = () => {
   const controls = fieldRoot.value?.querySelectorAll<HTMLElement>("input:not([type='hidden']), textarea, select, [contenteditable='true']") ?? []
+  const describedBy = [props.descriptionId, props.error && props.descriptionId ? `${props.descriptionId}-error` : undefined].filter(Boolean).join(" ")
   controls.forEach((control, index) => {
-    if (control.hasAttribute("aria-label") || control.hasAttribute("aria-labelledby")) return
-    control.setAttribute("aria-label", index === 0 ? props.label : `${props.label} ${index + 1}`)
+    if (!control.hasAttribute("aria-label") && !control.hasAttribute("aria-labelledby")) control.setAttribute("aria-label", index === 0 ? props.label : `${props.label} ${index + 1}`)
+    if (describedBy && !control.hasAttribute("aria-describedby")) control.setAttribute("aria-describedby", describedBy)
   })
 }
 

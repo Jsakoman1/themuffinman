@@ -90,7 +90,7 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     primaryNavDescription: "Browse quests and applications.",
     canonicalEntryRoute: {path: "/work"},
     visionPrompt: "help me find the best side jobs and work opportunities right now",
-    moduleSpaceRule: "Stay in Work for browse and scan. `/work/find?scope=open-visible` owns visible open-work results; `/work/quests?scope=owned-active` owns the viewer's active quests, and Home must not mix those scopes.",
+    moduleSpaceRule: "Stay in Work for browse and scan. `/work/find?scope=open-visible` owns visible open-work results; `/work/quests?scope=owned-visible` owns the viewer's visible work, and Home must not mix those scopes.",
     visionRule: "Escalate into Vision when the task becomes create, review, update, or semantic search.",
     topLevelNavEligible: true
   },
@@ -109,7 +109,7 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
   "work-applications": {
     id: "work-applications",
     primaryNavId: "work",
-    primaryNavLabel: "Work / Applications",
+    primaryNavLabel: "Work / My applications",
     primaryNavDescription: "Application browsing with Vision detail.",
     canonicalEntryRoute: {path: "/work/applications"},
     canonicalDetailRoute: (targetId) => ({path: `/work/applications/${targetId}`}),
@@ -364,7 +364,6 @@ export const visionWebRouteContracts: VisionWebRouteContract[] = [
   {routeKey: "business.owner_profile", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/profile$/, requiresTarget: false},
   {routeKey: "business.my_bookings", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/my-bookings$/, requiresTarget: false},
   {routeKey: "business.calendar", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/calendar$/, requiresTarget: false},
-  {routeKey: "chat.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/chat$/, requiresTarget: false},
   {routeKey: "chat.workspace", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/chat$/, requiresTarget: false},
   {routeKey: "chat.conversation", action: "OPEN_CONVERSATION", pathPattern: /^\/chat\/\d+$/, requiresTarget: true},
   {routeKey: "notifications.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/notifications$/, requiresTarget: false},

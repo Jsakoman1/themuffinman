@@ -1,0 +1,122 @@
+kind: work
+version: 1
+id: frontend-standardization-context-copy
+title: Reduce duplicate settings and contextual-copy noise across Business, Chat,
+  and Profile
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+master_plan: docs/work/frontend-standardization-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-standardization-foundation.yaml
+  - docs/work/frontend-standardization-social-surfaces.yaml
+  baseline_only_surfaces:
+  - backend Business, Chat, and Profile permissions and workflow rules
+  residual_scope:
+  - deeper Profile settings decomposition into stable subroutes
+  - Business owner detail-route decisions
+  retest_triggers:
+  - shared settings, chat, or Business context copy changes
+  non_duplication_rule: This pass changes labels and duplicate entry points only;
+    existing workflow/runtime evidence remains baseline.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+objective: Reduce misleading Preview labels, duplicate notification links, and verbose
+  Chat/Profile helper copy without changing behavior.
+tasks:
+- id: simplify-context-and-settings-copy
+  inventory_item: business-context-copy
+  title: Use context terminology and remove duplicate Profile notification entry
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check
+- id: simplify-chat-action-copy
+  inventory_item: chat-context-copy
+  title: Clarify Chat creation actions and reduce helper text
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+acceptance:
+- Business contextual panels are not labeled Preview when they are the only available
+  context surface.
+- Profile settings exposes Notification preferences only once.
+- Chat creation actions and helper text are concise and unambiguous.
+- No backend behavior or workflow action availability changes.
+evidence:
+- task: simplify-context-and-settings-copy
+  command: npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-22T18:06:42Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  output: |2+
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: simplify-chat-action-copy
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-22T18:06:44Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-CHh6ovmd.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-1lKx1e_q.js               8.08 kB │ gzip:   2.67 kB
+    dist/assets/ThingsDiscoveryView-CvtoRjO_.js                   10.80 kB │ gzip:   3.44 kB
+    dist/assets/WorkspaceSurfaceView-C2Atzdhb.js                  11.07 kB │ gzip:   3.65 kB
+    dist/assets/CirclesView-D8Ape-PP.js                           11.08 kB │ gzip:   3.33 kB
+    dist/assets/RidesView-ykRUkSAF.js                             12.04 kB │ gzip:   3.78 kB
+    dist/assets/BusinessProfileView-CKgX6e3Z.js                   12.38 kB │ gzip:   3.70 kB
+    dist/assets/WorkQuestDetailView-DarOpzvp.js                   13.22 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-CYyPDko8.js                       15.39 kB │ gzip:   5.05 kB
+    dist/assets/SurfaceHeader-B2e4GxLX.js                         18.10 kB │ gzip:   5.41 kB
+    dist/assets/ProfileLocationSettingsView-4UscsNG1.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/AuthenticatedShellView-BUMnKaYy.js                21.99 kB │ gzip:   7.17 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-DEdBcoTz.js               39.83 kB │ gzip:  11.99 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-CFbQCtMc.js                                 52.44 kB │ gzip:  13.38 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 546ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

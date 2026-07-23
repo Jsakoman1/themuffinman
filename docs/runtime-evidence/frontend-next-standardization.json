@@ -1,0 +1,28 @@
+{
+  "date": "2026-07-22",
+  "task": "add-accessibility-walkthrough",
+  "environment": "local source and production build validation",
+  "checks": {
+    "surfaceRowsExposeAriaSelected": true,
+    "previewAndInformationalRowsAreKeyboardFocusable": true,
+    "enterAndSpaceOpenSelectableRows": true,
+    "workSelectionHandlerReceivesKeyboardOpen": true,
+    "authorizedActionButtonsRemainSeparateFromRowKeyboardHandling": true,
+    "escapeSelectionBehaviorRemainsOwnedByUseSurfaceViewState": true,
+    "businessGalleryRowsUseSharedThumbnailAndConciseMetadata": true,
+    "businessProfileUsesSharedUtilityRail": true,
+    "businessActionsRemainSeparatedFromNavigation": true,
+    "chatIsDocumentedAsIntentionalTwoPaneException": true,
+    "chatEmptyStatesHaveStatusSemantics": true,
+    "chatMobileKeepsConversationIndexAndThreadContext": true,
+    "chatComposerActionsRemainSeparateFromNavigation": true
+  },
+  "source_paths": [
+    "apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue",
+    "apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue",
+    "apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts"
+  ],
+  "limitations": [
+    "A fresh browser assistive-technology walkthrough was not available in the restricted environment; evidence is source-level plus production-build validation."
+  ]
+}

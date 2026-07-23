@@ -33,6 +33,7 @@ export type ShellSurfaceRow = {
   title: string
   description: string
   meta?: string
+  thumbnailUrl?: string
   badge?: string
   to?: RouteLocationRaw
   visionTo?: RouteLocationRaw
@@ -121,7 +122,7 @@ const createApplicationRow = (application: QuestApplicationResponseDTO): ShellSu
   meta: `${application.questCreatorUsername} · ${formatDate(application.createdAt)}`,
   badge: application.status,
   to: applicationRoute(application.id),
-  visionTo: buildSurfaceVisionRoute("work-applications", "/work/applications", "Work applications")
+  visionTo: buildSurfaceVisionRoute("work-applications", "/work/applications", "My applications")
 })
 
 const createChatRow = (conversation: ChatConversationSummaryDTO): ShellSurfaceRow => ({
@@ -241,10 +242,10 @@ const loadHomeData = async (): Promise<ShellSurfaceViewModel> => {
         tone: "emphasis"
       },
       {
-        label: "My active quests",
-        value: formatCount(summary.activeMyQuestsCount),
-        detail: "Owned work that still needs attention.",
-        to: {path: "/work/quests", query: {scope: "owned-active"}}
+        label: "My work",
+        value: formatCount(summary.visibleMyQuestsCount),
+        detail: "Work you created and can manage.",
+        to: {path: "/work/quests", query: {scope: "owned-visible"}}
       },
       {
         label: "Pending applications",
@@ -324,7 +325,7 @@ const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewMo
       ],
       sections: [
         {
-          title: "My quests",
+          title: "My work",
           description: "Stable list entry with Vision-native detail continuity.",
           emptyState: "No owned quests are available right now.",
           rows: myQuestRows
@@ -350,7 +351,7 @@ const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewMo
       ],
       sections: [
         {
-          title: "Applications",
+          title: "My applications",
           description: "Deterministic applications browse with Vision-native detail.",
           emptyState: "No applications are visible right now.",
           rows: applicationRows
@@ -386,14 +387,14 @@ const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewMo
         rows: discoverRows
       },
       {
-        title: "My quests",
+        title: "My work",
         description: "Owned work remains easy to scan from one stable lane.",
         emptyState: "No owned quests are visible right now.",
         rows: myQuestRows
       },
       {
-        title: "Applications",
-        description: "Applications stay nested under Work and route to Vision detail.",
+        title: "My applications",
+        description: "Applications you submitted for work, with their current status and next actions.",
         emptyState: "No applications are visible right now.",
         rows: applicationRows
       }
@@ -410,7 +411,7 @@ const loadChatData = async (route: RouteLocationNormalizedLoaded): Promise<Shell
 
   const sections: ShellSurfaceSection[] = [
     {
-      title: "Inbox",
+      title: "Chat",
       description: "Chat owns deterministic thread browsing.",
       emptyState: "No conversations are available right now.",
       rows: workspace.conversations.map(createChatRow)

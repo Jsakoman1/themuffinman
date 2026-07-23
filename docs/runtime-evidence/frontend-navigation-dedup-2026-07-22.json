@@ -1,0 +1,28 @@
+{
+  "capturedAt": "2026-07-22T18:34:54.397Z",
+  "scenario": "frontend-navigation-dedup",
+  "baseUrl": "http://localhost:5173",
+  "browser": "chromium",
+  "viewport": {"width": 1440, "height": 1000},
+  "routes": ["/home", "/rides", "/business/find", "/work"],
+  "assertions": {
+    "rides": {
+      "headerHasDiscover": false,
+      "headerHasMyRides": false,
+      "contextHasDiscover": true,
+      "contextHasMyRides": true,
+      "headerHasOffer": true
+    },
+    "business": {"headerHasMyBusiness": false},
+    "work": {"hasOfferWork": true, "hasVision": true}
+  },
+  "expectedRequestAborts": [
+    "/dashboard/me/summary",
+    "/personal-shortcuts/me/rail-preference",
+    "/workspace/navigation"
+  ],
+  "realRequestFailures": [],
+  "pageErrors": [],
+  "status": "passed",
+  "boundary": "Chromium navigation ownership and header deduplication at 1440px; responsive visual evidence remains in the P3 phase."
+}

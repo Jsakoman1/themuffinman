@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from "vue"
-import {useRoute, useRouter} from "vue-router"
+import {useRoute} from "vue-router"
 import type {RideOfferResponseDTO} from "../../../contracts/index.ts"
 import {ridesApi} from "../../rides/api/ridesApi.ts"
 import AppStatus from "../components/AppStatus.vue"
 import AppButton from "../components/AppButton.vue"
 import DetailSurface from "../components/DetailSurface.vue"
 import DetailUtilityRail from "../components/DetailUtilityRail.vue"
+import DetailSurfaceHeader from "../components/DetailSurfaceHeader.vue"
 
 const route = useRoute()
-const router = useRouter()
 const userShellApi = {joinRide: ridesApi.join, leaveRide: ridesApi.leave, startRide: ridesApi.start, completeRide: ridesApi.complete, cancelRide: ridesApi.cancel, getRideOffer: ridesApi.getOffer}
 const detail = ref<RideOfferResponseDTO | null>(null)
 const loading = ref(true)
@@ -40,14 +40,13 @@ onMounted(() => void load())
 
 <template>
   <section class="ride-detail">
-    <AppButton type="button" tone="secondary" class="ride-detail__back" @click="router.push(returnTo)">Back to rides</AppButton>
     <AppStatus v-if="loading" message="Loading ride." busy />
     <AppStatus v-else-if="error && !detail" :message="error" tone="error" retry @retry="load" />
     <template v-else-if="detail">
       <AppStatus v-if="feedback" :message="feedback" tone="success" />
       <AppStatus v-if="error" :message="error" tone="error" retry @retry="load" />
       <DetailSurface :title="`${detail.origin} to ${detail.destination}`" utility-label="Ride actions">
-        <template #header><header class="ride-detail__header"><p>Rides / Detail</p><h1>{{ detail.origin }} → {{ detail.destination }}</h1></header></template>
+        <template #header><DetailSurfaceHeader eyebrow="Rides / Detail" :title="`${detail.origin} → ${detail.destination}`" :back-to="returnTo" back-label="Back to rides" /></template>
         <template #default><dl class="ride-detail__facts"><div><dt>Departure</dt><dd>{{ new Date(detail.departureAt).toLocaleString(undefined, {dateStyle: "medium", timeStyle: "short"}) }}</dd></div><div><dt>Seats</dt><dd>{{ detail.joinedSeats }} / {{ detail.seats }}</dd></div><div><dt>Driver</dt><dd>{{ detail.driverUsername }}</dd></div><div><dt>Status</dt><dd>{{ detail.status }}</dd></div><div v-if="detail.visibleCircleNames.length"><dt>Visible to</dt><dd>{{ detail.visibleCircleNames.join(', ') }}</dd></div></dl><p v-if="detail.note" class="ride-detail__note">{{ detail.note }}</p></template>
         <template #utility><DetailUtilityRail title="Ride actions"><AppButton v-if="detail.allowedActions.includes('JOIN')" type="button" tone="primary" :loading="acting" @click="run('Joined ride.', () => userShellApi.joinRide(detail!.id))">Join</AppButton><AppButton v-if="detail.allowedActions.includes('LEAVE')" type="button" tone="secondary" :loading="acting" @click="run('Left ride.', () => userShellApi.leaveRide(detail!.id))">Leave</AppButton><AppButton v-if="detail.allowedActions.includes('START')" type="button" tone="primary" :loading="acting" @click="run('Ride started.', () => userShellApi.startRide(detail!.id))">Start</AppButton><AppButton v-if="detail.allowedActions.includes('COMPLETE')" type="button" tone="primary" :loading="acting" @click="run('Ride completed.', () => userShellApi.completeRide(detail!.id))">Complete</AppButton><AppButton v-if="detail.allowedActions.includes('CANCEL')" type="button" tone="danger" :loading="acting" class="ride-detail__danger" @click="run('Ride cancelled.', () => userShellApi.cancelRide(detail!.id))">Cancel</AppButton></DetailUtilityRail></template>
       </DetailSurface>

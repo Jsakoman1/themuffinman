@@ -1,0 +1,128 @@
+kind: master
+version: 1
+id: frontend-standardization-master
+title: Standardize frontend navigation, surfaces, and interaction grammar
+status: verified
+baseline: 2997ba0
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-standardization-master-execution-inventory.yaml
+audit: docs/audit-output/frontend-user-facing-audit-2026-07-22.md
+plan_review: docs/audit-output/frontend-user-facing-master-plan-deep-dive-2026-07-22.md
+goal_pursuing:
+  objective: Make the authenticated frontend feel like one coherent product by removing
+    duplicate navigation, standardizing collection/detail/context surfaces, unifying
+    visible form and state grammar, and proving responsive behavior.
+  execution_mode: serial
+  first_plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+  first_task: route-action-matrix
+  start_command: make work-start plan=docs/work/frontend-user-facing-navigation-dedup.yaml
+    task=route-action-matrix
+  verification_command: make work-verify plan=docs/work/frontend-user-facing-navigation-dedup.yaml
+    task=route-action-matrix
+  continue_rule: Advance only after the current inventory item and child task are
+    verifier-marked done/verified.
+  scope_rule: Keep backend behavior, API contracts, permissions, and already verified
+    frontend slices baseline-only unless a listed retest trigger occurs.
+  evidence_rule: Build/type-check prove source integrity; browser/runtime and visual
+    artifacts are required for user-facing claims.
+  stop_conditions:
+  - A product decision is required for Notifications or Work quest application review
+    detail-vs-context behavior.
+  - A shared component change causes an unrelated verified surface regression.
+  - Required browser/runtime evidence cannot be captured in the owned local environment.
+  - A validation failure cannot be repaired without expanding scope.
+  closeout_rule: The master remains open until all inventory items, child plans, browser
+    evidence, and final audits pass.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/main-surfaces-modernization-master.yaml
+  - docs/work/ui-action-integrity-master.yaml
+  baseline_only_surfaces:
+  - backend domain behavior
+  - already verified runtime scenarios not touched by frontend changes
+  residual_scope:
+  - module-by-module surface cleanup after the foundation slice
+  - browser visual and responsive evidence
+  retest_triggers:
+  - any shared shell or route interaction change
+  non_duplication_rule: The child plan owns new implementation status; prior modernization
+    and action-integrity plans are baseline evidence only.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+children:
+- docs/work/frontend-standardization-foundation.yaml
+- docs/work/frontend-standardization-module-sweep.yaml
+- docs/work/frontend-standardization-navigation-coverage.yaml
+- docs/work/frontend-standardization-business-discovery.yaml
+- docs/work/frontend-standardization-social-surfaces.yaml
+- docs/work/frontend-standardization-context-copy.yaml
+- docs/work/frontend-standardization-work-applications.yaml
+- docs/work/frontend-user-facing-navigation-dedup.yaml
+- docs/work/frontend-user-facing-surface-archetypes.yaml
+- docs/work/frontend-user-facing-state-form-standardization.yaml
+- docs/work/frontend-user-facing-responsive-consolidation.yaml
+objective: Replace the remaining fragmented user-facing frontend grammar with one
+  authoritative navigation model, explicit collection/detail/context archetypes, consistent
+  detail and form frames, normalized states, and predictable responsive behavior.
+phases:
+- id: navigation-deduplication
+  plan: docs/work/frontend-user-facing-navigation-dedup.yaml
+  priority: P0
+  outcome: Users see one authoritative sibling-route navigation layer and one clear
+    primary page action.
+- id: surface-archetypes
+  plan: docs/work/frontend-user-facing-surface-archetypes.yaml
+  priority: P1
+  outcome: Every collection is explicitly either direct-list-to-detail or in-place
+    review/context.
+- id: state-and-form-standardization
+  plan: docs/work/frontend-user-facing-state-form-standardization.yaml
+  priority: P2
+  outcome: Forms, dialogs, loading, errors, empty states, and partial states use one
+    visible vocabulary.
+- id: responsive-and-visual-consolidation
+  plan: docs/work/frontend-user-facing-responsive-consolidation.yaml
+  priority: P3
+  outcome: Surface archetypes behave predictably at desktop, tablet, and mobile widths
+    with less local CSS drift.
+dependencies:
+- navigation-deduplication -> surface-archetypes
+- surface-archetypes -> state-and-form-standardization
+- state-and-form-standardization -> responsive-and-visual-consolidation
+close_criteria:
+- The foundation child plan is independently verified.
+- Remaining module cleanup is recorded as explicit residual scope rather than implied
+  complete.
+- Frontend type-check, build, and static surface validation pass.
+- The user-facing audit has been converted into executable child plans with evidence
+  for each completed phase.
+- No page duplicates sibling-route navigation without an explicit workflow reason.
+- No canonical-detail collection uses a preview interaction.
+- Browser viewport evidence exists for each shared surface archetype before the master
+  is closed.
+pre_goal_gates:
+- Execution inventory exists at docs/work/frontend-standardization-master-execution-inventory.yaml.
+- Durable route/action and surface-archetype matrix outputs are owned by the P0/P1
+  child plans under docs/work.
+- Browser evidence commands and artifact paths are declared by P0, P1, and P3.
+- Activate only one child phase at a time.
+goal_ready: true
+evidence:
+- verifiedAt: '2026-07-22T18:51:44Z'
+  revision: 2997ba0fc8645cda057d40b502b6cf0acae14a26
+  children:
+  - docs/work/frontend-standardization-foundation.yaml
+  - docs/work/frontend-standardization-module-sweep.yaml
+  - docs/work/frontend-standardization-navigation-coverage.yaml
+  - docs/work/frontend-standardization-business-discovery.yaml
+  - docs/work/frontend-standardization-social-surfaces.yaml
+  - docs/work/frontend-standardization-context-copy.yaml
+  - docs/work/frontend-standardization-work-applications.yaml
+  - docs/work/frontend-user-facing-navigation-dedup.yaml
+  - docs/work/frontend-user-facing-surface-archetypes.yaml
+  - docs/work/frontend-user-facing-state-form-standardization.yaml
+  - docs/work/frontend-user-facing-responsive-consolidation.yaml
