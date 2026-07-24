@@ -6,135 +6,170 @@ serial_task_execution: true
 preflight_impact_report: docs/audit-output/system-map-change-impact.json
 preflight_impact_disposition: pending structural redesign preflight
 items:
-  - id: structural-redesign-atomic-hardening
-    sequence: 0
+- id: structural-redesign-atomic-hardening
+  sequence: 0
+  plan: docs/work/frontend-structural-redesign-atomic-task-hardening.yaml
+  task: harden-structural-redesign-queue
+  depends_on: []
+  status: verified
+  started_at: '2026-07-24T16:04:56Z'
+  verified_at: '2026-07-24T16:06:17Z'
+  evidence:
     plan: docs/work/frontend-structural-redesign-atomic-task-hardening.yaml
     task: harden-structural-redesign-queue
-    depends_on: []
-    status: pending
-  - id: structural-redesign-foundation
-    sequence: 1
-    plan: docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
-    task: foundation-module-page-and-tab-registry
-    depends_on: [structural-redesign-atomic-hardening]
-    status: pending
-  - id: structural-redesign-foundation-navigation
-    sequence: 2
-    plan: docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
-    task: foundation-navigation-single-source
-    depends_on: [structural-redesign-foundation]
-    status: pending
-  - id: structural-redesign-work
-    sequence: 3
-    plan: docs/work/frontend-structural-redesign-02-work.yaml
-    task: work-single-tabbed-surface
-    depends_on: [structural-redesign-foundation-navigation]
-    status: pending
-  - id: structural-redesign-work-filters
-    sequence: 4
-    plan: docs/work/frontend-structural-redesign-02-work.yaml
-    task: work-filter-drawer-and-states
-    depends_on: [structural-redesign-work]
-    status: pending
-  - id: structural-redesign-business
-    sequence: 5
-    plan: docs/work/frontend-structural-redesign-03-business.yaml
-    task: business-customer-owner-information-architecture
-    depends_on: [structural-redesign-work-filters]
-    status: pending
-  - id: structural-redesign-business-owner-tabs
-    sequence: 6
-    plan: docs/work/frontend-structural-redesign-03-business.yaml
-    task: business-owner-tabs-and-calendar
-    depends_on: [structural-redesign-business]
-    status: pending
-  - id: structural-redesign-business-guided-flows
-    sequence: 7
-    plan: docs/work/frontend-structural-redesign-03-business.yaml
-    task: business-setup-and-public-simplification
-    depends_on: [structural-redesign-business-owner-tabs]
-    status: pending
-  - id: structural-redesign-cross-module
-    sequence: 8
-    plan: docs/work/frontend-structural-redesign-04-cross-module.yaml
-    task: cross-module-share-tabs
-    depends_on: [structural-redesign-business-guided-flows]
-    status: pending
-  - id: structural-redesign-cross-module-profile-chat-calendar
-    sequence: 9
-    plan: docs/work/frontend-structural-redesign-04-cross-module.yaml
-    task: cross-module-profile-chat-calendar-tabs
-    depends_on: [structural-redesign-cross-module]
-    status: pending
-  - id: structural-redesign-shell-header-assistant
-    sequence: 10
-    plan: docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
-    task: shell-header-and-persistent-assistant
-    depends_on: [structural-redesign-cross-module-profile-chat-calendar]
-    status: pending
-  - id: structural-redesign-home-preview
-    sequence: 11
-    plan: docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
-    task: home-sections-and-side-preview
-    depends_on: [structural-redesign-shell-header-assistant]
-    status: pending
-  - id: structural-redesign-calendar-all-modules
-    sequence: 12
-    plan: docs/work/frontend-structural-redesign-07-calendar-business.yaml
-    task: calendar-all-modules-and-business-scopes
-    depends_on: [structural-redesign-home-preview]
-    status: pending
-  - id: structural-redesign-business-isolated-workspaces
-    sequence: 13
-    plan: docs/work/frontend-structural-redesign-07-calendar-business.yaml
-    task: business-isolated-workspaces-and-public-presence
-    depends_on: [structural-redesign-calendar-all-modules]
-    status: pending
-  - id: structural-redesign-circles
-    sequence: 14
-    plan: docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
-    task: circles-people-groups-and-privileges
-    depends_on: [structural-redesign-business-isolated-workspaces]
-    status: pending
-  - id: structural-redesign-things-wishlist
-    sequence: 15
-    plan: docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
-    task: things-wishlist-and-low-friction-listing
-    depends_on: [structural-redesign-circles]
-    status: pending
-  - id: structural-redesign-rides-matching
-    sequence: 16
-    plan: docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
-    task: rides-background-matching-and-suggestions
-    depends_on: [structural-redesign-things-wishlist]
-    status: pending
-  - id: structural-redesign-attention-searches
-    sequence: 17
-    plan: docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
-    task: attention-and-saved-searches
-    depends_on: [structural-redesign-rides-matching]
-    status: pending
-  - id: structural-redesign-profile-settings-visual-system
-    sequence: 18
-    plan: docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
-    task: profile-settings-and-visual-grammar
-    depends_on: [structural-redesign-attention-searches]
-    status: pending
-  - id: structural-redesign-css-and-file-cleanup
-    sequence: 19
-    plan: docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
-    task: cleanup-css-components-and-frontend-logic
-    depends_on: [structural-redesign-profile-settings-visual-system]
-    status: pending
-  - id: structural-redesign-retire-duplicates
-    sequence: 20
-    plan: docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
-    task: retire-duplicate-surfaces
-    depends_on: [structural-redesign-css-and-file-cleanup]
-    status: pending
-  - id: structural-redesign-closeout
-    sequence: 21
-    plan: docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
-    task: retire-duplicates-and-verify-runtime
-    depends_on: [structural-redesign-retire-duplicates]
-    status: pending
+    revision: de0a8a2afc3e6c96b9f34d91457ea7c97c51224b
+- id: structural-redesign-foundation
+  sequence: 1
+  plan: docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+  task: foundation-module-page-and-tab-registry
+  depends_on:
+  - structural-redesign-atomic-hardening
+  status: pending
+- id: structural-redesign-backend-api-parity
+  sequence: 2
+  plan: docs/work/frontend-structural-redesign-backend-api-parity.yaml
+  task: backend-api-parity-contracts
+  depends_on:
+  - structural-redesign-atomic-hardening
+  status: pending
+- id: structural-redesign-foundation-navigation
+  sequence: 3
+  plan: docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+  task: foundation-navigation-single-source
+  depends_on:
+  - structural-redesign-foundation
+  - structural-redesign-backend-api-parity
+  status: pending
+- id: structural-redesign-work
+  sequence: 4
+  plan: docs/work/frontend-structural-redesign-02-work.yaml
+  task: work-single-tabbed-surface
+  depends_on:
+  - structural-redesign-foundation-navigation
+  status: pending
+- id: structural-redesign-work-filters
+  sequence: 5
+  plan: docs/work/frontend-structural-redesign-02-work.yaml
+  task: work-filter-drawer-and-states
+  depends_on:
+  - structural-redesign-work
+  status: pending
+- id: structural-redesign-business
+  sequence: 6
+  plan: docs/work/frontend-structural-redesign-03-business.yaml
+  task: business-customer-owner-information-architecture
+  depends_on:
+  - structural-redesign-work-filters
+  status: pending
+- id: structural-redesign-business-owner-tabs
+  sequence: 7
+  plan: docs/work/frontend-structural-redesign-03-business.yaml
+  task: business-owner-tabs-and-calendar
+  depends_on:
+  - structural-redesign-business
+  status: pending
+- id: structural-redesign-business-guided-flows
+  sequence: 8
+  plan: docs/work/frontend-structural-redesign-03-business.yaml
+  task: business-setup-and-public-simplification
+  depends_on:
+  - structural-redesign-business-owner-tabs
+  status: pending
+- id: structural-redesign-cross-module
+  sequence: 9
+  plan: docs/work/frontend-structural-redesign-04-cross-module.yaml
+  task: cross-module-share-tabs
+  depends_on:
+  - structural-redesign-business-guided-flows
+  status: pending
+- id: structural-redesign-cross-module-profile-chat-calendar
+  sequence: 10
+  plan: docs/work/frontend-structural-redesign-04-cross-module.yaml
+  task: cross-module-profile-chat-calendar-tabs
+  depends_on:
+  - structural-redesign-cross-module
+  status: pending
+- id: structural-redesign-shell-header-assistant
+  sequence: 11
+  plan: docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+  task: shell-header-and-persistent-assistant
+  depends_on:
+  - structural-redesign-cross-module-profile-chat-calendar
+  status: pending
+- id: structural-redesign-home-preview
+  sequence: 12
+  plan: docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+  task: home-sections-and-side-preview
+  depends_on:
+  - structural-redesign-shell-header-assistant
+  status: pending
+- id: structural-redesign-calendar-all-modules
+  sequence: 13
+  plan: docs/work/frontend-structural-redesign-07-calendar-business.yaml
+  task: calendar-all-modules-and-business-scopes
+  depends_on:
+  - structural-redesign-home-preview
+  status: pending
+- id: structural-redesign-business-isolated-workspaces
+  sequence: 14
+  plan: docs/work/frontend-structural-redesign-07-calendar-business.yaml
+  task: business-isolated-workspaces-and-public-presence
+  depends_on:
+  - structural-redesign-calendar-all-modules
+  status: pending
+- id: structural-redesign-circles
+  sequence: 15
+  plan: docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+  task: circles-people-groups-and-privileges
+  depends_on:
+  - structural-redesign-business-isolated-workspaces
+  status: pending
+- id: structural-redesign-things-wishlist
+  sequence: 16
+  plan: docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+  task: things-wishlist-and-low-friction-listing
+  depends_on:
+  - structural-redesign-circles
+  status: pending
+- id: structural-redesign-rides-matching
+  sequence: 17
+  plan: docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+  task: rides-background-matching-and-suggestions
+  depends_on:
+  - structural-redesign-things-wishlist
+  status: pending
+- id: structural-redesign-attention-searches
+  sequence: 18
+  plan: docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+  task: attention-and-saved-searches
+  depends_on:
+  - structural-redesign-rides-matching
+  status: pending
+- id: structural-redesign-profile-settings-visual-system
+  sequence: 19
+  plan: docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+  task: profile-settings-and-visual-grammar
+  depends_on:
+  - structural-redesign-attention-searches
+  status: pending
+- id: structural-redesign-css-and-file-cleanup
+  sequence: 20
+  plan: docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+  task: cleanup-css-components-and-frontend-logic
+  depends_on:
+  - structural-redesign-profile-settings-visual-system
+  status: pending
+- id: structural-redesign-retire-duplicates
+  sequence: 21
+  plan: docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+  task: retire-duplicate-surfaces
+  depends_on:
+  - structural-redesign-css-and-file-cleanup
+  status: pending
+- id: structural-redesign-closeout
+  sequence: 22
+  plan: docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+  task: retire-duplicates-and-verify-runtime
+  depends_on:
+  - structural-redesign-retire-duplicates
+  status: pending

@@ -3,6 +3,7 @@ version: 1
 id: frontend-structural-redesign-04-cross-module
 title: "Apply the simple tab grammar across remaining modules"
 status: draft
+hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
 strict_verification: true
@@ -19,7 +20,6 @@ tasks:
   - id: cross-module-share-tabs
     title: Combine Things and Rides under a simple Share workspace
     type: implementation
-    status: pending
     inventory_item: structural-redesign-share-tabs
     observable_outcome: Share exposes Things, Rides, and Requests tabs without duplicating module-level navigation or mixing unrelated actions.
     dependencies: []

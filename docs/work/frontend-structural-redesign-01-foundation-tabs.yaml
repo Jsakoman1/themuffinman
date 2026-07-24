@@ -3,6 +3,7 @@ version: 1
 id: frontend-structural-redesign-01-foundation-tabs
 title: "Build the canonical module-page and tab foundation"
 status: draft
+hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
 strict_verification: true
@@ -19,7 +20,6 @@ tasks:
   - id: foundation-module-page-and-tab-registry
     title: Establish one canonical module page and tab registry
     type: implementation
-    status: pending
     inventory_item: structural-redesign-foundation-module-page
     observable_outcome: A module tab definition contains route, label, backend scope, permission, empty state, and primary action, and one shared page renders it consistently.
     dependencies: []

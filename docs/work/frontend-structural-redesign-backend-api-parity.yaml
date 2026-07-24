@@ -1,0 +1,32 @@
+kind: work
+version: 1
+id: frontend-structural-redesign-backend-api-parity
+title: "Backend and API parity for the structural frontend redesign"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+serial_task_execution: true
+strict_verification: true
+tasks:
+  - id: backend-api-parity-contracts
+    title: Establish portable read/action contracts for every redesigned surface
+    type: backend-api
+    status: pending
+    inventory_item: structural-redesign-backend-api-parity
+    observable_outcome: Calendar, business workspaces, favorites, circles/groups, things wishlists, rides suggestions, and VisionForWeb each expose backend-owned typed read/action contracts with viewer scope and permission semantics.
+    dependencies: []
+    paths:
+      - apps/themuffinman/src/main/java/com/themuffinman/app
+      - apps/themuffinman/frontend/src/contracts
+      - docs/domain-technical.md
+      - docs/business-logic.md
+    required_paths:
+      - apps/themuffinman/src/main/java/com/themuffinman/app/calendar
+      - apps/themuffinman/src/main/java/com/themuffinman/app/business
+      - apps/themuffinman/src/main/java/com/themuffinman/app/vision
+      - apps/themuffinman/frontend/src/contracts
+    evidence_boundary:
+      - DTO and endpoint matrix
+      - ownership and permission tests
+      - frontend contract generation/type-check
+      - portable-client notes
+    validation: ./mvnw test && npm run type-check

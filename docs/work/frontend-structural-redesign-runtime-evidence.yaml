@@ -1,0 +1,44 @@
+kind: runtime_evidence_plan
+version: 1
+id: frontend-structural-redesign-runtime-evidence
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+status: draft
+capture_policy: Capture only after implementation tasks pass their leaf validation; screenshots alone never mark a task complete.
+required_viewports:
+  - desktop-wide
+  - desktop-narrow
+  - mobile
+scenarios:
+  - id: shell-home-assistant
+    route: /home
+    proves: Header hierarchy, separated Home sections, persistent VisionForWeb composer, inline answer bubble, keyboard focus, and recovery.
+  - id: work-scope-preview
+    route: /work
+    proves: Discover/My work/Applications scope separation, ownership filtering, tabs, adjacent preview, empty states, and no duplicate dataset.
+  - id: business-isolation
+    route: /businesses/:businessId
+    proves: Multiple owned businesses have separate workspaces, subnavigation, business-only calendar, rich profile/gallery, and owner/customer boundaries.
+  - id: public-business-booking
+    route: /businesses/:businessId/public
+    proves: Service-first booking, flexible quantity/pricing inputs, availability-only slot selection, confirmation, and favorite action.
+  - id: unified-calendar
+    route: /calendar
+    proves: Work, rides, things, business, circles, chat, and personal events aggregate with source filters and business-specific drill-in.
+  - id: circles-things-rides
+    route: /circles
+    proves: People/groups/privileges, wishlist sharing, consent-aware ride suggestions, and related-context links.
+  - id: calm-secondary-surfaces
+    route: /attention
+    proves: Attention, saved searches, profile, settings, responsive layout, progressive detail, and consistent visual grammar.
+  - id: retirement-regression
+    route: /
+    proves: No retired duplicate route or component is reachable as canonical UI; compatibility redirects are explicit and temporary.
+artifacts:
+  - docs/runtime-evidence/frontend-structural-redesign-closeout.json
+  - docs/runtime-evidence/frontend-structural-redesign-closeout-desktop.png
+  - docs/runtime-evidence/frontend-structural-redesign-closeout-mobile.png
+  - docs/regression-scenario-catalog.yaml
+evidence_rules:
+  - Each scenario records route, viewport, seed/context, expected outcome, actual outcome, and artifact path.
+  - Failed, flaky, or manually inferred behavior is recorded as failed or blocked, never passed.
+  - Mutation scenarios include confirmation, permission, conflict, and recovery evidence.

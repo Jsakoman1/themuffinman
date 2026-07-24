@@ -3,6 +3,7 @@ version: 1
 id: frontend-structural-redesign-08-social-sharing-rides
 title: "Redesign Circles, Things, and Rides around low-friction useful connections"
 status: draft
+hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
 strict_verification: true
@@ -19,7 +20,6 @@ tasks:
   - id: circles-people-groups-and-privileges
     title: Make Circles understandable as people, groups, visibility, and clubs
     type: implementation
-    status: pending
     inventory_item: structural-redesign-circles
     observable_outcome: Users can add people, organize them into named circles/groups, set visibility and privileges, create chat groups, and establish event-capable clubs through one understandable flow.
     dependencies: [business-isolated-workspaces-and-public-presence]

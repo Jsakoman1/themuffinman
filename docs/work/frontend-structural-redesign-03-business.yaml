@@ -3,6 +3,7 @@ version: 1
 id: frontend-structural-redesign-03-business
 title: "Make Business understandable for customers and owners"
 status: draft
+hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
 strict_verification: true
@@ -19,7 +20,6 @@ tasks:
   - id: business-customer-owner-information-architecture
     title: Split Business customer and owner modes
     type: implementation
-    status: pending
     inventory_item: structural-redesign-business-modes
     observable_outcome: Business clearly presents Book a business versus Manage my business, with no mixed owner/customer actions on the same landing surface.
     dependencies: [work-filter-drawer-and-states]

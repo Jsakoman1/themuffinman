@@ -1,60 +1,136 @@
 kind: work
 version: 1
 id: frontend-structural-redesign-atomic-task-hardening
-title: "Harden structural frontend redesign into atomic tasks"
-status: draft
+title: Harden structural frontend redesign into atomic tasks
+status: verified
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+supporting_control_artifacts:
+- docs/work/frontend-structural-redesign-backend-api-parity.yaml
+- docs/work/frontend-structural-redesign-runtime-evidence.yaml
+- docs/work/frontend-structural-redesign-scope-freeze-2026-07-24.md
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
   reused_verified_plans:
-    - docs/work/frontend-ux-next-evolution-master.yaml
+  - docs/work/frontend-ux-next-evolution-master.yaml
   baseline_only_surfaces:
-    - Existing domain/API authority and validated UX next-evolution behavior.
+  - Existing domain/API authority and validated UX next-evolution behavior.
   residual_scope:
-    - Atomic decomposition and dependency validation for the structural redesign.
+  - Atomic decomposition and dependency validation for the structural redesign.
   retest_triggers:
-    - Any task path, dependency, route, scope, or validation change.
-  non_duplication_rule: Previously verified UX work is baseline and is not reopened unless a structural task changes its contract.
+  - Any task path, dependency, route, scope, or validation change.
+  non_duplication_rule: Previously verified UX work is baseline and is not reopened
+    unless a structural task changes its contract.
 tasks:
-  - id: harden-structural-redesign-queue
-    title: Validate structural redesign queue and coverage
-    type: planning
-    status: pending
-    inventory_item: structural-redesign-atomic-hardening
-    observable_outcome: Master, child plans, inventory, and task coverage form a complete non-recursive serial queue with bounded implementation outcomes.
-    dependencies: []
-    paths:
-      - docs/work/frontend-structural-redesign-master.yaml
-      - docs/work/frontend-structural-redesign-execution-inventory.yaml
-      - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
-      - docs/work/frontend-structural-redesign-02-work.yaml
-      - docs/work/frontend-structural-redesign-03-business.yaml
-      - docs/work/frontend-structural-redesign-04-cross-module.yaml
-      - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
-      - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
-      - docs/work/frontend-structural-redesign-07-calendar-business.yaml
-      - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
-      - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
-    required_paths:
-      - docs/work/frontend-structural-redesign-master.yaml
-      - docs/work/frontend-structural-redesign-execution-inventory.yaml
-      - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
-      - docs/work/frontend-structural-redesign-02-work.yaml
-      - docs/work/frontend-structural-redesign-03-business.yaml
-      - docs/work/frontend-structural-redesign-04-cross-module.yaml
-      - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
-      - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
-      - docs/work/frontend-structural-redesign-07-calendar-business.yaml
-      - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
-      - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
-    evidence_boundary:
-      - plan graph
-      - atomic outcomes
-      - dependencies
-      - required paths
-      - leaf validations
-    validation: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+- id: harden-structural-redesign-queue
+  title: Validate structural redesign queue and coverage
+  type: planning
+  status: done
+  inventory_item: structural-redesign-atomic-hardening
+  observable_outcome: Master, child plans, inventory, and task coverage form a complete
+    non-recursive serial queue with bounded implementation outcomes.
+  dependencies: []
+  paths:
+  - docs/work/frontend-structural-redesign-master.yaml
+  - docs/work/frontend-structural-redesign-execution-inventory.yaml
+  - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+  - docs/work/frontend-structural-redesign-02-work.yaml
+  - docs/work/frontend-structural-redesign-03-business.yaml
+  - docs/work/frontend-structural-redesign-04-cross-module.yaml
+  - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+  - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+  - docs/work/frontend-structural-redesign-07-calendar-business.yaml
+  - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+  - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+  required_paths:
+  - docs/work/frontend-structural-redesign-master.yaml
+  - docs/work/frontend-structural-redesign-execution-inventory.yaml
+  - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+  - docs/work/frontend-structural-redesign-02-work.yaml
+  - docs/work/frontend-structural-redesign-03-business.yaml
+  - docs/work/frontend-structural-redesign-04-cross-module.yaml
+  - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+  - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+  - docs/work/frontend-structural-redesign-07-calendar-business.yaml
+  - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+  - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+  evidence_boundary:
+  - plan graph
+  - atomic outcomes
+  - dependencies
+  - required paths
+  - leaf validations
+  hardening_rules:
+  - Every task has exactly one bounded observable_outcome.
+  - Every task names exact implementation or documentation paths; broad directory-only
+    scope is rejected.
+  - Every task has explicit dependencies and appears exactly once in the serial execution
+    inventory.
+  - Every task has a leaf validation that can run without invoking the master verifier
+    recursively.
+  - Every task declares the evidence boundary needed to prove completion.
+  - Backend/API parity, VisionForWeb preservation, Apple visual grammar, cleanup,
+    and legacy retirement are represented explicitly.
+  - A task remains pending when validation is missing, failing, or only inferred from
+    a screenshot.
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+    && ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/frontend-structural-redesign-master.yaml
+    docs/work/frontend-structural-redesign-execution-inventory.yaml
+  started_at: '2026-07-24T16:04:56Z'
+  start_fingerprints:
+    docs/work/frontend-structural-redesign-master.yaml: 476dc6f13fdf7de46ca71cdfcff6a42f37848ef76da5b78a2759c8f575472bf0
+    docs/work/frontend-structural-redesign-execution-inventory.yaml: 5e631d86c4f4de4c47fd9026704e52587de3a4001afafc5b5cacc3059e3aa362
+    docs/work/frontend-structural-redesign-01-foundation-tabs.yaml: 68d49babb6d3ba06dc968625925ad2624e93cb10ab9b7371256932f9c6366ba8
+    docs/work/frontend-structural-redesign-02-work.yaml: 2c63d78ae411934b896072d4006598e0ee595937b358d0f433108c0d4a94f138
+    docs/work/frontend-structural-redesign-03-business.yaml: 23e364f20c1636671fa124c73f256cf18a1449e2cb4be5f0457714a43b75c0df
+    docs/work/frontend-structural-redesign-04-cross-module.yaml: af4ee0729fa37db2c7f7dbe8f0cc597ea8984024470c229388f1b8177e80a5c5
+    docs/work/frontend-structural-redesign-05-retirement-closeout.yaml: fb8908ab8799f9faa6864aac0d42da2077029c599670043dac364d98a2e01be6
+    docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml: feed3e234763ed808f9a6d54434e0b9e1b497d64deefbc50d5d3bae779ca19c1
+    docs/work/frontend-structural-redesign-07-calendar-business.yaml: '0296330b160787664d2d75b07bdddabf67f4d91a6aeab3b0777b6de9a127f265'
+    docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml: f7de382a09f94cb4003448b9254b0aaf7ac81966ed7d6e858be71dbfa34e382c
+    docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml: 5d77da882c5f78ef48840dbfedd51bbed89b08e9cecd3ad77517ff7dd4ef783e
+evidence:
+- task: harden-structural-redesign-queue
+  command: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+    && ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/frontend-structural-redesign-master.yaml
+    docs/work/frontend-structural-redesign-execution-inventory.yaml
+  ranAt: '2026-07-24T16:06:16Z'
+  revision: de0a8a2afc3e6c96b9f34d91457ea7c97c51224b
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+  - docs/work/frontend-structural-redesign-02-work.yaml
+  - docs/work/frontend-structural-redesign-03-business.yaml
+  - docs/work/frontend-structural-redesign-04-cross-module.yaml
+  - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+  - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+  - docs/work/frontend-structural-redesign-07-calendar-business.yaml
+  - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+  - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+  - docs/work/frontend-structural-redesign-execution-inventory.yaml
+  - docs/work/frontend-structural-redesign-master.yaml
+  output: |+
+    Work-plan recursion audit passed (no recursive validation commands).
+    Plan coverage audit passed (0 open inventory plans).
+    Atomic task hardening audit passed (23 inventory items).
+
+  startedAt: '2026-07-24T16:04:56Z'
+  changedAfterStart: &1
+  - docs/work/frontend-structural-redesign-master.yaml
+  - docs/work/frontend-structural-redesign-execution-inventory.yaml
+  - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+  - docs/work/frontend-structural-redesign-02-work.yaml
+  - docs/work/frontend-structural-redesign-03-business.yaml
+  - docs/work/frontend-structural-redesign-04-cross-module.yaml
+  - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+  - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+  - docs/work/frontend-structural-redesign-07-calendar-business.yaml
+  - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+  - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

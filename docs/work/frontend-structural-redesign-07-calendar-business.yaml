@@ -3,6 +3,7 @@ version: 1
 id: frontend-structural-redesign-07-calendar-business
 title: "Redesign all-module Calendar and isolated Business workspaces"
 status: draft
+hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
 strict_verification: true
@@ -19,7 +20,6 @@ tasks:
   - id: calendar-all-modules-and-business-scopes
     title: Make Calendar a cross-module center with explicit source filters and per-business views
     type: implementation
-    status: pending
     inventory_item: structural-redesign-calendar-all-modules
     observable_outcome: Calendar displays typed events from all supported modules, allows calm source/business filters, keeps left/right navigation and day/week/month views, and links into each event owner surface.
     dependencies: [business-setup-and-public-simplification]

@@ -3,10 +3,14 @@ version: 1
 id: frontend-structural-redesign-master
 title: "Full product frontend redesign: Apple-inspired calm workspace, VisionForWeb, unified calendar, and simple module journeys"
 status: draft
+hardening_review: 2026-07-24-atomic-audit
 readiness: requires_scope_reconciliation_and_atomic_hardening
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
 strict_verification: true
 atomic_task_hardening_plan: docs/work/frontend-structural-redesign-atomic-task-hardening.yaml
+backend_api_parity_plan: docs/work/frontend-structural-redesign-backend-api-parity.yaml
+runtime_evidence_plan: docs/work/frontend-structural-redesign-runtime-evidence.yaml
+scope_freeze: docs/work/frontend-structural-redesign-scope-freeze-2026-07-24.md
 serial_task_execution: true
 execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
 scope_control:
@@ -142,6 +146,10 @@ phases:
     priority: P0
     child: docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
     outcome: Shared module page, tab registry, tab accessibility, and canonical navigation are established.
+  - id: backend-api-parity
+    priority: P0
+    child: docs/work/frontend-structural-redesign-backend-api-parity.yaml
+    outcome: Every redesigned surface has backend-owned read/action contracts suitable for Web, iPhone, and Apple Watch clients.
   - id: work-restructure
     priority: P0
     child: docs/work/frontend-structural-redesign-02-work.yaml
@@ -175,6 +183,7 @@ phases:
     child: docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
     outcome: Legacy surfaces are removed or redirected only after the Apple-inspired architecture, VisionForWeb, scope behavior, and runtime evidence are proven.
 children:
+  - docs/work/frontend-structural-redesign-backend-api-parity.yaml
   - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
   - docs/work/frontend-structural-redesign-02-work.yaml
   - docs/work/frontend-structural-redesign-03-business.yaml

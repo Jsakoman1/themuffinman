@@ -3,6 +3,7 @@ version: 1
 id: frontend-structural-redesign-02-work
 title: "Make Work one scope-correct tabbed surface"
 status: draft
+hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
 strict_verification: true
@@ -19,7 +20,6 @@ tasks:
   - id: work-single-tabbed-surface
     title: Replace Find work and My work duplication with one tabbed Work page
     type: implementation
-    status: pending
     inventory_item: structural-redesign-work-surface
     observable_outcome: Work has Discover, My work, and Applications tabs with distinct routes, titles, primary actions, and backend scopes.
     dependencies: [foundation-navigation-single-source]
