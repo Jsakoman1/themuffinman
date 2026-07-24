@@ -2,10 +2,8 @@
 import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue"
 import {RouterLink, RouterView, useRoute} from "vue-router"
 import {appPersonalShortcuts, authenticatedShellContract, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
-import {buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
-import VisionForWebHost from "../components/VisionForWebHost.vue"
+import ContextualAssistantComposer from "../components/ContextualAssistantComposer.vue"
 import AccountMenu from "../components/AccountMenu.vue"
-import UniversalCreateMenu from "../components/UniversalCreateMenu.vue"
 import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
 import WorkspaceModuleRail from "../components/WorkspaceModuleRail.vue"
 import AppButton from "../components/AppButton.vue"
@@ -41,14 +39,6 @@ const currentContextLabel = computed(() => {
   }
 
   return getAppSurfaceConfig(currentSurfaceId.value).title
-})
-
-const contextualVisionRoute = computed(() => {
-  if (!currentSurfaceId.value) {
-    return buildVisionRoute()
-  }
-
-  return buildSurfaceVisionRoute(currentSurfaceId.value, route.fullPath, currentContextLabel.value)
 })
 
 const pinned = ref<PersonalShortcut[]>([])
@@ -104,9 +94,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
       <header class="app-shell__header" aria-label="Workspace context">
         <div class="app-shell__header-actions">
           <ContextSwitcher :model-value="globalContext" :options="globalContextOptions" label="Workspace context" @update:model-value="selectGlobalContext" />
-          <UniversalCreateMenu />
           <GlobalSearchEntry />
-          <VisionForWebHost :context="currentContextLabel" :source="`shell.surface.${currentSurfaceId ?? 'home'}`" :return-to="route.fullPath" />
           <AccountMenu />
         </div>
       </header>
@@ -117,13 +105,13 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
           <!-- The shell supplies context framing; child surfaces own their domain data and actions. -->
           <RouterView />
         </TaskSurface>
+        <ContextualAssistantComposer :context="currentContextLabel" :source="`shell.surface.${currentSurfaceId ?? 'home'}`" :return-to="route.fullPath" />
       </main>
     </div>
 
     <nav class="app-shell__mobile-nav" aria-label="Mobile navigation">
       <RouterLink v-for="module in workspaceNavigation.modules().slice(0, 3)" :key="module.id" :to="module.route" class="app-shell__mobile-link" :class="{ 'app-shell__mobile-link--active': activeNavId === module.id }"><span aria-hidden="true">{{ module.iconKey }}</span>{{ module.label }}</RouterLink>
       <AppButton ref="mobileDrawerTrigger" type="button" tone="secondary" class="app-shell__mobile-link" :aria-expanded="mobileDrawerOpen" aria-controls="mobile-workspace-drawer" @click="openMobileDrawer">Menu</AppButton>
-      <RouterLink :to="contextualVisionRoute" class="app-shell__mobile-vision">Vision</RouterLink>
     </nav>
     <Teleport to="body">
       <div v-if="mobileDrawerOpen" class="app-shell__drawer-backdrop" @click.self="closeMobileDrawer">
@@ -334,11 +322,6 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   color: var(--text);
 }
 
-.app-shell__mobile-vision {
-  background: var(--accent);
-  color: var(--canvas);
-}
-
 .app-shell__frame {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -529,8 +512,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
     background: color-mix(in srgb, var(--bg-raised) 94%, transparent);
   }
 
-  .app-shell__mobile-link,
-  .app-shell__mobile-vision {
+  .app-shell__mobile-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -574,7 +556,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 }
 
 /* The shell is the shared workspace frame: controls never introduce a pill/card dialect. */
-.app-shell__account-trigger,.app-shell__nav-link,.app-shell__mobile-link,.app-shell__mobile-vision{border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink)}
+.app-shell__account-trigger,.app-shell__nav-link,.app-shell__mobile-link{border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink)}
 .app-shell__vision-entry{color:var(--canvas)}
 </style>
 <style scoped>
@@ -592,6 +574,5 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 .app-shell__rail { background: var(--rail-canvas); }
 .app-shell__frame { background: var(--surface-base); }
 .app-shell__header { background: color-mix(in srgb, var(--surface-base) 94%, transparent); border-bottom: 1px solid var(--border-subtle); }
-.app-shell__mobile-vision { border-color: var(--accent); background: var(--accent); color: var(--canvas); }
 .app-shell__rail-resizer:focus-visible { outline: var(--focus-ring); outline-offset: -2px; }
 </style>

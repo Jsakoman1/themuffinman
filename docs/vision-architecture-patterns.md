@@ -26,6 +26,11 @@ architecture should not copy their form/page/dialog assumptions. Shared semantic
 personal-context, guided-intake, permission, and execution contracts must remain
 client-neutral so Web, the standalone console, iPhone, and Apple Watch can reuse them.
 
+Portable Vision clients receive presentation hints such as `clientFamily`, while
+capability resolution remains backend-authorized and `confirmationBoundary` remains
+`backend`. A Web, iPhone, or Watch client may render the result differently, but it
+cannot select an unlisted capability or move confirmation into local UI logic.
+
 ## Implementation Start Pattern
 
 Broad `/vision` implementation should not start directly with UI polish or executor code.

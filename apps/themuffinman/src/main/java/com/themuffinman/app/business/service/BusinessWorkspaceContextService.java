@@ -56,6 +56,7 @@ public class BusinessWorkspaceContextService {
         return BusinessWorkspaceContextDTO.builder()
                 .businesses(businesses)
                 .activeBusinessProfileId(activeProfile == null ? null : activeProfile.getId())
+                .contextMode(activeProfile == null ? "ALL_BUSINESSES" : "BUSINESS")
                 .from(resolvedFrom).to(resolvedTo)
                 .timezone(activeProfile == null ? "UTC" : activeProfile.getTimezone())
                 .schedule(new ArrayList<>(schedule.values()))

@@ -39,4 +39,7 @@ public class VisionRuntimeContextDTO {
     private String providerStatus;
     private String providerOutcome;
     private boolean retryable;
+    /** Presentation hints are portable metadata; they never select or authorize an action. */
+    private String clientFamily;
+    private String confirmationBoundary;
 }

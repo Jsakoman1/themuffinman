@@ -32,7 +32,7 @@ const register = async () => {
     password.value = ""
     await router.push("/home")
   } catch {
-    error.value = "Registration failed"
+    error.value = "Registration failed. Check the highlighted details and try again."
   } finally {
     isSubmitting.value = false
   }

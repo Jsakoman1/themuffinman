@@ -5,14 +5,14 @@ const root = path.resolve(import.meta.dirname, "..")
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8")
 const checks = [
   ["shared object interaction primitives", read("src/modules/app-shell/composables/useObjectActions.ts").includes("invokeObjectAction") && read("src/modules/app-shell/components/SurfaceRow.vue").includes("emit('preview')") && read("src/modules/app-shell/components/ObjectPreviewPanel.vue").includes("@click=\"$emit('openDetail')\"") && read("src/modules/app-shell/components/ObjectPreviewPanel.vue").includes('detailLabel: "Open full detail"')],
-  ["work applications route", read("src/router.ts").includes("WorkApplicationsView")],
+  ["work applications route", read("src/router.ts").includes("path: 'work/applications'") && read("src/modules/app-shell/views/WorkPage.vue").includes("WorkApplicationsView")],
   ["work quest detail route", read("src/router.ts").includes("WorkQuestDetailView")],
   ["work quest create route", read("src/router.ts").includes("WorkQuestCreateView")],
   ["work quest application management route", read("src/router.ts").includes("WorkQuestApplicationsView")],
-  ["business booking operations route", read("src/router.ts").includes("BusinessBookingsView")],
-  ["business profile route", read("src/router.ts").includes("BusinessProfileView")],
-  ["business offerings route", read("src/router.ts").includes("BusinessOfferingsView")],
-  ["business availability route", read("src/router.ts").includes("BusinessAvailabilityView")],
+  ["business booking operations route", read("src/router.ts").includes("path: 'business/bookings'") && read("src/modules/app-shell/views/BusinessOwnerPage.vue").includes("BusinessBookingsView")],
+  ["business profile route", read("src/router.ts").includes("path: 'business/profile'") && read("src/modules/app-shell/views/BusinessOwnerPage.vue").includes("BusinessProfileView")],
+  ["business offerings route", read("src/router.ts").includes("path: 'business/offerings'") && read("src/modules/app-shell/views/BusinessOwnerPage.vue").includes("BusinessOfferingsView")],
+  ["business availability route", read("src/router.ts").includes("path: 'business/calendar'") && read("src/modules/app-shell/views/BusinessOwnerPage.vue").includes("BusinessAvailabilityView")],
   ["business public route", read("src/router.ts").includes("BusinessPublicView")],
   ["business customer bookings route", read("src/router.ts").includes("BusinessMyBookingsView")],
   ["business availability exceptions route", read("src/router.ts").includes("BusinessAvailabilityExceptionsView")],
@@ -24,7 +24,7 @@ const checks = [
   ["applications load more", read("src/modules/app-shell/views/WorkApplicationsView.vue").includes("Load more")],
   ["chat conversation pagination", read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("Load older messages")],
   ["chat sync recovery", read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("getChatConversationSync") && read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("visibilitychange") && read("src/modules/app-shell/views/ChatSurfaceView.vue").includes("online")],
-  ["profile location settings route", read("src/router.ts").includes("ProfileLocationSettingsView") && read("src/modules/app-shell/views/ProfileLocationSettingsView.vue").includes("useCurrentLocation") && read("src/modules/app-shell/views/ProfileLocationSettingsView.vue").includes("updateCurrentAppUser")],
+  ["profile location settings route", read("src/router.ts").includes("ProfilePage") && read("src/modules/app-shell/views/ProfileLocationSettingsView.vue").includes("useCurrentLocation") && read("src/modules/app-shell/views/ProfileLocationSettingsView.vue").includes("updateCurrentAppUser")],
   ["profile exact visibility scope", read("src/modules/app-shell/views/ProfileLocationSettingsView.vue").includes("exactVisibilityScope") && read("src/modules/app-shell/views/ProfileLocationSettingsView.vue").includes("Selected circles") && read("src/modules/app-shell/views/ProfileLocationSettingsView.vue").includes("Selected people")],
   ["things listing routes", read("src/router.ts").includes("ThingsDiscoveryView") && read("src/router.ts").includes("ThingDetailView") && read("src/modules/app-shell/views/ThingsDiscoveryView.vue").includes("requestThingBorrow") && read("src/modules/app-shell/views/ThingDetailView.vue").includes("getThingListing")],
   ["circle privacy explanation", read("src/modules/app-shell/views/CirclesView.vue").includes("Circles are a trust boundary") && read("src/modules/app-shell/views/CirclesView.vue").includes("exact location")],
@@ -70,10 +70,10 @@ const checks = [
   , ["find work avoids duplicate open action", !read("src/modules/app-shell/views/WorkDiscoveryView.vue").includes('class="work-discovery__open"')]
   , ["surface archetype primitives", read("src/modules/app-shell/components/SurfaceHeader.vue").includes("surface actions") && read("src/modules/app-shell/components/SurfaceMetricGrid.vue").includes("surface-metric-grid") && read("src/modules/app-shell/components/SurfaceSection.vue").includes("SurfaceRow")]
   , ["surface content delegates shared rendering", read("src/modules/app-shell/components/SurfaceContentView.vue").includes("<SurfaceHeader") && read("src/modules/app-shell/components/SurfaceContentView.vue").includes("<SurfaceMetricGrid") && read("src/modules/app-shell/components/SurfaceContentView.vue").includes("<SurfaceSection")]
-  , ["global Vision entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<GlobalVisionEntry") && read("src/modules/app-shell/components/GlobalVisionEntry.vue").includes("Microphone input")]
+  , ["global Vision entry is shell-owned", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<ContextualAssistantComposer") && read("src/modules/app-shell/components/ContextualAssistantComposer.vue").includes("persistent-bottom-composer") && read("src/modules/app-shell/components/VisionForWebHost.vue").includes("vision-web-host__composer")]
   , ["account menu owns username and logout", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<AccountMenu") && read("src/modules/app-shell/components/AccountMenu.vue").includes("handleLogout")]
   , ["shell has no duplicate inline Vision form", !read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes('<form class="app-shell__vision-form"')]
-  , ["global Create entry is shell-owned and backend-prepared", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<UniversalCreateMenu") && read("src/modules/app-shell/components/UniversalCreateMenu.vue").includes("getWorkspaceCommandCatalog") && read("src/modules/app-shell/components/UniversalCreateMenu.vue").includes("catalog?.create")]
+  , ["global command entry is shell-owned and backend-prepared", read("src/modules/app-shell/views/AuthenticatedShellView.vue").includes("<GlobalSearchEntry") && read("src/modules/app-shell/components/GlobalSearchEntry.vue").includes("getWorkspaceCommandCatalog") && read("src/modules/app-shell/components/GlobalSearchEntry.vue").includes("catalog.value.create")]
   , ["offer work route is discoverable", read("src/router.ts").includes("path: 'work/offer'") && read("src/modules/app-shell/shellDefinitions.ts").includes('label: "Offer work"')]
 ]
 

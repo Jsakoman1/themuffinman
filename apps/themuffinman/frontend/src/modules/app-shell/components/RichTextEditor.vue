@@ -17,7 +17,7 @@ onBeforeUnmount(() => editor.value?.destroy())
 </script>
 
 <template>
-  <div class="rich-text-editor" :aria-label="label">
+  <div class="rich-text-editor" :aria-label="label" data-editor-model="inline-rich-text">
     <div v-if="editor" class="rich-text-editor__toolbar" role="toolbar" :aria-label="`${label} formatting`">
       <button type="button" :class="{active: editor.isActive('bold')}" title="Bold" aria-label="Bold" @click="editor.chain().focus().toggleBold().run()"><strong>B</strong></button>
       <button type="button" :class="{active: editor.isActive('italic')}" title="Italic" aria-label="Italic" @click="editor.chain().focus().toggleItalic().run()"><em>I</em></button>

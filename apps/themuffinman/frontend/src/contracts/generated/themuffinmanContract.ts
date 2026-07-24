@@ -953,10 +953,32 @@ export interface BusinessServiceSchemaDTO {
 export interface BusinessWorkspaceContextDTO {
   businesses: BusinessProfileResponseDTO[]
   activeBusinessProfileId: number
+  contextMode: string
   from: string
   to: string
   timezone: string
   schedule: BusinessScheduleItemDTO[]
+}
+
+export interface CalendarEventDTO {
+  eventKey: string
+  source: string
+  title: string
+  startsAt: string
+  endsAt: string
+  timezone: string
+  status: string
+  businessId: number
+  businessName: string
+  navigationPath: string
+}
+
+export interface CalendarProjectionDTO {
+  from: string
+  to: string
+  timezone: string
+  availableSources: string[]
+  events: CalendarEventDTO[]
 }
 
 export interface ChatAdminConversationSupportViewDTO {
@@ -2453,6 +2475,19 @@ export interface ThingPreviewResponseDTO {
   canOpenDetail: boolean
 }
 
+export interface ThingWishlistItemResponseDTO {
+  id: number
+  listingId: number
+  title: string
+  ownerUsername: string
+  sharedCircleIds: number[]
+  savedAt: string
+}
+
+export interface ThingWishlistRequestDTO {
+  sharedCircleIds: number[]
+}
+
 export interface UserLocationContextDTO {
   mode: UserLocationMode
   resolutionStatus: LocationResolutionStatus
@@ -2779,6 +2814,8 @@ export interface VisionRuntimeContextDTO {
   providerStatus: string
   providerOutcome: string
   retryable: boolean
+  clientFamily: string
+  confirmationBoundary: string
 }
 
 export interface VisionRuntimeCueDTO {

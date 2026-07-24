@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.config.VisionProperties;
+import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.vision.model.VisionIntent;
 import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,15 @@ public class VisionIntentRouter {
             return VisionIntent.CREATE_QUEST;
         }
         return VisionIntent.UNSUPPORTED;
+    }
+
+    /** Resolves a portable capability only from the backend-published authorized catalog. */
+    public VisionSemanticRouteDescriptor resolveAuthorizedRoute(String capabilityId, AppUser currentUser) {
+        if (currentUser == null || capabilityId == null || capabilityId.isBlank()) return null;
+        return semanticRouteCatalogService.allowedRoutes(currentUser).stream()
+                .filter(route -> capabilityId.trim().equalsIgnoreCase(route.getCapabilityId()))
+                .findFirst()
+                .orElse(null);
     }
 
     private boolean isExplicitMutationSignal(VisionIntent intent) {

@@ -6,8 +6,11 @@ import com.themuffinman.app.things.dto.ThingBorrowRequestResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingListResponseDTO;
 import com.themuffinman.app.things.dto.ThingListingRequestDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
+import com.themuffinman.app.things.dto.ThingWishlistItemResponseDTO;
+import com.themuffinman.app.things.dto.ThingWishlistRequestDTO;
 import com.themuffinman.app.things.service.ThingSharingService;
 import com.themuffinman.app.things.service.ThingPreviewReadService;
+import com.themuffinman.app.things.service.ThingWishlistService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,10 +23,38 @@ public class ThingSharingController {
 
     private final ThingSharingService thingSharingService;
     private final ThingPreviewReadService thingPreviewReadService;
+    private final ThingWishlistService thingWishlistService;
 
-    @GetMapping("/listings")
-    public ThingListingListResponseDTO getAvailableListings(@AuthenticationPrincipal AppUser currentUser) {
-        return thingSharingService.getAvailableListings(currentUser);
+    @GetMapping("/wishlist/me")
+    public java.util.List<ThingWishlistItemResponseDTO> getMyWishlist(@AuthenticationPrincipal AppUser currentUser) {
+        return thingWishlistService.getMine(currentUser);
+    }
+
+    @GetMapping("/wishlist/shared-with-me")
+    public java.util.List<ThingWishlistItemResponseDTO> getSharedWishlist(@AuthenticationPrincipal AppUser currentUser) {
+        return thingWishlistService.getSharedWithMe(currentUser);
+    }
+
+    @PutMapping("/wishlist/me/{listingId}")
+    public ThingWishlistItemResponseDTO saveWishlist(
+            @PathVariable Long listingId,
+            @Valid @RequestBody ThingWishlistRequestDTO request,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingWishlistService.save(currentUser, listingId, request);
+    }
+
+    @DeleteMapping("/wishlist/me/{listingId}")
+    public void removeWishlist(@PathVariable Long listingId, @AuthenticationPrincipal AppUser currentUser) {
+        thingWishlistService.remove(currentUser, listingId);
+    }
+
+    @GetMapping({"/listings", "/listings/search"})
+    public ThingListingListResponseDTO getAvailableListings(
+            @RequestParam(required = false) String q,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return thingSharingService.getAvailableListings(currentUser, q);
     }
 
     @GetMapping("/listings/me")

@@ -2,6 +2,10 @@ Documentation class: canonical_product_domain. This file owns user-facing produc
 
 # Business Logic
 
+## Structural redesign runtime boundary
+
+The current Apple-style shell runtime evidence proves canonical route reachability, responsive overflow boundaries, persistent VisionForWeb presence, keyboard focus on the assistant composer, removal of repeated page-level Vision links, permission denial, stale-edit conflict, and failed-mutation retry. Booking conflict remains separate acceptance work because the available authenticated fixture is the business owner and the backend correctly rejects a self-booking before capacity conflict evaluation; it must not be inferred from screenshots or route smoke.
+
 ## VisionForWeb assistant behavior
 
 VisionForWeb is available from the authenticated shell and can open canonical module surfaces from text or voice input. OpenAI owns production semantic interpretation; a provider outage pauses Vision and preserves retryable conversation state. Local deterministic routing exists only for explicitly labeled development/test fixtures. Opening a surface never bypasses backend permission, mutation review, or confirmation rules.
@@ -921,6 +925,7 @@ Location lookup recovery:
 - An approved request makes the listing unavailable; returning it makes the listing available again.
 - Cross-module search can present Things, Work, and Business result families together. Each result keeps its family and source route; ranking, visibility, pagination, empty states, and errors remain backend-owned.
 - Comparing search results remains valid after pagination: a permitted result selected from a later page is rechecked against the full authorized candidate set before comparison, rather than being silently dropped because page zero was reloaded.
+- Users can save a Thing listing to a backend-owned wishlist and optionally share that wishlist item with circles they own. Wishlist records survive browser/device changes; circle selection is validated server-side, and members see shared items through `GET /things/wishlist/shared-with-me`. The redesign runtime trace proves save/read/remove and selected-circle persistence for an authenticated listing.
 
 ## Voluntary Car Sharing
 
@@ -1123,6 +1128,7 @@ Because an active quest can already have an approved worker, so changing the sch
 - Activity entries are viewer-scoped projections. A resume suggestion can reopen a safe route or be dismissed; dismissing it never mutates the underlying work, ride, booking, chat, or Vision workflow.
 - Vision can show the same viewer-scoped activity projection through `VIEW_ACTIVITY`; it may summarize and resume safe destinations but cannot infer or mutate the underlying source workflow.
 - Things can now be discovered at `/things`, offered by the current user, and requested through a borrow message. The backend remains authoritative for availability, owner restrictions, duplicate pending-request prevention, owner decisions, and return state.
+- Things discovery accepts an optional backend-filtered query, while `/rides/offers/suggestions` is a consent-aware alias for circle-visible ride suggestions; neither surface exposes private records or creates a relationship implicitly.
 - A borrower can cancel their own pending Things request from the listing surface. Cancelled requests are no longer treated as pending; another user cannot cancel someone else's request.
 - Owners can approve or decline pending requests from My things. Approval moves the request to `APPROVED` and makes the listing unavailable; a borrower can move it to `RETURNED`, which makes the listing available again.
 - Circle membership is a trust boundary, not a blanket data-sharing permission. A connection does not automatically reveal another person's exact address or private activity; each module applies its own visibility and consent rules.
@@ -1170,6 +1176,8 @@ Runtime closeout validates meaningful route and state transitions rather than pa
 ## Flexible Business booking contract (2026-07-24)
 
 Businesses configure typed services with demand, options, quantity-aware pricing, shared capacity/resources, owner review, and fulfillment-specific availability. Booking writes preserve schema, price, demand, capacity, resource, condition, and timezone snapshots. Public Web and Vision consume the same backend schema, quote, availability, and booking boundaries.
+
+The authenticated Business workspace is viewer-scoped and supports an explicit aggregate “All businesses” context plus a selected business context. The public booking preview is available only for active businesses that have booking enabled; the backend remains authoritative for whether a service can be presented as bookable.
 ### Flexible booking runtime guarantees
 
 Quantity is visible in booking responses and is persisted with the submitted demand and selected options. If a slot's shared capacity is already consumed, a later booking receives a conflict response and must choose another generated slot; the frontend does not override that decision.
@@ -1181,6 +1189,8 @@ Calendar views group every booking whose time interval overlaps the requested ra
 Owner setup is the source of truth for fulfillment mode, duration increments, quantity bounds, capacity, pricing rules, demand fields, options, resources, and business timezone.
 
 The setup surface exposes these rules as backend-owned configuration rather than requiring frontend-specific business logic.
+
+The portable contract surface is shared by Web and future native clients: calendar events carry their source and safe navigation target, business workspace responses identify whether the user is viewing all businesses or one business, and Vision responses identify presentation metadata separately from backend confirmation. These fields are descriptive and never grant access by themselves.
 ## Trust and decision explanations
 
 Detail surfaces explain that action availability, visibility, pricing, expiry, resource allocation, confirmation effects, and undoability are backend-authoritative. Disabled or unavailable controls must not imply a frontend-only decision; the user should refresh when another participant may have changed the object.

@@ -12,6 +12,8 @@ import SurfaceRow from "../components/SurfaceRow.vue"
 import DetailUtilityRail from "../components/DetailUtilityRail.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
+import RichTextEditor from "../components/RichTextEditor.vue"
+import RichTextPreview from "../components/RichTextPreview.vue"
 
 const form = ref<BusinessProfileRequestDTO | null>(null)
 // Profile editing and publication remain one owner responsibility surface.
@@ -94,6 +96,20 @@ const toggleGalleryImage = async (image: BusinessGalleryImageResponseDTO) => {
   } catch { error.value = "Could not update this gallery image." } finally { isGallerySaving.value = false }
 }
 
+const moveGalleryImage = async (image: BusinessGalleryImageResponseDTO, direction: -1 | 1) => {
+  const index = gallery.value.findIndex(item => item.id === image.id)
+  const adjacent = gallery.value[index + direction]
+  if (!adjacent) return
+  isGallerySaving.value = true; error.value = ""
+  try {
+    const [updatedImage, updatedAdjacent] = await Promise.all([
+      userShellApi.updateBusinessGalleryImage(image.id, {...image, sortOrder: adjacent.sortOrder}),
+      userShellApi.updateBusinessGalleryImage(adjacent.id, {...adjacent, sortOrder: image.sortOrder})
+    ])
+    gallery.value = gallery.value.map(item => item.id === updatedImage.id ? updatedImage : item.id === updatedAdjacent.id ? updatedAdjacent : item).sort((left, right) => left.sortOrder - right.sortOrder)
+  } catch { error.value = "Could not reorder this gallery image." } finally { isGallerySaving.value = false }
+}
+
 const removeGalleryImage = async (image: BusinessGalleryImageResponseDTO) => {
   if (!await confirmAction("Remove this gallery image?", "Remove gallery image")) return
   isGallerySaving.value = true; error.value = ""
@@ -133,7 +149,7 @@ onMounted(() => void load())
     <form v-if="form" class="business-profile__form" @submit.prevent="save">
       <AppFormField label="Business name" required><input v-model="form.businessName" required maxlength="160" aria-label="Business name"></AppFormField>
       <AppFormField label="Headline" optional><input v-model="form.headline" maxlength="200" aria-label="Headline"></AppFormField>
-      <AppFormField label="Description" optional hint="This appears in the public business profile."><textarea v-model="form.description" maxlength="4000" aria-label="Description"></textarea></AppFormField>
+      <div class="business-profile__rich-description"><AppFormField label="Public description" optional hint="Format the welcome text customers see on your business page."><RichTextEditor v-model="form.description" label="Public business description" placeholder="Tell customers what makes this business useful…" /></AppFormField><aside class="business-profile__description-preview" aria-label="Public description preview"><p>Preview</p><RichTextPreview :content="form.description" /></aside></div>
       <div class="business-profile__grid"><AppFormField label="Contact email" optional><input v-model="form.contactEmail" type="email"></AppFormField><AppFormField label="Contact phone" optional><input v-model="form.contactPhone"></AppFormField></div>
       <AppFormField label="Public address label" optional><input v-model="form.publicAddressLabel"></AppFormField>
       <AppFormField label="Timezone" required hint="Used by availability and booking schedules."><input v-model="form.timezone" required placeholder="Europe/Zurich" aria-label="Timezone"></AppFormField>
@@ -153,13 +169,13 @@ onMounted(() => void load())
         <AppFormField label="Upload image" hint="Images only, up to 10 MB."><input type="file" accept="image/*" @change="onGalleryFileChanged"></AppFormField>
         <AppButton tone="primary" type="submit" :loading="isGallerySaving" :disabled="!galleryFile">Upload image</AppButton>
       </form>
-      <div v-if="gallery.length" class="business-profile__gallery-list"><SurfaceRow v-for="image in gallery" :key="image.id" :row="{id: String(image.id), title: image.altText || 'Gallery image', description: image.active ? 'Published business image' : 'Hidden business image', thumbnailUrl: image.imageUrl, badge: image.active ? 'Published' : 'Hidden', meta: `Order ${image.sortOrder}`}" ><template #actions><AppButton :loading="isGallerySaving" @click="toggleGalleryImage(image)">{{ image.active ? "Hide" : "Publish" }}</AppButton><AppButton tone="danger" :loading="isGallerySaving" @click="removeGalleryImage(image)">Remove</AppButton></template></SurfaceRow></div>
+      <div v-if="gallery.length" class="business-profile__gallery-list"><SurfaceRow v-for="(image, index) in gallery" :key="image.id" :row="{id: String(image.id), title: image.altText || 'Gallery image', description: image.active ? 'Published business image' : 'Hidden business image', thumbnailUrl: image.imageUrl, badge: image.active ? 'Published' : 'Hidden', meta: `Order ${image.sortOrder}`}" ><template #actions><AppButton :disabled="index === 0" :loading="isGallerySaving" aria-label="Move image up" @click="moveGalleryImage(image, -1)">↑</AppButton><AppButton :disabled="index === gallery.length - 1" :loading="isGallerySaving" aria-label="Move image down" @click="moveGalleryImage(image, 1)">↓</AppButton><AppButton :loading="isGallerySaving" @click="toggleGalleryImage(image)">{{ image.active ? "Hide" : "Publish" }}</AppButton><AppButton tone="danger" :loading="isGallerySaving" @click="removeGalleryImage(image)">Remove</AppButton></template></SurfaceRow></div>
       <AppStatus v-else message="No gallery images yet." />
     </section>
     </div>
     <DetailUtilityRail v-if="form" class="business-profile__utility" title="Business context">
       <h2>{{ form.businessName || "Business identity" }}</h2>
-      <p>Keep the public profile, booking switch, and gallery aligned with the backend-owned business context.</p>
+      <p>Keep the public profile, booking switch, and gallery aligned with the backend-owned business context.</p><RichTextPreview v-if="form.description" :content="form.description" />
       <dl>
         <div><dt>Public slug</dt><dd>{{ form.slug || "Not set" }}</dd></div>
         <div><dt>Bookings</dt><dd>{{ form.bookingEnabled ? "Enabled" : "Disabled" }}</dd></div>

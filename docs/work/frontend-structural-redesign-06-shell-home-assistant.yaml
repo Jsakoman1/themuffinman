@@ -1,8 +1,9 @@
 kind: work
 version: 1
 id: frontend-structural-redesign-06-shell-home-assistant
-title: "Redesign shell header, Home, assistant, and collection preview"
-status: draft
+title: Redesign shell header, Home, assistant, and collection preview
+status: verified
+chat_vision_expansion_review: 2026-07-24-chat-vision-family
 hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
@@ -11,43 +12,219 @@ serial_task_execution: true
 execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/frontend-ux-next-evolution-master.yaml]
-  baseline_only_surfaces: [Existing shell auth, route, Vision backend, and Home data authority]
-  residual_scope: [Header hierarchy, Home section layout, persistent assistant composer, inline answer bubble, side preview]
-  retest_triggers: [Shell header, Home data sections, assistant host, collection preview, mobile composer, or focus behavior changes]
-  non_duplication_rule: Existing command and Vision buttons are baseline only; the new shell owns the sole assistant entry point.
+  reused_verified_plans:
+  - docs/work/frontend-ux-next-evolution-master.yaml
+  baseline_only_surfaces:
+  - Existing shell auth
+  - route
+  - Vision backend
+  - and Home data authority
+  residual_scope:
+  - Header hierarchy
+  - command/search
+  - persistent assistant composer
+  - Home section layout
+  - inline answer bubble
+  retest_triggers:
+  - Shell header
+  - Home data sections
+  - assistant host
+  - mobile composer
+  - or focus behavior changes
+  non_duplication_rule: Existing command and Vision buttons are baseline only; the
+    new shell owns the sole assistant entry point.
 tasks:
-  - id: shell-header-and-persistent-assistant
-    title: Replace shell command clutter with calm header and contextual assistant composer
-    type: implementation
-    inventory_item: structural-redesign-shell-header-assistant
-    observable_outcome: Authenticated pages share one calm header with context, navigation, account, and one persistent assistant input; Create/Search and Ask Vision duplicates are removed or demoted.
-    dependencies: []
-    paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
-    required_paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
-    evidence_boundary: [header hierarchy, persistent input, context chip, inline response, recovery]
-    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
-  - id: home-sections-and-side-preview
-    title: Make Home immediately scannable and collections preview beside the selected row
-    type: implementation
-    status: pending
-    inventory_item: structural-redesign-home-preview
-    observable_outcome: Home presents visually separated Today, Next, Attention, Favorites, and quick actions; Work collection selection opens an adjacent preview instead of forced navigation when appropriate.
-    dependencies: [shell-header-and-persistent-assistant]
-    paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue
-    required_paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
-    evidence_boundary: [first-glance hierarchy, no unexplained dismiss, selected-row preview, mobile sheet]
-    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+- id: shell-header-and-command-search
+  title: Replace shell command clutter with calm header and command/search separation
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-shell-header-command-search
+  observable_outcome: Authenticated pages share one calm header with context, navigation,
+    account, and one deliberate command/search entry; Create/Search duplicates are
+    removed or demoted.
+  dependencies: []
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  evidence_boundary:
+  - header hierarchy
+  - context switcher
+  - command/search behavior
+  - keyboard focus
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:41:42Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 9d2493380091276357077f4cdb676789ed75e34a7244b3b9bcaad5d73d49a53e
+    apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue: 272dd09e5236fb906b6ec4c2aaa05da68974ce9dcca37cc2aeb3cd7907a1914f
+- id: shell-vision-contextual-composer
+  title: Make VisionForWeb the sole persistent assistant entry
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-shell-vision-composer
+  observable_outcome: Every authenticated page exposes one persistent VisionForWeb
+    input with current context, inline answer bubble, suggestion chips, confirmation,
+    and recovery states.
+  dependencies:
+  - shell-header-and-command-search
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  evidence_boundary:
+  - persistent input
+  - route context
+  - answer bubble
+  - mutation confirmation
+  - streaming/recovery
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:42:22Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue: 9a60095a5773d6044ad7a76749de83a93678a2c74bc2936689ba19a5bfa6c64b
+    apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue: __missing__
+- id: home-operational-sections
+  title: Make Home immediately scannable
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-home-operational-sections
+  observable_outcome: Home presents visually separated Today, Next, Attention, Favorites,
+    and quick actions with clear empty states and no unexplained dismiss behavior.
+  dependencies:
+  - shell-vision-contextual-composer
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceSection.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue
+  evidence_boundary:
+  - first-glance hierarchy
+  - Today/Next/Attention/Favorites
+  - empty state
+  - dismiss semantics
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:43:56Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue: 5ef23a7400712f3d11547d76c62647100a9df812ca6072049ca69e05f01356ef
+    apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue: 53f44acb39ba1b61ae7b5d6b63c8bef9b6e7facb2043da1d066f8dbbdeaafe8b
+evidence:
+- task: shell-header-and-command-search
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:41:59Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  output: |+
+    dist/assets/CirclesView-DXAot2mI.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-Dk5WISIM.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-Bu4EE8-w.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-Cg--7bIz.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-Cf7leucr.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-A4K5ZzdD.js                    14.20 kB │ gzip:   5.23 kB
+    dist/assets/WorkPage-Bxt56Y5U.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-B1zxn2mX.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-DVbpwd_-.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-TOHgdFm1.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-DLLDR837.js                38.68 kB │ gzip:  12.76 kB
+    dist/assets/BusinessOwnerPage-CtClJ6qS.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-bf49p2eL.js                                 47.10 kB │ gzip:  12.37 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 580ms
+
+  startedAt: '2026-07-24T17:41:42Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: shell-vision-contextual-composer
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:43:37Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  output: |+
+    dist/assets/CirclesView-D2kOTBts.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-CaY5Piix.js                   12.71 kB │ gzip:   4.04 kB
+    dist/assets/WorkQuestDetailView-D-qIAy0v.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-CEkThW7T.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-43_bAT1E.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-C4fq5uVj.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-DNqykbWR.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-Dg5xugu0.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-BxWETHsG.js                       19.39 kB │ gzip:   6.17 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-D_eDv94L.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-BasY7uxe.js                39.29 kB │ gzip:  12.94 kB
+    dist/assets/BusinessOwnerPage-DyIxZaY9.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-B8vw0NAz.js                                 47.10 kB │ gzip:  12.37 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 588ms
+
+  startedAt: '2026-07-24T17:42:22Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: home-operational-sections
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:45:00Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  output: |+
+    dist/assets/CirclesView-DRqs3Oxi.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-CtdfV1F2.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-D_CkguOa.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-DvR2T87F.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-B7O-8ZUx.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-Lw11tBi-.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-C3sZUqfp.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-8SzdQgdA.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView--OwTsVgM.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-Bw9051cA.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-CGWZysX-.js                39.29 kB │ gzip:  12.94 kB
+    dist/assets/BusinessOwnerPage-CS12ku88.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-DRYHGhhk.js                                 47.10 kB │ gzip:  12.37 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 531ms
+
+  startedAt: '2026-07-24T17:43:56Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

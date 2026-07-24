@@ -36,8 +36,16 @@ public class ThingSharingService {
     private final ThingSharingMgr thingSharingMgr;
 
     public ThingListingListResponseDTO getAvailableListings(AppUser currentUser) {
+        return getAvailableListings(currentUser, null);
+    }
+
+    public ThingListingListResponseDTO getAvailableListings(AppUser currentUser, String query) {
+        String normalizedQuery = TextValueNormalizer.lowerToEmpty(query).trim();
         List<ThingListing> listings = thingListingRepository.findAvailableForCatalog().stream()
                 .filter(listing -> listing.getOwner() != null && !Objects.equals(listing.getOwner().getId(), currentUser.getId()))
+                .filter(listing -> normalizedQuery.isBlank()
+                        || TextValueNormalizer.lowerToEmpty(listing.getTitle()).contains(normalizedQuery)
+                        || TextValueNormalizer.lowerToEmpty(listing.getDescription()).contains(normalizedQuery))
                 .toList();
         Map<Long, Long> requestIdByListingId = pendingRequestIds(currentUser, listings);
         return ThingListingListResponseDTO.builder()

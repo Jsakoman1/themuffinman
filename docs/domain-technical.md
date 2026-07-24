@@ -24,6 +24,9 @@ This document is the technical source of truth for core product behavior. It sho
 - `social`: circles, memberships, requests, blocking, and relation lookup
 - `workmarket`: quests, applications, quest news, dashboards, reviews
 - `business`: business profiles, public pages, service catalog, availability, bookings, gallery, and owner dashboard reads
+- `calendar`: the authenticated `/calendar` projection aggregates viewer-visible business bookings, scheduled visible quests, and circle-visible rides with optional source and business filters; business rules remain in source services.
+- The generated frontend contract index re-exports the calendar projection, business workspace context, and Vision runtime context as portable client types; Web components must not recreate these DTO shapes locally.
+- Sharing reads use the canonical `social`, `things`, and `rides` package paths. `/circles/me/people`, `/things/listings/search?q=...`, and `/rides/offers/suggestions` are presentation-friendly entry aliases over existing permission-scoped services, not duplicate domain implementations.
 - Business public reads are anonymous; booking writes and booking reads require an authenticated `AppUser`, and there is no guest booking entity or token flow in the current domain model.
 - `things`: lending listings and borrower request workflow
 - `rides`: voluntary ride offers with optional circle-scoped visibility
@@ -110,6 +113,7 @@ Frontend vision surface note:
 - Vision `CONFIRM_REVIEW` dispatches `PAUSE_QUEST` and `RESUME_QUEST` to the same typed state-transition execution path. Enabled browser smoke proves review, confirmation, and backend-authoritative pause/resume against the owner quest; execution-disabled mode remains an explicit review-only boundary.
 - `QuestPreviewReadService` and `ThingPreviewReadService` expose viewer-authorized compact read DTOs for the workspace list preview panels. Quest preview summaries are converted from stored rich text to plain text; clients do not derive authorization or preview membership.
 - Work detail responses carry backend-prepared property and current-state rail entries. Thing detail responses carry a viewer-scoped availability label and allowed actions, so detail surfaces render the authorization result rather than infer ownership, availability, or pending-request state in the browser.
+- `ThingWishlistItem` persists the wishlist owner, target listing, creation time, and selected `CircleGroup` recipients through `thing_wishlist_item` and `thing_wishlist_item_circle`. `ThingWishlistService` validates selected circles with `CircleMembershipService.getOwnedCirclesByIds`, exposes owner reads and member-scoped shared reads, and owns save/remove authorization. The frontend treats the API as authoritative and does not use device-local wishlist persistence.
 - Personal workspace shortcuts are bounded, user-scoped Quest pins. Pin creation validates the target through the existing viewer-scoped Quest read service; reads omit an object that was deleted or became inaccessible.
 - `workspace_rail_preference` is a viewer-scoped workspace presentation preference. `PersonalShortcutService` owns its default and validates the persisted rail width between 216 and 280 pixels; it does not affect object membership, visibility, or permitted actions.
 - `WorkspaceCommandCatalogService` prepares the authenticated command catalog server-side. It returns only permitted navigation handoffs, existing structured create routes, viewer-scoped pinned objects, and a separate Vision route; it never exposes generic client-side mutations or treats Vision as a navigation sidebar.
@@ -351,6 +355,7 @@ Primary files:
 - `business/controller/BusinessBookingPolicyController.java`
 - `business/controller/BusinessAvailabilityController.java`
 - `business/controller/BusinessPublicController.java`
+- `business/controller/BusinessWorkspaceContextController.java`
 - `business/controller/BusinessBookingController.java`
 - `business/controller/BusinessOwnerDashboardController.java`
 - `business/controller/BusinessGalleryController.java`
@@ -383,6 +388,8 @@ Primary files:
 - `business/service/BusinessCompleteBookingUseCase.java`
 - `business/service/BusinessNoShowBookingUseCase.java`
 - `business/service/BusinessBookingReadService.java`
+- `business/service/BusinessBookingPreviewService.java`
+- `business/service/BusinessWorkspaceContextService.java`
 - `business/service/BusinessBookingReadSupport.java`
 - `business/service/BusinessOwnerScheduleReadService.java`
 - `business/service/BusinessOwnerCalendarReadService.java`
@@ -471,6 +478,9 @@ Primary files:
 - `things/model/ThingBorrowRequestStatus.java`
 - `things/repository/ThingListingRepository.java`
 - `things/repository/ThingBorrowRequestRepository.java`
+- `things/model/ThingWishlistItem.java`
+- `things/repository/ThingWishlistRepository.java`
+- `things/service/ThingWishlistService.java`
 - `things/service/ThingSharingService.java`
 - `things/mapper/ThingSharingMgr.java`
 - `things/dto/ThingListingRequestDTO.java`
@@ -2040,3 +2050,7 @@ authority: each module remains responsible for its own state transitions and wri
 Booking snapshots persist demand/options/capacity JSON as PostgreSQL `jsonb` with an explicit write cast; runtime booking creation is therefore part of the acceptance boundary, not only a unit-test concern. Booking responses expose the immutable `quantitySnapshot`, and offering configuration edits increment `schemaVersion` so later bookings cannot silently reuse an earlier contract.
 
 Public service schemas are typed DTOs (`BusinessDemandFieldDTO`, `BusinessOfferingOptionDTO`, and `BusinessPricingRuleDTO`). Owner resource requirements are scoped to the owning profile and are resolved transactionally at booking time. Concrete assignments are persisted in `business_booking_resource_assignment` and copied into the immutable booking snapshot; a second overlapping booking cannot claim the same resource. On reschedule, live assignment rows are rebuilt in the same transaction before the new interval is saved, while the original snapshot remains historical evidence.
+
+### Frontend structural redesign authority
+
+Authenticated frontend module pages use shared shell, tab, state, preview, and token primitives. Route aliases may preserve existing links, but module navigation and business rules remain backend/API-owned so future iPhone and Apple Watch clients can reuse the same contracts.

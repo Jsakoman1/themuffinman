@@ -12,7 +12,6 @@ import {confirmAction} from "../composables/useActionDialog.ts"
 import {useChatRealtime} from "../composables/useChatRealtime.ts"
 import {formatDateTime} from "../../../services/formatters.ts"
 import TaskSurface from "../components/TaskSurface.vue"
-import {buildSurfaceVisionRoute} from "../visionHandoff.ts"
 
 const route = useRoute()
 const router = useRouter()
@@ -50,9 +49,27 @@ const directCandidates = ref<CircleSearchResultDTO[]>([])
 const isOpeningDirect = ref(false)
 const selectedId = computed(() => Number(route.params.conversationId) || null)
 const selectedConversation = computed(() => conversations.value.find(item => item.conversationId === selectedId.value) ?? null)
+const isUnread = (conversation: ChatConversationSummaryDTO) => conversation.lastMessageId !== null && conversation.lastSeenMessageId !== conversation.lastMessageId
+const isPriority = (conversation: ChatConversationSummaryDTO) => Boolean(conversation.contextType && ["BUSINESS", "BOOKING", "WORK"].includes(conversation.contextType))
+const conversationSections = computed(() => [
+  {id: "priority", label: "Priority", items: conversations.value.filter(item => !item.archived && !item.muted && isPriority(item))},
+  {id: "unread", label: "Unread", items: conversations.value.filter(item => !item.archived && !item.muted && isUnread(item) && !isPriority(item))},
+  {id: "other", label: "All conversations", items: conversations.value.filter(item => !item.archived && !item.muted && !isUnread(item) && !isPriority(item))},
+  {id: "muted", label: "Muted", items: conversations.value.filter(item => !item.archived && item.muted)},
+  {id: "archived", label: "Archived", items: conversations.value.filter(item => item.archived)}
+].filter(section => section.items.length))
 const relatedContext = computed(() => {
   const safePath = (value: unknown) => typeof value === "string" && /^\/(business|work|chat|bookings)(\/|$)/.test(value) ? value : null
   return {business: safePath(route.query.businessPath), booking: safePath(route.query.bookingPath), work: safePath(route.query.workPath)}
+})
+const conversationContextRoute = computed(() => {
+  const type = selectedConversation.value?.contextType
+  if (type === "THING") return {label: "Open related thing", to: "/share/things"}
+  if (type === "CIRCLE") return {label: "Open related circle", to: "/circles"}
+  if (type === "BUSINESS") return {label: "Open related business", to: "/business"}
+  if (type === "BOOKING") return {label: "Open related booking", to: "/business/my-bookings"}
+  if (type === "WORK") return {label: "Open related work", to: "/work"}
+  return null
 })
 const attachmentRequested = computed(() => route.query.attach === "1")
 const formatDate = (value: string | null | undefined) => formatDateTime(value, "")
@@ -220,7 +237,7 @@ const remove = async (message: ChatMessageDTO) => { if (!selectedId.value || !aw
 const toggleReaction = async (message: ChatMessageDTO) => { if (!selectedId.value) return; const own = message.reactions.find(reaction => reaction.ownReaction && reaction.emoji === "👍"); try { replaceMessage(own ? await userShellApi.removeChatReaction(selectedId.value, message.id, "👍") : await userShellApi.addChatReaction(selectedId.value, message.id, "👍")); actionFeedback.value = own ? "Reaction removed." : "Reaction added." } catch { error.value = "Could not update this reaction." } }
 const recoverConversation = () => { if (document.visibilityState === "visible" && selectedId.value) void syncConversation() }
 const recoverWhenOnline = () => { if (selectedId.value) void syncConversation() }
-const draftKey = computed(() => selectedId.value ? `chat-draft:${selectedId.value}` : "chat-draft:new")
+const draftKey = computed(() => selectedId.value ? `chat-draft:v2:${selectedId.value}` : "chat-draft:v2:new")
 const persistDraft = () => { if (typeof window === "undefined") return; if (draft.value.trim()) window.localStorage.setItem(draftKey.value, draft.value); else window.localStorage.removeItem(draftKey.value) }
 watch(draft, persistDraft)
 watch(selectedId, () => {
@@ -246,7 +263,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <!-- UX simplification: conversation selection is the first action; thread tools stay contextual. -->
+  <!-- UX simplification: conversation selection is the first action; circle clubs reuse this group-chat surface. -->
   <!-- Post-start hardening marker: realtime recovery remains visible in the same task surface. -->
   <TaskSurface mode="workspace" label="Chat workspace"><section class="chat-surface" :aria-busy="isLoading || isLoadingMore || isSyncing || isSending || undefined">
   <header class="chat-surface__header" aria-labelledby="chat-surface-title"><div><p class="chat-surface__eyebrow">Chat</p><h1 id="chat-surface-title">{{ selectedId ? "Conversation" : "Chat" }}</h1><small class="chat-surface__realtime-status" :class="`chat-surface__realtime-status--${realtimeStatus.toLowerCase()}`" role="status" aria-live="polite">Realtime {{ realtimeLabel }}</small></div><div class="chat-surface__header-actions"><RouterLink v-if="selectedId" to="/chat" class="chat-surface__back">Back to Chat</RouterLink><AppButton v-if="realtimeNeedsAction" type="button" tone="secondary" :loading="realtimeStatus === 'RECONNECTING'" @click="chatRealtime.reconnect">Reconnect</AppButton><AppButton type="button" tone="secondary" @click="directQuery = directQuery ? '' : ' '" >New chat</AppButton><AppButton type="button" tone="secondary" @click="groupTitle = groupTitle ? '' : ' '" >New group</AppButton></div></header>
@@ -263,9 +280,7 @@ onBeforeUnmount(() => {
     <AppStatus v-if="selectedId && syncStatus" :message="syncStatus" :tone="syncStatus.startsWith('Could not') ? 'stale' : 'neutral'" :busy="isSyncing" :retry="syncStatus.startsWith('Could not')" @retry="syncConversation" />
     <div class="chat-surface__layout">
       <aside class="chat-surface__index" aria-label="Conversations">
-        <RouterLink v-for="conversation in conversations" :key="conversation.conversationId" :to="`/chat/${conversation.conversationId}`" class="chat-surface__conversation" :class="{'chat-surface__conversation--active': selectedId === conversation.conversationId}">
-          <strong>{{ conversation.title || conversation.otherUsername || `Conversation #${conversation.conversationId}` }}</strong><span>{{ conversation.lastMessageAt ? formatDate(conversation.lastMessageAt) : "No messages" }}</span>
-        </RouterLink>
+        <section v-for="section in conversationSections" :key="section.id" class="chat-surface__conversation-section" :aria-label="section.label"><h2>{{ section.label }}</h2><RouterLink v-for="conversation in section.items" :key="conversation.conversationId" :to="`/chat/${conversation.conversationId}`" class="chat-surface__conversation" :class="{'chat-surface__conversation--active': selectedId === conversation.conversationId, 'chat-surface__conversation--unread': isUnread(conversation)}"><strong>{{ conversation.title || conversation.otherUsername || `Conversation #${conversation.conversationId}` }}</strong><span>{{ conversation.lastMessageAt ? formatDate(conversation.lastMessageAt) : "No messages" }}<template v-if="isUnread(conversation)"> · Unread</template><template v-if="conversation.muted"> · Muted</template></span></RouterLink></section>
         <p v-if="!isLoading && conversations.length === 0" class="chat-surface__status" role="status">No conversations yet. Start a chat to see it here.</p>
         <AppButton v-if="hasMoreConversations" type="button" tone="quiet" :loading="isLoadingMore" @click="loadMoreConversations">{{ isLoadingMore ? "Loading" : "Load more" }}</AppButton>
       </aside>
@@ -288,9 +303,10 @@ onBeforeUnmount(() => {
         </dl>
         <p class="chat-surface__context-note">Actions and sync follow server policy.</p>
       </aside>
-      <nav v-if="selectedId && (relatedContext.business || relatedContext.booking || relatedContext.work)" class="chat-surface__related" aria-label="Related context"><strong>Related context</strong><RouterLink v-if="relatedContext.business" :to="relatedContext.business">Open business</RouterLink><RouterLink v-if="relatedContext.booking" :to="relatedContext.booking">Open booking</RouterLink><RouterLink v-if="relatedContext.work" :to="relatedContext.work">Open work</RouterLink><RouterLink :to="buildSurfaceVisionRoute('chat', route.fullPath, 'Chat context')">Ask Vision</RouterLink></nav>
+      <nav v-if="selectedId && (relatedContext.business || relatedContext.booking || relatedContext.work)" class="chat-surface__related" aria-label="Related context"><strong>Related context</strong><RouterLink v-if="relatedContext.business" :to="relatedContext.business">Open business</RouterLink><RouterLink v-if="relatedContext.booking" :to="relatedContext.booking">Open booking</RouterLink><RouterLink v-if="relatedContext.work" :to="relatedContext.work">Open work</RouterLink></nav>
       <form v-if="selectedId" class="chat-surface__composer" aria-label="Conversation composer" @submit.prevent="send"><p v-if="replyingTo" class="chat-surface__replying">Replying to {{ replyingTo.senderUsername }} <AppButton type="button" tone="quiet" @click="replyingTo = null">Cancel</AppButton></p><input v-model="draft" placeholder="Write a message." aria-label="Message" maxlength="2000" :disabled="isSending"><label class="chat-surface__attachment">{{ isUploadingAttachment ? "Uploading…" : attachment ? attachment.attachmentName : "Attach" }}<input ref="attachmentInput" type="file" accept="image/*,.pdf,.txt" @change="uploadAttachment" :disabled="isUploadingAttachment || isSending"></label><img v-if="attachmentPreviewUrl" class="chat-surface__attachment-preview" :src="attachmentPreviewUrl" alt="Selected attachment preview"><AppButton type="button" v-if="attachment" tone="danger" @click="removeAttachment">Remove</AppButton><AppButton type="submit" tone="primary" :loading="isSending" :disabled="isUploadingAttachment">{{ isSending ? "Sending…" : "Send" }}</AppButton></form>
     </div>
+    <nav v-if="selectedId && conversationContextRoute" class="chat-surface__related chat-surface__related--context" aria-label="Conversation related context"><strong>Related context</strong><RouterLink :to="conversationContextRoute.to">{{ conversationContextRoute.label }}</RouterLink></nav>
   </section></TaskSurface>
 </template>
 

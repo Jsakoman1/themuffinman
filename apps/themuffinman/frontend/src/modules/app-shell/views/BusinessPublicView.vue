@@ -18,8 +18,11 @@ const route = useRoute(); const router = useRouter()
 const page = ref<BusinessPublicPageDTO | null>(null); const selectedOfferingId = ref<number | null>(null); const schema = ref<BusinessOfferingSchemaDTO | null>(null); const quote = ref<BusinessPublicQuoteDTO | null>(null); const availability = ref<BusinessAvailabilityWindowDTO[]>([]); const demand = ref<Record<string, string>>({}); const selectedOptions = ref<Record<string, string>>({}); const startsAt = ref(""); const selectedSlot = ref(""); const customerNote = ref(""); const quantity = ref(1); const uploads = ref<File[]>([]); const recurring = ref(false); const recurrenceCount = ref(4); const recurrenceNote = computed(() => recurring.value ? `Requested recurring series: ${recurrenceCount.value} occurrences. Each occurrence is revalidated by the business before confirmation.` : ""); const bookingForOther = ref(false); const recipientName = ref(""); const recipientConsent = ref(false); const recipientNote = computed(() => bookingForOther.value ? `Booking for: ${recipientName.value || "recipient not named"}. Recipient consent confirmed: ${recipientConsent.value ? "yes" : "no"}.` : ""); const currentStep = ref(0); const loading = ref(true); const saving = ref(false); const error = ref(""); const bookingError = ref(""); const feedback = ref("")
 const steps = ["Service", "Details", "Time", "Review"]
 const selectedOffering = computed(() => page.value?.offerings.find(item => item.id === selectedOfferingId.value) ?? null)
+const isFavorite = ref(false)
+const favoriteBusy = ref(false)
 const returnTo = computed(() => typeof route.query.returnTo === "string" ? route.query.returnTo : "/business/find")
-const load = async () => { loading.value = true; error.value = ""; try { page.value = await userShellApi.getPublicBusinessPage(String(route.params.slug)) } catch { error.value = "Could not load this business." } finally { loading.value = false } }
+const load = async () => { loading.value = true; error.value = ""; try { page.value = await userShellApi.getPublicBusinessPage(String(route.params.slug)); isFavorite.value = (await userShellApi.getBusinessFavorites()).some(item => item.businessProfileId === page.value?.businessProfileId) } catch { error.value = "Could not load this business." } finally { loading.value = false } }
+const toggleFavorite = async () => { if (!page.value) return; favoriteBusy.value = true; try { if (isFavorite.value) await userShellApi.removeBusinessFavorite(page.value.businessProfileId); else await userShellApi.addBusinessFavorite(page.value.businessProfileId); isFavorite.value = !isFavorite.value } catch { feedback.value = "Could not update favorites. Try again." } finally { favoriteBusy.value = false } }
 const selectOffering = async (id: number) => { selectedOfferingId.value = id; currentStep.value = 1; demand.value = {}; selectedOptions.value = {}; quantity.value = 1; uploads.value = []; quote.value = null; availability.value = []; selectedSlot.value = ""; bookingError.value = ""; schema.value = await userShellApi.getPublicServiceSchema(String(route.params.slug), id) }
 const resetFlow = () => { selectedOfferingId.value = null; currentStep.value = 0; schema.value = null; quote.value = null; availability.value = []; selectedSlot.value = ""; startsAt.value = ""; quantity.value = 1; uploads.value = []; recurring.value = false; recurrenceCount.value = 4; bookingForOther.value = false; recipientName.value = ""; recipientConsent.value = false }
 const selectUploads = (event: Event) => { const selected = Array.from((event.target as HTMLInputElement).files ?? []); const valid = selected.filter(file => file.size <= 10 * 1024 * 1024 && ["image/", "application/pdf", "text/"].some(prefix => file.type.startsWith(prefix))); uploads.value = valid; demand.value = {...demand.value, uploadedFileNames: valid.map(file => file.name).join(", ")}; if (valid.length !== selected.length) feedback.value = "Some files were skipped. Use images, PDF, or text files up to 10 MB each." }
@@ -31,7 +34,7 @@ onMounted(() => void load())
 
 <template>
   <TaskSurface mode="choose" label="Public business booking">
-    <section class="public-business">
+    <section class="public-business" data-booking-model="progressive-availability-first" aria-label="Public business booking">
       <AppStatus v-if="loading" message="Loading business." busy />
       <AppStatus v-else-if="error && !page" :message="error" tone="error" retry @retry="load" />
       <template v-else-if="page">
@@ -40,6 +43,7 @@ onMounted(() => void load())
           <p class="eyebrow">Business</p>
           <h1>{{ page.businessName }}</h1>
           <p>{{ page.headline }}</p>
+          <AppButton type="button" tone="quiet" :loading="favoriteBusy" :aria-pressed="isFavorite" @click="toggleFavorite">{{ isFavorite ? "Saved business" : "Save business" }}</AppButton>
           <details class="public-business__details">
             <summary>About this business</summary>
             <div class="public-business__details-body">

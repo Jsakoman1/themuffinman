@@ -69,6 +69,7 @@ import type {
   BusinessResourceConfigurationDTO,
   BusinessPublicQuoteDTO,
   BusinessAvailabilityWindowDTO,
+  CalendarProjection,
 } from "../../../contracts/index.ts"
 
 export type ProfileGalleryImage = {
@@ -444,7 +445,7 @@ export const userShellApi = {
   },
 
   async updateBusinessGalleryImage(imageId: number, request: BusinessGalleryImageRequestDTO): Promise<BusinessGalleryImageResponseDTO> {
-    return (await api.put<BusinessGalleryImageResponseDTO>(`/business/gallery/me/${imageId}`, request, withAuth())).data
+    return (await api.put<BusinessGalleryImageResponseDTO>(`/business/gallery/me/${imageId}`, request, {params: activeBusinessParams(), ...withAuth()})).data
   },
 
   async deleteBusinessGalleryImage(imageId: number): Promise<void> {
@@ -572,6 +573,12 @@ export const userShellApi = {
   async getBusinessOwnerCalendar(range: {from?: string; to?: string} = {}): Promise<BusinessOwnerCalendarProjectionDTO> {
     return (await api.get<BusinessOwnerCalendarProjectionDTO>("/business/bookings/owner/calendar", {params: range, ...withAuth()})).data
   },
+  async getCalendarProjection(range: {from: string; to: string; sources?: string[]; businessId?: number}): Promise<CalendarProjection> {
+    return (await api.get<CalendarProjection>("/calendar", {params: {from: range.from, to: range.to, source: range.sources, businessId: range.businessId}, ...withAuth()})).data
+  },
+  async getRideSuggestions(): Promise<import("../../../contracts/index.ts").RideOfferListResponseDTO> {
+    return (await api.get<import("../../../contracts/index.ts").RideOfferListResponseDTO>("/rides/suggestions", withAuth())).data
+  },
 
   async executeBusinessBookingAction(bookingId: number, action: "confirm" | "reject" | "cancel" | "complete" | "mark-no-show"): Promise<BusinessBookingResponseDTO> {
     return (await api.post<BusinessBookingResponseDTO>(`/business/bookings/owner/${bookingId}/${action}`, undefined, withAuth())).data
@@ -611,6 +618,14 @@ export const userShellApi = {
       circleId,
       userIds: [userId],
       action: "REMOVE"
+    }, withAuth())).data
+  },
+
+  async addCircleMember(circleId: number, userId: number): Promise<ActionResultDTO> {
+    return (await api.put<ActionResultDTO>("/circles/connections/circles/bulk", {
+      circleId,
+      userIds: [userId],
+      action: "ADD"
     }, withAuth())).data
   },
 

@@ -1,0 +1,78 @@
+{
+  "evidenceVersion": "frontend-structural-redesign-runtime-v1",
+  "capturedAt": "2026-07-24T18:51:07.644Z",
+  "browser": "Playwright Chromium headless",
+  "result": "passed",
+  "mobile": {
+    "viewport": "mobile",
+    "reached": [
+      {
+        "requested": "/home",
+        "actual": "/home",
+        "heading": "Home"
+      },
+      {
+        "requested": "/work",
+        "actual": "/work",
+        "heading": "Work"
+      },
+      {
+        "requested": "/work/find",
+        "actual": "/work/find",
+        "heading": "Find work"
+      },
+      {
+        "requested": "/work/quests",
+        "actual": "/work/quests",
+        "heading": "My work"
+      },
+      {
+        "requested": "/chat",
+        "actual": "/chat",
+        "heading": "Chat"
+      },
+      {
+        "requested": "/calendar",
+        "actual": "/calendar",
+        "heading": "Agenda"
+      },
+      {
+        "requested": "/business",
+        "actual": "/business",
+        "heading": "Business"
+      },
+      {
+        "requested": "/circles",
+        "actual": "/circles",
+        "heading": "Circles"
+      },
+      {
+        "requested": "/things",
+        "actual": "/things",
+        "heading": "Things to borrow"
+      },
+      {
+        "requested": "/rides",
+        "actual": "/rides",
+        "heading": "Find a ride"
+      },
+      {
+        "requested": "/profile",
+        "actual": "/profile",
+        "heading": "Profile and location"
+      }
+    ],
+    "dimensions": {
+      "viewport": 390,
+      "document": 390,
+      "body": 390
+    },
+    "overflowFree": true,
+    "assistantPresent": true,
+    "keyboardFocus": true,
+    "visibleDuplicateVision": 0,
+    "homeOrientation": true,
+    "screenshot": "/Users/jsakoman/Desktop/themuffinman/docs/runtime-evidence/frontend-structural-redesign-mobile.png"
+  },
+  "browserErrors": []
+}

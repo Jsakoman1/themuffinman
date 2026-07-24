@@ -1,8 +1,9 @@
 kind: work
 version: 1
 id: frontend-structural-redesign-04-cross-module
-title: "Apply the simple tab grammar across remaining modules"
-status: draft
+title: Apply the simple tab grammar across remaining modules
+status: verified
+profile_identity_expansion_review: 2026-07-24-profile-identity-family
 hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
@@ -11,43 +12,342 @@ serial_task_execution: true
 execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/frontend-ux-next-evolution-master.yaml]
-  baseline_only_surfaces: [Existing Thing, Ride, Chat, Profile, Settings, and Calendar domain authority]
-  residual_scope: [Cross-module tab IA, reduced action density, stable detail routes, and consistent states]
-  retest_triggers: [Shared tabs, module route, detail surface, permissions, mobile drawer, or state component changes]
-  non_duplication_rule: Existing domain behavior is baseline; only structural presentation and route consolidation are new scope.
+  reused_verified_plans:
+  - docs/work/frontend-ux-next-evolution-master.yaml
+  baseline_only_surfaces:
+  - Existing Thing
+  - Ride
+  - Chat
+  - Profile
+  - Settings
+  - and Calendar domain authority
+  residual_scope:
+  - Cross-module tab IA
+  - Chat workspace
+  - Profile/Settings grouping
+  - resilient conversation states
+  retest_triggers:
+  - Shared tabs
+  - module route
+  - detail surface
+  - permissions
+  - mobile drawer
+  - or state component changes
+  non_duplication_rule: Existing domain behavior is baseline; only structural presentation
+    and route consolidation are new scope.
 tasks:
-  - id: cross-module-share-tabs
-    title: Combine Things and Rides under a simple Share workspace
-    type: implementation
-    inventory_item: structural-redesign-share-tabs
-    observable_outcome: Share exposes Things, Rides, and Requests tabs without duplicating module-level navigation or mixing unrelated actions.
-    dependencies: []
-    paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
-      - apps/themuffinman/frontend/src/router.ts
-    required_paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue
-      - apps/themuffinman/frontend/src/router.ts
-    evidence_boundary: [Share tabs, request scope, create actions, detail continuity]
-    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
-  - id: cross-module-profile-chat-calendar-tabs
-    title: Consolidate Profile, Chat, and Calendar sibling views into tabs
-    type: implementation
-    status: pending
-    inventory_item: structural-redesign-profile-chat-calendar-tabs
-    observable_outcome: Profile/Settings, Chat filters, and Calendar views use tabs where appropriate and no longer expose unrelated actions in one dense surface.
-    dependencies: [cross-module-share-tabs]
-    paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
-    required_paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
-    evidence_boundary: [tab focus, unread/chat state, profile settings grouping, calendar mode clarity]
-    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+- id: cross-module-share-tabs
+  title: Combine Things and Rides under a simple Share workspace
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-cross-module
+  observable_outcome: Share exposes Things, Rides, and Requests tabs without duplicating
+    module-level navigation or mixing unrelated actions.
+  dependencies:
+  - business-favorites
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue
+  - apps/themuffinman/frontend/src/router.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue
+  - apps/themuffinman/frontend/src/router.ts
+  evidence_boundary:
+  - Share tabs
+  - request scope
+  - create actions
+  - detail continuity
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:36:21Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue: __missing__
+    apps/themuffinman/frontend/src/router.ts: cecc6e014886d93a835110fe2d263a6126539be27b8eeef1977b24bb104e6c9f
+- id: cross-module-profile-settings-tabs
+  title: Group Profile and Settings into calm sibling tabs
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-profile-settings-tabs
+  observable_outcome: Profile and Settings use stable sibling tabs/groups with one
+    predictable inline edit/save pattern and no unrelated dense actions.
+  dependencies:
+  - cross-module-share-tabs
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  evidence_boundary:
+  - tab focus
+  - grouped settings
+  - inline edit
+  - save/cancel
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:37:11Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue: 3f2365a447d585b052cc0a8e66c0b326bee64f0bcc895d0a1dacaf04b22d52a8
+- id: chat-list-priority
+  title: Separate Chat conversations by unread and priority state
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-chat-list-priority
+  observable_outcome: Chat list separates unread, priority, muted, and archived conversations
+    with stable selection and truthful empty states.
+  dependencies:
+  - cross-module-profile-settings-tabs
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ActivityRail.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ActivityRail.vue
+  evidence_boundary:
+  - unread
+  - priority
+  - mute/archive
+  - selected conversation
+  - empty state
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:38:32Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 0bb0d54cfb26d9f0a795f5cfcb6836f3e8411b9e4c1a7956b9e1635470e90685
+    apps/themuffinman/frontend/src/modules/app-shell/components/ActivityRail.vue: 0e61812892000123fa362cad727b88a6866b1da5606a7d8617193be2c755285e
+- id: chat-composer-recovery
+  title: Make Chat composer resilient and mobile-friendly
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-chat-composer-recovery
+  observable_outcome: Chat preserves drafts, attachments, send progress, failed-message
+    retry, and keyboard/mobile composer behavior.
+  dependencies:
+  - chat-list-priority
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  evidence_boundary:
+  - draft
+  - attachment
+  - send progress
+  - retry
+  - keyboard/mobile
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:39:20Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: a06b73c4737794d9891df5e58d80ddc45aae439096222c65faf3267341645a47
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts: d2720150052e9b47aaf2c509071aafdcb95eed0462acd27b09f9ae50effc245a
+- id: chat-related-context
+  title: Connect Chat to related business, work, booking, circle, and Thing context
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-chat-related-context
+  observable_outcome: Conversations expose related context and scoped message search
+    without opening a competing full-page detail flow.
+  dependencies:
+  - chat-composer-recovery
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  evidence_boundary:
+  - related context
+  - scoped search
+  - deep links
+  - permission visibility
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:40:11Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: d7c1ccb93b137a13f4b1ba23f803f243912a08a10366fdc99857339295ba22a8
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue: 4ec54be7b25bc45ef17d9dade9ed66dd0a7272beb42ea62bb8587f5321d9b1c3
+evidence:
+- task: cross-module-share-tabs
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:36:51Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue
+  output: |+
+    dist/assets/CirclesView-oHOGcfBw.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-CIS6UVWS.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-CyAjCkTX.js                   12.88 kB │ gzip:   4.00 kB
+    dist/assets/RidesView-Jd7rbxMY.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-C-i2rVqa.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-DGKAfDf8.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-D4Kh01uf.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/ChatSurfaceView-BbvVaYq6.js                       17.80 kB │ gzip:   5.73 kB
+    dist/assets/SurfaceHeader-HQ03aNoD.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfileLocationSettingsView-Ccp9K16h.js           25.40 kB │ gzip:   7.75 kB
+    dist/assets/AuthenticatedShellView-BwjN5zjl.js                40.44 kB │ gzip:  13.16 kB
+    dist/assets/BusinessOwnerPage-B4_akUoO.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-C_zyK-tz.js                                 47.15 kB │ gzip:  12.38 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 547ms
+
+  startedAt: '2026-07-24T17:36:21Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue
+  - apps/themuffinman/frontend/src/router.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: cross-module-profile-settings-tabs
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:38:07Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  output: |+
+    dist/assets/CirclesView-Bh83jLgQ.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-CgVVATOk.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-cMEPcYLN.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-CBcUwoMs.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-Cu-LW8xx.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-ROOuc3rR.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-Dw74uRQU.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/ChatSurfaceView-BCJ94CuL.js                       17.80 kB │ gzip:   5.74 kB
+    dist/assets/SurfaceHeader-bXMnPBTL.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-Bon7Qtrm.js                           25.89 kB │ gzip:   7.96 kB
+    dist/assets/AuthenticatedShellView-CsF3AbmY.js                40.44 kB │ gzip:  13.16 kB
+    dist/assets/BusinessOwnerPage-BGCF25_f.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-DGdBkGE0.js                                 47.10 kB │ gzip:  12.38 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 536ms
+
+  startedAt: '2026-07-24T17:37:11Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: chat-list-priority
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:39:06Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ActivityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  output: |+
+    dist/assets/CirclesView-ByZEYhPC.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-DFz45KOg.js                   12.71 kB │ gzip:   4.04 kB
+    dist/assets/WorkQuestDetailView-Qn4NyNhY.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-BoyvOWHR.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-BYLhxrFK.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-BCjdCEFe.js                    14.20 kB │ gzip:   5.23 kB
+    dist/assets/WorkPage-zIYRwerG.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-DSzWZ4Wo.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-DUJ2VzbQ.js                       18.74 kB │ gzip:   6.02 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-D7nYL-mx.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-CzICJAHo.js                40.44 kB │ gzip:  13.16 kB
+    dist/assets/BusinessOwnerPage-DMjjWwqC.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-Be-X5FSG.js                                 47.10 kB │ gzip:  12.37 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 534ms
+
+  startedAt: '2026-07-24T17:38:32Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ActivityRail.vue
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: chat-composer-recovery
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:40:01Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  output: |+
+    dist/assets/CirclesView-3xo60893.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-DvOrlDNw.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-DT5W1cRL.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-Bc3hWQkU.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-CBQaXsWs.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-Q16tGMt2.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-Dtw8ohuH.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-BQCKsoHo.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-VgEsFISl.js                       18.75 kB │ gzip:   6.03 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-4gx4ukjs.js                           25.89 kB │ gzip:   7.96 kB
+    dist/assets/AuthenticatedShellView-E4-O3-g8.js                40.44 kB │ gzip:  13.16 kB
+    dist/assets/BusinessOwnerPage-rfAxShab.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-DDvVPYZa.js                                 47.10 kB │ gzip:  12.37 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 553ms
+
+  startedAt: '2026-07-24T17:39:20Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: chat-related-context
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:40:56Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  output: |+
+    dist/assets/CirclesView-DrB9P2Wx.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-BG9q78Yn.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-DbzD9QJ0.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-B-ah-YSs.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-avFo0Grt.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-DhwNAq3F.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-JAXLL3Ye.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-Dmz4_SNG.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-BvwrI-oo.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DIspql4Y.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-2E8o6kQx.js                40.44 kB │ gzip:  13.16 kB
+    dist/assets/BusinessOwnerPage-DGLeoWAv.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-D36ceBtW.js                                 47.10 kB │ gzip:  12.38 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 547ms
+
+  startedAt: '2026-07-24T17:40:11Z'
+  changedAfterStart: &5
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

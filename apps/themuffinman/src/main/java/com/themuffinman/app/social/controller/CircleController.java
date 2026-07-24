@@ -175,7 +175,7 @@ public class CircleController {
         );
     }
 
-    @GetMapping("/connections")
+    @GetMapping({"/connections", "/me/people"})
     public CircleContactListResponseDTO getConnections(
             @ModelAttribute CircleConnectionsQueryDTO query,
             @AuthenticationPrincipal AppUser currentUser

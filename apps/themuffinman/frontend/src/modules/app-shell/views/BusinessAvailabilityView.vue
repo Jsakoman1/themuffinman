@@ -16,6 +16,7 @@ const context = ref<BusinessWorkspaceContextDTO | null>(null)
 const selectedProfileId = ref<number | null>(null)
 const roleFilter = ref<"ALL" | "OWNER" | "CUSTOMER">("ALL")
 const calendarScope = ref<"MY" | "BUSINESS" | "ALL">("MY")
+const unifiedCalendarPath = computed(() => selectedProfileId.value ? `/calendar?businessId=${selectedProfileId.value}` : "/calendar")
 const calendarLayers = ref({bookings: true, availability: false, resources: false})
 const showRules = ref(false)
 const rules = ref<BusinessAvailabilityRuleResponseDTO[]>([])
@@ -59,10 +60,11 @@ watch(showRules, value => { if (value) void loadRules() })
 
 <template>
   <TaskSurface mode="choose" label="Business schedule">
-    <section class="business-calendar">
+    <section class="business-calendar" data-owner-tab="calendar" data-calendar-scope="active-business" aria-label="Business calendar and availability">
       <header class="business-calendar__header"><div><p class="eyebrow">Business / Schedule</p><h1>My schedule</h1><p class="intro">Bookings are the main view. Availability and resources are optional layers.</p></div><ContextSwitcher :model-value="selectedContextId" :options="businessOptions" label="Active business" empty-label="All businesses" @update:model-value="selectBusiness" /></header>
       <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="error" :message="error" tone="error" retry @retry="load" /><AppStatus v-if="loading" message="Loading your schedule." busy />
       <template v-else>
+      <RouterLink class="business-calendar__unified-link" :to="unifiedCalendarPath">Open unified Calendar</RouterLink>
         <section class="calendar-intelligence" aria-label="Capacity and availability explanation"><strong>Capacity intelligence</strong><span>{{ capacityWarning }}</span><small>Why unavailable? The backend evaluates business hours, exceptions, capacity, resources, policy, and conflicting bookings. This screen does not infer a slot as bookable.</small><div class="capacity-heatmap" aria-label="Loaded booking density"><i v-for="index in 7" :key="index" :class="{active: schedule.length >= index * 3, warning: schedule.length >= index * 5}" :title="`Density band ${index}`"></i></div></section>
         <section class="calendar-operations" aria-label="Calendar operations"><strong>Booking operations</strong><small>Actions run against the selected business schedule and may be rejected if the booking is stale or conflicted.</small><div><AppButton type="button" tone="secondary" :loading="calendarOperationSaving" @click="runCalendarOperation('confirm')">Confirm</AppButton><AppButton type="button" tone="secondary" :loading="calendarOperationSaving" @click="runCalendarOperation('complete')">Complete</AppButton><AppButton type="button" tone="secondary" :loading="calendarOperationSaving" @click="runCalendarOperation('mark-no-show')">Mark no-show</AppButton><AppButton type="button" tone="danger" :loading="calendarOperationSaving" @click="runCalendarOperation('cancel')">Cancel</AppButton></div></section>
         <section class="calendar-scopes" aria-label="Calendar scope"><strong>Calendar scope</strong><div><label><input v-model="calendarScope" type="radio" value="MY"> My schedule</label><label><input v-model="calendarScope" type="radio" value="BUSINESS"> Business schedule</label><label><input v-model="calendarScope" type="radio" value="ALL"> All businesses</label></div><small>{{ calendarScopeDescription }}</small></section>

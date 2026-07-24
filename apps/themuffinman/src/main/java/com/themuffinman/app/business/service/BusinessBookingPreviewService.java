@@ -25,6 +25,7 @@ public class BusinessBookingPreviewService {
         BusinessOffering offering = businessOfferingRepository.findById(request.getBusinessOfferingId())
                 .filter(item -> item.isActive()
                         && item.getBusinessProfile().isActive()
+                        && item.getBusinessProfile().isBookingEnabled()
                         && item.getBusinessProfile().getSlug().equals(slug))
                 .orElseThrow(() -> ServiceErrors.notFound("Business offering not found"));
 

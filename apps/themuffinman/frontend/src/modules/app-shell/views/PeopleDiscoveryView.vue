@@ -37,7 +37,7 @@ const sendInvite = async (userId: number) => {
 .people-discovery__workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(18rem,24rem);align-items:start;overflow:hidden;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}
 </style>
 <template>
-  <section class="people-discovery">
+  <section class="people-discovery" data-people-context="relationship-visibility-actions">
     <header><div><p class="eyebrow">People</p><h1>Find people</h1><p class="intro">Search people through Circles trust and visibility rules.</p></div><RouterLink to="/circles" class="secondary">Manage circles</RouterLink></header>
     <CollectionToolbar title="People" :count="items.length" :busy="isLoading"><template #filters><AppSearchField v-model="query" label="Search people" placeholder="Search by username or profile" :busy="isLoading" @submit="search" /></template></CollectionToolbar>
     <AppStatus v-if="error" :message="error" tone="error" retry @retry="search" /><AppStatus v-else-if="isLoading" message="Searching people." /><AppStatus v-else-if="searched && items.length === 0" message="No people match this search." />

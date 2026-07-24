@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {nextTick, onBeforeUnmount, ref, watch} from "vue"
 
+// Dialogs use the same focus trap on desktop and the bottom-sheet layout on mobile.
+
 const props = withDefaults(defineProps<{open: boolean; title: string; layout?: "standard" | "workspace"}>(), {layout: "standard"})
 const emit = defineEmits<{close: []}>()
 const dialog = ref<HTMLElement | null>(null)
@@ -16,7 +18,6 @@ const focusInitial = async () => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === "Escape") { event.preventDefault(); emit("close"); return }
   if (event.key !== "Tab" || !dialog.value) return
   const focusable = [...dialog.value.querySelectorAll<HTMLElement>(focusableSelector)]
   if (focusable.length === 0) { event.preventDefault(); return }
@@ -36,7 +37,7 @@ onBeforeUnmount(() => { previouslyFocused?.focus() })
 <template>
   <Teleport to="body">
     <div v-if="props.open" class="app-dialog__backdrop" role="presentation" @click.self="emit('close')">
-      <section ref="dialog" class="app-dialog" :class="`app-dialog--${props.layout}`" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="bodyId" @keydown="handleKeydown">
+      <section ref="dialog" class="app-dialog" :class="`app-dialog--${props.layout}`" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="bodyId" @keydown="handleKeydown" @keydown.escape.stop.prevent="emit('close')">
         <header class="app-dialog__header"><h2 :id="titleId">{{ props.title }}</h2><button type="button" class="app-dialog__close" :aria-label="`Close ${props.title}`" :title="`Close ${props.title}`" @click="emit('close')">×</button></header>
         <div class="app-dialog__workspace"><div :id="bodyId" class="app-dialog__body"><slot /></div><aside v-if="$slots.utility" class="app-dialog__utility" aria-label="Form details and actions"><slot name="utility" /></aside></div>
       </section>

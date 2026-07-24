@@ -88,6 +88,7 @@ export const useChatRealtime = (onEvent: (event: ChatSocketEventDTO) => void) =>
 
   const reconnect = () => {
     if (disposed) return
+    reconnectAttempt = 0
     socket?.close()
     socket = null
     connect()

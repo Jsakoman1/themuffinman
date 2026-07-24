@@ -302,4 +302,63 @@ regression_scenarios:
       - npm --prefix apps/themuffinman/frontend run type-check
       - npm --prefix apps/themuffinman/frontend run build
       - node apps/themuffinman/frontend/scripts/frontend-remaster-closeout-runtime.mjs
+  - id: frontend-structural-redesign-canonical-surface-runtime
+    domain: frontend-ux
+    risk: high
+    scenario: The redesigned authenticated shell reaches every canonical module route without horizontal overflow, keeps Work scopes distinct, exposes one persistent Vision composer, and has no repeated Ask Vision links in desktop or mobile surfaces.
+    test_files:
+      - apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+      - docs/runtime-evidence/frontend-structural-redesign-desktop.json
+      - docs/runtime-evidence/frontend-structural-redesign-desktop.png
+      - docs/runtime-evidence/frontend-structural-redesign-mobile.png
+    commands:
+      - make dev
+      - node apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+  - id: frontend-structural-redesign-mobile-keyboard-runtime
+    domain: frontend-ux
+    risk: high
+    scenario: Mobile Calendar and module surfaces remain agenda-first and overflow-free while the persistent assistant composer accepts keyboard focus in the shared shell.
+    test_files:
+      - apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+      - docs/runtime-evidence/frontend-structural-redesign-mobile.json
+      - docs/runtime-evidence/frontend-structural-redesign-mobile.png
+    commands:
+      - make dev
+      - node apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+  - id: frontend-structural-redesign-recovery-boundary
+    domain: frontend-ux
+    risk: high
+    scenario: Structural redesign runtime evidence records the authenticated permission, stale-edit, booking-conflict, failed-mutation retry, and Things wishlist save/read/remove recovery boundaries without promoting unobserved scenarios.
+    test_files:
+      - apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+      - docs/runtime-evidence/frontend-structural-redesign-recovery.json
+      - docs/business-logic.md
+    commands:
+      - make dev
+      - node apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+  - id: frontend-structural-redesign-final-closeout
+    domain: frontend-ux
+    risk: high
+    scenario: Final structural redesign evidence reconciles canonical route reachability, Work scope separation, responsive desktop/mobile surfaces, persistent VisionForWeb, keyboard focus, recovery mutations, backend-owned Things wishlist lifecycle, and the no-duplicate-navigation rule.
+    test_files:
+      - apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+      - docs/runtime-evidence/frontend-structural-redesign-closeout.json
+      - docs/runtime-evidence/frontend-structural-redesign-closeout-desktop.png
+      - docs/runtime-evidence/frontend-structural-redesign-closeout-mobile.png
+    commands:
+      - make dev
+      - node apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+  - id: frontend-structural-redesign-things-wishlist-api
+    domain: things
+    risk: high
+    scenario: Thing wishlist save, circle selection, authenticated readback, and removal are backend-owned and survive beyond device-local browser storage.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingWishlistServiceTest.java
+      - apps/themuffinman/src/main/resources/db/migration/V89__create_thing_wishlist.sql
+      - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+      - docs/runtime-evidence/frontend-structural-redesign-recovery.json
+    commands:
+      - cd apps/themuffinman && ./mvnw -Dtest=ThingWishlistServiceTest test
+      - make dev
+      - node apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
  # BUSINESS-BOOKING-RUNTIME-001: flexible Business scenarios require browser/API evidence.

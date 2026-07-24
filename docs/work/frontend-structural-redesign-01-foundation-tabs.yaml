@@ -1,8 +1,10 @@
 kind: work
 version: 1
 id: frontend-structural-redesign-01-foundation-tabs
-title: "Build the canonical module-page and tab foundation"
-status: draft
+title: Build the canonical module-page and tab foundation
+status: verified
+shell_home_work_expansion_review: 2026-07-24-shell-home-work-family
+rehardening_review: 2026-07-24-backend-parity-split
 hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
@@ -11,43 +13,161 @@ serial_task_execution: true
 execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/frontend-ux-next-evolution-master.yaml]
-  baseline_only_surfaces: [Existing shell tokens, routes, permissions, and Vision handoff]
-  residual_scope: [Canonical module-page layout, canonical tab registry, accessible tab behavior]
-  retest_triggers: [Shared shell, router, tab component, navigation registry, or route metadata changes]
-  non_duplication_rule: Existing shell is baseline; only the new canonical page/tab contract is counted.
+  reused_verified_plans:
+  - docs/work/frontend-ux-next-evolution-master.yaml
+  baseline_only_surfaces:
+  - Existing shell tokens
+  - routes
+  - permissions
+  - and Vision handoff
+  residual_scope:
+  - Canonical module-page layout
+  - canonical tab registry
+  - accessible tab behavior
+  retest_triggers:
+  - Shared shell
+  - router
+  - tab component
+  - navigation registry
+  - or route metadata changes
+  non_duplication_rule: Existing shell is baseline; only the new canonical page/tab
+    contract is counted.
 tasks:
-  - id: foundation-module-page-and-tab-registry
-    title: Establish one canonical module page and tab registry
-    type: implementation
-    inventory_item: structural-redesign-foundation-module-page
-    observable_outcome: A module tab definition contains route, label, backend scope, permission, empty state, and primary action, and one shared page renders it consistently.
-    dependencies: []
-    paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
-    required_paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
-    evidence_boundary: [tab contract, active tab, keyboard navigation, one primary action]
-    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
-  - id: foundation-navigation-single-source
-    title: Consolidate route and navigation metadata
-    type: implementation
-    status: pending
-    inventory_item: structural-redesign-foundation-navigation
-    observable_outcome: Shell navigation and route metadata consume one source of truth without duplicate shellDefinitions and shellRouteRegistry ownership.
-    dependencies: [foundation-module-page-and-tab-registry]
-    paths:
-      - apps/themuffinman/frontend/src/router.ts
-      - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
-      - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
-      - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
-    required_paths:
-      - apps/themuffinman/frontend/src/router.ts
-      - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
-      - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
-    evidence_boundary: [route ownership, primary navigation, tab links, Vision route continuity]
-    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build && npm run validate:modern-surface
+- id: foundation-module-page-and-tab-registry
+  title: Establish one canonical module page and tab registry
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-foundation
+  observable_outcome: A module tab definition contains route, label, backend scope,
+    permission, empty state, and primary action, and one shared page renders it consistently.
+  dependencies: []
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+  evidence_boundary:
+  - tab contract
+  - active tab
+  - keyboard navigation
+  - one primary action
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:00:29Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts: __missing__
+- id: foundation-navigation-single-source
+  title: Consolidate route and navigation metadata
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-foundation-navigation
+  observable_outcome: Shell navigation and route metadata consume one source of truth
+    without duplicate shellDefinitions and shellRouteRegistry ownership.
+  dependencies:
+  - foundation-module-page-and-tab-registry
+  paths:
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  evidence_boundary:
+  - route ownership
+  - primary navigation
+  - tab links
+  - Vision route continuity
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T17:19:40Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/router.ts: db31b8c43d0693f22b41682196b769c0d4489b02b3257733597d96912ca9b265
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts: 260590a6e662da4ea1b7ecc28658bc271e1b14665b5306f56f125f85af937ce8
+    apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts: 898d858e492c898aed95fd88a0cfc222b8d2658e34e7e1294dda7926a38d1bfa
+evidence:
+- task: foundation-module-page-and-tab-registry
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:03:03Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+  output: |+
+    dist/assets/WorkspaceSurfaceView-BveI7fjW.js                  10.35 kB │ gzip:   3.43 kB
+    dist/assets/CirclesView-D4OjG2t2.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/BusinessProfileView-Cp69VA84.js                   12.47 kB │ gzip:   3.72 kB
+    dist/assets/ThingsDiscoveryView-C0kJ-b9j.js                   12.63 kB │ gzip:   4.01 kB
+    dist/assets/BusinessPublicView-CN_Qc-eo.js                    13.08 kB │ gzip:   4.89 kB
+    dist/assets/BusinessServiceSchemaView-CYLR6jLM.js             13.32 kB │ gzip:   4.27 kB
+    dist/assets/WorkQuestDetailView-DSe2dUTs.js                   13.63 kB │ gzip:   4.41 kB
+    dist/assets/RidesView-CMvoVBiN.js                             13.65 kB │ gzip:   4.27 kB
+    dist/assets/BusinessAvailabilityView-F5r_9uuR.js              14.25 kB │ gzip:   4.75 kB
+    dist/assets/ChatSurfaceView-CJg8Bco3.js                       17.80 kB │ gzip:   5.74 kB
+    dist/assets/SurfaceHeader-BR9mBvk7.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfileLocationSettingsView-0sQjuBHY.js           25.40 kB │ gzip:   7.75 kB
+    dist/assets/AuthenticatedShellView-B80KmQRe.js                40.40 kB │ gzip:  13.15 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/index-B1JkA_i8.js                                 56.48 kB │ gzip:  14.32 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 515ms
+
+  startedAt: '2026-07-24T17:00:29Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: foundation-navigation-single-source
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T17:21:00Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/router.ts
+  output: |+
+    dist/assets/WorkQuestDetailView-z4-Lfqrt.js                   13.63 kB │ gzip:   4.41 kB
+    dist/assets/RidesView-QsXBQECC.js                             13.65 kB │ gzip:   4.27 kB
+    dist/assets/BusinessAvailabilityView-BJBRTRDZ.js              14.25 kB │ gzip:   4.75 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/ChatSurfaceView-ChlHy1GW.js                       17.80 kB │ gzip:   5.73 kB
+    dist/assets/SurfaceHeader-NzDVRBTg.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfileLocationSettingsView-B_p1cnIg.js           25.40 kB │ gzip:   7.75 kB
+    dist/assets/AuthenticatedShellView-Dd-Woq9A.js                40.44 kB │ gzip:  13.16 kB
+    dist/assets/index-BgmsgfK6.js                                 47.38 kB │ gzip:  12.34 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 546ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (71 checks).
+
+  startedAt: '2026-07-24T17:19:40Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

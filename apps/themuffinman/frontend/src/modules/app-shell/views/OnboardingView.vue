@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// Profile/identity redesign contract: onboarding remains resumable and presentation-only.
 import {onMounted, ref} from "vue"
 import {userShellApi, type OnboardingProgress} from "../api/userShellApi.ts"
 import AppFormFooter from "../components/AppFormFooter.vue"
@@ -9,7 +10,7 @@ import SurfaceRow from "../components/SurfaceRow.vue"
 const progress = ref<OnboardingProgress>({id: null, currentStep: "WELCOME", skipped: false, completed: false, updatedAt: null}); const error = ref(""); const feedback = ref(""); const isLoading = ref(true); const isSaving = ref(false)
 // Setup progress is backend-owned; completion is explicit and separate from row selection.
 const steps = [{id: "WELCOME", description: "Understand the workspace and its personal context."}, {id: "PROFILE", description: "Set the profile information you want others to see."}, {id: "PRIVACY", description: "Review location and relationship visibility."}, {id: "DISCOVER", description: "Open a product surface when you are ready."}, {id: "DONE", description: "Finish the optional setup."}]
-const load = async () => { isLoading.value = true; error.value = ""; try { progress.value = await userShellApi.getOnboardingProgress() } catch { error.value = "Could not load onboarding." } finally { isLoading.value = false } }
+const load = async () => { isLoading.value = true; error.value = ""; try { progress.value = await userShellApi.getOnboardingProgress() } catch { error.value = "Could not load onboarding progress. Retry to resume." } finally { isLoading.value = false } }
 const save = async (step: string, skipped = false, completed = false) => { if (isSaving.value) return; isSaving.value = true; error.value = ""; try { progress.value = await userShellApi.updateOnboardingProgress({currentStep: step, skipped, completed}); feedback.value = skipped ? "Onboarding skipped. Core product use remains available." : completed ? "Onboarding complete." : "Progress saved." } catch { error.value = "Could not save onboarding progress." } finally { isSaving.value = false } }
 const reset = async () => { if (isSaving.value) return; isSaving.value = true; error.value = ""; try { progress.value = await userShellApi.resetOnboardingProgress(); feedback.value = "Onboarding reset." } catch { error.value = "Could not reset onboarding." } finally { isSaving.value = false } }
 onMounted(() => void load())

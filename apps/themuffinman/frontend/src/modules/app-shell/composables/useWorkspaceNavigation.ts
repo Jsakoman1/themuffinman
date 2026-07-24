@@ -31,9 +31,10 @@ export const useWorkspaceNavigation = () => {
 
   const modules = () => (navigation.value?.modules ?? []).filter((module) => module.visible).sort((a, b) => a.order - b.order)
   const moduleById = (id: string): WorkspaceNavigationModule | undefined => modules().find((module) => module.id === id)
+  const moduleByRoute = (route: string): WorkspaceNavigationModule | undefined => modules().find((module) => module.route === route)
 
   onMounted(() => { document.addEventListener("visibilitychange", refreshOnVisibility); void load() })
   onBeforeUnmount(() => { document.removeEventListener("visibilitychange", refreshOnVisibility); if (refreshTimer !== null) window.clearTimeout(refreshTimer) })
 
-  return {navigation, modules, moduleById, loading, error, reload: load}
+  return {navigation, modules, moduleById, moduleByRoute, loading, error, reload: load}
 }

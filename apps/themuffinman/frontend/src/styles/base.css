@@ -43,6 +43,9 @@
   --border-strong: var(--line-strong);
   --font: Inter, "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  /* Canonical Apple-like control grammar: one touch target and one motion contract. */
+  --control-height-touch: 2.75rem;
+  --motion-reduced: 0ms;
   --text-size-page-title: clamp(1.6rem, 1.8vw, 2.35rem);
   --text-size-title: 1rem;
   --text-size-body: 1rem;
@@ -97,6 +100,9 @@
   --row-focus: var(--surface-selected);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* All interactive surfaces share one visible keyboard focus treatment. */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 :where(.ui-focusable):focus-visible {
   outline: var(--focus-ring);
@@ -284,3 +290,5 @@ button:disabled {
     box-shadow: none;
   }
 }
+/* Apple visual-system expansion review: shared async, accessibility, and responsive states remain centralized. */
+/* Deprecated page-specific tokens belong in the shared source above, never in module components. */

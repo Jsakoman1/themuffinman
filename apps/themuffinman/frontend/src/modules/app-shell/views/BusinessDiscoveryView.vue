@@ -9,6 +9,8 @@ import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import {handleCollectionKeyboard, useSurfaceViewState} from "../composables/useSurfaceViewState.ts"
 import {currentUser} from "../../identity/auth.ts"
+import ModuleTabs from "../components/ModuleTabs.vue"
+import {getModuleTabs} from "../moduleTabRegistry.ts"
 
 const route = useRoute()
 const router = useRouter()
@@ -26,12 +28,15 @@ const isLoading = ref(true)
 const error = ref("")
 const {state: viewState} = useSurfaceViewState("business-discovery", computed(() => currentUser.value?.id), computed(() => route.fullPath))
 const selectedBusiness = computed(() => items.value.find(item => item.id === viewState.value.selectedId) ?? null)
+const businessTabs = computed(() => getModuleTabs("business")?.tabs ?? [])
+const favoriteIds = ref<Set<number>>(new Set())
 
 const load = async () => {
   isLoading.value = true
   error.value = ""
   try {
     rawItems.value = (await userShellApi.getBusinessDirectory(query.value.trim())).items
+    favoriteIds.value = new Set((await userShellApi.getBusinessFavorites()).map(item => item.businessProfileId))
     if (!items.value.some(item => item.id === viewState.value.selectedId)) viewState.value.selectedId = null
   } catch {
     error.value = "Could not load businesses."
@@ -63,11 +68,12 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
 
 <template>
   <section class="business-discovery">
+    <ModuleTabs :tabs="businessTabs" active-id="discover" />
     <header class="business-discovery__header">
       <div><p class="business-discovery__eyebrow">Business / Discover</p><h1>Find a business</h1></div>
     </header>
 
-    <CollectionToolbar title="Public businesses" :count="items.length" :busy="isLoading">
+    <CollectionToolbar title="Public businesses" :count="items.length" :busy="isLoading" filter-summary="Search and refine">
       <template #filters>
         <AppSearchField v-model="query" label="Search businesses" placeholder="Search businesses" :busy="isLoading" @submit="submitSearch" />
         <label class="business-discovery__intent"><span>Intent</span><select v-model="intentFilter" aria-label="Business discovery intent"><option value="ALL">All businesses</option><option value="BOOK_NOW">Book now</option><option value="AVAILABLE_TODAY">Available today</option><option value="NEAR_ME">Near me</option><option value="OPEN_NOW">Open now</option><option value="RECURRING">Recurring service</option><option value="MULTI_CUSTOMER">Multiple customers</option><option value="STAFF_RESOURCES">Employees/resources</option></select></label>
@@ -83,7 +89,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
         v-for="business in items"
         :key="business.id"
         :selected="viewState.selectedId === business.id"
-        :row="{id: String(business.id), title: business.businessName, description: business.headline || business.description || 'Public business profile', badge: business.bookingEnabled ? 'Bookings available' : 'Profile only', meta: operationalSummary(business)}"
+        :row="{id: String(business.id), title: business.businessName, description: business.headline || business.description || 'Public business profile', badge: favoriteIds.has(business.id) ? 'Saved' : business.bookingEnabled ? 'Bookings available' : 'Profile only', meta: operationalSummary(business)}"
         @click="viewState.selectedId = business.id"
       /></div><aside class="business-context" aria-label="Business context"><template v-if="selectedBusiness"><p class="business-discovery__eyebrow">Selected business</p><h2>{{ selectedBusiness.businessName }}</h2><p>{{ selectedBusiness.headline || selectedBusiness.description || 'Public business profile' }}</p><dl><div><dt>Profile</dt><dd>{{ selectedBusiness.slug }}</dd></div><div><dt>Bookings</dt><dd>{{ selectedBusiness.bookingEnabled ? 'Available' : 'Not enabled' }}</dd></div><div v-if="selectedBusiness.publicAddressLabel"><dt>Area</dt><dd>{{ selectedBusiness.publicAddressLabel }}</dd></div></dl><RouterLink class="business-context__link" :to="{path: `/business/public/${selectedBusiness.slug}`, query: {returnTo: route.fullPath}}">Open full detail</RouterLink></template><template v-else><p class="business-discovery__eyebrow">Business context</p><h2>Select a business</h2><p>Choose a result to inspect its profile without leaving this collection.</p></template></aside>
     </div>

@@ -6,6 +6,11 @@
   --surface-section-gap: clamp(var(--space-4), 2vw, var(--space-6));
   --control-transition: color var(--motion-fast) ease, background-color var(--motion-fast) ease,
     border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease, transform var(--motion-fast) ease;
+  --interaction-transition: color var(--motion-standard) ease, background-color var(--motion-standard) ease, border-color var(--motion-standard) ease;
+  --calendar-source-business: #0a84ff;
+  --calendar-source-work: #30d158;
+  --calendar-source-sharing: #ff9f0a;
+  --calendar-source-social: #bf5af2;
 }
 
 .ui-surface,
@@ -170,3 +175,6 @@ a {
   .app-dialog__panel { width: calc(100vw - 1rem); max-height: calc(100svh - 1rem); border-radius: var(--radius-surface); }
   .app-form-footer { position: sticky; bottom: 0; z-index: 2; padding-bottom: calc(var(--space-2) + var(--safe-bottom)); background: var(--surface-raised); }
 }
+/* Apple visual-system expansion review: tokens, controls, focus, and motion remain centralized. */
+.ui-focus-ring:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+/* New module surfaces must compose these shared primitives instead of adding route-local grammar. */

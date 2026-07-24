@@ -14,6 +14,7 @@ export type CommutePreference = {
 }
 
 export const ridesApi = {
+  async getSuggestions(): Promise<RideOfferListResponseDTO> { return ridesApi.getOffers() },
   async getOffersForScope(scope: "discover" | "mine"): Promise<RideOfferListResponseDTO> { return scope === "mine" ? this.getMyOffers() : this.getOffers() },
   async getOffers(): Promise<RideOfferListResponseDTO> { return (await api.get<RideOfferListResponseDTO>("/rides/offers", withAuth())).data },
   async getOffer(id: number): Promise<RideOfferResponseDTO> { return (await api.get<RideOfferResponseDTO>(`/rides/offers/${id}`, withAuth())).data },

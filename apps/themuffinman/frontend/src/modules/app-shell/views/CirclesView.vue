@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue"
+import {RouterLink, useRouter} from "vue-router"
 import type {CircleGroupResponseDTO, CircleRequestResponseDTO, CircleSearchResultDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppButton from "../components/AppButton.vue"
@@ -11,10 +12,13 @@ import CollectionToolbar from "../components/CollectionToolbar.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 import TaskSurface from "../components/TaskSurface.vue"
+import ModuleTabs from "../components/ModuleTabs.vue"
+import {getModuleTabs} from "../moduleTabRegistry.ts"
 
 // This surface lists circles owned by the viewer; membership actions for other
 // circles belong to the relationship request flow, not this owner dashboard.
 const groups = ref<CircleGroupResponseDTO[]>([])
+const router = useRouter()
 const requests = ref<CircleRequestResponseDTO[]>([])
 const outgoing = ref<CircleRequestResponseDTO[]>([])
 const results = ref<CircleSearchResultDTO[]>([])
@@ -34,6 +38,8 @@ const guidedCircleDraft = ref<Record<string, string> | null>(null)
 const acceptGuidedCircleDraft = (draft: Record<string, string>) => { guidedCircleDraft.value = draft; groupName.value = draft.name ?? "" }
 const selectedGroupId = ref<number | null>(null)
 const selectedGroup = computed(() => groups.value.find((group) => group.id === selectedGroupId.value) ?? null)
+const tabs = getModuleTabs("circles")
+const activeTab = ref("groups")
 
 const load = async () => {
   isLoading.value = true; error.value = ""; loadWarnings.value = []
@@ -63,8 +69,31 @@ const saveGroup = async () => { if (editingGroupId.value === null || !editingGro
 const archiveGroup = async (group: CircleGroupResponseDTO) => { if (!await confirmAction(`Remove the circle “${group.name}”?`, "Remove circle")) return; isActing.value = true; error.value = ""; try { await userShellApi.deleteCircleGroup(group.id); feedback.value = "Circle removed."; await load() } catch { error.value = "Could not remove this circle." } finally { isActing.value = false } }
 const decide = async (request: CircleRequestResponseDTO, accept: boolean) => { isActing.value = true; error.value = ""; try { if (accept) await userShellApi.acceptCircleRequest(request.id); else await userShellApi.deleteCircleRequest(request.id); feedback.value = accept ? "Request accepted." : "Request declined."; await load() } catch { error.value = "Could not update this request." } finally { isActing.value = false } }
 const search = async () => { if (!searchQuery.value.trim()) { results.value = []; return }; try { results.value = (await userShellApi.searchCircleUsers(searchQuery.value.trim())).items } catch { error.value = "Could not search people." } }
+const addToSelectedGroup = async (person: CircleSearchResultDTO) => {
+  if (!selectedGroup.value) return
+  isActing.value = true; error.value = ""
+  try { await userShellApi.addCircleMember(selectedGroup.value.id, person.id); feedback.value = `${person.username} added to ${selectedGroup.value.name}.`; await load() }
+  catch { error.value = "Could not add this person to the selected circle. The server may require an accepted connection first." }
+  finally { isActing.value = false }
+}
+const connect = async (person: CircleSearchResultDTO) => {
+  isActing.value = true; error.value = ""
+  try { await userShellApi.createCircleRequest({recipientId: person.id}); feedback.value = `Connection request sent to ${person.username}.`; results.value = results.value.map(item => item.id === person.id ? {...item, relationLabel: "Invite sent"} : item) }
+  catch { error.value = "Could not send the connection request." }
+  finally { isActing.value = false }
+}
+const createClubChat = async (group: CircleGroupResponseDTO) => {
+  const participantUserIds = (group.members ?? []).map(member => member.userId)
+  if (!participantUserIds.length) { error.value = "Add at least one member before creating a club chat."; return }
+  isActing.value = true; error.value = ""
+  try {
+    const conversation = await userShellApi.createChatGroup({title: group.name, participantUserIds})
+    feedback.value = `${group.name} club chat created.`
+    await router.push(`/chat/${conversation.conversationId}`)
+  } catch { error.value = "Could not create the club chat. The server will keep membership and permissions authoritative." }
+  finally { isActing.value = false }
+}
 const block = async (userId: number) => { if (!await confirmAction("Block this person?", "Block person")) return; isActing.value = true; try { await userShellApi.blockCircleUser(userId); feedback.value = "Person blocked."; results.value = results.value.filter(item => item.id !== userId) } catch { error.value = "Could not block this person." } finally { isActing.value = false } }
-const unblock = async (userId: number) => { isActing.value = true; try { await userShellApi.unblockCircleUser(userId); feedback.value = "Person unblocked."; await load() } catch { error.value = "Could not unblock this person." } finally { isActing.value = false } }
 const leaveCircle = async (circleId: number) => { if (!await confirmAction("Leave this circle?", "Leave circle")) return; isActing.value = true; error.value = ""; try { await userShellApi.leaveCircle(circleId); feedback.value = "Circle membership removed."; await load() } catch { error.value = "Could not leave this circle. Owners must remove the circle instead." } finally { isActing.value = false } }
 const removeMember = async (circleId: number, userId: number, username: string) => { if (!await confirmAction(`Remove ${username} from this circle?`, "Remove circle member")) return; isActing.value = true; error.value = ""; try { await userShellApi.removeCircleMember(circleId, userId); feedback.value = `${username} removed from the circle.`; await load() } catch { error.value = "Could not remove this member." } finally { isActing.value = false } }
 onMounted(() => void load())
@@ -73,17 +102,16 @@ onMounted(() => void load())
 <template>
   <!-- UX simplification: trust, inspect, and membership actions stay in one focused turn. -->
   <TaskSurface mode="workspace" label="Trust circles"><section class="circles" :aria-busy="isLoading || isActing || undefined">
-    <header class="circles__header"><div><p class="circles__eyebrow">People / Circles</p><h1>Circles</h1></div></header><CollectionToolbar title="Trust circles" :count="groups.length" :busy="isLoading"><template #actions><AppButton tone="primary" type="button" @click="createOpen = true">New circle</AppButton></template></CollectionToolbar>
+    <header class="circles__header"><div><p class="circles__eyebrow">People / Circles</p><h1>Circles</h1><p class="circles__intro">Keep people, groups, and connection requests in one calm place.</p></div></header>
+    <ModuleTabs v-if="tabs" :tabs="tabs.tabs" :active-id="activeTab" data-surface="circles-tabs" @select="activeTab = $event" />
+    <CollectionToolbar title="Trust circles" :count="groups.length" :busy="isLoading"><template #actions><AppButton v-if="activeTab === 'groups'" tone="primary" type="button" @click="createOpen = true">New circle</AppButton></template></CollectionToolbar>
     <aside class="circles__privacy" aria-label="Circle privacy"><strong>Circles are a trust boundary.</strong><span>Membership helps decide who can see shared activity; exact location remains controlled in Profile Settings.</span></aside>
     <p class="circles__surface-cue" data-surface="trust-boundary-context">Use circles to manage trust and consent context. Module-specific visibility remains server-authoritative; blocked, pending, and shared-circle states are shown only when the backend permits them.</p>
     <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading circles." busy /><AppStatus v-else-if="error && !hasUsableData" :message="error" tone="error" retry @retry="load" />
     <template v-else>
-      <form class="circles__search" @submit.prevent="search"><AppFormField label="Find people"><input v-model="searchQuery" placeholder="Find people"></AppFormField><AppButton type="submit">Search</AppButton></form>
-      <section v-if="results.length" class="circles__section"><h2>People</h2><article v-for="person in results" :key="person.id" class="circles__row"><div><strong>{{ person.username }}</strong><span>{{ person.profileDescription }}</span></div><AppButton tone="danger" type="button" @click="block(person.id)">Block</AppButton></article></section>
-      <section v-if="requests.length" class="circles__section"><h2>Incoming requests</h2><article v-for="request in requests" :key="request.id" class="circles__row"><div><strong>{{ request.requesterUsername }}</strong><span>{{ request.requestSummaryLabel }}</span></div><div class="circles__actions"><AppButton tone="primary" :loading="isActing" @click="decide(request, true)">Accept</AppButton><AppButton tone="quiet" :loading="isActing" @click="decide(request, false)">Decline</AppButton></div></article></section>
-      <section v-if="outgoing.length" class="circles__section"><h2>Outgoing requests</h2><article v-for="request in outgoing" :key="request.id" class="circles__row"><div><strong>{{ request.counterpartUsername }}</strong><span>{{ request.requestSummaryLabel }}</span></div><AppButton tone="quiet" :loading="isActing" @click="decide(request, false)">Cancel</AppButton></article></section>
-      <section v-if="blocked.length" class="circles__section"><h2>Blocked</h2><article v-for="person in blocked" :key="person.id" class="circles__row"><div><strong>{{ person.username }}</strong></div><AppButton tone="quiet" :loading="isActing" @click="unblock(person.id)">Unblock</AppButton></article></section>
-      <section class="circles__section"><h2>Your circles</h2><p v-if="groups.length === 0" class="circles__status">No circles yet.</p><div v-else class="circles__circles-workspace"><div class="circles__circle-list"><article v-for="group in groups" :key="group.id" class="circles__row" :class="{ 'circles__row--selected': selectedGroupId === group.id }" @click="selectedGroupId = group.id"><form v-if="editingGroupId === group.id" class="circles__inline-edit" @submit.prevent="saveGroup"><input v-model="editingGroupName" required maxlength="120"><AppButton tone="primary" type="submit" :loading="isActing">Save</AppButton><AppButton tone="quiet" type="button" @click="editingGroupId = null">Cancel</AppButton></form><div v-else><strong>{{ group.name }}</strong><span>{{ group.memberCount }} members · {{ group.memberPreviewLabel }}</span><details v-if="group.members?.length" class="circles__members"><summary>View members</summary><span v-for="member in group.members" :key="member.userId"><span>{{ member.username }}</span><AppButton tone="danger" :loading="isActing" @click.stop="removeMember(group.id, member.userId, member.username)">Remove</AppButton></span></details></div><div v-if="editingGroupId !== group.id" class="circles__actions"><AppButton type="button" @click.stop="beginEditGroup(group)">Edit</AppButton><AppButton tone="danger" :loading="isActing" @click.stop="archiveGroup(group)">Remove</AppButton><AppButton tone="quiet" :loading="isActing" @click.stop="leaveCircle(group.id)">Leave</AppButton></div></article></div><aside v-if="selectedGroup" class="circles__context" aria-label="Selected circle context"><p class="circles__eyebrow">Circle context</p><h2>{{ selectedGroup.name }}</h2><p>{{ selectedGroup.memberCount }} members</p><dl><div><dt>Members</dt><dd>{{ selectedGroup.memberCount }}</dd></div><div><dt>Member visibility</dt><dd>{{ selectedGroup.memberPreviewLabel }}</dd></div></dl><div v-if="selectedGroup.members?.length" class="circles__context-members"><strong>Members</strong><span v-for="member in selectedGroup.members" :key="member.userId">{{ member.username }}</span></div><p class="circles__context-note">Visibility rules remain module-specific.</p></aside><aside v-else class="circles__context circles__context--empty" aria-label="Circle context"><p class="circles__eyebrow">Circle context</p><h2>Select a circle</h2><p>Select a circle to inspect members and manage membership.</p></aside></div></section>
+      <section v-if="activeTab === 'people'" class="circles__section" data-surface="people-organizer"><h2>Find people</h2><form class="circles__search" @submit.prevent="search"><AppFormField label="Search by name"><input v-model="searchQuery" placeholder="Search by name"></AppFormField><AppButton type="submit">Search</AppButton></form><p class="circles__hint">Select a circle first to add an accepted connection to it.</p><article v-for="person in results" :key="person.id" class="circles__row"><div><strong>{{ person.username }}</strong><span>{{ person.relationLabel || person.profileDescription }}</span></div><div class="circles__actions"><AppButton v-if="person.primaryAction?.enabled && person.relationLabel !== 'Invite sent'" tone="primary" type="button" :loading="isActing" @click="connect(person)">Connect</AppButton><AppButton v-if="selectedGroup" type="button" :loading="isActing" @click="addToSelectedGroup(person)">Add to {{ selectedGroup.name }}</AppButton><AppButton tone="quiet" type="button" @click="block(person.id)">Block</AppButton></div></article><p v-if="searchQuery && !results.length" class="circles__status">No people found. Try a different name.</p></section>
+      <section v-if="activeTab === 'requests'" class="circles__section" data-surface="circle-requests"><h2>Connection requests</h2><p v-if="!requests.length && !outgoing.length" class="circles__status">No requests need your attention.</p><section v-if="requests.length"><h3>Incoming</h3><article v-for="request in requests" :key="request.id" class="circles__row"><div><strong>{{ request.requesterUsername }}</strong><span>{{ request.requestSummaryLabel }}</span></div><div class="circles__actions"><AppButton tone="primary" :loading="isActing" @click="decide(request, true)">Accept</AppButton><AppButton tone="quiet" :loading="isActing" @click="decide(request, false)">Decline</AppButton></div></article></section><section v-if="outgoing.length"><h3>Sent</h3><article v-for="request in outgoing" :key="request.id" class="circles__row"><div><strong>{{ request.counterpartUsername }}</strong><span>{{ request.requestSummaryLabel }}</span></div><AppButton tone="quiet" :loading="isActing" @click="decide(request, false)">Cancel</AppButton></article></section></section>
+      <section v-if="activeTab === 'groups'" class="circles__section" data-surface="circle-groups"><h2>Your circles</h2><p v-if="groups.length === 0" class="circles__status">No circles yet. Create one for family, friends, or a shared activity.</p><div v-else class="circles__circles-workspace"><div class="circles__circle-list"><article v-for="group in groups" :key="group.id" class="circles__row" :class="{ 'circles__row--selected': selectedGroupId === group.id }" @click="selectedGroupId = group.id"><form v-if="editingGroupId === group.id" class="circles__inline-edit" @submit.prevent="saveGroup"><input v-model="editingGroupName" required maxlength="120"><AppButton tone="primary" type="submit" :loading="isActing">Save</AppButton><AppButton tone="quiet" type="button" @click="editingGroupId = null">Cancel</AppButton></form><div v-else><strong>{{ group.name }}</strong><span>{{ group.memberCount }} members · {{ group.memberPreviewLabel }}</span></div><div v-if="editingGroupId !== group.id" class="circles__actions"><AppButton type="button" @click.stop="beginEditGroup(group)">Edit</AppButton><AppButton tone="danger" :loading="isActing" @click.stop="archiveGroup(group)">Remove</AppButton><AppButton tone="quiet" :loading="isActing" @click.stop="leaveCircle(group.id)">Leave</AppButton></div></article></div><aside v-if="selectedGroup" class="circles__context" aria-label="Selected circle context" data-visibility-boundary="circle"><p class="circles__eyebrow">Selected circle</p><h2>{{ selectedGroup.name }}</h2><p>{{ selectedGroup.memberCount }} members</p><dl><div><dt>Visibility</dt><dd>Circle members</dd></div><div><dt>Privileges</dt><dd>Shared activity and chat context</dd></div></dl><div v-if="selectedGroup.members?.length" class="circles__context-members"><strong>Members</strong><span v-for="member in selectedGroup.members" :key="member.userId">{{ member.username }} <AppButton tone="danger" :loading="isActing" @click="removeMember(selectedGroup.id, member.userId, member.username)">Remove</AppButton></span></div><div class="circles__club-actions"><AppButton tone="primary" :loading="isActing" @click="createClubChat(selectedGroup)">Create club chat</AppButton><RouterLink to="/calendar" class="circles__calendar-link">Plan a club event in Calendar</RouterLink></div><p class="circles__context-note">Exact location and private profile fields are never implied by membership. The server decides every module action.</p></aside><aside v-else class="circles__context circles__context--empty" aria-label="Circle context"><p class="circles__eyebrow">Circle context</p><h2>Select a circle</h2><p>Select a circle to inspect members and manage membership.</p></aside></div></section>
       <p v-if="error" class="circles__status circles__status--error" role="alert">{{ error }} <AppButton tone="quiet" type="button" @click="load">Retry</AppButton></p>
     </template>
     <AppDialog :open="createOpen" title="Create a circle" layout="workspace" @close="createOpen = false; guidedCircleDraft = null"><GuidedIntakePanel v-if="!guidedCircleDraft" flow="social.circle.create" title="Create a circle" @completed="acceptGuidedCircleDraft" @cancel="createOpen = false; guidedCircleDraft = null" /><form v-else class="circles__dialog-form" @submit.prevent="createGroup().then(() => { if (!error) { createOpen = false; guidedCircleDraft = null } })"><AppFormField label="Circle name" required><input v-model="groupName" placeholder="New circle name" maxlength="120" required></AppFormField><AppFormFooter><template #secondary><AppButton type="button" @click="guidedCircleDraft = null">Back</AppButton></template><template #primary><AppButton tone="primary" type="submit" :loading="isActing">Create circle</AppButton></template></AppFormFooter></form><template #utility><p>A circle is a trust boundary. Module-specific visibility and consent policies still apply after membership changes.</p></template></AppDialog>
@@ -93,9 +121,11 @@ onMounted(() => void load())
 <style scoped>
 .circles { display:grid; gap:var(--space-3); }
 .circles__header { display:flex; justify-content:space-between; align-items:end; }
+.circles__intro,.circles__hint { margin:var(--space-1) 0 0; color:var(--text-muted); }
 .circles__eyebrow { margin:0 0 var(--space-1); color:var(--text-soft); font-size:var(--text-size-label); font-weight:var(--text-weight-semibold); letter-spacing:var(--tracking-label); text-transform:uppercase; }
 .circles h1 { margin:0; color:var(--text); font-size:var(--text-size-page-title); letter-spacing:var(--tracking-tight); }
 .circles h2 { margin:0; color:var(--text); font-size:var(--text-size-title); }
+.circles h3 { margin:var(--space-2) 0 0; color:var(--text); font-size:var(--text-size-body); }
 .circles__privacy { display:grid; gap:var(--space-1); max-width:48rem; padding:var(--space-2) var(--space-3); border-left:3px solid var(--accent); background:var(--surface-base); color:var(--text-muted); }
 .circles__privacy span { font-size:var(--text-size-meta); }
 .circles__search { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:var(--space-2); max-width:32rem; align-items:end; }

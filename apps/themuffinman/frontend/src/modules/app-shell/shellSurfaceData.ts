@@ -18,7 +18,6 @@ import {currentUser} from "../identity/auth.ts"
 import {getAppSurfaceConfig, type AppSurfaceId} from "./shellDefinitions.ts"
 import {resolveSurfaceDetailRoute} from "./shellRouteRegistry.ts"
 import {userShellApi} from "./api/userShellApi.ts"
-import {buildSurfaceVisionRoute} from "./visionHandoff.ts"
 import {formatDate, formatDateTime, formatNumber} from "../../services/formatters.ts"
 
 export type ShellSurfaceMetric = {
@@ -37,7 +36,6 @@ export type ShellSurfaceRow = {
   thumbnailUrl?: string
   badge?: string
   to?: RouteLocationRaw
-  visionTo?: RouteLocationRaw
   startAt?: string | null
   endAt?: string | null
   eventType?: "work" | "business"
@@ -89,7 +87,6 @@ const createQuestRow = (quest: QuestResponseDTO): ShellSurfaceRow => ({
   meta: describeQuestTerm(quest),
   badge: quest.status,
   to: questRoute(quest.id),
-  visionTo: buildSurfaceVisionRoute("work", "/work", "Work")
 })
 
 const createApplicationRow = (application: QuestApplicationResponseDTO): ShellSurfaceRow => ({
@@ -99,7 +96,6 @@ const createApplicationRow = (application: QuestApplicationResponseDTO): ShellSu
   meta: `${application.questCreatorUsername} · ${formatDate(application.createdAt)}`,
   badge: application.status,
   to: applicationRoute(application.id),
-  visionTo: buildSurfaceVisionRoute("work-applications", "/work/applications", "My applications")
 })
 
 const createChatRow = (conversation: ChatConversationSummaryDTO): ShellSurfaceRow => ({
@@ -109,7 +105,6 @@ const createChatRow = (conversation: ChatConversationSummaryDTO): ShellSurfaceRo
   meta: conversation.lastMessageAt ? formatDateTime(conversation.lastMessageAt) : `${conversation.participantCount} participants`,
   badge: conversation.unreadCount > 0 ? `${conversation.unreadCount} unread` : undefined,
   to: chatRoute(conversation.conversationId),
-  visionTo: buildSurfaceVisionRoute("chat", "/chat", "Chat")
 })
 
 const createMessageRow = (message: ChatMessageDTO): ShellSurfaceRow => ({
@@ -148,7 +143,6 @@ const createPlannerRow = (item: DashboardPlannerItemDTO): ShellSurfaceRow => ({
   meta: item.scheduledAt ? describePlannerTerm(item) : "Flexible timing",
   badge: item.kind,
   to: item.questId ? questRoute(item.questId) : undefined,
-  visionTo: buildSurfaceVisionRoute("calendar", "/calendar", "Calendar"),
   startAt: item.scheduledAt,
   endAt: item.endsAt,
   eventType: "work"
@@ -189,7 +183,6 @@ const createProfileActionRow = (profileView: UserProfileViewDTO): ShellSurfaceRo
       ? "Available from the current profile context."
       : "Not available in the current context.",
     badge: profileView.primaryAction.enabled ? "Ready" : "Unavailable",
-    visionTo: buildSurfaceVisionRoute("profile", "/profile", "Profile")
   })
 
   if (profileView.showBlockAction) {

@@ -22,7 +22,7 @@ const formatOccurredAt = (value: string) => formatDateTime(value, "Unknown time"
 </script>
 
 <template>
-  <section class="activity-rail" :aria-label="title">
+  <section class="activity-rail" :aria-label="title" data-activity-model="grouped-status">
     <header><h2>{{ title }}</h2></header>
     <ol v-if="items.length" class="activity-rail__list">
       <li v-for="item in items" :key="`${item.kind}-${item.occurredAt}-${item.title}`" class="activity-rail__item">

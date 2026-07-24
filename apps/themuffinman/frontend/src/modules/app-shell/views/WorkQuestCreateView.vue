@@ -3,7 +3,6 @@ import {ref} from "vue"
 import {RouterLink, useRouter} from "vue-router"
 import type {QuestRequestDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
-import {buildVisionRoute} from "../visionHandoff.ts"
 import RichTextEditor from "../components/RichTextEditor.vue"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
@@ -31,7 +30,7 @@ const save = async () => {
 
 <template>
   <section class="quest-create">
-    <header class="quest-create__header"><div><p class="quest-create__eyebrow">Work / New quest</p><h1>Create a quest</h1></div><RouterLink :to="buildVisionRoute({prompt: 'help me create a quest', context: 'Work', source: 'work.create', returnTo: '/work/quests/new'})" class="quest-create__vision">Ask Vision</RouterLink></header>
+    <header class="quest-create__header"><div><p class="quest-create__eyebrow">Work / New quest</p><h1>Create a quest</h1></div></header>
     <div class="quest-create__workspace">
       <GuidedIntakePanel v-if="!guidedDraft" flow="work.quest.create" title="Create a quest" description="Answer one useful question at a time, then review the complete draft." @completed="guidedComplete" @cancel="router.push('/work/quests')" />
       <form v-if="guidedDraft" class="quest-create__form" @submit.prevent="save">

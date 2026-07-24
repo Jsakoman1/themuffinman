@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// Profile/identity redesign contract: shared calm auth form states remain backend-authoritative.
 import {ref} from "vue"
 import {useRouter} from "vue-router"
 import {authApi} from "../api/authApi.ts"
@@ -28,7 +29,7 @@ const login = async () => {
     password.value = ""
     await router.push("/home")
   } catch {
-    error.value = "Invalid email or password"
+    error.value = "Invalid email or password. Check your details and try again."
   } finally {
     isSubmitting.value = false
   }

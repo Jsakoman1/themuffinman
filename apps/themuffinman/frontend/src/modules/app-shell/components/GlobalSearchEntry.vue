@@ -67,7 +67,7 @@ const openCommand = async (route: string) => { openPanel.value = false; await ro
 
 <template>
   <details :open="openPanel" class="global-search-entry" @toggle="openPanel = ($event.currentTarget as HTMLDetailsElement).open">
-    <summary ref="summaryButton" aria-label="Open command center" :aria-expanded="openPanel" aria-controls="global-command-panel" title="Open command center (Ctrl or Command K)" @click.prevent="togglePanel">Search</summary>
+    <summary ref="summaryButton" aria-label="Open command center" :aria-expanded="openPanel" aria-controls="global-command-panel" title="Open command center (Ctrl or Command K)" @click.prevent="togglePanel">Command</summary>
       <div id="global-command-panel" class="global-search-entry__panel" role="dialog" aria-modal="false" aria-label="Command center">
       <p class="global-search-entry__scope">Command center · permitted routes and records only</p>
       <p v-if="catalogLoading" class="search-status" role="status" aria-live="polite">Loading permitted commands…</p>

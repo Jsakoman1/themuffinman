@@ -23,7 +23,7 @@ const categoryFor = (item: QuestNewsItemResponseDTO) => {
   return "SYSTEM"
 }
 const isSnoozed = (item: QuestNewsItemResponseDTO) => (snoozedUntil.value[String(item.id)] || 0) > Date.now()
-const matchesCategory = (item: QuestNewsItemResponseDTO) => !isSnoozed(item) && !mutedCategories.value.includes(categoryFor(item)) && (notificationCategory.value === "ALL" || categoryFor(item) === notificationCategory.value)
+const matchesCategory = (item: QuestNewsItemResponseDTO) => { const category = categoryFor(item); return !isSnoozed(item) && !mutedCategories.value.includes(category) && (notificationCategory.value === "ALL" || category === notificationCategory.value) }
 const items = computed({get: () => rawItems.value.filter(matchesCategory), set: (value: QuestNewsItemResponseDTO[]) => { rawItems.value = value }})
 const categoryCounts = computed(() => Object.fromEntries(["NEEDS_ACTION", "BOOKING", "WORK", "CHAT", "SOCIAL", "SYSTEM"].map(category => [category, rawItems.value.filter(item => categoryFor(item) === category).length])))
 const isLoading = ref(true)

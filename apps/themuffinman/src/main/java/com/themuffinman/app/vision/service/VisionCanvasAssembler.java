@@ -645,6 +645,8 @@ public class VisionCanvasAssembler {
                 .resumeHint(resumeHintFor(conversation, turn))
                 .watchFriendly(true)
                 .presentationArchetype(presentationArchetype(turn))
+                .clientFamily("web")
+                .confirmationBoundary("backend")
                 .density(densityFor(deviceRoleFor(conversation)))
                 .primaryActionLabel(primaryActionLabel(turn))
                 .visibleFields(visibleFieldsFor(turn))

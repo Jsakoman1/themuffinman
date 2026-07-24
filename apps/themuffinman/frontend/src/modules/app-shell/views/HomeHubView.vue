@@ -8,11 +8,12 @@ import AppStatus from "../components/AppStatus.vue"
 import SurfaceHeader from "../components/SurfaceHeader.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import TaskSurface from "../components/TaskSurface.vue"
+import {userShellApi} from "../api/userShellApi.ts"
+import AttentionQueue from "../components/AttentionQueue.vue"
 
 const route = useRoute()
 const surface = getAppSurfaceConfig("home")
 const {model, isLoading, error, reload} = useShellSurfaceData("home", route)
-const dismissedRows = ref<string[]>([])
 const recentContexts = ref<string[]>([])
 const summaryRows = computed(() => model.value.metrics.map((metric, index) => ({
   id: `home-summary-${index}`,
@@ -21,12 +22,13 @@ const summaryRows = computed(() => model.value.metrics.map((metric, index) => ({
   badge: metric.tone === "emphasis" ? "Attention" : undefined,
   to: metric.to,
 })))
-const visibleRows = computed(() => summaryRows.value.filter(row => !dismissedRows.value.includes(row.id)))
-const dismissRow = (id: string) => { dismissedRows.value = [...dismissedRows.value, id]; localStorage.setItem("homeDismissedRows", JSON.stringify(dismissedRows.value)) }
-onMounted(() => { try { dismissedRows.value = JSON.parse(localStorage.getItem("homeDismissedRows") || "[]"); recentContexts.value = JSON.parse(localStorage.getItem("homeRecentContexts") || "[]") } catch { /* local home state can reset safely */ } })
-const todayRows = computed(() => visibleRows.value.filter(row => /confirm|review|overdue|today|attention/i.test(`${row.title} ${row.description}`)))
-const nextRows = computed(() => visibleRows.value.filter(row => !todayRows.value.includes(row)).slice(0, 5))
-const informationRows = computed(() => visibleRows.value.filter(row => !todayRows.value.includes(row) && !nextRows.value.includes(row)))
+onMounted(() => { try { recentContexts.value = JSON.parse(localStorage.getItem("homeRecentContexts") || "[]") } catch { /* local home state can reset safely */ } })
+const todayRows = computed(() => summaryRows.value.filter(row => /confirm|review|overdue|today|attention/i.test(`${row.title} ${row.description}`)))
+const nextRows = computed(() => summaryRows.value.filter(row => !todayRows.value.includes(row)).slice(0, 5))
+const informationRows = computed(() => summaryRows.value.filter(row => !todayRows.value.includes(row) && !nextRows.value.includes(row)))
+const favoriteBusinesses = ref<Awaited<ReturnType<typeof userShellApi.getBusinessFavorites>>>([])
+const loadFavorites = async () => { try { favoriteBusinesses.value = await userShellApi.getBusinessFavorites() } catch { favoriteBusinesses.value = [] } }
+onMounted(() => { void loadFavorites() })
 </script>
 
 <template>
@@ -36,14 +38,12 @@ const informationRows = computed(() => visibleRows.value.filter(row => !todayRow
     <AppLoadingState v-if="isLoading" label="Loading your workspace summary" :rows="4" />
     <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="reload" />
     <section v-else class="home-hub__main" aria-label="Home summary and next actions" data-surface="personal-next-actions">
-        <div class="home-hub__section-heading"><p class="home-hub__label">Today</p><p class="home-hub__hint" role="note">Confirmations, reviews, overdue items, and actions that need attention now.</p></div>
-        <SurfaceRow v-for="row in todayRows" :key="row.id" :row="row"><template #actions><button type="button" class="home-hub__dismiss" @click.stop="dismissRow(row.id)">Dismiss</button></template></SurfaceRow>
-        <AppStatus v-if="todayRows.length === 0" message="Nothing needs action today." />
-        <div class="home-hub__section-heading home-hub__section-heading--next"><p class="home-hub__label">Next</p><p class="home-hub__hint" role="note">Upcoming appointments and the next useful step.</p></div>
-        <SurfaceRow v-for="row in nextRows" :key="row.id" :row="row"><template #actions><button type="button" class="home-hub__dismiss" @click.stop="dismissRow(row.id)">Dismiss</button></template></SurfaceRow>
+        <AttentionQueue title="Today" :count="todayRows.length"><p class="home-hub__hint">Confirmations, reviews, overdue items, and actions that need attention now.</p><SurfaceRow v-for="row in todayRows" :key="row.id" :row="row" /></AttentionQueue>
+        <AttentionQueue title="Next" :count="nextRows.length"><p class="home-hub__hint">Upcoming appointments and the next useful step.</p><SurfaceRow v-for="row in nextRows" :key="row.id" :row="row" /></AttentionQueue>
         <div v-if="informationRows.length" class="home-hub__section-heading home-hub__section-heading--information"><p class="home-hub__label">Information</p><p class="home-hub__hint" role="note">Useful summaries that do not require action.</p></div>
         <SurfaceRow v-for="row in informationRows" :key="row.id" :row="row" />
         <section class="home-hub__recent" aria-label="Recent contexts"><p class="home-hub__label">Recent contexts</p><p v-if="recentContexts.length === 0" class="home-hub__hint">Your recently used business, chat, and work contexts will appear here.</p><ul v-else><li v-for="context in recentContexts" :key="context">{{ context }}</li></ul></section>
+        <section class="home-hub__favorites" aria-label="Favorite businesses"><p class="home-hub__label">Favorite businesses</p><p v-if="favoriteBusinesses.length === 0" class="home-hub__hint">Save a business to keep its booking page one tap away.</p><SurfaceRow v-for="favorite in favoriteBusinesses" v-else :key="favorite.businessProfileId" :row="{id: String(favorite.businessProfileId), title: favorite.businessName, description: favorite.bookingEnabled ? 'Bookings available' : 'Profile available', badge: 'Saved', to: `/business/public/${favorite.slug}`}" /></section>
         <AppStatus v-if="summaryRows.length === 0" message="No workspace summary is available yet." />
     </section>
   </section></TaskSurface>

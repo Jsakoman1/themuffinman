@@ -31,6 +31,7 @@ class BusinessBookingPreviewServiceTest {
         profile.setId(3L);
         profile.setSlug("studio");
         profile.setActive(true);
+        profile.setBookingEnabled(true);
         profile.setTimezone("Europe/Zurich");
 
         BusinessOffering offering = new BusinessOffering();

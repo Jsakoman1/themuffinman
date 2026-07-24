@@ -17,6 +17,7 @@ const selectTemplate = (template: {name: string; mode: string}) => { selectedTem
 const templateBillingUnit = ref("per appointment")
 const templateCapacity = ref(1)
 const templateQuestions = ref("Customer notes")
+// Customer input fields are rendered from the backend schema by BusinessDemandForm in booking flows.
 const currentStep = ref(0)
 const offerings = ref<BusinessOfferingResponseDTO[]>([])
 const offeringDraft = ref<BusinessOfferingResponseDTO | null>(null)

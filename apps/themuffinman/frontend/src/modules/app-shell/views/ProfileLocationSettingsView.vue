@@ -256,7 +256,7 @@ onMounted(async () => {
 
 <template>
   <!-- UX simplification: profile editing is a focused workspace with explicit save state. -->
-  <TaskSurface mode="act" label="Profile and location settings"><section class="location-settings" :aria-busy="isLoading || isSaving || isGalleryActing || isAppearanceSaving || undefined">
+  <TaskSurface mode="act" label="Profile and location settings"><section class="location-settings" data-settings-model="grouped-inline-edit" data-edit-model="inline-save-cancel" :aria-busy="isLoading || isSaving || isGalleryActing || isAppearanceSaving || undefined">
     <header><p class="eyebrow">Profile settings</p><h1>Profile and location</h1><p class="intro">Manage your profile, appearance, location, and privacy.</p></header>
     <CollectionToolbar title="Profile and location" :busy="isLoading"><template #actions><RouterLink to="/profile/settings/notifications">Notification preferences</RouterLink></template></CollectionToolbar>
     <div class="guided-profile-entry"><AppButton type="button" tone="secondary" @click="guidedProfileOpen = !guidedProfileOpen">{{ guidedProfileOpen ? "Close guided profile setup" : "Use guided profile setup" }}</AppButton><GuidedIntakePanel v-if="guidedProfileOpen" flow="identity.profile.update" title="Update your profile" description="Answer the meaningful profile questions first, then review the rest of your privacy settings." @completed="acceptGuidedProfileDraft" @cancel="guidedProfileOpen = false" /></div>

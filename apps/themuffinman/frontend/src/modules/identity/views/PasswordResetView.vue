@@ -25,7 +25,7 @@ const resetPassword = async () => {
     await authApi.resetPassword({token: token.value, password: password.value})
     completed.value = true
   } catch {
-    error.value = "This recovery link is invalid or expired."
+    error.value = "This recovery link is invalid or expired. Request a new link and try again."
   } finally {
     isSubmitting.value = false
   }

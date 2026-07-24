@@ -1,0 +1,207 @@
+{
+  "evidenceVersion": "frontend-structural-redesign-closeout-v1",
+  "capturedAt": "2026-07-24T18:51:07.644Z",
+  "browser": "Playwright Chromium headless",
+  "result": "passed",
+  "routes": [
+    "/home",
+    "/work",
+    "/work/find",
+    "/work/quests",
+    "/chat",
+    "/calendar",
+    "/business",
+    "/circles",
+    "/things",
+    "/rides",
+    "/profile"
+  ],
+  "shell": {
+    "singleAuthenticatedFrame": true,
+    "persistentVisionComposer": true,
+    "noRepeatedAskVisionLinks": true
+  },
+  "desktop": {
+    "viewport": "desktop",
+    "reached": [
+      {
+        "requested": "/home",
+        "actual": "/home",
+        "heading": "Home"
+      },
+      {
+        "requested": "/work",
+        "actual": "/work",
+        "heading": "Work"
+      },
+      {
+        "requested": "/work/find",
+        "actual": "/work/find",
+        "heading": "Find work"
+      },
+      {
+        "requested": "/work/quests",
+        "actual": "/work/quests",
+        "heading": "My work"
+      },
+      {
+        "requested": "/chat",
+        "actual": "/chat",
+        "heading": "Chat"
+      },
+      {
+        "requested": "/calendar",
+        "actual": "/calendar",
+        "heading": "Agenda"
+      },
+      {
+        "requested": "/business",
+        "actual": "/business",
+        "heading": "Business"
+      },
+      {
+        "requested": "/circles",
+        "actual": "/circles",
+        "heading": "Circles"
+      },
+      {
+        "requested": "/things",
+        "actual": "/things",
+        "heading": "Things to borrow"
+      },
+      {
+        "requested": "/rides",
+        "actual": "/rides",
+        "heading": "Find a ride"
+      },
+      {
+        "requested": "/profile",
+        "actual": "/profile",
+        "heading": "Profile and location"
+      }
+    ],
+    "dimensions": {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440
+    },
+    "overflowFree": true,
+    "assistantPresent": true,
+    "keyboardFocus": true,
+    "visibleDuplicateVision": 0,
+    "homeOrientation": true,
+    "screenshot": "/Users/jsakoman/Desktop/themuffinman/docs/runtime-evidence/frontend-structural-redesign-desktop.png"
+  },
+  "mobile": {
+    "viewport": "mobile",
+    "reached": [
+      {
+        "requested": "/home",
+        "actual": "/home",
+        "heading": "Home"
+      },
+      {
+        "requested": "/work",
+        "actual": "/work",
+        "heading": "Work"
+      },
+      {
+        "requested": "/work/find",
+        "actual": "/work/find",
+        "heading": "Find work"
+      },
+      {
+        "requested": "/work/quests",
+        "actual": "/work/quests",
+        "heading": "My work"
+      },
+      {
+        "requested": "/chat",
+        "actual": "/chat",
+        "heading": "Chat"
+      },
+      {
+        "requested": "/calendar",
+        "actual": "/calendar",
+        "heading": "Agenda"
+      },
+      {
+        "requested": "/business",
+        "actual": "/business",
+        "heading": "Business"
+      },
+      {
+        "requested": "/circles",
+        "actual": "/circles",
+        "heading": "Circles"
+      },
+      {
+        "requested": "/things",
+        "actual": "/things",
+        "heading": "Things to borrow"
+      },
+      {
+        "requested": "/rides",
+        "actual": "/rides",
+        "heading": "Find a ride"
+      },
+      {
+        "requested": "/profile",
+        "actual": "/profile",
+        "heading": "Profile and location"
+      }
+    ],
+    "dimensions": {
+      "viewport": 390,
+      "document": 390,
+      "body": 390
+    },
+    "overflowFree": true,
+    "assistantPresent": true,
+    "keyboardFocus": true,
+    "visibleDuplicateVision": 0,
+    "homeOrientation": true,
+    "screenshot": "/Users/jsakoman/Desktop/themuffinman/docs/runtime-evidence/frontend-structural-redesign-mobile.png"
+  },
+  "recovery": {
+    "fixture": "ephemeral quest",
+    "staleEdit": {
+      "firstStatus": 200,
+      "secondStatus": 409,
+      "conflictObserved": true
+    },
+    "permissionDenied": {
+      "status": 403,
+      "forbiddenObserved": true
+    },
+    "bookingConflict": {
+      "firstStatus": 200,
+      "secondStatus": 409,
+      "conflictObserved": true,
+      "cleanup": "cancelled"
+    },
+    "wishlistLifecycle": {
+      "saveStatus": 200,
+      "readStatus": 200,
+      "deleteStatus": 200,
+      "savedVisible": true,
+      "removedVisible": true,
+      "circleSelectionValidated": true
+    },
+    "cleanup": {
+      "status": 200,
+      "completed": true
+    },
+    "failedMutationRetry": {
+      "failedStatus": 400,
+      "retryStatus": 200,
+      "retryObserved": true
+    },
+    "customerCleanup": {
+      "completed": false,
+      "adminLoginStatus": 200,
+      "adminTokenPresent": true
+    }
+  },
+  "browserErrors": []
+}

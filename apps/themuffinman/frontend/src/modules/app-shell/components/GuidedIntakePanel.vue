@@ -28,7 +28,7 @@ onMounted(() => advance("start"))
 
 <template>
   <section class="guided-intake" aria-live="polite">
-    <header><p class="guided-intake__eyebrow">Guided setup</p><h2>{{ title || "Let's do this one step at a time" }}</h2><p>{{ description || "The backend will guide the next useful question." }}</p></header>
+    <header><p class="guided-intake__eyebrow">Guided setup</p><h2>{{ title || "Let's do this one step at a time" }}</h2><p>{{ description || "The backend will guide the next useful question; you only decide the next step." }}</p></header>
     <div v-if="loading && !step" class="guided-intake__status">Loading the first step…</div>
     <form v-else-if="step && !step.complete" @submit.prevent="advance()">
       <AppFormField :label="step.label" :hint="step.placeholder" required>

@@ -12,9 +12,9 @@ const saving = ref(false)
 const save = async (action: () => Promise<unknown>) => { saving.value = true; try { await action(); emit("refresh") } finally { saving.value = false } }
 </script>
 <template>
-  <section class="business-resource-editor">
+  <section class="business-resource-editor" data-resource-model="capacity-and-conflict-aware">
     <h3>Resources and capacity</h3>
-    <p>{{ props.pools.length }} pool(s), {{ props.resources.length }} resource(s), {{ props.requirements.length }} offering requirement(s)</p>
+    <p>{{ props.pools.length }} pool(s), {{ props.resources.length }} resource(s), {{ props.requirements.length }} offering requirement(s)</p><p class="business-resource-editor__note">A slot is valid only when the backend can allocate the required capacity and resources. Conflicts are explained at booking time.</p>
     <ul><li v-for="item in props.pools" :key="String(item.id)">{{ item.label }} · {{ item.resourceType }} · capacity {{ item.capacity }}</li></ul>
     <form @submit.prevent="save(() => userShellApi.createBusinessResourcePool(props.profileId, pool))">
       <h4>Add resource pool</h4><input v-model="pool.poolKey" required placeholder="Pool key"><input v-model="pool.label" required placeholder="Pool label"><input v-model="pool.resourceType" required placeholder="Resource type"><input v-model.number="pool.capacity" type="number" min="1" required placeholder="Capacity"><input v-model="pool.publicLabel" placeholder="Public label"><button :disabled="saving">Add pool</button>

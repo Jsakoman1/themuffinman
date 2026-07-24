@@ -18,7 +18,7 @@ const requestRecovery = async () => {
     await authApi.requestPasswordRecovery({email: email.value.trim().toLowerCase()})
     submitted.value = true
   } catch {
-    error.value = "We could not start recovery. Try again."
+    error.value = "We could not start recovery. Check the email and try again."
   } finally {
     isSubmitting.value = false
   }

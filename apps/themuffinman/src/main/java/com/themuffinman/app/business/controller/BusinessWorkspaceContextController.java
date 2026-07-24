@@ -20,6 +20,7 @@ public class BusinessWorkspaceContextController {
     private final BusinessWorkspaceContextService service;
 
     @GetMapping("/me")
+    /** Returns one explicit aggregate or selected-business context for the owner workspace. */
     public BusinessWorkspaceContextDTO get(
             @RequestParam(required = false) Long profileId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant from,

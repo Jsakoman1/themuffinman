@@ -1,5 +1,5 @@
 <script setup lang="ts">
-withDefaults(defineProps<{label?: string; rows?: number}>(), {label: "Loading", rows: 3})
+withDefaults(defineProps<{label?: string; rows?: number}>(), {label: "Loading…", rows: 3})
 </script>
 
 <template><section class="app-loading-state" role="status" aria-busy="true" :aria-label="label"><span class="app-loading-state__label">{{ label }}</span><span v-for="index in rows" :key="index" class="app-loading-state__row" aria-hidden="true" /></section></template>

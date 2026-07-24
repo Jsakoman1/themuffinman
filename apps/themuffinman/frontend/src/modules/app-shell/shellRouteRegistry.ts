@@ -9,6 +9,12 @@ export type ShellNavigationPromotionPolicy = {
   blockedByDefault: string[]
 }
 
+/**
+ * Retired surface rule: module pages expose one canonical tab/action grammar.
+ * Vision remains available only through the persistent shell composer or a
+ * deliberate command/search handoff, never as a repeated row-level action.
+ */
+
 export type ShellSurfaceOwnership = {
   id: AppSurfaceId
   primaryNavId: AppPrimaryNavId
@@ -70,6 +76,10 @@ export const topLevelNavigationSurfaceIds: AppSurfaceId[] = [
 
 export const primaryNavigationSurfaceIds: AppSurfaceId[] = ["home", "work", "chat", "calendar"]
 export const secondaryNavigationSurfaceIds: AppSurfaceId[] = ["business", "circles", "things", "rides"]
+
+/** The shell owns canonical entry routes; module screens must not rebuild them. */
+export const canonicalRouteForSurface = (surfaceId: AppSurfaceId): RouteLocationRaw =>
+  surfaceOwnershipMatrix[surfaceId].canonicalEntryRoute
 
 export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership> = {
   home: {

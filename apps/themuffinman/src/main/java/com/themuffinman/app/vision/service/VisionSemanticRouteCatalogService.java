@@ -23,6 +23,13 @@ public class VisionSemanticRouteCatalogService {
         return allRoutes();
     }
 
+    /** Portable clients may display this catalog, but the server still rechecks the selected route. */
+    public List<String> allowedCapabilityIds(AppUser currentUser) {
+        return allowedRoutes(currentUser).stream()
+                .map(VisionSemanticRouteDescriptor::getCapabilityId)
+                .toList();
+    }
+
     public List<VisionSemanticRouteDescriptor> allRoutes() {
         return List.of(
                 createQuestRoute(),

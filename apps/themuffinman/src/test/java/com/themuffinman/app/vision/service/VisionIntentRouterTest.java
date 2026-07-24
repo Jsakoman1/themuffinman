@@ -5,6 +5,7 @@ import com.themuffinman.app.vision.model.VisionIntent;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class VisionIntentRouterTest {
 
@@ -317,5 +318,16 @@ class VisionIntentRouterTest {
         assertEquals(VisionIntent.UNSUPPORTED, router.detectIntent("jobless market update"));
         assertEquals(VisionIntent.DISCOVER_QUESTS, router.detectIntent("looking for jobs nearby"));
         assertEquals(VisionIntent.SEARCH, router.detectIntent("find people who can help move sofa"));
+    }
+
+    @Test
+    void resolvesOnlyBackendPublishedAuthorizedCapability() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+        var user = new com.themuffinman.app.identity.model.AppUser();
+        user.setId(42L);
+
+        assertEquals("view_business", router.resolveAuthorizedRoute("view_business", user).getCapabilityId());
+        assertNull(router.resolveAuthorizedRoute("not-a-capability", user));
+        assertNull(router.resolveAuthorizedRoute("view_business", null));
     }
 }

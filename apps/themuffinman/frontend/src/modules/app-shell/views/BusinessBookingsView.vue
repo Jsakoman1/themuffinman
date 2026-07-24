@@ -51,7 +51,7 @@ onMounted(() => void load())
 </script>
 
 <template>
-  <section class="bookings-surface">
+  <section class="bookings-surface" data-owner-tab="bookings" data-calendar-scope="active-business" aria-label="Business bookings">
     <header class="bookings-surface__header"><div><p class="bookings-surface__eyebrow">Business / Bookings</p><h1>Bookings</h1></div><RouterLink to="/business/calendar">Open calendar</RouterLink></header>
     <CollectionToolbar title="Owner bookings" :count="bookings.length" :busy="isLoading" />
     <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading bookings." busy /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" /><AppStatus v-else-if="bookings.length === 0" message="No bookings yet." />

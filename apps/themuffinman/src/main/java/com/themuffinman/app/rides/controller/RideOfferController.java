@@ -19,7 +19,7 @@ public class RideOfferController {
 
     private final RideOfferService rideOfferService;
 
-    @GetMapping
+    @GetMapping({"", "/suggestions"})
     public RideOfferListResponseDTO getVisibleOffers(@AuthenticationPrincipal AppUser currentUser) {
         return rideOfferService.getVisibleOffers(currentUser);
     }

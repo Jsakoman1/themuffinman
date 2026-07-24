@@ -30,7 +30,7 @@ public class BusinessPublicController {
     private final BusinessOfferingSchemaService businessOfferingSchemaService;
     private final BusinessQuoteService businessQuoteService;
 
-    @GetMapping("/{slug}")
+    @GetMapping({"/{slug}", "/{slug}/booking"})
     public BusinessPublicPageDTO getPublicBusinessPage(@PathVariable String slug) {
         return businessPublicReadService.getPublicBusinessPage(slug);
     }

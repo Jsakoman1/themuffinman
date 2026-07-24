@@ -1,0 +1,56 @@
+{
+  "evidenceVersion": "frontend-structural-redesign-recovery-v2",
+  "capturedAt": "2026-07-24T18:51:07.644Z",
+  "browser": "Playwright Chromium headless",
+  "result": "passed",
+  "observed": {
+    "routeRecovery": true,
+    "assistantPresent": true,
+    "keyboardFocus": true,
+    "mutationRecovery": {
+      "fixture": "ephemeral quest",
+      "staleEdit": {
+        "firstStatus": 200,
+        "secondStatus": 409,
+        "conflictObserved": true
+      },
+      "permissionDenied": {
+        "status": 403,
+        "forbiddenObserved": true
+      },
+      "bookingConflict": {
+        "firstStatus": 200,
+        "secondStatus": 409,
+        "conflictObserved": true,
+        "cleanup": "cancelled"
+      },
+      "wishlistLifecycle": {
+        "saveStatus": 200,
+        "readStatus": 200,
+        "deleteStatus": 200,
+        "savedVisible": true,
+        "removedVisible": true,
+        "circleSelectionValidated": true
+      },
+      "cleanup": {
+        "status": 200,
+        "completed": true
+      },
+      "failedMutationRetry": {
+        "failedStatus": 400,
+        "retryStatus": 200,
+        "retryObserved": true
+      },
+      "customerCleanup": {
+        "status": 200,
+        "completed": true,
+        "method": "manual exact-fixture cleanup transaction after browser trace",
+        "adminLoginStatus": 200,
+        "adminTokenPresent": true
+      }
+    },
+    "browserErrors": []
+  },
+  "notObserved": [],
+  "boundary": "This artifact does not promote unobserved mutation scenarios to passed."
+}

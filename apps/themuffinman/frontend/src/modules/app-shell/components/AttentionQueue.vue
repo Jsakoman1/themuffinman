@@ -4,7 +4,7 @@ defineProps<{title?: string; count?: number}>()
 
 <template>
   <!-- Shared attention boundary: one compact queue for resumable work and recovery. -->
-  <section class="attention-queue" aria-live="polite" aria-label="Attention queue">
+  <section class="attention-queue" aria-live="polite" aria-label="Attention queue" data-queue-model="operational-next-actions">
     <header><strong>{{ title || 'Next actions' }}</strong><span v-if="count !== undefined">{{ count }}</span></header>
     <!-- Post-start hardening marker: queue is intentionally non-duplicating and resumable. -->
     <slot><p>Nothing needs attention right now.</p></slot>

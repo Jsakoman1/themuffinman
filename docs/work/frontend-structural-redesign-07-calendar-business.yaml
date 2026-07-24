@@ -1,8 +1,9 @@
 kind: work
 version: 1
 id: frontend-structural-redesign-07-calendar-business
-title: "Redesign all-module Calendar and isolated Business workspaces"
-status: draft
+title: Redesign all-module Calendar and isolated Business calendars
+status: verified
+business_expansion_review: 2026-07-24-business-family
 hardening_review: 2026-07-24-atomic-audit
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
@@ -11,44 +12,419 @@ serial_task_execution: true
 execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/business-booking-end-to-end-master.yaml, docs/work/frontend-ux-next-evolution-master.yaml]
-  baseline_only_surfaces: [Backend schedule aggregation, booking, offering, resource, gallery, and profile authority]
-  residual_scope: [All-module calendar, per-business calendars, business links, favorites, rich profile, and simple booking]
-  retest_triggers: [Calendar event source, business context, booking route, favorites, rich text, gallery, or public page changes]
-  non_duplication_rule: Backend event and business authority remains canonical; frontend adds presentation and context isolation.
+  reused_verified_plans:
+  - docs/work/business-booking-end-to-end-master.yaml
+  - docs/work/frontend-ux-next-evolution-master.yaml
+  baseline_only_surfaces:
+  - Backend schedule aggregation
+  - booking
+  - offering
+  - resource
+  - gallery
+  - and profile authority
+  residual_scope:
+  - All-module calendar
+  - normalized events
+  - per-business calendars
+  - time semantics
+  - filters
+  - and lifecycle conflicts
+  retest_triggers:
+  - Calendar event source
+  - business context
+  - booking route
+  - timezone
+  - recurrence
+  - or conflict behavior changes
+  non_duplication_rule: Backend event and business authority remains canonical; frontend
+    adds presentation and context isolation.
 tasks:
-  - id: calendar-all-modules-and-business-scopes
-    title: Make Calendar a cross-module center with explicit source filters and per-business views
-    type: implementation
-    inventory_item: structural-redesign-calendar-all-modules
-    observable_outcome: Calendar displays typed events from all supported modules, allows calm source/business filters, keeps left/right navigation and day/week/month views, and links into each event owner surface.
-    dependencies: [business-setup-and-public-simplification]
-    paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
-      - apps/themuffinman/frontend/src/contracts/index.ts
-    required_paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
-    evidence_boundary: [all module events, source filters, business filter, day/week/month, empty/conflict state]
-    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
-  - id: business-isolated-workspaces-and-public-presence
-    title: Give every owned business a focused workspace and professional public presence
-    type: implementation
-    status: pending
-    inventory_item: structural-redesign-business-isolated-workspaces
-    observable_outcome: Multiple businesses have separate context routes and sublinks; each supports profile rich text, gallery, services, business-specific calendar, bookings, favorites, and a calm public page.
-    dependencies: [calendar-all-modules-and-business-scopes]
-    paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
-      - apps/themuffinman/frontend/src/contracts/index.ts
-    required_paths:
-      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
-      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
-    evidence_boundary: [three-business isolation, sublinks, rich text, gallery, favorite, public booking, per-business calendar]
-    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+- id: calendar-event-aggregation
+  title: Aggregate normalized events from every module
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-calendar-event-aggregation
+  observable_outcome: Calendar renders normalized typed events from Work, Business,
+    Rides, Things, Circles, Chat, and personal commitments with source, owner, visibility,
+    and action metadata.
+  dependencies:
+  - business-favorites
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  evidence_boundary:
+  - event source matrix
+  - normalized DTO
+  - owner action
+  - visibility
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:45:09Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 1091ca9ba762e08c81c8e9714f24de746b72cd8c218d92228bba5537d78ca710
+    apps/themuffinman/frontend/src/contracts/index.ts: ca26851824b11f6ecddc3bac3cf1202cf22b36a7f8f8d43eabc1bbe92f55e7db
+- id: calendar-source-filters
+  title: Add one calm source and business filter surface
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-calendar-source-filters
+  observable_outcome: Users can select module and business sources through one accessible
+    filter surface with persisted presentation state and truthful empty results.
+  dependencies:
+  - calendar-event-aggregation
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  evidence_boundary:
+  - source filters
+  - business filters
+  - persisted state
+  - empty results
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:46:54Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: 229a8e12efaada84e6cab2dacd470acd6d308752c96e38b97c7a5e24b512b719
+    apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue: 1e34ac89e42faf8cc916a7fd8f316553207a247fcb6cbf868935e7f54e5a0074
+- id: calendar-apple-navigation
+  title: Establish Apple-like agenda/day/week/month navigation
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-calendar-apple-navigation
+  observable_outcome: Calendar uses calm agenda/day/week/month hierarchy, previous/next
+    arrows, deliberate today action, restrained source colors, and no redundant toolbar
+    controls.
+  dependencies:
+  - calendar-source-filters
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/style.css
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/style.css
+  evidence_boundary:
+  - view navigation
+  - arrows
+  - today
+  - responsive hierarchy
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:47:27Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: ce51d9fcdf9c689860e3ab46caeb66cebdec9f1cce4dbbcbc06091f4028b4518
+    apps/themuffinman/frontend/src/style.css: d1bf9740a6c82c4d9b74a4e12ec0b9e2b03354c1e8106282ded08515d076a943
+- id: calendar-time-semantics
+  title: Make timezone, locale, recurrence, and date boundaries explicit
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-calendar-time-semantics
+  observable_outcome: Calendar consistently handles timezone, locale, date boundaries,
+    recurring instances, and daylight-saving transitions without shifting ownership
+    or time silently.
+  dependencies:
+  - calendar-apple-navigation
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  evidence_boundary:
+  - timezone
+  - locale
+  - recurrence
+  - DST
+  - date boundary tests
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:48:09Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: 19f836fc227ad4331184ab77958302e0fad3eca92a8ac94c47aecc755f66d5a0
+    apps/themuffinman/frontend/src/services/formatters.ts: 5ef570f6cde1bfa5efbff0782235ec455086df11384b8015996a2d9d4d2576b8
+- id: calendar-conflict-lifecycle
+  title: Explain conflicts, cancellation, and rescheduling
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-calendar-conflict-lifecycle
+  observable_outcome: Calendar explains conflicts, cancellations, rescheduling, stale
+    events, and source-of-truth ownership without silently overwriting data.
+  dependencies:
+  - calendar-time-semantics
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  evidence_boundary:
+  - conflict
+  - cancellation
+  - reschedule
+  - stale edit
+  - retry
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:48:57Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: 74103a5f68916c85fe0c682b810d946b57a051eb68e49292d6d7f887a3d0059a
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue: 51196579d47aa0662cf8507d93b06844aaa3eb79666e1b8687c35d0ed434e906
+- id: calendar-business-drill-in
+  title: Preserve isolated per-business calendars and drill-in
+  type: implementation
+  status: done
+  inventory_item: structural-redesign-calendar-business-drill-in
+  observable_outcome: A business calendar remains isolated inside its workspace and
+    links to the unified Calendar without mixing business scopes or event ownership.
+  dependencies:
+  - calendar-conflict-lifecycle
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/router.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  evidence_boundary:
+  - business-only calendar
+  - unified drill-in
+  - route scope
+  - permission boundary
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T17:49:37Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue: ee31de2e2bcba74a3489a32543c75aee5cc17b507ac54c2b4110527786236142
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: 2dee31a55b1451d6dfaa6fdcb041f3612607cc8dd5b5a35d43b835da1ad37845
+evidence:
+- task: calendar-event-aggregation
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:46:45Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  output: |+
+    dist/assets/CirclesView-hR-oW20p.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-CDEdXReG.js                   12.71 kB │ gzip:   4.04 kB
+    dist/assets/WorkQuestDetailView-Dz8G74kQ.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-BrKgIZY0.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-BjZ9nYGd.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-Bpx_UZKa.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-CBsxNR__.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-Bx6SQWaP.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-Cu7YOBrG.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-bGJILol1.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-_tiri1xg.js                39.29 kB │ gzip:  12.94 kB
+    dist/assets/BusinessOwnerPage-C6NEjgWR.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-wze0ttn3.js                                 47.43 kB │ gzip:  12.45 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 600ms
+
+  startedAt: '2026-07-24T17:45:09Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: calendar-source-filters
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:47:18Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  output: |+
+    dist/assets/CirclesView-CxnphbtV.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-DCLVVVQo.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-LhmSX2Tt.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-AGbWfi1o.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-BUK91jTR.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-DeUqqKeJ.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-C2KkonNr.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-XkHWSN0e.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-CPGiuIcR.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-2Oe8TqHq.js                           25.89 kB │ gzip:   7.96 kB
+    dist/assets/AuthenticatedShellView-DJjri8pP.js                39.29 kB │ gzip:  12.94 kB
+    dist/assets/BusinessOwnerPage-ClviEsQc.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-BFWnF2Om.js                                 47.43 kB │ gzip:  12.46 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 625ms
+
+  startedAt: '2026-07-24T17:46:54Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: calendar-apple-navigation
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:47:56Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  output: |+
+    dist/assets/CirclesView-Lf7gsRfK.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-BUQk15nM.js                   12.71 kB │ gzip:   4.04 kB
+    dist/assets/WorkQuestDetailView-Cbp9JaMy.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-dE4wFXOH.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-ZFz8BVuq.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-Dwk5NUVu.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-AXBpRx8F.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-DRgOrvUT.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-_qsmRWtB.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BCkrNMSJ.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-D3SleUcq.js                39.29 kB │ gzip:  12.94 kB
+    dist/assets/BusinessOwnerPage-BGLU2QAt.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-CqtpJdI7.js                                 47.43 kB │ gzip:  12.46 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 599ms
+
+  startedAt: '2026-07-24T17:47:27Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/style.css
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: calendar-time-semantics
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:48:45Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  output: |+
+    dist/assets/CirclesView-CidFm7li.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-Bs0fNKPP.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-UrSRxU7N.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-7Kfv8PdK.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-DCK1p0_3.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-Cglksa2q.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-cQASH2He.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-BLoMf55k.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-DGESCLba.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DfQ4ICTR.js                           25.89 kB │ gzip:   7.96 kB
+    dist/assets/AuthenticatedShellView-DW65RG2M.js                39.29 kB │ gzip:  12.94 kB
+    dist/assets/BusinessOwnerPage-BjNlYxQb.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-BwpJHGsi.js                                 47.43 kB │ gzip:  12.46 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 558ms
+
+  startedAt: '2026-07-24T17:48:09Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: calendar-conflict-lifecycle
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:49:19Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  output: |+
+    dist/assets/CirclesView-CdNM86ao.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-B5w9rTeR.js                   12.71 kB │ gzip:   4.04 kB
+    dist/assets/WorkQuestDetailView-CnUNYrxL.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-CEXxKeTU.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-CSI7zofN.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-vxo6NH46.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/WorkPage-DG9QwB7Q.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-7otOHu1F.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-ju6w5qBC.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BP7yAxdo.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-lZjNFoxl.js                39.29 kB │ gzip:  12.94 kB
+    dist/assets/BusinessOwnerPage-BeAEeoVC.js                     43.07 kB │ gzip:  11.10 kB
+    dist/assets/index-DIJBvoLh.js                                 47.43 kB │ gzip:  12.46 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 569ms
+
+  startedAt: '2026-07-24T17:48:57Z'
+  changedAfterStart: &5
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: calendar-business-drill-in
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T17:50:43Z'
+  revision: 12da27b284444497ed7fc98d43f1193bb142039d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  output: |+
+    dist/assets/CirclesView-CTWb2R5B.js                           11.55 kB │ gzip:   3.52 kB
+    dist/assets/ThingsDiscoveryView-CpQegH3S.js                   12.71 kB │ gzip:   4.05 kB
+    dist/assets/WorkQuestDetailView-CyMtQdjk.js                   12.88 kB │ gzip:   4.01 kB
+    dist/assets/RidesView-BA8_tPYb.js                             13.72 kB │ gzip:   4.32 kB
+    dist/assets/BusinessServiceSchemaView-CmWQw_pX.js             14.00 kB │ gzip:   4.54 kB
+    dist/assets/BusinessPublicView-90g3klXF.js                    14.20 kB │ gzip:   5.23 kB
+    dist/assets/WorkPage-hrkkxjs0.js                              14.25 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-BNB4sJth.js                    14.40 kB │ gzip:   3.23 kB
+    dist/assets/SurfaceHeader-B15OQXTi.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ChatSurfaceView-B6qp9zxf.js                       19.39 kB │ gzip:   6.18 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-sbzP--kV.js                           25.89 kB │ gzip:   7.95 kB
+    dist/assets/AuthenticatedShellView-ChDqIdEe.js                39.29 kB │ gzip:  12.94 kB
+    dist/assets/BusinessOwnerPage-DJZ4mfhQ.js                     43.27 kB │ gzip:  11.17 kB
+    dist/assets/index-CnKNFNpc.js                                 47.43 kB │ gzip:  12.45 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 574ms
+
+  startedAt: '2026-07-24T17:49:37Z'
+  changedAfterStart: &6
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  requiredPaths: *6
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

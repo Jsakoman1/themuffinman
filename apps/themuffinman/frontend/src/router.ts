@@ -1,6 +1,8 @@
 import {createRouter, createWebHistory} from "vue-router";
 import {isLoggedIn} from "./auth.ts";
 import {visionBridgeRouteDefinitions} from "./modules/app-shell/shellRouteRegistry.ts";
+import type {AppSurfaceId} from "./modules/app-shell/shellDefinitions.ts";
+import {getCanonicalSurfaceRoute} from "./modules/app-shell/shellDefinitions.ts";
 
 // Vue Router owns these native dynamic imports. Keep the authenticated shell small
 // and load each substantial surface only when its canonical route is entered.
@@ -18,22 +20,20 @@ const PasswordRecoveryView = () => import("./modules/identity/views/PasswordReco
 const PasswordResetView = () => import("./modules/identity/views/PasswordResetView.vue");
 const AuthenticatedShellView = () => import("./modules/app-shell/views/AuthenticatedShellView.vue");
 const HomeHubView = () => import("./modules/app-shell/views/HomeHubView.vue");
+const CalendarPage = () => import("./modules/app-shell/views/CalendarPage.vue");
 const SectionHubView = () => import("./modules/app-shell/views/WorkspaceSurfaceView.vue");
-const WorkDiscoveryView = () => import("./modules/app-shell/views/WorkDiscoveryView.vue");
-const WorkApplicationsView = () => import("./modules/app-shell/views/WorkApplicationsView.vue");
+const WorkPage = () => import("./modules/app-shell/views/WorkPage.vue");
 const WorkApplicationDetailView = () => import("./modules/app-shell/views/WorkApplicationDetailView.vue");
 const WorkQuestDetailView = () => import("./modules/app-shell/views/WorkQuestDetailView.vue");
 const WorkQuestCreateView = () => import("./modules/app-shell/views/WorkQuestCreateView.vue");
 const WorkQuestApplicationsView = () => import("./modules/app-shell/views/WorkQuestApplicationsView.vue");
-const BusinessBookingsView = () => import("./modules/app-shell/views/BusinessBookingsView.vue");
-const BusinessProfileView = () => import("./modules/app-shell/views/BusinessProfileView.vue");
-const BusinessOfferingsView = () => import("./modules/app-shell/views/BusinessOfferingsView.vue");
-const BusinessAvailabilityView = () => import("./modules/app-shell/views/BusinessAvailabilityView.vue");
+const BusinessOwnerPage = () => import("./modules/app-shell/views/BusinessOwnerPage.vue");
 const BusinessPublicView = () => import("./modules/app-shell/views/BusinessPublicView.vue");
 const BusinessDiscoveryView = () => import("./modules/app-shell/views/BusinessDiscoveryView.vue");
 const BusinessMyBookingsView = () => import("./modules/app-shell/views/BusinessMyBookingsView.vue");
 const BusinessAvailabilityExceptionsView = () => import("./modules/app-shell/views/BusinessAvailabilityExceptionsView.vue");
 const BusinessServiceSchemaView = () => import("./modules/app-shell/views/BusinessServiceSchemaView.vue");
+const SharePage = () => import("./modules/app-shell/views/SharePage.vue");
 const NotificationsView = () => import("./modules/app-shell/views/NotificationsView.vue");
 const SavedSearchIntentsView = () => import("./modules/app-shell/views/SavedSearchIntentsView.vue");
 const OnboardingView = () => import("./modules/app-shell/views/OnboardingView.vue");
@@ -42,7 +42,7 @@ const CirclesView = () => import("./modules/app-shell/views/CirclesView.vue");
 const PeopleDiscoveryView = () => import("./modules/app-shell/views/PeopleDiscoveryView.vue");
 const PeopleProfileView = () => import("./modules/app-shell/views/PeopleProfileView.vue");
 const ChatSurfaceView = () => import("./modules/app-shell/views/ChatSurfaceView.vue");
-const ProfileLocationSettingsView = () => import("./modules/app-shell/views/ProfileLocationSettingsView.vue");
+const ProfilePage = () => import("./modules/app-shell/views/ProfilePage.vue");
 const NotificationPreferencesView = () => import("./modules/app-shell/views/NotificationPreferencesView.vue");
 const ThingsDiscoveryView = () => import("./modules/app-shell/views/ThingsDiscoveryView.vue");
 const ThingDetailView = () => import("./modules/app-shell/views/ThingDetailView.vue");
@@ -60,6 +60,12 @@ const visionBridgeRoutes = visionBridgeRouteDefinitions.map((definition) => ({
     meta: {requiresAuth: true}
 }));
 
+const workspaceSurfaceMeta = (surfaceId: AppSurfaceId) => ({
+    requiresAuth: true,
+    surfaceId,
+    canonicalRoute: getCanonicalSurfaceRoute(surfaceId)
+});
+
 
 const routes = [
     {
@@ -75,24 +81,28 @@ const routes = [
                 path: 'home',
                 name: 'home',
                 component: HomeHubView,
-                meta: {requiresAuth: true, surfaceId: 'home'}
+                meta: workspaceSurfaceMeta('home')
             },
             {
                 path: 'work',
                 name: 'work',
-                component: WorkDiscoveryView,
-                meta: {requiresAuth: true, surfaceId: 'work'}
+                component: WorkPage,
+                meta: workspaceSurfaceMeta('work')
             },
             {
                 path: 'work/find',
                 name: 'work-find',
-                component: WorkDiscoveryView,
+                component: WorkPage,
                 meta: {requiresAuth: true, surfaceId: 'work'}
+            },
+            {
+                path: 'work/mine',
+                redirect: '/work/quests'
             },
             {
                 path: 'work/quests',
                 name: 'work-quests',
-                component: WorkDiscoveryView,
+                component: WorkPage,
                 meta: {requiresAuth: true, surfaceId: 'work-quests'}
             },
             {
@@ -122,7 +132,7 @@ const routes = [
             {
                 path: 'work/applications',
                 name: 'work-applications',
-                component: WorkApplicationsView,
+                component: WorkPage,
                 meta: {requiresAuth: true, surfaceId: 'work-applications'}
             },
             {
@@ -135,7 +145,7 @@ const routes = [
                 path: 'chat',
                 name: 'chat',
                 component: ChatSurfaceView,
-                meta: {requiresAuth: true, surfaceId: 'chat'}
+                meta: workspaceSurfaceMeta('chat')
             },
             {
                 path: 'chat/:conversationId',
@@ -146,8 +156,8 @@ const routes = [
             {
                 path: 'calendar',
                 name: 'calendar',
-                component: SectionHubView,
-                meta: {requiresAuth: true, surfaceId: 'calendar'}
+                component: CalendarPage,
+                meta: workspaceSurfaceMeta('calendar')
             },
             {
                 path: 'business',
@@ -158,13 +168,13 @@ const routes = [
             {
                 path: 'business/profile',
                 name: 'business-profile',
-                component: BusinessProfileView,
+                component: BusinessOwnerPage,
                 meta: {requiresAuth: true, surfaceId: 'business-profile'}
             },
             {
                 path: 'business/offerings',
                 name: 'business-offerings',
-                component: BusinessOfferingsView,
+                component: BusinessOwnerPage,
                 meta: {requiresAuth: true, surfaceId: 'business-profile'}
             },
             {
@@ -176,13 +186,13 @@ const routes = [
             {
                 path: 'business/bookings',
                 name: 'business-bookings',
-                component: BusinessBookingsView,
+                component: BusinessOwnerPage,
                 meta: {requiresAuth: true, surfaceId: 'business-bookings'}
             },
             {
                 path: 'business/calendar',
                 name: 'business-calendar',
-                component: BusinessAvailabilityView,
+                component: BusinessOwnerPage,
                 meta: {requiresAuth: true, surfaceId: 'business-calendar'}
             },
             {
@@ -234,6 +244,24 @@ const routes = [
                 meta: {requiresAuth: true, surfaceId: 'things'}
             },
             {
+                path: 'share/things',
+                name: 'share-things',
+                component: SharePage,
+                meta: {requiresAuth: true, surfaceId: 'things'}
+            },
+            {
+                path: 'share/rides',
+                name: 'share-rides',
+                component: SharePage,
+                meta: {requiresAuth: true, surfaceId: 'rides'}
+            },
+            {
+                path: 'share/requests',
+                name: 'share-requests',
+                component: SharePage,
+                meta: {requiresAuth: true, surfaceId: 'things'}
+            },
+            {
                 path: 'things/mine',
                 name: 'things-mine',
                 component: ThingsDiscoveryView,
@@ -266,7 +294,7 @@ const routes = [
             {
                 path: 'profile',
                 name: 'profile',
-                component: SectionHubView,
+                component: ProfilePage,
                 meta: {requiresAuth: true, surfaceId: 'profile'}
             },
             {
@@ -284,7 +312,7 @@ const routes = [
             {
                 path: 'profile/settings',
                 name: 'profile-settings',
-                component: ProfileLocationSettingsView,
+                component: ProfilePage,
                 meta: {requiresAuth: true, surfaceId: 'profile-settings'}
             },
             {
@@ -342,8 +370,11 @@ const routes = [
 ];
 
 export const collectionSelectionQueryKeys = ["selected", "preview"] as const;
+// Disposition rule: aliases preserve deep links; canonical destinations must be the redesigned pages above.
+// Duplicate module actions and row-level Vision links are retired; the shell composer is the single visible assistant entry.
 
 export const router = createRouter({
+    // Canonical module pages own navigation; legacy aliases only preserve deep links.
     history: createWebHistory(),
     routes,
     scrollBehavior(to, _from, savedPosition) {

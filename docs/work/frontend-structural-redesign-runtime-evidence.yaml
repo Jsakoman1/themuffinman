@@ -3,6 +3,8 @@ version: 1
 id: frontend-structural-redesign-runtime-evidence
 master_plan: docs/work/frontend-structural-redesign-master.yaml
 status: draft
+calendar_expansion_review: 2026-07-24-calendar-family
+runtime_expansion_review: 2026-07-24-runtime-family
 capture_policy: Capture only after implementation tasks pass their leaf validation; screenshots alone never mark a task complete.
 required_viewports:
   - desktop-wide

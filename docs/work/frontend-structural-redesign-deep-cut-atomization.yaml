@@ -1,0 +1,204 @@
+kind: analysis
+version: 1
+id: frontend-structural-redesign-deep-cut-atomization
+title: "Deep-cut Apple-inspired redesign atomic decomposition"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+purpose: Replace broad structural tasks with one independently verifiable product outcome per task before implementation begins.
+design_guardrails:
+  - Deep-cut redesign is the only canonical Web experience; no parallel old/new UI grammar.
+  - Apple-inspired clarity, hierarchy, calm surfaces, progressive disclosure, stable tabs, and direct manipulation apply to every task.
+  - VisionForWeb remains the single persistent Siri-like contextual composer and is never removed as part of cleanup.
+  - Backend/API contracts remain authoritative and portable to iPhone and Apple Watch clients.
+tasks:
+  - id: atomize-business-workspace-isolation
+    source_task: business-isolated-workspaces-and-public-presence
+    outcome: Each owned business has an isolated route, context, and navigation entry with no cross-business data leakage.
+  - id: atomize-business-rich-profile-editor
+    source_task: business-isolated-workspaces-and-public-presence
+    outcome: Business owners can edit a professional rich-text landing page with preview and safe save/cancel states.
+  - id: atomize-business-gallery
+    source_task: business-isolated-workspaces-and-public-presence
+    outcome: Business owners can add, reorder, remove, and preview gallery media with accessible empty/error states.
+  - id: atomize-business-services-booking
+    source_task: business-setup-and-public-simplification
+    outcome: Customers choose a service, quantity/participants, and only valid availability slots through one calm booking flow.
+  - id: atomize-business-favorites
+    source_task: business-isolated-workspaces-and-public-presence
+    outcome: Customers can favorite/unfavorite a business and find favorites from Home and discovery without duplicating business data.
+  - id: atomize-calendar-event-aggregation
+    source_task: calendar-all-modules-and-business-scopes
+    outcome: Calendar renders normalized events from Work, Business, Rides, Things, Circles, Chat, and personal commitments.
+  - id: atomize-calendar-source-filters
+    source_task: calendar-all-modules-and-business-scopes
+    outcome: Users can choose module and business sources through one accessible filter surface with persisted presentation state.
+  - id: atomize-calendar-apple-navigation
+    source_task: calendar-all-modules-and-business-scopes
+    outcome: Calendar has calm Apple-like agenda/day/week/month navigation with previous/next arrows and no redundant controls.
+  - id: atomize-calendar-business-drill-in
+    source_task: business-owner-tabs-and-calendar
+    outcome: A business calendar remains isolated inside its business workspace and links back to the unified calendar without mixing scopes.
+  - id: atomize-circles-people-groups
+    source_task: circles-people-groups-and-privileges
+    outcome: Users can add people and organize them into named circles/groups with clear relationship and membership states.
+  - id: atomize-circles-visibility-privileges
+    source_task: circles-people-groups-and-privileges
+    outcome: Users can set and understand visibility and privileges at the circle/group boundary with backend enforcement.
+  - id: atomize-circles-chat-clubs
+    source_task: circles-people-groups-and-privileges
+    outcome: Users can create chat groups and event-capable clubs from an existing circle without a second social model.
+  - id: atomize-things-low-friction-listing
+    source_task: things-wishlist-and-low-friction-listing
+    outcome: Listing a Thing is a short visual flow with only essential fields, clear audience, and reversible save/cancel behavior.
+  - id: atomize-things-need-first-discovery
+    source_task: things-wishlist-and-low-friction-listing
+    outcome: Things discovery starts from what the user needs and shows availability, owner context, duration, and request action clearly.
+  - id: atomize-things-shareable-wishlist
+    source_task: things-wishlist-and-low-friction-listing
+    outcome: Users can save a desired Thing and share the wishlist item with selected circles with explicit visibility.
+  - id: atomize-rides-preferences
+    source_task: rides-background-matching-and-suggestions
+    outcome: Users can quietly define commute preferences and consent boundaries without manually asking another person for a ride.
+  - id: atomize-rides-suggestions
+    source_task: rides-background-matching-and-suggestions
+    outcome: Backend-ranked ride suggestions appear as low-pressure proposals with accept, decline, mute, and explanation states.
+  - id: atomize-profile-settings-sections
+    source_task: profile-settings-and-visual-grammar
+    outcome: Profile and Settings are grouped into calm sections with one predictable edit/save pattern and progressive detail.
+  - id: atomize-shared-apple-visual-system
+    source_task: profile-settings-and-visual-grammar
+    outcome: Tokens, typography, surfaces, controls, tabs, focus, responsive breakpoints, and states share one shallow CSS grammar.
+  - id: atomize-css-cleanup
+    source_task: cleanup-css-components-and-frontend-logic
+    outcome: Duplicate style blocks, dead selectors, copied components, and unused imports are removed with measurable changed-file evidence.
+  - id: atomize-route-cleanup
+    source_task: retire-duplicate-surfaces
+    outcome: Every superseded route has a recorded remove/redirect/retain disposition and no duplicate canonical route remains.
+  - id: atomize-runtime-desktop
+    source_task: retire-duplicates-and-verify-runtime
+    outcome: Desktop runtime evidence proves shell, tabs, previews, business isolation, calendar, and VisionForWeb behavior.
+  - id: atomize-runtime-mobile-keyboard
+    source_task: retire-duplicates-and-verify-runtime
+    outcome: Mobile and keyboard runtime evidence proves sheets, focus, responsive calendar, assistant input, and recovery behavior.
+  - id: atomize-shell-command-search
+    source_task: shell-header-and-persistent-assistant
+    outcome: Header context, navigation, account, and command/search entry have separate jobs with no redundant Create/Search/Ask controls.
+  - id: atomize-home-operational-sections
+    source_task: home-sections-and-side-preview
+    outcome: Home has visually distinct Today, Next, Needs attention, Favorites, and quick-action sections with clear empty states and no unexplained dismiss behavior.
+  - id: atomize-work-adjacent-preview
+    source_task: work-single-tabbed-surface
+    outcome: Work Discover, My work, and Applications use distinct backend scopes and open a selected item in an adjacent desktop preview or mobile sheet.
+  - id: atomize-chat-contextual-workspace
+    source_task: cross-module-profile-chat-calendar-tabs
+    outcome: Chat has a calm conversation list, unread/priority states, related business/work/booking context, resilient composer, search, and retry behavior.
+  - id: atomize-vision-contextual-composer
+    source_task: shell-header-and-persistent-assistant
+    outcome: Every authenticated page exposes one persistent VisionForWeb composer with contextual answer bubble, suggestion chips, confirmation, streaming/listening, and recovery states.
+  - id: atomize-attention-notification-states
+    source_task: attention-and-saved-searches
+    outcome: Attention and notifications distinguish tasks from information and support mark done, snooze, mute, retry, and category filtering without dense controls.
+  - id: atomize-identity-onboarding
+    source_task: foundation-module-page-and-tab-registry
+    outcome: Login, registration, recovery, reset, and onboarding share the same calm form grammar, state messaging, accessibility, and responsive shell rules.
+  - id: atomize-people-profile-context
+    source_task: circles-people-groups-and-privileges
+    outcome: People discovery/profile surfaces explain relationship, shared context, visibility, allowed actions, and links to relevant circles/businesses/chats.
+  - id: atomize-global-state-accessibility
+    source_task: atomize-shared-apple-visual-system
+    outcome: Loading, empty, partial, offline, permission, validation, conflict, success, and retry states plus focus, keyboard, reduced motion, labels, and announcements follow one contract.
+  - id: atomize-flexible-business-service-schema
+    source_task: business-setup-and-public-simplification
+    outcome: Owners can configure quantity, duration, participants, resources, capacity, pricing formulas, quotes, and customer questions without frontend-derived business rules.
+  - id: atomize-calendar-time-and-recurrence
+    source_task: calendar-all-modules-and-business-scopes
+    outcome: Calendar clearly handles timezone, date boundaries, recurring events, conflicts, cancellations, rescheduling, and source ownership across views.
+  - id: atomize-runtime-permission-conflict-recovery
+    source_task: retire-duplicates-and-verify-runtime
+    outcome: Runtime evidence proves permission denial, stale edits, booking conflicts, failed mutations, retries, and reversible recovery for every high-risk flow.
+  - id: atomize-legacy-route-disposition
+    source_task: retire-duplicate-surfaces
+    outcome: A route/component disposition registry lists every old surface, replacement, redirect window, removal condition, and evidence reference.
+  - id: atomize-business-service-inputs
+    source_task: atomize-flexible-business-service-schema
+    outcome: Service setup supports quantity, duration, participants, and customer questions through progressive fields with no irrelevant inputs.
+  - id: atomize-business-pricing-quotes
+    source_task: atomize-flexible-business-service-schema
+    outcome: Pricing formulas, fixed prices, ranges, quote requests, deposits, and preview calculations are backend-owned and explainable before booking.
+  - id: atomize-business-capacity-resources
+    source_task: atomize-flexible-business-service-schema
+    outcome: Employee, resource, parallel-capacity, and single-capacity rules produce valid availability and conflict explanations.
+  - id: atomize-calendar-event-normalization
+    source_task: atomize-calendar-event-aggregation
+    outcome: Every module event is mapped to a typed normalized calendar DTO with source, owner, visibility, action, and stable identity.
+  - id: atomize-calendar-time-semantics
+    source_task: atomize-calendar-time-and-recurrence
+    outcome: Calendar consistently handles timezone, locale, date boundaries, recurring instances, and daylight-saving transitions.
+  - id: atomize-calendar-conflict-lifecycle
+    source_task: atomize-calendar-time-and-recurrence
+    outcome: Calendar explains conflicts, cancellations, rescheduling, stale events, and source-of-truth ownership without silently overwriting data.
+  - id: atomize-chat-list-priority
+    source_task: atomize-chat-contextual-workspace
+    outcome: Chat list separates unread, priority, muted, and archived conversations with stable selection and empty states.
+  - id: atomize-chat-composer-recovery
+    source_task: atomize-chat-contextual-workspace
+    outcome: Chat composer preserves drafts, attachments, send progress, failed-message retry, and keyboard/mobile behavior.
+  - id: atomize-chat-related-context
+    source_task: atomize-chat-contextual-workspace
+    outcome: Conversations link to their related booking, business, Work item, Circle, or Thing and support scoped message search.
+  - id: atomize-vision-input-context
+    source_task: atomize-vision-contextual-composer
+    outcome: VisionForWeb receives current route, selected object, viewer scope, draft, listening state, and suggestion context through one contract.
+  - id: atomize-vision-answer-actions
+    source_task: atomize-vision-contextual-composer
+    outcome: Read answers appear inline while structured actions appear as reviewable task sheets with visible target and permission context.
+  - id: atomize-vision-mutation-confirmation
+    source_task: atomize-vision-contextual-composer
+    outcome: Mutating Vision requests require explicit confirmation, expose calculated consequences, and never bypass direct UI permissions.
+  - id: atomize-vision-stream-recovery
+    source_task: atomize-vision-contextual-composer
+    outcome: Listening, streaming, provider failure, timeout, auth expiry, cancel, retry, and resume states are understandable and reversible.
+  - id: atomize-visual-tokens-controls
+    source_task: atomize-shared-apple-visual-system
+    outcome: One token source defines color, spacing, type, radius, elevation, control hierarchy, focus, and motion primitives used by every module.
+  - id: atomize-visual-state-contract
+    source_task: atomize-global-state-accessibility
+    outcome: Every shared surface uses the same loading, empty, partial, offline, permission, validation, conflict, success, and retry semantics.
+  - id: atomize-visual-accessibility-responsive
+    source_task: atomize-global-state-accessibility
+    outcome: Keyboard navigation, focus visibility, labels, announcements, reduced motion, touch targets, mobile sheets, and responsive breakpoints are verified consistently.
+  - id: atomize-identity-authentication
+    source_task: atomize-identity-onboarding
+    outcome: Login, registration, recovery, and reset form one calm authenticated state machine with clear validation and recovery.
+  - id: atomize-identity-onboarding-flow
+    source_task: atomize-identity-onboarding
+    outcome: Onboarding uses the shared shell/form grammar and exposes only the next necessary decision with resumable progress.
+  - id: atomize-runtime-collection-desktop
+    source_task: atomize-runtime-desktop
+    outcome: Desktop evidence proves collection tabs, adjacent previews, business workspaces, unified Calendar, and persistent VisionForWeb.
+  - id: atomize-runtime-mobile-sheets
+    source_task: atomize-runtime-mobile-keyboard
+    outcome: Mobile evidence proves agenda-first Calendar, bottom sheets, sticky primary actions, assistant composer, and no horizontal overflow.
+  - id: atomize-runtime-mutation-recovery
+    source_task: atomize-runtime-permission-conflict-recovery
+    outcome: Runtime evidence proves denied permissions, stale edits, booking conflicts, failed mutations, retry, cancel, and undo where supported.
+evidence_boundary:
+  - decomposition matrix mapping every broad source task to atomic outcomes
+  - exact implementation paths added to the execution inventory before start
+  - one leaf validation per atomic outcome
+  - runtime evidence split by desktop, mobile, keyboard, permissions, conflicts, and recovery
+  - every atomic item declares one user journey, one backend contract boundary, one failure boundary, and one exit criterion
+coverage_review:
+  added_in_final_preflight:
+    - Chat and conversation resilience
+    - Home operational hierarchy and dismiss semantics
+    - Work adjacent preview and ownership scope
+    - Persistent VisionForWeb behavior, not only its visual host
+    - Identity/onboarding and People/Profile surfaces
+    - Flexible business service schema and pricing/quantity configuration
+    - Calendar timezone, recurrence, conflict, cancellation, and reschedule semantics
+    - Global accessibility and universal async state contract
+    - Explicit legacy route/component disposition registry
+validation: ruby scripts/audits/audit-structural-redesign-plan.rb docs/work/frontend-structural-redesign-master.yaml docs/work/frontend-structural-redesign-execution-inventory.yaml && ruby scripts/audits/audit-work-plan-recursion.rb

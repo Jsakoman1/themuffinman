@@ -30,6 +30,14 @@ export const formatCalendarDay = (value: Date): string =>
 export const formatTime = (value: string | null | undefined, fallback = ""): string =>
   formatDateTime(value, fallback, {hour: "numeric", minute: "2-digit"})
 
+export const formatInTimezone = (value: string | null | undefined, timezone: string, fallback = "Unknown time"): string => {
+  if (!value) return fallback
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return fallback
+  try { return new Intl.DateTimeFormat(undefined, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: timezone}).format(date) }
+  catch { return formatDateTime(value, fallback) }
+}
+
 export const formatNumber = (value: number, locale?: string): string =>
   new Intl.NumberFormat(locale).format(value)
 

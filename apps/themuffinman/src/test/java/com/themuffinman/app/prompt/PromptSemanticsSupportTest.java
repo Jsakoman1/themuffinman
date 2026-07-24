@@ -70,8 +70,8 @@ class PromptSemanticsSupportTest {
     void classifiesChatPrompt() {
         PromptSemanticPlan plan = promptSemanticsSupport.inferPlan("send message to Josip");
 
-        assertEquals("OPEN_CHAT", plan.getCandidateIntent());
-        assertEquals("open_chat", plan.getCapabilityId());
+        assertEquals("SEND_MESSAGE", plan.getCandidateIntent());
+        assertEquals("send_message", plan.getCapabilityId());
     }
 
     @Test

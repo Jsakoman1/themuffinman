@@ -3,7 +3,7 @@ import {onMounted, ref} from "vue"
 import {useRoute} from "vue-router"
 import {formatDate} from "../../../services/formatters.ts"
 import type {ThingListingResponseDTO} from "../../../contracts/index.ts"
-import {thingsApi} from "../../things/api/thingsApi.ts"
+import {thingsApi, type ThingWishlistItem} from "../../things/api/thingsApi.ts"
 import AppButton from "../components/AppButton.vue"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
@@ -19,6 +19,8 @@ const isLoading = ref(true)
 const isSaving = ref(false)
 const error = ref("")
 const feedback = ref("")
+const wishlistItem = ref<ThingWishlistItem | null>(null)
+const sharedCircleIds = ref("")
 const listingId = Number(route.params.listingId)
 
 const load = async () => {
@@ -48,8 +50,15 @@ const requestBorrow = async () => {
     isSaving.value = false
   }
 }
+const loadWishlist = async () => { wishlistItem.value = (await thingsApi.getWishlist()).find(item => item.listingId === listingId) ?? null; sharedCircleIds.value = wishlistItem.value?.sharedCircleIds.join(", ") ?? "" }
+const toggleWishlist = async () => {
+  if (!listing.value) return
+  if (wishlistItem.value) { await thingsApi.removeWishlist(listingId); wishlistItem.value = null; sharedCircleIds.value = ""; feedback.value = "Removed from wishlist."; return }
+  const item = {listingId, title: listing.value.title, sharedCircleIds: sharedCircleIds.value.split(",").map(value => Number(value.trim())).filter(Number.isInteger), savedAt: new Date().toISOString()}
+  wishlistItem.value = await thingsApi.saveWishlist(item); feedback.value = "Saved to wishlist and shared with the selected circles."
+}
 
-onMounted(() => void load())
+onMounted(() => { void load(); void loadWishlist() })
 </script>
 
 <template>
@@ -58,13 +67,13 @@ onMounted(() => void load())
     <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" />
     <article v-else-if="listing" class="detail-card" aria-label="Thing narrative and permitted borrowing action">
       <DetailSurfaceHeader eyebrow="Thing listing" :title="listing.title" back-to="/things" back-label="Back to things" aria-label="Thing detail header" />
-      <p class="owner">Offered by {{ listing.ownerUsername }}</p>
+      <p class="owner" data-surface="need-first-thing-detail">Offered by {{ listing.ownerUsername }} · {{ listing.availabilityLabel || (listing.available ? "Available now" : "Unavailable") }}</p><div class="wishlist" data-wishlist-surface="shareable"><AppButton type="button" tone="secondary" @click="toggleWishlist">{{ wishlistItem ? "Remove from wishlist" : "Save to wishlist" }}</AppButton><input v-model="sharedCircleIds" aria-label="Circle IDs to share wishlist item with" placeholder="Circle IDs to share (optional)"></div>
       <DetailSurface title="Thing detail" utility-label="Thing properties"><p class="description">{{ listing.description || "No description yet." }}</p><section class="thing-detail__activity"><h2>Current availability</h2><p>{{ listing.availabilityLabel }}</p></section><template #utility><div class="thing-detail__properties"><p class="eyebrow">Properties</p><dl><div><dt>Condition</dt><dd>{{ listing.conditionNote || "Not specified" }}</dd></div><div><dt>Listed</dt><dd>{{ formatDate(listing.createdAt) }}</dd></div></dl></div></template></DetailSurface>
       <AppStatus v-if="feedback" :message="feedback" tone="success" />
       <section class="borrow-timeline" aria-label="Borrow request timeline"><p class="eyebrow">Borrow flow</p><ol><li class="borrow-timeline__active">Inspect availability and condition</li><li :class="{'borrow-timeline__active': Boolean(listing.myPendingRequestId)}">Request owner approval</li><li>Agree pickup and return</li><li>Mark returned</li></ol><p class="borrow-timeline__note">The owner and backend remain authoritative for approval, duration, pickup, return, and trust requirements.</p></section>
       <div v-if="listing.myPendingRequestId" class="pending">Your borrow request is pending. Next step: wait for the owner’s decision, then agree pickup and return details.</div>
       <form v-else-if="listing.allowedActions.includes('REQUEST_BORROW')" class="request-form" @submit.prevent="requestBorrow">
-        <h2>Request to borrow</h2>
+        <h2>Need this thing?</h2>
         <AppFormField label="Pickup and return details" optional hint="Include your preferred duration, pickup timing, and return expectation for the owner."><textarea v-model="message" maxlength="1000" placeholder="When would you pick it up and return it?"></textarea></AppFormField>
         <AppFormFooter><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">Send request</AppButton></template></AppFormFooter>
       </form>
@@ -81,6 +90,8 @@ onMounted(() => void load())
 .eyebrow { margin:0; color:var(--text-soft); font-size:var(--text-size-label); font-weight:var(--text-weight-semibold); letter-spacing:var(--tracking-label); text-transform:uppercase; }
 h1 { margin:0; color:var(--text); font-size:var(--text-size-page-title); letter-spacing:var(--tracking-tight); }
 .owner,.pending { margin:0; color:var(--text-muted); }
+.wishlist { display:flex; gap:var(--space-2); align-items:center; flex-wrap:wrap; }
+.wishlist input { min-width:16rem; border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }
 .description { margin:0; color:var(--text); white-space:pre-wrap; }
 .request-form { display:grid; gap:var(--space-2); border-top:1px solid var(--border-subtle); padding-top:var(--space-3); }
 .request-form h2 { margin:0; color:var(--text); font-size:var(--text-size-title); }
