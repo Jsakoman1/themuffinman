@@ -94,6 +94,22 @@ public class BusinessOffering {
     @Column(name = "sort_order", nullable = false)
     private int sortOrder;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "fulfillment_mode", nullable = false, length = 40)
+    private BusinessOfferingFulfillmentMode fulfillmentMode = BusinessOfferingFulfillmentMode.EXACT_APPOINTMENT;
+
+    @Column(name = "schema_version", nullable = false)
+    private int schemaVersion = 1;
+
+    @Column(name = "duration_increment_minutes")
+    private Integer durationIncrementMinutes;
+
+    @Column(name = "minimum_quantity")
+    private Integer minimumQuantity;
+
+    @Column(name = "maximum_quantity")
+    private Integer maximumQuantity;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 

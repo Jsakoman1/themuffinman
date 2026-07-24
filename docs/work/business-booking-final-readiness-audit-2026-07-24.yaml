@@ -1,0 +1,55 @@
+kind: readiness_audit
+version: 1
+id: business-booking-final-readiness-audit
+title: Final nothing-forgotten audit for flexible Business booking
+status: ready_for_goal_pursuing
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+matrix: docs/work/business-booking-file-impact-matrix.yaml
+checks:
+- id: business-types
+  status: covered
+  scope: appointment, time-window, stay, quantity reservation, package, quote/project; queue is explicitly bounded.
+- id: demand
+  status: covered
+  scope: quantity, participants, animals, vehicles, rooms, dimensions, options, add-ons, required fields, notes, conditions.
+- id: resources
+  status: covered
+  scope: employees, staff pools, teams, bays, rooms, equipment pools, generic capacity, one-or-many requirements.
+- id: availability
+  status: covered
+  scope: recurring rules, timezone, DST, exceptions, exact slots, windows, stays, and quantity capacity.
+- id: pricing
+  status: covered
+  scope: fixed, time, quantity, participant/item, package, tiered, modifiers, minimum, free, and quote pricing.
+- id: booking
+  status: covered
+  scope: preview, atomic validation, idempotency, stale state, capacity, resource assignment, snapshots, lifecycle.
+- id: owner-web
+  status: covered
+  scope: profile, schema, options, pricing, resources, availability, conditions, bookings, calendar, permissions, recovery.
+- id: public-web
+  status: covered
+  scope: demand form, quote, slot/window/quantity selection, booking, owner-review and conflict recovery.
+- id: calendar-shell
+  status: covered
+  scope: Business calendar route, shared month/week/day projection, event linking, owner/customer scopes.
+- id: vision
+  status: covered
+  scope: schema collection, quote, availability, selection, confirmation, adapters, shared backend contracts, recovery.
+- id: events-notifications
+  status: covered
+  scope: booking created/status/rescheduled events, owner/customer attention signals, notification and audit compatibility.
+- id: privacy-retention
+  status: covered
+  scope: owner-scoped resources, safe public labels, custom-field sanitization, visibility, retention and deletion behavior.
+- id: controls
+  status: covered
+  scope: capability inventory, target catalog, truth/interface/capability evidence, regression catalog, agent model, backlog, runtime evidence.
+- id: validation
+  status: covered
+  scope: backend/API tests, frontend type-check/build, Vision tests, browser runtime evidence and closeout audits.
+decisions:
+- Payments, deposits, tax, external workforce routing, and arbitrary user-authored formulas remain follow-up capabilities.
+- A true queue-position algorithm is not part of this slice; drop-off is an arrival window or quote/project flow.
+remaining_before_goal_pursuing: []
+ # BUSINESS-BOOKING-RUNTIME-001 is the remaining runtime closeout boundary.

@@ -7,13 +7,14 @@ import AppStatus from "../components/AppStatus.vue"
 import DetailSurface from "../components/DetailSurface.vue"
 import DetailUtilityRail from "../components/DetailUtilityRail.vue"
 import DetailSurfaceHeader from "../components/DetailSurfaceHeader.vue"
+import {formatDateTime} from "../../../services/formatters.ts"
 
 const route = useRoute()
 const detail = ref<QuestApplicationDetailResponseDTO | null>(null)
 const isLoading = ref(true)
 const error = ref("")
 const applicationId = () => Number(route.params.applicationId)
-const formatDate = (value: string | null | undefined) => value ? new Intl.DateTimeFormat(undefined, {dateStyle: "medium", timeStyle: "short"}).format(new Date(value)) : "Not scheduled"
+const formatDate = (value: string | null | undefined) => formatDateTime(value, "Not scheduled", {dateStyle: "medium", timeStyle: "short"})
 
 const load = async () => {
   isLoading.value = true

@@ -2,6 +2,8 @@
 
 ## Current open plan
 
+VISION-PROMPT-STABILIZATION [IN PROGRESS 2026-07-23]: Repair the expanded Vision prompt contract and runtime gaps through `docs/work/vision-prompt-stabilization-master.yaml`; the Web-only VisionForWeb boundary is now being enforced while the detached terminal console remains separate. Analysis: `docs/work/vision-prompt-stabilization-plan-review-2026-07-23.md`.
+
 REPAIR-AND-STABILIZE [ACTIVE-PLANNED]: Execute `docs/work/repair-and-stabilize-master.yaml` before unrelated new features; baseline snapshot is `docs/repair-and-stabilize-baseline-2026-07-22.yaml`.
 SYSTEM-MAP-OPTIMIZATION [ACTIVE]: Optimize implementation, documentation, and control layers through the serial master plan `docs/work/system-map-optimization-master.yaml`; baseline, implementation, documentation, control, and pilot slices are complete, with final closeout gates and explicit follow-up queue remaining.
 SYSTEM-MAP-NEXT-OPTIMIZATION [ACTIVE]: Extend the verified System Map operating model through `docs/work/system-map-next-optimization-master.yaml`; dependency, endpoint, canonical-source, impact, evidence, and configuration slices are implemented and in verifier closeout.
@@ -34,7 +36,7 @@ REPAIR-AND-STABILIZE-CLOSEOUT [2026-07-22]: All six repair child plans are verif
 - RUNTIME-READ-WORK-001 [RESOLVED 2026-07-22]: Work preset search ignored query/page/size because `QuestSearchRequestDTO` lacked bindable setters. Setters and a regression test were added; authenticated search, pagination, empty state, query count, and duration now pass. Evidence: `docs/runtime-evidence/browser-runtime-read-work-discovery-2026-07-22.json`.
 - RUNTIME-SEARCH-ORCHESTRATION-001 [RESOLVED 2026-07-22]: Fresh Work-to-Vision command-center handoff is now combined with the existing authenticated search-v1 query/version/filter/compare trace. Vision-specific pagination/empty coverage remains separately pending. Evidence: `docs/runtime-evidence/browser-runtime-search-orchestration-2026-07-22.json`.
 - RUNTIME-CHAT-GROUP-001 [RESOLVED 2026-07-22]: Existing authenticated multi-user traces now cover both circle-access denial and eligible group creation branches for Chat group eligibility. Evidence: `docs/runtime-evidence/browser-runtime-chat-group-2026-07-22.json`.
-- RUNTIME-PENDING-TRIAGE-001 [OPEN 2026-07-22]: Current pending runtime matrix pass is classified in `browser-runtime-pending-scenario-triage-2026-07-22.yaml` and batch evidence `browser-runtime-pending-batch-03-2026-07-22.yaml`; the audit is now 65 passed / 16 pending. Native/device, deterministic failure-injection, multi-user/storage, Vision parity, and row-specific server-observability evidence boundaries remain explicit and must be closed before the corresponding rows can pass.
+- RUNTIME-PENDING-TRIAGE-001 [OPEN 2026-07-22]: Current pending runtime matrix pass is classified in `browser-runtime-pending-scenario-triage-2026-07-22.yaml`; the audit is now 67 passed / 14 pending. Native/device, multi-user/storage, Vision parity, and row-specific server-observability evidence boundaries remain explicit and must be closed before the corresponding rows can pass.
 - RUNTIME-VISION-RECOVERY-001 [RESOLVED 2026-07-22]: Vision discovery responses carried `recoveryAction`, but the Web renderer exposed no no-match recovery control. The renderer now clears/focuses the prompt and a valid retry was proven in the authenticated browser pass. Evidence: `docs/runtime-evidence/browser-runtime-vision-read-discovery-2026-07-22.json`.
 - RUNTIME-VISION-RETURN-001 [RESOLVED 2026-07-22]: Vision quest discovery detail links previously dropped return context. They now carry `/vision` return context and the Work detail surface exposes `Back to Vision`; authenticated open/return was proven. Evidence: `docs/runtime-evidence/browser-runtime-vision-detail-return-2026-07-22.json`.
 - RUNTIME-VISION-CREATE-002 [RESOLVED 2026-07-22]: The execution-enabled authenticated runtime trace now proves Vision review, confirmation, quest creation, authoritative OPEN readback, and owner cleanup. Provider-failure/retry branches remain pending under their dedicated scenarios. Evidence: `docs/runtime-evidence/browser-runtime-vision-create-quest-execution-2026-07-22.json`.
@@ -66,6 +68,23 @@ FRONTEND-USER-FACING-CLEANUP [PLANNED]: The user-facing audit is recorded in
 child plans. Start with P0 navigation deduplication.
 
 ## Deferred capability gaps
+
+- FRONTEND-UX-SIMPLIFICATION-001 [RESOLVED 2026-07-24]: Full-product turn-based UX slice implemented and runtime evidence captured for shared task surfaces, multi-business calendar context, guided setup/booking, authenticated module migrations, responsive behavior, and contextual Vision. Evidence: `docs/runtime-evidence/frontend-ux-simplification-closeout.json`.
+
+- UI-LINK-RUNTIME-002 [RESOLVED 2026-07-23]: Fresh authenticated Chromium evidence now records typed outcomes for the exact prompt set plus expanded no-match, unknown-recipient, provider-fallback, and recovery cases. Evidence: `docs/runtime-evidence/vision-prompt-stabilization-runtime.json`.
+
+- UI-LINK-RUNTIME-001 [RESOLVED 2026-07-23]: Runtime-capable execution was completed with workspace-owned Chromium, authenticated route coverage, zero browser errors, and fresh Vision evidence. The earlier sandbox restriction was environmental, not a product result.
+
+- VISION-PROMPT-001 [RESOLVED 2026-07-23]: `SEND_MESSAGE` now wins over `OPEN_CHAT` for direct-message language, with deterministic router, semantic audit, and runtime coverage.
+- VISION-PROMPT-002 [RESOLVED 2026-07-23]: `create new work` is a supported deterministic fallback alias and enters guided quest clarification/review.
+- VISION-PROMPT-003 [RESOLVED 2026-07-23]: `go to circles` has an explicit navigation alias and remains distinct from `open my circles`.
+- VISION-PROMPT-004 [RESOLVED 2026-07-23]: Quest no-match and circle readback states are visible and typed in the authenticated Chromium evidence.
+- VISION-PROMPT-005 [RESOLVED 2026-07-23]: Runtime responses now expose typed provider status/outcome/retryability and authoritative turn state instead of placeholder-only evidence.
+- VISION-PROMPT-006 [PARTIAL 2026-07-23]: The provider-to-renderer chain is now browser-exercised through the local development fallback; real OpenAI production-provider evidence remains outside this local proof.
+- VISION-PROMPT-007 [P1 OPEN 2026-07-23]: Direct-message recipient/body collection, follow-up turns, confirmation, send, and authoritative Chat readback lack a complete browser acceptance trace.
+- VISION-PROMPT-008 [RESOLVED 2026-07-23]: Provider-unavailable mutation prompts now fail closed with typed fallback metadata and no mutation plan.
+- VISION-PROMPT-009 [RESOLVED 2026-07-23]: Prompt matrix, semantic audit, alias, precedence, and continuity regression coverage are now recorded in the contract and regression catalogs.
+- VISION-PROMPT-010 [PARTIAL 2026-07-23]: Deterministic provider failure/retry evidence and preference uniqueness protection are complete; the earlier 401 root-cause investigation and real production-provider proof remain open.
 
 These gaps remain visible in `docs/capability-inventory.yaml`, but they do not have an open implementation plan until a
 future slice is explicitly selected:
@@ -122,4 +141,7 @@ unreferenced plan artifacts.
 - RUNTIME-NOTIFICATION-RECEIVE-002 [RESOLVED 2026-07-22]: Fresh authenticated event trace proves notification delivery, unread/read transition, attention-center visibility, reconnect, retry, and disposable event fixture cleanup. Evidence: `docs/runtime-evidence/browser-runtime-notification-receive-2026-07-22.json`.
 - RUNTIME-CHAT-LEAVE-002 [RESOLVED 2026-07-22]: Fresh three-user group trace proves owner leave, replacement-owner transfer, stale repeat rejection, refreshed membership, and minimum-membership recovery. Evidence: `docs/runtime-evidence/browser-runtime-chat-leave-owner-transfer-2026-07-22.json`.
 - RUNTIME-VISION-CONFIRM-002 [RESOLVED 2026-07-22]: Combined authenticated Vision traces prove review, confirm, cancel, and retry state transitions without claiming provider-failure recovery. Evidence: `docs/runtime-evidence/browser-runtime-vision-confirm-cancel-retry-2026-07-22.json`.
-- RUNTIME-CAPABILITY-CLOSEOUT-002 [RESOLVED 2026-07-22]: Runtime capability closeout now reconciles 65 passed evidence-backed rows, 16 explicitly classified pending boundaries, and zero unclassified pending rows. Evidence: `docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml`.
+- RUNTIME-CAPABILITY-CLOSEOUT-002 [RESOLVED 2026-07-22]: Runtime capability closeout now reconciles 67 passed evidence-backed rows, 14 explicitly classified pending boundaries, and zero unclassified pending rows. Evidence: `docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml`.
+- BUSINESS-BOOKING-RUNTIME-001 [CLOSED 2026-07-24]: Captured workspace-owned browser/API trace for flexible Business setup, capacity, public quote/booking, calendar projection, JSON snapshot persistence, and Vision route recovery in `docs/runtime-evidence/business-booking-end-to-end.json` and `docs/runtime-evidence/business-booking-browser-2026-07-24.json`. Full lifecycle completion remains a separate acceptance gap until a post-end booking completion trace is added.
+- UX-NEXT-CLOSEOUT-001 [CLOSED 2026-07-24]: The 39-task UX next-evolution queue and current desktop/mobile browser evidence are recorded in `docs/runtime-evidence/frontend-ux-next-evolution-closeout.json`; the regression catalog now covers the shared shell, progressive Business booking, context actions, accessibility, and responsive overflow boundary.
+- UX-STRUCTURAL-REDESIGN-001 [OPEN 2026-07-24]: Replace parallel generic/bespoke frontend surfaces with one canonical module-page and tab architecture. The master plan is `docs/work/frontend-structural-redesign-master.yaml`; no implementation status is implied until atomic hardening and serial verification complete.

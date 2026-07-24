@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from "vue"
 import {useRoute} from "vue-router"
+import {formatDateTime} from "../../../services/formatters.ts"
 import type {RideOfferResponseDTO} from "../../../contracts/index.ts"
 import {ridesApi} from "../../rides/api/ridesApi.ts"
 import AppStatus from "../components/AppStatus.vue"
@@ -47,9 +48,10 @@ onMounted(() => void load())
       <AppStatus v-if="error" :message="error" tone="error" retry @retry="load" />
       <DetailSurface :title="`${detail.origin} to ${detail.destination}`" utility-label="Ride actions">
         <template #header><DetailSurfaceHeader eyebrow="Rides / Detail" :title="`${detail.origin} → ${detail.destination}`" :back-to="returnTo" back-label="Back to rides" /></template>
-        <template #default><dl class="ride-detail__facts"><div><dt>Departure</dt><dd>{{ new Date(detail.departureAt).toLocaleString(undefined, {dateStyle: "medium", timeStyle: "short"}) }}</dd></div><div><dt>Seats</dt><dd>{{ detail.joinedSeats }} / {{ detail.seats }}</dd></div><div><dt>Driver</dt><dd>{{ detail.driverUsername }}</dd></div><div><dt>Status</dt><dd>{{ detail.status }}</dd></div><div v-if="detail.visibleCircleNames.length"><dt>Visible to</dt><dd>{{ detail.visibleCircleNames.join(', ') }}</dd></div></dl><p v-if="detail.note" class="ride-detail__note">{{ detail.note }}</p></template>
+        <template #default><dl class="ride-detail__facts"><div><dt>Departure</dt><dd>{{ formatDateTime(detail.departureAt, "Unknown time", {dateStyle: "medium", timeStyle: "short"}) }}</dd></div><div><dt>Seats</dt><dd>{{ detail.joinedSeats }} / {{ detail.seats }}</dd></div><div><dt>Driver</dt><dd>{{ detail.driverUsername }}</dd></div><div><dt>Status</dt><dd>{{ detail.status }}</dd></div><div v-if="detail.visibleCircleNames.length"><dt>Visible to</dt><dd>{{ detail.visibleCircleNames.join(', ') }}</dd></div></dl><p v-if="detail.note" class="ride-detail__note">{{ detail.note }}</p></template>
         <template #utility><DetailUtilityRail title="Ride actions"><AppButton v-if="detail.allowedActions.includes('JOIN')" type="button" tone="primary" :loading="acting" @click="run('Joined ride.', () => userShellApi.joinRide(detail!.id))">Join</AppButton><AppButton v-if="detail.allowedActions.includes('LEAVE')" type="button" tone="secondary" :loading="acting" @click="run('Left ride.', () => userShellApi.leaveRide(detail!.id))">Leave</AppButton><AppButton v-if="detail.allowedActions.includes('START')" type="button" tone="primary" :loading="acting" @click="run('Ride started.', () => userShellApi.startRide(detail!.id))">Start</AppButton><AppButton v-if="detail.allowedActions.includes('COMPLETE')" type="button" tone="primary" :loading="acting" @click="run('Ride completed.', () => userShellApi.completeRide(detail!.id))">Complete</AppButton><AppButton v-if="detail.allowedActions.includes('CANCEL')" type="button" tone="danger" :loading="acting" class="ride-detail__danger" @click="run('Ride cancelled.', () => userShellApi.cancelRide(detail!.id))">Cancel</AppButton></DetailUtilityRail></template>
       </DetailSurface>
+      <section class="ride-detail__trust" aria-label="Route and trust summary"><strong>Route and trust</strong><span>Pickup flexibility: confirm with the driver before joining.</span><span>Seat availability: {{ detail.joinedSeats }} / {{ detail.seats }}</span><span>Visibility: {{ detail.visibleCircleNames.length ? detail.visibleCircleNames.join(', ') : 'Viewer-scoped' }}</span><span>Cancellation impact: action availability is controlled by the ride state.</span></section>
     </template>
   </section>
 </template>
@@ -61,4 +63,6 @@ onMounted(() => void load())
 .ride-detail__back:hover { border-color: var(--border-strong); background: var(--surface-hover); color: var(--text); }
 .ride-detail :deep(.detail-utility-rail button:hover) { border-color: var(--border-strong); background: var(--surface-hover); }
 .ride-detail :deep(.detail-utility-rail .ride-detail__danger:hover) { border-color: var(--danger); background: var(--danger-muted); }
+.ride-detail__trust { display:grid; gap:var(--space-1); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
+.ride-detail__trust strong { color:var(--text); }
 </style>

@@ -1,0 +1,107 @@
+kind: work
+version: 1
+id: ui-linking-vision-inline-05-runtime-closeout
+title: Run integrated UI linking and Vision inline closeout
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/ui-linking-vision-inline-master.yaml
+execution_inventory: docs/work/ui-linking-vision-inline-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/browser-runtime-evidence-pass-master.yaml
+  baseline_only_surfaces:
+  - runtime scenarios not affected by changed routes
+  - shared rows
+  - Vision contracts
+  - or chat recipient flows
+  residual_scope:
+  - fresh browser evidence for all changed routes and the five requested Vision scenarios
+  - final docs and backlog reconciliation
+  retest_triggers:
+  - any changed route
+  - shared interaction primitive
+  - Vision flow
+  - or chat recipient behavior
+  non_duplication_rule: Prior runtime artifacts are not reused as proof for changed
+    journeys; this task requires fresh evidence artifacts.
+tasks:
+- id: run-integrated-ui-linking-and-vision-closeout
+  title: Validate route, action, recovery, and Vision inline journeys in browser
+  type: runtime
+  status: done
+  inventory_item: runtime-closeout
+  paths:
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/vision-status-ledger.md
+  - docs/runtime-evidence/ui-linking-vision-inline-runtime.json
+  required_paths:
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  - docs/vision-status-ledger.md
+  - docs/runtime-evidence/ui-linking-vision-inline-runtime.json
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/ui-linking-vision-inline-runtime.json
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  acceptance:
+  - Fresh browser evidence records “open quest Suitcases” with final quest detail
+    route or safe ambiguity recovery.
+  - Fresh browser evidence records “create new work” through review, confirmation,
+    final creation state, and detail handoff.
+  - Fresh browser evidence records both “open my circles” and “go to circles” with
+    their distinct semantic outcomes.
+  - Fresh browser evidence records “send message to Nikolina” with recipient resolution,
+    message body, confirmation, send result, and chat route.
+  - Owned development runtime is stopped with make dev-stop after capture, including
+    failed setup.
+  started_at: '2026-07-23T16:45:28Z'
+  start_fingerprints:
+    docs/regression-scenario-catalog.yaml: d2f2f7afca7e83cfd1bc8923780a42d94fd0c226c4448026be2fc659e3f9e1ef
+    docs/implementation-backlog.md: 64d1b8e88b74c8e0ad7f8aa66e0cdd700d11fa960075026e9f4d0ed1e06a4fbe
+    docs/vision-status-ledger.md: b30375ef5c10fdedf8cf03db71b32ca38485ca2ec911ba510ebe8be23bfe0c41
+    docs/runtime-evidence/ui-linking-vision-inline-runtime.json: __missing__
+evidence:
+- task: run-integrated-ui-linking-and-vision-closeout
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  ranAt: '2026-07-23T16:46:52Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/vision-status-ledger.md
+  - docs/runtime-evidence/ui-linking-vision-inline-runtime.json
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (65 passed, 16 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 65
+      pending runtime scenarios: 16
+      passed evidence paths checked: 61
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-23T16:45:28Z'
+  changedAfterStart: &1
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  - docs/vision-status-ledger.md
+  - docs/runtime-evidence/ui-linking-vision-inline-runtime.json
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/ui-linking-vision-inline-runtime.json

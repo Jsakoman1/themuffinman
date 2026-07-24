@@ -1,0 +1,87 @@
+kind: master
+version: 1
+id: business-booking-end-to-end-master
+title: Complete flexible Business services, booking, availability, calendar, and Vision
+  end-to-end flow
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/target-capability-production-readiness-business.yaml
+  - docs/work/vision-for-web-remaining-business.yaml
+  - docs/work/ui-action-integrity-business-calendar.yaml
+  baseline_only_surfaces:
+  - Existing Business profile, offering, availability, exception, booking, owner-calendar,
+    and Vision routes remain baseline implementation.
+  - Existing tests and prior runtime evidence are baseline evidence only; this plan
+    must create new evidence for changed behavior.
+  - docs/work/business-booking-flexible-model-analysis-2026-07-24.md is planning analysis
+    only and does not count as implementation evidence.
+  - docs/work/business-booking-preflight-2026-07-24.md is planning review only and
+    does not count as implementation evidence.
+  residual_scope:
+  - Define a typed, extensible service configuration model for time, quantity, participants,
+    options, resources, fulfillment, conditions, and price calculation.
+  - Define and expose a single backend-owned availability/quote contract for public
+    Web and Vision consumers.
+  - Support appointment, time-window, all-day/stay, quantity reservation, drop-off/queue,
+    quote/project, and package fulfillment without pretending every service is a minute
+    slot.
+  - Make duration, quantity, pricing unit, tier/modifier, capacity, resource assignment,
+    buffer, timezone, and booking-mode semantics complete and explicit.
+  - Make owner Web setup expose every supported configuration needed by the product
+    flow.
+  - Replace public manual datetime proposal entry with offering-aware slot/window/quantity
+    selection and preserve authoritative server validation.
+  - Make owner calendar and customer booking views prove all booking states and capacity
+    occupancy end to end.
+  - Extend Vision to configure, discover, quote, select, create, review, and navigate
+    the same Business workflow without a separate ruleset.
+  retest_triggers:
+  - Any change to offering duration, pricing, capacity, availability, booking preview,
+    slot generation, or booking validation retests all sibling read and write paths.
+  - Any API or DTO contract change retests Web API callers, Vision route catalog/adapters,
+    and relevant generated contract checks.
+  - Any change to timezone or local-time conversion retests DST boundaries, public
+    slots, booking persistence, and owner calendar grouping.
+  - Any change to Vision slot extraction or confirmation retests semantic contract
+    validation, authorization, confirmation, and retry/error handling.
+  - Any new demand field, resource type, pricing rule, or fulfillment mode requires
+    Web and Vision schema exposure, preview tests, booking snapshot tests, and documentation
+    updates.
+  - Queue/drop-off is bounded to arrival-window or quote/project behavior in this
+    slice; a true queue algorithm requires a separate capability plan.
+  non_duplication_rule: Prior verified Business and Vision plans establish baseline
+    surfaces only. Each child below owns a distinct residual slice and must generate
+    new evidence for its changed paths.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed
+file_impact_matrix: docs/work/business-booking-file-impact-matrix.yaml
+final_readiness_audit: docs/work/business-booking-final-readiness-audit-2026-07-24.yaml
+final_sequencing_review: docs/work/business-booking-final-sequencing-review-2026-07-24.yaml
+atomic_task_hardening_plan: docs/work/business-booking-atomic-task-hardening-2026-07-24.yaml
+children:
+- docs/work/business-booking-domain-contract.yaml
+- docs/work/business-booking-owner-setup-web.yaml
+- docs/work/business-booking-public-slots-web.yaml
+- docs/work/business-booking-calendar-and-workflow-e2e.yaml
+- docs/work/business-booking-vision-parity.yaml
+- docs/work/business-booking-runtime-closeout.yaml
+- docs/work/business-booking-residual-hardening.yaml
+evidence:
+- verifiedAt: '2026-07-24T12:21:48Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  children:
+  - docs/work/business-booking-domain-contract.yaml
+  - docs/work/business-booking-owner-setup-web.yaml
+  - docs/work/business-booking-public-slots-web.yaml
+  - docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  - docs/work/business-booking-vision-parity.yaml
+  - docs/work/business-booking-runtime-closeout.yaml
+  - docs/work/business-booking-residual-hardening.yaml

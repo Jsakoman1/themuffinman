@@ -1,0 +1,113 @@
+kind: work
+version: 1
+id: ui-linking-vision-inline-01-route-foundation
+title: Repair canonical route contracts and stale UI validators
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/ui-linking-vision-inline-master.yaml
+execution_inventory: docs/work/ui-linking-vision-inline-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-action-integrity-master.yaml
+  baseline_only_surfaces:
+  - unaffected authenticated routes and domain actions
+  residual_scope:
+  - things borrow-request route
+  - business availability route ownership
+  - Vision route contracts
+  - modern-surface validator alignment
+  retest_triggers:
+  - router or route registry changes
+  - backend canonical path changes
+  - validator changes
+  non_duplication_rule: Prior route and build evidence is baseline only; this task
+    records only new route-contract evidence.
+tasks:
+- id: repair-canonical-route-contracts
+  title: Align backend, Vision, frontend routes, and static contracts
+  type: implementation
+  status: done
+  inventory_item: route-foundation
+  paths:
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  required_paths:
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run validate:web-surface && npm --prefix apps/themuffinman/frontend
+    run validate:modern-surface && npm --prefix apps/themuffinman/frontend run type-check
+    && git diff --check"
+  started_at: '2026-07-23T16:26:02Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/router.ts: 4a14ac8a62aa1e4b9ee49391e4c25f7d83706ea071a870ca5c4e336b650f74c0
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: c69ca02bf4b922e110900e9d4dcaa8afa7876808b951ba1793559ce17e6e8d70
+    apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts: 36914a22a397bc3cf31bb124f0ae6d83b51c1d8b785001fa23457ecb23024e7c
+    apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs: 76084582f3485fa943b5867c4ffa92b6a340bedcaf62c018d418663fe9427015
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java: bc2fb921a480bf21dd09e6a7bebea777af52233c13f7d157ede0bda2392118ad
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: dcbe4baae00035589e5be82c3f06eb64d28a5465b4b13332644554cdf8b5d392
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java: 3f997ad274413e7467de08162f368e20d304cf6de412e869e726966d44281698
+evidence:
+- task: repair-canonical-route-contracts
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && npm --prefix
+    apps/themuffinman/frontend run validate:web-surface && npm --prefix apps/themuffinman/frontend
+    run validate:modern-surface && npm --prefix apps/themuffinman/frontend run type-check
+    && git diff --check"
+  ranAt: '2026-07-23T16:32:04Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  output: |+
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time:  21.318 s
+    [INFO] Finished at: 2026-07-23T18:32:26+02:00
+    [INFO] ------------------------------------------------------------------------
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (71 checks).
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  startedAt: '2026-07-23T16:26:02Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

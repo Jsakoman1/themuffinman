@@ -74,6 +74,8 @@ import static org.mockito.Mockito.when;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class VisionConversationServiceTest {
 
+    // Business booking review must remain recoverable when the shared backend rejects a stale slot.
+
     @Mock
     private VisionConversationRepository visionConversationRepository;
 
@@ -469,6 +471,31 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void businessAvailabilityPromptHandsOffToCanonicalCalendarRoute() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewBusinessAvailability(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_business_availability")
+                        .title("Business availability")
+                        .summary("Business availability.")
+                        .items(List.of())
+                        .tone("info")
+                        .build()
+        );
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder()
+                        .prompt("open my business availability in workspace")
+                        .build(),
+                currentUser
+        );
+
+        assertEquals("VIEW_BUSINESS_AVAILABILITY", response.getIntent());
+        assertNotNull(response.getWorkspaceHandoff());
+        assertEquals("/business/calendar", response.getWorkspaceHandoff().getReturnTo());
+    }
+
+    @Test
     void circlesPromptRoutesIntoReadOnlyCirclesPreviewWithWorkspaceGuidance() {
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
         when(visionCapabilityPreviewService.previewCircles(currentUser)).thenReturn(
@@ -497,6 +524,38 @@ class VisionConversationServiceTest {
         assertEquals("VIEW_CIRCLES", response.getIntent());
         assertEquals("SHOW_RESULTS", response.getNextAction());
         assertEquals("Showing your circles.", response.getMessage());
+    }
+
+    @Test
+    void openMyCirclesPromptUsesViewerScopedCirclesSurface() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewCircles(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_circles").title("Circles").summary("Your circles.")
+                        .items(List.of()).tone("info").build());
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder().prompt("open my circles").build(), currentUser);
+
+        assertEquals("VIEW_CIRCLES", response.getIntent());
+        assertEquals("/circles", response.getWorkspaceHandoff().getReturnTo());
+        assertEquals("Showing your circles.", response.getMessage());
+    }
+
+    @Test
+    void goToCirclesPromptNavigatesToCirclesWithoutSelectingATarget() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.previewCircles(currentUser)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_circles").title("Circles").summary("Your circles.")
+                        .items(List.of()).tone("info").build());
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder().prompt("go to circles").build(), currentUser);
+
+        assertEquals("VIEW_CIRCLES", response.getIntent());
+        assertEquals("/circles", response.getWorkspaceHandoff().getReturnTo());
+        assertEquals("Opening circles.", response.getMessage());
     }
 
     @Test
@@ -834,6 +893,25 @@ class VisionConversationServiceTest {
         assertTrue(response.getBlocks().stream().anyMatch(block ->
                 "result_summary".equals(block.getType())
                         && "Quest".equals(block.getTitle())));
+    }
+
+    @Test
+    void exactSuitcasesPromptResolvesVisibleQuestDetail() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
+        when(visionCapabilityPreviewService.resolveVisibleQuest(any(AppUser.class), any(String.class)))
+                .thenReturn(VisionResolvedQuestTarget.resolved(42L, "Suitcases", "quest-owner", false, "Free"));
+        when(visionCapabilityPreviewService.previewQuestDetail(currentUser, 42L)).thenReturn(
+                com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO.builder()
+                        .capabilityId("view_quest_detail").title("Quest").summary("Suitcases")
+                        .items(List.of()).tone("info").build());
+
+        VisionConversationTurnResponseDTO response = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder().prompt("open quest Suitcases").build(), currentUser);
+
+        assertEquals("VIEW_QUEST_DETAIL", response.getIntent());
+        assertEquals("SHOW_RESULTS", response.getNextAction());
+        assertTrue(response.getBlocks().stream().anyMatch(block ->
+                "result_summary".equals(block.getType()) && "Quest".equals(block.getTitle())));
     }
 
     @Test
@@ -2664,6 +2742,36 @@ class VisionConversationServiceTest {
     }
 
     @Test
+    void directMessagePromptRequiresBodyAndConfirmationBeforeSending() {
+        when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L, 2L);
+        when(visionChatExecutionService.sendMessage(any(AppUser.class), any(String.class), any(String.class)))
+                .thenReturn(VisionChatExecutionResult.messageSent(
+                        ChatConversationSummaryDTO.builder().conversationId(401L).otherUserId(9L).otherUsername("Nikolina").build(),
+                        com.themuffinman.app.chat.dto.ChatMessageDTO.builder().id(77L).messageBody("Hi Nikolina").build()));
+
+        VisionConversationTurnResponseDTO first = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder().prompt("send message to Nikolina").build(), currentUser);
+        assertEquals("SEND_MESSAGE", first.getIntent());
+        assertEquals("ASK_FOR_SLOT", first.getNextAction());
+        assertEquals("message_body", first.getRequestedSlot());
+
+        VisionConversationTurnResponseDTO review = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder().conversationId(first.getConversationId()).prompt("Hi Nikolina").build(), currentUser);
+        assertEquals("SHOW_REVIEW", review.getNextAction());
+
+        VisionConversationTurnResponseDTO sent = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder().conversationId(first.getConversationId()).action("CONFIRM_REVIEW").build(), currentUser);
+        assertEquals("COMPLETE", sent.getNextAction());
+        assertEquals("Message sent to Nikolina.", sent.getMessage());
+
+        VisionConversationTurnResponseDTO repeated = visionConversationService.processTurn(
+                VisionConversationTurnRequestDTO.builder().conversationId(first.getConversationId()).action("CONFIRM_REVIEW").build(), currentUser);
+        assertEquals("COMPLETE", repeated.getNextAction());
+        assertEquals("Message already sent to Nikolina.", repeated.getMessage());
+        verify(visionChatExecutionService, times(1)).sendMessage(any(AppUser.class), any(String.class), any(String.class));
+    }
+
+    @Test
     void openChatAmbiguityCanBeResolvedByChoosingACandidateNumber() {
         when(visionTurnRepository.countByConversation(any(VisionConversation.class))).thenReturn(0L, 1L);
         when(visionChatExecutionService.openChat(any(AppUser.class), any(String.class), any(VisionSemanticPlan.class)))
@@ -3057,7 +3165,13 @@ class VisionConversationServiceTest {
         if (normalizedPrompt.toLowerCase().contains("show chat")) {
             semanticPlan = VisionSemanticPlan.viewChatWorkspace(0.95d, "mock view chat workspace");
         }
-        if (normalizedPrompt.toLowerCase().contains("show circles")) {
+        if (normalizedPrompt.toLowerCase().contains("send message") || conversation != null && conversation.getIntent() == VisionIntent.SEND_MESSAGE) {
+            semanticPlan = VisionSemanticPlan.builder().candidateIntent(VisionIntent.SEND_MESSAGE.name()).candidateIntentConfidence(0.95d)
+                    .capabilityId("send_message").targetUserQuery("Nikolina").build();
+        }
+        if (normalizedPrompt.toLowerCase().contains("show circles")
+                || normalizedPrompt.toLowerCase().contains("open my circles")
+                || normalizedPrompt.toLowerCase().contains("go to circles")) {
             semanticPlan = VisionSemanticPlan.viewCircles(0.95d, "mock view circles");
         }
         if (normalizedPrompt.toLowerCase().contains("show applications")) {
@@ -3066,7 +3180,8 @@ class VisionConversationServiceTest {
         if (normalizedPrompt.toLowerCase().contains("show user")) {
             semanticPlan = VisionSemanticPlan.viewUserProfile(0.95d, "mock view user profile", "Josip");
         }
-        if (normalizedPrompt.toLowerCase().contains("show quest")) {
+        if (normalizedPrompt.toLowerCase().contains("show quest")
+                || normalizedPrompt.toLowerCase().contains("open quest ")) {
             semanticPlan = VisionSemanticPlan.viewQuestDetail(0.95d, "mock view quest detail");
         }
         if (normalizedPrompt.toLowerCase().contains("show application ")) {

@@ -1,0 +1,8 @@
+{
+  "capturedAt": "2026-07-24T13:43:28.328Z",
+  "routeContext": "work/find",
+  "desktop": {"url": "http://localhost:5173/work/find", "width": 1440, "taskSurface": 1, "vision": 1, "buttons": 7},
+  "mobile": {"url": "http://localhost:5173/work/find", "width": 390, "taskSurface": 1, "vision": 1, "buttons": 7},
+  "keyboard": {"visionToggle": 1},
+  "reducedMotion": "CSS prefers-reduced-motion rules present"
+}

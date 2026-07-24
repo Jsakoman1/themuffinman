@@ -10,7 +10,9 @@ import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
+import {formatDateTime} from "../../../services/formatters.ts"
 const bookings = ref<BusinessBookingResponseDTO[]>([])
+// Customer booking rows preserve the backend-provided timezone and lifecycle snapshot.
 // Customer actions stay separate from the owner booking queue.
 const isLoading = ref(true)
 const isActing = ref<number | null>(null)
@@ -22,7 +24,7 @@ const rescheduleEnd = ref("")
 const reschedulingBooking = computed(() => bookings.value.find(booking => booking.id === rescheduling.value) ?? null)
 const selectedBookingId = ref<number | null>(null)
 const selectedBooking = computed(() => bookings.value.find(booking => booking.id === selectedBookingId.value) ?? null)
-const formatDate = (value: string) => new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value))
+const formatDate = (value: string) => formatDateTime(value, "Unknown time")
 const load = async () => { isLoading.value = true; error.value = ""; try { bookings.value = (await userShellApi.getMyBusinessBookings()).items } catch { error.value = "Could not load your bookings." } finally { isLoading.value = false } }
 const cancel = async (booking: BusinessBookingResponseDTO) => { if (!await confirmAction("Cancel this booking?", "Cancel booking")) return; isActing.value = booking.id; error.value = ""; try { await userShellApi.cancelMyBusinessBooking(booking.id); feedback.value = "Booking cancelled."; await load() } catch { error.value = "Could not cancel this booking." } finally { isActing.value = null } }
 const beginReschedule = (booking: BusinessBookingResponseDTO) => { rescheduling.value = booking.id; rescheduleStart.value = booking.startsAt.slice(0, 16); rescheduleEnd.value = booking.endsAt.slice(0, 16) }

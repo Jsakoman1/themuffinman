@@ -1,0 +1,115 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-11-vision-responsive-accessibility
+title: Preserve contextual Vision and close responsive/accessibility behavior
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-linking-vision-inline-master.yaml
+  - docs/work/frontend-app-remaster-master.yaml
+  baseline_only_surfaces:
+  - VisionForWeb authority boundary and existing canonical handoffs
+  residual_scope:
+  - context inheritance
+  - focus management
+  - keyboard navigation
+  - reduced motion
+  - narrow transformation
+  - state announcements
+  retest_triggers:
+  - VisionForWeb mounting
+  - responsive breakpoint
+  - keyboard/focus
+  - motion
+  - or accessibility state change
+  non_duplication_rule: Existing Vision backend authority and canonical route behavior
+    remain baseline.
+tasks:
+- id: close-vision-responsive-accessibility
+  title: Verify contextual Vision and cross-product responsive/accessibility rules
+  type: implementation
+  status: done
+  inventory_item: vision-responsive-accessibility
+  observable_outcome: Changed surfaces preserve active context in VisionForWeb, remain
+    usable by keyboard and screen reader, transform rather than merely stack on narrow
+    screens, and respect reduced motion.
+  dependencies:
+  - migrate-work-module-surfaces
+  - migrate-chat-attention-surfaces
+  - migrate-social-and-sharing-surfaces
+  - migrate-profile-and-settings-surfaces
+  - implement-business-guided-booking
+  evidence_boundary:
+  - keyboard/focus evidence
+  - narrow visual evidence
+  - VisionForWeb browser trace
+  - type-check
+  - build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/styles
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-responsive-desktop.png
+  - docs/runtime-evidence/frontend-ux-responsive-mobile.png
+  manual_runtime_command: node apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-vision-responsive.json
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T13:42:27Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue: 829c41e72c527ba5eceadf892e09a1a44ba21d695e888066605c401f5577240c
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 94982eac08a4057e6a5b7814b2a2d7ea2a4effebcf462209ff75ebf7d4e9badb
+evidence:
+- task: close-vision-responsive-accessibility
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T13:43:37Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/style.css
+  output: |+
+    dist/assets/WorkDiscoveryView-BTREjNDH.js                      8.07 kB │ gzip:   3.35 kB
+    dist/assets/BusinessPublicView-CJ08y1Yt.js                     8.84 kB │ gzip:   3.36 kB
+    dist/assets/WorkspaceSurfaceView-lZK-QgnG.js                  10.35 kB │ gzip:   3.44 kB
+    dist/assets/BusinessServiceSchemaView-D2Jri5Dx.js             11.04 kB │ gzip:   3.62 kB
+    dist/assets/CirclesView-DNjQ04s4.js                           11.46 kB │ gzip:   3.47 kB
+    dist/assets/BusinessProfileView-BNPs0fnQ.js                   12.47 kB │ gzip:   3.73 kB
+    dist/assets/ThingsDiscoveryView-AHeRTg4F.js                   12.63 kB │ gzip:   4.02 kB
+    dist/assets/WorkQuestDetailView-DHpQyKxb.js                   12.97 kB │ gzip:   4.16 kB
+    dist/assets/RidesView-DvH_TGvE.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-CuUs5I32.js                       16.56 kB │ gzip:   5.35 kB
+    dist/assets/SurfaceHeader-BAbAteVO.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-DF0olNir.js           21.47 kB │ gzip:   6.80 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BPQjOkpW.js                39.11 kB │ gzip:  12.79 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-N6707N29.js                                 55.50 kB │ gzip:  14.06 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 567ms
+
+  startedAt: '2026-07-24T13:42:27Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-responsive-desktop.png
+  - docs/runtime-evidence/frontend-ux-responsive-mobile.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-vision-responsive.json

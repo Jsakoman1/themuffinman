@@ -1,0 +1,316 @@
+kind: execution_inventory
+version: 1
+id: business-booking-end-to-end-master-execution-inventory
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+serial_task_execution: true
+scope_containers:
+- docs/work/business-booking-domain-contract.yaml
+- docs/work/business-booking-owner-setup-web.yaml
+- docs/work/business-booking-public-slots-web.yaml
+- docs/work/business-booking-calendar-and-workflow-e2e.yaml
+- docs/work/business-booking-vision-parity.yaml
+- docs/work/business-booking-runtime-closeout.yaml
+items:
+- id: final-resource-reassignment-owner-setup
+  sequence: 23
+  plan: docs/work/business-booking-final-gap-closure.yaml
+  task: resource-reassignment-owner-setup
+  depends_on:
+  - residual-runtime-regression-control
+  status: verified
+  started_at: '2026-07-24T12:19:09Z'
+  verified_at: '2026-07-24T12:19:46Z'
+  evidence:
+    plan: docs/work/business-booking-final-gap-closure.yaml
+    task: resource-reassignment-owner-setup
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: atomic-task-hardening
+  sequence: 0
+  plan: docs/work/business-booking-atomic-task-hardening-2026-07-24.yaml
+  task: harden-business-booking-atomic-queue
+  status: verified
+  verified_at: '2026-07-24T10:02:18Z'
+  evidence:
+    plan: docs/work/business-booking-atomic-task-hardening-2026-07-24.yaml
+    task: harden-business-booking-atomic-queue
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: domain-schema-migrations
+  sequence: 1
+  plan: docs/work/business-booking-domain-contract.yaml
+  task: domain-schema-migrations
+  depends_on:
+  - atomic-task-hardening
+  status: verified
+  started_at: '2026-07-24T10:57:44Z'
+  verified_at: '2026-07-24T10:59:15Z'
+  evidence:
+    plan: docs/work/business-booking-domain-contract.yaml
+    task: domain-schema-migrations
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: domain-pricing-availability
+  sequence: 2
+  plan: docs/work/business-booking-domain-contract.yaml
+  task: domain-pricing-availability
+  depends_on:
+  - domain-schema-migrations
+  status: verified
+  started_at: '2026-07-24T10:59:21Z'
+  verified_at: '2026-07-24T11:01:10Z'
+  evidence:
+    plan: docs/work/business-booking-domain-contract.yaml
+    task: domain-pricing-availability
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: domain-booking-compatibility
+  sequence: 3
+  plan: docs/work/business-booking-domain-contract.yaml
+  task: domain-booking-compatibility
+  depends_on:
+  - domain-pricing-availability
+  status: verified
+  started_at: '2026-07-24T11:01:16Z'
+  verified_at: '2026-07-24T11:05:17Z'
+  evidence:
+    plan: docs/work/business-booking-domain-contract.yaml
+    task: domain-booking-compatibility
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: owner-api-schema-resources
+  sequence: 4
+  plan: docs/work/business-booking-owner-setup-web.yaml
+  task: owner-api-schema-resources
+  depends_on:
+  - domain-booking-compatibility
+  status: verified
+  started_at: '2026-07-24T11:05:32Z'
+  verified_at: '2026-07-24T11:07:31Z'
+  evidence:
+    plan: docs/work/business-booking-owner-setup-web.yaml
+    task: owner-api-schema-resources
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: owner-web-setup
+  sequence: 5
+  plan: docs/work/business-booking-owner-setup-web.yaml
+  task: owner-web-setup
+  depends_on:
+  - owner-api-schema-resources
+  status: verified
+  started_at: '2026-07-24T11:07:40Z'
+  verified_at: '2026-07-24T11:09:22Z'
+  evidence:
+    plan: docs/work/business-booking-owner-setup-web.yaml
+    task: owner-web-setup
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: public-api-preview
+  sequence: 6
+  plan: docs/work/business-booking-public-slots-web.yaml
+  task: public-api-preview
+  depends_on:
+  - domain-pricing-availability
+  - owner-api-schema-resources
+  status: verified
+  started_at: '2026-07-24T11:09:36Z'
+  verified_at: '2026-07-24T11:11:55Z'
+  evidence:
+    plan: docs/work/business-booking-public-slots-web.yaml
+    task: public-api-preview
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: public-web-booking
+  sequence: 7
+  plan: docs/work/business-booking-public-slots-web.yaml
+  task: public-web-booking
+  depends_on:
+  - public-api-preview
+  - owner-web-setup
+  status: verified
+  started_at: '2026-07-24T11:12:02Z'
+  verified_at: '2026-07-24T11:13:32Z'
+  evidence:
+    plan: docs/work/business-booking-public-slots-web.yaml
+    task: public-web-booking
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: calendar-lifecycle-backend
+  sequence: 8
+  plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  task: calendar-lifecycle-backend
+  depends_on:
+  - domain-booking-compatibility
+  - public-api-preview
+  status: verified
+  started_at: '2026-07-24T11:13:43Z'
+  verified_at: '2026-07-24T11:14:46Z'
+  evidence:
+    plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+    task: calendar-lifecycle-backend
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: calendar-web-shell
+  sequence: 9
+  plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  task: calendar-web-shell
+  depends_on:
+  - calendar-lifecycle-backend
+  status: verified
+  started_at: '2026-07-24T11:14:51Z'
+  verified_at: '2026-07-24T11:16:53Z'
+  evidence:
+    plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+    task: calendar-web-shell
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: vision-schema-read
+  sequence: 10
+  plan: docs/work/business-booking-vision-parity.yaml
+  task: vision-schema-read
+  depends_on:
+  - public-api-preview
+  - owner-api-schema-resources
+  status: verified
+  started_at: '2026-07-24T11:17:03Z'
+  verified_at: '2026-07-24T11:18:19Z'
+  evidence:
+    plan: docs/work/business-booking-vision-parity.yaml
+    task: vision-schema-read
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: vision-reviewed-mutations
+  sequence: 11
+  plan: docs/work/business-booking-vision-parity.yaml
+  task: vision-reviewed-mutations
+  depends_on:
+  - vision-schema-read
+  - calendar-lifecycle-backend
+  status: verified
+  started_at: '2026-07-24T11:19:20Z'
+  verified_at: '2026-07-24T11:19:50Z'
+  evidence:
+    plan: docs/work/business-booking-vision-parity.yaml
+    task: vision-reviewed-mutations
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: vision-recovery-tests
+  sequence: 12
+  plan: docs/work/business-booking-vision-parity.yaml
+  task: vision-recovery-tests
+  depends_on:
+  - vision-reviewed-mutations
+  status: verified
+  started_at: '2026-07-24T11:19:56Z'
+  verified_at: '2026-07-24T11:20:47Z'
+  evidence:
+    plan: docs/work/business-booking-vision-parity.yaml
+    task: vision-recovery-tests
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: runtime-docs-closeout
+  sequence: 13
+  plan: docs/work/business-booking-runtime-closeout.yaml
+  task: runtime-docs-closeout
+  depends_on:
+  - owner-web-setup
+  - public-web-booking
+  - calendar-web-shell
+  - vision-recovery-tests
+  status: verified
+  started_at: '2026-07-24T11:21:05Z'
+  verified_at: '2026-07-24T11:22:15Z'
+  evidence:
+    plan: docs/work/business-booking-runtime-closeout.yaml
+    task: runtime-docs-closeout
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: domain-scope-container
+  sequence: 14
+  plan: docs/work/business-booking-domain-contract.yaml
+  task: domain-scope-container
+  status: verified
+  started_at: '2026-07-24T11:50:53Z'
+  verified_at: '2026-07-24T11:51:16Z'
+  evidence:
+    plan: docs/work/business-booking-domain-contract.yaml
+    task: domain-scope-container
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: owner-scope-container
+  sequence: 15
+  plan: docs/work/business-booking-owner-setup-web.yaml
+  task: owner-scope-container
+  status: verified
+  started_at: '2026-07-24T11:52:23Z'
+  verified_at: '2026-07-24T11:52:29Z'
+  evidence:
+    plan: docs/work/business-booking-owner-setup-web.yaml
+    task: owner-scope-container
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: public-scope-container
+  sequence: 16
+  plan: docs/work/business-booking-public-slots-web.yaml
+  task: public-scope-container
+  status: verified
+  started_at: '2026-07-24T11:52:35Z'
+  verified_at: '2026-07-24T11:53:23Z'
+  evidence:
+    plan: docs/work/business-booking-public-slots-web.yaml
+    task: public-scope-container
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: calendar-scope-container
+  sequence: 17
+  plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  task: calendar-scope-container
+  status: verified
+  started_at: '2026-07-24T11:53:27Z'
+  verified_at: '2026-07-24T11:54:10Z'
+  evidence:
+    plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+    task: calendar-scope-container
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: vision-scope-container
+  sequence: 18
+  plan: docs/work/business-booking-vision-parity.yaml
+  task: vision-scope-container
+  status: verified
+  started_at: '2026-07-24T11:54:14Z'
+  verified_at: '2026-07-24T11:54:36Z'
+  evidence:
+    plan: docs/work/business-booking-vision-parity.yaml
+    task: vision-scope-container
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: runtime-scope-container
+  sequence: 19
+  plan: docs/work/business-booking-runtime-closeout.yaml
+  task: runtime-scope-container
+  status: verified
+  started_at: '2026-07-24T11:54:40Z'
+  verified_at: '2026-07-24T11:54:56Z'
+  evidence:
+    plan: docs/work/business-booking-runtime-closeout.yaml
+    task: runtime-scope-container
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: residual-typed-schema-resource-assignment
+  sequence: 20
+  plan: docs/work/business-booking-residual-hardening.yaml
+  task: typed-schema-resource-assignment
+  status: verified
+  started_at: '2026-07-24T12:10:58Z'
+  verified_at: '2026-07-24T12:11:23Z'
+  evidence:
+    plan: docs/work/business-booking-residual-hardening.yaml
+    task: typed-schema-resource-assignment
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: residual-vision-runtime-contract
+  sequence: 21
+  plan: docs/work/business-booking-residual-hardening.yaml
+  task: vision-runtime-contract
+  depends_on:
+  - residual-typed-schema-resource-assignment
+  status: verified
+  started_at: '2026-07-24T12:11:29Z'
+  verified_at: '2026-07-24T12:14:41Z'
+  evidence:
+    plan: docs/work/business-booking-residual-hardening.yaml
+    task: vision-runtime-contract
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: residual-runtime-regression-control
+  sequence: 22
+  plan: docs/work/business-booking-residual-hardening.yaml
+  task: residual-runtime-regression-control
+  depends_on:
+  - residual-vision-runtime-contract
+  status: verified
+  started_at: '2026-07-24T12:14:44Z'
+  verified_at: '2026-07-24T12:15:01Z'
+  evidence:
+    plan: docs/work/business-booking-residual-hardening.yaml
+    task: residual-runtime-regression-control
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71

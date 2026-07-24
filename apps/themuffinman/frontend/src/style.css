@@ -1,1 +1,172 @@
 @import "./styles/base.css";
+
+/* Shared remaster foundation: surfaces own rhythm, state, and responsive behavior. */
+:root {
+  --surface-padding: clamp(var(--space-3), 2vw, var(--space-5));
+  --surface-section-gap: clamp(var(--space-4), 2vw, var(--space-6));
+  --control-transition: color var(--motion-fast) ease, background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease, transform var(--motion-fast) ease;
+}
+
+.ui-surface,
+.workspace-surface,
+.detail-surface {
+  min-width: 0;
+  transition: border-color var(--motion-standard) ease, background-color var(--motion-standard) ease;
+}
+
+.ui-button,
+.ui-icon-button,
+button,
+a {
+  transition: var(--control-transition);
+}
+
+.ui-button:hover:not(:disabled),
+.ui-icon-button:hover:not(:disabled) {
+  border-color: var(--control-border-active);
+  background: var(--control-bg-hover);
+}
+
+.ui-button:active:not(:disabled),
+.ui-icon-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.ui-state-stack {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--surface-padding);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ui-state-stack--center {
+  min-height: 12rem;
+  place-items: center;
+  text-align: center;
+}
+
+.ui-surface__section {
+  display: grid;
+  gap: var(--surface-section-gap);
+  min-width: 0;
+  padding: var(--surface-padding);
+}
+
+/* Shared control groups keep toolbar and action rows on one responsive grammar. */
+.ui-cluster {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.ui-cluster--end {
+  justify-content: flex-end;
+}
+
+/* Public identity surfaces use the same calm workspace form grammar. */
+.identity-surface {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: var(--canvas);
+  color: var(--text);
+}
+
+.identity-surface__panel {
+  width: min(100%, 31rem);
+  display: grid;
+  gap: var(--space-3);
+  padding: clamp(var(--space-4), 4vw, var(--space-6));
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-surface);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-card);
+}
+
+.identity-surface__form {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.identity-surface__input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  padding: var(--space-2);
+  background: var(--control-bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.identity-surface__copy,
+.identity-surface__linkline {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.identity-surface__linkline a {
+  color: var(--accent);
+  font-weight: var(--text-weight-semibold);
+}
+
+@media (max-width: 700px) {
+  .ui-state-stack {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .ui-surface__section {
+    padding: var(--space-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-surface,
+  .workspace-surface,
+  .detail-surface,
+  .ui-button,
+  .ui-icon-button,
+  button,
+  a {
+    transition: none;
+  }
+}
+
+/* Mobile is an agenda-and-sheet interaction model, not a compressed desktop. */
+@media (max-width: 640px) {
+  .workspace-surface,
+  .detail-surface,
+  .ui-surface,
+  .business-calendar,
+  .rides-surface,
+  .notification-preferences,
+  .location-settings,
+  .task-surface { max-width: none; }
+  .detail-utility-rail,
+  .collection-context-rail,
+  .rides-context { border-left: 0; border-top: 1px solid var(--border-subtle); }
+  .detail-utility-rail { position: sticky; bottom: 0; z-index: 3; padding-bottom: var(--safe-bottom); background: var(--surface-raised); box-shadow: 0 -0.25rem 1rem rgba(0,0,0,.12); }
+  .detail-utility-rail__group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .detail-utility-rail__group .app-button { justify-content: center; min-height: var(--control-height-default); }
+  .workspace-surface__header,
+  .business-calendar__header,
+  .rides-surface header { align-items: stretch; flex-direction: column; }
+  .schedule-agenda,
+  .ride-grid,
+  .surface-list { min-width: 0; overflow-x: hidden; }
+  .schedule-toolbar { align-items: stretch; }
+  .schedule-toolbar label,
+  .schedule-toolbar select,
+  .schedule-toolbar a,
+  .schedule-toolbar button { width: 100%; }
+  .app-dialog__panel { width: calc(100vw - 1rem); max-height: calc(100svh - 1rem); border-radius: var(--radius-surface); }
+  .app-form-footer { position: sticky; bottom: 0; z-index: 2; padding-bottom: calc(var(--space-2) + var(--safe-bottom)); background: var(--surface-raised); }
+}

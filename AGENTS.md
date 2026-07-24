@@ -115,6 +115,7 @@ Planned modules:
 - `docs/codex-fast-path.md` is the compact execution entrypoint for most feature work.
 - Use `docs/implementation-control.md` for every non-trivial implementation change.
 - For broad work, use one master YAML work plan that references child YAML work plans.
+- Before goal pursuing any broad or high-risk master, perform and verifier-verify atomic-task hardening. Every implementation task must have one observable outcome, exact bounded required paths, explicit dependencies, a leaf validation command, and an evidence boundary. Broad child plans are scope containers only; the execution inventory must queue one atomic task at a time.
 - When `AGENTS.md` records a standing autonomous continuation preference, do not stop only to ask which safe offered follow-up slice should run next; continue with the best sequenced slice unless scope changes, approval is required, or a real blocker appears.
 - In a safe active batch, do not ask the user whether to continue between slices, phases, or follow-up passes; continue automatically through the full planned sequence and only stop for a real blocker, scope change, or required approval.
 - During a safe batch, do not stop after one or two phases just to ask whether to continue; carry the batch through all planned phases in sequence, record any safe follow-up items in the appropriate backlog during the same batch, and close the batch only after the final closeout pass.

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue"
 import {useRoute} from "vue-router"
+import {formatDate} from "../../../services/formatters.ts"
 import type {ThingListingResponseDTO} from "../../../contracts/index.ts"
 import {thingsApi} from "../../things/api/thingsApi.ts"
 import AppButton from "../components/AppButton.vue"
@@ -8,6 +9,7 @@ import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import DetailSurface from "../components/DetailSurface.vue"
 import DetailSurfaceHeader from "../components/DetailSurfaceHeader.vue"
+import AppStatus from "../components/AppStatus.vue"
 
 const route = useRoute()
 const userShellApi = {getThingListing: thingsApi.getListing, requestThingBorrow: thingsApi.requestBorrow}
@@ -52,17 +54,18 @@ onMounted(() => void load())
 
 <template>
   <section class="thing-detail">
-    <div v-if="isLoading" class="status">Loading.</div>
-    <div v-else-if="error" class="status status--error" role="alert">{{ error }} <AppButton type="button" tone="quiet" @click="load">Retry</AppButton></div>
+    <AppStatus v-if="isLoading" message="Loading thing." busy />
+    <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" />
     <article v-else-if="listing" class="detail-card" aria-label="Thing narrative and permitted borrowing action">
       <DetailSurfaceHeader eyebrow="Thing listing" :title="listing.title" back-to="/things" back-label="Back to things" aria-label="Thing detail header" />
       <p class="owner">Offered by {{ listing.ownerUsername }}</p>
-      <DetailSurface title="Thing detail" utility-label="Thing properties"><p class="description">{{ listing.description || "No description yet." }}</p><section class="thing-detail__activity"><h2>Current availability</h2><p>{{ listing.availabilityLabel }}</p></section><template #utility><div class="thing-detail__properties"><p class="eyebrow">Properties</p><dl><div><dt>Condition</dt><dd>{{ listing.conditionNote || "Not specified" }}</dd></div><div><dt>Listed</dt><dd>{{ new Date(listing.createdAt).toLocaleDateString(undefined, {dateStyle: "medium"}) }}</dd></div></dl></div></template></DetailSurface>
-      <p v-if="feedback" class="status status--success" role="status">{{ feedback }}</p>
-      <div v-if="listing.myPendingRequestId" class="pending">Your borrow request is pending.</div>
+      <DetailSurface title="Thing detail" utility-label="Thing properties"><p class="description">{{ listing.description || "No description yet." }}</p><section class="thing-detail__activity"><h2>Current availability</h2><p>{{ listing.availabilityLabel }}</p></section><template #utility><div class="thing-detail__properties"><p class="eyebrow">Properties</p><dl><div><dt>Condition</dt><dd>{{ listing.conditionNote || "Not specified" }}</dd></div><div><dt>Listed</dt><dd>{{ formatDate(listing.createdAt) }}</dd></div></dl></div></template></DetailSurface>
+      <AppStatus v-if="feedback" :message="feedback" tone="success" />
+      <section class="borrow-timeline" aria-label="Borrow request timeline"><p class="eyebrow">Borrow flow</p><ol><li class="borrow-timeline__active">Inspect availability and condition</li><li :class="{'borrow-timeline__active': Boolean(listing.myPendingRequestId)}">Request owner approval</li><li>Agree pickup and return</li><li>Mark returned</li></ol><p class="borrow-timeline__note">The owner and backend remain authoritative for approval, duration, pickup, return, and trust requirements.</p></section>
+      <div v-if="listing.myPendingRequestId" class="pending">Your borrow request is pending. Next step: wait for the owner’s decision, then agree pickup and return details.</div>
       <form v-else-if="listing.allowedActions.includes('REQUEST_BORROW')" class="request-form" @submit.prevent="requestBorrow">
         <h2>Request to borrow</h2>
-        <AppFormField label="Message" optional hint="Add context for the owner."><textarea v-model="message" maxlength="1000" placeholder="Add a note for the owner."></textarea></AppFormField>
+        <AppFormField label="Pickup and return details" optional hint="Include your preferred duration, pickup timing, and return expectation for the owner."><textarea v-model="message" maxlength="1000" placeholder="When would you pick it up and return it?"></textarea></AppFormField>
         <AppFormFooter><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">Send request</AppButton></template></AppFormFooter>
       </form>
       <p v-else class="pending">This thing is currently unavailable.</p>
@@ -95,6 +98,7 @@ h1 { margin:0; color:var(--text); font-size:var(--text-size-page-title); letter-
 .thing-detail__properties dl div { display:flex; justify-content:space-between; gap:var(--space-2); border-top:1px solid var(--border-subtle); padding-top:var(--space-2); }
 .thing-detail__properties dt { color:var(--text-soft); font-size:var(--text-size-meta); }
 .thing-detail__properties dd { margin:0; color:var(--text); font-size:var(--text-size-meta); font-weight:var(--text-weight-semibold); text-align:right; }
+.borrow-timeline{display:grid;gap:var(--space-2);padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised)}.borrow-timeline ol{display:grid;gap:var(--space-1);margin:0;padding-left:1.25rem;color:var(--text-muted);font-size:var(--text-size-meta)}.borrow-timeline__active{color:var(--text);font-weight:var(--text-weight-semibold)}.borrow-timeline__note{margin:0;color:var(--text-soft);font-size:var(--text-size-meta)}
 @media(max-width:700px) { .thing-detail__properties { padding:var(--space-2) 0; } }
 </style>
 <style scoped>

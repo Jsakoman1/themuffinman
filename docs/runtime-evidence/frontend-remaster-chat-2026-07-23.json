@@ -1,0 +1,46 @@
+{
+  "evidenceVersion": "frontend-remaster-chat-v3",
+  "capturedAt": "2026-07-24T05:52:23.097Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "chatLanding": {
+      "status": "passed",
+      "route": "/chat",
+      "realtimeStatus": "Realtime Connected",
+      "hasConversations": true
+    },
+    "newChatEntry": {
+      "status": "passed"
+    },
+    "conversationSelection": {
+      "status": "passed",
+      "route": "/chat/382",
+      "href": "/chat/382",
+      "hasComposer": true,
+      "hasBack": true
+    },
+    "conversationBack": {
+      "status": "passed",
+      "route": "/chat"
+    },
+    "mobileConversation": {
+      "status": "passed",
+      "route": "/chat/382",
+      "hasBack": true
+    },
+    "mobileChat": {
+      "status": "passed",
+      "widths": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

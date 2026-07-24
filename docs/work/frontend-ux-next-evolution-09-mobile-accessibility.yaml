@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-09-mobile-accessibility
+title: Transform mobile layouts and close accessibility behavior
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml], baseline_only_surfaces: [existing responsive tokens and VisionForWeb authority], residual_scope: [agenda mobile, bottom sheets, drawers, sticky actions, focus return, announcements, reduced motion, and touch targets], retest_triggers: [breakpoint, focus, keyboard, screen-reader, motion, or mobile interaction change], non_duplication_rule: Mobile and accessibility changes preserve backend and route authority.}
+tasks:
+  - id: implement-mobile-accessibility-transformation
+    title: Make narrow screens and assistive interaction deliberate across the product
+    type: implementation
+    status: pending
+    inventory_item: mobile-accessibility-transformation
+    observable_outcome: Calendar becomes agenda-first, detail rails become sheets, filters become drawers, primary actions remain reachable, focus returns correctly, state changes are announced, and reduced motion is respected.
+    dependencies: [implement-universal-action-state-grammar, implement-cross-module-context-links]
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue, apps/themuffinman/frontend/src/style.css, apps/themuffinman/frontend/src/styles/base.css]
+    required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/style.css]
+    evidence_boundary: [desktop/narrow screenshots, keyboard traversal, focus return, aria announcements, reduced-motion media, type-check/build]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-mobile-desktop.png, docs/runtime-evidence/frontend-ux-next-mobile-mobile.png]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

@@ -1,0 +1,79 @@
+{
+  "evidenceVersion": "frontend-remaster-module-sweep-v3",
+  "capturedAt": "2026-07-24T06:01:42.984Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "route:/circles": {
+      "status": "passed",
+      "route": "/circles",
+      "heading": "Circles",
+      "noHorizontalOverflow": true
+    },
+    "route:/things": {
+      "status": "passed",
+      "route": "/things",
+      "heading": "Things to borrow",
+      "noHorizontalOverflow": true
+    },
+    "route:/rides": {
+      "status": "passed",
+      "route": "/rides",
+      "heading": "Find a ride",
+      "noHorizontalOverflow": true
+    },
+    "route:/business": {
+      "status": "passed",
+      "route": "/business",
+      "heading": "Business",
+      "noHorizontalOverflow": true
+    },
+    "thingsDialog": {
+      "status": "passed",
+      "hasGuidedThing": true
+    },
+    "circleDialog": {
+      "status": "passed",
+      "hasGuidedCircle": true
+    },
+    "thingsApiResponses": [
+      {
+        "url": "http://localhost:5173/src/modules/things/api/thingsApi.ts",
+        "status": 200
+      },
+      {
+        "url": "http://localhost:8080/things/listings",
+        "status": 200
+      },
+      {
+        "url": "http://localhost:8080/things/borrow-requests/me",
+        "status": 200
+      },
+      {
+        "url": "http://localhost:5173/src/modules/things/api/thingsApi.ts",
+        "status": 304
+      },
+      {
+        "url": "http://localhost:8080/things/listings",
+        "status": 200
+      },
+      {
+        "url": "http://localhost:8080/things/borrow-requests/me",
+        "status": 200
+      }
+    ],
+    "mobileThings": {
+      "status": "passed",
+      "widths": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

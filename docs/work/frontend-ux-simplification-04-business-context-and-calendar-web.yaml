@@ -1,0 +1,103 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-04-business-context-and-calendar-web
+title: Implement multi-business owner context and booking-first calendar Web surface
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-booking-end-to-end-master.yaml
+  - docs/work/frontend-app-remaster-master.yaml
+  baseline_only_surfaces:
+  - existing Business routes and booking lifecycle
+  residual_scope:
+  - visible business switcher
+  - unified My Schedule
+  - booking-first owner calendar
+  - availability/resource layers
+  retest_triggers:
+  - Business route or calendar projection change
+  non_duplication_rule: Existing booking mutations and API authority are not reimplemented.
+tasks:
+- id: implement-business-context-and-calendar-web
+  title: Build business switcher and booking-first schedule workspace
+  type: implementation
+  status: done
+  inventory_item: business-context-and-calendar-web
+  observable_outcome: A user can switch owned businesses, see personal and owner bookings
+    in one schedule, and toggle availability/resource layers without leaving the calendar
+    task.
+  dependencies:
+  - implement-business-context-contract
+  evidence_boundary:
+  - authenticated browser journey
+  - desktop/narrow visual evidence
+  - type-check
+  - build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-business-calendar-desktop.png
+  - docs/runtime-evidence/frontend-ux-business-calendar-mobile.png
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T13:28:30Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue: e3e8fcd7649904a7b290c9a4b866976f6eee0b1a2bb9655a839a616859e1c4c9
+    apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue: 877e1c5085590832c1cbfed589f8298b035e10be1a904846686bf4ffcab08f8e
+evidence:
+- task: implement-business-context-and-calendar-web
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T13:32:13Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  output: |+
+    dist/assets/BusinessServiceSchemaView-PumdE6JS.js              8.18 kB │ gzip:   2.53 kB
+    dist/assets/BusinessPublicView-Ct6KU94m.js                     8.44 kB │ gzip:   3.16 kB
+    dist/assets/BusinessAvailabilityView-C2CQRKz2.js               8.65 kB │ gzip:   3.14 kB
+    dist/assets/WorkspaceSurfaceView-DjXpPfrL.js                  10.35 kB │ gzip:   3.43 kB
+    dist/assets/CirclesView-DSJu7Ygr.js                           11.34 kB │ gzip:   3.43 kB
+    dist/assets/BusinessProfileView-D7oFnarQ.js                   12.47 kB │ gzip:   3.72 kB
+    dist/assets/ThingsDiscoveryView-DgSKd0Lz.js                   12.52 kB │ gzip:   3.97 kB
+    dist/assets/WorkQuestDetailView-DTFy5Utn.js                   13.01 kB │ gzip:   4.17 kB
+    dist/assets/RidesView-CTseoQqK.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-CZ9SzyX6.js                       16.45 kB │ gzip:   5.31 kB
+    dist/assets/SurfaceHeader-CXL-HElx.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-C30iu096.js           21.34 kB │ gzip:   6.77 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-FHgtUe9C.js                38.98 kB │ gzip:  12.74 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DHoalkS9.js                                 55.49 kB │ gzip:  14.04 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 516ms
+
+  startedAt: '2026-07-24T13:28:30Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-business-calendar-desktop.png
+  - docs/runtime-evidence/frontend-ux-business-calendar-mobile.png
+  runtimeEvidencePaths: []

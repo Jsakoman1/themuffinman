@@ -1,0 +1,202 @@
+kind: impact_matrix
+version: 1
+id: business-booking-file-impact-matrix
+title: Business flexible service and booking file-level impact matrix
+status: planning
+atomic_task_hardening: docs/work/business-booking-atomic-task-hardening-2026-07-24.yaml
+atomic_queue_status: defined_before_product_implementation
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+purpose: Map every delivery layer before goal pursuing; this is planning control, not implementation evidence.
+global_rules:
+- Backend owns validation, permissions, pricing, availability, resource assignment, capacity, quote state, and booking transitions.
+- DTO/API contracts are the shared boundary for Web, Vision, and future native clients.
+- Web and Vision may collect and present schema-driven fields but may not calculate business outcomes independently.
+- Every new logical entity or workflow must update business/domain docs, capability inventory, target catalog, regression scenarios, and synthetic generation coverage.
+- Existing migrations remain immutable; new schema uses forward-only migrations beginning at V82 unless the actual migration head changes before implementation starts.
+- Every changed read path using Business booking/availability mappers must be audited for fetch scope and lazy initialization.
+- Booking-created, status-changed, and rescheduled event consumers must be audited when booking snapshots or lifecycle state changes.
+- Employee/resource references must be owner-scoped and must not expose private identity fields to public customers.
+- Custom demand fields must have an explicit retention, sanitization, and visibility policy before production use.
+workstreams:
+- id: domain-schema
+  child_plan: docs/work/business-booking-domain-contract.yaml
+  canonical_owners:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business
+  - apps/themuffinman/src/main/resources/db/migration
+  planned_new_backend:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingOption.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessDemandField.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessResource.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessResourcePool.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessPricingRule.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingSnapshot.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPricingCalculationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  planned_new_migrations:
+  - apps/themuffinman/src/main/resources/db/migration/V82__create_business_service_configuration.sql
+  - apps/themuffinman/src/main/resources/db/migration/V83__create_business_service_options_and_demand_fields.sql
+  - apps/themuffinman/src/main/resources/db/migration/V84__create_business_resources_and_requirements.sql
+  - apps/themuffinman/src/main/resources/db/migration/V85__create_business_pricing_rules.sql
+  - apps/themuffinman/src/main/resources/db/migration/V86__create_business_booking_snapshots.sql
+  existing_backend_to_audit:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOffering.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingCreatedEvent.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingStatusChangedEvent.java
+  api_contract:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java
+  endpoint_contract:
+  - GET /business/public/{slug}/offerings/{offeringId}/schema
+  - GET /business/public/{slug}/availability
+  - POST /business/public/{slug}/quote
+  - POST /business/public/{slug}/booking-preview
+  - POST /business/bookings
+  tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPricingCalculationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessQuoteServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: owner-configuration
+  child_plan: docs/work/business-booking-owner-setup-web.yaml
+  backend:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingSchemaController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessResourceController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOfferingSchemaService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java
+  api_contract:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityRuleRequestDTO.java
+  endpoint_contract:
+  - GET /business/offerings/me
+  - POST /business/offerings/me
+  - PUT /business/offerings/{offeringId}/me
+  - GET /business/offerings/{offeringId}/schema/me
+  - PUT /business/offerings/{offeringId}/schema/me
+  - GET /business/resources/me
+  - POST /business/resources/me
+  - PUT /business/resources/{resourceId}/me
+  - GET /business/availability-rules/me
+  - GET /business/availability-exceptions/me
+  frontend:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingRulesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPricingRuleEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingServiceTest.java
+  docs:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+- id: public-quote-booking
+  child_plan: docs/work/business-booking-public-slots-web.yaml
+  backend:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  api_contract:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityWindowDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPreviewRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPreviewResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java
+  endpoint_contract:
+  - GET /business/public/{slug}/offerings/{offeringId}/schema
+  - GET /business/public/{slug}/availability
+  - POST /business/public/{slug}/quote
+  - POST /business/public/{slug}/booking-preview
+  - POST /business/bookings
+  frontend:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessQuoteSummary.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPreviewServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+- id: calendar-lifecycle
+  child_plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  backend:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRescheduleBookingUseCase.java
+  frontend:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingControllerTest.java
+  scenarios:
+  - cleaning-team-multi-resource
+  - hairdresser-stylist-pool
+  - dog-daycare-shared-capacity
+  - car-wash-bay-capacity
+  - repair-project-quote
+- id: vision-parity
+  child_plan: docs/work/business-booking-vision-parity.yaml
+  backend:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessQuoteExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessServiceSchemaExecutionAdapter.java
+  api_contract:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionSemanticRouteDescriptor.java
+  frontend:
+  - apps/themuffinman/frontend/src/modules/vision
+  tests:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  control_and_docs:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/agent-operating-model.yaml
+- id: control-and-closeout
+  child_plan: docs/work/business-booking-runtime-closeout.yaml
+  control:
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/system-truth-registry.yaml
+  - docs/interface-evidence-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/agent-operating-model.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  living_docs:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  validation:
+  - make audit-target-capability-catalog
+  - make audit-target-capability-coverage
+  - make audit-capability-evidence
+  - make audit-interface-evidence
+  - make audit-truth-registry
+  - make audit-docs

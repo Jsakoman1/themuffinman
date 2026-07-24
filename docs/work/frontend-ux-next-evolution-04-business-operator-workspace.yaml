@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-04-business-operator-workspace
+title: Build the Business operator workspace and intelligent calendar
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml, docs/work/business-booking-end-to-end-master.yaml], baseline_only_surfaces: [booking lifecycle, pricing, capacity, availability, resource, and permission authority], residual_scope: [All businesses aggregation, operator dashboard, resource/employee filters, conflict explanations, block time, recurring availability, waiting list, and calendar density], retest_triggers: [calendar aggregation, resource allocation, booking action, or availability explanation change], non_duplication_rule: Backend remains authoritative for every calendar decision.}
+tasks:
+  - id: implement-business-operator-workspace
+    title: Add All businesses calendar and operator-focused business controls
+    type: implementation
+    status: pending
+    inventory_item: business-operator-workspace
+    observable_outcome: Owners can inspect one business or All businesses, filter by employee/resource/service, understand conflicts, block time, and see operator-relevant attention without leaving the calendar context.
+    dependencies: [implement-global-context-command-surface, implement-universal-action-state-grammar]
+    paths: [apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessWorkspaceContextService.java, apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessWorkspaceContextController.java, apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+    required_paths: [apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessWorkspaceContextService.java, apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue]
+    evidence_boundary: [owner role, customer role, All businesses aggregation, conflict explanation, calendar filters, backend tests, type-check/build, desktop/mobile runtime]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-business-operator-desktop.png, docs/runtime-evidence/frontend-ux-next-business-operator-mobile.png]
+    validation: cd apps/themuffinman && ./mvnw -q -Dtest='Business**Test' test && cd frontend && npm run type-check && npm run build

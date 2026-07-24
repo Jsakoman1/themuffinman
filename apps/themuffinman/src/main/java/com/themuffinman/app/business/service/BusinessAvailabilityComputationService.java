@@ -55,24 +55,26 @@ public class BusinessAvailabilityComputationService {
                 ZonedDateTime cursor = ZonedDateTime.of(date, rule.getStartTimeLocal(), zoneId);
                 ZonedDateTime boundary = ZonedDateTime.of(date, rule.getEndTimeLocal(), zoneId);
 
+                int durationMinutes = effectiveDurationMinutes(offering, rule);
                 while (cursor.isBefore(boundary)) {
-                    ZonedDateTime next = cursor.plusMinutes(rule.getSlotGranularityMinutes());
-                    if (next.isAfter(boundary)) {
+                    ZonedDateTime nextCursor = cursor.plusMinutes(rule.getSlotGranularityMinutes());
+                    ZonedDateTime slotEnd = cursor.plusMinutes(durationMinutes);
+                    if (slotEnd.isAfter(boundary)) {
                         break;
                     }
 
                     Instant slotStart = cursor.toInstant();
-                    Instant slotEnd = next.toInstant();
-                    if (!slotEnd.isAfter(from) || slotStart.isAfter(to)) {
-                        cursor = next;
+                    Instant slotEndInstant = slotEnd.toInstant();
+                    if (!slotEndInstant.isAfter(from) || slotStart.isAfter(to)) {
+                        cursor = nextCursor;
                         continue;
                     }
-                    if (isBlocked(exceptions, offering, slotStart, slotEnd)) {
-                        cursor = next;
+                    if (isBlocked(exceptions, offering, slotStart, slotEndInstant)) {
+                        cursor = nextCursor;
                         continue;
                     }
 
-                    BusinessAvailabilityException replacement = replacementException(exceptions, offering, slotStart, slotEnd);
+                    BusinessAvailabilityException replacement = replacementException(exceptions, offering, slotStart, slotEndInstant);
                     int capacity = replacement != null && replacement.getReplacementCapacity() != null
                             ? replacement.getReplacementCapacity()
                             : effectiveCapacity;
@@ -82,12 +84,12 @@ public class BusinessAvailabilityComputationService {
                             .businessOfferingId(offering.getId())
                             .businessOfferingTitle(offering.getTitle())
                             .startsAt(slotStart)
-                            .endsAt(slotEnd)
+                            .endsAt(slotEndInstant)
                             .timezone(profile.getTimezone())
                             .effectiveCapacity(capacity)
                             .build());
 
-                    cursor = next;
+                    cursor = nextCursor;
                 }
             }
         }
@@ -96,6 +98,14 @@ public class BusinessAvailabilityComputationService {
                 .sorted(Comparator.comparing(BusinessAvailabilityWindowDTO::getStartsAt)
                         .thenComparing(BusinessAvailabilityWindowDTO::getEndsAt))
                 .toList();
+    }
+
+    private int effectiveDurationMinutes(BusinessOffering offering, BusinessAvailabilityRule rule) {
+        if (offering.getDurationMode() == com.themuffinman.app.business.model.BusinessOfferingDurationMode.FIXED
+                && offering.getDefaultDurationMinutes() != null) {
+            return offering.getDefaultDurationMinutes();
+        }
+        return rule.getSlotGranularityMinutes();
     }
 
     private void validateRange(BusinessProfile profile, Instant from, Instant to) {

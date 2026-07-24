@@ -1,0 +1,166 @@
+kind: master
+version: 1
+id: frontend-ux-simplification-master
+title: Full-product turn-based UX simplification and multi-business workspace
+status: verified
+readiness: prepared_for_preflight
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+atomic_task_hardening_plan: docs/work/frontend-ux-simplification-atomic-task-hardening.yaml
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+planning_source: docs/work/ui-ux-full-product-audit-2026-07-24.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-app-remaster-master.yaml
+  - docs/work/frontend-app-remaster-08-runtime-visual-closeout.yaml
+  - docs/work/business-booking-end-to-end-master.yaml
+  - docs/work/ui-linking-vision-inline-master.yaml
+  baseline_only_surfaces:
+  - Existing backend domain behavior, permissions, visibility, consent, workflow transitions,
+    and booking invariants.
+  - Existing canonical routes and API contracts unless a task explicitly records a
+    retest-triggered contract change.
+  - Existing verified shell tokens, components, formatting, VisionForWeb boundary,
+    and module capability mappings.
+  - Existing Business flexible service model, pricing, availability, resource assignment,
+    booking lifecycle, and runtime evidence.
+  - Native iPhone, Watch, deployment, provider, and unrelated backend test boundaries.
+  residual_scope:
+  - Make the UI task-oriented instead of exposing every available action and section
+    simultaneously.
+  - Add explicit multi-business owner context and unified personal/business schedule
+    ownership.
+  - Turn Business calendar into a booking-first calendar with availability/resource
+    layers.
+  - Convert Business service setup and public booking into progressive, schema-adaptive
+    steps.
+  - Migrate all authenticated module surfaces to the shared task-surface, attention,
+    overflow, and responsive rules.
+  - Prove desktop, narrow-screen, keyboard, loading, empty, error, and recovery behavior
+    for changed surfaces.
+  retest_triggers:
+  - Any change to authenticated shell navigation, context state, route handoff, or
+    VisionForWeb mounting.
+  - Any shared component or token change affecting more than one module.
+  - Any route/detail/sheet/drawer ownership change.
+  - Any Business context, calendar, booking, availability, resource, or service-setup
+    interaction change.
+  - Any responsive or accessibility behavior change.
+  - Any change to an action's presentation based on backend-provided allowedActions
+    or workflow state.
+  non_duplication_rule: Prior verified plans and runtime evidence are baseline only.
+    This master verifies only new simplification, context, sequencing, and current
+    visual/runtime evidence.
+goal_ready: false
+preflight:
+  status: in_progress
+  impact_report: docs/audit-output/system-map-change-impact.json
+  impact_report_generated_at: '2026-07-24T13:20:48Z'
+  required_artifacts:
+  - docs/work/frontend-ux-simplification-atomic-task-hardening.yaml
+  - docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+  - docs/work/frontend-ux-simplification-preflight-2026-07-24.md
+  required_checks:
+  - verify baseline commit and dirty-worktree boundary
+  - reconcile existing verified frontend and Business plans as baseline-only
+  - confirm atomic inventory ordering and exact task mappings
+  - confirm no task introduces a new domain capability or frontend-owned authority
+  - confirm Business multi-context API/read-model dependency before UI implementation
+  - run plan recursion, docs, and plan coverage audits
+phases:
+- id: control-hardening
+  priority: P0
+  child: docs/work/frontend-ux-simplification-atomic-task-hardening.yaml
+  outcome: Every implementation slice has one observable outcome, bounded paths, dependencies,
+    leaf validation, and an evidence boundary.
+- id: baseline-and-decisions
+  priority: P0
+  child: docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  outcome: A frozen route/surface matrix and explicit turn-based, context, responsive,
+    and ownership decisions exist before implementation.
+- id: shared-task-foundation
+  priority: P0
+  child: docs/work/frontend-ux-simplification-02-shared-task-foundation.yaml
+  outcome: Shared TaskSurface, ContextSwitcher, ActionOverflow, AttentionQueue, progressive
+    disclosure, and responsive primitives are implemented without domain logic.
+- id: business-context-and-calendar
+  priority: P0
+  child: docs/work/frontend-ux-simplification-03-business-context-contract.yaml
+  outcome: The backend exposes a viewer-scoped multi-business and unified schedule
+    read contract without moving authority into the frontend.
+- id: business-context-and-calendar-web
+  priority: P0
+  child: docs/work/frontend-ux-simplification-04-business-context-and-calendar-web.yaml
+  outcome: Owners can switch between multiple businesses and see a booking-first schedule
+    with role/business/date filters and availability layers.
+- id: business-guided-setup
+  priority: P1
+  child: docs/work/frontend-ux-simplification-05-business-guided-setup.yaml
+  outcome: Owner service setup is a progressive, schema-adaptive guided flow with
+    a customer-facing preview.
+- id: business-guided-booking
+  priority: P1
+  child: docs/work/frontend-ux-simplification-06-business-guided-booking.yaml
+  outcome: Public booking uses explicit business/service/options/date/slot/review
+    steps and only exposes fields required by the selected service contract.
+- id: work-module-migration
+  priority: P1
+  child: docs/work/frontend-ux-simplification-07-core-module-migration.yaml
+  outcome: Home and Work use one-next-action, focused detail, and progressive-disclosure
+    behavior.
+- id: chat-attention-migration
+  priority: P1
+  child: docs/work/frontend-ux-simplification-08-chat-attention-migration.yaml
+  outcome: Chat, Notifications, Activity, and Calendar use one attention model and
+    focused responsive task states.
+- id: social-migration
+  priority: P1
+  child: docs/work/frontend-ux-simplification-09-social-and-sharing-migration.yaml
+  outcome: Circles, People, Things, and Rides adopt the same task modes, focused actions,
+    and simpler mobile behavior.
+- id: profile-migration
+  priority: P1
+  child: docs/work/frontend-ux-simplification-10-profile-and-settings-migration.yaml
+  outcome: Profile, location, visibility, gallery, and settings become focused guided
+    editors with explicit save state.
+- id: vision-responsive-accessibility
+  priority: P1
+  child: docs/work/frontend-ux-simplification-11-vision-responsive-accessibility.yaml
+  outcome: VisionForWeb remains contextual, changed surfaces work at narrow widths,
+    keyboard/focus states are complete, and reduced motion is respected.
+- id: runtime-closeout
+  priority: P0
+  child: docs/work/frontend-ux-simplification-12-runtime-visual-closeout.yaml
+  outcome: Current browser, visual, responsive, accessibility, type-check, build,
+    and control evidence proves the completed scope.
+children:
+- docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+- docs/work/frontend-ux-simplification-02-shared-task-foundation.yaml
+- docs/work/frontend-ux-simplification-03-business-context-contract.yaml
+- docs/work/frontend-ux-simplification-04-business-context-and-calendar-web.yaml
+- docs/work/frontend-ux-simplification-05-business-guided-setup.yaml
+- docs/work/frontend-ux-simplification-06-business-guided-booking.yaml
+- docs/work/frontend-ux-simplification-07-core-module-migration.yaml
+- docs/work/frontend-ux-simplification-08-chat-attention-migration.yaml
+- docs/work/frontend-ux-simplification-09-social-and-sharing-migration.yaml
+- docs/work/frontend-ux-simplification-10-profile-and-settings-migration.yaml
+- docs/work/frontend-ux-simplification-11-vision-responsive-accessibility.yaml
+- docs/work/frontend-ux-simplification-12-runtime-visual-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-24T13:45:03Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  children:
+  - docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  - docs/work/frontend-ux-simplification-02-shared-task-foundation.yaml
+  - docs/work/frontend-ux-simplification-03-business-context-contract.yaml
+  - docs/work/frontend-ux-simplification-04-business-context-and-calendar-web.yaml
+  - docs/work/frontend-ux-simplification-05-business-guided-setup.yaml
+  - docs/work/frontend-ux-simplification-06-business-guided-booking.yaml
+  - docs/work/frontend-ux-simplification-07-core-module-migration.yaml
+  - docs/work/frontend-ux-simplification-08-chat-attention-migration.yaml
+  - docs/work/frontend-ux-simplification-09-social-and-sharing-migration.yaml
+  - docs/work/frontend-ux-simplification-10-profile-and-settings-migration.yaml
+  - docs/work/frontend-ux-simplification-11-vision-responsive-accessibility.yaml
+  - docs/work/frontend-ux-simplification-12-runtime-visual-closeout.yaml

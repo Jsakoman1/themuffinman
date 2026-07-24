@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -79,6 +80,12 @@ public class BusinessBooking {
 
     @Column(name = "duration_snapshot_minutes", nullable = false)
     private Integer durationSnapshotMinutes;
+
+    @Column(name = "quantity_snapshot", nullable = false, precision = 12, scale = 3)
+    private BigDecimal quantitySnapshot = BigDecimal.ONE;
+
+    @OneToOne(mappedBy = "businessBooking", fetch = FetchType.LAZY)
+    private BusinessBookingSnapshot flexibleSnapshot;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();

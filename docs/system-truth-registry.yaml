@@ -102,3 +102,4 @@ next_optimization_control_state:
   evidence_class: validated-contract
   confidence: high
   update_trigger: serial task verification, closeout, or next queue change
+ # BUSINESS-BOOKING-RUNTIME-001 owns flexible Business runtime status and points to the captured API/browser evidence artifact.

@@ -98,6 +98,11 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+:where(.ui-focusable):focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
 :root[data-theme="light"],
 :root[data-theme="system"] {
   color-scheme: light;

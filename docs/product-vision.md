@@ -29,12 +29,22 @@ Instead of making users hunt through menus, modal dialogs, and long forms, the p
 
 The goal is not novelty for its own sake. The goal is to make the app feel like it understands what kind of moment the user is in.
 
-The default desktop Web visual language is a dark graphite workspace: a stable
-application frame, quiet near-black surfaces, subtle one-pixel separators, compact
-type, aligned metadata, and restrained status color. It should feel calm and fast,
-not like an Excel sheet, a card-heavy marketing dashboard, or a dense text-heavy
-admin tool. This is inspired by Linear's interaction discipline, not its brand,
-product terminology, issue model, boards, assets, or copy.
+The primary Web design direction is Apple-inspired interaction design adapted for a
+responsive application workspace. The product should feel calm, clear, human, and
+immediately understandable. Use strong hierarchy, generous breathing room,
+restrained surfaces, stable labeled navigation, progressive disclosure, direct
+manipulation, predictable focus, and a small number of meaningful actions. The
+reference is Apple's Human Interface Guidelines, not a literal iOS visual clone.
+
+The Web may still use a dark graphite theme where it improves readability, but the
+theme is subordinate to the Apple-inspired principles. The result must never feel
+like an Excel sheet, a card-heavy marketing dashboard, or a dense text-heavy admin
+tool. Color, borders, shadows, and typography should support hierarchy rather than
+become the identity by themselves.
+
+The authenticated Web shell should feel like one calm application frame. It must
+not present competing Create/Search controls, repeated page-level assistant buttons,
+or multiple action toolbars with equal visual weight.
 
 The same workspace direction is also inspired by the calm, persistent application
 behavior of the ChatGPT desktop app. The inspiration is about public interaction
@@ -55,8 +65,17 @@ visual grammar: an adaptive canvas that can become spacious, light, expressive, 
 voice-led when that helps the current task. The contrast is intentional: the Web
 workspace is the reliable structured place to navigate and inspect, while
 VisionForWeb is the inline voice/context-aware assistant that helps a person decide,
-understand, and safely begin work inside Web. The current `/vision` route is a
-transitional console surface, not the Web app's landing page or shell dependency.
+understand, and safely begin work inside Web. The terminal Vision console is not a
+Web UI surface: authenticated Web navigation must use VisionForWeb, and legacy
+`/vision` links redirect back to the Web shell with the prompt preserved for the
+inline host.
+
+The Web, iPhone, and Apple Watch products are one product family. Web is the first
+Apple-inspired implementation surface; future Swift clients consume the same
+backend contracts rather than Vue-specific rules. Domain logic, permissions,
+workflow transitions, calendar aggregation, pricing, matching, and Vision actions
+belong behind APIs. Clients own presentation, local input, focus, selection, and
+device-specific interaction only.
 
 ## VisionForWeb Assistant Layer
 
@@ -93,6 +112,14 @@ Its idle, listening, thinking, navigating, result, clarification, and recovery
 states must remain accessible and reduced-motion aware.
 
 ## Desktop Workspace Language
+
+Apple-inspired Web design is the primary design authority for this workspace. Tabs
+navigate between sibling sections and never perform actions. A small number of
+visible, labeled tabs is preferred; secondary destinations belong in a stable
+sidebar or a clearly labeled More surface. Important controls must not disappear
+without an explanatory empty state. On desktop, collection selection should use an
+adjacent preview when that avoids unnecessary navigation; on mobile, the same
+preview becomes a deliberate sheet or route.
 
 The authenticated Web application should behave and look like one coherent desktop
 application rather than a collection of branded pages:
@@ -237,9 +264,11 @@ These archetypes should feel like different shapes of the same product, not unre
 
 The redesigned Web workspace and the future standalone Vision console are
 complementary clients with deliberately different interaction grammars. The Web
-client uses a dark, readable,
-Linear-inspired application shell for navigation, collections, detail work, and
-keyboard-oriented command discovery. That choice must not turn the Vision console into a
+client uses an Apple-inspired, readable application shell for navigation,
+collections, detail work, and keyboard-oriented command discovery. A dark theme may
+be used where it improves readability, but the design language is defined by
+clarity, hierarchy, calm surfaces, stable navigation, and progressive disclosure.
+That choice must not turn the Vision console into a
 dashboard, board, persistent sidebar, or command palette.
 
 Vision remains the future-facing primary assistant: voice-ready, context-aware, and

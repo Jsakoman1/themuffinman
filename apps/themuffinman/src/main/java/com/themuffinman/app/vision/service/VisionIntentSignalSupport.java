@@ -156,6 +156,14 @@ final class VisionIntentSignalSupport {
                 "talk to");
     }
 
+    boolean containsSendMessageSignals(String value) {
+        return containsAny(value,
+                "send message",
+                "send a message",
+                "direct message",
+                "dm ");
+    }
+
     boolean containsChatWorkspaceSignals(String value) {
         return containsAny(value,
                 "show chat",
@@ -300,6 +308,8 @@ final class VisionIntentSignalSupport {
                 "my circles",
                 "show circles",
                 "open circles",
+                "go to circles",
+                "navigate to circles",
                 "circle list",
                 "my network");
     }

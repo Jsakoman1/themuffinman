@@ -14,13 +14,16 @@ import AppEmptyState from "../components/AppEmptyState.vue"
 import AppLoadingState from "../components/AppLoadingState.vue"
 import DisplayDensityControl from "../components/DisplayDensityControl.vue"
 import AppButton from "../components/AppButton.vue"
+import AppStatus from "../components/AppStatus.vue"
 import {formatDateTime} from "../../../services/formatters.ts"
+import TaskSurface from "../components/TaskSurface.vue"
 
 const route = useRoute()
 const router = useRouter()
 const query = ref(typeof route.query.q === "string" ? route.query.q : "")
 const sort = ref(typeof route.query.sort === "string" ? route.query.sort : "recommended")
 const scheduledOnly = ref(route.query.scheduled === "1")
+const workMode = ref<"browse" | "recommended" | "nearby" | "scheduled" | "applications">("browse")
 const routeContext = computed(() => `${route.path}?q=${encodeURIComponent(query.value.trim())}&sort=${sort.value}&scheduled=${scheduledOnly.value ? "1" : "0"}`)
 const {state: viewState} = useSurfaceViewState("work-discovery", computed(() => currentUser.value?.id), routeContext)
 const items = ref<QuestResponseDTO[]>([])
@@ -46,6 +49,7 @@ const visionRoute = computed(() => buildSurfaceVisionRoute(
 ))
 
 const locationLabel = (quest: QuestResponseDTO) => quest.presentation.locationLabel || quest.locationLocality || "Anywhere"
+const plainText = (value: string | null | undefined) => (value || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
 
 const load = async (reset = true) => {
   const requestId = ++requestSequence
@@ -105,12 +109,13 @@ watch([query, sort, scheduledOnly], () => {
   if (searchTimer !== undefined) window.clearTimeout(searchTimer)
   searchTimer = window.setTimeout(() => void load(), 250)
 })
+watch(workMode, mode => { if (mode === "recommended") sort.value = "recommended"; if (mode === "scheduled") scheduledOnly.value = true; if (mode !== "scheduled") scheduledOnly.value = false })
 
 const rememberSelection = (id: number) => {
   viewState.value.selectedId = id
   viewState.value.scrollY = window.scrollY
 }
-const detailRoute = (id: number) => resolveSurfaceDetailRoute("work-quests", id) ?? `/vision/quests/${id}`
+const detailRoute = (id: number) => resolveSurfaceDetailRoute("work-quests", id) ?? `/work/quests/${id}`
 const handleRowClick = (event: MouseEvent, id: number) => {
   // Primary row links own navigation. Do not let the selection-state watcher
   // race that navigation by replacing the canonical detail route with a
@@ -133,7 +138,8 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
 </script>
 
 <template>
-  <section class="work-discovery" aria-labelledby="work-discovery-title">
+  <!-- UX simplification: Work keeps browse, inspect, and act states in one surface. -->
+  <TaskSurface mode="inspect" label="Work discovery"><section class="work-discovery" aria-labelledby="work-discovery-title" :aria-busy="isLoading || isLoadingMore || undefined">
     <header class="work-discovery__header">
       <div>
         <p class="work-discovery__eyebrow">{{ isMine ? "Work / Mine" : "Work" }}</p>
@@ -141,13 +147,14 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
       </div>
     </header>
 
+    <section class="work-mode-switcher" aria-label="Work discovery mode"><strong>Mode</strong><label><select v-model="workMode"><option value="browse">Browse</option><option value="recommended">Recommended</option><option value="nearby">Nearby</option><option value="scheduled">Scheduled</option><option value="applications">My applications</option></select></label><small>{{ workMode === "applications" ? "Application progress is available from your applications surface." : "Backend visibility and eligibility remain authoritative." }}</small></section>
     <CollectionToolbar :title="title" :count="totalItems" :busy="isLoading">
       <template #filters>
       <label class="work-discovery__search">
         <span class="sr-only">Search work</span>
         <input v-model="query" type="search" placeholder="Search work" @keyup.enter="load()">
       </label>
-      <details class="work-discovery__options">
+      <details class="work-discovery__options" aria-label="Work view options">
         <summary>View options</summary>
         <div class="work-discovery__options-panel">
           <label>Sort <select v-model="sort" aria-label="Sort work"><option value="recommended">Recommended</option><option value="newest">Newest</option><option value="soonest">Soonest</option><option value="highest_reward">Highest reward</option></select></label>
@@ -163,19 +170,19 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
     </CollectionToolbar>
 
     <AppLoadingState v-if="isLoading" label="Loading work" :rows="5" />
-    <div v-else-if="error" class="work-discovery__status work-discovery__status--error" role="alert"><strong>Work could not be loaded.</strong><span>{{ error }}</span><AppButton type="button" tone="secondary" @click="load()">Try again</AppButton></div>
+    <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" />
     <AppEmptyState v-else-if="items.length === 0" title="No matching work" message="Try another search or adjust the filters." />
 
-    <p v-if="items.length" class="work-discovery__scope">{{ isMine ? "Work you created and can manage." : "Available work visible to you." }}</p>
+    <p v-if="items.length" class="work-discovery__scope" aria-live="polite">{{ isMine ? "Work you created and can manage." : "Available work visible to you." }}</p>
     <div v-if="items.length" class="work-discovery__workspace">
     <div class="work-discovery__list">
-      <SurfaceRow v-for="quest in items" :key="quest.id" :row="{id: String(quest.id), title: quest.title, description: `${quest.presentation.statusLabel} · ${locationLabel(quest)}`, meta: `${quest.awardAmount} € · ${formatDateTime(quest.scheduledAt)}`}" :density="viewState.displayDensity" :selected="viewState.selectedId === quest.id" @click="handleRowClick($event, quest.id)" @open="rememberSelection(quest.id)" />
+      <SurfaceRow v-for="quest in items" :key="quest.id" :row="{id: String(quest.id), title: quest.title, description: `${quest.presentation.statusLabel} · ${locationLabel(quest)}`, meta: `${quest.awardAmount} € · ${formatDateTime(quest.scheduledAt)}`, to: detailRoute(quest.id)}" :density="viewState.displayDensity" :selected="viewState.selectedId === quest.id" @click="handleRowClick($event, quest.id)" @open="rememberSelection(quest.id)" />
     </div>
-    <aside class="work-discovery__context" aria-label="Selected work context">
+    <aside class="work-discovery__context" aria-label="Selected work context" aria-live="polite">
       <template v-if="selectedQuest">
         <p class="work-discovery__eyebrow">Work context</p>
         <h2>{{ selectedQuest.title }}</h2>
-        <p>{{ selectedQuest.description || "No description provided." }}</p>
+        <p>{{ plainText(selectedQuest.description) || "No description provided." }}</p>
         <dl>
           <div><dt>Status</dt><dd>{{ selectedQuest.presentation.statusLabel }}</dd></div>
           <div><dt>Location</dt><dd>{{ locationLabel(selectedQuest) }}</dd></div>
@@ -201,7 +208,7 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
     >
       {{ isLoadingMore ? "Loading" : "Load more" }}
     </AppButton>
-  </section>
+  </section></TaskSurface>
 </template>
 
 <style scoped>
@@ -440,4 +447,7 @@ select {
 .work-discovery__status--error{color:var(--danger)}
 .work-discovery .app-button { min-height:2.25rem; border-radius:var(--radius-control); padding:.45rem .7rem; background:var(--control-bg); color:var(--control-ink); }
 .work-discovery .app-button--primary { border-color:var(--accent); background:var(--accent); color:var(--canvas); }
+</style>
+<style scoped>
+.work-mode-switcher{display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap;padding:var(--space-2) var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.work-mode-switcher select{min-height:var(--control-height-default);padding:var(--space-1) var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink);font:inherit}.work-mode-switcher small{color:var(--text-muted)}
 </style>

@@ -1,0 +1,57 @@
+{
+  "evidenceVersion": "frontend-remaster-work-v3",
+  "capturedAt": "2026-07-24T05:46:51.966Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "authenticatedDiscovery": {
+      "status": "passed",
+      "route": "/work/find",
+      "rowCount": 6,
+      "hasScopeCopy": true,
+      "noHorizontalOverflow": true
+    },
+    "contextSelection": {
+      "status": "passed",
+      "contextText": "WORK CONTEXT\n\nKosenje trave\n\nMoze li mi netko pokositi travu?\n\nStatus\nOPEN\nLocation\nObsteinenweg 29, Villigen, Switzerland\nReward\n50 €\nWhen\nJun 26, 10:00 PM\nOpen full detail"
+    },
+    "filters": {
+      "status": "passed",
+      "hasSort": true
+    },
+    "canonicalDetail": {
+      "status": "passed",
+      "route": "/work/quests/23",
+      "hasBackLink": true,
+      "hasSharedStatus": true
+    },
+    "guidedCreation": {
+      "status": "passed",
+      "route": "/work/quests/new",
+      "hasGuidedPanel": true,
+      "hasCancel": true
+    },
+    "applicationReview": {
+      "status": "passed",
+      "route": "/work/applications",
+      "hasSharedStatus": true,
+      "hasApplicationSurface": true,
+      "bodyPreview": "TM\n\nWorkspace\n\n⌂\nHome\n▤\nWork\nFind work\nMy work\nMy applications\n◌\nChat\n□\nCalendar\n◇\nBusiness\n◎\nCircles\n▣\nThings\n↗\nRides\n\nPERSONAL\n\nAttention\n12\n◷\nActivity\n⌕\nSaved searches\n\nACCOUNT\n\nProfile\nSettings\nCreate\nSearch\n✦\nVision",
+      "contentMarkup": "<section data-v-c8e64f1c=\"\" data-v-c7e2f611=\"\" class=\"applications-surface\"><header data-v-c8e64f1c=\"\" class=\"applications-surface__header\"><div data-v-c8e64f1c=\"\"><p data-v-c8e64f1c=\"\" class=\"applications-surface__eyebrow\">Work / My applications</p><h1 data-v-c8e64f1c=\"\">My applications</h1></div></header><header data-v-ced11435=\"\" data-v-c8e64f1c=\"\" class=\"collection-toolbar\" role=\"toolbar\" aria-label=\"My applications\"><div data-v-ced11435=\"\" class=\"collection-toolbar__identity\"><h2 data-v-ced11435=\"\">My applications</h2><span data-v-ced11435=\"\" aria-label=\"Collection item count\">2</span></d"
+    },
+    "mobileWork": {
+      "status": "passed",
+      "widths": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "hasToolbar": true
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

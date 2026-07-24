@@ -1,0 +1,256 @@
+kind: work
+version: 1
+id: business-booking-public-slots-web
+title: Implement public service configuration, quote, availability, and booking selection
+status: verified
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+tasks:
+- id: public-scope-container
+  title: Scope container for public Business booking atomic tasks
+  type: implementation
+  status: done
+  inventory_item: public-scope-container
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  verification_required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  validation: test -f apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+    && test -f apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessQuoteSummary.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPricingCalculationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPublicReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  acceptance:
+  - Public Business page first collects the offering's typed demand fields, options,
+    quantity, participants/items, and required conditions.
+  - The backend returns a quote plus a typed availability result: exact slots, arrival
+      windows, all-day/stay capacity, quantity capacity, quote-required, or unavailable.
+  - User sees only exact slots that fit duration, buffers, resources, exceptions,
+    occupancy, lead time, and advance horizon; non-appointment services never receive
+    fake slots.
+  - A 30-minute offering exposes 30-minute bookable slots; a 120-minute offering exposes
+    only two-hour slots where the entire interval is free.
+  - Quantity and shared-capacity offerings show remaining capacity and reject quantities
+    that exceed it; a dog daycare can reserve multiple dogs without creating fake
+    employee appointments.
+  - Cleaning, car-wash, and repair examples render their own demand, option, window,
+    queue, package, or quote flows from backend schema.
+  - Quote responses explain price lines, modifiers, quantities, capacity consumption,
+    required conditions, and whether owner review is required.
+  - Capability evidence distinguishes slot booking, window booking, quantity reservation,
+    quote request, and public schema-driven demand capture.
+  - API methods and frontend components preserve the selected demand and quote state
+    through loading, validation, stale availability, owner-review, and retry transitions.
+  - Booking uses the selected backend slot/window/quantity/quote and still revalidates
+    atomically at write time, with clear stale-state recovery.
+  - Public page supports instant confirmation and owner-request flows with correct
+    status and next action.
+  - Empty availability, timezone, unauthenticated, expired, and conflict states are
+    recoverable and do not lose the selected offering unnecessarily.
+  started_at: '2026-07-24T11:52:35Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: 5d7419e704a828d4307189690796668d67f2c3df8bb8af9b5f23fcbcad3673ca
+- id: public-api-preview
+  title: Implement public schema, quote, availability, preview, and booking contract
+  type: implementation
+  status: done
+  inventory_item: public-api-preview
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java
+  dependencies:
+  - domain-pricing-availability
+  - owner-api-schema-resources
+  observable_outcome: Public API returns schema-driven demand, explainable quote,
+    typed availability, and authoritative booking preview.
+  evidence_boundary:
+  - controller/service tests
+  - DTO contract tests
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessAvailabilityReadServiceTest,BusinessBookingPreviewServiceTest,BusinessQuoteServiceTest'
+    test
+  started_at: '2026-07-24T11:09:36Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java: 8c40ee4bca1eafdf5b2020839500fccdca381945e0244b2cfa30a5c48591b1e8
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java: 679c8e80e5d62f7f54251cd91eeaf559c4ebc4866c1ec635e8cc7bbe26db493b
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java: 95ed793c381cbe9ebc7120a041758266070c9d6f02131acfa4f3aa8e3731a790
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java: 28953b26dbed300b239bd4ee3d346ee648e9f7c7492d356200ec179a5d3dccfc
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java: '03168fe95f0c77525eea01bc56005a4d30911efd0066d434996e5cab78fa039c'
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java: c506a5100fdcc5de166631e328d6b969d07829d86727ec00d2b6da4a5166f8f0
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java: 6f3f3e328a8e20401b5627a90a9419361e69d7d7c557435976a0dbcc3783f4d1
+- id: public-web-booking
+  title: Implement public demand form, quote summary, availability picker, and booking
+    recovery
+  type: implementation
+  status: done
+  inventory_item: public-web-booking
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessQuoteSummary.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessQuoteSummary.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  dependencies:
+  - public-api-preview
+  - owner-web-setup
+  observable_outcome: Customer can provide demand, see quote and valid slot/window/capacity
+    choices, and recover from stale booking state.
+  evidence_boundary:
+  - frontend type-check
+  - frontend build
+  - browser flow evidence later
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-24T11:12:02Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: 23c97c1fdf5dc9991058b9eac0e6f80204d57237834eb6d240f04f6543fd155b
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessQuoteSummary.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 3b0fb16eb39245fdbe5dc6c91c626e02c90dc27e373c3dcd8ae5fb6d9feb92a3
+    apps/themuffinman/frontend/src/contracts/index.ts: 0e58b699e1353d7f2559118bdde025a50d982b042ebcf6dcf12984d566bf63b9
+evidence:
+- task: public-api-preview
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessAvailabilityReadServiceTest,BusinessBookingPreviewServiceTest,BusinessQuoteServiceTest'
+    test
+  ranAt: '2026-07-24T11:11:44Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  output: "\n"
+  startedAt: '2026-07-24T11:09:36Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: public-web-booking
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-24T11:13:28Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessQuoteSummary.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-sZ6m6tqw.js     8.01 kB │ gzip:   2.61 kB
+    dist/assets/BusinessAvailabilityView-D3Hmey-4.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/BusinessPublicView-DI_pfTtA.js                     8.37 kB │ gzip:   3.13 kB
+    dist/assets/WorkspaceSurfaceView-Zmb33lS-.js                  10.34 kB │ gzip:   3.43 kB
+    dist/assets/CirclesView-CjrNBZ7p.js                           11.34 kB │ gzip:   3.43 kB
+    dist/assets/BusinessProfileView-CkVoT6N5.js                   12.47 kB │ gzip:   3.72 kB
+    dist/assets/ThingsDiscoveryView-BFsx5-1z.js                   12.52 kB │ gzip:   3.97 kB
+    dist/assets/WorkQuestDetailView-BCTfVtRc.js                   13.01 kB │ gzip:   4.17 kB
+    dist/assets/RidesView-Cm6gnElJ.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-CcSN8oUx.js                       16.45 kB │ gzip:   5.31 kB
+    dist/assets/SurfaceHeader-DeRyEqIB.js                         17.89 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-DBUuTGSA.js           21.34 kB │ gzip:   6.77 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CblgJteZ.js                38.82 kB │ gzip:  12.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-Ch2Sg-Op.js                                 54.87 kB │ gzip:  13.92 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 497ms
+
+  startedAt: '2026-07-24T11:12:02Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessQuoteSummary.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: public-scope-container
+  command: test -f apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+    && test -f apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessPublicController.java
+  ranAt: '2026-07-24T11:53:23Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  output: "\n"
+  startedAt: '2026-07-24T11:52:35Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+scope_container: true
+atomic_tasks:
+- id: public-api-preview
+  outcome: Expose public schema, quote, availability, preview, and booking DTO/endpoint
+    contract.
+- id: public-web-booking
+  outcome: Implement demand form, quote summary, slot/window/capacity picker, and
+    stale booking recovery.

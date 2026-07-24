@@ -1,0 +1,458 @@
+kind: master
+version: 1
+id: frontend-app-remaster-master
+title: Frontend app-like UI/UX remaster
+status: verified
+readiness: ready_for_goal_pursuing
+preflight: passed_2026-07-23
+baseline: dcb983f
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-app-remaster-master-execution-inventory.yaml
+planning_source: docs/work/frontend-app-remaster-draft.yaml
+plan_review: docs/work/frontend-app-remaster-system-map-audit-2026-07-23.md
+implementation_deep_dive: docs/work/frontend-app-remaster-plan-deep-dive-2026-07-23.md
+reopen_audit: docs/work/frontend-remaster-reopen-audit-2026-07-24.md
+partial_implementation_recovery: docs/work/frontend-remaster-partial-implementation-recovery-2026-07-24.md
+goal_ready: true
+goal_pursuing:
+  status: reopened
+  reopened_at: '2026-07-24T00:00:00+02:00'
+  reopen_reason: Prior verification proved required-path changes and static/runtime
+    loading evidence, but did not prove the planned authenticated interaction, visual
+    simplification, accessibility, or module-specific implementation scope.
+  objective: 'Execute the 12-slice frontend app-remaster program in serial order:
+    first reconcile the exact System Map baseline and residual scope, then implement
+    the approved shared UX grammar and targeted module migrations, and finally prove
+    current browser, visual, responsive, accessibility, and static evidence.'
+  execution_mode: serial
+  first_plan: docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+  first_task: freeze-baseline-and-residual-matrix
+  start_command: make work-start plan=docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+    task=freeze-baseline-and-residual-matrix
+  verification_command: make work-verify plan=docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+    task=freeze-baseline-and-residual-matrix
+  continue_rule: Advance only after the current execution-inventory item and child
+    task are verifier-marked done/verified. Start exactly one item at a time and use
+    the next sequence number only after current evidence is recorded.
+  first_slice_rule: The first slice is analysis-only. It must freeze the dirty-worktree
+    boundary, produce the route/surface/capability/baseline/residual matrix, and classify
+    all open product/backend decisions before any implementation child starts.
+  stop_conditions:
+  - A proposed UI change requires a new capability, endpoint, DTO, permission, visibility,
+    consent, eligibility, or workflow transition.
+  - A product decision is required for route/detail/context/sheet/tab ownership and
+    cannot be resolved from the decision record.
+  - A shared primitive change would regress a verified surface without a safe bounded
+    migration.
+  - Browser/runtime or visual evidence cannot be captured in the owned local environment.
+  - The dirty worktree makes exact changed-file impact impossible to establish for
+    the current slice.
+  closeout_rule: The master remains open until all 12 child plans, all 12 inventory
+    items, current runtime/visual evidence, and final audits pass through the normal
+    work-plan verifier. Required-path changes alone do not prove a child; authenticated
+    journeys and concrete UX acceptance evidence are mandatory.
+  anti_partial_rule: A child cannot close from required-path changes or static checks
+    alone. Every implementation child must record concrete before/after UI behavior,
+    rendered browser interaction for every named journey, desktop/mobile visual review,
+    and an empty deferred-scope list. Any incomplete planned item keeps the child pending
+    and the master open.
+pre_goal_gates:
+- All 12 child plan files exist and are linked from the master and execution inventory.
+- Serial inventory sequence is complete and ordered from 1 through 12.
+- The implementation deep dive and System Map audit are linked as planning evidence.
+- Existing verified frontend plans are recorded as baseline-only and are not re-counted.
+- The first task is analysis-only and has exact required paths plus leaf validation.
+- make audit-plan-coverage, make audit-docs, and make audit-frontend pass at preflight.
+objective: Remaster the existing authenticated Web frontend into one calm, modern,
+  minimal, application-like workspace by simplifying navigation and workflows, standardizing
+  shared UI/UX and CSS, improving contextual and turn-based interactions, and preserving
+  every existing backend-owned capability and canonical route. This program changes
+  presentation and interaction grammar; it does not invent domain capabilities or
+  move domain authority into the frontend.
+analysis_summary:
+  product_direction: 'The Web client is the structured application workspace: stable
+    shell, collections, details, search, actions, and safe workflow completion. VisionForWeb
+    is the inline contextual assistant and canonical Web handoff layer, while the
+    detached Vision console is not a Web navigation surface.'
+  design_direction: Use a dark graphite workspace with compact typography, dense but
+    readable rows, quiet metadata, restrained borders and status color, sparse elevation,
+    clear primary actions, and functional reduced-motion-aware transitions.
+  architecture_direction: Keep frontend ownership limited to navigation presentation,
+    route context, surface state, loading/error states, and thin client orchestration.
+    Backend DTOs, allowedActions, permissions, visibility, consent, workflow state,
+    action contracts, and authoritative readback remain the source of truth.
+  current_state: The current registry records 46 authenticated Web routes, 44 concrete
+    surfaces, one redirect, no placeholder module routes, and no detached routes in
+    the route inventory. A stale-surface audit still identifies six likely unused
+    components and one detached Vision console view for ownership review.
+  residual_problem: Existing standardization work is verified, but remaining modernization
+    must reconcile that baseline with the product vision, simplify high-complexity
+    surfaces, apply a coherent app-like interaction grammar, address named mobile/detail/privacy/recovery
+    gaps, and prove changed behavior visually and in the browser.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-standardization-master.yaml
+  - docs/work/frontend-next-standardization-master.yaml
+  - docs/work/frontend-standardization-foundation.yaml
+  - docs/work/frontend-standardization-module-sweep.yaml
+  - docs/work/frontend-user-facing-surface-archetypes.yaml
+  - docs/work/frontend-user-facing-state-form-standardization.yaml
+  - docs/work/frontend-user-facing-responsive-consolidation.yaml
+  - docs/work/frontend-context-panel-standardization.yaml
+  - docs/work/frontend-form-and-action-standardization.yaml
+  - docs/work/frontend-css-responsive-consolidation.yaml
+  - docs/work/frontend-accessibility-keyboard-standardization.yaml
+  - docs/work/frontend-contract-audit.yaml
+  baseline_only_surfaces:
+  - Existing backend domain behavior, permissions, visibility, consent, and workflow
+    transitions.
+  - Existing capability status and Web action mapping in docs/capability-inventory.yaml.
+  - Existing canonical routes and typed API contracts unless a child plan records
+    a retest-triggered change.
+  - Existing verified shell, collection, detail, state, form, CSS, responsive, and
+    accessibility evidence.
+  - Existing VisionForWeb boundary and terminal Vision restriction from the Web shell.
+  - Native iPhone, Watch, deployment, and provider runtime boundaries.
+  residual_scope:
+  - Reconcile verified frontend standardization with product-vision workspace language.
+  - Make explicit route/detail/context/sheet/tab decisions for residual surfaces.
+  - Add only missing shared surface, action-feedback, motion, responsive, and accessibility
+    primitives.
+  - Simplify Work, Chat, social, sharing, rides, and business surfaces where current
+    inventory or audits identify a gap.
+  - Remove or explicitly retain stale/detached UI candidates after ownership review.
+  - Capture browser, responsive, visual, and accessibility evidence for changed surfaces.
+  retest_triggers:
+  - Authenticated shell navigation, route handoff, VisionForWeb mounting, or canonical
+    deep-link behavior changes.
+  - Shared dialog, sheet, form, surface, navigation, feedback, motion, or token behavior
+    changes.
+  - A module action placement change affects a backend-provided allowedActions contract.
+  - A surface change affects visibility, consent, membership, booking, work, ride,
+    lending, chat, or notification state presentation.
+  - A route changes from direct detail to context/sheet or from context/sheet to canonical
+    detail.
+  - Responsive or accessibility behavior changes across more than one module.
+  non_duplication_rule: Prior verified plans are baseline evidence only. This master
+    owns only the residual remaster scope listed here. A capability, route, action,
+    or visual standard already verified by a referenced plan must not be counted again
+    as new completion.
+  change_impact_review:
+    required: true
+    report: docs/audit-output/system-map-change-impact.json
+    disposition: required_before_implementation
+system_map_guardrails:
+  canonical_sources:
+  - docs/system-map.md
+  - docs/system-map-module-registry.yaml
+  - docs/system-map-change-impact-registry.yaml
+  - docs/system-map-dependency-registry.yaml
+  - docs/system-map-workflow-registry.yaml
+  - docs/system-map-coverage-registry.yaml
+  - docs/client-surface-registry.yaml
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  rules:
+  - Capability status is read from docs/capability-inventory.yaml, not inferred from
+    a route, button, mockup, or prompt.
+  - Frontend may present backend action flags but may not reimplement authorization,
+    visibility, consent, eligibility, or workflow authority.
+  - New convenience navigation is not a new capability and must not be represented
+    as one.
+  - Existing Web capability mapping must be reused for Work, Chat, Circles, Business,
+    Things, Rides, search, notifications, and shell actions.
+  - Browser/runtime gaps remain gaps until a current trace proves them; static route
+    mapping is not runtime evidence.
+  - VisionForWeb may open or control canonical Web surfaces only through backend-approved
+    handoffs and remains inline in the authenticated shell.
+  - Native contracts are not Web implementation evidence.
+  explicit_non_scope:
+  - New domain actions, mutation endpoints, or capability families.
+  - Frontend-owned domain data fetching or persistence.
+  - Local permission or collection-membership inference.
+  - Reopening or embedding the detached Vision console in Web.
+  - Treating all details as popups, all navigation as tabs, or all tasks as chatbot
+    turns.
+phases:
+- id: reconciliation
+  priority: P0
+  child: docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+  outcome: A frozen baseline/residual matrix links every remaster candidate to a current
+    route, surface, capability family, verified plan, or explicit product decision.
+- id: ux-architecture
+  priority: P0
+  child: docs/work/frontend-remaster-02-ux-architecture-decisions.yaml
+  outcome: Route, collection, split-view, detail, drawer, sheet, dialog, tab, inline-edit,
+    turn-based, mobile, motion, and accessibility rules are decided before shared
+    implementation begins.
+- id: shared-foundation
+  priority: P0
+  child: docs/work/frontend-remaster-03-shared-surface-motion-foundation.yaml
+  outcome: Only the missing shared primitives and tokens are implemented, with no
+    duplication of already verified standardization work.
+- id: work-remaster
+  priority: P1
+  child: docs/work/frontend-remaster-04-work-context-guided-flow.yaml
+  outcome: Existing Work discovery, quest detail, application review, and creation
+    flows use the approved app-like and turn-based grammar.
+- id: chat-remaster
+  priority: P1
+  child: docs/work/frontend-remaster-05-chat-workspace-recovery.yaml
+  outcome: Chat remains an intentional two-pane workspace with simpler composer, attachment,
+    reconnect, mobile, and feedback behavior.
+- id: module-sweep
+  priority: P2
+  child: docs/work/frontend-remaster-06-social-sharing-business-sweep.yaml
+  outcome: Circles/People, Things, Rides, and Business adopt shared patterns only
+    at existing mapped surfaces and named UX gaps.
+- id: personal-context-and-commands
+  priority: P1
+  child: docs/work/frontend-remaster-09-personal-context-command-center.yaml
+  outcome: Home, Attention, Activity, Search, Create, and saved-search surfaces form
+    one calm personal context layer without duplicating module dashboards.
+- id: profile-visibility-location
+  priority: P1
+  child: docs/work/frontend-remaster-10-profile-visibility-location.yaml
+  outcome: Profile, visibility, consent, and location settings become a simpler guided
+    workspace while backend privacy and location authority remain intact.
+- id: identity-and-onboarding
+  priority: P1
+  child: docs/work/frontend-remaster-12-identity-onboarding.yaml
+  outcome: Login, registration, recovery, reset, and optional onboarding share the
+    same calm form/state grammar without changing authentication authority.
+- id: formatting-and-state-consistency
+  priority: P2
+  child: docs/work/frontend-remaster-11-formatting-state-consistency.yaml
+  outcome: Remaining local date/time and visible state formatting drift is reconciled
+    with the shared formatter and state vocabulary baseline.
+- id: cleanup
+  priority: P2
+  child: docs/work/frontend-remaster-07-css-obsolete-surface-review.yaml
+  outcome: Duplicate CSS is reduced and stale/detached components are removed or retained
+    with an explicit ownership decision.
+- id: closeout
+  priority: P0
+  child: docs/work/frontend-remaster-08-runtime-visual-closeout.yaml
+  outcome: Changed shell and representative module journeys have current browser,
+    responsive, visual, accessibility, type-check, build, and static-audit evidence.
+dependencies:
+- reconciliation -> ux-architecture
+- ux-architecture -> shared-foundation
+- shared-foundation -> work-remaster
+- shared-foundation -> formatting-and-state-consistency
+- formatting-and-state-consistency -> work-remaster
+- formatting-and-state-consistency -> chat-remaster
+- formatting-and-state-consistency -> personal-context-and-commands
+- formatting-and-state-consistency -> profile-visibility-location
+- formatting-and-state-consistency -> module-sweep
+- formatting-and-state-consistency -> identity-and-onboarding
+- work-remaster -> cleanup
+- chat-remaster -> cleanup
+- personal-context-and-commands -> cleanup
+- profile-visibility-location -> cleanup
+- identity-and-onboarding -> cleanup
+- module-sweep -> cleanup
+- cleanup -> closeout
+- work-remaster -> closeout
+- chat-remaster -> closeout
+- module-sweep -> closeout
+- personal-context-and-commands -> closeout
+- profile-visibility-location -> closeout
+- formatting-and-state-consistency -> closeout
+module_scope:
+  work:
+    surfaces:
+    - "/home"
+    - "/work"
+    - "/work/find"
+    - "/work/quests"
+    - "/work/quests/new"
+    - "/work/quests/:questId"
+    - "/work/quests/:questId/applications"
+    - "/work/applications"
+    - "/work/applications/:applicationId"
+    focus: discovery density, context/detail choice, guided creation, action review,
+      mobile presentation, state clarity
+    capability_status_source: docs/capability-inventory.yaml
+  chat:
+    surfaces:
+    - "/chat"
+    - "/chat/:conversationId"
+    focus: deliberate two-pane workspace, composer, attachments, reconnect/recovery,
+      mobile presentation
+    capability_status_source: docs/capability-inventory.yaml
+  circles_people:
+    surfaces:
+    - "/circles"
+    - "/people"
+    - "/people/:userId"
+    focus: contextual profile/circle surfaces, invite picker, privacy/consent explanation,
+      detail-route decision, mobile presentation
+    capability_status_source: docs/capability-inventory.yaml
+  things_rides:
+    surfaces:
+    - "/things"
+    - "/things/:id"
+    - "/rides"
+    - "/rides/mine"
+    focus: listing/request context, explicit borrowing turns, compact ride status,
+      mobile presentation, lifecycle evidence
+    capability_status_source: docs/capability-inventory.yaml
+  business:
+    surfaces:
+    - "/business"
+    - "/business/find"
+    - "/business/profile"
+    - "/business/offerings"
+    - "/business/public/:slug"
+    - "/business/bookings"
+    - "/business/bookings/owner"
+    - "/calendar"
+    - "/business/availability"
+    - "/business/availability/exceptions"
+    focus: booking/detail grammar, compact calendar/availability, gallery recovery,
+      mobile presentation
+    capability_status_source: docs/capability-inventory.yaml
+  personal_context_and_commands:
+    surfaces:
+    - "/home"
+    - "/notifications"
+    - "/activity"
+    - "/search"
+    - "/search/saved"
+    - authenticated shell
+    focus: attention center, personal shortcuts, command center, create menu, saved
+      searches, and context continuity
+    capability_status_source: docs/capability-inventory.yaml
+  profile_visibility_location:
+    surfaces:
+    - "/profile"
+    - "/profile/:id"
+    - "/profile/settings"
+    - "/profile/settings/notifications"
+    focus: profile editing, avatar/gallery, visibility/consent explanation, location
+      preferences, provider recovery, notification preferences
+    capability_status_source: docs/capability-inventory.yaml
+  identity_and_onboarding:
+    surfaces:
+    - "/login"
+    - "/register"
+    - "/recover"
+    - "/reset-password"
+    - "/onboarding"
+    focus: shared identity forms, recovery states, session entry, optional setup progression,
+      and public/authenticated visual grammar
+    capability_status_source: docs/capability-inventory.yaml
+  formatting_and_state:
+    surfaces:
+    - all changed Web surfaces using dates
+    - times
+    - statuses
+    - loading
+    - stale
+    - success
+    - or recovery states
+    focus: residual local formatters, locale/timezone consistency, state vocabulary,
+      and actionable feedback
+    capability_status_source: docs/capability-inventory.yaml
+acceptance:
+  product_and_ux:
+  - The authenticated Web product reads as one coherent application with stable spatial
+    memory.
+  - Each remastered surface has one clear primary action and an explicit next state
+    or recovery path.
+  - Direct UI remains complete; turn-based assistance complements it and does not
+    replace it.
+  - Details open in context surfaces only where that preserves task continuity; canonical
+    routes remain available for deep/complex details.
+  - Tabs are limited to independent parallel contexts and do not replace normal navigation.
+  - No changed flow requires an unnecessary full browser reload.
+  system_map_and_architecture:
+  - Every changed action remains linked to an existing capability and Web surface.
+  - No frontend code owns permission, visibility, consent, eligibility, workflow transition,
+    or persistence authority.
+  - Existing allowedActions and backend-prepared DTOs remain authoritative.
+  - VisionForWeb remains the only Vision surface used from authenticated Web UI.
+  visual_and_interaction:
+  - Shared tokens and primitives govern spacing, type, color, surfaces, actions, focus,
+    responsive behavior, and motion.
+  - Loading, empty, error, stale, success, retry, and undo states use one visible
+    vocabulary.
+  - Motion is short, functional, and reduced-motion aware.
+  - Keyboard, screen-reader, focus, contrast, and touch-target behavior pass for changed
+    surfaces.
+  delivery_and_evidence:
+  - Every child is independently verified through the work-plan verifier.
+  - Shared behavior changes include type-check, build, static audits, and browser/visual
+    evidence where required.
+  - Module workflow changes include current browser evidence for the affected journey.
+  - The master is not verified while any child or execution-inventory item remains
+    pending or blocked.
+closeout:
+  required_commands:
+  - make work-verify plan=<child-plan>
+  - npm --prefix apps/themuffinman/frontend run type-check
+  - npm --prefix apps/themuffinman/frontend run build
+  - make audit-frontend
+  - make audit-plan-coverage
+  - make audit-truth-registry
+  - make audit-docs
+  - git diff --check
+  required_evidence:
+  - current browser runtime JSON for changed journeys
+  - changed visual screenshot evidence for shared and representative module surfaces
+  - verifier-generated child evidence
+  cleanup:
+  - Remove temporary screenshots and traces not referenced by current evidence registries.
+  - Keep the final master, verified child plans, canonical product/control docs, and
+    current evidence only.
+  evidence:
+    runtime: docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json
+    visual:
+    - docs/runtime-evidence/frontend-remaster-closeout-1440.png
+    - docs/runtime-evidence/frontend-remaster-closeout-980.png
+    - docs/runtime-evidence/frontend-remaster-closeout-700.png
+    - docs/runtime-evidence/frontend-remaster-closeout-390.png
+    narrative: docs/work/frontend-remaster-runtime-visual-closeout-2026-07-23.md
+stop_conditions:
+- A proposed UX change requires a new backend capability, permission, workflow transition,
+  or DTO contract.
+- A surface decision changes the meaning of visibility, consent, membership, booking,
+  lending, ride, work, chat, or notification states.
+- A shared primitive regresses an already verified surface and safe recovery is not
+  available in the current slice.
+- Required browser/runtime or visual evidence cannot be captured in the owned environment.
+- A stale/detached component cannot be removed safely without an ownership or product
+  decision.
+children:
+- docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+- docs/work/frontend-remaster-02-ux-architecture-decisions.yaml
+- docs/work/frontend-remaster-03-shared-surface-motion-foundation.yaml
+- docs/work/frontend-remaster-04-work-context-guided-flow.yaml
+- docs/work/frontend-remaster-05-chat-workspace-recovery.yaml
+- docs/work/frontend-remaster-06-social-sharing-business-sweep.yaml
+- docs/work/frontend-remaster-07-css-obsolete-surface-review.yaml
+- docs/work/frontend-remaster-09-personal-context-command-center.yaml
+- docs/work/frontend-remaster-10-profile-visibility-location.yaml
+- docs/work/frontend-remaster-11-formatting-state-consistency.yaml
+- docs/work/frontend-remaster-12-identity-onboarding.yaml
+- docs/work/frontend-remaster-08-runtime-visual-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-24T05:26:27Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  children:
+  - docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+  - docs/work/frontend-remaster-02-ux-architecture-decisions.yaml
+  - docs/work/frontend-remaster-03-shared-surface-motion-foundation.yaml
+  - docs/work/frontend-remaster-04-work-context-guided-flow.yaml
+  - docs/work/frontend-remaster-05-chat-workspace-recovery.yaml
+  - docs/work/frontend-remaster-06-social-sharing-business-sweep.yaml
+  - docs/work/frontend-remaster-07-css-obsolete-surface-review.yaml
+  - docs/work/frontend-remaster-09-personal-context-command-center.yaml
+  - docs/work/frontend-remaster-10-profile-visibility-location.yaml
+  - docs/work/frontend-remaster-11-formatting-state-consistency.yaml
+  - docs/work/frontend-remaster-12-identity-onboarding.yaml
+  - docs/work/frontend-remaster-08-runtime-visual-closeout.yaml

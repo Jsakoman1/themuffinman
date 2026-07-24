@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-01-baseline-and-ux-decisions
+title: Freeze UX baseline, route matrix, and interaction decisions
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-app-remaster-master.yaml
+  - docs/work/business-booking-end-to-end-master.yaml
+  baseline_only_surfaces:
+  - existing verified route/capability behavior
+  residual_scope:
+  - route ownership
+  - task modes
+  - active business context
+  - calendar ownership
+  - responsive and accessibility decisions
+  retest_triggers:
+  - any decision that changes route
+  - detail
+  - sheet
+  - drawer
+  - or canonical action ownership
+  non_duplication_rule: Existing visual and capability evidence is baseline only.
+decision_record:
+  task_modes:
+  - orient
+  - choose
+  - inspect
+  - act
+  - review
+  - complete
+  business_context: Visible backend-prepared active business selector; URL/query state
+    must survive refresh and deep links.
+  calendar: Booking events are primary; availability, exceptions, capacity, and resources
+    are optional layers.
+  mobile: List/detail becomes a deliberate route or drawer state; desktop columns
+    are not blindly stacked.
+  actions: One primary action is visible; secondary and destructive actions use overflow
+    or review state.
+  empty_state: State explanation plus one next action and optional discovery/skip
+    action.
+  vision: VisionForWeb remains contextual and never becomes a second navigation system.
+tasks:
+- id: freeze-ux-baseline-and-decisions
+  title: Freeze route/surface matrix and interaction decisions
+  type: planning
+  status: done
+  inventory_item: ux-baseline-and-decisions
+  observable_outcome: Every authenticated route is classified by task mode, owner
+    context, primary action, responsive transformation, and reused versus residual
+    evidence.
+  dependencies:
+  - harden-ux-simplification-queue
+  evidence_boundary:
+  - route matrix
+  - decision record
+  - baseline/residual classification
+  paths:
+  - docs/work/ui-ux-full-product-audit-2026-07-24.md
+  - docs/work/frontend-ux-simplification-master.yaml
+  - docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  required_paths:
+  - docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb
+  started_at: '2026-07-24T13:21:24Z'
+  start_fingerprints:
+    docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml: 96578f7cae41a67d98fb065658531c854dca87a096ff70758d19cb40b82ef936
+evidence:
+- task: freeze-ux-baseline-and-decisions
+  command: ruby scripts/audits/audit-work-plan-recursion.rb
+  ranAt: '2026-07-24T13:21:37Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  - docs/work/frontend-ux-simplification-master.yaml
+  - docs/work/ui-ux-full-product-audit-2026-07-24.md
+  output: "Work-plan recursion audit passed (no recursive validation commands).\n\n"
+  startedAt: '2026-07-24T13:21:24Z'
+  changedAfterStart: &1
+  - docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

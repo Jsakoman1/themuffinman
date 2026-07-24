@@ -53,3 +53,10 @@ export type ChatRefreshHint = {conversationId: number; latestMessageId: number |
 export type VisionWorkspaceHandoff = {contextLabel: string | null; source: string | null; returnTo: string | null; explanation: string}
 export type VisionSearchComparisonItem = {entityFamily: string; targetId: number; title: string; sourceRoute: string; fields: Record<string, string | null>}
 export type VisionSearchComparison = {capabilityId: string; query: string; selectionLimit: number; omittedSelectionCount: number; fallbackMessage: string | null; comparableFields: string[]; items: VisionSearchComparisonItem[]}
+
+export type BusinessOfferingSchemaDTO = {offeringId: number; schemaVersion?: number; demandFields: Record<string, unknown>[]; options: Record<string, unknown>[]; pricingRules: Record<string, unknown>[]}
+export type BusinessResourceConfigurationDTO = {businessProfileId: number; pools: Record<string, unknown>[]; resources: Record<string, unknown>[]; requirements: Record<string, unknown>[]}
+export type BusinessScheduleItemDTO = {bookingId: number; role: "OWNER" | "CUSTOMER"; businessProfileId: number; businessName: string; businessSlug: string; businessOfferingTitle: string; startsAt: string; endsAt: string; timezone: string; status: string; statusLabel: string; allowedActions: {action: string; label?: string}[]}
+export type BusinessWorkspaceContextDTO = {businesses: import("./generated/themuffinmanContract.ts").BusinessProfileResponseDTO[]; activeBusinessProfileId: number | null; from: string; to: string; timezone: string; schedule: BusinessScheduleItemDTO[]}
+export type BusinessPublicQuoteDTO = {businessOfferingId: number; pricingState: string; totalAmount: number | null; currency: string | null; quantity: number; durationMinutes: number | null; schemaVersion?: number; explanations: string[]}
+export type BusinessAvailabilityWindowDTO = {startsAt: string; endsAt: string; effectiveCapacity: number; timezone: string}

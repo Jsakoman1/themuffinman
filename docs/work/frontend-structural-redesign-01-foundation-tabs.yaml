@@ -1,0 +1,53 @@
+kind: work
+version: 1
+id: frontend-structural-redesign-01-foundation-tabs
+title: "Build the canonical module-page and tab foundation"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/frontend-ux-next-evolution-master.yaml]
+  baseline_only_surfaces: [Existing shell tokens, routes, permissions, and Vision handoff]
+  residual_scope: [Canonical module-page layout, canonical tab registry, accessible tab behavior]
+  retest_triggers: [Shared shell, router, tab component, navigation registry, or route metadata changes]
+  non_duplication_rule: Existing shell is baseline; only the new canonical page/tab contract is counted.
+tasks:
+  - id: foundation-module-page-and-tab-registry
+    title: Establish one canonical module page and tab registry
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-foundation-module-page
+    observable_outcome: A module tab definition contains route, label, backend scope, permission, empty state, and primary action, and one shared page renders it consistently.
+    dependencies: []
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/components/ModulePage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+    evidence_boundary: [tab contract, active tab, keyboard navigation, one primary action]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: foundation-navigation-single-source
+    title: Consolidate route and navigation metadata
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-foundation-navigation
+    observable_outcome: Shell navigation and route metadata consume one source of truth without duplicate shellDefinitions and shellRouteRegistry ownership.
+    dependencies: [foundation-module-page-and-tab-registry]
+    paths:
+      - apps/themuffinman/frontend/src/router.ts
+      - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+      - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+      - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
+    required_paths:
+      - apps/themuffinman/frontend/src/router.ts
+      - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+      - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+    evidence_boundary: [route ownership, primary navigation, tab links, Vision route continuity]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build && npm run validate:modern-surface

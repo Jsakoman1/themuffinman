@@ -34,6 +34,7 @@ public class BusinessBookingMgr {
                 .priceSnapshotAmount(booking.getPriceSnapshotAmount())
                 .priceSnapshotCurrency(booking.getPriceSnapshotCurrency())
                 .durationSnapshotMinutes(booking.getDurationSnapshotMinutes())
+                .quantitySnapshot(booking.getQuantitySnapshot())
                 .idempotencyKey(booking.getIdempotencyKey())
                 .createdAt(booking.getCreatedAt())
                 .updatedAt(booking.getUpdatedAt())

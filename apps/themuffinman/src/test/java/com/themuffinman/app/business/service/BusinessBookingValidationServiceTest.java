@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -76,13 +77,28 @@ class BusinessBookingValidationServiceTest {
                 .effectiveCapacity(1)
                 .timezone("Europe/Zurich")
                 .build()));
-        when(businessBookingPrimitiveService.countOverlappingCapacityUsage(offering.getId(), start, end)).thenReturn(1L);
+        when(businessBookingPrimitiveService.countOverlappingCapacityUsage(offering.getId(), start, end)).thenReturn(BigDecimal.ONE);
 
         assertThrows(ResponseStatusException.class, () -> businessBookingValidationService.validateCreate(
                 offering,
                 customer,
                 start,
                 end,
+                policy()
+        ));
+    }
+
+    @Test
+    void validateCreateRejectsFixedOfferingWithMismatchedDuration() {
+        AppUser owner = user(1L, "owner");
+        AppUser customer = user(2L, "customer");
+        BusinessOffering offering = offering(owner);
+
+        assertThrows(ResponseStatusException.class, () -> businessBookingValidationService.validateCreate(
+                offering,
+                customer,
+                Instant.parse("2026-08-12T09:00:00Z"),
+                Instant.parse("2026-08-12T09:30:00Z"),
                 policy()
         ));
     }

@@ -174,6 +174,17 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     visionRule: "Use Vision only for guided improvements or semantic editing.",
     topLevelNavEligible: false
   },
+  "business-service-setup": {
+    id: "business-service-setup",
+    primaryNavId: "business",
+    primaryNavLabel: "Service setup",
+    primaryNavDescription: "Configure flexible service rules, demand, pricing, and resources.",
+    canonicalEntryRoute: {path: "/business/service-setup"},
+    visionPrompt: "configure my business service rules and resources",
+    moduleSpaceRule: "Keep service configuration inside the authenticated Business owner workspace.",
+    visionRule: "Use Vision to explain or propose configuration, while backend APIs validate mutations.",
+    topLevelNavEligible: false
+  },
   "business-bookings": {
     id: "business-bookings",
     primaryNavId: "business",
@@ -237,7 +248,7 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     canonicalEntryRoute: {path: "/things"},
     canonicalDetailRoute: (targetId) => ({path: `/things/${targetId}`}),
     visionPrompt: "find things to borrow or lend",
-    moduleSpaceRule: "Stay in Things for listing and borrowing workflows.",
+    moduleSpaceRule: "Stay in Things for listing and borrowing workflows; `/things/requests` owns the viewer's borrow-request list.",
     visionRule: "Use Vision for semantic matching or guided lending decisions.",
     topLevelNavEligible: false
   },
@@ -362,8 +373,10 @@ export const visionWebRouteContracts: VisionWebRouteContract[] = [
   {routeKey: "business.discovery", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/find$/, requiresTarget: false},
   {routeKey: "business.public_profile", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/business\/public\/[^/]+$/, requiresTarget: false},
   {routeKey: "business.owner_profile", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/profile$/, requiresTarget: false},
+  {routeKey: "business.service_setup", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/service-setup$/, requiresTarget: false},
   {routeKey: "business.my_bookings", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/my-bookings$/, requiresTarget: false},
   {routeKey: "business.calendar", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/calendar$/, requiresTarget: false},
+  {routeKey: "business.owner_calendar", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/bookings$/, requiresTarget: false},
   {routeKey: "chat.workspace", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/chat$/, requiresTarget: false},
   {routeKey: "chat.conversation", action: "OPEN_CONVERSATION", pathPattern: /^\/chat\/\d+$/, requiresTarget: true},
   {routeKey: "notifications.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/notifications$/, requiresTarget: false},

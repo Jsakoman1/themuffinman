@@ -28,6 +28,9 @@ tasks:
     title: Replace me
     type: implementation
     status: pending
+    observable_outcome: Replace with one independently verifiable outcome.
+    dependencies: []
+    evidence_boundary: [targeted tests or explicit evidence type]
     paths: []
     required_paths: []
     # requires_visual_evidence: true

@@ -1,0 +1,60 @@
+kind: work
+version: 1
+id: frontend-structural-redesign-atomic-task-hardening
+title: "Harden structural frontend redesign into atomic tasks"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/frontend-ux-next-evolution-master.yaml
+  baseline_only_surfaces:
+    - Existing domain/API authority and validated UX next-evolution behavior.
+  residual_scope:
+    - Atomic decomposition and dependency validation for the structural redesign.
+  retest_triggers:
+    - Any task path, dependency, route, scope, or validation change.
+  non_duplication_rule: Previously verified UX work is baseline and is not reopened unless a structural task changes its contract.
+tasks:
+  - id: harden-structural-redesign-queue
+    title: Validate structural redesign queue and coverage
+    type: planning
+    status: pending
+    inventory_item: structural-redesign-atomic-hardening
+    observable_outcome: Master, child plans, inventory, and task coverage form a complete non-recursive serial queue with bounded implementation outcomes.
+    dependencies: []
+    paths:
+      - docs/work/frontend-structural-redesign-master.yaml
+      - docs/work/frontend-structural-redesign-execution-inventory.yaml
+      - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+      - docs/work/frontend-structural-redesign-02-work.yaml
+      - docs/work/frontend-structural-redesign-03-business.yaml
+      - docs/work/frontend-structural-redesign-04-cross-module.yaml
+      - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+      - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+      - docs/work/frontend-structural-redesign-07-calendar-business.yaml
+      - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+      - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+    required_paths:
+      - docs/work/frontend-structural-redesign-master.yaml
+      - docs/work/frontend-structural-redesign-execution-inventory.yaml
+      - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+      - docs/work/frontend-structural-redesign-02-work.yaml
+      - docs/work/frontend-structural-redesign-03-business.yaml
+      - docs/work/frontend-structural-redesign-04-cross-module.yaml
+      - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+      - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+      - docs/work/frontend-structural-redesign-07-calendar-business.yaml
+      - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+      - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+    evidence_boundary:
+      - plan graph
+      - atomic outcomes
+      - dependencies
+      - required paths
+      - leaf validations
+    validation: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb

@@ -12,7 +12,9 @@ import DetailSurfaceHeader from "../components/DetailSurfaceHeader.vue"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppButton from "../components/AppButton.vue"
+import AppStatus from "../components/AppStatus.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
+import {formatCurrency} from "../../../services/formatters.ts"
 
 const route = useRoute()
 const detail = ref<QuestDetailResponseDTO | null>(null)
@@ -31,7 +33,6 @@ const utilityOpen = ref(true)
 const questId = computed(() => Number(route.params.questId))
 const returnToVision = computed(() => typeof route.query.returnTo === "string" && route.query.returnTo.startsWith("/vision") ? route.query.returnTo : null)
 const can = (action: string) => detail.value?.quest.allowedActions.includes(action as never) ?? false
-const formatCurrency = (value: number | null | undefined) => value == null ? "Not specified" : new Intl.NumberFormat(undefined, {style: "currency", currency: "EUR"}).format(value)
 const isStaleResourceError = (value: unknown) => (value as {response?: {data?: {code?: string}}} | null)?.response?.data?.code === "STALE_RESOURCE"
 
 const load = async () => {
@@ -91,10 +92,11 @@ onMounted(() => void load())
 <template>
   <section class="quest-detail">
     <DetailSurfaceHeader eyebrow="Work / Quest" :title="detail?.quest.title || 'Quest'" back-to="/work/quests" back-label="Back to quests"><template #actions><RouterLink v-if="returnToVision" :to="returnToVision" class="quest-detail__return">Back to Vision</RouterLink><AppButton type="button" tone="secondary" :aria-expanded="utilityOpen" aria-controls="quest-detail-actions" @click="utilityOpen = !utilityOpen">{{ utilityOpen ? "Hide actions" : "Show actions" }}</AppButton><RouterLink :to="buildSurfaceVisionRoute('work-quests', `/work/quests/${questId}`, 'Work quest')" class="quest-detail__vision">Ask Vision</RouterLink></template></DetailSurfaceHeader>
-    <div v-if="isLoading" class="quest-detail__status" role="status">Loading.</div>
-    <div v-else-if="error" class="quest-detail__status quest-detail__status--error" role="alert">{{ error }} <AppButton type="button" tone="secondary" @click="load">Retry</AppButton></div>
+    <section v-if="detail" class="quest-detail__guidance" aria-label="Quest fit and progress"><strong>Decision guide</strong><span>Compatibility: review requirements and missing information before applying.</span><span>Application progress: {{ detail.quest.allowedActions.includes('APPLY') ? 'Ready to apply' : 'Application action is not available in this state' }}</span><span>Reward/time: confirm the server-calculated award and expected schedule before committing.</span><span>Owner/applicant context: actions and visibility are limited by backend permissions.</span></section>
+    <AppStatus v-if="isLoading" message="Loading quest." busy />
+    <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" />
     <template v-else-if="detail">
-      <p v-if="feedback" class="quest-detail__feedback" role="status">{{ feedback }}</p>
+      <AppStatus v-if="feedback" :message="feedback" tone="success" />
       <DetailSurface v-if="!editing" title="Quest detail" utility-label="Quest actions" class="quest-detail__layout">
         <RichTextPreview :content="detail.quest.description" /><section class="quest-detail__activity"><h2>Current facts</h2><dl><div v-for="item in detail.activityRail" :key="item.label"><dt>{{ item.label }}</dt><dd>{{ item.label.toLowerCase().includes('award') ? formatCurrency(Number(item.value)) : item.value }}</dd></div></dl></section>
         <template #utility><aside v-if="utilityOpen" id="quest-detail-actions" class="quest-detail__actions" aria-label="Quest actions"><AppButton v-if="can('EDIT')" type="button" tone="secondary" @click="editing = true">Edit</AppButton><AppButton v-if="can('ASSIGN')" type="button" tone="primary" :loading="isSaving" @click="changeLifecycle('ASSIGNED')">Assign approved worker</AppButton><AppButton v-if="can('REOPEN')" type="button" tone="secondary" :loading="isSaving" @click="changeLifecycle('OPEN')">Reopen</AppButton><AppButton v-if="can('PAUSE')" type="button" tone="secondary" :loading="isSaving" @click="runAction('PAUSE')">Pause quest</AppButton><AppButton v-if="can('RESUME')" type="button" tone="primary" :loading="isSaving" @click="runAction('RESUME')">Resume quest</AppButton><AppButton v-if="can('START')" type="button" tone="primary" :loading="isSaving" @click="runAction('START')">Start</AppButton><AppButton v-if="can('COMPLETE')" type="button" tone="primary" :loading="isSaving" @click="runAction('COMPLETE')">Complete</AppButton><AppButton v-if="detail.sections.termChange.actionable && can('CONFIRM_TERM_CHANGE')" type="button" tone="primary" :loading="isSaving" @click="decideTerm('confirm')">{{ detail.sections.termChange.confirmLabel }}</AppButton><AppButton v-if="detail.sections.termChange.actionable && can('REJECT_TERM_CHANGE')" type="button" tone="danger" :loading="isSaving" @click="decideTerm('reject')">{{ detail.sections.termChange.rejectLabel }}</AppButton><AppButton v-if="can('CANCEL')" type="button" tone="danger" :loading="isSaving" @click="runAction('CANCEL')">Cancel quest</AppButton><AppButton v-if="can('DELETE')" type="button" tone="danger" :loading="isSaving" @click="runAction('DELETE')">Delete</AppButton><RouterLink v-if="can('VIEW_APPLICATIONS')" :to="`/work/quests/${questId}/applications`">Applications</RouterLink><AppButton v-if="can('APPLY')" type="button" tone="primary" @click="openApplication">Apply on web</AppButton><RouterLink v-if="can('APPLY')" :to="buildSurfaceVisionRoute('work-quests', `/work/quests/${questId}`, 'Apply to quest')">Apply with Vision</RouterLink></aside></template>
@@ -141,6 +143,9 @@ onMounted(() => void load())
 .quest-detail__feedback { color: var(--success); }
 @media (max-width: 700px) { .quest-detail__header { align-items: start; flex-direction: column; }.quest-detail__header-actions { width: 100%; justify-content: space-between; }.quest-detail__layout :deep(.detail-surface__workspace) { grid-template-columns: 1fr; }.quest-detail__layout :deep(.detail-surface__utility) { border-top: 1px solid var(--border-subtle); border-left: 0; }.quest-detail__actions { border-top: 1px solid var(--border-subtle); }
 }
+</style>
+<style scoped>
+.quest-detail__guidance{display:grid;gap:var(--space-1);padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised);color:var(--text-muted)}.quest-detail__guidance strong{color:var(--text)}
 </style>
 <style scoped>
 .quest-detail .app-button { width:100%; min-height:var(--control-height-default); border-radius:var(--radius-control); padding:var(--space-1) var(--space-3); background:var(--control-bg); color:var(--control-ink); }

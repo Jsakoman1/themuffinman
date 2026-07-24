@@ -10,6 +10,8 @@ import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
+import {formatDateTime} from "../../../services/formatters.ts"
+import {RouterLink} from "vue-router"
 
 const bookings = ref<BusinessBookingResponseDTO[]>([])
 // Owner booking controls are rendered only from each booking's allowedActions.
@@ -23,7 +25,7 @@ const rescheduleEnd = ref("")
 const selectedBookingId = ref<number | null>(null)
 const selectedBooking = computed(() => bookings.value.find((booking) => booking.id === selectedBookingId.value) ?? null)
 
-const formatDate = (value: string) => new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value))
+const formatDate = (value: string) => formatDateTime(value, "Unknown time")
 
 const load = async () => {
   isLoading.value = true
@@ -50,7 +52,7 @@ onMounted(() => void load())
 
 <template>
   <section class="bookings-surface">
-    <header class="bookings-surface__header"><div><p class="bookings-surface__eyebrow">Business / Bookings</p><h1>Bookings</h1></div></header>
+    <header class="bookings-surface__header"><div><p class="bookings-surface__eyebrow">Business / Bookings</p><h1>Bookings</h1></div><RouterLink to="/business/calendar">Open calendar</RouterLink></header>
     <CollectionToolbar title="Owner bookings" :count="bookings.length" :busy="isLoading" />
     <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading bookings." busy /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" /><AppStatus v-else-if="bookings.length === 0" message="No bookings yet." />
     <div v-else class="bookings-surface__workspace">

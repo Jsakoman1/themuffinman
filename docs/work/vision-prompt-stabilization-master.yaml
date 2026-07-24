@@ -1,0 +1,154 @@
+kind: master
+version: 1
+id: vision-prompt-stabilization-master
+title: Vision prompt contract, routing, fallback, and runtime stabilization
+status: verified
+readiness: prepared_for_goal_pursuing
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/vision-prompt-stabilization-master-execution-inventory.yaml
+objective: Repair and verify all currently identified Vision prompt problems across
+  semantic routing, deterministic fallback, entity resolution, conversation continuity,
+  typed renderer states, provider recovery, and authenticated Chromium runtime behavior.
+analysis_source: docs/work/vision-prompt-stabilization-plan-review-2026-07-23.md
+prompt_matrix: docs/vision-prompt-contract-matrix.yaml
+runtime_authority:
+  matrix: docs/runtime-acceptance-matrix.yaml
+  capability_evidence: docs/capability-evidence-registry.yaml
+  owned_rows:
+  - runtime-vision-execution
+  - runtime-mutation-provider-failure-correlation
+  - runtime-read-vision-context
+  linked_rows:
+  - id: runtime-visibility-web-vision-parity
+    owner: docs/work/runtime-pending-web-operations-03-web-vision-parity.yaml
+    rule: This master may reference parity evidence but does not promote or close
+      the row.
+  rule: This master may add fresh evidence and repair prompt behavior, but may promote
+    runtime status only through the authoritative runtime matrix and its declared
+    evidence contract.
+backlog_ids:
+- VISION-PROMPT-001
+- VISION-PROMPT-002
+- VISION-PROMPT-003
+- VISION-PROMPT-004
+- VISION-PROMPT-005
+- VISION-PROMPT-006
+- VISION-PROMPT-007
+- VISION-PROMPT-008
+- VISION-PROMPT-009
+- VISION-PROMPT-010
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-linking-vision-inline-master.yaml
+  - docs/work/ui-linking-vision-inline-03-vision-quest-circles.yaml
+  - docs/work/ui-linking-vision-inline-04-vision-chat.yaml
+  - docs/work/runtime-pending-web-operations-master.yaml
+  baseline_only_surfaces:
+  - existing typed Vision adapters and permission checks unless a prompt contract
+    change exposes a defect
+  - existing canonical Web routes unless a runtime prompt handoff fails on the affected
+    route
+  - prior Vision quest creation execution evidence and general search/read evidence
+  - frontend type-check/build behavior unless the renderer state contract changes
+  residual_scope:
+  - reconcile semantic audit, route catalog, router, fallback aliases, and exact product
+    prompt wording
+  - make read-only quest, circle, navigation, and detail prompts return typed visible
+    outcomes
+  - complete SEND_MESSAGE selection, slot collection, confirmation, execution, and
+    readback
+  - replace generic placeholder outcomes with typed unsupported, no-match, clarification,
+    provider-failure, and recovery states
+  - add provider-chain integration coverage instead of helper-only semantic-plan injection
+  - harden follow-up slot continuity, multi-signal precedence, entity aliases, and
+    multilingual boundary behavior
+  - investigate Vision preference duplicate-key and 401 runtime setup findings
+  - capture fresh Chromium evidence for all critical prompt families and failure/retry
+    branches
+  retest_triggers:
+  - any change to VisionIntentRouter, VisionIntentSignalSupport, PromptSemanticsSupport,
+    semantic route catalog, sanitizer, or provider request/response mapping
+  - any change to VisionConversationService, entity resolvers, chat execution, renderer
+    state mapping, or Vision API DTOs
+  - any change to runtime harness, seeded fixtures, auth/session setup, or provider-failure
+    controls
+  - any new prompt alias, route, intent, slot, or recovery state
+  non_duplication_rule: Prior verified Vision and UI-linking evidence is baseline
+    only; this master counts only new prompt-contract repairs, new integration coverage,
+    and fresh runtime evidence.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition:
+    docs/system-truth-registry.yaml: reviewed
+    docs/system-drift-control-registry.yaml: reviewed
+    docs/vision-status-ledger.md: reviewed
+  note: The dedicated prompt analysis artifact is the broad-work review record; existing
+    verified route and execution plans are not re-enqueued.
+children:
+- docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+- docs/work/vision-prompt-stabilization-02-read-routing-and-resolution.yaml
+- docs/work/vision-prompt-stabilization-03-mutation-and-continuity.yaml
+- docs/work/vision-prompt-stabilization-04-runtime-recovery-and-auth.yaml
+- docs/work/vision-prompt-stabilization-05-browser-closeout.yaml
+execution_order:
+- contract-and-fallback
+- read-routing-and-resolution
+- mutation-and-continuity
+- runtime-recovery-and-auth
+- browser-closeout
+preflight:
+- Verify baseline revision remains dcb983f4ad2b0354101caa8c1cdc47c624fb8b71 before
+  starting a child.
+- Confirm every child task maps to exactly one execution-inventory item.
+- Confirm the current runtime evidence is retained as baseline/failure evidence and
+  is not relabeled as passing.
+- Confirm browser runtime uses the owned make dev/make dev-stop lifecycle and a fresh
+  evidence artifact.
+- Confirm every changed logical behavior updates the affected regression catalog and
+  living Vision docs.
+- Confirm the expanded Chromium denominator is exactly the cases in docs/vision-prompt-contract-matrix.yaml.
+- Confirm local deterministic routing is labeled development/test-only and production
+  provider outage maps to PROVIDER_UNAVAILABLE.
+- Confirm `docs/vision-prompt-contract-matrix.yaml` exists and defines the finite
+  prompt/runtime denominator before Child 05 starts.
+- Confirm runtime-pending Vision rows have one owner plan and are not double-promoted
+  by this master.
+rules:
+- Backend remains authoritative for intent validation, entity visibility, permission,
+  confirmation, mutation, and final readback.
+- Exact critical prompts must have provider examples, deterministic safe fallback
+  behavior, unit/integration coverage, and browser acceptance coverage.
+- Navigation-only prompts may not invent content or mutate state.
+- Read-only no-match and provider-failure outcomes must be explicit and recoverable;
+  generic placeholder text is not acceptance evidence.
+- Mutations require typed slots, review, explicit confirmation, idempotent execution,
+  and authoritative readback.
+- OpenAI remains the only production semantic interpreter; deterministic local routing
+  is limited to explicitly labeled development/test fixtures.
+- Every runtime scenario must record prompt, intent/action, route, conversation id,
+  provider status, recovery state, browser/API errors, and authoritative readback
+  where applicable.
+close_when:
+- Every child is independently verifier-verified in serial order.
+- Critical prompt families no longer depend on an untested helper-injected semantic
+  plan.
+- The five requested prompts and the expanded prompt matrix have fresh Chromium evidence
+  with typed outcomes.
+- SEND_MESSAGE no longer degrades to OPEN_CHAT for a send request.
+- Provider failure, fallback, retry, no-match, ambiguity, and auth/setup failures
+  have explicit outcomes and regression coverage.
+- Backend tests, frontend type-check/build, audits, and declared browser scenarios
+  pass.
+evidence:
+- verifiedAt: '2026-07-23T19:49:59Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  children:
+  - docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+  - docs/work/vision-prompt-stabilization-02-read-routing-and-resolution.yaml
+  - docs/work/vision-prompt-stabilization-03-mutation-and-continuity.yaml
+  - docs/work/vision-prompt-stabilization-04-runtime-recovery-and-auth.yaml
+  - docs/work/vision-prompt-stabilization-05-browser-closeout.yaml

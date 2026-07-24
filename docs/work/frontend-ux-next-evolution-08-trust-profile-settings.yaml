@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-08-trust-profile-settings
+title: Improve trust explanations, profile, privacy, and settings
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml], baseline_only_surfaces: [privacy, consent, location, and backend enforcement], residual_scope: [who-can-see-this explanations, grouped settings, current-value summaries, and explicit save/revert behavior], retest_triggers: [visibility explanation, consent control, location editor, or settings save behavior change], non_duplication_rule: The frontend explains backend decisions but never enforces them independently.}
+tasks:
+  - id: implement-trust-profile-settings
+    title: Reduce settings density and explain trust decisions
+    type: implementation
+    status: pending
+    inventory_item: trust-profile-settings
+    observable_outcome: Profile and settings show focused groups, current values, privacy explanations, save/revert state, and clear reasons when a value or action is unavailable.
+    dependencies: [implement-universal-action-state-grammar]
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue, apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue, docs/business-logic.md, docs/domain-technical.md]
+    required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, docs/business-logic.md]
+    evidence_boundary: [profile/privacy/settings save, permission explanation, recovery, keyboard, type-check/build, desktop/mobile screenshots]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-trust-settings-desktop.png, docs/runtime-evidence/frontend-ux-next-trust-settings-mobile.png]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

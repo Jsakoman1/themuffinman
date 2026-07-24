@@ -1,0 +1,96 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-atomic-task-hardening
+title: Harden full-product UX simplification into atomic implementation tasks
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-app-remaster-master.yaml
+  - docs/work/business-booking-end-to-end-master.yaml
+  baseline_only_surfaces:
+  - Existing verified frontend remaster and Business booking behavior.
+  residual_scope:
+  - Validate and freeze the new UX simplification atomic queue before implementation.
+  retest_triggers:
+  - Any task outcome, required path, dependency, validation, or evidence-boundary
+    change.
+  non_duplication_rule: Existing plans are baseline only; this task verifies control
+    completeness, not UI behavior.
+tasks:
+- id: harden-ux-simplification-queue
+  title: Validate the ordered UX simplification task queue
+  type: planning
+  status: done
+  inventory_item: ux-simplification-atomic-hardening
+  observable_outcome: The master, child plans, and execution inventory contain one
+    bounded task per independently verifiable UX outcome with no missing mappings
+    or recursive validations.
+  dependencies: []
+  evidence_boundary:
+  - plan graph
+  - execution inventory
+  - required paths
+  - leaf validations
+  - dependency order
+  paths:
+  - docs/work/frontend-ux-simplification-master.yaml
+  - docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+  - docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  - docs/work/frontend-ux-simplification-02-shared-task-foundation.yaml
+  - docs/work/frontend-ux-simplification-03-business-context-contract.yaml
+  - docs/work/frontend-ux-simplification-04-business-context-and-calendar-web.yaml
+  - docs/work/frontend-ux-simplification-05-business-guided-setup.yaml
+  - docs/work/frontend-ux-simplification-06-business-guided-booking.yaml
+  - docs/work/frontend-ux-simplification-07-core-module-migration.yaml
+  - docs/work/frontend-ux-simplification-08-chat-attention-migration.yaml
+  - docs/work/frontend-ux-simplification-09-social-and-sharing-migration.yaml
+  - docs/work/frontend-ux-simplification-10-profile-and-settings-migration.yaml
+  - docs/work/frontend-ux-simplification-11-vision-responsive-accessibility.yaml
+  - docs/work/frontend-ux-simplification-12-runtime-visual-closeout.yaml
+  required_paths:
+  - docs/work/frontend-ux-simplification-master.yaml
+  - docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+  started_at: '2026-07-24T13:20:59Z'
+  start_fingerprints:
+    docs/work/frontend-ux-simplification-master.yaml: 8fe0e1c0aacccddd2c83e0fbce9e3678894ef7f27a8ceba0db06ad943db4ffc7
+    docs/work/frontend-ux-simplification-master-execution-inventory.yaml: 96bc05c2c50788b99e6912c612f1aff8709df0f836c7f9a3bca3f4d0935d16f8
+evidence:
+- task: harden-ux-simplification-queue
+  command: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+  ranAt: '2026-07-24T13:21:18Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  - docs/work/frontend-ux-simplification-02-shared-task-foundation.yaml
+  - docs/work/frontend-ux-simplification-03-business-context-contract.yaml
+  - docs/work/frontend-ux-simplification-04-business-context-and-calendar-web.yaml
+  - docs/work/frontend-ux-simplification-05-business-guided-setup.yaml
+  - docs/work/frontend-ux-simplification-06-business-guided-booking.yaml
+  - docs/work/frontend-ux-simplification-07-core-module-migration.yaml
+  - docs/work/frontend-ux-simplification-08-chat-attention-migration.yaml
+  - docs/work/frontend-ux-simplification-09-social-and-sharing-migration.yaml
+  - docs/work/frontend-ux-simplification-10-profile-and-settings-migration.yaml
+  - docs/work/frontend-ux-simplification-11-vision-responsive-accessibility.yaml
+  - docs/work/frontend-ux-simplification-12-runtime-visual-closeout.yaml
+  - docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+  - docs/work/frontend-ux-simplification-master.yaml
+  output: |+
+    Work-plan recursion audit passed (no recursive validation commands).
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-24T13:20:59Z'
+  changedAfterStart: &1
+  - docs/work/frontend-ux-simplification-master.yaml
+  - docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

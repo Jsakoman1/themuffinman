@@ -9,6 +9,7 @@ import com.themuffinman.app.business.model.BusinessOfferingBookingMode;
 import com.themuffinman.app.business.model.BusinessOfferingCapacityMode;
 import com.themuffinman.app.business.model.BusinessOfferingDurationMode;
 import com.themuffinman.app.business.model.BusinessOfferingPricingType;
+import com.themuffinman.app.business.model.BusinessOfferingFulfillmentMode;
 import com.themuffinman.app.business.model.BusinessProfile;
 import com.themuffinman.app.business.repository.BusinessOfferingRepository;
 import com.themuffinman.app.business.repository.BusinessProfileRepository;
@@ -136,6 +137,14 @@ public class BusinessOfferingService {
                 && dto.getMinDurationMinutes() > dto.getMaxDurationMinutes()) {
             throw ServiceErrors.badRequest("Minimum duration cannot exceed maximum duration");
         }
+        if (dto.getDurationIncrementMinutes() != null && defaultDurationMinutes != null
+                && defaultDurationMinutes % dto.getDurationIncrementMinutes() != 0) {
+            throw ServiceErrors.badRequest("Default duration must match the duration increment");
+        }
+        if (dto.getMinimumQuantity() != null && dto.getMaximumQuantity() != null
+                && dto.getMinimumQuantity() > dto.getMaximumQuantity()) {
+            throw ServiceErrors.badRequest("Minimum quantity cannot exceed maximum quantity");
+        }
 
         BigDecimal basePriceAmount = dto.getBasePriceAmount();
         String basePriceCurrency = normalizeCurrency(dto.getBasePriceCurrency());
@@ -165,6 +174,11 @@ public class BusinessOfferingService {
         offering.setCapacityMode(capacityMode);
         offering.setSlotCapacity(slotCapacity);
         offering.setBookingMode(bookingMode);
+        offering.setFulfillmentMode(dto.getFulfillmentMode() == null
+                ? BusinessOfferingFulfillmentMode.EXACT_APPOINTMENT : dto.getFulfillmentMode());
+        offering.setDurationIncrementMinutes(dto.getDurationIncrementMinutes());
+        offering.setMinimumQuantity(dto.getMinimumQuantity());
+        offering.setMaximumQuantity(dto.getMaximumQuantity());
         offering.setRequiresOwnerConfirmation(dto.getRequiresOwnerConfirmation() == null
                 ? bookingMode != BusinessOfferingBookingMode.INSTANT
                 : dto.getRequiresOwnerConfirmation());
@@ -172,6 +186,9 @@ public class BusinessOfferingService {
         offering.setBufferAfterMinutes(dto.getBufferAfterMinutes() == null ? 0 : dto.getBufferAfterMinutes());
         offering.setActive(dto.getActive() == null || dto.getActive());
         offering.setSortOrder(dto.getSortOrder() == null ? 0 : dto.getSortOrder());
+        if (!creating) {
+            offering.setSchemaVersion(Math.max(1, offering.getSchemaVersion()) + 1);
+        }
     }
 
     private void validateSlugAvailable(Long businessProfileId, String slug, Long offeringId, boolean creating) {

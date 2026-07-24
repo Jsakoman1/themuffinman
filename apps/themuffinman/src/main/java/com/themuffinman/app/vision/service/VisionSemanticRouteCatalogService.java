@@ -46,6 +46,7 @@ public class VisionSemanticRouteCatalogService {
                 viewThingDetailRoute(),
                 viewBorrowRequestsRoute(),
                 openChatRoute(),
+                sendMessageRoute(),
                 viewChatWorkspaceRoute(),
                 syncChatRoute(),
                 viewChatAttachmentRoute(),
@@ -314,7 +315,7 @@ public class VisionSemanticRouteCatalogService {
             case CREATE_QUEST, CREATE_CIRCLE, CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST,
                     UPDATE_CIRCLE, DELETE_CIRCLE, CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION,
                     APPROVE_APPLICATION, DECLINE_APPLICATION, UPDATE_PROFILE, UPDATE_PROFILE_LOCATION,
-                    CREATE_RIDE, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, START_RIDE, COMPLETE_RIDE -> 0.85d;
+                    CREATE_RIDE, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, START_RIDE, COMPLETE_RIDE, SEND_MESSAGE -> 0.85d;
             case MARK_CHAT_READ, MARK_NOTIFICATIONS_READ, MARK_NOTIFICATION_READ, UPDATE_NOTIFICATION_PREFERENCES, RELEASE_WORKER, REPLACE_WORKER, REOPEN_QUEST, CANCEL_QUEST, PAUSE_QUEST, RESUME_QUEST, RESCHEDULE_BOOKING, CREATE_THING, REQUEST_BORROW, CANCEL_BORROW, DECIDE_BORROW, RETURN_BORROW -> 0.85d;
             case VIEW_NOTIFICATIONS, VIEW_QUEST_NEWS -> 0.70d;
             case VIEW_BUSINESS, VIEW_BUSINESS_AVAILABILITY, VIEW_BUSINESS_BOOKINGS -> 0.70d;
@@ -401,7 +402,8 @@ public class VisionSemanticRouteCatalogService {
                                 "schedule_mode", "agreement",
                                 "visibility", "PUBLIC",
                                 "location_mode", "off"
-                        ))
+                        )),
+                        example("create new work", Map.of())
                 ))
                 .slots(List.of(
                         slot("quest_title", "questTitle", "short_text", true, "Short user-facing quest title.", List.of(), List.of("title", "name", "quest"), List.of("create quest", "quest title")),
@@ -809,6 +811,18 @@ public class VisionSemanticRouteCatalogService {
                         slot("target_user", "semanticPlan.targetUserQuery", "user_reference", true, "Username, email, or name fragment for the intended chat contact.", List.of(), List.of("user", "contact", "member", "person"), List.of("quest", "circle", "application"))
                 ))
                 .build();
+    }
+
+    private VisionSemanticRouteDescriptor sendMessageRoute() {
+        return VisionSemanticRouteDescriptor.builder()
+                .routeKey("vision.send_message").entityType("chat").intent("SEND_MESSAGE").capabilityId("send_message")
+                .purpose("Prepare and send a direct message only after recipient, body, and explicit confirmation are present.")
+                .mutating(true).requiresReview(true)
+                .examples(List.of(example("send message to Nikolina", Map.of("target_user", "Nikolina"))))
+                .slots(List.of(
+                        slot("target_user", "semanticPlan.targetUserQuery", "user_reference", true, "Exact recipient username or email.", List.of(), List.of("user", "contact"), List.of()),
+                        slot("message_body", "semanticPlan.messageBody", "short_text", true, "The message text to send.", List.of(), List.of("message", "text", "body"), List.of())
+                )).build();
     }
 
     private VisionSemanticRouteDescriptor viewChatWorkspaceRoute() {
@@ -1255,7 +1269,7 @@ public class VisionSemanticRouteCatalogService {
                 .intent("VIEW_BUSINESS")
                 .capabilityId("view_business")
                 .dtoType("BusinessPublicPageDTO")
-                .purpose("Read-only Business discovery, public profile, or owner profile handoff; the backend selects /business/find, /business/public/{slug}, or /business/profile from authorized context.")
+                .purpose("Read-only Business discovery, public profile, or owner profile handoff; the backend selects /business/find, /business/public/{slug}, or /business/profile from authorized context. Offering schema, quote, availability, quantity, and timezone facts come from the shared Business contract.")
                 .mutating(false)
                 .requiresReview(false)
                 .examples(List.of(
@@ -1334,7 +1348,8 @@ public class VisionSemanticRouteCatalogService {
                 .requiresReview(false)
                 .examples(List.of(
                         example("show circles", Map.of()),
-                        example("show my circles", Map.of())
+                        example("show my circles", Map.of()),
+                        example("go to circles", Map.of())
                 ))
                 .slots(List.of())
                 .build();

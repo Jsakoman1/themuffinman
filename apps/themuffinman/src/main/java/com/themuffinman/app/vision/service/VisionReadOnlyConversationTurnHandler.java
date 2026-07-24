@@ -103,7 +103,11 @@ final class VisionReadOnlyConversationTurnHandler {
             VisionPromptUnderstandingResult understanding,
             String source
     ) {
-        return handle(service, conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_CIRCLES);
+        String message = normalizedPrompt != null && normalizedPrompt.toLowerCase(java.util.Locale.ROOT).contains("go to circles")
+                ? "Opening circles."
+                : VisionConversationSnapshotSupport.readOnlySnapshotMessage(VisionIntent.VIEW_CIRCLES);
+        return service.handleReadOnlySnapshotTurn(
+                conversation, prompt, normalizedPrompt, understanding, source, VisionIntent.VIEW_CIRCLES, message);
     }
 
     VisionTurn handleViewQuestNewsTurn(

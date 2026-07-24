@@ -1,0 +1,69 @@
+kind: work
+version: 1
+id: frontend-structural-redesign-03-business
+title: "Make Business understandable for customers and owners"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/business-booking-end-to-end-master.yaml, docs/work/frontend-ux-next-evolution-master.yaml]
+  baseline_only_surfaces: [Flexible offering, quote, availability, capacity, resource, booking, and business-profile authority]
+  residual_scope: [Customer/owner mode, owner tabs, progressive setup, simple public page, calendar tabs]
+  retest_triggers: [Business context, active business, booking flow, offering scope, calendar query, or owner permission changes]
+  non_duplication_rule: Existing Business domain authority is baseline; redesign changes navigation and presentation only unless explicitly bounded.
+tasks:
+  - id: business-customer-owner-information-architecture
+    title: Split Business customer and owner modes
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-business-modes
+    observable_outcome: Business clearly presents Book a business versus Manage my business, with no mixed owner/customer actions on the same landing surface.
+    dependencies: [work-filter-drawer-and-states]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+    evidence_boundary: [mode switch, no-business state, multi-business context, customer/owner action separation]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: business-owner-tabs-and-calendar
+    title: Consolidate owner operations into Overview, Calendar, Bookings, Services, and Profile tabs
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-business-owner-tabs
+    observable_outcome: Owner business operations are accessible through stable tabs; calendar uses Agenda/Week/Month and moves availability/resources into sibling tabs.
+    dependencies: [business-customer-owner-information-architecture]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+    evidence_boundary: [owner tab navigation, active business, calendar view, booking actions, resource/availability separation]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: business-setup-and-public-simplification
+    title: Reduce Business setup and public booking to progressive task steps
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-business-guided-flows
+    observable_outcome: Setup and public booking reveal only service-relevant fields and keep pricing, capacity, availability, terms, and booking in an understandable sequence.
+    dependencies: [business-owner-tabs-and-calendar]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingStepper.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+    evidence_boundary: [setup steps, public service selection, progressive fields, quote state, back navigation]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

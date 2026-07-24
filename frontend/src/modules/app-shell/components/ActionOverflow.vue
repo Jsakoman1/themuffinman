@@ -1,0 +1,5 @@
+<script setup lang="ts">
+withDefaults(defineProps<{label?: string}>(), {label: "More"})
+</script>
+<template><details class="action-overflow"><summary>{{ label }}</summary><div class="action-overflow__menu"><slot /></div></details></template>
+<style scoped>.action-overflow{position:relative;display:inline-block}.action-overflow summary{min-height:var(--control-height-default);display:inline-flex;align-items:center;cursor:pointer;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-1) var(--space-2);color:var(--control-ink-muted);font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold);list-style:none}.action-overflow summary::-webkit-details-marker{display:none}.action-overflow__menu{position:absolute;z-index:var(--z-popover);right:0;top:calc(100% + var(--space-1));display:grid;gap:var(--space-1);min-width:12rem;padding:var(--space-2);border:1px solid var(--border-strong);border-radius:var(--radius-control);background:var(--surface-raised);box-shadow:var(--shadow-overlay)}.action-overflow__menu :deep(button),.action-overflow__menu :deep(a){justify-content:flex-start;width:100%}</style>

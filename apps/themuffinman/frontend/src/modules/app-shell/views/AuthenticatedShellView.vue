@@ -2,8 +2,8 @@
 import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue"
 import {RouterLink, RouterView, useRoute} from "vue-router"
 import {appPersonalShortcuts, authenticatedShellContract, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
-import {buildSurfaceVisionPrompt, buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
-import GlobalVisionEntry from "../components/GlobalVisionEntry.vue"
+import {buildSurfaceVisionRoute, buildVisionRoute} from "../visionHandoff.ts"
+import VisionForWebHost from "../components/VisionForWebHost.vue"
 import AccountMenu from "../components/AccountMenu.vue"
 import UniversalCreateMenu from "../components/UniversalCreateMenu.vue"
 import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
@@ -12,8 +12,16 @@ import AppButton from "../components/AppButton.vue"
 import {userShellApi, type AttentionCenter, type PersonalShortcut} from "../api/userShellApi.ts"
 import {useWorkspaceNavigation} from "../composables/useWorkspaceNavigation.ts"
 import {useChatRealtime} from "../composables/useChatRealtime.ts"
+import TaskSurface from "../components/TaskSurface.vue"
+import ContextSwitcher from "../components/ContextSwitcher.vue"
+import {setActiveBusinessProfileId} from "../api/userShellApi.ts"
 
 const route = useRoute()
+const globalContext = ref<string>(typeof window === "undefined" ? "PERSONAL" : window.sessionStorage.getItem("workspaceContext") || "PERSONAL")
+const businessProfiles = ref<Awaited<ReturnType<typeof userShellApi.getMyBusinessProfiles>>>([])
+const globalContextOptions = computed(() => [{id: "PERSONAL", label: "Personal", description: "Your personal workspace"}, {id: "ALL", label: "All businesses", description: "Aggregate business schedule"}, ...businessProfiles.value.map(profile => ({id: String(profile.id), label: profile.businessName, description: "Business workspace"}))])
+const loadGlobalContexts = async () => { businessProfiles.value = await userShellApi.getMyBusinessProfiles().catch(() => []) }
+const selectGlobalContext = (value: string | number | null) => { const next = value === null ? "PERSONAL" : String(value); globalContext.value = next; window.sessionStorage.setItem("workspaceContext", next); setActiveBusinessProfileId(next === "PERSONAL" || next === "ALL" ? null : Number(next)) }
 
 const currentSurfaceId = computed(() => route.meta.surfaceId as AppSurfaceId | undefined)
 
@@ -43,7 +51,6 @@ const contextualVisionRoute = computed(() => {
   return buildSurfaceVisionRoute(currentSurfaceId.value, route.fullPath, currentContextLabel.value)
 })
 
-const visionPlaceholder = computed(() => currentSurfaceId.value ? buildSurfaceVisionPrompt(currentSurfaceId.value) : "Ask Vision for guided help")
 const pinned = ref<PersonalShortcut[]>([])
 const attention = ref<AttentionCenter | null>(null)
 const personalContextError = ref(false)
@@ -66,7 +73,7 @@ const handleRealtimeEvent = (event: import("../../../contracts/index.ts").ChatSo
   if (event.type === "news.updated") { void loadPersonalContext(); void workspaceNavigation.reload() }
 }
 const shellRealtime = useChatRealtime(handleRealtimeEvent)
-onMounted(async () => { const preference = await userShellApi.getWorkspaceRailPreference().catch(() => null); railWidthPx.value = preference?.railWidthPx ?? railWidthPx.value; await loadPersonalContext(); shellRealtime.connect() })
+onMounted(async () => { const preference = await userShellApi.getWorkspaceRailPreference().catch(() => null); railWidthPx.value = preference?.railWidthPx ?? railWidthPx.value; await Promise.all([loadPersonalContext(), loadGlobalContexts()]); shellRealtime.connect() })
 onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); window.removeEventListener("pointerup", finishRailResize) })
 </script>
 
@@ -96,15 +103,20 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
     <div class="app-shell__frame">
       <header class="app-shell__header" aria-label="Workspace context">
         <div class="app-shell__header-actions">
+          <ContextSwitcher :model-value="globalContext" :options="globalContextOptions" label="Workspace context" @update:model-value="selectGlobalContext" />
           <UniversalCreateMenu />
           <GlobalSearchEntry />
-          <GlobalVisionEntry :context="currentContextLabel" :placeholder="visionPlaceholder" :contextual-route="contextualVisionRoute" />
+          <VisionForWebHost :context="currentContextLabel" :source="`shell.surface.${currentSurfaceId ?? 'home'}`" :return-to="route.fullPath" />
           <AccountMenu />
         </div>
       </header>
 
-      <main class="app-shell__content" :data-workspace-surface="currentSurfaceId ?? 'unknown'">
-        <RouterView />
+      <!-- Post-start hardening marker: every authenticated route inherits one responsive task surface. -->
+      <main class="app-shell__content" :data-workspace-surface="currentSurfaceId ?? 'unknown'" data-responsive-task-shell>
+        <TaskSurface :mode="currentSurfaceId === 'home' ? 'orient' : 'workspace'" :label="currentContextLabel">
+          <!-- The shell supplies context framing; child surfaces own their domain data and actions. -->
+          <RouterView />
+        </TaskSurface>
       </main>
     </div>
 
@@ -517,13 +529,13 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
     background: color-mix(in srgb, var(--bg-raised) 94%, transparent);
   }
 
-.app-shell__mobile-link,
+  .app-shell__mobile-link,
   .app-shell__mobile-vision {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-height: var(--control-height-default);
-    padding: var(--space-1) var(--space-3);
+    padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-control);
     min-width: 0;
     border: 1px solid var(--border-subtle);
@@ -534,6 +546,10 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
     overflow: hidden;
     text-overflow: ellipsis;
     gap: 0.32rem;
+  }
+
+  .app-shell__mobile-link > span[aria-hidden="true"] {
+    display: none;
   }
 
   .app-shell__drawer-backdrop { position: fixed; inset: 0; z-index: var(--z-drawer); display: grid; justify-items: start; background: rgba(0, 0, 0, .58); }

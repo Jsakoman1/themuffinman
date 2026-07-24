@@ -1,0 +1,224 @@
+kind: work
+version: 1
+id: business-booking-runtime-closeout
+title: Verify Business booking journeys in Web and Vision and close documentation
+status: verified
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+tasks:
+- id: runtime-scope-container
+  title: Scope container for runtime and control atomic task
+  type: implementation
+  status: done
+  inventory_item: runtime-scope-container
+  paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  verification_required_paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-capability-evidence && make audit-interface-evidence && make audit-truth-registry
+    && make audit-docs
+  required_paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/agent-operating-model.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/system-truth-registry.yaml
+  - docs/interface-evidence-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/work/business-booking-final-readiness-audit-2026-07-24.yaml
+  - docs/work/business-booking-final-sequencing-review-2026-07-24.yaml
+  manual_runtime_command: make dev && WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/business-booking-end-to-end.json
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  acceptance:
+  - Runtime trace proves owner setup, two differently sized offerings, recurring availability,
+    blocked exception, public slot selection, booking, owner calendar, customer bookings,
+    and lifecycle action.
+  - Runtime trace proves both SINGLE and SHARED capacity behavior and a stale-slot
+    conflict.
+  - Runtime trace proves the equivalent Vision setup/read/booking/calendar journeys
+    and confirmation/error recovery.
+  - Browser evidence is generated from the workspace-owned stack and includes the
+    actual API responses and tested routes; source tests are not substituted for runtime
+    evidence.
+  - Capability inventory and target catalog distinguish implemented behavior from
+    any remaining mobile or external-deployment gaps.
+  - All changed business meaning is mirrored in business and technical living docs,
+    and deferred work has a stable backlog ID.
+  - Truth ownership, interface evidence, capability evidence, and runtime artifact
+    references are reconciled after implementation.
+  - Final readiness audit has no unresolved omitted-surface finding.
+  started_at: '2026-07-24T11:54:40Z'
+  start_fingerprints:
+    docs/runtime-evidence/business-booking-end-to-end.json: 878e0ceef650aa323ff76d9aa1c50d9ca32f9af5cace74bf9df56d9a4ea75ba8
+- id: runtime-docs-closeout
+  title: Capture runtime evidence and reconcile all control artifacts
+  type: implementation
+  status: done
+  inventory_item: runtime-docs-closeout
+  paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/agent-operating-model.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/system-truth-registry.yaml
+  - docs/interface-evidence-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  required_paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/agent-operating-model.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/system-truth-registry.yaml
+  - docs/interface-evidence-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  dependencies:
+  - owner-web-setup
+  - public-web-booking
+  - calendar-web-shell
+  - vision-recovery-tests
+  observable_outcome: Runtime evidence and all documentation/control inventories reconcile
+    without promoting unproven behavior.
+  evidence_boundary:
+  - backend tests
+  - frontend checks
+  - Vision tests
+  - browser runtime evidence
+  - control audits
+  manual_runtime_command: make dev && WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/business-booking-end-to-end.json
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-capability-evidence && make audit-interface-evidence && make audit-truth-registry
+    && make audit-docs
+  started_at: '2026-07-24T11:21:05Z'
+  start_fingerprints:
+    docs/runtime-evidence/business-booking-end-to-end.json: __missing__
+    docs/capability-inventory.yaml: 6398eeca4b7a035c6baebe874e4f588887211e4479b81bee1806e45fe8a07633
+    docs/target-capability-catalog.yaml: ad3c1da0f61e9ca79486a728d326744f7c8ff31823c24ecc9afe00f3f730f1b8
+    docs/business-logic.md: 91e5ffcd7bbf76cf968e0992768a6eea7c299080768f72b24565d8854339667b
+    docs/domain-technical.md: 6a46ab77b8309416cb4cdb10f025537cc6486adbf234108a7dcd2f0bddc6824e
+    docs/implementation-backlog.md: d3a574a0038ae6c11ed3aaa670e7466c20a605768ec9e7b1e56a6c58183bb5fe
+    docs/agent-operating-model.yaml: ea1de7463463d7891303e0a5071c21451c652055ca5defc306a6cacca4aebba4
+    docs/regression-scenario-catalog.yaml: 99c0f4b72aed64ae5786256b49db3f4eb5198232b03acbb17098a906de9c26d5
+    docs/system-truth-registry.yaml: ad74ba3f212fc8de2f89bb275ac0ab17154c1bbbd536bad8cf1a50787d0147dd
+    docs/interface-evidence-registry.yaml: 8b95525ed93be8e84f7c2dd5615989c6ab2deaacaa56a60ea41854d1aa5b34ce
+    docs/capability-evidence-registry.yaml: d1e3ffef08513d9a4b8db44497307754ebd7f6a6e262f5ba950dbe0471b71cd9
+evidence:
+- task: runtime-docs-closeout
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-capability-evidence && make audit-interface-evidence && make audit-truth-registry
+    && make audit-docs
+  ranAt: '2026-07-24T11:22:10Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/agent-operating-model.yaml
+  - docs/business-logic.md
+  - docs/capability-evidence-registry.yaml
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/interface-evidence-registry.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/system-truth-registry.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  output: |2+
+      pending runtime scenarios: 14
+      passed evidence paths checked: 63
+    Interface evidence reconciliation audit passed
+      endpoints classified: 222
+      admin_or_agent: 5
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 147
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 316
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-24T11:21:05Z'
+  changedAfterStart: &1
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  - docs/agent-operating-model.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/system-truth-registry.yaml
+  - docs/interface-evidence-registry.yaml
+  - docs/capability-evidence-registry.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+- task: runtime-scope-container
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-capability-evidence && make audit-interface-evidence && make audit-truth-registry
+    && make audit-docs
+  ranAt: '2026-07-24T11:54:51Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  output: |2+
+      pending runtime scenarios: 14
+      passed evidence paths checked: 63
+    Interface evidence reconciliation audit passed
+      endpoints classified: 223
+      admin_or_agent: 5
+      native_handoff: 3
+      unclassified_non_web: 68
+      web_source_linked: 147
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 318
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-24T11:54:40Z'
+  changedAfterStart: &2
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+scope_container: true
+atomic_tasks:
+- id: runtime-docs-closeout
+  outcome: Capture runtime evidence and reconcile documentation, capability, truth,
+    interface, and agent-control artifacts.

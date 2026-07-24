@@ -1,0 +1,92 @@
+kind: sequencing_review
+version: 1
+id: business-booking-final-sequencing-review
+title: Final Business booking ownership and sequencing review
+status: ready
+atomic_queue: docs/work/business-booking-atomic-task-hardening-2026-07-24.yaml
+implementation_queue_status: atomic_items_only
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+principles:
+- Domain and API contracts are frozen before Web and Vision implementation begins.
+- Each serial child has one primary ownership boundary; sibling paths are changed only when required to consume the new contract.
+- No frontend or Vision task may invent a backend rule while the backend contract is incomplete.
+- Runtime closeout is the only task allowed to promote capability and evidence status.
+sequence:
+- sequence: 1
+  inventory_item: domain-contract
+  owner: Business backend/domain
+  responsibility: Define typed fulfillment, demand, options, resources, pricing, quote, availability result, booking snapshots, permissions, privacy, retention, migrations, and compatibility mapping.
+  blocks:
+  - owner-setup-web
+  - public-slots-web
+  - calendar-workflow-e2e
+  - vision-parity
+- sequence: 2
+  inventory_item: owner-setup-web
+  owner: Business owner Web/API
+  responsibility: Expose schema, options, pricing, resources, conditions, availability, and owner entrypoints using the frozen contract.
+  consumes: domain-contract
+  blocks:
+  - public-slots-web
+- sequence: 3
+  inventory_item: public-slots-web
+  owner: Business public API/Web
+  responsibility: Expose schema-driven demand, quote, exact slot/window/stay/quantity results, booking preview, and atomic customer booking recovery.
+  consumes:
+  - domain-contract
+  - owner-setup-web
+  blocks:
+  - calendar-workflow-e2e
+  - vision-parity
+- sequence: 4
+  inventory_item: calendar-workflow-e2e
+  owner: Business booking lifecycle/calendar
+  responsibility: Complete owner/customer projections, event/notification compatibility, resource/capacity lifecycle, reschedule, and shared Calendar shell integration.
+  consumes:
+  - domain-contract
+  - public-slots-web
+  blocks:
+  - vision-parity
+- sequence: 5
+  inventory_item: vision-parity
+  owner: Vision backend orchestration
+  responsibility: Publish schema-aware routes and reviewed adapters for setup, quote, demand, availability, booking, calendar, and recovery using the same Business services.
+  consumes:
+  - domain-contract
+  - public-slots-web
+  - calendar-workflow-e2e
+  blocks:
+  - runtime-closeout
+- sequence: 6
+  inventory_item: runtime-closeout
+  owner: Control/evidence
+  responsibility: Run backend/frontend/Vision tests, owned browser runtime, scenario evidence, docs/inventory audits, and closeout reconciliation.
+  consumes:
+  - owner-setup-web
+  - public-slots-web
+  - calendar-workflow-e2e
+  - vision-parity
+overlap_decisions:
+- path: apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java
+  primary_owner: calendar-workflow-e2e
+  domain_rule: domain-contract may define the event/snapshot compatibility requirement, but lifecycle implementation and evidence belong to calendar-workflow-e2e.
+- path: apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  primary_owner: owner-setup-web
+  shared_consumers: [public-slots-web, calendar-workflow-e2e]
+  rule: Add contract methods once and consume them in later children; do not duplicate API helpers.
+- path: apps/themuffinman/frontend/src/contracts/index.ts
+  primary_owner: domain-contract
+  shared_consumers: [owner-setup-web, public-slots-web, calendar-workflow-e2e]
+  rule: Contract types are introduced with the backend DTO decision and extended only through the same canonical contract.
+- path: docs/capability-inventory.yaml
+  primary_owner: runtime-closeout
+  contributors: [domain-contract, owner-setup-web, public-slots-web, calendar-workflow-e2e, vision-parity]
+  rule: Contributors record required capability decomposition in their plan; only closeout reconciles final evidence/status.
+acceptance:
+- Every child has one sequence number and one inventory item.
+- No child validation invokes a verifier recursively.
+- Domain/API contract changes precede all client changes.
+- Vision consumes completed Web/backend contracts and does not become a second Business implementation.
+- Runtime and capability status remain open until final evidence and audits pass.
+ # Runtime completion is not inferred from source validation.

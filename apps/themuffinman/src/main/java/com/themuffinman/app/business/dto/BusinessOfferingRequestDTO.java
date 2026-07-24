@@ -4,6 +4,7 @@ import com.themuffinman.app.business.model.BusinessOfferingBookingMode;
 import com.themuffinman.app.business.model.BusinessOfferingCapacityMode;
 import com.themuffinman.app.business.model.BusinessOfferingDurationMode;
 import com.themuffinman.app.business.model.BusinessOfferingPricingType;
+import com.themuffinman.app.business.model.BusinessOfferingFulfillmentMode;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
@@ -61,6 +62,17 @@ public class BusinessOfferingRequestDTO {
     private Integer slotCapacity;
 
     private BusinessOfferingBookingMode bookingMode;
+
+    private BusinessOfferingFulfillmentMode fulfillmentMode;
+
+    @Min(value = 1, message = "Duration increment must be at least 1 minute")
+    private Integer durationIncrementMinutes;
+
+    @Min(value = 1, message = "Minimum quantity must be at least 1")
+    private Integer minimumQuantity;
+
+    @Min(value = 1, message = "Maximum quantity must be at least 1")
+    private Integer maximumQuantity;
 
     private Boolean requiresOwnerConfirmation;
 

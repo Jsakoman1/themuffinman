@@ -1,0 +1,76 @@
+kind: work
+version: 1
+id: frontend-remaster-02-ux-architecture-decisions
+title: Decide frontend remaster UX and surface architecture
+status: verified
+baseline: dcb983f
+master_plan: docs/work/frontend-app-remaster-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-app-remaster-master-execution-inventory.yaml
+objective: Record implementable rules for route, collection, detail, context, drawer,
+  sheet, dialog, tab, inline-edit, turn-based, mobile, motion, and accessibility behavior.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - Existing backend contracts, permissions, workflow states, and canonical routes.
+  - Existing shared primitives unless the decision record identifies a missing contract.
+  residual_scope:
+  - Decide the presentation grammar for residual remaster surfaces.
+  - Define the route/context/sheet decision matrix and shared action hierarchy.
+  retest_triggers:
+  - Any decision that changes a canonical route or action target.
+  - Any decision that affects VisionForWeb handoff or mobile surface ownership.
+  non_duplication_rule: Decisions must extend verified surface archetypes rather than
+    recreate them.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: required_before_implementation
+paths:
+- docs/work/frontend-remaster-02-ux-architecture-decisions.yaml
+- docs/work/frontend-remaster-ux-architecture-decisions-2026-07-23.md
+- apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+- apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+- apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+- apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceSurfaceView.vue
+required_paths:
+- docs/work/frontend-remaster-ux-architecture-decisions-2026-07-23.md
+tasks:
+- id: approve-surface-and-interaction-grammar
+  inventory_item: remaster-02-ux-architecture-decisions
+  title: Approve surface and interaction grammar
+  type: analysis
+  status: done
+  paths:
+  - docs/work/frontend-remaster-ux-architecture-decisions-2026-07-23.md
+  required_paths:
+  - docs/work/frontend-remaster-ux-architecture-decisions-2026-07-23.md
+  validation: git diff --check
+  started_at: '2026-07-23T20:44:34Z'
+  start_fingerprints:
+    docs/work/frontend-remaster-ux-architecture-decisions-2026-07-23.md: __missing__
+acceptance:
+- Every affected collection is classified as direct-detail, in-place-context, drawer/sheet,
+  or intentional exception.
+- Tabs are limited to independent parallel contexts.
+- Turn-based UX complements direct UI and never becomes a replacement mutation system.
+- Mobile, focus, reduced-motion, primary-action, and recovery rules are explicit.
+- VisionForWeb remains an inline Web host and does not become shell navigation.
+evidence:
+- task: approve-surface-and-interaction-grammar
+  command: git diff --check
+  ranAt: '2026-07-23T20:45:14Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-remaster-ux-architecture-decisions-2026-07-23.md
+  output: "\n"
+  startedAt: '2026-07-23T20:44:34Z'
+  changedAfterStart: &1
+  - docs/work/frontend-remaster-ux-architecture-decisions-2026-07-23.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,14 +1,44 @@
 <script setup lang="ts">
-withDefaults(defineProps<{open: boolean; title: string; layout?: "standard" | "workspace"}>(), {layout: "standard"})
+import {nextTick, onBeforeUnmount, ref, watch} from "vue"
+
+const props = withDefaults(defineProps<{open: boolean; title: string; layout?: "standard" | "workspace"}>(), {layout: "standard"})
 const emit = defineEmits<{close: []}>()
+const dialog = ref<HTMLElement | null>(null)
+let previouslyFocused: HTMLElement | null = null
+const titleId = `app-dialog-title-${Math.random().toString(36).slice(2)}`
+const bodyId = `app-dialog-body-${Math.random().toString(36).slice(2)}`
+const focusableSelector = "button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])"
+
+const focusInitial = async () => {
+  await nextTick()
+  const first = dialog.value?.querySelector<HTMLElement>(focusableSelector)
+  first?.focus()
+}
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === "Escape") { event.preventDefault(); emit("close"); return }
+  if (event.key !== "Tab" || !dialog.value) return
+  const focusable = [...dialog.value.querySelectorAll<HTMLElement>(focusableSelector)]
+  if (focusable.length === 0) { event.preventDefault(); return }
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+  if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+  else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+}
+
+watch(() => props.open, async open => {
+  if (open) { previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null; await focusInitial() }
+  else { await nextTick(); previouslyFocused?.focus(); previouslyFocused = null }
+})
+onBeforeUnmount(() => { previouslyFocused?.focus() })
 </script>
 
 <template>
   <Teleport to="body">
-    <div v-if="open" class="app-dialog__backdrop" role="presentation" @click.self="emit('close')" @keydown.escape="emit('close')">
-      <section class="app-dialog" :class="`app-dialog--${layout}`" role="dialog" aria-modal="true" aria-labelledby="app-dialog-title" aria-describedby="app-dialog-body">
-        <header class="app-dialog__header"><h2 id="app-dialog-title">{{ title }}</h2><button type="button" class="app-dialog__close" :aria-label="`Close ${title}`" :title="`Close ${title}`" @click="emit('close')">×</button></header>
-        <div class="app-dialog__workspace"><div id="app-dialog-body" class="app-dialog__body"><slot /></div><aside v-if="$slots.utility" class="app-dialog__utility" aria-label="Form details and actions"><slot name="utility" /></aside></div>
+    <div v-if="props.open" class="app-dialog__backdrop" role="presentation" @click.self="emit('close')">
+      <section ref="dialog" class="app-dialog" :class="`app-dialog--${props.layout}`" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="bodyId" @keydown="handleKeydown">
+        <header class="app-dialog__header"><h2 :id="titleId">{{ props.title }}</h2><button type="button" class="app-dialog__close" :aria-label="`Close ${props.title}`" :title="`Close ${props.title}`" @click="emit('close')">×</button></header>
+        <div class="app-dialog__workspace"><div :id="bodyId" class="app-dialog__body"><slot /></div><aside v-if="$slots.utility" class="app-dialog__utility" aria-label="Form details and actions"><slot name="utility" /></aside></div>
       </section>
     </div>
   </Teleport>

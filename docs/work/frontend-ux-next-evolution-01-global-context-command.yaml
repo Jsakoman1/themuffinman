@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-01-global-context-command
+title: Implement global context switcher, All businesses view, and command palette
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml], baseline_only_surfaces: [existing Business permissions and booking authority], residual_scope: [explicit Personal/Business/All businesses context and command routing], retest_triggers: [context persistence, aggregate calendar, route handoff, or command action change], non_duplication_rule: Previous context/calendar evidence is baseline only.}
+tasks:
+  - id: implement-global-context-command-surface
+    title: Add explicit cross-product context and command navigation
+    type: implementation
+    status: pending
+    inventory_item: global-context-and-command-surface
+    observable_outcome: Users can switch Personal, an individual Business, or All businesses and invoke discoverable canonical actions from Cmd/Ctrl+K without losing route context.
+    dependencies: []
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue, apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+    required_paths: [apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue, apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue]
+    evidence_boundary: [context persistence, All businesses selection, command keyboard, route preservation, type-check, build, desktop/mobile screenshots]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-context-desktop.png, docs/runtime-evidence/frontend-ux-next-context-mobile.png]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

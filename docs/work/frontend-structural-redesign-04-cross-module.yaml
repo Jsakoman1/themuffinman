@@ -1,0 +1,53 @@
+kind: work
+version: 1
+id: frontend-structural-redesign-04-cross-module
+title: "Apply the simple tab grammar across remaining modules"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/frontend-ux-next-evolution-master.yaml]
+  baseline_only_surfaces: [Existing Thing, Ride, Chat, Profile, Settings, and Calendar domain authority]
+  residual_scope: [Cross-module tab IA, reduced action density, stable detail routes, and consistent states]
+  retest_triggers: [Shared tabs, module route, detail surface, permissions, mobile drawer, or state component changes]
+  non_duplication_rule: Existing domain behavior is baseline; only structural presentation and route consolidation are new scope.
+tasks:
+  - id: cross-module-share-tabs
+    title: Combine Things and Rides under a simple Share workspace
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-share-tabs
+    observable_outcome: Share exposes Things, Rides, and Requests tabs without duplicating module-level navigation or mixing unrelated actions.
+    dependencies: []
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+      - apps/themuffinman/frontend/src/router.ts
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/SharePage.vue
+      - apps/themuffinman/frontend/src/router.ts
+    evidence_boundary: [Share tabs, request scope, create actions, detail continuity]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: cross-module-profile-chat-calendar-tabs
+    title: Consolidate Profile, Chat, and Calendar sibling views into tabs
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-profile-chat-calendar-tabs
+    observable_outcome: Profile/Settings, Chat filters, and Calendar views use tabs where appropriate and no longer expose unrelated actions in one dense surface.
+    dependencies: [cross-module-share-tabs]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+    evidence_boundary: [tab focus, unread/chat state, profile settings grouping, calendar mode clarity]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-05-business-templates
+title: Add business templates and adaptive service setup
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml, docs/work/business-booking-end-to-end-master.yaml], baseline_only_surfaces: [flexible pricing, schema, capacity, resources, and booking validation], residual_scope: [business templates for salons, daycare, cleaning, painting, car wash, tutors, repairs, and fitness], retest_triggers: [template-generated rule, preview, publish, or override behavior change], non_duplication_rule: Templates are suggestions and never bypass backend validation or owner review.}
+tasks:
+  - id: implement-business-templates-adaptive-setup
+    title: Provide editable templates for common business models
+    type: implementation
+    status: pending
+    inventory_item: business-templates-adaptive-setup
+    observable_outcome: A new owner can start from a business template, inspect every generated pricing/capacity/resource/customer-input rule, override it, and publish only after explicit review.
+    dependencies: [implement-business-operator-workspace]
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue, apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, docs/business-logic.md, docs/domain-technical.md]
+    required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue, docs/business-logic.md]
+    evidence_boundary: [template selection, override review, preview, publish/recovery, backend validation, type-check/build, desktop/mobile screenshots]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-business-templates-desktop.png, docs/runtime-evidence/frontend-ux-next-business-templates-mobile.png]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

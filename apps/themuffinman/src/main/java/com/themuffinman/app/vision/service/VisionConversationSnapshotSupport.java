@@ -93,7 +93,7 @@ final class VisionConversationSnapshotSupport {
                     conversation.getSlotData().get("profile_location_label")
             );
             case DISCOVER_QUESTS, SEARCH, CREATE_RIDE, JOIN_RIDE, UPDATE_RIDE, LEAVE_RIDE, CANCEL_RIDE, START_RIDE, COMPLETE_RIDE, VIEW_RIDES -> null;
-            case OPEN_CHAT -> visionCapabilityPreviewService.previewChatWorkspace(currentUser);
+            case OPEN_CHAT, SEND_MESSAGE -> visionCapabilityPreviewService.previewChatWorkspace(currentUser);
             case VIEW_CHAT_WORKSPACE -> visionCapabilityPreviewService.previewChatWorkspace(currentUser);
             case SYNC_CHAT -> hasText(conversation.getSlotData().get("opened_chat_conversation_id"))
                     ? visionCapabilityPreviewService.previewChatSync(currentUser, Long.parseLong(conversation.getSlotData().get("opened_chat_conversation_id")))

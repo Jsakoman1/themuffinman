@@ -14,7 +14,7 @@ defineProps<{
   <AppTooltip :label="label">
     <button
       type="button"
-      class="app-icon-button"
+      class="app-icon-button ui-focusable"
       :class="`app-icon-button--${tone ?? 'neutral'}`"
       :aria-label="label"
       :disabled="disabled || loading"

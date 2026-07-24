@@ -1,6 +1,7 @@
 package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
+import com.themuffinman.app.chat.dto.ChatMessageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class VisionChatExecutionResult {
     private boolean executed;
     private String blockingReason;
     private ChatConversationSummaryDTO conversation;
+    private ChatMessageDTO message;
     @Builder.Default
     private List<VisionChatTargetCandidate> candidates = List.of();
 
@@ -26,6 +28,10 @@ public class VisionChatExecutionResult {
                 .executed(true)
                 .conversation(conversation)
                 .build();
+    }
+
+    public static VisionChatExecutionResult messageSent(ChatConversationSummaryDTO conversation, ChatMessageDTO message) {
+        return VisionChatExecutionResult.builder().executed(true).conversation(conversation).message(message).build();
     }
 
     public static VisionChatExecutionResult blocked(String blockingReason) {

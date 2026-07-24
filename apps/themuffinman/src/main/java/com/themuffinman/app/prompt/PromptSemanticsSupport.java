@@ -92,6 +92,9 @@ public class PromptSemanticsSupport {
         if (containsChatWorkspaceSignals(lower)) {
             return PromptSemanticPlan.viewChatWorkspace(0.8d, "Local prompt signals match view_chat_workspace.");
         }
+        if (containsSendMessageSignals(lower)) {
+            return PromptSemanticPlan.sendMessage(0.8d, "Development-only local prompt signals match send_message.", inferChatTarget(normalizedPrompt));
+        }
         if (containsChatSignals(lower)) {
             return PromptSemanticPlan.openChat(0.8d, "Local prompt signals match open_chat.", inferChatTarget(normalizedPrompt));
         }
@@ -205,6 +208,8 @@ public class PromptSemanticsSupport {
                 "my circles",
                 "show circles",
                 "open circles",
+                "go to circles",
+                "navigate to circles",
                 "circle list",
                 "my network");
     }
@@ -422,6 +427,14 @@ public class PromptSemanticsSupport {
                 "talk to");
     }
 
+    private boolean containsSendMessageSignals(String value) {
+        return containsAny(value,
+                "send message",
+                "send a message",
+                "direct message",
+                "dm ");
+    }
+
     private boolean containsChatWorkspaceSignals(String value) {
         return containsAny(value,
                 "show chat",
@@ -461,7 +474,10 @@ public class PromptSemanticsSupport {
                 "move my couch",
                 "move furniture",
                 "moving sofa",
-                "quests")) {
+                "quests",
+                "create new work",
+                "create work",
+                "new work")) {
             return true;
         }
 

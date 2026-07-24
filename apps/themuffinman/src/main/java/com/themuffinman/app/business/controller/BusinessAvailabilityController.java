@@ -99,4 +99,14 @@ public class BusinessAvailabilityController {
     ) {
         return businessAvailabilityReadService.getPublicAvailability(slug, offeringId, from, to);
     }
+
+    @GetMapping("/public/{slug}/availability/preview")
+    public BusinessAvailabilityWindowListResponseDTO previewPublicAvailability(
+            @PathVariable String slug,
+            @RequestParam Long offeringId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant to
+    ) {
+        return businessAvailabilityReadService.getPublicAvailability(slug, offeringId, from, to);
+    }
 }

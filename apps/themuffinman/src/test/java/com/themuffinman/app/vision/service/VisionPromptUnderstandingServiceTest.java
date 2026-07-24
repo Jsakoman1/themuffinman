@@ -56,6 +56,25 @@ class VisionPromptUnderstandingServiceTest {
     }
 
     @Test
+    void deterministicProviderFailureUsesSafeLocalFallbackWithoutPlanningMutation() {
+        AgentProperties agentProperties = new AgentProperties();
+        agentProperties.setProvider("openai");
+        agentProperties.setApiKey("test-key");
+        agentProperties.setRuntimeFailureMode("provider_failure");
+        VisionPromptUnderstandingService service = service(agentProperties);
+
+        VisionPromptUnderstandingResult result = service.understandPrompt("send message to Nikolina", null);
+
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_PROVIDER_LOCAL, result.getUnderstandingProvider());
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED, result.getUnderstandingStatus());
+        assertEquals("UNSUPPORTED", result.semanticPlanOrEmpty().getCandidateIntent());
+
+        VisionPromptUnderstandingResult safeRetry = service.understandPrompt("open my circles", null);
+        assertEquals(VisionPromptUnderstandingService.UNDERSTANDING_STATUS_PROVIDER_FAILURE_FALLBACK, safeRetry.getUnderstandingStatus());
+        assertEquals("VIEW_CIRCLES", safeRetry.semanticPlanOrEmpty().getCandidateIntent());
+    }
+
+    @Test
     void buildsCreateQuestSemanticPlanWithLocalFallback() {
         AgentProperties agentProperties = new AgentProperties();
         VisionPromptUnderstandingService service = service(agentProperties);

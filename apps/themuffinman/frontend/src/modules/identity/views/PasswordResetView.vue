@@ -11,6 +11,7 @@ const token = computed(() => String(route.query.token ?? ""))
 const password = ref("")
 const error = ref("")
 const completed = ref(false)
+const isSubmitting = ref(false)
 
 const resetPassword = async () => {
   error.value = ""
@@ -18,29 +19,33 @@ const resetPassword = async () => {
     error.value = "This recovery link is missing its token."
     return
   }
+  if (isSubmitting.value) return
+  isSubmitting.value = true
   try {
     await authApi.resetPassword({token: token.value, password: password.value})
     completed.value = true
   } catch {
     error.value = "This recovery link is invalid or expired."
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
 
 <template>
-  <main class="auth-terminal">
-    <section class="auth-terminal__panel">
+  <main class="auth-terminal identity-surface">
+    <section class="auth-terminal__panel identity-surface__panel">
       <p class="auth-terminal__eyebrow">TheMuffinMan / access</p>
       <h1 class="auth-terminal__title">Set a new password</h1>
-      <p class="auth-terminal__copy">Use this one-time recovery link to restore access.</p>
+      <p class="auth-terminal__copy identity-surface__copy">Use this one-time recovery link to restore access.</p>
       <AppStatus v-if="completed" message="Password updated. You can log in with the new password." tone="success" />
       <AppStatus v-else-if="!token" message="This recovery link is missing its token. Request a new link to continue." tone="error" />
-      <form v-else class="auth-terminal__form" @submit.prevent="resetPassword">
-        <AppFormField label="New password" required><input v-model="password" aria-label="New password" class="auth-terminal__input" type="password" autocomplete="new-password" minlength="8" required /></AppFormField>
-        <AppStatus v-if="error" :message="error" tone="error" />
-        <AppFormFooter><template #primary><button type="submit">Save password</button></template></AppFormFooter>
+      <form v-else class="auth-terminal__form identity-surface__form" :aria-busy="isSubmitting || undefined" @submit.prevent="resetPassword">
+        <AppFormField label="New password" required><input v-model="password" aria-label="New password" class="auth-terminal__input identity-surface__input" type="password" autocomplete="new-password" minlength="8" :disabled="isSubmitting" required /></AppFormField>
+        <AppStatus v-if="isSubmitting" message="Saving your password…" busy /><AppStatus v-else-if="error" :message="error" tone="error" />
+        <AppFormFooter><template #primary><button type="submit" :disabled="isSubmitting">{{ isSubmitting ? "Saving…" : "Save password" }}</button></template></AppFormFooter>
       </form>
-      <p class="auth-terminal__linkline"><RouterLink :to="completed ? '/login' : '/recover'">{{ completed ? 'Back to login' : 'Request a new link' }}</RouterLink></p>
+      <p class="auth-terminal__linkline identity-surface__linkline"><RouterLink :to="completed ? '/login' : '/recover'">{{ completed ? 'Back to login' : 'Request a new link' }}</RouterLink></p>
     </section>
   </main>
 </template>

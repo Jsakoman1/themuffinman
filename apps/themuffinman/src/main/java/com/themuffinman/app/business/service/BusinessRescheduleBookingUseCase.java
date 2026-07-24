@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class BusinessRescheduleBookingUseCase {
     private final BusinessBookingMgr bookingMgr;
     private final BusinessBookingPresentationService presentationService;
     private final DomainEventPublisher domainEventPublisher;
+    private final BusinessResourceAssignmentService resourceAssignmentService;
 
     @Transactional
     public com.themuffinman.app.business.dto.BusinessBookingResponseDTO rescheduleAsCustomer(
@@ -54,10 +56,15 @@ public class BusinessRescheduleBookingUseCase {
             throw ServiceErrors.badRequest("Reschedule request is required");
         }
         var offering = bookingPrimitiveService.lockOffering(booking.getBusinessOffering().getId());
-        long occupied = bookingPrimitiveService.countOverlappingCapacityUsageExcluding(
+        BigDecimal occupied = bookingPrimitiveService.countOverlappingCapacityUsageExcluding(
                 offering.getId(), booking.getId(), request.getStartsAt(), request.getEndsAt());
         bookingValidationService.validateReschedule(
                 booking, offering, request.getStartsAt(), request.getEndsAt(), policy, occupied);
+        // Reassignment happens before the booking interval is persisted so a conflict rolls back the whole reschedule.
+        if (resourceAssignmentService != null) {
+            resourceAssignmentService.reassignForBooking(
+                    booking.getId(), offering, request.getStartsAt(), request.getEndsAt());
+        }
         booking.setStartsAt(request.getStartsAt());
         booking.setEndsAt(request.getEndsAt());
         booking.setDurationSnapshotMinutes((int) Duration.between(request.getStartsAt(), request.getEndsAt()).toMinutes());

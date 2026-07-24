@@ -240,6 +240,17 @@ public class PromptSemanticPlan {
                 .build();
     }
 
+    public static PromptSemanticPlan sendMessage(double confidence, String note, String targetUserQuery) {
+        return PromptSemanticPlan.builder()
+                .candidateIntent("SEND_MESSAGE")
+                .candidateIntentConfidence(confidence)
+                .capabilityId("send_message")
+                .planningNote(note == null ? "" : note)
+                .searchQuery("")
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
     public static PromptSemanticPlan viewChatWorkspace(double confidence, String note) {
         return PromptSemanticPlan.builder()
                 .candidateIntent("VIEW_CHAT_WORKSPACE")

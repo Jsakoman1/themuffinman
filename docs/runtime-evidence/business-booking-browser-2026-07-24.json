@@ -1,0 +1,42 @@
+{
+  "capturedAt": "2026-07-24T12:20:43.678Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "runtimeApiContract": {
+      "status": "passed",
+      "schemaStatus": 200,
+      "quoteStatus": 200,
+      "availabilityStatus": 200,
+      "schemaVersion": 2,
+      "demandFields": 1,
+      "options": 1,
+      "slots": 9
+    },
+    "ownerSetup": {
+      "status": "passed",
+      "route": "/business/service-setup",
+      "visibleText": "TM\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◌\nChat\n□\nCalendar\n◇\nBusiness\nProfile\nBookings\nCalendar\n◎\nCircles\n▣\nThings\n↗\nRides\n\nPERSONAL\n\nAttention\n12\n◷\nActivity\n⌕\nSaved searches\n\nACCOUNT\n\nProfile\nSettings\nCreate\nSearch\n✦\nVision\nT\ntest\n\nBusiness / Service setup\n\nService rules and resources\n\nDefine demand, options, pricing rules, and shared capacity for each offering.\n\nOffering \nRuntime booking\nRuntime booking\nRun"
+    },
+    "ownerCalendar": {
+      "status": "passed",
+      "route": "/business/calendar",
+      "visibleText": "TM\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◌\nChat\n□\nCalendar\n◇\nBusiness\nProfile\nBookings\nCalendar\n◎\nCircles\n▣\nThings\n↗\nRides\n\nPERSONAL\n\nAttention\n12\n◷\nActivity\n⌕\nSaved searches\n\nACCOUNT\n\nProfile\nSettings\nCreate\nSearch\n✦\nVision\nT\ntest\n\nBUSINESS / AVAILABILITY\n\nAvailability\nSchedule rules\n4\nNew rule\nRuntime booking\nInactive\nThursday · 00:00:00–23:59:00\nCapacity 1 · 60 min\nEdit\nDelete\nRuntime booking\nInactive\nThur"
+    },
+    "publicBusiness": {
+      "status": "passed",
+      "route": "/business/public/runtime-flexible-services",
+      "visibleText": "TM\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◌\nChat\n□\nCalendar\n◇\nBusiness\nProfile\nBookings\nCalendar\n◎\nCircles\n▣\nThings\n↗\nRides\n\nPERSONAL\n\nAttention\n12\n◷\nActivity\n⌕\nSaved searches\n\nACCOUNT\n\nProfile\nSettings\nCreate\nSearch\n✦\nVision\nT\ntest\nBack to results\n\nBUSINESS\n\nRuntime Flexible Services\n\nOfferings\n1\nRuntime crew service\nNo offering summary\n40 CHF · 30 min\nBook\nBUSINESS ACTIONS\nSave business\n\nBooking availability"
+    },
+    "visionSurface": {
+      "status": "passed",
+      "route": "/home",
+      "visionHost": 1
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

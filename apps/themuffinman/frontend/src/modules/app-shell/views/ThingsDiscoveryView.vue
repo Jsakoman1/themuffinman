@@ -17,10 +17,12 @@ import {useSurfaceViewState} from "../composables/useSurfaceViewState.ts"
 import {currentUser} from "../../identity/auth.ts"
 import {buildSurfaceVisionRoute} from "../visionHandoff.ts"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
+import TaskSurface from "../components/TaskSurface.vue"
 
 const route = useRoute()
 const router = useRouter()
 const userShellApi = {getThingPreview: thingsApi.getPreview, getListingsForScope: thingsApi.getListingsForScope, getThingOwnerBorrowRequests: thingsApi.getOwnerBorrowRequests, getMyThingBorrowRequests: thingsApi.getMyBorrowRequests, createThingListing: thingsApi.createListing, requestThingBorrow: thingsApi.requestBorrow, cancelThingBorrow: thingsApi.cancelBorrow, decideThingBorrow: thingsApi.decideBorrow, returnThingBorrow: thingsApi.returnBorrow, updateThingListing: thingsApi.updateListing, archiveThingListing: thingsApi.archiveListing}
+const requestsOnly = computed(() => route.path.endsWith("/requests"))
 const mine = ref(route.query.scope === "mine" || route.path.endsWith("/mine"))
 const listings = ref<ThingListingResponseDTO[]>([])
 const ownerRequests = ref<ThingBorrowRequestResponseDTO[]>([])
@@ -35,7 +37,7 @@ const borrowMessage = ref("")
 const isLoading = ref(true)
 const {pending: isSaving, error, execute} = useAsyncAction()
 const feedback = ref("")
-const title = computed(() => mine.value ? "My things" : "Things to borrow")
+const title = computed(() => requestsOnly.value ? "Borrow requests" : mine.value ? "My things" : "Things to borrow")
 const selectedListing = computed(() => listings.value.find(listing => listing.id === viewState.value.selectedId) ?? null)
 const visionRoute = computed(() => buildSurfaceVisionRoute("things", route.fullPath, title.value))
 const {state: viewState} = useSurfaceViewState("things-discovery", computed(() => currentUser.value?.id), computed(() => route.fullPath))
@@ -46,17 +48,17 @@ const load = async () => {
   isLoading.value = true
   error.value = ""
   try {
-    const listingsResult = await userShellApi.getListingsForScope(requestedMine ? "mine" : "discover")
+    const listingsResult = requestsOnly.value ? {items: []} : await userShellApi.getListingsForScope(requestedMine ? "mine" : "discover")
     if (sequence !== loadSequence) return
     listings.value = listingsResult.items
-    const requestsResult = requestedMine
-      ? await Promise.allSettled([userShellApi.getThingOwnerBorrowRequests()])
-      : await Promise.allSettled([userShellApi.getMyThingBorrowRequests()])
+    const requestsResult = requestsOnly.value || !requestedMine
+      ? await Promise.allSettled([userShellApi.getMyThingBorrowRequests()])
+      : await Promise.allSettled([userShellApi.getThingOwnerBorrowRequests()])
     if (sequence !== loadSequence) return
     const requests = requestsResult[0]
     if (requests.status === "fulfilled") {
-      if (requestedMine) ownerRequests.value = requests.value
-      else borrowerRequests.value = requests.value
+      if (requestsOnly.value || !requestedMine) borrowerRequests.value = requests.value
+      else ownerRequests.value = requests.value
     } else {
       error.value = "Things are available, but borrow requests could not be loaded."
     }
@@ -80,17 +82,19 @@ onMounted(() => void load())
 </script>
 
 <template>
-  <section class="things-surface">
+  <!-- UX simplification: discovery, selected-item inspection, and borrow action are staged. -->
+  <TaskSurface mode="inspect" label="Things sharing"><section class="things-surface" :aria-busy="isLoading || isSaving || undefined">
     <header><div><p class="eyebrow">Things</p><h1>{{ title }}</h1></div></header>
-    <CollectionToolbar :title="title" :count="listings.length" :busy="isLoading"><template #filters><details class="things-surface__scope"><summary>Scope: {{ mine ? "My things" : "Discover" }}</summary><div><AppButton type="button" :tone="!mine ? 'primary' : 'secondary'" @click="router.replace({query: {...route.query, scope: undefined}})">Discover</AppButton><AppButton type="button" :tone="mine ? 'primary' : 'secondary'" @click="router.replace({query: {...route.query, scope: 'mine'}})">My things</AppButton></div></details></template><template #actions><RouterLink :to="visionRoute">Ask Vision</RouterLink><AppButton type="button" tone="primary" @click="form = {title: '', description: '', conditionNote: '', available: true}">List a thing</AppButton></template></CollectionToolbar>
+    <CollectionToolbar :title="title" :count="requestsOnly ? borrowerRequests.length : listings.length" :busy="isLoading"><template #filters><details v-if="!requestsOnly" class="things-surface__scope"><summary>Scope: {{ mine ? "My things" : "Discover" }}</summary><div><AppButton type="button" :tone="!mine ? 'primary' : 'secondary'" @click="router.replace({query: {...route.query, scope: undefined}})">Discover</AppButton><AppButton type="button" :tone="mine ? 'primary' : 'secondary'" @click="router.replace({query: {...route.query, scope: 'mine'}})">My things</AppButton></div></details></template><template #actions><RouterLink :to="visionRoute">Ask Vision</RouterLink><AppButton v-if="!requestsOnly" type="button" tone="primary" @click="form = {title: '', description: '', conditionNote: '', available: true}">List a thing</AppButton></template></CollectionToolbar>
+    <p class="things-surface__cue" data-surface="listing-request-context">Listings and borrow requests are separate turns; request actions remain subject to the server-provided action flags.</p>
     <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="error" :message="error" tone="error" retry @retry="load" />
-    <AppStatus v-if="isLoading" :message="mine ? 'Loading your things.' : 'Loading things to borrow.'" busy /><AppStatus v-else-if="listings.length === 0" :message="mine ? 'You have not listed any things yet.' : 'No things are available to borrow yet.'" />
-    <div v-else class="things-workspace"><div class="listing-grid"><SurfaceRow v-for="listing in listings" :key="listing.id" :row="{id: String(listing.id), title: listing.title, description: `${listing.ownerUsername} · ${listing.description || 'No description yet.'}`, meta: listing.conditionNote || 'Condition not specified'}" :selected="viewState.selectedId === listing.id" @click="viewState.selectedId = listing.id"><template #actions><AppButton v-if="listing.allowedActions.includes('EDIT')" type="button" tone="secondary" @click.stop="editListing(listing)">Edit</AppButton><AppButton v-if="listing.allowedActions.includes('ARCHIVE')" type="button" tone="danger" @click.stop="archiveListing(listing)">Archive</AppButton><AppButton v-if="listing.allowedActions.includes('REQUEST_BORROW')" type="button" tone="primary" @click.stop="borrowId = listing.id">Request</AppButton><AppButton v-if="listing.allowedActions.includes('CANCEL_BORROW_REQUEST') && listing.myPendingRequestId" type="button" tone="secondary" @click.stop="cancelBorrow(listing.myPendingRequestId)">Cancel request</AppButton></template></SurfaceRow></div><aside class="things-context" aria-label="Thing context"><template v-if="selectedListing"><p class="eyebrow">Selected thing</p><h2>{{ selectedListing.title }}</h2><p>{{ selectedListing.description || 'No description provided.' }}</p><dl><div><dt>Owner</dt><dd>{{ selectedListing.ownerUsername }}</dd></div><div><dt>Availability</dt><dd>{{ selectedListing.availabilityLabel || (selectedListing.available ? 'Available' : 'Unavailable') }}</dd></div><div v-if="selectedListing.conditionNote"><dt>Condition</dt><dd>{{ selectedListing.conditionNote }}</dd></div></dl><RouterLink class="things-context__link" :to="{path: `/things/${selectedListing.id}`, query: {returnTo: route.fullPath}}">Open full detail</RouterLink></template><template v-else><p class="eyebrow">Thing context</p><h2>Select a thing</h2><p>Choose a listing to inspect its details without leaving this collection.</p></template></aside></div>
+    <AppStatus v-if="isLoading" :message="requestsOnly ? 'Loading borrow requests.' : mine ? 'Loading your things.' : 'Loading things to borrow.'" busy /><AppStatus v-else-if="!requestsOnly && listings.length === 0" :message="mine ? 'You have not listed any things yet.' : 'No things are available to borrow yet.'" /><AppStatus v-else-if="requestsOnly && borrowerRequests.length === 0" message="You have no borrow requests yet." />
+    <div v-else class="things-workspace"><div class="listing-grid"><SurfaceRow v-for="listing in listings" :key="listing.id" :row="{id: String(listing.id), title: listing.title, description: `${listing.ownerUsername} · ${listing.description || 'No description yet.'}`, meta: listing.conditionNote || 'Condition not specified', to: {path: `/things/${listing.id}`, query: {returnTo: route.fullPath}}}" :selected="viewState.selectedId === listing.id" @click="viewState.selectedId = listing.id"><template #actions><AppButton v-if="listing.allowedActions.includes('EDIT')" type="button" tone="secondary" @click.stop="editListing(listing)">Edit</AppButton><AppButton v-if="listing.allowedActions.includes('ARCHIVE')" type="button" tone="danger" @click.stop="archiveListing(listing)">Archive</AppButton><AppButton v-if="listing.allowedActions.includes('REQUEST_BORROW')" type="button" tone="primary" @click.stop="borrowId = listing.id">Request</AppButton><AppButton v-if="listing.allowedActions.includes('CANCEL_BORROW_REQUEST') && listing.myPendingRequestId" type="button" tone="secondary" @click.stop="cancelBorrow(listing.myPendingRequestId)">Cancel request</AppButton></template></SurfaceRow></div><aside class="things-context" aria-label="Thing context"><template v-if="selectedListing"><p class="eyebrow">Selected thing</p><h2>{{ selectedListing.title }}</h2><p>{{ selectedListing.description || 'No description provided.' }}</p><dl><div><dt>Owner</dt><dd>{{ selectedListing.ownerUsername }}</dd></div><div><dt>Availability</dt><dd>{{ selectedListing.availabilityLabel || (selectedListing.available ? 'Available' : 'Unavailable') }}</dd></div><div v-if="selectedListing.conditionNote"><dt>Condition</dt><dd>{{ selectedListing.conditionNote }}</dd></div></dl><RouterLink class="things-context__link" :to="{path: `/things/${selectedListing.id}`, query: {returnTo: route.fullPath}}">Open full detail</RouterLink></template><template v-else><p class="eyebrow">Thing context</p><h2>Select a thing</h2><p>Choose a listing to inspect its details without leaving this collection.</p></template></aside></div>
     <section v-if="!mine && borrowerRequests.length" class="requests"><h2>My borrow requests</h2><article v-for="request in borrowerRequests" :key="request.id" class="request"><div><strong>{{ request.borrowerUsername }} · {{ request.status }}</strong><small>Listing #{{ request.listingId }}</small></div><div class="request__actions"><AppButton v-if="request.allowedActions.includes('RETURN_BORROWED_THING')" type="button" tone="primary" @click="returnBorrow(request.id)">Mark returned</AppButton><AppButton v-if="request.allowedActions.includes('CANCEL_BORROW_REQUEST')" type="button" tone="secondary" @click="cancelBorrow(request.id)">Cancel</AppButton></div></article></section>
     <section v-if="mine && ownerRequests.length" class="requests"><h2>Borrow requests for my things</h2><article v-for="request in ownerRequests" :key="request.id" class="request"><div><strong>{{ request.borrowerUsername }} · {{ request.status }}</strong><small>Listing #{{ request.listingId }}<template v-if="request.message"> · {{ request.message }}</template></small></div><div class="request__actions"><AppButton v-if="request.allowedActions.includes('APPROVE_BORROW_REQUEST')" type="button" tone="primary" :loading="isSaving" @click="decideBorrow(request.id, true)">Approve</AppButton><AppButton v-if="request.allowedActions.includes('DECLINE_BORROW_REQUEST')" type="button" tone="danger" :loading="isSaving" @click="decideBorrow(request.id, false)">Decline</AppButton></div></article></section>
     <AppDialog :open="form !== null" :title="editingId === null ? 'List a thing' : 'Edit listing'" @close="closeForm"><GuidedIntakePanel v-if="editingId === null && !guidedThingDraft" flow="things.listing.create" title="List a thing" @completed="acceptGuidedThingDraft" @cancel="closeForm" /><form v-else class="form" @submit.prevent="editingId === null ? create() : saveListing()"><AppFormField label="Title" required><input v-model="form!.title" required maxlength="140"></AppFormField><AppFormField label="Description" optional><textarea v-model="form!.description" maxlength="2000"></textarea></AppFormField><AppFormField label="Condition note" optional><input v-model="form!.conditionNote" maxlength="180"></AppFormField><label class="availability"><input v-model="form!.available" type="checkbox"> Available to borrow</label><AppFormFooter><template #secondary><AppButton type="button" tone="secondary" @click="closeForm">Cancel</AppButton></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Saving" : editingId === null ? "Save listing" : "Update listing" }}</AppButton></template></AppFormFooter></form></AppDialog>
     <AppDialog :open="borrowId !== null" title="Request to borrow" @close="borrowId = null"><form class="form" @submit.prevent="requestBorrow"><AppFormField label="Message" optional hint="Add a note for the owner."><textarea v-model="borrowMessage" maxlength="1000" placeholder="Add a note for the owner."></textarea></AppFormField><AppFormFooter><template #secondary><AppButton type="button" tone="secondary" @click="borrowId = null">Cancel</AppButton></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Sending" : "Send request" }}</AppButton></template></AppFormFooter></form></AppDialog>
-  </section>
+  </section></TaskSurface>
 </template>
 
 <style scoped>
@@ -100,4 +104,5 @@ onMounted(() => void load())
 .things-surface .app-button { min-height:var(--control-height-default); border-radius:var(--radius-control); padding:var(--space-1) var(--space-3); background:var(--control-bg); color:var(--control-ink); }
 .things-surface .app-button--primary { border-color:var(--accent); background:var(--accent); color:var(--canvas); }
 .things-surface .app-button--danger { color:var(--danger); }
+.things-context { min-width:0; overflow-wrap:anywhere; }
 </style>

@@ -12,7 +12,15 @@ import {currentUser} from "../../identity/auth.ts"
 
 const route = useRoute()
 const router = useRouter()
-const items = ref<BusinessProfileResponseDTO[]>([])
+const rawItems = ref<BusinessProfileResponseDTO[]>([])
+const intentFilter = ref<"ALL" | "BOOK_NOW" | "AVAILABLE_TODAY" | "NEAR_ME" | "OPEN_NOW" | "RECURRING" | "MULTI_CUSTOMER" | "STAFF_RESOURCES">("ALL")
+const matchesIntent = (business: BusinessProfileResponseDTO) => intentFilter.value === "ALL" || (intentFilter.value === "BOOK_NOW" && business.bookingEnabled) || (intentFilter.value === "NEAR_ME" && Boolean(business.publicAddressLabel)) || ["AVAILABLE_TODAY", "OPEN_NOW", "RECURRING", "MULTI_CUSTOMER", "STAFF_RESOURCES"].includes(intentFilter.value)
+const items = computed(() => rawItems.value.filter(matchesIntent))
+const operationalSummary = (business: BusinessProfileResponseDTO) => {
+  const availability = business.active ? (business.bookingEnabled ? "Open for booking" : "Profile available") : "Unavailable"
+  const location = business.publicAddressLabel ? `Area: ${business.publicAddressLabel}` : "Area not published"
+  return `${availability} · Services and prices on profile · ${location}`
+}
 const query = ref(typeof route.query.q === "string" ? route.query.q : "")
 const isLoading = ref(true)
 const error = ref("")
@@ -23,7 +31,7 @@ const load = async () => {
   isLoading.value = true
   error.value = ""
   try {
-    items.value = (await userShellApi.getBusinessDirectory(query.value.trim())).items
+    rawItems.value = (await userShellApi.getBusinessDirectory(query.value.trim())).items
     if (!items.value.some(item => item.id === viewState.value.selectedId)) viewState.value.selectedId = null
   } catch {
     error.value = "Could not load businesses."
@@ -62,6 +70,8 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
     <CollectionToolbar title="Public businesses" :count="items.length" :busy="isLoading">
       <template #filters>
         <AppSearchField v-model="query" label="Search businesses" placeholder="Search businesses" :busy="isLoading" @submit="submitSearch" />
+        <label class="business-discovery__intent"><span>Intent</span><select v-model="intentFilter" aria-label="Business discovery intent"><option value="ALL">All businesses</option><option value="BOOK_NOW">Book now</option><option value="AVAILABLE_TODAY">Available today</option><option value="NEAR_ME">Near me</option><option value="OPEN_NOW">Open now</option><option value="RECURRING">Recurring service</option><option value="MULTI_CUSTOMER">Multiple customers</option><option value="STAFF_RESOURCES">Employees/resources</option></select></label>
+        <small v-if="intentFilter !== 'ALL' && ['AVAILABLE_TODAY','OPEN_NOW','RECURRING','MULTI_CUSTOMER','STAFF_RESOURCES'].includes(intentFilter)" class="business-discovery__intent-note">This intent is not present in the current public read model; results remain unfiltered until backend capability data is available.</small>
       </template>
     </CollectionToolbar>
 
@@ -73,7 +83,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
         v-for="business in items"
         :key="business.id"
         :selected="viewState.selectedId === business.id"
-        :row="{id: String(business.id), title: business.businessName, description: business.headline || business.description || 'Public business profile', badge: business.bookingEnabled ? 'Bookings available' : 'Profile only', meta: business.slug}"
+        :row="{id: String(business.id), title: business.businessName, description: business.headline || business.description || 'Public business profile', badge: business.bookingEnabled ? 'Bookings available' : 'Profile only', meta: operationalSummary(business)}"
         @click="viewState.selectedId = business.id"
       /></div><aside class="business-context" aria-label="Business context"><template v-if="selectedBusiness"><p class="business-discovery__eyebrow">Selected business</p><h2>{{ selectedBusiness.businessName }}</h2><p>{{ selectedBusiness.headline || selectedBusiness.description || 'Public business profile' }}</p><dl><div><dt>Profile</dt><dd>{{ selectedBusiness.slug }}</dd></div><div><dt>Bookings</dt><dd>{{ selectedBusiness.bookingEnabled ? 'Available' : 'Not enabled' }}</dd></div><div v-if="selectedBusiness.publicAddressLabel"><dt>Area</dt><dd>{{ selectedBusiness.publicAddressLabel }}</dd></div></dl><RouterLink class="business-context__link" :to="{path: `/business/public/${selectedBusiness.slug}`, query: {returnTo: route.fullPath}}">Open full detail</RouterLink></template><template v-else><p class="business-discovery__eyebrow">Business context</p><h2>Select a business</h2><p>Choose a result to inspect its profile without leaving this collection.</p></template></aside>
     </div>
@@ -102,4 +112,5 @@ h1 { margin: 0; color: var(--text); font-size: var(--text-size-page-title); lett
 .business-context__link { display: inline-flex; margin-top: var(--space-2); font-weight: var(--text-weight-semibold); }
 @media (max-width: 860px) { .business-discovery__workspace { grid-template-columns: 1fr; } .business-context { border-left: 0; border-top: 1px solid var(--border-subtle); } }
 @media (max-width: 640px) { .business-discovery__header { align-items: start; flex-direction: column; } .business-discovery__search { width: 100%; } .business-discovery__search input { min-width: 0; width: 100%; } }
+.business-discovery__intent{display:inline-flex;align-items:center;gap:var(--space-1);color:var(--text-muted);font-size:var(--text-size-meta)}.business-discovery__intent select{min-height:var(--control-height-default);padding:var(--space-1) var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink);font:inherit}.business-discovery__intent-note{max-width:22rem;color:var(--text-soft)}
 </style>

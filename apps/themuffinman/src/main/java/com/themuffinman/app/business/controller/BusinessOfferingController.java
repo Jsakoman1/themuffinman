@@ -4,6 +4,7 @@ import com.themuffinman.app.business.dto.BusinessOfferingListResponseDTO;
 import com.themuffinman.app.business.dto.BusinessOfferingRequestDTO;
 import com.themuffinman.app.business.dto.BusinessOfferingResponseDTO;
 import com.themuffinman.app.business.service.BusinessOfferingService;
+import com.themuffinman.app.business.service.BusinessOfferingSchemaService;
 import com.themuffinman.app.identity.model.AppUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BusinessOfferingController {
 
     private final BusinessOfferingService businessOfferingService;
+    private final BusinessOfferingSchemaService businessOfferingSchemaService;
 
     @GetMapping("/me")
     public BusinessOfferingListResponseDTO getMyOfferings(@RequestParam(required = false) Long businessProfileId, @AuthenticationPrincipal AppUser currentUser) {
@@ -51,5 +53,10 @@ public class BusinessOfferingController {
     @DeleteMapping("/{offeringId}/me")
     public void deleteMyOffering(@PathVariable Long offeringId, @AuthenticationPrincipal AppUser currentUser) {
         businessOfferingService.deleteMyOffering(offeringId, currentUser);
+    }
+
+    @GetMapping("/{offeringId}/configuration/me")
+    public java.util.Map<String, Object> getMyOfferingConfiguration(@PathVariable Long offeringId, @AuthenticationPrincipal AppUser currentUser) {
+        return businessOfferingSchemaService.getOwnerSchema(offeringId, currentUser);
     }
 }

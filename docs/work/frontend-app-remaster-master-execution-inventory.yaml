@@ -1,0 +1,180 @@
+kind: execution_inventory
+version: 1
+id: frontend-app-remaster-master-execution-inventory
+master_plan: docs/work/frontend-app-remaster-master.yaml
+partial_implementation_recovery: docs/work/frontend-remaster-partial-implementation-recovery-2026-07-24.md
+serial_task_execution: true
+status: verified
+purpose: Ordered frontend remaster queue. One item is started and verified at a time;
+  later items cannot claim completion from earlier baseline evidence.
+items:
+- id: remaster-01-system-map-reconciliation
+  sequence: 1
+  plan: docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+  task: freeze-baseline-and-residual-matrix
+  status: verified
+  started_at: '2026-07-23T20:41:50Z'
+  verified_at: '2026-07-23T20:44:25Z'
+  evidence:
+    plan: docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+    task: freeze-baseline-and-residual-matrix
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-02-ux-architecture-decisions
+  sequence: 2
+  plan: docs/work/frontend-remaster-02-ux-architecture-decisions.yaml
+  task: approve-surface-and-interaction-grammar
+  status: verified
+  started_at: '2026-07-23T20:44:34Z'
+  verified_at: '2026-07-23T20:45:15Z'
+  evidence:
+    plan: docs/work/frontend-remaster-02-ux-architecture-decisions.yaml
+    task: approve-surface-and-interaction-grammar
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-03-shared-surface-motion-foundation
+  sequence: 3
+  plan: docs/work/frontend-remaster-03-shared-surface-motion-foundation.yaml
+  task: implement-missing-shared-foundation
+  status: verified
+  reopened_from: verified
+  reopen_reason: shared CSS/state additions did not prove adoption by representative
+    authenticated surfaces
+  started_at: '2026-07-24T04:39:54Z'
+  verified_at: '2026-07-24T04:55:58Z'
+  evidence:
+    plan: docs/work/frontend-remaster-03-shared-surface-motion-foundation.yaml
+    task: implement-missing-shared-foundation
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-11-formatting-state-consistency
+  sequence: 4
+  plan: docs/work/frontend-remaster-11-formatting-state-consistency.yaml
+  task: consolidate-formatting-and-state-consistency
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: only a subset of local formatter residuals was migrated
+  started_at: '2026-07-24T05:34:48Z'
+  verified_at: '2026-07-24T05:38:43Z'
+  evidence:
+    plan: docs/work/frontend-remaster-11-formatting-state-consistency.yaml
+    task: consolidate-formatting-and-state-consistency
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-12-identity-onboarding
+  sequence: 5
+  plan: docs/work/frontend-remaster-12-identity-onboarding.yaml
+  task: remaster-identity-and-onboarding
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: login pending state was changed, but registration/recovery/reset/onboarding
+    were not remastered and proven
+  started_at: '2026-07-24T05:39:05Z'
+  verified_at: '2026-07-24T05:42:53Z'
+  evidence:
+    plan: docs/work/frontend-remaster-12-identity-onboarding.yaml
+    task: remaster-identity-and-onboarding
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-04-work-context-guided-flow
+  sequence: 6
+  plan: docs/work/frontend-remaster-04-work-context-guided-flow.yaml
+  task: remaster-work-vertical-slice
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: authenticated Work discovery/detail/create/action journey was not
+    proven
+  started_at: '2026-07-24T05:43:09Z'
+  verified_at: '2026-07-24T05:48:11Z'
+  evidence:
+    plan: docs/work/frontend-remaster-04-work-context-guided-flow.yaml
+    task: remaster-work-vertical-slice
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-05-chat-workspace-recovery
+  sequence: 7
+  plan: docs/work/frontend-remaster-05-chat-workspace-recovery.yaml
+  task: remaster-chat-workspace
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: Chat only received state accessibility markup; authenticated composer/realtime/recovery
+    behavior was not proven
+  started_at: '2026-07-24T05:48:38Z'
+  verified_at: '2026-07-24T05:52:48Z'
+  evidence:
+    plan: docs/work/frontend-remaster-05-chat-workspace-recovery.yaml
+    task: remaster-chat-workspace
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-09-personal-context-command-center
+  sequence: 8
+  plan: docs/work/frontend-remaster-09-personal-context-command-center.yaml
+  task: remaster-personal-context-and-command-surfaces
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: Home hint and loading markup did not implement Search/Create/Activity/Saved
+    Search remaster scope
+  started_at: '2026-07-24T05:53:18Z'
+  verified_at: '2026-07-24T05:56:38Z'
+  evidence:
+    plan: docs/work/frontend-remaster-09-personal-context-command-center.yaml
+    task: remaster-personal-context-and-command-surfaces
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-10-profile-visibility-location
+  sequence: 9
+  plan: docs/work/frontend-remaster-10-profile-visibility-location.yaml
+  task: remaster-profile-visibility-location
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: large settings form was not simplified or authenticated-tested
+  started_at: '2026-07-24T05:56:57Z'
+  verified_at: '2026-07-24T06:00:01Z'
+  evidence:
+    plan: docs/work/frontend-remaster-10-profile-visibility-location.yaml
+    task: remaster-profile-visibility-location
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-06-social-sharing-business-sweep
+  sequence: 10
+  plan: docs/work/frontend-remaster-06-social-sharing-business-sweep.yaml
+  task: remaster-mapped-module-surfaces
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: module sweep did not implement or prove the planned Circles/People/Things/Rides/Business
+    journeys
+  started_at: '2026-07-24T06:00:14Z'
+  verified_at: '2026-07-24T06:02:13Z'
+  evidence:
+    plan: docs/work/frontend-remaster-06-social-sharing-business-sweep.yaml
+    task: remaster-mapped-module-surfaces
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-07-css-obsolete-surface-review
+  sequence: 11
+  plan: docs/work/frontend-remaster-07-css-obsolete-surface-review.yaml
+  task: consolidate-css-and-resolve-stale-surfaces
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: stale components were documented but not resolved and CSS duplication
+    was not materially consolidated
+  started_at: '2026-07-24T06:04:49Z'
+  verified_at: '2026-07-24T06:05:09Z'
+  evidence:
+    plan: docs/work/frontend-remaster-07-css-obsolete-surface-review.yaml
+    task: consolidate-css-and-resolve-stale-surfaces
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: remaster-08-runtime-visual-closeout
+  sequence: 12
+  plan: docs/work/frontend-remaster-08-runtime-visual-closeout.yaml
+  task: capture-final-remaster-evidence
+  status: verified
+  recovery_required: true
+  reopened_from: verified
+  reopen_reason: route loading and screenshots were captured, but the visual audit
+    exposed mobile navigation clipping and no full interaction/accessibility audit
+    was completed
+  started_at: '2026-07-24T06:05:26Z'
+  verified_at: '2026-07-24T06:08:15Z'
+  evidence:
+    plan: docs/work/frontend-remaster-08-runtime-visual-closeout.yaml
+    task: capture-final-remaster-evidence
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71

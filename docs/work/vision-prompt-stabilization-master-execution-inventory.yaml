@@ -1,0 +1,76 @@
+kind: execution_inventory
+version: 1
+id: vision-prompt-stabilization-master-execution-inventory
+master_plan: docs/work/vision-prompt-stabilization-master.yaml
+serial_task_execution: true
+items:
+- id: contract-and-fallback
+  plan: docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+  task: reconcile-prompt-contract-and-fallback
+  order: 1
+  status: verified
+  depends_on: []
+  started_at: '2026-07-23T18:42:24Z'
+  verified_at: '2026-07-23T18:46:10Z'
+  evidence:
+    plan: docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+    task: reconcile-prompt-contract-and-fallback
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: read-routing-and-resolution
+  plan: docs/work/vision-prompt-stabilization-02-read-routing-and-resolution.yaml
+  task: repair-read-routing-and-resolution
+  order: 2
+  status: verified
+  depends_on:
+  - contract-and-fallback
+  started_at: '2026-07-23T18:46:15Z'
+  verified_at: '2026-07-23T18:50:34Z'
+  evidence:
+    plan: docs/work/vision-prompt-stabilization-02-read-routing-and-resolution.yaml
+    task: repair-read-routing-and-resolution
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: mutation-and-continuity
+  plan: docs/work/vision-prompt-stabilization-03-mutation-and-continuity.yaml
+  task: harden-mutation-and-continuity
+  order: 3
+  status: verified
+  depends_on:
+  - contract-and-fallback
+  - read-routing-and-resolution
+  started_at: '2026-07-23T18:50:40Z'
+  verified_at: '2026-07-23T18:55:33Z'
+  evidence:
+    plan: docs/work/vision-prompt-stabilization-03-mutation-and-continuity.yaml
+    task: harden-mutation-and-continuity
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: runtime-recovery-and-auth
+  plan: docs/work/vision-prompt-stabilization-04-runtime-recovery-and-auth.yaml
+  task: prove-runtime-recovery-and-auth
+  order: 4
+  status: verified
+  depends_on:
+  - contract-and-fallback
+  - read-routing-and-resolution
+  - mutation-and-continuity
+  started_at: '2026-07-23T18:55:36Z'
+  verified_at: '2026-07-23T19:09:11Z'
+  evidence:
+    plan: docs/work/vision-prompt-stabilization-04-runtime-recovery-and-auth.yaml
+    task: prove-runtime-recovery-and-auth
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: browser-closeout
+  plan: docs/work/vision-prompt-stabilization-05-browser-closeout.yaml
+  task: capture-browser-closeout
+  order: 5
+  status: verified
+  depends_on:
+  - contract-and-fallback
+  - read-routing-and-resolution
+  - mutation-and-continuity
+  - runtime-recovery-and-auth
+  started_at: '2026-07-23T19:09:22Z'
+  verified_at: '2026-07-23T19:49:50Z'
+  evidence:
+    plan: docs/work/vision-prompt-stabilization-05-browser-closeout.yaml
+    task: capture-browser-closeout
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71

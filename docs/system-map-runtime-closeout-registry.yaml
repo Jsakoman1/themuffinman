@@ -35,8 +35,8 @@ sources: [docs/system-map-coverage-registry.yaml, docs/runtime-acceptance-matrix
 baseline:
   system_map_masters: verified
   arch_masters: [ARCH-001, ARCH-002, ARCH-003, ARCH-004, ARCH-005]
-  runtime_passed: 65
-  runtime_pending: 16
+  runtime_passed: 67
+  runtime_pending: 14
   endpoint_review_required: 62
 workstreams:
 - {id: endpoint_review, owner: interface_registry, status: review_required, source: docs/endpoint-reconciliation-review.yaml, next_action: owner_review_and_evidence_linkage}

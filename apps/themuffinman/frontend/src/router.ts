@@ -33,6 +33,7 @@ const BusinessPublicView = () => import("./modules/app-shell/views/BusinessPubli
 const BusinessDiscoveryView = () => import("./modules/app-shell/views/BusinessDiscoveryView.vue");
 const BusinessMyBookingsView = () => import("./modules/app-shell/views/BusinessMyBookingsView.vue");
 const BusinessAvailabilityExceptionsView = () => import("./modules/app-shell/views/BusinessAvailabilityExceptionsView.vue");
+const BusinessServiceSchemaView = () => import("./modules/app-shell/views/BusinessServiceSchemaView.vue");
 const NotificationsView = () => import("./modules/app-shell/views/NotificationsView.vue");
 const SavedSearchIntentsView = () => import("./modules/app-shell/views/SavedSearchIntentsView.vue");
 const OnboardingView = () => import("./modules/app-shell/views/OnboardingView.vue");
@@ -47,15 +48,13 @@ const ThingsDiscoveryView = () => import("./modules/app-shell/views/ThingsDiscov
 const ThingDetailView = () => import("./modules/app-shell/views/ThingDetailView.vue");
 const RidesView = () => import("./modules/app-shell/views/RidesView.vue");
 const RideDetailView = () => import("./modules/app-shell/views/RideDetailView.vue");
-const VisionSurfaceModernView = () => import("./modules/vision/views/VisionSurfaceModernView.vue");
-
 const visionBridgeRoutes = visionBridgeRouteDefinitions.map((definition) => ({
     path: definition.path,
     redirect: (to: any) => ({
-        path: '/vision',
+        path: '/home',
         query: {
-            prompt: typeof definition.prompt === "function" ? definition.prompt(to) : definition.prompt,
-            autorun: '1'
+            visionPrompt: typeof definition.prompt === "function" ? definition.prompt(to) : definition.prompt,
+            visionAutorun: '1'
         }
     }),
     meta: {requiresAuth: true}
@@ -169,6 +168,12 @@ const routes = [
                 meta: {requiresAuth: true, surfaceId: 'business-profile'}
             },
             {
+                path: 'business/service-setup',
+                name: 'business-service-setup',
+                component: BusinessServiceSchemaView,
+                meta: {requiresAuth: true, surfaceId: 'business-service-setup'}
+            },
+            {
                 path: 'business/bookings',
                 name: 'business-bookings',
                 component: BusinessBookingsView,
@@ -231,6 +236,12 @@ const routes = [
             {
                 path: 'things/mine',
                 name: 'things-mine',
+                component: ThingsDiscoveryView,
+                meta: {requiresAuth: true, surfaceId: 'things'}
+            },
+            {
+                path: 'things/requests',
+                name: 'things-requests',
                 component: ThingsDiscoveryView,
                 meta: {requiresAuth: true, surfaceId: 'things'}
             },
@@ -314,7 +325,17 @@ const routes = [
     },
     {
         path: '/vision',
-        component: VisionSurfaceModernView,
+        redirect: (to: any) => {
+            const query: Record<string, string> = {}
+            if (typeof to.query.prompt === "string" && to.query.prompt.trim()) {
+                query.visionPrompt = to.query.prompt.trim()
+                query.visionAutorun = "1"
+            }
+            if (typeof to.query.context === "string" && to.query.context.trim()) query.visionContext = to.query.context.trim()
+            if (typeof to.query.source === "string" && to.query.source.trim()) query.visionSource = to.query.source.trim()
+            if (typeof to.query.returnTo === "string" && to.query.returnTo.trim()) query.visionReturnTo = to.query.returnTo.trim()
+            return Object.keys(query).length > 0 ? {path: "/home", query} : "/home"
+        },
         meta: {requiresAuth: true}
     },
     ...visionBridgeRoutes
@@ -332,8 +353,8 @@ export const router = createRouter({
 })
 
 router.beforeEach((to) => {
-    // Home is the authenticated orientation surface; contextual Vision handoffs
-    // still resolve through their explicit /vision routes instead of replacing it.
+    // Home is the authenticated orientation surface; Web Vision handoffs stay
+    // inside VisionForWeb instead of exposing the detached terminal console.
     if (to.meta.requiresAuth && !isLoggedIn()) {
         return '/login';
     }

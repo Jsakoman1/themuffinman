@@ -37,7 +37,7 @@ onMounted(() => advance("start"))
         <input v-else v-model="value" :type="step.inputKind === 'number' ? 'number' : step.inputKind === 'datetime-local' ? 'datetime-local' : 'text'" :placeholder="step.placeholder" />
       </AppFormField>
       <p v-if="error" class="guided-intake__error" role="alert">{{ error }}</p>
-      <footer><AppButton type="button" tone="secondary" @click="advance('back')">Back</AppButton><span class="guided-intake__progress">{{ Object.keys(draft).length }} completed</span><AppButton type="submit" tone="primary" :loading="loading">Next</AppButton></footer>
+      <footer><AppButton type="button" tone="quiet" @click="emit('cancel')">Cancel</AppButton><AppButton type="button" tone="secondary" @click="advance('back')">Back</AppButton><span class="guided-intake__progress">{{ Object.keys(draft).length }} completed</span><AppButton type="submit" tone="primary" :loading="loading">Next</AppButton></footer>
     </form>
     <div v-else class="guided-intake__review"><h3>Review ready</h3><p>All guided fields are complete. Review the summary before creating.</p><AppButton type="button" tone="secondary" @click="emit('cancel')">Cancel</AppButton></div>
   </section>

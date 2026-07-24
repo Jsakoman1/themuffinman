@@ -1,0 +1,179 @@
+kind: execution_inventory
+version: 1
+id: frontend-ux-simplification-master-execution-inventory
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+serial_task_execution: true
+preflight_impact_report: docs/audit-output/system-map-change-impact.json
+items:
+- id: ux-simplification-atomic-hardening
+  sequence: 0
+  plan: docs/work/frontend-ux-simplification-atomic-task-hardening.yaml
+  task: harden-ux-simplification-queue
+  depends_on: []
+  status: verified
+  started_at: '2026-07-24T13:20:59Z'
+  verified_at: '2026-07-24T13:21:18Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-atomic-task-hardening.yaml
+    task: harden-ux-simplification-queue
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: ux-baseline-and-decisions
+  sequence: 1
+  plan: docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+  task: freeze-ux-baseline-and-decisions
+  depends_on:
+  - ux-simplification-atomic-hardening
+  status: verified
+  started_at: '2026-07-24T13:21:24Z'
+  verified_at: '2026-07-24T13:21:38Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-01-baseline-and-ux-decisions.yaml
+    task: freeze-ux-baseline-and-decisions
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: shared-task-foundation
+  sequence: 2
+  plan: docs/work/frontend-ux-simplification-02-shared-task-foundation.yaml
+  task: implement-shared-task-foundation
+  depends_on:
+  - ux-baseline-and-decisions
+  status: verified
+  started_at: '2026-07-24T13:23:26Z'
+  verified_at: '2026-07-24T13:23:46Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-02-shared-task-foundation.yaml
+    task: implement-shared-task-foundation
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-context-contract
+  sequence: 3
+  plan: docs/work/frontend-ux-simplification-03-business-context-contract.yaml
+  task: implement-business-context-contract
+  depends_on:
+  - shared-task-foundation
+  status: verified
+  started_at: '2026-07-24T13:25:38Z'
+  verified_at: '2026-07-24T13:26:50Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-03-business-context-contract.yaml
+    task: implement-business-context-contract
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-context-and-calendar-web
+  sequence: 4
+  plan: docs/work/frontend-ux-simplification-04-business-context-and-calendar-web.yaml
+  task: implement-business-context-and-calendar-web
+  depends_on:
+  - business-context-contract
+  status: verified
+  started_at: '2026-07-24T13:28:30Z'
+  verified_at: '2026-07-24T13:32:18Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-04-business-context-and-calendar-web.yaml
+    task: implement-business-context-and-calendar-web
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-guided-setup
+  sequence: 5
+  plan: docs/work/frontend-ux-simplification-05-business-guided-setup.yaml
+  task: implement-business-guided-setup
+  depends_on:
+  - business-context-and-calendar-web
+  status: verified
+  started_at: '2026-07-24T13:32:27Z'
+  verified_at: '2026-07-24T13:34:03Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-05-business-guided-setup.yaml
+    task: implement-business-guided-setup
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-guided-booking
+  sequence: 6
+  plan: docs/work/frontend-ux-simplification-06-business-guided-booking.yaml
+  task: implement-business-guided-booking
+  depends_on:
+  - business-guided-setup
+  status: verified
+  started_at: '2026-07-24T13:34:22Z'
+  verified_at: '2026-07-24T13:38:11Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-06-business-guided-booking.yaml
+    task: implement-business-guided-booking
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: core-module-migration
+  sequence: 7
+  plan: docs/work/frontend-ux-simplification-07-core-module-migration.yaml
+  task: migrate-work-module-surfaces
+  depends_on:
+  - shared-task-foundation
+  status: verified
+  started_at: '2026-07-24T13:38:38Z'
+  verified_at: '2026-07-24T13:39:27Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-07-core-module-migration.yaml
+    task: migrate-work-module-surfaces
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: chat-attention-migration
+  sequence: 8
+  plan: docs/work/frontend-ux-simplification-08-chat-attention-migration.yaml
+  task: migrate-chat-attention-surfaces
+  depends_on:
+  - shared-task-foundation
+  status: verified
+  started_at: '2026-07-24T13:40:19Z'
+  verified_at: '2026-07-24T13:40:33Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-08-chat-attention-migration.yaml
+    task: migrate-chat-attention-surfaces
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: social-migration
+  sequence: 9
+  plan: docs/work/frontend-ux-simplification-09-social-and-sharing-migration.yaml
+  task: migrate-social-and-sharing-surfaces
+  depends_on:
+  - shared-task-foundation
+  status: verified
+  started_at: '2026-07-24T13:40:40Z'
+  verified_at: '2026-07-24T13:41:33Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-09-social-and-sharing-migration.yaml
+    task: migrate-social-and-sharing-surfaces
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: profile-migration
+  sequence: 10
+  plan: docs/work/frontend-ux-simplification-10-profile-and-settings-migration.yaml
+  task: migrate-profile-and-settings-surfaces
+  depends_on:
+  - shared-task-foundation
+  status: verified
+  started_at: '2026-07-24T13:41:37Z'
+  verified_at: '2026-07-24T13:42:21Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-10-profile-and-settings-migration.yaml
+    task: migrate-profile-and-settings-surfaces
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: vision-responsive-accessibility
+  sequence: 11
+  plan: docs/work/frontend-ux-simplification-11-vision-responsive-accessibility.yaml
+  task: close-vision-responsive-accessibility
+  depends_on:
+  - business-guided-booking
+  - core-module-migration
+  - chat-attention-migration
+  - social-migration
+  - profile-migration
+  status: verified
+  started_at: '2026-07-24T13:42:27Z'
+  verified_at: '2026-07-24T13:43:41Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-11-vision-responsive-accessibility.yaml
+    task: close-vision-responsive-accessibility
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: runtime-visual-closeout
+  sequence: 12
+  plan: docs/work/frontend-ux-simplification-12-runtime-visual-closeout.yaml
+  task: capture-ux-runtime-closeout
+  depends_on:
+  - vision-responsive-accessibility
+  status: verified
+  started_at: '2026-07-24T13:44:02Z'
+  verified_at: '2026-07-24T13:44:59Z'
+  evidence:
+    plan: docs/work/frontend-ux-simplification-12-runtime-visual-closeout.yaml
+    task: capture-ux-runtime-closeout
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71

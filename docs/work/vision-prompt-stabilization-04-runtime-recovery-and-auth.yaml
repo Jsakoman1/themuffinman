@@ -1,0 +1,144 @@
+kind: work
+version: 1
+id: vision-prompt-stabilization-04-runtime-recovery-and-auth
+title: Prove Vision provider recovery and runtime authentication reliability
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/vision-prompt-stabilization-master.yaml
+execution_inventory: docs/work/vision-prompt-stabilization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/runtime-pending-web-operations-master.yaml
+  baseline_only_surfaces:
+  - previous successful route/read traces and existing development-only failure controls
+  residual_scope:
+  - provider failure and retry
+  - fallback status/readback
+  - duplicate vision preference setup
+  - earlier 401 path
+  - seeded fixture reliability
+  retest_triggers:
+  - runtime harness
+  - auth seed setup
+  - Vision preference persistence
+  - provider failure control
+  - Vision API error mapping
+  non_duplication_rule: Prior runtime traces remain baseline; only new failure/retry/auth
+    evidence is counted.
+  depends_on:
+  - docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+  - docs/work/vision-prompt-stabilization-02-read-routing-and-resolution.yaml
+  - docs/work/vision-prompt-stabilization-03-mutation-and-continuity.yaml
+  runtime_matrix_ownership: Updates evidence for runtime-vision-execution, runtime-mutation-provider-failure-correlation,
+    and runtime-read-vision-context; web/vision visibility parity remains linked evidence
+    unless its declared owner is explicitly transferred.
+tasks:
+- id: prove-runtime-recovery-and-auth
+  title: Repair and trace provider failure, retry, preference setup, and authenticated
+    Vision recovery
+  type: implementation
+  status: done
+  inventory_item: runtime-recovery-and-auth
+  paths:
+  - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLearningService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionUserPreferenceRepository.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionUserPreference.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLearningServiceTest.java
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-evidence/ui-linking-vision-inline-runtime.json
+  - docs/runtime-evidence/vision-provider-failure-runtime.json
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  - docs/vision-status-ledger.md
+  required_paths:
+  - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionUserPreferenceRepository.java
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/vision-prompt-recovery-runtime.json
+  - docs/runtime-evidence/vision-provider-failure-runtime.json
+  - docs/regression-scenario-catalog.yaml
+  manual_runtime_command: make dev && WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/vision-prompt-recovery-runtime.json
+    node apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs;
+    make dev-stop
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-prompt-recovery-runtime.json
+  - docs/runtime-evidence/vision-provider-failure-runtime.json
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  acceptance:
+  - provider failure is typed, recoverable, and does not execute a mutation
+  - retry preserves conversation identity and does not duplicate a send or create
+  - seeded/authenticated Vision setup does not produce the observed duplicate preference
+    or 401 failure
+  - runtime evidence records API status, browser errors, provider status, and authoritative
+    final state
+  - the 401 finding is diagnosed before any repair is claimed, with auth/session/query
+    root cause recorded
+  - duplicate preference behavior is covered by a persistence/upsert regression appropriate
+    to the proven root cause
+  started_at: '2026-07-23T18:55:36Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs: c9e7a94f92562d39d70a6a101047f051fc8762a295883ace783ca2028fef27a5
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java: 4348a2c3a2c4f28d329f24c4313299a234a554081788c27c5d75941b6bbd371b
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionLearningService.java: 5f90411b1d1934a2180ad34a4ebe72fa72a4e7474eb3f3c85c5bab29d2b800d8
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionUserPreferenceRepository.java: 6ac5cf11b50601b0afb6436bc8b4d15f2f49da4eb710f68b238e30e8dcfb7a41
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionLearningServiceTest.java: 484159828fb8503888386afd4deff9c3a3e21e133399c1564037ad86cf048a84
+    docs/runtime-acceptance-matrix.yaml: 73c77e79160204369c0e093e184e2ec91f43c6c3f8b33d51eef6290424f88ef4
+    docs/runtime-evidence/ui-linking-vision-inline-runtime.json: 3c75fc64f3d4c00f792436a981e94a39ea910b0e51ea78f794ab39a65ec94e84
+    docs/regression-scenario-catalog.yaml: 92c82eb5d3fa0904a42349d39e526d768e0c1f848526dc0103b987dbdd47bc2d
+evidence:
+- task: prove-runtime-recovery-and-auth
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && git diff --check
+  ranAt: '2026-07-23T19:09:06Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/model/VisionUserPreference.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionUserPreferenceRepository.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/vision-status-ledger.md
+  - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - docs/runtime-evidence/ui-linking-vision-inline-runtime.json
+  - docs/runtime-evidence/vision-provider-failure-runtime.json
+  output: |+
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (67 passed, 14 pending runtime scenarios).
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 67
+      pending runtime scenarios: 14
+      passed evidence paths checked: 63
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-23T18:55:36Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/repository/VisionUserPreferenceRepository.java
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/runtime-evidence/vision-prompt-recovery-runtime.json
+  - docs/runtime-evidence/vision-provider-failure-runtime.json
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/vision-prompt-recovery-runtime.json
+  - docs/runtime-evidence/vision-provider-failure-runtime.json

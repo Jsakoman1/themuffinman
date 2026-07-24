@@ -8,6 +8,14 @@ VisionForWeb exposes the backend-owned `vision-web-action-v2` contract. The Web 
 
 The remaining module coverage is centralized in `shellRouteRegistry.ts` and the backend semantic route catalog. Work, social identity, Things, rides, Business, Chat, Notifications, and Activity entry/detail actions therefore share one route/action vocabulary. Entity detail navigation is allowed only when backend resolution supplies an authorized target; list navigation can still succeed when a private preview is unavailable, such as Business discovery before an owner profile exists.
 
+## Portable client and frontend maintainability contract
+
+TheMuffinMan Web, future iPhone, and future Apple Watch clients are portable clients of the same backend-owned contracts. Backend services and DTOs remain authoritative for domain rules, ownership, permissions, validation, filtering, ranking, calendar aggregation, pricing, capacity, matching, and workflow transitions. Frontends may own presentation state such as active tab, selected preview, sheet/drawer state, input draft, focus, density, and responsive layout, but must not recreate domain logic as local policy.
+
+The structural frontend redesign uses an Apple-inspired Web language with one token source, one spacing/type/control grammar, shallow selectors, shared components, and progressive disclosure. CSS and component cleanup is a first-class delivery concern: duplicate style blocks, obsolete selectors, dead components, copied markup, unused imports, duplicate route metadata, and frontend-only business-rule workarounds must be removed or explicitly documented before closeout. Future global visual changes should be possible through shared tokens/primitives rather than hundreds of page-local files.
+
+Calendar is a primary cross-module read surface, while a Business workspace owns its own business-specific calendar projection. VisionForWeb remains mandatory and uses the backend `vision-web-action-v2` boundary; its Web presentation is a quiet, Siri-inspired contextual composer with inline response/result states, not a second domain logic path.
+
 This document is the technical source of truth for core product behavior. It should track entities, relations, validations, permissions, and workflow rules as they exist in code.
 
 ## Domain Areas
@@ -142,8 +150,8 @@ Frontend vision surface note:
 - `CREATE_OFFERING` uses `BusinessOfferingService.createMyOffering`; `UPDATE_OFFERING` uses a backend title-only mutation so existing offering configuration is not replaced by Vision defaults.
 - `CREATE_BOOKING` delegates to `BusinessCreateBookingUseCase.createCustomerBooking` with reviewed offering and time slots; the use-case owns conflict validation, idempotency, policy, and status assignment.
 - `/circles` now provides a compact trusted-relationship surface for creating groups, searching people, managing incoming and outgoing requests, and blocking or unblocking users through backend-owned actions.
-- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue` is the experimental authenticated route for the long-term adaptive canvas direction.
-- The `/vision` route is the focused adaptive surface for text and voice prompt intake, and the older vision shell has been removed from the app.
+- `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue` is a detached terminal-console implementation path and is not reachable from the authenticated Web router.
+- VisionForWeb is the only Web UI prompt surface. The legacy `/vision` route and its bridge URLs redirect to `/home` with the prompt preserved for the inline host; the terminal canvas is reserved for a future separate application.
 - The surface now keeps its prompt composer and canvas content in one inline flow instead of a separate floating dock, so the adaptive stage can expand or contract around the current state.
 - The `/vision` route shell should prefer contextual reveal controls for state and recent-task memory instead of permanent page-level chrome, so the blank-canvas default stays visually quiet.
 - Vision developer diagnostics are opt-in through the explicit `debug=1` route query; the normal user canvas does not render the debug or intent-preview rail.
@@ -2023,3 +2031,12 @@ System Map hardening indexes logical dependency and data ownership boundaries in
 `docs/system-map-dependency-registry.yaml` and
 `docs/system-map-data-ownership-registry.yaml`. These indexes do not change domain
 authority: each module remains responsible for its own state transitions and writes.
+
+## Flexible Business service state
+
+`business_offering` carries fulfillment/schema and quantity/duration configuration. Demand fields, options, pricing rules, resources, and booking snapshots are separate persisted boundaries. Booking creation writes the legacy columns and one-to-one JSONB `BusinessBookingSnapshot` atomically; quote schema versions reject stale configuration.
+### Runtime integrity additions
+
+Booking snapshots persist demand/options/capacity JSON as PostgreSQL `jsonb` with an explicit write cast; runtime booking creation is therefore part of the acceptance boundary, not only a unit-test concern. Booking responses expose the immutable `quantitySnapshot`, and offering configuration edits increment `schemaVersion` so later bookings cannot silently reuse an earlier contract.
+
+Public service schemas are typed DTOs (`BusinessDemandFieldDTO`, `BusinessOfferingOptionDTO`, and `BusinessPricingRuleDTO`). Owner resource requirements are scoped to the owning profile and are resolved transactionally at booking time. Concrete assignments are persisted in `business_booking_resource_assignment` and copied into the immutable booking snapshot; a second overlapping booking cannot claim the same resource. On reschedule, live assignment rows are rebuilt in the same transaction before the new interval is saved, while the original snapshot remains historical evidence.

@@ -5,10 +5,12 @@ import com.themuffinman.app.business.mapper.BusinessBookingMgr;
 import com.themuffinman.app.business.model.BusinessBooking;
 import com.themuffinman.app.business.model.BusinessBookingPolicy;
 import com.themuffinman.app.business.model.BusinessBookingStatus;
+import com.themuffinman.app.business.model.BusinessBookingSnapshot;
 import com.themuffinman.app.business.model.BusinessOffering;
 import com.themuffinman.app.business.model.BusinessOfferingBookingMode;
 import com.themuffinman.app.business.model.BusinessProfile;
 import com.themuffinman.app.business.repository.BusinessBookingRepository;
+import com.themuffinman.app.business.repository.BusinessBookingSnapshotRepository;
 import com.themuffinman.app.common.event.DomainEvent;
 import com.themuffinman.app.common.event.DomainEventPublisher;
 import com.themuffinman.app.common.reliability.MutationIdempotencyService;
@@ -48,6 +50,9 @@ class BusinessCreateBookingUseCaseTest {
     private BusinessBookingRepository businessBookingRepository;
 
     @Mock
+    private BusinessBookingSnapshotRepository businessBookingSnapshotRepository;
+
+    @Mock
     private AppUserRepository appUserRepository;
 
     @Spy
@@ -83,11 +88,19 @@ class BusinessCreateBookingUseCaseTest {
         });
         when(businessBookingPresentationService.enrichForCustomer(any(), any(), any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        var result = businessCreateBookingUseCase.createCustomerBooking(request(offering.getId(), start, end, "idem-1"), customer);
+        BusinessBookingRequestDTO request = request(offering.getId(), start, end, "idem-1");
+        request.setQuantity(new BigDecimal("2"));
+        request.setAnswers(java.util.Map.of("vehicleClass", "SUV"));
+        request.setSelectedOptions(java.util.Map.of("wax", "yes"));
+        var result = businessCreateBookingUseCase.createCustomerBooking(request, customer);
 
         assertEquals(7L, result.getId());
         assertEquals(BusinessBookingStatus.CONFIRMED, result.getStatus());
         verify(domainEventPublisher).publish(any(DomainEvent.class));
+        ArgumentCaptor<BusinessBookingSnapshot> snapshotCaptor = ArgumentCaptor.forClass(BusinessBookingSnapshot.class);
+        verify(businessBookingSnapshotRepository).save(snapshotCaptor.capture());
+        assertEquals(true, snapshotCaptor.getValue().getDemand().contains("vehicleClass"));
+        assertEquals(true, snapshotCaptor.getValue().getSelectedOptions().contains("wax"));
     }
 
     @Test

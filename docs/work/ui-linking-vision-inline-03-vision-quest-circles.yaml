@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: ui-linking-vision-inline-03-vision-quest-circles
+title: Harden exact Vision quest and circles inline prompts
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/ui-linking-vision-inline-master.yaml
+execution_inventory: docs/work/ui-linking-vision-inline-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/vision-for-web-integration-master.yaml
+  - docs/work/ui-action-integrity-master.yaml
+  baseline_only_surfaces:
+  - existing Vision review rendering unless changed by these flows
+  residual_scope:
+  - exact-prompt acceptance for opening a visible quest by semantic title
+  - create new work through the existing guided review and confirmation flow
+  - distinguish owner-scoped circles from navigation-only circles handoff
+  - repair only defects found in those paths
+  retest_triggers:
+  - Vision route/intent changes
+  - quest resolution changes
+  - circle navigation changes
+  - affected canvas renderer changes
+  non_duplication_rule: Existing Vision route and execution evidence is reused only
+    as baseline; requested journeys require fresh scenario evidence.
+tasks:
+- id: audit-vision-quest-and-circle-inline-flows
+  title: Replay exact quest creation and circles prompts and repair residual defects
+  type: implementation
+  status: done
+  inventory_item: vision-quest-circles
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && make
+    audit-runtime-acceptance && make audit-docs && git diff --check"
+  acceptance:
+  - The exact “open quest Suitcases” prompt resolves only a visible unique quest and
+    clarifies safely when ambiguous or unavailable.
+  - "“Create new work” remains a guided review/confirmation flow and does not execute
+    before explicit confirmation."
+  - "“Open my circles” loads the viewer-scoped circles surface."
+  - "“Go to circles” performs navigation without inventing a target or mutating state."
+  - Any residual defect is covered by a focused regression scenario rather than silently
+    absorbed into runtime evidence.
+  started_at: '2026-07-23T16:34:34Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: 5d1dec7fad41a040469eb6b8199861f236e1a64a4b0ea34fc920e89f6ab77e4a
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java: 8f8e50420e30eaedb3625049ee22a6ff7d79ce7440323f9d341cea60cd5fda3c
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java: 37e4df484ee567b9c641e3fc8431a8d0cf3742874406abe30d998a95b6bb2b92
+    docs/regression-scenario-catalog.yaml: 399c490b44b5021652e93df582850d4f6bff9864c9c34f88d6c2a346ef1631a1
+evidence:
+- task: audit-vision-quest-and-circle-inline-flows
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && make audit-runtime-acceptance
+    && make audit-docs && git diff --check"
+  ranAt: '2026-07-23T16:37:17Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  output: "[INFO] Results:\n[INFO] \n[INFO] Tests run: 804, Failures: 0, Errors: 0,
+    Skipped: 0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  21.639 s\n[INFO] Finished at: 2026-07-23T18:37:39+02:00\n[INFO] ------------------------------------------------------------------------\nruby
+    scripts/audits/audit-runtime-acceptance.rb\nRuntime acceptance audit passed (65
+    passed, 16 pending runtime scenarios).\nruby scripts/audits/audit-work-plan-recursion.rb\nWork-plan
+    recursion audit passed (no recursive validation commands).\nruby scripts/audits/audit-docs-as-tests.rb\nDocs
+    as tests\n  statements scanned: 315\n  review needed: 0\n  high priority: 0\n\n"
+  startedAt: '2026-07-23T16:34:34Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

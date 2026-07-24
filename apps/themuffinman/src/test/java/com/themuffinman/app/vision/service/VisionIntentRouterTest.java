@@ -70,6 +70,22 @@ class VisionIntentRouterTest {
     }
 
     @Test
+    void keepsDirectMessageSeparateFromOpeningChat() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+
+        assertEquals(VisionIntent.SEND_MESSAGE, router.detectIntent("send message to Josip"));
+        assertEquals(VisionIntent.OPEN_CHAT, router.detectIntent("open chat with Josip"));
+    }
+
+    @Test
+    void recognizesProductFacingWorkAndCirclesNavigationPhrases() {
+        VisionIntentRouter router = new VisionIntentRouter(new VisionProperties(), new VisionSemanticRouteCatalogService());
+
+        assertEquals(VisionIntent.CREATE_QUEST, router.detectIntent("create new work"));
+        assertEquals(VisionIntent.VIEW_CIRCLES, router.detectIntent("go to circles"));
+    }
+
+    @Test
     void routesSettingsAndDetailReadOnlyIntentsFromPromptHeuristics() {
         VisionProperties visionProperties = new VisionProperties();
         VisionIntentRouter router = new VisionIntentRouter(visionProperties, new VisionSemanticRouteCatalogService());

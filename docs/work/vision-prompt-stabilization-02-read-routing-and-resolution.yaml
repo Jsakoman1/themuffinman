@@ -1,0 +1,120 @@
+kind: work
+version: 1
+id: vision-prompt-stabilization-02-read-routing-and-resolution
+title: Repair Vision read routing, entity resolution, and visible outcomes
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/vision-prompt-stabilization-master.yaml
+execution_inventory: docs/work/vision-prompt-stabilization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-linking-vision-inline-03-vision-quest-circles.yaml
+  baseline_only_surfaces:
+  - existing canonical routes and read services unless the exact prompt exposes a
+    defect
+  residual_scope:
+  - Suitcases title resolution
+  - open my circles content
+  - go to circles navigation
+  - detail/no-match/ambiguity states
+  - generic placeholder rendering
+  retest_triggers:
+  - VisionConversationService.java
+  - VisionCapabilityEntityResolutionSupport.java
+  - VisionCanvasAssembler.java
+  - read-only renderer contracts
+  non_duplication_rule: Existing route reachability is baseline; this task proves
+    prompt-to-visible-result behavior.
+  depends_on:
+  - docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+tasks:
+- id: repair-read-routing-and-resolution
+  title: Make critical read prompts return typed visible results or recoverable no-match
+    states
+  type: implementation
+  status: done
+  inventory_item: read-routing-and-resolution
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationReadModelAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCanvasAssemblerTest.java
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionConversationServiceTest,VisionCanvasAssemblerTest
+    test && cd frontend && npm run type-check && npm run build && cd ../../.. && make
+    audit-docs && git diff --check
+  acceptance:
+  - open quest Suitcases shows the visible quest or an explicit no-match/ambiguity
+    result
+  - open my circles shows viewer-scoped circles content
+  - go to circles performs navigation-only behavior
+  - no critical read prompt renders generic placeholder text as success
+  - unique, missing, ambiguous, unauthorized, and stale target outcomes are distinct
+    and privacy-safe
+  - open my circles performs a viewer-scoped read action, while go to circles performs
+    navigation-only handoff
+  started_at: '2026-07-23T18:46:15Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: 1a86e154897de49b8c0d5e0d2c1c960e896604c74dc3d2818792bf806095ce37
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java: 2eea99dd7e4c445403837b94c105eb242a733f9355a462774f3e5a75dc943f02
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java: e694e292bba81ff0b102a1e108b6a2a27f97b2122f7c1e92c809e205bd9b389d
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationReadModelAssembler.java: aaaf742da9f8eea3acd5910132240c796efa5b170f05e2828cc91bff1b3e1596
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java: cece4e4d27a8f6fa1d1d55d71735469d98f884aed16b83e21dfad3bd3766a597
+    apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue: a45f99fb5101d03bc27406a68ba1f23176782e4da752acc00351339c337f3602
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java: 0bf44e8ddb60a610317f210ee33727c697cc817a5f445046961a0327f8c33892
+evidence:
+- task: repair-read-routing-and-resolution
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionConversationServiceTest,VisionCanvasAssemblerTest
+    test && cd frontend && npm run type-check && npm run build && cd ../../.. && make
+    audit-docs && git diff --check
+  ranAt: '2026-07-23T18:50:14Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  output: |+
+    dist/assets/WorkQuestDetailView-mLIqldZy.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-BUH4y8oB.js                       15.67 kB │ gzip:   5.14 kB
+    dist/assets/SurfaceHeader-DLusheIU.js                         18.10 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-DF06ihIh.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-YkD4CIcz.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BqUVSab_.js               39.89 kB │ gzip:  12.02 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-VTnvuoAF.js                                 52.68 kB │ gzip:  13.50 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 534ms
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-23T18:46:15Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionReadOnlyConversationTurnHandler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

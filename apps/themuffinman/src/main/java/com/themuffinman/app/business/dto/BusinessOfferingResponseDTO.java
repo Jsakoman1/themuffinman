@@ -4,6 +4,7 @@ import com.themuffinman.app.business.model.BusinessOfferingBookingMode;
 import com.themuffinman.app.business.model.BusinessOfferingCapacityMode;
 import com.themuffinman.app.business.model.BusinessOfferingDurationMode;
 import com.themuffinman.app.business.model.BusinessOfferingPricingType;
+import com.themuffinman.app.business.model.BusinessOfferingFulfillmentMode;
 import lombok.Builder;
 import lombok.Data;
 
@@ -30,6 +31,11 @@ public class BusinessOfferingResponseDTO {
     private BusinessOfferingCapacityMode capacityMode;
     private Integer slotCapacity;
     private BusinessOfferingBookingMode bookingMode;
+    private BusinessOfferingFulfillmentMode fulfillmentMode;
+    private int schemaVersion;
+    private Integer durationIncrementMinutes;
+    private Integer minimumQuantity;
+    private Integer maximumQuantity;
     private boolean requiresOwnerConfirmation;
     private int bufferBeforeMinutes;
     private int bufferAfterMinutes;

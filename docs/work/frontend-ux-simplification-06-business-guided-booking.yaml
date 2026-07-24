@@ -1,0 +1,108 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-06-business-guided-booking
+title: Convert public Business booking into a progressive service-aware flow
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-booking-end-to-end-master.yaml
+  baseline_only_surfaces:
+  - public schema
+  - quote
+  - availability
+  - slot validation
+  - booking mutation
+  residual_scope:
+  - business/service/options/date/slot/review step sequence
+  - schema-adaptive fields
+  - stale-state recovery
+  retest_triggers:
+  - public booking route
+  - step ownership
+  - quote display
+  - availability selection
+  - or recovery change
+  non_duplication_rule: Public booking continues to consume backend schema, quote,
+    availability, and booking APIs.
+tasks:
+- id: implement-business-guided-booking
+  title: Implement progressive public booking flow
+  type: implementation
+  status: done
+  inventory_item: business-guided-booking
+  observable_outcome: A customer can choose service, complete only required demand/options,
+    choose a valid date and slot, review price/conditions, and recover from stale
+    availability without a dense all-fields dialog.
+  dependencies:
+  - implement-business-guided-setup
+  evidence_boundary:
+  - public browser journey
+  - stale/conflict recovery
+  - desktop/narrow visual evidence
+  - type-check
+  - build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingStepper.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingStepper.vue
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-business-booking-desktop.png
+  - docs/runtime-evidence/frontend-ux-business-booking-mobile.png
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T13:34:22Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: a231d3939205913dfabaa4ebeb2ff3c52c4333a865e76f9ca767ebec62776cbb
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingStepper.vue: __missing__
+evidence:
+- task: implement-business-guided-booking
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T13:38:06Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingStepper.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessDemandForm.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-2XZd9wJK.js               8.02 kB │ gzip:   2.92 kB
+    dist/assets/BusinessPublicView-BnjpEgtf.js                     8.84 kB │ gzip:   3.37 kB
+    dist/assets/WorkspaceSurfaceView-BrWGRs0J.js                  10.35 kB │ gzip:   3.43 kB
+    dist/assets/BusinessServiceSchemaView-2vmMT1n2.js             11.04 kB │ gzip:   3.62 kB
+    dist/assets/CirclesView-ZBtwr8SJ.js                           11.34 kB │ gzip:   3.43 kB
+    dist/assets/BusinessProfileView-B8VncCbt.js                   12.47 kB │ gzip:   3.73 kB
+    dist/assets/ThingsDiscoveryView-B52yIzGX.js                   12.52 kB │ gzip:   3.98 kB
+    dist/assets/WorkQuestDetailView-DNSAmR_8.js                   12.97 kB │ gzip:   4.17 kB
+    dist/assets/RidesView-Bho_FYfa.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-BySYWmMG.js                       16.45 kB │ gzip:   5.31 kB
+    dist/assets/SurfaceHeader-DfrXz3lT.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-Be0_SoJi.js           21.34 kB │ gzip:   6.77 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BzGbcyCv.js                38.98 kB │ gzip:  12.75 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BIAWIocm.js                                 55.46 kB │ gzip:  14.05 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 519ms
+
+  startedAt: '2026-07-24T13:34:22Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingStepper.vue
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-business-booking-desktop.png
+  - docs/runtime-evidence/frontend-ux-business-booking-mobile.png
+  runtimeEvidencePaths: []

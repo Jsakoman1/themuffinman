@@ -23,6 +23,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +42,17 @@ public class BusinessBookingValidationService {
             Instant endsAt,
             BusinessBookingPolicy policy
     ) {
+        return validateCreate(offering, customerUser, startsAt, endsAt, policy, BigDecimal.ONE);
+    }
+
+    public CapacityDecision validateCreate(
+            BusinessOffering offering,
+            AppUser customerUser,
+            Instant startsAt,
+            Instant endsAt,
+            BusinessBookingPolicy policy,
+            BigDecimal requestedQuantity
+    ) {
         BusinessProfile profile = offering.getBusinessProfile();
         requireBookableProfile(profile);
         if (!offering.isActive()) {
@@ -52,12 +64,17 @@ public class BusinessBookingValidationService {
 
         validateTimeRange(offering, startsAt, endsAt, policy);
         List<BusinessAvailabilityWindowDTO> coverage = requireAvailabilityCoverage(profile, offering, startsAt, endsAt);
+        if (coverage.isEmpty()) {
+            throw ServiceErrors.conflict("Requested booking slot is not available");
+        }
         int effectiveCapacity = coverage.stream()
                 .map(BusinessAvailabilityWindowDTO::getEffectiveCapacity)
                 .min(Comparator.naturalOrder())
                 .orElseThrow(() -> ServiceErrors.conflict("Requested booking slot is not available"));
-        long occupied = businessBookingPrimitiveService.countOverlappingCapacityUsage(offering.getId(), startsAt, endsAt);
-        if (occupied >= effectiveCapacity) {
+        BigDecimal quantity = requestedQuantity == null ? BigDecimal.ONE : requestedQuantity;
+        validateQuantity(offering, quantity);
+        BigDecimal occupied = businessBookingPrimitiveService.countOverlappingCapacityUsage(offering.getId(), startsAt, endsAt);
+        if (occupied.add(quantity).compareTo(BigDecimal.valueOf(effectiveCapacity)) > 0) {
             throw ServiceErrors.conflict("Requested booking slot is already full");
         }
 
@@ -70,7 +87,7 @@ public class BusinessBookingValidationService {
             Instant startsAt,
             Instant endsAt,
             BusinessBookingPolicy policy,
-            long occupiedExcludingCurrent
+            BigDecimal occupiedExcludingCurrent
     ) {
         if (booking.getStatus() != BusinessBookingStatus.PENDING_CONFIRMATION
                 && booking.getStatus() != BusinessBookingStatus.CONFIRMED) {
@@ -83,8 +100,19 @@ public class BusinessBookingValidationService {
                 .map(BusinessAvailabilityWindowDTO::getEffectiveCapacity)
                 .min(Comparator.naturalOrder())
                 .orElseThrow(() -> ServiceErrors.conflict("Requested booking slot is not available"));
-        if (occupiedExcludingCurrent >= effectiveCapacity) {
+        BigDecimal quantity = booking.getQuantitySnapshot() == null ? BigDecimal.ONE : booking.getQuantitySnapshot();
+        if (occupiedExcludingCurrent.add(quantity).compareTo(BigDecimal.valueOf(effectiveCapacity)) > 0) {
             throw ServiceErrors.conflict("Requested booking slot is already full");
+        }
+    }
+
+    private void validateQuantity(BusinessOffering offering, BigDecimal quantity) {
+        if (quantity == null || quantity.signum() <= 0) throw ServiceErrors.badRequest("Quantity must be greater than zero");
+        if (offering.getMinimumQuantity() != null && quantity.compareTo(BigDecimal.valueOf(offering.getMinimumQuantity())) < 0) {
+            throw ServiceErrors.conflict("Requested quantity is below the offering minimum");
+        }
+        if (offering.getMaximumQuantity() != null && quantity.compareTo(BigDecimal.valueOf(offering.getMaximumQuantity())) > 0) {
+            throw ServiceErrors.conflict("Requested quantity exceeds the offering maximum");
         }
     }
 
@@ -150,6 +178,10 @@ public class BusinessBookingValidationService {
             if (offering.getMaxDurationMinutes() != null && durationMinutes > offering.getMaxDurationMinutes()) {
                 throw ServiceErrors.conflict("Booking duration is longer than the offering maximum");
             }
+        }
+        if (offering.getDurationIncrementMinutes() != null
+                && durationMinutes % offering.getDurationIncrementMinutes() != 0) {
+            throw ServiceErrors.conflict("Booking duration must match the offering duration increment");
         }
         if (offering.getDurationMode() == BusinessOfferingDurationMode.ALL_DAY) {
             ZoneId zoneId = TimeSupport.requireZoneId(
@@ -218,6 +250,6 @@ public class BusinessBookingValidationService {
         return configuredMinutes != null && durationMinutes == configuredMinutes.longValue();
     }
 
-    public record CapacityDecision(int effectiveCapacity, long occupiedCount) {
+    public record CapacityDecision(int effectiveCapacity, BigDecimal occupiedCount) {
     }
 }

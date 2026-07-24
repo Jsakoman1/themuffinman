@@ -33,6 +33,9 @@ import java.util.Map;
 @Service
 public class VisionCanvasAssembler {
     private static final String WEB_ACTION_CONTRACT_VERSION = "vision-web-action-v2";
+    private static final String BUSINESS_CALENDAR_PATH = "/business/calendar";
+    private static final String THINGS_BORROW_REQUESTS_PATH = "/things/requests";
+    private static final String CIRCLES_PATH = "/circles";
     private static final DateTimeFormatter REVIEW_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm");
 
     private final VisionProperties visionProperties;
@@ -139,7 +142,7 @@ public class VisionCanvasAssembler {
             }
             case VIEW_CIRCLES -> {
                 routeKey = "circles.index";
-                canonicalPath = "/circles";
+                canonicalPath = CIRCLES_PATH;
                 entityFamily = "circle";
                 label = "Circles";
             }
@@ -179,7 +182,7 @@ public class VisionCanvasAssembler {
             }
             case VIEW_BORROW_REQUESTS -> {
                 routeKey = "things.borrow";
-                canonicalPath = "/things/requests";
+                canonicalPath = THINGS_BORROW_REQUESTS_PATH;
                 entityFamily = "borrow_request";
                 label = "Borrow requests";
             }
@@ -213,7 +216,7 @@ public class VisionCanvasAssembler {
             }
             case VIEW_BUSINESS_AVAILABILITY -> {
                 routeKey = "business.calendar";
-                canonicalPath = "/business/calendar";
+                canonicalPath = BUSINESS_CALENDAR_PATH;
                 entityFamily = "business";
                 label = "Business calendar";
             }
@@ -645,6 +648,9 @@ public class VisionCanvasAssembler {
                 .density(densityFor(deviceRoleFor(conversation)))
                 .primaryActionLabel(primaryActionLabel(turn))
                 .visibleFields(visibleFieldsFor(turn))
+                .providerStatus(conversation.getSlotData().getOrDefault("understanding_status", "unknown"))
+                .providerOutcome(conversation.getSlotData().getOrDefault("understanding_outcome", "unknown"))
+                .retryable(Boolean.parseBoolean(conversation.getSlotData().getOrDefault("understanding_retryable", "false")))
                 .build();
     }
 
@@ -794,7 +800,7 @@ public class VisionCanvasAssembler {
         }
 
         return switch (conversation.getIntent()) {
-            case OPEN_CHAT,
+            case OPEN_CHAT, SEND_MESSAGE,
                  CREATE_CIRCLE_REQUEST,
                  ACCEPT_CIRCLE_REQUEST,
                  DELETE_CIRCLE_REQUEST,
@@ -815,6 +821,7 @@ public class VisionCanvasAssembler {
 
         return switch (conversation.getIntent()) {
             case OPEN_CHAT -> "This turn can contact another person.";
+            case SEND_MESSAGE -> "This turn sends a direct message after confirmation.";
             case CREATE_CIRCLE_REQUEST, ACCEPT_CIRCLE_REQUEST, DELETE_CIRCLE_REQUEST -> "This turn affects a shared circle request.";
             case CREATE_APPLICATION, UPDATE_APPLICATION, WITHDRAW_APPLICATION -> "This turn affects a shared application record.";
             case APPROVE_APPLICATION, DECLINE_APPLICATION -> "This turn changes another person's application status.";

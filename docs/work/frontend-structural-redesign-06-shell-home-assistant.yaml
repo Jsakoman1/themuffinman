@@ -1,0 +1,53 @@
+kind: work
+version: 1
+id: frontend-structural-redesign-06-shell-home-assistant
+title: "Redesign shell header, Home, assistant, and collection preview"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/frontend-ux-next-evolution-master.yaml]
+  baseline_only_surfaces: [Existing shell auth, route, Vision backend, and Home data authority]
+  residual_scope: [Header hierarchy, Home section layout, persistent assistant composer, inline answer bubble, side preview]
+  retest_triggers: [Shell header, Home data sections, assistant host, collection preview, mobile composer, or focus behavior changes]
+  non_duplication_rule: Existing command and Vision buttons are baseline only; the new shell owns the sole assistant entry point.
+tasks:
+  - id: shell-header-and-persistent-assistant
+    title: Replace shell command clutter with calm header and contextual assistant composer
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-shell-header-assistant
+    observable_outcome: Authenticated pages share one calm header with context, navigation, account, and one persistent assistant input; Create/Search and Ask Vision duplicates are removed or demoted.
+    dependencies: []
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+    evidence_boundary: [header hierarchy, persistent input, context chip, inline response, recovery]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: home-sections-and-side-preview
+    title: Make Home immediately scannable and collections preview beside the selected row
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-home-preview
+    observable_outcome: Home presents visually separated Today, Next, Attention, Favorites, and quick actions; Work collection selection opens an adjacent preview instead of forced navigation when appropriate.
+    dependencies: [shell-header-and-persistent-assistant]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+    evidence_boundary: [first-glance hierarchy, no unexplained dismiss, selected-row preview, mobile sheet]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

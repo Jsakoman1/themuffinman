@@ -5,12 +5,16 @@ import com.themuffinman.app.business.dto.BusinessOwnerBookingCreateRequestDTO;
 import com.themuffinman.app.business.event.BusinessBookingCreatedEvent;
 import com.themuffinman.app.business.mapper.BusinessBookingMgr;
 import com.themuffinman.app.business.model.BusinessBooking;
+import com.themuffinman.app.business.model.BusinessBookingSnapshot;
 import com.themuffinman.app.business.model.BusinessBookingPolicy;
 import com.themuffinman.app.business.model.BusinessBookingSource;
 import com.themuffinman.app.business.model.BusinessBookingStatus;
 import com.themuffinman.app.business.model.BusinessOfferingBookingMode;
 import com.themuffinman.app.business.model.BusinessOffering;
 import com.themuffinman.app.business.repository.BusinessBookingRepository;
+import com.themuffinman.app.business.repository.BusinessBookingSnapshotRepository;
+import com.themuffinman.app.business.dto.BusinessQuoteRequestDTO;
+import com.themuffinman.app.business.dto.BusinessQuoteResponseDTO;
 import com.themuffinman.app.common.errors.ServiceErrors;
 import com.themuffinman.app.common.event.DomainEventPublisher;
 import com.themuffinman.app.common.reliability.MutationIdempotencyService;
@@ -18,6 +22,8 @@ import com.themuffinman.app.common.reliability.MutationOperationPolicy;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +38,15 @@ public class BusinessCreateBookingUseCase {
     private final BusinessBookingValidationService businessBookingValidationService;
     private final BusinessBookingPolicyService businessBookingPolicyService;
     private final BusinessBookingRepository businessBookingRepository;
+    private final BusinessBookingSnapshotRepository businessBookingSnapshotRepository;
     private final AppUserRepository appUserRepository;
     private final BusinessBookingMgr businessBookingMgr;
     private final BusinessBookingPresentationService businessBookingPresentationService;
     private final DomainEventPublisher domainEventPublisher;
     private final MutationIdempotencyService mutationIdempotencyService;
+    private final BusinessPricingCalculationService businessPricingCalculationService;
+    private final BusinessOfferingSchemaService businessOfferingSchemaService;
+    private final BusinessResourceAssignmentService businessResourceAssignmentService;
 
     private static final MutationOperationPolicy CUSTOMER_BOOKING_POLICY =
             new MutationOperationPolicy("business.booking.create.customer", false, false, true);
@@ -63,8 +73,11 @@ public class BusinessCreateBookingUseCase {
 
         BusinessOffering offering = businessBookingPrimitiveService.lockOffering(dto.getBusinessOfferingId());
         dto.setEndsAt(resolveEndsAt(offering, dto));
+        if (businessOfferingSchemaService != null) {
+            businessOfferingSchemaService.validateCustomerInput(offering.getId(), dto.getAnswers(), dto.getSelectedOptions());
+        }
         BusinessBookingPolicy policy = businessBookingPolicyService.loadOrCreatePolicyEntity(offering.getBusinessProfile().getOwner());
-        businessBookingValidationService.validateCreate(offering, currentUser, dto.getStartsAt(), dto.getEndsAt(), policy);
+        businessBookingValidationService.validateCreate(offering, currentUser, dto.getStartsAt(), dto.getEndsAt(), policy, dto.getQuantity());
 
         BusinessBooking booking = new BusinessBooking();
         booking.setBusinessProfile(offering.getBusinessProfile());
@@ -79,9 +92,14 @@ public class BusinessCreateBookingUseCase {
         booking.setTimezone(offering.getBusinessProfile().getTimezone());
         booking.setCustomerNote(dto.getCustomerNote());
         booking.setIdempotencyKey(idempotencyKey);
-        applySnapshots(booking, offering);
+        booking.setQuantitySnapshot(dto.getQuantity() == null ? java.math.BigDecimal.ONE : dto.getQuantity());
+        BusinessQuoteResponseDTO quote = calculateQuote(offering, dto.getStartsAt(), dto.getEndsAt(), dto.getQuantity(), dto.getAnswers(), dto.getSelectedOptions());
+        applySnapshots(booking, offering, quote);
 
         BusinessBooking saved = businessBookingRepository.save(booking);
+        java.util.List<java.util.Map<String, Object>> assignments = businessResourceAssignmentService == null ? java.util.List.of()
+                : businessResourceAssignmentService.assignForBooking(saved.getId(), offering, saved.getStartsAt(), saved.getEndsAt());
+        businessBookingSnapshotRepository.save(createSnapshot(saved, offering, dto.getAnswers(), dto.getSelectedOptions(), quote, assignments));
         domainEventPublisher.publish(new BusinessBookingCreatedEvent(saved, currentUser, dto.getCustomerNote()));
         return businessBookingPresentationService.enrichForCustomer(businessBookingMgr.toDto(saved), saved, currentUser);
     }
@@ -111,7 +129,7 @@ public class BusinessCreateBookingUseCase {
         AppUser customer = appUserRepository.findById(dto.getCustomerUserId())
                 .orElseThrow(() -> ServiceErrors.notFound("Customer user not found"));
         BusinessBookingPolicy policy = businessBookingPolicyService.loadOrCreatePolicyEntity(currentUser);
-        businessBookingValidationService.validateCreate(offering, customer, dto.getStartsAt(), dto.getEndsAt(), policy);
+        businessBookingValidationService.validateCreate(offering, customer, dto.getStartsAt(), dto.getEndsAt(), policy, dto.getQuantity());
 
         BusinessBooking booking = new BusinessBooking();
         booking.setBusinessProfile(offering.getBusinessProfile());
@@ -124,18 +142,82 @@ public class BusinessCreateBookingUseCase {
         booking.setTimezone(offering.getBusinessProfile().getTimezone());
         booking.setOwnerNote(dto.getOwnerNote());
         booking.setIdempotencyKey(idempotencyKey);
-        applySnapshots(booking, offering);
+        booking.setQuantitySnapshot(dto.getQuantity() == null ? java.math.BigDecimal.ONE : dto.getQuantity());
+        BusinessQuoteResponseDTO quote = calculateQuote(offering, dto.getStartsAt(), dto.getEndsAt(), dto.getQuantity(), java.util.Map.of(), java.util.Map.of());
+        applySnapshots(booking, offering, quote);
 
         BusinessBooking saved = businessBookingRepository.save(booking);
+        java.util.List<java.util.Map<String, Object>> assignments = businessResourceAssignmentService == null ? java.util.List.of()
+                : businessResourceAssignmentService.assignForBooking(saved.getId(), offering, saved.getStartsAt(), saved.getEndsAt());
+        businessBookingSnapshotRepository.save(createSnapshot(saved, offering, java.util.Map.of(), java.util.Map.of(), quote, assignments));
         domainEventPublisher.publish(new BusinessBookingCreatedEvent(saved, currentUser, dto.getOwnerNote()));
         return businessBookingPresentationService.enrichForOwner(businessBookingMgr.toDto(saved), saved, currentUser);
     }
 
-    private void applySnapshots(BusinessBooking booking, BusinessOffering offering) {
+    private void applySnapshots(BusinessBooking booking, BusinessOffering offering, BusinessQuoteResponseDTO quote) {
         booking.setOfferingTitleSnapshot(offering.getTitle());
-        booking.setPriceSnapshotAmount(offering.getBasePriceAmount());
+        booking.setPriceSnapshotAmount(quote == null ? offering.getBasePriceAmount() : quote.getTotalAmount());
         booking.setPriceSnapshotCurrency(offering.getBasePriceCurrency());
         booking.setDurationSnapshotMinutes((int) Duration.between(booking.getStartsAt(), booking.getEndsAt()).toMinutes());
+    }
+
+    private BusinessBookingSnapshot createSnapshot(
+            BusinessBooking booking,
+            BusinessOffering offering,
+            java.util.Map<String, String> answers,
+            java.util.Map<String, String> selectedOptions,
+            BusinessQuoteResponseDTO quote,
+            java.util.List<java.util.Map<String, Object>> assignments
+    ) {
+        BusinessBookingSnapshot snapshot = new BusinessBookingSnapshot();
+        snapshot.setBusinessBooking(booking);
+        snapshot.setOfferingSchemaVersion(offering.getSchemaVersion());
+        snapshot.setFulfillmentMode(offering.getFulfillmentMode());
+        snapshot.setDemand(toJson(java.util.Map.of(
+                "quantity", booking.getQuantitySnapshot(),
+                "durationMinutes", booking.getDurationSnapshotMinutes(),
+                "answers", answers == null ? java.util.Map.of() : answers
+        )));
+        snapshot.setSelectedOptions(toJson(selectedOptions == null ? java.util.Map.of() : selectedOptions));
+        String amount = quote == null || quote.getTotalAmount() == null ? "null" : "\"" + quote.getTotalAmount().toPlainString() + "\"";
+        String currency = offering.getBasePriceCurrency() == null ? "null" : "\"" + offering.getBasePriceCurrency() + "\"";
+        java.util.Map<String, Object> priceLine = new java.util.LinkedHashMap<>();
+        priceLine.put("type", "calculated");
+        priceLine.put("amount", quote == null ? offering.getBasePriceAmount() : quote.getTotalAmount());
+        priceLine.put("currency", offering.getBasePriceCurrency());
+        priceLine.put("explanations", quote == null ? java.util.List.of() : quote.getExplanations());
+        snapshot.setPriceLines(toJson(java.util.List.of(priceLine)));
+        snapshot.setResourceAssignments(toJson(assignments == null ? java.util.List.of() : assignments));
+        snapshot.setCapacityConsumption("{\"units\":" + booking.getQuantitySnapshot().toPlainString() + "}");
+        snapshot.setConditionsSnapshot("{\"timezone\":\"" + booking.getTimezone() + "\"}");
+        return snapshot;
+    }
+
+    private BusinessQuoteResponseDTO calculateQuote(
+            BusinessOffering offering,
+            java.time.Instant startsAt,
+            java.time.Instant endsAt,
+            java.math.BigDecimal quantity,
+            java.util.Map<String, String> answers,
+            java.util.Map<String, String> selectedOptions
+    ) {
+        if (businessPricingCalculationService == null) return null;
+        BusinessQuoteRequestDTO request = new BusinessQuoteRequestDTO();
+        request.setBusinessOfferingId(offering.getId());
+        request.setStartsAt(startsAt);
+        request.setDurationMinutes((int) java.time.Duration.between(startsAt, endsAt).toMinutes());
+        request.setQuantity(quantity);
+        request.setAnswers(answers);
+        request.setSelectedOptions(selectedOptions);
+        return businessPricingCalculationService.calculate(offering, request);
+    }
+
+    private String toJson(Object value) {
+        try {
+            return new ObjectMapper().writeValueAsString(value);
+        } catch (JsonProcessingException exception) {
+            throw ServiceErrors.badRequest("Booking demand could not be snapshotted");
+        }
     }
 
     private java.time.Instant resolveEndsAt(BusinessOffering offering, BusinessBookingRequestDTO dto) {

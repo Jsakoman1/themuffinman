@@ -221,3 +221,4 @@ catalog_rules:
   current_state_note: >
     A target capability can have an empty current_inventory_ids list. That means
     the requirement is currently unmapped, not that it is implemented.
+ # BUSINESS-BOOKING-RUNTIME-001: runtime API/browser evidence is captured; lifecycle completion remains explicitly separate.

@@ -7,6 +7,7 @@ export type VisionLaunchOptions = {
   context?: string
   source?: string
   returnTo?: string
+  contextFamily?: "circle" | "conversation" | "work" | "business" | "personal"
 }
 
 export const workspaceVisionHandoffContractVersion = "workspace-v1" as const
@@ -15,6 +16,7 @@ export type WorkspaceVisionHandoff = {
   contextLabel: string | null
   source: string | null
   returnTo: string | null
+  contextFamily: VisionLaunchOptions["contextFamily"] | null
 }
 
 const trimQueryValue = (value?: string | null) => {
@@ -35,24 +37,26 @@ export const buildVisionRoute = (options: VisionLaunchOptions = {}): RouteLocati
   const context = trimQueryValue(options.context)
   const source = trimQueryValue(options.source)
   const returnTo = safeWorkspaceReturnTo(options.returnTo)
+  const contextFamily = options.contextFamily
 
   if (prompt) {
-    query.prompt = prompt
-    query.autorun = "1"
+    query.visionPrompt = prompt
+    query.visionAutorun = "1"
   }
   if (context) {
-    query.context = context
+    query.visionContext = context
   }
   if (source) {
-    query.source = source
+    query.visionSource = source
   }
   if (returnTo) {
-    query.returnTo = returnTo
+    query.visionReturnTo = returnTo
   }
+  if (contextFamily) query.visionContextFamily = contextFamily
 
   return Object.keys(query).length > 0
-    ? {path: "/vision", query}
-    : {path: "/vision"}
+    ? {path: "/home", query}
+    : {path: "/home"}
 }
 
 export const buildSurfaceVisionPrompt = (surfaceId: AppSurfaceId) => {
@@ -60,11 +64,13 @@ export const buildSurfaceVisionPrompt = (surfaceId: AppSurfaceId) => {
 }
 
 export const buildSurfaceVisionRoute = (surfaceId: AppSurfaceId, currentPath: string, contextLabel: string) => {
+  const contextFamily = surfaceId === "circles" ? "circle" : surfaceId === "chat" ? "conversation" : surfaceId.startsWith("work") ? "work" : surfaceId === "business" ? "business" : "personal"
   return buildVisionRoute({
     prompt: buildSurfaceVisionPrompt(surfaceId),
     context: contextLabel,
     source: `shell.surface.${surfaceId}`,
-    returnTo: currentPath
+    returnTo: currentPath,
+    contextFamily
   })
 }
 
@@ -73,6 +79,7 @@ export const normalizeWorkspaceVisionHandoff = (value: Partial<WorkspaceVisionHa
   contextLabel: trimQueryValue(value.contextLabel) ?? null,
   source: trimQueryValue(value.source) ?? null,
   returnTo: safeWorkspaceReturnTo(value.returnTo) ?? null,
+  contextFamily: value.contextFamily ?? null,
 })
 
 export const resolveVisionEntityRoute = (entityFamily: string, targetId: number): RouteLocationRaw | null => {

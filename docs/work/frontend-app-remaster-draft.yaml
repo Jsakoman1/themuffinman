@@ -1,0 +1,491 @@
+kind: work
+version: 1
+id: frontend-app-remaster-draft
+title: Frontend app-like UI/UX remaster — planning draft
+status: draft
+baseline: dcb983f
+strict_verification: true
+planning_only: true
+purpose: >-
+  Temporary planning artifact derived from the frontend simplification and
+  modernization note. This file is not the implementation master plan and is
+  intentionally incomplete until the target experience, module scope, and
+  migration order are reviewed.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/frontend-standardization-master.yaml
+    - docs/work/frontend-next-standardization-master.yaml
+    - docs/work/frontend-css-responsive-consolidation.yaml
+    - docs/work/frontend-form-and-action-standardization.yaml
+    - docs/work/frontend-context-panel-standardization.yaml
+    - docs/work/frontend-accessibility-keyboard-standardization.yaml
+  baseline_only_surfaces:
+    - Existing authenticated app shell and shared frontend primitives are baseline inputs, not new completion evidence.
+    - Existing VisionForWeb boundary and canonical web routes are baseline inputs; this plan may improve their UX but does not reopen the terminal boundary decision.
+    - Existing module routes and API contracts remain baseline inputs unless a later child plan explicitly changes them.
+  residual_scope:
+    - Define the target app shell and module surface archetypes.
+    - Identify duplicated, obsolete, or inconsistent frontend UI and CSS.
+    - Decide where to use route transitions, split views, drawers, sheets, dialogs, tabs, and inline editing.
+    - Define the turn-based interaction model without replacing direct manipulation with chat.
+    - Define design tokens, shared component boundaries, responsive behavior, motion rules, and accessibility requirements.
+    - Produce implementation-ready child-plan boundaries for the later master plan.
+  retest_triggers:
+    - Any change to authenticated shell navigation, route handoffs, VisionForWeb mounting, or canonical deep links.
+    - Any change to shared dialog, sheet, form, surface, navigation, or feedback primitives.
+    - Any change to module-specific workflows, permissions, action contracts, or backend-prepared view data.
+    - Any responsive, motion, accessibility, or CSS-token change affecting more than one module.
+  non_duplication_rule: >-
+    Existing verified plans and evidence are used only as baseline context. The
+    later master plan must contain only residual remaster scope and must not
+    re-count completed standardization work.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: pending
+planning_inputs:
+  latest_reconciliation: docs/work/frontend-app-remaster-system-map-audit-2026-07-23.md
+  implementation_deep_dive: docs/work/frontend-app-remaster-plan-deep-dive-2026-07-23.md
+  product_sources:
+    - docs/product-memory.md
+    - docs/product-vision.md
+    - docs/vision-architecture-patterns.md
+  operating_sources:
+    - AGENTS.md
+    - docs/codex-fast-path.md
+    - docs/implementation-control.md
+    - docs/plan-scope-control-standard.yaml
+  current_frontend_sources:
+    - apps/themuffinman/frontend/src/modules/app-shell
+    - apps/themuffinman/frontend/src/modules
+    - apps/themuffinman/frontend/src/router.ts
+  current_validation:
+    - npm --prefix apps/themuffinman/frontend run type-check
+    - npm --prefix apps/themuffinman/frontend run build
+    - make audit-frontend
+  system_map_sources:
+    - docs/system-map.md
+    - docs/system-map-module-registry.yaml
+    - docs/system-map-change-impact-registry.yaml
+    - docs/system-map-dependency-registry.yaml
+    - docs/system-map-workflow-registry.yaml
+    - docs/system-map-coverage-registry.yaml
+    - docs/client-surface-registry.yaml
+    - docs/capability-inventory.yaml
+    - docs/target-capability-catalog.yaml
+    - docs/endpoint-capability-traceability-registry.yaml
+    - docs/audit-output/frontend-route-surface-inventory-summary.md
+    - docs/audit-output/frontend-stale-surface-audit-summary.md
+    - docs/audit-output/frontend-form-action-audit-2026-07-22.md
+system_map_alignment:
+  authority_rules:
+    - Capability status comes from docs/capability-inventory.yaml, not from route presence or visual design intent.
+    - Backend DTOs, allowedActions, permissions, visibility, consent, workflow transitions, and action contracts remain authoritative.
+    - The frontend owns navigation presentation, route context, loading/error states, surface state, and thin client orchestration.
+    - A frontend remaster may change how an existing capability is reached or displayed, but must not invent a capability, permission, status transition, or local mutation path.
+    - Web and Vision remain equal clients; VisionForWeb opens or controls canonical Web surfaces through backend-approved handoffs and is not a second navigation system.
+    - Native and device surfaces are outside this Web remaster except where responsive behavior or an existing handoff contract is explicitly affected.
+  current_system_shape:
+    authenticated_web_routes: 46
+    concrete_surfaces: 44
+    redirect_routes: 1
+    placeholder_module_routes: 0
+    detached_routes: 0
+    likely_unused_surface_candidates: 6
+  mapped_web_capability_families:
+    platform:
+      anchors: ['/login', '/register', '/profile', '/profile/settings', '/people/:userId', '/activity']
+      remaster_scope: navigation, profile/detail context, settings forms, activity recovery
+      capability_creation_allowed: false
+    work:
+      anchors: ['/home', '/work', '/work/find', '/work/quests', '/work/quests/new', '/work/quests/:questId', '/work/quests/:questId/applications', '/work/applications', '/work/applications/:applicationId']
+      mapped_actions: [work.quest.create, work.quest.discovery, work.quest.view_own, work.quest.view_other, work.quest.update, work.quest.publish, work.quest.pause, work.quest.cancel, work.quest.start, work.quest.complete, work.quest.confirm_terms, work.quest.reject_terms, work.quest.delete, work.quest.set_visibility, work.quest.manage_workers, work.application.create, work.application.view_own, work.application.view_detail, work.application.update, work.application.withdraw, work.application.review, work.application.decide, work.application.create_review, work.dashboard.view]
+      remaster_scope: discovery density, split/context detail, guided creation, action review, mobile presentation, state clarity
+      capability_creation_allowed: false
+    chat:
+      anchors: ['/chat', '/chat/:conversationId']
+      mapped_actions: [chat.conversations, chat.conversation.open, chat.conversation.view, chat.message.send, chat.message.view, chat.message.attach, chat.conversation.create_group, chat.conversation.mark_read, chat.conversation.reconnect, chat.message.edit, chat.message.reply, chat.message.react, chat.conversation.leave, chat.message.view_attachment]
+      remaster_scope: two-pane workspace exception, composer state, reconnect/offline recovery, mobile presentation
+      capability_creation_allowed: false
+    circles:
+      anchors: ['/circles', '/people', '/people/:userId']
+      mapped_actions: [circles.relationships, circles.circle.create, circles.circle.view_own, circles.circle.view_other, circles.circle.update, circles.membership.invite, circles.membership.accept, circles.circle.archive, circles.circle.discover, circles.membership.decline, circles.membership.cancel_invite, circles.membership.leave, circles.membership.remove]
+      remaster_scope: contextual circle/person surfaces, invite picker, privacy and consent explanations, mobile presentation
+      capability_creation_allowed: false
+    business:
+      anchors: ['/business', '/business/find', '/business/profile', '/business/offerings', '/business/public/:slug', '/business/bookings', '/business/bookings/owner', '/calendar', '/business/availability', '/business/availability/exceptions']
+      mapped_actions: [business.profile.create, business.profile.view_public, business.profile.update, business.profile.gallery_manage, business.offering.create, business.offering.view_public, business.offering.update, business.offering.archive, business.booking.create, business.booking.view_own, business.booking.confirm, business.booking.cancel, business.booking.review, business.booking.reject, business.booking.complete, business.booking.no_show, business.booking.reschedule, business.booking.view_calendar, business.availability.manage]
+      remaster_scope: booking/detail grammar, compact calendar and availability surfaces, gallery recovery, mobile presentation
+      capability_creation_allowed: false
+    sharing_and_rides:
+      anchors: ['/things', '/things/:id', '/rides', '/rides/mine']
+      mapped_actions: [sharing.thing.create, sharing.thing.view_other, sharing.thing.archive, sharing.borrow.request, sharing.borrow.view_own, sharing.borrow.decide, sharing.borrow.return, sharing.thing.discover, sharing.thing.update, sharing.borrow.cancel, sharing.thing.view_own, sharing.ride.create, sharing.ride.discover, sharing.ride.join, sharing.ride.update, sharing.ride.leave, sharing.ride.cancel, sharing.ride.complete]
+      remaster_scope: listing/request context, explicit borrowing turns, compact ride status and mobile presentation
+      capability_creation_allowed: false
+    cross_module:
+      anchors: ['/search', '/notifications', '/profile/settings/notifications', authenticated_shell]
+      mapped_actions: [cross_module.search.discover, cross_module.search.filter, cross_module.search.compare, cross_module.notification.receive, cross_module.notification.view, cross_module.notification.mark_read, cross_module.notification.manage_preferences, cross_module.shell.navigate, cross_module.shell.render_context, cross_module.adaptive_shell]
+      remaster_scope: shell navigation, search context, notification recovery, attention presentation
+      capability_creation_allowed: false
+  known_gaps_that_are_valid_remaster_inputs:
+    - Existing capability gaps explicitly named as mobile presentation may be handled by frontend child plans.
+    - Existing gaps for dedicated detail routes or richer comparison are product/surface decisions, not permission or capability assumptions.
+    - Browser/runtime acceptance gaps require evidence work and must not be represented as already proven by static route mapping.
+    - Circle-specific invite picker, privacy explanations, stale/inaccessible states, and recovery paths are real UX gaps where current inventory names them.
+    - Search/filter/ranking improvements must stay within existing backend-supported filters and must not invent client-side collection membership rules.
+  non_scope_by_system_map:
+    - New domain actions or mutation endpoints.
+    - Frontend-owned permission, visibility, consent, eligibility, or workflow-state logic.
+    - Moving domain data fetching or workflow rules into the shell.
+    - Reopening the detached Vision console as a Web surface.
+    - Treating native iPhone or Watch contracts as implemented clients.
+    - Claiming runtime completion from route presence, type-check, build, or static audits alone.
+scope_classification:
+  already_verified_or_baseline_only:
+    - Existing frontend standardization master plans and their verified shell, collection, context, form, CSS, responsive, and accessibility evidence.
+    - Existing canonical Web route/action mappings in capability inventory and client-surface registry.
+    - Existing VisionForWeb boundary and Web-only terminal Vision restriction.
+    - Existing backend action flags, permission checks, workflow transitions, and API contracts.
+  residual_implementation_scope:
+    - Reconcile the existing verified standardization results with the desired product-vision workspace language.
+    - Simplify remaining high-complexity views identified by current audits, beginning with Work application/detail flows and Chat's intentional two-pane exception.
+    - Convert named capability gaps into surface-specific UX tasks without promoting unmapped or runtime-pending capability claims.
+    - Remove or explicitly retain the six likely-unused surfaces and detached Vision console view after ownership review.
+    - Define and implement only the shared visual/motion primitives that are missing after the verified plans are compared.
+    - Add browser and visual evidence for changed routes and representative module journeys.
+  planning_or_product_decisions:
+    - Whether a dedicated circle detail route is needed or an in-place context surface is sufficient.
+    - Whether richer Work comparison requires an existing backend contract extension or only a presentation change.
+    - Whether Business calendar, Things detail, and Rides lifecycle remain route-based or gain context sheets.
+    - Which command/quick actions are existing mapped capabilities versus future convenience navigation only.
+    - Whether a global query cache is justified by measured repeated fetches rather than assumed performance need.
+target_experience:
+  product_feel:
+    - The product should feel like one coherent application, not a collection of web pages.
+    - Users should always understand where they are, what they can do next, and what changed after an action.
+    - Modules may have different domain behavior but must share the same interaction language.
+    - The UI should be calm, compact, modern, readable, and intentionally minimal.
+  navigation_model:
+    - Preserve canonical routes for deep links, refresh, history, accessibility, and complex workflows.
+    - Use SPA surface transitions and incremental data loading instead of unnecessary full-page reloads.
+    - Use split views, drawers, sheets, and inline editing for frequent contextual work.
+    - Use tabs only for independent parallel contexts, not as a replacement for ordinary navigation.
+    - Preserve filter, search, selection, and return context in the URL where it improves recovery.
+  turn_based_model:
+    sequence:
+      - intent
+      - relevant_options
+      - confirmation
+      - execution
+      - authoritative_result
+      - next_available_action
+    rules:
+      - Turn-based interaction complements direct UI manipulation; it does not turn every task into a chatbot flow.
+      - Each major action should expose one clear primary next step.
+      - Confirmation is required for consequential or irreversible actions.
+      - Successful mutations must show an authoritative result, not only a local optimistic assumption.
+      - Safe actions may use optimistic updates with a visible recovery path.
+  visual_language:
+    principles:
+      - shared spacing, typography, color, radius, elevation, focus, and motion tokens
+      - consistent surface hierarchy and action placement
+      - restrained borders, shadows, decoration, and visual noise
+      - accessible contrast and visible focus states
+      - reduced-motion support
+    animation_rules:
+      - Animate state changes, surface entry/exit, selection, and feedback.
+      - Prefer short, subtle transitions that clarify continuity.
+      - Never make core content or action availability depend on animation.
+workstreams:
+  - id: foundation-audit
+    title: Audit current frontend foundation and duplication
+    outcome: >-
+      A factual inventory of shell, navigation, surface, form, feedback, CSS,
+      responsive, accessibility, and obsolete-component gaps.
+    inspect:
+      - shared authenticated shell and module navigation
+      - all shared UI primitives and their variants
+      - repeated scoped CSS and one-off layout tokens
+      - route-to-surface transitions and return-context behavior
+      - loading, empty, error, success, stale, retry, and undo states
+      - mobile and desktop parity
+      - unused, detached, or legacy UI entrypoints
+    deliverables:
+      - current-state inventory
+      - duplicate and obsolete CSS/component list
+      - baseline screenshots or browser evidence for representative surfaces
+      - explicit deferred items with stable backlog IDs
+
+  - id: app-shell-v2
+    title: Define the unified application shell
+    outcome: >-
+      One navigation and layout model for authenticated modules on desktop and
+      mobile, with clear global versus contextual actions.
+    candidate_scope:
+      - persistent rail/header/mobile navigation
+      - module identity and current-location treatment
+      - global search, create, notifications, account, and VisionForWeb placement
+      - contextual command bar
+      - route transition and return-context behavior
+      - mobile bottom navigation or compact rail decision
+    decisions_needed:
+      - exact primary navigation items
+      - which global actions remain always visible
+      - whether a command palette is phase one or later
+      - mobile navigation model
+
+  - id: surface-archetypes
+    title: Standardize the main application surface patterns
+    outcome: >-
+      A small set of reusable surface archetypes that can cover every module
+      without forcing identical page layouts.
+    archetypes:
+      - collection: list, search, filters, sort, primary action
+      - split-workspace: collection plus selected detail
+      - detail-surface: main content plus utility/action rail
+      - guided-editor: progressive form with review and sticky actions
+      - conversation-surface: chat, activity, or turn-based interaction
+      - dashboard-surface: summary, attention items, and next actions
+    decisions_needed:
+      - which archetypes are mandatory shared primitives
+      - which surfaces retain canonical full routes
+      - when a drawer becomes a full detail route
+      - whether selected-item state is URL-persisted everywhere or selectively
+
+  - id: interaction-primitives
+    title: Define turn-based and contextual interaction primitives
+    outcome: >-
+      Shared UI patterns for next steps, confirmation, inline editing, action
+      feedback, recovery, and progressive disclosure.
+    candidate_primitives:
+      - AppTurnBar
+      - AppCommandBar
+      - AppSheet
+      - AppTabs
+      - AppInlineEditor
+      - AppReviewStep
+      - AppActionFeedback
+      - AppUndoRetry
+      - AppDirtyStateGuard
+    rules_to_define:
+      - primary versus secondary action hierarchy
+      - destructive action confirmation
+      - optimistic update eligibility
+      - save, saving, saved, stale, and failed states
+      - inline versus overlay versus route decision matrix
+
+  - id: forms-and-workflows
+    title: Simplify forms and multi-step workflows
+    outcome: >-
+      Shorter, more understandable workflows with progressive disclosure and
+      fewer nested dialogs.
+    improvements:
+      - consistent field, hint, validation, and error treatment
+      - grouped sections instead of long undifferentiated forms
+      - sticky action footer for long surfaces
+      - inline edits for simple values
+      - review/confirm step for consequential actions
+      - explicit draft and unsaved-change behavior
+    first_candidates:
+      - work creation
+      - quest/application actions
+      - circle membership and invitations
+      - ride offer/join flow
+      - thing request flow
+      - business booking flow
+
+  - id: css-and-design-system
+    title: Consolidate CSS and establish the shared visual language
+    outcome: >-
+      Fewer one-off styles, predictable responsive behavior, and consistent
+      visual identity across modules.
+    tasks:
+      - inventory existing tokens and local values
+      - define canonical design tokens
+      - map component variants to tokens
+      - remove duplicate layout and component CSS
+      - standardize breakpoints and touch targets
+      - define motion and reduced-motion rules
+      - add a focused unused-CSS and duplication audit
+
+  - id: module-remaster
+    title: Migrate modules through shared patterns
+    outcome: >-
+      Each module adopts the common app language while retaining its specific
+      domain workflows.
+    proposed_order:
+      - Work
+      - Chat
+      - Circles and People
+      - Things
+      - Rides
+      - Business
+    module_direction:
+      Work:
+        - discovery collection with compact filters
+        - split-view quest detail
+        - guided work creation
+        - inline application/status actions
+      Chat:
+        - persistent conversation workspace
+        - clear thread and participant context
+        - inline composer, attachments, reactions, and recovery
+      Circles and People:
+        - profile and circle sheets
+        - relationship actions in context
+        - clear visibility and consent states
+      Things:
+        - listing/request split surface
+        - guided request and handoff states
+      Rides:
+        - compact offer/match/join workflow
+        - clear time, place, capacity, and status
+      Business:
+        - booking-oriented calendar/detail surface
+        - short guided appointment flow
+
+  - id: app-behavior-and-performance
+    title: Improve app-like transitions and incremental loading
+    outcome: >-
+      Faster perceived interactions without losing route correctness or
+      authoritative backend state.
+    candidate_work:
+      - lazy-load module chunks and heavy surfaces
+      - cache and preserve collection state where safe
+      - avoid refetching unchanged data
+      - add surface-level loading transitions
+      - standardize stale-data indicators
+      - add optimistic updates only for safe mutations
+      - preserve browser history and deep-link behavior
+
+  - id: accessibility-and-runtime-quality
+    title: Validate the remaster across accessibility and runtime behavior
+    outcome: >-
+      The simplified UI remains reliable, keyboard-accessible, responsive, and
+      testable in real browser flows.
+    coverage:
+      - keyboard navigation and focus restoration
+      - dialog/sheet focus traps
+      - screen-reader labels and live feedback
+      - contrast and touch target sizes
+      - reduced-motion behavior
+      - desktop and mobile route/surface flows
+      - browser runtime evidence for representative module journeys
+      - visual regression coverage for shared shell and archetypes
+module_migration_candidates:
+  - module: Work
+    priority: P0
+    mapped_surfaces: ['/work', '/work/find', '/work/quests', '/work/quests/new', '/work/quests/:questId', '/work/quests/:questId/applications', '/work/applications', '/work/applications/:applicationId']
+    reason: Core product journey; current inventory already maps the actions, while mobile presentation, comparison, context/detail clarity, and runtime proof remain explicit gaps.
+  - module: Chat
+    priority: P0
+    mapped_surfaces: ['/chat', '/chat/:conversationId']
+    reason: Existing two-pane exception with mapped send/view/reconnect/attachment actions; remaster should simplify the workspace and recovery without changing realtime authority.
+  - module: Circles and People
+    priority: P1
+    mapped_surfaces: ['/circles', '/people', '/people/:userId']
+    reason: Existing relationship and membership actions are mapped; current gaps explicitly call for privacy explanation, invite picker, dedicated-detail decision, and mobile presentation.
+  - module: Things
+    priority: P1
+    mapped_surfaces: ['/things', '/things/:id']
+    reason: Existing listing and borrow actions are mapped; remaster focuses on the already-supported request/decision/return states, retry/recovery, and mobile presentation.
+  - module: Rides
+    priority: P1
+    mapped_surfaces: ['/rides', '/rides/mine']
+    reason: Existing offer/discover/join/update/leave/cancel/complete actions are mapped; remaster focuses on compact status presentation and circle-scoped lifecycle evidence.
+  - module: Business
+    priority: P2
+    mapped_surfaces: ['/business', '/business/find', '/business/profile', '/business/offerings', '/business/public/:slug', '/business/bookings', '/business/bookings/owner', '/calendar', '/business/availability', '/business/availability/exceptions']
+    reason: Existing booking, offering, availability, and calendar actions are mapped; remaster focuses on compact booking workflows, gallery recovery, mobile presentation, and explicit calendar/detail decisions.
+open_decisions:
+  - Decide whether the first deliverable is a visual shell pass or a Work end-to-end vertical slice.
+  - Decide the exact desktop split-view and mobile sheet behavior.
+  - Decide which existing shared primitives can be extended and which should be replaced.
+  - Decide whether tabs represent open work contexts, detail sub-sections, or both.
+  - Decide the minimum first-release command palette scope.
+  - Decide the canonical design-token naming and ownership location.
+  - Decide which transitions and optimistic updates are safe for each module action.
+  - Decide whether query caching is introduced centrally before module migration.
+  - Decide the browser/device matrix required for remaster acceptance.
+proposed_child_plans:
+  - id: frontend-remaster-system-map-reconciliation
+    purpose: Freeze baseline versus residual scope using current route, capability, client-surface, and verified-plan evidence.
+    depends_on: []
+  - id: frontend-remaster-ux-architecture-decision-record
+    purpose: Decide surface archetypes, route/context/sheet rules, turn-based interaction grammar, tab limits, and mobile behavior before implementation.
+    depends_on: [frontend-remaster-system-map-reconciliation]
+  - id: frontend-remaster-shared-surface-and-motion-foundation
+    purpose: Implement only missing shared surface, action feedback, motion, responsive, and accessibility primitives after comparing verified standardization work.
+    depends_on: [frontend-remaster-ux-architecture-decision-record]
+  - id: frontend-remaster-work-context-and-guided-flow
+    purpose: Apply the approved grammar to existing Work discovery, quest detail, application review, and creation capabilities without changing backend actions.
+    depends_on: [frontend-remaster-shared-surface-and-motion-foundation]
+  - id: frontend-remaster-chat-workspace-and-recovery
+    purpose: Refine the intentional Chat two-pane surface, composer states, attachments, reconnect, and mobile presentation using existing mapped actions.
+    depends_on: [frontend-remaster-shared-surface-and-motion-foundation]
+  - id: frontend-remaster-social-sharing-business-surface-sweep
+    purpose: Apply the shared grammar to Circles/People, Things, Rides, and Business only where current inventory identifies a surface or presentation gap.
+    depends_on: [frontend-remaster-shared-surface-and-motion-foundation]
+  - id: frontend-remaster-css-cleanup-and-obsolete-surface-review
+    purpose: Remove duplicate CSS and resolve likely-unused or detached UI candidates with explicit ownership decisions.
+    depends_on: [frontend-remaster-shared-surface-and-motion-foundation]
+  - id: frontend-remaster-personal-context-command-center
+    purpose: Remaster Home, Attention, Activity, Search, Saved searches, Create, and shell personal context surfaces.
+    depends_on: [frontend-remaster-shared-surface-and-motion-foundation]
+  - id: frontend-remaster-profile-visibility-location
+    purpose: Simplify profile, visibility, consent, location, gallery, and notification settings surfaces.
+    depends_on: [frontend-remaster-shared-surface-and-motion-foundation]
+  - id: frontend-remaster-identity-onboarding
+    purpose: Remaster login, registration, recovery, reset, and optional onboarding surfaces.
+    depends_on: [frontend-remaster-shared-surface-and-motion-foundation]
+  - id: frontend-remaster-formatting-state-consistency
+    purpose: Reconcile residual local date/time formatting and visible state vocabulary drift.
+    depends_on: [frontend-remaster-shared-surface-and-motion-foundation]
+  - id: frontend-remaster-runtime-visual-closeout
+    purpose: Prove changed shell and representative module journeys with browser, responsive, visual, accessibility, type-check, build, and static audit evidence.
+    depends_on: [frontend-remaster-work-context-and-guided-flow, frontend-remaster-chat-workspace-and-recovery, frontend-remaster-social-sharing-business-surface-sweep, frontend-remaster-css-cleanup-and-obsolete-surface-review, frontend-remaster-personal-context-command-center, frontend-remaster-profile-visibility-location, frontend-remaster-formatting-state-consistency]
+validation_strategy:
+  planning_phase:
+    - inspect canonical product and frontend documentation
+    - run current frontend type-check, build, and frontend audits as baseline
+    - compare proposed scope with existing verified frontend plans
+    - produce a route/surface/component/CSS inventory
+  implementation_phase:
+    - each child plan uses exact required paths and leaf validations
+    - shared primitive changes include type-check, build, static audits, and browser evidence where behavior changes
+    - module workflow changes include browser evidence for the affected journey
+    - visual changes include changed screenshot evidence
+    - closeout uses make work-verify and does not infer completion from a checklist
+  acceptance_principles:
+    - no unnecessary full-page reload for in-scope SPA interactions
+    - canonical deep links and browser history remain functional
+    - every primary action has visible success and failure recovery
+    - modules share layout and interaction language without losing domain meaning
+    - keyboard, mobile, reduced-motion, and accessibility behavior remain supported
+tasks:
+  - id: draft-01
+    title: Review and refine the target experience
+    type: analysis
+    status: pending
+    paths:
+      - docs/work/frontend-app-remaster-draft.yaml
+    required_paths: []
+    validation: "make audit-docs"
+  - id: draft-02
+    title: Build the current-state frontend inventory
+    type: analysis
+    status: pending
+    paths:
+      - docs/work/frontend-app-remaster-draft.yaml
+    required_paths: []
+    validation: "make audit-frontend"
+  - id: draft-03
+    title: Convert reviewed decisions into child work-plan boundaries
+    type: planning
+    status: pending
+    paths:
+      - docs/work/frontend-app-remaster-draft.yaml
+    required_paths: []
+    validation: "make audit-plan-coverage"
+evidence: []

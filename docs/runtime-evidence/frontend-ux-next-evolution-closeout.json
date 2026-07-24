@@ -1,0 +1,144 @@
+{
+  "evidenceVersion": "frontend-ux-next-evolution-closeout-v1",
+  "capturedAt": "2026-07-24T15:17:25.186Z",
+  "browser": "Playwright Chromium headless",
+  "reducedMotion": true,
+  "routes": [
+    "/home",
+    "/work",
+    "/chat",
+    "/circles",
+    "/things",
+    "/rides",
+    "/business",
+    "/business/find",
+    "/profile/location"
+  ],
+  "viewports": [
+    {
+      "name": "1440",
+      "width": 1440,
+      "height": 1000,
+      "routesReached": [
+        "/home",
+        "/work",
+        "/chat",
+        "/circles",
+        "/things",
+        "/rides",
+        "/business",
+        "/business/find",
+        "/profile/location"
+      ],
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      },
+      "spaNavigationToWork": true,
+      "homeOrientation": true,
+      "createEntry": true,
+      "searchEntry": true,
+      "visionFinalPath": "/home",
+      "inlineVisionHost": true
+    },
+    {
+      "name": "980",
+      "width": 980,
+      "height": 900,
+      "routesReached": [
+        "/home",
+        "/work",
+        "/chat",
+        "/circles",
+        "/things",
+        "/rides",
+        "/business",
+        "/business/find",
+        "/profile/location"
+      ],
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 980,
+        "document": 980,
+        "body": 980
+      },
+      "spaNavigationToWork": true,
+      "homeOrientation": true,
+      "createEntry": true,
+      "searchEntry": true,
+      "visionFinalPath": "/home",
+      "inlineVisionHost": true
+    },
+    {
+      "name": "700",
+      "width": 700,
+      "height": 900,
+      "routesReached": [
+        "/home",
+        "/work",
+        "/chat",
+        "/circles",
+        "/things",
+        "/rides",
+        "/business",
+        "/business/find",
+        "/profile/location"
+      ],
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 700,
+        "document": 700,
+        "body": 700
+      },
+      "spaNavigationToWork": true,
+      "homeOrientation": true,
+      "createEntry": true,
+      "searchEntry": true,
+      "visionFinalPath": "/home",
+      "inlineVisionHost": true
+    },
+    {
+      "name": "390",
+      "width": 390,
+      "height": 844,
+      "routesReached": [
+        "/home",
+        "/work",
+        "/chat",
+        "/circles",
+        "/things",
+        "/rides",
+        "/business",
+        "/business/find",
+        "/profile/location"
+      ],
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "spaNavigationToWork": true,
+      "homeOrientation": true,
+      "createEntry": true,
+      "searchEntry": true,
+      "visionFinalPath": "/home",
+      "inlineVisionHost": true
+    }
+  ],
+  "visionBoundary": {
+    "requestedRoute": "/vision",
+    "finalPath": "/home",
+    "inlineVisionHostPresentOnHome": true,
+    "detachedTerminalReachableFromWeb": false
+  },
+  "browserErrors": [],
+  "result": "passed",
+  "accessibility": {
+    "reducedMotionContext": true,
+    "focusVisibleRulePresent": true,
+    "dialogFocusAndEscapeCoveredByFoundationEvidence": true
+  }
+}

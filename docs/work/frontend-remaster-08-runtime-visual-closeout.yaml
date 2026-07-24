@@ -1,0 +1,164 @@
+kind: work
+version: 1
+id: frontend-remaster-08-runtime-visual-closeout
+title: Prove frontend remaster runtime, visual, responsive, and accessibility behavior
+status: verified
+recovery_required: true
+reopened_from: verified
+reopen_reason: Runtime route loading passed, but visual review exposed mobile navigation
+  clipping and interaction/accessibility coverage is incomplete.
+baseline: dcb983f
+master_plan: docs/work/frontend-app-remaster-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-app-remaster-master-execution-inventory.yaml
+objective: Capture final current browser, visual, responsive, accessibility, type-check,
+  build, and static-audit evidence for the remastered shell and representative module
+  journeys.
+implementation_contract:
+  prerequisite: All recovered implementation children must be verified first.
+  required_runtime_matrix:
+  - Work discovery/context/create/review
+  - Chat selection/composer/recovery/mobile
+  - Circles/People
+  - Things request/listing
+  - Rides lifecycle
+  - Business discovery/profile/booking/availability
+  - Home/Create/Search/Activity/Saved Search
+  - Profile/privacy/location
+  - Login/register/recovery/reset/onboarding
+  required_evidence_rules:
+  - Each journey records the clicked control, rendered result, and recovery behavior.
+  - Each recovered child has current desktop and mobile screenshots visually inspected.
+  - No closeout claim may rely only on route reachability or source presence.
+  anti_partial: A route matrix with no action assertions cannot close the master.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - Runtime evidence from prior plans unless the remaster changed the surface or behavior.
+  - Native/device and deployed production boundaries.
+  residual_scope:
+  - Current evidence for every changed shell/shared surface and representative module
+    journey.
+  - Accessibility and reduced-motion checks for changed UI.
+  retest_triggers:
+  - Any changed path in the remaster child plans.
+  - Any failed or stale runtime artifact.
+  non_duplication_rule: Preserve prior evidence as baseline and record only new evidence
+    caused by remaster changes.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: required_before_implementation
+paths:
+- docs/work/frontend-remaster-runtime-visual-closeout-2026-07-23.md
+- docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json
+- docs/runtime-evidence/frontend-remaster-closeout-1440.png
+- docs/runtime-evidence/frontend-remaster-closeout-980.png
+- docs/runtime-evidence/frontend-remaster-closeout-700.png
+- docs/runtime-evidence/frontend-remaster-closeout-390.png
+required_paths:
+- docs/work/frontend-remaster-runtime-visual-closeout-2026-07-23.md
+- docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json
+tasks:
+- id: capture-final-remaster-evidence
+  inventory_item: remaster-08-runtime-visual-closeout
+  title: Capture final remaster evidence
+  type: runtime
+  status: done
+  paths:
+  - docs/work/frontend-remaster-runtime-visual-closeout-2026-07-23.md
+  - docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json
+  - docs/runtime-evidence/frontend-remaster-closeout-1440.png
+  - docs/runtime-evidence/frontend-remaster-closeout-980.png
+  - docs/runtime-evidence/frontend-remaster-closeout-700.png
+  - docs/runtime-evidence/frontend-remaster-closeout-390.png
+  required_paths:
+  - docs/work/frontend-remaster-runtime-visual-closeout-2026-07-23.md
+  - docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json
+  - docs/runtime-evidence/frontend-remaster-closeout-1440.png
+  - docs/runtime-evidence/frontend-remaster-closeout-980.png
+  - docs/runtime-evidence/frontend-remaster-closeout-700.png
+  - docs/runtime-evidence/frontend-remaster-closeout-390.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-remaster-closeout-1440.png
+  - docs/runtime-evidence/frontend-remaster-closeout-980.png
+  - docs/runtime-evidence/frontend-remaster-closeout-700.png
+  - docs/runtime-evidence/frontend-remaster-closeout-390.png
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && make audit-frontend && make audit-plan-coverage
+    && make audit-docs && git diff --check
+  started_at: '2026-07-24T06:05:26Z'
+  start_fingerprints:
+    docs/work/frontend-remaster-runtime-visual-closeout-2026-07-23.md: 5dd255202250bd42ad81ae6958a00211a91b8c2123512963574a0c53ddea2341
+    docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json: 5f03a02cb0e34931b3198359c7a5666c62697efab30cc99e56959e010e0d2f4a
+    docs/runtime-evidence/frontend-remaster-closeout-1440.png: f8694f8ff79ad2a1906096426fabf4e1df5b22a26d80eed96582333ecc8e9138
+    docs/runtime-evidence/frontend-remaster-closeout-980.png: e48dfbc1a3aad2e500be67cf414376cbfcd7eb09f872692faece9592bf455c35
+    docs/runtime-evidence/frontend-remaster-closeout-700.png: e02469415cd0929e2cf5a702e4241e18e0ee8230f9a36b2e1c03c2cf78fdd5a8
+    docs/runtime-evidence/frontend-remaster-closeout-390.png: 7a1b240d67ec739d76a9ab24ffab3f1d5aef2e12bd45933b7bf6311ba477fa0d
+acceptance:
+- Authenticated shell and module navigation work without unnecessary browser reloads.
+- Work, Chat, Circles/People, Things, Rides, Business, and VisionForWeb representative
+  journeys are current and recoverable.
+- Desktop, tablet, and mobile screenshots show no overflow and consistent surface
+  grammar.
+- Keyboard, focus, contrast, reduced-motion, and dialog/sheet behavior pass for changed
+  surfaces.
+- Runtime artifacts are current, linked, and generated by the current run.
+evidence:
+- task: capture-final-remaster-evidence
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && make audit-frontend && make audit-plan-coverage
+    && make audit-docs && git diff --check
+  ranAt: '2026-07-24T06:08:05Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-evidence/frontend-remaster-closeout-1440.png
+  - docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json
+  - docs/runtime-evidence/frontend-remaster-closeout-390.png
+  - docs/runtime-evidence/frontend-remaster-closeout-700.png
+  - docs/runtime-evidence/frontend-remaster-closeout-980.png
+  - docs/work/frontend-remaster-runtime-visual-closeout-2026-07-23.md
+  output: |2+
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-24T06:05:26Z'
+  changedAfterStart: &1
+  - docs/work/frontend-remaster-runtime-visual-closeout-2026-07-23.md
+  - docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json
+  - docs/runtime-evidence/frontend-remaster-closeout-1440.png
+  - docs/runtime-evidence/frontend-remaster-closeout-980.png
+  - docs/runtime-evidence/frontend-remaster-closeout-700.png
+  - docs/runtime-evidence/frontend-remaster-closeout-390.png
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-remaster-closeout-1440.png
+  - docs/runtime-evidence/frontend-remaster-closeout-980.png
+  - docs/runtime-evidence/frontend-remaster-closeout-700.png
+  - docs/runtime-evidence/frontend-remaster-closeout-390.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-remaster-closeout-2026-07-23.json

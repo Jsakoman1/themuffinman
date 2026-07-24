@@ -1,0 +1,102 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-10-profile-and-settings-migration
+title: Simplify Profile, location, visibility, gallery, and settings
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-app-remaster-master.yaml
+  baseline_only_surfaces:
+  - profile
+  - location
+  - visibility
+  - consent
+  - and settings APIs
+  residual_scope:
+  - focused setting groups
+  - explicit save state
+  - privacy summary
+  - reduced form density
+  retest_triggers:
+  - profile
+  - location
+  - visibility
+  - consent
+  - gallery
+  - or settings editor change
+  non_duplication_rule: Privacy, consent, and location enforcement remain backend-authoritative.
+tasks:
+- id: migrate-profile-and-settings-surfaces
+  title: Migrate profile and settings into focused guided editors
+  type: implementation
+  status: done
+  inventory_item: profile-migration
+  observable_outcome: Profile and settings expose one focused group at a time with
+    explicit save/cancel state, readable privacy context, and no unrelated controls
+    in the same form.
+  dependencies:
+  - implement-shared-task-foundation
+  evidence_boundary:
+  - authenticated profile/settings journey
+  - validation/recovery evidence
+  - visual narrow evidence
+  - type-check
+  - build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-profile-settings-desktop.png
+  - docs/runtime-evidence/frontend-ux-profile-settings-mobile.png
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T13:41:37Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue: 2c4ae041bb77ea7ce1fedbc3a029085719f6e992b1efe25a8333ca446343ed5d
+evidence:
+- task: migrate-profile-and-settings-surfaces
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T13:42:16Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  output: |+
+    dist/assets/WorkDiscoveryView-xAqsZhs1.js                      8.07 kB │ gzip:   3.35 kB
+    dist/assets/BusinessPublicView-7jyCOXEN.js                     8.84 kB │ gzip:   3.37 kB
+    dist/assets/WorkspaceSurfaceView-D2BZ-thU.js                  10.35 kB │ gzip:   3.44 kB
+    dist/assets/BusinessServiceSchemaView-BrZGBVG7.js             11.04 kB │ gzip:   3.61 kB
+    dist/assets/CirclesView-xLwlthiP.js                           11.46 kB │ gzip:   3.47 kB
+    dist/assets/BusinessProfileView-CLLQILHC.js                   12.47 kB │ gzip:   3.73 kB
+    dist/assets/ThingsDiscoveryView-C5aa2YsS.js                   12.63 kB │ gzip:   4.02 kB
+    dist/assets/WorkQuestDetailView-ClRqXy9Q.js                   12.97 kB │ gzip:   4.16 kB
+    dist/assets/RidesView-B0Wyw-Kg.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-CYFT1-X2.js                       16.56 kB │ gzip:   5.35 kB
+    dist/assets/SurfaceHeader-DNP3qHjR.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-ZB3_-PUv.js           21.47 kB │ gzip:   6.80 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BoE-G1TS.js                38.98 kB │ gzip:  12.74 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DDC3AkCx.js                                 55.50 kB │ gzip:  14.08 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 575ms
+
+  startedAt: '2026-07-24T13:41:37Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-profile-settings-desktop.png
+  - docs/runtime-evidence/frontend-ux-profile-settings-mobile.png
+  runtimeEvidencePaths: []

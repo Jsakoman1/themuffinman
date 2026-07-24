@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-10-personalization
+title: Add preference-driven defaults and workspace personalization
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml], baseline_only_surfaces: [account ownership, notification enforcement, and backend preferences], residual_scope: [default landing page, default business, calendar view, density, favorite contexts, and notification intensity], retest_triggers: [preference persistence, default routing, notification behavior, or saved context change], non_duplication_rule: Preferences alter presentation defaults only and never bypass permissions or workflow rules.}
+tasks:
+  - id: implement-personalization-preferences
+    title: Let users shape their default workspace without increasing task density
+    type: implementation
+    status: pending
+    inventory_item: personalization-preferences
+    observable_outcome: Users can choose default context, landing surface, calendar view, density, favorite services/people, and notification intensity with visible saved state and reset controls.
+    dependencies: [implement-today-next-home, implement-business-operator-workspace]
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, docs/business-logic.md]
+    required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+    evidence_boundary: [preference save/reset, next-session defaults, permission preservation, type-check/build, desktop/mobile screenshots]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-personalization-desktop.png, docs/runtime-evidence/frontend-ux-next-personalization-mobile.png]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

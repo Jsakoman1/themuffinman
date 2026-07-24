@@ -1,0 +1,55 @@
+{
+  "evidenceVersion": "frontend-remaster-identity-onboarding-v3",
+  "capturedAt": "2026-07-24T05:42:35.826Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "login": {
+      "status": "passed",
+      "route": "/login",
+      "sharedIdentitySurface": true,
+      "formBusy": null,
+      "submitName": "Enter"
+    },
+    "registration": {
+      "status": "passed",
+      "sharedIdentitySurface": true,
+      "hasEmail": true,
+      "hasUsername": true,
+      "hasPassword": true
+    },
+    "recovery": {
+      "status": "passed",
+      "sharedIdentitySurface": true,
+      "hasEmail": true,
+      "submitName": "Continue"
+    },
+    "missingResetToken": {
+      "status": "passed",
+      "sharedIdentitySurface": true,
+      "message": "This recovery link is missing its token. Request a new link to continue."
+    },
+    "onboarding": {
+      "status": "passed",
+      "route": "/onboarding",
+      "ariaBusy": null,
+      "hasSkip": true,
+      "hasReset": true,
+      "noHorizontalOverflow": true
+    },
+    "mobileIdentity": {
+      "status": "passed",
+      "widths": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "noHorizontalOverflow": true
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

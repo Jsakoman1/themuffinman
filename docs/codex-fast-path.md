@@ -39,6 +39,11 @@ Before starting a prepared master, confirm its preflight artifact, inventory map
 exact required paths, and repository-root-safe leaf validation commands. `draft` means
 ready for controlled start, not active implementation.
 
+For every broad or high-risk master, atomic-task hardening is a mandatory first slice:
+split each implementation task into one independently verifiable outcome, exact paths,
+dependencies, leaf validation, and evidence boundary. Verify that hardening task before
+starting backend, API, frontend, Vision, documentation, or runtime implementation.
+
 Minimal System Map path for a non-trivial change:
 
 ```text

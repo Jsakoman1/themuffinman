@@ -1,0 +1,64 @@
+kind: vision_prompt_contract_matrix
+version: 1
+status: browser_closeout_in_progress
+phase_1_owner: docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+closeout_owner: docs/work/vision-prompt-stabilization-05-browser-closeout.yaml
+owner_plan: docs/work/vision-prompt-stabilization-master.yaml
+source_analysis: docs/work/vision-prompt-problem-analysis-2026-07-23.md
+production_semantic_policy:
+  provider: openai
+  local_parser_allowed: development_test_only
+  production_provider_unavailable_outcome: PROVIDER_UNAVAILABLE
+  production_provider_unavailable_must_not_be: [UNSUPPORTED, guessed_route, local_classification, mutation]
+runtime_denominator:
+  required_exact_prompts:
+    - id: exact-open-quest
+      prompt: open quest Suitcases
+      expected_intent: VIEW_QUEST_DETAIL
+      expected_action: OPEN_ENTITY_DETAIL
+      success: visible authorized quest detail or preview
+      recovery: no_match_or_ambiguity
+    - id: exact-create-work
+      prompt: create new work
+      expected_intent: CREATE_QUEST
+      expected_action: PROPOSE_MUTATION
+      success: guided draft/review, never pre-confirm execution
+      recovery: clarification_or_provider_unavailable
+    - id: exact-open-my-circles
+      prompt: open my circles
+      expected_intent: VIEW_CIRCLES
+      expected_action: NAVIGATE_TO_SURFACE
+      success: viewer-scoped circles readback
+      recovery: provider_unavailable_or_read_error
+    - id: exact-go-circles
+      prompt: go to circles
+      expected_intent: VIEW_CIRCLES
+      expected_action: NAVIGATE_TO_SURFACE
+      success: navigation-only handoff to /circles
+      recovery: provider_unavailable
+    - id: exact-send-message
+      prompt: send message to Nikolina
+      expected_intent: SEND_MESSAGE
+      expected_action: PROPOSE_MUTATION
+      success: recipient/body collection, review, confirmation, sent-message readback
+      recovery: unknown_or_ambiguous_recipient
+  additional_contract_prompts:
+    - {id: open-chat, prompt: open chat with Nikolina, expected_intent: OPEN_CHAT, must_not_be: SEND_MESSAGE}
+    - {id: send-inline-body, prompt: send message to Nikolina saying I will call tomorrow, expected_intent: SEND_MESSAGE, expected_slots: [target_user, message_body]}
+    - {id: send-second-turn-body, prompt: send message to Nikolina, follow_up: I will call tomorrow, expected_intent: SEND_MESSAGE, expected_slots: [target_user, message_body]}
+    - {id: missing-quest, prompt: open quest Does Not Exist, expected_outcome: NO_MATCH, must_not_leak: true}
+    - {id: ambiguous-quest, prompt: open quest Suitcases, fixture: duplicate_visible_titles, expected_outcome: CLARIFICATION}
+    - {id: unknown-recipient, prompt: send message to Unknown Person, expected_outcome: NO_MATCH, must_not_send: true}
+    - {id: ambiguous-recipient, prompt: send message to Nikolina, fixture: duplicate_candidates, expected_outcome: CLARIFICATION, must_not_leak: true}
+    - {id: provider-failure-read, prompt: open my circles, control: provider_failure, expected_outcome: PROVIDER_UNAVAILABLE, retry: required}
+    - {id: provider-failure-mutation, prompt: create new work, control: provider_failure, expected_outcome: PROVIDER_UNAVAILABLE, must_not_mutate: true}
+    - {id: duplicate-confirm, prompt: confirm, fixture: repeated_request, expected_outcome: one_side_effect, authoritative_readback: required}
+coverage_contract:
+  every_case_requires:
+    - route_catalog_entry_or_explicit_unsupported_reason
+    - provider_fixture_or_real_provider_evidence
+    - deterministic_development_test_fixture_behavior
+    - backend_integration_test
+    - browser_runtime_scenario
+    - typed_success_or_recovery_state
+    - authoritative_final_readback_when_mutating

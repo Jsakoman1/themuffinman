@@ -13,6 +13,7 @@ export type AppSurfaceId =
   | "calendar"
   | "business"
   | "business-profile"
+  | "business-service-setup"
   | "business-bookings"
   | "business-calendar"
   | "circles"
@@ -69,8 +70,8 @@ export const authenticatedShellContract = {
 export {topLevelNavigationPromotionPolicy}
 
 const visionRoute = (prompt?: string): RouteLocationRaw => prompt
-  ? {path: "/vision", query: {prompt, autorun: "1"}}
-  : {path: "/vision"}
+  ? {path: "/home", query: {visionPrompt: prompt, visionAutorun: "1"}}
+  : {path: "/home"}
 
 export const appPrimaryNavItems: AppPrimaryNavItem[] = buildAppPrimaryNavItems()
 export const appSecondaryNavItems: AppPrimaryNavItem[] = buildAppSecondaryNavItems()
@@ -129,6 +130,10 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   "business-profile": {
     id: "business-profile", archetype: "business", navId: "business", eyebrow: "Business / Profile", title: "Business profile",
     actions: [{label: "Business", to: {path: "/business"}}]
+  },
+  "business-service-setup": {
+    id: "business-service-setup", archetype: "business", navId: "business", eyebrow: "Business / Service setup", title: "Service setup",
+    actions: [{label: "Business", to: {path: "/business"}}, {label: "Offerings", to: {path: "/business/offerings"}}]
   },
   "business-bookings": {
     id: "business-bookings", archetype: "business", navId: "business", eyebrow: "Business / Bookings", title: "Bookings",

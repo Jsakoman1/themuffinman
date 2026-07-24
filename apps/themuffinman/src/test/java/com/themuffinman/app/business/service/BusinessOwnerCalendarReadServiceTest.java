@@ -67,7 +67,7 @@ class BusinessOwnerCalendarReadServiceTest {
         BusinessBooking second = booking(6L, profile, owner, "bob", BusinessBookingStatus.PENDING_CONFIRMATION, Instant.parse("2026-07-09T10:00:00Z"));
 
         when(businessProfileRepository.findByOwnerId(owner.getId())).thenReturn(Optional.of(profile));
-        when(businessBookingRepository.findDetailedByOwnerIdAndStartsAtBetween(owner.getId(), from, to)).thenReturn(List.of(first, second));
+        when(businessBookingRepository.findDetailedByOwnerIdAndOverlap(owner.getId(), from, to)).thenReturn(List.of(first, second));
         when(businessBookingPresentationService.enrichForOwner(any(BusinessBookingResponseDTO.class), any(BusinessBooking.class), eq(owner)))
                 .thenAnswer(invocation -> {
                     BusinessBookingResponseDTO dto = invocation.getArgument(0);
@@ -90,6 +90,7 @@ class BusinessOwnerCalendarReadServiceTest {
         assertEquals(0, result.getDays().get(2).getBookingCount());
         assertEquals("Confirmed", result.getDays().get(0).getItems().getFirst().getStatusLabel());
         assertEquals("Pending confirmation", result.getDays().get(1).getItems().getFirst().getStatusLabel());
+        assertEquals("Europe/Zurich", result.getDays().get(0).getItems().getFirst().getTimezone());
     }
 
     private BusinessProfile profile(AppUser owner) {

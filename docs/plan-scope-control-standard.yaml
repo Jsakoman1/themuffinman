@@ -20,6 +20,28 @@ required_scope_fields:
   non_duplication_rule:
     type: string
     rule: State that prior verified evidence is not counted as new completion.
+required_atomic_task_fields:
+  observable_outcome:
+    type: string
+    rule: State one independently verifiable outcome; a task must not be a whole feature, layer, or workstream.
+  required_paths:
+    type: list
+    rule: Name the exact files that must change for this atomic outcome; separate independently verifiable domain, API, client, documentation, and runtime work.
+  leaf_validation:
+    type: string
+    rule: Use a repository-root-safe validation command that does not invoke a verifier recursively.
+  dependencies:
+    type: list
+    rule: Name earlier atomic task ids required before this task can start.
+  evidence_boundary:
+    type: list
+    rule: State which new test, API, visual, runtime, or documentation evidence this task must produce.
+atomic_task_rules:
+  - Every implementation task in a strict plan must satisfy required_atomic_task_fields.
+  - A task is too broad when it spans more than one independently closable layer or has multiple unrelated observable outcomes; split it before goal pursuing.
+  - A master execution inventory must map one ordered item to exactly one atomic task.
+  - Broad child plans may group scope, but they cannot be the verifier-controlled implementation queue.
+  - Planning hardening must be the first task for a new broad master and must be verifier-verified before product implementation starts.
 required_preflight_checks:
   - verify_baseline_commit
   - reconcile_reused_verified_plans

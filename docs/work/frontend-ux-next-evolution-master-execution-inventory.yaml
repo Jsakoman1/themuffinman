@@ -1,0 +1,530 @@
+kind: execution_inventory
+version: 1
+id: frontend-ux-next-evolution-master-execution-inventory
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+serial_task_execution: true
+preflight_impact_report: docs/audit-output/system-map-change-impact.json
+preflight_impact_report_generated_at: '2026-07-24T14:27:39Z'
+preflight_impact_disposition: reviewed; no new production authority inferred from
+  the UX planning artifacts
+items:
+- id: ux-next-evolution-atomic-hardening
+  sequence: 0
+  plan: docs/work/frontend-ux-next-evolution-atomic-task-hardening.yaml
+  task: harden-ux-next-evolution-queue
+  depends_on: []
+  status: verified
+- id: global-context-personal-business-all
+  sequence: 1
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: global-context-personal-business-all
+  depends_on:
+  - ux-next-evolution-atomic-hardening
+  status: verified
+- id: people-trust-context
+  sequence: 2
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: people-trust-context
+  depends_on:
+  - global-context-personal-business-all
+  status: verified
+  started_at: '2026-07-24T14:33:19Z'
+  verified_at: '2026-07-24T14:34:44Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: people-trust-context
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: people-profile-links
+  sequence: 3
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: people-profile-links
+  depends_on:
+  - people-trust-context
+  status: verified
+  started_at: '2026-07-24T14:34:54Z'
+  verified_at: '2026-07-24T14:35:44Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: people-profile-links
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: things-borrow-operations
+  sequence: 4
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: things-borrow-operations
+  depends_on:
+  - people-profile-links
+  status: verified
+  started_at: '2026-07-24T14:35:49Z'
+  verified_at: '2026-07-24T14:36:20Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: things-borrow-operations
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: rides-trust-operations
+  sequence: 5
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: rides-trust-operations
+  depends_on:
+  - things-borrow-operations
+  status: verified
+  started_at: '2026-07-24T14:36:30Z'
+  verified_at: '2026-07-24T14:39:11Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: rides-trust-operations
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: settings-groups
+  sequence: 6
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: settings-groups
+  depends_on:
+  - rides-trust-operations
+  status: verified
+  started_at: '2026-07-24T14:39:11Z'
+  verified_at: '2026-07-24T14:40:02Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: settings-groups
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: trust-explanations
+  sequence: 7
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: trust-explanations
+  depends_on:
+  - settings-groups
+  status: verified
+  started_at: '2026-07-24T14:40:08Z'
+  verified_at: '2026-07-24T14:40:37Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: trust-explanations
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: complete-state-matrix
+  sequence: 8
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: complete-state-matrix
+  depends_on:
+  - trust-explanations
+  status: verified
+  started_at: '2026-07-24T14:40:44Z'
+  verified_at: '2026-07-24T14:41:14Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: complete-state-matrix
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: empty-state-semantics
+  sequence: 9
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: empty-state-semantics
+  depends_on:
+  - complete-state-matrix
+  status: verified
+  started_at: '2026-07-24T14:41:15Z'
+  verified_at: '2026-07-24T14:41:48Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: empty-state-semantics
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: user-preferences
+  sequence: 10
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: user-preferences
+  depends_on:
+  - empty-state-semantics
+  status: verified
+  started_at: '2026-07-24T14:41:54Z'
+  verified_at: '2026-07-24T14:43:04Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: user-preferences
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: operator-dashboard
+  sequence: 11
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: operator-dashboard
+  depends_on:
+  - user-preferences
+  status: verified
+  started_at: '2026-07-24T14:43:06Z'
+  verified_at: '2026-07-24T14:44:48Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: operator-dashboard
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: mobile-transformations
+  sequence: 12
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: mobile-transformations
+  depends_on:
+  - operator-dashboard
+  status: verified
+  started_at: '2026-07-24T14:44:52Z'
+  verified_at: '2026-07-24T14:45:38Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: mobile-transformations
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: accessibility-behavior
+  sequence: 13
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: accessibility-behavior
+  depends_on:
+  - mobile-transformations
+  status: verified
+  started_at: '2026-07-24T14:45:46Z'
+  verified_at: '2026-07-24T14:46:18Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: accessibility-behavior
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: calendar-three-views
+  sequence: 14
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: calendar-three-views
+  depends_on:
+  - accessibility-behavior
+  status: verified
+  started_at: '2026-07-24T14:46:31Z'
+  verified_at: '2026-07-24T14:48:25Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: calendar-three-views
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: calendar-three-layers
+  sequence: 15
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: calendar-three-layers
+  depends_on:
+  - calendar-three-views
+  status: verified
+  started_at: '2026-07-24T14:48:34Z'
+  verified_at: '2026-07-24T14:49:20Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: calendar-three-layers
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: calendar-operations
+  sequence: 16
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: calendar-operations
+  depends_on:
+  - calendar-three-layers
+  status: verified
+  started_at: '2026-07-24T14:49:39Z'
+  verified_at: '2026-07-24T14:50:26Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: calendar-operations
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: calendar-intelligence
+  sequence: 17
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: calendar-intelligence
+  depends_on:
+  - calendar-operations
+  status: verified
+  started_at: '2026-07-24T14:50:37Z'
+  verified_at: '2026-07-24T14:51:12Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: calendar-intelligence
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-template-library
+  sequence: 18
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-template-library
+  depends_on:
+  - calendar-intelligence
+  status: verified
+  started_at: '2026-07-24T14:51:32Z'
+  verified_at: '2026-07-24T14:53:10Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-template-library
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-template-fields
+  sequence: 19
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-template-fields
+  depends_on:
+  - business-template-library
+  status: verified
+  started_at: '2026-07-24T14:53:24Z'
+  verified_at: '2026-07-24T14:54:05Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-template-fields
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: work-mode-switch
+  sequence: 20
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: work-mode-switch
+  depends_on:
+  - business-template-fields
+  status: verified
+  started_at: '2026-07-24T14:54:15Z'
+  verified_at: '2026-07-24T14:55:05Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: work-mode-switch
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: work-detail-guidance
+  sequence: 21
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: work-detail-guidance
+  depends_on:
+  - work-mode-switch
+  status: verified
+  started_at: '2026-07-24T14:55:09Z'
+  verified_at: '2026-07-24T14:55:53Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: work-detail-guidance
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: work-offer-types
+  sequence: 22
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: work-offer-types
+  depends_on:
+  - work-detail-guidance
+  status: verified
+  started_at: '2026-07-24T14:55:57Z'
+  verified_at: '2026-07-24T14:56:38Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: work-offer-types
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: chat-operational-basics
+  sequence: 23
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: chat-operational-basics
+  depends_on:
+  - work-offer-types
+  status: verified
+  started_at: '2026-07-24T14:56:42Z'
+  verified_at: '2026-07-24T14:57:37Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: chat-operational-basics
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: chat-related-context
+  sequence: 24
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: chat-related-context
+  depends_on:
+  - chat-operational-basics
+  status: verified
+  started_at: '2026-07-24T14:58:15Z'
+  verified_at: '2026-07-24T14:59:16Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: chat-related-context
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: notification-categories
+  sequence: 25
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: notification-categories
+  depends_on:
+  - chat-related-context
+  status: verified
+  started_at: '2026-07-24T14:59:42Z'
+  verified_at: '2026-07-24T15:00:53Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: notification-categories
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: notification-actions
+  sequence: 26
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: notification-actions
+  depends_on:
+  - notification-categories
+  status: verified
+  started_at: '2026-07-24T15:01:02Z'
+  verified_at: '2026-07-24T15:02:05Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: notification-actions
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: global-context-circle-conversation-work
+  sequence: 27
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: global-context-circle-conversation-work
+  depends_on:
+  - notification-actions
+  status: verified
+  started_at: '2026-07-24T15:02:21Z'
+  verified_at: '2026-07-24T15:02:53Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: global-context-circle-conversation-work
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: global-command-palette
+  sequence: 28
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: global-command-palette
+  depends_on:
+  - global-context-circle-conversation-work
+  status: verified
+  started_at: '2026-07-24T15:03:12Z'
+  verified_at: '2026-07-24T15:03:43Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: global-command-palette
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: universal-action-bar
+  sequence: 29
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: universal-action-bar
+  depends_on:
+  - global-command-palette
+  status: verified
+  started_at: '2026-07-24T15:04:07Z'
+  verified_at: '2026-07-24T15:04:43Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: universal-action-bar
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: home-today-next
+  sequence: 30
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: home-today-next
+  depends_on:
+  - universal-action-bar
+  status: verified
+  started_at: '2026-07-24T15:04:59Z'
+  verified_at: '2026-07-24T15:05:38Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: home-today-next
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: home-resume-contexts
+  sequence: 31
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: home-resume-contexts
+  depends_on:
+  - home-today-next
+  status: verified
+  started_at: '2026-07-24T15:05:43Z'
+  verified_at: '2026-07-24T15:06:38Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: home-resume-contexts
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: home-action-information-separation
+  sequence: 32
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: home-action-information-separation
+  depends_on:
+  - home-resume-contexts
+  status: verified
+  started_at: '2026-07-24T15:06:43Z'
+  verified_at: '2026-07-24T15:07:20Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: home-action-information-separation
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-intent-filters
+  sequence: 33
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-intent-filters
+  depends_on:
+  - home-action-information-separation
+  status: verified
+  started_at: '2026-07-24T15:07:44Z'
+  verified_at: '2026-07-24T15:08:29Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-intent-filters
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-card-operational-summary
+  sequence: 34
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-card-operational-summary
+  depends_on:
+  - business-intent-filters
+  status: verified
+  started_at: '2026-07-24T15:09:56Z'
+  verified_at: '2026-07-24T15:10:21Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-card-operational-summary
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-progressive-public-page
+  sequence: 35
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-progressive-public-page
+  depends_on:
+  - business-card-operational-summary
+  status: verified
+  started_at: '2026-07-24T15:10:31Z'
+  verified_at: '2026-07-24T15:11:20Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-progressive-public-page
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-recurring-booking
+  sequence: 36
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-recurring-booking
+  depends_on:
+  - business-progressive-public-page
+  status: verified
+  started_at: '2026-07-24T15:11:39Z'
+  verified_at: '2026-07-24T15:12:23Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-recurring-booking
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-book-for-other
+  sequence: 37
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-book-for-other
+  depends_on:
+  - business-recurring-booking
+  status: verified
+  started_at: '2026-07-24T15:12:27Z'
+  verified_at: '2026-07-24T15:13:08Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-book-for-other
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-quantity-and-multiple-people
+  sequence: 38
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-quantity-and-multiple-people
+  depends_on:
+  - business-book-for-other
+  status: verified
+  started_at: '2026-07-24T15:13:13Z'
+  verified_at: '2026-07-24T15:14:05Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-quantity-and-multiple-people
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: business-upload-and-quote
+  sequence: 39
+  plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  task: business-upload-and-quote
+  depends_on:
+  - business-quantity-and-multiple-people
+  status: verified
+  started_at: '2026-07-24T15:14:10Z'
+  verified_at: '2026-07-24T15:14:58Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task: business-upload-and-quote
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: ux-next-evolution-runtime-closeout
+  sequence: 40
+  plan: docs/work/frontend-ux-next-evolution-11-runtime-closeout.yaml
+  task: capture-ux-next-evolution-closeout
+  depends_on:
+  - business-upload-and-quote
+  status: verified
+  started_at: '2026-07-24T15:15:13Z'
+  verified_at: '2026-07-24T15:18:43Z'
+  evidence:
+    plan: docs/work/frontend-ux-next-evolution-11-runtime-closeout.yaml
+    task: capture-ux-next-evolution-closeout
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71

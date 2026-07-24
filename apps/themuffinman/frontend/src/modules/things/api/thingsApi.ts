@@ -2,7 +2,7 @@ import {api, withAuth} from "../../../api/httpClient.ts"
 import type {ThingBorrowRequestResponseDTO, ThingListingListResponseDTO, ThingListingRequestDTO, ThingListingResponseDTO, ThingPreview} from "../../../contracts/index.ts"
 
 export const thingsApi = {
-  async getListingsForScope(scope: "discover" | "mine"): Promise<ThingListingListResponseDTO> { return scope === "mine" ? this.getMyListings() : this.getListings() },
+  async getListingsForScope(scope: "discover" | "mine"): Promise<ThingListingListResponseDTO> { return scope === "mine" ? thingsApi.getMyListings() : thingsApi.getListings() },
   async getListings(): Promise<ThingListingListResponseDTO> { return (await api.get<ThingListingListResponseDTO>("/things/listings", withAuth())).data },
   async getMyListings(): Promise<ThingListingListResponseDTO> { return (await api.get<ThingListingListResponseDTO>("/things/listings/me", withAuth())).data },
   async getListing(id: number): Promise<ThingListingResponseDTO> { return (await api.get<ThingListingResponseDTO>(`/things/listings/${id}`, withAuth())).data },

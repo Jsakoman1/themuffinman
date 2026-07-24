@@ -2,6 +2,7 @@ package com.themuffinman.app.vision.service;
 
 import com.themuffinman.app.chat.dto.ChatConversationSummaryDTO;
 import com.themuffinman.app.chat.dto.ChatOpenConversationRequestDTO;
+import com.themuffinman.app.chat.dto.ChatMessageRequestDTO;
 import com.themuffinman.app.chat.service.ChatService;
 import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.identity.model.AppUser;
@@ -62,6 +63,23 @@ public class VisionChatExecutionService {
         }
     }
 
+    public VisionChatExecutionResult sendMessage(AppUser currentUser, String targetQuery, String messageBody) {
+        if (currentUser == null) return VisionChatExecutionResult.blocked("Current user is required.");
+        if (messageBody == null || messageBody.isBlank()) return VisionChatExecutionResult.blocked("Message text is required.");
+        List<AppUser> matches = resolveTargetUserMatches(currentUser, targetQuery == null ? "" : targetQuery.trim());
+        if (matches.isEmpty()) return VisionChatExecutionResult.blocked("I could not identify a chat contact for \"" + targetQuery + "\".");
+        if (matches.size() > 1) return VisionChatExecutionResult.blocked(buildAmbiguousTargetMessage(targetQuery, matches), buildCandidates(matches));
+        try {
+            ChatConversationSummaryDTO conversation = chatService.openConversation(
+                    ChatOpenConversationRequestDTO.builder().otherUserId(matches.getFirst().getId()).build(), currentUser);
+            var message = chatService.sendMessage(conversation.getConversationId(),
+                    ChatMessageRequestDTO.builder().messageBody(messageBody.trim()).build(), currentUser);
+            return VisionChatExecutionResult.messageSent(conversation, message);
+        } catch (RuntimeException exception) {
+            return VisionChatExecutionResult.blocked(exception.getMessage() == null ? "I could not send the message." : exception.getMessage());
+        }
+    }
+
     private String resolveTargetQuery(String prompt, VisionSemanticPlan semanticPlan) {
         if (semanticPlan != null) {
             // Production target extraction belongs to the OpenAI semantic plan.
@@ -87,10 +105,11 @@ public class VisionChatExecutionService {
                         "message",
                         "send a message to",
                         "send message to",
+                        "tell",
+                        "write to",
                         "dm",
                         "direct message",
                         "talk to",
-                        "write to",
                         "text"
                 )
         );

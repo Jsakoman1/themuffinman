@@ -150,6 +150,17 @@ It should stay short, factual, and updated when a vision batch materially change
 
 ## In Progress
 
+- VISION-PROMPT-STABILIZATION [IN PROGRESS 2026-07-23]: Source repairs and fresh Chromium closeout are complete for the local development contract; production-provider, 401 diagnosis, and full direct-message side-effect runtime proof remain bounded follow-up work. Master plan: `docs/work/vision-prompt-stabilization-master.yaml`.
+- VISION-PROMPT-001 through VISION-PROMPT-005 [RESOLVED 2026-07-23]: Direct-message precedence, work/circle aliases, visible read/no-match states, and typed runtime status are covered by backend tests and fresh authenticated Chromium evidence.
+- VISION-PROMPT-006 [PARTIAL 2026-07-23]: Browser proof now exercises the local fallback chain; real OpenAI production-provider evidence remains open.
+- VISION-PROMPT-007 [OPEN 2026-07-23]: Direct-message browser evidence covers recipient collection but not a disposable body/confirm/send side-effect trace.
+- VISION-PROMPT-008 through VISION-PROMPT-009 [RESOLVED 2026-07-23]: Typed provider fallback and generated prompt contract/continuity coverage are recorded.
+- VISION-PROMPT-010 [PARTIAL 2026-07-23]: Provider failure/retry and preference uniqueness protection are covered; the earlier 401 root cause and production-provider proof remain open.
+
+- UI-LINK-RUNTIME-002 [RESOLVED 2026-07-23]: Playwright Chromium now proves authenticated route reachability, inline Vision entry, exact prompt outcomes, expanded recovery cases, and zero browser errors. Evidence: `docs/runtime-evidence/vision-prompt-stabilization-runtime.json`.
+
+- UI-LINK-RUNTIME-001 [RESOLVED 2026-07-23]: The earlier sandbox restriction was overcome with approved workspace-owned runtime execution; fresh Chromium evidence is now captured in `docs/runtime-evidence/vision-prompt-stabilization-runtime.json`.
+
 - create-quest hardening now mostly remains in ambiguity wording polish and confidence-tuning
 - open-chat resolution now covers broader conversation-style prompt variants and numbered candidate follow-up, but it still needs richer target matching beyond the current username-or-email search path
 - the semantic orchestration layer now covers a broad non-create_quest route set, but integration coverage can still deepen around ambiguous multi-capability prompts and follow-up turns

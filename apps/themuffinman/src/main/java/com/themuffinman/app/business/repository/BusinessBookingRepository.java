@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import jakarta.persistence.LockModeType;
 import java.time.Instant;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -76,17 +77,17 @@ public interface BusinessBookingRepository extends JpaRepository<BusinessBooking
     Optional<BusinessBooking> findByBusinessProfileOwnerIdAndIdempotencyKey(Long ownerId, String idempotencyKey);
 
     @Query("""
-            select count(booking)
+            select coalesce(sum(booking.quantitySnapshot), 0)
             from BusinessBooking booking
             where booking.businessOffering.id = :offeringId
             and booking.status in :statuses
             and booking.startsAt < :endsAt
             and booking.endsAt > :startsAt
             """)
-    long countOverlappingBookings(Long offeringId, Collection<BusinessBookingStatus> statuses, Instant startsAt, Instant endsAt);
+    BigDecimal countOverlappingBookings(Long offeringId, Collection<BusinessBookingStatus> statuses, Instant startsAt, Instant endsAt);
 
     @Query("""
-            select count(booking)
+            select coalesce(sum(booking.quantitySnapshot), 0)
             from BusinessBooking booking
             where booking.businessOffering.id = :offeringId
             and booking.id <> :excludedBookingId
@@ -94,7 +95,7 @@ public interface BusinessBookingRepository extends JpaRepository<BusinessBooking
             and booking.startsAt < :endsAt
             and booking.endsAt > :startsAt
             """)
-    long countOverlappingBookingsExcluding(Long offeringId, Long excludedBookingId, Collection<BusinessBookingStatus> statuses, Instant startsAt, Instant endsAt);
+    BigDecimal countOverlappingBookingsExcluding(Long offeringId, Long excludedBookingId, Collection<BusinessBookingStatus> statuses, Instant startsAt, Instant endsAt);
 
     @Query("""
             select booking
@@ -109,6 +110,64 @@ public interface BusinessBookingRepository extends JpaRepository<BusinessBooking
             order by booking.startsAt asc, booking.id asc
             """)
     List<BusinessBooking> findDetailedByOwnerIdAndStartsAtBetween(Long ownerId, Instant from, Instant to);
+
+    @Query("""
+            select booking
+            from BusinessBooking booking
+            join fetch booking.businessProfile profile
+            join fetch profile.owner owner
+            join fetch booking.businessOffering offering
+            join fetch booking.customerUser customer
+            where owner.id = :ownerId
+            and booking.startsAt < :to
+            and booking.endsAt > :from
+            order by booking.startsAt asc, booking.id asc
+            """)
+    List<BusinessBooking> findDetailedByOwnerIdAndOverlap(Long ownerId, Instant from, Instant to);
+
+    @Query("""
+            select booking
+            from BusinessBooking booking
+            join fetch booking.businessProfile profile
+            join fetch profile.owner owner
+            join fetch booking.businessOffering offering
+            join fetch booking.customerUser customer
+            where owner.id = :ownerId
+            and profile.id = :profileId
+            and booking.startsAt < :to
+            and booking.endsAt > :from
+            order by booking.startsAt asc, booking.id asc
+            """)
+    List<BusinessBooking> findDetailedByOwnerIdAndProfileIdAndOverlap(Long ownerId, Long profileId, Instant from, Instant to);
+
+    @Query("""
+            select booking
+            from BusinessBooking booking
+            join fetch booking.businessProfile profile
+            join fetch profile.owner owner
+            join fetch booking.businessOffering offering
+            join fetch booking.customerUser customer
+            where customer.id = :customerId
+            and booking.startsAt < :to
+            and booking.endsAt > :from
+            order by booking.startsAt asc, booking.id asc
+            """)
+    List<BusinessBooking> findDetailedByCustomerIdAndOverlap(Long customerId, Instant from, Instant to);
+
+    @Query("""
+            select booking
+            from BusinessBooking booking
+            join fetch booking.businessProfile profile
+            join fetch profile.owner owner
+            join fetch booking.businessOffering offering
+            join fetch booking.customerUser customer
+            where customer.id = :customerId
+            and profile.id = :profileId
+            and booking.startsAt < :to
+            and booking.endsAt > :from
+            order by booking.startsAt asc, booking.id asc
+            """)
+    List<BusinessBooking> findDetailedByCustomerIdAndProfileIdAndOverlap(Long customerId, Long profileId, Instant from, Instant to);
 
     @Query("""
             select booking

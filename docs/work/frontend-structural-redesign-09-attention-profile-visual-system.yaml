@@ -1,0 +1,75 @@
+kind: work
+version: 1
+id: frontend-structural-redesign-09-attention-profile-visual-system
+title: "Calm Attention, Profile, Settings, and visual-system consolidation"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/frontend-ux-next-evolution-master.yaml]
+  baseline_only_surfaces: [Notification, profile, settings, preference, and design token authority]
+  residual_scope: [Calm attention queue, saved searches, profile tabs, settings grouping, visual grammar cleanup]
+  retest_triggers: [Notification state, preferences, profile visibility, shared component, token, form, or layout changes]
+  non_duplication_rule: Existing permissions and settings semantics remain authoritative; only presentation and grouping are redesigned.
+tasks:
+  - id: attention-and-saved-searches
+    title: Make Attention and Saved searches calm and action-oriented
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-attention-searches
+    observable_outcome: Attention separates needs-action from information, and Saved searches show intent, scope, pause, edit, and delete without a chaotic control list.
+    dependencies: [rides-background-matching-and-suggestions]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/SavedSearchIntentsView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/SavedSearchIntentsView.vue
+    evidence_boundary: [action/information separation, category filter, snooze/mute, saved intent edit]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: profile-settings-and-visual-grammar
+    title: Rebuild Profile/Settings and consolidate the Apple-inspired visual grammar
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-profile-settings-visual-system
+    observable_outcome: Profile and Settings use stable tabs/groups, inline edit surfaces, one control grammar, and consistent spacing, typography, borders, focus, and responsive behavior across modules.
+    dependencies: [attention-and-saved-searches]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+      - apps/themuffinman/frontend/src/style.css
+      - apps/themuffinman/frontend/src/styles/base.css
+      - docs/product-memory.md
+      - docs/product-vision.md
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue
+      - apps/themuffinman/frontend/src/style.css
+    evidence_boundary: [profile tabs, settings groups, inline edit, responsive visual consistency, focus states]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: cleanup-css-components-and-frontend-logic
+    title: Remove frontend duplication and keep the new Apple grammar maintainable
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-css-and-file-cleanup
+    observable_outcome: Obsolete styles, duplicate style blocks, dead components, duplicate route metadata, unused imports, and frontend business-rule workarounds are removed; shared tokens/components and backend API contracts are the only lasting sources.
+    dependencies: [profile-settings-and-visual-grammar]
+    paths:
+      - apps/themuffinman/frontend/src/style.css
+      - apps/themuffinman/frontend/src/styles/base.css
+      - apps/themuffinman/frontend/src/modules/app-shell
+      - apps/themuffinman/frontend/src/router.ts
+      - apps/themuffinman/frontend/src/contracts/index.ts
+      - docs/domain-technical.md
+    required_paths:
+      - apps/themuffinman/frontend/src/style.css
+      - apps/themuffinman/frontend/src/styles/base.css
+      - apps/themuffinman/frontend/src/router.ts
+      - docs/domain-technical.md
+    evidence_boundary: [changed-file inventory, CSS duplication audit, unused surface audit, backend authority review, type/build validation]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build && npm run validate:modern-surface

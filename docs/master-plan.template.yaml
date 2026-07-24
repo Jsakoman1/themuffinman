@@ -5,6 +5,7 @@ title: Replace me
 status: draft
 baseline: replace-with-git-revision
 strict_verification: true
+atomic_task_hardening_plan: docs/work/<master>-atomic-task-hardening.yaml
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
   reused_verified_plans: []

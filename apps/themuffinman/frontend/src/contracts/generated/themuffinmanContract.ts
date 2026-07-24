@@ -40,6 +40,9 @@ export type BusinessOfferingCapacityMode = typeof BUSINESS_OFFERING_CAPACITY_MOD
 export const BUSINESS_OFFERING_DURATION_MODE_VALUES = ["FIXED", "CUSTOMER_SELECTS", "ALL_DAY"] as const
 export type BusinessOfferingDurationMode = typeof BUSINESS_OFFERING_DURATION_MODE_VALUES[number]
 
+export const BUSINESS_OFFERING_FULFILLMENT_MODE_VALUES = ["EXACT_APPOINTMENT", "CAPACITY_WINDOW", "RESOURCE_ASSIGNMENT", "FIELD_SERVICE", "ALL_DAY_STAY"] as const
+export type BusinessOfferingFulfillmentMode = typeof BUSINESS_OFFERING_FULFILLMENT_MODE_VALUES[number]
+
 export const BUSINESS_OFFERING_PRICING_TYPE_VALUES = ["FIXED", "FROM", "CUSTOM_QUOTE", "FREE"] as const
 export type BusinessOfferingPricingType = typeof BUSINESS_OFFERING_PRICING_TYPE_VALUES[number]
 
@@ -175,7 +178,7 @@ export type VisionConversationStatus = typeof VISION_CONVERSATION_STATUS_VALUES[
 export const VISION_DEVICE_ROLE_DTO_VALUES = ["DESKTOP", "MOBILE", "WATCH"] as const
 export type VisionDeviceRoleDTO = typeof VISION_DEVICE_ROLE_DTO_VALUES[number]
 
-export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "LEAVE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "VIEW_CHAT_WORKSPACE", "SYNC_CHAT", "VIEW_CHAT_ATTACHMENT", "EDIT_CHAT_MESSAGE", "REPLY_TO_CHAT_MESSAGE", "REACT_TO_CHAT_MESSAGE", "MARK_CHAT_READ", "MARK_NOTIFICATIONS_READ", "MARK_NOTIFICATION_READ", "UPDATE_NOTIFICATION_PREFERENCES", "RELEASE_WORKER", "REPLACE_WORKER", "REOPEN_QUEST", "CANCEL_QUEST", "PAUSE_QUEST", "RESUME_QUEST", "RESCHEDULE_BOOKING", "CREATE_THING", "REQUEST_BORROW", "CANCEL_BORROW", "DECIDE_BORROW", "RETURN_BORROW", "CREATE_RIDE", "VIEW_RIDES", "JOIN_RIDE", "UPDATE_RIDE", "LEAVE_RIDE", "CANCEL_RIDE", "START_RIDE", "COMPLETE_RIDE", "UPDATE_THING", "ARCHIVE_THING", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_BUSINESS", "VIEW_BUSINESS_AVAILABILITY", "VIEW_BUSINESS_BOOKINGS", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_ACCESSIBLE_CIRCLE", "VIEW_QUEST_DETAIL", "VIEW_MY_WORK", "VIEW_NOTIFICATIONS", "VIEW_ACTIVITY", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "VIEW_THINGS", "VIEW_THING_DETAIL", "VIEW_BORROW_REQUESTS", "CREATE_BUSINESS_PROFILE", "UPDATE_BUSINESS_PROFILE", "CREATE_GALLERY_IMAGE", "UPDATE_GALLERY_IMAGE", "DELETE_GALLERY_IMAGE", "CREATE_AVAILABILITY_RULE", "UPDATE_AVAILABILITY_RULE", "DELETE_AVAILABILITY_RULE", "CREATE_AVAILABILITY_EXCEPTION", "UPDATE_AVAILABILITY_EXCEPTION", "DELETE_AVAILABILITY_EXCEPTION", "CONFIRM_BOOKING", "CANCEL_BOOKING", "REJECT_BOOKING", "COMPLETE_BOOKING", "MARK_BOOKING_NO_SHOW", "ARCHIVE_OFFERING", "UPDATE_QUEST", "CREATE_OFFERING", "UPDATE_OFFERING", "CREATE_BOOKING", "SEARCH", "UNSUPPORTED"] as const
+export const VISION_INTENT_VALUES = ["CREATE_QUEST", "CREATE_CIRCLE", "CREATE_CIRCLE_REQUEST", "ACCEPT_CIRCLE_REQUEST", "DELETE_CIRCLE_REQUEST", "CREATE_APPLICATION", "UPDATE_APPLICATION", "WITHDRAW_APPLICATION", "APPROVE_APPLICATION", "DECLINE_APPLICATION", "UPDATE_CIRCLE", "DELETE_CIRCLE", "LEAVE_CIRCLE", "UPDATE_PROFILE", "UPDATE_PROFILE_LOCATION", "DISCOVER_QUESTS", "OPEN_CHAT", "SEND_MESSAGE", "VIEW_CHAT_WORKSPACE", "SYNC_CHAT", "VIEW_CHAT_ATTACHMENT", "EDIT_CHAT_MESSAGE", "REPLY_TO_CHAT_MESSAGE", "REACT_TO_CHAT_MESSAGE", "MARK_CHAT_READ", "MARK_NOTIFICATIONS_READ", "MARK_NOTIFICATION_READ", "UPDATE_NOTIFICATION_PREFERENCES", "RELEASE_WORKER", "REPLACE_WORKER", "REOPEN_QUEST", "CANCEL_QUEST", "PAUSE_QUEST", "RESUME_QUEST", "RESCHEDULE_BOOKING", "CREATE_THING", "REQUEST_BORROW", "CANCEL_BORROW", "DECIDE_BORROW", "RETURN_BORROW", "CREATE_RIDE", "VIEW_RIDES", "JOIN_RIDE", "UPDATE_RIDE", "LEAVE_RIDE", "CANCEL_RIDE", "START_RIDE", "COMPLETE_RIDE", "UPDATE_THING", "ARCHIVE_THING", "VIEW_PROFILE", "VIEW_SETTINGS", "VIEW_USER_PROFILE", "VIEW_BUSINESS", "VIEW_BUSINESS_AVAILABILITY", "VIEW_BUSINESS_BOOKINGS", "VIEW_CIRCLES", "VIEW_CIRCLE_DETAIL", "VIEW_ACCESSIBLE_CIRCLE", "VIEW_QUEST_DETAIL", "VIEW_MY_WORK", "VIEW_NOTIFICATIONS", "VIEW_ACTIVITY", "VIEW_QUEST_NEWS", "VIEW_APPLICATIONS", "VIEW_APPLICATION_DETAIL", "VIEW_THINGS", "VIEW_THING_DETAIL", "VIEW_BORROW_REQUESTS", "CREATE_BUSINESS_PROFILE", "UPDATE_BUSINESS_PROFILE", "CREATE_GALLERY_IMAGE", "UPDATE_GALLERY_IMAGE", "DELETE_GALLERY_IMAGE", "CREATE_AVAILABILITY_RULE", "UPDATE_AVAILABILITY_RULE", "DELETE_AVAILABILITY_RULE", "CREATE_AVAILABILITY_EXCEPTION", "UPDATE_AVAILABILITY_EXCEPTION", "DELETE_AVAILABILITY_EXCEPTION", "CONFIRM_BOOKING", "CANCEL_BOOKING", "REJECT_BOOKING", "COMPLETE_BOOKING", "MARK_BOOKING_NO_SHOW", "ARCHIVE_OFFERING", "UPDATE_QUEST", "CREATE_OFFERING", "UPDATE_OFFERING", "CREATE_BOOKING", "SEARCH", "UNSUPPORTED"] as const
 export type VisionIntent = typeof VISION_INTENT_VALUES[number]
 
 export const VISION_MEMORY_FEEDBACK_TYPE_VALUES = ["INTERACTION", "CLARIFICATION", "CORRECTION", "CONFIRMATION", "EXECUTED", "BLOCKED", "CANCELLED"] as const
@@ -587,6 +590,9 @@ export interface BusinessBookingRequestDTO {
   endsAt: string
   customerNote: string
   idempotencyKey: string
+  quantity: number
+  answers: Record<string, string>
+  selectedOptions: Record<string, string>
 }
 
 export interface BusinessBookingRescheduleRequestDTO {
@@ -617,6 +623,7 @@ export interface BusinessBookingResponseDTO {
   priceSnapshotAmount: number
   priceSnapshotCurrency: string
   durationSnapshotMinutes: number
+  quantitySnapshot: number
   idempotencyKey: string
   allowedActions: BusinessBookingAllowedActionDTO[]
   actions: ClientActionDTO[]
@@ -625,6 +632,19 @@ export interface BusinessBookingResponseDTO {
   presentation: BusinessBookingPresentationDTO
   createdAt: string
   updatedAt: string
+}
+
+export interface BusinessDemandFieldDTO {
+  id: number
+  fieldKey: string
+  label: string
+  description: string
+  valueType: string
+  required: boolean
+  customerVisible: boolean
+  retentionDays: number
+  validationSchema: unknown
+  sortOrder: number
 }
 
 export interface BusinessFavoriteResponseDTO {
@@ -666,6 +686,16 @@ export interface BusinessOfferingListResponseDTO {
   items: BusinessOfferingResponseDTO[]
 }
 
+export interface BusinessOfferingOptionDTO {
+  id: number
+  optionKey: string
+  label: string
+  description: string
+  valueType: string
+  required: boolean
+  sortOrder: number
+}
+
 export interface BusinessOfferingRequestDTO {
   title: string
   slug: string
@@ -681,6 +711,10 @@ export interface BusinessOfferingRequestDTO {
   capacityMode: BusinessOfferingCapacityMode
   slotCapacity: number
   bookingMode: BusinessOfferingBookingMode
+  fulfillmentMode: BusinessOfferingFulfillmentMode
+  durationIncrementMinutes: number
+  minimumQuantity: number
+  maximumQuantity: number
   requiresOwnerConfirmation: boolean
   bufferBeforeMinutes: number
   bufferAfterMinutes: number
@@ -706,6 +740,11 @@ export interface BusinessOfferingResponseDTO {
   capacityMode: BusinessOfferingCapacityMode
   slotCapacity: number
   bookingMode: BusinessOfferingBookingMode
+  fulfillmentMode: BusinessOfferingFulfillmentMode
+  schemaVersion: number
+  durationIncrementMinutes: number
+  minimumQuantity: number
+  maximumQuantity: number
   requiresOwnerConfirmation: boolean
   bufferBeforeMinutes: number
   bufferAfterMinutes: number
@@ -722,6 +761,7 @@ export interface BusinessOwnerBookingCreateRequestDTO {
   endsAt: string
   ownerNote: string
   idempotencyKey: string
+  quantity: number
 }
 
 export interface BusinessOwnerCalendarDayDTO {
@@ -780,6 +820,20 @@ export interface BusinessOwnerScheduleSummaryDTO {
   pendingConfirmationCount: number
   upcomingCount: number
   nextItems: BusinessOwnerScheduleItemDTO[]
+}
+
+export interface BusinessPricingRuleDTO {
+  id: number
+  ruleKey: string
+  ruleType: string
+  billingUnit: string
+  amount: number
+  currency: string
+  quantityFrom: number
+  quantityTo: number
+  modifier: number
+  conditions: unknown
+  sortOrder: number
 }
 
 export interface BusinessProfileListResponseDTO {
@@ -845,6 +899,64 @@ export interface BusinessPublicPageDTO {
   bookingEnabled: boolean
   offerings: BusinessOfferingResponseDTO[]
   galleryImages: BusinessGalleryImageResponseDTO[]
+}
+
+export interface BusinessQuoteRequestDTO {
+  businessOfferingId: number
+  startsAt: string
+  durationMinutes: number
+  quantity: number
+  schemaVersion: number
+  answers: Record<string, string>
+  selectedOptions: Record<string, string>
+}
+
+export interface BusinessQuoteResponseDTO {
+  businessOfferingId: number
+  offeringTitle: string
+  pricingState: string
+  totalAmount: number
+  currency: string
+  quantity: number
+  durationMinutes: number
+  startsAt: string
+  endsAt: string
+  timezone: string
+  ownerReviewRequired: boolean
+  schemaVersion: number
+  explanations: string[]
+}
+
+export interface BusinessScheduleItemDTO {
+  bookingId: number
+  role: string
+  businessProfileId: number
+  businessName: string
+  businessSlug: string
+  businessOfferingTitle: string
+  startsAt: string
+  endsAt: string
+  timezone: string
+  status: BusinessBookingStatus
+  statusLabel: string
+  allowedActions: BusinessBookingAllowedActionDTO[]
+}
+
+export interface BusinessServiceSchemaDTO {
+  businessOfferingId: number
+  schemaVersion: number
+  demandFields: BusinessDemandFieldDTO[]
+  options: BusinessOfferingOptionDTO[]
+  pricingRules: BusinessPricingRuleDTO[]
+}
+
+export interface BusinessWorkspaceContextDTO {
+  businesses: BusinessProfileResponseDTO[]
+  activeBusinessProfileId: number
+  from: string
+  to: string
+  timezone: string
+  schedule: BusinessScheduleItemDTO[]
 }
 
 export interface ChatAdminConversationSupportViewDTO {
@@ -2664,6 +2776,9 @@ export interface VisionRuntimeContextDTO {
   density: string
   primaryActionLabel: string
   visibleFields: string[]
+  providerStatus: string
+  providerOutcome: string
+  retryable: boolean
 }
 
 export interface VisionRuntimeCueDTO {

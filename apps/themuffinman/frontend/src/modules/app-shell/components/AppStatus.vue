@@ -4,14 +4,16 @@ const emit = defineEmits<{retry: []}>()
 </script>
 
 <template>
-  <p class="app-status" :class="`app-status--${tone}`" :data-state="tone" :role="tone === 'error' ? 'alert' : 'status'" :aria-busy="busy || undefined" aria-live="polite">
+  <p class="app-status" :class="`app-status--${tone}`" :data-state="tone" :data-busy="busy || undefined" :role="tone === 'error' ? 'alert' : 'status'" :aria-busy="busy || undefined" :aria-live="tone === 'error' ? 'assertive' : 'polite'" aria-atomic="true">
     <span class="app-status__indicator" :class="{'app-status__indicator--busy': busy}" aria-hidden="true" />
-    <span>{{ message }}</span><button v-if="retry" type="button" :disabled="busy" :aria-disabled="busy ? 'true' : undefined" @click="emit('retry')">Retry</button>
+    <span class="app-status__message">{{ message }}</span>
+    <button v-if="retry" type="button" :disabled="busy" :aria-disabled="busy ? 'true' : undefined" :aria-label="busy ? 'Retrying' : 'Retry'" @click="emit('retry')">{{ busy ? 'Retrying…' : 'Retry' }}</button>
   </p>
 </template>
 
 <style scoped>
 .app-status { display: flex; align-items: center; gap: var(--space-2); margin: 0; padding: var(--space-2) 0; color: var(--text-muted); font-size: var(--text-size-meta); }
+.app-status__message { min-width: 0; }
 .app-status__indicator { width: 0.45rem; height: 0.45rem; flex: 0 0 auto; border-radius: 50%; background: currentColor; }
 .app-status__indicator--busy { animation: app-status-pulse 900ms ease-in-out infinite; }@keyframes app-status-pulse { 50% { opacity: .35; } }@media (prefers-reduced-motion: reduce) { .app-status__indicator--busy { animation: none; } }
 .app-status--success { color: var(--success); }.app-status--warning, .app-status--stale { color: var(--warning); }.app-status--error { color: var(--danger); }.app-status--stale .app-status__indicator { box-shadow: 0 0 0 2px var(--danger-muted); }

@@ -13,7 +13,7 @@ public class BusinessBookingEventHandler {
 
     @EventListener
     public void handle(BusinessBookingCreatedEvent event) {
-        businessBookingAuditService.recordCreated(event.booking(), event.actor(), event.note());
+        businessBookingAuditService.recordCreated(event.booking(), event.actor(), normalizeNote(event.note()));
     }
 
     @EventListener
@@ -23,12 +23,16 @@ public class BusinessBookingEventHandler {
                 event.previousStatus(),
                 event.newStatus(),
                 event.actor(),
-                event.note()
+                normalizeNote(event.note())
         );
     }
 
     @EventListener
     public void handle(BusinessBookingRescheduledEvent event) {
-        businessBookingAuditService.recordRescheduled(event.booking(), event.actor(), event.note());
+        businessBookingAuditService.recordRescheduled(event.booking(), event.actor(), normalizeNote(event.note()));
+    }
+
+    private String normalizeNote(String note) {
+        return note == null || note.isBlank() ? null : note.trim();
     }
 }

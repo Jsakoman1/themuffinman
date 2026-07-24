@@ -101,7 +101,7 @@ def start_serial_task!(root, plan_path, absolute_plan, plan, task_id)
   prior_items = inventory.fetch("items").take_while { |candidate| candidate != item }
   fail!("execution inventory item #{item["id"]} cannot start before earlier items are verified") unless prior_items.all? { |candidate| candidate["status"] == "verified" }
 
-  paths = Array(task["required_paths"]).map(&:to_s).reject(&:empty?)
+  paths = Array(task["verification_required_paths"] || task["required_paths"]).map(&:to_s).reject(&:empty?)
   fail!("serial task #{task_id} requires required_paths") if paths.empty?
   started_at = Time.now.utc.iso8601
   task["status"] = "in_progress"
@@ -116,7 +116,7 @@ def start_serial_task!(root, plan_path, absolute_plan, plan, task_id)
 end
 
 def strict_task_evidence!(root, task, files)
-  required_paths = Array(task["required_paths"]).map(&:to_s).reject(&:empty?)
+  required_paths = Array(task["verification_required_paths"] || task["required_paths"]).map(&:to_s).reject(&:empty?)
   fail!("strict task #{task["id"]} requires required_paths") if required_paths.empty?
   missing_paths = required_paths.reject { |item| files.include?(item) }
   fail!("strict task #{task["id"]} is missing required changed paths: #{missing_paths.join(", ")}") unless missing_paths.empty?
@@ -148,7 +148,7 @@ def validate_work_evidence!(plan, path)
     entry = evidence.reverse.find { |item| item.is_a?(Hash) && item["task"] == task["id"] }
     fail!("child task lacks passing evidence: #{path}##{task["id"]}") unless task["status"] == "done" && entry&.dig("result") == "passed"
     if strict_plan?(plan)
-      required_paths = Array(task["required_paths"]).map(&:to_s).reject(&:empty?)
+      required_paths = Array(task["verification_required_paths"] || task["required_paths"]).map(&:to_s).reject(&:empty?)
       fail!("strict child task lacks required path evidence: #{path}##{task["id"]}") unless required_paths == Array(entry["requiredPaths"])
       if task["requires_visual_evidence"] == true
         fail!("strict child task lacks visual evidence: #{path}##{task["id"]}") if Array(entry["visualEvidencePaths"]).empty?

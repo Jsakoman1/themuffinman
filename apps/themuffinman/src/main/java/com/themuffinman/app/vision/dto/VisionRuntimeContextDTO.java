@@ -36,4 +36,7 @@ public class VisionRuntimeContextDTO {
     private String density;
     private String primaryActionLabel;
     private List<String> visibleFields;
+    private String providerStatus;
+    private String providerOutcome;
+    private boolean retryable;
 }

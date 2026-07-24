@@ -1,0 +1,116 @@
+kind: work
+version: 1
+id: vision-prompt-stabilization-01-contract-and-fallback
+title: Reconcile Vision prompt contract and deterministic fallback
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/vision-prompt-stabilization-master.yaml
+execution_inventory: docs/work/vision-prompt-stabilization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-linking-vision-inline-04-vision-chat.yaml
+  baseline_only_surfaces:
+  - typed adapters
+  - permissions
+  - and existing route catalog entries not touched by prompt contract changes
+  residual_scope:
+  - SEND_MESSAGE versus OPEN_CHAT drift
+  - create new work alias
+  - go to circles alias
+  - fallback status wording
+  - generated prompt coverage
+  retest_triggers:
+  - VisionIntentRouter.java
+  - VisionIntentSignalSupport.java
+  - PromptSemanticsSupport.java
+  - VisionSemanticRouteCatalogService.java
+  - semantic audit tests
+  non_duplication_rule: Prior route and chat implementation evidence is baseline only;
+    this task verifies contract reconciliation and new fallback coverage.
+  production_boundary: OpenAI remains the only production semantic interpreter. Deterministic
+    aliases and local parser output may be used only in explicitly labeled development/test
+    fixtures; provider outage must produce PROVIDER_UNAVAILABLE.
+tasks:
+- id: reconcile-prompt-contract-and-fallback
+  title: Align route catalog, router, audit matrix, aliases, and typed fallback outcomes
+  type: implementation
+  status: done
+  inventory_item: contract-and-fallback
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticsSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java
+  - docs/regression-scenario-catalog.yaml
+  - docs/vision-prompt-contract-matrix.yaml
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionSemanticAuditMatrixTest,VisionIntentRouterTest,VisionPromptUnderstandingServiceTest
+    test && cd ../.. && make audit-docs && git diff --check
+  acceptance:
+  - send message prompts resolve to SEND_MESSAGE and open-chat prompts remain OPEN_CHAT
+  - create new work and go to circles have deterministic safe routing
+  - fallback states distinguish unsupported, provider unavailable, clarification,
+    and no-match
+  - the prompt matrix contains provider example, fallback, integration, and runtime
+    ownership for every critical prompt
+  - the prompt matrix contains provider example, development/test fixture behavior,
+    integration test, browser scenario, and runtime ownership for every critical prompt
+  - production provider outage never invokes local semantic classification
+  started_at: '2026-07-23T18:42:24Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java: 886bea7a4bd04d3208af82ed94b3e7e3083ce76229127396629405676849b650
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java: 8e8856af20693df6e9daf6df762afbfe4b17d055919e6e0c33fd320a7e9724cb
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java: ec11095d1e30be966cd54b0c52e872b5335e9e578dc551631b8ee0492ff17648
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingService.java: 4348a2c3a2c4f28d329f24c4313299a234a554081788c27c5d75941b6bbd371b
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizer.java: 25fa76f986104708792bc4ef8f1f982dead7fca6961388cbf357f3a0b1b5a2e5
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticResponseValidator.java: f03d813854395c99154b3c8e0c2f0f7fc0e00fc9438b7adcc402d7c4a7c339d2
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java: 9977d93e8afc6858e1516c3c74ab74fa8577322dbeb2948d8c185be65adaedba
+    docs/regression-scenario-catalog.yaml: f4b78393395fc0f2c3d2b0c5648f4e6af9337a4e6f4380fbc085b40340b5cb4a
+    docs/vision-prompt-contract-matrix.yaml: b8d359991a992bcd2633aab26c9c93cc778b060b66cab2ecae3a29f7736b1aed
+evidence:
+- task: reconcile-prompt-contract-and-fallback
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionSemanticAuditMatrixTest,VisionIntentRouterTest,VisionPromptUnderstandingServiceTest
+    test && cd ../.. && make audit-docs && git diff --check
+  ranAt: '2026-07-23T18:45:53Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/prompt/PromptSemanticsSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java
+  - docs/regression-scenario-catalog.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-23T18:42:24Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentRouter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionIntentSignalSupport.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java
+  - docs/regression-scenario-catalog.yaml
+  - docs/vision-prompt-contract-matrix.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

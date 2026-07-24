@@ -1,0 +1,63 @@
+kind: execution_inventory
+version: 1
+id: ui-linking-vision-inline-master-execution-inventory
+master_plan: docs/work/ui-linking-vision-inline-master.yaml
+serial_task_execution: true
+purpose: Ordered queue for the residual UI linking and Vision inline program; only
+  one child task may be started and verified at a time.
+items:
+- id: route-foundation
+  sequence: 1
+  plan: docs/work/ui-linking-vision-inline-01-route-foundation.yaml
+  task: repair-canonical-route-contracts
+  status: verified
+  started_at: '2026-07-23T16:26:02Z'
+  verified_at: '2026-07-23T16:32:29Z'
+  evidence:
+    plan: docs/work/ui-linking-vision-inline-01-route-foundation.yaml
+    task: repair-canonical-route-contracts
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: collection-actions
+  sequence: 2
+  plan: docs/work/ui-linking-vision-inline-02-collection-actions.yaml
+  task: repair-object-row-destinations
+  status: verified
+  started_at: '2026-07-23T16:32:32Z'
+  verified_at: '2026-07-23T16:34:19Z'
+  evidence:
+    plan: docs/work/ui-linking-vision-inline-02-collection-actions.yaml
+    task: repair-object-row-destinations
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: vision-quest-circles
+  sequence: 3
+  plan: docs/work/ui-linking-vision-inline-03-vision-quest-circles.yaml
+  task: audit-vision-quest-and-circle-inline-flows
+  status: verified
+  started_at: '2026-07-23T16:34:34Z'
+  verified_at: '2026-07-23T16:37:44Z'
+  evidence:
+    plan: docs/work/ui-linking-vision-inline-03-vision-quest-circles.yaml
+    task: audit-vision-quest-and-circle-inline-flows
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: vision-chat
+  sequence: 4
+  plan: docs/work/ui-linking-vision-inline-04-vision-chat.yaml
+  task: implement-vision-direct-message-inline-flow
+  status: verified
+  started_at: '2026-07-23T16:37:50Z'
+  verified_at: '2026-07-23T16:45:17Z'
+  evidence:
+    plan: docs/work/ui-linking-vision-inline-04-vision-chat.yaml
+    task: implement-vision-direct-message-inline-flow
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+- id: runtime-closeout
+  sequence: 5
+  plan: docs/work/ui-linking-vision-inline-05-runtime-closeout.yaml
+  task: run-integrated-ui-linking-and-vision-closeout
+  status: verified
+  started_at: '2026-07-23T16:45:28Z'
+  verified_at: '2026-07-23T16:46:57Z'
+  evidence:
+    plan: docs/work/ui-linking-vision-inline-05-runtime-closeout.yaml
+    task: run-integrated-ui-linking-and-vision-closeout
+    revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71

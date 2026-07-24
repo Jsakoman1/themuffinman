@@ -340,7 +340,7 @@ onMounted(() => {
           class="vision-console__review-actions"
           aria-label="Vision review actions"
         >
-          <button type="button" class="vision-console__review-confirm" @click="emit('confirmReview')">Confirm and create</button>
+          <button type="button" class="vision-console__review-confirm" @click="emit('confirmReview')">{{ props.response?.intent === "SEND_MESSAGE" ? "Confirm and send" : "Confirm and create" }}</button>
           <button type="button" class="vision-console__review-cancel" @click="emit('cancel')">Cancel</button>
         </div>
 

@@ -1,0 +1,259 @@
+kind: work
+version: 1
+id: business-booking-vision-parity
+title: Bring flexible Business service, quote, availability, booking, and calendar
+  parity to Vision
+status: verified
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+tasks:
+- id: vision-scope-container
+  title: Scope container for Business Vision atomic tasks
+  type: implementation
+  status: done
+  inventory_item: vision-scope-container
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  verification_required_paths:
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  validation: test -f apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+    && test -f docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessAvailabilityMutationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateOfferingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionUpdateOfferingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessQuoteExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessServiceSchemaExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessResourceExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPricingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapterTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/agent-operating-model.yaml
+  acceptance:
+  - Vision can create/update a service with fulfillment mode, demand fields, options,
+    duration, pricing, capacity, resource requirements, booking mode, and validation
+    prompts; it never invents unsupported defaults.
+  - Vision can create/update staff pools, resource pools, recurring availability,
+    exceptions, and structured business conditions using local business time and the
+    same backend validation as Web.
+  - A customer can ask Vision to find a Business, inspect an offering, provide quantity/participant/item
+    details, request a quote or availability, choose a concrete slot/window/quantity,
+    and create a booking through the existing confirmation boundary.
+  - Vision presents 30-minute versus 120-minute choices correctly, handles per-dog/per-vehicle/per-room
+    quantities, and does not accept a time or quantity that is not returned as bookable
+    without revalidation.
+  - Owner can ask Vision to view calendar/bookings and perform only backend-authorized
+    lifecycle actions, with confirmation for mutations.
+  - Semantic responses are constrained by the published route/slot contract; provider
+    failure, ambiguity, stale slot, permission failure, and cancellation are recoverable.
+  - Vision explains price/availability/conditions from the same backend quote and
+    read-model contract as Web; no duplicate pricing, slot, resource, or capacity
+    algorithm is introduced.
+  - Vision asks for missing typed demand fields one at a time and presents a review
+    summary before any mutation or quote submission.
+  - Vision route descriptors, semantic slots, capability IDs, and synthetic fixtures
+    are updated together with the new Business schema.
+  - Vision actions map to the same documented Business API use cases and never call
+    a frontend-only shortcut.
+  started_at: '2026-07-24T11:54:14Z'
+  start_fingerprints:
+    docs/runtime-evidence/business-booking-browser-2026-07-24.json: b1d792f5890d2f7bc0f7310f714a7ce84a3253a96f24770bf1e8cf6e6a791ffd
+- id: vision-schema-read
+  title: Add Vision schema, read, quote, and availability routes
+  type: implementation
+  status: done
+  inventory_item: vision-schema-read
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  dependencies:
+  - public-api-preview
+  - owner-api-schema-resources
+  observable_outcome: Vision can read Business schema, collect demand, and present
+    quote/availability results from shared contracts.
+  evidence_boundary:
+  - Vision route catalog tests
+  - conversation tests
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
+    test
+  started_at: '2026-07-24T11:17:03Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java: 24bbf036230e1f3f4a4debd4fa6dbcd06917ee3fe9c0a62b04a15146765d0324
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: ea894170af35c264c476d9d5593b99d1f3fb652e52297cfab5c6bb6dcb17d3cd
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java: 8defb11cfd98ab7fbd6f55117eb0ed939a348f18867a5c0b51dbd741253e3410
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java: 67f1d2f3fd4d97012bd7d50245b5830218f7abc12ff2dd6dfb49f626e8d16399
+- id: vision-reviewed-mutations
+  title: Add reviewed Vision setup, resource, booking, and lifecycle adapters
+  type: implementation
+  status: done
+  inventory_item: vision-reviewed-mutations
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessQuoteExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessServiceSchemaExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessResourceExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPricingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapter.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessQuoteExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessServiceSchemaExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessResourceExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPricingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapter.java
+  dependencies:
+  - vision-schema-read
+  - calendar-lifecycle-backend
+  observable_outcome: Vision performs confirmed mutations through backend authorization
+    and shared Business services.
+  evidence_boundary:
+  - Vision mutation tests
+  - confirmation tests
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='VisionCreateBookingExecutionAdapterTest,VisionOfferingMutationExecutionAdapterTest,VisionBusinessBookingMutationExecutionAdapterTest'
+    test
+  started_at: '2026-07-24T11:19:20Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessQuoteExecutionAdapter.java: 7f41fbbf386b7fdabaaa5d343e9da19580b20ca75f26ce33834ebaee5e51ad47
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessServiceSchemaExecutionAdapter.java: fc3b424e1a5f68553e0fafef2f24d7c4fd608c5faa04a59f778ae52671567c84
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessResourceExecutionAdapter.java: 70d829ca3ddc8caba63d73c1a47a67450cba81618ae6a64e135adb64dc6093c9
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPricingExecutionAdapter.java: 46c082feab1e695e6cf15f0b25abd4956082a070b1645cc8ac55a51fb96d26a0
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapter.java: b3490ab726fd48802dcfe256934da7d97548bd240562228abf0fc33c6907262a
+- id: vision-recovery-tests
+  title: Prove Vision ambiguity, provider failure, stale quote, permission, and confirmation
+    recovery
+  type: implementation
+  status: done
+  inventory_item: vision-recovery-tests
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  dependencies:
+  - vision-reviewed-mutations
+  observable_outcome: Vision recovers deterministically from ambiguity, provider failure,
+    stale quote, permission failure, cancellation, and confirmation rejection.
+  evidence_boundary:
+  - Vision recovery tests
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='VisionConversationServiceTest,VisionSemanticRouteCatalogServiceTest'
+    test
+  started_at: '2026-07-24T11:19:56Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: b6012886bb0f9cbe0b7ccc86e99c6bd2de25ad34791c2ee63cbf6701033f0592
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java: 9f87c0127f30a87641b489649e3d98748c77b858bab0d0f887abaf88a5b64144
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java: 0025a65161102236d8630bb792c3d14e82e0ae5cb8bec5775271a755df99cf96
+evidence:
+- task: vision-schema-read
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='VisionSemanticRouteCatalogServiceTest,VisionConversationServiceTest'
+    test
+  ranAt: '2026-07-24T11:18:07Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  output: "\n"
+  startedAt: '2026-07-24T11:17:03Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-reviewed-mutations
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='VisionCreateBookingExecutionAdapterTest,VisionOfferingMutationExecutionAdapterTest,VisionBusinessBookingMutationExecutionAdapterTest'
+    test
+  ranAt: '2026-07-24T11:19:38Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPricingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessQuoteExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessResourceExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessServiceSchemaExecutionAdapter.java
+  output: "\n"
+  startedAt: '2026-07-24T11:19:20Z'
+  changedAfterStart: &2
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessQuoteExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessServiceSchemaExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessResourceExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPricingExecutionAdapter.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapter.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-recovery-tests
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='VisionConversationServiceTest,VisionSemanticRouteCatalogServiceTest'
+    test
+  ranAt: '2026-07-24T11:20:35Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  output: "\n"
+  startedAt: '2026-07-24T11:19:56Z'
+  changedAfterStart: &3
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-scope-container
+  command: test -f apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+    && test -f docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  ranAt: '2026-07-24T11:54:36Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  output: "\n"
+  startedAt: '2026-07-24T11:54:14Z'
+  changedAfterStart: &4
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+scope_container: true
+atomic_tasks:
+- id: vision-schema-read
+  outcome: Add Vision routes and read/schema/quote understanding for the shared Business
+    contract.
+- id: vision-reviewed-mutations
+  outcome: Add reviewed setup, resource, booking, and lifecycle adapters using backend
+    authorization.
+- id: vision-recovery-tests
+  outcome: Prove ambiguity, provider failure, stale quote, permission, cancellation,
+    and confirmation recovery.

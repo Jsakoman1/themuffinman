@@ -35,6 +35,7 @@ public class VisionPromptUnderstandingService {
     static final String UNDERSTANDING_STATUS_LOCAL_EMERGENCY = "local_emergency";
     static final String UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED = "local_fail_closed";
     static final String UNDERSTANDING_STATUS_OPENAI_UNAVAILABLE = "openai_unavailable";
+    static final String UNDERSTANDING_STATUS_PROVIDER_FAILURE_FALLBACK = "provider_failure_fallback";
 
     private static final Set<VisionIntent> SAFE_LOCAL_EMERGENCY_INTENTS = EnumSet.of(
             VisionIntent.CREATE_QUEST,
@@ -445,7 +446,9 @@ public class VisionPromptUnderstandingService {
                 .understandingProvider(UNDERSTANDING_PROVIDER_LOCAL)
                 .understandingStatus(emergencyPlan.candidateIntentOrUnsupported() == VisionIntent.UNSUPPORTED
                         ? UNDERSTANDING_STATUS_LOCAL_FAIL_CLOSED
-                        : UNDERSTANDING_STATUS_LOCAL_EMERGENCY)
+                        : failureReason != null && failureReason.toLowerCase().contains("deterministic development provider failure")
+                            ? UNDERSTANDING_STATUS_PROVIDER_FAILURE_FALLBACK
+                            : UNDERSTANDING_STATUS_LOCAL_EMERGENCY)
                 .semanticContractVersion(SEMANTIC_CONTRACT_VERSION)
                 .focusSlotId(null)
                 .focusSlotConfidence(null)

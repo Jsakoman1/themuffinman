@@ -1,0 +1,76 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-03-business-context-contract
+title: Add viewer-scoped business context and unified schedule read contract
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-booking-end-to-end-master.yaml
+  baseline_only_surfaces:
+  - existing Business booking and profile APIs
+  residual_scope:
+  - multiple owned business selection
+  - viewer role
+  - unified owned/customer schedule projection
+  retest_triggers:
+  - new DTO/controller/read-service or permission boundary
+  non_duplication_rule: Existing booking behavior remains baseline; only the new read
+    contract is verified.
+tasks:
+- id: implement-business-context-contract
+  title: Implement backend read contract for business context and unified schedule
+  type: implementation
+  status: done
+  inventory_item: business-context-contract
+  observable_outcome: The backend returns authorized businesses, active context metadata,
+    role-aware schedule events, and filter-safe summaries for the authenticated user.
+  dependencies:
+  - implement-shared-task-foundation
+  evidence_boundary:
+  - targeted backend tests
+  - API contract evidence
+  - ownership/permission assertions
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessWorkspaceContextDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessWorkspaceContextService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessWorkspaceContextController.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessWorkspaceContextServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessWorkspaceContextService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessWorkspaceContextServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='Business**Test' test
+  started_at: '2026-07-24T13:25:38Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessWorkspaceContextService.java: 7c7d472a8bc15d9d4d7f6397d15bd1a186b6180877f0338cbd469719f5f3704b
+    apps/themuffinman/src/test/java/com/themuffinman/app/business: __missing__
+evidence:
+- task: implement-business-context-contract
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='Business**Test' test
+  ranAt: '2026-07-24T13:26:34Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessWorkspaceContextController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessWorkspaceContextDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessWorkspaceContextService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessWorkspaceContextServiceTest.java
+  output: |+
+    15:26:48.908 [main] INFO org.hibernate.validator.internal.util.Version -- HV000001: Hibernate Validator 9.0.1.Final
+    15:26:49.396 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    15:26:49.396 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    15:26:49.400 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 3 ms
+
+  startedAt: '2026-07-24T13:25:38Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessWorkspaceContextService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessWorkspaceContextServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

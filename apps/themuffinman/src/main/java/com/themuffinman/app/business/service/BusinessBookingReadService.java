@@ -96,10 +96,10 @@ public class BusinessBookingReadService {
         if (query != null && query.getStatus() != null && booking.getStatus() != query.getStatus()) {
             return false;
         }
-        if (query != null && query.getFrom() != null && booking.getStartsAt().isBefore(query.getFrom())) {
+        if (query != null && query.getFrom() != null && !booking.getEndsAt().isAfter(query.getFrom())) {
             return false;
         }
-        if (query != null && query.getTo() != null && booking.getStartsAt().isAfter(query.getTo())) {
+        if (query != null && query.getTo() != null && !booking.getStartsAt().isBefore(query.getTo())) {
             return false;
         }
         if (normalizedQuery.isBlank()) {

@@ -1,0 +1,101 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-02-shared-task-foundation
+title: Implement shared task surface and progressive disclosure primitives
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-app-remaster-master.yaml
+  baseline_only_surfaces:
+  - existing tokens
+  - shell
+  - rows
+  - dialogs
+  - formatters
+  residual_scope:
+  - TaskSurface
+  - ContextSwitcher
+  - ActionOverflow
+  - AttentionQueue
+  - progressive panels
+  - mobile list/detail transformation
+  retest_triggers:
+  - shared component or token behavior changes
+  non_duplication_rule: Existing shared primitives are reused unless this task proves
+    a missing contract.
+tasks:
+- id: implement-shared-task-foundation
+  title: Add shared task-oriented interaction primitives
+  type: implementation
+  status: done
+  inventory_item: shared-task-foundation
+  observable_outcome: Shared components expose one primary action, explicit task mode,
+    scoped context, progressive disclosure, and responsive list/detail behavior without
+    domain rules.
+  dependencies:
+  - freeze-ux-baseline-and-decisions
+  evidence_boundary:
+  - component tests or contracts
+  - frontend type-check
+  - production build
+  - focused browser story
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ActionOverflow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T13:23:26Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue: df896869c60f04be0a3d489ebf116c0a37a774ede4986c2e6362013eaf4b5538
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 19c6663e66a5c1fdcc4a5c701a0c8c2efc9a4450c46951484a94ca486955984a
+evidence:
+- task: implement-shared-task-foundation
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T13:23:41Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-DulddEzi.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/BusinessServiceSchemaView-DxfMGatz.js              8.18 kB │ gzip:   2.53 kB
+    dist/assets/BusinessPublicView-aaMvXdbf.js                     8.44 kB │ gzip:   3.16 kB
+    dist/assets/WorkspaceSurfaceView-CSxLhvyt.js                  10.35 kB │ gzip:   3.43 kB
+    dist/assets/CirclesView-DnO1QLu5.js                           11.34 kB │ gzip:   3.43 kB
+    dist/assets/BusinessProfileView-DjXm8cT7.js                   12.47 kB │ gzip:   3.72 kB
+    dist/assets/ThingsDiscoveryView-CCLbS1jg.js                   12.52 kB │ gzip:   3.97 kB
+    dist/assets/WorkQuestDetailView-B_d0Q9zu.js                   13.01 kB │ gzip:   4.17 kB
+    dist/assets/RidesView-DXPvmRf5.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-DchOMp5S.js                       16.45 kB │ gzip:   5.31 kB
+    dist/assets/SurfaceHeader-CJujwVv4.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-BoxCAzvx.js           21.34 kB │ gzip:   6.76 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-DRCQ-KtM.js                39.26 kB │ gzip:  12.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-CTKe8Pl0.js                                 55.26 kB │ gzip:  13.96 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 563ms
+
+  startedAt: '2026-07-24T13:23:26Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

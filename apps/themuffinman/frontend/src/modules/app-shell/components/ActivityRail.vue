@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {formatDateTime} from "../../../services/formatters.ts"
+
 export type ActivityRailItem = {
   kind: string
   title: string
@@ -16,12 +18,7 @@ withDefaults(defineProps<{
   emptyLabel: "No activity yet.",
 })
 
-const formatOccurredAt = (value: string) => new Intl.DateTimeFormat(undefined, {
-  month: "short",
-  day: "numeric",
-  hour: "numeric",
-  minute: "2-digit",
-}).format(new Date(value))
+const formatOccurredAt = (value: string) => formatDateTime(value, "Unknown time")
 </script>
 
 <template>

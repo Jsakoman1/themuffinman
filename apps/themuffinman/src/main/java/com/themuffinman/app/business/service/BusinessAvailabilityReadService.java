@@ -26,6 +26,9 @@ public class BusinessAvailabilityReadService {
     private final BusinessAvailabilityComputationService businessAvailabilityComputationService;
 
     public BusinessAvailabilityWindowListResponseDTO getPublicAvailability(String slug, Long offeringId, Instant from, Instant to) {
+        if (from == null || to == null || !to.isAfter(from)) {
+            throw ServiceErrors.badRequest("Availability range is invalid");
+        }
         BusinessProfile profile = businessProfileRepository.findBySlug(slug)
                 .filter(BusinessProfile::isActive)
                 .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
@@ -37,6 +40,10 @@ public class BusinessAvailabilityReadService {
                 .filter(candidate -> offeringId == null || candidate.getId().equals(offeringId))
                 .findFirst()
                 .orElseThrow(() -> ServiceErrors.notFound("Business offering not found"));
+        if (offering.getFulfillmentMode() == com.themuffinman.app.business.model.BusinessOfferingFulfillmentMode.ALL_DAY_STAY
+                && offering.getDurationMode() != com.themuffinman.app.business.model.BusinessOfferingDurationMode.ALL_DAY) {
+            throw ServiceErrors.conflict("Stay offerings must use all-day duration configuration");
+        }
 
         return BusinessAvailabilityWindowListResponseDTO.builder()
                 .items(businessAvailabilityComputationService.deriveWindows(

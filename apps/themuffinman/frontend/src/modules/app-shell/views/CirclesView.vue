@@ -10,6 +10,7 @@ import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
+import TaskSurface from "../components/TaskSurface.vue"
 
 // This surface lists circles owned by the viewer; membership actions for other
 // circles belong to the relationship request flow, not this owner dashboard.
@@ -70,9 +71,11 @@ onMounted(() => void load())
 </script>
 
 <template>
-  <section class="circles">
+  <!-- UX simplification: trust, inspect, and membership actions stay in one focused turn. -->
+  <TaskSurface mode="workspace" label="Trust circles"><section class="circles" :aria-busy="isLoading || isActing || undefined">
     <header class="circles__header"><div><p class="circles__eyebrow">People / Circles</p><h1>Circles</h1></div></header><CollectionToolbar title="Trust circles" :count="groups.length" :busy="isLoading"><template #actions><AppButton tone="primary" type="button" @click="createOpen = true">New circle</AppButton></template></CollectionToolbar>
     <aside class="circles__privacy" aria-label="Circle privacy"><strong>Circles are a trust boundary.</strong><span>Membership helps decide who can see shared activity; exact location remains controlled in Profile Settings.</span></aside>
+    <p class="circles__surface-cue" data-surface="trust-boundary-context">Use circles to manage trust and consent context. Module-specific visibility remains server-authoritative; blocked, pending, and shared-circle states are shown only when the backend permits them.</p>
     <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading circles." busy /><AppStatus v-else-if="error && !hasUsableData" :message="error" tone="error" retry @retry="load" />
     <template v-else>
       <form class="circles__search" @submit.prevent="search"><AppFormField label="Find people"><input v-model="searchQuery" placeholder="Find people"></AppFormField><AppButton type="submit">Search</AppButton></form>
@@ -84,7 +87,7 @@ onMounted(() => void load())
       <p v-if="error" class="circles__status circles__status--error" role="alert">{{ error }} <AppButton tone="quiet" type="button" @click="load">Retry</AppButton></p>
     </template>
     <AppDialog :open="createOpen" title="Create a circle" layout="workspace" @close="createOpen = false; guidedCircleDraft = null"><GuidedIntakePanel v-if="!guidedCircleDraft" flow="social.circle.create" title="Create a circle" @completed="acceptGuidedCircleDraft" @cancel="createOpen = false; guidedCircleDraft = null" /><form v-else class="circles__dialog-form" @submit.prevent="createGroup().then(() => { if (!error) { createOpen = false; guidedCircleDraft = null } })"><AppFormField label="Circle name" required><input v-model="groupName" placeholder="New circle name" maxlength="120" required></AppFormField><AppFormFooter><template #secondary><AppButton type="button" @click="guidedCircleDraft = null">Back</AppButton></template><template #primary><AppButton tone="primary" type="submit" :loading="isActing">Create circle</AppButton></template></AppFormFooter></form><template #utility><p>A circle is a trust boundary. Module-specific visibility and consent policies still apply after membership changes.</p></template></AppDialog>
-  </section>
+  </section></TaskSurface>
 </template>
 
 <style scoped>
@@ -128,4 +131,5 @@ onMounted(() => void load())
 .circles__members summary { cursor:pointer; color:var(--text-soft); }
 @media(max-width:860px) { .circles__circles-workspace { grid-template-columns:1fr; } .circles__context { order:2; } }
 @media(max-width:620px) { .circles__row { align-items:start; flex-direction:column; } .circles__actions { justify-content:flex-start; } .circles__search { grid-template-columns:1fr; max-width:none; } .circles__inline-edit { align-items:stretch; flex-wrap:wrap; } }
+.circles__circle-list .circles__row:focus-within { outline:var(--focus-ring); outline-offset:-2px; }
 </style>

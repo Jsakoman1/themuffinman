@@ -22,7 +22,7 @@ const feedback = ref("")
 const selectedOfferingId = ref<number | null>(null)
 const selectedOffering = computed(() => offerings.value.find((offering) => offering.id === selectedOfferingId.value) ?? null)
 
-const emptyForm = (): BusinessOfferingRequestDTO => ({title: "", slug: "", summary: "", description: "", pricingType: "FIXED", basePriceAmount: 0, basePriceCurrency: "CHF", durationMode: "FIXED", defaultDurationMinutes: 60, minDurationMinutes: 60, maxDurationMinutes: 60, capacityMode: "SINGLE", slotCapacity: 1, bookingMode: "REQUEST", requiresOwnerConfirmation: true, bufferBeforeMinutes: 0, bufferAfterMinutes: 0, active: true, sortOrder: offerings.value.length})
+const emptyForm = (): BusinessOfferingRequestDTO => ({title: "", slug: "", summary: "", description: "", pricingType: "FIXED", basePriceAmount: 0, basePriceCurrency: "CHF", durationMode: "FIXED", defaultDurationMinutes: 60, minDurationMinutes: 60, maxDurationMinutes: 60, capacityMode: "SINGLE", slotCapacity: 1, bookingMode: "REQUEST", fulfillmentMode: "EXACT_APPOINTMENT", durationIncrementMinutes: 30, minimumQuantity: 1, maximumQuantity: 1, requiresOwnerConfirmation: true, bufferBeforeMinutes: 0, bufferAfterMinutes: 0, active: true, sortOrder: offerings.value.length})
 const load = async () => { isLoading.value = true; error.value = ""; try { offerings.value = (await userShellApi.getBusinessOfferings()).items } catch { error.value = "Could not load offerings." } finally { isLoading.value = false } }
 const beginCreate = () => { editingId.value = null; form.value = emptyForm(); feedback.value = "" }
 const beginEdit = (offering: BusinessOfferingResponseDTO) => { editingId.value = offering.id; form.value = {...offering}; feedback.value = "" }

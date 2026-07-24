@@ -19,6 +19,9 @@ public class BusinessBookingPreviewService {
     private final BusinessOfferingRepository businessOfferingRepository;
 
     public BusinessBookingPreviewResponseDTO preview(String slug, BusinessBookingPreviewRequestDTO request) {
+        if (request == null || request.getStartsAt() == null) {
+            throw ServiceErrors.badRequest("Booking preview start time is required");
+        }
         BusinessOffering offering = businessOfferingRepository.findById(request.getBusinessOfferingId())
                 .filter(item -> item.isActive()
                         && item.getBusinessProfile().isActive()
@@ -28,6 +31,10 @@ public class BusinessBookingPreviewService {
         Integer durationMinutes = offering.getDefaultDurationMinutes();
         if (durationMinutes == null || durationMinutes < 1) {
             throw ServiceErrors.badRequest("This offering does not have a previewable duration");
+        }
+        if (offering.getDurationIncrementMinutes() != null
+                && durationMinutes % offering.getDurationIncrementMinutes() != 0) {
+            throw ServiceErrors.conflict("Offering duration is not aligned to its configured increment");
         }
 
         return BusinessBookingPreviewResponseDTO.builder()

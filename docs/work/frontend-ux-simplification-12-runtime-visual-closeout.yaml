@@ -1,0 +1,112 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-12-runtime-visual-closeout
+title: Capture full-product UX runtime and visual closeout evidence
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-app-remaster-08-runtime-visual-closeout.yaml
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  baseline_only_surfaces:
+  - unchanged routes and existing accepted evidence
+  residual_scope:
+  - current changed-route browser journeys
+  - desktop/mobile screenshots
+  - accessibility and control audits
+  retest_triggers:
+  - any changed route
+  - shared primitive
+  - Business context/calendar flow
+  - or responsive state
+  non_duplication_rule: Closeout reports only current new evidence for changed surfaces.
+tasks:
+- id: capture-ux-runtime-closeout
+  title: Capture current UI/UX runtime, visual, responsive, and control evidence
+  type: runtime
+  status: done
+  inventory_item: runtime-visual-closeout
+  observable_outcome: All changed journeys are exercised in the owned runtime at desktop
+    and narrow widths, with screenshots, browser outcomes, accessibility checks, frontend
+    validation, and control audits recorded.
+  dependencies:
+  - close-vision-responsive-accessibility
+  evidence_boundary:
+  - browser runtime JSON
+  - screenshots
+  - keyboard/accessibility review
+  - type-check
+  - build
+  - docs/control audits
+  paths:
+  - docs/runtime-evidence/frontend-ux-simplification-closeout.json
+  - docs/runtime-evidence/frontend-ux-business-calendar-desktop.png
+  - docs/runtime-evidence/frontend-ux-business-booking-mobile.png
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/runtime-evidence/frontend-ux-simplification-closeout.json
+  - docs/regression-scenario-catalog.yaml
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-simplification-closeout-desktop.png
+  - docs/runtime-evidence/frontend-ux-simplification-closeout-mobile.png
+  manual_runtime_command: make dev && npm run type-check && npm run build
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-simplification-closeout.json
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-interface-evidence && make audit-truth-registry && make audit-docs
+  started_at: '2026-07-24T13:44:02Z'
+  start_fingerprints:
+    docs/runtime-evidence/frontend-ux-simplification-closeout.json: __missing__
+    docs/regression-scenario-catalog.yaml: d089a2b89bb59a91ef4b8c976e68043912daaa6c9a9a7b4bab59066f74b33cde
+evidence:
+- task: capture-ux-runtime-closeout
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-interface-evidence && make audit-truth-registry && make audit-docs
+  ranAt: '2026-07-24T13:44:54Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-evidence/frontend-ux-business-booking-mobile.png
+  - docs/runtime-evidence/frontend-ux-business-calendar-desktop.png
+  - docs/runtime-evidence/frontend-ux-simplification-closeout.json
+  output: |2+
+        vision: covered
+      gaps: []
+    Interface evidence reconciliation audit passed
+      endpoints classified: 225
+      admin_or_agent: 5
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 150
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 319
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-24T13:44:02Z'
+  changedAfterStart: &1
+  - docs/runtime-evidence/frontend-ux-simplification-closeout.json
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-simplification-closeout-desktop.png
+  - docs/runtime-evidence/frontend-ux-simplification-closeout-mobile.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-simplification-closeout.json

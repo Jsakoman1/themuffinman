@@ -1,0 +1,126 @@
+kind: master
+version: 1
+id: ui-linking-vision-inline-master
+title: UI route linking and Vision inline workflow completion
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/ui-linking-vision-inline-master-execution-inventory.yaml
+objective: Repair remaining UI route, link, action, and Vision inline workflow gaps
+  found by the authenticated workspace audit, then prove the affected journeys in
+  the browser without duplicating already verified Vision route and target-resolution
+  work.
+backlog_ids:
+- UI-LINK-THINGS-REQUESTS-ROUTE
+- UI-LINK-BUSINESS-CANONICAL-ROUTE
+- UI-LINK-COLLECTION-PRIMARY-DESTINATION
+- VISION-INLINE-EXACT-PROMPTS
+- VISION-INLINE-SEND-DIRECT-MESSAGE
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-action-integrity-master.yaml
+  - docs/work/browser-runtime-evidence-pass-master.yaml
+  baseline_only_surfaces:
+  - authenticated shell routes already covered by the prior UI entry-point audit
+  - frontend type-check and production build behavior unless an affected shared route
+    or component changes
+  - existing backend action permissions not changed by this plan
+  residual_scope:
+  - add and verify missing /things/requests route ownership
+  - reconcile /business/availability and /business/calendar ownership
+  - make collection object rows directly and consistently actionable
+  - repair stale modern-surface contract checks
+  - prove and repair only residual gaps in Vision quest resolution, quest creation,
+    circles navigation, and existing chat target handling
+  - extend existing Vision chat-target opening into an explicit confirmed message-send
+    workflow
+  - prove route, action, confirmation, recovery, and return-to behavior in browser
+    scenarios
+  retest_triggers:
+  - any change to router.ts, shellRouteRegistry.ts, Vision web action contracts, backend
+    Vision canonical paths, shared SurfaceRow/detail components, or affected domain
+    views
+  - any new Vision intent, unresolved input, execution adapter, or chat recipient
+    resolution path
+  - any change to browser runtime harness or runtime scenario catalog
+  non_duplication_rule: Prior verified plans and audits are reused as baseline evidence
+    and are not counted as new completion; closeout reports only repairs and evidence
+    created by this master.
+analysis_source: docs/work/ui-linking-vision-inline-analysis.md
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  generated_at: '2026-07-23T16:24:47Z'
+  disposition:
+    docs/system-truth-registry.yaml: reviewed
+    docs/system-drift-control-registry.yaml: reviewed
+    docs/system-map.md: reviewed
+  note: The report classified the new plan artifacts as documentation changes and
+    recommended review of the canonical map and truth/drift registries; no source-of-truth
+    fact is changed before implementation begins.
+children:
+- docs/work/ui-linking-vision-inline-01-route-foundation.yaml
+- docs/work/ui-linking-vision-inline-02-collection-actions.yaml
+- docs/work/ui-linking-vision-inline-03-vision-quest-circles.yaml
+- docs/work/ui-linking-vision-inline-04-vision-chat.yaml
+- docs/work/ui-linking-vision-inline-05-runtime-closeout.yaml
+execution_order:
+- route-foundation
+- collection-actions
+- vision-quest-circles
+- vision-chat
+- runtime-closeout
+preflight:
+- Verify the baseline revision remains dcb983f4ad2b0354101caa8c1cdc47c624fb8b71 before
+  any child is started.
+- Confirm the previously verified Vision plans remain baseline-only and are not re-enqueued
+  in this inventory.
+- Compare every backend-published canonical path with the Vue router and shell route
+  registry.
+- Confirm each child task id matches exactly one execution-inventory item and each
+  inventory item points to one child task.
+- Confirm every strict task has concrete required_paths that are repository files,
+  not directories or globs.
+- Confirm runtime evidence uses a fresh artifact and the owned dev stack is stopped
+  after capture.
+- Confirm docs affected by route, workflow, permission, or Vision behavior changes
+  are included in the closing slice.
+rules:
+- Backend services remain authoritative for permission, visibility, entity resolution,
+  validation, and mutation safety.
+- Every Vision navigation action must resolve to an existing canonical Web route;
+  missing routes may not fall back to the Vision console.
+- Every mutating Vision flow requires typed inputs, a review state, explicit confirmation,
+  and a recoverable final state.
+- "“Go to circles” is navigation-only; “open my circles” must load the viewer-scoped
+  circles surface."
+- "“Send message to Nikolina” must resolve the recipient and message body before confirmation
+  and sending."
+- Browser evidence is required for route and inline interaction claims; type-check/build
+  alone is insufficient.
+close_when:
+- Every child plan is independently verifier-verified in the declared serial order.
+- No known missing canonical route remains in backend-published or Vision-published
+  Web actions.
+- Work, Things, Rides, People, Business, Chat, Circles, and Vision affected rows expose
+  a clear primary destination or explicit action.
+- The five requested Vision scenarios pass with fresh browser evidence: open quest
+    “Suitcases”, create new work, open my circles, go to circles, and send a message
+    to Nikolina.
+- Existing verified route/target-resolution evidence is not relabeled as proof of
+  the exact requested prompts; the requested prompts receive fresh scenario evidence.
+- Stale modern-surface checks are either repaired or narrowed to current behavior
+  with regression coverage.
+- Frontend type-check/build, backend tests for changed Vision/chat behavior, route/action
+  audits, and declared browser scenarios pass.
+evidence:
+- verifiedAt: '2026-07-23T16:47:03Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  children:
+  - docs/work/ui-linking-vision-inline-01-route-foundation.yaml
+  - docs/work/ui-linking-vision-inline-02-collection-actions.yaml
+  - docs/work/ui-linking-vision-inline-03-vision-quest-circles.yaml
+  - docs/work/ui-linking-vision-inline-04-vision-chat.yaml
+  - docs/work/ui-linking-vision-inline-05-runtime-closeout.yaml

@@ -1,0 +1,111 @@
+kind: work
+version: 1
+id: frontend-remaster-01-system-map-reconciliation
+title: Reconcile frontend remaster scope with the System Map
+status: verified
+baseline: dcb983f
+master_plan: docs/work/frontend-app-remaster-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-app-remaster-master-execution-inventory.yaml
+objective: Freeze the remaster baseline and residual scope using canonical System
+  Map, capability, route, surface, and verified-plan evidence.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - Existing capability status and backend-owned actions.
+  - Existing verified frontend standardization evidence.
+  - Existing canonical Web routes and VisionForWeb boundary.
+  residual_scope:
+  - Produce a route/surface/capability/plan matrix for the remaster.
+  - Identify only concrete UI/UX, CSS, responsive, accessibility, and evidence gaps.
+  - Classify unlinked endpoints and stale surfaces without promoting them to UI scope.
+  retest_triggers:
+  - Any route, capability, surface ownership, or backend action mapping changes.
+  non_duplication_rule: Reuse verified frontend plans as baseline and record only
+    residual remaster scope.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: required_before_implementation
+paths:
+- docs/work/frontend-remaster-01-system-map-reconciliation.yaml
+- docs/work/frontend-remaster-system-map-matrix-2026-07-23.md
+- docs/work/frontend-app-remaster-system-map-audit-2026-07-23.md
+- docs/capability-inventory.yaml
+- docs/client-surface-registry.yaml
+- docs/system-map-change-impact-registry.yaml
+- apps/themuffinman/frontend/src/router.ts
+- apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+- apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+- apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+required_paths:
+- docs/work/frontend-remaster-system-map-matrix-2026-07-23.md
+tasks:
+- id: freeze-baseline-and-residual-matrix
+  inventory_item: remaster-01-system-map-reconciliation
+  title: Freeze baseline and residual matrix
+  type: analysis
+  status: done
+  paths:
+  - docs/work/frontend-remaster-system-map-matrix-2026-07-23.md
+  - docs/work/frontend-app-remaster-system-map-audit-2026-07-23.md
+  - docs/capability-inventory.yaml
+  - docs/client-surface-registry.yaml
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  required_paths:
+  - docs/work/frontend-remaster-system-map-matrix-2026-07-23.md
+  validation: make audit-frontend && git diff --check
+  started_at: '2026-07-23T20:41:50Z'
+  start_fingerprints:
+    docs/work/frontend-remaster-system-map-matrix-2026-07-23.md: __missing__
+acceptance:
+- Every remaster candidate links to an existing route, surface, capability family,
+  verified baseline, or explicit product decision.
+- No new capability ID or frontend-owned permission rule is introduced.
+- Unlinked endpoint counts are classified rather than treated as UI backlog.
+- The next child plans can name exact residual files and runtime journeys.
+evidence:
+- task: freeze-baseline-and-residual-matrix
+  command: make audit-frontend && git diff --check
+  ranAt: '2026-07-23T20:44:24Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/router.ts
+  - docs/work/frontend-app-remaster-system-map-audit-2026-07-23.md
+  - docs/work/frontend-remaster-system-map-matrix-2026-07-23.md
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 97
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  startedAt: '2026-07-23T20:41:50Z'
+  changedAfterStart: &1
+  - docs/work/frontend-remaster-system-map-matrix-2026-07-23.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

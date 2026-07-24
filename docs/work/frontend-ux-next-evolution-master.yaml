@@ -1,0 +1,104 @@
+kind: master
+version: 1
+id: frontend-ux-next-evolution-master
+title: "Full-product UX next evolution: context, states, operator workflows, and personalization"
+status: draft
+readiness: prepared_for_goal_pursuing
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+preflight:
+  status: ready_for_goal_pursuing
+  impact_report: docs/audit-output/system-map-change-impact.json
+  impact_report_generated_at: '2026-07-24T14:27:39Z'
+  impact_disposition: reviewed_for_ux_scope; registries remain baseline/control review surfaces
+  baseline_boundary: verified commit dcb983f4ad2b0354101caa8c1cdc47c624fb8b71 with pre-existing dirty worktree preserved
+  all_businesses_dependency: BusinessWorkspaceContextService and controller are the API/read-model dependency; aggregate behavior is an explicit atomic task
+strict_verification: true
+atomic_task_hardening_plan: docs/work/frontend-ux-next-evolution-atomic-task-hardening.yaml
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+planning_source: docs/work/frontend-ux-next-evolution-preflight-2026-07-24.md
+coverage_matrix: docs/work/frontend-ux-next-evolution-coverage.yaml
+goal_ready: true
+completeness_contract:
+  matrix: docs/work/frontend-ux-next-evolution-coverage.yaml
+  required_rows: 39
+  must_not_skip:
+    - Every coverage row maps to one child task and one acceptance outcome.
+    - Every child task records required paths, leaf validation, and evidence boundary.
+    - Every runtime-relevant row has current desktop, mobile, keyboard, or state evidence as applicable.
+    - No aggregate calendar, template, preference, or trust explanation may be implemented as frontend-only authority.
+    - No broad module task may be verified while its mapped coverage rows remain unverified.
+  closeout_checks:
+    - Coverage matrix validates against master children and inventory task IDs.
+    - All coverage rows are marked verified or explicitly deferred with a stable backlog ID.
+    - Regression catalog includes every high-risk changed workflow.
+    - Runtime screenshots and JSON are current and changed after task start.
+  atomic_queue: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/frontend-ux-simplification-master.yaml
+    - docs/work/frontend-app-remaster-master.yaml
+    - docs/work/business-booking-end-to-end-master.yaml
+    - docs/work/ui-linking-vision-inline-master.yaml
+  baseline_only_surfaces:
+    - Verified task-oriented shell, Business flexible service model, booking authority, permissions, visibility, consent, and existing Vision handoff.
+    - Existing mobile navigation, design tokens, backend DTO authority, and canonical module routes.
+    - Native clients, deployment, provider production behavior, and unrelated backend capability expansion.
+  residual_scope:
+    - Global context switcher with All businesses aggregation and command palette.
+    - Universal action, state, recovery, and trust explanation grammar.
+    - Today/Next home operating view and cross-module links.
+    - Business operator dashboard, templates, recurring operations, resources, and calendar intelligence.
+    - Focused detail improvements across Work, Chat, Social, Sharing, Rides, Profile, and Settings.
+    - Mobile transformation, keyboard/focus behavior, reduced motion, and user personalization.
+  retest_triggers:
+    - Shared component or token changes affecting multiple modules.
+    - Active context, All businesses aggregation, calendar/resource, command routing, or Vision handoff changes.
+    - Any frontend action presentation based on backend allowedActions, permissions, pricing, capacity, or state.
+    - Any route, detail sheet, drawer, mobile breakpoint, focus, or announcement change.
+  non_duplication_rule: The previous simplification master is baseline evidence only; this master verifies only newly introduced context, state, operator, personalization, and mobile behavior.
+phases:
+  - id: control-hardening
+    priority: P0
+    child: docs/work/frontend-ux-next-evolution-atomic-task-hardening.yaml
+    outcome: Every next-evolution slice has one observable outcome, bounded paths, dependencies, leaf validation, and evidence boundary.
+  - id: global-grammar
+    priority: P0
+    child: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task_range: [global-context-personal-business-all, universal-action-bar, complete-state-matrix]
+    outcome: Users can understand and change context, find actions, and recover from every standard state consistently through atomic slices.
+  - id: operating-workspaces
+    priority: P1
+    child: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task_range: [home-today-next, calendar-three-views, business-template-fields, operator-dashboard]
+    outcome: Home and Business become useful operating workspaces through atomic slices.
+  - id: cross-module-coherence
+    priority: P1
+    child: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task_range: [business-progressive-public-page, work-mode-switch, chat-operational-basics, people-trust-context, trust-explanations]
+    outcome: Work, Chat, Social, Sharing, Rides, Profile, and Settings share context, trust, and focused detail behavior through atomic slices.
+  - id: mobile-and-personalization
+    priority: P1
+    child: docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+    task_range: [user-preferences, mobile-transformations, accessibility-behavior]
+    outcome: Narrow screens, keyboard users, reduced-motion users, and preference-driven users receive deliberate experiences through atomic slices.
+  - id: runtime-closeout
+    priority: P0
+    child: docs/work/frontend-ux-next-evolution-11-runtime-closeout.yaml
+    outcome: Current browser, visual, accessibility, regression, and control evidence proves all changed journeys.
+children:
+  - docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  - docs/work/frontend-ux-next-evolution-11-runtime-closeout.yaml
+supporting_design_plans:
+  - docs/work/frontend-ux-next-evolution-01-global-context-command.yaml
+  - docs/work/frontend-ux-next-evolution-02-universal-action-state.yaml
+  - docs/work/frontend-ux-next-evolution-03-today-next-home.yaml
+  - docs/work/frontend-ux-next-evolution-04-business-operator-workspace.yaml
+  - docs/work/frontend-ux-next-evolution-05-business-templates.yaml
+  - docs/work/frontend-ux-next-evolution-06-cross-module-linking.yaml
+  - docs/work/frontend-ux-next-evolution-07-module-detail-polish.yaml
+  - docs/work/frontend-ux-next-evolution-08-trust-profile-settings.yaml
+  - docs/work/frontend-ux-next-evolution-09-mobile-accessibility.yaml
+  - docs/work/frontend-ux-next-evolution-10-personalization.yaml
+evidence: []

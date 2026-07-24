@@ -1,0 +1,9 @@
+{
+  "capturedAt": "2026-07-24T13:44:22.800Z",
+  "loginStatus": 200,
+  "route": "http://localhost:5173/business/calendar",
+  "desktop": {"width": 1440, "screenshot": "frontend-ux-simplification-closeout-desktop.png"},
+  "mobile": {"width": 390, "screenshot": "frontend-ux-simplification-closeout-mobile.png"},
+  "journey": {"calendarRoute": true, "bookingFirst": true, "ownerContext": "business workspace"},
+  "validation": ["npm run type-check", "npm run build"]
+}

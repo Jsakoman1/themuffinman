@@ -876,6 +876,7 @@ Location lookup recovery:
 - Customer cancellation depends on business policy and the configured cancellation window.
 - Owner confirmation, rejection, cancellation, completion, and no-show marking are explicit backend transitions.
 - Historical bookings keep offering title, price, duration, and timezone snapshots so later offering edits do not rewrite history.
+- Owners configure resource pools, individual resources, and offering resource requirements directly from service setup. A reschedule rechecks and rebuilds the live resource assignment for the new interval atomically; the original booking snapshot remains unchanged as historical pricing and demand evidence.
 - Offering removal is archival-safe deactivation rather than destructive history loss.
 - Things borrowing currently supports listing discovery, detail, request, owner decision, borrower cancellation, and return. Listing update/archive remain separate Things concerns; voluntary car sharing is already offered through the Rides surface with optional circle-scoped visibility, matching, and an explicit trip lifecycle.
 - Owner schedule data can also be projected into a calendar-shaped backend read model that groups bookings by the business's local day so owner dashboards, booking lists, and mobile clients do not derive their own schedule buckets.
@@ -1165,3 +1166,21 @@ Rides separates finding a ride, offering a ride, and commute preferences so disc
 does not require reading or completing settings first.
 
 Runtime closeout validates meaningful route and state transitions rather than page-load screenshots or broad smoke traces.
+
+## Flexible Business booking contract (2026-07-24)
+
+Businesses configure typed services with demand, options, quantity-aware pricing, shared capacity/resources, owner review, and fulfillment-specific availability. Booking writes preserve schema, price, demand, capacity, resource, condition, and timezone snapshots. Public Web and Vision consume the same backend schema, quote, availability, and booking boundaries.
+### Flexible booking runtime guarantees
+
+Quantity is visible in booking responses and is persisted with the submitted demand and selected options. If a slot's shared capacity is already consumed, a later booking receives a conflict response and must choose another generated slot; the frontend does not override that decision.
+
+The owner may represent staff, bays, rooms, equipment, animals, vehicles, or generic units as resources; resource labels remain owner-scoped while public availability exposes only bookability and safe capacity metadata.
+
+Calendar views group every booking whose time interval overlaps the requested range, including bookings that began before the visible range.
+
+Owner setup is the source of truth for fulfillment mode, duration increments, quantity bounds, capacity, pricing rules, demand fields, options, resources, and business timezone.
+
+The setup surface exposes these rules as backend-owned configuration rather than requiring frontend-specific business logic.
+## Trust and decision explanations
+
+Detail surfaces explain that action availability, visibility, pricing, expiry, resource allocation, confirmation effects, and undoability are backend-authoritative. Disabled or unavailable controls must not imply a frontend-only decision; the user should refresh when another participant may have changed the object.

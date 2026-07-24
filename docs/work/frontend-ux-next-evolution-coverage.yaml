@@ -1,0 +1,174 @@
+kind: ux_coverage_matrix
+version: 1
+id: frontend-ux-next-evolution-coverage
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+purpose: Every recommendation from the UX next-evolution audit must map to an owned child task, an observable acceptance outcome, and runtime evidence before closeout.
+completion_rule: No row may remain planned, unowned, or evidence-missing when the master is verified.
+preflight_status: reviewed_against_atomic_implementation_plan
+preflight_impact_report: docs/audit-output/system-map-change-impact.json
+groups:
+  - id: global-operating-system
+    owner_task: implement-global-context-command-surface
+    requirements:
+      - id: global-context-personal-business-all
+        requirement: Switch Personal, individual Business, and All businesses from one global control.
+        acceptance: Active context persists across route changes and All businesses is a real aggregate, never the first-business fallback.
+      - id: global-context-circle-conversation-work
+        requirement: Preserve Circle, Conversation, and Work context through detail and Vision handoffs.
+        acceptance: Return paths, context labels, and permission boundaries survive every canonical handoff.
+      - id: global-command-palette
+        requirement: Cmd/Ctrl+K opens a keyboard-accessible command palette.
+        acceptance: Palette supports business search, calendar, booking, people, chat, work offer, thing listing, settings, and Vision actions.
+      - id: universal-action-bar
+        requirement: Every authenticated screen uses Current context, Primary action, Secondary actions, and More.
+        acceptance: At most one primary action is visible per task state; secondary actions remain contextual or overflow-hidden.
+  - id: home
+    owner_task: implement-today-next-home
+    requirements:
+      - id: home-today-next
+        requirement: Home presents Today, Next, and overdue/attention sections.
+        acceptance: Booking confirmation, work review, upcoming appointment, and overdue items appear in deterministic priority order.
+      - id: home-resume-contexts
+        requirement: Home supports Resume where you left off and recent contexts.
+        acceptance: Dismissed suggestions stay dismissed and recent contexts reopen their canonical route with context.
+      - id: home-action-information-separation
+        requirement: Distinguish Needs action from Information.
+        acceptance: Informational rows never compete visually with actionable rows and empty state explains the first useful action.
+  - id: business-discovery
+    owner_task: implement-cross-module-context-links
+    requirements:
+      - id: business-intent-filters
+        requirement: Business discovery supports Book now, Available today, Near me, Open now, recurring service, multiple customers, and employees/resources intents.
+        acceptance: Filters are backend-backed or explicitly marked unavailable; no client-side false availability claims.
+      - id: business-card-operational-summary
+        requirement: Business cards show fastest option, from price, billing unit, next slot, capacity, and availability status.
+        acceptance: Summary values come from the public business read model and link directly to the matching service/slot.
+  - id: business-public
+    owner_task: implement-business-templates-adaptive-setup
+    requirements:
+      - id: business-progressive-public-page
+        requirement: Public business page reveals description, service, price, availability, terms, and booking progressively.
+        acceptance: Only the selected service exposes its relevant fields and the user can return to a prior step without losing valid input.
+      - id: business-recurring-booking
+        requirement: Support recurring booking where the service contract permits it.
+        acceptance: Recurrence preview, conflict handling, cancellation terms, and backend validation are visible before confirmation.
+      - id: business-book-for-other
+        requirement: Allow booking for another person where business policy permits.
+        acceptance: Recipient identity, consent/visibility, and confirmation responsibility are explicit.
+      - id: business-quantity-and-multiple-people
+        requirement: Support quantity and multiple people in one booking.
+        acceptance: Capacity, price, and resource allocation update from backend quote data.
+      - id: business-upload-and-quote
+        requirement: Support service-specific uploads, quote-before-slot, and request-quote flows.
+        acceptance: Upload constraints and non-fixed-price states are explicit; no fake numeric quote is shown.
+  - id: business-calendar
+    owner_task: implement-business-operator-workspace
+    requirements:
+      - id: calendar-three-views
+        requirement: Provide My schedule, Business schedule, and All businesses views.
+        acceptance: Each view has an explicit scope label and correct ownership/read permissions.
+      - id: calendar-three-layers
+        requirement: Show booking rows, availability blocks, and resource/employee allocation.
+        acceptance: Layers can be toggled independently without changing booking authority.
+      - id: calendar-operations
+        requirement: Support drag reschedule, block time, duplicate booking, recurring availability, waiting list, no-show, and cancellation impact.
+        acceptance: Every mutation uses backend action/validation responses and recovers from stale/conflict failure.
+      - id: calendar-intelligence
+        requirement: Show overbooking warnings, capacity heatmap, and why-a-slot-is-unavailable explanation.
+        acceptance: Explanations identify the authoritative reason such as hours, capacity, resource, policy, or conflict.
+  - id: business-templates
+    owner_task: implement-business-templates-adaptive-setup
+    requirements:
+      - id: business-template-library
+        requirement: Provide Hair salon, Dog daycare, Cleaning company, Car wash, Painting company, Tutor, Repair service, and Fitness trainer templates.
+        acceptance: Each template is editable and reviewable before publish.
+      - id: business-template-fields
+        requirement: Templates suggest billing unit, required fields, pricing model, capacity, resources, availability, and customer questions.
+        acceptance: Owner can override or remove every suggestion and sees resulting customer preview.
+  - id: work
+    owner_task: implement-module-detail-polish
+    requirements:
+      - id: work-mode-switch
+        requirement: Work supports Browse, Recommended, Nearby, Scheduled, and My applications modes.
+        acceptance: Mode is URL-addressable, preserves filters, and explains empty/permission states.
+      - id: work-detail-guidance
+        requirement: Work detail shows sticky primary action, compatibility, missing requirements, time/reward ratio, progress, save/resume, and owner/applicant context.
+        acceptance: User can understand next action and why it is allowed or unavailable without opening unrelated panels.
+      - id: work-offer-types
+        requirement: Work creation supports one-time, recurring, shift, milestone, quantity-based, and application-based offers.
+        acceptance: Offer type is selected first and only relevant questions appear.
+  - id: chat
+    owner_task: implement-module-detail-polish
+    requirements:
+      - id: chat-operational-basics
+        requirement: Chat supports unread separator, priority, pinned conversations, draft persistence, reply preview, upload progress, failed retry, and message search.
+        acceptance: Reconnect/retry states are visible, drafts survive navigation, and message actions remain backend-authorized.
+      - id: chat-related-context
+        requirement: Chat links to related business, booking, and work context.
+        acceptance: Related context is visible without duplicating the source workflow and preserves return path.
+  - id: notifications-activity
+    owner_task: implement-universal-action-state-grammar
+    requirements:
+      - id: notification-categories
+        requirement: Notifications and Activity separate Needs action, Booking, Work, Chat, Social, and System.
+        acceptance: Category filters and counts are viewer-scoped and backend-consistent.
+      - id: notification-actions
+        requirement: Support mark done, snooze, mute category, batch actions, notification/task distinction, and why-am-I-seeing-this.
+        acceptance: Each action has confirmation, undo/recovery where possible, and an authoritative destination.
+  - id: circles-people
+    owner_task: implement-module-detail-polish
+    requirements:
+      - id: people-trust-context
+        requirement: Show relationship status, shared circles, visibility, pending, blocked/restricted state, and what the viewer can see.
+        acceptance: Privacy summary reflects backend policy and never reveals restricted information.
+      - id: people-profile-links
+        requirement: People profile shows public summary, mutual context, allowed actions, privacy explanation, and related business/work/chat links.
+        acceptance: Allowed actions are backend-provided and related links preserve context.
+  - id: things
+    owner_task: implement-module-detail-polish
+    requirements:
+      - id: things-borrow-operations
+        requirement: Things support availability calendar, duration, pickup/return, deposit/trust requirements, condition photos, request timeline, owner deadline, and return reminder.
+        acceptance: Borrow lifecycle states and deadlines remain synchronized with backend state and recover from stale actions.
+  - id: rides
+    owner_task: implement-module-detail-polish
+    requirements:
+      - id: rides-trust-operations
+        requirement: Rides show route map, pickup flexibility, recurring commute, seat timeline, rider trust, cancellation impact, and route/time change notifications.
+        acceptance: Route and seat data remain visibility-safe and changes produce clear impact messaging.
+  - id: profile-settings
+    owner_task: implement-trust-profile-settings
+    requirements:
+      - id: settings-groups
+        requirement: Group settings into Identity, Privacy, Location, Notifications, Appearance, Connected services, and Account security.
+        acceptance: Each group has summary, current value, edit, saved state, and reset/default behavior.
+      - id: trust-explanations
+        requirement: Explain visibility, unavailable actions, slot availability, price calculation, resource conflicts, booking expiry, post-confirmation behavior, and undoability.
+        acceptance: Explanations identify backend authority and never imply client-side guarantees.
+  - id: universal-states
+    owner_task: implement-universal-action-state-grammar
+    requirements:
+      - id: complete-state-matrix
+        requirement: All screens distinguish loading, empty, partial, stale, offline, permission denied, validation error, conflict, success, retryable failure, and completed.
+        acceptance: Each state has a user-readable message, next action, and accessible announcement where relevant.
+      - id: empty-state-semantics
+        requirement: Distinguish nothing exists, nothing is visible, failed load, changed-during-edit, and no permission.
+        acceptance: Test fixtures prove each message and action is semantically different.
+  - id: personalization
+    owner_task: implement-personalization-preferences
+    requirements:
+      - id: user-preferences
+        requirement: Support compact/comfortable density, default landing, default business, default calendar, preferred booking duration, notification intensity, favorite services/people/circles, and action shortcuts.
+        acceptance: Preferences persist, reset safely, and never bypass permissions or workflow rules.
+      - id: operator-dashboard
+        requirement: Business owner can configure bookings, revenue, staff workload, availability gaps, pending requests, and customer messages dashboard sections.
+        acceptance: Sections are reorderable/hideable without changing backend data or mutation authority.
+  - id: mobile-accessibility
+    owner_task: implement-mobile-accessibility-transformation
+    requirements:
+      - id: mobile-transformations
+        requirement: Transform lists to swipeable rows, rails to bottom sheets, filters to modal sheets, calendars to agenda, forms to one-step flows, overflow to sticky actions, chat context to collapsible header, and business switcher to full-screen picker.
+        acceptance: Each changed screen has deliberate narrow interaction and no horizontal overflow.
+      - id: accessibility-behavior
+        requirement: Keyboard/focus return, screen-reader announcements, touch targets, contrast, and reduced motion are verified.
+        acceptance: Browser evidence records focus path, announcements, and reduced-motion behavior for representative screens.

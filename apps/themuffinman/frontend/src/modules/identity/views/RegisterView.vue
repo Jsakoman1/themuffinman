@@ -11,10 +11,13 @@ const email = ref("")
 const username = ref("")
 const password = ref("")
 const error = ref("")
+const isSubmitting = ref(false)
 const router = useRouter()
 
 const register = async () => {
   error.value = ""
+  if (isSubmitting.value) return
+  isSubmitting.value = true
   try {
     const normalizedEmail = email.value.trim().toLowerCase()
     const response = await authApi.register({
@@ -30,20 +33,22 @@ const register = async () => {
     await router.push("/home")
   } catch {
     error.value = "Registration failed"
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
 
 <template>
-  <main class="auth-terminal">
-    <section class="auth-terminal__panel">
+  <main class="auth-terminal identity-surface">
+    <section class="auth-terminal__panel identity-surface__panel">
       <p class="auth-terminal__eyebrow">TheMuffinMan / access</p>
       <h1 class="auth-terminal__title">Register</h1>
-      <p class="auth-terminal__copy">Create an account, then continue to your workspace.</p>
+      <p class="auth-terminal__copy identity-surface__copy">Create an account, then continue to your workspace.</p>
 
-      <form class="auth-terminal__form" @submit.prevent="register"><AppFormField label="Email" required><input v-model="email" aria-label="Email" class="auth-terminal__input" type="email" autocomplete="email" required /></AppFormField><AppFormField label="Username" required><input v-model="username" aria-label="Username" class="auth-terminal__input" autocomplete="username" required /></AppFormField><AppFormField label="Password" required><input v-model="password" aria-label="Password" class="auth-terminal__input" type="password" autocomplete="new-password" required /></AppFormField><AppStatus v-if="error" :message="error" tone="error" /><AppFormFooter><template #primary><button type="submit">Create account</button></template></AppFormFooter></form>
+      <form class="auth-terminal__form identity-surface__form" :aria-busy="isSubmitting || undefined" @submit.prevent="register"><AppFormField label="Email" required><input v-model="email" aria-label="Email" class="auth-terminal__input identity-surface__input" type="email" autocomplete="email" :disabled="isSubmitting" required /></AppFormField><AppFormField label="Username" required><input v-model="username" aria-label="Username" class="auth-terminal__input identity-surface__input" autocomplete="username" :disabled="isSubmitting" required /></AppFormField><AppFormField label="Password" required><input v-model="password" aria-label="Password" class="auth-terminal__input identity-surface__input" type="password" autocomplete="new-password" :disabled="isSubmitting" required /></AppFormField><AppStatus v-if="isSubmitting" message="Creating your workspace…" busy /><AppStatus v-else-if="error" :message="error" tone="error" /><AppFormFooter><template #primary><button type="submit" :disabled="isSubmitting">{{ isSubmitting ? "Creating…" : "Create account" }}</button></template></AppFormFooter></form>
 
-      <p class="auth-terminal__linkline">
+      <p class="auth-terminal__linkline identity-surface__linkline">
         Already have an account?
         <RouterLink to="/login">Login</RouterLink>
       </p>

@@ -1,0 +1,48 @@
+{
+  "evidenceVersion": "frontend-remaster-personal-context-v3",
+  "capturedAt": "2026-07-24T05:56:19.188Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "home": {
+      "status": "passed",
+      "route": "/home",
+      "hasOrientation": true,
+      "summaryRows": 4,
+      "noHorizontalOverflow": true
+    },
+    "createMenu": {
+      "status": "passed",
+      "hasOptions": true
+    },
+    "commandCenter": {
+      "status": "passed",
+      "hasSearch": true
+    },
+    "searchQuery": {
+      "status": "passed",
+      "hasRecoverySurface": true
+    },
+    "activity": {
+      "status": "passed",
+      "route": "/activity"
+    },
+    "savedSearches": {
+      "status": "passed",
+      "route": "/search/saved"
+    },
+    "mobileHome": {
+      "status": "passed",
+      "widths": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

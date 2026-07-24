@@ -143,6 +143,39 @@ regression_scenarios:
       - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticRouteCatalogServiceTest.java
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=VisionSlotFillingRegressionTest,VisionSemanticRouteCatalogServiceTest
+  - id: vision-inline-quest-and-circles-navigation
+    domain: vision
+    risk: high
+    scenario: Exact quest opening, guided work creation entry, viewer-scoped circle opening, and navigation-only circle prompts must stay fail-closed, read-only where requested, and return canonical workspace destinations.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=VisionConversationServiceTest
+  - id: vision-prompt-contract-routing
+    domain: vision
+    risk: high
+    scenario: Critical product prompt wording must preserve the semantic contract: direct messaging stays SEND_MESSAGE, chat opening stays OPEN_CHAT, create new work routes to guided quest creation, and go to circles routes to navigation-only circles.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionPromptUnderstandingServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=VisionIntentRouterTest,VisionSemanticAuditMatrixTest,VisionPromptUnderstandingServiceTest
+  - id: vision-direct-message-idempotency
+    domain: vision
+    risk: high
+    scenario: A confirmed Vision direct message must be sent once, retain its authoritative message id, and return a completed readback on repeated confirmation without sending a duplicate.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=VisionConversationServiceTest,VisionChatExecutionServiceTest
+  - id: ui-linking-vision-inline-runtime-closeout
+    domain: web-vision
+    risk: high
+    scenario: Fresh authenticated browser evidence must cover canonical collection destinations, inline Vision quest/circle flows, guided work creation, and confirmed direct messaging; unavailable local infrastructure remains explicitly pending.
+    evidence:
+      - docs/runtime-evidence/ui-linking-vision-inline-runtime.json
   - id: identity-profile-read-model
     domain: identity
     risk: medium
@@ -199,3 +232,74 @@ regression_scenarios:
       - docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=RideOfferServiceTest
+  - id: business-flexible-schema-capacity-resource-booking
+    domain: business
+    risk: high
+    scenario: Typed demand/options, quantity capacity, owner resource requirements, concrete resource assignment, booking snapshots, and resource conflicts must remain backend-authoritative.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPricingCalculationServiceTest.java
+      - docs/runtime-evidence/business-booking-end-to-end.json
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=BusinessCreateBookingUseCaseTest,BusinessPricingCalculationServiceTest
+  - id: business-lifecycle-calendar-vision-parity
+    domain: business
+    risk: high
+    scenario: Public quote/availability/customer booking, owner reschedule/cancel, calendar overlap, typed schema, resource metadata, and Vision Business preview must use the same backend contract.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewServiceTest.java
+      - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+      - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=BusinessOwnerCalendarReadServiceTest,VisionCapabilityPreviewServiceTest
+      - node apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - id: vision-runtime-provider-failure-recovery
+    domain: vision
+    risk: high
+    scenario: Deterministic provider failure is observable and retryable, no mutation is executed, correlation survives the turn, and a normal-stack retry produces an authoritative state.
+    test_files:
+      - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+      - docs/runtime-evidence/vision-provider-failure-runtime.json
+      - docs/runtime-evidence/vision-prompt-recovery-runtime.json
+    commands:
+      - VISION_EXPECT_PROVIDER_FAILURE=true WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/vision-provider-failure-runtime.json node apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - id: vision-web-host-terminal-boundary
+    domain: vision
+    risk: high
+    scenario: Authenticated Web navigation uses VisionForWeb only; legacy Vision terminal URLs redirect to the Web shell and preserve a prompt for the inline host.
+    test_files:
+      - apps/themuffinman/frontend/src/router.ts
+      - apps/themuffinman/frontend/src/modules/app-shell/components/VisionForWebHost.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/visionHandoff.ts
+    commands:
+      - npm --prefix apps/themuffinman/frontend run type-check
+      - npm --prefix apps/themuffinman/frontend run build
+  - id: frontend-ux-turn-based-multi-business
+    domain: frontend-ux
+    risk: high
+    scenario: Shared task surfaces keep one primary next action, Business owners can switch profile context and inspect booking-first calendar rows, public booking progresses through service/details/time/review, and narrow layouts remain usable with contextual Vision handoff.
+    test_files:
+      - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+      - docs/runtime-evidence/frontend-ux-simplification-closeout.json
+    commands:
+      - npm --prefix apps/themuffinman/frontend run type-check
+      - npm --prefix apps/themuffinman/frontend run build
+  - id: frontend-ux-next-evolution-closeout
+    domain: frontend-ux
+    risk: high
+    scenario: The next-evolution shell preserves Today/Next orientation, context and command entry points, progressive Business booking with quantity/recipient/recurrence/quote states, cross-module detail links, keyboard-safe actions, and overflow-free desktop/mobile layouts.
+    test_files:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+      - docs/runtime-evidence/frontend-ux-next-evolution-closeout.json
+      - docs/runtime-evidence/frontend-ux-next-evolution-closeout-desktop.png
+      - docs/runtime-evidence/frontend-ux-next-evolution-closeout-mobile.png
+    commands:
+      - npm --prefix apps/themuffinman/frontend run type-check
+      - npm --prefix apps/themuffinman/frontend run build
+      - node apps/themuffinman/frontend/scripts/frontend-remaster-closeout-runtime.mjs
+ # BUSINESS-BOOKING-RUNTIME-001: flexible Business scenarios require browser/API evidence.

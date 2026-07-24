@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-07-module-detail-polish
+title: Polish module detail, browse, and act surfaces
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml], baseline_only_surfaces: [module capabilities and backend-provided allowedActions], residual_scope: [Work, Chat, Circles, People, Things, Rides detail density, sticky primary actions, and progressive disclosure], retest_triggers: [detail ownership, action priority, list/detail transformation, or module-specific mobile behavior change], non_duplication_rule: Backend action flags and workflow state remain authoritative.}
+tasks:
+  - id: implement-module-detail-polish
+    title: Make every authenticated module easier to browse, inspect, and act on
+    type: implementation
+    status: pending
+    inventory_item: module-detail-polish
+    observable_outcome: Work, Chat, Circles, People, Things, and Rides show a compact summary first, one sticky primary action, related context, and progressive secondary detail.
+    dependencies: [implement-cross-module-context-links, implement-universal-action-state-grammar]
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue]
+    required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue, apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue]
+    evidence_boundary: [representative module detail journeys, action authority, empty/error/recovery, keyboard, type-check/build, desktop/mobile screenshots]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-module-details-desktop.png, docs/runtime-evidence/frontend-ux-next-module-details-mobile.png]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

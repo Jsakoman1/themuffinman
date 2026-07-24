@@ -10,6 +10,7 @@ import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
+import {formatDateTime} from "../../../services/formatters.ts"
 
 const items = ref<BusinessAvailabilityExceptionResponseDTO[]>([])
 const offerings = ref<BusinessOfferingResponseDTO[]>([])
@@ -22,7 +23,7 @@ const feedback = ref("")
 const selectedExceptionId = ref<number | null>(null)
 const selectedException = computed(() => items.value.find((item) => item.id === selectedExceptionId.value) ?? null)
 const emptyForm = (): BusinessAvailabilityExceptionRequestDTO => ({businessOfferingId: offerings.value[0]?.id ?? 0, exceptionType: "BLOCK", startAt: "", endAt: "", replacementCapacity: 1, replacementStartTimeLocal: "09:00", replacementEndTimeLocal: "17:00", reason: ""})
-const formatDate = (value: string) => new Intl.DateTimeFormat(undefined, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}).format(new Date(value))
+const formatDate = (value: string) => formatDateTime(value, "Unknown time")
 const load = async () => { isLoading.value = true; error.value = ""; try { const [exceptionResponse, offeringResponse] = await Promise.all([userShellApi.getBusinessAvailabilityExceptions(), userShellApi.getBusinessOfferings()]); items.value = exceptionResponse.items; offerings.value = offeringResponse.items } catch { error.value = "Could not load availability exceptions." } finally { isLoading.value = false } }
 const beginCreate = () => { editingId.value = null; form.value = emptyForm(); feedback.value = "" }
 const beginEdit = (item: BusinessAvailabilityExceptionResponseDTO) => { editingId.value = item.id; form.value = {businessOfferingId: item.businessOfferingId, exceptionType: item.exceptionType, startAt: item.startAt.slice(0, 16), endAt: item.endAt.slice(0, 16), replacementCapacity: item.replacementCapacity, replacementStartTimeLocal: item.replacementStartTimeLocal, replacementEndTimeLocal: item.replacementEndTimeLocal, reason: item.reason}; feedback.value = "" }

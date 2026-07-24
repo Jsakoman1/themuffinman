@@ -1,0 +1,208 @@
+kind: work
+version: 1
+id: frontend-remaster-06-social-sharing-business-sweep
+title: Remaster mapped social, sharing, rides, and business surfaces
+status: verified
+recovery_required: true
+reopened_from: verified
+reopen_reason: Module-specific remaster and authenticated representative journeys
+  remain incomplete.
+baseline: dcb983f
+master_plan: docs/work/frontend-app-remaster-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-app-remaster-master-execution-inventory.yaml
+objective: Apply the approved shared grammar to Circles/People, Things, Rides, and
+  Business only where current capability inventory and audits identify a concrete
+  surface, mobile, privacy, recovery, or detail gap.
+implementation_contract:
+  minimum_source_surfaces:
+  - CirclesView.vue
+  - PeopleDiscoveryView.vue
+  - PeopleProfileView.vue
+  - ThingsDiscoveryView.vue
+  - ThingDetailView.vue
+  - RidesView.vue
+  - RideDetailView.vue
+  - BusinessDiscoveryView.vue
+  - BusinessPublicView.vue
+  - BusinessProfileView.vue
+  - BusinessOfferingsView.vue
+  - BusinessBookingsView.vue
+  - BusinessAvailabilityView.vue
+  required_user_visible_changes:
+  - Circles/People use consistent collection/detail/invite/privacy context grammar.
+  - Things uses explicit listing/request turns with loading, empty, error, and request
+    feedback.
+  - Rides presents lifecycle/status/actions compactly on desktop and mobile.
+  - Business discovery, public profile, offerings, bookings, and availability share
+    detail/action grammar and recoverable states.
+  required_runtime_scenarios:
+  - Circles list/create or invite dialog open/cancel and People detail/privacy context
+  - Things listing selection and request/listing dialog recovery
+  - Rides offer/discover/detail action surface
+  - Business discovery/public profile and booking/availability route reachability
+    with visible state
+  anti_partial: Fixing one Things API call or adding focus CSS does not satisfy this
+    module sweep.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - Existing social, visibility, consent, thing, borrow, ride, business, booking,
+    and availability authority.
+  - Existing route/action mapping and backend-provided permissions.
+  residual_scope:
+  - Contextual profile/circle presentation and invite picker.
+  - Listing/request and ride lifecycle presentation.
+  - Booking/detail/calendar presentation and mobile/recovery behavior.
+  retest_triggers:
+  - Visibility, consent, membership, booking, lending, or ride state presentation
+    changes.
+  - Any detail-route versus context-surface decision.
+  - Any shared form or dialog change affecting these modules.
+  non_duplication_rule: This is a targeted sweep, not a blanket rewrite or capability
+    expansion.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: required_before_implementation
+paths:
+- apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+- apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+- apps/themuffinman/frontend/src/modules/rides/api/ridesApi.ts
+- apps/themuffinman/frontend/src/modules/app-shell/components/GuidedIntakePanel.vue
+- apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+- docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json
+- docs/runtime-evidence/frontend-remaster-module-sweep-1440.png
+- docs/runtime-evidence/frontend-remaster-module-sweep-390.png
+required_paths:
+- apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+- docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json
+tasks:
+- id: remaster-mapped-module-surfaces
+  inventory_item: remaster-06-social-sharing-business-sweep
+  title: Remaster mapped module surfaces and prove representative journeys
+  type: implementation
+  status: done
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GuidedIntakePanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json
+  - docs/runtime-evidence/frontend-remaster-module-sweep-1440.png
+  - docs/runtime-evidence/frontend-remaster-module-sweep-390.png
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json
+  - docs/runtime-evidence/frontend-remaster-module-sweep-1440.png
+  - docs/runtime-evidence/frontend-remaster-module-sweep-390.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-remaster-module-sweep-1440.png
+  - docs/runtime-evidence/frontend-remaster-module-sweep-390.png
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && make audit-frontend && git diff --check
+  started_at: '2026-07-24T06:00:14Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue: 608be83b0993a793f602bde9091c539923e094cd27f629aca4757408a8c00a01
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: 8b6bd84093fb4c028ea80e308973e0cf3ff25480dfea65e491820fd7517ccf3f
+    docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json: 1a6f39f7f338d3366a07089326b050d5dc2d3506dfc28ab61c2438fc765c5fe1
+    docs/runtime-evidence/frontend-remaster-module-sweep-1440.png: 5d3ad6e757ef8e6aca1707dfe85752c81a0ab2e93959bb7567478acff6b577c2
+    docs/runtime-evidence/frontend-remaster-module-sweep-390.png: daa6d1a6d9e2f9d516a1a24a62f0b44cc9389aafddee251737f12ae5ada87289
+acceptance:
+- Existing visibility, consent, membership, booking, lending, and ride action flags
+  remain authoritative.
+- Circle privacy explanations and invite flow are clear without inventing local eligibility.
+- Things and Rides retain explicit state transitions and recovery.
+- Business public discovery, owner operations, calendar, and bookings remain distinct.
+- Representative desktop/mobile evidence exists for the changed module surfaces.
+evidence:
+- task: remaster-mapped-module-surfaces
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && make audit-frontend && git diff --check
+  ranAt: '2026-07-24T06:02:08Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GuidedIntakePanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/runtime-evidence/frontend-remaster-module-sweep-1440.png
+  - docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json
+  - docs/runtime-evidence/frontend-remaster-module-sweep-390.png
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 97
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  startedAt: '2026-07-24T06:00:14Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json
+  - docs/runtime-evidence/frontend-remaster-module-sweep-1440.png
+  - docs/runtime-evidence/frontend-remaster-module-sweep-390.png
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-remaster-module-sweep-1440.png
+  - docs/runtime-evidence/frontend-remaster-module-sweep-390.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-remaster-module-sweep-2026-07-23.json

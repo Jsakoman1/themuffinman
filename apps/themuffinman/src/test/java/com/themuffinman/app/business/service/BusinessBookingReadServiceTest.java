@@ -94,6 +94,7 @@ class BusinessBookingReadServiceTest {
         assertEquals(1, result.getTotalItems());
         assertEquals(1, result.getItems().size());
         assertEquals(matching.getId(), result.getItems().getFirst().getId());
+        assertEquals(BusinessBookingStatus.CONFIRMED, result.getItems().getFirst().getStatus());
     }
 
     private BusinessBooking booking(Long id, AppUser owner, AppUser customer, BusinessBookingStatus status, String startsAt) {

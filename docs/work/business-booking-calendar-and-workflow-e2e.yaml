@@ -1,0 +1,233 @@
+kind: work
+version: 1
+id: business-booking-calendar-and-workflow-e2e
+title: Close owner calendar, customer bookings, capacity, and booking lifecycle end
+  to end
+status: verified
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+tasks:
+- id: calendar-scope-container
+  title: Scope container for Business lifecycle and calendar atomic tasks
+  type: implementation
+  status: done
+  inventory_item: calendar-scope-container
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  verification_required_paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  validation: test -f apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+    && test -f docs/runtime-evidence/business-booking-end-to-end.json
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/regression-scenario-catalog.yaml
+  acceptance:
+  - Owner calendar shows all owner bookings grouped in business-local month/week/day
+    views, including pending, confirmed, cancelled, completed, and no-show meaning.
+  - Calendar events link to booking detail or an object-focused booking surface and
+    preserve allowed actions.
+  - Customer My bookings shows the same persisted start/end/timezone/status snapshots
+    and customer-allowed actions.
+  - Confirm, reject, cancel, reschedule, complete, and no-show paths preserve capacity
+    correctly and are idempotent or conflict-safe.
+  - Two concurrent requests cannot overbook a SINGLE offering or exceed SHARED capacity,
+    including buffers.
+  - Multiple Business profiles owned by one user remain correctly scoped in setup,
+    public reads, bookings, and calendars.
+  - Regression scenarios cover cleaning teams, stylist pools, dog daycare capacity,
+    car-wash bays, and quote/project bookings.
+  - Booking-created/status/rescheduled events and owner/customer attention signals
+    remain correct after snapshot/resource changes.
+  started_at: '2026-07-24T11:53:27Z'
+  start_fingerprints:
+    docs/runtime-evidence/business-booking-end-to-end.json: 2c34a09a8c289fee2040a31ea1b21d7aca35f6125982d946f5ace42b038f79fb
+- id: calendar-lifecycle-backend
+  title: Complete booking lifecycle snapshots, resources, capacity, events, and projections
+  type: implementation
+  status: done
+  inventory_item: calendar-lifecycle-backend
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java
+  dependencies:
+  - domain-booking-compatibility
+  - public-api-preview
+  observable_outcome: Booking lifecycle, snapshots, resources, capacity, events, and
+    owner/customer projections remain consistent.
+  evidence_boundary:
+  - backend lifecycle tests
+  - event tests
+  - concurrency tests
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessOwnerCalendarReadServiceTest,BusinessBookingReadServiceTest,BusinessBookingControllerTest,BusinessCreateBookingUseCaseTest'
+    test
+  started_at: '2026-07-24T11:13:43Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java: cd368a0fabe5f5d8ae13f6295e0f9798a8c9adecb803328d895309ede58f7e1b
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java: 0cf755356652942870cf3b47b0b5a2b158312aa6f5a0db87e8345398f8d54461
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java: 842843fe4b350006f7daac2b8846fc14b528495244a5fb5cc15c912f117b1a56
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java: e34c246b3a5ced50c76c9b0ac4cd24d15d38fb882c72231d529038c74091d702
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java: 3ec5ca8384a1a3c9dcd7d2620ef513cf227a8432047b00578ad487402617064a
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java: a8fbd747eca63c88d7bdd93205183ed6d35744431b166eb3eea59778bbb1cabd
+- id: calendar-web-shell
+  title: Connect Business and shared Calendar Web surfaces
+  type: implementation
+  status: done
+  inventory_item: calendar-web-shell
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  dependencies:
+  - calendar-lifecycle-backend
+  observable_outcome: Owner and customer can discover, inspect, and recover booking/calendar
+    actions with object focus.
+  evidence_boundary:
+  - frontend type-check
+  - frontend build
+  - route/action audit
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-24T11:14:51Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue: cc3f7363dc4375ac924c79ff4f81183edbf6ea826f1b3b35bd99bdd8e2dd6807
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue: 312e8ade12eab5283d980e44d771255c84cd232ceab6b2399c94ff3eb4981995
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue: 599900ea844661bf187c85d0313022329ff298481af2dcba6ba53213c36d4b46
+    apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts: 58d18ff2c0f127219341a71d7e162af45e99e2200d15d9fcab21a4b8ee5ba918
+    apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts: 969184a47dc7b6bcaa1290287686c36456957ade7038f6917b4297be249ec117
+evidence:
+- task: calendar-lifecycle-backend
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessOwnerCalendarReadServiceTest,BusinessBookingReadServiceTest,BusinessBookingControllerTest,BusinessCreateBookingUseCaseTest'
+    test
+  ranAt: '2026-07-24T11:14:34Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  output: |+
+    13:14:45.686 [main] INFO org.hibernate.validator.internal.util.Version -- HV000001: Hibernate Validator 9.0.1.Final
+    13:14:46.050 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+    13:14:46.050 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+    13:14:46.052 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 1 ms
+
+  startedAt: '2026-07-24T11:13:43Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingReadServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: calendar-web-shell
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-24T11:16:49Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-Dkf5Mhxq.js     8.01 kB │ gzip:   2.61 kB
+    dist/assets/BusinessAvailabilityView-pXxbYnZ7.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/BusinessPublicView-BJFbfGai.js                     8.37 kB │ gzip:   3.13 kB
+    dist/assets/WorkspaceSurfaceView-DTd7kiHy.js                  10.35 kB │ gzip:   3.43 kB
+    dist/assets/CirclesView-C754VrF1.js                           11.34 kB │ gzip:   3.43 kB
+    dist/assets/BusinessProfileView-BEZhOpXa.js                   12.47 kB │ gzip:   3.72 kB
+    dist/assets/ThingsDiscoveryView-DL1KM2UP.js                   12.52 kB │ gzip:   3.97 kB
+    dist/assets/WorkQuestDetailView-CQmqtF7A.js                   13.01 kB │ gzip:   4.17 kB
+    dist/assets/RidesView-9PsxajlA.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-BZUDSqDF.js                       16.45 kB │ gzip:   5.31 kB
+    dist/assets/SurfaceHeader-fNJ3b0Ii.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-DhvazVH2.js           21.34 kB │ gzip:   6.76 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-T3_8wsTI.js                38.82 kB │ gzip:  12.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-DdvOuwNq.js                                 55.01 kB │ gzip:  13.96 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 506ms
+
+  startedAt: '2026-07-24T11:14:51Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: calendar-scope-container
+  command: test -f apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+    && test -f docs/runtime-evidence/business-booking-end-to-end.json
+  ranAt: '2026-07-24T11:54:10Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  output: "\n"
+  startedAt: '2026-07-24T11:53:27Z'
+  changedAfterStart: &3
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+scope_container: true
+atomic_tasks:
+- id: calendar-lifecycle-backend
+  outcome: Complete lifecycle, snapshot, resource/capacity transitions, events, notifications,
+    and owner/customer projections.
+- id: calendar-web-shell
+  outcome: Connect Business and shared Calendar Web surfaces with object focus and
+    recovery states.

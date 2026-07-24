@@ -1,0 +1,192 @@
+kind: master
+version: 1
+id: frontend-structural-redesign-master
+title: "Full product frontend redesign: Apple-inspired calm workspace, VisionForWeb, unified calendar, and simple module journeys"
+status: draft
+readiness: requires_scope_reconciliation_and_atomic_hardening
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+atomic_task_hardening_plan: docs/work/frontend-structural-redesign-atomic-task-hardening.yaml
+serial_task_execution: true
+execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/frontend-ux-next-evolution-master.yaml
+    - docs/work/frontend-app-remaster-master.yaml
+    - docs/work/business-booking-end-to-end-master.yaml
+  baseline_only_surfaces:
+    - Existing backend ownership, permissions, visibility, booking, pricing, capacity, resource, and state authority.
+    - Existing authenticated shell, design tokens, API contracts, Vision handoff, and validated runtime evidence.
+    - Native clients, deployment, provider behavior, and unrelated domain capability expansion.
+  residual_scope:
+    - Replace parallel generic and bespoke frontend surface models with one canonical module-page architecture.
+    - Redesign the shell header so context, navigation, assistant, and account controls have clear separate jobs; remove meaningless Create/Search clutter.
+    - Replace global Ask Vision buttons with one persistent contextual assistant composer and inline response bubble.
+    - Rebuild Home into visually separated Today, Next, Needs attention, Favorites, and quick-action sections.
+    - Make Work scopes visibly distinct, use side preview instead of forced detail navigation, and replace the complex mode selector with simple tabs and lightweight filters.
+    - Split Business customer and owner modes; give every owned business its own workspace, route, subnavigation link, calendar, profile editor, gallery, services, and bookings.
+    - Redesign public business pages and booking into a calm service-first flow with rich text, gallery, favorites, and progressive booking.
+    - Make Calendar a cross-module time center with events from Work, Rides, Things, Business, Chat, Circles, and personal commitments; preserve per-business calendars inside each business workspace.
+    - Redesign Circles around people, groups, permissions, visibility, chat groups, and event-capable clubs.
+    - Redesign Things around low-friction listing, discovery, and shareable wishlists.
+    - Redesign Rides around background matching from circles and low-pressure suggestions rather than manual coordination.
+    - Rebuild Attention, Saved searches, Profile, and Settings around calm sections and progressive detail.
+    - Establish one visual grammar for spacing, surfaces, typography, buttons, forms, tabs, drawers, previews, and state messaging.
+    - Remove or retire duplicated routes, hidden details controls, duplicated navigation metadata, and stale surface code only after replacement evidence exists.
+    - Add runtime evidence proving discoverability, scope separation, side previews, assistant behavior, calendar aggregation, business isolation, responsive behavior, and recovery.
+  retest_triggers:
+    - Any route, tab registry, shared shell component, module page, API query preset, or backend read-model change.
+    - Any change to primary action, permissions, allowed actions, empty states, or ownership filtering.
+    - Any responsive breakpoint, keyboard interaction, drawer, tab focus, or accessibility announcement change.
+    - Any removal of a route or legacy component.
+non_duplication_rule: Existing UX evidence is baseline only; this master verifies structural consolidation and newly introduced tab/scope behavior.
+redesign_mode:
+  classification: hard-cut-structural-redesign
+  rule: Build the new information architecture as the only canonical Web experience, then cut routes and legacy surfaces over; do not keep two competing UI systems alive indefinitely.
+  allowed_migration: Temporary compatibility redirects or adapters are allowed only when the replacement route is live, visibly canonical, and covered by a removal task.
+  forbidden_migration: Do not layer new tabs, cards, toolbars, or assistant controls on top of the existing page grammar merely to preserve the old screen.
+  cutover_exit_criteria:
+    - Every retained authenticated route belongs to one module page or one intentional detail/flow route.
+    - Generic and bespoke renderers have an explicit disposition; no orphan component remains because it is difficult to remove.
+    - There is one header, one navigation registry, one tab primitive, one preview primitive, one form grammar, and one assistant entry pattern.
+    - The closeout runtime tests the new routes as the product, not the legacy routes as the primary experience.
+vision4web_contract:
+  status: mandatory-product-feature
+  preservation_rule: VisionForWeb remains available on every authenticated page and is not removed, hidden behind a separate app, or reduced to a legacy redirect.
+  presentation_rule: VisionForWeb is represented by one persistent contextual composer with current-page context, optional suggestion chips, streaming/listening/recovery state, and an inline answer bubble or task sheet.
+  direct-ui-rule: Direct structured UI remains fully usable; VisionForWeb complements navigation and actions but does not replace visible controls or bypass backend permissions/confirmation.
+  removal_rule: Remove repeated Ask Vision buttons and duplicate command launchers only after the persistent VisionForWeb composer is verified on desktop, mobile, keyboard, and recovery journeys.
+  backend_boundary: Backend semantic interpretation, route selection, target resolution, permissions, typed capability contracts, and confirmation remain authoritative.
+client_architecture_contract:
+  principle: Backend-first, thin clients, portable contracts
+  required_behavior:
+    - Business rules, ownership, permissions, validation, filtering, ranking, event aggregation, pricing, capacity, matching, and workflow transitions remain behind backend API contracts.
+    - Web, future iPhone, and future Apple Watch clients consume the same typed read/action/capability contracts and do not recreate domain logic locally.
+    - VisionForWeb and future Siri-like voice interaction use the same backend Vision contracts as structured Web controls.
+    - Frontend state is limited to presentation state: active tab, selected preview, sheet/drawer state, input draft, focus, density, and responsive layout.
+  css_and_file_simplification:
+    - One token source, one spacing scale, one typography scale, one surface hierarchy, one control grammar, and one responsive breakpoint policy.
+    - Prefer shared components and module composition over page-local CSS; page-local CSS must be limited to layout unique to that page.
+    - Remove duplicate style blocks, obsolete selectors, dead components, duplicate route definitions, unused imports, stale adapters, and copied markup during the redesign.
+    - New CSS must be readable, shallow, token-based, and easy to change globally; no deeply nested selectors, arbitrary magic numbers, or one-off visual systems.
+    - Cleanup is an implementation task with changed-file evidence, not an informal afterthought.
+  apple_product_family:
+    - Web is the first Apple-inspired product surface.
+    - Calendar uses Apple-like calm agenda/day/week/month hierarchy, restrained source colors, compact navigation arrows, and deliberate filters.
+    - VisionForWeb behaves like a Siri-inspired contextual assistant: quiet listening, clear response, suggested next actions, confirmation before mutation, and no competing chatbot page.
+    - Future Swift clients should map to the same backend contracts without depending on Vue component behavior or browser-only rules.
+completeness_contract:
+  required_outcomes:
+    - One canonical authenticated module-page layout.
+    - One canonical tab registry with no duplicated route/tab ownership.
+    - Header hierarchy is understandable at first glance and contains no redundant command buttons.
+    - Home has visually distinct sections and no unexplained dismiss mechanics.
+    - Persistent assistant input is available on every authenticated page; responses are contextual and inline.
+    - Work Discover, My work, and Applications are visibly and data-wise distinct and support adjacent preview.
+    - Business customer and owner modes are explicit; multiple businesses are isolated into separate workspaces.
+    - Business public pages support professional rich text, gallery, services, favorites, and simple booking.
+    - Calendar aggregates all module events while business calendars remain business-specific.
+    - Circles support people, groups, visibility, privileges, chat groups, and future group events.
+    - Things support low-friction listing, discovery, and shareable wishlists.
+    - Rides support consent-aware background matching and low-pressure suggestions.
+    - Attention, Saved searches, Profile, and Settings are calm, grouped, and progressive.
+    - CSS, components, routes, imports, and style blocks are materially reduced and consolidated rather than multiplied.
+    - Web domain logic remains backend/API-owned and is portable to future Swift clients.
+    - Hidden details/show-hide controls are not used as primary navigation.
+    - Old duplicate surfaces are retired only after replacement evidence exists.
+    - Desktop, mobile, keyboard, permissions, empty, loading, assistant, calendar, and recovery states are verified.
+  must_not_skip:
+    - No tab may exist without a route, read-model scope, empty state, permission boundary, and primary action.
+    - No route may silently reuse a dataset with a different title only.
+    - No legacy surface may be deleted before its replacement route and runtime evidence are verified.
+    - No frontend-derived ownership or permission rule may replace backend authority.
+    - No new page may introduce a private CSS grammar when a shared token or component can express the same behavior.
+    - No frontend-only workaround may become the source of truth for a future iPhone or Apple Watch client.
+design_contract:
+  primary_reference: Apple Human Interface Guidelines adapted for a responsive web workspace
+  principles:
+    - Clarity over density: every screen has one purpose, one visual starting point, and one primary action.
+    - Hierarchy over decoration: typography, spacing, grouping, and alignment explain importance before color or chrome.
+    - Calm surfaces: use generous whitespace, restrained borders, subtle depth, and predictable interaction states.
+    - Progressive disclosure: show the next useful decision first; reveal advanced detail inline, in a sheet, or in a secondary tab.
+    - Stable navigation: tabs navigate between sibling destinations; they never perform actions or hide essential actions unpredictably.
+    - Fewer destinations: keep top-level navigation small and use a sidebar or More surface for secondary destinations.
+    - Native-feeling interaction: visible focus, keyboard navigation, pointer targets, reduced motion, and responsive layout are first-class.
+    - Direct manipulation: list/detail surfaces use adjacent previews, inline editing, drag where appropriate, and reversible actions.
+    - Contextual intelligence: the assistant is persistent but quiet, scoped to the current screen, and never replaces visible product controls.
+    - Trust and agency: explain scope, visibility, ownership, pricing, and consequences at the point of decision.
+  visual_rules:
+    - One spacing scale and one surface hierarchy across every module.
+    - One button hierarchy: primary, secondary, quiet, destructive; no one-off button shapes.
+    - One form grammar with short labels, clear hints, inline validation, and no unexplained technical fields.
+    - One tab component with desktop sidebar adaptation and mobile horizontal/scroll behavior.
+    - One preview pattern for collections: selected row plus adjacent detail panel on desktop, sheet on mobile.
+    - One persistent assistant composer anchored to the app shell, not repeated as Ask Vision buttons.
+    - No gradients, ornamental dashboard cards, excessive badges, or dense multi-column forms unless they materially improve comprehension.
+  prohibited_patterns:
+    - Show/Hide details used as primary navigation.
+    - Multiple competing headers or action toolbars on one screen.
+    - A route that only changes its title while returning the same unscoped dataset.
+    - Full-page navigation for a known collection item when a preview is sufficient.
+    - A hidden or disabled tab that appears only for some users without an explanatory empty state.
+  reference:
+    - https://developer.apple.com/design/human-interface-guidelines/tab-bars
+    - https://m1.material.io/patterns/navigation.html
+phases:
+  - id: control-hardening
+    priority: P0
+    child: docs/work/frontend-structural-redesign-atomic-task-hardening.yaml
+    outcome: The structural redesign is split into bounded, verifier-safe atomic tasks.
+  - id: foundation-and-tabs
+    priority: P0
+    child: docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+    outcome: Shared module page, tab registry, tab accessibility, and canonical navigation are established.
+  - id: work-restructure
+    priority: P0
+    child: docs/work/frontend-structural-redesign-02-work.yaml
+    outcome: Work becomes one tabbed page with authoritative Discover, My work, and Applications scopes.
+  - id: business-restructure
+    priority: P0
+    child: docs/work/frontend-structural-redesign-03-business.yaml
+    outcome: Business becomes an understandable customer/owner product with simple tabs and guided setup.
+  - id: cross-module-restructure
+    priority: P1
+    child: docs/work/frontend-structural-redesign-04-cross-module.yaml
+    outcome: Share, Chat, Profile, Settings, and Calendar follow the same simple tab grammar.
+  - id: shell-home-assistant
+    priority: P0
+    child: docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+    outcome: The shell header, Home, persistent assistant, and side-preview interaction establish the calm operating model.
+  - id: calendar-and-business-workspaces
+    priority: P0
+    child: docs/work/frontend-structural-redesign-07-calendar-business.yaml
+    outcome: Calendar becomes the all-module time center and every owned business becomes an isolated, professional workspace.
+  - id: social-sharing-and-rides
+    priority: P1
+    child: docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+    outcome: Circles, Things, and Rides reduce social friction and make sharing discoverable without anxiety.
+  - id: attention-profile-visual-system
+    priority: P1
+    child: docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+    outcome: Remaining screens share one calm Apple-inspired visual grammar and progressive information hierarchy.
+  - id: retirement-and-closeout
+    priority: P0
+    child: docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+    outcome: Legacy surfaces are removed or redirected only after the Apple-inspired architecture, VisionForWeb, scope behavior, and runtime evidence are proven.
+children:
+  - docs/work/frontend-structural-redesign-01-foundation-tabs.yaml
+  - docs/work/frontend-structural-redesign-02-work.yaml
+  - docs/work/frontend-structural-redesign-03-business.yaml
+  - docs/work/frontend-structural-redesign-04-cross-module.yaml
+  - docs/work/frontend-structural-redesign-05-retirement-closeout.yaml
+  - docs/work/frontend-structural-redesign-06-shell-home-assistant.yaml
+  - docs/work/frontend-structural-redesign-07-calendar-business.yaml
+  - docs/work/frontend-structural-redesign-08-social-sharing-rides.yaml
+  - docs/work/frontend-structural-redesign-09-attention-profile-visual-system.yaml
+evidence:
+  required:
+    - docs/runtime-evidence/frontend-structural-redesign-closeout.json
+    - docs/runtime-evidence/frontend-structural-redesign-closeout-desktop.png
+    - docs/runtime-evidence/frontend-structural-redesign-closeout-mobile.png
+    - docs/regression-scenario-catalog.yaml

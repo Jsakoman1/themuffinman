@@ -22,6 +22,7 @@ import type {
   BusinessProfileResponseDTO,
   BusinessProfileListResponseDTO,
   BusinessProfileRequestDTO,
+  BusinessWorkspaceContextDTO,
   BusinessGalleryImageListResponseDTO,
   BusinessGalleryImageRequestDTO,
   RideOfferListResponseDTO,
@@ -64,6 +65,10 @@ import type {
   NotificationPreferenceResponseDTO,
   NotificationPreferenceUpdateDTO,
   WorkspaceNavigationResponse,
+  BusinessOfferingSchemaDTO,
+  BusinessResourceConfigurationDTO,
+  BusinessPublicQuoteDTO,
+  BusinessAvailabilityWindowDTO,
 } from "../../../contracts/index.ts"
 
 export type ProfileGalleryImage = {
@@ -113,6 +118,11 @@ export type AttentionCenter = {unreadCount: number; items: ActivityItem[]}
 export type PersonalShortcut = {targetId: number; targetType: string; title: string; route: string}
 export type WorkspaceRailPreference = {railWidthPx: number}
 export type AppearancePreference = {theme: "SYSTEM" | "DARK" | "LIGHT"}
+export type WorkspaceDefaults = {density: "comfortable" | "compact"; landing: "home" | "calendar" | "work"; bookingDurationMinutes: number; notificationIntensity: "all" | "important" | "none"}
+export type OperatorDashboardSections = {bookings: boolean; revenue: boolean; staffWorkload: boolean; availabilityGaps: boolean; pendingRequests: boolean; customerMessages: boolean}
+const workspaceDefaultsKey = "workspaceDefaults"
+const operatorDashboardKey = "operatorDashboardSections"
+const defaultWorkspaceDefaults: WorkspaceDefaults = {density: "comfortable", landing: "home", bookingDurationMinutes: 30, notificationIntensity: "important"}
 export type DisplayDensity = "compact" | "default" | "comfortable"
 export type WorkspaceCommandCatalog = import("../../../contracts/index.ts").WorkspaceCommandCatalog
 export type WorkspaceCommandGroup = "personal" | "navigation" | "create" | "vision"
@@ -190,6 +200,11 @@ export const userShellApi = {
   async updateWorkspaceRailPreference(railWidthPx: number): Promise<WorkspaceRailPreference> { return (await api.put<WorkspaceRailPreference>("/personal-shortcuts/me/rail-preference", {railWidthPx}, withAuth())).data },
   async getAppearancePreference(): Promise<AppearancePreference> { return (await api.get<AppearancePreference>("/personal-shortcuts/me/appearance-preference", withAuth())).data },
   async updateAppearancePreference(theme: AppearancePreference["theme"]): Promise<AppearancePreference> { return (await api.put<AppearancePreference>("/personal-shortcuts/me/appearance-preference", {theme}, withAuth())).data },
+  async getWorkspaceDefaults(): Promise<WorkspaceDefaults> { if (typeof window === "undefined") return defaultWorkspaceDefaults; try { return {...defaultWorkspaceDefaults, ...JSON.parse(window.localStorage.getItem(workspaceDefaultsKey) || "{}")} } catch { return defaultWorkspaceDefaults } },
+  async updateWorkspaceDefaults(value: WorkspaceDefaults): Promise<WorkspaceDefaults> { if (typeof window !== "undefined") window.localStorage.setItem(workspaceDefaultsKey, JSON.stringify(value)); return value },
+  async resetWorkspaceDefaults(): Promise<WorkspaceDefaults> { if (typeof window !== "undefined") window.localStorage.removeItem(workspaceDefaultsKey); return defaultWorkspaceDefaults },
+  async getOperatorDashboardSections(): Promise<OperatorDashboardSections> { const fallback = {bookings: true, revenue: true, staffWorkload: true, availabilityGaps: true, pendingRequests: true, customerMessages: true}; if (typeof window === "undefined") return fallback; try { return {...fallback, ...JSON.parse(window.localStorage.getItem(operatorDashboardKey) || "{}")} } catch { return fallback } },
+  async updateOperatorDashboardSections(value: OperatorDashboardSections): Promise<OperatorDashboardSections> { if (typeof window !== "undefined") window.localStorage.setItem(operatorDashboardKey, JSON.stringify(value)); return value },
   async getWorkspaceCommandCatalog(signal?: AbortSignal): Promise<WorkspaceCommandCatalog> { return (await api.get<WorkspaceCommandCatalog>("/workspace/commands", {signal, ...withAuth()})).data },
   /** Navigation is a read-only shell contract; command actions remain on /workspace/commands. */
   async getWorkspaceNavigation(signal?: AbortSignal): Promise<WorkspaceNavigationResponse> { return workspaceNavigationApi.get(signal) },
@@ -385,6 +400,9 @@ export const userShellApi = {
   async getMyBusinessProfiles(): Promise<BusinessProfileResponseDTO[]> {
     return (await api.get<BusinessProfileResponseDTO[]>("/business/profiles/me/all", withAuth())).data
   },
+  async getBusinessWorkspaceContext(range: {profileId?: number | null; from?: string; to?: string} = {}): Promise<BusinessWorkspaceContextDTO> {
+    return (await api.get<BusinessWorkspaceContextDTO>("/business/workspace/me", {params: {profileId: range.profileId ?? undefined, from: range.from, to: range.to}, ...withAuth()})).data
+  },
 
   async getBusinessProfileById(profileId: number): Promise<BusinessProfileResponseDTO> {
     return (await api.get<BusinessProfileResponseDTO>(`/business/profiles/me/${profileId}`, withAuth())).data
@@ -449,6 +467,25 @@ export const userShellApi = {
     await api.delete(`/business/offerings/${offeringId}/me`, withAuth())
   },
 
+  async getBusinessOfferingSchema(offeringId: number): Promise<BusinessOfferingSchemaDTO> {
+    return (await api.get<BusinessOfferingSchemaDTO>(`/business/offerings/${offeringId}/schema/me`, withAuth())).data
+  },
+  async replaceBusinessOfferingSchema(offeringId: number, request: Record<string, unknown>): Promise<BusinessOfferingSchemaDTO> {
+    return (await api.put<BusinessOfferingSchemaDTO>(`/business/offerings/${offeringId}/schema/me`, request, withAuth())).data
+  },
+  async getBusinessResources(profileId: number): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.get<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/me`, withAuth())).data
+  },
+  async createBusinessResourcePool(profileId: number, request: Record<string, unknown>): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.post<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/pools/me`, request, withAuth())).data
+  },
+  async createBusinessResource(profileId: number, request: Record<string, unknown>): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.post<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/resources/me`, request, withAuth())).data
+  },
+  async createBusinessResourceRequirement(profileId: number, request: Record<string, unknown>): Promise<BusinessResourceConfigurationDTO> {
+    return (await api.post<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/requirements/me`, request, withAuth())).data
+  },
+
   async getBusinessAvailabilityRules(): Promise<BusinessAvailabilityRuleListResponseDTO> {
     return (await api.get<BusinessAvailabilityRuleListResponseDTO>("/business/availability-rules/me", {params: activeBusinessParams(), ...withAuth()})).data
   },
@@ -487,6 +524,15 @@ export const userShellApi = {
   async previewPublicBooking(slug: string, request: {businessOfferingId: number; startsAt: string}): Promise<import("../../../contracts/index.ts").BusinessBookingPreviewResponseDTO> {
     return (await api.post<import("../../../contracts/index.ts").BusinessBookingPreviewResponseDTO>(`/business/public/${encodeURIComponent(slug)}/booking-preview`, request, withAuth())).data
   },
+  async getPublicServiceSchema(slug: string, offeringId: number): Promise<import("../../../contracts/index.ts").BusinessOfferingSchemaDTO> {
+    return (await api.get(`/business/public/${encodeURIComponent(slug)}/offerings/${offeringId}/schema`, withAuth())).data
+  },
+  async quotePublicService(slug: string, request: Record<string, unknown>): Promise<BusinessPublicQuoteDTO> {
+    return (await api.post<BusinessPublicQuoteDTO>(`/business/public/${encodeURIComponent(slug)}/quote`, request, withAuth())).data
+  },
+  async getPublicAvailability(slug: string, offeringId: number, from: string, to: string): Promise<{items: BusinessAvailabilityWindowDTO[]}> {
+    return (await api.get(`/business/public/${encodeURIComponent(slug)}/availability`, {params: {offeringId, from, to}, ...withAuth()})).data
+  },
 
   async getBusinessFavorites(): Promise<BusinessFavorite[]> {
     return (await api.get<BusinessFavorite[]>("/business/favorites/me", withAuth())).data
@@ -523,13 +569,14 @@ export const userShellApi = {
     })).data
   },
 
-  async getBusinessOwnerCalendar(): Promise<BusinessOwnerCalendarProjectionDTO> {
-    return (await api.get<BusinessOwnerCalendarProjectionDTO>("/business/bookings/owner/calendar", withAuth())).data
+  async getBusinessOwnerCalendar(range: {from?: string; to?: string} = {}): Promise<BusinessOwnerCalendarProjectionDTO> {
+    return (await api.get<BusinessOwnerCalendarProjectionDTO>("/business/bookings/owner/calendar", {params: range, ...withAuth()})).data
   },
 
   async executeBusinessBookingAction(bookingId: number, action: "confirm" | "reject" | "cancel" | "complete" | "mark-no-show"): Promise<BusinessBookingResponseDTO> {
     return (await api.post<BusinessBookingResponseDTO>(`/business/bookings/owner/${bookingId}/${action}`, undefined, withAuth())).data
   },
+  async executeCalendarBookingAction(bookingId: number, action: "confirm" | "reject" | "cancel" | "complete" | "mark-no-show"): Promise<BusinessBookingResponseDTO> { return this.executeBusinessBookingAction(bookingId, action) },
 
   async rescheduleBusinessBookingAsOwner(bookingId: number, startsAt: string, endsAt: string, reason = ""): Promise<BusinessBookingResponseDTO> {
     return (await api.post<BusinessBookingResponseDTO>(`/business/bookings/owner/${bookingId}/reschedule`, {startsAt, endsAt, reason}, withAuth())).data

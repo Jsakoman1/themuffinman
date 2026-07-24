@@ -1,0 +1,47 @@
+{
+  "evidenceVersion": "frontend-remaster-formatting-state-v1",
+  "capturedAt": "2026-07-24T05:38:06.664Z",
+  "routes": [
+    {
+      "route": "/work",
+      "finalPath": "/work",
+      "noHorizontalOverflow": true,
+      "noLegacyLoadingCopy": true,
+      "sharedStatusNodes": 1
+    },
+    {
+      "route": "/things",
+      "finalPath": "/things",
+      "noHorizontalOverflow": true,
+      "noLegacyLoadingCopy": true,
+      "sharedStatusNodes": 1
+    },
+    {
+      "route": "/chat",
+      "finalPath": "/chat",
+      "noHorizontalOverflow": true,
+      "noLegacyLoadingCopy": true,
+      "sharedStatusNodes": 1
+    },
+    {
+      "route": "/business",
+      "finalPath": "/business",
+      "noHorizontalOverflow": true,
+      "noLegacyLoadingCopy": true,
+      "sharedStatusNodes": 1
+    },
+    {
+      "route": "/calendar",
+      "finalPath": "/calendar",
+      "noHorizontalOverflow": true,
+      "noLegacyLoadingCopy": true,
+      "sharedStatusNodes": 1
+    }
+  ],
+  "browserErrors": [],
+  "result": "passed",
+  "mobile": {
+    "noHorizontalOverflow": true,
+    "sharedStatusNodes": 1
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "evidenceVersion": "frontend-remaster-foundation-v3",
+  "capturedAt": "2026-07-24T06:04:23.247Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "authenticatedHome": {
+      "status": "passed",
+      "route": "/home",
+      "noHorizontalOverflow": true,
+      "reducedMotion": true
+    },
+    "visionWebBoundary": {
+      "status": "passed",
+      "route": "/home",
+      "inlineHost": 1,
+      "detachedTerminalSurface": 0
+    },
+    "collectionToolbar": {
+      "status": "passed",
+      "ariaBusy": null,
+      "label": "Find work",
+      "noHorizontalOverflow": true
+    },
+    "dialogFocusAndEscape": {
+      "status": "not_observed",
+      "reason": "No seeded create-circle action available"
+    },
+    "mobileResponsive": {
+      "status": "passed",
+      "widths": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "toolbarLayout": "grid"
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

@@ -9,6 +9,7 @@ import SurfaceMetricGrid from "./SurfaceMetricGrid.vue"
 import SurfaceSection from "./SurfaceSection.vue"
 import AppLoadingState from "./AppLoadingState.vue"
 import AppEmptyState from "./AppEmptyState.vue"
+import {formatCalendarDay, formatCalendarTitle, formatTime} from "../../../services/formatters.ts"
 
 const props = defineProps<{
   config: AppSurfaceConfig
@@ -52,7 +53,7 @@ const calendarWeekDays = computed(() => Array.from({length: 7}, (_, index) => {
   date.setDate(date.getDate() + index)
   return {date, events: calendarEventsForDate(date)}
 }))
-const calendarTitle = computed(() => new Intl.DateTimeFormat(undefined, {month: "long", year: "numeric"}).format(calendarCursor.value))
+const calendarTitle = computed(() => formatCalendarTitle(calendarCursor.value))
 const calendarTimezone = new Intl.DateTimeFormat().resolvedOptions().timeZone || "local time"
 const moveCalendar = (amount: number) => {
   const next = new Date(calendarCursor.value)
@@ -61,8 +62,8 @@ const moveCalendar = (amount: number) => {
   else next.setDate(next.getDate() + amount)
   calendarCursor.value = next
 }
-const formatEventTime = (value: string | null | undefined) => value ? new Intl.DateTimeFormat("en-US", {hour: "numeric", minute: "2-digit"}).format(new Date(value)) : ""
-const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "short", month: "short", day: "numeric"}).format(date)
+const formatEventTime = (value: string | null | undefined) => formatTime(value)
+const formatDay = (date: Date) => formatCalendarDay(date)
 </script>
 
 <template>
@@ -96,7 +97,7 @@ const formatDay = (date: Date) => new Intl.DateTimeFormat("en-US", {weekday: "sh
 
     <div v-else-if="!loading && !error && config.archetype === 'calendar'" class="surface-content__calendar" aria-label="Calendar workspace">
       <div class="surface-content__calendar-toolbar">
-        <div><strong>{{ calendarTitle }}</strong><span>{{ calendarRows.length }} scheduled items · {{ calendarTimezone }}</span></div>
+        <div><strong>{{ calendarTitle }}</strong><span>{{ calendarRows.length }} scheduled items · displayed in {{ calendarTimezone }}</span></div>
         <div class="surface-content__calendar-actions" aria-label="Calendar controls"><button type="button" @click="moveCalendar(-1)">Previous</button><button type="button" @click="calendarCursor = new Date()">Today</button><button type="button" @click="moveCalendar(1)">Next</button><button v-for="mode in ['month','week','day']" :key="mode" type="button" :aria-pressed="calendarMode === mode" :class="{'surface-content__calendar-mode--active': calendarMode === mode}" @click="calendarMode = mode as CalendarMode">{{ mode }}</button></div>
       </div>
       <div v-if="calendarMode === 'month'" class="surface-content__month-grid"><span v-for="day in ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']" :key="day" class="surface-content__weekday">{{ day }}</span><div v-for="day in calendarDays" :key="day.date.toISOString()" class="surface-content__month-day" :class="{'surface-content__month-day--outside': !day.inMonth}"><strong>{{ day.date.getDate() }}</strong><RouterLink v-for="event in day.events.slice(0, 3)" :key="event.id" :to="event.to ?? '/calendar'" class="surface-content__calendar-event"><small>{{ formatEventTime(event.startAt) }}</small>{{ event.title }}</RouterLink><span v-if="day.events.length > 3" class="surface-content__more-events">+{{ day.events.length - 3 }} more</span></div></div>

@@ -1,0 +1,129 @@
+kind: work
+version: 1
+id: vision-prompt-stabilization-05-browser-closeout
+title: Capture expanded Vision prompt Chromium acceptance and closeout
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/vision-prompt-stabilization-master.yaml
+execution_inventory: docs/work/vision-prompt-stabilization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-linking-vision-inline-master.yaml
+  baseline_only_surfaces:
+  - all previously passing route reachability and build evidence
+  residual_scope:
+  - fresh browser proof for exact prompts
+  - expanded prompt matrix
+  - visible success/no-match/clarification/recovery states
+  - final docs and audits
+  retest_triggers:
+  - any preceding child repair
+  - runtime harness change
+  - Vision renderer change
+  - semantic route or fallback change
+  non_duplication_rule: Existing runtime artifacts are baseline failures or prior
+    evidence; only a fresh post-repair trace can close this child.
+  depends_on:
+  - docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+  - docs/work/vision-prompt-stabilization-02-read-routing-and-resolution.yaml
+  - docs/work/vision-prompt-stabilization-03-mutation-and-continuity.yaml
+  - docs/work/vision-prompt-stabilization-04-runtime-recovery-and-auth.yaml
+  runtime_denominator: docs/vision-prompt-contract-matrix.yaml
+tasks:
+- id: capture-browser-closeout
+  title: Run the expanded authenticated Chromium prompt matrix and close the Vision
+    backlog
+  type: implementation
+  status: done
+  inventory_item: browser-closeout
+  paths:
+  - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - docs/vision-prompt-contract-matrix.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/vision-status-ledger.md
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - docs/vision-prompt-contract-matrix.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/vision-status-ledger.md
+  manual_runtime_command: make dev && WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/vision-prompt-stabilization-runtime.json
+    node apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs;
+    make dev-stop
+  runtime_evidence_paths:
+  - docs/runtime-evidence/vision-prompt-stabilization-runtime.json
+  validation: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  acceptance:
+  - exact requested prompts pass with visible typed outcomes
+  - expanded read, mutation, ambiguity, unsupported, provider-failure, and retry cases
+    are recorded
+  - no browser console/API error remains unexplained
+  - only repaired backlog IDs are closed; external/provider/native boundaries remain
+    explicit
+  started_at: '2026-07-23T19:09:22Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs: 7dfd7b7b0b4389f42b31e0a08fc56ece29c0dcd6acc3c303bcc38d6d560fcd8e
+    docs/vision-prompt-contract-matrix.yaml: 719fc8df4c6e4014b086d9e194b269e26acfd4a4183665f539e6562100fad30b
+    docs/runtime-acceptance-matrix.yaml: 8cecdb15a048ef63b12e48979b1419e6006bcd37f7502ed5b0e775eba4bffaa7
+    docs/capability-evidence-registry.yaml: 9ac604acdc50c6d2498ac5f9af9c5202845115b69bdb5cc078bb44377e912d78
+    docs/implementation-backlog.md: 0e574557aefa8b5e28b23d8d746a0366c79f44e860eac27321f80320acc1fc92
+    docs/vision-status-ledger.md: a141b63f41e6ea7d90cbd1c5da502effadf72454ed3535c8d81d0f3c54f6cd68
+evidence:
+- task: capture-browser-closeout
+  command: make audit-runtime-acceptance && make audit-capability-evidence && make
+    audit-docs && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && git diff --check
+  ranAt: '2026-07-23T19:49:42Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/vision-status-ledger.md
+  - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - docs/vision-prompt-contract-matrix.yaml
+  output: |+
+    dist/assets/BusinessAvailabilityExceptionsView-jAPG4M3z.js     8.06 kB │ gzip:   2.63 kB
+    dist/assets/BusinessAvailabilityView-kKZxwT1Y.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/WorkspaceSurfaceView-eGULO9cH.js                  10.50 kB │ gzip:   3.49 kB
+    dist/assets/CirclesView-BxLXBRL3.js                           11.09 kB │ gzip:   3.34 kB
+    dist/assets/ThingsDiscoveryView-DfFhF8mK.js                   12.25 kB │ gzip:   3.89 kB
+    dist/assets/BusinessProfileView-DOreOiYN.js                   12.47 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-EzfWFLWb.js                             13.08 kB │ gzip:   4.11 kB
+    dist/assets/WorkQuestDetailView-mLIqldZy.js                   13.20 kB │ gzip:   4.23 kB
+    dist/assets/ChatSurfaceView-BUH4y8oB.js                       15.67 kB │ gzip:   5.14 kB
+    dist/assets/SurfaceHeader-DLusheIU.js                         18.10 kB │ gzip:   5.44 kB
+    dist/assets/AuthenticatedShellView-DF06ihIh.js                20.36 kB │ gzip:   6.88 kB
+    dist/assets/ProfileLocationSettingsView-YkD4CIcz.js           20.58 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-gBmtS-6N.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/VisionSurfaceModernView-BqUVSab_.js               39.89 kB │ gzip:  12.02 kB
+    dist/assets/vendor-BRSsgRuk.js                                50.87 kB │ gzip:  19.87 kB
+    dist/assets/index-VTnvuoAF.js                                 52.68 kB │ gzip:  13.50 kB
+    dist/assets/editor-DmM7F24x.js                               464.32 kB │ gzip: 149.74 kB
+
+    ✓ built in 511ms
+
+  startedAt: '2026-07-23T19:09:22Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/scripts/ui-linking-vision-inline-runtime.mjs
+  - docs/vision-prompt-contract-matrix.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/implementation-backlog.md
+  - docs/vision-status-ledger.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/vision-prompt-stabilization-runtime.json

@@ -1,0 +1,119 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-11-runtime-closeout
+title: Capture full-product UX next-evolution runtime and control evidence
+status: verified
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-ux-simplification-12-runtime-visual-closeout.yaml
+  baseline_only_surfaces:
+  - previous UX evidence and unchanged routes
+  residual_scope:
+  - new context
+  - command
+  - state
+  - operator
+  - template
+  - detail
+  - trust
+  - mobile
+  - accessibility
+  - and personalization journeys
+  retest_triggers:
+  - any changed route
+  - shared primitive
+  - API contract
+  - or evidence artifact
+  non_duplication_rule: Closeout records only current new evidence for changed surfaces.
+tasks:
+- id: capture-ux-next-evolution-closeout
+  title: Exercise and verify all changed UX journeys
+  type: runtime
+  status: done
+  inventory_item: ux-next-evolution-runtime-closeout
+  observable_outcome: Desktop, narrow, keyboard, state/recovery, Business aggregate,
+    template, command, personalization, and cross-module journeys have current browser
+    evidence and control audit results.
+  dependencies:
+  - implement-today-next-home
+  - implement-business-templates-adaptive-setup
+  - implement-module-detail-polish
+  - implement-trust-profile-settings
+  - implement-mobile-accessibility-transformation
+  - implement-personalization-preferences
+  paths:
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout.json
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout.json
+  - docs/regression-scenario-catalog.yaml
+  evidence_boundary:
+  - browser runtime JSON
+  - desktop/mobile screenshots
+  - keyboard/accessibility outcomes
+  - type-check
+  - build
+  - target/interface/truth/docs audits
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout-desktop.png
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout-mobile.png
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout.json
+  manual_runtime_command: make dev && npm run type-check && npm run build
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-interface-evidence && make audit-truth-registry && make audit-docs
+  started_at: '2026-07-24T15:15:13Z'
+  start_fingerprints:
+    docs/runtime-evidence/frontend-ux-next-evolution-closeout.json: __missing__
+    docs/regression-scenario-catalog.yaml: 66b417d461d16350a9e562c85ad142f2082bfff5f2fd2cfcfbcbab0bab87e1ee
+evidence:
+- task: capture-ux-next-evolution-closeout
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-interface-evidence && make audit-truth-registry && make audit-docs
+  ranAt: '2026-07-24T15:18:37Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout.json
+  output: |2+
+        vision: covered
+      gaps: []
+    Interface evidence reconciliation audit passed
+      endpoints classified: 225
+      admin_or_agent: 5
+      native_handoff: 3
+      unclassified_non_web: 67
+      web_source_linked: 150
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 320
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-24T15:15:13Z'
+  changedAfterStart: &1
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout.json
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout-desktop.png
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout-mobile.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-next-evolution-closeout.json

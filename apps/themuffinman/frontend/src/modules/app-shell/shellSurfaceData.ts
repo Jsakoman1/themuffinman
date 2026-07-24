@@ -19,6 +19,7 @@ import {getAppSurfaceConfig, type AppSurfaceId} from "./shellDefinitions.ts"
 import {resolveSurfaceDetailRoute} from "./shellRouteRegistry.ts"
 import {userShellApi} from "./api/userShellApi.ts"
 import {buildSurfaceVisionRoute} from "./visionHandoff.ts"
+import {formatDate, formatDateTime, formatNumber} from "../../services/formatters.ts"
 
 export type ShellSurfaceMetric = {
   label: string
@@ -63,33 +64,9 @@ const safeRequest = async <T>(request: () => Promise<T>) => {
   }
 }
 
-const formatCount = (value: number) => new Intl.NumberFormat("en-US").format(value)
+const formatCount = (value: number) => formatNumber(value, "en-US")
 
 const homeMetricRoute = (scope: string): RouteLocationRaw => ({path: "/work/find", query: {scope}})
-
-const formatDateTime = (value: string | null | undefined) => {
-  if (!value) {
-    return "No scheduled time"
-  }
-
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit"
-  }).format(new Date(value))
-}
-
-const formatDate = (value: string | null | undefined) => {
-  if (!value) {
-    return "No date"
-  }
-
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric"
-  }).format(new Date(value))
-}
 
 const describeQuestTerm = (quest: QuestResponseDTO) => {
   if (quest.scheduledAt && quest.endsAt) {
@@ -101,8 +78,8 @@ const describeQuestTerm = (quest: QuestResponseDTO) => {
   return quest.presentation.timeTypeLabel
 }
 
-const questRoute = (questId: number): RouteLocationRaw => resolveSurfaceDetailRoute("work-quests", questId) ?? {path: `/vision/quests/${questId}`}
-const applicationRoute = (applicationId: number): RouteLocationRaw => resolveSurfaceDetailRoute("work-applications", applicationId) ?? {path: `/vision/applications/${applicationId}`}
+const questRoute = (questId: number): RouteLocationRaw => resolveSurfaceDetailRoute("work-quests", questId) ?? {path: `/work/quests/${questId}`}
+const applicationRoute = (applicationId: number): RouteLocationRaw => resolveSurfaceDetailRoute("work-applications", applicationId) ?? {path: `/work/applications/${applicationId}`}
 const chatRoute = (conversationId: number): RouteLocationRaw => resolveSurfaceDetailRoute("chat-conversation", conversationId) ?? {path: `/chat/${conversationId}`}
 
 const createQuestRow = (quest: QuestResponseDTO): ShellSurfaceRow => ({
@@ -682,7 +659,7 @@ const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
       }
     ],
     note: businessCalendar
-      ? "Calendar stays a coordination index and routes users back to the owning work or business surface for detail."
+      ? `Calendar stays a coordination index in ${businessCalendar.timezone} and routes users back to the owning work or business surface for detail.`
       : "Business calendar data is temporarily unavailable; available work schedule data remains visible."
   }
 }

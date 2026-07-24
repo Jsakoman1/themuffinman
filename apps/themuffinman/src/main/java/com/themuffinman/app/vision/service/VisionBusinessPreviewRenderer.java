@@ -11,6 +11,8 @@ import com.themuffinman.app.business.dto.BusinessGalleryImageResponseDTO;
 import com.themuffinman.app.business.service.BusinessBookingReadService;
 import com.themuffinman.app.business.service.BusinessOwnerDashboardReadService;
 import com.themuffinman.app.business.service.BusinessPublicReadService;
+import com.themuffinman.app.business.service.BusinessOfferingSchemaService;
+import com.themuffinman.app.business.service.BusinessResourceService;
 import com.themuffinman.app.business.repository.BusinessProfileRepository;
 import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.identity.model.AppUser;
@@ -18,11 +20,13 @@ import com.themuffinman.app.vision.dto.VisionCapabilityPreviewDTO;
 import com.themuffinman.app.vision.dto.VisionSlotSummaryDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -34,6 +38,11 @@ class VisionBusinessPreviewRenderer {
     private final BusinessOwnerDashboardReadService businessOwnerDashboardReadService;
     private final BusinessBookingReadService businessBookingReadService;
     private final BusinessProfileRepository businessProfileRepository;
+
+    @Autowired
+    private BusinessOfferingSchemaService businessOfferingSchemaService;
+    @Autowired
+    private BusinessResourceService businessResourceService;
 
     VisionCapabilityPreviewDTO previewBusiness(AppUser currentUser) {
         if (currentUser == null) {
@@ -67,6 +76,7 @@ class VisionBusinessPreviewRenderer {
 
         addOfferings(items, page.getOfferings());
         addGalleryImages(items, page.getGalleryImages());
+        addOwnerConfiguration(items, currentUser, dashboard, page);
 
         String summary = page.getBusinessName() + " with " + sizeOf(page.getOfferings()) + " offering"
                 + (sizeOf(page.getOfferings()) == 1 ? "" : "s")
@@ -80,6 +90,26 @@ class VisionBusinessPreviewRenderer {
                 .items(items)
                 .tone("info")
                 .build();
+    }
+
+    private void addOwnerConfiguration(List<VisionSlotSummaryDTO> items, AppUser currentUser, BusinessOwnerDashboardDTO dashboard, BusinessPublicPageDTO page) {
+        if (businessOfferingSchemaService == null || businessResourceService == null || dashboard == null || page.getOfferings() == null) return;
+        int demandFields = 0;
+        int options = 0;
+        int pricingRules = 0;
+        for (BusinessOfferingResponseDTO offering : page.getOfferings()) {
+            Map<String, Object> schema = businessOfferingSchemaService.getOwnerSchema(offering.getId(), currentUser);
+            demandFields += sizeOf(schema.get("demandFields"));
+            options += sizeOf(schema.get("options"));
+            pricingRules += sizeOf(schema.get("pricingRules"));
+        }
+        Map<String, Object> resources = businessResourceService.getOwnerResources(dashboard.getBusinessProfileId(), currentUser);
+        VisionCapabilityPreviewSupport.addItem(items, "business_demand_fields_count", "Demand fields", String.valueOf(demandFields));
+        VisionCapabilityPreviewSupport.addItem(items, "business_options_count", "Service options", String.valueOf(options));
+        VisionCapabilityPreviewSupport.addItem(items, "business_pricing_rules_count", "Pricing rules", String.valueOf(pricingRules));
+        VisionCapabilityPreviewSupport.addItem(items, "business_resource_pools_count", "Resource pools", String.valueOf(sizeOf(resources.get("pools"))));
+        VisionCapabilityPreviewSupport.addItem(items, "business_resources_count", "Resources", String.valueOf(sizeOf(resources.get("resources"))));
+        VisionCapabilityPreviewSupport.addItem(items, "business_resource_requirements_count", "Resource requirements", String.valueOf(sizeOf(resources.get("requirements"))));
     }
 
     VisionCapabilityPreviewDTO previewBusinessAvailability(AppUser currentUser) {
@@ -249,6 +279,7 @@ class VisionBusinessPreviewRenderer {
         if (offering.isRequiresOwnerConfirmation()) {
             parts.add("owner confirmation");
         }
+        parts.add("schema-driven demand and availability");
         return parts.isEmpty() ? null : String.join(" · ", parts);
     }
 
@@ -325,5 +356,9 @@ class VisionBusinessPreviewRenderer {
 
     private int sizeOf(List<?> values) {
         return values == null ? 0 : values.size();
+    }
+
+    private int sizeOf(Object values) {
+        return values instanceof java.util.Collection<?> collection ? collection.size() : 0;
     }
 }

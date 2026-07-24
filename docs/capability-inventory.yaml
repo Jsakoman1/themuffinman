@@ -1500,3 +1500,4 @@ next_review:
     - P1-platform-trust-and-recovery
     - P2-vision-execution-and-discovery
     - create a strict implementation plan only when a capability slice is explicitly resumed
+ # BUSINESS-BOOKING-RUNTIME-001: runtime API/browser evidence is captured; lifecycle completion remains explicitly separate.

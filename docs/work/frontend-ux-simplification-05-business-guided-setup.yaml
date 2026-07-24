@@ -1,0 +1,105 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-05-business-guided-setup
+title: Convert owner service setup into progressive guided steps
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-booking-end-to-end-master.yaml
+  baseline_only_surfaces:
+  - flexible schema
+  - pricing
+  - resources
+  - and owner APIs
+  residual_scope:
+  - guided setup sequence
+  - progressive schema/options/pricing/resources
+  - customer preview
+  retest_triggers:
+  - service setup mutation
+  - field visibility
+  - or customer preview change
+  non_duplication_rule: The backend flexible model remains authoritative and is not
+    duplicated in the client.
+tasks:
+- id: implement-business-guided-setup
+  title: Implement progressive owner service setup
+  type: implementation
+  status: done
+  inventory_item: business-guided-setup
+  observable_outcome: An owner can configure service basics, time/capacity, customer
+    questions/options, pricing, resources, and preview in ordered steps with only
+    relevant fields visible.
+  dependencies:
+  - implement-business-context-and-calendar-web
+  evidence_boundary:
+  - authenticated setup journey
+  - visual evidence
+  - schema-adaptive field evidence
+  - type-check
+  - build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPricingRuleEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-business-setup-desktop.png
+  - docs/runtime-evidence/frontend-ux-business-setup-mobile.png
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T13:32:27Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: 80973a54a9e0e3bd858c3631bfdb2cc1a1e61ef153139eaace6a3edcee215d4e
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue: __missing__
+evidence:
+- task: implement-business-guided-setup
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T13:33:59Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPricingRuleEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  output: |+
+    dist/assets/BusinessAvailabilityView-BMojO2PL.js               8.02 kB │ gzip:   2.92 kB
+    dist/assets/BusinessPublicView-DrpTAKC-.js                     8.44 kB │ gzip:   3.16 kB
+    dist/assets/WorkspaceSurfaceView-Ra2E2Gzr.js                  10.35 kB │ gzip:   3.43 kB
+    dist/assets/BusinessServiceSchemaView-D24Myero.js             11.04 kB │ gzip:   3.61 kB
+    dist/assets/CirclesView-KZv6EFU_.js                           11.34 kB │ gzip:   3.43 kB
+    dist/assets/BusinessProfileView-k7PtPe72.js                   12.47 kB │ gzip:   3.72 kB
+    dist/assets/ThingsDiscoveryView-CM_dvswf.js                   12.52 kB │ gzip:   3.97 kB
+    dist/assets/WorkQuestDetailView-B5P-TpAO.js                   13.01 kB │ gzip:   4.17 kB
+    dist/assets/RidesView-BSnm6R9S.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-DReUf2yZ.js                       16.45 kB │ gzip:   5.31 kB
+    dist/assets/SurfaceHeader-HAEsFgFp.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-DbR6dk4s.js           21.34 kB │ gzip:   6.77 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BkRUr7Ah.js                38.98 kB │ gzip:  12.74 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-d6qAvOCQ.js                                 55.59 kB │ gzip:  14.09 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 527ms
+
+  startedAt: '2026-07-24T13:32:27Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-business-setup-desktop.png
+  - docs/runtime-evidence/frontend-ux-business-setup-mobile.png
+  runtimeEvidencePaths: []

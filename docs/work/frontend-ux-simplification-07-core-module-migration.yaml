@@ -1,0 +1,105 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-07-core-module-migration
+title: Migrate Home and Work to the task-oriented grammar
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-app-remaster-master.yaml
+  baseline_only_surfaces:
+  - existing Work routes
+  - capabilities
+  - and allowed actions
+  residual_scope:
+  - one-next-action Home
+  - browse/inspect/act modes
+  - focused Work detail and creation
+  retest_triggers:
+  - Work route
+  - action placement
+  - detail ownership
+  - or Home attention change
+  non_duplication_rule: Work backend behavior and capability mappings remain baseline.
+tasks:
+- id: migrate-work-module-surfaces
+  title: Simplify Home, Work discovery, quest detail, application review, and creation
+  type: implementation
+  status: done
+  inventory_item: core-module-migration
+  observable_outcome: Home and Work present one primary next action per state, progressive
+    detail, and deliberate review/complete transitions.
+  dependencies:
+  - implement-shared-task-foundation
+  evidence_boundary:
+  - authenticated Work journeys
+  - visual desktop/narrow evidence
+  - keyboard state
+  - type-check
+  - build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-core-work-desktop.png
+  - docs/runtime-evidence/frontend-ux-core-work-mobile.png
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T13:38:38Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue: 5029e92756a16d13a01f442fc680acdc02794e51db36af58f514573f5b258209
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue: 38b39f4db4d9c5ca5c6a1b609bd2bb925309bea3713a8f019344c4b8bf1ab2cd
+evidence:
+- task: migrate-work-module-surfaces
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T13:39:23Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  output: |+
+    dist/assets/WorkDiscoveryView-CFQKH-tx.js                      8.07 kB │ gzip:   3.35 kB
+    dist/assets/BusinessPublicView-Ch1Ej6hc.js                     8.84 kB │ gzip:   3.36 kB
+    dist/assets/WorkspaceSurfaceView-Bt4YqgNr.js                  10.35 kB │ gzip:   3.43 kB
+    dist/assets/BusinessServiceSchemaView-CCFJd9PT.js             11.04 kB │ gzip:   3.62 kB
+    dist/assets/CirclesView-CMpXNq2h.js                           11.34 kB │ gzip:   3.43 kB
+    dist/assets/BusinessProfileView-CBWe9N1s.js                   12.47 kB │ gzip:   3.73 kB
+    dist/assets/ThingsDiscoveryView-DZ4MECx5.js                   12.52 kB │ gzip:   3.97 kB
+    dist/assets/WorkQuestDetailView-Wr9CvTFb.js                   12.97 kB │ gzip:   4.16 kB
+    dist/assets/RidesView-DBO6VvpC.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-Dp1ru3PT.js                       16.45 kB │ gzip:   5.31 kB
+    dist/assets/SurfaceHeader-DfwVk21R.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-B9wj1ueP.js           21.34 kB │ gzip:   6.76 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-DhdFs1MC.js                38.98 kB │ gzip:  12.74 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-kQQZG6iH.js                                 55.48 kB │ gzip:  14.04 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 550ms
+
+  startedAt: '2026-07-24T13:38:38Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-core-work-desktop.png
+  - docs/runtime-evidence/frontend-ux-core-work-mobile.png
+  runtimeEvidencePaths: []

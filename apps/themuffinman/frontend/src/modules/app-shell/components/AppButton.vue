@@ -13,7 +13,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <button ref="button" class="app-button" :class="`app-button--${tone}`" :type="type" :disabled="disabled || loading" :aria-busy="loading || undefined">
+  <button ref="button" class="app-button ui-focusable" :class="`app-button--${tone}`" :type="type" :disabled="disabled || loading" :aria-busy="loading || undefined">
     <span v-if="loading" class="app-button__spinner" aria-hidden="true" />
     <slot />
   </button>

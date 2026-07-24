@@ -43,12 +43,13 @@ public class BusinessOwnerCalendarReadService {
                 .orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before viewing calendar"));
         ZoneId zoneId = TimeSupport.requireZoneId(profile.getTimezone(), "Create your business profile before viewing calendar");
         CalendarWindow window = resolveWindow(zoneId, from, to);
-        List<BusinessBooking> bookings = businessBookingRepository.findDetailedByOwnerIdAndStartsAtBetween(
+        List<BusinessBooking> bookings = businessBookingRepository.findDetailedByOwnerIdAndOverlap(
                 currentUser.getId(),
                 window.from(),
                 window.to()
         );
         Map<LocalDate, List<BusinessBooking>> bookingsByDay = bookings.stream()
+                .filter(booking -> booking.getEndsAt().isAfter(window.from()) && booking.getStartsAt().isBefore(window.to()))
                 .collect(Collectors.groupingBy(booking -> booking.getStartsAt().atZone(zoneId).toLocalDate()));
 
         List<BusinessOwnerCalendarDayDTO> days = IntStream.rangeClosed(0, (int) ChronoUnit.DAYS.between(window.startDate(), window.endDateInclusive()))

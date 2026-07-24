@@ -1,0 +1,108 @@
+kind: work
+version: 1
+id: frontend-ux-simplification-09-social-and-sharing-migration
+title: Simplify Circles, People, Things, and Rides
+status: verified
+master_plan: docs/work/frontend-ux-simplification-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-simplification-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-app-remaster-master.yaml
+  baseline_only_surfaces:
+  - existing social
+  - lending
+  - and rides capability contracts
+  residual_scope:
+  - intent modes
+  - focused relationship/object actions
+  - responsive list/detail transformation
+  retest_triggers:
+  - visibility
+  - consent
+  - membership
+  - lending
+  - ride
+  - or relationship action placement change
+  non_duplication_rule: Backend visibility, consent, membership, lending, and ride
+    authority remain baseline.
+tasks:
+- id: migrate-social-and-sharing-surfaces
+  title: Migrate social, sharing, and rides surfaces
+  type: implementation
+  status: done
+  inventory_item: social-migration
+  observable_outcome: Circles, People, Things, and Rides separate browse, inspect,
+    and act modes while preserving trust, visibility, consent, lending, and ride state.
+  dependencies:
+  - implement-shared-task-foundation
+  evidence_boundary:
+  - representative authenticated journeys
+  - empty/error/permission states
+  - visual desktop/narrow evidence
+  - type-check
+  - build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-ux-social-sharing-desktop.png
+  - docs/runtime-evidence/frontend-ux-social-sharing-mobile.png
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T13:40:40Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue: 984558734a6cc35e73144b705fc943f1825e71892acd7c4302c87ca1e08cf3c4
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: 77f01c4d06a1b62d61e290083ac3bad923618733fbaf2a21a37900dcd11e662b
+evidence:
+- task: migrate-social-and-sharing-surfaces
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T13:41:28Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  output: |+
+    dist/assets/WorkDiscoveryView-CgQ0xj3A.js                      8.07 kB │ gzip:   3.35 kB
+    dist/assets/BusinessPublicView-CRiSIXq3.js                     8.84 kB │ gzip:   3.36 kB
+    dist/assets/WorkspaceSurfaceView-CxeoakDk.js                  10.35 kB │ gzip:   3.43 kB
+    dist/assets/BusinessServiceSchemaView-Cxbqbq_v.js             11.04 kB │ gzip:   3.61 kB
+    dist/assets/CirclesView-B3B8ImA-.js                           11.46 kB │ gzip:   3.47 kB
+    dist/assets/BusinessProfileView-CBuysPYL.js                   12.47 kB │ gzip:   3.72 kB
+    dist/assets/ThingsDiscoveryView-GZq1Z8P6.js                   12.63 kB │ gzip:   4.02 kB
+    dist/assets/WorkQuestDetailView-rtzSkN7u.js                   12.97 kB │ gzip:   4.16 kB
+    dist/assets/RidesView-DArtlORl.js                             13.09 kB │ gzip:   4.10 kB
+    dist/assets/ChatSurfaceView-BUVJauaX.js                       16.56 kB │ gzip:   5.36 kB
+    dist/assets/SurfaceHeader-CHRZzcnW.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-C3qz1fOi.js           21.34 kB │ gzip:   6.76 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-CvMAkVzg.js                38.98 kB │ gzip:  12.74 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-D8AKwP47.js                                 55.49 kB │ gzip:  14.06 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 595ms
+
+  startedAt: '2026-07-24T13:40:40Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-ux-social-sharing-desktop.png
+  - docs/runtime-evidence/frontend-ux-social-sharing-mobile.png
+  runtimeEvidencePaths: []

@@ -8,31 +8,36 @@ import AppStatus from "../../app-shell/components/AppStatus.vue"
 const email = ref("")
 const error = ref("")
 const submitted = ref(false)
+const isSubmitting = ref(false)
 
 const requestRecovery = async () => {
   error.value = ""
+  if (isSubmitting.value) return
+  isSubmitting.value = true
   try {
     await authApi.requestPasswordRecovery({email: email.value.trim().toLowerCase()})
     submitted.value = true
   } catch {
     error.value = "We could not start recovery. Try again."
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
 
 <template>
-  <main class="auth-terminal">
-    <section class="auth-terminal__panel">
+  <main class="auth-terminal identity-surface">
+    <section class="auth-terminal__panel identity-surface__panel">
       <p class="auth-terminal__eyebrow">TheMuffinMan / access</p>
       <h1 class="auth-terminal__title">Recover access</h1>
-      <p class="auth-terminal__copy">Enter your email and we will continue the secure recovery flow.</p>
+      <p class="auth-terminal__copy identity-surface__copy">Enter your email and we will continue the secure recovery flow.</p>
       <AppStatus v-if="submitted" message="If an account exists, recovery instructions will be sent to that address." tone="success" />
-      <form v-else class="auth-terminal__form" @submit.prevent="requestRecovery">
-        <AppFormField label="Email" required><input v-model="email" aria-label="Email" class="auth-terminal__input" type="email" autocomplete="email" required /></AppFormField>
-        <AppStatus v-if="error" :message="error" tone="error" />
-        <AppFormFooter><template #primary><button type="submit">Continue</button></template></AppFormFooter>
+      <form v-else class="auth-terminal__form identity-surface__form" :aria-busy="isSubmitting || undefined" @submit.prevent="requestRecovery">
+        <AppFormField label="Email" required><input v-model="email" aria-label="Email" class="auth-terminal__input identity-surface__input" type="email" autocomplete="email" :disabled="isSubmitting" required /></AppFormField>
+        <AppStatus v-if="isSubmitting" message="Preparing recovery…" busy /><AppStatus v-else-if="error" :message="error" tone="error" />
+        <AppFormFooter><template #primary><button type="submit" :disabled="isSubmitting">{{ isSubmitting ? "Preparing…" : "Continue" }}</button></template></AppFormFooter>
       </form>
-      <p class="auth-terminal__linkline"><RouterLink to="/login">Back to login</RouterLink></p>
+      <p class="auth-terminal__linkline identity-surface__linkline"><RouterLink to="/login">Back to login</RouterLink></p>
     </section>
   </main>
 </template>

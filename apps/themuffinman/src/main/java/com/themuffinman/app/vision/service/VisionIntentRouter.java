@@ -54,6 +54,9 @@ public class VisionIntentRouter {
         if (semanticIntent == VisionIntent.CREATE_QUEST
                 || lower.contains("create") && lower.contains("quest")
                 || lower.contains("post") && lower.contains("quest")
+                || lower.contains("create new work")
+                || lower.contains("create work")
+                || lower.contains("new work")
                 || visionIntentSignalSupport.containsAny(lower,
                 "create quest",
                 "new quest",
@@ -96,6 +99,7 @@ public class VisionIntentRouter {
                  UPDATE_PROFILE,
                  UPDATE_PROFILE_LOCATION,
                  OPEN_CHAT,
+                 SEND_MESSAGE,
                  VIEW_CHAT_WORKSPACE,
                  SYNC_CHAT,
                  VIEW_CHAT_ATTACHMENT,
@@ -312,6 +316,9 @@ public class VisionIntentRouter {
         }
         if (visionIntentSignalSupport.containsChatWorkspaceSignals(lower)) {
             return VisionIntent.VIEW_CHAT_WORKSPACE;
+        }
+        if (visionIntentSignalSupport.containsSendMessageSignals(lower)) {
+            return VisionIntent.SEND_MESSAGE;
         }
         if (visionIntentSignalSupport.containsChatSignals(lower)) {
             return VisionIntent.OPEN_CHAT;

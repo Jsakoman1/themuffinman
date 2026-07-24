@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-03-today-next-home
+title: Turn Home into a Today and Next operating view
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml], baseline_only_surfaces: [existing dashboard data and permissions], residual_scope: [Today, Next, Resume, recent contexts, and focused empty states], retest_triggers: [home prioritization or attention destination change], non_duplication_rule: Home composes existing backend-prepared items without inventing authority.}
+tasks:
+  - id: implement-today-next-home
+    title: Replace summary-first Home with actionable personal and business queues
+    type: implementation
+    status: pending
+    inventory_item: today-next-home
+    observable_outcome: Home shows the viewer’s next action, due items, resume items, upcoming bookings, and recent contexts in a deterministic priority order.
+    dependencies: [implement-universal-action-state-grammar]
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue, apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts]
+    required_paths: [apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue, apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue]
+    evidence_boundary: [authenticated Home states, priority ordering, empty/recovery, type-check, build, desktop/mobile screenshots]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-home-desktop.png, docs/runtime-evidence/frontend-ux-next-home-mobile.png]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

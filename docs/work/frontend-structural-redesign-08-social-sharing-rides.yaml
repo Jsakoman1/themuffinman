@@ -1,0 +1,68 @@
+kind: work
+version: 1
+id: frontend-structural-redesign-08-social-sharing-rides
+title: "Redesign Circles, Things, and Rides around low-friction useful connections"
+status: draft
+master_plan: docs/work/frontend-structural-redesign-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/frontend-ux-next-evolution-master.yaml]
+  baseline_only_surfaces: [Circle visibility/consent, Things lending, Rides trust and backend matching authority]
+  residual_scope: [People and groups, club events, Things quick listing/wishlist, background ride matching and suggestions]
+  retest_triggers: [Visibility, consent, wishlist sharing, matching signal, group role, or event creation changes]
+  non_duplication_rule: Social permission and matching decisions remain backend-owned; frontend must explain them without anxiety.
+tasks:
+  - id: circles-people-groups-and-privileges
+    title: Make Circles understandable as people, groups, visibility, and clubs
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-circles
+    observable_outcome: Users can add people, organize them into named circles/groups, set visibility and privileges, create chat groups, and establish event-capable clubs through one understandable flow.
+    dependencies: [business-isolated-workspaces-and-public-presence]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+    evidence_boundary: [add person, categorize, visibility, privilege, chat group, club/event affordance]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: things-wishlist-and-low-friction-listing
+    title: Make Things listing and wishlist sharing effortless
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-things-wishlist
+    observable_outcome: Listing a thing is a short visual flow; discovery supports need-first search; users can save and share a wishlist item with selected circles.
+    dependencies: [circles-people-groups-and-privileges]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+      - apps/themuffinman/frontend/src/modules/things/api/thingsApi.ts
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+    evidence_boundary: [quick listing, need search, wishlist, circle share, borrow request recovery]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  - id: rides-background-matching-and-suggestions
+    title: Make Rides quietly connect compatible circle members
+    type: implementation
+    status: pending
+    inventory_item: structural-redesign-rides-matching
+    observable_outcome: Rides captures low-effort commute preferences, backend matching stays consent-aware, and users receive non-awkward suggestions instead of needing to ask directly.
+    dependencies: [things-wishlist-and-low-friction-listing]
+    paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/RidesPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+    required_paths:
+      - apps/themuffinman/frontend/src/modules/app-shell/views/RidesPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+    evidence_boundary: [preference setup, suggestion, consent, accept/decline, privacy explanation]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

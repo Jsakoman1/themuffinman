@@ -3,7 +3,7 @@ import {onMounted, ref} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import {updateSessionUser} from "../../identity/auth.ts"
 import type {AppUserResponseDTO, CircleContactDTO, CircleGroupResponseDTO, LocationLookupCandidateDTO, ProfileFieldVisibility, UserLocationMode, LocationResolutionStatus} from "../../../contracts/index.ts"
-import {userShellApi, type AppearancePreference, type ProfileGalleryImage} from "../api/userShellApi.ts"
+import {userShellApi, type AppearancePreference, type ProfileGalleryImage, type WorkspaceDefaults} from "../api/userShellApi.ts"
 import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppButton from "../components/AppButton.vue"
@@ -11,6 +11,7 @@ import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import InlineEditText from "../components/InlineEditText.vue"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
+import TaskSurface from "../components/TaskSurface.vue"
 
 // Optional location panels fail independently so profile editing remains usable.
 const user = ref<AppUserResponseDTO | null>(null)
@@ -50,6 +51,9 @@ const route = useRoute()
 const exactVisibilityInput = ref<HTMLSelectElement | null>(null)
 const appearanceTheme = ref<AppearancePreference["theme"]>("SYSTEM")
 const isAppearanceSaving = ref(false)
+const workspaceDefaults = ref<WorkspaceDefaults>({density: "comfortable", landing: "home", bookingDurationMinutes: 30, notificationIntensity: "important"})
+const isWorkspaceDefaultsSaving = ref(false)
+const scrollToSection = (selector: string) => document.querySelector(selector)?.scrollIntoView({behavior: "smooth", block: "start"})
 
 const applyCandidate = (value: LocationLookupCandidateDTO) => {
   candidate.value = value
@@ -66,18 +70,20 @@ const handleLocationQueryInput = () => {
 const load = async () => {
   isLoading.value = true
   try {
-    const [currentUser, groups, connections, galleryResponse, appearance] = await Promise.all([
+    const [currentUser, groups, connections, galleryResponse, appearance, defaults] = await Promise.all([
       userShellApi.getCurrentAppUser(),
       userShellApi.getCircleGroups(),
       userShellApi.getCircleConnections(),
       userShellApi.getMyProfileGallery(),
-      userShellApi.getAppearancePreference()
+      userShellApi.getAppearancePreference(),
+      userShellApi.getWorkspaceDefaults()
     ])
     user.value = currentUser
     circleGroups.value = groups
     circleConnections.value = connections.items
     gallery.value = galleryResponse.items
     appearanceTheme.value = appearance.theme
+    workspaceDefaults.value = defaults
     username.value = user.value.username
     profileDescription.value = user.value.profileDescription ?? ""
     avatarDataUrl.value = user.value.profileAvatarDataUrl ?? null
@@ -112,6 +118,9 @@ const load = async () => {
   } catch { error.value = "Could not load location settings." }
   finally { isLoading.value = false }
 }
+
+const saveWorkspaceDefaults = async () => { isWorkspaceDefaultsSaving.value = true; try { workspaceDefaults.value = await userShellApi.updateWorkspaceDefaults(workspaceDefaults.value); feedback.value = "Workspace defaults saved on this device." } catch { error.value = "Could not save workspace defaults." } finally { isWorkspaceDefaultsSaving.value = false } }
+const resetWorkspaceDefaults = async () => { isWorkspaceDefaultsSaving.value = true; try { workspaceDefaults.value = await userShellApi.resetWorkspaceDefaults(); feedback.value = "Workspace defaults reset." } finally { isWorkspaceDefaultsSaving.value = false } }
 
 const updateAppearance = async () => {
   isAppearanceSaving.value = true
@@ -246,7 +255,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="location-settings">
+  <!-- UX simplification: profile editing is a focused workspace with explicit save state. -->
+  <TaskSurface mode="act" label="Profile and location settings"><section class="location-settings" :aria-busy="isLoading || isSaving || isGalleryActing || isAppearanceSaving || undefined">
     <header><p class="eyebrow">Profile settings</p><h1>Profile and location</h1><p class="intro">Manage your profile, appearance, location, and privacy.</p></header>
     <CollectionToolbar title="Profile and location" :busy="isLoading"><template #actions><RouterLink to="/profile/settings/notifications">Notification preferences</RouterLink></template></CollectionToolbar>
     <div class="guided-profile-entry"><AppButton type="button" tone="secondary" @click="guidedProfileOpen = !guidedProfileOpen">{{ guidedProfileOpen ? "Close guided profile setup" : "Use guided profile setup" }}</AppButton><GuidedIntakePanel v-if="guidedProfileOpen" flow="identity.profile.update" title="Update your profile" description="Answer the meaningful profile questions first, then review the rest of your privacy settings." @completed="acceptGuidedProfileDraft" @cancel="guidedProfileOpen = false" /></div>
@@ -257,10 +267,13 @@ onMounted(async () => {
     <AppStatus v-if="!isLoading && !providerConfigured" message="The location provider is unavailable. Existing saved settings remain intact; retry search later or use a different correction path." tone="warning" />
     <AppStatus v-if="!isLoading && providerUnavailable" message="The location provider did not respond. Existing saved settings remain intact; retry search later or choose another correction path." tone="warning" />
     <div v-if="!isLoading" class="location-settings__workspace">
-    <form @submit.prevent="save">
+    <nav class="settings-section-nav" aria-label="Profile settings sections"><a href="#profile-fields" @click.prevent="scrollToSection('.profile-fields')">Identity</a><a href="#profile-gallery" @click.prevent="scrollToSection('.profile-gallery')">Gallery</a><a href="#appearance-settings" @click.prevent="scrollToSection('.appearance-settings')">Appearance</a><a href="#location-fields" @click.prevent="scrollToSection('.location-settings__workspace form > fieldset:last-of-type')">Location and privacy</a><a href="#account-security" @click.prevent="scrollToSection('.settings-group--security')">Account security</a><a href="#connected-services" @click.prevent="scrollToSection('.settings-group--services')">Connected services</a></nav>
+    <section class="settings-groups" aria-label="Settings group summary"><article class="settings-group"><strong>Identity</strong><span>{{ username || "Not set" }}</span><small>Edit profile details below.</small></article><article class="settings-group"><strong>Privacy</strong><span>Consent and visibility</span><small>Backend rules remain authoritative.</small></article><article class="settings-group"><strong>Location</strong><span>{{ mode === "OFF" ? "Hidden" : mode }}</span><small>Approximate or scoped sharing.</small></article><article class="settings-group"><strong>Appearance</strong><span>{{ appearanceTheme }}</span><small>Theme changes save separately.</small></article><article class="settings-group settings-group--services"><strong>Connected services</strong><span>Managed integrations</span><small>No connected service changes on this screen.</small></article><article class="settings-group settings-group--security"><strong>Account security</strong><span>Protected by account controls</span><small>Security changes require a dedicated flow.</small></article></section>
+    <form aria-label="Profile and location settings" @submit.prevent="save">
       <fieldset class="profile-fields"><legend>Profile</legend><div class="avatar-editor"><img v-if="avatarDataUrl" :src="avatarDataUrl" alt="Profile preview" class="avatar-editor__image"><span v-else class="avatar-editor__image avatar-editor__image--fallback">{{ (username[0] ?? "A").toUpperCase() }}</span><div><label>Profile picture<input type="file" accept="image/*" @change="selectAvatar"></label><AppButton v-if="avatarDataUrl" type="button" tone="danger" class="avatar-editor__remove" @click="removeAvatar">Remove picture</AppButton><small>Optional. Use a clear image under 2 MB.</small></div></div><AppFormField label="Username"><InlineEditText :model-value="username" label="username" @save="username = $event" /></AppFormField><AppFormField label="Description" :hint="`${profileDescription.length}/2000`"><textarea v-model="profileDescription" maxlength="2000" rows="4" placeholder="What should people know about you?"></textarea></AppFormField><div class="profile-visibility-grid"><AppFormField label="Profile picture visibility"><select v-model="profileAvatarVisibility" aria-label="Profile picture visibility"><option value="PUBLIC">Everyone</option><option value="PRIVATE">Only me</option><option value="CIRCLES">Selected circles</option></select></AppFormField><AppFormField label="Description visibility"><select v-model="profileDescriptionVisibility" aria-label="Description visibility"><option value="PUBLIC">Everyone</option><option value="PRIVATE">Only me</option><option value="CIRCLES">Selected circles</option></select></AppFormField></div><fieldset v-if="profileAvatarVisibility === 'CIRCLES'" class="visibility-options"><legend>Profile picture circles</legend><label v-for="group in circleGroups" :key="`avatar-${group.id}`" class="check-option"><input v-model="profileAvatarVisibleCircleIds" type="checkbox" :value="group.id">{{ group.name }}</label><small v-if="circleGroups.length === 0">Create a circle before sharing your profile picture with it.</small></fieldset><fieldset v-if="profileDescriptionVisibility === 'CIRCLES'" class="visibility-options"><legend>Description circles</legend><label v-for="group in circleGroups" :key="`description-${group.id}`" class="check-option"><input v-model="profileDescriptionVisibleCircleIds" type="checkbox" :value="group.id">{{ group.name }}</label><small v-if="circleGroups.length === 0">Create a circle before sharing your description with it.</small></fieldset><small class="profile-visibility-note">Visibility is consent-based and enforced by the backend. Selected-circle access applies only to members of the circles you choose.</small></fieldset>
       <fieldset class="profile-gallery"><legend>Photo gallery</legend><p class="profile-gallery__intro">Optional photos for your profile. These are separate from your profile picture.</p><div class="profile-gallery__form"><AppFormField label="Image URL"><input v-model="galleryUrl" type="url" placeholder="https://…" aria-label="Image URL"></AppFormField><AppFormField label="Alt text" optional><input v-model="galleryAltText" maxlength="240" placeholder="Describe the photo" aria-label="Alt text"></AppFormField><AppButton type="button" tone="primary" :loading="isGalleryActing" @click="addGalleryImage">Add photo</AppButton></div><div v-if="gallery.length" class="profile-gallery__grid"><article v-for="image in gallery" :key="image.id" class="profile-gallery__item"><img :src="image.imageUrl" :alt="image.altText || 'Profile gallery photo'"><AppButton type="button" tone="danger" :loading="isGalleryActing" @click="removeGalleryImage(image)">Remove</AppButton></article></div><AppStatus v-else message="No profile gallery photos yet." /></fieldset>
       <fieldset class="appearance-settings"><legend>Appearance</legend><p class="profile-gallery__intro">Choose the Web workspace theme. VisionForWeb follows this Web setting; the future standalone Vision console will have its own shell.</p><AppFormField label="Theme"><select v-model="appearanceTheme" aria-label="Theme"><option value="SYSTEM">System</option><option value="DARK">Dark</option><option value="LIGHT">Light</option></select></AppFormField><AppButton type="button" tone="primary" :loading="isAppearanceSaving" @click="updateAppearance">Save appearance</AppButton></fieldset>
+      <fieldset class="workspace-defaults"><legend>Workspace defaults</legend><p class="profile-gallery__intro">These preferences persist on this device and guide the workspace; business permissions and server rules still win.</p><div class="profile-visibility-grid"><AppFormField label="Density"><select v-model="workspaceDefaults.density"><option value="comfortable">Comfortable</option><option value="compact">Compact</option></select></AppFormField><AppFormField label="Landing screen"><select v-model="workspaceDefaults.landing"><option value="home">Home</option><option value="calendar">Calendar</option><option value="work">Work</option></select></AppFormField><AppFormField label="Default booking duration"><input v-model.number="workspaceDefaults.bookingDurationMinutes" type="number" min="5" max="480" step="5"></AppFormField><AppFormField label="Notification intensity"><select v-model="workspaceDefaults.notificationIntensity"><option value="all">All</option><option value="important">Important</option><option value="none">None</option></select></AppFormField></div><AppFormFooter><template #secondary><AppButton type="button" tone="secondary" :disabled="isWorkspaceDefaultsSaving" @click="void resetWorkspaceDefaults()">Reset defaults</AppButton></template><template #primary><AppButton type="button" tone="primary" :loading="isWorkspaceDefaultsSaving" @click="void saveWorkspaceDefaults()">Save workspace defaults</AppButton></template></AppFormFooter></fieldset>
       <fieldset><legend>Location</legend><AppFormField label="Location mode"><select v-model="mode" aria-label="Location mode"><option value="OFF">Off</option><option value="APPROXIMATE">Approximate</option><option value="EXACT">Exact</option></select></AppFormField>
       <AppFormField label="Default search radius (km)"><input v-model.number="radius" type="number" min="1" max="200"></AppFormField>
       <AppFormField v-if="mode === 'EXACT'" label="Exact address visibility" hint="Choose exactly who may see the resolved address."><select ref="exactVisibilityInput" v-model="exactVisibilityScope" aria-label="Exact address visibility"><option value="NOBODY">Nobody</option><option value="EVERYONE">Everyone</option><option value="CIRCLES">Selected circles</option><option value="USERS">Selected people</option></select></AppFormField>
@@ -270,7 +283,7 @@ onMounted(async () => {
       <AppStatus v-if="isSearching" message="Searching for locations." busy />
       <ul v-if="suggestions.length" class="suggestions"><li v-for="item in suggestions" :key="`${item.providerPlaceId}-${item.label}`"><AppButton type="button" tone="quiet" @click="applyCandidate(item)">{{ item.label }}</AppButton></li></ul>
       <div v-if="candidate" class="selected"><strong>Resolved place</strong><span>{{ candidate.label }}</span><small>{{ candidate.locality || candidate.country || "Ready to save" }}</small><AppButton type="button" tone="quiet" @click="clearCandidate">Choose a different place</AppButton></div>
-      </fieldset><AppFormFooter sticky><template #secondary><span>Location visibility is enforced by the backend.</span></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Saving…" : "Save profile and location" }}</AppButton></template></AppFormFooter>
+      </fieldset><AppFormFooter sticky><template #secondary><AppButton type="button" tone="secondary" :disabled="isSaving || isLoading" @click="void load()">Reset unsaved changes</AppButton><span>Location visibility is enforced by the backend.</span></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Saving…" : "Save profile and location" }}</AppButton></template></AppFormFooter>
     </form>
     <aside class="location-settings__utility" aria-label="Location privacy context">
       <p class="location-settings__utility-eyebrow">Privacy context</p>
@@ -283,13 +296,16 @@ onMounted(async () => {
       <p class="location-settings__utility-note">Saving validates consent and visibility rules on the server. This panel is a summary, not a second edit surface.</p>
     </aside>
     </div>
-  </section>
+  </section></TaskSurface>
 </template>
 
 <style scoped>
 .location-settings{display:grid;gap:var(--space-3);max-width:60rem}.location-settings__workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(16rem,20rem);gap:var(--space-3);align-items:start}.location-settings__workspace form{min-width:0}.location-settings__utility{display:grid;gap:var(--space-2);padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised);color:var(--text-muted)}.location-settings__utility h2{margin:0;color:var(--text);font-size:var(--text-size-title)}.location-settings__utility p{margin:0;line-height:1.5}.location-settings__utility-eyebrow{color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.location-settings__utility dl{display:grid;gap:var(--space-2);margin:var(--space-2) 0}.location-settings__utility dl div{display:flex;justify-content:space-between;gap:var(--space-2);border-top:1px solid var(--border-subtle);padding-top:var(--space-2)}.location-settings__utility dt{color:var(--text-soft);font-size:var(--text-size-meta)}.location-settings__utility dd{margin:0;color:var(--text);font-weight:var(--text-weight-semibold);text-transform:capitalize}.location-settings__utility-note{font-size:var(--text-size-meta);color:var(--text-soft)!important}.eyebrow{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}h1{margin:0;color:var(--text);font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.intro{max-width:38rem;color:var(--text-muted)}form{display:grid;gap:var(--space-4);padding:var(--space-4);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}fieldset{display:grid;gap:var(--space-3);border:0;padding:0;margin:0}legend{color:var(--text);font-size:var(--text-size-title);font-weight:var(--text-weight-semibold);padding:0}label{display:grid;gap:var(--space-1);font-weight:var(--text-weight-semibold)}input,select,textarea{width:100%;box-sizing:border-box;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--text);font:inherit}.avatar-editor{display:flex;align-items:center;gap:var(--space-3)}.avatar-editor__image{width:4.5rem;height:4.5rem;flex:0 0 4.5rem;border-radius:50%;object-fit:cover;border:1px solid var(--border-subtle)}.avatar-editor__image--fallback{display:grid;place-items:center;background:var(--surface-muted);font-size:1.4rem;font-weight:700}.avatar-editor__remove{justify-self:start;border:0;background:transparent;color:var(--danger);text-decoration:underline;cursor:pointer;font:inherit;font-size:var(--text-size-meta)}.profile-gallery{padding-top:var(--space-3);border-top:1px solid var(--border-subtle)}.profile-gallery__intro{margin:0;color:var(--text-muted);font-size:var(--text-size-meta)}.profile-gallery__form{display:grid;grid-template-columns:1fr 1fr auto;gap:var(--space-2);align-items:end}.profile-gallery__form button,.location-search button,.suggestions button{min-height:var(--control-height-default);border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-1) var(--space-3);background:var(--accent);color:var(--canvas);font:inherit;font-weight:var(--text-weight-semibold);cursor:pointer}.profile-gallery__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-2)}.profile-gallery__item{display:grid;gap:var(--space-1)}.profile-gallery__item img{width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--border-subtle);border-radius:var(--radius-control);background:var(--surface-muted)}.profile-gallery__item button{justify-self:start;border:0;background:transparent;color:var(--danger);text-decoration:underline;cursor:pointer;font:inherit;font-size:var(--text-size-meta)}.check-option{display:flex;grid-template-columns:none;align-items:center;gap:var(--space-2);font-weight:var(--text-weight-medium)}.check-option input{width:auto}.visibility-options{padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised)}.location-search{display:grid;grid-template-columns:1fr auto;align-items:end;gap:var(--space-2)}.suggestions{display:grid;gap:var(--space-1);margin:0;padding:0;list-style:none}.suggestions button{width:100%;text-align:left;background:var(--surface-raised);color:var(--text)}.selected{display:grid;gap:var(--space-1);padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised)}.selected small{color:var(--text-muted)}.app-form-footer__secondary{color:var(--text-soft);font-size:var(--text-size-meta)}@media(max-width:860px){.location-settings__workspace{grid-template-columns:1fr}.location-settings__utility{order:2}}@media(max-width:600px){.location-search,.profile-gallery__form{grid-template-columns:1fr}.location-search button{justify-self:start}.profile-gallery__grid{grid-template-columns:1fr 1fr}}
 </style>
 <style scoped>
+.settings-section-nav{display:flex;flex-wrap:wrap;gap:var(--space-1);padding:var(--space-1);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.settings-section-nav a{padding:var(--space-1) var(--space-2);border-radius:var(--radius-control);color:var(--text-muted);font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold)}.settings-section-nav a:hover,.settings-section-nav a:focus-visible{background:var(--surface-hover);color:var(--text)}
+.settings-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-2)}.settings-group{display:grid;gap:var(--space-1);padding:var(--space-2);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.settings-group span{color:var(--text);font-weight:var(--text-weight-semibold)}.settings-group small{color:var(--text-soft)}
+@media(max-width:700px){.settings-groups{grid-template-columns:1fr 1fr}}@media(max-width:460px){.settings-groups{grid-template-columns:1fr}}
 .avatar-editor__remove { justify-self: start; }
 .profile-gallery__form .app-button, .location-search .app-button { min-width: max-content; }
 .profile-gallery__item .app-button { justify-self: start; }
@@ -297,4 +313,7 @@ onMounted(async () => {
 .profile-visibility-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
 .profile-visibility-note { color: var(--text-soft); font-size: var(--text-size-meta); }
 @media (max-width: 600px) { .profile-visibility-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .location-settings form { padding: var(--space-3); gap: var(--space-3); } .location-settings fieldset { gap: var(--space-2); } .location-settings .app-form-footer { align-items: stretch; } }
+.location-settings :deep(.app-form-footer--sticky) { position: static; margin-inline: 0; margin-bottom: 0; }
+.location-settings .profile-fields { gap: var(--space-3); }
 </style>

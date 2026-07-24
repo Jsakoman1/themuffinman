@@ -106,6 +106,8 @@ final class VisionConversationLifecycleSupport {
                 ? "The current search was reset. What would you like to look for next?"
                 : intent == VisionIntent.OPEN_CHAT
                 ? "The current chat task was reset. Who should I open chat with?"
+                : intent == VisionIntent.SEND_MESSAGE
+                ? "The current message task was reset. Who should I message?"
                 : intent == VisionIntent.CREATE_CIRCLE
                 ? "The current circle draft was reset. What should the circle be called?"
                 : intent == VisionIntent.CREATE_CIRCLE_REQUEST
@@ -178,6 +180,7 @@ final class VisionConversationLifecycleSupport {
                 || intent == VisionIntent.VIEW_NOTIFICATIONS
                 || intent == VisionIntent.VIEW_APPLICATIONS;
         boolean needsClarificationIntent = intent == VisionIntent.OPEN_CHAT
+                || intent == VisionIntent.SEND_MESSAGE
                 || intent == VisionIntent.CREATE_QUEST
                 || intent == VisionIntent.CREATE_CIRCLE
                 || intent == VisionIntent.CREATE_CIRCLE_REQUEST

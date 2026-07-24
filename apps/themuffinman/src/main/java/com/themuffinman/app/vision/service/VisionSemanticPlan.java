@@ -24,6 +24,7 @@ public class VisionSemanticPlan {
     private String planningNote;
     private String searchQuery;
     private String targetUserQuery;
+    private String messageBody;
     private String targetScope;
     private String selectedCandidateId;
     private Double selectedCandidateConfidence;
@@ -197,6 +198,16 @@ public class VisionSemanticPlan {
                 .candidateIntent(VisionIntent.OPEN_CHAT.name())
                 .candidateIntentConfidence(confidence)
                 .capabilityId("open_chat")
+                .planningNote(note == null ? "" : note)
+                .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
+                .build();
+    }
+
+    public static VisionSemanticPlan sendMessage(double confidence, String note, String targetUserQuery) {
+        return VisionSemanticPlan.builder()
+                .candidateIntent(VisionIntent.SEND_MESSAGE.name())
+                .candidateIntentConfidence(confidence)
+                .capabilityId("send_message")
                 .planningNote(note == null ? "" : note)
                 .targetUserQuery(targetUserQuery == null ? "" : targetUserQuery)
                 .build();

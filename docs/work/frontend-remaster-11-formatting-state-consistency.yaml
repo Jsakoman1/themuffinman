@@ -1,0 +1,187 @@
+kind: work
+version: 1
+id: frontend-remaster-11-formatting-state-consistency
+title: Reconcile residual date, time, and visible state formatting drift
+status: verified
+recovery_required: true
+reopened_from: verified
+reopen_reason: Formatter migration covered only a subset of the residual surfaces
+  listed in the plan.
+baseline: dcb983f
+master_plan: docs/work/frontend-app-remaster-master.yaml
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-app-remaster-master-execution-inventory.yaml
+objective: Remove remaining local date/time formatting and visible state vocabulary
+  drift that remains after the verified state-and-formatting baseline, without changing
+  domain state semantics.
+implementation_contract:
+  minimum_source_surfaces:
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - every residual local date/time formatter identified in the matrix
+  - every changed surface with loading, empty, error, stale, success, retry, or undo
+    copy drift
+  required_user_visible_changes:
+  - All matrix-listed dates/times use the shared formatter unless a documented timezone
+    exception is intentional.
+  - Loading, empty, error, stale, success, retry, and undo states use consistent vocabulary
+    and actionable next steps.
+  - State changes are visible through shared status/live-region primitives where appropriate.
+  required_runtime_scenarios:
+  - representative date/time surfaces across Work, Chat, Things/Rides, Business, and
+    notifications
+  - loading/empty/error/retry state inspection on at least three modules
+  - locale/timezone exception verification where calendar meaning requires it
+  anti_partial: Migrating a subset of formatters without completing the matrix is
+    insufficient.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces:
+  - Backend timestamps, timezone authority, workflow states, and presentation DTO
+    labels.
+  - Existing shared formatter and state vocabulary contracts unless this audit identifies
+    a concrete residual inconsistency.
+  residual_scope:
+  - Replace remaining local DateTimeFormat/toLocale formatting in affected Web surfaces.
+  - Align loading, stale, success, error, unavailable, and recovery wording where
+    the current audit finds drift.
+  - Preserve explicit timezone labeling for calendar and booking surfaces.
+  retest_triggers:
+  - Any date/time output, timezone label, or state/status copy change.
+  - Any mutation feedback or recovery behavior change.
+  non_duplication_rule: Do not duplicate backend state mapping or infer transitions
+    from labels.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: required_before_implementation
+paths:
+- apps/themuffinman/frontend/src/services/formatters.ts
+- apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+- apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+- apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+- docs/work/frontend-remaster-formatting-state-matrix-2026-07-23.md
+- apps/themuffinman/frontend/scripts/frontend-remaster-formatting-state-runtime.mjs
+- docs/runtime-evidence/frontend-remaster-formatting-state-2026-07-24.json
+- docs/runtime-evidence/frontend-remaster-formatting-state-1440.png
+- docs/runtime-evidence/frontend-remaster-formatting-state-390.png
+required_paths:
+- docs/work/frontend-remaster-formatting-state-matrix-2026-07-23.md
+tasks:
+- id: consolidate-formatting-and-state-consistency
+  inventory_item: remaster-11-formatting-state-consistency
+  title: Consolidate residual formatting and visible state behavior
+  type: implementation
+  status: done
+  paths:
+  - docs/work/frontend-remaster-formatting-state-matrix-2026-07-23.md
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/scripts/frontend-remaster-formatting-state-runtime.mjs
+  - docs/runtime-evidence/frontend-remaster-formatting-state-2026-07-24.json
+  - docs/runtime-evidence/frontend-remaster-formatting-state-1440.png
+  - docs/runtime-evidence/frontend-remaster-formatting-state-390.png
+  required_paths:
+  - docs/work/frontend-remaster-formatting-state-matrix-2026-07-23.md
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/scripts/frontend-remaster-formatting-state-runtime.mjs
+  - docs/runtime-evidence/frontend-remaster-formatting-state-2026-07-24.json
+  manual_runtime_command: node apps/themuffinman/frontend/scripts/frontend-remaster-formatting-state-runtime.mjs
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/frontend-remaster-formatting-state-1440.png
+  - docs/runtime-evidence/frontend-remaster-formatting-state-390.png
+  runtime_evidence_paths:
+  - docs/runtime-evidence/frontend-remaster-formatting-state-2026-07-24.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && make audit-frontend && git diff --check
+  started_at: '2026-07-24T05:34:48Z'
+  start_fingerprints:
+    docs/work/frontend-remaster-formatting-state-matrix-2026-07-23.md: 0556104c355235df0098ae06be658c989f6ed7fc04618076596612778a1998dd
+    apps/themuffinman/frontend/src/services/formatters.ts: 55a37b04fd6b9098de1372b874ff3eb2d00279f8164ff4c47520c31e71091c34
+acceptance:
+- Affected dates and times use the shared locale/timezone-aware formatter contract.
+- Calendar and booking timezone meaning remains explicit.
+- Visible state labels and recovery actions are consistent without changing backend
+  state semantics.
+- No local permission, eligibility, or workflow transition logic is introduced.
+evidence:
+- task: consolidate-formatting-and-state-consistency
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && make audit-frontend && git diff --check
+  ranAt: '2026-07-24T05:38:38Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/scripts/frontend-remaster-formatting-state-runtime.mjs
+  - docs/runtime-evidence/frontend-remaster-formatting-state-1440.png
+  - docs/runtime-evidence/frontend-remaster-formatting-state-2026-07-24.json
+  - docs/runtime-evidence/frontend-remaster-formatting-state-390.png
+  - docs/work/frontend-remaster-formatting-state-matrix-2026-07-23.md
+  output: |+
+    ruby scripts/audits/audit-duplicate-logic.rb
+    Duplicate logic audit
+      frontend files scanned: 97
+      review candidates: 4
+      status mapping hits: 1
+      permission gate hits: 5
+      transition eligibility hits: 0
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue score=6
+      - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue score=5
+      - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue score=4
+    ruby scripts/audits/audit-permission-rule-duplication.rb
+    Permission rule duplication audit
+      backend permission sources: 26
+      backend presentation flags: 4
+      frontend passthrough gates: 15
+      frontend local gates: 1
+      - BLOCK local=1 backend=3
+      - PRIMARY_ACTION local=1 backend=3
+
+  startedAt: '2026-07-24T05:34:48Z'
+  changedAfterStart: &1
+  - docs/work/frontend-remaster-formatting-state-matrix-2026-07-23.md
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/scripts/frontend-remaster-formatting-state-runtime.mjs
+  - docs/runtime-evidence/frontend-remaster-formatting-state-2026-07-24.json
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/frontend-remaster-formatting-state-1440.png
+  - docs/runtime-evidence/frontend-remaster-formatting-state-390.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/frontend-remaster-formatting-state-2026-07-24.json

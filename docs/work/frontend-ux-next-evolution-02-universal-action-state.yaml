@@ -1,0 +1,25 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-02-universal-action-state
+title: Implement universal action, state, and recovery grammar
+status: planned
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control: {standard: docs/plan-scope-control-standard.yaml, reused_verified_plans: [docs/work/frontend-ux-simplification-master.yaml], baseline_only_surfaces: [backend error/status authority], residual_scope: [shared loading, empty, stale, permission, conflict, retry, success, and overflow presentation], retest_triggers: [state classification, action visibility, or accessibility announcement change], non_duplication_rule: Existing domain actions remain backend-owned.}
+tasks:
+  - id: implement-universal-action-state-grammar
+    title: Standardize action hierarchy and all common UI states
+    type: implementation
+    status: pending
+    inventory_item: universal-action-state-grammar
+    observable_outcome: Shared components express one primary action, contextual overflow, and distinct loading/empty/stale/permission/conflict/retry/success states with accessible announcements.
+    dependencies: [implement-global-context-command-surface]
+    paths: [apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue, apps/themuffinman/frontend/src/modules/app-shell/components/ActionOverflow.vue, apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue, apps/themuffinman/frontend/src/style.css, apps/themuffinman/frontend/src/styles/base.css]
+    required_paths: [apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue, apps/themuffinman/frontend/src/modules/app-shell/components/AttentionQueue.vue]
+    evidence_boundary: [state matrix, keyboard behavior, aria-live behavior, type-check, build, visual evidence]
+    requires_visual_evidence: true
+    visual_evidence_paths: [docs/runtime-evidence/frontend-ux-next-state-grammar-desktop.png, docs/runtime-evidence/frontend-ux-next-state-grammar-mobile.png]
+    validation: cd apps/themuffinman/frontend && npm run type-check && npm run build

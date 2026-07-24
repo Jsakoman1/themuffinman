@@ -19,6 +19,11 @@ evidence and existing pending/external boundaries instead of counting them again
 Every non-trivial change has one YAML work plan under `docs/work/`. It contains the change identity, Git baseline,
 ordered tasks, expected paths, validation commands, and verifier-generated evidence.
 
+Before goal pursuing a broad or high-risk master, run atomic-task hardening. Each implementation task must have one
+observable outcome, exact bounded paths, dependencies, a leaf validation command, and an explicit evidence boundary.
+A broad child plan is a scope container, not an implementation queue. The verifier-controlled execution inventory must
+contain one ordered item per atomic task, and the hardening task must be verified before product implementation begins.
+
 Markdown explains the workflow. It is not completion state. Generated reports and old plan formats are not active
 control state.
 
@@ -47,8 +52,9 @@ serial program must keep one global execution inventory and one in-progress item
 
 1. Create a work plan from `docs/work-plan.template.yaml`.
 2. Record the Git baseline before implementation.
-3. Implement each task and keep its expected file list accurate.
-4. Run `make work-verify plan=<path>`.
+3. For a broad/high-risk plan, split and verify atomic-task hardening before implementation.
+4. Implement each atomic task and keep its expected file list accurate.
+5. Run `make work-verify plan=<path>`.
 5. The verifier executes every task command and records the exit code, timestamp, revision, changed files, and output.
 6. Verification succeeds only when every task passes and every implementation task is linked to a changed file.
 7. New plans use `strict_verification: true`: every task lists exact `required_paths`, all of them must change, visual tasks attach changed screenshot evidence, and runtime tasks attach changed runtime artifacts. A build or static audit alone is never browser evidence.

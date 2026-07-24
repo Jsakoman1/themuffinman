@@ -18,7 +18,9 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "vision_user_preference")
+@Table(name = "vision_user_preference", uniqueConstraints = {
+        @jakarta.persistence.UniqueConstraint(name = "uk_vision_user_preference_user_key", columnNames = {"user_id", "preference_key"})
+})
 public class VisionUserPreference {
 
     @Id

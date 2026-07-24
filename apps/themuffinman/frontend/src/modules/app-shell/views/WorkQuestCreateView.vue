@@ -9,17 +9,22 @@ import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppButton from "../components/AppButton.vue"
 import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
+import {formatCurrency} from "../../../services/formatters.ts"
+import AppStatus from "../components/AppStatus.vue"
 
 const router = useRouter()
 const form = ref<QuestRequestDTO>({title: "", description: "", awardAmount: 0, termFixed: false})
 const isSaving = ref(false)
 const error = ref("")
+const feedback = ref("")
 const guidedDraft = ref<Record<string, string> | null>(null)
+const offerType = ref<"one-time" | "recurring" | "shift" | "milestone" | "quantity" | "application">("one-time")
 const guidedComplete = (draft: Record<string, string>) => { guidedDraft.value = draft; form.value = {title: draft.title ?? "", description: draft.description ?? "", awardAmount: Number(draft.awardAmount ?? 0), termFixed: (draft.termFixed ?? "").toLowerCase() === "fixed"} }
 const save = async () => {
+  if (isSaving.value) return
   isSaving.value = true; error.value = ""
   try { await userShellApi.createQuest(form.value); await router.push("/work/quests") }
-  catch { error.value = "Could not create this quest." }
+  catch { error.value = "Could not create this quest. Review the draft and try again." }
   finally { isSaving.value = false }
 }
 </script>
@@ -31,19 +36,20 @@ const save = async () => {
       <GuidedIntakePanel v-if="!guidedDraft" flow="work.quest.create" title="Create a quest" description="Answer one useful question at a time, then review the complete draft." @completed="guidedComplete" @cancel="router.push('/work/quests')" />
       <form v-if="guidedDraft" class="quest-create__form" @submit.prevent="save">
         <p class="quest-create__draft-boundary">This guided draft is still private. Nothing is created or shared until you confirm the final review.</p>
+        <AppFormField label="Offer type" hint="This guides the draft; the backend validates the final workflow."><select v-model="offerType"><option value="one-time">One-time task</option><option value="recurring">Recurring task</option><option value="shift">Shift</option><option value="milestone">Milestone project</option><option value="quantity">Quantity-based task</option><option value="application">Application-based task</option></select></AppFormField>
         <p class="quest-create__review-label">Review your guided draft</p>
         <AppFormField label="Title" hint="Backend-validated draft" required><input v-model="form.title" required maxlength="255"></AppFormField>
         <AppFormField label="Description" hint="Backend-validated draft"><RichTextEditor v-model="form.description" label="Quest description" /></AppFormField>
         <AppFormField label="Award" hint="Backend-validated draft" required><input v-model.number="form.awardAmount" type="number" min="0" step="0.01" required></AppFormField>
         <label class="quest-create__checkbox"><input v-model="form.termFixed" type="checkbox"> Fixed terms</label>
-        <p v-if="error" class="quest-create__error" role="alert">{{ error }}</p>
+        <AppStatus v-if="isSaving" message="Creating quest…" busy /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="save" /><AppStatus v-if="feedback" :message="feedback" tone="success" />
         <AppFormFooter sticky><template #secondary><RouterLink to="/work/quests">Cancel</RouterLink></template><template #primary><AppButton type="submit" tone="primary" :loading="isSaving">{{ isSaving ? "Creating…" : "Create quest" }}</AppButton></template></AppFormFooter>
       </form>
       <aside class="quest-create__summary" aria-label="Quest draft summary">
         <p class="quest-create__summary-eyebrow">Draft summary</p>
         <h2>{{ form.title.trim() || "Untitled quest" }}</h2>
         <p>{{ form.description.trim() || "Add a description to give the worker useful context." }}</p>
-        <dl><div><dt>Award</dt><dd>{{ new Intl.NumberFormat(undefined, {style: "currency", currency: "EUR"}).format(form.awardAmount || 0) }}</dd></div><div><dt>Terms</dt><dd>{{ form.termFixed ? "Fixed" : "Flexible" }}</dd></div><div><dt>Visibility</dt><dd>Backend governed</dd></div></dl>
+        <dl><div><dt>Award</dt><dd>{{ formatCurrency(form.awardAmount || 0) }}</dd></div><div><dt>Terms</dt><dd>{{ form.termFixed ? "Fixed" : "Flexible" }}</dd></div><div><dt>Visibility</dt><dd>Backend governed</dd></div></dl>
         <p class="quest-create__summary-note">Vision can help refine the draft, but creation only happens after the explicit submit action.</p>
       </aside>
     </div>
@@ -57,4 +63,5 @@ const save = async () => {
 <style scoped>
 .quest-create .app-button { border-radius:var(--radius-control); padding:var(--space-1) var(--space-3); }
 .quest-create .app-button--primary { border-color:var(--accent); background:var(--accent); color:var(--canvas); }
+.quest-create select { min-height:var(--control-height-default); border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }
 </style>

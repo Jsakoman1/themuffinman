@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.Instant;
+import java.math.BigDecimal;
 
 @Data
 public class BusinessOwnerBookingCreateRequestDTO {
@@ -26,4 +27,7 @@ public class BusinessOwnerBookingCreateRequestDTO {
 
     @Size(max = 120, message = "Idempotency key must be 120 characters or fewer")
     private String idempotencyKey;
+
+    @jakarta.validation.constraints.DecimalMin(value = "0.001", message = "Quantity must be greater than zero")
+    private BigDecimal quantity;
 }

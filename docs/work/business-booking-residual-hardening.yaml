@@ -1,0 +1,170 @@
+kind: work
+version: 1
+id: business-booking-residual-hardening
+title: Verify residual typed schema, resource assignment, Vision parity, and runtime
+  hardening
+status: verified
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+tasks:
+- id: typed-schema-resource-assignment
+  title: Verify typed schema, required inputs, pricing, resource requirements, and
+    atomic assignments
+  type: implementation
+  status: done
+  inventory_item: residual-typed-schema-resource-assignment
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOfferingSchemaService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/resources/db/migration/V88__create_business_booking_resource_assignments.sql
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/resources/db/migration/V88__create_business_booking_resource_assignments.sql
+  verification_required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessCreateBookingUseCaseTest,BusinessPricingCalculationServiceTest,BusinessQuoteServiceTest'
+    test
+  observable_outcome: Typed public schema and owner-scoped resource requirements are
+    persisted, required customer input is validated, and concrete resources are atomically
+    assigned and snapshotted.
+  started_at: '2026-07-24T12:10:58Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java: e3fe6f5fb9da84a136036d8b778e4645f9d666044f0d174561d2fdd23a31b2e3
+- id: vision-runtime-contract
+  title: Verify Vision Business preview and Web/API parity after residual hardening
+  type: implementation
+  status: done
+  inventory_item: residual-vision-runtime-contract
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapter.java
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  verification_required_paths:
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  manual_runtime_command: node apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest,VisionCreateBookingExecutionAdapterTest'
+    test
+  observable_outcome: Vision surfaces schema, pricing, resource, availability, and
+    booking parity through the same Business services and the browser trace is clean.
+  started_at: '2026-07-24T12:11:29Z'
+  start_fingerprints:
+    docs/runtime-evidence/business-booking-browser-2026-07-24.json: 899b430989f0565290fe710c1b07a516030666772007fcb853a1c29f855d7c77
+- id: residual-runtime-regression-control
+  title: Verify current runtime evidence, regression catalog, docs, and control inventory
+  type: docs-only
+  status: done
+  inventory_item: residual-runtime-regression-control
+  paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  - docs/regression-scenario-catalog.yaml
+  - docs/domain-technical.md
+  - docs/business-logic.md
+  required_paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  - docs/regression-scenario-catalog.yaml
+  verification_required_paths:
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  validation: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-capability-evidence && make audit-interface-evidence && make audit-truth-registry
+    && make audit-docs
+  observable_outcome: Current runtime and regression evidence is represented in all
+    living documentation and control registries without promoting partial evidence
+    to complete.
+  started_at: '2026-07-24T12:14:44Z'
+  start_fingerprints:
+    docs/runtime-evidence/business-booking-end-to-end.json: ce459737341de82cad2c4ea40476cc2c9f953618b5c6b3c180ea2e424b36f33c
+evidence:
+- task: typed-schema-resource-assignment
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessCreateBookingUseCaseTest,BusinessPricingCalculationServiceTest,BusinessQuoteServiceTest'
+    test
+  ranAt: '2026-07-24T12:11:06Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOfferingSchemaService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/resources/db/migration/V88__create_business_booking_resource_assignments.sql
+  output: "\n"
+  startedAt: '2026-07-24T12:10:58Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: vision-runtime-contract
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='VisionCapabilityPreviewServiceTest,VisionCapabilityPreviewServiceAliasResolutionTest,VisionCreateBookingExecutionAdapterTest'
+    test
+  ranAt: '2026-07-24T12:14:24Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionBusinessPreviewRenderer.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCreateBookingExecutionAdapter.java
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  output: "\n"
+  startedAt: '2026-07-24T12:11:29Z'
+  changedAfterStart: &2
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+- task: residual-runtime-regression-control
+  command: make audit-target-capability-catalog && make audit-target-capability-coverage
+    && make audit-capability-evidence && make audit-interface-evidence && make audit-truth-registry
+    && make audit-docs
+  ranAt: '2026-07-24T12:14:55Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  output: |2+
+      pending runtime scenarios: 14
+      passed evidence paths checked: 63
+    Interface evidence reconciliation audit passed
+      endpoints classified: 224
+      admin_or_agent: 5
+      native_handoff: 3
+      unclassified_non_web: 69
+      web_source_linked: 147
+    Truth registry integrity audit passed
+      fact classes: 12
+      canonical and derived paths checked: 23
+      reviewed round: 20
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 319
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-24T12:14:44Z'
+  changedAfterStart: &3
+  - docs/runtime-evidence/business-booking-end-to-end.json
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

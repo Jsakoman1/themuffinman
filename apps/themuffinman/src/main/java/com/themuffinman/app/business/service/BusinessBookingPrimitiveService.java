@@ -9,6 +9,7 @@ import com.themuffinman.app.common.errors.ServiceErrors;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.math.BigDecimal;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -34,11 +35,11 @@ public class BusinessBookingPrimitiveService {
                 .orElseThrow(() -> ServiceErrors.notFound("Business offering not found"));
     }
 
-    public long countOverlappingCapacityUsage(Long offeringId, Instant startsAt, Instant endsAt) {
+    public BigDecimal countOverlappingCapacityUsage(Long offeringId, Instant startsAt, Instant endsAt) {
         return businessBookingRepository.countOverlappingBookings(offeringId, CAPACITY_CONSUMING_STATUSES, startsAt, endsAt);
     }
 
-    public long countOverlappingCapacityUsageExcluding(Long offeringId, Long bookingId, Instant startsAt, Instant endsAt) {
+    public BigDecimal countOverlappingCapacityUsageExcluding(Long offeringId, Long bookingId, Instant startsAt, Instant endsAt) {
         return businessBookingRepository.countOverlappingBookingsExcluding(
                 offeringId, bookingId, CAPACITY_CONSUMING_STATUSES, startsAt, endsAt);
     }

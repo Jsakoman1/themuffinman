@@ -1,0 +1,109 @@
+kind: work
+version: 1
+id: vision-prompt-stabilization-03-mutation-and-continuity
+title: Harden Vision mutation prompts and multi-turn continuity
+status: verified
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/vision-prompt-stabilization-master.yaml
+execution_inventory: docs/work/vision-prompt-stabilization-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/ui-linking-vision-inline-04-vision-chat.yaml
+  baseline_only_surfaces:
+  - existing typed mutation adapters and permission checks
+  residual_scope:
+  - SEND_MESSAGE complete journey
+  - target/body follow-up
+  - mutation fallback messaging
+  - active-slot continuity
+  - multi-signal precedence
+  - alias normalization
+  retest_triggers:
+  - VisionConversationService.java
+  - VisionChatExecutionService.java
+  - VisionSemanticPlan.java
+  - mutation tests
+  - prompt payload/validator changes
+  non_duplication_rule: Existing mutation adapters are baseline; this task adds prompt
+    selection and continuity proof around them.
+  depends_on:
+  - docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
+  - docs/work/vision-prompt-stabilization-02-read-routing-and-resolution.yaml
+tasks:
+- id: harden-mutation-and-continuity
+  title: Make direct messaging and follow-up mutation prompts deterministic, reviewable,
+    and recoverable
+  type: implementation
+  status: done
+  inventory_item: mutation-and-continuity
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticContractSanitizerTest.java
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest=VisionConversationServiceTest,VisionChatExecutionServiceTest,VisionSemanticContractSanitizerTest
+    test && cd ../.. && make audit-docs && git diff --check
+  acceptance:
+  - send message to Nikolina never degrades to OPEN_CHAT
+  - recipient and body are separately collected when absent
+  - review and explicit confirmation precede send execution
+  - final response contains authoritative conversation/message readback
+  - short follow-up answers preserve the correct active slot and topic
+  - exact username, display-name, unknown, inaccessible, and ambiguous recipient branches
+    are covered
+  - repeated confirmation or browser retry produces at most one message and one authoritative
+    readback
+  started_at: '2026-07-23T18:50:40Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java: 8962ea4aa2f98e0858c54e244e81c0b09a1575b4bef39166edb86f14c2c9e122
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java: 7b7e001b2880a39219a5beb2e8162b8881a32daa304bb1e6972c3f1c58d45d1d
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticPlan.java: 4b975ae374319f55b000458a3b3bd9f00245dc0cb3d23ef1e351f7ae4e41fc20
+    apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java: 3e0a9c4fcbf7ea25f41f9786e3ab0680dd38f7a16c0501f50d42b8152cdf51df
+    apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue: a45f99fb5101d03bc27406a68ba1f23176782e4da752acc00351339c337f3602
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java: f20c0658407b2652c757085bdb8875089a2ddc1570df75e9f9c7051785b9030a
+    apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java: d8c5dc95580d848319fdbd4be3d46878b42102055a8de608bd9ab57c138652a9
+    docs/regression-scenario-catalog.yaml: b0ab0c0c1a39ff97cf88084089c87c3ffc707e95e07bc84231523b5833b7f3f1
+evidence:
+- task: harden-mutation-and-continuity
+  command: cd apps/themuffinman && ./mvnw -q -Dtest=VisionConversationServiceTest,VisionChatExecutionServiceTest,VisionSemanticContractSanitizerTest
+    test && cd ../.. && make audit-docs && git diff --check
+  ranAt: '2026-07-23T18:55:16Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 315
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-23T18:50:40Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionConversationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionChatExecutionService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionChatExecutionServiceTest.java
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -34,6 +34,7 @@ public class BusinessBookingResponseDTO {
     private BigDecimal priceSnapshotAmount;
     private String priceSnapshotCurrency;
     private Integer durationSnapshotMinutes;
+    private BigDecimal quantitySnapshot;
     private String idempotencyKey;
     private List<BusinessBookingAllowedActionDTO> allowedActions;
     private List<ClientActionDTO> actions;

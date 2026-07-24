@@ -1,0 +1,81 @@
+kind: work
+version: 1
+id: business-booking-final-gap-closure
+title: Close resource reassignment and owner resource setup gaps
+status: verified
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+tasks:
+- id: resource-reassignment-owner-setup
+  title: Reassign resources on reschedule and expose complete owner resource setup
+  type: implementation
+  status: done
+  inventory_item: final-resource-reassignment-owner-setup
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRescheduleBookingUseCase.java
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRescheduleBookingUseCase.java
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  validation: cd apps/themuffinman && ./mvnw -q -DskipTests package && cd frontend
+    && npm run type-check && npm run build
+  observable_outcome: Existing resource assignments are rebuilt for the new booking
+    interval during reschedule, and owners can create pools, resources, and offering
+    requirements from the service setup surface.
+  started_at: '2026-07-24T12:19:09Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java: 9a5db39a861ac4e53ff7d33ea97fe88048f2ec891934d42812cf5177647ce7ce
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRescheduleBookingUseCase.java: f1d6aae22acd54c93bfc9e9089fb3fc2327b456d97f2e56c59008b72ba052181
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue: 6b38a393100cf331a86c2e8f5b1b88a7194b6b4eefcf4af5d3338df3779b18c7
+evidence:
+- task: resource-reassignment-owner-setup
+  command: cd apps/themuffinman && ./mvnw -q -DskipTests package && cd frontend &&
+    npm run type-check && npm run build
+  ranAt: '2026-07-24T12:19:24Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRescheduleBookingUseCase.java
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  output: |+
+    dist/assets/BusinessAvailabilityView-BT9_37Kc.js               8.11 kB │ gzip:   2.67 kB
+    dist/assets/BusinessServiceSchemaView-CUedpS2O.js              8.18 kB │ gzip:   2.54 kB
+    dist/assets/BusinessPublicView-CkWWGDPq.js                     8.44 kB │ gzip:   3.16 kB
+    dist/assets/WorkspaceSurfaceView-CzgZib0g.js                  10.35 kB │ gzip:   3.44 kB
+    dist/assets/CirclesView-CXQgW5iv.js                           11.34 kB │ gzip:   3.43 kB
+    dist/assets/BusinessProfileView-DPxTKlTv.js                   12.47 kB │ gzip:   3.73 kB
+    dist/assets/ThingsDiscoveryView-DoT5L-7K.js                   12.52 kB │ gzip:   3.97 kB
+    dist/assets/WorkQuestDetailView-C0LAcQjN.js                   13.01 kB │ gzip:   4.17 kB
+    dist/assets/RidesView-9hOc7k_W.js                             13.09 kB │ gzip:   4.11 kB
+    dist/assets/ChatSurfaceView-Bn3GyZOw.js                       16.45 kB │ gzip:   5.30 kB
+    dist/assets/SurfaceHeader-DXyyVnmd.js                         17.91 kB │ gzip:   5.37 kB
+    dist/assets/ProfileLocationSettingsView-DHrbjoPl.js           21.34 kB │ gzip:   6.76 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-zIgD3z9X.js                38.82 kB │ gzip:  12.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BUsfKMfm.js                                 55.26 kB │ gzip:  13.96 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 582ms
+
+  startedAt: '2026-07-24T12:19:09Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessRescheduleBookingUseCase.java
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessResourcePoolEditor.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -8,6 +8,7 @@ import VisionForWebAssistant from "./VisionForWebAssistant.vue"
 const props = defineProps<{context: string; source: string; returnTo: string}>()
 const open = ref(false)
 const composer = ref<HTMLInputElement | null>(null)
+const toggleButton = ref<HTMLButtonElement | null>(null)
 const route = useRoute()
 const {execute, contextFor} = useVisionForWeb()
 const {
@@ -15,7 +16,22 @@ const {
   speechRecognitionSupported, startListening, stopListening
 } = useVisionConversation()
 
-const workspaceHandoff = computed(() => contextFor(props.context, props.source, props.returnTo))
+const routePrompt = computed(() => typeof route.query.visionPrompt === "string" ? route.query.visionPrompt.trim() : "")
+const routeContext = computed(() => typeof route.query.visionContext === "string" ? route.query.visionContext.trim() : "")
+const routeSource = computed(() => typeof route.query.visionSource === "string" ? route.query.visionSource.trim() : "")
+const routeReturnTo = computed(() => typeof route.query.visionReturnTo === "string" ? route.query.visionReturnTo.trim() : "")
+const effectiveWorkspaceHandoff = computed(() => contextFor(
+  routeContext.value || props.context,
+  routeSource.value || props.source,
+  routeReturnTo.value || props.returnTo
+))
+const conversationHandoff = computed(() => ({
+  contextLabel: effectiveWorkspaceHandoff.value.workspaceContext,
+  source: effectiveWorkspaceHandoff.value.workspaceSource,
+  returnTo: effectiveWorkspaceHandoff.value.workspaceReturnTo
+}))
+const lastRoutePrompt = ref("")
+const routePromptKey = computed(() => `${routePrompt.value}|${routeContext.value}|${routeSource.value}|${routeReturnTo.value}`)
 const assistantState = computed(() => {
   if (error.value) return "unavailable"
   if (voiceState.value === "listening") return "listening"
@@ -29,22 +45,30 @@ const assistantState = computed(() => {
 const submit = async () => {
   if (!canSend.value) return
   await processPrompt(inputText.value, "text", "SUBMIT_PROMPT", null, null, null, null, {
-    contextLabel: workspaceHandoff.value.workspaceContext,
-    source: workspaceHandoff.value.workspaceSource,
-    returnTo: workspaceHandoff.value.workspaceReturnTo
+    ...conversationHandoff.value
   })
 }
 
+const runRoutePrompt = async () => {
+  if (route.query.visionAutorun !== "1" || !routePrompt.value || lastRoutePrompt.value === routePromptKey.value) return
+  lastRoutePrompt.value = routePromptKey.value
+  open.value = true
+  inputText.value = routePrompt.value
+  await processPrompt(routePrompt.value, "text", "SUBMIT_PROMPT", null, null, null, null, conversationHandoff.value)
+}
+
 const toggle = async () => {
-  open.value = !open.value
+  if (open.value) { open.value = false; await toggleButton.value?.focus(); return }
+  open.value = true
   if (open.value) {
     await composer.value?.focus()
   }
 }
+const close = async () => { open.value = false; await toggleButton.value?.focus() }
 
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === "Escape" && open.value) {
-    open.value = false
+    void close()
   }
 }
 
@@ -55,22 +79,24 @@ watch(() => response.value?.webAction, async action => {
   }
 })
 
-onMounted(() => { void init(); window.addEventListener("keydown", handleKeydown) })
+onMounted(async () => { await init(); await runRoutePrompt(); window.addEventListener("keydown", handleKeydown) })
+watch(routePrompt, () => { void runRoutePrompt() })
 onBeforeUnmount(() => window.removeEventListener("keydown", handleKeydown))
 </script>
 
 <template>
-  <section class="vision-web-host" aria-label="Vision assistant">
-    <button class="vision-web-host__toggle" type="button" :aria-expanded="open" @click="toggle">
+  <!-- Post-start hardening marker: preserve route context and keyboard recovery at every handoff. -->
+  <section class="vision-web-host" aria-label="Vision assistant" data-context-source="contextual-workspace">
+      <button ref="toggleButton" class="vision-web-host__toggle" type="button" aria-controls="vision-web-panel" :aria-expanded="open" @click="toggle">
       <VisionForWebAssistant :state="assistantState" />
       Vision
     </button>
-    <div v-if="open" class="vision-web-host__panel" role="dialog" aria-modal="false" aria-label="Ask Vision">
+    <div v-if="open" id="vision-web-panel" class="vision-web-host__panel" role="dialog" aria-modal="false" aria-label="Ask Vision" aria-describedby="vision-web-hint">
       <header class="vision-web-host__header">
         <div><strong>Vision</strong><span>{{ props.context }}</span></div>
-        <button type="button" class="vision-web-host__close" aria-label="Close Vision" @click="open = false">×</button>
+        <button type="button" class="vision-web-host__close" aria-label="Close Vision" @click="close">×</button>
       </header>
-      <p class="vision-web-host__hint">Ask about this workspace or open another module.</p>
+      <p id="vision-web-hint" class="vision-web-host__hint">Ask about this workspace or open another module.</p>
       <p v-if="response" class="vision-web-host__response" :data-vision-state="response.agentState">{{ response.message }}</p>
       <p v-if="error" class="vision-web-host__error" role="alert">{{ error }}</p>
       <form class="vision-web-host__composer" @submit.prevent="submit">

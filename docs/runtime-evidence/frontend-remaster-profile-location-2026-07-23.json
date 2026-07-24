@@ -1,0 +1,33 @@
+{
+  "evidenceVersion": "frontend-remaster-profile-location-v3",
+  "capturedAt": "2026-07-24T05:59:38.860Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "profileSettings": {
+      "status": "passed",
+      "route": "/profile/settings",
+      "form": true,
+      "sectionLinks": 4,
+      "notificationLink": true,
+      "noHorizontalOverflow": true
+    },
+    "visibilityDisclosure": {
+      "status": "passed",
+      "exactScope": "NOBODY"
+    },
+    "mobileSettings": {
+      "status": "passed",
+      "widths": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

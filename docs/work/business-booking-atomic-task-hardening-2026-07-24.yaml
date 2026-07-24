@@ -1,0 +1,208 @@
+kind: work
+version: 1
+id: business-booking-atomic-task-hardening
+title: Harden Business booking master into verifier-controlled atomic implementation
+  tasks
+status: verified
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/target-capability-production-readiness-business.yaml
+  - docs/work/vision-for-web-remaining-business.yaml
+  baseline_only_surfaces:
+  - existing verified Business and Vision behavior
+  residual_scope: Convert broad Business child tasks into bounded atomic tasks before
+    product implementation begins.
+  retest_triggers:
+  - any change to atomic task paths
+  - dependencies
+  - acceptance
+  - validation
+  - or execution order
+  non_duplication_rule: Existing planning evidence is baseline only; this task verifies
+    the new atomic control queue, not product completion.
+tasks:
+- id: harden-business-booking-atomic-queue
+  title: Replace broad Business implementation tasks with bounded verifier-controlled
+    atomic tasks
+  type: planning
+  status: done
+  inventory_item: atomic-task-hardening
+  observable_outcome: A complete ordered atomic queue replaces the broad child implementation
+    queue.
+  dependencies: []
+  evidence_boundary:
+  - planning graph
+  - required paths
+  - leaf validations
+  - dependency order
+  paths:
+  - docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+  - docs/work/business-booking-domain-contract.yaml
+  - docs/work/business-booking-owner-setup-web.yaml
+  - docs/work/business-booking-public-slots-web.yaml
+  - docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  - docs/work/business-booking-vision-parity.yaml
+  - docs/work/business-booking-runtime-closeout.yaml
+  - docs/work/business-booking-file-impact-matrix.yaml
+  - docs/work/business-booking-final-sequencing-review-2026-07-24.yaml
+  required_paths:
+  - docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+  - docs/work/business-booking-domain-contract.yaml
+  - docs/work/business-booking-owner-setup-web.yaml
+  - docs/work/business-booking-public-slots-web.yaml
+  - docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  - docs/work/business-booking-vision-parity.yaml
+  - docs/work/business-booking-runtime-closeout.yaml
+  - docs/work/business-booking-file-impact-matrix.yaml
+  - docs/work/business-booking-final-sequencing-review-2026-07-24.yaml
+  acceptance:
+  - Every implementation task has one observable outcome, one bounded path set, one
+    leaf validation, explicit dependencies, and explicit evidence requirements.
+  - No implementation task mixes domain schema, API contract, Web UI, Vision orchestration,
+    and runtime closeout as one unverified unit.
+  - The execution inventory contains one ordered item per atomic task and rejects
+    out-of-order starts.
+  - Broad child plans remain scope containers only; implementation status is controlled
+    by atomic task items.
+  - A build cannot close a task whose acceptance requires runtime, visual, API, or
+    documentation evidence.
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb && make audit-plan-coverage
+  started_at: '2026-07-24T09:57:37Z'
+  start_fingerprints:
+    docs/work/business-booking-end-to-end-master-execution-inventory.yaml: 55b091b28de15310399989155f1411c0bf4db34c450fdf900c32e97c7356d1e6
+    docs/work/business-booking-domain-contract.yaml: 47fdd8b84c39e8354446b5b964216e6128d7d68e296216a0c924708a49037d3a
+    docs/work/business-booking-owner-setup-web.yaml: 7eefa14502fe80fedb46b6154215274dc9cda03e35abb0fc5e8f668c074e0381
+    docs/work/business-booking-public-slots-web.yaml: b63a029185a0ec69a5f69c1d95c7ad54f02c99f355ae266c54861fc1ef8c2165
+    docs/work/business-booking-calendar-and-workflow-e2e.yaml: 73a0b62869030828d1a6911ae7fba1f52c8b7cb024f436466cb1c022b959659a
+    docs/work/business-booking-vision-parity.yaml: b61265616c8b6040470c213343312a8bd79212bd9cd1bba47f30d576e66db74f
+    docs/work/business-booking-runtime-closeout.yaml: 69a25a704ef747c2afd0dba09d70564bac7da63a0190bf30c248a9e17da28410
+    docs/work/business-booking-file-impact-matrix.yaml: 4a228eb548e5099a57783752e4e427cdafde8de993af224f7a461e8c2fe9e5de
+    docs/work/business-booking-final-sequencing-review-2026-07-24.yaml: f62f82a17b591e8925f7d3a721c518d9041883d57f81f52150bfbd1ecd9ae650
+atomic_task_catalog:
+- id: domain-schema-migrations
+  plan: docs/work/business-booking-domain-contract.yaml
+  outcome: Persist typed service schema, options, demand fields, resources, pricing
+    rules, and booking snapshot foundations.
+  depends_on: []
+- id: domain-pricing-availability
+  plan: docs/work/business-booking-domain-contract.yaml
+  outcome: Calculate explainable quotes and typed availability results with shared
+    validation.
+  depends_on:
+  - domain-schema-migrations
+- id: domain-booking-compatibility
+  plan: docs/work/business-booking-domain-contract.yaml
+  outcome: Snapshot new demand/resource/price state and preserve existing booking
+    read compatibility.
+  depends_on:
+  - domain-pricing-availability
+- id: owner-api-schema-resources
+  plan: docs/work/business-booking-owner-setup-web.yaml
+  outcome: Expose owner-authorized schema, option, pricing, resource, and availability
+    API operations.
+  depends_on:
+  - domain-booking-compatibility
+- id: owner-web-setup
+  plan: docs/work/business-booking-owner-setup-web.yaml
+  outcome: Implement owner Web schema, pricing, resource, condition, and availability
+    setup surfaces.
+  depends_on:
+  - owner-api-schema-resources
+- id: public-api-preview
+  plan: docs/work/business-booking-public-slots-web.yaml
+  outcome: Expose public schema, quote, availability, preview, and booking DTO/endpoint
+    contract.
+  depends_on:
+  - domain-pricing-availability
+  - owner-api-schema-resources
+- id: public-web-booking
+  plan: docs/work/business-booking-public-slots-web.yaml
+  outcome: Implement demand form, quote summary, slot/window/capacity picker, and
+    stale booking recovery.
+  depends_on:
+  - public-api-preview
+  - owner-web-setup
+- id: calendar-lifecycle-backend
+  plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  outcome: Complete lifecycle, snapshot, resource/capacity transitions, events, notifications,
+    and owner/customer projections.
+  depends_on:
+  - domain-booking-compatibility
+  - public-api-preview
+- id: calendar-web-shell
+  plan: docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  outcome: Connect Business and shared Calendar Web surfaces with object focus and
+    recovery states.
+  depends_on:
+  - calendar-lifecycle-backend
+- id: vision-schema-read
+  plan: docs/work/business-booking-vision-parity.yaml
+  outcome: Add Vision routes and read/schema/quote understanding for the shared Business
+    contract.
+  depends_on:
+  - public-api-preview
+  - owner-api-schema-resources
+- id: vision-reviewed-mutations
+  plan: docs/work/business-booking-vision-parity.yaml
+  outcome: Add reviewed setup, resource, booking, and lifecycle adapters using backend
+    authorization.
+  depends_on:
+  - vision-schema-read
+  - calendar-lifecycle-backend
+- id: vision-recovery-tests
+  plan: docs/work/business-booking-vision-parity.yaml
+  outcome: Prove ambiguity, provider failure, stale quote, permission, cancellation,
+    and confirmation recovery.
+  depends_on:
+  - vision-reviewed-mutations
+- id: runtime-docs-closeout
+  plan: docs/work/business-booking-runtime-closeout.yaml
+  outcome: Capture runtime evidence and reconcile documentation, capability, truth,
+    interface, and agent-control artifacts.
+  depends_on:
+  - owner-web-setup
+  - public-web-booking
+  - calendar-web-shell
+  - vision-recovery-tests
+evidence:
+- task: harden-business-booking-atomic-queue
+  command: ruby scripts/audits/audit-work-plan-recursion.rb && make audit-plan-coverage
+  ranAt: '2026-07-24T10:02:17Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  - docs/work/business-booking-domain-contract.yaml
+  - docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+  - docs/work/business-booking-file-impact-matrix.yaml
+  - docs/work/business-booking-final-sequencing-review-2026-07-24.yaml
+  - docs/work/business-booking-owner-setup-web.yaml
+  - docs/work/business-booking-public-slots-web.yaml
+  - docs/work/business-booking-runtime-closeout.yaml
+  - docs/work/business-booking-vision-parity.yaml
+  output: |+
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-24T09:57:37Z'
+  changedAfterStart: &1
+  - docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+  - docs/work/business-booking-domain-contract.yaml
+  - docs/work/business-booking-owner-setup-web.yaml
+  - docs/work/business-booking-public-slots-web.yaml
+  - docs/work/business-booking-calendar-and-workflow-e2e.yaml
+  - docs/work/business-booking-vision-parity.yaml
+  - docs/work/business-booking-runtime-closeout.yaml
+  - docs/work/business-booking-file-impact-matrix.yaml
+  - docs/work/business-booking-final-sequencing-review-2026-07-24.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

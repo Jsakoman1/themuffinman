@@ -1,0 +1,301 @@
+kind: work
+version: 1
+id: business-booking-domain-contract
+title: Define the flexible Business service, demand, resource, pricing, and fulfillment
+  contracts
+status: verified
+master_plan: docs/work/business-booking-end-to-end-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-booking-end-to-end-master-execution-inventory.yaml
+tasks:
+- id: domain-scope-container
+  title: Scope container for Business domain contract atomic tasks
+  type: implementation
+  status: done
+  inventory_item: domain-scope-container
+  paths:
+  - docs/business-logic.md
+  verification_required_paths:
+  - docs/business-logic.md
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessAvailabilityComputationServiceTest,BusinessBookingValidationServiceTest,BusinessCreateBookingUseCaseTest,BusinessBookingPreviewServiceTest,BusinessOfferingServiceTest,BusinessPricingCalculationServiceTest,BusinessQuoteServiceTest'
+    test
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOffering.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingDurationMode.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingPricingType.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingCapacityMode.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessOfferingOption.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessDemandField.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessResource.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessResourcePool.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessPricingRule.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBookingSnapshot.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessServiceSchemaDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessQuoteResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPricingCalculationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/event/BusinessBookingEventHandler.java
+  - apps/themuffinman/src/main/resources/db/migration/V82__create_business_service_configuration.sql
+  - apps/themuffinman/src/main/resources/db/migration/V83__create_business_service_options_and_demand_fields.sql
+  - apps/themuffinman/src/main/resources/db/migration/V84__create_business_resources_and_requirements.sql
+  - apps/themuffinman/src/main/resources/db/migration/V85__create_business_pricing_rules.sql
+  - apps/themuffinman/src/main/resources/db/migration/V86__create_business_booking_snapshots.sql
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingRequestDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessAvailabilityWindowDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessBookingPreviewResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPreviewService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/capability-inventory.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/regression-scenario-catalog.yaml
+  - docs/agent-operating-model.yaml
+  acceptance:
+  - Typed fulfillment modes support exact appointment, arrival/time window, all-day
+    or stay, quantity reservation, drop-off/queue, quote/project, and package flows.
+  - Demand can represent quantity, participants/animals/items, selected options, dimensions
+    or vehicle class, notes, and business-defined required fields without putting
+    business logic in Vue or Vision.
+  - Resources can represent an individual employee, a staff pool, a bay/room/equipment
+    pool, or generic shared capacity; a booking can require one resource or consume
+    multiple capacity units.
+  - Fixed offerings support 30-minute and 120-minute examples, while quantity and
+    option rules can change duration, price, or capacity consumption.
+  - Pricing supports fixed amount, per minute/hour/day, per quantity/unit, per participant/animal/item,
+    package, tiered, modifier/add-on, minimum-charge, free, and quote/manual-review
+    modes; calculation output is explainable and snapshotted.
+  - Conditions support typed lead time, advance horizon, cancellation, approval, service-area,
+    participant/size, required-data, and consent rules, with business-authored labels
+    and recovery messages.
+  - Existing bookings remain readable after offering/rule edits through immutable
+    snapshots and versioned configuration references.
+  - Public availability and quote generation and booking validation use the same backend
+    services and timezone/DST semantics.
+  - The backend returns a typed result: bookable slot, bookable window, quantity capacity,
+      quote-required, unavailable, or clarification-required; it does not force every
+      service into a slot.
+  - SINGLE and SHARED capacity, resource assignment, buffers, and concurrency rules
+    are atomic and cannot overbook.
+  - The initial queue/drop-off implementation is represented as an arrival window
+    or quote/project state; a queue position algorithm is not silently included.
+  - Capability IDs distinguish service schema, resource pools, quotes, flexible availability,
+    demand capture, and booking snapshots instead of hiding them under the existing
+    generic Business capability.
+  - Synthetic admin/sandbox generation describes the new Business entities and edge
+    cases separately from production behavior.
+  - Employee and resource references are owner-scoped, and public DTOs expose only
+    safe resource labels or availability metadata.
+  - Custom demand data has explicit validation, sanitization, visibility, and retention
+    behavior.
+  - Booking events and notification/audit consumers preserve existing created/status/rescheduled
+    lifecycle semantics.
+  started_at: '2026-07-24T11:50:53Z'
+  start_fingerprints:
+    docs/business-logic.md: bdcad7d4504d8e42c270e6e6b58a8bdd0407dab4aa50f84defc4f30f1a2595d3
+- id: domain-schema-migrations
+  title: Persist flexible service schema and booking snapshot foundations
+  type: implementation
+  status: done
+  inventory_item: domain-schema-migrations
+  paths:
+  - apps/themuffinman/src/main/resources/db/migration/V82__create_business_service_configuration.sql
+  - apps/themuffinman/src/main/resources/db/migration/V83__create_business_service_options_and_demand_fields.sql
+  - apps/themuffinman/src/main/resources/db/migration/V84__create_business_resources_and_requirements.sql
+  - apps/themuffinman/src/main/resources/db/migration/V85__create_business_pricing_rules.sql
+  - apps/themuffinman/src/main/resources/db/migration/V86__create_business_booking_snapshots.sql
+  required_paths:
+  - apps/themuffinman/src/main/resources/db/migration/V82__create_business_service_configuration.sql
+  - apps/themuffinman/src/main/resources/db/migration/V83__create_business_service_options_and_demand_fields.sql
+  - apps/themuffinman/src/main/resources/db/migration/V84__create_business_resources_and_requirements.sql
+  - apps/themuffinman/src/main/resources/db/migration/V85__create_business_pricing_rules.sql
+  - apps/themuffinman/src/main/resources/db/migration/V86__create_business_booking_snapshots.sql
+  dependencies: []
+  observable_outcome: New forward-only schema persists typed service configuration,
+    demand, options, resources, pricing rules, and booking snapshot foundations.
+  evidence_boundary:
+  - Flyway migration validation
+  - entity mapping tests
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessOfferingServiceTest'
+    test
+  started_at: '2026-07-24T10:57:44Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/resources/db/migration/V82__create_business_service_configuration.sql: __missing__
+    apps/themuffinman/src/main/resources/db/migration/V83__create_business_service_options_and_demand_fields.sql: __missing__
+    apps/themuffinman/src/main/resources/db/migration/V84__create_business_resources_and_requirements.sql: __missing__
+    apps/themuffinman/src/main/resources/db/migration/V85__create_business_pricing_rules.sql: __missing__
+    apps/themuffinman/src/main/resources/db/migration/V86__create_business_booking_snapshots.sql: __missing__
+- id: domain-pricing-availability
+  title: Implement shared quote and typed availability calculation
+  type: implementation
+  status: done
+  inventory_item: domain-pricing-availability
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPricingCalculationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPricingCalculationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessQuoteServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPricingCalculationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPricingCalculationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessQuoteServiceTest.java
+  dependencies:
+  - domain-schema-migrations
+  observable_outcome: Backend calculates explainable prices and typed availability
+    using one shared authority.
+  evidence_boundary:
+  - pricing tests
+  - availability tests
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessAvailabilityComputationServiceTest,BusinessPricingCalculationServiceTest,BusinessQuoteServiceTest'
+    test
+  started_at: '2026-07-24T10:59:21Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPricingCalculationService.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java: 9301c61e3ec55d94c27bd174faa5cb3066e64e6c650078bc2aa73a9cefdca0f2
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPricingCalculationServiceTest.java: __missing__
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessQuoteServiceTest.java: __missing__
+- id: domain-booking-compatibility
+  title: Snapshot flexible booking state and preserve existing reads
+  type: implementation
+  status: done
+  inventory_item: domain-booking-compatibility
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  dependencies:
+  - domain-pricing-availability
+  observable_outcome: Booking writes atomically validate and snapshot demand, price,
+    resources, capacity, timezone, and compatibility state.
+  evidence_boundary:
+  - booking validation and persistence tests
+  validation: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessCreateBookingUseCaseTest,BusinessBookingValidationServiceTest'
+    test
+  started_at: '2026-07-24T11:01:16Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java: 9881974be7696316b148a3a66b1e2730fc0f4ce0de01958c0c59d86efb06fd08
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java: 5bdb68b74556e6a4cca18d1775dd23b63b4333c8faa71e92681293b4c87ebf82
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java: 51dbcb9f3ef2628640c4639dfcdf33faaa64eb8d77c5dfe79cd46c5248f5c3a7
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java: aab814eacafedd3991bffb76051bde5fcd073dc7a52d4039ddcf61bdf8b7d77b
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java: 9738efa6a2106b03595586ca198fd3143e08e464ccd23520cbb4af7eb370454e
+evidence:
+- task: domain-schema-migrations
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessOfferingServiceTest'
+    test
+  ranAt: '2026-07-24T10:59:03Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/resources/db/migration/V82__create_business_service_configuration.sql
+  - apps/themuffinman/src/main/resources/db/migration/V83__create_business_service_options_and_demand_fields.sql
+  - apps/themuffinman/src/main/resources/db/migration/V84__create_business_resources_and_requirements.sql
+  - apps/themuffinman/src/main/resources/db/migration/V85__create_business_pricing_rules.sql
+  - apps/themuffinman/src/main/resources/db/migration/V86__create_business_booking_snapshots.sql
+  output: "\n"
+  startedAt: '2026-07-24T10:57:44Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/resources/db/migration/V82__create_business_service_configuration.sql
+  - apps/themuffinman/src/main/resources/db/migration/V83__create_business_service_options_and_demand_fields.sql
+  - apps/themuffinman/src/main/resources/db/migration/V84__create_business_resources_and_requirements.sql
+  - apps/themuffinman/src/main/resources/db/migration/V85__create_business_pricing_rules.sql
+  - apps/themuffinman/src/main/resources/db/migration/V86__create_business_booking_snapshots.sql
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: domain-pricing-availability
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessAvailabilityComputationServiceTest,BusinessPricingCalculationServiceTest,BusinessQuoteServiceTest'
+    test
+  ranAt: '2026-07-24T11:00:58Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPricingCalculationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPricingCalculationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessQuoteServiceTest.java
+  output: "\n"
+  startedAt: '2026-07-24T10:59:21Z'
+  changedAfterStart: &2
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessPricingCalculationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessQuoteService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityComputationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessPricingCalculationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessQuoteServiceTest.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: domain-booking-compatibility
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessCreateBookingUseCaseTest,BusinessBookingValidationServiceTest'
+    test
+  ranAt: '2026-07-24T11:05:02Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  output: "\n"
+  startedAt: '2026-07-24T11:01:16Z'
+  changedAfterStart: &3
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/model/BusinessBooking.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCase.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: domain-scope-container
+  command: cd apps/themuffinman && ./mvnw -q -Dtest='BusinessAvailabilityComputationServiceTest,BusinessBookingValidationServiceTest,BusinessCreateBookingUseCaseTest,BusinessBookingPreviewServiceTest,BusinessOfferingServiceTest,BusinessPricingCalculationServiceTest,BusinessQuoteServiceTest'
+    test
+  ranAt: '2026-07-24T11:51:02Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  output: "\n"
+  startedAt: '2026-07-24T11:50:53Z'
+  changedAfterStart: &4
+  - docs/business-logic.md
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+scope_container: true
+atomic_tasks:
+- id: domain-schema-migrations
+  outcome: Persist typed service schema, options, demand fields, resources, pricing
+    rules, and booking snapshot foundations.
+- id: domain-pricing-availability
+  outcome: Calculate explainable quotes and typed availability results with shared
+    validation.
+- id: domain-booking-compatibility
+  outcome: Snapshot new demand/resource/price state and preserve existing booking
+    read compatibility.

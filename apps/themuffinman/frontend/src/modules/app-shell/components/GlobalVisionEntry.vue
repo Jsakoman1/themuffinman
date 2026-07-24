@@ -19,7 +19,7 @@ const hasSpeechRecognition = computed(() => typeof window !== "undefined" && Boo
 
 const openVision = async () => {
   const value = prompt.value.trim()
-  await router.push(value ? {path: "/vision", query: {prompt: value, autorun: "1", context: props.context, returnTo: window.location.pathname}} : props.contextualRoute)
+  await router.push(value ? {path: "/home", query: {visionPrompt: value, visionAutorun: "1", visionContext: props.context, visionReturnTo: window.location.pathname}} : props.contextualRoute)
 }
 
 const startListening = () => {

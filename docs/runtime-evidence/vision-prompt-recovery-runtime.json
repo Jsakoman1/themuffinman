@@ -1,0 +1,137 @@
+{
+  "evidenceVersion": "ui-linking-vision-inline-runtime-v2",
+  "capturedAt": "2026-07-23T19:03:56.971Z",
+  "environment": "workspace-owned local dev stack",
+  "browser": "Playwright Chromium headless",
+  "baseUrl": "http://localhost:5173",
+  "browserErrors": [],
+  "scenarios": {
+    "loginAndHome": {
+      "status": "passed",
+      "route": "/home"
+    },
+    "route:/work/find": {
+      "status": "passed",
+      "route": "/work/find",
+      "title": "Find work"
+    },
+    "route:/things": {
+      "status": "passed",
+      "route": "/things",
+      "title": "Things to borrow"
+    },
+    "route:/things/requests": {
+      "status": "passed",
+      "route": "/things/requests",
+      "title": "Borrow requests"
+    },
+    "route:/rides": {
+      "status": "passed",
+      "route": "/rides",
+      "title": "Find a ride"
+    },
+    "route:/people": {
+      "status": "passed",
+      "route": "/people",
+      "title": "Find people"
+    },
+    "route:/circles": {
+      "status": "passed",
+      "route": "/circles",
+      "title": "Circles"
+    },
+    "route:/chat": {
+      "status": "passed",
+      "route": "/chat",
+      "title": "Chat"
+    },
+    "inlineVisionEntry": {
+      "status": "passed",
+      "inputCount": 1
+    },
+    "openQuestSuitcases": {
+      "status": "captured",
+      "route": "/vision",
+      "body": "I could not find one visible quest from \"Suitcases\". Say the exact quest title or quest id.",
+      "apiStatus": 200,
+      "conversationId": 626,
+      "turnId": 1556,
+      "agentState": "ASKING",
+      "nextAction": "ASK_FOR_SLOT",
+      "providerStatus": "local_emergency",
+      "providerOutcome": "fallback",
+      "retryable": true,
+      "correlationId": "vision-turn:1556",
+      "authoritativeFinalState": "ASKING"
+    },
+    "createNewWork": {
+      "status": "captured",
+      "route": "/vision",
+      "body": "Should this quest be free, or what reward amount should I use?",
+      "apiStatus": 200,
+      "conversationId": 627,
+      "turnId": 1557,
+      "agentState": "ASKING",
+      "nextAction": "ASK_FOR_SLOT",
+      "providerStatus": "local_emergency",
+      "providerOutcome": "fallback",
+      "retryable": true,
+      "correlationId": "vision-turn:1557",
+      "authoritativeFinalState": "ASKING"
+    },
+    "openMyCircles": {
+      "status": "captured",
+      "route": "/vision",
+      "body": "Showing your circles.",
+      "apiStatus": 200,
+      "conversationId": 628,
+      "turnId": 1558,
+      "agentState": "RECOMMENDING",
+      "nextAction": "SHOW_RESULTS",
+      "providerStatus": "local_emergency",
+      "providerOutcome": "fallback",
+      "retryable": true,
+      "correlationId": "vision-turn:1558",
+      "authoritativeFinalState": "RECOMMENDING"
+    },
+    "goToCircles": {
+      "status": "captured",
+      "route": "/vision",
+      "body": "Opening circles.",
+      "apiStatus": 200,
+      "conversationId": 629,
+      "turnId": 1559,
+      "agentState": "RECOMMENDING",
+      "nextAction": "SHOW_RESULTS",
+      "providerStatus": "local_emergency",
+      "providerOutcome": "fallback",
+      "retryable": true,
+      "correlationId": "vision-turn:1559",
+      "authoritativeFinalState": "RECOMMENDING"
+    },
+    "sendMessageToNikolina": {
+      "status": "captured",
+      "route": "/vision",
+      "body": "Who should I message?",
+      "apiStatus": 200,
+      "conversationId": 630,
+      "turnId": 1560,
+      "agentState": "ASKING",
+      "nextAction": "ASK_FOR_SLOT",
+      "providerStatus": "local_fail_closed",
+      "providerOutcome": "fallback",
+      "retryable": false,
+      "correlationId": "vision-turn:1560",
+      "authoritativeFinalState": "ASKING"
+    },
+    "borrowRequestsCanonicalRoute": {
+      "status": "passed",
+      "route": "/things/requests"
+    },
+    "visionPromptContract": {
+      "status": "passed",
+      "note": "Prompt-specific backend confirmation is covered by Vision service tests; browser route shell is reachable."
+    }
+  },
+  "result": "passed"
+}

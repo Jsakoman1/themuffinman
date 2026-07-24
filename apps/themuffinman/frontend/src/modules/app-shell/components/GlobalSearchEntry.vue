@@ -15,14 +15,16 @@ const searchPage = ref(0)
 const selectedFamily = ref<string | undefined>(undefined)
 const saved = ref(false)
 const openPanel = ref(false)
+const summaryButton = ref<HTMLElement | null>(null)
 const catalog = ref<WorkspaceCommandCatalog | null>(null)
+const catalogLoading = ref(false)
 const commandGroups = computed(() => catalog.value ? ([
   ["Personal", catalog.value.personal], ["Navigate", catalog.value.navigation], ["Create", catalog.value.create], ["Vision", catalog.value.vision]
 ] as const).filter(([, items]) => items.length) : [])
-const focusSearch = async () => { openPanel.value = true; try { catalog.value = await userShellApi.getWorkspaceCommandCatalog() } catch { error.value = "Could not load commands." }; requestAnimationFrame(() => document.querySelector<HTMLInputElement>(".global-search-entry input")?.focus()) }
-const togglePanel = () => { if (openPanel.value) { openPanel.value = false; return }; void focusSearch() }
+const focusSearch = async () => { openPanel.value = true; catalogLoading.value = true; try { catalog.value = await userShellApi.getWorkspaceCommandCatalog() } catch { error.value = "Could not load commands." } finally { catalogLoading.value = false }; requestAnimationFrame(() => document.querySelector<HTMLInputElement>(".global-search-entry input")?.focus()) }
+const togglePanel = () => { if (openPanel.value) { openPanel.value = false; requestAnimationFrame(() => summaryButton.value?.focus()); return }; void focusSearch() }
 onMounted(() => window.addEventListener("app:open-command", focusSearch))
-const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") openPanel.value = false }
+const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape" && openPanel.value) { openPanel.value = false; requestAnimationFrame(() => summaryButton.value?.focus()) } }
 const commandShortcut = (event: KeyboardEvent) => { const target = event.target; const editing = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || (target instanceof HTMLElement && target.isContentEditable); if (!editing && (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); void focusSearch() } }
 onMounted(() => window.addEventListener("keydown", closeOnEscape))
 onMounted(() => window.addEventListener("keydown", commandShortcut))
@@ -65,13 +67,15 @@ const openCommand = async (route: string) => { openPanel.value = false; await ro
 
 <template>
   <details :open="openPanel" class="global-search-entry" @toggle="openPanel = ($event.currentTarget as HTMLDetailsElement).open">
-    <summary aria-label="Open command center" title="Open command center (Ctrl or Command K)" @click.prevent="togglePanel">Search</summary>
-      <div class="global-search-entry__panel">
+    <summary ref="summaryButton" aria-label="Open command center" :aria-expanded="openPanel" aria-controls="global-command-panel" title="Open command center (Ctrl or Command K)" @click.prevent="togglePanel">Search</summary>
+      <div id="global-command-panel" class="global-search-entry__panel" role="dialog" aria-modal="false" aria-label="Command center">
       <p class="global-search-entry__scope">Command center · permitted routes and records only</p>
-      <div v-if="commandGroups.length" class="commands"><section v-for="[group, commands] in commandGroups" :key="group"><p>{{ group }}</p><button v-for="command in commands" :key="command.id" type="button" @click="openCommand(command.route)"><strong>{{ command.label }}</strong><small>{{ command.description }}</small></button></section></div>
+      <p v-if="catalogLoading" class="search-status" role="status" aria-live="polite">Loading permitted commands…</p>
+      <div v-else-if="commandGroups.length" class="commands"><section v-for="[group, commands] in commandGroups" :key="group"><p>{{ group }}</p><button v-for="command in commands" :key="command.id" type="button" @click="openCommand(command.route)"><strong>{{ command.label }}</strong><small>{{ command.description }}</small></button></section></div>
+      <p v-else class="search-status" role="status">No command shortcuts are available for this account.</p>
       <RouterLink class="saved-link" to="/search/saved">Manage saved searches</RouterLink>
       <form @submit.prevent="search()"><input v-model="query" type="search" placeholder="Work, people, business, things…" aria-label="Search across modules"><select v-model="selectedFamily" aria-label="Filter search family"><option :value="undefined">All modules</option><option v-for="family in (result?.availableEntityFamilies || [])" :key="family" :value="family">{{ family }}</option></select><button type="submit" :disabled="loading">{{ loading ? "Searching" : "Search" }}</button></form>
-      <div v-if="error" class="error-state" role="alert"><p class="error">{{ error }}</p><button type="button" @click="search(searchPage)">Retry</button></div>
+      <div v-if="error" class="error-state" role="alert"><p class="error">{{ error }}</p><button type="button" @click="error = ''; focusSearch()">Retry</button></div>
       <div v-else-if="result" class="summary-row"><p class="summary">{{ result.summary }}</p><button type="button" @click="saveIntent">{{ saved ? "Saved" : "Save search" }}</button></div>
       <div v-if="result?.items?.length" class="results"><div v-for="item in result.items" :key="`${item.entityFamily}-${item.targetId}`" class="result-row"><input type="checkbox" :checked="selectedKeys.includes(selectionKey(item))" :aria-label="`Select ${item.title} for comparison`" @change="toggleSelection(item)"><button type="button" @click="open(item)"><span>{{ item.entityFamily }}</span><strong>{{ item.title }}</strong><small>{{ item.matchSummary || item.summary }}</small></button></div><button type="button" class="compare-action" :disabled="selectedKeys.length === 0 || loading" @click="compare">Compare selected ({{ selectedKeys.length }}/3)</button></div>
       <p v-else-if="result" class="empty">{{ result.recoveryCode === "ENTER_QUERY" ? "Enter a search to discover permitted records." : result.recoveryCode === "REFINE_QUERY" ? "No permitted matches. Try a more specific query." : "No permitted matches for this filter." }}</p>

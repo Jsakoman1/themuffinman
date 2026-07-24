@@ -25,7 +25,7 @@ class VisionSemanticRouteCatalogServiceTest {
 
         var routes = service.allowedRoutes(user);
 
-        assertEquals(90, routes.size());
+        assertEquals(91, routes.size());
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals(SemanticEntityFamily.NOTIFICATIONS, service.entityFamilyForIntent(VisionIntent.VIEW_NOTIFICATIONS));
         assertEquals(SemanticEntityFamily.QUEST, service.entityFamilyForIntent(VisionIntent.VIEW_QUEST_NEWS));
@@ -37,6 +37,8 @@ class VisionSemanticRouteCatalogServiceTest {
         assertEquals("ThingListingListResponseDTO", service.dtoTypeForIntent(VisionIntent.VIEW_THINGS));
         assertEquals("BusinessPublicPageDTO", service.dtoTypeForIntent(VisionIntent.VIEW_BUSINESS));
         assertEquals("BusinessOwnerDashboardDTO", service.dtoTypeForIntent(VisionIntent.VIEW_BUSINESS_AVAILABILITY));
+        assertTrue(service.routeForCapabilityId("view_business").getPurpose().contains("schema"));
+        assertTrue(service.routeForCapabilityId("view_business").getPurpose().contains("availability"));
         assertEquals("create_quest_validator", service.validatorKeyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals("create_quest_executor", service.executorKeyForIntent(VisionIntent.CREATE_QUEST));
         assertEquals(0.85d, service.minimumConfidenceForIntent(VisionIntent.CREATE_QUEST));
@@ -76,6 +78,7 @@ class VisionSemanticRouteCatalogServiceTest {
                         "VIEW_THING_DETAIL",
                         "VIEW_BORROW_REQUESTS",
                         "OPEN_CHAT",
+                        "SEND_MESSAGE",
                         "VIEW_CHAT_WORKSPACE",
                         "SYNC_CHAT",
                         "VIEW_CHAT_ATTACHMENT",
@@ -172,6 +175,7 @@ class VisionSemanticRouteCatalogServiceTest {
                         "view_thing_detail",
                         "view_borrow_requests",
                         "open_chat",
+                        "send_message",
                         "view_chat_workspace",
                         "sync_chat",
                         "view_chat_attachment",
@@ -417,7 +421,7 @@ class VisionSemanticRouteCatalogServiceTest {
             }
         }
 
-        assertEquals(90, routes.size());
+        assertEquals(91, routes.size());
         assertEquals(
                 Set.of(
                         "create_quest",

@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 class VisionChatExecutionServiceTest {
 
@@ -165,5 +166,44 @@ class VisionChatExecutionServiceTest {
         assertEquals("I found several possible chat contacts for \"jo\": Josip, Josipa. Say the exact username or email, or choose a numbered candidate before I contact anyone.", result.getBlockingReason());
         assertEquals(2, result.getCandidates().size());
         assertEquals("Josip", result.getCandidates().getFirst().getValue());
+    }
+
+    @Test
+    void sendsMessageOnlyThroughResolvedConversation() {
+        ChatService chatService = mock(ChatService.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        AppUser currentUser = TestFixtures.user(7L, "vision-user");
+        AppUser targetUser = TestFixtures.user(8L, "Nikolina");
+        when(appUserRepository.searchByUsernameOrEmail("nikolina")).thenReturn(List.of(targetUser));
+        when(chatService.openConversation(any(), any(AppUser.class))).thenReturn(ChatConversationSummaryDTO.builder()
+                .conversationId(304L).otherUserId(8L).otherUsername("Nikolina").build());
+        when(chatService.sendMessage(any(Long.class), any(), any(AppUser.class))).thenReturn(
+                com.themuffinman.app.chat.dto.ChatMessageDTO.builder().id(901L).messageBody("Hi Nikolina").build());
+
+        VisionChatExecutionResult result = new VisionChatExecutionService(chatService, appUserRepository)
+                .sendMessage(currentUser, "Nikolina", "Hi Nikolina");
+
+        assertTrue(result.isExecuted());
+        assertEquals(901L, result.getMessage().getId());
+        verify(chatService).sendMessage(org.mockito.ArgumentMatchers.eq(304L), org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.eq(currentUser));
+    }
+
+    @Test
+    void resolvesTellPromptWhenSemanticTargetIsUnavailableInDevelopmentFixture() {
+        ChatService chatService = mock(ChatService.class);
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        AppUser currentUser = TestFixtures.user(7L, "vision-user");
+        AppUser targetUser = TestFixtures.user(8L, "Josip");
+        when(appUserRepository.searchByUsernameOrEmail("josip")).thenReturn(List.of(targetUser));
+        when(chatService.openConversation(any(), any(AppUser.class))).thenReturn(ChatConversationSummaryDTO.builder()
+                .conversationId(305L).otherUserId(8L).otherUsername("Josip").build());
+
+        VisionChatExecutionResult result = new VisionChatExecutionService(chatService, appUserRepository)
+                .openChat(currentUser, "tell Josip", VisionSemanticPlan.builder()
+                        .candidateIntent(VisionIntent.OPEN_CHAT.name())
+                        .build());
+
+        assertTrue(result.isExecuted());
+        assertEquals(305L, result.getConversation().getConversationId());
     }
 }

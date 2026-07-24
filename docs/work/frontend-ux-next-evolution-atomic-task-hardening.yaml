@@ -1,0 +1,107 @@
+kind: work
+version: 1
+id: frontend-ux-next-evolution-atomic-task-hardening
+title: Harden the next full-product UX evolution into atomic tasks
+status: verified
+master_plan: docs/work/frontend-ux-next-evolution-master.yaml
+baseline: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-ux-simplification-master.yaml
+  - docs/work/frontend-app-remaster-master.yaml
+  - docs/work/business-booking-end-to-end-master.yaml
+  baseline_only_surfaces:
+  - Existing task-surface primitives and verified Business flexible-service authority.
+  - Existing backend permissions, pricing, capacity, availability, booking, and visibility
+    rules.
+  - Existing canonical routes and VisionForWeb handoff contract.
+  residual_scope:
+  - Global context, command actions, state grammar, business operator workflows, templates,
+    mobile transformation, and preference personalization.
+  retest_triggers:
+  - Any shared primitive, route ownership, booking/calendar aggregation, action authority,
+    responsive, or accessibility change.
+  non_duplication_rule: Prior UX simplification evidence is baseline only; this plan
+    proves only new UX evolution behavior.
+tasks:
+- id: harden-ux-next-evolution-queue
+  title: Validate the ordered next-evolution task queue
+  type: planning
+  status: done
+  inventory_item: ux-next-evolution-atomic-hardening
+  observable_outcome: Master, children, inventory, scope boundaries, and leaf validations
+    form a complete non-recursive serial queue with no broad unowned task.
+  dependencies: []
+  evidence_boundary:
+  - plan graph
+  - execution inventory
+  - required paths
+  - validations
+  - dependency order
+  paths:
+  - docs/work/frontend-ux-next-evolution-master.yaml
+  - docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+  - docs/work/frontend-ux-next-evolution-preflight-2026-07-24.md
+  - docs/work/frontend-ux-next-evolution-coverage.yaml
+  - docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  required_paths:
+  - docs/work/frontend-ux-next-evolution-master.yaml
+  - docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+  - docs/work/frontend-ux-next-evolution-coverage.yaml
+  - docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+    && ruby -e 'require "yaml"; m=YAML.load_file("docs/work/frontend-ux-next-evolution-master.yaml");
+    i=YAML.load_file("docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml");
+    c=YAML.load_file("docs/work/frontend-ux-next-evolution-coverage.yaml"); a=YAML.load_file("docs/work/frontend-ux-next-evolution-atomic-implementation.yaml");
+    requirements=c["groups"].flat_map{|g| g["requirements"].map{|r| r["id"]}}; tasks=a["tasks"].map{|t|
+    t["id"]}; abort "coverage/task mismatch" unless requirements.sort == tasks.sort;
+    abort "inventory/task mismatch" unless i["items"].drop(1).take(39).map{|x| x["task"]}.sort
+    == tasks.sort; abort "master mapping mismatch" unless m["children"].sort == i["items"].drop(1).map{|x|
+    x["plan"]}.uniq.sort; puts "UX atomic completeness contract passed (#{tasks.length}
+    tasks)"'
+  started_at: '2026-07-24T14:27:46Z'
+  start_fingerprints:
+    docs/work/frontend-ux-next-evolution-master.yaml: 17972cb871e95ddf7407b7a32d00fc74909aed4187fda0988aa61e516301cd27
+    docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml: c2cc6bdc113bc92668055f7872984ca78b0c88354c2ecbc1446ce95ea632c385
+    docs/work/frontend-ux-next-evolution-coverage.yaml: ec02c77efb481e67265d15f46349f631e94067624037dcdfe9f441ce957efe82
+    docs/work/frontend-ux-next-evolution-atomic-implementation.yaml: 1b56508c3e6d2eafd6dc73e653a57722491d701512823aa2939b1873b876a1bd
+evidence:
+- task: harden-ux-next-evolution-queue
+  command: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+    && ruby -e 'require "yaml"; m=YAML.load_file("docs/work/frontend-ux-next-evolution-master.yaml");
+    i=YAML.load_file("docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml");
+    c=YAML.load_file("docs/work/frontend-ux-next-evolution-coverage.yaml"); a=YAML.load_file("docs/work/frontend-ux-next-evolution-atomic-implementation.yaml");
+    requirements=c["groups"].flat_map{|g| g["requirements"].map{|r| r["id"]}}; tasks=a["tasks"].map{|t|
+    t["id"]}; abort "coverage/task mismatch" unless requirements.sort == tasks.sort;
+    abort "inventory/task mismatch" unless i["items"].drop(1).take(39).map{|x| x["task"]}.sort
+    == tasks.sort; abort "master mapping mismatch" unless m["children"].sort == i["items"].drop(1).map{|x|
+    x["plan"]}.uniq.sort; puts "UX atomic completeness contract passed (#{tasks.length}
+    tasks)"'
+  ranAt: '2026-07-24T14:28:13Z'
+  revision: dcb983f4ad2b0354101caa8c1cdc47c624fb8b71
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  - docs/work/frontend-ux-next-evolution-coverage.yaml
+  - docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+  - docs/work/frontend-ux-next-evolution-master.yaml
+  - docs/work/frontend-ux-next-evolution-preflight-2026-07-24.md
+  output: |+
+    Work-plan recursion audit passed (no recursive validation commands).
+    Plan coverage audit passed (0 open inventory plans).
+    UX atomic completeness contract passed (39 tasks)
+
+  startedAt: '2026-07-24T14:27:46Z'
+  changedAfterStart: &1
+  - docs/work/frontend-ux-next-evolution-master.yaml
+  - docs/work/frontend-ux-next-evolution-master-execution-inventory.yaml
+  - docs/work/frontend-ux-next-evolution-coverage.yaml
+  - docs/work/frontend-ux-next-evolution-atomic-implementation.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
