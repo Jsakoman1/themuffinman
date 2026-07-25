@@ -1,4 +1,4 @@
-import {onBeforeUnmount, onMounted, ref} from "vue"
+import {computed, onBeforeUnmount, onMounted, ref} from "vue"
 import {userShellApi} from "../api/userShellApi.ts"
 import type {WorkspaceNavigationModule, WorkspaceNavigationResponse} from "../../../contracts/index.ts"
 
@@ -6,6 +6,7 @@ export const useWorkspaceNavigation = () => {
   const navigation = ref<WorkspaceNavigationResponse | null>(null)
   const loading = ref(true)
   const error = ref(false)
+  const contextKey = computed(() => typeof window === "undefined" ? "PERSONAL" : window.sessionStorage.getItem("workspaceContext") || "PERSONAL")
   let refreshTimer: number | null = null
 
   const load = async () => {
@@ -36,5 +37,5 @@ export const useWorkspaceNavigation = () => {
   onMounted(() => { document.addEventListener("visibilitychange", refreshOnVisibility); void load() })
   onBeforeUnmount(() => { document.removeEventListener("visibilitychange", refreshOnVisibility); if (refreshTimer !== null) window.clearTimeout(refreshTimer) })
 
-  return {navigation, modules, moduleById, moduleByRoute, loading, error, reload: load}
+  return {navigation, modules, moduleById, moduleByRoute, loading, error, contextKey, commandModel: "backend-prepared-context-aware" as const, reload: load}
 }

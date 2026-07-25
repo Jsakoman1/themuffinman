@@ -29,13 +29,14 @@ import java.util.Set;
 public class CalendarReadService {
     private static final Set<String> SUPPORTED_SOURCES = Set.of("business", "quest", "ride");
     private static final Instant OPEN_ENDED_EVENT_END = Instant.parse("9999-12-31T00:00:00Z");
+    private static final int MAX_EVENTS_PER_PROJECTION = 500;
 
     private final BusinessBookingRepository businessBookingRepository;
     private final WorkmarketQuestRepository questRepository;
     private final WorkmarketQuestVisibilityService questVisibilityService;
     private final RideOfferRepository rideOfferRepository;
 
-    public CalendarProjectionDTO getCalendar(AppUser viewer, Instant from, Instant to, List<String> requestedSources, Long businessId) {
+    public CalendarProjectionDTO getCalendar(AppUser viewer, Instant from, Instant to, List<String> requestedSources, Long businessId, String requestedView) {
         if (viewer == null) {
             throw ServiceErrors.forbidden("Authentication is required");
         }
@@ -46,15 +47,21 @@ public class CalendarReadService {
         }
 
         Set<String> sources = normalizeSources(requestedSources);
+        String view = normalizeView(requestedView);
         List<CalendarEventDTO> events = new ArrayList<>();
         if (sources.contains("business")) events.addAll(businessEvents(viewer, resolvedFrom, resolvedTo, businessId));
         if (sources.contains("quest")) events.addAll(questEvents(viewer, resolvedFrom, resolvedTo));
         if (sources.contains("ride")) events.addAll(rideEvents(viewer, resolvedFrom, resolvedTo));
         events.sort((left, right) -> left.getStartsAt().compareTo(right.getStartsAt()));
+        if (events.size() > MAX_EVENTS_PER_PROJECTION) {
+            events = new ArrayList<>(events.subList(0, MAX_EVENTS_PER_PROJECTION));
+        }
 
         return CalendarProjectionDTO.builder()
                 .from(resolvedFrom)
                 .to(resolvedTo)
+                .view(view)
+                .rangeKind(view.equals("AGENDA") ? "OPEN" : view)
                 .timezone("UTC")
                 .availableSources(List.of("business", "quest", "ride"))
                 .events(events)
@@ -97,6 +104,7 @@ public class CalendarReadService {
                 .businessId(booking.getBusinessProfile().getId())
                 .businessName(booking.getBusinessProfile().getBusinessName())
                 .navigationPath("/business/bookings/" + booking.getId())
+                .allDay(false)
                 .build();
     }
 
@@ -120,6 +128,7 @@ public class CalendarReadService {
                 .timezone("UTC")
                 .status(quest.getStatus().name())
                 .navigationPath("/work/quests/" + quest.getId())
+                .allDay(false)
                 .build();
     }
 
@@ -140,6 +149,13 @@ public class CalendarReadService {
                 .timezone("UTC")
                 .status(ride.getStatus().name())
                 .navigationPath("/rides/" + ride.getId())
+                .allDay(false)
                 .build();
+    }
+
+    private String normalizeView(String requestedView) {
+        String view = requestedView == null || requestedView.isBlank() ? "AGENDA" : requestedView.trim().toUpperCase(Locale.ROOT);
+        if (!Set.of("AGENDA", "DAY", "WEEK", "MONTH").contains(view)) throw ServiceErrors.badRequest("Calendar view is not supported");
+        return view;
     }
 }

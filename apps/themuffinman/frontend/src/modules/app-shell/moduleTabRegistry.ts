@@ -19,17 +19,23 @@ export const moduleTabRegistry: Readonly<Record<string, ModuleTabDefinition>> = 
     moduleId: "work",
     title: "Work",
     tabs: [
-      {id: "discover", label: "Discover", route: "/work", backendScope: "work.discover", emptyState: "No work is available yet.", primaryAction: "Create a work offer"},
+      {id: "discover", label: "Find work", route: "/work/find", backendScope: "work.discover", emptyState: "No work is available yet.", primaryAction: "Create a work offer"},
       {id: "mine", label: "My work", route: "/work/quests", backendScope: "work.mine", emptyState: "You do not own any work yet.", primaryAction: "Create a work offer"},
-      {id: "applications", label: "Applications", route: "/work/applications", backendScope: "work.applications", emptyState: "You have no applications yet."}
+      {id: "applications", label: "My applications", route: "/work/applications", backendScope: "work.applications", emptyState: "You have no applications yet."}
     ]
   },
   business: {
     moduleId: "business",
     title: "Business",
     tabs: [
-      {id: "discover", label: "Book a business", route: "/business", backendScope: "business.discover", emptyState: "No businesses match this search.", primaryAction: "Find a business"},
-      {id: "manage", label: "Manage my business", route: "/business/profile", backendScope: "business.owner", permission: "business.manage", emptyState: "Create your first business.", primaryAction: "Create a business"}
+      {id: "overview", label: "My businesses", route: "/business", backendScope: "business.owner", emptyState: "Create your first business.", primaryAction: "Create a business"}
+    ]
+  },
+  services: {
+    moduleId: "services",
+    title: "Services",
+    tabs: [
+      {id: "find", label: "Find service", route: "/business/find", backendScope: "business.discover", emptyState: "No businesses match this search.", primaryAction: "Search services"}
     ]
   },
   share: {
@@ -45,9 +51,9 @@ export const moduleTabRegistry: Readonly<Record<string, ModuleTabDefinition>> = 
     moduleId: "circles",
     title: "Circles",
     tabs: [
-      {id: "people", label: "People", route: "/circles?tab=people", backendScope: "circles.people", emptyState: "Search for someone you trust."},
-      {id: "groups", label: "Groups", route: "/circles?tab=groups", backendScope: "circles.groups", emptyState: "Create your first circle."},
-      {id: "requests", label: "Requests", route: "/circles?tab=requests", backendScope: "circles.requests", emptyState: "No connection requests need your attention."}
+      {id: "people", label: "Find people", route: "/people/find", backendScope: "people.find", emptyState: "Search for someone you trust."},
+      {id: "groups", label: "Circles", route: "/people/circles", backendScope: "people.circles", emptyState: "Create your first circle."},
+      {id: "requests", label: "Requests", route: "/people/requests", backendScope: "people.requests", emptyState: "No connection requests need your attention."}
     ]
   },
   profile: {
@@ -61,5 +67,6 @@ export const moduleTabRegistry: Readonly<Record<string, ModuleTabDefinition>> = 
 }
 
 export function getModuleTabs(moduleId: string): ModuleTabDefinition | undefined {
+  // Work uses one canonical vocabulary: Find work, My work, My applications.
   return moduleTabRegistry[moduleId]
 }

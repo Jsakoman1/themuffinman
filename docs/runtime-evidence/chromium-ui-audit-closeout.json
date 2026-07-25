@@ -1,0 +1,252 @@
+{
+  "version": "chromium-ui-audit-closeout-v1",
+  "capturedAt": "2026-07-25T08:29:11.321Z",
+  "routes": {
+    "/home": {
+      "path": "/home",
+      "overflow": false,
+      "alerts": []
+    },
+    "/work/find": {
+      "path": "/work/find",
+      "overflow": false,
+      "alerts": []
+    },
+    "/work/quests": {
+      "path": "/work/quests",
+      "overflow": false,
+      "alerts": []
+    },
+    "/work/applications": {
+      "path": "/work/applications",
+      "overflow": false,
+      "alerts": []
+    },
+    "/chat": {
+      "path": "/chat",
+      "overflow": false,
+      "alerts": []
+    },
+    "/calendar": {
+      "path": "/calendar",
+      "overflow": false,
+      "alerts": []
+    },
+    "/business": {
+      "path": "/business",
+      "overflow": false,
+      "alerts": []
+    },
+    "/business/profile": {
+      "path": "/business/profile",
+      "overflow": false,
+      "alerts": []
+    },
+    "/business/bookings": {
+      "path": "/business/bookings",
+      "overflow": false,
+      "alerts": []
+    },
+    "/business/calendar": {
+      "path": "/business/calendar",
+      "overflow": false,
+      "alerts": []
+    },
+    "/circles": {
+      "path": "/circles",
+      "overflow": false,
+      "alerts": []
+    },
+    "/people": {
+      "path": "/people",
+      "overflow": false,
+      "alerts": []
+    },
+    "/things": {
+      "path": "/things",
+      "overflow": false,
+      "alerts": []
+    },
+    "/rides": {
+      "path": "/rides",
+      "overflow": false,
+      "alerts": [
+        "Could not load rides.Retry"
+      ]
+    },
+    "/profile": {
+      "path": "/profile",
+      "overflow": false,
+      "alerts": []
+    },
+    "/profile/settings": {
+      "path": "/profile/settings",
+      "overflow": false,
+      "alerts": []
+    },
+    "/profile/settings/notifications": {
+      "path": "/profile/settings/notifications",
+      "overflow": false,
+      "alerts": []
+    },
+    "/notifications": {
+      "path": "/notifications",
+      "overflow": false,
+      "alerts": []
+    },
+    "/activity": {
+      "path": "/activity",
+      "overflow": false,
+      "alerts": []
+    },
+    "mobile:/home": {
+      "path": "/home",
+      "overflow": false
+    },
+    "mobile:/work/find": {
+      "path": "/work/find",
+      "overflow": false
+    },
+    "mobile:/work/quests": {
+      "path": "/work/quests",
+      "overflow": false
+    },
+    "mobile:/work/applications": {
+      "path": "/work/applications",
+      "overflow": false
+    },
+    "mobile:/chat": {
+      "path": "/chat",
+      "overflow": false
+    },
+    "mobile:/calendar": {
+      "path": "/calendar",
+      "overflow": false
+    },
+    "mobile:/business": {
+      "path": "/business",
+      "overflow": false
+    },
+    "mobile:/circles": {
+      "path": "/circles",
+      "overflow": false
+    },
+    "mobile:/things": {
+      "path": "/things",
+      "overflow": false
+    },
+    "mobile:/rides": {
+      "path": "/rides",
+      "overflow": false
+    },
+    "mobile:/profile": {
+      "path": "/profile",
+      "overflow": false
+    },
+    "mobile:/profile/settings": {
+      "path": "/profile/settings",
+      "overflow": false
+    },
+    "mobile:/profile/settings/notifications": {
+      "path": "/profile/settings/notifications",
+      "overflow": false
+    }
+  },
+  "work": {
+    "clicks": [
+      {
+        "tab": {
+          "label": "Find work",
+          "path": "/work/find",
+          "scope": "discover"
+        },
+        "observed": {
+          "exists": true,
+          "path": "/work/find",
+          "scope": "discover",
+          "current": "Find work"
+        },
+        "passed": true
+      },
+      {
+        "tab": {
+          "label": "My work",
+          "path": "/work/quests",
+          "scope": "mine"
+        },
+        "observed": {
+          "exists": true,
+          "path": "/work/quests",
+          "scope": "mine",
+          "current": "My work"
+        },
+        "passed": true
+      },
+      {
+        "tab": {
+          "label": "My applications",
+          "path": "/work/applications",
+          "scope": "applications"
+        },
+        "observed": {
+          "exists": true,
+          "path": "/work/applications",
+          "scope": "applications",
+          "current": "My applications"
+        },
+        "passed": true
+      }
+    ],
+    "refresh": {
+      "path": "/work/find",
+      "scope": "discover"
+    },
+    "passed": true
+  },
+  "calendar": {
+    "views": [
+      {
+        "view": "day",
+        "exists": true
+      },
+      {
+        "view": "week",
+        "exists": true
+      },
+      {
+        "view": "month",
+        "exists": true
+      }
+    ],
+    "buttons": [
+      "‹",
+      "Search",
+      "Log out",
+      "‹",
+      "Today",
+      "›",
+      "agenda",
+      "day",
+      "week",
+      "month",
+      "Mic",
+      "Ask",
+      "Menu"
+    ],
+    "passed": true
+  },
+  "chat": {
+    "contextCount": 0,
+    "contextVisible": false,
+    "grid": "240px 856.219px",
+    "passed": true
+  },
+  "profile": {
+    "profileFormCount": 0,
+    "settingsFormCount": 1,
+    "settingsPaneCount": 4,
+    "passed": true
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

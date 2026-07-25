@@ -12,6 +12,9 @@ import type {
   DashboardPlannerItemDTO,
   QuestApplicationResponseDTO,
   QuestResponseDTO,
+  ThingBorrowRequestResponseDTO,
+  RideOfferResponseDTO,
+  WorkspaceCommandItem,
   UserProfileViewDTO
 } from "../../contracts/index.ts"
 import {currentUser} from "../identity/auth.ts"
@@ -46,6 +49,8 @@ export type ShellSurfaceSection = {
   description: string
   emptyState: string
   rows: ShellSurfaceRow[]
+  groups?: {title: string; rows: ShellSurfaceRow[]}[]
+  actions?: WorkspaceCommandItem[]
 }
 
 export type ShellSurfaceViewModel = {
@@ -54,17 +59,14 @@ export type ShellSurfaceViewModel = {
   note?: string
 }
 
-const safeRequest = async <T>(request: () => Promise<T>) => {
-  try {
-    return await request()
-  } catch {
-    return null
-  }
-}
+export const homeOrientationSections = ["Requests", "Calendar"] as const
+
+// Backend read surfaces fail closed. A partial client-composed view can hide
+// missing data and incorrectly look authoritative, so callers must expose the
+// surface error and let the user retry the complete read model.
+const backendRequest = <T>(request: () => Promise<T>) => request()
 
 const formatCount = (value: number) => formatNumber(value, "en-US")
-
-const homeMetricRoute = (scope: string): RouteLocationRaw => ({path: "/work/find", query: {scope}})
 
 const describeQuestTerm = (quest: QuestResponseDTO) => {
   if (quest.scheduledAt && quest.endsAt) {
@@ -96,6 +98,24 @@ const createApplicationRow = (application: QuestApplicationResponseDTO): ShellSu
   meta: `${application.questCreatorUsername} · ${formatDate(application.createdAt)}`,
   badge: application.status,
   to: applicationRoute(application.id),
+})
+
+const createHomeThingRequestRow = (request: ThingBorrowRequestResponseDTO, role: "sent" | "received"): ShellSurfaceRow => ({
+  id: `thing-request-${role}-${request.id}`,
+  title: `Thing request #${request.id}`,
+  description: role === "sent" ? `You asked to borrow · ${request.stateExplanation}` : `${request.borrowerUsername} asked to borrow · ${request.stateExplanation}`,
+  meta: formatDate(request.createdAt),
+  badge: request.status,
+  to: {path: role === "sent" ? "/things" : "/things/mine"}
+})
+
+const createHomeRideRow = (ride: RideOfferResponseDTO): ShellSurfaceRow => ({
+  id: `ride-${ride.id}`,
+  title: `${ride.origin} → ${ride.destination}`,
+  description: ride.viewerIsDriver ? `You offer this ride · ${ride.joinedSeats}/${ride.seats} seats joined` : `You joined this ride · ${ride.joinedSeats}/${ride.seats} seats joined`,
+  meta: formatDateTime(ride.departureAt),
+  badge: ride.status,
+  to: {path: `/rides/${ride.id}`}
 })
 
 const createChatRow = (conversation: ChatConversationSummaryDTO): ShellSurfaceRow => ({
@@ -200,74 +220,67 @@ const createProfileActionRow = (profileView: UserProfileViewDTO): ShellSurfaceRo
 }
 
 const loadHomeData = async (): Promise<ShellSurfaceViewModel> => {
-  const summary = await userShellApi.getDashboardSummary()
+  const [dashboard, applications, ownerBookings, customerBookings, incomingPeople, outgoingPeople, sentThings, receivedThings, rides, commandCatalog] = await Promise.all([
+    backendRequest(() => userShellApi.getDashboard()),
+    backendRequest(() => userShellApi.getMyApplications()),
+    backendRequest(() => userShellApi.getBusinessOwnerBookings()),
+    backendRequest(() => userShellApi.getMyBusinessBookings()),
+    backendRequest(() => userShellApi.getIncomingCircleRequests()),
+    backendRequest(() => userShellApi.getOutgoingCircleRequests()),
+    backendRequest(() => userShellApi.getMyThingBorrowRequests()),
+    backendRequest(() => userShellApi.getThingOwnerBorrowRequests()),
+    backendRequest(() => userShellApi.getRideOffers()),
+    backendRequest(() => userShellApi.getWorkspaceCommandCatalog())
+  ])
+
+  const relevantApplication = (application: QuestApplicationResponseDTO) => ["PENDING", "APPROVED"].includes(application.status)
+  const applicationRows = applications.items
+    .filter(relevantApplication)
+    .map(createApplicationRow)
+  const incomingApplicationRows = (await Promise.all(dashboard.myQuests.slice(0, 50).map(async (quest) => backendRequest(() => userShellApi.getQuestApplications(quest.id)))))
+    .flatMap((view) => view.visibleApplications.filter(relevantApplication).map((application) => ({
+        ...createApplicationRow(application),
+        id: `home-incoming-application-${application.id}`,
+        description: `${application.applicantUsername} applied to your job`,
+        meta: formatDate(application.createdAt),
+        to: applicationRoute(application.id)
+      })))
+  const incomingServiceRows = ownerBookings.items
+    .filter((booking) => ["PENDING", "REQUESTED", "CONFIRMED"].includes(booking.status))
+    .slice(0, 3)
+    .map((booking) => ({...createBookingRow(booking), id: `service-incoming-${booking.id}`, title: booking.businessOfferingTitle, description: `${booking.customerUsername} · ${booking.statusLabel}`}))
+  const myServiceRows = customerBookings.items
+    .filter((booking) => !["COMPLETED", "CANCELLED", "REJECTED"].includes(booking.status))
+    .slice(0, 3)
+    .map((booking) => ({...createBookingRow(booking), id: `service-outgoing-${booking.id}`, title: booking.businessOfferingTitle, description: `${booking.businessName} · ${booking.statusLabel}`, to: {path: "/business/my-bookings"}}))
+  const incomingPeopleRows = incomingPeople.items.slice(0, 3).map((request) => ({...createCircleRequestRow(request), id: `people-incoming-${request.id}`, title: `${request.counterpartUsername} wants to connect`, description: "Incoming connection request", to: {path: "/people/requests"}}))
+  const outgoingPeopleRows = outgoingPeople.items.slice(0, 3).map((request) => ({...createCircleRequestRow(request), id: `people-outgoing-${request.id}`, title: `Request to ${request.counterpartUsername}`, description: "Outgoing connection request", to: {path: "/people/requests"}}))
+  const sentThingRows = sentThings.filter((request) => !["RETURNED", "DECLINED", "CANCELLED"].includes(request.status)).slice(0, 3).map((request) => createHomeThingRequestRow(request, "sent"))
+  const receivedThingRows = receivedThings.filter((request) => !["RETURNED", "DECLINED", "CANCELLED"].includes(request.status)).slice(0, 3).map((request) => createHomeThingRequestRow(request, "received"))
+  const rideRows = rides.items
+    .filter((ride) => ride.active && ["OPEN", "FULL", "IN_PROGRESS"].includes(ride.status) && (ride.viewerIsDriver || ride.viewerJoined))
+    .slice(0, 3)
+    .map(createHomeRideRow)
+  const actionFor = (routes: string[]) => [...commandCatalog.create, ...commandCatalog.navigation].filter((command) => routes.includes(command.route))
 
   return {
-    metrics: [
-      {
-        label: "Open work",
-        value: formatCount(summary.openQuestCount),
-        detail: "Available work visible to you.",
-        to: homeMetricRoute("open-visible"),
-        tone: "emphasis"
-      },
-      {
-        label: "My work",
-        value: formatCount(summary.visibleMyQuestsCount),
-        detail: "Work you created and can manage.",
-        to: {path: "/work/quests", query: {scope: "owned-visible"}}
-      },
-      {
-        label: "Pending applications",
-        value: formatCount(summary.pendingWorkApplicationsCount),
-        detail: "Applications waiting on a next step.",
-        to: {path: "/work/applications", query: {scope: "pending"}}
-      },
-      {
-        label: "Unread news",
-        value: formatCount(summary.unreadNewsCount),
-        detail: "Signals that may require follow-up.",
-        to: {path: "/notifications"}
-      }
-    ],
+    metrics: [],
     sections: [
-      {
-        title: "Orientation",
-        description: "Home stays light and only reflects backend-prepared work summary.",
-        emptyState: "No summary signals are available yet.",
-        rows: [
-          {
-            id: "home-active-work",
-            title: `${formatCount(summary.activeWorkCount)} active work items`,
-            description: "A combined count of work currently in motion.",
-            badge: "Work",
-            to: {path: "/work"}
-          },
-          {
-            id: "home-assigned-work",
-            title: `${formatCount(summary.assignedQuestCount)} assigned quests`,
-            description: "Work already assigned and still active.",
-            badge: "Assigned",
-            to: {path: "/work/quests"}
-          },
-          {
-            id: "home-completed-work",
-            title: `${formatCount(summary.completedMyQuestsCount)} completed quests`,
-            description: "Closed work that remains visible in your history.",
-            badge: "History",
-            to: {path: "/work/quests"}
-          }
-        ]
-      }
+      {title: "Work", description: "Jobs you applied for and new applications for your jobs.", emptyState: "No active work or applications.", rows: [...incomingApplicationRows, ...applicationRows].slice(0, 4), groups: [{title: "New applications", rows: incomingApplicationRows.slice(0, 3)}, {title: "My applications", rows: applicationRows.slice(0, 3)}], actions: actionFor(["/work/quests/new"])},
+      {title: "Business", description: "New reservations for your businesses.", emptyState: "No new business reservations.", rows: incomingServiceRows, actions: actionFor(["/business"])},
+      {title: "Services", description: "Appointments you booked with other businesses.", emptyState: "No upcoming services.", rows: myServiceRows, actions: actionFor(["/business/find"])},
+      {title: "Things", description: "Borrow requests sent and received for your things.", emptyState: "No active thing requests.", rows: [...receivedThingRows, ...sentThingRows].slice(0, 4), actions: actionFor(["/things"])},
+      {title: "People", description: "Connection requests waiting for you or someone else.", emptyState: "No pending people requests.", rows: [...incomingPeopleRows, ...outgoingPeopleRows].slice(0, 4), actions: actionFor(["/circles"])},
+      {title: "Rides", description: "Rides you offer or have joined.", emptyState: "No active rides.", rows: rideRows, actions: actionFor(["/rides"])}
     ],
-    note: "Home is a compact orientation layer; Notifications cover unread delivery while Activity is the deduplicated resume timeline."
+    note: ""
   }
 }
 
 const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
   const [dashboard, applications] = await Promise.all([
     userShellApi.getDashboard(),
-    surfaceId === "work-applications" ? safeRequest(() => userShellApi.getMyApplications()) : Promise.resolve(null)
+    surfaceId === "work-applications" || surfaceId === "work-quests" ? backendRequest(() => userShellApi.getMyApplications()) : Promise.resolve(null)
   ])
 
   const discoverRows = dashboard.availableQuests.map(createQuestRow)
@@ -277,6 +290,16 @@ const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewMo
   const applicationRows = (applications?.items ?? (dashboard.sections.recentMyApplications.length > 0
     ? dashboard.sections.recentMyApplications
     : dashboard.myApplications)).map(createApplicationRow)
+  const incomingApplicationRows = surfaceId === "work-applications"
+    ? (await Promise.all(dashboard.myQuests.slice(0, 50).map(async (quest) => backendRequest(() => userShellApi.getQuestApplications(quest.id)))))
+      .flatMap((view, index) => (view?.visibleApplications ?? view?.approvedApplications ?? []).map((application) => ({
+        ...createApplicationRow(application),
+        id: `incoming-application-${application.id}`,
+        description: `${application.applicantUsername} · ${application.presentation.statusLabel}`,
+        meta: `Incoming · ${dashboard.myQuests[index]?.title ?? application.questTitle}`,
+        to: applicationRoute(application.id)
+      })))
+    : []
 
   if (surfaceId === "work-quests") {
     return {
@@ -299,6 +322,12 @@ const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewMo
           description: "Stable list entry with Vision-native detail continuity.",
           emptyState: "No owned quests are available right now.",
           rows: myQuestRows
+        },
+        {
+          title: "My applications",
+          description: "Work you applied for, with the current application status.",
+          emptyState: "No applications are visible right now.",
+          rows: applicationRows
         }
       ]
     }
@@ -324,7 +353,7 @@ const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewMo
           title: "My applications",
           description: "Deterministic applications browse with Vision-native detail.",
           emptyState: "No applications are visible right now.",
-          rows: applicationRows
+          rows: [...applicationRows, ...incomingApplicationRows]
         }
       ]
     }
@@ -376,7 +405,7 @@ const loadChatData = async (route: RouteLocationNormalizedLoaded): Promise<Shell
   const workspace = await userShellApi.getChatWorkspace()
   const conversationId = Number(route.params.conversationId)
   const conversationSync = Number.isFinite(conversationId)
-    ? await safeRequest(() => userShellApi.getChatConversationSync(conversationId))
+    ? await backendRequest(() => userShellApi.getChatConversationSync(conversationId))
     : null
 
   const sections: ShellSurfaceSection[] = [
@@ -436,13 +465,13 @@ const loadBusinessData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceVi
   // Owner dashboard/calendar require an active business profile. Resolve the
   // profile first so an unconfigured account does not generate expected 400s.
   const [profile, bookings] = await Promise.all([
-    safeRequest(() => userShellApi.getBusinessProfile()),
-    safeRequest(() => userShellApi.getBusinessOwnerBookings())
+    backendRequest(() => userShellApi.getBusinessProfile()),
+    backendRequest(() => userShellApi.getBusinessOwnerBookings())
   ])
   const [dashboard, calendar] = profile
     ? await Promise.all([
-      safeRequest(() => userShellApi.getBusinessDashboard()),
-      safeRequest(() => userShellApi.getBusinessOwnerCalendar())
+      backendRequest(() => userShellApi.getBusinessDashboard()),
+      backendRequest(() => userShellApi.getBusinessOwnerCalendar())
     ])
     : [null, null]
 
@@ -595,11 +624,11 @@ const createBusinessProfileRows = (profile: BusinessProfileResponseDTO, dashboar
 
 const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
   const [dashboard, profile] = await Promise.all([
-    safeRequest(() => userShellApi.getDashboard()),
-    safeRequest(() => userShellApi.getBusinessProfile())
+    backendRequest(() => userShellApi.getDashboard()),
+    backendRequest(() => userShellApi.getBusinessProfile())
   ])
   const businessCalendar = profile
-    ? await safeRequest(() => userShellApi.getBusinessOwnerCalendar())
+    ? await backendRequest(() => userShellApi.getBusinessOwnerCalendar())
     : null
 
   if (!dashboard) {
@@ -709,7 +738,7 @@ const loadCirclesData = async (): Promise<ShellSurfaceViewModel> => {
 
 const loadProfileData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
   const appUser = await userShellApi.getCurrentAppUser()
-  const profileView = await safeRequest(() => userShellApi.getCurrentProfileView(appUser.id))
+  const profileView = await backendRequest(() => userShellApi.getCurrentProfileView(appUser.id))
 
   const profileRows: ShellSurfaceRow[] = [
     {

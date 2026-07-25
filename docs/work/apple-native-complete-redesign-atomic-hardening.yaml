@@ -1,0 +1,120 @@
+kind: work
+version: 1
+id: apple-native-complete-redesign-atomic-hardening
+title: Atomic-task hardening for complete native Apple redesign
+status: verified
+master_plan: docs/work/apple-native-complete-redesign-master.yaml
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/apple-native-complete-redesign-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/apple-product-polish-master.yaml
+  baseline_only_surfaces:
+  - Existing functional behavior and prior Apple reference documentation.
+  residual_scope:
+  - Split the complete redesign into one observable, path-bounded, independently validated
+    outcome per implementation task.
+  retest_triggers:
+  - Any change to task order, required paths, validation, or evidence boundaries.
+  non_duplication_rule: Hardening validates queue integrity only; it does not claim
+    visual or behavioral completion.
+tasks:
+- id: harden-complete-apple-redesign-queue
+  title: Validate complete Apple redesign execution queue
+  type: planning
+  status: done
+  inventory_item: apple-native-redesign-atomic-hardening
+  observable_outcome: The complete redesign has ordered child plans for foundation,
+    core collections, sharing modules, Business/Calendar, Vision/Settings, cleanup,
+    and runtime closeout; each task has exact paths, dependencies, leaf validation,
+    and screenshot evidence boundaries.
+  dependencies: []
+  paths:
+  - docs/work/apple-native-complete-redesign-master.yaml
+  - docs/work/apple-native-complete-redesign-atomic-hardening.yaml
+  - docs/work/apple-native-complete-redesign-execution-inventory.yaml
+  - docs/work/apple-native-complete-redesign-foundation.yaml
+  - docs/work/apple-native-complete-redesign-core-surfaces.yaml
+  - docs/work/apple-native-complete-redesign-social-and-sharing.yaml
+  - docs/work/apple-native-complete-redesign-business-calendar.yaml
+  - docs/work/apple-native-complete-redesign-vision-and-settings.yaml
+  - docs/work/apple-native-complete-redesign-system-cleanup.yaml
+  - docs/work/apple-native-complete-redesign-runtime-closeout.yaml
+  - docs/apple-desktop-design-reference.md
+  required_paths:
+  - docs/work/apple-native-complete-redesign-master.yaml
+  - docs/work/apple-native-complete-redesign-atomic-hardening.yaml
+  - docs/work/apple-native-complete-redesign-execution-inventory.yaml
+  - docs/work/apple-native-complete-redesign-foundation.yaml
+  - docs/work/apple-native-complete-redesign-core-surfaces.yaml
+  - docs/work/apple-native-complete-redesign-social-and-sharing.yaml
+  - docs/work/apple-native-complete-redesign-business-calendar.yaml
+  - docs/work/apple-native-complete-redesign-vision-and-settings.yaml
+  - docs/work/apple-native-complete-redesign-system-cleanup.yaml
+  - docs/work/apple-native-complete-redesign-runtime-closeout.yaml
+  - docs/apple-desktop-design-reference.md
+  evidence_boundary:
+  - exact ordered queue
+  - no broad unbounded tasks
+  - visual evidence required for visual outcomes
+  - runtime evidence required for browser outcomes
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+    docs/work/apple-native-complete-redesign-master.yaml docs/work/apple-native-complete-redesign-execution-inventory.yaml
+  evidence: []
+  started_at: '2026-07-24T23:03:42Z'
+  start_fingerprints:
+    docs/work/apple-native-complete-redesign-master.yaml: 9439ef6d16319493d114658752284267feca741617f964eb773c0fed47a62fc0
+    docs/work/apple-native-complete-redesign-atomic-hardening.yaml: 8859fb027bea9ad7b95ac38e1abcf2d855707b61c5e6f4acb16c811a801edba4
+    docs/work/apple-native-complete-redesign-execution-inventory.yaml: cd7ea7edee9635184ce36ed43100ec46a0ffef02563f08158395804acd4b5d32
+    docs/work/apple-native-complete-redesign-foundation.yaml: 48204739273511554a51417b98fc559c44b987fee98a6fdb1661fcb0ebc1f9b3
+    docs/work/apple-native-complete-redesign-core-surfaces.yaml: c299488aa927eb82ac0b8dfc348db97ca1698ddbc42ddc0bcd7cd61f36f05b0f
+    docs/work/apple-native-complete-redesign-social-and-sharing.yaml: cd43a847caef6fb4bf7bd54d3efc15c97d7b023e8583f745d11ee0ebf110f102
+    docs/work/apple-native-complete-redesign-business-calendar.yaml: 5990eb5c4f7c44b8e5af2b3b2108a465c7fe7a0e726b505edcf0cf0c5796f111
+    docs/work/apple-native-complete-redesign-vision-and-settings.yaml: 917e3c6fe63df3799b7030d9e088721a76f1372896c0d67f558e991b2c807e0a
+    docs/work/apple-native-complete-redesign-system-cleanup.yaml: bde44657e283d5db71ebb17ec15eff425aaad2f8722a44cd88067c1d573182e8
+    docs/work/apple-native-complete-redesign-runtime-closeout.yaml: ba0beef9b1fc6072384e21852056a94a4d9b1820b8ebf96b659f16650af49637
+    docs/apple-desktop-design-reference.md: 3d4b6531a1a764665f1bc6b4b49ecbe49be0e6f74abac02383b9c48cfe903cb0
+evidence:
+- task: harden-complete-apple-redesign-queue
+  command: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-plan-coverage.rb
+    docs/work/apple-native-complete-redesign-master.yaml docs/work/apple-native-complete-redesign-execution-inventory.yaml
+  ranAt: '2026-07-24T23:04:09Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/apple-desktop-design-reference.md
+  - docs/work/apple-native-complete-redesign-atomic-hardening.yaml
+  - docs/work/apple-native-complete-redesign-business-calendar.yaml
+  - docs/work/apple-native-complete-redesign-core-surfaces.yaml
+  - docs/work/apple-native-complete-redesign-execution-inventory.yaml
+  - docs/work/apple-native-complete-redesign-foundation.yaml
+  - docs/work/apple-native-complete-redesign-master.yaml
+  - docs/work/apple-native-complete-redesign-runtime-closeout.yaml
+  - docs/work/apple-native-complete-redesign-social-and-sharing.yaml
+  - docs/work/apple-native-complete-redesign-system-cleanup.yaml
+  - docs/work/apple-native-complete-redesign-vision-and-settings.yaml
+  output: |+
+    Work-plan recursion audit passed (no recursive validation commands).
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-24T23:03:42Z'
+  changedAfterStart: &1
+  - docs/work/apple-native-complete-redesign-master.yaml
+  - docs/work/apple-native-complete-redesign-atomic-hardening.yaml
+  - docs/work/apple-native-complete-redesign-execution-inventory.yaml
+  - docs/work/apple-native-complete-redesign-foundation.yaml
+  - docs/work/apple-native-complete-redesign-core-surfaces.yaml
+  - docs/work/apple-native-complete-redesign-social-and-sharing.yaml
+  - docs/work/apple-native-complete-redesign-business-calendar.yaml
+  - docs/work/apple-native-complete-redesign-vision-and-settings.yaml
+  - docs/work/apple-native-complete-redesign-system-cleanup.yaml
+  - docs/work/apple-native-complete-redesign-runtime-closeout.yaml
+  - docs/apple-desktop-design-reference.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

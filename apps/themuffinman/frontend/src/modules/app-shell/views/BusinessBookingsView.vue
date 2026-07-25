@@ -11,7 +11,8 @@ import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 import {formatDateTime} from "../../../services/formatters.ts"
-import {RouterLink} from "vue-router"
+import {RouterLink, useRoute} from "vue-router"
+const route = useRoute()
 
 const bookings = ref<BusinessBookingResponseDTO[]>([])
 // Owner booking controls are rendered only from each booking's allowedActions.
@@ -22,7 +23,7 @@ const feedback = ref("")
 const rescheduling = ref<number | null>(null)
 const rescheduleStart = ref("")
 const rescheduleEnd = ref("")
-const selectedBookingId = ref<number | null>(null)
+const selectedBookingId = ref<number | null>(Number(route.params.bookingId) || null)
 const selectedBooking = computed(() => bookings.value.find((booking) => booking.id === selectedBookingId.value) ?? null)
 
 const formatDate = (value: string) => formatDateTime(value, "Unknown time")
@@ -52,8 +53,7 @@ onMounted(() => void load())
 
 <template>
   <section class="bookings-surface" data-owner-tab="bookings" data-calendar-scope="active-business" aria-label="Business bookings">
-    <header class="bookings-surface__header"><div><p class="bookings-surface__eyebrow">Business / Bookings</p><h1>Bookings</h1></div><RouterLink to="/business/calendar">Open calendar</RouterLink></header>
-    <CollectionToolbar title="Owner bookings" :count="bookings.length" :busy="isLoading" />
+    <CollectionToolbar title="Owner bookings" :count="bookings.length" :busy="isLoading"><template #actions><RouterLink to="/business/calendar">Open calendar</RouterLink></template></CollectionToolbar>
     <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading bookings." busy /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" /><AppStatus v-else-if="bookings.length === 0" message="No bookings yet." />
     <div v-else class="bookings-surface__workspace">
       <div class="bookings-surface__list">
@@ -90,10 +90,8 @@ onMounted(() => void load())
 .bookings-surface{display:grid;gap:var(--space-3);max-width:none}.bookings-surface__header{display:flex;justify-content:space-between;align-items:end;gap:var(--space-3)}.bookings-surface__eyebrow{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}h1{margin:0;font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.bookings-surface__count,.bookings-surface__details span,.bookings-surface__details small{color:var(--text-muted);font-size:var(--text-size-meta)}.bookings-surface__feedback{margin:0;color:var(--success)}.bookings-surface__list{display:grid;gap:0;overflow:hidden;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.bookings-surface__row{display:flex;justify-content:space-between;gap:var(--space-3);align-items:center;padding:var(--space-2) var(--space-3);border:1px solid var(--border-subtle);background:var(--surface-base)}.bookings-surface__details{display:grid;gap:var(--space-1);min-width:0}.bookings-surface__details span,.bookings-surface__details small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bookings-surface__reschedule{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:end;margin-top:var(--space-1);padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.bookings-surface__reschedule label{display:grid;gap:var(--space-1);font-size:var(--text-size-meta)}.bookings-surface__reschedule input{min-height:var(--control-height-default);padding:var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink);font:inherit}.bookings-surface__actions{display:flex;gap:var(--space-1);flex-wrap:wrap;justify-content:end}.bookings-surface__actions button,.bookings-surface__status button{border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-1) var(--space-2);background:var(--control-bg);color:var(--control-ink);font:inherit;font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold);cursor:pointer}.bookings-surface__actions button:hover{border-color:var(--control-border-active);background:var(--control-bg-hover)}.bookings-surface__actions button:disabled{opacity:.5;cursor:wait}.bookings-surface__danger{color:var(--danger)}.bookings-surface__status{padding:var(--space-3) 0;color:var(--text-muted)}.bookings-surface__status--error{color:var(--danger)}.bookings-surface__status button{margin-left:var(--space-2);color:inherit;text-decoration:underline;border:0;background:transparent}@media(max-width:620px){.bookings-surface__row{align-items:start;flex-direction:column}.bookings-surface__details span,.bookings-surface__details small{white-space:normal}.bookings-surface__actions{justify-content:start}}
 /* Workspace visual remediation keeps booking authority unchanged. */
 .bookings-surface{gap:var(--space-3);max-width:none}.bookings-surface button,.bookings-surface input,.bookings-surface select{border-radius:var(--radius-control)}
-</style>
-<style scoped>
-.bookings-surface__list { gap: 0; overflow: hidden; border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); background: var(--surface-base); }
 .bookings-surface__workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(16rem,22rem); gap:var(--space-3); align-items:start; }
+.bookings-surface__list { gap: 0; overflow: hidden; border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); background: var(--surface-base); }
 .bookings-surface__preview { display:grid; gap:var(--space-2); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
 .bookings-surface__preview h2,.bookings-surface__preview p { margin:0; }
 .bookings-surface__preview h2 { color:var(--text); font-size:var(--text-size-title); }

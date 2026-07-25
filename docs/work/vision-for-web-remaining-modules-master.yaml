@@ -7,6 +7,7 @@ baseline: 479332c
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/vision-for-web-remaining-modules-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
 analysis_reference: docs/work/vision-for-web-remaining-modules-analysis.md
 objective: Analyze and complete the remaining module integrations so VisionForWeb
   can use OpenAI semantic interpretation to select backend-published actions, resolve

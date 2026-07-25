@@ -1,0 +1,117 @@
+kind: work
+version: 1
+id: apple-product-polish-08-microinteractions-accessibility
+title: Add native-feeling microinteractions and accessibility states
+status: verified
+master_plan: docs/work/apple-product-polish-master.yaml
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+goal_pursuit_preflight_reviewed_at: 2026-07-24
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/apple-product-polish-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: All tasks in this plan implement the canonical Apple desktop
+  reference contract; any deviation must be explicit, domain-justified, and evidenced.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-structural-redesign-master.yaml
+  baseline_only_surfaces:
+  - existing responsive and keyboard evidence
+  residual_scope:
+  - selection feedback
+  - drawer transitions
+  - reduced motion
+  - focus restoration
+  - touch target and live-region consistency
+  retest_triggers:
+  - animation
+  - focus
+  - aria state
+  - drawer/sheet
+  - optimistic mutation
+  - or breakpoint change
+  non_duplication_rule: Existing accessibility evidence is baseline; this child proves
+    only newly standardized state transitions and motion behavior.
+tasks:
+- id: add-native-feeling-interactions
+  title: Standardize motion, focus, selection, and status feedback
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-interactions
+  observable_outcome: Shared surfaces provide restrained transitions, reduced-motion
+    alternatives, visible focus, focus restoration, optimistic reversible feedback,
+    skeleton/loading, and live status announcements.
+  dependencies:
+  - simplify-guided-forms-and-type-hierarchy
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts
+  evidence_boundary:
+  - reduced-motion screenshot/trace
+  - keyboard focus restoration
+  - failed/retry mutation
+  - touch target audit
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T21:27:30Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/styles/base.css: 7cce1d835e3cb2ccaa834e8fee4e38c351c60829cc59d5e16dd6e527b835f433
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue: 82c89936e74416342ff38aaad3fd498a918ed86e8611b3bcff0abb221ce1c025
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue: 9213434fc5f370cff15a36e4a889ebf9338084a7b5f5b95d7b66a18bfa7a9321
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue: 47be362af115e273003da740ca8cceffe2fba087de43900a1e6ee704399a83bd
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts: 1ac68692d4830b7f25758141727159d8d42d35ee05f6d20f84871c17f482d88d
+evidence:
+- task: add-native-feeling-interactions
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T21:27:54Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |+
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-CC20vY6s.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/BusinessPublicView-XY2_VwJX.js                    16.49 kB │ gzip:   5.97 kB
+    dist/assets/SurfaceHeader-CXedd6IS.js                         17.63 kB │ gzip:   5.28 kB
+    dist/assets/ChatSurfaceView-CJN_kPlD.js                       19.27 kB │ gzip:   6.14 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BAqP0u5O.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-DtFRKmWM.js                40.66 kB │ gzip:  13.36 kB
+    dist/assets/BusinessOwnerPage-yzHXyaX_.js                     43.39 kB │ gzip:  11.21 kB
+    dist/assets/index-Cji_78o7.js                                 47.43 kB │ gzip:  12.49 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 571ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (71 checks).
+
+  startedAt: '2026-07-24T21:27:30Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useAsyncAction.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

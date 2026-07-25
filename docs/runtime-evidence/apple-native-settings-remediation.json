@@ -1,0 +1,20 @@
+{
+  "evidenceVersion": "apple-native-settings-remediation-v1",
+  "capturedAt": "2026-07-24T23:26:28.141Z",
+  "scenarios": {
+    "desktop": {
+      "path": "/profile/settings",
+      "summaries": 4,
+      "openPanes": 0,
+      "noOverflow": true
+    },
+    "mobile": {
+      "path": "/profile/settings",
+      "summaries": 4,
+      "openPanes": 0,
+      "noOverflow": true
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

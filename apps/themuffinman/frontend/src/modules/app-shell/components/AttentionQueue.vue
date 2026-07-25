@@ -12,5 +12,5 @@ defineProps<{title?: string; count?: number}>()
 </template>
 
 <style scoped>
-.attention-queue{display:grid;gap:var(--space-2);padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.attention-queue header{display:flex;justify-content:space-between;gap:var(--space-2)}.attention-queue p{margin:0;color:var(--text-muted);font-size:var(--text-size-meta)}
+.attention-queue{display:grid;gap:var(--space-2);padding:1rem 1.15rem 0;background:transparent}.attention-queue header{display:flex;justify-content:space-between;gap:var(--space-2);padding-bottom:.35rem}.attention-queue header strong{font-weight:600}.attention-queue header span{color:var(--text-muted);font-variant-numeric:tabular-nums}.attention-queue p{margin:0;color:var(--text-muted);font-size:var(--text-size-meta)}
 </style>

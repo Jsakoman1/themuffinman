@@ -42,4 +42,6 @@ public class VisionRuntimeContextDTO {
     /** Presentation hints are portable metadata; they never select or authorize an action. */
     private String clientFamily;
     private String confirmationBoundary;
+    /** Siri-like presentation is a client hint only; authorization remains server-owned. */
+    private String assistantPresentation;
 }

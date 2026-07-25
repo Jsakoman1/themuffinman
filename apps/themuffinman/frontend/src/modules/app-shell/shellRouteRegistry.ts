@@ -65,19 +65,20 @@ export const topLevelNavigationPromotionPolicy: ShellNavigationPromotionPolicy =
 export const topLevelNavigationSurfaceIds: AppSurfaceId[] = [
   "home",
   "work",
+  "business",
+  "business-discovery",
+  "things",
+  "circles",
+  "rides",
   "chat",
   "calendar",
-  "business",
-  "circles",
-  "things",
-  "rides",
   "profile"
 ]
 
-export const primaryNavigationSurfaceIds: AppSurfaceId[] = ["home", "work", "chat", "calendar"]
-export const secondaryNavigationSurfaceIds: AppSurfaceId[] = ["business", "circles", "things", "rides"]
+export const primaryNavigationSurfaceIds: AppSurfaceId[] = ["home", "work", "business", "business-discovery", "things", "circles", "rides"]
+export const secondaryNavigationSurfaceIds: AppSurfaceId[] = ["chat", "calendar", "profile"]
 
-/** The shell owns canonical entry routes; module screens must not rebuild them. */
+/** The shell owns canonical entry routes; module screens must not rebuild them. The header owns only back/context/account. */
 export const canonicalRouteForSurface = (surfaceId: AppSurfaceId): RouteLocationRaw =>
   surfaceOwnershipMatrix[surfaceId].canonicalEntryRoute
 
@@ -241,21 +242,21 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
   },
   "business-discovery": {
     id: "business-discovery",
-    primaryNavId: "business",
-    primaryNavLabel: "Business / Discover",
+    primaryNavId: "services",
+    primaryNavLabel: "Services",
     primaryNavDescription: "Discover public businesses and offerings.",
     canonicalEntryRoute: {path: "/business/find"},
     visionPrompt: "find a business for me",
     moduleSpaceRule: "Stay in Business discovery for public business browsing.",
     visionRule: "Use Vision for semantic business matching or planning.",
-    topLevelNavEligible: false
+    topLevelNavEligible: true
   },
   things: {
     id: "things",
     primaryNavId: "things",
     primaryNavLabel: "Things",
     primaryNavDescription: "Lending listings and borrow requests.",
-    canonicalEntryRoute: {path: "/things"},
+    canonicalEntryRoute: {path: "/things/mine"},
     canonicalDetailRoute: (targetId) => ({path: `/things/${targetId}`}),
     visionPrompt: "find things to borrow or lend",
     moduleSpaceRule: "Stay in Things for listing and borrowing workflows; `/things/requests` owns the viewer's borrow-request list.",
@@ -267,7 +268,7 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     primaryNavId: "rides",
     primaryNavLabel: "Rides",
     primaryNavDescription: "Voluntary circle-scoped ride coordination.",
-    canonicalEntryRoute: {path: "/rides"},
+    canonicalEntryRoute: {path: "/rides/mine"},
     canonicalDetailRoute: (targetId) => ({path: `/rides/${targetId}`}),
     visionPrompt: "find a ride or offer a ride",
     moduleSpaceRule: "Stay in Rides for deterministic discovery and lifecycle actions.",
@@ -323,7 +324,7 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
 export const buildAppNavigationItems = (surfaceIds: AppSurfaceId[]): AppPrimaryNavItem[] => surfaceIds.map((surfaceId) => {
   const ownership = surfaceOwnershipMatrix[surfaceId]
   const icons: Record<AppPrimaryNavId, string> = {
-    home: "⌂", work: "▤", chat: "◌", calendar: "□", business: "◇",
+    home: "⌂", work: "▤", chat: "◌", calendar: "□", business: "◇", services: "⌕",
     circles: "◎", things: "▣", rides: "↗", profile: "◒"
   }
 
@@ -381,6 +382,7 @@ export const visionWebRouteContracts: VisionWebRouteContract[] = [
   {routeKey: "business.bookings", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/bookings$/, requiresTarget: false},
   {routeKey: "business.my_bookings", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/my-bookings$/, requiresTarget: false},
   {routeKey: "business.discovery", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/find$/, requiresTarget: false},
+  {routeKey: "business.favorites", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/favorites$/, requiresTarget: false},
   {routeKey: "business.public_profile", action: "OPEN_ENTITY_DETAIL", pathPattern: /^\/business\/public\/[^/]+$/, requiresTarget: false},
   {routeKey: "business.owner_profile", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/profile$/, requiresTarget: false},
   {routeKey: "business.service_setup", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/business\/service-setup$/, requiresTarget: false},

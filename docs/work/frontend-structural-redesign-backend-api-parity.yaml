@@ -13,6 +13,8 @@ master_plan: docs/work/frontend-structural-redesign-master.yaml
 serial_task_execution: true
 strict_verification: true
 execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: Backend/API work must expose the read/action/capability contracts required by the primary Apple desktop Web interaction model and future Swift clients.
 tasks:
 - id: backend-calendar-contract
   title: Establish the all-module calendar read and action contract

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue"
-import type {BusinessGalleryImageRequestDTO, BusinessGalleryImageResponseDTO, BusinessProfileRequestDTO} from "../../../contracts/index.ts"
+import type {BusinessBookingPolicyRequestDTO, BusinessGalleryImageRequestDTO, BusinessGalleryImageResponseDTO, BusinessProfileRequestDTO} from "../../../contracts/index.ts"
 import {setActiveBusinessProfileId, userShellApi} from "../api/userShellApi.ts"
 import AppButton from "../components/AppButton.vue"
 import AppDialog from "../components/AppDialog.vue"
@@ -16,6 +16,8 @@ import RichTextEditor from "../components/RichTextEditor.vue"
 import RichTextPreview from "../components/RichTextPreview.vue"
 
 const form = ref<BusinessProfileRequestDTO | null>(null)
+const policy = ref<BusinessBookingPolicyRequestDTO | null>(null)
+const isPolicySaving = ref(false)
 // Profile editing and publication remain one owner responsibility surface.
 const profiles = ref<Awaited<ReturnType<typeof userShellApi.getMyBusinessProfiles>>>([])
 const selectedProfileId = ref<number | null>(null)
@@ -35,27 +37,29 @@ const acceptGuidedBusinessDraft = (draft: Record<string, string>) => { guidedBus
 const load = async () => {
   isLoading.value = true; error.value = ""
   try {
-    const [value, galleryResponse, ownedProfiles] = await Promise.all([userShellApi.getBusinessProfile(), userShellApi.getBusinessGallery(), userShellApi.getMyBusinessProfiles()])
+    const [value, galleryResponse, ownedProfiles, bookingPolicy] = await Promise.all([userShellApi.getBusinessProfile(), userShellApi.getBusinessGallery(), userShellApi.getMyBusinessProfiles(), userShellApi.getBusinessBookingPolicy()])
     profiles.value = ownedProfiles.length ? ownedProfiles : [value]
     selectedProfileId.value = value.id
     gallery.value = galleryResponse.items
-    form.value = {businessName: value.businessName, slug: value.slug, headline: value.headline, description: value.description, contactEmail: value.contactEmail, contactPhone: value.contactPhone, websiteUrl: value.websiteUrl, timezone: value.timezone, bookingEnabled: value.bookingEnabled, publicAddressLabel: value.publicAddressLabel, latitude: value.latitude, longitude: value.longitude, contactWhatsapp: value.contactWhatsapp, heroImageUrl: value.heroImageUrl, active: value.active}
+    policy.value = bookingPolicy
+    form.value = {businessName: value.businessName, slug: value.slug, headline: value.headline, description: value.description ?? "", contactEmail: value.contactEmail, contactPhone: value.contactPhone, websiteUrl: value.websiteUrl, timezone: value.timezone, bookingEnabled: value.bookingEnabled, publicAddressLabel: value.publicAddressLabel, latitude: value.latitude, longitude: value.longitude, contactWhatsapp: value.contactWhatsapp, heroImageUrl: value.heroImageUrl, active: value.active}
   } catch { error.value = "Could not load your business profile." }
   finally { isLoading.value = false }
 }
-
-const toForm = (value: Awaited<ReturnType<typeof userShellApi.getBusinessProfile>>) => ({businessName: value.businessName, slug: value.slug, headline: value.headline, description: value.description, contactEmail: value.contactEmail, contactPhone: value.contactPhone, websiteUrl: value.websiteUrl, timezone: value.timezone, bookingEnabled: value.bookingEnabled, publicAddressLabel: value.publicAddressLabel, latitude: value.latitude, longitude: value.longitude, contactWhatsapp: value.contactWhatsapp, heroImageUrl: value.heroImageUrl, active: value.active})
-const selectProfile = async () => {
-  if (!selectedProfileId.value) return
-  try { setActiveBusinessProfileId(selectedProfileId.value); form.value = toForm(await userShellApi.getBusinessProfileById(selectedProfileId.value)); feedback.value = "Business selected." }
-  catch { error.value = "Could not switch business." }
+const savePolicy = async () => {
+  if (!policy.value) return
+  isPolicySaving.value = true; error.value = ""
+  try { policy.value = await userShellApi.updateBusinessBookingPolicy(policy.value); feedback.value = "Booking policy updated." }
+  catch (cause) { error.value = userShellApi.actionFailureMessage("Could not update booking policy.", cause) }
+  finally { isPolicySaving.value = false }
 }
-const onProfileSelectionChanged = (event: Event) => { const value = Number((event.target as HTMLSelectElement).value); if (Number.isFinite(value)) selectedProfileId.value = value }
+
+const toForm = (value: Awaited<ReturnType<typeof userShellApi.getBusinessProfile>>) => ({businessName: value.businessName, slug: value.slug, headline: value.headline, description: value.description ?? "", contactEmail: value.contactEmail, contactPhone: value.contactPhone, websiteUrl: value.websiteUrl, timezone: value.timezone, bookingEnabled: value.bookingEnabled, publicAddressLabel: value.publicAddressLabel, latitude: value.latitude, longitude: value.longitude, contactWhatsapp: value.contactWhatsapp, heroImageUrl: value.heroImageUrl, active: value.active})
 const createBusiness = async () => {
   const name = (guidedBusinessDraft.value?.businessName ?? newBusinessName.value).trim()
   if (!name) return
   try {
-    const created = await userShellApi.createBusinessProfile({businessName: name, slug: "", headline: guidedBusinessDraft.value?.headline ?? "", description: guidedBusinessDraft.value?.description ?? "", contactEmail: "", contactPhone: "", websiteUrl: "", timezone: "Europe/Zurich", bookingEnabled: false, publicAddressLabel: "", latitude: undefined as unknown as number, longitude: undefined as unknown as number, contactWhatsapp: "", heroImageUrl: "", active: true})
+    const created = await userShellApi.createBusinessProfile({businessName: name, slug: "", headline: guidedBusinessDraft.value?.headline ?? "", description: guidedBusinessDraft.value?.description ?? "", contactEmail: "", contactPhone: "", websiteUrl: "", timezone: "Europe/Zurich", bookingEnabled: false, publicAddressLabel: "", latitude: null, longitude: null, contactWhatsapp: "", heroImageUrl: "", active: true})
     profiles.value = await userShellApi.getMyBusinessProfiles()
     selectedProfileId.value = created.id
     setActiveBusinessProfileId(created.id)
@@ -139,21 +143,25 @@ onMounted(() => void load())
 </script>
 
 <template>
-  <section class="business-profile">
-    <header><p class="business-profile__eyebrow">Business / Profile</p><h1>Business profile</h1><p class="business-profile__intro">Keep the public identity, booking switch, and gallery in one place.</p></header>
-    <CollectionToolbar title="Business identity" :count="profiles.length" :busy="isLoading"><template #filters><label v-if="profiles.length" class="business-profile__selector">Business<select v-model="selectedProfileId" @change="onProfileSelectionChanged"><option v-for="profile in profiles" :key="profile.id" :value="profile.id">{{ profile.businessName }}</option></select></label><AppButton v-if="profiles.length" type="button" @click="selectProfile">Switch</AppButton></template><template #actions><AppButton tone="primary" type="button" @click="isCreateOpen = true">Create business</AppButton></template></CollectionToolbar>
+  <section class="business-profile" data-mental-model="identity-content-gallery-inspector">
+    <CollectionToolbar title="Business identity" :count="profiles.length" :busy="isLoading"><template #actions><AppButton tone="primary" type="button" @click="isCreateOpen = true">Create business</AppButton></template></CollectionToolbar>
     <AppStatus v-if="isLoading" message="Loading your business profile." busy />
     <AppStatus v-else-if="error && !form" :message="error" tone="error" retry @retry="load" />
     <div class="business-profile__workspace">
     <div class="business-profile__main">
     <form v-if="form" class="business-profile__form" @submit.prevent="save">
       <AppFormField label="Business name" required><input v-model="form.businessName" required maxlength="160" aria-label="Business name"></AppFormField>
+      <AppFormField label="Public slug" required hint="Lowercase words separated by hyphens."><input v-model="form.slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" maxlength="160"></AppFormField>
       <AppFormField label="Headline" optional><input v-model="form.headline" maxlength="200" aria-label="Headline"></AppFormField>
       <div class="business-profile__rich-description"><AppFormField label="Public description" optional hint="Format the welcome text customers see on your business page."><RichTextEditor v-model="form.description" label="Public business description" placeholder="Tell customers what makes this business useful…" /></AppFormField><aside class="business-profile__description-preview" aria-label="Public description preview"><p>Preview</p><RichTextPreview :content="form.description" /></aside></div>
       <div class="business-profile__grid"><AppFormField label="Contact email" optional><input v-model="form.contactEmail" type="email"></AppFormField><AppFormField label="Contact phone" optional><input v-model="form.contactPhone"></AppFormField></div>
+      <div class="business-profile__grid"><AppFormField label="WhatsApp" optional><input v-model="form.contactWhatsapp"></AppFormField><AppFormField label="Website" optional><input v-model="form.websiteUrl" type="url"></AppFormField></div>
       <AppFormField label="Public address label" optional><input v-model="form.publicAddressLabel"></AppFormField>
+      <div class="business-profile__grid"><AppFormField label="Latitude" optional><input v-model.number="form.latitude" type="number" step="any"></AppFormField><AppFormField label="Longitude" optional><input v-model.number="form.longitude" type="number" step="any"></AppFormField></div>
+      <AppFormField label="Hero image URL" optional><input v-model="form.heroImageUrl" type="url"></AppFormField>
       <AppFormField label="Timezone" required hint="Used by availability and booking schedules."><input v-model="form.timezone" required placeholder="Europe/Zurich" aria-label="Timezone"></AppFormField>
       <label class="business-profile__toggle"><input v-model="form.bookingEnabled" type="checkbox"> <span>Accept bookings</span></label>
+      <fieldset v-if="policy" class="business-profile__policy"><legend>Booking policy</legend><div class="business-profile__grid"><AppFormField label="Lead time (minutes)"><input v-model.number="policy.leadTimeMinutes" type="number" min="0"></AppFormField><AppFormField label="Maximum advance (days)"><input v-model.number="policy.maxAdvanceDays" type="number" min="1"></AppFormField></div><div class="business-profile__grid"><AppFormField label="Customer cancellation window"><input v-model.number="policy.customerCancellationWindowMinutes" type="number" min="0"></AppFormField><AppFormField label="Owner reschedule window"><input v-model.number="policy.ownerRescheduleWindowMinutes" type="number" min="0"></AppFormField></div><label class="business-profile__toggle"><input v-model="policy.requiresOwnerConfirmationDefault" type="checkbox"> Require confirmation by default</label><label class="business-profile__toggle"><input v-model="policy.allowCustomerCancellation" type="checkbox"> Allow customer cancellation</label><label class="business-profile__toggle"><input v-model="policy.allowOwnerManualApproval" type="checkbox"> Allow manual approval</label><label class="business-profile__toggle"><input v-model="policy.allowOwnerManualRejection" type="checkbox"> Allow manual rejection</label><label class="business-profile__toggle"><input v-model="policy.allowWaitlist" type="checkbox"> Allow waitlist</label><AppButton type="button" tone="secondary" :loading="isPolicySaving" @click="savePolicy">Save booking policy</AppButton></fieldset>
       <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="error" :message="error" tone="error" />
       <AppFormFooter><template #secondary><AppButton v-if="form.active" tone="danger" type="button" @click="archiveBusiness">Archive business</AppButton></template><template #primary><AppButton tone="primary" type="submit" :loading="isSaving">Save profile</AppButton></template></AppFormFooter>
     </form>
@@ -191,17 +199,17 @@ onMounted(() => void load())
 
 <style scoped>
 .business-profile { display:grid; gap:var(--space-3); max-width:none; }
-.business-profile__eyebrow { margin:0 0 var(--space-1); color:var(--text-soft); font-size:var(--text-size-label); font-weight:var(--text-weight-semibold); letter-spacing:var(--tracking-label); text-transform:uppercase; }
 .business-profile h1 { margin:0; color:var(--text); font-size:var(--text-size-page-title); letter-spacing:var(--tracking-tight); }
-.business-profile__intro { margin:var(--space-1) 0 0; color:var(--text-muted); }
 .business-profile__workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(16rem,22rem); gap:var(--space-3); align-items:start; }
 .business-profile__main { display:grid; gap:var(--space-3); min-width:0; }
 .business-profile__form { display:grid; gap:var(--space-3); }
-.business-profile__form input,.business-profile__form textarea,.business-profile__gallery-form input,.business-profile__selector select { width:100%; border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }
+.business-profile__form input,.business-profile__form textarea,.business-profile__gallery-form input { width:100%; border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }
 .business-profile__form textarea { min-height:7rem; resize:vertical; }
-.business-profile__form input:focus-visible,.business-profile__form textarea:focus-visible,.business-profile__gallery-form input:focus-visible,.business-profile__selector select:focus-visible { border-color:var(--control-border-active); outline:2px solid var(--focus-ring); outline-offset:2px; }
+.business-profile__form input:focus-visible,.business-profile__form textarea:focus-visible,.business-profile__gallery-form input:focus-visible { border-color:var(--control-border-active); outline:2px solid var(--focus-ring); outline-offset:2px; }
 .business-profile__grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); }
 .business-profile__toggle { display:flex; align-items:center; gap:var(--space-2); color:var(--text); font-size:var(--text-size-body); font-weight:var(--text-weight-semibold); }
+.business-profile__policy { display:grid; gap:var(--space-3); margin:0; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); padding:var(--space-3); background:var(--surface-raised); }
+.business-profile__policy legend { padding:0 var(--space-1); color:var(--text); font-weight:var(--text-weight-semibold); }
 .business-profile__toggle input { width:auto; }
 .business-profile__gallery { display:grid; gap:var(--space-3); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-base); }
 .business-profile__gallery h2,.business-profile__gallery p { margin:0; }
@@ -211,8 +219,6 @@ onMounted(() => void load())
 .business-profile__gallery-upload { display:flex; gap:var(--space-2); align-items:end; padding-top:var(--space-2); border-top:1px solid var(--border-subtle); }
 .business-profile__gallery-preview { width:3rem; height:3rem; object-fit:cover; border-radius:var(--radius-control); }
 .business-profile__gallery-list { display:grid; gap:0; overflow:hidden; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); }
-.business-profile__selector { display:flex; align-items:center; gap:var(--space-1); color:var(--text-muted); font-size:var(--text-size-meta); font-weight:var(--text-weight-semibold); }
-.business-profile__selector select { min-width:12rem; width:auto; }
 .business-profile__create-form { display:grid; gap:var(--space-3); }
 .business-profile__utility { display:grid; gap:var(--space-2); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
 .business-profile__utility h2,.business-profile__utility p { margin:0; }

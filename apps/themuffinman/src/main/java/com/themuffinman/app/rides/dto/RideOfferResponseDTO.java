@@ -32,5 +32,6 @@ public class RideOfferResponseDTO {
     private Instant completedAt;
     private Instant cancelledAt;
     private List<String> visibleCircleNames;
+    private List<Long> visibleCircleIds;
     private Instant createdAt;
 }

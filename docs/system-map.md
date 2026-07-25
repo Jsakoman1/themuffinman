@@ -2,7 +2,7 @@
 
 Documentation class: derived_navigation. This file owns cross-system relationships and read order; canonical facts and statuses remain in the linked source registries.
 
-Status: living navigation document. Last reviewed: 2026-07-22.
+Status: living navigation document. Last reviewed: 2026-07-24.
 
 This document is the durable entry point for understanding how TheMuffinMan is organized. It intentionally points to canonical sources instead of copying their detailed rules, capability records, or implementation evidence.
 
@@ -87,6 +87,8 @@ The hardened endpoint evidence index is [`system-map-endpoint-evidence-registry.
 Shared-concept and cross-layer change impact is indexed in [`system-map-change-impact-registry.yaml`](system-map-change-impact-registry.yaml). It is advisory until a work plan records the review disposition.
 
 The current hardening closeout is [`system-map-hardening-closeout-2026-07-22.yaml`](system-map-hardening-closeout-2026-07-22.yaml). It records the mapped denominator and preserves endpoint-review, runtime, native/device, production-operation, and data-lifecycle gaps as separate boundaries.
+
+The primary Web design authority is [`apple-desktop-design-reference.md`](apple-desktop-design-reference.md). Product memory, product vision, active frontend redesign plans, Vision presentation work, and future design-bearing plans must point to this contract; older design ideas remain subordinate unless explicitly reconciled.
 
 ## Product module map
 
@@ -277,6 +279,14 @@ The operational expansion is master-verified in [`docs/work/system-map-operation
 | 30 | `docs/system-map-complete-analysis-round-30-complete-baseline.md` | consolidated baseline and sequenced next work |
 
 Future rounds should extend this register rather than creating competing system-map documents.
+
+| Apple polish preflight | `docs/audit-output/apple-product-polish-system-map-review-2026-07-24.md` | deep-cut review of visual language, state/cache ownership, Calendar locale/range semantics, multi-business context, accessibility, performance, trust, localization, and preserved external boundaries |
+| Apple desktop deep atomization | `docs/audit-output/apple-product-polish-desktop-app-deep-atomization-review-2026-07-24.md` | A-F baseline atomization of native-laptop, shell, context, Calendar, product-surface, quality, portability, and evidence reconciliation |
+| Apple mental model review | `docs/audit-output/apple-product-polish-mental-model-review-2026-07-24.md` | overview/detail behavior, few/many entity navigation, lightweight Settings, grouping/sorting, bounded collections, and browse-to-recovery flow |
+| Apple system behavior review | `docs/audit-output/apple-product-polish-system-behavior-review-2026-07-24.md` | Undo/Redo, drafts, activity, notification urgency, deep links, capabilities, previews, batch actions, collaboration, consent, and platform boundaries |
+| Apple final coverage review | `docs/audit-output/apple-product-polish-final-coverage-review-2026-07-24.md` | A-K module, mental-model, system-behavior, backend/API, evidence, and explicit-boundary reconciliation |
+| Apple leaf execution review | `docs/work/apple-product-polish-leaf-execution-expansion.yaml` | 35-parent contract/authority/primitive/surface/negative/evidence decomposition and non-skipping closeout control |
+| Apple complex-task slicing review | `docs/audit-output/apple-product-polish-complex-task-slicing-review-2026-07-24.md` | concrete leaf slices for Vision, Business, Calendar, native shell/commands, state/cache, progressive disclosure/forms, accessibility/performance, and closeout |
 
 The core product stabilization and Business/Rides hardening pass is recorded in
 [`docs/work/core-product-stabilization-business-rides-master.yaml`](work/core-product-stabilization-business-rides-master.yaml)

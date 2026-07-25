@@ -13,6 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WorkmarketQuestListPresetResolver {
 
+    // Preset resolution is the backend-owned scope boundary; the client cannot mutate membership.
+
     private final WorkmarketQuestVisibilityService questVisibilityService;
     private final WorkmarketQuestAccessPolicyService questAccessPolicyService;
 

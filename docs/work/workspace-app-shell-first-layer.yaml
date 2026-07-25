@@ -7,6 +7,8 @@ baseline: 8e422fe
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/workspace-app-shell-first-layer-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: The app-shell transition must converge on the canonical Apple desktop contract and not create a competing shell language.
 execution_rules:
 - Execute tasks strictly in sequence order; a later task cannot start while an earlier
   task is pending or failed.

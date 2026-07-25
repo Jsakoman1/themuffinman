@@ -1,0 +1,4022 @@
+{
+  "version": "chromium-ui-discovery-v1",
+  "capturedAt": "2026-07-25T08:10:32.536Z",
+  "routes": {
+    "desktop:/home": {
+      "pathname": "/home",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Open work · 6AttentionAvailable work visible to you.",
+          "href": "/work/find?scope=open-visible"
+        },
+        {
+          "text": "My work · 2Work you created and can manage.",
+          "href": "/work/quests?scope=owned-visible"
+        },
+        {
+          "text": "Pending applications · 1Applications waiting on a next step.",
+          "href": "/work/applications?scope=pending"
+        },
+        {
+          "text": "Unread news · 12Signals that may require follow-up.",
+          "href": "/notifications"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/work": {
+      "pathname": "/work",
+      "workScope": "discover",
+      "links": [
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Discover",
+          "href": "/work"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "Applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "Offer work",
+          "href": "/work/offer"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Compact",
+        "Default",
+        "Comfortable",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/work/quests": {
+      "pathname": "/work/quests",
+      "workScope": "mine",
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "Find work",
+          "href": "/work/find"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Discover",
+          "href": "/work"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "Applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "Offer work",
+          "href": "/work/offer"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Compact",
+        "Default",
+        "Comfortable",
+        "Wash my suitcasesOPEN · Anywhere0 € · Jul 7, 5:00 PM",
+        "Repair stale update probeOPEN · Anywhere0 € · Flexible",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/work/applications": {
+      "pathname": "/work/applications",
+      "workScope": "applications",
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "Find work",
+          "href": "/work/find"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Discover",
+          "href": "/work"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "Applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "Open full detail",
+          "href": "/work/applications/269"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Edit",
+        "Withdraw",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/chat": {
+      "pathname": "/chat",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Chat with runtime_chat_recovery_1784717186996Jul 22, 3:55 PM · Unread",
+          "href": "/chat/382"
+        },
+        {
+          "text": "Chat with runtime_chat_1784717099891No messages",
+          "href": "/chat/381"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "New chat",
+        "New group",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/calendar": {
+      "pathname": "/calendar",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Jun 26, 8:00 PMKosenje travequest · OPEN · UTC",
+          "href": "/work/quests/23"
+        },
+        {
+          "text": "Jul 7, 3:00 PMWash my suitcasesquest · OPEN · UTC",
+          "href": "/work/quests/25"
+        },
+        {
+          "text": "Jul 23, 10:00 AMRuntime bookingbusiness · Runtime Idempotency 1784717530273 · UTC",
+          "href": "/business/bookings/104"
+        },
+        {
+          "text": "Jul 23, 7:41 PMZurich HB → Winterthur stationride · OPEN · UTC",
+          "href": "/rides/82"
+        },
+        {
+          "text": "Aug 1, 6:30 AMRuntime crew servicebusiness · Runtime Flexible Services · UTC",
+          "href": "/business/bookings/112"
+        },
+        {
+          "text": "Aug 1, 7:00 AMRuntime crew servicebusiness · Runtime Flexible Services · UTC",
+          "href": "/business/bookings/111"
+        },
+        {
+          "text": "Aug 1, 7:30 AMRuntime crew servicebusiness · Runtime Flexible Services · UTC",
+          "href": "/business/bookings/116"
+        },
+        {
+          "text": "Aug 1, 8:30 AMRuntime crew servicebusiness · Runtime Flexible Services · UTC",
+          "href": "/business/bookings/118"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "‹",
+        "Today",
+        "›",
+        "agenda",
+        "day",
+        "week",
+        "month",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/business": {
+      "pathname": "/business",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "Profile",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Bookings",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Find a business",
+          "href": "/business/find"
+        },
+        {
+          "text": "My bookings",
+          "href": "/business/my-bookings"
+        },
+        {
+          "text": "Active offerings1Offerings currently visible to customers.",
+          "href": "/business/offerings"
+        },
+        {
+          "text": "Pending confirmations0Bookings waiting for owner action.",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Today0Bookings on today's schedule.",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "Upcoming3Near-term business workload.",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "Runtime Flexible ServicesActiveNo headline yet.runtime-flexible-services",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Booking is enabledEurope/ZurichNo contact email1 active offerings",
+          "href": "/business/offerings"
+        },
+        {
+          "text": "Runtime crew serviceCONFIRMEDruntime_customer_20260724 · ConfirmedAug 1, 10:30 AM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Runtime crew serviceCONFIRMEDruntime_customer_20260724 · ConfirmedAug 1, 9:30 AM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Runtime crew serviceCANCELLED_BY_OWNERruntime_customer_20260724 · Cancelled by ownerAug 1, 9:00 AM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Runtime crew serviceCONFIRMEDruntime_customer_20260724 · ConfirmedAug 1, 8:30 AM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Runtime bookingCANCELLED_BY_OWNERruntime_booking_customer_1784717530273 · Cancelled by ownerJul 23, 12:00 PM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/business/profile": {
+      "pathname": "/business/profile",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "Profile",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Bookings",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Overview",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "Bookings",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Services",
+          "href": "/business/offerings"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Switch",
+        "Create business",
+        "Add image",
+        "Upload image",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/business/bookings": {
+      "pathname": "/business/bookings",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "Profile",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Bookings",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Overview",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "Bookings",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Services",
+          "href": "/business/offerings"
+        },
+        {
+          "text": "Open calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Reschedule",
+        "Cancel",
+        "Reschedule",
+        "Cancel",
+        "Reschedule",
+        "Cancel",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/business/calendar": {
+      "pathname": "/business/calendar",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "Profile",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Bookings",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Overview",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "Bookings",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Services",
+          "href": "/business/offerings"
+        },
+        {
+          "text": "Open unified Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "Exceptions",
+          "href": "/business/availability-exceptions"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Confirm",
+        "Complete",
+        "Mark no-show",
+        "Cancel",
+        "Save layout",
+        "Availability layer",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/circles": {
+      "pathname": "/circles",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "Groups",
+          "href": "/circles"
+        },
+        {
+          "text": "People",
+          "href": "/people"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "People",
+          "href": "/circles?tab=people"
+        },
+        {
+          "text": "Groups",
+          "href": "/circles?tab=groups"
+        },
+        {
+          "text": "Requests",
+          "href": "/circles?tab=requests"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "New circle",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/people": {
+      "pathname": "/people",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "Groups",
+          "href": "/circles"
+        },
+        {
+          "text": "People",
+          "href": "/people"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Manage circles",
+          "href": "/circles"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Search",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/things": {
+      "pathname": "/things",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "Discover",
+          "href": "/things"
+        },
+        {
+          "text": "My things",
+          "href": "/things/mine"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Two-person camping tentjsak · Lightweight two-person tent with footprint and compact carry bag for weekend camping trips.Clean and waterproof after the last use.",
+          "href": "/things/232?returnTo=/things"
+        },
+        {
+          "text": "Cordless drill and bit setjsak · 18V cordless drill with charger and a complete wood, metal, and masonry bit set. Available for short home projects.Good working condition; battery holds charge.",
+          "href": "/things/231?returnTo=/things"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Discover",
+        "My things",
+        "Search",
+        "List a thing",
+        "Request",
+        "Request",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/rides": {
+      "pathname": "/rides",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Discover",
+          "href": "/rides"
+        },
+        {
+          "text": "My rides",
+          "href": "/rides/mine"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Offer a ride",
+        "Clear",
+        "Find matching rides",
+        "Save commute preferences",
+        "Retry",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [
+        "Could not load rides.Retry"
+      ],
+      "overflow": false
+    },
+    "desktop:/profile": {
+      "pathname": "/profile",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Notification preferences",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Identity",
+          "href": "#profile-fields"
+        },
+        {
+          "text": "Gallery",
+          "href": "#profile-gallery"
+        },
+        {
+          "text": "Appearance",
+          "href": "#appearance-settings"
+        },
+        {
+          "text": "Location and privacy",
+          "href": "#location-fields"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Use guided profile setup",
+        "✎",
+        "Add photo",
+        "Save appearance",
+        "Reset defaults",
+        "Save workspace defaults",
+        "Use current location",
+        "Reset unsaved changes",
+        "Save profile and location",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/profile/settings": {
+      "pathname": "/profile/settings",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Notification preferences",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Identity",
+          "href": "#profile-fields"
+        },
+        {
+          "text": "Gallery",
+          "href": "#profile-gallery"
+        },
+        {
+          "text": "Appearance",
+          "href": "#appearance-settings"
+        },
+        {
+          "text": "Location and privacy",
+          "href": "#location-fields"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Use guided profile setup",
+        "✎",
+        "Add photo",
+        "Save appearance",
+        "Reset defaults",
+        "Save workspace defaults",
+        "Use current location",
+        "Reset unsaved changes",
+        "Save profile and location",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/notifications": {
+      "pathname": "/notifications",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=661"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=660"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=659"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=657"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Mark all read",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "desktop:/activity": {
+      "pathname": "/activity",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=661"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=660"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=659"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=657"
+        },
+        {
+          "text": "Continue",
+          "href": "/vision?conversationId=656"
+        },
+        {
+          "text": "Open",
+          "href": "/notifications"
+        },
+        {
+          "text": "Open",
+          "href": "/notifications"
+        },
+        {
+          "text": "Open",
+          "href": "/notifications"
+        },
+        {
+          "text": "Open",
+          "href": "/notifications"
+        },
+        {
+          "text": "Open",
+          "href": "/notifications"
+        },
+        {
+          "text": "Open",
+          "href": "/notifications"
+        },
+        {
+          "text": "Open",
+          "href": "/notifications"
+        },
+        {
+          "text": "Open",
+          "href": "/notifications"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Dismiss",
+        "Dismiss",
+        "Dismiss",
+        "Dismiss",
+        "Dismiss",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/home": {
+      "pathname": "/home",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Open work · 6AttentionAvailable work visible to you.",
+          "href": "/work/find?scope=open-visible"
+        },
+        {
+          "text": "My work · 2Work you created and can manage.",
+          "href": "/work/quests?scope=owned-visible"
+        },
+        {
+          "text": "Pending applications · 1Applications waiting on a next step.",
+          "href": "/work/applications?scope=pending"
+        },
+        {
+          "text": "Unread news · 12Signals that may require follow-up.",
+          "href": "/notifications"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/work": {
+      "pathname": "/work/find",
+      "workScope": "discover",
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "Find work",
+          "href": "/work/find"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Find work",
+          "href": "/work/find"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "Offer work",
+          "href": "/work/offer"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Compact",
+        "Default",
+        "Comfortable",
+        "Kosenje traveOPEN · Obsteinenweg 29, Villigen, Switzerland50 € · Jun 26, 10:00 PM",
+        "Photograph a bright two-room apartmentOPEN · Zurich, Switzerland120 € · Flexible",
+        "Repair a leaking kitchen tapOPEN · Zurich, Switzerland80 € · Flexible",
+        "Assemble a flat-pack wardrobeOPEN · Zurich, Switzerland75 € · Flexible",
+        "Move two bookcases upstairsOPEN · Zurich, Switzerland60 € · Flexible",
+        "Mow the lawn before the weekend barbecueOPEN · Zurich, Switzerland45 € · Flexible",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/work/quests": {
+      "pathname": "/work/quests",
+      "workScope": "mine",
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "Find work",
+          "href": "/work/find"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Find work",
+          "href": "/work/find"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "Offer work",
+          "href": "/work/offer"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Compact",
+        "Default",
+        "Comfortable",
+        "Wash my suitcasesOPEN · Anywhere0 € · Jul 7, 5:00 PM",
+        "Repair stale update probeOPEN · Anywhere0 € · Flexible",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/work/applications": {
+      "pathname": "/work/applications",
+      "workScope": "applications",
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "Find work",
+          "href": "/work/find"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Find work",
+          "href": "/work/find"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications"
+        },
+        {
+          "text": "Open full detail",
+          "href": "/work/applications/269"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Edit",
+        "Withdraw",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/chat": {
+      "pathname": "/chat",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Chat with runtime_chat_recovery_1784717186996Jul 22, 3:55 PM · Unread",
+          "href": "/chat/382"
+        },
+        {
+          "text": "Chat with runtime_chat_1784717099891No messages",
+          "href": "/chat/381"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "New chat",
+        "New group",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/calendar": {
+      "pathname": "/calendar",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Jun 26, 8:00 PMKosenje travequest · OPEN · UTC",
+          "href": "/work/quests/23"
+        },
+        {
+          "text": "Jul 7, 3:00 PMWash my suitcasesquest · OPEN · UTC",
+          "href": "/work/quests/25"
+        },
+        {
+          "text": "Jul 23, 10:00 AMRuntime bookingbusiness · Runtime Idempotency 1784717530273 · UTC",
+          "href": "/business/bookings/104"
+        },
+        {
+          "text": "Jul 23, 7:41 PMZurich HB → Winterthur stationride · OPEN · UTC",
+          "href": "/rides/82"
+        },
+        {
+          "text": "Aug 1, 6:30 AMRuntime crew servicebusiness · Runtime Flexible Services · UTC",
+          "href": "/business/bookings/112"
+        },
+        {
+          "text": "Aug 1, 7:00 AMRuntime crew servicebusiness · Runtime Flexible Services · UTC",
+          "href": "/business/bookings/111"
+        },
+        {
+          "text": "Aug 1, 7:30 AMRuntime crew servicebusiness · Runtime Flexible Services · UTC",
+          "href": "/business/bookings/116"
+        },
+        {
+          "text": "Aug 1, 8:30 AMRuntime crew servicebusiness · Runtime Flexible Services · UTC",
+          "href": "/business/bookings/118"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "‹",
+        "Today",
+        "›",
+        "agenda",
+        "day",
+        "week",
+        "month",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/business": {
+      "pathname": "/business",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "Profile",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Bookings",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Calendar",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Find a business",
+          "href": "/business/find"
+        },
+        {
+          "text": "My bookings",
+          "href": "/business/my-bookings"
+        },
+        {
+          "text": "Active offerings1Offerings currently visible to customers.",
+          "href": "/business/offerings"
+        },
+        {
+          "text": "Pending confirmations0Bookings waiting for owner action.",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Today0Bookings on today's schedule.",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "Upcoming3Near-term business workload.",
+          "href": "/business/calendar"
+        },
+        {
+          "text": "Runtime Flexible ServicesActiveNo headline yet.runtime-flexible-services",
+          "href": "/business/profile"
+        },
+        {
+          "text": "Booking is enabledEurope/ZurichNo contact email1 active offerings",
+          "href": "/business/offerings"
+        },
+        {
+          "text": "Runtime crew serviceCONFIRMEDruntime_customer_20260724 · ConfirmedAug 1, 10:30 AM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Runtime crew serviceCONFIRMEDruntime_customer_20260724 · ConfirmedAug 1, 9:30 AM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Runtime crew serviceCANCELLED_BY_OWNERruntime_customer_20260724 · Cancelled by ownerAug 1, 9:00 AM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Runtime crew serviceCONFIRMEDruntime_customer_20260724 · ConfirmedAug 1, 8:30 AM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "Runtime bookingCANCELLED_BY_OWNERruntime_booking_customer_1784717530273 · Cancelled by ownerJul 23, 12:00 PM",
+          "href": "/business/bookings"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/circles": {
+      "pathname": "/circles",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "Groups",
+          "href": "/circles"
+        },
+        {
+          "text": "People",
+          "href": "/people"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "People",
+          "href": "/circles?tab=people"
+        },
+        {
+          "text": "Groups",
+          "href": "/circles?tab=groups"
+        },
+        {
+          "text": "Requests",
+          "href": "/circles?tab=requests"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "New circle",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/things": {
+      "pathname": "/things",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "Discover",
+          "href": "/things"
+        },
+        {
+          "text": "My things",
+          "href": "/things/mine"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Two-person camping tentjsak · Lightweight two-person tent with footprint and compact carry bag for weekend camping trips.Clean and waterproof after the last use.",
+          "href": "/things/232?returnTo=/things"
+        },
+        {
+          "text": "Cordless drill and bit setjsak · 18V cordless drill with charger and a complete wood, metal, and masonry bit set. Available for short home projects.Good working condition; battery holds charge.",
+          "href": "/things/231?returnTo=/things"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Discover",
+        "My things",
+        "Search",
+        "List a thing",
+        "Request",
+        "Request",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/rides": {
+      "pathname": "/rides",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Discover",
+          "href": "/rides"
+        },
+        {
+          "text": "My rides",
+          "href": "/rides/mine"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Offer a ride",
+        "Clear",
+        "Find matching rides",
+        "Save commute preferences",
+        "Retry",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [
+        "Could not load rides.Retry"
+      ],
+      "overflow": false
+    },
+    "mobile:/profile": {
+      "pathname": "/profile",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Edit profile and privacy",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    },
+    "mobile:/profile/settings": {
+      "pathname": "/profile/settings",
+      "workScope": null,
+      "links": [
+        {
+          "text": "⌂Home",
+          "href": "/home"
+        },
+        {
+          "text": "▤Work",
+          "href": "/work"
+        },
+        {
+          "text": "◌Chat",
+          "href": "/chat"
+        },
+        {
+          "text": "□Calendar",
+          "href": "/calendar"
+        },
+        {
+          "text": "◇Business",
+          "href": "/business"
+        },
+        {
+          "text": "◎Circles",
+          "href": "/circles"
+        },
+        {
+          "text": "▣Things",
+          "href": "/things"
+        },
+        {
+          "text": "↗Rides",
+          "href": "/rides"
+        },
+        {
+          "text": "Attention12",
+          "href": "/notifications"
+        },
+        {
+          "text": "◷Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "⌕Saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Manage saved searches",
+          "href": "/search/saved"
+        },
+        {
+          "text": "My profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Profile settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "Setup guide",
+          "href": "/onboarding"
+        },
+        {
+          "text": "Activity",
+          "href": "/activity"
+        },
+        {
+          "text": "Notification settings",
+          "href": "/profile/settings/notifications"
+        },
+        {
+          "text": "Profile",
+          "href": "/profile"
+        },
+        {
+          "text": "Settings",
+          "href": "/profile/settings"
+        },
+        {
+          "text": "homeHome",
+          "href": "/home"
+        },
+        {
+          "text": "workWork",
+          "href": "/work"
+        },
+        {
+          "text": "chatChat",
+          "href": "/chat"
+        }
+      ],
+      "buttons": [
+        "‹",
+        "Search",
+        "Log out",
+        "Mic",
+        "Ask",
+        "Menu"
+      ],
+      "alerts": [],
+      "overflow": false
+    }
+  },
+  "workScopes": [
+    {
+      "target": "/work",
+      "scope": "discover",
+      "tabs": [
+        {
+          "text": "Find work",
+          "href": "/work/find",
+          "current": "page"
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests",
+          "current": null
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications",
+          "current": null
+        }
+      ]
+    },
+    {
+      "target": "/work/quests",
+      "scope": "mine",
+      "tabs": [
+        {
+          "text": "Find work",
+          "href": "/work/find",
+          "current": null
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests",
+          "current": "page"
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications",
+          "current": null
+        }
+      ]
+    },
+    {
+      "target": "/work/applications",
+      "scope": "applications",
+      "tabs": [
+        {
+          "text": "Find work",
+          "href": "/work/find",
+          "current": null
+        },
+        {
+          "text": "My work",
+          "href": "/work/quests",
+          "current": null
+        },
+        {
+          "text": "My applications",
+          "href": "/work/applications",
+          "current": "page"
+        }
+      ]
+    }
+  ],
+  "browserErrors": [
+    "Cannot read properties of null (reading 'replace')",
+    "Cannot read properties of null (reading 'replace')",
+    "Cannot read properties of null (reading 'replace')"
+  ],
+  "result": "failed",
+  "findings": [
+    {
+      "id": "AUDIT-WORK-TAB",
+      "route": "/work",
+      "control": "selected Work tab",
+      "expected": "/work",
+      "observed": "[{\"text\":\"Find work\",\"href\":\"/work/find\",\"current\":\"page\"}]",
+      "severity": "major",
+      "status": "open"
+    },
+    {
+      "id": "AUDIT-ROUTE",
+      "route": "/work",
+      "control": "route load",
+      "expected": "/work",
+      "observed": "/work/find",
+      "severity": "major",
+      "status": "open"
+    }
+  ]
+}

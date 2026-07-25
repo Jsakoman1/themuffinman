@@ -1,0 +1,94 @@
+kind: work
+version: 1
+id: chromium-ui-audit-runtime-closeout
+title: Chromium audit closeout with zero open findings
+status: verified
+master_plan: docs/work/chromium-ui-audit-master.yaml
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/chromium-ui-audit-execution-inventory.yaml
+tasks:
+- id: close-chromium-ui-audit
+  title: Re-run all routes and prove the temporary audit is closed
+  type: runtime
+  status: done
+  inventory_item: close-chromium-ui-audit
+  observable_outcome: The same Chromium route/control matrix passes in desktop and
+    mobile modes, the temporary audit has zero open findings, and fresh evidence records
+    route integrity, no browser errors, no overflow, and intended Work scope behavior.
+  dependencies:
+  - repair-apple-polish-findings
+  paths:
+  - docs/tmp/chromium-ui-audit-2026-07-25.md
+  - docs/runtime-evidence
+  - docs/product-memory.md
+  - docs/product-vision.md
+  - docs/domain-technical.md
+  required_paths:
+  - docs/tmp/chromium-ui-audit-2026-07-25.md
+  - docs/runtime-evidence/chromium-ui-audit-closeout.json
+  - docs/runtime-evidence/chromium-ui-audit-closeout-desktop.png
+  - docs/runtime-evidence/chromium-ui-audit-closeout-mobile.png
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/chromium-ui-audit-closeout-desktop.png
+  - docs/runtime-evidence/chromium-ui-audit-closeout-mobile.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/chromium-ui-audit-closeout.json
+  evidence_boundary: Fresh Chromium closeout only; the goal remains open if any audit
+    finding is open or any tested route/control is unreviewed.
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  evidence: []
+  started_at: '2026-07-25T08:25:18Z'
+  start_fingerprints:
+    docs/tmp/chromium-ui-audit-2026-07-25.md: f026f902d98aae21dd46dd3559d5a3f401c49544d4ff0dca9aa395464c56cc60
+    docs/runtime-evidence/chromium-ui-audit-closeout.json: __missing__
+    docs/runtime-evidence/chromium-ui-audit-closeout-desktop.png: __missing__
+    docs/runtime-evidence/chromium-ui-audit-closeout-mobile.png: __missing__
+evidence:
+- task: close-chromium-ui-audit
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-25T08:29:40Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/product-vision.md
+  - docs/tmp/chromium-ui-audit-2026-07-25.md
+  output: |+
+    dist/assets/WorkQuestDetailView-NS8pnMEW.js                   12.48 kB │ gzip:   3.92 kB
+    dist/assets/ThingsDiscoveryView-R_STaiWe.js                   12.82 kB │ gzip:   4.11 kB
+    dist/assets/CirclesView-CWtiTbkh.js                           13.78 kB │ gzip:   4.38 kB
+    dist/assets/BusinessServiceSchemaView-D8-OL90C.js             14.05 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-SlssI89R.js                              14.32 kB │ gzip:   5.28 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-DWMCWK0T.js                             14.43 kB │ gzip:   4.59 kB
+    dist/assets/BusinessPublicView-Wf4MrLYi.js                    16.56 kB │ gzip:   6.01 kB
+    dist/assets/SurfaceHeader-Bm82i56A.js                         17.63 kB │ gzip:   5.29 kB
+    dist/assets/ChatSurfaceView-DH_HLMqW.js                       18.56 kB │ gzip:   5.99 kB
+    dist/assets/vue-core-CYlBD2Qq.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/ProfilePage-COgTi22P.js                           27.08 kB │ gzip:   8.32 kB
+    dist/assets/AuthenticatedShellView-BFZ6-YU9.js                41.05 kB │ gzip:  13.51 kB
+    dist/assets/BusinessOwnerPage-DQ7gKTfg.js                     43.49 kB │ gzip:  11.24 kB
+    dist/assets/index-_aY02ZcS.js                                 47.58 kB │ gzip:  12.55 kB
+    dist/assets/vendor-i7kPZdbF.js                                54.12 kB │ gzip:  21.15 kB
+    dist/assets/editor-C0mrFSSw.js                               467.53 kB │ gzip: 151.02 kB
+
+    ✓ built in 587ms
+
+  startedAt: '2026-07-25T08:25:18Z'
+  changedAfterStart: &1
+  - docs/tmp/chromium-ui-audit-2026-07-25.md
+  - docs/runtime-evidence/chromium-ui-audit-closeout.json
+  - docs/runtime-evidence/chromium-ui-audit-closeout-desktop.png
+  - docs/runtime-evidence/chromium-ui-audit-closeout-mobile.png
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/chromium-ui-audit-closeout-desktop.png
+  - docs/runtime-evidence/chromium-ui-audit-closeout-mobile.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/chromium-ui-audit-closeout.json

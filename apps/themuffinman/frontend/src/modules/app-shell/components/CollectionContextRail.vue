@@ -3,10 +3,10 @@ defineProps<{title: string; subtitle?: string; openLabel?: string}>()
 </script>
 
 <template>
-  <aside class="collection-context-rail" :aria-label="title">
+  <aside class="collection-context-rail" data-split-view-model="collapsible-rail-mobile-sheet" :aria-label="title">
     <header><p v-if="subtitle">{{ subtitle }}</p><h2>{{ title }}</h2></header>
     <details class="collection-context-rail__content" open>
-      <summary>{{ openLabel ?? `Show ${title}` }}</summary>
+      <summary>{{ openLabel ?? `Open ${title}` }}</summary>
       <div><slot /></div>
     </details>
   </aside>

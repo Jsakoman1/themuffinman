@@ -37,10 +37,11 @@ class CalendarReadServiceTest {
         when(businessBookingRepository.findDetailedByCustomerIdAndOverlap(7L, from, to)).thenReturn(List.of());
         when(businessBookingRepository.findDetailedByOwnerIdAndOverlap(7L, from, to)).thenReturn(List.of());
 
-        var result = calendarReadService.getCalendar(viewer, from, to, List.of("business"), null);
+        var result = calendarReadService.getCalendar(viewer, from, to, List.of("business"), null, "day");
 
         assertEquals(List.of(), result.getEvents());
         assertEquals(List.of("business", "quest", "ride"), result.getAvailableSources());
+        assertEquals("DAY", result.getView());
         verify(questRepository, never()).findForQuestList();
         verify(rideOfferRepository, never()).findVisibleActiveOffers(7L);
     }
@@ -51,6 +52,13 @@ class CalendarReadServiceTest {
         viewer.setId(7L);
 
         assertThrows(RuntimeException.class, () -> calendarReadService.getCalendar(
-                viewer, Instant.now(), Instant.now().plusSeconds(3600), List.of("unknown"), null));
+            viewer, Instant.now(), Instant.now().plusSeconds(3600), List.of("unknown"), null, "day"));
+    }
+
+    @Test
+    void rejectsUnknownView() {
+        AppUser viewer = new AppUser();
+        viewer.setId(7L);
+        assertThrows(RuntimeException.class, () -> calendarReadService.getCalendar(viewer, Instant.now(), Instant.now().plusSeconds(3600), List.of("business"), null, "year"));
     }
 }

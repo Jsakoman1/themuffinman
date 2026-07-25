@@ -62,6 +62,7 @@ public class RideOfferMgr {
                 .completedAt(offer.getCompletedAt())
                 .cancelledAt(offer.getCancelledAt())
                 .visibleCircleNames(offer.getVisibleCircles().stream().map(CircleGroup::getName).sorted().toList())
+                .visibleCircleIds(offer.getVisibleCircles().stream().map(CircleGroup::getId).sorted().toList())
                 .createdAt(offer.getCreatedAt())
                 .build();
     }

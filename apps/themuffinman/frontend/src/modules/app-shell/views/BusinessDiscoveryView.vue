@@ -11,6 +11,8 @@ import {handleCollectionKeyboard, useSurfaceViewState} from "../composables/useS
 import {currentUser} from "../../identity/auth.ts"
 import ModuleTabs from "../components/ModuleTabs.vue"
 import {getModuleTabs} from "../moduleTabRegistry.ts"
+import SurfaceHeader from "../components/SurfaceHeader.vue"
+import {getAppSurfaceConfig} from "../shellDefinitions.ts"
 
 const route = useRoute()
 const router = useRouter()
@@ -18,6 +20,8 @@ const rawItems = ref<BusinessProfileResponseDTO[]>([])
 const intentFilter = ref<"ALL" | "BOOK_NOW" | "AVAILABLE_TODAY" | "NEAR_ME" | "OPEN_NOW" | "RECURRING" | "MULTI_CUSTOMER" | "STAFF_RESOURCES">("ALL")
 const matchesIntent = (business: BusinessProfileResponseDTO) => intentFilter.value === "ALL" || (intentFilter.value === "BOOK_NOW" && business.bookingEnabled) || (intentFilter.value === "NEAR_ME" && Boolean(business.publicAddressLabel)) || ["AVAILABLE_TODAY", "OPEN_NOW", "RECURRING", "MULTI_CUSTOMER", "STAFF_RESOURCES"].includes(intentFilter.value)
 const items = computed(() => rawItems.value.filter(matchesIntent))
+const isFavoritesView = computed(() => route.path === "/business/favorites")
+const visibleItems = computed(() => isFavoritesView.value ? items.value.filter((business) => favoriteIds.value.has(business.id)) : items.value)
 const operationalSummary = (business: BusinessProfileResponseDTO) => {
   const availability = business.active ? (business.bookingEnabled ? "Open for booking" : "Profile available") : "Unavailable"
   const location = business.publicAddressLabel ? `Area: ${business.publicAddressLabel}` : "Area not published"
@@ -27,9 +31,10 @@ const query = ref(typeof route.query.q === "string" ? route.query.q : "")
 const isLoading = ref(true)
 const error = ref("")
 const {state: viewState} = useSurfaceViewState("business-discovery", computed(() => currentUser.value?.id), computed(() => route.fullPath))
-const selectedBusiness = computed(() => items.value.find(item => item.id === viewState.value.selectedId) ?? null)
-const businessTabs = computed(() => getModuleTabs("business")?.tabs ?? [])
+const selectedBusiness = computed(() => visibleItems.value.find(item => item.id === viewState.value.selectedId) ?? null)
+const businessTabs = computed(() => getModuleTabs("services")?.tabs ?? [])
 const favoriteIds = ref<Set<number>>(new Set())
+const surface = getAppSurfaceConfig("business-discovery")
 
 const load = async () => {
   isLoading.value = true
@@ -37,7 +42,7 @@ const load = async () => {
   try {
     rawItems.value = (await userShellApi.getBusinessDirectory(query.value.trim())).items
     favoriteIds.value = new Set((await userShellApi.getBusinessFavorites()).map(item => item.businessProfileId))
-    if (!items.value.some(item => item.id === viewState.value.selectedId)) viewState.value.selectedId = null
+    if (!visibleItems.value.some(item => item.id === viewState.value.selectedId)) viewState.value.selectedId = null
   } catch {
     error.value = "Could not load businesses."
   } finally {
@@ -58,7 +63,7 @@ watch(() => route.query.q, (value) => {
   void load()
 })
 
-const handleKeyboard = (event: KeyboardEvent) => handleCollectionKeyboard(event, items.value.map(item => item.id), viewState.value, {
+const handleKeyboard = (event: KeyboardEvent) => handleCollectionKeyboard(event, visibleItems.value.map(item => item.id), viewState.value, {
   open: (id) => { viewState.value.selectedId = id },
   clear: () => { viewState.value.selectedId = null; viewState.value.previewId = null }
 })
@@ -67,13 +72,11 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
 </script>
 
 <template>
-  <section class="business-discovery">
-    <ModuleTabs :tabs="businessTabs" active-id="discover" />
-    <header class="business-discovery__header">
-      <div><p class="business-discovery__eyebrow">Business / Discover</p><h1>Find a business</h1></div>
-    </header>
+  <section class="business-discovery" data-preview-model="shared-adjacent-preview" data-business-page-model="discover-preview-book">
+    <ModuleTabs :tabs="businessTabs" active-id="find" />
+    <SurfaceHeader :config="surface" :title="isFavoritesView ? 'Favorite businesses' : 'Find a service'" :description="isFavoritesView ? 'Your saved businesses, ready to revisit.' : 'Discover businesses and services by name, area, availability, or intent.'" />
 
-    <CollectionToolbar title="Public businesses" :count="items.length" :busy="isLoading" filter-summary="Search and refine">
+    <CollectionToolbar :title="isFavoritesView ? 'Favorite businesses' : 'Public businesses'" :count="visibleItems.length" :busy="isLoading" filter-summary="Search and refine">
       <template #filters>
         <AppSearchField v-model="query" label="Search businesses" placeholder="Search businesses" :busy="isLoading" @submit="submitSearch" />
         <label class="business-discovery__intent"><span>Intent</span><select v-model="intentFilter" aria-label="Business discovery intent"><option value="ALL">All businesses</option><option value="BOOK_NOW">Book now</option><option value="AVAILABLE_TODAY">Available today</option><option value="NEAR_ME">Near me</option><option value="OPEN_NOW">Open now</option><option value="RECURRING">Recurring service</option><option value="MULTI_CUSTOMER">Multiple customers</option><option value="STAFF_RESOURCES">Employees/resources</option></select></label>
@@ -83,10 +86,10 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
 
     <AppStatus v-if="error" :message="error" tone="error" retry @retry="load" />
     <AppStatus v-else-if="isLoading" message="Loading businesses." />
-    <AppStatus v-else-if="items.length === 0" message="No public businesses match this search." />
+    <AppStatus v-else-if="visibleItems.length === 0" :message="isFavoritesView ? 'You have no favorite businesses yet.' : 'No public businesses match this search.'" />
     <div v-else class="business-discovery__workspace">
       <div class="business-discovery__list" aria-label="Business results"><SurfaceRow
-        v-for="business in items"
+        v-for="business in visibleItems"
         :key="business.id"
         :selected="viewState.selectedId === business.id"
         :row="{id: String(business.id), title: business.businessName, description: business.headline || business.description || 'Public business profile', badge: favoriteIds.has(business.id) ? 'Saved' : business.bookingEnabled ? 'Bookings available' : 'Profile only', meta: operationalSummary(business)}"

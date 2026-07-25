@@ -5,7 +5,7 @@ const emit = defineEmits<{retry: []}>()
 </script>
 
 <template>
-  <p class="app-status" :class="`app-status--${tone}`" data-recovery-model="retryable" data-conflict-model="explicit-owner" :data-state="tone" :data-busy="busy || undefined" :role="tone === 'error' ? 'alert' : 'status'" :aria-busy="busy || undefined" :aria-live="tone === 'error' ? 'assertive' : 'polite'" aria-atomic="true">
+  <p class="app-status" :class="`app-status--${tone}`" data-control-grammar="status-retryable" data-recovery-model="retryable" data-conflict-model="explicit-owner" data-trust-cue="state-and-recovery" data-feedback-model="live-reversible" data-announcement-model="polite-unless-error" :data-state="tone" :data-busy="busy || undefined" :role="tone === 'error' ? 'alert' : 'status'" :aria-busy="busy || undefined" :aria-live="tone === 'error' ? 'assertive' : 'polite'" aria-atomic="true">
     <span class="app-status__indicator" :class="{'app-status__indicator--busy': busy}" aria-hidden="true" />
     <span class="app-status__message">{{ message }}</span>
     <button v-if="retry" type="button" :disabled="busy" :aria-disabled="busy ? 'true' : undefined" :aria-label="busy ? 'Retrying' : 'Retry'" @click="emit('retry')">{{ busy ? 'Retrying…' : 'Retry' }}</button>

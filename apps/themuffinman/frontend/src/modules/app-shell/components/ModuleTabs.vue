@@ -9,7 +9,7 @@ const activeTabId = computed(() => props.activeId || props.tabs.find((tab) => ro
 </script>
 
 <template>
-  <nav class="module-tabs" aria-label="Module sections">
+  <nav class="module-tabs" aria-label="Module sections" data-navigation-model="standard-tabs" data-accessibility-model="named-current-tab">
     <RouterLink v-for="tab in tabs" :key="tab.id" class="module-tabs__tab ui-focusable" :class="{ 'module-tabs__tab--active': activeTabId === tab.id }" :to="tab.route" :aria-current="activeTabId === tab.id ? 'page' : undefined">
       {{ tab.label }}
     </RouterLink>

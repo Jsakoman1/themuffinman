@@ -1,3 +1,4 @@
 package com.themuffinman.app.activity.controller;
+// The command endpoint is the single backend-prepared source for Cmd/Ctrl+K navigation.
 import com.themuffinman.app.activity.dto.WorkspaceCommandCatalogResponseDTO; import com.themuffinman.app.activity.service.WorkspaceCommandCatalogService; import com.themuffinman.app.identity.model.AppUser; import lombok.RequiredArgsConstructor; import org.springframework.security.core.annotation.AuthenticationPrincipal; import org.springframework.web.bind.annotation.*;
 @RestController @RequiredArgsConstructor @RequestMapping("/workspace/commands") public class WorkspaceCommandController { private final WorkspaceCommandCatalogService service; @GetMapping public WorkspaceCommandCatalogResponseDTO getCatalog(@AuthenticationPrincipal AppUser user){return service.getCatalog(user);} }

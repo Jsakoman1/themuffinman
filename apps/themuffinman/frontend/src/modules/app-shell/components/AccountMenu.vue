@@ -3,6 +3,8 @@ import {RouterLink} from "vue-router"
 import {currentUser, logoutUser} from "../../identity/auth.ts"
 import {authApi} from "../../identity/api/authApi.ts"
 
+withDefaults(defineProps<{placement?: "popover" | "rail"}>(), {placement: "popover"})
+
 const handleLogout = async () => {
   try {
     await authApi.logout()
@@ -14,7 +16,7 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <details class="account-menu">
+  <details class="account-menu" :class="`account-menu--${placement}`">
     <summary class="account-menu__summary" aria-label="Open account menu">
       <img v-if="currentUser?.profileAvatarDataUrl" :src="currentUser.profileAvatarDataUrl" alt="" class="account-menu__avatar">
       <span v-else class="account-menu__avatar account-menu__avatar--fallback">{{ (currentUser?.username?.[0] ?? "A").toUpperCase() }}</span>
@@ -33,7 +35,7 @@ const handleLogout = async () => {
 </template>
 
 <style scoped>
-.account-menu { position: relative; }
+.account-menu { position: relative; }.account-menu--rail{display:grid;gap:var(--space-1)}
 .account-menu__summary { display: flex; align-items: center; gap: var(--space-2); min-height: var(--control-height-default); padding: var(--space-1) var(--space-2); border: 1px solid var(--control-border); border-radius: var(--radius-control); background: var(--control-bg); color: var(--control-ink-muted); cursor: pointer; list-style: none; }
 .account-menu__summary:hover, .account-menu[open] .account-menu__summary { border-color: var(--control-border-active); background: var(--control-bg-hover); color: var(--control-ink); }
 .account-menu__summary:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
@@ -42,6 +44,7 @@ const handleLogout = async () => {
 .account-menu__avatar--fallback { display: grid; place-items: center; background: var(--surface-strong); color: var(--text); font-size: var(--text-size-meta); font-weight: var(--text-weight-semibold); }
 .account-menu__username { max-width: 10rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--text-size-meta); }
 .account-menu__panel { position: absolute; right: 0; top: calc(100% + var(--space-2)); z-index: var(--z-popover); display: grid; gap: var(--space-1); min-width: 13rem; padding: var(--space-1); border: 1px solid var(--border-strong); border-radius: var(--radius-surface); background: var(--surface-raised); box-shadow: var(--shadow-overlay); }
+.account-menu--rail .account-menu__panel{position:static;min-width:0;box-shadow:none;background:var(--surface-base)}.account-menu--rail .account-menu__summary{width:100%;justify-content:flex-start;border-color:var(--border-subtle);background:transparent}.account-menu--rail .account-menu__username{max-width:14rem}
 .account-menu__panel a, .account-menu__panel button { min-height: var(--control-height-default); padding: var(--space-1) var(--space-2); border: 0; border-radius: var(--radius-control); background: transparent; color: var(--text); text-align: left; font: inherit; font-size: var(--text-size-meta); cursor: pointer; }
 .account-menu__panel a:hover, .account-menu__panel a:focus-visible, .account-menu__panel button:hover, .account-menu__panel button:focus-visible { background: var(--surface-hover); }
 .account-menu__panel a:focus-visible, .account-menu__panel button:focus-visible { outline: var(--focus-ring); outline-offset: -2px; }

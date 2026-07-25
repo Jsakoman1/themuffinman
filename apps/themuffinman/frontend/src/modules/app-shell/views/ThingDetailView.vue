@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
+import {computed, onMounted, ref, watch} from "vue"
 import {useRoute} from "vue-router"
 import {formatDate} from "../../../services/formatters.ts"
 import type {ThingListingResponseDTO} from "../../../contracts/index.ts"
@@ -21,13 +21,13 @@ const error = ref("")
 const feedback = ref("")
 const wishlistItem = ref<ThingWishlistItem | null>(null)
 const sharedCircleIds = ref("")
-const listingId = Number(route.params.listingId)
+const listingId = computed(() => Number(route.params.listingId))
 
 const load = async () => {
   isLoading.value = true
   error.value = ""
   try {
-    listing.value = await userShellApi.getThingListing(listingId)
+    listing.value = await userShellApi.getThingListing(listingId.value)
   } catch {
     error.value = "Could not load this thing."
   } finally {
@@ -50,19 +50,20 @@ const requestBorrow = async () => {
     isSaving.value = false
   }
 }
-const loadWishlist = async () => { wishlistItem.value = (await thingsApi.getWishlist()).find(item => item.listingId === listingId) ?? null; sharedCircleIds.value = wishlistItem.value?.sharedCircleIds.join(", ") ?? "" }
+const loadWishlist = async () => { wishlistItem.value = (await thingsApi.getWishlist()).find(item => item.listingId === listingId.value) ?? null; sharedCircleIds.value = wishlistItem.value?.sharedCircleIds.join(", ") ?? "" }
 const toggleWishlist = async () => {
   if (!listing.value) return
-  if (wishlistItem.value) { await thingsApi.removeWishlist(listingId); wishlistItem.value = null; sharedCircleIds.value = ""; feedback.value = "Removed from wishlist."; return }
-  const item = {listingId, title: listing.value.title, sharedCircleIds: sharedCircleIds.value.split(",").map(value => Number(value.trim())).filter(Number.isInteger), savedAt: new Date().toISOString()}
+  if (wishlistItem.value) { await thingsApi.removeWishlist(listingId.value); wishlistItem.value = null; sharedCircleIds.value = ""; feedback.value = "Removed from wishlist."; return }
+  const item = {listingId: listingId.value, title: listing.value.title, sharedCircleIds: sharedCircleIds.value.split(",").map(value => Number(value.trim())).filter(Number.isInteger), savedAt: new Date().toISOString()}
   wishlistItem.value = await thingsApi.saveWishlist(item); feedback.value = "Saved to wishlist and shared with the selected circles."
 }
 
+watch(listingId, () => { message.value = ""; feedback.value = ""; void load(); void loadWishlist() })
 onMounted(() => { void load(); void loadWishlist() })
 </script>
 
 <template>
-  <section class="thing-detail">
+  <section class="thing-detail" data-form-model="need-first-request" data-typography-model="shared-content-hierarchy">
     <AppStatus v-if="isLoading" message="Loading thing." busy />
     <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" />
     <article v-else-if="listing" class="detail-card" aria-label="Thing narrative and permitted borrowing action">

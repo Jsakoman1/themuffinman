@@ -12,6 +12,12 @@ The compact companion set for daily work is:
 - `docs/vision-status-ledger.md`
 - `docs/vision-presentation-contract.yaml`
 
+For Web presentation and interaction design, use the primary Apple desktop
+reference contract in `docs/apple-desktop-design-reference.md`. Vision-specific
+architecture remains governed by this document and the backend Vision contracts;
+the Apple reference governs the shell placement, composer states, response bubble,
+confirmation, recovery, keyboard behavior, and progressive disclosure language.
+
 ## Product Target
 
 The Vision console is the long-term primary assistant direction for TheMuffinMan and
@@ -536,3 +542,4 @@ Executor changes:
 - No hidden execution without review and confirmation.
 - No broad legacy frontend rewrite before the vision orchestration path is stable.
 - No static long form as the default `/vision` interaction.
+Vision composer checkpoint: 2026-07-24. Vision is one persistent, quiet, context-aware composer with explicit listening/thinking/result/recovery states and confirmation boundaries; it is not repeated as page-level action clutter.

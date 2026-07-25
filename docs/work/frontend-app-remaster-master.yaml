@@ -9,6 +9,8 @@ baseline: dcb983f
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/frontend-app-remaster-master-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: The Apple desktop reference contract is the primary Web design authority; this remaster must reuse its shell, command, search, preview, settings, editor, and recovery language.
 planning_source: docs/work/frontend-app-remaster-draft.yaml
 plan_review: docs/work/frontend-app-remaster-system-map-audit-2026-07-23.md
 implementation_deep_dive: docs/work/frontend-app-remaster-plan-deep-dive-2026-07-23.md

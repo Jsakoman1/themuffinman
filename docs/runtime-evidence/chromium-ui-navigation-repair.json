@@ -1,0 +1,96 @@
+{
+  "version": "chromium-ui-navigation-repair-v1",
+  "capturedAt": "2026-07-25T08:16:22.316Z",
+  "checks": [
+    {
+      "kind": "click",
+      "expected": {
+        "label": "Find work",
+        "scope": "discover",
+        "path": "/work/find"
+      },
+      "observed": {
+        "label": "Find work",
+        "exists": true,
+        "path": "/work/find",
+        "scope": "discover",
+        "current": "Find work"
+      },
+      "passed": true
+    },
+    {
+      "kind": "click",
+      "expected": {
+        "label": "My work",
+        "scope": "mine",
+        "path": "/work/quests"
+      },
+      "observed": {
+        "label": "My work",
+        "exists": true,
+        "path": "/work/quests",
+        "scope": "mine",
+        "current": "My work"
+      },
+      "passed": true
+    },
+    {
+      "kind": "click",
+      "expected": {
+        "label": "My applications",
+        "scope": "applications",
+        "path": "/work/applications"
+      },
+      "observed": {
+        "label": "My applications",
+        "exists": true,
+        "path": "/work/applications",
+        "scope": "applications",
+        "current": "My applications"
+      },
+      "passed": true
+    },
+    {
+      "kind": "refresh",
+      "expected": {
+        "label": "Find work",
+        "scope": "discover",
+        "path": "/work/find"
+      },
+      "observed": {
+        "path": "/work/find",
+        "scope": "discover"
+      },
+      "passed": true
+    },
+    {
+      "kind": "back",
+      "expected": {
+        "label": "Find work",
+        "scope": "discover",
+        "path": "/work/find"
+      },
+      "observed": {
+        "path": "/work/find",
+        "scope": "discover"
+      },
+      "passed": true
+    },
+    {
+      "kind": "canonical-entry",
+      "expected": {
+        "label": "Find work",
+        "scope": "discover",
+        "path": "/work/find"
+      },
+      "observed": {
+        "path": "/work/find",
+        "scope": "discover"
+      },
+      "passed": true
+    }
+  ],
+  "browserErrors": [],
+  "result": "passed",
+  "mobileNoOverflow": true
+}

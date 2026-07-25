@@ -1,0 +1,415 @@
+kind: work
+version: 1
+id: apple-product-polish-13-native-laptop-shell
+title: Make the Web workspace behave like a native Apple laptop application
+status: verified
+master_plan: docs/work/apple-product-polish-master.yaml
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+goal_pursuit_preflight_reviewed_at: 2026-07-24
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/apple-product-polish-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: All tasks in this plan implement the canonical Apple desktop
+  reference contract; any deviation must be explicit, domain-justified, and evidenced.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-structural-redesign-master.yaml
+  baseline_only_surfaces:
+  - verified authenticated shell
+  - route registry
+  - context switcher
+  - preview primitive
+  - and backend command catalog
+  residual_scope:
+  - native-laptop application frame
+  - split/resizable panes
+  - keyboard command model
+  - app-like transitions
+  - standalone boundary
+  - and desktop interaction states
+  retest_triggers:
+  - shell frame
+  - sidebar width
+  - split view
+  - command catalog
+  - router transition
+  - PWA manifest
+  - drag/drop action
+  - keyboard shortcut
+  - or desktop breakpoint change
+  non_duplication_rule: Existing shell/route evidence is baseline; this child proves
+    desktop-native behavior newly introduced here.
+tasks:
+- id: establish-native-laptop-app-frame
+  title: Establish stable desktop app frame and functional layers
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-native-frame
+  observable_outcome: Desktop authenticated Web uses one stable app frame with functional
+    sidebar/navigation layer, calm content canvas, compact context bar, and no competing
+    page chrome.
+  dependencies:
+  - define-apple-visual-language
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  evidence_boundary:
+  - laptop-width frame screenshot
+  - sidebar/content hierarchy
+  - desktop resize trace
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T21:32:29Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 96109866d0df5a117e98788e420fc9378c294f39e52f14eedf572f52836fe040
+    apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue: 880eed7b34e37093d58d8ba3d63c9d22622da681e99cd2678301851c83365da3
+    apps/themuffinman/frontend/src/styles/base.css: df3f2f86eb74fb74041fe6b3decf9b31c09fb4ac5df9cc10e76fa16317d7928a
+    apps/themuffinman/frontend/src/style.css: 9c068069809aa5d7969d33a7f31e8554e787588cec8c7dc79663a7cc00541fff
+- id: add-resizable-desktop-split-view
+  title: Add resizable sidebar and split-view continuity
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-native-split-view
+  observable_outcome: Desktop collections support a collapsible/resizable sidebar
+    and selected-row list/detail split view with persisted presentation width and
+    safe minimum/maximum bounds.
+  dependencies:
+  - establish-native-laptop-app-frame
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  evidence_boundary:
+  - resize/collapse trace
+  - persisted width reload
+  - selected-row continuity
+  - mobile sheet transformation
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T21:33:18Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue: 7282f7d07883b51bcbfff9ed339e59c5304b7011e68026ee70abf2e2c90a4fa7
+    apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue: 9c627e39a561d10d37605760a6dc591cbe36f55444c267745ea1e42859ae908f
+    apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue: 57ea4d5f80a55f452200b9fbfd2f9aba3c9ffd01a737e1787f6403dda79c7526
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts: 989d162e683069b29430b72b8b0fddaa39e53c73be2fee905b0bd2a7322c40d1
+- id: add-desktop-command-and-menu-model
+  title: Add keyboard command, palette, and contextual menu model
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-native-commands
+  observable_outcome: Cmd/Ctrl+K, safe keyboard shortcuts, contextual menus, and popovers
+    use one backend-prepared command/action model with shortcut conflicts, permission
+    filtering, focus restoration, and one-open-surface rules.
+  dependencies:
+  - add-resizable-desktop-split-view
+  - add-command-palette-and-context-preferences
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/controller/WorkspaceCommandController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceCommandCatalogService.java
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/controller/WorkspaceCommandController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceCommandCatalogService.java
+  evidence_boundary:
+  - keyboard palette trace
+  - command permission matrix
+  - popover focus/close trace
+  - shortcut conflict test
+  validation: cd apps/themuffinman && ./mvnw test && cd frontend && npm run type-check
+    && npm run build
+  started_at: '2026-07-24T21:34:12Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue: fa8fcae466d16c1a118d58423421e41cc40c786100db76662ce4eb782f6db6c6
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue: b599dbd264f016b084cc6b83729365a1ccfc3234252cde1938e1d39c1d6c44b4
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts: 410f46e76a5102ca5ee44fe6f64b39f07ce8de329c977b0950827a5450462976
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts: 701f44bbb553725572b796f631ca13168068ac11e09f8b576a98c4a9aaff1348
+    apps/themuffinman/src/main/java/com/themuffinman/app/activity: __missing__
+- id: add-native-desktop-transitions-and-standalone-boundary
+  title: Add app-like transitions and explicit standalone/PWA boundary
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-native-transitions
+  observable_outcome: In-app navigation preserves the app frame without document reload,
+    uses restrained route/sheet transitions, and exposes a standalone/PWA shell only
+    where browser support is real; fake OS chrome and unproven offline mutations are
+    excluded.
+  dependencies:
+  - add-desktop-command-and-menu-model
+  paths:
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/index.html
+  - apps/themuffinman/frontend/public
+  required_paths:
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/index.html
+  evidence_boundary:
+  - no-reload navigation trace
+  - reduced-motion transition trace
+  - standalone capability check
+  - browser-chrome boundary note
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  started_at: '2026-07-24T21:36:12Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/router.ts: 802c094dce8c4642f62846474ffb2bd07871e9f32402d717a0f62b0339309371
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 842824a8188981dc0db7a0dc123fb463304ce0ba1911e3021708b8bc2d038aa0
+    apps/themuffinman/frontend/index.html: 4fd7e43a719a7202c6605943366d59000b50ca7da1d9c7cfd961ed29cb021f15
+- id: verify-native-laptop-interaction-closeout
+  title: Verify native-laptop interaction family
+  type: runtime
+  status: done
+  inventory_item: apple-product-polish-native-laptop-runtime
+  observable_outcome: Fresh desktop runtime evidence proves sidebar/split view, context
+    switching, keyboard command entry, selection continuity, resize behavior, transitions,
+    and safe mobile transformation without browser errors.
+  dependencies:
+  - add-native-desktop-transitions-and-standalone-boundary
+  paths:
+  - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+  - docs/runtime-evidence/apple-product-polish-native-laptop.json
+  - docs/runtime-evidence/apple-product-polish-native-laptop.png
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+  - docs/runtime-evidence/apple-product-polish-native-laptop.json
+  - docs/runtime-evidence/apple-product-polish-native-laptop.png
+  - docs/regression-scenario-catalog.yaml
+  manual_runtime_command: make dev && node apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+    --scenario=native-laptop
+  runtime_evidence_paths:
+  - docs/runtime-evidence/apple-product-polish-native-laptop.json
+  visual_evidence_paths:
+  - docs/runtime-evidence/apple-product-polish-native-laptop.png
+  evidence_boundary:
+  - desktop interaction matrix
+  - screenshot
+  - keyboard/focus results
+  - resize/reload result
+  - cleanup
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-docs-as-tests.rb
+  started_at: '2026-07-24T21:39:07Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs: 4c999fe24415f4a301adb311ea0501a26cc05cba7d9c1a505a108ab1873cedf4
+    docs/runtime-evidence/apple-product-polish-native-laptop.json: 4fb71d005b2437238218209411755b58fc8009ba554801ac729676393bd51cd3
+    docs/runtime-evidence/apple-product-polish-native-laptop.png: 8ee920d5b2e24876a8ccaf0d8d9199d812c8cd9556e9778058a475b5a611b31d
+    docs/regression-scenario-catalog.yaml: ec551f16a2ad2a51c9074dcbc14fe66b9700e51b178e18664599805a41c79b87
+evidence:
+- task: establish-native-laptop-app-frame
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T21:33:05Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |+
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-jyGuos4Q.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/BusinessPublicView-Dx8vCt39.js                    16.49 kB │ gzip:   5.97 kB
+    dist/assets/SurfaceHeader-DRCsIOo1.js                         17.63 kB │ gzip:   5.29 kB
+    dist/assets/ChatSurfaceView-B0bH9ydt.js                       19.27 kB │ gzip:   6.14 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CPaj6DE7.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-CDUB3IPI.js                40.77 kB │ gzip:  13.40 kB
+    dist/assets/BusinessOwnerPage-GVqTUjNN.js                     43.39 kB │ gzip:  11.21 kB
+    dist/assets/index-KsMF7YxY.js                                 47.43 kB │ gzip:  12.49 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 539ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (72 checks).
+
+  startedAt: '2026-07-24T21:32:29Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: add-resizable-desktop-split-view
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T21:34:00Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  output: |+
+    dist/assets/WorkQuestDetailView-CD2UtGbn.js                   12.49 kB │ gzip:   3.92 kB
+    dist/assets/ThingsDiscoveryView-CBe5Wqb2.js                   12.77 kB │ gzip:   4.08 kB
+    dist/assets/CirclesView-CPpTjhM6.js                           13.73 kB │ gzip:   4.36 kB
+    dist/assets/BusinessServiceSchemaView-k1GxqWyl.js             14.05 kB │ gzip:   4.56 kB
+    dist/assets/WorkPage-CtjRI3WR.js                              14.18 kB │ gzip:   5.22 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-ucVfm7uf.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/BusinessPublicView-Cco79bRV.js                    16.49 kB │ gzip:   5.97 kB
+    dist/assets/SurfaceHeader-C5quW47X.js                         17.63 kB │ gzip:   5.29 kB
+    dist/assets/ChatSurfaceView-BaG7URcQ.js                       19.27 kB │ gzip:   6.14 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CSL4XiJe.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-BmjLOn0_.js                40.77 kB │ gzip:  13.41 kB
+    dist/assets/BusinessOwnerPage-DvC6X6pS.js                     43.39 kB │ gzip:  11.21 kB
+    dist/assets/index-m3l_YBEL.js                                 47.43 kB │ gzip:  12.50 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 538ms
+
+  startedAt: '2026-07-24T21:33:18Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: add-desktop-command-and-menu-model
+  command: cd apps/themuffinman && ./mvnw test && cd frontend && npm run type-check
+    && npm run build
+  ranAt: '2026-07-24T21:35:39Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/controller/WorkspaceCommandController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceCommandCatalogService.java
+  output: |+
+    dist/assets/WorkQuestDetailView-BL_skthM.js                   12.49 kB │ gzip:   3.92 kB
+    dist/assets/ThingsDiscoveryView-DWorvng8.js                   12.77 kB │ gzip:   4.08 kB
+    dist/assets/CirclesView-CfOCG-v1.js                           13.73 kB │ gzip:   4.36 kB
+    dist/assets/BusinessServiceSchemaView-Do4oZ2rV.js             14.05 kB │ gzip:   4.56 kB
+    dist/assets/WorkPage-BvcWXREn.js                              14.18 kB │ gzip:   5.23 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-CssgYl_B.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/BusinessPublicView-CLJ-8uKf.js                    16.49 kB │ gzip:   5.97 kB
+    dist/assets/SurfaceHeader-DNp2PyKI.js                         17.63 kB │ gzip:   5.29 kB
+    dist/assets/ChatSurfaceView-Bh9esO5_.js                       19.27 kB │ gzip:   6.14 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BNBT1HgM.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-DEZQysqx.js                40.81 kB │ gzip:  13.42 kB
+    dist/assets/BusinessOwnerPage-Ctyh2Ex4.js                     43.39 kB │ gzip:  11.21 kB
+    dist/assets/index-D39Oxlm2.js                                 47.51 kB │ gzip:  12.53 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 596ms
+
+  startedAt: '2026-07-24T21:34:12Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useWorkspaceNavigation.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/controller/WorkspaceCommandController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceCommandCatalogService.java
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: add-native-desktop-transitions-and-standalone-boundary
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build
+  ranAt: '2026-07-24T21:36:34Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/index.html
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/router.ts
+  output: |+
+    dist/assets/WorkQuestDetailView-BJm9bmDc.js                   12.49 kB │ gzip:   3.93 kB
+    dist/assets/ThingsDiscoveryView-Dw4iZDRS.js                   12.77 kB │ gzip:   4.09 kB
+    dist/assets/CirclesView-RDJmB6x5.js                           13.73 kB │ gzip:   4.36 kB
+    dist/assets/BusinessServiceSchemaView-kKa3s9sQ.js             14.05 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-D2Q8dix4.js                              14.19 kB │ gzip:   5.24 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-DaZLB6w_.js                             14.38 kB │ gzip:   4.57 kB
+    dist/assets/BusinessPublicView-NZ1HdIJA.js                    16.48 kB │ gzip:   5.98 kB
+    dist/assets/SurfaceHeader-CePg2Er6.js                         17.63 kB │ gzip:   5.29 kB
+    dist/assets/ChatSurfaceView-k_5tCZjR.js                       19.27 kB │ gzip:   6.15 kB
+    dist/assets/vue-core-CYlBD2Qq.js                              24.75 kB │ gzip:   9.55 kB
+    dist/assets/ProfilePage-CnG9rAn7.js                           26.20 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-DwmmxBSK.js                40.90 kB │ gzip:  13.43 kB
+    dist/assets/BusinessOwnerPage-CDnB5hDy.js                     43.39 kB │ gzip:  11.20 kB
+    dist/assets/index-C0g1Bbwf.js                                 47.59 kB │ gzip:  12.56 kB
+    dist/assets/vendor-i7kPZdbF.js                                54.12 kB │ gzip:  21.15 kB
+    dist/assets/editor-C0mrFSSw.js                               467.53 kB │ gzip: 151.02 kB
+
+    ✓ built in 600ms
+
+  startedAt: '2026-07-24T21:36:12Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/src/router.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/index.html
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: verify-native-laptop-interaction-closeout
+  command: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-docs-as-tests.rb
+  ranAt: '2026-07-24T21:39:39Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/regression-scenario-catalog.yaml
+  - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+  - docs/runtime-evidence/apple-product-polish-native-laptop.json
+  - docs/runtime-evidence/apple-product-polish-native-laptop.png
+  output: |+
+    Work-plan recursion audit passed (no recursive validation commands).
+    Docs as tests
+      statements scanned: 329
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-24T21:39:07Z'
+  changedAfterStart: &5
+  - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+  - docs/runtime-evidence/apple-product-polish-native-laptop.json
+  - docs/runtime-evidence/apple-product-polish-native-laptop.png
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *5
+  visualEvidencePaths:
+  - docs/runtime-evidence/apple-product-polish-native-laptop.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/apple-product-polish-native-laptop.json

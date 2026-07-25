@@ -26,8 +26,9 @@ public class CalendarController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant to,
             @RequestParam(required = false) List<String> source,
             @RequestParam(required = false) Long businessId,
+            @RequestParam(required = false) String view,
             @AuthenticationPrincipal AppUser viewer
     ) {
-        return calendarReadService.getCalendar(viewer, from, to, source, businessId);
+        return calendarReadService.getCalendar(viewer, from, to, source, businessId, view);
     }
 }

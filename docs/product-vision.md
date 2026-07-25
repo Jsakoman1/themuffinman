@@ -36,6 +36,17 @@ restrained surfaces, stable labeled navigation, progressive disclosure, direct
 manipulation, predictable focus, and a small number of meaningful actions. The
 reference is Apple's Human Interface Guidelines, not a literal iOS visual clone.
 
+The visual target is the modern Apple product family language: neutral content
+surfaces, semantic light/dark color tokens, a system-first font stack, subtle
+functional materials for sidebars and navigation, restrained blur/transparency,
+clear selected states, and quiet purposeful motion. Content should remain readable
+and calm; translucent material belongs to the functional layer, not every card or
+section. The detailed Web contract and official HIG references live in
+`docs/work/apple-product-polish-master.yaml`.
+The cross-app macOS reference contract is maintained in
+`docs/apple-desktop-design-reference.md` and must be consulted for every new
+desktop shell, module surface, command, search, editor, settings, or Vision flow.
+
 The Web may still use a dark graphite theme where it improves readability, but the
 theme is subordinate to the Apple-inspired principles. The result must never feel
 like an Excel sheet, a card-heavy marketing dashboard, or a dense text-heavy admin
@@ -45,6 +56,12 @@ become the identity by themselves.
 The authenticated Web shell should feel like one calm application frame. It must
 not present competing Create/Search controls, repeated page-level assistant buttons,
 or multiple action toolbars with equal visual weight.
+
+Every complex flow should be step-based: establish context, make one decision,
+preview the consequence, confirm, and provide completion or recovery. A user with
+multiple businesses should switch context from one shell-level picker, while Home
+should remain the calm launch base for only the most relevant Today, Next, Attention,
+Favorites, and quick-action information.
 
 The same workspace direction is also inspired by the calm, persistent application
 behavior of the ChatGPT desktop app. The inspiration is about public interaction
@@ -206,6 +223,14 @@ The target desktop shape is:
   the rail and the main workspace preserving its existing collection/detail flow
 - a compact route header and optional right inspect rail, so pages stop behaving
   like independent marketing pages while their domain behavior remains unchanged
+
+This workspace deliberately combines portable patterns from Apple desktop
+applications: Mail and Messages for triage and conversation continuity, Notes and
+Reminders for capture and organization, Calendar and Finder for source-aware
+browse/preview, Settings for grouped preferences, Siri for contextual assistant
+confirmation/recovery, and Pages for template-first rich editing. The direct
+references and non-copying boundaries are canonical in
+`docs/apple-desktop-design-reference.md`.
 
 The backend should eventually provide a versioned `workspace-navigation-v1`
 read model containing module identity, label, route, icon key, ordering, active
@@ -464,3 +489,10 @@ The app should always feel like it is adapting around a real task, not like the 
 Future product-direction sessions should start from `docs/product-memory.md` for durable lessons and `docs/product-vision.md` for long-term direction, then expand outward into the living business and technical docs only when the task needs implementation detail.
 
 Future `/vision` implementation sessions should also read `docs/vision-architecture-patterns.md` before making backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
+Reference contract adoption checkpoint: 2026-07-24. The product should feel like a calm Apple desktop workspace while remaining an original web product with portable API contracts.
+Visual language checkpoint: 2026-07-24. Semantic materials, system-first typography, restrained separators, and functional elevation are centralized tokens rather than page-local CSS.
+Settings should feel like a calm native preference pane rather than a form dump. Group related controls, show a useful current value, and reveal detail only on demand while preserving explicit save and backend-enforced privacy semantics.
+
+Apple-native is a system behavior target: the shell, interaction model, and visual hierarchy must remain coherent across every module, not only the home screen.
+
+Runtime QA is part of the product experience: every visible action must be discoverable, route-correct, recoverable, and concise in Chromium before a UI goal closes.

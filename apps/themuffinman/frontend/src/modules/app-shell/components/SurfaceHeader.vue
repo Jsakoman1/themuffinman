@@ -3,7 +3,7 @@ import {computed} from "vue"
 import {RouterLink} from "vue-router"
 import type {AppSurfaceConfig} from "../shellDefinitions.ts"
 
-const props = defineProps<{config: AppSurfaceConfig; detailLabel?: string}>()
+const props = defineProps<{config: AppSurfaceConfig; detailLabel?: string; title?: string; description?: string}>()
 const primaryAction = computed(() => props.config.actions.find(action => action.tone === "primary") ?? props.config.actions[0])
 const secondaryActions = computed(() => props.config.actions.filter(action => action !== primaryAction.value))
 </script>
@@ -11,9 +11,14 @@ const secondaryActions = computed(() => props.config.actions.filter(action => ac
 <template>
   <header class="surface-header" :data-action-count="config.actions.length" :aria-labelledby="`surface-title-${config.id}`">
     <div v-if="detailLabel" class="surface-header__location"><span class="surface-header__detail">{{ detailLabel }}</span></div>
-    <h1 :id="`surface-title-${config.id}`" class="surface-header__title">{{ config.title }}</h1>
-    <div v-if="primaryAction" class="surface-header__actions" aria-label="Primary and secondary surface actions">
-      <RouterLink :to="primaryAction.to" class="surface-header__action" :class="`surface-header__action--${primaryAction.tone ?? 'secondary'}`">{{ primaryAction.label }}</RouterLink>
+    <div class="surface-header__identity">
+      <p class="surface-header__eyebrow">{{ config.eyebrow }}</p>
+      <h1 :id="`surface-title-${config.id}`" class="surface-header__title">{{ props.title ?? config.title }}</h1>
+      <p v-if="description" class="surface-header__description">{{ description }}</p>
+    </div>
+    <div v-if="primaryAction || $slots.utility" class="surface-header__actions" aria-label="Primary and secondary surface actions">
+      <slot name="utility" />
+      <RouterLink v-if="primaryAction" :to="primaryAction.to" class="surface-header__action" :class="`surface-header__action--${primaryAction.tone ?? 'secondary'}`">{{ primaryAction.label }}</RouterLink>
       <details v-if="secondaryActions.length" class="surface-header__overflow">
         <summary>More</summary>
         <div class="surface-header__overflow-menu">
@@ -27,7 +32,10 @@ const secondaryActions = computed(() => props.config.actions.filter(action => ac
 <style scoped>
 .surface-header { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: var(--space-3) var(--space-5); padding: var(--space-2) 0; }
 .surface-header__location { display: flex; align-items: center; grid-column: 1/-1; min-width: 0; }
+.surface-header__identity { min-width: 0; }
+.surface-header__eyebrow { margin: 0 0 var(--space-1); color: var(--text-soft); font-size: var(--text-size-label); font-weight: var(--text-weight-semibold); letter-spacing: var(--tracking-label); line-height: 1.2; text-transform: uppercase; }
 .surface-header__title, .surface-header__detail { margin: 0; }
+.surface-header__description { grid-column: 1; max-width: 42rem; margin: var(--space-1) 0 0; color: var(--text-muted); font-size: var(--text-size-body); line-height: var(--text-leading-body); }
 .surface-header__detail { overflow: hidden; color: var(--text-soft); font-size: var(--text-size-body); text-overflow: ellipsis; white-space: nowrap; }
 .surface-header__title { min-width: 0; font-size: var(--text-size-page-title); letter-spacing: var(--tracking-display); line-height: 1.08; }
 .surface-header__actions { display: flex; justify-content: flex-end; gap: var(--space-2); flex-wrap: wrap; }

@@ -7,8 +7,12 @@ const props = withDefaults(defineProps<{modules: WorkspaceNavigationModule[]; ac
 const route = useRoute()
 const visibleModules = computed(() => props.modules.filter((module) => module.visible))
 const childrenFor = (module: WorkspaceNavigationModule) => module.children.filter((child) => child.visible).sort((a, b) => a.order - b.order)
-const isChildActive = (path: string) => route.path === path || route.path.startsWith(`${path}/`)
-const iconFor = (key: string) => ({home: "⌂", work: "▤", chat: "◌", calendar: "□", business: "◇", circles: "◎", things: "▣", rides: "↗"}[key] ?? "•")
+const isModuleActive = (module: WorkspaceNavigationModule) => props.activeModuleId === module.id || route.path === module.route || route.path.startsWith(`${module.route}/`)
+const isChildActive = (path: string) => {
+  const cleanPath = path.split("?")[0]
+  return route.path === cleanPath || route.path.startsWith(`${cleanPath}/`)
+}
+const iconFor = (key: string) => ({home: "⌂", work: "▤", chat: "◌", calendar: "□", business: "◇", services: "⌕", people: "◎", circles: "◎", things: "▣", rides: "↗"}[key] ?? "•")
 </script>
 
 <template>
@@ -17,13 +21,13 @@ const iconFor = (key: string) => ({home: "⌂", work: "▤", chat: "◌", calend
       <RouterLink
         :to="module.route"
         class="workspace-module-rail__module"
-        :class="{'workspace-module-rail__module--active': activeModuleId === module.id}"
-        :aria-current="activeModuleId === module.id ? 'page' : undefined"
+        :class="{'workspace-module-rail__module--active': isModuleActive(module)}"
+        :aria-current="isModuleActive(module) ? 'page' : undefined"
       >
         <span class="workspace-module-rail__icon" aria-hidden="true">{{ iconFor(module.iconKey) }}</span>
         <span class="workspace-module-rail__label">{{ module.label }}</span>
       </RouterLink>
-      <div v-if="props.showChildren && module.id === props.activeModuleId && childrenFor(module).length > 0" class="workspace-module-rail__children" :data-module="module.id">
+      <div v-if="props.showChildren && childrenFor(module).length > 0" class="workspace-module-rail__children" :data-module="module.id">
       <RouterLink
         v-for="child in childrenFor(module)"
         :key="child.id"

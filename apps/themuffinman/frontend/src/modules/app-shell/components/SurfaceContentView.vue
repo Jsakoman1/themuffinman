@@ -70,7 +70,7 @@ const formatDay = (date: Date) => formatCalendarDay(date)
   <section class="surface-content" :class="surfaceClass" :data-surface-id="config.id" aria-live="polite">
     <SurfaceHeader :config="config" :detail-label="detailLabel" />
 
-    <SurfaceMetricGrid :metrics="metrics" />
+    <SurfaceMetricGrid v-if="config.id !== 'business'" :metrics="metrics" />
 
     <p v-if="note" class="surface-content__note">{{ note }}</p>
 
@@ -107,13 +107,15 @@ const formatDay = (date: Date) => formatCalendarDay(date)
     </div>
 
     <div v-else-if="!loading && !error && config.archetype === 'business'" class="surface-content__operations" aria-label="Business operations">
+      <p class="surface-content__business-intro">Choose a business section from the sidebar. Your profile, bookings, services, and calendar stay in one focused workspace.</p>
       <section v-for="section in sections" :key="section.title" class="surface-content__operations-group">
         <div class="surface-content__operations-heading">
           <h2 class="surface-content__card-title">{{ section.title }}</h2>
           <span>{{ section.rows.length }}</span>
         </div>
         <div class="surface-content__rows">
-          <SurfaceRow v-for="row in section.rows" :key="row.id" :row="row" />
+          <SurfaceRow v-for="row in section.rows.slice(0, config.id === 'business' && section.title === 'Upcoming bookings' ? 3 : section.rows.length)" :key="row.id" :row="row" />
+          <RouterLink v-if="config.id === 'business' && section.title === 'Upcoming bookings' && section.rows.length > 3" class="surface-content__section-link" to="/business/bookings">View all {{ section.rows.length }} bookings</RouterLink>
         </div>
       </section>
     </div>
@@ -700,6 +702,14 @@ const formatDay = (date: Date) => formatCalendarDay(date)
 </style>
 <style scoped>
 /* Shared graphite surface contract: collection primitives stay dense and token-owned. */
+.surface-content--business .surface-content__operations { gap: var(--space-5); }
+.surface-content--business .surface-content__business-intro { margin: 0; max-width: 42rem; color: var(--text-muted); font-size: var(--text-size-body); }
+.surface-content--business .surface-content__operations-group { padding: 0; border: 0; border-top: 1px solid var(--border-subtle); border-radius: 0; background: transparent; }
+.surface-content--business .surface-content__operations-group:first-of-type { border-top: 0; }
+.surface-content--business .surface-content__operations-heading { padding: var(--space-3) 0 var(--space-1); }
+.surface-content--business .surface-content__card-title { text-transform: none; letter-spacing: var(--tracking-tight); }
+.surface-content--business .surface-content__operations-group .surface-content__rows { border-bottom: 1px solid var(--border-subtle); }
+.surface-content__section-link { display: inline-flex; padding: var(--space-2) var(--space-3); color: var(--accent); font-size: var(--text-size-meta); font-weight: var(--text-weight-semibold); }
 .surface-content__action,
 .surface-content__row-link,
 .surface-content__metric,

@@ -1,0 +1,334 @@
+{
+  "evidenceVersion": "apple-native-complete-redesign-v1",
+  "capturedAt": "2026-07-24T23:29:56.472Z",
+  "routes": [
+    "/home",
+    "/work/find",
+    "/work/quests",
+    "/work/applications",
+    "/chat",
+    "/calendar",
+    "/business",
+    "/circles",
+    "/things",
+    "/rides",
+    "/profile",
+    "/profile/settings"
+  ],
+  "modes": {
+    "lightDesktop": {
+      "observations": [
+        {
+          "route": "/home",
+          "pathname": "/home",
+          "nativeFrame": 2,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/find",
+          "pathname": "/work/find",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/quests",
+          "pathname": "/work/quests",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/applications",
+          "pathname": "/work/applications",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/chat",
+          "pathname": "/chat",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/calendar",
+          "pathname": "/calendar",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/business",
+          "pathname": "/business",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/circles",
+          "pathname": "/circles",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/things",
+          "pathname": "/things",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/rides",
+          "pathname": "/rides",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/profile",
+          "pathname": "/profile",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/profile/settings",
+          "pathname": "/profile/settings",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        }
+      ],
+      "calendarViews": [
+        {
+          "view": "day",
+          "rendered": true
+        },
+        {
+          "view": "week",
+          "rendered": true
+        },
+        {
+          "view": "month",
+          "rendered": true
+        }
+      ],
+      "noOverflow": true,
+      "routeIntegrity": true
+    },
+    "darkDesktop": {
+      "observations": [
+        {
+          "route": "/home",
+          "pathname": "/home",
+          "nativeFrame": 2,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/find",
+          "pathname": "/work/find",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/quests",
+          "pathname": "/work/quests",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/applications",
+          "pathname": "/work/applications",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/chat",
+          "pathname": "/chat",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/calendar",
+          "pathname": "/calendar",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/business",
+          "pathname": "/business",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/circles",
+          "pathname": "/circles",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/things",
+          "pathname": "/things",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/rides",
+          "pathname": "/rides",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/profile",
+          "pathname": "/profile",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/profile/settings",
+          "pathname": "/profile/settings",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        }
+      ],
+      "calendarViews": [
+        {
+          "view": "day",
+          "rendered": true
+        },
+        {
+          "view": "week",
+          "rendered": true
+        },
+        {
+          "view": "month",
+          "rendered": true
+        }
+      ],
+      "noOverflow": true,
+      "routeIntegrity": true
+    },
+    "mobile": {
+      "observations": [
+        {
+          "route": "/home",
+          "pathname": "/home",
+          "nativeFrame": 2,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/find",
+          "pathname": "/work/find",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/quests",
+          "pathname": "/work/quests",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/work/applications",
+          "pathname": "/work/applications",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/chat",
+          "pathname": "/chat",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/calendar",
+          "pathname": "/calendar",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/business",
+          "pathname": "/business",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/circles",
+          "pathname": "/circles",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/things",
+          "pathname": "/things",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/rides",
+          "pathname": "/rides",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/profile",
+          "pathname": "/profile",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        },
+        {
+          "route": "/profile/settings",
+          "pathname": "/profile/settings",
+          "nativeFrame": 1,
+          "vision": 0,
+          "overflow": false
+        }
+      ],
+      "calendarViews": [
+        {
+          "view": "day",
+          "rendered": true
+        },
+        {
+          "view": "week",
+          "rendered": true
+        },
+        {
+          "view": "month",
+          "rendered": true
+        }
+      ],
+      "noOverflow": true,
+      "routeIntegrity": true
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

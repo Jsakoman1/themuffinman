@@ -21,6 +21,8 @@ runtime_evidence_plan: docs/work/frontend-structural-redesign-runtime-evidence.y
 scope_freeze: docs/work/frontend-structural-redesign-scope-freeze-2026-07-24.md
 serial_task_execution: true
 execution_inventory: docs/work/frontend-structural-redesign-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: The Apple desktop reference contract is the primary Web design authority; existing Apple-inspired ideas are subordinate and may not introduce a competing interaction system.
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
   reused_verified_plans:

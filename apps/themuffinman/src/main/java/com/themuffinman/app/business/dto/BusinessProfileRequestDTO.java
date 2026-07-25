@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
@@ -49,8 +50,10 @@ public class BusinessProfileRequestDTO {
     @Size(max = 240, message = "Business address label must be 240 characters or less")
     private String publicAddressLabel;
 
+    @Nullable
     private Double latitude;
 
+    @Nullable
     private Double longitude;
 
     @Size(max = 80, message = "Business WhatsApp contact must be 80 characters or less")

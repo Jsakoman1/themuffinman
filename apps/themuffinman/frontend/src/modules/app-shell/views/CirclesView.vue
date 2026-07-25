@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue"
-import {RouterLink, useRouter} from "vue-router"
+import {RouterLink, useRoute, useRouter} from "vue-router"
 import type {CircleGroupResponseDTO, CircleRequestResponseDTO, CircleSearchResultDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppButton from "../components/AppButton.vue"
@@ -14,10 +14,13 @@ import GuidedIntakePanel from "../components/GuidedIntakePanel.vue"
 import TaskSurface from "../components/TaskSurface.vue"
 import ModuleTabs from "../components/ModuleTabs.vue"
 import {getModuleTabs} from "../moduleTabRegistry.ts"
+import SurfaceHeader from "../components/SurfaceHeader.vue"
+import {getAppSurfaceConfig} from "../shellDefinitions.ts"
 
 // This surface lists circles owned by the viewer; membership actions for other
 // circles belong to the relationship request flow, not this owner dashboard.
 const groups = ref<CircleGroupResponseDTO[]>([])
+const route = useRoute()
 const router = useRouter()
 const requests = ref<CircleRequestResponseDTO[]>([])
 const outgoing = ref<CircleRequestResponseDTO[]>([])
@@ -39,7 +42,14 @@ const acceptGuidedCircleDraft = (draft: Record<string, string>) => { guidedCircl
 const selectedGroupId = ref<number | null>(null)
 const selectedGroup = computed(() => groups.value.find((group) => group.id === selectedGroupId.value) ?? null)
 const tabs = getModuleTabs("circles")
-const activeTab = ref("groups")
+const surface = getAppSurfaceConfig("circles")
+const activeTab = computed(() => {
+  if (route.path.endsWith("/requests")) return "requests"
+  if (route.path.endsWith("/circles")) return "groups"
+  if (route.path.endsWith("/find")) return "people"
+  const tab = typeof route.query.tab === "string" ? route.query.tab : "groups"
+  return tabs?.tabs.some(item => item.id === tab) ? tab : "groups"
+})
 
 const load = async () => {
   isLoading.value = true; error.value = ""; loadWarnings.value = []
@@ -63,9 +73,9 @@ const load = async () => {
   else if (loadWarnings.value.length > 0) error.value = `Some circle data could not be loaded: ${loadWarnings.value.join(", ")}.`
   isLoading.value = false
 }
-const createGroup = async () => { if (!groupName.value.trim()) return; isActing.value = true; error.value = ""; try { await userShellApi.createCircleGroup({name: groupName.value.trim()}); groupName.value = ""; feedback.value = "Circle created."; await load() } catch { error.value = "Could not create this circle." } finally { isActing.value = false } }
+const createGroup = async () => { if (!groupName.value.trim()) return; isActing.value = true; error.value = ""; try { await userShellApi.createCircleGroup({name: groupName.value.trim()}); groupName.value = ""; feedback.value = "Circle created."; await load() } catch (cause) { error.value = userShellApi.actionFailureMessage("Could not create this circle.", cause) } finally { isActing.value = false } }
 const beginEditGroup = (group: CircleGroupResponseDTO) => { editingGroupId.value = group.id; editingGroupName.value = group.name }
-const saveGroup = async () => { if (editingGroupId.value === null || !editingGroupName.value.trim()) return; isActing.value = true; error.value = ""; try { await userShellApi.updateCircleGroup(editingGroupId.value, {name: editingGroupName.value.trim()}); feedback.value = "Circle updated."; editingGroupId.value = null; await load() } catch { error.value = "Could not update this circle." } finally { isActing.value = false } }
+const saveGroup = async () => { if (editingGroupId.value === null || !editingGroupName.value.trim()) return; isActing.value = true; error.value = ""; try { await userShellApi.updateCircleGroup(editingGroupId.value, {name: editingGroupName.value.trim()}); feedback.value = "Circle updated."; editingGroupId.value = null; await load() } catch (cause) { error.value = userShellApi.actionFailureMessage("Could not update this circle.", cause) } finally { isActing.value = false } }
 const archiveGroup = async (group: CircleGroupResponseDTO) => { if (!await confirmAction(`Remove the circle “${group.name}”?`, "Remove circle")) return; isActing.value = true; error.value = ""; try { await userShellApi.deleteCircleGroup(group.id); feedback.value = "Circle removed."; await load() } catch { error.value = "Could not remove this circle." } finally { isActing.value = false } }
 const decide = async (request: CircleRequestResponseDTO, accept: boolean) => { isActing.value = true; error.value = ""; try { if (accept) await userShellApi.acceptCircleRequest(request.id); else await userShellApi.deleteCircleRequest(request.id); feedback.value = accept ? "Request accepted." : "Request declined."; await load() } catch { error.value = "Could not update this request." } finally { isActing.value = false } }
 const search = async () => { if (!searchQuery.value.trim()) { results.value = []; return }; try { results.value = (await userShellApi.searchCircleUsers(searchQuery.value.trim())).items } catch { error.value = "Could not search people." } }
@@ -101,12 +111,11 @@ onMounted(() => void load())
 
 <template>
   <!-- UX simplification: trust, inspect, and membership actions stay in one focused turn. -->
-  <TaskSurface mode="workspace" label="Trust circles"><section class="circles" :aria-busy="isLoading || isActing || undefined">
-    <header class="circles__header"><div><p class="circles__eyebrow">People / Circles</p><h1>Circles</h1><p class="circles__intro">Keep people, groups, and connection requests in one calm place.</p></div></header>
-    <ModuleTabs v-if="tabs" :tabs="tabs.tabs" :active-id="activeTab" data-surface="circles-tabs" @select="activeTab = $event" />
-    <CollectionToolbar title="Trust circles" :count="groups.length" :busy="isLoading"><template #actions><AppButton v-if="activeTab === 'groups'" tone="primary" type="button" @click="createOpen = true">New circle</AppButton></template></CollectionToolbar>
-    <aside class="circles__privacy" aria-label="Circle privacy"><strong>Circles are a trust boundary.</strong><span>Membership helps decide who can see shared activity; exact location remains controlled in Profile Settings.</span></aside>
-    <p class="circles__surface-cue" data-surface="trust-boundary-context">Use circles to manage trust and consent context. Module-specific visibility remains server-authoritative; blocked, pending, and shared-circle states are shown only when the backend permits them.</p>
+  <TaskSurface mode="workspace" label="Trust circles"><section class="circles" data-mental-model="people-groups-permissions" :aria-busy="isLoading || isActing || undefined">
+    <SurfaceHeader :config="surface" title="Circles" description="Keep people, groups, and connection requests in one calm place." />
+    <ModuleTabs v-if="tabs" :tabs="tabs.tabs" :active-id="activeTab" data-surface="circles-tabs" />
+    <CollectionToolbar title="Trust circles" :count="groups.length" :busy="isLoading" />
+    <details class="circles__privacy" aria-label="Circle privacy"><summary>How circles work</summary><span>Circles control shared visibility and consent. Exact location and private profile fields stay in Profile Settings.</span></details>
     <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading circles." busy /><AppStatus v-else-if="error && !hasUsableData" :message="error" tone="error" retry @retry="load" />
     <template v-else>
       <section v-if="activeTab === 'people'" class="circles__section" data-surface="people-organizer"><h2>Find people</h2><form class="circles__search" @submit.prevent="search"><AppFormField label="Search by name"><input v-model="searchQuery" placeholder="Search by name"></AppFormField><AppButton type="submit">Search</AppButton></form><p class="circles__hint">Select a circle first to add an accepted connection to it.</p><article v-for="person in results" :key="person.id" class="circles__row"><div><strong>{{ person.username }}</strong><span>{{ person.relationLabel || person.profileDescription }}</span></div><div class="circles__actions"><AppButton v-if="person.primaryAction?.enabled && person.relationLabel !== 'Invite sent'" tone="primary" type="button" :loading="isActing" @click="connect(person)">Connect</AppButton><AppButton v-if="selectedGroup" type="button" :loading="isActing" @click="addToSelectedGroup(person)">Add to {{ selectedGroup.name }}</AppButton><AppButton tone="quiet" type="button" @click="block(person.id)">Block</AppButton></div></article><p v-if="searchQuery && !results.length" class="circles__status">No people found. Try a different name.</p></section>
@@ -127,6 +136,7 @@ onMounted(() => void load())
 .circles h2 { margin:0; color:var(--text); font-size:var(--text-size-title); }
 .circles h3 { margin:var(--space-2) 0 0; color:var(--text); font-size:var(--text-size-body); }
 .circles__privacy { display:grid; gap:var(--space-1); max-width:48rem; padding:var(--space-2) var(--space-3); border-left:3px solid var(--accent); background:var(--surface-base); color:var(--text-muted); }
+.circles__privacy summary { cursor:pointer; color:var(--text); font-weight:var(--text-weight-semibold); }
 .circles__privacy span { font-size:var(--text-size-meta); }
 .circles__search { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:var(--space-2); max-width:32rem; align-items:end; }
 .circles__search input,.circles__inline-edit input,.circles__dialog-form input { width:100%; border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }

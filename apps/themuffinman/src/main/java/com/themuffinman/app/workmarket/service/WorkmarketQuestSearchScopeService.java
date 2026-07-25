@@ -12,6 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 class WorkmarketQuestSearchScopeService {
 
+    static final String AVAILABLE_SCOPE = "AVAILABLE";
+    static final String OWNER_SCOPE = "MY_VISIBLE";
+
     private final WorkmarketQuestRepository questRepository;
 
     List<Quest> loadQuestSearchScope(AppUser currentUser, Integer radiusKm) {

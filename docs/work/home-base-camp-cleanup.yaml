@@ -1,0 +1,86 @@
+kind: work
+version: 1
+id: home-base-camp-cleanup
+title: Simplify Home into an active cross-module base camp
+status: verified
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - existing authenticated shell and module routes
+  residual_scope:
+  - Home presentation and its existing client-side read composition
+  retest_triggers:
+  - changes to Home data composition, section routing, or shared row rendering
+  non_duplication_rule: Home must summarize active records only; module navigation
+    remains the canonical place for full collections and discovery.
+change_impact_review:
+  required: false
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: not_applicable_with_reason
+tasks:
+- id: task-1
+  title: Replace duplicate Home blocks with active module sections
+  type: implementation
+  status: done
+  observable_outcome: Home shows Work, Business, People, Things, and Rides as compact
+    active-record sections whose rows navigate to canonical module pages.
+  dependencies: []
+  evidence_boundary:
+  - frontend type-check
+  - frontend production build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+evidence:
+- task: task-1
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-25T13:27:29Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  output: |+
+    dist/assets/WorkQuestDetailView-T7OguUnn.js                   12.55 kB │ gzip:   3.95 kB
+    dist/assets/ThingsDiscoveryView-Dr6e5-dU.js                   12.68 kB │ gzip:   4.05 kB
+    dist/assets/CirclesView-D_BY0m_1.js                           13.71 kB │ gzip:   4.35 kB
+    dist/assets/WorkPage-CE2961fS.js                              14.10 kB │ gzip:   5.17 kB
+    dist/assets/BusinessServiceSchemaView-PvxX4Uu4.js             14.35 kB │ gzip:   4.61 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-B9cgJns3.js                             14.42 kB │ gzip:   4.58 kB
+    dist/assets/BusinessPublicView-BzfIS-mT.js                    16.92 kB │ gzip:   6.14 kB
+    dist/assets/ChatSurfaceView-B20a4ab7.js                       18.64 kB │ gzip:   6.01 kB
+    dist/assets/SurfaceHeader-B9nnFyY-.js                         19.55 kB │ gzip:   5.79 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DUU1i5SX.js                           27.08 kB │ gzip:   8.33 kB
+    dist/assets/AuthenticatedShellView-Bt7gKDlk.js                34.69 kB │ gzip:  11.49 kB
+    dist/assets/BusinessOwnerPage-QIjeZO38.js                     46.77 kB │ gzip:  11.96 kB
+    dist/assets/index-Bv_Fff9c.js                                 48.63 kB │ gzip:  12.72 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 621ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

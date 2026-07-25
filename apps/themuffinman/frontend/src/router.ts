@@ -13,6 +13,8 @@ export const workspaceRouteLoadingPolicy = Object.freeze({
     eagerCore: ["router", "auth", "shell-route-registry"],
     preserveActiveSurfaceContext: true
 });
+export const workspaceTransitionBoundary = Object.freeze({frame: "preserved", documentReload: false, reducedMotion: "system"});
+// System audit checkpoint: compatibility routes remain aliases; canonical surface ownership stays centralized.
 
 const LoginView = () => import("./modules/identity/views/LoginView.vue");
 const RegisterView = () => import("./modules/identity/views/RegisterView.vue");
@@ -21,13 +23,13 @@ const PasswordResetView = () => import("./modules/identity/views/PasswordResetVi
 const AuthenticatedShellView = () => import("./modules/app-shell/views/AuthenticatedShellView.vue");
 const HomeHubView = () => import("./modules/app-shell/views/HomeHubView.vue");
 const CalendarPage = () => import("./modules/app-shell/views/CalendarPage.vue");
-const SectionHubView = () => import("./modules/app-shell/views/WorkspaceSurfaceView.vue");
 const WorkPage = () => import("./modules/app-shell/views/WorkPage.vue");
 const WorkApplicationDetailView = () => import("./modules/app-shell/views/WorkApplicationDetailView.vue");
 const WorkQuestDetailView = () => import("./modules/app-shell/views/WorkQuestDetailView.vue");
 const WorkQuestCreateView = () => import("./modules/app-shell/views/WorkQuestCreateView.vue");
 const WorkQuestApplicationsView = () => import("./modules/app-shell/views/WorkQuestApplicationsView.vue");
 const BusinessOwnerPage = () => import("./modules/app-shell/views/BusinessOwnerPage.vue");
+const BusinessOverviewView = () => import("./modules/app-shell/views/BusinessOverviewView.vue");
 const BusinessPublicView = () => import("./modules/app-shell/views/BusinessPublicView.vue");
 const BusinessDiscoveryView = () => import("./modules/app-shell/views/BusinessDiscoveryView.vue");
 const BusinessMyBookingsView = () => import("./modules/app-shell/views/BusinessMyBookingsView.vue");
@@ -40,6 +42,8 @@ const OnboardingView = () => import("./modules/app-shell/views/OnboardingView.vu
 const ActivityView = () => import("./modules/app-shell/views/ActivityView.vue");
 const CirclesView = () => import("./modules/app-shell/views/CirclesView.vue");
 const PeopleDiscoveryView = () => import("./modules/app-shell/views/PeopleDiscoveryView.vue");
+const PeopleOverviewView = () => import("./modules/app-shell/views/PeopleOverviewView.vue");
+const PeopleSettingsView = () => import("./modules/app-shell/views/PeopleSettingsView.vue");
 const PeopleProfileView = () => import("./modules/app-shell/views/PeopleProfileView.vue");
 const ChatSurfaceView = () => import("./modules/app-shell/views/ChatSurfaceView.vue");
 const ProfilePage = () => import("./modules/app-shell/views/ProfilePage.vue");
@@ -86,8 +90,7 @@ const routes = [
             {
                 path: 'work',
                 name: 'work',
-                component: WorkPage,
-                meta: workspaceSurfaceMeta('work')
+                redirect: '/work/find' // Canonical Work entry: Find work.
             },
             {
                 path: 'work/find',
@@ -106,6 +109,7 @@ const routes = [
                 meta: {requiresAuth: true, surfaceId: 'work-quests'}
             },
             {
+                // Mutation entry points remain canonical module routes; each form must mirror its backend request DTO.
                 path: 'work/quests/new',
                 name: 'work-quest-create',
                 component: WorkQuestCreateView,
@@ -162,14 +166,20 @@ const routes = [
             {
                 path: 'business',
                 name: 'business',
-                component: SectionHubView,
+                component: BusinessOverviewView,
                 meta: {requiresAuth: true, surfaceId: 'business'}
             },
             {
                 path: 'business/profile',
                 name: 'business-profile',
                 component: BusinessOwnerPage,
-                meta: {requiresAuth: true, surfaceId: 'business-profile'}
+                meta: {requiresAuth: true, surfaceId: 'business-profile', contextQuery: 'businessId'}
+            },
+            {
+                path: 'business/settings',
+                name: 'business-settings',
+                component: BusinessOwnerPage,
+                meta: {requiresAuth: true, surfaceId: 'business-profile', contextQuery: 'businessId'}
             },
             {
                 path: 'business/offerings',
@@ -187,13 +197,19 @@ const routes = [
                 path: 'business/bookings',
                 name: 'business-bookings',
                 component: BusinessOwnerPage,
-                meta: {requiresAuth: true, surfaceId: 'business-bookings'}
+                meta: {requiresAuth: true, surfaceId: 'business-bookings', contextQuery: 'businessId'}
+            },
+            {
+                path: 'business/bookings/:bookingId',
+                name: 'business-booking-detail',
+                component: BusinessOwnerPage,
+                meta: {requiresAuth: true, surfaceId: 'business-bookings', contextQuery: 'businessId'}
             },
             {
                 path: 'business/calendar',
                 name: 'business-calendar',
                 component: BusinessOwnerPage,
-                meta: {requiresAuth: true, surfaceId: 'business-calendar'}
+                meta: {requiresAuth: true, surfaceId: 'business-calendar', contextQuery: 'businessId'}
             },
             {
                 path: 'business/public/:slug',
@@ -222,9 +238,13 @@ const routes = [
             {
                 path: 'people',
                 name: 'people',
-                component: PeopleDiscoveryView,
+                component: PeopleOverviewView,
                 meta: {requiresAuth: true, surfaceId: 'people'}
             },
+            {path: 'people/find', name: 'people-find', component: PeopleDiscoveryView, meta: {requiresAuth: true, surfaceId: 'people'}},
+            {path: 'people/circles', name: 'people-circles', component: CirclesView, meta: {requiresAuth: true, surfaceId: 'circles'}},
+            {path: 'people/requests', name: 'people-requests', component: CirclesView, meta: {requiresAuth: true, surfaceId: 'circles'}},
+            {path: 'people/settings', name: 'people-settings', component: PeopleSettingsView, meta: {requiresAuth: true, surfaceId: 'people'}},
             {
                 path: 'people/:userId',
                 name: 'people-profile',
@@ -234,6 +254,12 @@ const routes = [
             {
                 path: 'business/find',
                 name: 'business-discovery',
+                component: BusinessDiscoveryView,
+                meta: {requiresAuth: true, surfaceId: 'business-discovery'}
+            },
+            {
+                path: 'business/favorites',
+                name: 'business-favorites',
                 component: BusinessDiscoveryView,
                 meta: {requiresAuth: true, surfaceId: 'business-discovery'}
             },

@@ -2,6 +2,10 @@
 
 ## Current open plan
 
+ENTITY-SURFACE-COMPLETENESS [VERIFIED 2026-07-25]: Audited and repaired authenticated create/edit/request surfaces through `docs/work/entity-surface-completeness.yaml`; Business, social/sharing, Work applications, route discoverability, and living documentation are verified.
+
+- ENTITY-SURFACE-RESOURCE-CONTRACT-001 [OPEN]: Type and expose Business resource pool/resource/requirement configuration (`BusinessResourceController`) after a stable request/response contract is defined; current endpoint accepts untyped maps and is intentionally not inferred as a complete Web edit surface.
+
 VISION-PROMPT-STABILIZATION [IN PROGRESS 2026-07-23]: Repair the expanded Vision prompt contract and runtime gaps through `docs/work/vision-prompt-stabilization-master.yaml`; the Web-only VisionForWeb boundary is now being enforced while the detached terminal console remains separate. Analysis: `docs/work/vision-prompt-stabilization-plan-review-2026-07-23.md`.
 
 REPAIR-AND-STABILIZE [ACTIVE-PLANNED]: Execute `docs/work/repair-and-stabilize-master.yaml` before unrelated new features; baseline snapshot is `docs/repair-and-stabilize-baseline-2026-07-22.yaml`.
@@ -66,6 +70,16 @@ FRONTEND-USER-FACING-CLEANUP [PLANNED]: The user-facing audit is recorded in
 `docs/audit-output/frontend-user-facing-audit-2026-07-22.md`; the executable follow-up is owned by
 `docs/work/frontend-standardization-master.yaml` and its navigation, surface-archetype, state/form, and responsive
 child plans. Start with P0 navigation deduplication.
+
+APPLE-VISUAL-REDESIGN-REALITY-CHECK [ACTIVE]: The first Apple product-polish pass was structurally verified but the
+rendered result still read as a dark dashboard. A corrective visual slice is now in progress: reset the shared light/
+dark material tokens, system typography, control grammar, app shell, Home grouped-list hierarchy, and then migrate
+remaining route-local CSS through screenshot-backed light/dark desktop and mobile evidence. Do not close this item from
+markers, token names, type-check, or build output alone.
+
+The active cleanup slice also requires ambiguous primary labels such as Hide/Show/Dismiss to be replaced with named
+actions, named tabs, or explicit context controls, and requires the shell toolbar to communicate context without
+duplicate uppercase chrome.
 
 ## Deferred capability gaps
 
@@ -148,3 +162,6 @@ unreferenced plan artifacts.
 - THINGS-WISHLIST-BACKEND-001 [RESOLVED 2026-07-24]: Replaced device-local Thing wishlist persistence with backend-owned wishlist records, circle-scoped visibility, server validation, Flyway migration `V89__create_thing_wishlist.sql`, authenticated API endpoints, and the frontend API client. The structural redesign runtime trace proves save/read/remove and selected-circle persistence in `docs/runtime-evidence/frontend-structural-redesign-recovery.json`.
 - UX-STRUCTURAL-REDESIGN-ROUTES-001 [RESOLVED 2026-07-24]: Canonical module pages own navigation; retained aliases are explicitly compatibility routes only. Current canonical-route browser evidence proves reachability and recovery, and repeated page-level Vision links/duplicate navigation metadata were removed.
 - UX-STRUCTURAL-REDESIGN-CLOSEOUT-001 [RESOLVED 2026-07-24]: Final closeout evidence covers canonical routes, responsive Apple-style surfaces, persistent VisionForWeb, keyboard focus, permission/conflict/retry recovery, and Things wishlist lifecycle. The strict master verifier and implementation-control audits pass; no premature visual-only closeout was used.
+- APPLE-PRODUCT-POLISH-001 [PLANNED 2026-07-24]: Execute `docs/work/apple-product-polish-master.yaml` under the primary Web design authority `docs/apple-desktop-design-reference.md`: apply the ten Apple-inspired improvements plus deep visual language work (semantic colors, system-first typography, functional materials, restrained effects), step-based flows, multi-business context switching, fix Home/Work scope contamination between Find work, My work, and My applications, and implement verified Apple-like Calendar day/week/month views with all-module aggregation and per-business isolation.
+- APPLE-PRODUCT-POLISH-ATOMIZATION-001 [PLANNED 2026-07-24]: Before implementation, reconcile the 66-atom desktop-app matrix in `docs/work/apple-product-polish-deep-cut-desktop-atomization.yaml` through the two hardening tasks and dedicated audit; preserve browser/PWA, native Swift, offline, and provider boundaries as explicit evidence limits.
+- APPLE-PRODUCT-POLISH-SYSTEM-AUDIT-001 [IN PROGRESS 2026-07-24]: Closeout audit is reconciling centralized tokens, shared shell primitives, compatibility routes, and runtime evidence before final completion.

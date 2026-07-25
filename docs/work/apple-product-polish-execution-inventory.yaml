@@ -1,0 +1,748 @@
+kind: execution_inventory
+version: 1
+id: apple-product-polish-execution-inventory
+master_plan: docs/work/apple-product-polish-master.yaml
+serial_task_execution: true
+preflight_impact_report: docs/audit-output/system-map-change-impact.json
+preflight_impact_disposition: reviewed; report is advisory and the new plan remains
+  isolated to its declared child paths
+design_authority: docs/apple-desktop-design-reference.md
+reference_contract_adopted_at: 2026-07-24
+mental_model_contract_reviewed_at: 2026-07-24
+system_behavior_contract_reviewed_at: 2026-07-24
+leaf_gate_expansion_reviewed_at: 2026-07-24
+atom_to_inventory_reconciliation_reviewed_at: 2026-07-24
+design_reference_rule: Every inventory item and its owning task must implement and
+  validate the Apple desktop reference contract; domain-specific deviations require
+  an explicit evidence boundary and documented rationale.
+leaf_execution_expansion: docs/work/apple-product-polish-leaf-execution-expansion.yaml
+reference_mapping:
+  apple-product-polish-atomic-hardening:
+    reference_sections:
+    - scope_boundary
+    - acceptance_test
+    acceptance_contract: Queue validation does not close product behavior or runtime
+      evidence.
+  apple-product-polish-reference-contract:
+    reference_sections:
+    - direct_references
+    - derived_product_contract
+    acceptance_contract: Official references and portable rules are linked
+    bounded: 
+    and reviewed.: 
+  apple-product-polish-mental-model:
+    reference_sections:
+    - mental_model_information_flow
+    - overview_first_detail_on_demand
+    - settings_lightweight_configuration
+    - browse_inspect_edit_commit
+    acceptance_contract: Users can navigate few or many entities through summaries
+    grouping: 
+    search: 
+    selection: 
+    preview: 
+    and deliberate detail without information overload.: 
+  apple-product-polish-system-behavior:
+    reference_sections:
+    - system_behavior_trust_continuity
+    - undo_redo
+    - autosave_recovery
+    - deep_links
+    - capabilities
+    - privacy_notifications
+    acceptance_contract: The product is safe to explore
+    recover: 
+    resume: 
+    share: 
+    and automate through backend-owned reversible capabilities.: 
+  apple-product-polish-leaf-expansion:
+    reference_sections:
+    - derived_product_contract
+    - apple_like_acceptance_test
+    - system_behavior_trust_continuity
+    acceptance_contract: Complex parent tasks are executed through bounded leaf gates
+      and cannot close while a leaf is skipped.
+  apple-product-polish-deep-atomization:
+    reference_sections:
+    - derived_product_contract
+    - apple_like_acceptance_test
+    acceptance_contract: Every Apple reference requirement maps to one atom and one
+      executable item.
+  apple-product-polish-navigation:
+    reference_sections:
+    - application_frame
+    - commands
+    - sidebar_list_detail
+    acceptance_contract: One stable shell hierarchy with no redundant header actions.
+  apple-product-polish-interaction-grammar:
+    reference_sections:
+    - commands
+    - focus_selection
+    - writing
+    acceptance_contract: Shared controls
+    states: 
+    labels: 
+    and feedback use one grammar.: 
+  apple-product-polish-visual-language:
+    reference_sections:
+    - platform_system_model
+    - application_frame
+    acceptance_contract: Calm semantic surfaces and functional materials are centralized.
+  apple-product-polish-business-context:
+    reference_sections:
+    - application_frame
+    - sidebar_list_detail
+    - settings
+    acceptance_contract: Context identity and switching remain visible and persistent.
+  apple-product-polish-state-cache:
+    reference_sections:
+    - sidebar_list_detail
+    - search
+    - logic_backend_requirements
+    acceptance_contract: Read models and selection state never contaminate one another.
+  apple-product-polish-command-preferences:
+    reference_sections:
+    - commands
+    - settings
+    - search
+    acceptance_contract: Commands and preferences have one discoverable
+    portable authority.: 
+  apple-product-polish-trust-recovery:
+    reference_sections:
+    - siri
+    - generative_ai
+    - notifications
+    - logic_backend_requirements
+    acceptance_contract: Consequential actions disclose scope and provide confirmation/recovery.
+  apple-product-polish-work-scope-api:
+    reference_sections:
+    - mail
+    - finder
+    - logic_backend_requirements
+    acceptance_contract: Work scopes are separate backend read models with direct
+      deep links.
+  apple-product-polish-home-orientation:
+    reference_sections:
+    - mail
+    - reminders
+    - application_frame
+    acceptance_contract: Home is a calm triage surface with Today/Next/Attention/Favorites/Quick
+      actions.
+  apple-product-polish-work-scope-runtime:
+    reference_sections:
+    - mail
+    - sidebar_list_detail
+    - focus_selection
+    acceptance_contract: Scope switching preserves selection
+    preview: 
+    and return position.: 
+  apple-product-polish-calendar-api:
+    reference_sections:
+    - calendar
+    - logic_backend_requirements
+    acceptance_contract: Calendar source/range/timezone semantics are backend-owned.
+  apple-product-polish-calendar-ui:
+    reference_sections:
+    - calendar
+    - popovers
+    - sidebar_list_detail
+    acceptance_contract: Day/week/month views are calm
+    source-aware: 
+    and previewable.: 
+  apple-product-polish-calendar-runtime:
+    reference_sections:
+    - calendar
+    - focus_selection
+    - notifications
+    acceptance_contract: Range
+    selection: 
+    isolation: 
+    and failure/retry behavior are proven.: 
+  apple-product-polish-disclosure:
+    reference_sections:
+    - popovers
+    - sheets
+    - sidebar_list_detail
+    acceptance_contract: Temporary detail uses one shared preview/drawer/sheet pattern.
+  apple-product-polish-disclosure-migration:
+    reference_sections:
+    - finder
+    - notes
+    - mail
+    - popovers
+    acceptance_contract: High-value collections retain context instead of forcing
+      unnecessary full-page navigation.
+  apple-product-polish-vision:
+    reference_sections:
+    - siri
+    - generative_ai
+    - writing
+    acceptance_contract: Vision is quiet
+    contextual: 
+    disclosed: 
+    confirmable: 
+    and recoverable.: 
+  apple-product-polish-business:
+    reference_sections:
+    - pages
+    - notes
+    - finder
+    - calendar
+    acceptance_contract: Business pages are professional
+    template-first: 
+    editable: 
+    previewable: 
+    and bookable.: 
+  apple-product-polish-forms-typography:
+    reference_sections:
+    - pages
+    - reminders
+    - writing
+    - settings
+    acceptance_contract: Forms ask one meaningful decision at a time and preserve
+      drafts.
+  apple-product-polish-interactions:
+    reference_sections:
+    - focus_selection
+    - popovers
+    - menus_and_actions
+    - notifications
+    acceptance_contract: Desktop interaction states feel precise
+    reversible: 
+    and keyboard-safe.: 
+  apple-product-polish-accessibility:
+    reference_sections:
+    - focus_selection
+    - writing
+    - settings
+    acceptance_contract: Focus
+    semantics: 
+    labels: 
+    contrast: 
+    zoom: 
+    and reduced motion remain usable.: 
+  apple-product-polish-performance-localization:
+    reference_sections:
+    - search
+    - finder
+    - calendar
+    - logic_backend_requirements
+    acceptance_contract: Large collections
+    formatting: 
+    and portable DTOs remain bounded and consistent.: 
+  apple-product-polish-responsive:
+    reference_sections:
+    - windows
+    - split_views
+    - search_fields
+    acceptance_contract: Desktop hierarchy transforms deliberately at compact widths
+      without losing context.
+  apple-product-polish-native-frame:
+    reference_sections:
+    - platform_system_model
+    - application_frame
+    - windows
+    - toolbars
+    acceptance_contract: Web behaves like a calm laptop workspace without fake OS
+      chrome.
+  apple-product-polish-native-split-view:
+    reference_sections:
+    - split_views
+    - sidebars
+    - focus_selection
+    acceptance_contract: Resizable panes preserve selection and spatial memory.
+  apple-product-polish-native-commands:
+    reference_sections:
+    - menus_and_actions
+    - toolbars
+    - search_fields
+    acceptance_contract: Visible actions
+    More menus: 
+    command palette: 
+    and future menu commands stay in parity.: 
+  apple-product-polish-native-transitions:
+    reference_sections:
+    - windows
+    - file_management
+    - popovers
+    - sheets
+    acceptance_contract: Navigation
+    preview: 
+    standalone boundary: 
+    and drag/drop remain deliberate and reversible.: 
+  apple-product-polish-native-laptop-runtime:
+    reference_sections:
+    - windows
+    - focus_selection
+    - toolbars
+    - split_views
+    acceptance_contract: Fresh desktop runtime evidence proves the native-laptop interaction
+      family.
+  apple-product-polish-system-audit:
+    reference_sections:
+    - derived_product_contract
+    - scope_boundary
+    acceptance_contract: Duplicate CSS/routes/components and unsupported Apple imitation
+      are dispositioned.
+  apple-product-polish-closeout-runtime:
+    reference_sections:
+    - apple_like_acceptance_test
+    - scope_boundary
+    acceptance_contract: Every screen passes the ten-question acceptance gate without
+      relabeling boundaries.
+items:
+- id: apple-product-polish-atomic-hardening
+  sequence: 0
+  plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+  task: harden-apple-product-polish-queue
+  depends_on: []
+  status: verified
+  started_at: '2026-07-24T20:53:01Z'
+  verified_at: '2026-07-24T20:54:06Z'
+  evidence:
+    plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+    task: harden-apple-product-polish-queue
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-reference-contract
+  sequence: 1
+  plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+  task: adopt-apple-desktop-reference-contract
+  depends_on:
+  - apple-product-polish-atomic-hardening
+  status: verified
+  started_at: '2026-07-24T20:55:27Z'
+  verified_at: '2026-07-24T20:55:47Z'
+  evidence:
+    plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+    task: adopt-apple-desktop-reference-contract
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-mental-model
+  sequence: 2
+  plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+  task: formalize-apple-mental-model-and-information-flow
+  depends_on:
+  - apple-product-polish-reference-contract
+  status: verified
+  started_at: '2026-07-24T20:55:52Z'
+  verified_at: '2026-07-24T20:56:07Z'
+  evidence:
+    plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+    task: formalize-apple-mental-model-and-information-flow
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-system-behavior
+  sequence: 3
+  plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+  task: formalize-apple-system-behavior-trust-and-continuity
+  depends_on:
+  - apple-product-polish-mental-model
+  status: verified
+  started_at: '2026-07-24T20:56:10Z'
+  verified_at: '2026-07-24T20:56:23Z'
+  evidence:
+    plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+    task: formalize-apple-system-behavior-trust-and-continuity
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-leaf-expansion
+  sequence: 4
+  plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+  task: expand-apple-product-polish-parents-into-leaf-gates
+  depends_on:
+  - apple-product-polish-system-behavior
+  status: verified
+  started_at: '2026-07-24T20:56:43Z'
+  verified_at: '2026-07-24T20:56:56Z'
+  evidence:
+    plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+    task: expand-apple-product-polish-parents-into-leaf-gates
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-deep-atomization
+  sequence: 5
+  plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+  task: reconcile-deep-atomization-to-execution-inventory
+  depends_on:
+  - apple-product-polish-leaf-expansion
+  status: verified
+  started_at: '2026-07-24T20:56:59Z'
+  verified_at: '2026-07-24T20:57:11Z'
+  evidence:
+    plan: docs/work/apple-product-polish-atomic-task-hardening.yaml
+    task: reconcile-deep-atomization-to-execution-inventory
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-navigation
+  sequence: 6
+  plan: docs/work/apple-product-polish-01-navigation-and-system.yaml
+  task: polish-global-navigation-and-interaction-system
+  depends_on:
+  - apple-product-polish-deep-atomization
+  status: verified
+  started_at: '2026-07-24T20:57:22Z'
+  verified_at: '2026-07-24T20:58:31Z'
+  evidence:
+    plan: docs/work/apple-product-polish-01-navigation-and-system.yaml
+    task: polish-global-navigation-and-interaction-system
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-interaction-grammar
+  sequence: 7
+  plan: docs/work/apple-product-polish-01-navigation-and-system.yaml
+  task: standardize-shared-interaction-grammar
+  depends_on:
+  - apple-product-polish-navigation
+  status: verified
+  started_at: '2026-07-24T20:58:37Z'
+  verified_at: '2026-07-24T20:59:18Z'
+  evidence:
+    plan: docs/work/apple-product-polish-01-navigation-and-system.yaml
+    task: standardize-shared-interaction-grammar
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-visual-language
+  sequence: 8
+  plan: docs/work/apple-product-polish-01-navigation-and-system.yaml
+  task: define-apple-visual-language
+  depends_on:
+  - apple-product-polish-interaction-grammar
+  status: verified
+  started_at: '2026-07-24T20:59:22Z'
+  verified_at: '2026-07-24T20:59:54Z'
+  evidence:
+    plan: docs/work/apple-product-polish-01-navigation-and-system.yaml
+    task: define-apple-visual-language
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-business-context
+  sequence: 9
+  plan: docs/work/apple-product-polish-01-navigation-and-system.yaml
+  task: global-business-context-switcher
+  depends_on:
+  - apple-product-polish-visual-language
+  status: verified
+  started_at: '2026-07-24T21:00:02Z'
+  verified_at: '2026-07-24T21:01:15Z'
+  evidence:
+    plan: docs/work/apple-product-polish-01-navigation-and-system.yaml
+    task: global-business-context-switcher
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-state-cache
+  sequence: 10
+  plan: docs/work/apple-product-polish-11-state-preferences-and-trust.yaml
+  task: stabilize-view-state-and-cache-ownership
+  depends_on:
+  - apple-product-polish-business-context
+  status: verified
+  started_at: '2026-07-24T21:01:21Z'
+  verified_at: '2026-07-24T21:02:43Z'
+  evidence:
+    plan: docs/work/apple-product-polish-11-state-preferences-and-trust.yaml
+    task: stabilize-view-state-and-cache-ownership
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-command-preferences
+  sequence: 11
+  plan: docs/work/apple-product-polish-11-state-preferences-and-trust.yaml
+  task: add-command-palette-and-context-preferences
+  depends_on:
+  - apple-product-polish-state-cache
+  status: verified
+  started_at: '2026-07-24T21:03:21Z'
+  verified_at: '2026-07-24T21:05:03Z'
+  evidence:
+    plan: docs/work/apple-product-polish-11-state-preferences-and-trust.yaml
+    task: add-command-palette-and-context-preferences
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-trust-recovery
+  sequence: 12
+  plan: docs/work/apple-product-polish-11-state-preferences-and-trust.yaml
+  task: add-trust-and-recovery-cues
+  depends_on:
+  - apple-product-polish-command-preferences
+  status: verified
+  started_at: '2026-07-24T21:05:09Z'
+  verified_at: '2026-07-24T21:05:49Z'
+  evidence:
+    plan: docs/work/apple-product-polish-11-state-preferences-and-trust.yaml
+    task: add-trust-and-recovery-cues
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-work-scope-api
+  sequence: 13
+  plan: docs/work/apple-product-polish-02-home-work-scope.yaml
+  task: isolate-work-scope-read-models
+  depends_on:
+  - apple-product-polish-business-context
+  status: verified
+  started_at: '2026-07-24T21:05:53Z'
+  verified_at: '2026-07-24T21:07:41Z'
+  evidence:
+    plan: docs/work/apple-product-polish-02-home-work-scope.yaml
+    task: isolate-work-scope-read-models
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-home-orientation
+  sequence: 14
+  plan: docs/work/apple-product-polish-02-home-work-scope.yaml
+  task: rebuild-home-orientation-sections
+  depends_on:
+  - apple-product-polish-work-scope-api
+  status: verified
+  started_at: '2026-07-24T21:07:47Z'
+  verified_at: '2026-07-24T21:08:16Z'
+  evidence:
+    plan: docs/work/apple-product-polish-02-home-work-scope.yaml
+    task: rebuild-home-orientation-sections
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-work-scope-runtime
+  sequence: 15
+  plan: docs/work/apple-product-polish-02-home-work-scope.yaml
+  task: prove-work-scope-switching
+  depends_on:
+  - apple-product-polish-home-orientation
+  status: verified
+  started_at: '2026-07-24T21:08:24Z'
+  verified_at: '2026-07-24T21:11:18Z'
+  evidence:
+    plan: docs/work/apple-product-polish-02-home-work-scope.yaml
+    task: prove-work-scope-switching
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-calendar-api
+  sequence: 16
+  plan: docs/work/apple-product-polish-03-calendar-views.yaml
+  task: extend-calendar-range-view-contract
+  depends_on:
+  - apple-product-polish-work-scope-runtime
+  status: verified
+  started_at: '2026-07-24T21:11:30Z'
+  verified_at: '2026-07-24T21:13:00Z'
+  evidence:
+    plan: docs/work/apple-product-polish-03-calendar-views.yaml
+    task: extend-calendar-range-view-contract
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-calendar-ui
+  sequence: 17
+  plan: docs/work/apple-product-polish-03-calendar-views.yaml
+  task: implement-calendar-day-week-month-ui
+  depends_on:
+  - apple-product-polish-calendar-api
+  status: verified
+  started_at: '2026-07-24T21:13:05Z'
+  verified_at: '2026-07-24T21:18:07Z'
+  evidence:
+    plan: docs/work/apple-product-polish-03-calendar-views.yaml
+    task: implement-calendar-day-week-month-ui
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-calendar-runtime
+  sequence: 18
+  plan: docs/work/apple-product-polish-03-calendar-views.yaml
+  task: prove-calendar-views-and-isolation
+  depends_on:
+  - apple-product-polish-calendar-ui
+  status: verified
+  started_at: '2026-07-24T21:18:22Z'
+  verified_at: '2026-07-24T21:18:39Z'
+  evidence:
+    plan: docs/work/apple-product-polish-03-calendar-views.yaml
+    task: prove-calendar-views-and-isolation
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-disclosure
+  sequence: 19
+  plan: docs/work/apple-product-polish-04-progressive-disclosure.yaml
+  task: standardize-previews-drawers-and-sheets
+  depends_on:
+  - apple-product-polish-calendar-runtime
+  status: verified
+  started_at: '2026-07-24T21:18:50Z'
+  verified_at: '2026-07-24T21:19:22Z'
+  evidence:
+    plan: docs/work/apple-product-polish-04-progressive-disclosure.yaml
+    task: standardize-previews-drawers-and-sheets
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-disclosure-migration
+  sequence: 20
+  plan: docs/work/apple-product-polish-04-progressive-disclosure.yaml
+  task: migrate-high-value-preview-surfaces
+  depends_on:
+  - apple-product-polish-disclosure
+  status: verified
+  started_at: '2026-07-24T21:19:26Z'
+  verified_at: '2026-07-24T21:20:02Z'
+  evidence:
+    plan: docs/work/apple-product-polish-04-progressive-disclosure.yaml
+    task: migrate-high-value-preview-surfaces
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-vision
+  sequence: 21
+  plan: docs/work/apple-product-polish-05-vision-composer.yaml
+  task: refine-siri-like-vision-composer
+  depends_on:
+  - apple-product-polish-disclosure-migration
+  status: verified
+  started_at: '2026-07-24T21:20:10Z'
+  verified_at: '2026-07-24T21:21:15Z'
+  evidence:
+    plan: docs/work/apple-product-polish-05-vision-composer.yaml
+    task: refine-siri-like-vision-composer
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-business
+  sequence: 22
+  plan: docs/work/apple-product-polish-06-business-product-page.yaml
+  task: refine-business-product-page
+  depends_on:
+  - apple-product-polish-vision
+  status: verified
+  started_at: '2026-07-24T21:23:09Z'
+  verified_at: '2026-07-24T21:25:33Z'
+  evidence:
+    plan: docs/work/apple-product-polish-06-business-product-page.yaml
+    task: refine-business-product-page
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-forms-typography
+  sequence: 23
+  plan: docs/work/apple-product-polish-07-forms-and-typography.yaml
+  task: simplify-guided-forms-and-type-hierarchy
+  depends_on:
+  - apple-product-polish-business
+  status: verified
+  started_at: '2026-07-24T21:25:47Z'
+  verified_at: '2026-07-24T21:26:28Z'
+  evidence:
+    plan: docs/work/apple-product-polish-07-forms-and-typography.yaml
+    task: simplify-guided-forms-and-type-hierarchy
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-interactions
+  sequence: 24
+  plan: docs/work/apple-product-polish-08-microinteractions-accessibility.yaml
+  task: add-native-feeling-interactions
+  depends_on:
+  - apple-product-polish-forms-typography
+  status: verified
+  started_at: '2026-07-24T21:27:30Z'
+  verified_at: '2026-07-24T21:27:58Z'
+  evidence:
+    plan: docs/work/apple-product-polish-08-microinteractions-accessibility.yaml
+    task: add-native-feeling-interactions
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-accessibility
+  sequence: 25
+  plan: docs/work/apple-product-polish-12-accessibility-performance-localization.yaml
+  task: centralize-accessibility-and-motion-audit
+  depends_on:
+  - apple-product-polish-interactions
+  status: verified
+  started_at: '2026-07-24T21:28:15Z'
+  verified_at: '2026-07-24T21:29:01Z'
+  evidence:
+    plan: docs/work/apple-product-polish-12-accessibility-performance-localization.yaml
+    task: centralize-accessibility-and-motion-audit
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-performance-localization
+  sequence: 26
+  plan: docs/work/apple-product-polish-12-accessibility-performance-localization.yaml
+  task: add-bounded-performance-and-localization-contract
+  depends_on:
+  - apple-product-polish-accessibility
+  status: verified
+  started_at: '2026-07-24T21:29:41Z'
+  verified_at: '2026-07-24T21:31:04Z'
+  evidence:
+    plan: docs/work/apple-product-polish-12-accessibility-performance-localization.yaml
+    task: add-bounded-performance-and-localization-contract
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-responsive
+  sequence: 27
+  plan: docs/work/apple-product-polish-09-responsive-portability.yaml
+  task: verify-responsive-and-portable-contracts
+  depends_on:
+  - apple-product-polish-performance-localization
+  status: verified
+  started_at: '2026-07-24T21:31:21Z'
+  verified_at: '2026-07-24T21:32:12Z'
+  evidence:
+    plan: docs/work/apple-product-polish-09-responsive-portability.yaml
+    task: verify-responsive-and-portable-contracts
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-native-frame
+  sequence: 28
+  plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+  task: establish-native-laptop-app-frame
+  depends_on:
+  - apple-product-polish-responsive
+  status: verified
+  started_at: '2026-07-24T21:32:29Z'
+  verified_at: '2026-07-24T21:33:09Z'
+  evidence:
+    plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+    task: establish-native-laptop-app-frame
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-native-split-view
+  sequence: 29
+  plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+  task: add-resizable-desktop-split-view
+  depends_on:
+  - apple-product-polish-native-frame
+  status: verified
+  started_at: '2026-07-24T21:33:18Z'
+  verified_at: '2026-07-24T21:34:04Z'
+  evidence:
+    plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+    task: add-resizable-desktop-split-view
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-native-commands
+  sequence: 30
+  plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+  task: add-desktop-command-and-menu-model
+  depends_on:
+  - apple-product-polish-native-split-view
+  - apple-product-polish-command-preferences
+  status: verified
+  started_at: '2026-07-24T21:34:12Z'
+  verified_at: '2026-07-24T21:36:05Z'
+  evidence:
+    plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+    task: add-desktop-command-and-menu-model
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-native-transitions
+  sequence: 31
+  plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+  task: add-native-desktop-transitions-and-standalone-boundary
+  depends_on:
+  - apple-product-polish-native-commands
+  status: verified
+  started_at: '2026-07-24T21:36:12Z'
+  verified_at: '2026-07-24T21:36:39Z'
+  evidence:
+    plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+    task: add-native-desktop-transitions-and-standalone-boundary
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-native-laptop-runtime
+  sequence: 32
+  plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+  task: verify-native-laptop-interaction-closeout
+  depends_on:
+  - apple-product-polish-native-transitions
+  status: verified
+  started_at: '2026-07-24T21:39:07Z'
+  verified_at: '2026-07-24T21:39:44Z'
+  evidence:
+    plan: docs/work/apple-product-polish-13-native-laptop-shell.yaml
+    task: verify-native-laptop-interaction-closeout
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-system-audit
+  sequence: 33
+  plan: docs/work/apple-product-polish-10-system-audit-closeout.yaml
+  task: audit-design-system-and-duplicates
+  depends_on:
+  - apple-product-polish-native-laptop-runtime
+  status: verified
+  started_at: '2026-07-24T21:39:58Z'
+  verified_at: '2026-07-24T21:40:45Z'
+  evidence:
+    plan: docs/work/apple-product-polish-10-system-audit-closeout.yaml
+    task: audit-design-system-and-duplicates
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+- id: apple-product-polish-closeout-runtime
+  sequence: 34
+  plan: docs/work/apple-product-polish-10-system-audit-closeout.yaml
+  task: run-apple-product-polish-closeout
+  depends_on:
+  - apple-product-polish-system-audit
+  status: verified
+  started_at: '2026-07-24T21:40:49Z'
+  verified_at: '2026-07-24T21:42:26Z'
+  evidence:
+    plan: docs/work/apple-product-polish-10-system-audit-closeout.yaml
+    task: run-apple-product-polish-closeout
+    revision: 2176d9241c132b513f137988ec6c83ee53b04dd8

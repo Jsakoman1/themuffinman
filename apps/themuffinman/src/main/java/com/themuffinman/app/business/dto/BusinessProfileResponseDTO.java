@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import org.springframework.lang.Nullable;
 
 @Data
 @Builder
@@ -21,7 +22,9 @@ public class BusinessProfileResponseDTO {
     private String timezone;
     private boolean bookingEnabled;
     private String publicAddressLabel;
+    @Nullable
     private Double latitude;
+    @Nullable
     private Double longitude;
     private String contactWhatsapp;
     private String heroImageUrl;

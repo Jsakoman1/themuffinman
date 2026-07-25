@@ -2,6 +2,16 @@ Documentation class: canonical_product_domain. This file owns user-facing produc
 
 # Business Logic
 
+## Primary Web design authority
+
+All new Web-facing product flows use `docs/apple-desktop-design-reference.md` as
+the primary design, UX, and interaction authority. Existing product ideas such as
+the calm workspace, ChatGPT-inspired assistant continuity, and Apple-inspired
+tokens remain compatible secondary guidance only; if they conflict, the Apple
+desktop contract wins. This governs shell hierarchy, tabs, search, previews,
+settings, editors, Calendar, Vision, recovery, and user-facing language without
+copying Apple proprietary assets or claiming native macOS behavior.
+
 ## Structural redesign runtime boundary
 
 The current Apple-style shell runtime evidence proves canonical route reachability, responsive overflow boundaries, persistent VisionForWeb presence, keyboard focus on the assistant composer, removal of repeated page-level Vision links, permission denial, stale-edit conflict, and failed-mutation retry. Booking conflict remains separate acceptance work because the available authenticated fixture is the business owner and the backend correctly rejects a self-booking before capacity conflict evaluation; it must not be inferred from screenshots or route smoke.
@@ -16,7 +26,19 @@ This document explains the product in user-facing terms. It is meant to stay ali
 
 ## Authenticated Web completion rules
 
-- Work has a dedicated Find Work surface and a direct Create new work action. Creating a work item requires the user to review whether its terms are fixed; the Web form exposes this as the `Fixed terms` choice instead of silently guessing.
+Home is the authenticated starting point and base camp, not a second navigation system. It shows only active, viewer-scoped items grouped into Work, Business, Services, Things, People, and Rides. Work includes jobs the user applied for and new applications to the user's jobs; Business includes incoming reservations for owned businesses; Services includes appointments booked with other businesses; People shows connection requests; Things shows sent and received borrow requests; Rides shows active offers and joined rides. Each item opens the canonical module surface, while the left navigation remains responsible for full browsing and discovery.
+
+The authenticated navbar has seven primary destinations: Home, Work, Business, Services, Things, People, and Rides. Business opens the user's own-business overview; its individual business list belongs inside that page and is not repeated as navbar children. Services is the public-business discovery workspace with Find service and individual favorite-business quick links (favorites are not represented as one generic group link). Work has My work, Find work, and Applications. Things defaults to My things and also has Find things. People has Overview and Circles. Rides defaults to My rides and also has Find ride. Chat and Calendar remain available under More so they stay reachable without competing with the core module rail.
+
+Home is intentionally compact: six module cards show only relevant active rows and backend-provided basic actions such as creating work, finding a service, listing a thing, managing circles, or offering a ride. It does not list owned businesses as rows. Calendar is part of Home, defaults to Week, and can switch to Day or Month; an empty period still renders its date grid so an empty calendar is distinguishable from a failed load.
+
+The authenticated shell has no duplicate topbar navigation. Route context is already visible through the active left-rail item and the page surface. Account actions live in the navbar's Account section, including profile, profile settings, setup guide, activity, notification settings, and logout.
+
+The authenticated shell fails closed when `GET /workspace/navigation` is unavailable or returns no modules. The Web client does not render a local navigation tree, module children, or backend-derived workspace content as a fallback; it shows an unavailable state until the backend navigation contract is available.
+
+- Work has a dedicated Find Work surface and a direct Create new work action. The create and edit forms expose the full supported quest fields: title, rich description, award, worker slots, approved-applicant visibility, fixed or flexible terms with start/end time, audience, and profile/custom location visibility. Creating a work item requires the user to review whether its terms are fixed; the Web form exposes this as the `Fixed terms` choice instead of silently guessing. Backend validation messages remain visible when a draft cannot be saved.
+- Business management forms expose the complete profile, offering, booking-policy, and recurring availability fields. People/Circles forms match their narrow backend DTOs, Things expose listing availability and condition, Rides expose active status and circle visibility, and Applications expose applicant message/proposed price plus owner-side review context. A backend endpoint without a stable typed Web surface is documented as a boundary rather than silently treated as complete.
+- Canonical authenticated mutation routes are `/work/quests/new`, `/business/profile`, `/business/offerings`, `/business/availability-exceptions`, `/things` (with `scope=mine`), `/rides/mine`, `/people/circles`, `/work/applications`, and the quest application review route. The navbar and module tabs must lead to these routes rather than duplicate legacy entry points.
 - Worker assignment management exposes backend-owned allowed actions and typed stale-state conflict codes. If a quest, approved worker, or replacement application changed while the manager was acting, the client receives a recoverable code and refresh guidance instead of guessing whether the action succeeded.
 - Chat supports inbox loading, direct chat, group chat, and message sending from the Web surface. A group chat must include at least two other accepted circle contacts.
 - Chat realtime connections announce a structured `CONNECTED` state and whether a resync is required. The Web client displays the transport state and consumes workspace events through the `/ws/chat` endpoint; after reconnect, clients use the existing conversation sync boundary rather than assuming that missed events were delivered.
@@ -970,6 +992,8 @@ Location lookup recovery:
 - `Home` currently stays intentionally thin and only consumes the backend-prepared dashboard summary instead of assembling a cross-module frontend dashboard.
 - `Home` exposes direct `Find work` and `Create new work` actions; users do not need to enter Vision or infer the Work route before starting either journey.
 - `Work` now reads from the existing dashboard read model for discover, my quests, and applications. `/work/find` is the explicit discovery route, `/work/quests` is the owned-quest route, and known quest/application details remain deterministic Work routes; Vision remains available for semantic discovery and guided correction flows.
+- Work scope is route-owned at runtime as well as at the API boundary: switching between `Find work`, `My work`, and `My applications` must reload the corresponding collection when the shared Work shell component is reused, clear stale selection state, and never display the previous scope under the new tab.
+- Route-reused detail surfaces follow the same rule: changing a quest, application, person, thing, business slug, or business context reloads the new backend projection and clears stale detail, selection, booking, and edit state before rendering the new target.
 - `Chat` now owns deterministic workspace browsing under `/chat` and `/chat/:conversationId`, while Vision remains the semantic handoff path when the user starts from intent instead of a known thread.
 - The web Chat workspace can create a named group by searching and explicitly selecting participants through the existing people-search boundary; group creation remains backend-authorized and does not infer membership from frontend state.
 - Members can leave a group conversation from its open web thread after explicit confirmation. Direct conversations do not expose the leave action.
@@ -1194,3 +1218,5 @@ The portable contract surface is shared by Web and future native clients: calend
 ## Trust and decision explanations
 
 Detail surfaces explain that action availability, visibility, pricing, expiry, resource allocation, confirmation effects, and undoability are backend-authoritative. Disabled or unavailable controls must not imply a frontend-only decision; the user should refresh when another participant may have changed the object.
+Trust and recovery checkpoint: 2026-07-24. User-facing surfaces must explain scope, ownership, visibility, unavailable actions, stale targets, and retry/recovery without exposing unauthorized data.
+Home orientation checkpoint: 2026-07-24. Home is a calm action-first overview ordered Today, Next, Information, Recent contexts, and Favorite businesses; it does not depend on visiting My applications first.

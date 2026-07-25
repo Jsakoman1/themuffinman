@@ -1,0 +1,114 @@
+kind: work
+version: 1
+id: apple-product-polish-09-responsive-portability
+title: Verify responsive product-family behavior and portable contracts
+status: verified
+master_plan: docs/work/apple-product-polish-master.yaml
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+goal_pursuit_preflight_reviewed_at: 2026-07-24
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/apple-product-polish-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: All tasks in this plan implement the canonical Apple desktop
+  reference contract; any deviation must be explicit, domain-justified, and evidenced.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-structural-redesign-master.yaml
+  baseline_only_surfaces:
+  - verified backend-first architecture and Web/mobile responsive evidence
+  residual_scope:
+  - mobile transformations for new Calendar/views
+  - API portability audit
+  - no browser-only domain policy
+  retest_triggers:
+  - breakpoint
+  - mobile view
+  - generated contract
+  - backend read/action contract
+  - or client domain logic change
+  non_duplication_rule: Existing portability evidence is baseline; this child proves
+    new Calendar and polish changes remain portable.
+tasks:
+- id: verify-responsive-and-portable-contracts
+  title: Validate mobile transformations and future Swift client boundaries
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-responsive
+  observable_outcome: Desktop and mobile layouts use intentional transformations,
+    and all new Calendar/Work/assistant behavior is represented by backend/API contracts
+    rather than Vue-only domain policy.
+  dependencies:
+  - add-bounded-performance-and-localization-contract
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - docs/domain-technical.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - docs/domain-technical.md
+  evidence_boundary:
+  - 390px/1440px screenshots
+  - no-overflow trace
+  - generated contract audit
+  - frontend-domain-policy audit
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface && npm run validate:contracts
+  started_at: '2026-07-24T21:31:21Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: ea3e9113aa92789f86b312fd76623f72b23bddaaf39ffc431da628c1d4abec31
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue: 1a55e64b5916406ed81c2e5c503cbd2cd070405cee4e0d21c9449a8edd3e88d6
+    apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue: fc6a9d4ad97d926235ea5c8c76fe37959958cf175a8ec937f4615d6c72becb83
+    apps/themuffinman/frontend/src/contracts/index.ts: 480d71bf820e359f5d39debf13bffdd68ced4d722774951dda24d8cf8c2cdfcd
+    docs/domain-technical.md: '00508a7673a707c694243c21915d6ee0331d0f68fbca609f2f08c8b3b8b0adbc'
+evidence:
+- task: verify-responsive-and-portable-contracts
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface && npm run validate:contracts
+  ranAt: '2026-07-24T21:32:08Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - docs/domain-technical.md
+  output: |+
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DyDw7hLD.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-nvLwNVC7.js                40.71 kB │ gzip:  13.38 kB
+    dist/assets/BusinessOwnerPage-Wkni5VAj.js                     43.39 kB │ gzip:  11.21 kB
+    dist/assets/index-DUyCgtTk.js                                 47.43 kB │ gzip:  12.49 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 537ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (72 checks).
+
+    > frontend@0.0.0 validate:contracts
+    > node ./scripts/generate-vision-contracts.mjs --check
+
+    Generated frontend contract is fresh.
+
+  startedAt: '2026-07-24T21:31:21Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextualAssistantComposer.vue
+  - apps/themuffinman/frontend/src/contracts/index.ts
+  - docs/domain-technical.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

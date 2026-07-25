@@ -8,6 +8,8 @@ master_plan: docs/work/frontend-app-remaster-master.yaml
 strict_verification: true
 serial_task_execution: true
 execution_inventory: docs/work/frontend-app-remaster-master-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: Scope reconciliation treats the Apple desktop reference as the primary Web design authority.
 objective: Freeze the remaster baseline and residual scope using canonical System
   Map, capability, route, surface, and verified-plan evidence.
 scope_control:

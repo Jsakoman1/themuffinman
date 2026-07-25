@@ -86,7 +86,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeydown))
 
 <template>
   <!-- Post-start hardening marker: preserve route context and keyboard recovery at every handoff. -->
-  <section class="vision-web-host" aria-label="Vision assistant" data-context-source="contextual-workspace">
+  <section class="vision-web-host" aria-label="Vision assistant" data-context-source="contextual-workspace" data-mental-model="idle-listen-think-result" :data-vision-state="assistantState" data-vision-model="siri-like-inline-bubble">
       <button v-if="!props.persistent" ref="toggleButton" class="vision-web-host__toggle" type="button" aria-controls="vision-web-panel" :aria-expanded="open" @click="toggle">
       <VisionForWebAssistant :state="assistantState" />
       Vision
@@ -100,9 +100,9 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeydown))
       <p v-if="response" class="vision-web-host__response" :data-vision-state="response.agentState">{{ response.message }}</p>
       <p v-if="error" class="vision-web-host__error" role="alert">{{ error }}</p>
       <form class="vision-web-host__composer" @submit.prevent="submit">
-        <input ref="composer" v-model="inputText" type="text" placeholder="Ask Vision…" :disabled="isLoading || voiceState === 'processing'" aria-label="Ask Vision" />
-        <button v-if="speechRecognitionSupported" type="button" class="vision-web-host__mic" :disabled="voiceState === 'listening'" @click="voiceState === 'listening' ? stopListening() : startListening()">{{ voiceState === 'listening' ? "Stop" : "Mic" }}</button>
-        <button type="submit" :disabled="!canSend || isLoading">{{ isLoading ? "…" : "Ask" }}</button>
+        <input ref="composer" v-model="inputText" type="text" placeholder="Ask or type a command…" :disabled="isLoading || voiceState === 'processing'" aria-label="Ask Vision" />
+        <button v-if="speechRecognitionSupported" type="button" class="vision-web-host__mic" :aria-label="voiceState === 'listening' ? 'Stop listening' : 'Use voice input'" :disabled="voiceState === 'listening'" @click="voiceState === 'listening' ? stopListening() : startListening()">{{ voiceState === 'listening' ? "◼" : "◉" }}</button>
+        <button type="submit" aria-label="Ask Vision" :disabled="!canSend || isLoading">{{ isLoading ? "…" : "↑" }}</button>
       </form>
     </div>
   </section>
@@ -116,6 +116,22 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeydown))
 .vision-web-host__panel--persistent { position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); left: max(1rem, env(safe-area-inset-left)); top: auto; width: min(38rem, calc(100vw - 2rem)); margin-inline: auto; box-shadow: var(--shadow-overlay); }
 .vision-web-host__header { display: flex; justify-content: space-between; align-items: start; }
 .vision-web-host__header div { display: grid; gap: .15rem; }.vision-web-host__header span, .vision-web-host__hint { color: var(--text-muted); font-size: var(--text-size-meta); }.vision-web-host__hint, .vision-web-host__response { margin: 0; }.vision-web-host__response { padding: .65rem; border-radius: var(--radius-control); background: var(--surface-hover); }.vision-web-host__error { margin: 0; color: var(--danger); }.vision-web-host__close { border: 0; background: transparent; color: var(--text-muted); font-size: 1.25rem; cursor: pointer; }.vision-web-host__composer { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: .5rem; }.vision-web-host__composer input, .vision-web-host__composer button { min-height: var(--control-height-default); padding: .5rem; border: 1px solid var(--control-border); border-radius: var(--radius-control); background: var(--control-bg); color: var(--control-ink); font: inherit; }.vision-web-host__composer button { background: var(--accent); border-color: var(--accent); color: var(--canvas); cursor: pointer; }.vision-web-host__composer button:disabled { opacity: .55; cursor: not-allowed; }
-@media (max-width: 640px) { .vision-web-host__panel { position: fixed; top: 4.5rem; right: .75rem; left: .75rem; width: auto; } .vision-web-host__composer { grid-template-columns: minmax(0, 1fr) auto; } .vision-web-host__composer input { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .vision-web-host__panel:not(.vision-web-host__panel--persistent) { position: fixed; top: 4.5rem; right: .75rem; left: .75rem; width: auto; } .vision-web-host__panel--persistent { right: .75rem; bottom: max(.75rem, env(safe-area-inset-bottom)); left: .75rem; width: auto; } .vision-web-host__composer { grid-template-columns: minmax(0, 1fr) auto auto; } .vision-web-host__composer input { min-width: 0; } }
 @media (prefers-reduced-motion: reduce) { .vision-web-host__orb { animation: none; } }
+</style>
+<style scoped>
+/* Native assistant dock: persistent Vision stays present without becoming a dashboard card. */
+.vision-web-host__panel--persistent { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:var(--space-2); width:min(34rem,calc(100vw - 2rem)); padding:var(--space-2); border:1px solid var(--line-strong); border-radius:999px; background:color-mix(in srgb,var(--surface-raised) 92%,transparent); box-shadow:var(--shadow-overlay); backdrop-filter:var(--app-material-blur); }
+.vision-web-host__panel--persistent .vision-web-host__header { display:flex; align-items:center; gap:var(--space-2); min-width:0; }
+.vision-web-host__panel--persistent .vision-web-host__header div { display:block; }
+.vision-web-host__panel--persistent .vision-web-host__header span { display:none; }
+.vision-web-host__panel--persistent .vision-web-host__header strong { display:grid; place-items:center; width:1.9rem; height:1.9rem; border-radius:50%; background:var(--accent-muted); color:var(--accent); font-size:0; }
+.vision-web-host__panel--persistent .vision-web-host__header strong::before { content:"✦"; font-size:1rem; }
+.vision-web-host__panel--persistent .vision-web-host__hint { display:none; }
+.vision-web-host__panel--persistent .vision-web-host__response,.vision-web-host__panel--persistent .vision-web-host__error { position:absolute; right:0; bottom:calc(100% + var(--space-2)); width:min(30rem,calc(100vw - 2rem)); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-card); background:var(--surface-raised); box-shadow:var(--shadow-overlay); }
+.vision-web-host__panel--persistent .vision-web-host__composer { min-width:0; }
+.vision-web-host__panel--persistent .vision-web-host__composer input { min-height:2.25rem; border:0; background:transparent; }
+.vision-web-host__panel--persistent .vision-web-host__composer button { width:2.25rem; min-width:2.25rem; padding:0; border:0; border-radius:50%; font-size:1rem; }
+.vision-web-host__panel--persistent .vision-web-host__composer .vision-web-host__mic { background:transparent; color:var(--text-muted); }
+@media(max-width:640px){.vision-web-host__panel--persistent{right:.75rem;bottom:max(.75rem,env(safe-area-inset-bottom));left:.75rem;width:auto}.vision-web-host__panel--persistent .vision-web-host__response,.vision-web-host__panel--persistent .vision-web-host__error{right:0;width:calc(100vw - 1.5rem)}}
 </style>

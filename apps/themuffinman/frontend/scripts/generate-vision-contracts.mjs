@@ -459,7 +459,7 @@ function extractClassBody(source, startIndex) {
 }
 
 function parseFieldsFromClassBody(body) {
-  const matches = [...body.matchAll(/((?:\s*@[\w.]+(?:\([^)]*\))?\s+)*)\s*private\s+([^;\n]+?)\s+([A-Za-z0-9_]+)\s*;/g)]
+  const matches = [...body.matchAll(/((?:\s*@[\w.]+(?:\([^)]*\))?\s+)*)\s*private\s+([^;]+?)\s+([A-Za-z0-9_]+)\s*;/g)]
   return matches.flatMap((match) => {
     const annotationSource = `${match[1]} ${match[2]}`
     if (/\bstatic\b/.test(match[2])) {

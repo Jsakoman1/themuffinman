@@ -1,7 +1,9 @@
 import type {RouteLocationRaw} from "vue-router"
 import {buildAppPrimaryNavItems, buildAppSecondaryNavItems, canonicalRouteForSurface, topLevelNavigationPromotionPolicy} from "./shellRouteRegistry.ts"
 
-export type AppPrimaryNavId = "home" | "work" | "chat" | "calendar" | "business" | "circles" | "things" | "rides" | "profile"
+export const desktopCommandModel = Object.freeze({shortcut: "Mod+K", source: "backend-prepared", oneOpenSurface: true})
+
+export type AppPrimaryNavId = "home" | "work" | "chat" | "calendar" | "business" | "services" | "circles" | "things" | "rides" | "profile"
 
 export type AppSurfaceId =
   | "home"
@@ -65,7 +67,9 @@ export type AppPersonalShortcut = {
 export const authenticatedShellContract = {
   landmarks: ["primary-navigation", "workspace-context", "workspace-main"],
   layout: "stable-left-rail-context-header-main-surface",
-  vision: "contextual-entry-remains-separate-from-command-navigation"
+  vision: "contextual-entry-remains-separate-from-command-navigation",
+  header: "back-context-account-only",
+  navigation: "one-stable-rail-with-module-owned-tabs"
 } as const
 
 // Closeout disposition: authenticated module pages own their tabs and actions;
@@ -150,8 +154,8 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
     actions: [{label: "Circles", to: {path: "/circles"}}]
   },
   "business-discovery": {
-    id: "business-discovery", archetype: "business", navId: "business", eyebrow: "Business / Discover", title: "Find a business",
-    actions: [{label: "Business", to: {path: "/business"}}]
+    id: "business-discovery", archetype: "business", navId: "services", eyebrow: "Services", title: "Find a service",
+    actions: [{label: "Find service", to: {path: "/business/find"}}]
   },
   things: {
     id: "things", archetype: "things", navId: "things", eyebrow: "Things", title: "Things",

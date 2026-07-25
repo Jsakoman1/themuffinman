@@ -73,6 +73,7 @@ public class QuestController {
     }
 
     @GetMapping("/presets/{preset}")
+    // Route-scoped preset endpoints prevent Find/My scope state from sharing a mutable list.
     public QuestListResponseDTO getQuestPreset(
             @PathVariable QuestListPresetDTO preset,
             @AuthenticationPrincipal AppUser currentUser,

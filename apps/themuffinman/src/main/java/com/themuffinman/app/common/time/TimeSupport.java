@@ -39,6 +39,10 @@ public final class TimeSupport {
         }
     }
 
+    public static ZoneId resolveViewerZone(String timezone) {
+        return resolveZoneIdOrDefault(timezone, ZoneId.of("UTC"));
+    }
+
     public static LocalDate today(ZoneId zoneId) {
         return LocalDate.now(zoneId);
     }

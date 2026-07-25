@@ -10,7 +10,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <header class="detail-surface-header" aria-label="Detail header" data-detail-model="contextual-return">
+  <header class="detail-surface-header" aria-label="Detail header" data-detail-model="contextual-return" data-disclosure-model="overview-to-detail-return">
     <div class="detail-surface-header__identity"><p>{{ eyebrow }}</p><h1>{{ title }}</h1></div>
     <div v-if="backTo || $slots.actions" class="detail-surface-header__actions"><RouterLink v-if="backTo" :to="backTo" class="detail-surface-header__back">{{ backLabel }}</RouterLink><slot name="actions" /></div>
   </header>

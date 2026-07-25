@@ -18,6 +18,8 @@ import type {
   BusinessAvailabilityExceptionRequestDTO,
   BusinessAvailabilityExceptionResponseDTO,
   BusinessBookingRequestDTO,
+  BusinessBookingPolicyRequestDTO,
+  BusinessBookingPolicyResponseDTO,
   BusinessPublicPageDTO,
   BusinessProfileResponseDTO,
   BusinessProfileListResponseDTO,
@@ -119,13 +121,10 @@ export type AttentionCenter = {unreadCount: number; items: ActivityItem[]}
 export type PersonalShortcut = {targetId: number; targetType: string; title: string; route: string}
 export type WorkspaceRailPreference = {railWidthPx: number}
 export type AppearancePreference = {theme: "SYSTEM" | "DARK" | "LIGHT"}
-export type WorkspaceDefaults = {density: "comfortable" | "compact"; landing: "home" | "calendar" | "work"; bookingDurationMinutes: number; notificationIntensity: "all" | "important" | "none"}
-export type OperatorDashboardSections = {bookings: boolean; revenue: boolean; staffWorkload: boolean; availabilityGaps: boolean; pendingRequests: boolean; customerMessages: boolean}
-const workspaceDefaultsKey = "workspaceDefaults"
-const operatorDashboardKey = "operatorDashboardSections"
-const defaultWorkspaceDefaults: WorkspaceDefaults = {density: "comfortable", landing: "home", bookingDurationMinutes: 30, notificationIntensity: "important"}
 export type DisplayDensity = "compact" | "default" | "comfortable"
 export type WorkspaceCommandCatalog = import("../../../contracts/index.ts").WorkspaceCommandCatalog
+export type WorkspaceContextId = "PERSONAL" | "ALL" | `${number}`
+export const businessContextRoute = (businessProfileId: number) => ({path: "/business/profile", query: {businessId: String(businessProfileId)}})
 export type WorkspaceCommandGroup = "personal" | "navigation" | "create" | "vision"
 export type GuidedIntakeStep = {fieldId: string; inputKind: string; label: string; placeholder: string; choices: string[]; currentValue?: string; valid: boolean; error?: string; nextAction: string; complete: boolean}
 export type GuidedIntakeResponse = {flow: string; step: GuidedIntakeStep; draft: Record<string, string>; reviewReady: boolean}
@@ -165,6 +164,7 @@ export const userShellApi = {
     page?: number
     size?: number
     scheduledOnly?: boolean
+    scopeKey?: "available" | "mine" | "active"
     signal?: AbortSignal
   } = {}): Promise<QuestListResponseDTO> {
     const params = {
@@ -173,6 +173,7 @@ export const userShellApi = {
       page: query.page ?? 0,
       size: query.size ?? 12,
       scheduledOnly: query.scheduledOnly || undefined
+      ,scopeKey: query.scopeKey || undefined
     }
     const path = query.preset ? `/quests/presets/${query.preset}` : "/quests/search"
     return (await api.get<QuestListResponseDTO>(path, {params, signal: query.signal, ...withAuth()})).data
@@ -201,12 +202,8 @@ export const userShellApi = {
   async updateWorkspaceRailPreference(railWidthPx: number): Promise<WorkspaceRailPreference> { return (await api.put<WorkspaceRailPreference>("/personal-shortcuts/me/rail-preference", {railWidthPx}, withAuth())).data },
   async getAppearancePreference(): Promise<AppearancePreference> { return (await api.get<AppearancePreference>("/personal-shortcuts/me/appearance-preference", withAuth())).data },
   async updateAppearancePreference(theme: AppearancePreference["theme"]): Promise<AppearancePreference> { return (await api.put<AppearancePreference>("/personal-shortcuts/me/appearance-preference", {theme}, withAuth())).data },
-  async getWorkspaceDefaults(): Promise<WorkspaceDefaults> { if (typeof window === "undefined") return defaultWorkspaceDefaults; try { return {...defaultWorkspaceDefaults, ...JSON.parse(window.localStorage.getItem(workspaceDefaultsKey) || "{}")} } catch { return defaultWorkspaceDefaults } },
-  async updateWorkspaceDefaults(value: WorkspaceDefaults): Promise<WorkspaceDefaults> { if (typeof window !== "undefined") window.localStorage.setItem(workspaceDefaultsKey, JSON.stringify(value)); return value },
-  async resetWorkspaceDefaults(): Promise<WorkspaceDefaults> { if (typeof window !== "undefined") window.localStorage.removeItem(workspaceDefaultsKey); return defaultWorkspaceDefaults },
-  async getOperatorDashboardSections(): Promise<OperatorDashboardSections> { const fallback = {bookings: true, revenue: true, staffWorkload: true, availabilityGaps: true, pendingRequests: true, customerMessages: true}; if (typeof window === "undefined") return fallback; try { return {...fallback, ...JSON.parse(window.localStorage.getItem(operatorDashboardKey) || "{}")} } catch { return fallback } },
-  async updateOperatorDashboardSections(value: OperatorDashboardSections): Promise<OperatorDashboardSections> { if (typeof window !== "undefined") window.localStorage.setItem(operatorDashboardKey, JSON.stringify(value)); return value },
   async getWorkspaceCommandCatalog(signal?: AbortSignal): Promise<WorkspaceCommandCatalog> { return (await api.get<WorkspaceCommandCatalog>("/workspace/commands", {signal, ...withAuth()})).data },
+  async persistWorkspaceContext(context: string): Promise<string> { if (typeof window !== "undefined") window.sessionStorage.setItem("workspaceContext", context); return context },
   /** Navigation is a read-only shell contract; command actions remain on /workspace/commands. */
   async getWorkspaceNavigation(signal?: AbortSignal): Promise<WorkspaceNavigationResponse> { return workspaceNavigationApi.get(signal) },
   /** Keep action failures recoverable without converting server policy into client rules. */
@@ -456,6 +453,14 @@ export const userShellApi = {
     return (await api.get<BusinessOfferingListResponseDTO>("/business/offerings/me", {params: activeBusinessParams(), ...withAuth()})).data
   },
 
+  async getBusinessBookingPolicy(): Promise<BusinessBookingPolicyResponseDTO> {
+    return (await api.get<BusinessBookingPolicyResponseDTO>("/business/booking-policy/me", {params: activeBusinessParams(), ...withAuth()})).data
+  },
+
+  async updateBusinessBookingPolicy(request: BusinessBookingPolicyRequestDTO): Promise<BusinessBookingPolicyResponseDTO> {
+    return (await api.put<BusinessBookingPolicyResponseDTO>("/business/booking-policy/me", request, {params: activeBusinessParams(), ...withAuth()})).data
+  },
+
   async createBusinessOffering(request: BusinessOfferingRequestDTO): Promise<BusinessOfferingResponseDTO> {
     return (await api.post<BusinessOfferingResponseDTO>("/business/offerings/me", request, {params: activeBusinessParams(), ...withAuth()})).data
   },
@@ -573,8 +578,9 @@ export const userShellApi = {
   async getBusinessOwnerCalendar(range: {from?: string; to?: string} = {}): Promise<BusinessOwnerCalendarProjectionDTO> {
     return (await api.get<BusinessOwnerCalendarProjectionDTO>("/business/bookings/owner/calendar", {params: range, ...withAuth()})).data
   },
-  async getCalendarProjection(range: {from: string; to: string; sources?: string[]; businessId?: number}): Promise<CalendarProjection> {
-    return (await api.get<CalendarProjection>("/calendar", {params: {from: range.from, to: range.to, source: range.sources, businessId: range.businessId}, ...withAuth()})).data
+  async getCalendarProjection(range: {from: string; to: string; sources?: string[]; businessId?: number; view?: "agenda" | "day" | "week" | "month"}): Promise<CalendarProjection> {
+    const scopeKey = `calendar:${range.businessId ?? "all"}:${range.from}:${range.to}:${(range.sources || []).slice().sort().join(",")}`
+    return (await api.get<CalendarProjection>("/calendar", {params: {from: range.from, to: range.to, source: range.sources, businessId: range.businessId, view: range.view, scopeKey}, ...withAuth()})).data
   },
   async getRideSuggestions(): Promise<import("../../../contracts/index.ts").RideOfferListResponseDTO> {
     return (await api.get<import("../../../contracts/index.ts").RideOfferListResponseDTO>("/rides/suggestions", withAuth())).data

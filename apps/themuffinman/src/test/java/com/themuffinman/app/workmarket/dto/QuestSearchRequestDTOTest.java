@@ -18,4 +18,10 @@ class QuestSearchRequestDTOTest {
         assertThat(request.getPage()).isEqualTo(1);
         assertThat(request.getSize()).isEqualTo(3);
     }
+
+    @Test
+    void scopePresetsRemainExplicitAtTheRequestBoundary() {
+        assertThat(com.themuffinman.app.workmarket.dto.QuestListPresetDTO.valueOf("AVAILABLE")).isEqualTo(com.themuffinman.app.workmarket.dto.QuestListPresetDTO.AVAILABLE);
+        assertThat(com.themuffinman.app.workmarket.dto.QuestListPresetDTO.valueOf("MY_VISIBLE")).isEqualTo(com.themuffinman.app.workmarket.dto.QuestListPresetDTO.MY_VISIBLE);
+    }
 }

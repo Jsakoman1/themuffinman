@@ -4,22 +4,28 @@ import {RouterLink, RouterView, useRoute} from "vue-router"
 import {appPersonalShortcuts, authenticatedShellContract, getAppSurfaceConfig, type AppPrimaryNavId, type AppSurfaceId} from "../shellDefinitions.ts"
 import ContextualAssistantComposer from "../components/ContextualAssistantComposer.vue"
 import AccountMenu from "../components/AccountMenu.vue"
-import GlobalSearchEntry from "../components/GlobalSearchEntry.vue"
 import WorkspaceModuleRail from "../components/WorkspaceModuleRail.vue"
 import AppButton from "../components/AppButton.vue"
+import AppLoadingState from "../components/AppLoadingState.vue"
+import AppStatus from "../components/AppStatus.vue"
 import {userShellApi, type AttentionCenter, type PersonalShortcut} from "../api/userShellApi.ts"
 import {useWorkspaceNavigation} from "../composables/useWorkspaceNavigation.ts"
 import {useChatRealtime} from "../composables/useChatRealtime.ts"
 import TaskSurface from "../components/TaskSurface.vue"
-import ContextSwitcher from "../components/ContextSwitcher.vue"
 import {setActiveBusinessProfileId} from "../api/userShellApi.ts"
 
 const route = useRoute()
 const globalContext = ref<string>(typeof window === "undefined" ? "PERSONAL" : window.sessionStorage.getItem("workspaceContext") || "PERSONAL")
 const businessProfiles = ref<Awaited<ReturnType<typeof userShellApi.getMyBusinessProfiles>>>([])
-const globalContextOptions = computed(() => [{id: "PERSONAL", label: "Personal", description: "Your personal workspace"}, {id: "ALL", label: "All businesses", description: "Aggregate business schedule"}, ...businessProfiles.value.map(profile => ({id: String(profile.id), label: profile.businessName, description: "Business workspace"}))])
-const loadGlobalContexts = async () => { businessProfiles.value = await userShellApi.getMyBusinessProfiles().catch(() => []) }
-const selectGlobalContext = (value: string | number | null) => { const next = value === null ? "PERSONAL" : String(value); globalContext.value = next; window.sessionStorage.setItem("workspaceContext", next); setActiveBusinessProfileId(next === "PERSONAL" || next === "ALL" ? null : Number(next)) }
+const ownerBusinessSurface = computed(() => ["business-profile", "business-bookings", "business-calendar", "business-service-setup"].includes(String(currentSurfaceId.value)))
+const loadGlobalContexts = async () => {
+  businessProfiles.value = await userShellApi.getMyBusinessProfiles().catch(() => [])
+  if (ownerBusinessSurface.value && globalContext.value === "PERSONAL" && businessProfiles.value[0]) {
+    globalContext.value = String(businessProfiles.value[0].id)
+    window.sessionStorage.setItem("workspaceContext", globalContext.value)
+    setActiveBusinessProfileId(businessProfiles.value[0].id)
+  }
+}
 
 const currentSurfaceId = computed(() => route.meta.surfaceId as AppSurfaceId | undefined)
 
@@ -32,6 +38,10 @@ const activeNavId = computed<AppPrimaryNavId | null>(() => {
 })
 
 const workspaceNavigation = useWorkspaceNavigation()
+const backendNavigationReady = computed(() => {
+  const response = workspaceNavigation.navigation.value
+  return !workspaceNavigation.error.value && !!response && response.modules.length > 0
+})
 
 const currentContextLabel = computed(() => {
   if (!currentSurfaceId.value) {
@@ -68,42 +78,42 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 </script>
 
 <template>
-  <div class="app-shell" data-workspace-shell="authenticated" data-responsive-policy="shared-shell" :data-workspace-layout="authenticatedShellContract.layout" :style="{'--workspace-rail-width': `${railWidthPx}px`}">
+  <div v-if="backendNavigationReady" class="app-shell" data-workspace-shell="authenticated" data-visual-language="apple-semantic-materials" data-responsive-policy="shared-shell" :data-workspace-layout="authenticatedShellContract.layout" :style="{'--workspace-rail-width': `${railWidthPx}px`}">
     <aside class="app-shell__rail" aria-label="Primary navigation">
       <div class="app-shell__brand">
         <p class="app-shell__brand-mark" aria-label="TheMuffinMan">TM</p>
-        <p class="app-shell__brand-copy">Workspace</p>
+        <p class="app-shell__brand-copy">TheMuffinMan</p>
       </div>
 
-      <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" :data-navigation-contract="workspaceNavigation.navigation.value?.contractVersion ?? 'unavailable'" />
+      <div class="app-shell__workspace-group">
+        <p class="app-shell__nav-heading">Workspace</p>
+        <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" :data-navigation-contract="workspaceNavigation.navigation.value?.contractVersion ?? 'unavailable'" />
+      </div>
 
       <div class="app-shell__rail-footer">
         <p class="app-shell__nav-heading">Personal</p>
         <RouterLink to="/notifications" class="app-shell__attention-link"><span>Attention</span><strong>{{ attention?.unreadCount ?? '—' }}</strong></RouterLink>
         <p v-if="personalContextError" class="app-shell__personal-recovery">Personal context is unavailable. <AppButton type="button" tone="quiet" @click="loadPersonalContext">Retry</AppButton></p>
         <RouterLink v-for="item in pinned" :key="`pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link"><span aria-hidden="true">★</span>{{ item.title }}</RouterLink>
-        <RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink>
-        <p class="app-shell__nav-heading app-shell__nav-heading--account">Account</p>
-        <RouterLink to="/profile" class="app-shell__account-link" :class="{ 'app-shell__account-link--active': activeNavId === 'profile' }">Profile</RouterLink>
-        <RouterLink to="/profile/settings" class="app-shell__account-link">Settings</RouterLink>
+        <details class="app-shell__more">
+          <summary class="app-shell__more-summary">More</summary>
+          <div class="app-shell__more-content">
+            <RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link"><span aria-hidden="true">{{ item.icon }}</span>{{ item.label }}</RouterLink>
+            <RouterLink to="/chat" class="app-shell__account-link"><span aria-hidden="true">◌</span>Chat</RouterLink>
+            <RouterLink to="/calendar" class="app-shell__account-link"><span aria-hidden="true">□</span>Calendar</RouterLink>
+          </div>
+        </details>
+        <div class="app-shell__account-section"><p class="app-shell__nav-heading">Account</p><AccountMenu placement="rail" /></div>
       </div>
     </aside>
       <div class="app-shell__rail-resizer" :class="{'app-shell__rail-resizer--active': railResizing}" role="separator" tabindex="0" aria-orientation="vertical" :aria-valuemin="216" :aria-valuemax="280" :aria-valuenow="railWidthPx" aria-label="Resize workspace navigation" @pointerdown="beginRailResize" @keydown="resizeRailWithKeyboard" />
 
     <div class="app-shell__frame">
-      <header class="app-shell__header" aria-label="Workspace context">
-        <div class="app-shell__header-actions">
-          <ContextSwitcher :model-value="globalContext" :options="globalContextOptions" label="Workspace context" @update:model-value="selectGlobalContext" />
-          <GlobalSearchEntry />
-          <AccountMenu />
-        </div>
-      </header>
-
       <!-- Post-start hardening marker: every authenticated route inherits one responsive task surface. -->
-      <main class="app-shell__content" :data-workspace-surface="currentSurfaceId ?? 'unknown'" data-responsive-task-shell>
+      <main class="app-shell__content" :data-workspace-surface="currentSurfaceId ?? 'unknown'" data-responsive-task-shell data-vision-surface="persistent-bottom-composer" data-native-frame="sidebar-context-content-canvas" data-system-audit="shared-shell-no-route-chrome" data-chat-policy="two-pane-conversation-surface">
         <TaskSurface :mode="currentSurfaceId === 'home' ? 'orient' : 'workspace'" :label="currentContextLabel">
           <!-- The shell supplies context framing; child surfaces own their domain data and actions. -->
-          <RouterView />
+          <RouterView v-slot="{Component}"><component :is="Component" :key="route.fullPath" /></RouterView>
         </TaskSurface>
         <ContextualAssistantComposer :context="currentContextLabel" :source="`shell.surface.${currentSurfaceId ?? 'home'}`" :return-to="route.fullPath" />
       </main>
@@ -118,48 +128,55 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
         <aside id="mobile-workspace-drawer" ref="mobileDrawer" class="app-shell__drawer" aria-label="Workspace navigation" tabindex="-1" @keydown.esc.prevent="closeMobileDrawer">
           <header class="app-shell__drawer-header"><span>Workspace</span><AppButton type="button" tone="quiet" aria-label="Close navigation" @click="closeMobileDrawer">×</AppButton></header>
           <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" show-children @click="closeMobileDrawer" />
-          <nav class="app-shell__drawer-nav" aria-label="Personal"><p class="app-shell__nav-heading">Personal</p><RouterLink v-for="item in pinned" :key="`drawer-pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link" @click="closeMobileDrawer">★ {{ item.title }}</RouterLink><RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link" @click="closeMobileDrawer">{{ item.label }}</RouterLink><RouterLink to="/profile" class="app-shell__account-link" @click="closeMobileDrawer">Profile</RouterLink><RouterLink to="/profile/settings" class="app-shell__account-link" @click="closeMobileDrawer">Settings</RouterLink></nav>
+          <nav class="app-shell__drawer-nav" aria-label="Personal"><p class="app-shell__nav-heading">Personal</p><RouterLink v-for="item in pinned" :key="`drawer-pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link" @click="closeMobileDrawer">★ {{ item.title }}</RouterLink><RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link" @click="closeMobileDrawer">{{ item.label }}</RouterLink><RouterLink to="/chat" class="app-shell__account-link" @click="closeMobileDrawer">Chat</RouterLink><RouterLink to="/calendar" class="app-shell__account-link" @click="closeMobileDrawer">Calendar</RouterLink></nav>
+          <div class="app-shell__drawer-account"><p class="app-shell__nav-heading">Account</p><AccountMenu placement="rail" /></div>
         </aside>
       </div>
     </Teleport>
   </div>
+  <section v-else class="backend-shell-state" aria-live="polite" :aria-busy="workspaceNavigation.loading.value || undefined">
+    <AppLoadingState v-if="workspaceNavigation.loading.value" label="Loading workspace" :rows="4" />
+    <AppStatus v-else message="The workspace navigation is unavailable. Retry when the backend is online." tone="error" retry @retry="workspaceNavigation.reload" />
+  </section>
 </template>
 
 <style scoped>
 .app-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: var(--workspace-rail-width) 6px minmax(0, 1fr);
+  grid-template-columns: var(--workspace-rail-width) 1px minmax(0, 1fr);
   background: var(--bg);
   color: var(--text);
 }
 
+.backend-shell-state { min-height: 100vh; display: grid; place-items: center; padding: var(--space-5); background: var(--canvas); color: var(--text); }
+.backend-shell-state :deep(.app-status), .backend-shell-state :deep(.app-loading-state) { width: min(100%, 34rem); }
+
 .app-shell__rail {
   display: grid;
   align-content: start;
-  gap: var(--space-5);
+  gap: var(--space-6);
   position: sticky;
   top: 0;
   height: 100svh;
-  padding: var(--space-4) var(--space-2) var(--space-3);
-  border-right: 1px solid var(--border-subtle);
+  overflow-y: auto;
+  padding: 1.1rem .75rem var(--space-3);
+  border-right: 0;
   background: var(--rail);
 }
+
+.app-shell__workspace-group { display: grid; gap: var(--space-1); }
 
 .app-shell__rail-resizer { grid-column: 2; grid-row: 1; position: sticky; top: 0; height: 100svh; cursor: col-resize; touch-action: none; }.app-shell__rail-resizer::after { display: block; width: 1px; height: 100%; margin-inline: auto; background: transparent; content: ""; }.app-shell__rail-resizer:hover::after, .app-shell__rail-resizer--active::after { background: var(--accent); }
 
 .app-shell__brand,
 .app-shell__rail-footer,
-.app-shell__header,
 .app-shell__content {
   min-width: 0;
 }
 
 .app-shell__brand-mark,
-.app-shell__title,
 .app-shell__nav-label,
-.app-shell__vision-label,
-.app-shell__account-label,
 .app-shell__nav-heading {
   margin: 0;
 }
@@ -195,14 +212,13 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 .app-shell__nav-heading {
   padding: var(--space-1) var(--space-3) var(--space-1);
   color: var(--text-soft);
-  font-size: var(--text-size-label);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
-.app-shell__nav-link,
-.app-shell__vision-link {
+.app-shell__nav-link {
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -217,15 +233,11 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 .app-shell__nav-icon { display: inline-grid; place-items: center; width: 1.15rem; color: var(--text-soft); font-size: var(--text-size-body); }
 .app-shell__nav-link--active .app-shell__nav-icon { color: var(--accent); }
 
-.app-shell__nav-link:hover,
-.app-shell__vision-link:hover,
-.app-shell__header-vision:hover,
-.app-shell__logout:hover {
+.app-shell__nav-link:hover {
   color: var(--text);
 }
 
-.app-shell__nav-link:hover,
-.app-shell__vision-link:hover {
+.app-shell__nav-link:hover {
   background: var(--surface-hover);
   border-color: var(--border-subtle);
 }
@@ -251,6 +263,8 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   display: grid;
   gap: var(--space-1);
 }
+
+.app-shell__more-content { display: grid; gap: var(--space-1); padding-top: var(--space-1); }
 
 .app-shell__more-summary {
   cursor: pointer;
@@ -290,8 +304,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   padding-block: 0.45rem;
 }
 
-.app-shell__nav-label,
-.app-shell__vision-label {
+.app-shell__nav-label {
   font-weight: 600;
   letter-spacing: -0.03em;
 }
@@ -299,7 +312,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 .app-shell__rail-footer {
   margin-top: auto;
   display: grid;
-  gap: var(--space-1);
+  gap: .15rem;
 }
 
 .app-shell__attention-link { display: flex; align-items: center; justify-content: space-between; min-height: var(--control-height-default); padding: var(--space-1) var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); color: var(--text-muted); font-size: var(--text-size-body); }.app-shell__attention-link strong { color: var(--text); font-variant-numeric: tabular-nums; }.app-shell__personal-recovery { margin: 0; padding: 0 var(--space-3); color: var(--warning); font-size: var(--text-size-meta); }.app-shell__personal-recovery button { border: 0; background: transparent; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
@@ -328,100 +341,15 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   min-width: 0;
 }
 
-.app-shell__header {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-4);
-  align-items: flex-start;
-  min-height: var(--workspace-header-height);
-  align-items: center;
-  padding: var(--space-2) var(--space-5);
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--canvas-raised);
-}
-
-.app-shell__context {
-  display: grid;
-  gap: 0.28rem;
-}
-
-.app-shell__eyebrow {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.73rem;
-  color:var(--text-muted);
-}
-
-.app-shell__title {
-  font-size: var(--text-size-title);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.app-shell__header-actions {
-  display: grid;
-  grid-auto-flow: column;
-  gap: var(--space-2);
-  align-items: center;
-}
-
-.app-shell__vision-hint {
-  margin: 0;
-  max-width: 22rem;
-  color:var(--text-muted);
-  font-size: var(--text-size-meta);
-  line-height: 1.35;
-  text-align: right;
-}
-
-.app-shell__vision-form {
-  display: grid;
-  grid-template-columns: minmax(14rem, 22rem) auto;
-  gap: 0.55rem;
-}
-
-.app-shell__vision-input,
-.app-shell__header-vision,
-.app-shell__logout {
-  border-radius: var(--radius-control);
-  border: 1px solid var(--control-border);
-  background: var(--control-bg);
-  color: var(--control-ink);
-  padding: var(--space-2) var(--space-3);
-}
-
-.app-shell__vision-input {
-  min-width: 0;
-}
-
-.app-shell__account {
-  display: grid;
-  justify-items: end;
-  gap: 0.32rem;
-}
-
-.app-shell__account-label {
-  font-size: 0.9rem;
-  color:var(--text-muted);
-}
-
-.app-shell__logout {
-  color: inherit;
-}
-
 .app-shell__content {
   min-height: 0;
   width: 100%;
-  padding: var(--space-6) var(--workspace-content-gutter);
+  padding: var(--space-3) var(--workspace-content-gutter) 5rem;
 }
 
 .app-shell__content > * {
-  width: min(100%, var(--workspace-content-max-width));
-  margin-inline: auto;
+  width: 100%;
+  margin-inline: 0;
 }
 
 @media (min-width: 1800px) {
@@ -471,32 +399,6 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   }
 
   .app-shell__rail-resizer { display: none; }
-
-  .app-shell__header,
-  .app-shell__header-actions {
-    align-items: stretch;
-    min-width: 0;
-  }
-
-  .app-shell__header {
-    flex-direction: column;
-    padding-bottom: 0.6rem;
-  }
-
-  .app-shell__header-actions {
-    grid-auto-flow: row;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
-    justify-items: stretch;
-  }
-
-  .app-shell__vision-form {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .app-shell__account {
-    justify-items: stretch;
-  }
 
   .app-shell__mobile-nav {
     position: sticky;
@@ -548,31 +450,24 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   }
 }
 
-@media (max-width: 640px) {
-  .app-shell__vision-hint {
-    text-align: left;
-    max-width: none;
-  }
-}
-
 /* The shell is the shared workspace frame: controls never introduce a pill/card dialect. */
-.app-shell__account-trigger,.app-shell__nav-link,.app-shell__mobile-link{border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink)}
-.app-shell__vision-entry{color:var(--canvas)}
-</style>
-<style scoped>
+.app-shell__nav-link,.app-shell__mobile-link{border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink)}
+
+/* One quiet macOS-like toolbar: navigation context stays here; business selection belongs to the sidebar. */
+.app-shell__rail { background:var(--material-sidebar); }
+.app-shell__brand-mark { border:0; background:var(--accent-muted); color:var(--accent); }
+.app-shell__brand-copy { color:var(--text); }
+.app-shell__attention-link { border-color:transparent; }
+.app-shell__attention-link:hover { background:var(--surface-hover); }
+
 .app-shell__personal-recovery .app-button { min-height: auto; margin-left: var(--space-1); padding: 0; border: 0; background: transparent; color: inherit; text-decoration: underline; }
 .app-shell__mobile-nav .app-shell__mobile-link.app-button { width: 100%; }
 .app-shell__drawer-header .app-button { width: var(--control-height-default); min-height: var(--control-height-default); padding: 0; font-size: 1.25rem; }
-</style>
-<style scoped>
+
 /* Keep shell controls aligned with the shared app-like contract. */
-.app-shell__vision-input,
-.app-shell__header-vision,
-.app-shell__logout { border-radius: var(--radius-control); background: var(--control-bg); color: var(--control-ink); }
 .app-shell__mobile-more-items { box-shadow: var(--shadow-overlay); background: var(--surface-raised); }
 .app-shell { background: var(--canvas); }
-.app-shell__rail { background: var(--rail-canvas); }
-.app-shell__frame { background: var(--surface-base); }
-.app-shell__header { background: color-mix(in srgb, var(--surface-base) 94%, transparent); border-bottom: 1px solid var(--border-subtle); }
+.app-shell__rail { background: var(--material-sidebar); }
+.app-shell__frame { background: var(--canvas); }
 .app-shell__rail-resizer:focus-visible { outline: var(--focus-ring); outline-offset: -2px; }
 </style>

@@ -30,11 +30,11 @@ export const formatCalendarDay = (value: Date): string =>
 export const formatTime = (value: string | null | undefined, fallback = ""): string =>
   formatDateTime(value, fallback, {hour: "numeric", minute: "2-digit"})
 
-export const formatInTimezone = (value: string | null | undefined, timezone: string, fallback = "Unknown time"): string => {
+export const formatInTimezone = (value: string | null | undefined, timezone: string, fallback = "Unknown time", locale?: string): string => {
   if (!value) return fallback
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return fallback
-  try { return new Intl.DateTimeFormat(undefined, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: timezone}).format(date) }
+  try { return new Intl.DateTimeFormat(locale, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: timezone}).format(date) }
   catch { return formatDateTime(value, fallback) }
 }
 

@@ -1,0 +1,205 @@
+kind: work
+version: 1
+id: apple-product-polish-12-accessibility-performance-localization
+title: Add accessibility, perceived performance, and localization contracts
+status: verified
+master_plan: docs/work/apple-product-polish-master.yaml
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+goal_pursuit_preflight_reviewed_at: 2026-07-24
+mental_model_contract_reviewed_at: 2026-07-24
+system_behavior_contract_reviewed_at: 2026-07-24
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/apple-product-polish-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: All tasks in this plan implement the canonical Apple desktop
+  reference contract; any deviation must be explicit, domain-justified, and evidenced.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-structural-redesign-master.yaml
+  - docs/work/system-map-deepening-master.yaml
+  baseline_only_surfaces:
+  - existing type-check
+  - responsive
+  - keyboard
+  - reduced-motion
+  - and backend formatting helpers
+  residual_scope:
+  - forced-colors/contrast/zoom/screen-reader audit
+  - bounded large-list performance
+  - timezone/locale formatting
+  - and measured evidence
+  retest_triggers:
+  - token
+  - focus
+  - aria
+  - list size
+  - calendar range
+  - date formatter
+  - locale
+  - or loading-state change
+  non_duplication_rule: Existing accessibility and runtime evidence is baseline; this
+    child proves newly centralized audits and formatting/perceived-performance behavior.
+tasks:
+- id: centralize-accessibility-and-motion-audit
+  title: Centralize accessibility states and forced-colors behavior
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-accessibility
+  observable_outcome: Shared primitives pass keyboard, screen-reader, contrast, forced-colors,
+    zoom, focus visibility, touch target, live-region, selected/current state, and
+    reduced-motion checks.
+  dependencies:
+  - add-native-feeling-interactions
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  required_paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  evidence_boundary:
+  - automated accessibility audit
+  - keyboard/screen-reader semantic trace
+  - forced-colors/zoom screenshot
+  - reduced-motion trace
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T21:28:15Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/styles/base.css: 39309b6451785f37ebc3bfd16833ffcb2434f9c841d52c3439e0495c733995a0
+    apps/themuffinman/frontend/src/style.css: 8865d83b752084f975d69eceef4a9c140b3037fd778c0b0ac991915b9938dca5
+    apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue: 973ea050afad52d74a0edefa131e114bb7d826ea0a2161c1f6c46a959f15a862
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue: a9a1d59782f51345b10738cc6f80a33ced2a7de2441ba4df70bea28655195dd4
+    apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs: 0ee035aa9a4be33c5d91afdf2c8b306643ccb26c4832eabbf497dbc7c4ed4f7c
+- id: add-bounded-performance-and-localization-contract
+  title: Make large collections and date/time formatting predictable
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-performance-localization
+  observable_outcome: Shared list/calendar reads are bounded and progressively loaded,
+    while dates, times, timezone, week start, currency, plural, and relative-time
+    labels use portable backend/client formatting metadata.
+  dependencies:
+  - centralize-accessibility-and-motion-audit
+  paths:
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/time/TimeSupport.java
+  required_paths:
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/time/TimeSupport.java
+  evidence_boundary:
+  - bounded-read test
+  - perceived-load trace
+  - timezone/DST/locale Calendar matrix
+  - no-unbounded-list audit
+  validation: cd apps/themuffinman && ./mvnw test && cd frontend && npm run type-check
+    && npm run build
+  started_at: '2026-07-24T21:29:41Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/services/formatters.ts: 8b6a7aebd33162fb3aa834e41f558cd6bef1515e567cf95db57577596887caa0
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: cfe35fc3efefbcfa52686b51c38c090669b12c267a8c97a8ae07c81d4ad43161
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue: 43bf46cd7a75bba1b8bef419c4a2704eebf2c7833775ee1ea3af3de3d1c98803
+    apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java: 225c264b72b3267ab465871f75e14997cf0d8f81519a26baf281eb253e35732c
+    apps/themuffinman/src/main/java/com/themuffinman/app/common/time/TimeSupport.java: 85d97357c568625de317c22247cf506d474c48bb7952b310891365723723f3be
+evidence:
+- task: centralize-accessibility-and-motion-audit
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T21:28:57Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |+
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-BaJ0QWOI.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/BusinessPublicView-Bd3JwmC6.js                    16.49 kB │ gzip:   5.97 kB
+    dist/assets/SurfaceHeader-iKIHNOaT.js                         17.63 kB │ gzip:   5.28 kB
+    dist/assets/ChatSurfaceView-Cf94Vwvb.js                       19.27 kB │ gzip:   6.14 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CTt2vTv5.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-Dn8HDXAN.js                40.66 kB │ gzip:  13.36 kB
+    dist/assets/BusinessOwnerPage-Dxg3bI3f.js                     43.39 kB │ gzip:  11.21 kB
+    dist/assets/index-BjadLUfa.js                                 47.43 kB │ gzip:  12.48 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 529ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (72 checks).
+
+  startedAt: '2026-07-24T21:28:15Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: add-bounded-performance-and-localization-contract
+  command: cd apps/themuffinman && ./mvnw test && cd frontend && npm run type-check
+    && npm run build
+  ranAt: '2026-07-24T21:30:37Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/time/TimeSupport.java
+  output: |+
+    dist/assets/WorkQuestDetailView-DV9qG2pR.js                   12.49 kB │ gzip:   3.92 kB
+    dist/assets/ThingsDiscoveryView-DtVGPt-B.js                   12.77 kB │ gzip:   4.08 kB
+    dist/assets/CirclesView-CAoPITX1.js                           13.73 kB │ gzip:   4.36 kB
+    dist/assets/BusinessServiceSchemaView-Cs4JPNhW.js             14.05 kB │ gzip:   4.56 kB
+    dist/assets/WorkPage-BvbhCrog.js                              14.13 kB │ gzip:   5.19 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-pJHKB5BT.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/BusinessPublicView-CvJSH8Sy.js                    16.49 kB │ gzip:   5.97 kB
+    dist/assets/SurfaceHeader-ov8kKTcM.js                         17.63 kB │ gzip:   5.29 kB
+    dist/assets/ChatSurfaceView-CgGQG3C2.js                       19.27 kB │ gzip:   6.14 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-pHfNUpBu.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-X6oN35yK.js                40.66 kB │ gzip:  13.36 kB
+    dist/assets/BusinessOwnerPage-CC-y6rW2.js                     43.39 kB │ gzip:  11.21 kB
+    dist/assets/index-TrTcyvLh.js                                 47.43 kB │ gzip:  12.50 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 636ms
+
+  startedAt: '2026-07-24T21:29:41Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/services/formatters.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppLoadingState.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/time/TimeSupport.java
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

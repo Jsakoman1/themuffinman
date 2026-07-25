@@ -851,8 +851,8 @@ export interface BusinessProfileRequestDTO {
   timezone: string
   bookingEnabled: boolean
   publicAddressLabel: string
-  latitude: number
-  longitude: number
+  latitude: number | null
+  longitude: number | null
   contactWhatsapp: string
   heroImageUrl: string
   active: boolean
@@ -872,8 +872,8 @@ export interface BusinessProfileResponseDTO {
   timezone: string
   bookingEnabled: boolean
   publicAddressLabel: string
-  latitude: number
-  longitude: number
+  latitude: number | null
+  longitude: number | null
   contactWhatsapp: string
   heroImageUrl: string
   active: boolean
@@ -888,8 +888,8 @@ export interface BusinessPublicPageDTO {
   headline: string
   description: string
   publicAddressLabel: string
-  latitude: number
-  longitude: number
+  latitude: number | null
+  longitude: number | null
   contactEmail: string
   contactPhone: string
   contactWhatsapp: string
@@ -971,11 +971,14 @@ export interface CalendarEventDTO {
   businessId: number
   businessName: string
   navigationPath: string
+  allDay: boolean
 }
 
 export interface CalendarProjectionDTO {
   from: string
   to: string
+  view: string
+  rangeKind: string
   timezone: string
   availableSources: string[]
   events: CalendarEventDTO[]
@@ -2235,6 +2238,7 @@ export interface QuestRequestDTO {
   selectedCircleIds?: number[]
   creatorId?: number
   status?: QuestStatus
+  images?: string[]
   locationVisibility?: QuestLocationVisibility | null
   locationSource?: QuestLocationSource | null
   locationLabel?: string | null
@@ -2375,6 +2379,7 @@ export interface RideOfferResponseDTO {
   completedAt: string
   cancelledAt: string
   visibleCircleNames: string[]
+  visibleCircleIds: number[]
   createdAt: string
 }
 
@@ -2816,6 +2821,7 @@ export interface VisionRuntimeContextDTO {
   retryable: boolean
   clientFamily: string
   confirmationBoundary: string
+  assistantPresentation: string
 }
 
 export interface VisionRuntimeCueDTO {

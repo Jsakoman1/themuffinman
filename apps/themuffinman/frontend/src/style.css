@@ -1,7 +1,8 @@
 @import "./styles/base.css";
 
-/* Shared remaster foundation: surfaces own rhythm, state, and responsive behavior. */
+/* Shared remaster foundation: surfaces own rhythm, state, responsive behavior, and interaction grammar. */
 :root {
+  --workspace-header-height: 3.5rem;
   --surface-padding: clamp(var(--space-3), 2vw, var(--space-5));
   --surface-section-gap: clamp(var(--space-4), 2vw, var(--space-6));
   --control-transition: color var(--motion-fast) ease, background-color var(--motion-fast) ease,
@@ -11,7 +12,18 @@
   --calendar-source-work: #30d158;
   --calendar-source-sharing: #ff9f0a;
   --calendar-source-social: #bf5af2;
+  --app-material-blur: blur(18px);
 }
+
+/* Native-app grammar: grouped content, quiet rows, and one selection treatment. */
+.native-group { overflow: hidden; border: 1px solid var(--native-separator); border-radius: var(--native-group-radius); background: var(--surface-base); }
+.native-list { display: grid; gap: 0; min-width: 0; }
+.native-list > :where(* + *) { border-top: 1px solid var(--native-separator); }
+.native-row { min-height: var(--native-row-height); padding-inline: 1rem; }
+.native-selected { background: var(--native-selection); }
+.native-secondary { color: var(--text-muted); font-size: var(--text-size-meta); }
+.native-inspector { border-left: 1px solid var(--native-separator); background: var(--surface-base); }
+.native-toolbar { min-height: var(--native-toolbar-height); background: var(--material-toolbar); border-bottom: 1px solid var(--native-separator); backdrop-filter: var(--app-material-blur); }
 
 .ui-surface,
 .workspace-surface,
@@ -133,18 +145,6 @@ a {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ui-surface,
-  .workspace-surface,
-  .detail-surface,
-  .ui-button,
-  .ui-icon-button,
-  button,
-  a {
-    transition: none;
-  }
-}
-
 /* Mobile is an agenda-and-sheet interaction model, not a compressed desktop. */
 @media (max-width: 640px) {
   .workspace-surface,
@@ -161,9 +161,7 @@ a {
   .detail-utility-rail { position: sticky; bottom: 0; z-index: 3; padding-bottom: var(--safe-bottom); background: var(--surface-raised); box-shadow: 0 -0.25rem 1rem rgba(0,0,0,.12); }
   .detail-utility-rail__group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .detail-utility-rail__group .app-button { justify-content: center; min-height: var(--control-height-default); }
-  .workspace-surface__header,
-  .business-calendar__header,
-  .rides-surface header { align-items: stretch; flex-direction: column; }
+  .workspace-surface__header { align-items: stretch; flex-direction: column; }
   .schedule-agenda,
   .ride-grid,
   .surface-list { min-width: 0; overflow-x: hidden; }
@@ -177,4 +175,5 @@ a {
 }
 /* Apple visual-system expansion review: tokens, controls, focus, and motion remain centralized. */
 .ui-focus-ring:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+.native-frame-layer { min-width: 0; }
 /* New module surfaces must compose these shared primitives instead of adding route-local grammar. */

@@ -1,0 +1,345 @@
+kind: work
+version: 1
+id: apple-product-polish-01-navigation-and-system
+title: Establish one Apple interaction system and global navigation hierarchy
+status: verified
+master_plan: docs/work/apple-product-polish-master.yaml
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+goal_pursuit_preflight_reviewed_at: 2026-07-24
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/apple-product-polish-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: All tasks in this plan implement the canonical Apple desktop
+  reference contract; any deviation must be explicit, domain-justified, and evidenced.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-structural-redesign-master.yaml
+  baseline_only_surfaces:
+  - verified ModulePage
+  - ModuleTabs
+  - shell route registry
+  - and Apple token foundation
+  residual_scope:
+  - remove remaining competing header/navigation affordances
+  - define one interaction grammar
+  retest_triggers:
+  - shell header
+  - route registry
+  - module tabs
+  - shared token or control changes
+  non_duplication_rule: Existing shell verification is baseline; this child proves
+    only newly removed ambiguity and system consistency.
+tasks:
+- id: polish-global-navigation-and-interaction-system
+  title: Simplify header and global navigation
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-navigation
+  observable_outcome: Authenticated desktop and mobile surfaces expose one understandable
+    navigation hierarchy with a single primary action area, stable back behavior,
+    and no redundant Create/Search/assistant launchers.
+  dependencies:
+  - harden-apple-product-polish-queue
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/style.css
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/style.css
+  evidence_boundary:
+  - desktop/mobile header screenshot
+  - route reachability
+  - keyboard navigation
+  - visible primary action count
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T20:57:22Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 2d6556a891f68ad2f81329924f804814a98ab155456b248877df4ecea91a9d74
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts: be5ce275334719cc8a60e0c8fa94d012b36f4c6e063c357698046e8d196d761a
+    apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts: 0e041f28b221f20f40cc860ac8a23b7ffde06d5d286e515e2e17df65cf6839d9
+    apps/themuffinman/frontend/src/style.css: 27ca4229075d4cc9f6a92aef68941931f1c7c8a7b03afe9da92776c728a3c24d
+- id: standardize-shared-interaction-grammar
+  title: Consolidate shared interaction primitives and tokens
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-interaction-grammar
+  observable_outcome: Shared buttons, tabs, fields, status states, spacing, surfaces,
+    and typography use one documented token/control grammar with no new page-local
+    variant.
+  dependencies:
+  - polish-global-navigation-and-interaction-system
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppButton.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppButton.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - docs/product-memory.md
+  evidence_boundary:
+  - token audit
+  - component usage audit
+  - representative desktop/mobile screenshots
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T20:58:37Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/styles/base.css: 63d2d445df83ba7cb2593c3e1f7988aa05fda5cded13f97cb108e9a31d4b0fb1
+    apps/themuffinman/frontend/src/style.css: b633a84a75db7a74ea4babf5d41d7a03f0011d84d4202fcb70908b530df704c8
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppButton.vue: af7b4ae61e1afd342091a64640ada78ee4282c3c71beb48d6017443192758c06
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue: 0f49484d5ae7e9afa54a0e9a36578cfdfd9bc6f03d71216c30df4c5b3d27bacd
+    docs/product-memory.md: 3bd090a774ff7856437afef07c5fc0516b9ac12ddc5b4178e3c0d27c7f5ce818
+- id: define-apple-visual-language
+  title: Define semantic Apple-inspired visual tokens and material layers
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-visual-language
+  observable_outcome: Shared light/dark color tokens, system-first typography, functional
+    material layers, radius/shadow/motion tokens, and contrast rules are centralized
+    and consumed by the shell without universal glass or page-local visual overrides.
+  dependencies:
+  - standardize-shared-interaction-grammar
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - docs/product-vision.md
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - docs/product-vision.md
+  - docs/product-memory.md
+  evidence_boundary:
+  - light/dark token audit
+  - contrast report
+  - sidebar/material screenshot
+  - reduced-motion check
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T20:59:22Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/styles/base.css: b3aaad110a81006ccd6dc645a06dc3e59f7b675d8d7802b9f57becac390eaa1c
+    apps/themuffinman/frontend/src/style.css: bdc99319f82be5698fc8121a77603bfdff9221afc95666c0afbed954a8aa43fa
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: f22127c540635eaaee3a19745ed3d6f7c0db4c736695e729a357a6451e5e2301
+    docs/product-vision.md: 390b263daeb0b289d6201c9fbf15ef2fb23cfd1a9b38e1d5d41bd6b62231b141
+    docs/product-memory.md: 4d4d3a7f9b79586ad792be30054643a84974940f320345d7689fd80655a61740
+- id: global-business-context-switcher
+  title: Make multi-business switching immediate and explicit
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-business-context
+  observable_outcome: A user can move between Personal, All businesses, Favorites,
+    and any number of owned businesses through one context switcher, with URL/read-model/business-calendar
+    identity changing atomically.
+  dependencies:
+  - define-apple-visual-language
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/router.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/router.ts
+  evidence_boundary:
+  - three-business switching trace
+  - direct deep links
+  - All businesses aggregate
+  - mobile picker screenshot
+  - stale-context recovery
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T21:00:02Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue: aa1f099ef45a72096ed5082733323e76a342726bd2fc7ae814e2c42b2cbef568
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue: 7315cef7cbb7caa26b660cb2d84863f9467ec20cd1a2389a757472fde74836ac
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 833f932cb1712be7032f139dde331929fcfe900dfc1402eb51a51ae65ce39916
+    apps/themuffinman/frontend/src/router.ts: 7171882dfe36f59a32a381ee2804c6878450f4a0c78ff0b0f22ae1195ef12540
+evidence:
+- task: polish-global-navigation-and-interaction-system
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T20:58:27Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/style.css
+  output: |+
+    dist/assets/BusinessPublicView-Bv9V-vmK.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-Sqf0NTbD.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/SurfaceHeader-Cfud8rH0.js                         17.63 kB │ gzip:   5.29 kB
+    dist/assets/ChatSurfaceView-1axL3Oei.js                       19.22 kB │ gzip:   6.11 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BcNzs9-C.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-Dbm7bLr4.js                40.08 kB │ gzip:  13.19 kB
+    dist/assets/BusinessOwnerPage-DdZgb40v.js                     43.27 kB │ gzip:  11.17 kB
+    dist/assets/index-Bq7kNwXm.js                                 47.08 kB │ gzip:  12.38 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 546ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (71 checks).
+
+  startedAt: '2026-07-24T20:57:22Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts
+  - apps/themuffinman/frontend/src/style.css
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: standardize-shared-interaction-grammar
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T20:59:14Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppButton.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/styles/base.css
+  - docs/product-memory.md
+  output: |+
+    dist/assets/BusinessPublicView-DNLEVT5X.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-DoXXOOG4.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/SurfaceHeader-DJ22UPhh.js                         17.63 kB │ gzip:   5.28 kB
+    dist/assets/ChatSurfaceView-fpKHaRaZ.js                       19.22 kB │ gzip:   6.11 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CQtUn3Yu.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-DnhbAiVE.js                40.08 kB │ gzip:  13.19 kB
+    dist/assets/BusinessOwnerPage-ggYiimMm.js                     43.27 kB │ gzip:  11.16 kB
+    dist/assets/index-CJa8bhDZ.js                                 47.08 kB │ gzip:  12.39 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 535ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (71 checks).
+
+  startedAt: '2026-07-24T20:58:37Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppButton.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppStatus.vue
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: define-apple-visual-language
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T20:59:50Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/styles/base.css
+  - docs/product-memory.md
+  - docs/product-vision.md
+  output: |+
+    dist/assets/BusinessPublicView-Bx0Fe3Sc.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-BisYjhCN.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/SurfaceHeader-DP8oEsrl.js                         17.63 kB │ gzip:   5.28 kB
+    dist/assets/ChatSurfaceView-PvHcEo8W.js                       19.22 kB │ gzip:   6.11 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CeQZhnnp.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-B0GioA28.js                40.13 kB │ gzip:  13.21 kB
+    dist/assets/BusinessOwnerPage-Bm0NBUs1.js                     43.27 kB │ gzip:  11.17 kB
+    dist/assets/index-C41mpBVy.js                                 47.08 kB │ gzip:  12.38 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 548ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (71 checks).
+
+  startedAt: '2026-07-24T20:59:22Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/style.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - docs/product-vision.md
+  - docs/product-memory.md
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: global-business-context-switcher
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T21:01:11Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - apps/themuffinman/frontend/src/router.ts
+  output: |+
+    dist/assets/BusinessPublicView-T1gGj8Kv.js                    14.20 kB │ gzip:   5.24 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-DEN_4udh.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/SurfaceHeader-B3NmLCf_.js                         17.63 kB │ gzip:   5.28 kB
+    dist/assets/ChatSurfaceView-DxB_ufzb.js                       19.22 kB │ gzip:   6.11 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BjgZkfqR.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-s7s4uljK.js                40.28 kB │ gzip:  13.26 kB
+    dist/assets/BusinessOwnerPage-BKXTc6M_.js                     43.33 kB │ gzip:  11.19 kB
+    dist/assets/index-D_-DwUi0.js                                 47.16 kB │ gzip:  12.41 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 576ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (71 checks).
+
+  startedAt: '2026-07-24T21:00:02Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ContextSwitcher.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/router.ts
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -37,6 +37,8 @@ const blankState = (): SurfaceViewState => ({displayDensity: "compact", selected
 const stableContext = (value: string) => {
   try { const url = new URL(value, "https://workspace.local"); url.searchParams.delete("selected"); url.searchParams.delete("preview"); return `${url.pathname}${url.search}` } catch { return value }
 }
+export const buildSurfaceScopeKey = (surface: string, viewerId: number | undefined, context: string) => `surface-view-state:${surface}:viewer:${viewerId ?? "anonymous"}:${stableContext(context)}`
+export const splitViewBounds = Object.freeze({min: 280, max: 560})
 
 const readState = (key: string): SurfaceViewState => {
   if (typeof window === "undefined") return blankState()
@@ -56,7 +58,7 @@ const readState = (key: string): SurfaceViewState => {
 }
 
 export const useSurfaceViewState = (surface: string, viewerId: Ref<number | undefined>, context: Ref<string>) => {
-  const storageKey = computed(() => `surface-view-state:${surface}:viewer:${viewerId.value ?? "anonymous"}:${stableContext(context.value)}`)
+  const storageKey = computed(() => buildSurfaceScopeKey(surface, viewerId.value, context.value))
   const state = ref<SurfaceViewState>(readState(storageKey.value))
 
   const persist = () => {

@@ -1,0 +1,22 @@
+{
+  "evidenceVersion": "apple-product-polish-runtime-v2",
+  "capturedAt": "2026-07-25T09:55:05.221Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "calendarViews": {
+      "status": true,
+      "views": [
+        "day",
+        "week",
+        "month"
+      ],
+      "mobileNoOverflow": true
+    },
+    "browserErrors": {
+      "status": true,
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

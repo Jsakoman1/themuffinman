@@ -37,7 +37,7 @@ onBeforeUnmount(() => { previouslyFocused?.focus() })
 <template>
   <Teleport to="body">
     <div v-if="props.open" class="app-dialog__backdrop" role="presentation" @click.self="emit('close')">
-      <section ref="dialog" class="app-dialog" :class="`app-dialog--${props.layout}`" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="bodyId" @keydown="handleKeydown" @keydown.escape.stop.prevent="emit('close')">
+      <section ref="dialog" class="app-dialog" :class="`app-dialog--${props.layout}`" data-disclosure-model="modal-focus-trap-bottom-sheet" data-motion-model="restrained-reversible" data-focus-model="restore-trigger" data-recovery-model="escape-or-close-restores-focus" data-accessibility-model="focus-trap-labelled-dialog" data-command-model="one-open-surface-escape-close" role="dialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="bodyId" @keydown="handleKeydown" @keydown.escape.stop.prevent="emit('close')">
         <header class="app-dialog__header"><h2 :id="titleId">{{ props.title }}</h2><button type="button" class="app-dialog__close" :aria-label="`Close ${props.title}`" :title="`Close ${props.title}`" @click="emit('close')">×</button></header>
         <div class="app-dialog__workspace"><div :id="bodyId" class="app-dialog__body"><slot /></div><aside v-if="$slots.utility" class="app-dialog__utility" aria-label="Form details and actions"><slot name="utility" /></aside></div>
       </section>

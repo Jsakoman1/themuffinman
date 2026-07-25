@@ -5,7 +5,7 @@ defineProps<{context: string; source: string; returnTo: string}>()
 </script>
 
 <template>
-  <aside class="contextual-assistant-composer" aria-label="Persistent Vision composer" data-assistant-model="persistent-bottom-composer">
+  <aside class="contextual-assistant-composer" aria-label="Persistent Vision composer" data-assistant-model="siri-like-persistent-bottom-composer" data-mental-model="ask-result-confirm-recover" data-vision-boundary="quiet-contextual-entry" data-responsive-model="desktop-dock-mobile-safe-area">
     <VisionForWebHost :context="context" :source="source" :return-to="returnTo" persistent />
   </aside>
 </template>

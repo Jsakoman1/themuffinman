@@ -18,4 +18,5 @@ public class CalendarEventDTO {
     private Long businessId;
     private String businessName;
     private String navigationPath;
+    private boolean allDay;
 }

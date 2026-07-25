@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import org.springframework.lang.Nullable;
 
 @Data
 @Builder
@@ -14,7 +15,9 @@ public class BusinessPublicPageDTO {
     private String headline;
     private String description;
     private String publicAddressLabel;
+    @Nullable
     private Double latitude;
+    @Nullable
     private Double longitude;
     private String contactEmail;
     private String contactPhone;

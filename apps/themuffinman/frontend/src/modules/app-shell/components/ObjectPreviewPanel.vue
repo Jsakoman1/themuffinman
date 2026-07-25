@@ -12,7 +12,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", closeOnEscape))
 </script>
 
 <template>
-  <aside v-if="open" class="object-preview" data-preview-surface="adjacent" :aria-label="`${title} preview`" role="complementary">
+    <aside v-if="open" class="object-preview" data-preview-surface="adjacent-desktop-mobile-sheet" data-disclosure-model="preview-close-back-detail" data-split-view-model="bounded-preview-pane" :aria-label="`${title} preview`" role="complementary">
     <header>
       <div>
         <p v-if="subtitle" class="object-preview__subtitle">{{ subtitle }}</p>

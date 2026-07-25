@@ -22,6 +22,7 @@ export type PersonalWorkspaceAttentionItem = import("./generated/themuffinmanCon
 export type CalendarEvent = import("./generated/themuffinmanContract.ts").CalendarEventDTO
 export type CalendarProjection = import("./generated/themuffinmanContract.ts").CalendarProjectionDTO
 export type CalendarSource = CalendarEvent["source"]
+export type PortableSurfaceMode = "desktop" | "mobile-agenda" | "mobile-sheet"
 export type VisionRuntimeContext = import("./generated/themuffinmanContract.ts").VisionRuntimeContextDTO
 
 export type UiActionKind = "navigation" | "mutation" | "review" | "destructive" | "informational"

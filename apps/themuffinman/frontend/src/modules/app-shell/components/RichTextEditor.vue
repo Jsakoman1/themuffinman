@@ -6,11 +6,11 @@ import Underline from "@tiptap/extension-underline"
 import Link from "@tiptap/extension-link"
 import Placeholder from "@tiptap/extension-placeholder"
 
-const props = withDefaults(defineProps<{modelValue: string; label?: string; placeholder?: string}>(), {label: "Rich text", placeholder: "Write something useful…"})
+const props = withDefaults(defineProps<{modelValue: string | null; label?: string; placeholder?: string}>(), {label: "Rich text", placeholder: "Write something useful…"})
 const emit = defineEmits<{"update:modelValue": [value: string]}>()
 const editor = useEditor({
-  content: props.modelValue,
-  extensions: [StarterKit, Underline, Link.configure({openOnClick: false}), Placeholder.configure({placeholder: props.placeholder})],
+  content: props.modelValue ?? "",
+  extensions: [StarterKit.configure({link: false, underline: false}), Underline, Link.configure({openOnClick: false}), Placeholder.configure({placeholder: props.placeholder})],
   onUpdate: ({editor: value}) => emit("update:modelValue", value.getHTML())
 })
 onBeforeUnmount(() => editor.value?.destroy())

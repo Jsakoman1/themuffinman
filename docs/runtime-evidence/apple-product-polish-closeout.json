@@ -1,0 +1,35 @@
+{
+  "evidenceVersion": "apple-product-polish-runtime-v2",
+  "capturedAt": "2026-07-25T09:53:25.548Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "closeout": {
+      "status": true,
+      "routeResults": [
+        {
+          "route": "/home",
+          "pathname": "/home",
+          "frame": 2
+        },
+        {
+          "route": "/work/find",
+          "pathname": "/work/find",
+          "frame": 1
+        },
+        {
+          "route": "/calendar",
+          "pathname": "/calendar",
+          "frame": 1
+        },
+        {
+          "route": "/business",
+          "pathname": "/business",
+          "frame": 1
+        }
+      ],
+      "mobileNoOverflow": true
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

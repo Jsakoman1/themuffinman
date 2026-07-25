@@ -1,0 +1,255 @@
+kind: work
+version: 1
+id: apple-product-polish-03-calendar-views
+title: Implement Apple-like Calendar day/week/month views
+status: verified
+master_plan: docs/work/apple-product-polish-master.yaml
+baseline: 2176d9241c132b513f137988ec6c83ee53b04dd8
+goal_pursuit_preflight_reviewed_at: 2026-07-24
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/apple-product-polish-execution-inventory.yaml
+design_authority: docs/apple-desktop-design-reference.md
+design_authority_rule: All tasks in this plan implement the canonical Apple desktop
+  reference contract; any deviation must be explicit, domain-justified, and evidenced.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/frontend-structural-redesign-master.yaml
+  - docs/work/frontend-structural-redesign-backend-api-parity.yaml
+  baseline_only_surfaces:
+  - verified calendar aggregation and business-calendar projection
+  residual_scope:
+  - range-aware day/week/month contract
+  - Apple-like desktop grid and mobile agenda transformation
+  - filters and preview
+  retest_triggers:
+  - calendar DTO
+  - range query
+  - event source
+  - business filter
+  - view selector
+  - breakpoint
+  - or event preview change
+  non_duplication_rule: Existing aggregation proof is baseline; this child proves
+    range/view semantics and visual behavior newly introduced here.
+tasks:
+- id: extend-calendar-range-view-contract
+  title: Add backend-owned range and view metadata
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-calendar-api
+  observable_outcome: Calendar API returns a viewer-authorized range projection with
+    explicit day/week/month range metadata, source identity, business identity, all-day
+    state, and stable event actions.
+  dependencies:
+  - isolate-work-scope-read-models
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarProjectionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarEventDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/controller/CalendarController.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/calendar/service/CalendarReadServiceTest.java
+  - apps/themuffinman/src/main/resources/db/migration
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarProjectionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarEventDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/controller/CalendarController.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/calendar/service/CalendarReadServiceTest.java
+  evidence_boundary:
+  - range validation
+  - event aggregation tests
+  - permission/source/business filter tests
+  - generated contract
+  validation: cd apps/themuffinman && ./mvnw test
+  started_at: '2026-07-24T21:11:30Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarProjectionDTO.java: b430eed6f9b78e977ca29cc116249296cb044a0fc2c72ea4287ba04db36ba24a
+    apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarEventDTO.java: 2cfd0cdcbe8dd5fbbefc0ec9acb5129d731cb7df3c1f363b2789102259e64dba
+    apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java: f1eecc464e32363d06674bf76c3e99d65460c95c134e05a3dc15f0df7f4c3725
+    apps/themuffinman/src/main/java/com/themuffinman/app/calendar/controller/CalendarController.java: bbc908d2bd2e96f1fb6185d3695ae669086f124ebf4e3765e13019b2d9230774
+    apps/themuffinman/src/test/java/com/themuffinman/app/calendar/service/CalendarReadServiceTest.java: 42236897635f9ab86470e03d4e27ffed761b16e8cefee943aa20f057de0dbea0
+- id: implement-calendar-day-week-month-ui
+  title: Build calm Calendar view switching and event presentation
+  type: implementation
+  status: done
+  inventory_item: apple-product-polish-calendar-ui
+  observable_outcome: Calendar renders day, week, and month views with arrows, Today,
+    source/business filters, selected-day preview, desktop grids, and mobile agenda/day
+    fallback without horizontal overflow.
+  dependencies:
+  - extend-calendar-range-view-contract
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/styles/base.css
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/styles/base.css
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/apple-product-polish-calendar-day.png
+  - docs/runtime-evidence/apple-product-polish-calendar-week.png
+  - docs/runtime-evidence/apple-product-polish-calendar-month.png
+  - docs/runtime-evidence/apple-product-polish-calendar-mobile.png
+  evidence_boundary:
+  - fresh day/week/month screenshots
+  - range transition trace
+  - filter trace
+  - keyboard and mobile trace
+  validation: cd apps/themuffinman/frontend && npm run type-check && npm run build
+    && npm run validate:modern-surface
+  started_at: '2026-07-24T21:13:05Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: 0b7e471d9a5801d9c01d99fd576dd2b986283857e4a5bd27de69fe1891b47b12
+    apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue: 9e4687c9703673c9d801dc1a15967d1830247811174063ac28c4d3da872b0c10
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 62f40791a5d532f5f734c363c24337d18b0c85629f7f23f02e3ac3aec70f99c6
+    apps/themuffinman/frontend/src/styles/base.css: 2acbcf30597ae4f8c0261d9ec7edba7534d97688bd295a4db0d160391407f83a
+- id: prove-calendar-views-and-isolation
+  title: Prove Calendar aggregation and per-business isolation
+  type: runtime
+  status: done
+  inventory_item: apple-product-polish-calendar-runtime
+  observable_outcome: Browser/API evidence proves day/week/month transitions, previous/next/Today,
+    source filters, all-module aggregation, empty/error recovery, and isolated business
+    calendars.
+  dependencies:
+  - implement-calendar-day-week-month-ui
+  paths:
+  - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+  - docs/runtime-evidence/apple-product-polish-calendar.json
+  - docs/regression-scenario-catalog.yaml
+  required_paths:
+  - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+  - docs/runtime-evidence/apple-product-polish-calendar.json
+  - docs/regression-scenario-catalog.yaml
+  manual_runtime_command: make dev && node apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+    --scenario=calendar
+  runtime_evidence_paths:
+  - docs/runtime-evidence/apple-product-polish-calendar.json
+  evidence_boundary:
+  - view/range matrix
+  - source-filter matrix
+  - business isolation
+  - browser errors
+  - cleanup
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-docs-as-tests.rb
+  started_at: '2026-07-24T21:18:22Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs: d68762d6cf72acf47490f0a569943875edc7cb0345b09d281c0b10d3270514d8
+    docs/runtime-evidence/apple-product-polish-calendar.json: 54825f23ba5b389d7096055ce32b98e25df5a9b1ab1891b4328edebf7faf5b09
+    docs/regression-scenario-catalog.yaml: a259b985819e9100c8e2bbb47c165eaf8f5b760ba46b25f7805e7989f02d3539
+evidence:
+- task: extend-calendar-range-view-contract
+  command: cd apps/themuffinman && ./mvnw test
+  ranAt: '2026-07-24T21:12:39Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/controller/CalendarController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarEventDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarProjectionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/calendar/service/CalendarReadServiceTest.java
+  output: "[INFO] Running com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketWorkerManagementServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in
+    com.themuffinman.app.workmarket.service.QuestPreviewReadServiceTest\n[INFO] Running
+    com.themuffinman.app.workmarket.service.WorkmarketApplicationNewsOutboxClaimServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s -- in com.themuffinman.app.workmarket.service.WorkmarketApplicationNewsOutboxClaimServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandlerTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in
+    com.themuffinman.app.workmarket.event.WorkmarketQuestApplicationNewsEventHandlerTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 824, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  20.245 s\n[INFO] Finished at: 2026-07-24T23:13:00+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-24T21:11:30Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarProjectionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/dto/CalendarEventDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/service/CalendarReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/calendar/controller/CalendarController.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/calendar/service/CalendarReadServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: implement-calendar-day-week-month-ui
+  command: cd apps/themuffinman/frontend && npm run type-check && npm run build &&
+    npm run validate:modern-surface
+  ranAt: '2026-07-24T21:18:02Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |+
+    dist/assets/BusinessPublicView-CnyYk8U5.js                    14.26 kB │ gzip:   5.26 kB
+    dist/assets/shellRouteRegistry-B7IUWNkx.js                    14.37 kB │ gzip:   3.22 kB
+    dist/assets/RidesView-DtK0DkQ9.js                             14.37 kB │ gzip:   4.56 kB
+    dist/assets/SurfaceHeader-CGsz5LcY.js                         17.63 kB │ gzip:   5.28 kB
+    dist/assets/ChatSurfaceView-C-brsCpV.js                       19.22 kB │ gzip:   6.11 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CF7HYcge.js                           26.21 kB │ gzip:   8.07 kB
+    dist/assets/AuthenticatedShellView-CPwyVYSK.js                40.44 kB │ gzip:  13.30 kB
+    dist/assets/BusinessOwnerPage-CI2tgXL6.js                     43.33 kB │ gzip:  11.19 kB
+    dist/assets/index-DujOL2S-.js                                 47.43 kB │ gzip:  12.48 kB
+    dist/assets/vendor-C8wUYIav.js                                50.88 kB │ gzip:  19.88 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 613ms
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (71 checks).
+
+  startedAt: '2026-07-24T21:13:05Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/styles/base.css
+  requiredPaths: *2
+  visualEvidencePaths:
+  - docs/runtime-evidence/apple-product-polish-calendar-day.png
+  - docs/runtime-evidence/apple-product-polish-calendar-week.png
+  - docs/runtime-evidence/apple-product-polish-calendar-month.png
+  - docs/runtime-evidence/apple-product-polish-calendar-mobile.png
+  runtimeEvidencePaths: []
+- task: prove-calendar-views-and-isolation
+  command: ruby scripts/audits/audit-work-plan-recursion.rb && ruby scripts/audits/audit-docs-as-tests.rb
+  ranAt: '2026-07-24T21:18:34Z'
+  revision: 2176d9241c132b513f137988ec6c83ee53b04dd8
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/regression-scenario-catalog.yaml
+  - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+  - docs/runtime-evidence/apple-product-polish-calendar.json
+  output: |+
+    Work-plan recursion audit passed (no recursive validation commands).
+    Docs as tests
+      statements scanned: 328
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-24T21:18:22Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
+  - docs/runtime-evidence/apple-product-polish-calendar.json
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/apple-product-polish-calendar.json

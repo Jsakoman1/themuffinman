@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue"
-import {RouterLink, useRoute, useRouter} from "vue-router"
+import {useRoute, useRouter} from "vue-router"
 import type {QuestResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import {resolveSurfaceDetailRoute} from "../shellRouteRegistry.ts"
@@ -17,6 +17,8 @@ import AppStatus from "../components/AppStatus.vue"
 import {formatDateTime} from "../../../services/formatters.ts"
 import TaskSurface from "../components/TaskSurface.vue"
 import ObjectPreviewPanel from "../components/ObjectPreviewPanel.vue"
+import SurfaceHeader from "../components/SurfaceHeader.vue"
+import {getAppSurfaceConfig} from "../shellDefinitions.ts"
 
 const route = useRoute()
 const router = useRouter()
@@ -39,10 +41,11 @@ const isMine = computed(() => route.name === "work-quests")
 // Keep the viewer scope explicit at the request boundary. The backend owns
 // visibility and ownership rules; the page only selects the matching preset.
 const workPreset = computed(() => isMine.value ? "MY_VISIBLE" as const : "AVAILABLE" as const)
-const title = computed(() => isMine.value ? "My work" : route.name === "work-find" ? "Find work" : "Work")
+const title = computed(() => isMine.value ? "My work" : route.name === "work-find" ? "Find work" : "Find work")
 const emptyTitle = computed(() => isMine.value ? "You have not offered any work yet" : "No work is available")
 const emptyMessage = computed(() => isMine.value ? "Create your first work offer to manage it from this tab." : "Try a different search or check back when new work is posted.")
 const selectedQuest = computed(() => items.value.find(item => item.id === viewState.value.selectedId) ?? null)
+const surface = computed(() => getAppSurfaceConfig(isMine.value ? "work-quests" : "work"))
 
 const locationLabel = (quest: QuestResponseDTO) => quest.presentation.locationLabel || quest.locationLocality || "Anywhere"
 const plainText = (value: string | null | undefined) => (value || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
@@ -64,6 +67,7 @@ const load = async (reset = true) => {
     const response = await userShellApi.searchQuests({
       q: query.value,
       preset: workPreset.value,
+      scopeKey: isMine.value ? "mine" : "available",
       sort: sort.value === "recommended" ? undefined : sort.value,
       page: page.value,
       size: 12,
@@ -100,10 +104,33 @@ const syncCanonicalQuery = () => {
   void router.replace({path: route.path, query: nextQuery})
 }
 
+let hydratingScope = false
+
 watch([query, sort, scheduledOnly], () => {
+  // Route changes hydrate the new scope in one controlled request below.
+  // Do not schedule a second request while that state is being reset.
+  if (hydratingScope) return
   syncCanonicalQuery()
   if (searchTimer !== undefined) window.clearTimeout(searchTimer)
   searchTimer = window.setTimeout(() => void load(), 250)
+})
+
+watch(() => route.name, async (nextRouteName, previousRouteName) => {
+  if (nextRouteName === previousRouteName || (nextRouteName !== "work-find" && nextRouteName !== "work-quests")) return
+
+  // Work tabs reuse the same component instance. Reset collection-local state
+  // and reload whenever the canonical route changes, otherwise Find work and
+  // My work can display the previous tab's results under the new heading.
+  hydratingScope = true
+  if (searchTimer !== undefined) window.clearTimeout(searchTimer)
+  query.value = typeof route.query.q === "string" ? route.query.q : ""
+  sort.value = typeof route.query.sort === "string" ? route.query.sort : "recommended"
+  scheduledOnly.value = route.query.scheduled === "1"
+  viewState.value.selectedId = null
+  viewState.value.previewId = null
+  await nextTick()
+  hydratingScope = false
+  await load()
 })
 
 const rememberSelection = (id: number) => {
@@ -136,14 +163,8 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
 <template>
   <!-- UX simplification: Work keeps browse, inspect, and act states in one surface. -->
   <TaskSurface mode="inspect" label="Work discovery"><section class="work-discovery" aria-labelledby="work-discovery-title" :aria-busy="isLoading || isLoadingMore || undefined">
-    <header class="work-discovery__header">
-      <div>
-        <p class="work-discovery__eyebrow">{{ isMine ? "Work / Mine" : "Work" }}</p>
-        <h1 id="work-discovery-title">{{ title }}</h1>
-      </div>
-    </header>
-
-    <CollectionToolbar :title="title" :count="totalItems" :busy="isLoading" filter-summary="Search, Filters, Sort">
+    <SurfaceHeader :config="surface" :title="title" :description="isMine ? 'Work you created and can manage.' : 'Available work visible to you.'" />
+    <CollectionToolbar :title="title" :count="totalItems" :busy="isLoading" filter-summary="Refine">
       <template #filters>
       <label class="work-discovery__search">
         <span class="sr-only">Search work</span>
@@ -158,9 +179,6 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
         </div>
       </details>
       </template>
-      <template #actions>
-        <RouterLink to="/work/offer" class="work-discovery__create">Offer work</RouterLink>
-      </template>
     </CollectionToolbar>
 
     <AppLoadingState v-if="isLoading" label="Loading work" :rows="5" />
@@ -168,9 +186,9 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
     <AppEmptyState v-else-if="items.length === 0" :reason="query.trim() || scheduledOnly ? 'filtered' : isMine ? 'not-created' : 'not-visible'" :title="emptyTitle" :message="emptyMessage" />
 
     <p v-if="items.length" class="work-discovery__scope" aria-live="polite">{{ isMine ? "Work you created and can manage." : "Available work visible to you." }}</p>
-    <div v-if="items.length" class="work-discovery__workspace">
+    <div v-if="items.length" class="work-discovery__workspace native-group" aria-label="Work results and selected preview" data-selection-model="persistent-list-selection">
     <div class="work-discovery__list">
-      <SurfaceRow v-for="quest in items" :key="quest.id" :row="{id: String(quest.id), title: quest.title, description: `${quest.presentation.statusLabel} · ${locationLabel(quest)}`, meta: `${quest.awardAmount} € · ${formatDateTime(quest.scheduledAt)}`, to: detailRoute(quest.id)}" :density="viewState.displayDensity" :selected="viewState.selectedId === quest.id" @click="handleRowClick($event, quest.id)" @open="rememberSelection(quest.id)" />
+      <SurfaceRow v-for="quest in items" :key="quest.id" :row="{id: String(quest.id), title: quest.title, description: `${quest.presentation.statusLabel} · ${locationLabel(quest)}`, meta: `${quest.awardAmount} € · ${formatDateTime(quest.scheduledAt)}`, to: detailRoute(quest.id)}" primary-action="preview" :density="viewState.displayDensity" :selected="viewState.selectedId === quest.id" @click="handleRowClick($event, quest.id)" @preview="rememberSelection(quest.id)" @open="rememberSelection(quest.id)" />
     </div>
     <ObjectPreviewPanel v-if="selectedQuest" :open="true" :title="selectedQuest.title" subtitle="Work preview" @close="viewState.selectedId = null" @open-detail="openDetail">
       <p>{{ plainText(selectedQuest.description) || "No description provided." }}</p>
@@ -196,86 +214,24 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
   gap: 1rem;
 }
 
-.work-discovery__header,
-.work-discovery__controls,
-.work-discovery__row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.work-discovery__workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); overflow: hidden; }
+.work-discovery__workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); overflow: hidden; }
 .work-discovery__workspace .work-discovery__list { padding: 0.45rem; }
-.work-discovery__context { display: grid; align-content: start; gap: var(--space-2); padding: var(--space-4); border-left: 1px solid var(--border-subtle); background: var(--surface-muted); }
-.work-discovery__context h2, .work-discovery__context p { margin: 0; }
-.work-discovery__context h2 { font-size: var(--text-size-title); }
-.work-discovery__context dl { display: grid; gap: var(--space-2); margin: var(--space-2) 0; }
-.work-discovery__context dl div { display: flex; justify-content: space-between; gap: var(--space-3); }
-.work-discovery__context dt { color: var(--text-muted); }
-.work-discovery__context dd { margin: 0; color: var(--text); font-weight: var(--text-weight-semibold); text-align: right; }
-.work-discovery__context-link { justify-self: start; color: var(--accent); font-weight: var(--text-weight-semibold); }
 .work-discovery__options { position: relative; }
 .work-discovery__options summary { cursor: pointer; color: var(--text-muted); font-size: var(--text-size-meta); font-weight: var(--text-weight-semibold); }
 .work-discovery__options-panel { position: absolute; z-index: 2; right: 0; display: grid; gap: var(--space-2); min-width: 13rem; margin-top: var(--space-1); padding: var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--surface-raised); box-shadow: var(--shadow-popover); }
 .work-discovery__options-panel label { display: grid; gap: var(--space-1); color: var(--text-muted); font-size: var(--text-size-meta); }
-@media (max-width: 860px) { .work-discovery__workspace { grid-template-columns: 1fr; } .work-discovery__context { border-top: 1px solid var(--border-subtle); border-left: 0; } }
-
-.work-discovery__header {
-  justify-content: space-between;
-}
-
-.work-discovery__header-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.work-discovery__eyebrow {
-  margin: 0 0 0.25rem;
-  color:var(--text-muted);
-  font-size: 0.76rem;
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-h1 {
-  margin: 0;
-  font-size: clamp(1.55rem, 2.5vw, 2.3rem);
-  letter-spacing: -0.075em;
-}
-
-.work-discovery__vision,
-.work-discovery__create,
-.work-discovery__open,
-.work-discovery__load-more {
+.work-discovery__create {
   display: inline-flex;
   align-items: center;
   min-height: var(--control-height-default);
   border: 1px solid var(--control-border);
+  border-color: var(--control-border-active);
   border-radius: var(--radius-control);
+  background: var(--control-bg);
   padding: var(--space-1) var(--space-3);
   color: var(--control-ink);
   font-size: var(--text-size-meta);
   font-weight: var(--text-weight-semibold);
-}
-
-.work-discovery__vision {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--canvas);
-}
-
-.work-discovery__create {
-  border-color: var(--control-border-active);
-  background: var(--control-bg);
-  color: var(--control-ink);
-}
-
-.work-discovery__controls {
-  flex-wrap: wrap;
 }
 
 .work-discovery__search {
@@ -310,74 +266,9 @@ select {
 
 .work-discovery__scope{margin:0;color:var(--text-soft);font-size:.78rem}
 
-.work-discovery__count {
-  margin-left: auto;
-  color:var(--text-muted);
-  font-size: 0.78rem;
-}
-
 .work-discovery__list {
   overflow: hidden;
   border:1px solid var(--border-subtle);
-}
-
-.work-discovery__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  border:1px solid var(--border-subtle);
-  padding: 0.9rem 0.2rem;
-}
-
-.work-discovery__row-main {
-  display: grid;
-  gap: 0.25rem;
-  min-width: 0;
-}
-
-.work-discovery__title {
-  overflow: hidden;
-  color:var(--text);
-  font-size: 0.98rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.work-discovery__meta,
-.work-discovery__row-facts {
-  color:var(--text-muted);
-  font-size: 0.76rem;
-}
-
-.work-discovery__row-facts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.7rem;
-}
-
-.work-discovery__open {
-  display: inline-flex;
-  align-items: center;
-  color:var(--text);
-}
-
-.work-discovery__status {
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-surface);
-  background: var(--surface-base);
-  padding: var(--space-3);
-  color:var(--text-muted);
-}
-
-.work-discovery__status--error {
-  color: var(--danger);
-}
-
-.work-discovery__load-more {
-  justify-self: center;
-  background: transparent;
 }
 
 .sr-only {
@@ -392,41 +283,49 @@ select {
   border: 0;
 }
 
-@media (max-width: 700px) {
-  .work-discovery__header {
-    align-items: flex-start;
-  }
-
-  .work-discovery__row {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
-  .work-discovery__row-facts {
-    grid-column: 1;
-    justify-content: flex-start;
-  }
-
-  .work-discovery__open {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-  }
+.work-discovery {
+  max-width: 80rem;
 }
 
-/* Desktop product surface overrides: preserve the existing data and interactions. */
-.work-discovery{gap:1.15rem;max-width:80rem}.work-discovery__header,.work-discovery__controls{gap:.7rem}.work-discovery__header{padding-bottom:.15rem}.work-discovery__eyebrow{color:var(--text-soft);font-size:.7rem;font-weight:700;letter-spacing:.1em}h1{color:var(--text);font-size:clamp(1.45rem,2.4vw,2rem);letter-spacing:-.055em;line-height:1.05}.work-discovery__create,.work-discovery__load-more{min-height:2.25rem;border-color:var(--accent);border-radius:var(--radius-control);padding:.45rem .7rem;background:var(--accent);color:var(--canvas);font-weight:700}.work-discovery__controls{padding:.65rem;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface)}.work-discovery__search{flex-basis:17rem}.work-discovery__search input,select{min-height:2.35rem;border-color:var(--border-subtle);border-radius:var(--radius-control);background:var(--control-bg);color:var(--text);padding:.5rem .65rem}.work-discovery__toggle{min-height:2.25rem;color:var(--text-muted)}.work-discovery__toggle input{accent-color:var(--accent)}.work-discovery__count{color:var(--text-soft);white-space:nowrap}.work-discovery__list{border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface)}.work-discovery__row{grid-template-columns:minmax(0,1fr) minmax(20rem,auto);gap:1rem;border:0;border-bottom:1px solid var(--border-subtle);border-radius:0;padding:.9rem 1rem;background:transparent}.work-discovery__row:last-child{border-bottom:0}.work-discovery__row:hover{background:var(--surface-hover)}.work-discovery__title{color:var(--text);font-size:.94rem;font-weight:680;letter-spacing:-.02em}.work-discovery__meta{width:max-content;max-width:100%;overflow:hidden;border:1px solid var(--border-subtle);border-radius:var(--radius-control);padding:.14rem .42rem;color:var(--text-muted);font-size:.7rem;text-overflow:ellipsis;white-space:nowrap}.work-discovery__row-facts{gap:.4rem;color:var(--text-muted)}.work-discovery__fact{border-left:1px solid var(--border-subtle);padding-left:.5rem;white-space:nowrap}.work-discovery__fact:first-child{border-left:0}.work-discovery__fact--reward{color:var(--text);font-weight:700}.work-discovery__status{display:grid;gap:.25rem;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface);color:var(--text-muted)}.work-discovery__status strong{color:var(--text);font-size:.9rem}.work-discovery__status--error{border-color:rgba(226,109,109,.5)}.work-discovery__status--error strong{color:var(--danger)}.work-discovery__status button{justify-self:start;margin-top:.35rem;border:0;border-radius:var(--radius-control);padding:.42rem .6rem;background:var(--surface-hover);color:var(--text);font:inherit;font-size:.78rem;font-weight:650}.work-discovery__load-more{justify-self:center;background:var(--surface-strong);color:var(--text);border-color:var(--border-strong)}
+.work-discovery__create {
+  min-height: 2.25rem;
+  border-color: var(--accent);
+  border-radius: var(--radius-control);
+  padding: 0.45rem 0.7rem;
+  background: var(--accent);
+  color: var(--canvas);
+  font-weight: var(--text-weight-semibold);
+}
 
-@media (max-width: 700px){.work-discovery__row{grid-template-columns:minmax(0,1fr)}.work-discovery__row-facts{grid-column:auto;justify-content:flex-start}.work-discovery__open{grid-column:auto;grid-row:auto}}
+.work-discovery__search {
+  flex-basis: 17rem;
+}
 
-/* Shared workspace control contract; route content remains a dense collection. */
-.work-discovery__vision,.work-discovery__create,.work-discovery__open,.work-discovery__load-more{border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink)}
-.work-discovery__vision,.work-discovery__create{border-color:var(--accent);background:var(--accent);color:var(--canvas)}
-.work-discovery__search input,select{border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink)}
-.work-discovery__meta{border-radius:var(--radius-control);background:var(--surface-muted)}
-.work-discovery__status{border-radius:var(--radius-surface);background:var(--surface-base)}
-.work-discovery__status--error{color:var(--danger)}
-.work-discovery .app-button { min-height:2.25rem; border-radius:var(--radius-control); padding:.45rem .7rem; background:var(--control-bg); color:var(--control-ink); }
-.work-discovery .app-button--primary { border-color:var(--accent); background:var(--accent); color:var(--canvas); }
-</style>
-<style scoped>
-.work-mode-switcher{display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap;padding:var(--space-2) var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.work-mode-switcher select{min-height:var(--control-height-default);padding:var(--space-1) var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink);font:inherit}.work-mode-switcher small{color:var(--text-muted)}
+.work-discovery__search input,
+.work-discovery select {
+  min-height: 2.35rem;
+  border-color: var(--border-subtle);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+  color: var(--text);
+  padding: 0.5rem 0.65rem;
+}
+
+.work-discovery__toggle {
+  min-height: 2.25rem;
+  color: var(--text-muted);
+}
+
+.work-discovery__toggle input {
+  accent-color: var(--accent);
+}
+
+.work-discovery__scope {
+  color: var(--text-soft);
+}
+
+.work-discovery__options-panel {
+  background: var(--surface-raised);
+}
+
 </style>

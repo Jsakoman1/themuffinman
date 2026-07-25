@@ -3,12 +3,16 @@ import {ref} from "vue"
 export const useAsyncAction = () => {
   const pending = ref(false)
   const error = ref("")
+  const completed = ref(false)
 
   const execute = async <T>(operation: () => Promise<T>, fallbackMessage: string): Promise<T | undefined> => {
     pending.value = true
     error.value = ""
+    completed.value = false
     try {
-      return await operation()
+      const result = await operation()
+      completed.value = true
+      return result
     } catch {
       error.value = fallbackMessage
       return undefined
@@ -17,5 +21,5 @@ export const useAsyncAction = () => {
     }
   }
 
-  return {pending, error, execute}
+  return {pending, error, completed, execute, interactionModel: "pending-success-error" as const}
 }
