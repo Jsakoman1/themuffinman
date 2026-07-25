@@ -1,7 +1,6 @@
 kind: acceptance-matrix
 version: 1
 id: vision-capability-acceptance
-source_plan: docs/work/vision-execution-acceptance.yaml
 baseline: 6018777
 scenarios:
   - id: create-quest-review-confirm

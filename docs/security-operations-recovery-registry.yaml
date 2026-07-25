@@ -43,7 +43,8 @@ configuration_drift_contract:
   typed_config_owner: apps/themuffinman/src/main/java/com/themuffinman/app/config
   secret_handling: redact_values_and_report_names_only
   external_state: unknown_without_deployment_or_provider_evidence
-  generated_report: docs/audit-output/configuration-environment-drift.json
+  generated_report: null
+  generated_report_note: Disposable configuration-drift output was removed; this registry is the retained source.
 runtime_failure_injection:
   owner: AgentProperties.runtimeFailureMode
   allowed_local_values: [none, provider_failure, side_effect_failure]

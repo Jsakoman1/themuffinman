@@ -1,15 +1,9 @@
 kind: core_product_stabilization_closeout
 version: 1
 captured_at: 2026-07-22
-master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
 baseline: a3d58c9
 status: verified_with_explicit_pending_gaps
-verified_child_plans:
-  - docs/work/core-product-stabilization-business-rides-01-core-journeys.yaml
-  - docs/work/core-product-stabilization-business-rides-02-core-reliability.yaml
-  - docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml
-  - docs/work/core-product-stabilization-business-rides-04-rides-hardening.yaml
-  - docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml
+verified_child_plans: removed_after_closeout
 new_repairs:
   - id: CORE-MUTATION-CONTEXT-CLEANUP
     area: core_reliability

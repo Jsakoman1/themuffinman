@@ -19,19 +19,6 @@ interaction_contract_regressions:
     - routed identity, workspace, and Vision surfaces remain native dynamic imports; router/auth/route-registry are the only eager navigation core and route loading must not reset canonical collection URL context
     - collection performance work preserves backend-owned membership, ordering, pagination, and permissions; viewport virtualization is permitted only for a stable backend cursor/window contract and display/selection state remains presentation-only
 regression_scenarios:
-  # Calendar runtime gate shares the explicit browser evidence harness.
-  - id: apple-product-polish-work-scope-order
-    domain: frontend-ux
-    risk: high
-    scenario: Find work, My work, and My applications preserve route-owned scope identity across direct navigation, tab order, refresh, and back/forward.
-    test_files:
-      - apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs
-      - docs/runtime-evidence/apple-product-polish-work-scope.json
-    commands:
-      - node apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs --scenario=work-scope
-      - node apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs --scenario=native-laptop
-      - node apps/themuffinman/frontend/scripts/apple-product-polish-runtime.mjs --scenario=closeout
-      # Native-laptop closeout also records focus restoration and mobile overflow.
   - id: agent-exact-target-fail-closed
     domain: agent
     risk: high
@@ -167,7 +154,7 @@ regression_scenarios:
   - id: vision-prompt-contract-routing
     domain: vision
     risk: high
-    scenario: Critical product prompt wording must preserve the semantic contract: direct messaging stays SEND_MESSAGE, chat opening stays OPEN_CHAT, create new work routes to guided quest creation, and go to circles routes to navigation-only circles.
+    scenario: "Critical product prompt wording must preserve the semantic contract: direct messaging stays SEND_MESSAGE, chat opening stays OPEN_CHAT, create new work routes to guided quest creation, and go to circles routes to navigation-only circles."
     test_files:
       - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionIntentRouterTest.java
       - apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSemanticAuditMatrixTest.java

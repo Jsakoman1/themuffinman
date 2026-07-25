@@ -1997,6 +1997,7 @@ export interface QuestApplicationsViewDTO {
   featuredApplication: QuestApplicationResponseDTO | null
   approvedApplications: QuestApplicationResponseDTO[]
   visibleApplications: QuestApplicationResponseDTO[]
+  pendingApplications: QuestApplicationResponseDTO[]
   pendingApplicationCount: number
   oldestPendingApplicationId: number | null
   hiddenApplicationsCount: number

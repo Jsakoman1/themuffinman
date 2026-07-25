@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: tooling-control-improvement-05-closeout
+title: Verify and close the tooling improvement master
+status: verified
+baseline: 98dc69af37354f08773c919d81d28c68ef53d0f5
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/tooling-control-improvement-master.yaml
+execution_inventory: docs/work/tooling-control-improvement-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/control-system-simplification-review-2026-07-25.md
+  baseline_only_surfaces:
+  - prior product/runtime evidence
+  residual_scope:
+  - final tool catalog
+  - clean output
+  - tests
+  - documentation
+  - and explicit runtime limits
+  retest_triggers:
+  - any tooling change after the preceding audit pass
+  non_duplication_rule: Closeout counts only newly produced tooling evidence and repairs.
+tasks:
+- id: verify-tooling-closeout
+  title: Run the complete tooling closeout and remove generated output
+  type: verification
+  status: done
+  inventory_item: tooling-closeout
+  observable_outcome: The tooling master closes with all tools referenced, all required
+    validations passing, and no generated or temporary artifacts left behind.
+  dependencies:
+  - tooling-audit-runtime-improvement
+  evidence_boundary:
+  - tool self-test
+  - control-check
+  - audit-all
+  - backend test
+  - frontend type-check/build
+  - clean output counts
+  paths:
+  - docs/work/tooling-control-improvement-master.yaml
+  - docs/work/tooling-control-improvement-master-execution-inventory.yaml
+  - docs/audits.md
+  required_paths:
+  - docs/work/tooling-control-improvement-closeout.md
+  validation: make tool-self-test && make control-check && make audit-all && git diff
+    --check
+  started_at: '2026-07-25T20:29:36Z'
+  start_fingerprints:
+    docs/work/tooling-control-improvement-closeout.md: __missing__
+evidence:
+- task: verify-tooling-closeout
+  command: make tool-self-test && make control-check && make audit-all && git diff
+    --check
+  ranAt: '2026-07-25T20:31:25Z'
+  revision: 98dc69af37354f08773c919d81d28c68ef53d0f5
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/audits.md
+  - docs/work/tooling-control-improvement-master-execution-inventory.yaml
+  - docs/work/tooling-control-improvement-master.yaml
+  output: |+
+    Removed 18 generated/transient artifacts.
+    - docs/audit-output/docs-as-tests-summary.md
+    - docs/audit-output/frontend-stale-surface-audit-summary.md
+    - docs/audit-output/docs-as-tests.json
+    - docs/audit-output/mutation-safety-summary.md
+    - docs/audit-output/api-contract-drift-summary.md
+    - docs/audit-output/api-contract-drift.json
+    - docs/audit-output/frontend-route-surface-inventory.json
+    - docs/audit-output/mutation-safety.json
+    - docs/audit-output/read-surface-inventory-summary.md
+    - docs/audit-output/endpoint-callsite-linker-summary.md
+    - docs/audit-output/repository-fetch-audit.json
+    - docs/audit-output/mapper-usage-audit-summary.md
+    - docs/audit-output/repository-fetch-audit-summary.md
+    - docs/audit-output/mapper-usage-audit.json
+    - docs/audit-output/read-surface-inventory.json
+    - docs/audit-output/frontend-stale-surface-audit.json
+    - docs/audit-output/frontend-route-surface-inventory-summary.md
+    - docs/audit-output/endpoint-callsite-linker.json
+
+  startedAt: '2026-07-25T20:29:36Z'
+  changedAfterStart: &1
+  - docs/work/tooling-control-improvement-closeout.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

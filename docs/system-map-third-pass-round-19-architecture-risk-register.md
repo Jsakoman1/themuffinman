@@ -80,12 +80,11 @@ create its own YAML work plan and produce implementation/runtime evidence.
 ARCH-002 analysis and implementation planning now live in
 `docs/arch-002-mutation-reliability-analysis.md`,
 `docs/mutation-reliability-contract.yaml`, and
-`docs/work/arch-002-mutation-reliability-master.yaml`.
 
 ## Source evidence
 
 - `docs/system-map.md`
-- `docs/system-analysis-round-1.md` through `docs/system-analysis-round-7.md`
+- The historical system-analysis round set was consolidated into `docs/system-map.md`.
 - `docs/system-map-deepening-preflight.md`
 - `docs/system-map-deepening-round-8-data-ownership.md` through
   `docs/system-map-deepening-round-13-target-state-architecture.md`

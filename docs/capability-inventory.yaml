@@ -5,7 +5,7 @@ description: >
   Canonical product truth for what TheMuffinMan should support, what the current
   code exposes, and what remains missing, broken, or only partially implemented.
   This file is the machine-readable source for future implementation planning.
-last_reviewed: 2026-07-22
+last_reviewed: 2026-07-25
 repair_stabilization_baseline: docs/repair-and-stabilize-baseline-2026-07-22.yaml
 system_map_optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 status_authority: capability_inventory
@@ -38,8 +38,8 @@ review_policy:
     implemented means the primary backend/Web workflow exists; verified additionally
     requires current acceptance evidence; partial and planned must retain explicit gaps.
 inventory_refresh:
-  reviewed_on: '2026-07-19'
-  scan_revision: 94efd68
+  reviewed_on: '2026-07-25'
+  scan_revision: 98dc69a
   source_domains: [identity, vision, workmarket, chat, business, social, things, rides, location, notification, nativehandoff, activity]
   evidence_layers: [source_code, api_contracts, web_vision_surfaces, tests, work_plans, runtime_matrix]
 open_plans: []
@@ -75,9 +75,6 @@ source_documents:
   - id: vision_status
     path: docs/vision-status-ledger.md
     role: current Vision capability history and known limitations
-  - id: modern_master_plan
-    path: docs/work/modern-minimal-adaptive-product.yaml
-    role: latest verified adaptive surface implementation batch
 modules:
   - id: platform
     name: Platform and identity
@@ -93,7 +90,7 @@ modules:
           - mobile and Watch clients
         evidence:
           code: [apps/themuffinman/frontend/src/modules/identity, apps/themuffinman/src/main/java/com/themuffinman/app/identity, apps/themuffinman/src/main/resources/db/migration/V73__create_revoked_auth_token.sql]
-          plan: docs/work/r3-f-auth-session-expiry-recovery.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: platform.profile
         name: User profile, ratings, reviews, and profile actions
         status: implemented
@@ -169,7 +166,7 @@ modules:
         gaps: [browser runtime acceptance, Vision runtime acceptance, mobile and Watch presentation]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/identity/mapper/AppUserMgr.java, apps/themuffinman/src/main/java/com/themuffinman/app/identity/model/ProfileFieldVisibility.java, apps/themuffinman/src/main/resources/db/migration/V72__add_profile_visibility_circle_consent.sql, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
-          plan: docs/work/r3-b-profile-visibility.yaml
+          registry: docs/capability-evidence-registry.yaml
           runtime: []
       - id: platform.account.register
         name: Register an account
@@ -268,7 +265,7 @@ modules:
         gaps: [mobile lifecycle]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationLookupService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
-          plan: docs/work/r3-c-location-provider-recovery.yaml
+          registry: docs/capability-evidence-registry.yaml
           runtime: [docs/runtime-evidence/location-context-2026-07-19.json]
       - id: platform.location
         name: Location preferences, current location, and locality-aware discovery
@@ -281,7 +278,7 @@ modules:
           - full mobile location lifecycle
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationContextService.java, apps/themuffinman/src/main/java/com/themuffinman/app/location/service/LocationQuestPresentationService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSemanticOrchestrationContextService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ProfileLocationSettingsView.vue]
-          plan: docs/work/r3-c-location-provider-recovery.yaml
+          registry: docs/capability-evidence-registry.yaml
           docs: [docs/business-logic.md, docs/domain-technical.md]
       - id: platform.activity
         name: Viewer-scoped activity and task resume
@@ -297,7 +294,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/ActivityReadService.java, apps/themuffinman/src/main/java/com/themuffinman/app/things/repository/ThingBorrowRequestRepository.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityPreviewService.java]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/activity/service/ActivityReadServiceTest.java]
-          plan: docs/work/r3-d-activity-chat-projection.yaml
+          registry: docs/capability-evidence-registry.yaml
 
   - id: vision
     name: Vision adaptive command surface
@@ -324,7 +321,7 @@ modules:
         gaps:
           - real device-specific haptic/audio acceptance tests
         evidence:
-          plans: [docs/work/modern-vision-command-surface.yaml, docs/work/modern-mobile-watch-quality.yaml]
+          registry: docs/capability-evidence-registry.yaml
       - id: vision.task.start
         name: Start a guided Vision task with text or voice
         status: implemented
@@ -355,7 +352,7 @@ modules:
         gaps: [broadened production rollout beyond guarded feature flags, adapter-wide execution acceptance]
         evidence:
           code: [apps/themuffinman/frontend/src/modules/vision/composables/useVisionConversation.ts, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionResult.java]
-          plan: docs/work/r4-a-vision-execution-failure-contract.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: vision.task.cancel
         name: Cancel an active Vision task
         status: implemented
@@ -397,7 +394,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java]
-          plan: docs/work/r4-b-vision-discovery-boundary.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: vision.discovery.open_detail
         name: Open a discovered entity detail
         status: implemented
@@ -408,7 +405,7 @@ modules:
         gaps: [browser/runtime proof for every supported detail handoff and native route consumption]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCapabilityEntityResolutionSupport.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue]
-          plan: docs/work/r4-b-vision-discovery-boundary.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: vision.discovery.compare
         name: Compare Vision discovery results
         status: implemented
@@ -435,7 +432,7 @@ modules:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionConversationTurnResponseDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionCanvasAssembler.java]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionConversationServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionCreateQuestExecutionAdapterTest.java]
           docs: [docs/vision-status-ledger.md, docs/vision-architecture-patterns.md]
-          plan: docs/work/r4-c-vision-quest-workflow.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: vision.read_discovery
         name: Read-only quest and cross-entity discovery through Vision
         status: implemented
@@ -448,7 +445,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionQuestDiscoveryDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionQuestDiscoveryServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryServiceTest.java]
-          plan: docs/work/r4-b-vision-discovery-boundary.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: vision.execution
         name: Typed review-gated execution for supported mutations
         status: implemented
@@ -460,7 +457,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionExecutionService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/dto/VisionExecutionCandidateDTO.java, apps/themuffinman/frontend/src/modules/vision/components/VisionCanvasRenderer.vue, apps/themuffinman/frontend/src/modules/vision/api/visionConversationApi.ts]
           docs: [docs/domain-technical.md, docs/vision-architecture-patterns.md, docs/vision-capability-acceptance.yaml]
-          plan: docs/work/r4-a-vision-execution-failure-contract.yaml
+          registry: docs/capability-evidence-registry.yaml
 
   - id: work
     name: Work marketplace
@@ -485,7 +482,7 @@ modules:
           - mobile visual regression coverage
           - richer comparison mode for dense result sets
         evidence:
-          plans: [docs/work/modern-work-discovery.yaml]
+          registry: docs/capability-evidence-registry.yaml
       - id: work.quest.management
         name: Manage owned quests and lifecycle state
         status: implemented
@@ -601,7 +598,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java, apps/themuffinman/src/main/java/com/themuffinman/app/common/errors/CodedResponseStatusException.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementServiceTest.java]
-          plan: docs/work/r2-d-worker-conflict-contract.yaml
+          registry: docs/capability-evidence-registry.yaml
         evidence:
           code: [apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue]
       - id: work.quest.view_other
@@ -625,7 +622,7 @@ modules:
           vision: ["/vision"]
         gaps: [richer comparison mode, mobile visual regression coverage]
         evidence:
-          plans: [docs/work/modern-work-discovery.yaml]
+          registry: docs/capability-evidence-registry.yaml
       - id: work.quest.update
         name: Edit an owned quest
         status: implemented
@@ -738,7 +735,7 @@ modules:
         gaps: [mobile presentation, browser-level runtime acceptance coverage]
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketWorkerManagementService.java, apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue]
-          plan: docs/work/r2-a-work-assignment.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: work.application.create_review
         name: Review a completed work participant
         status: implemented
@@ -791,7 +788,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatSocketEventDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatRealtimeService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatSyncService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatRealtimeServiceTest.java]
-          plan: docs/work/r2-e-chat-realtime-connection-contract.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: chat.attachments
         name: Image and attachment upload, display, and retention behavior
         status: implemented
@@ -803,7 +800,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentAccessDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
-          plan: docs/work/r2-f-chat-attachment-access-refresh.yaml
+          registry: docs/capability-evidence-registry.yaml
 
       - id: chat.conversation.open
         name: Open an allowed conversation
@@ -838,11 +835,11 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentUploadDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/model/ChatAttachmentUpload.java, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
-          plan: docs/work/r2-g-chat-upload-lifecycle.yaml
+          registry: docs/capability-evidence-registry.yaml
           runtime:
             - docs/runtime-evidence/chat-attachment-lifecycle-2026-07-19.json
             - docs/runtime-evidence/chat-attachment-cancel-2026-07-19.json
-        plan: docs/work/r2-c-chat-media.yaml
+        registry: docs/capability-evidence-registry.yaml
       - id: chat.conversation.create_group
         name: Create a group conversation
         status: implemented
@@ -852,7 +849,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatGroupEligibilityDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
-          plan: docs/work/r2-b-chat-continuity.yaml
+          registry: docs/capability-evidence-registry.yaml
       - id: chat.conversation.mark_read
         name: Mark conversation messages as read
         status: implemented
@@ -892,7 +889,7 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatMembershipTransitionDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java, apps/themuffinman/src/test/java/com/themuffinman/app/chat/controller/ChatControllerTest.java]
-          plan: docs/work/r2-b-chat-continuity.yaml
+          registry: docs/capability-evidence-registry.yaml
           runtime:
             - docs/runtime-evidence/chat-leave-owner-transfer-2026-07-19.json
       - id: chat.message.view_attachment
@@ -904,11 +901,11 @@ modules:
         evidence:
           code: [apps/themuffinman/src/main/java/com/themuffinman/app/chat/dto/ChatAttachmentAccessDTO.java, apps/themuffinman/src/main/java/com/themuffinman/app/chat/service/ChatService.java, apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue]
           tests: [apps/themuffinman/src/test/java/com/themuffinman/app/chat/service/ChatServiceTest.java]
-          plan: docs/work/r2-f-chat-attachment-access-refresh.yaml
+          registry: docs/capability-evidence-registry.yaml
           runtime:
             - docs/runtime-evidence/chat-attachment-lifecycle-2026-07-19.json
             - docs/runtime-evidence/chat-attachment-authorization-boundary-2026-07-19.json
-          plan: docs/work/r2-c-chat-media.yaml
+          registry: docs/capability-evidence-registry.yaml
 
   - id: circles
     name: Trusted relationships and privacy circles
@@ -1318,7 +1315,7 @@ modules:
           backend: ["GET /search/compare"]
         gaps: []
         evidence:
-          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java, apps/themuffinman/frontend/src/modules/app-shell/components/GlobalSearchEntry.vue]
+          code: [apps/themuffinman/src/main/java/com/themuffinman/app/vision/service/VisionSearchDiscoveryService.java, apps/themuffinman/src/main/java/com/themuffinman/app/vision/controller/UniversalSearchController.java]
           runtime: []
       - id: cross_module.notification.receive
         name: Receive relevant product notifications
@@ -1409,7 +1406,7 @@ modules:
           backend: [VisionRuntimeContextDTO watch metadata]
         gaps: [native Watch client, compact action contract, safe confirmation and expiry]
         evidence:
-          docs: [docs/native-client-handoff-contract.yaml, docs/work/modern-mobile-watch-quality.yaml]
+          docs: [docs/native-client-handoff-contract.yaml]
       - id: cross_module.auditability.trace
         name: Trace target capability to implementation evidence
         status: implemented
@@ -1430,7 +1427,7 @@ modules:
         gaps:
           - first-class native client shell contracts
         evidence:
-          plans: [docs/work/modern-minimal-adaptive-product.yaml]
+          registry: docs/capability-evidence-registry.yaml
       - id: cross_module.linear_workspace_vision
         name: Verified desktop workspace and adaptive Vision convergence
         status: verified
@@ -1442,7 +1439,7 @@ modules:
         gaps:
           - native client parity remains tracked separately
         evidence:
-          plans: [docs/work/modern-minimal-adaptive-product.yaml, docs/work/workspace-app-shell-first-layer.yaml]
+          registry: docs/capability-evidence-registry.yaml
       - id: cross_module.mobile_watch
         name: Mobile and Watch presentation of core voice and action flows
         status: partial
@@ -1454,7 +1451,7 @@ modules:
           - actual native clients
           - device permissions, offline/background execution, and runtime acceptance
         evidence:
-          plans: [docs/work/modern-mobile-watch-quality.yaml]
+          registry: docs/capability-evidence-registry.yaml
       - id: cross_module.search
         name: Unified prompt and visual discovery across product modules
         status: implemented
@@ -1479,7 +1476,7 @@ modules:
           - generated markdown capability report
           - automatic plan-to-capability coverage check
         evidence:
-          code: [docs/work/modern-minimal-adaptive-product.yaml]
+          registry: docs/capability-evidence-registry.yaml
 
 gap_summary:
   critical_gaps:

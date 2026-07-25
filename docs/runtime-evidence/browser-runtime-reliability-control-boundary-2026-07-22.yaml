@@ -1,7 +1,6 @@
 kind: runtime_reliability_boundary
 captured_at: '2026-07-22T17:45:00+02:00'
 environment: local-dev
-owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
 status: structured_external_blocker
 controls:
   side_effect_failure_mode: implemented_and_backend_tested

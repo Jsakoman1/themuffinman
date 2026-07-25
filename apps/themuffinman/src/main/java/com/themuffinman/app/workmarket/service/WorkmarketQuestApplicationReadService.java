@@ -67,6 +67,9 @@ public class WorkmarketQuestApplicationReadService {
         QuestApplicationResponseDTO featuredApplication = approvedApplications.isEmpty() ? null : approvedApplications.getFirst();
 
         List<QuestApplicationResponseDTO> visibleApplications = resolveVisibleApplications(quest, sortedApplications, approvedApplications, showAll);
+        List<QuestApplicationResponseDTO> pendingApplications = sortedApplications.stream()
+                .filter(application -> application.getStatus() == com.themuffinman.app.workmarket.model.QuestApplicationStatus.PENDING)
+                .toList();
         int hiddenApplicationsCount = Math.max(0, sortedApplications.size() - visibleApplications.size() - approvedApplications.size());
         boolean canRevealHiddenApplications = sortedApplications.size() > visibleApplications.size() + approvedApplications.size();
 
@@ -74,6 +77,7 @@ public class WorkmarketQuestApplicationReadService {
                 .featuredApplication(featuredApplication)
                 .approvedApplications(approvedApplications)
                 .visibleApplications(visibleApplications)
+                .pendingApplications(pendingApplications)
                 .pendingApplicationCount(oldestPendingApplications.size())
                 .oldestPendingApplicationId(oldestPendingApplications.isEmpty() ? null : oldestPendingApplications.getFirst().getId())
                 .hiddenApplicationsCount(hiddenApplicationsCount)
@@ -94,6 +98,7 @@ public class WorkmarketQuestApplicationReadService {
                 .featuredApplication(approvedApplications.isEmpty() ? null : approvedApplications.getFirst())
                 .approvedApplications(approvedApplications)
                 .visibleApplications(List.of())
+                .pendingApplications(List.of())
                 .pendingApplicationCount(0)
                 .oldestPendingApplicationId(null)
                 .hiddenApplicationsCount(0)

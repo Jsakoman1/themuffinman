@@ -22,7 +22,7 @@ rules:
 - pending_runtime_is_not_failed_or_absent
 - no capability status changes from this evidence catalog alone
 core_reliability_execution:
-  task: docs/work/core-product-stabilization-business-rides-02-core-reliability.yaml#stabilize-core-reliability
+  task: retained mutation reliability evidence baseline
   source_contract_repair: request_context_and_mdc_cleanup_on_exceptional_mutation_path
   regression_test_count: 3
   backend_test_result: passed

@@ -1,7 +1,6 @@
 kind: operator_process_replay_boundary
 captured_at: '2026-07-22T17:47:00+02:00'
 environment: local-dev
-owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
 status: structured_external_blocker
 scenario: runtime-side-effect-replay-after-process-crash
 observed:

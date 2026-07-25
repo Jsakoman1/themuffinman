@@ -1,20 +1,5 @@
 @import "./styles/base.css";
 
-/* Shared remaster foundation: surfaces own rhythm, state, responsive behavior, and interaction grammar. */
-:root {
-  --workspace-header-height: 3.5rem;
-  --surface-padding: clamp(var(--space-3), 2vw, var(--space-5));
-  --surface-section-gap: clamp(var(--space-4), 2vw, var(--space-6));
-  --control-transition: color var(--motion-fast) ease, background-color var(--motion-fast) ease,
-    border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease, transform var(--motion-fast) ease;
-  --interaction-transition: color var(--motion-standard) ease, background-color var(--motion-standard) ease, border-color var(--motion-standard) ease;
-  --calendar-source-business: #0a84ff;
-  --calendar-source-work: #30d158;
-  --calendar-source-sharing: #ff9f0a;
-  --calendar-source-social: #bf5af2;
-  --app-material-blur: blur(18px);
-}
-
 /* Native-app grammar: grouped content, quiet rows, and one selection treatment. */
 .native-group { overflow: hidden; border: 1px solid var(--native-separator); border-radius: var(--native-group-radius); background: var(--surface-base); }
 .native-list { display: grid; gap: 0; min-width: 0; }

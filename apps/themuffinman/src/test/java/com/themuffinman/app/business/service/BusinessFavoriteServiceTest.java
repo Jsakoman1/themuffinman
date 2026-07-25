@@ -4,6 +4,7 @@ import com.themuffinman.app.business.model.BusinessProfile;
 import com.themuffinman.app.business.model.BusinessFavorite;
 import com.themuffinman.app.business.repository.BusinessFavoriteRepository;
 import com.themuffinman.app.business.repository.BusinessProfileRepository;
+import com.themuffinman.app.business.mapper.BusinessProfileMgr;
 import com.themuffinman.app.identity.model.AppUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,9 @@ class BusinessFavoriteServiceTest {
 
     @Mock
     private BusinessProfileRepository profileRepository;
+
+    @Mock
+    private BusinessProfileMgr businessProfileMgr;
 
     @InjectMocks
     private BusinessFavoriteService service;
@@ -69,6 +73,19 @@ class BusinessFavoriteServiceTest {
 
         assertEquals(List.of("dog-groomer"), result.stream().map(item -> item.getSlug()).toList());
         verify(favoriteRepository).findByOwnerIdAndBusinessProfileActiveTrueOrderByCreatedAtDesc(1L);
+    }
+
+    @Test
+    void directoryUsesBackendFavoriteProjectionAndQuery() {
+        AppUser user = user(1L);
+        BusinessProfile profile = profile(10L, user);
+        when(favoriteRepository.searchFavoriteActiveProfiles(1L, "dog")).thenReturn(List.of(profile));
+        when(businessProfileMgr.toDto(profile)).thenReturn(null);
+
+        var result = service.getDirectory(user, " dog ");
+
+        assertEquals(1, result.getItems().size());
+        verify(favoriteRepository).searchFavoriteActiveProfiles(1L, "dog");
     }
 
     private BusinessFavorite favorite(AppUser user, BusinessProfile profile) {

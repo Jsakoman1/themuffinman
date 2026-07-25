@@ -111,7 +111,6 @@ The active implementation queue is not the same as every file in `docs/work/`. S
 - `scripts/verify-work.rb`: validates plans, exact changed paths, leaf commands, serial ordering, master children, and evidence.
 - `audit-work-plan-recursion`: prevents nested verification or recursive plans.
 - `audit-plan-coverage`: checks active plan/master graph coverage and uniqueness.
-- `audit-change-impact-preflight` and `score-changeset-risk`: estimate docs/tests/sibling-read-surface impact for changed files.
 
 ### 3.2 Backend audits (`make audit-backend`)
 
@@ -133,8 +132,6 @@ The active implementation queue is not the same as every file in `docs/work/`. S
 ### 3.4 Documentation, tests, capability and runtime audits
 
 - `audit-docs-as-tests`: scans documented factual statements and searches expected code/evidence.
-- `audit-contract-test-gaps`: endpoint/contract/test/documentation gaps.
-- `audit-test-fixture-duplication`: repeated test setup candidates.
 - `audit-target-capability-catalog`: target structure and current-inventory links.
 - `audit-target-capability-coverage`: generated target-to-current coverage/mapping quality report.
 - `audit-inventory-freshness`: capability evidence paths and current source-domain freshness.

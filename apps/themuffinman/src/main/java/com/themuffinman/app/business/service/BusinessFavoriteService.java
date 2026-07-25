@@ -1,6 +1,8 @@
 package com.themuffinman.app.business.service;
 
 import com.themuffinman.app.business.dto.BusinessFavoriteResponseDTO;
+import com.themuffinman.app.business.dto.BusinessProfileListResponseDTO;
+import com.themuffinman.app.business.mapper.BusinessProfileMgr;
 import com.themuffinman.app.business.model.BusinessFavorite;
 import com.themuffinman.app.business.model.BusinessProfile;
 import com.themuffinman.app.business.repository.BusinessFavoriteRepository;
@@ -19,10 +21,21 @@ import java.util.List;
 public class BusinessFavoriteService {
     private final BusinessFavoriteRepository favoriteRepository;
     private final BusinessProfileRepository profileRepository;
+    private final BusinessProfileMgr businessProfileMgr;
 
     public List<BusinessFavoriteResponseDTO> getMine(AppUser currentUser) {
         return favoriteRepository.findByOwnerIdAndBusinessProfileActiveTrueOrderByCreatedAtDesc(currentUser.getId())
                 .stream().map(this::toDto).toList();
+    }
+
+    public BusinessProfileListResponseDTO getDirectory(AppUser currentUser, String query) {
+        String normalizedQuery = query == null ? "" : query.trim();
+        List<BusinessProfile> profiles = normalizedQuery.isBlank()
+                ? favoriteRepository.findFavoriteActiveProfiles(currentUser.getId())
+                : favoriteRepository.searchFavoriteActiveProfiles(currentUser.getId(), normalizedQuery);
+        return BusinessProfileListResponseDTO.builder()
+                .items(profiles.stream().map(businessProfileMgr::toDto).toList())
+                .build();
     }
 
     @Transactional

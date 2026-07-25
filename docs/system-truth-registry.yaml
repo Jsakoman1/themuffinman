@@ -98,7 +98,7 @@ canonical_lint_contract:
   seeded_drift_test: passed_in_audit
 next_optimization_control_state:
   owner: system-map-optimization
-  canonical_sources: [docs/work/system-map-next-optimization-master.yaml, docs/work/system-map-next-optimization-master-execution-inventory.yaml, docs/system-map-next-optimization-preflight.md]
+  canonical_sources: [docs/system-map-optimization-baseline-2026-07-22.yaml, docs/system-map-optimization-preflight.md]
   evidence_class: validated-contract
   confidence: high
   update_trigger: serial task verification, closeout, or next queue change

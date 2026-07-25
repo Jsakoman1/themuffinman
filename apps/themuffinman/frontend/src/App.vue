@@ -40,14 +40,6 @@ onMounted(() => {
 })
 onBeforeUnmount(() => window.removeEventListener("app:appearance-changed", handleAppearanceChanged))
 
-const editableTarget = (target: EventTarget | null) => target instanceof HTMLElement && Boolean(target.closest("input,textarea,select,[contenteditable='true']"))
-const handleGlobalShortcut = (event: KeyboardEvent) => {
-  if (editableTarget(event.target) || event.defaultPrevented) return
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); window.dispatchEvent(new Event("app:open-command")) }
-  if (!event.metaKey && !event.ctrlKey && !event.altKey && event.key.toLowerCase() === "c") { event.preventDefault(); window.dispatchEvent(new Event("app:open-create")) }
-}
-onMounted(() => window.addEventListener("keydown", handleGlobalShortcut))
-onBeforeUnmount(() => window.removeEventListener("keydown", handleGlobalShortcut))
 </script>
 
 <template>

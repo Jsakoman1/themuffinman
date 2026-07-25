@@ -1,6 +1,7 @@
 package com.themuffinman.app.business.controller;
 
 import com.themuffinman.app.business.dto.BusinessFavoriteResponseDTO;
+import com.themuffinman.app.business.dto.BusinessProfileListResponseDTO;
 import com.themuffinman.app.business.service.BusinessFavoriteService;
 import com.themuffinman.app.identity.model.AppUser;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,14 @@ public class BusinessFavoriteController {
     @GetMapping("/me")
     public List<BusinessFavoriteResponseDTO> getMine(@AuthenticationPrincipal AppUser currentUser) {
         return service.getMine(currentUser);
+    }
+
+    @GetMapping("/me/directory")
+    public BusinessProfileListResponseDTO getDirectory(
+            @AuthenticationPrincipal AppUser currentUser,
+            @RequestParam(value = "q", required = false) String query
+    ) {
+        return service.getDirectory(currentUser, query);
     }
 
     @PostMapping("/me/{businessProfileId}")

@@ -3,7 +3,7 @@ version: 1
 id: capability-inventory-audit
 title: Current capability inventory audit
 status: verified
-audited_at: '2026-07-19'
+audited_at: '2026-07-25'
 source_inventory: docs/capability-inventory.yaml
 source_target_catalog: docs/target-capability-catalog.yaml
 source_coverage_report: docs/work/target-capability-coverage-report.yaml
@@ -22,7 +22,7 @@ summary:
     broken: 0
   open_capabilities: 4
   capabilities_with_declared_gaps: 140
-  capabilities_with_evidence: 71
+  capabilities_with_evidence: 72
   modules: 8
   target_capabilities: 123
   target_mapping:
@@ -30,7 +30,7 @@ summary:
     exact_mapped: 123
     unmapped: 0
     vision_missing: 2
-    not_ready: 21
+    not_ready: 3
 integrity_findings:
   - id: AUDIT-001
     severity: high
@@ -125,23 +125,23 @@ audit_commands:
   - make audit-runtime-acceptance
 runtime_acceptance:
   matrix: docs/runtime-acceptance-matrix.yaml
-  passed: 30
-  pending_runtime: 24
+  passed: 67
+  pending_runtime: 14
   interpretation: Static contracts are verified; browser/device execution remains open until fresh traces are produced.
 quality_scan:
   command: make audit-inventory-freshness
   source_counts:
-    backend_dtos: 259
-    backend_services: 271
+    backend_dtos: 288
+    backend_services: 295
     backend_endpoints: 211
     repositories: 48
     mutation_surfaces: 375
-    frontend_routes: 45
+    frontend_routes: 61
     frontend_api_methods: 164
     linked_frontend_endpoints: 137
     runtime_json_evidence: 28
     work_plans: 143
-    backend_test_files: 150
+    backend_test_files: 178
   quality_findings:
     - severity: medium
       finding: 19 backend DTOs do not have generated frontend contracts according to the drift audit.
@@ -160,4 +160,3 @@ result:
   target_catalog_audit: passed
   target_coverage_audit: passed
   plan_coverage_audit: passed
-  next_artifact: docs/work/workspace-app-shell-first-layer.yaml

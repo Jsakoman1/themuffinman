@@ -1,6 +1,6 @@
 # System Analysis Round 2 — Capability, Plan, and Evidence Reconciliation
 
-Status: completed analysis snapshot, 2026-07-22. Sources were read from the current working tree after starting `docs/work/system-analysis-round-2.yaml`. This document records reconciliation findings; `docs/capability-inventory.yaml` remains the current capability source of truth.
+Status: completed analysis snapshot, 2026-07-22. This document records reconciliation findings; `docs/capability-inventory.yaml` remains the current capability source of truth.
 
 ## 1. Objective and method
 

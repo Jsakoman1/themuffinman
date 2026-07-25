@@ -137,9 +137,8 @@ const syncConversation = async () => {
 }
 const handleRealtimeEvent = (event: import("../../../contracts/index.ts").ChatSocketEventDTO) => {
   if (event.type === "chat.connection") {
-    const recovering = realtimeStatus.value === "RECONNECTING" || realtimeStatus.value === "DISCONNECTED"
     realtimeStatus.value = event.connectionState ?? "CONNECTED"
-    if ((event.resyncRequired || recovering) && selectedId.value) void syncConversation()
+    if (event.resyncRequired && selectedId.value) void syncConversation()
     return
   }
   if (event.conversationId === selectedId.value && event.message) {
@@ -152,6 +151,7 @@ const handleRealtimeEvent = (event: import("../../../contracts/index.ts").ChatSo
 }
 const chatRealtime = useChatRealtime(handleRealtimeEvent)
 watch(chatRealtime.state, value => { realtimeStatus.value = value })
+watch(chatRealtime.recoveryVersion, () => { if (selectedId.value) void syncConversation() })
 const realtimeLabel = computed(() => ({
   CONNECTED: "Connected",
   CONNECTING: "Connecting…",

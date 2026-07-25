@@ -2,11 +2,8 @@ kind: business_hardening_matrix
 version: 1
 status: active_residual_hardening
 reviewed_on: 2026-07-22
-master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
-child_plan: docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml
 baseline_sources:
   - docs/work/main-surfaces-business-landing.yaml
-  - docs/work/ui-action-integrity-business-calendar.yaml
   - docs/runtime-acceptance-matrix.yaml
   - docs/mutation-reliability-evidence.yaml
 scope_control:
@@ -38,7 +35,7 @@ dimensions:
   - id: owner_customer_action_parity
     authority: backend booking permission and action services
     expected: owner and customer receive only actions allowed for their role and current booking state
-    evidence: [docs/work/ui-action-integrity-business-calendar.yaml]
+    evidence: [docs/runtime-acceptance-matrix.yaml]
     status: residual_review_required
   - id: stale_and_partial_recovery
     authority: booking state transition service and readback surfaces
@@ -51,7 +48,7 @@ dimensions:
     evidence: [docs/runtime-acceptance-matrix.yaml]
     status: residual_evidence_gap
 execution:
-  task: docs/work/core-product-stabilization-business-rides-03-business-hardening.yaml#harden-business
+  task: retained Business hardening matrix baseline
   repair_completed: idempotency replay now accepts an omitted end time when it deterministically matches the persisted duration snapshot
   implementation_tests: apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessCreateBookingUseCaseTest.java
   remaining_gate: Run full backend/frontend validation and preserve concurrency, failure-injection, and runtime boundaries.

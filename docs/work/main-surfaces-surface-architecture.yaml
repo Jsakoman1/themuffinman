@@ -28,7 +28,7 @@ tasks:
   type: analysis
   status: done
   paths:
-  - docs/work/main-surfaces-surface-architecture-analysis.md
+  - docs/main-surfaces-surface-architecture-analysis.md
   - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
   - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
   validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/main-surfaces-surface-architecture.yaml")'
@@ -66,7 +66,7 @@ evidence:
   changedFiles:
   - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
   - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
-  - docs/work/main-surfaces-surface-architecture-analysis.md
+  - docs/main-surfaces-surface-architecture-analysis.md
   output: "\n"
 - task: architecture-implementation
   command: npm --prefix apps/themuffinman/frontend run build
@@ -116,4 +116,3 @@ evidence:
     > node ./scripts/validate-modern-surface-contract.mjs
 
     Modern surface contract passed (56 checks).
-

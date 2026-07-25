@@ -23,7 +23,6 @@ pending_evidence_boundaries:
   vision_cross_surface_parity: [runtime-visibility-web-vision-parity]
   next_pass_required: true
 runtime_pending_web_operations_master:
-  owner_plan: docs/work/runtime-pending-web-operations-master.yaml
   in_scope_denominator: 11
   structured_blockers:
     - docs/runtime-evidence/browser-runtime-vision-provider-failure-attempt-2026-07-22.json

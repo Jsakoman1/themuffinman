@@ -11,13 +11,12 @@ optimization_closeout: docs/system-map-optimization-closeout-2026-07-22.yaml
 runtime_pending_web_operations_closeout: docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml
 vision_prompt_contract_closeout: docs/runtime-evidence/vision-prompt-stabilization-runtime.json
 core_product_stabilization_runtime_observation:
-  owner_plan: docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml
+  owner_plan: removed_after_closeout
   artifact: docs/runtime-evidence/core-product-stabilization-business-rides-runtime-2026-07-22.json
   status: partial_runtime_evidence_only
   canonical_counts_unchanged: true
   note: Fresh HTTP smoke trace covers authenticated core, Business directory, and Rides discovery read paths; it does not promote browser mutation, failure, replay, native, or production scenarios.
 runtime_pending_reliability_contract:
-  owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
   scenario_ids: [runtime-mutation-timeout-readback, runtime-mutation-side-effect-failure, runtime-side-effect-no-precommit-news, runtime-side-effect-rollback-no-news, runtime-side-effect-after-commit-failure, runtime-side-effect-replay-after-process-crash, runtime-side-effect-duplicate-consumer-delivery]
   status_rule: Pending rows require declared failure class, correlation, authoritative readback, and recovery evidence before promotion.
 evidence_coverage_contract:
@@ -27,7 +26,6 @@ evidence_coverage_contract:
   pending_is_not_runtime_proof: true
   missing_edge_report_must_preserve_native_provider_and_operator_boundaries: true
 runtime_pending_web_operations_program:
-  master_plan: docs/work/runtime-pending-web-operations-master.yaml
   vision_rows:
     - id: runtime-vision-execution
       required_actions: [execute, controlled_failure, retry, recover]

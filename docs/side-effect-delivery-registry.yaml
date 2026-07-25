@@ -34,7 +34,6 @@ rules:
 - side_effect_failure_and_transaction_phase_require_explicit_classification
 - scheduled_job_reliability_requires_runtime_or_operator_evidence
 runtime_pending_reliability_contract:
-  owner_plan: docs/work/runtime-pending-web-operations-02-reliability-runtime.yaml
   status_authority: docs/runtime-acceptance-matrix.yaml
   failure_classes:
     transport_timeout:
@@ -52,7 +51,7 @@ runtime_pending_reliability_contract:
     process_replay:
       required_observations: [process_termination_trace, restart_trace, durable_pending_item, replay_result]
       promotion_rule: Process restart evidence is an operator trace and cannot be substituted by a browser retry.
-current_boundary: Source inspection and existing outbox tests establish contracts, but the seven runtime rows remain pending until controlled traces are captured.
+  current_boundary: Source inspection and existing outbox tests establish contracts, but the seven runtime rows remain pending until controlled traces are captured.
   latest_boundary_artifact: docs/runtime-evidence/browser-runtime-reliability-control-boundary-2026-07-22.yaml
 system_map_hardening_runtime_boundary_index: docs/system-map-runtime-boundary-registry.yaml
 event_consumers:

@@ -5,7 +5,7 @@ description: >
   Target product contract for the complete user-facing capabilities TheMuffinMan
   should provide. This describes intended scope, not implementation status.
   Current implementation status and evidence remain in docs/capability-inventory.yaml.
-last_reviewed: 2026-07-16
+last_reviewed: 2026-07-25
 source_documents:
   - docs/product-vision.md
   - docs/product-memory.md

@@ -1,7 +1,7 @@
 {
   "kind": "runtime_http_smoke_trace",
   "capturedAt": "2026-07-22T17:13:22Z",
-  "plan": "docs/work/core-product-stabilization-business-rides-05-runtime-regression-release.yaml",
+  "plan": "removed_after_closeout",
   "environment": {
     "frontend": "Vite local dev server on http://localhost:5173",
     "backend": "Spring Boot dev profile on http://localhost:8080",

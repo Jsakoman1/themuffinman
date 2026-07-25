@@ -1,7 +1,6 @@
 kind: acceptance-matrix
 version: 1
 id: cross-module-visibility-acceptance
-source_plan: docs/work/cross-module-visibility-acceptance.yaml
 scope: circles, location, Work, Chat, and Things visibility boundaries
 scenarios:
   - id: circle-membership-is-not-global-consent

@@ -5,7 +5,6 @@ const frontendRoot = path.resolve(new URL(".", import.meta.url).pathname, "..")
 const read = (relativePath) => fs.readFileSync(path.join(frontendRoot, relativePath), "utf8")
 const router = read("src/router.ts")
 const shellDefinitions = read("src/modules/app-shell/shellDefinitions.ts")
-const universalCreateMenu = read("src/modules/app-shell/components/UniversalCreateMenu.vue")
 const calendarSurface = read("src/modules/app-shell/components/SurfaceContentView.vue")
 const shellSurfaceData = read("src/modules/app-shell/shellSurfaceData.ts")
 const chatSurface = read("src/modules/app-shell/views/ChatSurfaceView.vue")
@@ -23,12 +22,12 @@ const requiredRoutes = [
   "path: 'circles'",
   "path: 'calendar'"
 ]
-const requiredActions = ["Open create menu", "getWorkspaceCommandCatalog", "Find work", "Find people", "Find a business"]
+const requiredActions = ["getWorkspaceCommandCatalog", "Find work", "Find people", "Find a business"]
 const requiredCalendarSignals = ["calendarMode", "month", "week", "day", "calendarTimezone", "Could not load calendar data", "Retry", "!loading && !error"]
 
 const missing = (source, signals) => signals.filter((signal) => !source.includes(signal))
 const missingRoutes = missing(router, requiredRoutes)
-const missingActions = missing(`${shellDefinitions}\n${universalCreateMenu}`, requiredActions)
+const missingActions = missing(`${shellDefinitions}\n${shellSurfaceData}`, requiredActions)
 const missingCalendarSignals = missing(`${calendarSurface}\n${shellSurfaceData}`, requiredCalendarSignals)
 const missingRecoverySignals = [
   ...missing(chatSurface, ["HTTP ${response.status}", "Retry"]),

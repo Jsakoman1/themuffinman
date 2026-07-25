@@ -1,5 +1,9 @@
 # Product Vision
 
+Status: canonical product-direction document. Start from
+`docs/design-and-vision-index.md`; implementation plans and dated audits do not
+override this document.
+
 This document captures the intended long-term product feel, interaction principles, and direction for TheMuffinMan.
 
 It is not an implementation backlog. It is a stable product-direction reference for UX, interaction design, and future module decisions.
@@ -41,9 +45,7 @@ surfaces, semantic light/dark color tokens, a system-first font stack, subtle
 functional materials for sidebars and navigation, restrained blur/transparency,
 clear selected states, and quiet purposeful motion. Content should remain readable
 and calm; translucent material belongs to the functional layer, not every card or
-section. The detailed Web contract and official HIG references live in
-`docs/work/apple-product-polish-master.yaml`.
-The cross-app macOS reference contract is maintained in
+section. The cross-app macOS reference contract is maintained in
 `docs/apple-desktop-design-reference.md` and must be consulted for every new
 desktop shell, module surface, command, search, editor, settings, or Vision flow.
 
@@ -121,7 +123,7 @@ is allowed only in an explicit development/test profile for synthetic fixtures a
 contract tests. If OpenAI is unavailable, VisionForWeb pauses input processing,
 preserves retryable state, and leaves direct Web navigation available.
 
-The original shell transition is tracked by `docs/work/vision-for-web-integration-master.yaml`; the remaining-module completion master is `docs/work/vision-for-web-remaining-modules-master.yaml`. Together they define the backend-owned route/action boundary and the runtime proof required before this capability is considered complete.
+The backend-owned route/action boundary and runtime proof are defined by the current Vision contract, capability inventory, and runtime acceptance registries.
 
 The animated assistant is a dismissible contextual helper inspired by the old
 Office assistant's helpful presence, not a copy of its assets or implementation.
@@ -489,10 +491,11 @@ The app should always feel like it is adapting around a real task, not like the 
 Future product-direction sessions should start from `docs/product-memory.md` for durable lessons and `docs/product-vision.md` for long-term direction, then expand outward into the living business and technical docs only when the task needs implementation detail.
 
 Future `/vision` implementation sessions should also read `docs/vision-architecture-patterns.md` before making backend orchestration, API, frontend canvas, prompt-handling, or executor decisions.
-Reference contract adoption checkpoint: 2026-07-24. The product should feel like a calm Apple desktop workspace while remaining an original web product with portable API contracts.
-Visual language checkpoint: 2026-07-24. Semantic materials, system-first typography, restrained separators, and functional elevation are centralized tokens rather than page-local CSS.
-Settings should feel like a calm native preference pane rather than a form dump. Group related controls, show a useful current value, and reveal detail only on demand while preserving explicit save and backend-enforced privacy semantics.
 
-Apple-native is a system behavior target: the shell, interaction model, and visual hierarchy must remain coherent across every module, not only the home screen.
+## Current design checkpoints
 
-Runtime QA is part of the product experience: every visible action must be discoverable, route-correct, recoverable, and concise in Chromium before a UI goal closes.
+- The product should feel like a calm Apple desktop workspace while remaining an original web product with portable API contracts.
+- Semantic materials, system-first typography, restrained separators, and functional elevation are centralized tokens rather than page-local CSS.
+- Settings should feel like a calm native preference pane rather than a form dump: group related controls, show useful current values, and reveal detail on demand while preserving explicit save and backend-enforced privacy semantics.
+- Apple-native is a system behavior target: the shell, interaction model, and visual hierarchy must remain coherent across every module, not only Home.
+- Runtime QA is part of the product experience: every visible action must be discoverable, route-correct, recoverable, and concise in Chromium before a UI goal closes.

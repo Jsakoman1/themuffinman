@@ -93,6 +93,16 @@
   --workspace-rail-max-width: 17.5rem;
   --workspace-rail-width: clamp(var(--workspace-rail-min-width), 18vw, var(--workspace-rail-max-width));
   --workspace-header-height: 3.5rem;
+  --surface-padding: clamp(var(--space-3), 2vw, var(--space-5));
+  --surface-section-gap: clamp(var(--space-4), 2vw, var(--space-6));
+  --control-transition: color var(--motion-fast) ease, background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease, transform var(--motion-fast) ease;
+  --interaction-transition: color var(--motion-standard) ease, background-color var(--motion-standard) ease, border-color var(--motion-standard) ease;
+  --calendar-source-business: #0a84ff;
+  --calendar-source-work: #30d158;
+  --calendar-source-sharing: #ff9f0a;
+  --calendar-source-social: #bf5af2;
+  --app-material-blur: blur(18px);
   --workspace-content-max-width: 120rem;
   --workspace-content-gutter: clamp(1.25rem, 3.5vw, 4rem);
   --native-frame-layer-gap: clamp(.5rem, 1vw, 1rem);

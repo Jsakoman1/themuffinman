@@ -1,167 +1,36 @@
 # Implementation Backlog
 
-## Current open plan
+The repository is in maintenance mode. Product capability status remains authoritative in
+`docs/capability-inventory.yaml`; mapping and runtime truth remain in the canonical registries
+listed in `docs/implementation-control.md`.
 
-ENTITY-SURFACE-COMPLETENESS [VERIFIED 2026-07-25]: Audited and repaired authenticated create/edit/request surfaces through `docs/work/entity-surface-completeness.yaml`; Business, social/sharing, Work applications, route discoverability, and living documentation are verified.
+## Open follow-ups
 
-- ENTITY-SURFACE-RESOURCE-CONTRACT-001 [OPEN]: Type and expose Business resource pool/resource/requirement configuration (`BusinessResourceController`) after a stable request/response contract is defined; current endpoint accepts untyped maps and is intentionally not inferred as a complete Web edit surface.
+- ENTITY-SURFACE-RESOURCE-CONTRACT-001: define a typed Business resource configuration contract
+  before exposing a complete Web edit surface.
+- RUNTIME-PENDING-TRIAGE-001: keep the 14 explicitly pending runtime boundaries classified in
+  `docs/runtime-acceptance-matrix.yaml` and its runtime closeout registry.
+- VISION-PROMPT-007: capture complete browser evidence for direct-message collection, confirmation,
+  send, and authoritative Chat readback.
+- VISION-PROMPT-010: retain the remaining real-provider and production-provider evidence boundary.
+- OPT-BASELINE-002: continue endpoint-to-capability-to-client-to-test evidence reconciliation.
+- OPT-BASELINE-003: maintain machine-checkable dependency direction rules and accepted exceptions.
+- OPT-BASELINE-005: preserve explicit native/device and production-operation evidence boundaries.
 
-VISION-PROMPT-STABILIZATION [IN PROGRESS 2026-07-23]: Repair the expanded Vision prompt contract and runtime gaps through `docs/work/vision-prompt-stabilization-master.yaml`; the Web-only VisionForWeb boundary is now being enforced while the detached terminal console remains separate. Analysis: `docs/work/vision-prompt-stabilization-plan-review-2026-07-23.md`.
+## Mapping sources retained
 
-REPAIR-AND-STABILIZE [ACTIVE-PLANNED]: Execute `docs/work/repair-and-stabilize-master.yaml` before unrelated new features; baseline snapshot is `docs/repair-and-stabilize-baseline-2026-07-22.yaml`.
-SYSTEM-MAP-OPTIMIZATION [ACTIVE]: Optimize implementation, documentation, and control layers through the serial master plan `docs/work/system-map-optimization-master.yaml`; baseline, implementation, documentation, control, and pilot slices are complete, with final closeout gates and explicit follow-up queue remaining.
-SYSTEM-MAP-NEXT-OPTIMIZATION [ACTIVE]: Extend the verified System Map operating model through `docs/work/system-map-next-optimization-master.yaml`; dependency, endpoint, canonical-source, impact, evidence, and configuration slices are implemented and in verifier closeout.
-SYSTEM-MAP-HARDENING [PLANNED]: Harden the complete System Map across all current and planned modules through `docs/work/system-map-hardening-master.yaml`, covering topology, endpoint evidence, dependencies, data ownership, workflows, permissions, side-effects, operations, client parity, external boundaries, and drift control.
-SYSTEM-MAP-HARDENING-ROUND-1 [VERIFIED]: Module topology, endpoint evidence, dependencies/data ownership, workflows/permissions, runtime boundaries, client/external impact, and closeout registries are implemented and master-verified. Runtime and external gaps remain explicitly mapped, not promoted.
-CORE-PRODUCT-STABILIZATION-BUSINESS-RIDES [VERIFIED-WITH-PENDING-GAPS]: Goal pursuing closeout is recorded in `docs/core-product-stabilization-business-rides-closeout-2026-07-22.yaml`; core, Business, and Rides repairs are verified, while browser mutation, concurrency/failure injection, replay, native/device, and production evidence remain explicitly pending.
-CORE-PRODUCT-STABILIZATION-BUSINESS-RIDES-READINESS [PREPARED]: Deep-dive review completed in `docs/core-product-stabilization-business-rides-deepdive-2026-07-22.md`; plan is ready to start at the core journey denominator.
-CORE-PRODUCT-STABILIZATION-BUSINESS-RIDES-CORE-RELIABILITY [VERIFIED-SLICE]: Shared mutation context now has regression coverage for correlation/idempotency availability and cleanup after exceptional mutation paths; backend suite, frontend type-check/build, docs, and truth audits passed. Broader stale/readback/runtime gaps remain for later slices.
-CORE-PRODUCT-STABILIZATION-BUSINESS-RIDES-BUSINESS [ACTIVE]: Business hardening found and repaired a logical idempotency replay gap for requests relying on derived booking end time; schedule, capacity/concurrency, action parity, and runtime evidence remain in scope.
-CORE-PRODUCT-STABILIZATION-BUSINESS-RIDES-RIDES [ACTIVE]: Rides hardening now enforces the 1..8 seat limit in the backend service path and records residual privacy, concurrency, lifecycle, and runtime evidence gaps in `docs/rides-hardening-matrix.yaml`.
-RUNTIME-PENDING-WEB-OPERATIONS [PLANNED]: Close the 11 non-native pending runtime scenarios through `docs/work/runtime-pending-web-operations-master.yaml`; five native/device rows remain explicitly deferred.
-RUNTIME-PENDING-WEB-OPERATIONS-ROUND-1 [2026-07-22]: Control contracts, bounded provider/outbox failure injection, and truthful structured blockers are recorded. Runtime promotion remains open for transport interruption, database/outbox observation, process replay, and same-policy Vision parity fixtures.
-SYSTEM-MAP-CHANGE-IMPACT-PILOT [VERIFIED-SLICE]: The advisory System Map impact report is now referenced as a closeout review input with explicit dispositions; it does not control work-plan or capability status.
-SYSTEM-MAP-OPTIMIZATION-BASELINE-001 [OPEN 2026-07-22]: Baseline findings are ranked in `docs/system-map-optimization-baseline-2026-07-22.yaml`; next slices prioritize endpoint/evidence linkage, dependency enforcement, documentation ownership, and explicit external/native boundaries.
-- OPT-BASELINE-001 [P0 OPEN]: Keep runtime matrix, closeout artifact, and System Map registry synchronized through the enforced runtime audit.
-- OPT-BASELINE-002 [P1 OPEN]: Complete selected endpoint-to-capability-to-client-to-test evidence linkage; 62 non-Web endpoint rows remain owner-review items.
-- OPT-BASELINE-003 [P1 OPEN]: Define machine-checkable forbidden dependency directions and explicit accepted exceptions.
-- OPT-BASELINE-004 [P1 OPEN]: Classify current-state documentation claims versus historical analysis and assign one canonical owner per selected claim.
-- OPT-BASELINE-005 [P2 OPEN]: Preserve explicit native/device and production-operation evidence boundaries with owner and next action.
-- SYSTEM-MAP-OPTIMIZATION-CONTROL-001 [OPEN]: Use the compact System Map impact → work-start → work-verify → truth/docs audit path for non-trivial changes; add runtime audits only when evidence surfaces change.
-SYSTEM-MAP-OPTIMIZATION-PILOT-001 [RESOLVED 2026-07-22]: Cross-layer runtime truth synchronization pilot completed. Current summary sources reconcile at 65 passed / 16 pending and the runtime audit rejects mismatches. Result: `docs/system-map-optimization-preflight.md`.
-REPAIR-AND-STABILIZE-CLOSEOUT [2026-07-22]: All six repair child plans are verified. Feature intake remains maintenance-only while durable crash replay, provider/database failure injection, Vision/cache/reconnect consent parity, native/device/offline behavior, and production-scale/query instrumentation remain open. Closeout: `docs/repair-and-stabilize-closeout-2026-07-22.yaml`.
-- MAINT-DURABLE-NEWS-OUTBOX [VERIFIED-SLICE 2026-07-22]: Workmarket application-news mutations now enqueue durable delivery intent with bounded retry and consumer dedupe; browser/runtime evidence proves one delivered owner news item within 300 ms. Process-crash runtime proof, cross-process lease, retention, and broader consumers remain open. Plan: `docs/work/maintenance-durable-application-news-outbox.yaml`.
-- MAINT-OUTBOX-OPERATIONS [VERIFIED-SLICE 2026-07-22]: Workmarket news outbox now has persisted processing leases, expiry-based reclaim, typed notification retention cleanup, failure codes, replay references, and an admin-only replay endpoint. Browser evidence proves the admin replay path and delivered readback. Failure alerting, operator runbook, crash proof, and broader consumers remain open. Plan: `docs/work/maintenance-outbox-operations.yaml`.
-- UI-ACTION-NOTIFICATION-TARGET-001 [RESOLVED 2026-07-22]: Local authenticated runtime showed stale `/news/me` quest/application references whose canonical detail routes returned 404. Backend now resolves target availability and downgrades unavailable references to `QUEST_LIST`; frontend follows backend `destinationType` and routes application notifications to application detail. Regression and runtime evidence: `docs/runtime-evidence/browser-runtime-ui-action-integrity-2026-07-22.json`.
-- RUNTIME-AUTH-ROUTE-CONTEXT-001 [RESOLVED 2026-07-22]: Authenticated Playwright route pass found incorrect Settings shell context for `/notifications` and `/activity`; route metadata and shell ownership now use dedicated surfaces. Fresh registration, route, and API-error coverage passed. Evidence: `docs/runtime-evidence/browser-runtime-authenticated-route-matrix-2026-07-22.json`.
-- RUNTIME-ACTIVITY-NOTIFICATION-TARGET-001 [RESOLVED 2026-07-22]: Activity previously derived dead quest routes from notification type. It now follows backend destination metadata and suppresses unavailable canonical targets to `/notifications`; authenticated Activity recovery and dismissal remain proven. Evidence: `docs/runtime-evidence/browser-runtime-activity-recovery-2026-07-22.json`.
-- RUNTIME-READ-BUSINESS-001 [RESOLVED 2026-07-22]: Public Business detail and booking-form runtime load succeeded for the representative fixture; opt-in dev observability now records server-side query count and request duration. Evidence: `docs/runtime-evidence/browser-runtime-read-business-booking-2026-07-22.json`.
-- RUNTIME-READ-CHAT-001 [RESOLVED 2026-07-22]: Authenticated Chat pagination, older-page readback, sync, refresh-hint, and prior reconnect evidence now include dev-only server query-count/request-duration measurements. Evidence: `docs/runtime-evidence/browser-runtime-read-chat-sync-2026-07-22.json`.
-- RUNTIME-READ-WORK-001 [RESOLVED 2026-07-22]: Work preset search ignored query/page/size because `QuestSearchRequestDTO` lacked bindable setters. Setters and a regression test were added; authenticated search, pagination, empty state, query count, and duration now pass. Evidence: `docs/runtime-evidence/browser-runtime-read-work-discovery-2026-07-22.json`.
-- RUNTIME-SEARCH-ORCHESTRATION-001 [RESOLVED 2026-07-22]: Fresh Work-to-Vision command-center handoff is now combined with the existing authenticated search-v1 query/version/filter/compare trace. Vision-specific pagination/empty coverage remains separately pending. Evidence: `docs/runtime-evidence/browser-runtime-search-orchestration-2026-07-22.json`.
-- RUNTIME-CHAT-GROUP-001 [RESOLVED 2026-07-22]: Existing authenticated multi-user traces now cover both circle-access denial and eligible group creation branches for Chat group eligibility. Evidence: `docs/runtime-evidence/browser-runtime-chat-group-2026-07-22.json`.
-- RUNTIME-PENDING-TRIAGE-001 [OPEN 2026-07-22]: Current pending runtime matrix pass is classified in `browser-runtime-pending-scenario-triage-2026-07-22.yaml`; the audit is now 67 passed / 14 pending. Native/device, multi-user/storage, Vision parity, and row-specific server-observability evidence boundaries remain explicit and must be closed before the corresponding rows can pass.
-- RUNTIME-VISION-RECOVERY-001 [RESOLVED 2026-07-22]: Vision discovery responses carried `recoveryAction`, but the Web renderer exposed no no-match recovery control. The renderer now clears/focuses the prompt and a valid retry was proven in the authenticated browser pass. Evidence: `docs/runtime-evidence/browser-runtime-vision-read-discovery-2026-07-22.json`.
-- RUNTIME-VISION-RETURN-001 [RESOLVED 2026-07-22]: Vision quest discovery detail links previously dropped return context. They now carry `/vision` return context and the Work detail surface exposes `Back to Vision`; authenticated open/return was proven. Evidence: `docs/runtime-evidence/browser-runtime-vision-detail-return-2026-07-22.json`.
-- RUNTIME-VISION-CREATE-002 [RESOLVED 2026-07-22]: The execution-enabled authenticated runtime trace now proves Vision review, confirmation, quest creation, authoritative OPEN readback, and owner cleanup. Provider-failure/retry branches remain pending under their dedicated scenarios. Evidence: `docs/runtime-evidence/browser-runtime-vision-create-quest-execution-2026-07-22.json`.
-- RUNTIME-LOCATION-VISIBILITY-002 [RESOLVED 2026-07-22]: Fresh local owner/viewer runtime trace exercised public, circle-member, and private exact-location boundaries; private readback redacted street and coordinates to approximate area. Evidence: `docs/runtime-evidence/browser-runtime-location-visibility-boundaries-2026-07-22.json`.
-- RUNTIME-READ-SOCIAL-002 [RESOLVED 2026-07-22]: Fresh authenticated profile reads covered public, circle-member, and private description visibility with server query count, duration, row volume, relation, and redaction evidence. Evidence: `docs/runtime-evidence/browser-runtime-read-social-visibility-2026-07-22.json`.
-- RUNTIME-VISION-SEARCH-002 [RESOLVED 2026-07-22]: Combined authenticated Vision browser evidence with a fresh search-v1 server trace covering result, empty recovery, pagination, filter schema, comparison, and detail return. Evidence: `docs/runtime-evidence/browser-runtime-vision-search-contract-2026-07-22.json`.
+- `docs/system-map.md` and the System Map registries.
+- `docs/capability-inventory.yaml` and `docs/target-capability-catalog.yaml`.
+- `docs/work/action-contract-matrix.yaml`.
+- `docs/work/frontend-route-action-matrix.yaml`.
+- `docs/work/frontend-surface-archetype-matrix.yaml`.
+- `docs/work/home-query-scope-contract.yaml`.
+- `docs/work/ui-action-integrity-runtime-scenarios.yaml`.
+- `docs/runtime-acceptance-matrix.yaml` and runtime evidence registries.
 
-WORKSPACE-APP-SHELL-FIRST-LAYER [PLANNED]: Implement the first app-like workspace transition from
-`docs/work/workspace-app-shell-first-layer.yaml`. Keep canonical routes and domain surfaces stable while adding a
-backend-prepared module navigation tree with relevant nested destinations, counts, unread/attention markers,
-responsive drawer behavior, and explicit backend/frontend ownership boundaries. Do not make Vision a persistent
-sidebar dashboard.
+## Operating rule
 
-FRONTEND-STANDARDIZATION [ACTIVE]: Foundation, Rides collection, backend Rides child-navigation, public Business
-discovery, Work Applications, People/Circles, social-surface, and Business/Profile/Chat context-copy slices are
-verified in `docs/work/frontend-standardization-foundation.yaml`,
-`docs/work/frontend-standardization-module-sweep.yaml`, and
-`docs/work/frontend-standardization-navigation-coverage.yaml`, and
-`docs/work/frontend-standardization-business-discovery.yaml`,
-`docs/work/frontend-standardization-social-surfaces.yaml`, and
-`docs/work/frontend-standardization-context-copy.yaml`, and
-`docs/work/frontend-standardization-work-applications.yaml`;
-the broader master remains draft while remaining visual, responsive, and route/detail cleanup is handled in subsequent
-module passes.
-
-FRONTEND-USER-FACING-CLEANUP [PLANNED]: The user-facing audit is recorded in
-`docs/audit-output/frontend-user-facing-audit-2026-07-22.md`; the executable follow-up is owned by
-`docs/work/frontend-standardization-master.yaml` and its navigation, surface-archetype, state/form, and responsive
-child plans. Start with P0 navigation deduplication.
-
-APPLE-VISUAL-REDESIGN-REALITY-CHECK [ACTIVE]: The first Apple product-polish pass was structurally verified but the
-rendered result still read as a dark dashboard. A corrective visual slice is now in progress: reset the shared light/
-dark material tokens, system typography, control grammar, app shell, Home grouped-list hierarchy, and then migrate
-remaining route-local CSS through screenshot-backed light/dark desktop and mobile evidence. Do not close this item from
-markers, token names, type-check, or build output alone.
-
-The active cleanup slice also requires ambiguous primary labels such as Hide/Show/Dismiss to be replaced with named
-actions, named tabs, or explicit context controls, and requires the shell toolbar to communicate context without
-duplicate uppercase chrome.
-
-## Deferred capability gaps
-
-- FRONTEND-UX-SIMPLIFICATION-001 [RESOLVED 2026-07-24]: Full-product turn-based UX slice implemented and runtime evidence captured for shared task surfaces, multi-business calendar context, guided setup/booking, authenticated module migrations, responsive behavior, and contextual Vision. Evidence: `docs/runtime-evidence/frontend-ux-simplification-closeout.json`.
-
-- UI-LINK-RUNTIME-002 [RESOLVED 2026-07-23]: Fresh authenticated Chromium evidence now records typed outcomes for the exact prompt set plus expanded no-match, unknown-recipient, provider-fallback, and recovery cases. Evidence: `docs/runtime-evidence/vision-prompt-stabilization-runtime.json`.
-
-- UI-LINK-RUNTIME-001 [RESOLVED 2026-07-23]: Runtime-capable execution was completed with workspace-owned Chromium, authenticated route coverage, zero browser errors, and fresh Vision evidence. The earlier sandbox restriction was environmental, not a product result.
-
-- VISION-PROMPT-001 [RESOLVED 2026-07-23]: `SEND_MESSAGE` now wins over `OPEN_CHAT` for direct-message language, with deterministic router, semantic audit, and runtime coverage.
-- VISION-PROMPT-002 [RESOLVED 2026-07-23]: `create new work` is a supported deterministic fallback alias and enters guided quest clarification/review.
-- VISION-PROMPT-003 [RESOLVED 2026-07-23]: `go to circles` has an explicit navigation alias and remains distinct from `open my circles`.
-- VISION-PROMPT-004 [RESOLVED 2026-07-23]: Quest no-match and circle readback states are visible and typed in the authenticated Chromium evidence.
-- VISION-PROMPT-005 [RESOLVED 2026-07-23]: Runtime responses now expose typed provider status/outcome/retryability and authoritative turn state instead of placeholder-only evidence.
-- VISION-PROMPT-006 [PARTIAL 2026-07-23]: The provider-to-renderer chain is now browser-exercised through the local development fallback; real OpenAI production-provider evidence remains outside this local proof.
-- VISION-PROMPT-007 [P1 OPEN 2026-07-23]: Direct-message recipient/body collection, follow-up turns, confirmation, send, and authoritative Chat readback lack a complete browser acceptance trace.
-- VISION-PROMPT-008 [RESOLVED 2026-07-23]: Provider-unavailable mutation prompts now fail closed with typed fallback metadata and no mutation plan.
-- VISION-PROMPT-009 [RESOLVED 2026-07-23]: Prompt matrix, semantic audit, alias, precedence, and continuity regression coverage are now recorded in the contract and regression catalogs.
-- VISION-PROMPT-010 [PARTIAL 2026-07-23]: Deterministic provider failure/retry evidence and preference uniqueness protection are complete; the earlier 401 root-cause investigation and real production-provider proof remain open.
-
-These gaps remain visible in `docs/capability-inventory.yaml`, but they do not have an open implementation plan until a
-future slice is explicitly selected:
-
-- Account recovery: delivery provider, distributed abuse controls, valid-token runtime proof, and later native clients.
-- Profile visibility: circle-scoped consent, recipient selection, Vision handoff, and later native presentation.
-- Search comparison: richer family-specific fields and broader acceptance beyond the verified bounded slice.
-- Native clients: iPhone and Apple Watch clients, device permissions, offline/background behavior, and native runtime
-  acceptance.
-- Rides: future residual acceptance work only where the inventory still records a gap.
-
-## Planning rule
-
-The current System Map closeout queue is `docs/work/system-map-truth-runtime-closeout-master.yaml`; it consolidates runtime, enforcement, and external-evidence gaps without changing capability status.
-
-## Architecture analysis follow-ups
-
-These stable IDs were opened by the third system-map analysis pass. They remain
-deferred analysis/implementation candidates and do not imply an active delivery
-plan until explicitly selected:
-
-- ARCH-001: Endpoint-to-client-to-evidence canonical registry and endpoint-level reconciliation queue are implemented and master-verified. All 67 unclassified non-Web endpoints now have an explicit owner, proposed class, reason, and review state; 62 remain review-required and no runtime completion is claimed.
-- ARCH-002: Transport context, operation policy primitives, booking/ride reference adoption, and evidence matrix are implemented and master-verified; remaining Work/Things/Social/Chat/Vision adoption, durable replay storage, side-effect propagation, and runtime failure-injection evidence remain open.
-- ARCH-002-CORS: Resolved the browser mutation trace-header CORS gap by allowing and exposing request/correlation/idempotency/operation headers in the shared security CORS configuration and adopting mutation context headers for the profile update path; retain the original finding artifact as regression evidence.
-- ARCH-003: Shared after-commit event boundary and side-effect delivery contract are implemented and master-verified. Workmarket application news now carries an event identity and unique delivery key, preventing duplicate consumer inserts; business consumer breadth, durable outbox/replay, direct publisher migration, scheduled run ledger, and runtime crash/replay evidence remain open.
-- ARCH-004: Read-model reliability and runtime evidence contract are implemented and master-verified. A fresh Work browser measurement now covers request latency, response bytes, result size, and viewer role; query count, SQL timing, database row volume, and broader module measurements remain pending.
-- ARCH-005: Visibility, consent, and cross-client parity contract are implemented and master-verified. Web exact-location grant/revoke and fresh-read redaction are proven; cached-view, Vision parity, reconnect, and native/device/offline evidence remain open.
-
-## System-map drift-control follow-ups
-
-These IDs were opened by the complete-system analysis program. They are deferred
-implementation slices; their design is in `docs/system-drift-control-registry.yaml`.
-
-## Completed system-map completeness mapping slices
-
-These IDs were opened by the completeness baseline review and completed by the
-verified extension master. They describe evidence/mapping work, not product
-capability completion.
-
-- MAP-001 through MAP-009: completed in `docs/work/system-map-extension-master.yaml`; residual runtime, enforcement, and external-evidence gaps remain explicit in `docs/system-map-coverage-registry.yaml` and the ARCH backlog.
-
-
-The UI action-integrity closeout uses the canonical action matrix and runtime scenario catalog; it does not create screenshot or smoke-test artifacts.
-
-Capability status and implementation-plan status are separate. Update the capability record in the canonical inventory
-when product support changes; add a new `docs/work/*.yaml` plan only when a specific capability slice is opened. When a
-plan is verified, run closeout cleanup and remove temporary validation outputs, screenshots, smoke traces, and
-unreferenced plan artifacts.
-- RUNTIME-STALE-QUEST-UPDATE [RESOLVED 2026-07-22]: Added the quest resource-version contract and JPA version guard. Playwright Chromium evidence proves HTTP 409 `STALE_RESOURCE` and unchanged authoritative state after a stale writer attempt: `docs/runtime-evidence/browser-runtime-stale-quest-update-repaired-2026-07-22.json`.
-- RUNTIME-READ-VISION-002 [OPEN 2026-07-22]: Authenticated Vision context and conversation readback now have aggregate query/duration evidence, but separate provider-versus-context-assembly timing and provider outcome correlation remain unexposed. Evidence: `docs/runtime-evidence/browser-runtime-read-vision-context-2026-07-22.json`.
-- RUNTIME-WORK-WORKERS-002 [RESOLVED 2026-07-22]: Fresh multi-user worker trace proves approve, replacement, stale retry conflict (`WORKER_ASSIGNMENT_STALE`), release, and disposable fixture cleanup. Evidence: `docs/runtime-evidence/browser-runtime-worker-replacement-stale-2026-07-22.json`.
-- RUNTIME-CHAT-ATTACHMENTS-002 [RESOLVED 2026-07-22]: Fresh authenticated Chat trace proves local upload, preview/access, object read, unavailable response, cancel/repeat-cancel, message send, sync, and readback attachment propagation. Evidence: `docs/runtime-evidence/browser-runtime-chat-attachment-lifecycle-2026-07-22.json`.
-- RUNTIME-CHAT-VIEW-ATTACHMENT-002 [RESOLVED 2026-07-22]: Fresh authorized Chat view trace proves object open, access refresh, expired-upload redaction, unavailable key, and restored fixture state. Evidence: `docs/runtime-evidence/browser-runtime-chat-view-attachment-2026-07-22.json`.
-- RUNTIME-NOTIFICATION-RECEIVE-002 [RESOLVED 2026-07-22]: Fresh authenticated event trace proves notification delivery, unread/read transition, attention-center visibility, reconnect, retry, and disposable event fixture cleanup. Evidence: `docs/runtime-evidence/browser-runtime-notification-receive-2026-07-22.json`.
-- RUNTIME-CHAT-LEAVE-002 [RESOLVED 2026-07-22]: Fresh three-user group trace proves owner leave, replacement-owner transfer, stale repeat rejection, refreshed membership, and minimum-membership recovery. Evidence: `docs/runtime-evidence/browser-runtime-chat-leave-owner-transfer-2026-07-22.json`.
-- RUNTIME-VISION-CONFIRM-002 [RESOLVED 2026-07-22]: Combined authenticated Vision traces prove review, confirm, cancel, and retry state transitions without claiming provider-failure recovery. Evidence: `docs/runtime-evidence/browser-runtime-vision-confirm-cancel-retry-2026-07-22.json`.
-- RUNTIME-CAPABILITY-CLOSEOUT-002 [RESOLVED 2026-07-22]: Runtime capability closeout now reconciles 67 passed evidence-backed rows, 14 explicitly classified pending boundaries, and zero unclassified pending rows. Evidence: `docs/runtime-evidence/runtime-capability-closeout-2026-07-22.yaml`.
-- BUSINESS-BOOKING-RUNTIME-001 [CLOSED 2026-07-24]: Captured workspace-owned browser/API trace for flexible Business setup, capacity, public quote/booking, calendar projection, JSON snapshot persistence, and Vision route recovery in `docs/runtime-evidence/business-booking-end-to-end.json` and `docs/runtime-evidence/business-booking-browser-2026-07-24.json`. Full lifecycle completion remains a separate acceptance gap until a post-end booking completion trace is added.
-- UX-NEXT-CLOSEOUT-001 [CLOSED 2026-07-24]: The 39-task UX next-evolution queue and current desktop/mobile browser evidence are recorded in `docs/runtime-evidence/frontend-ux-next-evolution-closeout.json`; the regression catalog now covers the shared shell, progressive Business booking, context actions, accessibility, and responsive overflow boundary.
-- UX-STRUCTURAL-REDESIGN-001 [RESOLVED 2026-07-24]: Replaced parallel generic/bespoke frontend surfaces with the canonical module-page and tab architecture. The strict master plan, serial inventory, runtime evidence, and closeout verifier all pass.
-- THINGS-WISHLIST-BACKEND-001 [RESOLVED 2026-07-24]: Replaced device-local Thing wishlist persistence with backend-owned wishlist records, circle-scoped visibility, server validation, Flyway migration `V89__create_thing_wishlist.sql`, authenticated API endpoints, and the frontend API client. The structural redesign runtime trace proves save/read/remove and selected-circle persistence in `docs/runtime-evidence/frontend-structural-redesign-recovery.json`.
-- UX-STRUCTURAL-REDESIGN-ROUTES-001 [RESOLVED 2026-07-24]: Canonical module pages own navigation; retained aliases are explicitly compatibility routes only. Current canonical-route browser evidence proves reachability and recovery, and repeated page-level Vision links/duplicate navigation metadata were removed.
-- UX-STRUCTURAL-REDESIGN-CLOSEOUT-001 [RESOLVED 2026-07-24]: Final closeout evidence covers canonical routes, responsive Apple-style surfaces, persistent VisionForWeb, keyboard focus, permission/conflict/retry recovery, and Things wishlist lifecycle. The strict master verifier and implementation-control audits pass; no premature visual-only closeout was used.
-- APPLE-PRODUCT-POLISH-001 [PLANNED 2026-07-24]: Execute `docs/work/apple-product-polish-master.yaml` under the primary Web design authority `docs/apple-desktop-design-reference.md`: apply the ten Apple-inspired improvements plus deep visual language work (semantic colors, system-first typography, functional materials, restrained effects), step-based flows, multi-business context switching, fix Home/Work scope contamination between Find work, My work, and My applications, and implement verified Apple-like Calendar day/week/month views with all-module aggregation and per-business isolation.
-- APPLE-PRODUCT-POLISH-ATOMIZATION-001 [PLANNED 2026-07-24]: Before implementation, reconcile the 66-atom desktop-app matrix in `docs/work/apple-product-polish-deep-cut-desktop-atomization.yaml` through the two hardening tasks and dedicated audit; preserve browser/PWA, native Swift, offline, and provider boundaries as explicit evidence limits.
-- APPLE-PRODUCT-POLISH-SYSTEM-AUDIT-001 [IN PROGRESS 2026-07-24]: Closeout audit is reconciling centralized tokens, shared shell primitives, compatibility routes, and runtime evidence before final completion.
+Do not create a new `docs/work/*.yaml` plan for routine maintenance. Add a plan only when a
+specific, approved implementation slice needs serial execution and verifier evidence. Completed
+plans and execution inventories are removed after their durable mappings, contracts, and runtime
+evidence have been retained.

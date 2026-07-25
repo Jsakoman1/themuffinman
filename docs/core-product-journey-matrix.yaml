@@ -2,7 +2,6 @@ kind: core_product_journey_matrix
 version: 1
 status: residual_reconciliation_baseline
 reviewed_on: 2026-07-22
-master_plan: docs/work/core-product-stabilization-business-rides-master.yaml
 source_references:
   - docs/repair-and-stabilize-closeout-2026-07-22.yaml
   - docs/runtime-acceptance-matrix.yaml
@@ -12,7 +11,7 @@ source_references:
   - docs/system-map-module-registry.yaml
 status_authority: this_matrix_for_core_journey_denominator_only
 reconciliation_execution:
-  task: docs/work/core-product-stabilization-business-rides-01-core-journeys.yaml#define-core-journeys
+  task: retained core journey matrix baseline
   result: Core denominator reconciled against verified baseline plans; only residual integration and trigger-affected gaps remain in scope.
   verified_baseline_count: 4
   residual_journey_count: 5
@@ -112,7 +111,7 @@ journeys:
     recovery: denied or revoked access is rendered as a safe boundary and does not leak stale data
     client_surfaces: [web_profile, web_business, web_rides, web_work, vision_where_supported]
     evidence:
-      web_visibility: docs/runtime-evidence/browser-runtime-visibility-cross-viewer-redaction-2026-07-22.json
+      web_visibility: pending_runtime_evidence_not_retained
       web_vision_boundary: docs/runtime-evidence/browser-runtime-web-vision-parity-boundary-2026-07-22.yaml
     status: verified_baseline_with_explicit_vision_gap
     retest_required: false
@@ -141,7 +140,6 @@ journeys:
     client_surfaces: [web_business_landing, web_business_calendar, web_business_booking_detail, vision_if_exposed]
     evidence:
       baseline_landing: docs/work/main-surfaces-business-landing.yaml
-      baseline_calendar: docs/work/ui-action-integrity-business-calendar.yaml
       duplicate_runtime: docs/runtime-evidence/browser-runtime-duplicate-booking-idempotency-2026-07-22.json
     status: baseline_partial_residual_hardening_required
 
@@ -153,8 +151,6 @@ journeys:
     recovery: duplicate join, competing capacity, stale leave/join, cancellation, and lifecycle errors are typed and recoverable
     client_surfaces: [web_rides_discovery, web_ride_detail, web_rides_social_surfaces, vision_if_exposed]
     evidence:
-      baseline_ui: docs/work/ui-action-integrity-rides-social.yaml
-      baseline_completion: docs/work/rides-production-completion-master.yaml
       duplicate_runtime: docs/runtime-evidence/browser-runtime-duplicate-ride-join-idempotency-2026-07-22.json
     status: baseline_partial_residual_hardening_required
 

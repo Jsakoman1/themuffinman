@@ -38,6 +38,22 @@ public class WorkmarketQuestUpdateService {
     }
 
     @Transactional
+    public Quest assignQuest(Long questId, AppUser currentUser) {
+        Quest quest = questRepository.findByIdWithCreator(questId)
+                .orElseThrow(() -> com.themuffinman.app.common.errors.ServiceErrors.notFound("Quest not found with id " + questId));
+        questStateTransitionService.applyOwnerQuestStatusChange(quest, QuestStatus.ASSIGNED, currentUser);
+        return quest;
+    }
+
+    @Transactional
+    public Quest reopenQuest(Long questId, AppUser currentUser) {
+        Quest quest = questRepository.findByIdWithCreator(questId)
+                .orElseThrow(() -> com.themuffinman.app.common.errors.ServiceErrors.notFound("Quest not found with id " + questId));
+        questStateTransitionService.applyOwnerQuestStatusChange(quest, QuestStatus.OPEN, currentUser);
+        return quest;
+    }
+
+    @Transactional
     public Quest cancelQuestForVision(Long questId, AppUser currentUser) {
         Quest quest = questRepository.findByIdWithCreator(questId)
                 .orElseThrow(() -> com.themuffinman.app.common.errors.ServiceErrors.notFound("Quest not found with id " + questId));

@@ -7,7 +7,7 @@ reviewed_round: ARCH-001
 optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 diagnostic_sources:
   canonical_registry: docs/endpoint-client-evidence-registry.yaml
-  interface_reconciliation: docs/audit-output/interface-evidence-reconciliation.json
+  interface_reconciliation: docs/endpoint-reconciliation-review.yaml
   endpoint_callsite_linker: docs/audit-output/endpoint-callsite-linker.json
   capability_inventory: docs/capability-inventory.yaml
   client_surfaces: docs/client-surface-registry.yaml

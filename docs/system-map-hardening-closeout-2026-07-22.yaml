@@ -2,7 +2,6 @@ kind: system_map_hardening_closeout
 version: 1
 status: verified
 captured_at: '2026-07-22T18:20:00+02:00'
-master_plan: docs/work/system-map-hardening-master.yaml
 preflight: docs/system-map-hardening-preflight.md
 deepdive: docs/system-map-hardening-deepdive-2026-07-22.md
 registries:

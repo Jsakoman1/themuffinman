@@ -17,12 +17,11 @@ intent, generated evidence, runtime evidence, and target-state design.
 
 ## Baseline after Round 1–7
 
-- The completed first program is `docs/work/system-analysis-master.yaml`.
 - Its analysis outputs cover repository structure, capability reconciliation,
   backend domains, frontend surfaces, Vision orchestration, runtime readiness,
   and the control system.
 - The living map is `docs/system-map.md`.
-- The next program is `docs/work/system-map-deepening-master.yaml` and contains:
+- The retained deepening analysis contains:
   - Round 8: data ownership and domain dependency graph
   - Round 9: API, client, and evidence linkage
   - Round 10: runtime operations and observability

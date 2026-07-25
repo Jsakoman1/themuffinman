@@ -250,8 +250,8 @@ export const userShellApi = {
     return (await api.put<ActionResultDTO>(`/quests/${questId}`, request, withAuth())).data
   },
 
-  async executeQuestAction(questId: number, action: "START" | "COMPLETE" | "DELETE" | "CANCEL" | "PAUSE" | "RESUME"): Promise<ActionResultDTO> {
-    const paths = {START: `/quests/${questId}/start`, COMPLETE: `/quests/${questId}/complete`, DELETE: `/quests/${questId}`, CANCEL: `/quests/${questId}/cancel`, PAUSE: `/quests/${questId}/pause`, RESUME: `/quests/${questId}/resume`}
+  async executeQuestAction(questId: number, action: "START" | "COMPLETE" | "DELETE" | "CANCEL" | "PAUSE" | "RESUME" | "ASSIGN" | "REOPEN"): Promise<ActionResultDTO> {
+    const paths = {START: `/quests/${questId}/start`, COMPLETE: `/quests/${questId}/complete`, DELETE: `/quests/${questId}`, CANCEL: `/quests/${questId}/cancel`, PAUSE: `/quests/${questId}/pause`, RESUME: `/quests/${questId}/resume`, ASSIGN: `/quests/${questId}/assign`, REOPEN: `/quests/${questId}/reopen`}
     if (action === "DELETE") return (await api.delete<ActionResultDTO>(paths[action], withAuth())).data
     return (await api.patch<ActionResultDTO>(paths[action], undefined, withAuth())).data
   },
@@ -412,6 +412,10 @@ export const userShellApi = {
 
   async getBusinessDirectory(query = ""): Promise<BusinessProfileListResponseDTO> {
     return (await api.get<BusinessProfileListResponseDTO>("/business/profiles", {params: {q: query || undefined}, ...withAuth()})).data
+  },
+
+  async getBusinessFavoriteDirectory(query = ""): Promise<BusinessProfileListResponseDTO> {
+    return (await api.get<BusinessProfileListResponseDTO>("/business/favorites/me/directory", {params: {q: query || undefined}, ...withAuth()})).data
   },
 
   async updateBusinessProfile(request: BusinessProfileRequestDTO): Promise<BusinessProfileResponseDTO> {

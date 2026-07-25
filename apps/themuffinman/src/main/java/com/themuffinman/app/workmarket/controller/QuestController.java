@@ -157,6 +157,18 @@ public class QuestController {
         return ActionResults.of("RESUME_QUEST", "Quest resumed.");
     }
 
+    @PatchMapping("/{id}/assign")
+    public ActionResultDTO assignQuest(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
+        questService.assignQuest(id, currentUser);
+        return ActionResults.of("ASSIGN_QUEST", "Quest assigned.");
+    }
+
+    @PatchMapping("/{id}/reopen")
+    public ActionResultDTO reopenQuest(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
+        questService.reopenQuest(id, currentUser);
+        return ActionResults.of("REOPEN_QUEST", "Quest reopened.");
+    }
+
     @PatchMapping("/{id}/term/confirm")
     public QuestResponseDTO confirmQuestTermChange(@PathVariable long id, @AuthenticationPrincipal AppUser currentUser) {
         return questService.toResponse(questService.confirmQuestTermChange(id, currentUser), currentUser);

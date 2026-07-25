@@ -2,6 +2,17 @@
 
 Read `AGENTS.md`, then `docs/implementation-control.md`.
 
+For the compact final control pass, run `make control-check`; it also removes disposable
+generated output. Use `make audit-all` only when a broad diagnostic review is useful.
+
+For targeted repository context, use `make context-search q="phrase"`. It searches
+source and canonical documentation while excluding dependencies, generated output,
+runtime evidence, and build artifacts, then returns a bounded ranked context pack.
+Use `make repository-map` for a quick structural check, or
+`ruby scripts/repository-map.rb --query "SymbolName"` to inspect the combined
+frontend AST/backend symbol map.
+Use `make tool-self-test` after changing local tooling or its shared helpers.
+
 For a non-trivial change, use `docs/system-map.md` to locate the canonical domain,
 implementation, client, evidence, and control owners before creating or selecting a
 work plan. The current System Map optimization program is

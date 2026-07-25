@@ -4,7 +4,7 @@ purpose: Canonical closeout queue for remaining System Map proof and enforcement
 status: evidence_closeout_verified
 closeout_owner: system-map-control
 verification_status: verified_with_pending_runtime
-verified_work_plan: docs/work/repair-and-stabilize-master.yaml
+verified_work_plan: removed_after_closeout
 repair_closeout: docs/repair-and-stabilize-closeout-2026-07-22.yaml
 local_evidence:
   latest_artifact: docs/runtime-evidence/system-map-runtime-pass-2026-07-22.json

@@ -1,6 +1,6 @@
 SHELL := /bin/zsh
 
-.PHONY: dev dev-stop dev-doctor
+.PHONY: dev dev-stop dev-doctor clean-generated control-check audit-atomic-task-hardening context-search repository-map audit-tool-catalog tool-self-test
 
 dev:
 	$(MAKE) -C apps/themuffinman dev
@@ -29,6 +29,19 @@ generate-frontend-contracts:
 validate-frontend-contracts:
 	npm --prefix apps/themuffinman/frontend run validate:contracts
 
+context-search:
+	@if [ -z "$(q)" ]; then echo 'usage: make context-search q="search phrase"'; exit 1; fi
+	ruby scripts/context-search.rb --budget "$(or $(budget),12000)" --max-files "$(or $(files),12)" --max-lines "$(or $(lines),8)" "$(q)"
+
+repository-map:
+	ruby scripts/repository-map.rb $(if $(q),--query "$(q)",--check)
+
+audit-tool-catalog:
+	ruby scripts/audits/audit-tool-catalog.rb --check
+
+tool-self-test:
+	ruby scripts/tool-self-test.rb
+
 audit-todo:
 	ruby scripts/todo-audit.rb
 
@@ -49,12 +62,16 @@ audit-frontend:
 	ruby scripts/audits/audit-endpoint-callsite-linker.rb
 	ruby scripts/audits/audit-frontend-route-surfaces.rb
 	ruby scripts/audits/audit-frontend-stale-surfaces.rb
-	ruby scripts/audits/audit-frontend-state-logic-duplication.rb
-	ruby scripts/audits/audit-duplicate-logic.rb
-	ruby scripts/audits/audit-permission-rule-duplication.rb
+	$(MAKE) audit-runtime-tools
+
+audit-runtime-tools:
+	ruby scripts/audits/audit-runtime-tools.rb
 
 audit-main-surfaces-plan:
 	ruby scripts/audits/audit-main-surfaces-plan-preflight.rb
+
+audit-atomic-task-hardening:
+	ruby scripts/audits/audit-atomic-task-hardening.rb
 
 audit-docs: audit-work-plan-recursion
 	ruby scripts/audits/audit-docs-as-tests.rb
@@ -110,18 +127,29 @@ audit-runtime-acceptance:
 audit-native-client-handoff:
 	ruby scripts/audits/audit-native-client-handoff.rb
 
-audit-tests:
-	ruby scripts/audits/audit-contract-test-gaps.rb
-	ruby scripts/audits/audit-test-fixture-duplication.rb
-
 audit-work-plan-recursion:
 	ruby scripts/audits/audit-work-plan-recursion.rb
 
-audit-impact:
-	ruby scripts/audits/audit-change-impact-preflight.rb
-	ruby scripts/audits/score-changeset-risk.rb
+clean-generated:
+	ruby scripts/clean-generated-artifacts.rb
 
-audit-all: audit-backend audit-frontend audit-docs audit-tests audit-impact
+control-check:
+	ruby scripts/validate-control-sources.rb
+	$(MAKE) repository-map
+	$(MAKE) audit-tool-catalog
+	$(MAKE) audit-plan-coverage
+	$(MAKE) audit-docs
+	$(MAKE) audit-inventory-freshness
+	$(MAKE) audit-target-capability-catalog
+	$(MAKE) audit-atomic-task-hardening
+	$(MAKE) audit-truth-registry
+	$(MAKE) audit-canonical-source-integrity
+	$(MAKE) audit-capability-evidence
+	$(MAKE) audit-runtime-acceptance
+	$(MAKE) audit-main-surfaces-plan
+	$(MAKE) clean-generated
+
+audit-all: audit-backend audit-frontend audit-docs tool-self-test clean-generated
 
 work-create:
 	@if [ -z "$(id)" ] || [ -z "$(title)" ]; then echo 'usage: make work-create id=<id> title="<title>"'; exit 1; fi

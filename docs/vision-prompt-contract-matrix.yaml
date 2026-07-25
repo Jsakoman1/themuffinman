@@ -1,9 +1,6 @@
 kind: vision_prompt_contract_matrix
 version: 1
 status: browser_closeout_in_progress
-phase_1_owner: docs/work/vision-prompt-stabilization-01-contract-and-fallback.yaml
-closeout_owner: docs/work/vision-prompt-stabilization-05-browser-closeout.yaml
-owner_plan: docs/work/vision-prompt-stabilization-master.yaml
 source_analysis: docs/work/vision-prompt-problem-analysis-2026-07-23.md
 production_semantic_policy:
   provider: openai

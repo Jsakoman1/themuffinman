@@ -21,7 +21,7 @@ const intentFilter = ref<"ALL" | "BOOK_NOW" | "AVAILABLE_TODAY" | "NEAR_ME" | "O
 const matchesIntent = (business: BusinessProfileResponseDTO) => intentFilter.value === "ALL" || (intentFilter.value === "BOOK_NOW" && business.bookingEnabled) || (intentFilter.value === "NEAR_ME" && Boolean(business.publicAddressLabel)) || ["AVAILABLE_TODAY", "OPEN_NOW", "RECURRING", "MULTI_CUSTOMER", "STAFF_RESOURCES"].includes(intentFilter.value)
 const items = computed(() => rawItems.value.filter(matchesIntent))
 const isFavoritesView = computed(() => route.path === "/business/favorites")
-const visibleItems = computed(() => isFavoritesView.value ? items.value.filter((business) => favoriteIds.value.has(business.id)) : items.value)
+const visibleItems = computed(() => items.value)
 const operationalSummary = (business: BusinessProfileResponseDTO) => {
   const availability = business.active ? (business.bookingEnabled ? "Open for booking" : "Profile available") : "Unavailable"
   const location = business.publicAddressLabel ? `Area: ${business.publicAddressLabel}` : "Area not published"
@@ -40,7 +40,7 @@ const load = async () => {
   isLoading.value = true
   error.value = ""
   try {
-    rawItems.value = (await userShellApi.getBusinessDirectory(query.value.trim())).items
+    rawItems.value = (await (isFavoritesView.value ? userShellApi.getBusinessFavoriteDirectory(query.value.trim()) : userShellApi.getBusinessDirectory(query.value.trim()))).items
     favoriteIds.value = new Set((await userShellApi.getBusinessFavorites()).map(item => item.businessProfileId))
     if (!visibleItems.value.some(item => item.id === viewState.value.selectedId)) viewState.value.selectedId = null
   } catch {

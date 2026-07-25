@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: tooling-control-improvement-02-ast-map
+title: Improve AST parsing and repository relationship mapping
+status: verified
+baseline: 98dc69af37354f08773c919d81d28c68ef53d0f5
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/tooling-control-improvement-master.yaml
+execution_inventory: docs/work/tooling-control-improvement-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/system-map.md
+  - docs/capability-inventory.yaml
+  baseline_only_surfaces:
+  - product code and canonical mappings
+  residual_scope:
+  - parse failures
+  - symbol/import resolution
+  - endpoint extraction
+  - and bounded map queries
+  retest_triggers:
+  - parser version
+  - source extensions
+  - AST schema
+  - or map edge changes
+  non_duplication_rule: Existing source and capability evidence remains baseline;
+    only tooling map evidence is new.
+tasks:
+- id: improve-ast-and-repository-map
+  title: Make frontend and Java AST indexes and capability graph reliable
+  type: implementation
+  status: done
+  inventory_item: tooling-ast-map-improvement
+  observable_outcome: Repository map reports parse errors, symbol/import counts, capability
+    paths, and structural edges with a deterministic check command.
+  dependencies:
+  - tooling-baseline-inventory
+  evidence_boundary:
+  - frontend AST summary
+  - Java AST summary
+  - repository map check
+  paths:
+  - apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  - scripts/RepositoryJavaAstIndex.java
+  - scripts/repository-map.rb
+  - docs/codex-fast-path.md
+  required_paths:
+  - scripts/repository-map.rb
+  validation: make repository-map && make tool-self-test && git diff --check
+  started_at: '2026-07-25T20:26:41Z'
+  start_fingerprints:
+    scripts/repository-map.rb: 3c5e64a7a59773b7fb84e7ec57edd766181017258e21aacba87a858f5eae8962
+evidence:
+- task: improve-ast-and-repository-map
+  command: make repository-map && make tool-self-test && git diff --check
+  ranAt: '2026-07-25T20:27:17Z'
+  revision: 98dc69af37354f08773c919d81d28c68ef53d0f5
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/codex-fast-path.md
+  - apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  - scripts/RepositoryJavaAstIndex.java
+  - scripts/repository-map.rb
+  output: |+
+    ruby scripts/repository-map.rb --check
+    Repository context map passed (868 backend files, 133 frontend files, 116 YAML files).
+    ruby scripts/tool-self-test.rb
+    Tool self-test passed (Ruby/Node syntax, YAML, AST, frontend validators, repository map, catalog, and bounded search).
+
+  startedAt: '2026-07-25T20:26:41Z'
+  changedAfterStart: &1
+  - scripts/repository-map.rb
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -253,7 +253,7 @@ def verify_work!(root, path, plan, baseline, revision, selected_task_id)
   plan
 end
 
-plan_path = option("plan") || fail!("usage: ruby scripts/verify-work.rb plan=docs/work/change.yaml")
+plan_path = option("plan") || fail!("usage: ruby scripts/verify-work.rb plan=<path-to-work-plan>")
 action = option("action") || "verify"
 task_id = option("task")
 absolute_plan = File.expand_path(plan_path, ROOT)

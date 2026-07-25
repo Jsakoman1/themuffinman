@@ -167,9 +167,6 @@ The strongest mechanical checks currently passing for this program are:
 - `apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts`
 - `scripts/verify-work.rb`
 - `scripts/audits/*.rb`
-- `docs/work/system-analysis-master.yaml`
-- `docs/work/system-map-deepening-master.yaml`
-- `docs/work/system-map-deepening-master-execution-inventory.yaml`
 - `docs/system-map.md`
 
 ## Conclusion

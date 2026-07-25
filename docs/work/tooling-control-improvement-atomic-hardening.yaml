@@ -1,0 +1,77 @@
+kind: work
+version: 1
+id: tooling-control-improvement-atomic-hardening
+title: Harden the tooling master plan into one atomic execution queue
+status: verified
+execution_state: tooling-plan-hardening-active
+baseline: 98dc69af37354f08773c919d81d28c68ef53d0f5
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/tooling-control-improvement-master.yaml
+execution_inventory: docs/work/tooling-control-improvement-master-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - existing canonical registries and product behavior
+  residual_scope:
+  - validate the new tooling master
+  - child mappings
+  - and execution inventory
+  retest_triggers:
+  - any change to task ids
+  - paths
+  - dependencies
+  - validation
+  - or inventory order
+  non_duplication_rule: Prior plan-hardening evidence is baseline only; this task
+    validates the new tooling queue.
+tasks:
+- id: harden-tooling-plan
+  title: Validate tooling master, children, and serial inventory shape
+  type: analysis
+  status: done
+  inventory_item: tooling-plan-hardening
+  observable_outcome: The tooling master has one bounded task per inventory item,
+    exact required paths, dependencies, leaf validation, and evidence boundaries.
+  dependencies: []
+  evidence_boundary:
+  - atomic-task-hardening audit output
+  - parsed master and execution inventory
+  paths:
+  - docs/work/tooling-control-improvement-master.yaml
+  - docs/work/tooling-control-improvement-master-execution-inventory.yaml
+  - docs/work/tooling-control-improvement-atomic-hardening.yaml
+  required_paths:
+  - docs/work/tooling-control-improvement-master.yaml
+  - docs/work/tooling-control-improvement-master-execution-inventory.yaml
+  - docs/work/tooling-control-improvement-atomic-hardening.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/tooling-control-improvement-master.yaml
+    docs/work/tooling-control-improvement-master-execution-inventory.yaml
+  started_at: '2026-07-25T20:24:42Z'
+  start_fingerprints:
+    docs/work/tooling-control-improvement-master.yaml: d81a006aa3015820b247904b935d73afac91a8d1bd76d8f22399cc06a23e7871
+    docs/work/tooling-control-improvement-master-execution-inventory.yaml: 71c744af80fd030b083e2e15a691e0124263aec12224bc244c96875564eaa2c4
+    docs/work/tooling-control-improvement-atomic-hardening.yaml: 318343478a05a6ef941b1269f7d0c4ba48d13a7f6c9ba8fe98bf198c07351c71
+evidence:
+- task: harden-tooling-plan
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/tooling-control-improvement-master.yaml
+    docs/work/tooling-control-improvement-master-execution-inventory.yaml
+  ranAt: '2026-07-25T20:25:03Z'
+  revision: 98dc69af37354f08773c919d81d28c68ef53d0f5
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/tooling-control-improvement-atomic-hardening.yaml
+  - docs/work/tooling-control-improvement-master-execution-inventory.yaml
+  - docs/work/tooling-control-improvement-master.yaml
+  output: "Atomic task hardening audit passed (6 inventory items).\n\n"
+  startedAt: '2026-07-25T20:24:42Z'
+  changedAfterStart: &1
+  - docs/work/tooling-control-improvement-master.yaml
+  - docs/work/tooling-control-improvement-master-execution-inventory.yaml
+  - docs/work/tooling-control-improvement-atomic-hardening.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

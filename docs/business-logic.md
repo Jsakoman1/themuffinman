@@ -41,7 +41,7 @@ The authenticated shell fails closed when `GET /workspace/navigation` is unavail
 - Canonical authenticated mutation routes are `/work/quests/new`, `/business/profile`, `/business/offerings`, `/business/availability-exceptions`, `/things` (with `scope=mine`), `/rides/mine`, `/people/circles`, `/work/applications`, and the quest application review route. The navbar and module tabs must lead to these routes rather than duplicate legacy entry points.
 - Worker assignment management exposes backend-owned allowed actions and typed stale-state conflict codes. If a quest, approved worker, or replacement application changed while the manager was acting, the client receives a recoverable code and refresh guidance instead of guessing whether the action succeeded.
 - Chat supports inbox loading, direct chat, group chat, and message sending from the Web surface. A group chat must include at least two other accepted circle contacts.
-- Chat realtime connections announce a structured `CONNECTED` state and whether a resync is required. The Web client displays the transport state and consumes workspace events through the `/ws/chat` endpoint; after reconnect, clients use the existing conversation sync boundary rather than assuming that missed events were delivered.
+- Chat realtime connections announce a structured `CONNECTED` state and whether a resync is required. The Web client displays the transport state and consumes workspace events through the `/ws/chat` endpoint; reconnect recovery is tracked explicitly by the transport, then clients use the existing conversation sync boundary rather than assuming that missed events were delivered.
 - Chat attachments can be refreshed through the backend after an external URL expires. The server re-checks conversation or upload ownership and returns `AVAILABLE`, `EXPIRED`, or `UNAVAILABLE` with safe metadata; clients never refresh a URL directly or bypass chat authorization.
 - Before creating a group chat, clients can ask the backend whether the selected people are eligible. The response explains a typed reason such as `MINIMUM_PARTICIPANTS`, `SELF_INCLUDED`, `PARTICIPANT_NOT_FOUND`, or `CIRCLE_ACCESS_REQUIRED`, and supplies the next allowed action; group creation still rechecks eligibility authoritatively.
 - Leaving a group returns a typed membership transition. It identifies the conversation, confirms `LEFT`, and reports the replacement owner when the leaving user was the owner, so every client can close or refresh the stale thread safely.
@@ -614,7 +614,7 @@ Location lookup recovery:
 
 - Social responses already include labels, badge classes, summary labels, and primary or secondary actions.
 - The frontend is not expected to infer relation semantics from raw timestamps alone.
-- Profile and search actions are relation-aware, including invite, accept, cancel, block, unblock, and open-circles behaviors.
+- Profile and search actions are relation-aware, including invite, accept, cancel, block, unblock, and open-circles behaviors. The backend supplies the enabled primary action; Web does not infer pending invites from the relation label text.
 - Search and relation read models now also carry deterministic resolution hints so future automation can identify exact targets without rebuilding labels client-side.
 - Outgoing request rows and owned circle rows also carry deterministic resolution hints so future automation can cancel or delete exact targets without guessing.
 - Admin and direct user read models now also carry deterministic resolution hints so future automation can target exact accounts without rebuilding labels client-side.
@@ -689,10 +689,11 @@ Location lookup recovery:
 
 - Users apply to open quests with a message and a proposed price.
 - From a known Work quest detail, applicants can submit directly in the web UI; Vision remains available when application creation starts from natural-language intent or needs guided correction.
+- The quest detail application form uses backend-prepared draft rules for required message/price fields, minimum proposed price, and suggested price; clients do not infer price requirements from the award amount.
 - Only one application per user per quest is allowed.
 - Owners and admins can approve or decline pending applications.
 - The terminal-first Vision surface can now approve or decline one exact pending application by first resolving one manageable quest and then one exact applicant username before review confirmation.
-- Owner-side application views now expose deterministic pending-selection metadata so future automation can know whether pending applications exist and which pending application is the oldest.
+- Owner-side application views expose backend-prepared pending-selection data, including the pending application collection, its count, and the oldest pending application, so Web and future clients do not reconstruct pending candidates from raw status values.
 - Approved applications fill worker slots up to the quest assignee target.
 - If all spots are filled, the quest becomes `ASSIGNED`; remaining pending applications stay available for owner review so an approved worker can later be released or replaced without losing the candidate pool.
 - Owners and administrators can release an approved worker or replace that worker with a pending applicant through backend-owned worker-management commands. A released assignment becomes `RELEASED`, reopens an available slot, and notifies the affected users.
@@ -793,6 +794,7 @@ Location lookup recovery:
 - Reopening a quest is not just a status flip; it can also reactivate prior non-withdrawn applications.
 - Admins can bypass some of the owner-only flow and apply status or term corrections directly.
 - Quest detail exposes this subdomain through explicit execution and term-change sections so the frontend does not have to derive the flow itself.
+- Quest action results provide the user-facing success message from the backend, so Web does not maintain a second action-to-message mapping.
 
 ### Example voice-assisted work flow
 
@@ -851,7 +853,7 @@ Location lookup recovery:
 ### What the module does
 
 - Business Hub lets an authenticated user publish one business profile tied to their account.
-- Active business profiles appear in a directory and can be opened as a public business page.
+- Active business profiles appear in a directory and can be opened as a public business page. The favorite-business view is filtered by the backend for the current user; the browser does not fetch the full public directory and filter favorites locally.
 - A business may also publish bookable offerings, availability rules, booking policy defaults, gallery images, and owner schedule reads.
 - Booking workflow is backend-owned so the same contract can later support web, iPhone, and `/vision` clients without duplicating rules in the UI.
 

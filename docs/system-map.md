@@ -2,9 +2,13 @@
 
 Documentation class: derived_navigation. This file owns cross-system relationships and read order; canonical facts and statuses remain in the linked source registries.
 
-Status: living navigation document. Last reviewed: 2026-07-24.
+Status: living navigation document. Last reviewed: 2026-07-25.
 
 This document is the durable entry point for understanding how TheMuffinMan is organized. It intentionally points to canonical sources instead of copying their detailed rules, capability records, or implementation evidence.
+
+For product-direction and interface-design work, start with
+[`docs/design-and-vision-index.md`](design-and-vision-index.md). It defines the
+small set of canonical design sources and separates them from historical analysis.
 
 ## What this document owns
 
@@ -141,7 +145,7 @@ The frontend deliberately centralizes most authenticated surfaces in `frontend/s
 | Vision architecture | `docs/vision-architecture-patterns.md`, `docs/vision-context-gateway.md` | focused Vision map and constraints |
 | Extension coverage | `docs/system-map-coverage-registry.yaml`, `docs/module-dependency-registry.yaml`, extension registries | completeness and cross-cutting relationship map |
 
-The completed extension registries are indexed by the extension master:
+The completed extension registries are retained as canonical map outputs:
 `module-dependency-registry.yaml`, `error-recovery-registry.yaml`,
 `integration-environment-registry.yaml`, `data-classification-registry.yaml`,
 `job-replay-operations-registry.yaml`, `test-topology-registry.yaml`,
@@ -155,7 +159,7 @@ enforcement gaps are consolidated in
 `system-map-runtime-closeout-registry.yaml` and
 `work/system-map-truth-runtime-closeout-master.yaml`.
 
-The repair-first execution program is [`docs/work/repair-and-stabilize-master.yaml`](work/repair-and-stabilize-master.yaml), with its analysis in [`docs/repair-and-stabilize-analysis.md`](repair-and-stabilize-analysis.md) and preflight in [`docs/repair-and-stabilize-preflight.md`](repair-and-stabilize-preflight.md). It is the required queue for fixing existing capability correctness, reliability, observability, consent, and regression gaps before unrelated new feature work.
+The repair-first execution program is historical and its unfinished master plan was removed during plan cleanup. Its retained analysis and preflight documents remain useful context; current gaps and any future work belong in the capability inventory and implementation backlog.
 
 The completeness index is [`system-map-coverage-registry.yaml`](system-map-coverage-registry.yaml).
 It is the canonical navigation aid for map coverage: `mapped` means the dimension
@@ -167,7 +171,7 @@ The narrower [control-surface-map.md](control-surface-map.md) remains the canoni
 
 The current optimization baseline is [`system-map-optimization-baseline-2026-07-22.yaml`](system-map-optimization-baseline-2026-07-22.yaml). It records ranked relationship, ownership, documentation, and control findings without replacing the canonical sources or promoting runtime status.
 
-The active optimization program is [`work/system-map-optimization-master.yaml`](work/system-map-optimization-master.yaml). Its preflight is [`system-map-optimization-preflight.md`](system-map-optimization-preflight.md), and its serial execution inventory is [`work/system-map-optimization-master-execution-inventory.yaml`](work/system-map-optimization-master-execution-inventory.yaml).
+The system-map optimization program is verified in [`work/system-map-optimization-master.yaml`](work/system-map-optimization-master.yaml). Its preflight and serial execution inventory remain the supporting evidence for that completed program.
 
 The selected cross-layer pilot is runtime truth synchronization: reconcile the runtime
 matrix, capability evidence registry, closeout artifact, System Map runtime registry,
@@ -179,12 +183,12 @@ The closeout artifact is `docs/system-map-optimization-closeout-2026-07-22.yaml`
 Optimization closeout remains subject to the final verifier gates and does not promote
 any pending runtime, native, or production-operation boundary.
 
-The next planned optimization program is [`work/system-map-next-optimization-master.yaml`](work/system-map-next-optimization-master.yaml), with preflight in [`system-map-next-optimization-preflight.md`](system-map-next-optimization-preflight.md). It covers dependency boundaries, endpoint review batches, canonical-source lint, change-impact closeout, evidence coverage, and configuration drift.
+The next optimization program is verified in [`work/system-map-next-optimization-master.yaml`](work/system-map-next-optimization-master.yaml), with preflight in [`system-map-next-optimization-preflight.md`](system-map-next-optimization-preflight.md). It covers dependency boundaries, endpoint review batches, canonical-source lint, change-impact closeout, evidence coverage, and configuration drift.
 
-The next optimization program is now executing serially through its verifier inventory. Completed slices include dependency boundaries, endpoint review batch design and four domain batches, canonical-source lint, advisory change-impact closeout, capability evidence coverage, and configuration/environment drift. Runtime remains 65 passed / 16 pending; these controls do not promote pending evidence.
+The verified optimization program completed its serial verifier inventory. Completed slices include dependency boundaries, endpoint review batch design and four domain batches, canonical-source lint, advisory change-impact closeout, capability evidence coverage, and configuration/environment drift. Runtime is currently 67 passed / 14 pending; these controls do not promote pending evidence.
 
 The next runtime closeout program is prepared in [`work/runtime-pending-web-operations-master.yaml`](work/runtime-pending-web-operations-master.yaml), with preflight in [`runtime-pending-web-operations-preflight.md`](runtime-pending-web-operations-preflight.md). It covers 11 Web/Vision, failure-injection, side-effect, replay, and Web–Vision parity rows; five native/device rows remain deferred.
-Round 1 execution has now verified the child control/analysis tasks and recorded fresh partial or structured-blocker artifacts. The matrix remains authoritative at 65 passed and 16 pending; no runtime row was promoted from source or aggregate evidence. The main open edges are the provider failure observability contract, transport/database harnesses, supervised process replay, and same-policy Vision parity fixtures.
+Round 1 execution has now verified the child control/analysis tasks and recorded fresh partial or structured-blocker artifacts. The matrix remains authoritative at 67 passed and 14 pending; no runtime row was promoted from source or aggregate evidence. The main open edges are the provider failure observability contract, transport/database harnesses, supervised process replay, and same-policy Vision parity fixtures.
 
 The next complete mapping hardening program is [`work/system-map-hardening-master.yaml`](work/system-map-hardening-master.yaml), with preflight in [`system-map-hardening-preflight.md`](system-map-hardening-preflight.md). It extends coverage across every current and planned module, data ownership, dependency direction, workflows, permissions, side-effects, scheduled jobs, clients, providers, storage, and change-impact boundaries. It strengthens the map as an operating tool without claiming that mapped capabilities or runtime gaps are complete.
 
@@ -212,12 +216,11 @@ and outcomes; they must not be used as current status.
 
 The first full analysis program is now master-verified. Round 1 was the baseline prerequisite; Rounds 2–7 were executed serially through the master execution inventory.
 
-The next deepening program is prepared in [`docs/work/system-map-deepening-master.yaml`](work/system-map-deepening-master.yaml). Its preflight is verified in [`docs/system-map-deepening-preflight.md`](system-map-deepening-preflight.md). It covers data ownership, API/client/evidence linkage, runtime operations, security/privacy/consent, control-graph integrity, and target-state architecture.
+The retained deepening analysis and preflight documents cover data ownership, API/client/evidence linkage, runtime operations, security/privacy/consent, control-graph integrity, and target-state architecture.
 
 | Round | Document | Scope |
 |---|---|---|
 | 1 | `docs/system-analysis-round-1.md` | systems, control layers, audits, modules, and application architecture |
-| Program | `docs/work/system-analysis-master.yaml` | sequenced master plan for rounds 2–7 |
 | 2 | `docs/system-analysis-round-2-capability-reconciliation.md` | capability, plan, code, client, test, and runtime reconciliation |
 | 3 | `docs/system-analysis-round-3-backend-domain.md` | backend/domain boundaries and dependencies |
 | 4 | `docs/system-analysis-round-4-frontend-surfaces.md` | frontend shell, routes, API linkage, and surface ownership |
@@ -232,19 +235,18 @@ The next deepening program is prepared in [`docs/work/system-map-deepening-maste
 | 12 | `docs/system-map-deepening-round-12-control-graph.md` | canonical sources, generated artifacts, work-plan graph, verifier, and audit integrity |
 | 13 | `docs/system-map-deepening-round-13-target-state-architecture.md` | target architecture, client parity, modular evolution, and extraction constraints |
 
-The third analysis pass is master-verified in [`docs/work/system-map-third-pass-master.yaml`](work/system-map-third-pass-master.yaml). It moves from static ownership mapping to execution-flow, side-effect, read-model, failure/recovery, cross-client, and architecture-risk analysis. Its primary follow-up IDs are ARCH-001 through ARCH-005 in [`docs/implementation-backlog.md`](implementation-backlog.md).
+The third analysis pass maps execution-flow, side-effect, read-model, failure/recovery, cross-client, and architecture-risk boundaries. Its primary follow-up IDs are ARCH-001 through ARCH-005 in [`docs/implementation-backlog.md`](implementation-backlog.md).
 
-ARCH-003 is now tracked in [`docs/work/arch-003-side-effect-delivery-master.yaml`](work/arch-003-side-effect-delivery-master.yaml), with the current contract in [`docs/side-effect-delivery-contract.yaml`](side-effect-delivery-contract.yaml) and the source-trace analysis in [`docs/arch-003-side-effect-delivery-analysis.md`](arch-003-side-effect-delivery-analysis.md). The shared domain event publisher defers publication until after commit when transaction synchronization is active; this is not an outbox or replay guarantee.
+ARCH-003 is retained in the current side-effect delivery contract and source-trace analysis. The shared domain event publisher defers publication until after commit when transaction synchronization is active; this is not an outbox or replay guarantee.
 
-ARCH-004 is tracked in [`docs/work/arch-004-read-model-reliability-master.yaml`](work/arch-004-read-model-reliability-master.yaml), with the read-model evidence contract in [`docs/read-model-reliability-contract.yaml`](read-model-reliability-contract.yaml). Its runtime scenarios remain pending and do not imply measured performance.
+ARCH-004 is retained in the read-model evidence contract. Its runtime scenarios remain pending and do not imply measured performance.
 
-ARCH-005 is tracked in [`docs/work/arch-005-visibility-consent-parity-master.yaml`](work/arch-005-visibility-consent-parity-master.yaml), with the privacy/client parity contract in [`docs/visibility-consent-parity-contract.yaml`](visibility-consent-parity-contract.yaml). Native and device behavior remain unproven.
+ARCH-005 is retained in the privacy/client parity contract. Native and device behavior remain unproven.
 
-ARCH-001 is tracked in [`docs/work/arch-001-endpoint-client-evidence-master.yaml`](work/arch-001-endpoint-client-evidence-master.yaml), with the canonical cross-reference in [`docs/endpoint-client-evidence-registry.yaml`](endpoint-client-evidence-registry.yaml). It links specialized endpoint, capability, client, permission, runtime, and native-handoff registries without replacing their authority.
+ARCH-001 is retained in the canonical endpoint-client evidence registry. It links specialized endpoint, capability, client, permission, runtime, and native-handoff registries without replacing their authority.
 
 The ARCH-001 endpoint review queue is tracked in [`docs/endpoint-reconciliation-review.yaml`](endpoint-reconciliation-review.yaml) and covers all 67 currently unclassified non-Web endpoints. Five are source-classified; 62 remain explicit owner review items.
 
-| Third-pass master | `docs/work/system-map-third-pass-master.yaml` | verified program for Rounds 14–19 |
 | 14 | `docs/system-map-third-pass-round-14-request-persistence-flows.md` | request-to-persistence flows and transaction boundaries |
 | 15 | `docs/system-map-third-pass-round-15-events-side-effects.md` | events, side effects, realtime, and scheduled work |
 | 16 | `docs/system-map-third-pass-round-16-read-model-performance.md` | read models, fetch strategy, and performance evidence gaps |
@@ -252,11 +254,10 @@ The ARCH-001 endpoint review queue is tracked in [`docs/endpoint-reconciliation-
 | 18 | `docs/system-map-third-pass-round-18-cross-client-parity.md` | Web, Vision, admin, native contracts, and parity evidence |
 | 19 | `docs/system-map-third-pass-round-19-architecture-risk-register.md` | architecture decisions, risks, and sequenced follow-ups |
 
-The complete-system analysis program is master-verified in [`docs/work/system-map-complete-analysis-master.yaml`](work/system-map-complete-analysis-master.yaml). Its readiness and evidence rules are recorded in [`docs/system-map-complete-analysis-preflight.md`](system-map-complete-analysis-preflight.md). It covers canonical truth ownership, endpoint and client registry, data schema, workflows, frontend parity, evidence traceability, performance-evidence design, events and replay, security and operations, delivery and dependency provenance, drift controls, and final baseline consolidation. The resulting control follow-ups are DRIFT-001 through DRIFT-005 in [`docs/implementation-backlog.md`](implementation-backlog.md).
+The retained complete-system analysis and preflight documents cover canonical truth ownership, endpoint and client registry, data schema, workflows, frontend parity, evidence traceability, performance-evidence design, events and replay, security and operations, delivery and dependency provenance, drift controls, and final baseline consolidation. The resulting control follow-ups are DRIFT-001 through DRIFT-005 in [`docs/implementation-backlog.md`](implementation-backlog.md).
 
-The operational expansion is master-verified in [`docs/work/system-map-operational-expansion-master.yaml`](work/system-map-operational-expansion-master.yaml). Its execution boundaries are recorded in [`docs/system-map-operational-expansion-preflight.md`](system-map-operational-expansion-preflight.md). It extends the current maps into endpoint-capability traceability, entity relations and retention, permissions and consent, runtime observability, release operations, and generated change-impact reporting.
+The operational expansion mapping extends the current maps into endpoint-capability traceability, entity relations and retention, permissions and consent, runtime observability, release operations, and generated change-impact reporting.
 
-| Operational-expansion master | `docs/work/system-map-operational-expansion-master.yaml` | verified program for Rounds 32–37 |
 | 32 | `docs/system-map-operational-expansion-round-32-endpoint-capability-traceability.md` | endpoint, capability, consumer, test, and runtime-source traceability |
 | 33 | `docs/system-map-operational-expansion-round-33-entity-relation-retention.md` | entity relationships, ownership, retention, and migration boundaries |
 | 34 | `docs/system-map-operational-expansion-round-34-permission-visibility.md` | permissions, state, visibility, consent, and backend authority |
@@ -264,7 +265,6 @@ The operational expansion is master-verified in [`docs/work/system-map-operation
 | 36 | `docs/system-map-operational-expansion-round-36-release-operations.md` | repository-visible delivery controls and external operations unknowns |
 | 37 | `docs/system-map-operational-expansion-round-37-change-impact.md` | advisory generated changed-file relationship report |
 
-| Complete-pass master | `docs/work/system-map-complete-analysis-master.yaml` | verified program for Rounds 20–31, 29, and 30 |
 | 20 | `docs/system-map-complete-analysis-round-20-canonical-truth-graph.md` | canonical truth ownership and reference direction |
 | 21 | `docs/system-map-complete-analysis-round-21-endpoint-client-registry.md` | endpoints, DTOs, client consumers, and evidence classes |
 | 22 | `docs/system-map-complete-analysis-round-22-data-schema-ownership.md` | entities, migrations, repositories, and data ownership |
@@ -280,30 +280,23 @@ The operational expansion is master-verified in [`docs/work/system-map-operation
 
 Future rounds should extend this register rather than creating competing system-map documents.
 
-| Apple polish preflight | `docs/audit-output/apple-product-polish-system-map-review-2026-07-24.md` | deep-cut review of visual language, state/cache ownership, Calendar locale/range semantics, multi-business context, accessibility, performance, trust, localization, and preserved external boundaries |
-| Apple desktop deep atomization | `docs/audit-output/apple-product-polish-desktop-app-deep-atomization-review-2026-07-24.md` | A-F baseline atomization of native-laptop, shell, context, Calendar, product-surface, quality, portability, and evidence reconciliation |
-| Apple mental model review | `docs/audit-output/apple-product-polish-mental-model-review-2026-07-24.md` | overview/detail behavior, few/many entity navigation, lightweight Settings, grouping/sorting, bounded collections, and browse-to-recovery flow |
-| Apple system behavior review | `docs/audit-output/apple-product-polish-system-behavior-review-2026-07-24.md` | Undo/Redo, drafts, activity, notification urgency, deep links, capabilities, previews, batch actions, collaboration, consent, and platform boundaries |
-| Apple final coverage review | `docs/audit-output/apple-product-polish-final-coverage-review-2026-07-24.md` | A-K module, mental-model, system-behavior, backend/API, evidence, and explicit-boundary reconciliation |
-| Apple leaf execution review | `docs/work/apple-product-polish-leaf-execution-expansion.yaml` | 35-parent contract/authority/primitive/surface/negative/evidence decomposition and non-skipping closeout control |
-| Apple complex-task slicing review | `docs/audit-output/apple-product-polish-complex-task-slicing-review-2026-07-24.md` | concrete leaf slices for Vision, Business, Calendar, native shell/commands, state/cache, progressive disclosure/forms, accessibility/performance, and closeout |
+| Apple product-polish review | `docs/product-vision.md`, `docs/product-memory.md`, and verified UI work plans | current product direction and retained implementation evidence; disposable audit-output snapshots were removed |
 
-The core product stabilization and Business/Rides hardening pass is recorded in
-[`docs/work/core-product-stabilization-business-rides-master.yaml`](work/core-product-stabilization-business-rides-master.yaml)
-with its final status in
+The core product stabilization and Business/Rides hardening pass is retained as a historical closeout; its unfinished
+master plan was removed during plan cleanup. Its final status is in
 [`core-product-stabilization-business-rides-closeout-2026-07-22.yaml`](core-product-stabilization-business-rides-closeout-2026-07-22.yaml).
 It repaired shared mutation-context cleanup, Business derived-end idempotency
 replay, and the Rides backend seat boundary. Its fresh runtime artifact is
-partial HTTP smoke evidence only; canonical runtime status remains 65 passed / 16
+partial HTTP smoke evidence only; canonical runtime status is 67 passed / 14
 pending and existing native, provider, database, replay, and production boundaries
 remain explicit.
 
 The current completeness baseline and score are recorded in
 [`system-map-completeness-review.md`](system-map-completeness-review.md). Its
 follow-up IDs are `MAP-001` through `MAP-009` in the implementation backlog.
-The execution-ready expansion program is [`work/system-map-extension-master.yaml`](work/system-map-extension-master.yaml),
-with nine ordered child plans and an execution inventory.
-Its consolidated result is [`system-map-extension-final-baseline.md`](system-map-extension-final-baseline.md).
+The consolidated extension result is retained in
+`system-map-extension-final-baseline.md`; its former execution plans were removed
+after verification.
 
 ## Known boundaries at last review
 

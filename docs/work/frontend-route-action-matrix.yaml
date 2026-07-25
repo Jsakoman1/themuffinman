@@ -1,7 +1,6 @@
 kind: frontend-route-action-matrix
 version: 1
 status: reviewed
-source_plan: docs/work/frontend-user-facing-navigation-dedup.yaml
 purpose: Durable matrix for shell, context, and local page navigation ownership.
 entries:
   - surface: authenticated-shell
@@ -15,7 +14,7 @@ entries:
     local_actions:
       - {label: Discover, route: /rides, disposition: remove-duplicate}
       - {label: My rides, route: /rides/mine, disposition: remove-duplicate}
-      - {label: Offer a ride, route: /rides?create=1, disposition: retain-primary-task}
+      - {label: Offer a ride, route: "/rides?create=1", disposition: retain-primary-task}
     reason: Discover and My rides are context children; Offer a ride creates a new object.
   - surface: business-discovery
     route: /business/find

@@ -16,6 +16,7 @@ const websocketUrl = () => {
 export const useChatRealtime = (onEvent: (event: ChatSocketEventDTO) => void) => {
   const state = ref<ChatRealtimeState>("DISCONNECTED")
   const lastEvent = ref<ChatSocketEventDTO | null>(null)
+  const recoveryVersion = ref(0)
   let socket: WebSocket | null = null
   let reconnectTimer: number | null = null
   let disposed = false
@@ -45,8 +46,10 @@ export const useChatRealtime = (onEvent: (event: ChatSocketEventDTO) => void) =>
     state.value = reconnectAttempt > 0 ? "RECONNECTING" : "CONNECTING"
     socket = new WebSocket(websocketUrl())
     socket.onopen = () => {
+      const recovered = reconnectAttempt > 0
       reconnectAttempt = 0
       state.value = "CONNECTED"
+      if (recovered) recoveryVersion.value += 1
     }
     socket.onmessage = (message) => {
       try {
@@ -102,5 +105,5 @@ export const useChatRealtime = (onEvent: (event: ChatSocketEventDTO) => void) =>
   window.addEventListener("offline", handleOffline)
   window.addEventListener("online", handleOnline)
 
-  return {state, lastEvent, connect, reconnect, disconnect}
+  return {state, lastEvent, recoveryVersion, connect, reconnect, disconnect}
 }

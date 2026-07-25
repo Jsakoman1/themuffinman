@@ -150,6 +150,16 @@ public class WorkmarketQuestService {
     }
 
     @Transactional
+    public Quest assignQuest(Long id, AppUser currentUser) {
+        return workmarketQuestUpdateService.assignQuest(id, currentUser);
+    }
+
+    @Transactional
+    public Quest reopenQuest(Long id, AppUser currentUser) {
+        return workmarketQuestUpdateService.reopenQuest(id, currentUser);
+    }
+
+    @Transactional
     public Quest confirmQuestTermChange(Long id, AppUser currentUser) {
         return workmarketConfirmQuestTermChangeUseCase.execute(id, currentUser);
     }

@@ -31,7 +31,7 @@ tasks:
   type: analysis
   status: done
   paths:
-  - docs/work/main-surfaces-home-dashboard-analysis.md
+  - docs/main-surfaces-home-dashboard-analysis.md
   - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
   - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
   validation: ruby -e 'require "yaml"; YAML.load_file("docs/work/main-surfaces-home-dashboard.yaml")'
@@ -65,7 +65,7 @@ evidence:
   changedFiles:
   - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
   - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
-  - docs/work/main-surfaces-home-dashboard-analysis.md
+  - docs/main-surfaces-home-dashboard-analysis.md
   output: "\n"
 - task: home-dashboard-ui
   command: npm --prefix apps/themuffinman/frontend run type-check
@@ -97,4 +97,3 @@ evidence:
     > node ./scripts/validate-modern-surface-contract.mjs
 
     Modern surface contract passed (49 checks).
-

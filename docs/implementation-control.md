@@ -7,6 +7,15 @@ Optimization closeout: `docs/system-map-optimization-closeout-2026-07-22.yaml`.
 
 This is the single active workflow for implementation work.
 
+Use `make context-search q="phrase"` before loading broad files. It is a bounded,
+read-only repository search intended to reduce duplicate inspection and unnecessary
+agent context; it does not replace canonical registries or validation.
+
+The compact repository control check is `make control-check`. It validates the retained
+control sources, YAML, plan coverage, documentation, capability/runtime evidence, and
+canonical registries, then removes disposable generated output. `make audit-all` remains
+an optional broad diagnostic suite; it is not required for every small change.
+
 Every new master and non-trivial work plan must apply
 `docs/plan-scope-control-standard.yaml`. Before goal pursuing, the plan must state
 which verified plans and surfaces are baseline-only, what residual scope remains,
@@ -29,11 +38,16 @@ control state.
 
 ## Closeout cleanup
 
-After a plan or master plan reaches `verified`, remove temporary validation outputs, screenshots, smoke traces, and
-unreferenced analysis or plan files created only for that work. Keep canonical product/domain/control documents,
-current runtime JSON evidence referenced by the capability inventory, and any completed plan still used as an explicit
-dependency or historical source. The closeout must leave only the current `active`/`planned` work queue plus retained
-evidence; it must not leave duplicate generated reports or stale plan references.
+After a plan or master plan reaches `verified`, run `make clean-generated`. This removes
+disposable audit output, frontend build output, and temporary files. Keep canonical
+product/domain/control documents and runtime evidence referenced by the capability or
+runtime registries. Completed plans are removed by default; retain one only when a current
+tool or canonical source explicitly depends on it. The closeout must leave no duplicate
+generated reports or stale plan references.
+
+Completed plans and cleanup reports are not control sources. The current
+work-plan graph and canonical registries are the only durable implementation
+state; disposable cleanup output is removed at closeout.
 
 ## States
 
@@ -97,9 +111,9 @@ complete while named routes, contracts, or runtime behavior remain absent.
 
 ```text
 make work-create id=my-change title="Short title"
-make work-verify plan=docs/work/my-change.yaml
+make work-verify plan=<work-plan>
 make master-create id=my-program title="Program title"
-make work-verify plan=docs/work/my-program.yaml
+make work-verify plan=<master-plan>
 ```
 
 Use only the current work-plan and verifier workflow for new implementation work.
