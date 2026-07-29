@@ -1,0 +1,13 @@
+{
+  "evidenceVersion": "human-usability-circle-membership-v1",
+  "capturedAt": "2026-07-29T15:02:47.020Z",
+  "result": "failed",
+  "browserErrors": [],
+  "checks": {
+    "groupSelectable": false,
+    "memberContext": false,
+    "noCrossTabInstruction": true
+  },
+  "overflowFree": true,
+  "screenshot": "docs/runtime-evidence/human-usability-circle-membership-2026-07-29.png"
+}

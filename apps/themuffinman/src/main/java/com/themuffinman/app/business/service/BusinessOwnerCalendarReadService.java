@@ -41,10 +41,23 @@ public class BusinessOwnerCalendarReadService {
     public BusinessOwnerCalendarProjectionDTO getMyCalendar(AppUser currentUser, Instant from, Instant to) {
         BusinessProfile profile = businessProfileRepository.findByOwnerId(currentUser.getId())
                 .orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before viewing calendar"));
+        return getCalendar(currentUser, profile, from, to);
+    }
+
+    public BusinessOwnerCalendarProjectionDTO getMyCalendar(AppUser currentUser, Long businessProfileId, Instant from, Instant to) {
+        BusinessProfile profile = businessProfileRepository.findAllByOwnerId(currentUser.getId()).stream()
+                .filter(candidate -> candidate.getId().equals(businessProfileId))
+                .findFirst()
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+        return getCalendar(currentUser, profile, from, to);
+    }
+
+    private BusinessOwnerCalendarProjectionDTO getCalendar(AppUser currentUser, BusinessProfile profile, Instant from, Instant to) {
         ZoneId zoneId = TimeSupport.requireZoneId(profile.getTimezone(), "Create your business profile before viewing calendar");
         CalendarWindow window = resolveWindow(zoneId, from, to);
-        List<BusinessBooking> bookings = businessBookingRepository.findDetailedByOwnerIdAndOverlap(
+        List<BusinessBooking> bookings = businessBookingRepository.findDetailedByOwnerIdAndProfileIdAndOverlap(
                 currentUser.getId(),
+                profile.getId(),
                 window.from(),
                 window.to()
         );

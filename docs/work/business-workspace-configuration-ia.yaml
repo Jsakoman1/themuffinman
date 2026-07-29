@@ -1,0 +1,80 @@
+kind: work
+version: 1
+id: business-workspace-configuration-ia
+title: Consolidate Business owner configuration information architecture
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-workspace-repair-master.yaml
+execution_inventory: docs/work/business-workspace-repair-execution-inventory.yaml
+tasks:
+- id: consolidate-owner-configuration-destinations
+  title: Give services and settings one understandable owner workflow each
+  type: implementation
+  status: done
+  inventory_item: configuration-ia
+  observable_outcome: Service setup, availability, exceptions, policies, resources,
+    and profile configuration have non-duplicated destinations with no non-persisting
+    template controls.
+  dependencies:
+  - render-owner-calendar-workspace
+  evidence_boundary:
+  - Targeted frontend tests/build
+  - backend tests for changed configuration contract
+  - and browser evidence for one service setup flow.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+  started_at: '2026-07-29T08:55:14Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: b8a508b672f8654467ea12a82d71e62da0e1ed99e2093260855eb4dc3346317a
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue: bbecfd7a3b932b4d2aac5079713bb7fbd6824835e9241dee4bf186b7a65d7819
+evidence:
+- task: consolidate-owner-configuration-destinations
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T09:02:12Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  output: |+
+    dist/assets/WorkQuestCreateView-D3t5MSRj.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/BusinessServiceSchemaView-DAAS1ILq.js             12.11 kB │ gzip:   3.96 kB
+    dist/assets/ThingsDiscoveryView-DBL1yGf2.js                   12.12 kB │ gzip:   3.99 kB
+    dist/assets/CirclesView-DUpmBnYz.js                           13.46 kB │ gzip:   4.31 kB
+    dist/assets/WorkPage-N-sM-chs.js                              14.96 kB │ gzip:   5.50 kB
+    dist/assets/RidesView-DFkTYfwp.js                             15.24 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-DmBjLNNw.js                    16.92 kB │ gzip:   6.14 kB
+    dist/assets/WorkQuestDetailView-SxRmkXO_.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/ChatSurfaceView-BbhY08VN.js                       18.64 kB │ gzip:   6.03 kB
+    dist/assets/ProfilePage-mewUlq-9.js                           24.54 kB │ gzip:   7.76 kB
+    dist/assets/HomeHubView-DsgVY6jK.js                           24.62 kB │ gzip:   7.31 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BDt3qllj.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/BusinessOwnerPage-T8UeAtDa.js                     49.84 kB │ gzip:  11.79 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BhizQQYf.js                                 62.24 kB │ gzip:  15.41 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 528ms
+
+  startedAt: '2026-07-29T08:55:14Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

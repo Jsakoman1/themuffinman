@@ -10,7 +10,7 @@ const activeTabId = computed(() => isApplications.value ? "applications" : route
 </script>
 
 <template>
-  <section class="work-page" aria-label="Work" data-filter-model="single-filters-action" data-preview-model="shared-adjacent-preview" data-mental-model="browse-inspect-preview" data-scope-source="canonical-route" data-responsive-model="desktop-list-mobile-sheet" data-work-navigation="canonical-find-mine-applications" :data-work-scope="isApplications ? 'applications' : activeTabId">
+  <section class="work-page" aria-label="Work" data-filter-model="single-filters-action" data-preview-model="shared-adjacent-preview" data-mental-model="browse-inspect-decide" data-scope-source="canonical-route" data-responsive-model="desktop-list-mobile-sheet" data-work-navigation="canonical-find-mine-applications" data-work-first-view="intent-before-role" :data-work-scope="isApplications ? 'applications' : activeTabId">
     <WorkApplicationsView v-if="isApplications" />
     <WorkDiscoveryView v-else />
   </section>

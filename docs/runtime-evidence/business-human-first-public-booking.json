@@ -1,0 +1,19 @@
+{
+  "capturedAt": "2026-07-29T10:46:59.352Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "publicDateFirstBooking": {
+      "status": "passed",
+      "slug": "runtime-flexible-services",
+      "offeringId": 112,
+      "date": "2026-08-01",
+      "apiSlots": 20
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

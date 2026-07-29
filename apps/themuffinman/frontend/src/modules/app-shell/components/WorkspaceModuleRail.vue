@@ -3,11 +3,17 @@ import {computed} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import type {WorkspaceNavigationModule} from "../../../contracts/index.ts"
 
-const props = withDefaults(defineProps<{modules: WorkspaceNavigationModule[]; activeModuleId: string | null; showChildren?: boolean}>(), {showChildren: true})
+const props = withDefaults(defineProps<{
+  modules: WorkspaceNavigationModule[]
+  activeModuleId: string | null
+  showChildren?: boolean
+  expandAllChildren?: boolean
+}>(), {showChildren: true, expandAllChildren: false})
 const route = useRoute()
 const visibleModules = computed(() => props.modules.filter((module) => module.visible))
 const childrenFor = (module: WorkspaceNavigationModule) => module.children.filter((child) => child.visible).sort((a, b) => a.order - b.order)
 const isModuleActive = (module: WorkspaceNavigationModule) => props.activeModuleId === module.id || route.path === module.route || route.path.startsWith(`${module.route}/`)
+const shouldShowChildren = (module: WorkspaceNavigationModule) => props.showChildren && (props.expandAllChildren || isModuleActive(module))
 const isChildActive = (path: string) => {
   const cleanPath = path.split("?")[0]
   return route.path === cleanPath || route.path.startsWith(`${cleanPath}/`)
@@ -27,7 +33,7 @@ const iconFor = (key: string) => ({home: "⌂", work: "▤", chat: "◌", calend
         <span class="workspace-module-rail__icon" aria-hidden="true">{{ iconFor(module.iconKey) }}</span>
         <span class="workspace-module-rail__label">{{ module.label }}</span>
       </RouterLink>
-      <div v-if="props.showChildren && childrenFor(module).length > 0" class="workspace-module-rail__children" :data-module="module.id">
+      <div v-if="shouldShowChildren(module) && childrenFor(module).length > 0" class="workspace-module-rail__children" :data-module="module.id">
       <RouterLink
         v-for="child in childrenFor(module)"
         :key="child.id"

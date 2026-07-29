@@ -1,0 +1,116 @@
+kind: work
+version: 1
+id: business-booking-slot-validation-qa
+title: Align customer booking validation with public slot availability
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-human-first-ux-master.yaml
+  baseline_only_surfaces:
+  - Existing owner onboarding, service setup, hours, and public date-first booking
+    UI.
+  residual_scope:
+  - Validate a public slot as one offered interval even when its duration exceeds
+    the start-time granularity.
+  - Keep the browser QA selector scoped to the main settings content.
+  retest_triggers:
+  - Changes to availability computation, booking validation, or the public booking
+    runtime scenario.
+  non_duplication_rule: Earlier human-first UX evidence remains baseline-only; this
+    plan records only the repaired completion journey.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: align-public-slot-validation-and-runtime-qa
+  title: Let customers submit an offered fixed-duration slot
+  type: implementation
+  status: done
+  observable_outcome: A public time slot returned by availability can be previewed
+    and submitted when its fixed service duration is longer than the configured start-time
+    granularity.
+  dependencies: []
+  evidence_boundary:
+  - Targeted booking-validation test
+  - frontend type-check and build
+  - browser completion trace
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - apps/themuffinman/frontend/scripts/business-human-first-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/runtime-evidence/business-booking-slot-validation-booking-completion.json
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - apps/themuffinman/frontend/scripts/business-human-first-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  manual_runtime_command: WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/business-booking-slot-validation-booking-completion.json
+    node apps/themuffinman/frontend/scripts/business-human-first-runtime.mjs
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-booking-slot-validation-booking-completion.json
+  validation: cd apps/themuffinman && ./mvnw test -Dtest=BusinessBookingValidationServiceTest,BusinessAvailabilityReadServiceTest
+    && npm --prefix frontend run type-check && npm --prefix frontend run build
+evidence:
+- task: align-public-slot-validation-and-runtime-qa
+  command: cd apps/themuffinman && ./mvnw test -Dtest=BusinessBookingValidationServiceTest,BusinessAvailabilityReadServiceTest
+    && npm --prefix frontend run type-check && npm --prefix frontend run build
+  ranAt: '2026-07-29T11:37:42Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - apps/themuffinman/frontend/scripts/business-human-first-runtime.mjs
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - docs/runtime-evidence/business-booking-slot-validation-booking-completion.json
+  output: |+
+    dist/assets/WorkQuestCreateView-C6FgAv2t.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-D7ZJwlNg.js                   12.12 kB │ gzip:   3.99 kB
+    dist/assets/BusinessServiceSchemaView-DHk6txCf.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/CirclesView-BIghRd5M.js                           13.46 kB │ gzip:   4.31 kB
+    dist/assets/WorkPage-DqTwSyou.js                              14.96 kB │ gzip:   5.50 kB
+    dist/assets/RidesView-rG9DwToM.js                             15.24 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-C1ulzr2q.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkQuestDetailView-B2fcz_c-.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-BcdZoUb-.js                       18.64 kB │ gzip:   6.04 kB
+    dist/assets/ProfilePage-Bb0aGV1_.js                           24.54 kB │ gzip:   7.77 kB
+    dist/assets/HomeHubView-DweD7A3-.js                           24.62 kB │ gzip:   7.31 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-B9vUsa0l.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-CMKSyQxy.js                     54.57 kB │ gzip:  13.26 kB
+    dist/assets/index-HkXuEIXP.js                                 62.51 kB │ gzip:  15.46 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 603ms
+
+  requiredPaths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingValidationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessResourceAssignmentService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - apps/themuffinman/frontend/scripts/business-human-first-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-booking-slot-validation-booking-completion.json

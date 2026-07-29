@@ -1,0 +1,83 @@
+kind: execution_inventory
+version: 1
+id: business-workspace-repair-execution-inventory
+master_plan: docs/work/business-workspace-repair-master.yaml
+status: draft
+items:
+- id: business-hardening
+  plan: docs/work/business-workspace-repair-atomic-hardening.yaml
+  task: harden-business-repair-scope
+  status: verified
+  order: 1
+  started_at: '2026-07-29T08:42:21Z'
+  verified_at: '2026-07-29T08:42:38Z'
+  evidence:
+    plan: docs/work/business-workspace-repair-atomic-hardening.yaml
+    task: harden-business-repair-scope
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: owner-navigation
+  plan: docs/work/business-workspace-dashboard-contract.yaml
+  task: scope-owner-dashboard-to-selected-business
+  status: verified
+  order: 2
+  started_at: '2026-07-29T08:42:44Z'
+  verified_at: '2026-07-29T08:46:05Z'
+  evidence:
+    plan: docs/work/business-workspace-dashboard-contract.yaml
+    task: scope-owner-dashboard-to-selected-business
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: owner-navigation-ui
+  plan: docs/work/business-workspace-owner-navigation.yaml
+  task: correct-owner-workspace-mapping
+  status: verified
+  order: 3
+  started_at: '2026-07-29T08:46:48Z'
+  verified_at: '2026-07-29T08:48:45Z'
+  evidence:
+    plan: docs/work/business-workspace-owner-navigation.yaml
+    task: correct-owner-workspace-mapping
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: calendar-contract
+  plan: docs/work/business-workspace-calendar-contract.yaml
+  task: scope-owner-calendar-to-selected-business
+  status: verified
+  order: 4
+  started_at: '2026-07-29T08:48:58Z'
+  verified_at: '2026-07-29T08:50:09Z'
+  evidence:
+    plan: docs/work/business-workspace-calendar-contract.yaml
+    task: scope-owner-calendar-to-selected-business
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: calendar-surface
+  plan: docs/work/business-workspace-calendar-surface.yaml
+  task: render-owner-calendar-workspace
+  status: verified
+  order: 5
+  started_at: '2026-07-29T08:50:20Z'
+  verified_at: '2026-07-29T08:54:55Z'
+  evidence:
+    plan: docs/work/business-workspace-calendar-surface.yaml
+    task: render-owner-calendar-workspace
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: configuration-ia
+  plan: docs/work/business-workspace-configuration-ia.yaml
+  task: consolidate-owner-configuration-destinations
+  status: verified
+  order: 6
+  started_at: '2026-07-29T08:55:14Z'
+  verified_at: '2026-07-29T09:02:13Z'
+  evidence:
+    plan: docs/work/business-workspace-configuration-ia.yaml
+    task: consolidate-owner-configuration-destinations
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: business-closeout
+  plan: docs/work/business-workspace-closeout.yaml
+  task: reconcile-business-docs-and-regressions
+  status: verified
+  order: 7
+  started_at: '2026-07-29T09:04:48Z'
+  verified_at: '2026-07-29T09:05:45Z'
+  evidence:
+    plan: docs/work/business-workspace-closeout.yaml
+    task: reconcile-business-docs-and-regressions
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621

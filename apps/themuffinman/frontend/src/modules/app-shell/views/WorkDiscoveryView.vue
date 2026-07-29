@@ -164,6 +164,10 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
   <!-- UX simplification: Work keeps browse, inspect, and act states in one surface. -->
   <TaskSurface mode="inspect" label="Work discovery"><section class="work-discovery" aria-labelledby="work-discovery-title" :aria-busy="isLoading || isLoadingMore || undefined">
     <SurfaceHeader :config="surface" :title="title" :description="isMine ? 'Work you created and can manage.' : 'Available work visible to you.'" />
+    <nav class="work-discovery__role-guide" aria-label="Choose your work task" data-work-first-view="find-or-offer">
+      <div><p class="work-discovery__role-label">{{ isMine ? 'Offering work' : 'Looking for work' }}</p><p>{{ isMine ? 'Review the work you posted, its applicants, and what needs your decision.' : 'Browse work you can apply for. Opening a listing never commits you.' }}</p></div>
+      <RouterLink v-if="isMine" to="/work/find">Find available work</RouterLink><RouterLink v-else to="/work/quests/new">Offer work</RouterLink>
+    </nav>
     <CollectionToolbar :title="title" :count="totalItems" :busy="isLoading" filter-summary="Refine">
       <template #filters>
       <label class="work-discovery__search">
@@ -185,8 +189,7 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
     <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" />
     <AppEmptyState v-else-if="items.length === 0" :reason="query.trim() || scheduledOnly ? 'filtered' : isMine ? 'not-created' : 'not-visible'" :title="emptyTitle" :message="emptyMessage" />
 
-    <p v-if="items.length" class="work-discovery__scope" aria-live="polite">{{ isMine ? "Work you created and can manage." : "Available work visible to you." }}</p>
-    <div v-if="items.length" class="work-discovery__workspace native-group" aria-label="Work results and selected preview" data-selection-model="persistent-list-selection">
+    <div v-if="items.length" class="work-discovery__workspace native-group" :class="{'work-discovery__workspace--preview': selectedQuest}" aria-label="Work results and selected preview" data-selection-model="persistent-list-selection">
     <div class="work-discovery__list">
       <SurfaceRow v-for="quest in items" :key="quest.id" :row="{id: String(quest.id), title: quest.title, description: `${quest.presentation.statusLabel} · ${locationLabel(quest)}`, meta: `${quest.awardAmount} € · ${formatDateTime(quest.scheduledAt)}`, to: detailRoute(quest.id)}" primary-action="preview" :density="viewState.displayDensity" :selected="viewState.selectedId === quest.id" @click="handleRowClick($event, quest.id)" @preview="rememberSelection(quest.id)" @open="rememberSelection(quest.id)" />
     </div>
@@ -213,8 +216,10 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyboard); v
   display: grid;
   gap: 1rem;
 }
+.work-discovery__role-guide{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);max-width:52rem;padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised)}.work-discovery__role-guide p{margin:0;color:var(--text-muted)}.work-discovery__role-guide p:last-child{margin-top:var(--space-1)}.work-discovery__role-label{color:var(--text-soft)!important;font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.work-discovery__role-guide a{flex:none;padding:var(--space-2) var(--space-3);border-radius:var(--radius-control);background:var(--accent);color:var(--accent-contrast);font-weight:var(--text-weight-semibold);text-decoration:none}@media(max-width:620px){.work-discovery__role-guide{align-items:start;flex-direction:column}}
 
-.work-discovery__workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); overflow: hidden; }
+.work-discovery__workspace { display: grid; grid-template-columns: minmax(0, 1fr); overflow: hidden; }
+.work-discovery__workspace--preview { grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); }
 .work-discovery__workspace .work-discovery__list { padding: 0.45rem; }
 .work-discovery__options { position: relative; }
 .work-discovery__options summary { cursor: pointer; color: var(--text-muted); font-size: var(--text-size-meta); font-weight: var(--text-weight-semibold); }
@@ -264,11 +269,8 @@ select {
   font-size: 0.8rem;
 }
 
-.work-discovery__scope{margin:0;color:var(--text-soft);font-size:.78rem}
-
 .work-discovery__list {
   overflow: hidden;
-  border:1px solid var(--border-subtle);
 }
 
 .sr-only {
@@ -320,12 +322,12 @@ select {
   accent-color: var(--accent);
 }
 
-.work-discovery__scope {
-  color: var(--text-soft);
-}
-
 .work-discovery__options-panel {
   background: var(--surface-raised);
+}
+
+@media (max-width: 980px) {
+  .work-discovery__workspace--preview { grid-template-columns: minmax(0, 1fr); }
 }
 
 </style>

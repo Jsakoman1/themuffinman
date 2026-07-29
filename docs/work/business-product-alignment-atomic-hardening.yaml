@@ -1,0 +1,67 @@
+kind: work
+version: 1
+id: business-product-alignment-atomic-hardening
+title: Harden Business product-alignment execution scope
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-product-alignment-master.yaml
+execution_inventory: docs/work/business-product-alignment-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-workspace-repair-master.yaml
+  baseline_only_surfaces:
+  - Existing Business owner and public booking contracts remain baseline except named
+    residual paths.
+  residual_scope:
+  - Validate the new master
+  - child plans
+  - and serial inventory before implementation.
+  retest_triggers:
+  - Any change to master
+  - child task bounds
+  - or execution order.
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted
+    as new completion.
+tasks:
+- id: harden-business-product-alignment-scope
+  title: Confirm bounded repairs and truthful capability decisions
+  type: analysis
+  status: done
+  inventory_item: hardening
+  observable_outcome: The execution inventory has one atomic outcome per task, exact
+    paths, bounded validations, and documented decisions to remove unsupported booking
+    controls rather than invent backend behaviour.
+  dependencies: []
+  evidence_boundary:
+  - Verified scope artifact and strict plan verifier evidence.
+  paths:
+  - docs/work/business-product-alignment-master.yaml
+  - docs/work/business-product-alignment-execution-inventory.yaml
+  - docs/work/business-product-alignment-preflight.md
+  required_paths:
+  - docs/work/business-product-alignment-preflight.md
+  validation: ruby scripts/audits/audit-work-plan-recursion.rb
+  started_at: '2026-07-29T09:21:00Z'
+  start_fingerprints:
+    docs/work/business-product-alignment-preflight.md: 7ed53215c94167f8621c6509ae1e7a1a70d35e974facb767274504a034e0f49e
+evidence:
+- task: harden-business-product-alignment-scope
+  command: ruby scripts/audits/audit-work-plan-recursion.rb
+  ranAt: '2026-07-29T09:21:12Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/business-product-alignment-execution-inventory.yaml
+  - docs/work/business-product-alignment-master.yaml
+  - docs/work/business-product-alignment-preflight.md
+  output: "Work-plan recursion audit passed (no recursive validation commands).\n\n"
+  startedAt: '2026-07-29T09:21:00Z'
+  changedAfterStart: &1
+  - docs/work/business-product-alignment-preflight.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

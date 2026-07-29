@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue"
+import {computed, onMounted, ref, watch} from "vue"
 import type {BusinessBookingResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppDialog from "../components/AppDialog.vue"
@@ -13,6 +13,7 @@ import {confirmAction} from "../composables/useActionDialog.ts"
 import {formatDateTime} from "../../../services/formatters.ts"
 import {RouterLink, useRoute} from "vue-router"
 const route = useRoute()
+const props = defineProps<{businessId: number}>()
 
 const bookings = ref<BusinessBookingResponseDTO[]>([])
 // Owner booking controls are rendered only from each booking's allowedActions.
@@ -25,19 +26,36 @@ const rescheduleStart = ref("")
 const rescheduleEnd = ref("")
 const selectedBookingId = ref<number | null>(Number(route.params.bookingId) || null)
 const selectedBooking = computed(() => bookings.value.find((booking) => booking.id === selectedBookingId.value) ?? null)
+const now = () => Date.now()
+const bookingGroups = computed(() => {
+  const pending = bookings.value.filter(booking => booking.status === "PENDING_CONFIRMATION")
+  const upcoming = bookings.value.filter(booking => booking.status !== "PENDING_CONFIRMATION" && new Date(booking.startsAt).getTime() >= now())
+  const history = bookings.value.filter(booking => booking.status !== "PENDING_CONFIRMATION" && new Date(booking.startsAt).getTime() < now())
+  return [{id: "pending", title: "Needs attention", items: pending}, {id: "upcoming", title: "Upcoming", items: upcoming}, {id: "history", title: "Past and cancelled", items: history}].filter(group => group.items.length)
+})
 
 const formatDate = (value: string) => formatDateTime(value, "Unknown time")
+const actionOutcome = (booking: BusinessBookingResponseDTO) => {
+  const actions = booking.allowedActions
+  if (actions.includes("CONFIRM")) return "Confirming reserves this appointment and tells the customer it is confirmed."
+  if (actions.includes("REJECT")) return "Rejecting releases this request and tells the customer it cannot be accepted."
+  if (actions.includes("COMPLETE")) return "Completing records that the appointment took place."
+  if (actions.includes("MARK_NO_SHOW")) return "Marking no-show records that the customer did not attend."
+  if (actions.includes("RESCHEDULE")) return "Rescheduling proposes a new time after the server checks availability."
+  if (actions.includes("CANCEL") || actions.includes("CANCEL_AS_OWNER")) return "Cancelling ends this booking and tells the customer it is no longer happening."
+  return "This booking has no action available right now."
+}
 
 const load = async () => {
   isLoading.value = true
   error.value = ""
-  try { bookings.value = (await userShellApi.getBusinessOwnerBookings()).items }
+  try { bookings.value = (await userShellApi.getBusinessOwnerBookings(props.businessId)).items }
   catch { error.value = "Could not load bookings." }
   finally { isLoading.value = false }
 }
 
 const execute = async (booking: BusinessBookingResponseDTO, action: "confirm" | "reject" | "cancel" | "complete" | "mark-no-show") => {
-  if ((action === "cancel" || action === "reject") && !await confirmAction(`${action === "cancel" ? "Cancel" : "Reject"} this booking?`, `${action === "cancel" ? "Cancel" : "Reject"} booking`)) return
+  if ((action === "cancel" || action === "reject") && !await confirmAction(`${action === "cancel" ? "Cancel" : "Reject"} this booking? The customer will see that it is no longer going ahead.`, `${action === "cancel" ? "Cancel" : "Reject"} booking`)) return
   isActing.value = booking.id
   error.value = ""
   feedback.value = ""
@@ -48,25 +66,26 @@ const execute = async (booking: BusinessBookingResponseDTO, action: "confirm" | 
 const beginReschedule = (booking: BusinessBookingResponseDTO) => { rescheduling.value = booking.id; rescheduleStart.value = booking.startsAt.slice(0, 16); rescheduleEnd.value = booking.endsAt.slice(0, 16) }
 const reschedule = async (booking: BusinessBookingResponseDTO) => { isActing.value = booking.id; error.value = ""; try { await userShellApi.rescheduleBusinessBookingAsOwner(booking.id, new Date(rescheduleStart.value).toISOString(), new Date(rescheduleEnd.value).toISOString()); feedback.value = "Booking rescheduled."; rescheduling.value = null; await load() } catch { error.value = "Could not reschedule this booking. Check the selected time." } finally { isActing.value = null } }
 
+watch(() => props.businessId, () => void load())
 onMounted(() => void load())
 </script>
 
 <template>
   <section class="bookings-surface" data-owner-tab="bookings" data-calendar-scope="active-business" aria-label="Business bookings">
-    <CollectionToolbar title="Owner bookings" :count="bookings.length" :busy="isLoading"><template #actions><RouterLink to="/business/calendar">Open calendar</RouterLink></template></CollectionToolbar>
+    <CollectionToolbar title="Owner bookings" :count="bookings.length" :busy="isLoading"><template #actions><RouterLink :to="{path: '/business/calendar', query: {businessId: String(props.businessId)}}">Open calendar</RouterLink></template></CollectionToolbar>
     <AppStatus v-if="feedback" :message="feedback" tone="success" /><AppStatus v-if="isLoading" message="Loading bookings." busy /><AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" /><AppStatus v-else-if="bookings.length === 0" message="No bookings yet." />
     <div v-else class="bookings-surface__workspace">
       <div class="bookings-surface__list">
-      <SurfaceRow v-for="booking in bookings" :key="booking.id" :row="{id: `booking-${booking.id}`, title: booking.businessOfferingTitle, description: `${booking.customerUsername} · ${formatDate(booking.startsAt)}`, meta: booking.blockingReason || booking.statusLabel, badge: booking.statusLabel}" :selected="selectedBookingId === booking.id" @click="selectedBookingId = booking.id">
+      <template v-for="group in bookingGroups" :key="group.id"><p class="bookings-surface__group-title">{{ group.title }} · {{ group.items.length }}</p><SurfaceRow v-for="booking in group.items" :key="booking.id" :row="{id: `booking-${booking.id}`, title: booking.businessOfferingTitle, description: `${booking.customerUsername} · ${formatDate(booking.startsAt)}`, meta: booking.blockingReason || booking.statusLabel, badge: booking.statusLabel}" :selected="selectedBookingId === booking.id" @click="selectedBookingId = booking.id">
         <template #actions><div class="bookings-surface__actions" aria-label="Booking actions">
-          <AppButton v-if="booking.allowedActions.includes('CONFIRM')" type="button" tone="primary" :loading="isActing === booking.id" @click="execute(booking, 'confirm')">Confirm</AppButton>
-          <AppButton v-if="booking.allowedActions.includes('REJECT')" type="button" tone="danger" :loading="isActing === booking.id" @click="execute(booking, 'reject')">Reject</AppButton>
-          <AppButton v-if="booking.allowedActions.includes('COMPLETE')" type="button" tone="primary" :loading="isActing === booking.id" @click="execute(booking, 'complete')">Complete</AppButton>
+          <AppButton v-if="booking.allowedActions.includes('CONFIRM')" type="button" tone="primary" :loading="isActing === booking.id" @click="execute(booking, 'confirm')">Confirm request</AppButton>
+          <AppButton v-if="booking.allowedActions.includes('REJECT')" type="button" tone="danger" :loading="isActing === booking.id" @click="execute(booking, 'reject')">Reject request</AppButton>
+          <AppButton v-if="booking.allowedActions.includes('COMPLETE')" type="button" tone="primary" :loading="isActing === booking.id" @click="execute(booking, 'complete')">Mark complete</AppButton>
           <AppButton v-if="booking.allowedActions.includes('MARK_NO_SHOW')" type="button" tone="danger" :loading="isActing === booking.id" @click="execute(booking, 'mark-no-show')">No-show</AppButton>
           <AppButton v-if="booking.allowedActions.includes('RESCHEDULE')" type="button" tone="secondary" :disabled="isActing === booking.id" @click="beginReschedule(booking)">Reschedule</AppButton>
           <AppButton v-if="booking.allowedActions.includes('CANCEL') || booking.allowedActions.includes('CANCEL_AS_OWNER')" type="button" tone="danger" :loading="isActing === booking.id" @click="execute(booking, 'cancel')">Cancel</AppButton>
           <AppDialog :open="rescheduling === booking.id" title="Reschedule booking" layout="workspace" @close="rescheduling = null"><form class="bookings-surface__reschedule" @submit.prevent="reschedule(booking)"><AppFormField label="Start" required><input v-model="rescheduleStart" type="datetime-local" required></AppFormField><AppFormField label="End" required><input v-model="rescheduleEnd" type="datetime-local" required></AppFormField><AppFormFooter><template #secondary><AppButton type="button" tone="secondary" @click="rescheduling = null">Cancel</AppButton></template><template #primary><AppButton type="submit" tone="primary" :loading="isActing === booking.id">Save changes</AppButton></template></AppFormFooter></form><template #utility><p>The server checks the requested period against availability and existing booking rules before accepting the reschedule.</p></template></AppDialog></div></template>
-      </SurfaceRow>
+      </SurfaceRow></template>
       </div>
       <aside v-if="selectedBooking" class="bookings-surface__preview" aria-label="Booking context">
         <p class="bookings-surface__eyebrow">Booking context</p>
@@ -79,7 +98,7 @@ onMounted(() => void load())
         </dl>
         <p v-if="selectedBooking.blockingReason" class="bookings-surface__preview-note">{{ selectedBooking.blockingReason }}</p>
         <p v-if="selectedBooking.customerNote" class="bookings-surface__preview-note"><strong>Customer note:</strong> {{ selectedBooking.customerNote }}</p>
-        <p class="bookings-surface__preview-note">Available actions are controlled by the booking policy.</p>
+        <p class="bookings-surface__preview-note"><strong>What happens next:</strong> {{ actionOutcome(selectedBooking) }}</p>
       </aside>
       <aside v-else class="bookings-surface__preview bookings-surface__preview--empty" aria-label="Booking context"><p class="bookings-surface__eyebrow">Booking context</p><h2>Select a booking</h2><p>Details appear here when you select a booking.</p></aside>
     </div>
@@ -92,6 +111,7 @@ onMounted(() => void load())
 .bookings-surface{gap:var(--space-3);max-width:none}.bookings-surface button,.bookings-surface input,.bookings-surface select{border-radius:var(--radius-control)}
 .bookings-surface__workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(16rem,22rem); gap:var(--space-3); align-items:start; }
 .bookings-surface__list { gap: 0; overflow: hidden; border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); background: var(--surface-base); }
+.bookings-surface__group-title{margin:0;padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--border-subtle);background:var(--surface-raised);color:var(--text-muted);font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold)}
 .bookings-surface__preview { display:grid; gap:var(--space-2); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
 .bookings-surface__preview h2,.bookings-surface__preview p { margin:0; }
 .bookings-surface__preview h2 { color:var(--text); font-size:var(--text-size-title); }

@@ -1,0 +1,9 @@
+{
+  "result": "passed",
+  "browserErrors": [],
+  "checks": {
+    "inbox": true,
+    "recovery": true,
+    "context": true
+  }
+}

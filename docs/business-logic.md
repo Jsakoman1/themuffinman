@@ -26,28 +26,36 @@ This document explains the product in user-facing terms. It is meant to stay ali
 
 ## Authenticated Web completion rules
 
-Home is the authenticated starting point and base camp, not a second navigation system. It shows only active, viewer-scoped items grouped into Work, Business, Services, Things, People, and Rides. Work includes jobs the user applied for and new applications to the user's jobs; Business includes incoming reservations for owned businesses; Services includes appointments booked with other businesses; People shows connection requests; Things shows sent and received borrow requests; Rides shows active offers and joined rides. Each item opens the canonical module surface, while the left navigation remains responsible for full browsing and discovery.
+Home is the authenticated starting point and base camp, not a second navigation system. It opens as a personal-day overview that frames the next attention decision before module summaries. Its backend-prepared Attention Center shows only resumable or routable updates. It then shows active, viewer-scoped items grouped into Work, Business, Services, Things, People, and Rides. Work includes jobs the user applied for and new applications to the user's jobs; Business includes incoming reservations for owned businesses; Services includes appointments booked with other businesses; People shows connection requests; Things shows sent and received borrow requests; Rides shows active offers and joined rides. Each item opens the canonical module surface, while the left navigation remains responsible for full browsing and discovery.
 
 The authenticated navbar has seven primary destinations: Home, Work, Business, Services, Things, People, and Rides. Business opens the user's own-business overview; its individual business list belongs inside that page and is not repeated as navbar children. Services is the public-business discovery workspace with Find service and individual favorite-business quick links (favorites are not represented as one generic group link). Work has My work, Find work, and Applications. Things defaults to My things and also has Find things. People has Overview and Circles. Rides defaults to My rides and also has Find ride. Chat and Calendar remain available under More so they stay reachable without competing with the core module rail.
 
 Home is intentionally compact: six module cards show only relevant active rows and backend-provided basic actions such as creating work, finding a service, listing a thing, managing circles, or offering a ride. It does not list owned businesses as rows. Calendar is part of Home, defaults to Week, and can switch to Day or Month; an empty period still renders its date grid so an empty calendar is distinguishable from a failed load.
+
+Across authenticated modules, the same human-first presentation sequence applies: show the person’s current scope and any action that needs attention, make the next useful action understandable, retain context while inspecting a selected item, explain what a permitted decision changes, and end with a clear completion or recovery path. These are presentation conventions only; the backend remains authoritative for all actions, permissions, and workflow states.
+
+The current owned-stack Chromium route-family trace covers Home, Work, Things, Rides, People, Calendar, Chat, Profile settings, Saved searches, and the contextual Vision entry. Each authenticated route loaded its human-first orientation without a browser error; detailed lifecycle and mutation evidence remains owned by its relevant module acceptance scenarios.
 
 The authenticated shell has no duplicate topbar navigation. Route context is already visible through the active left-rail item and the page surface. Account actions live in the navbar's Account section, including profile, profile settings, setup guide, activity, notification settings, and logout.
 
 The authenticated shell fails closed when `GET /workspace/navigation` is unavailable or returns no modules. The Web client does not render a local navigation tree, module children, or backend-derived workspace content as a fallback; it shows an unavailable state until the backend navigation contract is available.
 
 - Work has a dedicated Find Work surface and a direct Create new work action. The create and edit forms expose the full supported quest fields: title, rich description, award, worker slots, approved-applicant visibility, fixed or flexible terms with start/end time, audience, and profile/custom location visibility. Creating a work item requires the user to review whether its terms are fixed; the Web form exposes this as the `Fixed terms` choice instead of silently guessing. Backend validation messages remain visible when a draft cannot be saved.
+- The Work first view identifies whether the person is looking for work or offering it, explains the immediate purpose in plain language, and offers one clear route to the other task without requiring a role setting.
 - Business management forms expose the complete profile, offering, booking-policy, and recurring availability fields. People/Circles forms match their narrow backend DTOs, Things expose listing availability and condition, Rides expose active status and circle visibility, and Applications expose applicant message/proposed price plus owner-side review context. A backend endpoint without a stable typed Web surface is documented as a boundary rather than silently treated as complete.
 - Canonical authenticated mutation routes are `/work/quests/new`, `/business/profile`, `/business/offerings`, `/business/availability-exceptions`, `/things` (with `scope=mine`), `/rides/mine`, `/people/circles`, `/work/applications`, and the quest application review route. The navbar and module tabs must lead to these routes rather than duplicate legacy entry points.
 - Worker assignment management exposes backend-owned allowed actions and typed stale-state conflict codes. If a quest, approved worker, or replacement application changed while the manager was acting, the client receives a recoverable code and refresh guidance instead of guessing whether the action succeeded.
+- Applicant review shows only the backend-permitted decision actions and explains the resulting applicant or assignment outcome before the owner acts. Declining an applicant requires an explicit confirmation; releasing a worker explains that the available slot will reopen.
 - Chat supports inbox loading, direct chat, group chat, and message sending from the Web surface. A group chat must include at least two other accepted circle contacts.
 - Chat realtime connections announce a structured `CONNECTED` state and whether a resync is required. The Web client displays the transport state and consumes workspace events through the `/ws/chat` endpoint; reconnect recovery is tracked explicitly by the transport, then clients use the existing conversation sync boundary rather than assuming that missed events were delivered.
+- Chat presents unread conversations as the inbox priority, names the selected conversation, explains reconnect recovery in plain language, and exposes a related workspace handoff when the conversation has authorized business, booking, work, thing, or circle context.
 - Chat attachments can be refreshed through the backend after an external URL expires. The server re-checks conversation or upload ownership and returns `AVAILABLE`, `EXPIRED`, or `UNAVAILABLE` with safe metadata; clients never refresh a URL directly or bypass chat authorization.
 - Before creating a group chat, clients can ask the backend whether the selected people are eligible. The response explains a typed reason such as `MINIMUM_PARTICIPANTS`, `SELF_INCLUDED`, `PARTICIPANT_NOT_FOUND`, or `CIRCLE_ACCESS_REQUIRED`, and supplies the next allowed action; group creation still rechecks eligibility authoritatively.
 - Leaving a group returns a typed membership transition. It identifies the conversation, confirms `LEFT`, and reports the replacement owner when the leaving user was the owner, so every client can close or refresh the stale thread safely.
 - An uploaded chat attachment has a backend-owned lifecycle. It starts `READY_TO_SEND`, can be explicitly `CANCELLED` before sending, becomes consumed exactly once when sent, and expires when its upload TTL ends. Removing an attachment from the Web composer also asks the backend to cancel its pending upload; local removal remains safe if the network is unavailable.
 - Circles, People, and Chat are connected through accepted-contact consent. Sending an invite does not by itself authorize direct or group chat; the recipient must accept first.
 - Calendar is a visual month, week, and day workspace. Business calendar data is optional for users without a business profile; available work events remain visible and the unavailable business portion is explained as recoverable.
+- Calendar keeps its visual week, day, and month views, but begins with an `Up next` summary so a person can see the next few commitments, their source, and the canonical place to act before working with filters or the time grid.
 - The authenticated Web workspace uses one persistent app-like module rail. Home, Work, Chat, Calendar, Business, Circles, Things, and Rides remain available as stable destinations; relevant child destinations and attention signals are prepared by the backend, while the browser controls only presentation and route highlighting.
 
 For stable cross-module terminology, start with `docs/cross-domain-glossary.md`.
@@ -75,6 +83,7 @@ Current covered modules:
 - Vision discovery returns a typed result state: `RESULTS`, `EMPTY_QUERY`, or `NO_MATCHES`. Empty states also provide a backend-owned recovery action (`ENTER_QUERY`, `REFINE_QUERY`, or `REMOVE_FILTER`) so the user gets a clear next step without the client guessing.
 - Vision quest discovery also returns the current page, page size, and a page-aware `hasMore` value, so the Web client can offer “Show more” only when another slice exists and can recover from an empty or no-match request without looping.
 - Vision discovery can be narrowed by an explicit entity family (`quest`, `circle`, `user`, `application`, or `thing`). The backend validates the filter, returns only authorized matches, and supplies the canonical detail route for each result so a spoken request can hand off to the correct detail surface.
+- Saved searches describe a person’s continuing need rather than an internal query object, including the consequence of pausing or deleting it. Vision preserves its originating workspace context and offers a safe return link, while backend-prepared review and canonical result handoffs remain the only source of workflow actions.
 - Complex information should be shown visually when that is clearer than explaining it only through audio.
 - The authenticated frontend now also includes an experimental `/vision` screen that demonstrates this direction with a centered animated agent and an inline prompt surface inside the same adaptive canvas.
 - The `/vision` shell is intentionally terminal-first: the main conversation rail stays compact and left-aligned, while richer preview content is reserved for the right-side panel only when it adds real user value.
@@ -254,10 +263,12 @@ Location lookup recovery:
 ### Profile and profile view
 
 - A profile is more than identity basics; it also includes avatar, rich-text description, and location settings.
+- The Profile first view is a calm account summary: it shows the person's identity, a plain-language privacy posture, and one next action. It does not expose editing controls or advanced location settings until the person intentionally opens Profile settings.
 - Profile description is sanitized before being returned.
 - Avatar input is normalized before save.
 - Current-location updates are a distinct capability from free-text address edits and require trusted device coordinates or reverse lookup before save.
 - Profile Settings provides a direct location editor. Users can turn location off, choose approximate or exact mode, set a default nearby-search radius, resolve a place by search, or resolve the browser's current coordinates. Enabled location modes require a resolved candidate; denied browser permission falls back to manual search.
+- The location settings first ask one plain-language sharing decision: keep location off, share an approximate area, or share an exact address. Exact-address recipients are chosen before place lookup; radius and other refinements remain secondary controls.
 - Profile Settings also provides inline editing for the username and profile description through the same backend-owned save action as location settings. Validation errors preserve the last valid profile and location state.
 - Exact location visibility now exposes selectable owned circles or accepted circle contacts in Profile Settings. Changing the location text clears any previously resolved candidate, and scoped exact visibility cannot be saved without at least one selected recipient.
 - Public profile view is relation-aware, so the same profile can expose different primary actions depending on who is viewing it.
@@ -592,6 +603,7 @@ Location lookup recovery:
 
 - Memberships connect a contact to one of the owner's circles.
 - A user can only be organized into circles if the two users are already connected.
+- Membership management happens within the selected circle detail: an owner can add one accepted connection or remove a current member without returning to people search or retaining a selection from another tab.
 - Bulk update operations add or remove one owned circle across multiple connected people.
 - Unassigned contacts are valid and visible as a first-class state.
 
@@ -600,6 +612,7 @@ Location lookup recovery:
 - The overview summarizes connection count, unassigned connections, incoming requests, and outgoing requests.
 - Contacts are shaped from accepted relations plus membership information owned by the current user.
 - Request lists are split into incoming and outgoing views with different action labels.
+- A connection request is presented as a standalone trust decision. Accepting creates a connection only; adding that person to a circle remains a later, explicit group-sharing action.
 
 ### Search and nearby discovery
 
@@ -838,6 +851,7 @@ Location lookup recovery:
 - Presentation data also comes from the backend: status labels, badge classes, helper text, action labels, and visibility booleans.
 - The frontend is expected to render many workmarket states from server-prepared labels and flags instead of re-deriving business meaning on the client.
 - Rides and Things now expose backend-owned `allowedActions` in their response contracts. The web surface uses those actions for edit, borrow, join, leave, start, complete, cancel, approve, decline, and return controls; local UI state remains limited to selection, dialogs, loading, and feedback.
+- Chat opens as an inbox: unread and priority conversations explain what to continue first, while reconnect status and the explicit refresh action keep recovery understandable without losing draft or conversation context.
 - Vision transport uses the generated contract at the API boundary and a named presentation adapter for nullable canvas/view-model details, keeping text/voice presentation concerns portable for future native clients.
 
 ### Cross-module dependencies
@@ -852,7 +866,7 @@ Location lookup recovery:
 
 ### What the module does
 
-- Business Hub lets an authenticated user publish one business profile tied to their account.
+- Business Hub lets an authenticated user publish and manage one or more business profiles tied to their account.
 - Active business profiles appear in a directory and can be opened as a public business page. The favorite-business view is filtered by the backend for the current user; the browser does not fetch the full public directory and filter favorites locally.
 - A business may also publish bookable offerings, availability rules, booking policy defaults, gallery images, and owner schedule reads.
 - Booking workflow is backend-owned so the same contract can later support web, iPhone, and `/vision` clients without duplicating rules in the UI.
@@ -861,22 +875,34 @@ Location lookup recovery:
 
 - Business directory
 - Public business page
-- Current user's business profile editor
-- Current user's offering list and booking policy editor
-- Current user's availability editor
+- Selected-business owner workspace: Overview, Calendar, Bookings, Services, and Settings
+- Settings for the selected profile: public identity, gallery, booking policy, recurring availability, and one-off exceptions
 - Public availability read and customer booking flow
 - Owner booking list, owner booking actions, and owner dashboard summary
-- Owner calendar projection for backend-prepared day-by-day schedule review
+- Owner calendar projection for backend-prepared day, week, and full six-week month schedule review
 
 ### Business profile rules
 
-- Each account can own at most one business profile.
+- An account may own multiple business profiles. Every private owner route has one explicit selected business context; changing it never mixes bookings, services, or configuration from another owned profile.
 - Business name is required.
 - Slug is unique across business profiles and may be auto-generated from the business name when left blank.
 - Inactive profiles stay editable by their owner but do not appear in the public directory or public slug lookup.
 - Business descriptions are sanitized before being returned.
 - Booking can be enabled or disabled per business profile.
 - Business timezone is required before owner availability or real bookings can be used.
+
+### Owner workspace navigation
+
+- The private owner workspace is distinct from public discovery and customer bookings. Owners use one selected-business workspace with Overview, Calendar, Bookings, Services, and Settings; customers use the directory, public business page, and their own booking history.
+- First-time owners create only a name, customer-facing headline, service area, and time zone. A readiness checklist then points to the next missing service, working-hours, or booking-acceptance action.
+- Settings are organized by owner intention: Public page, Working hours, Booking rules, and Advanced. Normal service setup asks for name, description, price, duration, and confirmation behavior before any schema, capacity, or resource detail.
+- Working hours describe normal opening times; Special dates describe a temporary closure or different opening hours. Capacity, effective dates, and other scheduling controls remain available only as contextual advanced options.
+- The selected business is explicit in owner URLs. Booking links preserve `businessId`, and service setup preserves both `businessId` and `offeringId`, so opening a link cannot silently switch to another owned profile or service.
+- Overview is a concise operating summary for the selected business. Calendar shows bookings only, with backend-backed day, week, and six-week month views plus backend-provided actions. It is not an availability editor.
+- On narrow screens, the owner Calendar keeps Day and Week and renders Month as a chronological agenda of booked days. It uses the same backend calendar projection as the desktop grid, rather than squeezing a six-week grid into a single column.
+- Services owns the catalog and the focused service-rules flow. Every visible service-rule control saves a server-validated offering field; temporary templates or unsaved suggestions are not presented as configuration. A direct service-setup link opens its requested persisted offering when supplied.
+- Settings owns public identity, gallery, booking policy, and recurring weekly availability. One-off blocked or replacement windows are reached from Availability as Exceptions, then return to the same selected business settings context.
+- The global Calendar remains an aggregate cross-module surface. It does not replace the selected-business owner calendar.
 
 ### Business booking rules
 
@@ -887,9 +913,15 @@ Location lookup recovery:
 - Availability is entered in the local business timezone through recurring rules plus exception rows.
 - Booking persistence stores absolute `startsAt` and `endsAt` timestamps and still returns timezone context in DTOs.
 - DST handling belongs to the backend availability and booking rules, not to frontend-only logic.
+- Public booking is date-first. The customer chooses a business-local date, and the backend resolves that date's exact UTC range from the business timezone before returning valid slots. The browser never derives availability ranges or local-date boundaries on its own.
+- A slot shown to a customer is a single bookable interval. Its duration may be longer than the spacing between possible start times; backend booking validation accepts that exact offered start/end pair and then applies capacity and policy checks.
 - `INSTANT` offerings create `CONFIRMED` bookings immediately.
 - `REQUEST` offerings create `PENDING_CONFIRMATION` bookings that still reserve capacity immediately.
+- For a request offering, the owner explicitly confirms the pending booking. The customer then reads the same persisted booking as `CONFIRMED`, and the selected-business calendar returns that confirmed booking in its overlapping date range.
 - Customer booking create supports idempotency keys so retries do not easily create duplicate reservations.
+- The public flow creates one persisted booking for the selected service and time. Recurring series, booking for another person, consent capture for a recipient, and booking attachments are not shown until dedicated backend contracts persist and authorize them.
+- After a successful request, the customer sees the persisted service, status, local time, price snapshot or review outcome, and a direct route to My bookings rather than returning to an empty form.
+- Public discovery searches with the directory's backend query and may narrow loaded results only by published booking availability or a published area. It does not present unsupported availability-now, recurrence, staff, or proximity promises as filters.
 - Customer and owner booking lists start with backend pagination and filter contracts even before the UI needs the full surface.
 - The booking write surfaces are implemented by these backend use cases:
   - `business/service/BusinessCreateBookingUseCase.java`
@@ -903,10 +935,12 @@ Location lookup recovery:
 - Vision's `view_business_bookings` surface is a read-only guidance entry for business booking review, booking requests, and capacity-aware next steps; it must not invent booking state on the client.
 - Customer cancellation depends on business policy and the configured cancellation window.
 - Owner confirmation, rejection, cancellation, completion, and no-show marking are explicit backend transitions.
+- The owner Bookings tab shows a compact attention count when the selected business has pending confirmations. Booking detail explains the customer-facing consequence of its currently permitted action before the owner acts.
 - Historical bookings keep offering title, price, duration, and timezone snapshots so later offering edits do not rewrite history.
 - Owners configure resource pools, individual resources, and offering resource requirements directly from service setup. A reschedule rechecks and rebuilds the live resource assignment for the new interval atomically; the original booking snapshot remains unchanged as historical pricing and demand evidence.
 - Offering removal is archival-safe deactivation rather than destructive history loss.
 - Things borrowing currently supports listing discovery, detail, request, owner decision, borrower cancellation, and return. Listing update/archive remain separate Things concerns; voluntary car sharing is already offered through the Rides surface with optional circle-scoped visibility, matching, and an explicit trip lifecycle.
+- Things keeps three human purposes separate: `My things` is the owner inventory and incoming decisions, `Things to borrow` is discovery, and `My borrow requests` is the borrower’s own active request history. The Web client shows only backend-permitted controls and explains the availability consequence before an owner approves a request.
 - Owner schedule data can also be projected into a calendar-shaped backend read model that groups bookings by the business's local day so owner dashboards, booking lists, and mobile clients do not derive their own schedule buckets.
 - Gallery images are business-owned metadata rows and can be shown on the public page without changing booking workflow rules.
 - Thing borrow responses now explain their backend-owned lifecycle state and expose typed possible actions; clients must still submit mutations to the Thing service, which rechecks ownership, availability, and current status.
@@ -956,6 +990,9 @@ Location lookup recovery:
 ### What the module does
 
 - Voluntary Car Sharing lets an authenticated user publish a ride offer with origin, destination, departure time, and seat count.
+- Rides separates three purposes: `Find a ride` begins with a one-time route search, while consented commute matching stays collapsed until a person deliberately opens the optional regular-route setup. `My rides` contains only rides the person offered or joined and their current lifecycle controls. Before acting, the ride preview explains the participant or lifecycle consequence of each backend-permitted action.
+- People separates accepted connections, connection requests, and circles. Accepting a request creates a connection only; it does not grant private-profile access or add someone to a circle. Circles are an explicit shared context whose feature-specific permissions remain backend-owned.
+- Profile settings are organized by user intent: profile and appearance, location and privacy, and notification choices. Notification categories use human-facing areas such as messages, work, appointments, people, and account safety; backend-required notices remain enabled.
 - Ride offers can be public to authenticated users or scoped to circles owned by the driver.
 - Passenger reservation and lifecycle actions are explicit consent actions: join, leave, driver cancellation, start, and completion. Driver approval is not required; circle visibility and passenger confirmation are the consent boundary.
 
@@ -1199,11 +1236,13 @@ does not require reading or completing settings first.
 
 Runtime closeout validates meaningful route and state transitions rather than page-load screenshots or broad smoke traces.
 
+Business-parity usability closeout: the authenticated entry surfaces for Profile, Circles, Work, Rides, Home, and Chat use the same interaction contract as Business. Each begins with the person's current purpose and a clear next decision, keeps optional setup out of the primary path, and preserves backend-owned permissions, actions, and workflow state. Desktop and mobile runtime evidence is retained under `docs/runtime-evidence/human-usability-business-parity-*-2026-07-29.json`; a shared-shell or responsive-layout change requires a fresh route-specific review rather than assuming that a passing build proves visual usability.
+
 ## Flexible Business booking contract (2026-07-24)
 
 Businesses configure typed services with demand, options, quantity-aware pricing, shared capacity/resources, owner review, and fulfillment-specific availability. Booking writes preserve schema, price, demand, capacity, resource, condition, and timezone snapshots. Public Web and Vision consume the same backend schema, quote, availability, and booking boundaries.
 
-The authenticated Business workspace is viewer-scoped and supports an explicit aggregate “All businesses” context plus a selected business context. The public booking preview is available only for active businesses that have booking enabled; the backend remains authoritative for whether a service can be presented as bookable.
+The authenticated owner Business workspace is scoped to one explicitly selected owned profile. Aggregate personal scheduling belongs to the global Calendar, while public booking preview is available only for active businesses that have booking enabled. The backend remains authoritative for whether a service can be presented as bookable.
 ### Flexible booking runtime guarantees
 
 Quantity is visible in booking responses and is persisted with the submitted demand and selected options. If a slot's shared capacity is already consumed, a later booking receives a conflict response and must choose another generated slot; the frontend does not override that decision.

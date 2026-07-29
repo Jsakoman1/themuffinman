@@ -1,0 +1,82 @@
+kind: work
+version: 1
+id: business-human-first-ux-atomic-hardening
+title: Harden the human-first Business UX execution plan
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-human-first-ux-master.yaml
+execution_inventory: docs/work/business-human-first-ux-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-product-alignment-master.yaml
+  baseline_only_surfaces:
+  - Existing Business UI and backend contracts.
+  residual_scope:
+  - Verify atomic outcomes
+  - exact paths
+  - dependencies
+  - runtime evidence
+  - and deferred contract boundaries before implementation.
+  retest_triggers:
+  - Any change to plan task scope
+  - contract assumption
+  - or validation command.
+  non_duplication_rule: Prior plan verification is baseline-only.
+tasks:
+- id: harden-human-first-ux-tasks
+  title: Verify atomic scope and user-facing outcomes
+  type: documentation
+  status: done
+  inventory_item: harden-human-first-ux-plan
+  observable_outcome: Every queued UX task has one bounded user-visible outcome, exact
+    implementation paths, an explicit backend-contract dependency, and a leaf validation
+    command.
+  dependencies: []
+  evidence_boundary:
+  - Verifier-checked plan graph and hardened preflight artifact.
+  paths:
+  - docs/work/business-human-first-ux-master.yaml
+  - docs/work/business-human-first-ux-execution-inventory.yaml
+  - docs/work/business-human-first-ux-atomic-hardening.yaml
+  - docs/work/business-human-first-owner-onboarding.yaml
+  - docs/work/business-human-first-service-setup.yaml
+  - docs/work/business-human-first-hours-settings.yaml
+  - docs/work/business-human-first-customer-booking.yaml
+  - docs/work/business-human-first-closeout.yaml
+  - docs/work/business-human-first-ux-preflight.md
+  required_paths:
+  - docs/work/business-human-first-ux-preflight.md
+  validation: make audit-work-plan-recursion
+  started_at: '2026-07-29T10:12:16Z'
+  start_fingerprints:
+    docs/work/business-human-first-ux-preflight.md: 3a41630bea6c55af7549ab2fdbbe369ed12efa9d9109ebe6fe7fd89cb3c05f90
+evidence:
+- task: harden-human-first-ux-tasks
+  command: make audit-work-plan-recursion
+  ranAt: '2026-07-29T10:12:27Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/business-human-first-closeout.yaml
+  - docs/work/business-human-first-customer-booking.yaml
+  - docs/work/business-human-first-hours-settings.yaml
+  - docs/work/business-human-first-owner-onboarding.yaml
+  - docs/work/business-human-first-service-setup.yaml
+  - docs/work/business-human-first-ux-atomic-hardening.yaml
+  - docs/work/business-human-first-ux-execution-inventory.yaml
+  - docs/work/business-human-first-ux-master.yaml
+  - docs/work/business-human-first-ux-preflight.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+
+  startedAt: '2026-07-29T10:12:16Z'
+  changedAfterStart: &1
+  - docs/work/business-human-first-ux-preflight.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

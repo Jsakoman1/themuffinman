@@ -3,14 +3,25 @@ import fs from "node:fs"
 
 const frontendUrl = "http://localhost:5173"
 const backendUrl = "http://localhost:8080"
-const evidencePath = new URL("../../../../docs/runtime-evidence/business-booking-browser-2026-07-24.json", import.meta.url).pathname
+const evidencePath = process.env.WEB_RUNTIME_EVIDENCE_PATH
+  ?? new URL("../../../../docs/runtime-evidence/business-booking-browser-2026-07-24.json", import.meta.url).pathname
+const calendarScreenshotPath = process.env.WEB_VISUAL_EVIDENCE_PATH
+  ?? new URL("../../../../docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.png", import.meta.url).pathname
+const captureCalendarVisualEvidence = Boolean(process.env.WEB_RUNTIME_EVIDENCE_PATH)
 const browser = await chromium.launch({ headless: true })
 const errors = []
+const calendarRequests = []
 const result = { capturedAt: new Date().toISOString(), browser: "Playwright Chromium headless", scenarios: {}, browserErrors: [], result: "passed" }
 
 try {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: "reduce" })
+  const mobile = process.env.WEB_VIEWPORT === "mobile"
+  const page = await browser.newPage({ viewport: mobile ? { width: 390, height: 844 } : { width: 1440, height: 1000 }, reducedMotion: "reduce" })
   page.on("pageerror", error => errors.push(error.message))
+  page.on("response", response => {
+    if (response.url().includes("/business/bookings/owner/calendar")) {
+      calendarRequests.push({url: response.url(), status: response.status()})
+    }
+  })
   const authResponse = await page.request.post(`${backendUrl}/auth/login`, { data: { email: "test@test.com", password: "test123" } })
   const auth = await authResponse.json()
   if (authResponse.status() !== 200 || !auth.token) throw new Error(`owner auth failed: ${authResponse.status()}`)
@@ -23,11 +34,41 @@ try {
   await page.goto(`${frontendUrl}/login`, { waitUntil: "networkidle", timeout: 30000 })
   await page.evaluate(user => { localStorage.setItem("user", JSON.stringify(user)); localStorage.setItem("token", user.token) }, auth)
 
-  await page.goto(`${frontendUrl}/business/service-setup`, { waitUntil: "networkidle", timeout: 30000 })
+  const profilesResponse = await page.request.get(`${backendUrl}/business/profiles/me/all`, { headers: apiHeaders })
+  const profiles = await profilesResponse.json()
+  const ownerBusinessId = profiles[0]?.id
+  if (profilesResponse.status() !== 200 || !ownerBusinessId) throw new Error("owner business profile is required for calendar runtime evidence")
+
+  await page.goto(`${frontendUrl}/business/service-setup?businessId=${ownerBusinessId}`, { waitUntil: "networkidle", timeout: 30000 })
   result.scenarios.ownerSetup = { status: new URL(page.url()).pathname === "/business/service-setup" ? "passed" : "failed", route: new URL(page.url()).pathname, visibleText: (await page.locator("body").innerText()).slice(0, 400) }
 
-  await page.goto(`${frontendUrl}/business/calendar`, { waitUntil: "networkidle", timeout: 30000 })
-  result.scenarios.ownerCalendar = { status: new URL(page.url()).pathname === "/business/calendar" ? "passed" : "failed", route: new URL(page.url()).pathname, visibleText: (await page.locator("body").innerText()).slice(0, 400) }
+  await page.goto(`${frontendUrl}/business/calendar?businessId=${ownerBusinessId}`, { waitUntil: "networkidle", timeout: 30000 })
+  await page.getByRole("button", { name: "month" }).click()
+  await Promise.race([
+    page.locator(mobile ? ".owner-calendar__agenda" : ".owner-calendar__days--month").waitFor({ state: "visible", timeout: 10000 }),
+    page.getByText("Could not load this business calendar.").waitFor({ state: "visible", timeout: 10000 })
+  ])
+  if (await page.getByText("Could not load this business calendar.").count()) {
+    throw new Error(`owner calendar failed to load: ${JSON.stringify(calendarRequests)} ${(await page.locator("body").innerText()).slice(0, 800)}`)
+  }
+  if (captureCalendarVisualEvidence) await page.screenshot({ path: calendarScreenshotPath, fullPage: true })
+  result.scenarios.ownerCalendar = {
+    status: new URL(page.url()).pathname === "/business/calendar" && (mobile
+      ? await page.locator(".owner-calendar__agenda").count() === 1 && await page.getByRole("button", {name: "month"}).count() === 1
+      : await page.locator(".owner-calendar__weekday").count() === 7) ? "passed" : "failed",
+    route: new URL(page.url()).pathname,
+    businessId: ownerBusinessId,
+    requests: calendarRequests,
+    weekdayHeaders: await page.locator(".owner-calendar__weekday").count(),
+    monthDays: await page.locator(".owner-calendar__days--month .owner-calendar__day").count(),
+    agendaDays: await page.locator(".owner-calendar__agenda-day").count(),
+    visibleText: (await page.locator("body").innerText()).slice(0, 400)
+  }
+  result.scenarios.visionDockClearance = {
+    status: await page.locator(".vision-web-host__panel--persistent").count() === 1
+      && await page.locator(".app-shell__content").evaluate((element, minimum) => Number.parseFloat(getComputedStyle(element).paddingBottom) >= minimum, mobile ? 150 : 80) ? "passed" : "failed",
+    viewport: mobile ? "mobile" : "desktop"
+  }
 
   await page.goto(`${frontendUrl}/business/public/runtime-flexible-services`, { waitUntil: "networkidle", timeout: 30000 })
   result.scenarios.publicBusiness = { status: new URL(page.url()).pathname === "/business/public/runtime-flexible-services" ? "passed" : "failed", route: new URL(page.url()).pathname, visibleText: (await page.locator("body").innerText()).slice(0, 400) }

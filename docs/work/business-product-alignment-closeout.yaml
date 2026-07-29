@@ -1,0 +1,86 @@
+kind: work
+version: 1
+id: business-product-alignment-closeout
+title: Close out Business product-alignment repairs
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-product-alignment-master.yaml
+execution_inventory: docs/work/business-product-alignment-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-workspace-repair-master.yaml
+  baseline_only_surfaces:
+  - Previously verified business behavior and runtime evidence.
+  residual_scope:
+  - Document new alignment decisions and regression coverage only.
+  retest_triggers:
+  - Changes to Business logic
+  - technical documentation
+  - or regression scenarios.
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted
+    as new completion.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-impact-2026-07-29.md
+  disposition: reviewed
+tasks:
+- id: reconcile-business-alignment-docs-and-regressions
+  title: Align durable Business documents and regression catalog
+  type: documentation
+  status: done
+  inventory_item: closeout
+  observable_outcome: Business docs and regression scenarios distinguish supported
+    booking capabilities from deferred ones and describe strict selected-business
+    owner context.
+  dependencies:
+  - expose-only-backed-business-discovery-filters
+  evidence_boundary:
+  - Docs audit
+  - full relevant regression suite
+  - and master verification.
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  validation: make audit-docs
+  started_at: '2026-07-29T09:35:56Z'
+  start_fingerprints:
+    docs/business-logic.md: e209ca7e3cf8fc4b4c3cfd59f2e87c5161072c9edbe89ca8fadb517f85ad7f8b
+    docs/domain-technical.md: 78e740764abfef04e487cab3a822916dbd6af08cf72809d6b17e67360000db6b
+    docs/regression-scenario-catalog.yaml: 2feb6d34fe608cd44650fb96544f22b5a0c6c1baedfae50ed46c72553e72b9d9
+evidence:
+- task: reconcile-business-alignment-docs-and-regressions
+  command: make audit-docs
+  ranAt: '2026-07-29T09:36:39Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 350
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-29T09:35:56Z'
+  changedAfterStart: &1
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

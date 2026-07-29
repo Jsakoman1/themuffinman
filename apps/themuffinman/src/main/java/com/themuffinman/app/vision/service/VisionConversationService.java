@@ -5,7 +5,6 @@ import com.themuffinman.app.config.VisionProperties;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.common.normalization.TextValueNormalizer;
 import com.themuffinman.app.vision.dto.VisionConversationTurnRequestDTO;
-import com.themuffinman.app.vision.dto.VisionConversationListResponseDTO;
 import com.themuffinman.app.vision.dto.VisionConversationSummaryDTO;
 import com.themuffinman.app.vision.dto.VisionConversationTurnResponseDTO;
 import com.themuffinman.app.vision.dto.VisionWorkspaceHandoffDTO;
@@ -1649,14 +1648,6 @@ public class VisionConversationService {
                 emptyUnderstanding(),
                 visionExecutionPlanner.plan(conversation)
         );
-    }
-
-    @Transactional(readOnly = true)
-    public VisionConversationListResponseDTO listRecentConversations(AppUser currentUser) {
-        validateAccess(currentUser);
-        return VisionConversationListResponseDTO.builder()
-                .items(visionConversationReadModelAssembler.recentConversationSummaries(currentUser))
-                .build();
     }
 
     private VisionConversation loadOrCreateConversation(

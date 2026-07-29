@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-07-29T10:18:58.120Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "serviceBasics": {
+      "status": "passed",
+      "businessId": 228
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

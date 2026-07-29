@@ -17,8 +17,8 @@ import {getAppSurfaceConfig} from "../shellDefinitions.ts"
 const route = useRoute()
 const router = useRouter()
 const rawItems = ref<BusinessProfileResponseDTO[]>([])
-const intentFilter = ref<"ALL" | "BOOK_NOW" | "AVAILABLE_TODAY" | "NEAR_ME" | "OPEN_NOW" | "RECURRING" | "MULTI_CUSTOMER" | "STAFF_RESOURCES">("ALL")
-const matchesIntent = (business: BusinessProfileResponseDTO) => intentFilter.value === "ALL" || (intentFilter.value === "BOOK_NOW" && business.bookingEnabled) || (intentFilter.value === "NEAR_ME" && Boolean(business.publicAddressLabel)) || ["AVAILABLE_TODAY", "OPEN_NOW", "RECURRING", "MULTI_CUSTOMER", "STAFF_RESOURCES"].includes(intentFilter.value)
+const intentFilter = ref<"ALL" | "BOOK_NOW" | "WITH_AREA">("ALL")
+const matchesIntent = (business: BusinessProfileResponseDTO) => intentFilter.value === "ALL" || (intentFilter.value === "BOOK_NOW" && business.bookingEnabled) || (intentFilter.value === "WITH_AREA" && Boolean(business.publicAddressLabel))
 const items = computed(() => rawItems.value.filter(matchesIntent))
 const isFavoritesView = computed(() => route.path === "/business/favorites")
 const visibleItems = computed(() => items.value)
@@ -74,13 +74,12 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
 <template>
   <section class="business-discovery" data-preview-model="shared-adjacent-preview" data-business-page-model="discover-preview-book">
     <ModuleTabs :tabs="businessTabs" active-id="find" />
-    <SurfaceHeader :config="surface" :title="isFavoritesView ? 'Favorite businesses' : 'Find a service'" :description="isFavoritesView ? 'Your saved businesses, ready to revisit.' : 'Discover businesses and services by name, area, availability, or intent.'" />
+    <SurfaceHeader :config="surface" :title="isFavoritesView ? 'Favorite businesses' : 'Find a service'" :description="isFavoritesView ? 'Your saved businesses, ready to revisit.' : 'Discover businesses and services by name, then narrow results by published booking or area details.'" />
 
     <CollectionToolbar :title="isFavoritesView ? 'Favorite businesses' : 'Public businesses'" :count="visibleItems.length" :busy="isLoading" filter-summary="Search and refine">
       <template #filters>
         <AppSearchField v-model="query" label="Search businesses" placeholder="Search businesses" :busy="isLoading" @submit="submitSearch" />
-        <label class="business-discovery__intent"><span>Intent</span><select v-model="intentFilter" aria-label="Business discovery intent"><option value="ALL">All businesses</option><option value="BOOK_NOW">Book now</option><option value="AVAILABLE_TODAY">Available today</option><option value="NEAR_ME">Near me</option><option value="OPEN_NOW">Open now</option><option value="RECURRING">Recurring service</option><option value="MULTI_CUSTOMER">Multiple customers</option><option value="STAFF_RESOURCES">Employees/resources</option></select></label>
-        <small v-if="intentFilter !== 'ALL' && ['AVAILABLE_TODAY','OPEN_NOW','RECURRING','MULTI_CUSTOMER','STAFF_RESOURCES'].includes(intentFilter)" class="business-discovery__intent-note">This intent is not present in the current public read model; results remain unfiltered until backend capability data is available.</small>
+        <label class="business-discovery__intent"><span>Show</span><select v-model="intentFilter" aria-label="Business discovery filter"><option value="ALL">All businesses</option><option value="BOOK_NOW">Bookings available</option><option value="WITH_AREA">Published area</option></select></label>
       </template>
     </CollectionToolbar>
 
@@ -121,5 +120,5 @@ h1 { margin: 0; color: var(--text); font-size: var(--text-size-page-title); lett
 .business-context__link { display: inline-flex; margin-top: var(--space-2); font-weight: var(--text-weight-semibold); }
 @media (max-width: 860px) { .business-discovery__workspace { grid-template-columns: 1fr; } .business-context { border-left: 0; border-top: 1px solid var(--border-subtle); } }
 @media (max-width: 640px) { .business-discovery__header { align-items: start; flex-direction: column; } .business-discovery__search { width: 100%; } .business-discovery__search input { min-width: 0; width: 100%; } }
-.business-discovery__intent{display:inline-flex;align-items:center;gap:var(--space-1);color:var(--text-muted);font-size:var(--text-size-meta)}.business-discovery__intent select{min-height:var(--control-height-default);padding:var(--space-1) var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink);font:inherit}.business-discovery__intent-note{max-width:22rem;color:var(--text-soft)}
+.business-discovery__intent{display:inline-flex;align-items:center;gap:var(--space-1);color:var(--text-muted);font-size:var(--text-size-meta)}.business-discovery__intent select{min-height:var(--control-height-default);padding:var(--space-1) var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink);font:inherit}
 </style>

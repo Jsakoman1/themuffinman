@@ -1,0 +1,63 @@
+kind: master
+version: 1
+id: business-workspace-repair-master
+title: Repair Business owner workspace and calendar meaning
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-workspace-repair-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/business-workspace-repair-atomic-hardening.yaml
+objective: 'Make Business a coherent multi-business operating workspace: selected
+  profile context, owner overview, operational calendar, bookings, services, and settings
+  must each represent one clear owner task while customers retain an independent public
+  booking path.'
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/main-surfaces-modernization-master.yaml
+  baseline_only_surfaces:
+  - Public business discovery and booking flow remain unchanged unless a selected-business
+    contract change requires a focused regression test.
+  - Unified personal Calendar remains unchanged except where shared calendar extraction
+    is explicitly named.
+  residual_scope:
+  - Correct Business owner route-to-surface mapping and selected-business continuity.
+  - Deliver a true owner calendar using backend-selected profile context.
+  - Consolidate owner configuration into understandable Services and Settings destinations.
+  retest_triggers:
+  - Changes to business booking reads, profile context, calendar endpoint contracts,
+    owner routes, or public booking contracts.
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted
+    as new completion.
+children:
+- docs/work/business-workspace-repair-atomic-hardening.yaml
+- docs/work/business-workspace-dashboard-contract.yaml
+- docs/work/business-workspace-owner-navigation.yaml
+- docs/work/business-workspace-calendar-contract.yaml
+- docs/work/business-workspace-calendar-surface.yaml
+- docs/work/business-workspace-configuration-ia.yaml
+- docs/work/business-workspace-closeout.yaml
+exit_criteria:
+- The selected business is explicit in URL and every owner read/mutation surface uses
+  it consistently; aggregate scheduling remains on the global Calendar.
+- Overview is an operational dashboard for the selected business, not a second business
+  picker.
+- Business Calendar renders day, week, and month booking views for the selected business
+  and opens actionable booking detail.
+- Availability, exceptions, policy, resources, profile, and service setup have understandable
+  homes without duplicate workspace navigation.
+- Customer discovery, booking preview, quote, and My bookings semantics remain intact.
+- Backend tests, frontend type-check/build, targeted browser evidence, living docs,
+  and strict plan verification pass.
+evidence:
+- verifiedAt: '2026-07-29T09:08:01Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  children:
+  - docs/work/business-workspace-repair-atomic-hardening.yaml
+  - docs/work/business-workspace-dashboard-contract.yaml
+  - docs/work/business-workspace-owner-navigation.yaml
+  - docs/work/business-workspace-calendar-contract.yaml
+  - docs/work/business-workspace-calendar-surface.yaml
+  - docs/work/business-workspace-configuration-ia.yaml
+  - docs/work/business-workspace-closeout.yaml

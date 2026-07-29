@@ -30,5 +30,5 @@ const emit = defineEmits<{preview: []; open: []}>()
 .surface-row--informational > .surface-row__main, .surface-row--informational > .surface-row__meta { padding-inline: var(--space-3); }
 .surface-row__actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-1); min-width: 0; padding-right: var(--space-3); }
 .surface-row__actions :deep(a), .surface-row__actions :deep(button) { max-width: 100%; }
-@media (max-width: 700px) { .surface-row { grid-template-columns: minmax(0, 1fr); } .surface-row__meta { text-align: left; } .surface-row__vision { grid-column: 1; grid-row: auto; justify-self: start; } .surface-row__actions { justify-content: flex-start; flex-wrap: wrap; padding: 0 var(--space-3) var(--space-2); } }
+@media (max-width: 700px) { .surface-row { grid-template-columns: minmax(0, 1fr); } .surface-row__primary { grid-template-columns: minmax(0, 1fr); } .surface-row__meta { text-align: left; white-space: normal; } .surface-row__vision { grid-column: 1; grid-row: auto; justify-self: start; } .surface-row__actions { justify-content: flex-start; flex-wrap: wrap; padding: 0 var(--space-3) var(--space-2); } }
 </style>

@@ -1,0 +1,72 @@
+kind: execution_inventory
+version: 1
+id: business-product-alignment-execution-inventory
+master_plan: docs/work/business-product-alignment-master.yaml
+status: draft
+items:
+- id: hardening
+  plan: docs/work/business-product-alignment-atomic-hardening.yaml
+  task: harden-business-product-alignment-scope
+  status: verified
+  order: 1
+  started_at: '2026-07-29T09:21:00Z'
+  verified_at: '2026-07-29T09:21:12Z'
+  evidence:
+    plan: docs/work/business-product-alignment-atomic-hardening.yaml
+    task: harden-business-product-alignment-scope
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: owner-context
+  plan: docs/work/business-product-alignment-owner-context.yaml
+  task: preserve-owner-context-through-bookings-and-service-setup
+  status: verified
+  order: 2
+  started_at: '2026-07-29T09:21:12Z'
+  verified_at: '2026-07-29T09:22:20Z'
+  evidence:
+    plan: docs/work/business-product-alignment-owner-context.yaml
+    task: preserve-owner-context-through-bookings-and-service-setup
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: public-booking
+  plan: docs/work/business-product-alignment-public-booking.yaml
+  task: remove-unpersisted-public-booking-promises
+  status: verified
+  order: 3
+  started_at: '2026-07-29T09:22:25Z'
+  verified_at: '2026-07-29T09:23:16Z'
+  evidence:
+    plan: docs/work/business-product-alignment-public-booking.yaml
+    task: remove-unpersisted-public-booking-promises
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: calendar
+  plan: docs/work/business-product-alignment-calendar.yaml
+  task: render-calendar-month-with-real-week-semantics
+  status: verified
+  order: 4
+  started_at: '2026-07-29T09:23:16Z'
+  verified_at: '2026-07-29T09:34:51Z'
+  evidence:
+    plan: docs/work/business-product-alignment-calendar.yaml
+    task: render-calendar-month-with-real-week-semantics
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: discovery
+  plan: docs/work/business-product-alignment-discovery.yaml
+  task: expose-only-backed-business-discovery-filters
+  status: verified
+  order: 5
+  started_at: '2026-07-29T09:35:12Z'
+  verified_at: '2026-07-29T09:35:41Z'
+  evidence:
+    plan: docs/work/business-product-alignment-discovery.yaml
+    task: expose-only-backed-business-discovery-filters
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: closeout
+  plan: docs/work/business-product-alignment-closeout.yaml
+  task: reconcile-business-alignment-docs-and-regressions
+  status: verified
+  order: 6
+  started_at: '2026-07-29T09:35:56Z'
+  verified_at: '2026-07-29T09:36:44Z'
+  evidence:
+    plan: docs/work/business-product-alignment-closeout.yaml
+    task: reconcile-business-alignment-docs-and-regressions
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621

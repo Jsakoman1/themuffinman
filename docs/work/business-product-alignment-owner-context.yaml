@@ -1,0 +1,91 @@
+kind: work
+version: 1
+id: business-product-alignment-owner-context
+title: Preserve selected owner context through bookings and service setup
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-product-alignment-master.yaml
+execution_inventory: docs/work/business-product-alignment-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-workspace-repair-master.yaml
+  baseline_only_surfaces:
+  - Booking state transitions and selected-calendar endpoint authorization.
+  residual_scope:
+  - Explicit URL-to-request owner context and selected offering setup handoff.
+  retest_triggers:
+  - Changes to owner routes
+  - booking query parameters
+  - or service setup selection.
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted
+    as new completion.
+tasks:
+- id: preserve-owner-context-through-bookings-and-service-setup
+  title: Route exact business and offering context through owner flows
+  type: implementation
+  status: done
+  inventory_item: owner-context
+  observable_outcome: Bookings loads the URL-selected business profile and every service
+    setup handoff opens the selected offering inside that same business context.
+  dependencies:
+  - harden-business-product-alignment-scope
+  evidence_boundary:
+  - Frontend type-check/build and targeted route/API assertions.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+  started_at: '2026-07-29T09:21:12Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue: a3d7ddc227c2f71df3d6776b768daaae65832957ba86e0860f649e31583289fd
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: d76442f65ff82193592926dfe2f5347372daf90540b3c427f269dfd151b67804
+evidence:
+- task: preserve-owner-context-through-bookings-and-service-setup
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T09:22:19Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  output: |+
+    dist/assets/WorkQuestCreateView-B3rAKKFO.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-BBL-YuyL.js                   12.12 kB │ gzip:   3.99 kB
+    dist/assets/BusinessServiceSchemaView-BeI6lbbm.js             12.26 kB │ gzip:   4.04 kB
+    dist/assets/CirclesView-WBlr8d4X.js                           13.46 kB │ gzip:   4.31 kB
+    dist/assets/WorkPage-BvUr2j2R.js                              14.96 kB │ gzip:   5.50 kB
+    dist/assets/RidesView-y-nAwXfX.js                             15.24 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-PbInO_3E.js                    16.92 kB │ gzip:   6.14 kB
+    dist/assets/WorkQuestDetailView-BuuL52jX.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/ChatSurfaceView-d4sgh8IH.js                       18.64 kB │ gzip:   6.04 kB
+    dist/assets/ProfilePage-CnDmuNmZ.js                           24.54 kB │ gzip:   7.77 kB
+    dist/assets/HomeHubView-Db2uNSBV.js                           24.62 kB │ gzip:   7.31 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-BmeToXPD.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/BusinessOwnerPage-DIlTt-Ie.js                     50.09 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index--_Y4mgZ-.js                                 62.27 kB │ gzip:  15.42 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 552ms
+
+  startedAt: '2026-07-29T09:21:12Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

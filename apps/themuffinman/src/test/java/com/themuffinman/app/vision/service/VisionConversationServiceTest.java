@@ -124,6 +124,7 @@ class VisionConversationServiceTest {
     private VisionLearningService visionLearningService;
 
     private VisionConversationService visionConversationService;
+    private VisionConversationQueryService visionConversationQueryService;
     private AtomicLong conversationIds;
     private AtomicLong turnIds;
     private AppUser currentUser;
@@ -321,6 +322,10 @@ class VisionConversationServiceTest {
                 visionSurfacePolicy,
                 visionProperties,
                 visionLearningService
+        );
+        visionConversationQueryService = new VisionConversationQueryService(
+                visionConversationService,
+                visionConversationReadModelAssembler
         );
 
         lenient().when(questReadService.getQuestListPreset(
@@ -2100,7 +2105,7 @@ class VisionConversationServiceTest {
         turn.setAppliedSlotIds(List.of("location_mode"));
         when(visionTurnRepository.findTopByConversationOrderByTurnIndexDesc(conversation)).thenReturn(Optional.of(turn));
 
-        VisionConversationListResponseDTO response = visionConversationService.listRecentConversations(currentUser);
+        VisionConversationListResponseDTO response = visionConversationQueryService.listRecentConversations(currentUser);
 
         assertEquals(1, response.getItems().size());
         assertFalse(response.getItems().get(0).getAppliedSlotSummaries().isEmpty());
@@ -2992,7 +2997,7 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser)).thenReturn(List.of(conversation));
 
-        VisionConversationListResponseDTO response = visionConversationService.listRecentConversations(currentUser);
+        VisionConversationListResponseDTO response = visionConversationQueryService.listRecentConversations(currentUser);
 
         assertEquals(1, response.getItems().size());
         assertEquals("Complete", response.getItems().getFirst().getStageLabel());
@@ -3011,7 +3016,7 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser)).thenReturn(List.of(conversation));
 
-        VisionConversationListResponseDTO response = visionConversationService.listRecentConversations(currentUser);
+        VisionConversationListResponseDTO response = visionConversationQueryService.listRecentConversations(currentUser);
 
         assertEquals(1, response.getItems().size());
         assertEquals("Old sofa task", response.getItems().getFirst().getTitle());
@@ -3031,7 +3036,7 @@ class VisionConversationServiceTest {
 
         when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser)).thenReturn(List.of(conversation));
 
-        VisionConversationListResponseDTO response = visionConversationService.listRecentConversations(currentUser);
+        VisionConversationListResponseDTO response = visionConversationQueryService.listRecentConversations(currentUser);
 
         assertEquals(1, response.getItems().size());
         assertTrue(response.getItems().getFirst().isStale());
@@ -3054,7 +3059,7 @@ class VisionConversationServiceTest {
         when(visionConversationRepository.findTop5ByOwnerOrderByUpdatedAtDesc(currentUser))
                 .thenReturn(List.of(circlesConversation, questConversation));
 
-        VisionConversationListResponseDTO response = visionConversationService.listRecentConversations(currentUser);
+        VisionConversationListResponseDTO response = visionConversationQueryService.listRecentConversations(currentUser);
 
         assertEquals(2, response.getItems().size());
         assertEquals("circles", response.getItems().getFirst().getEntityFamily());

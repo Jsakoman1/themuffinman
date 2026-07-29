@@ -1,0 +1,72 @@
+kind: work
+version: 1
+id: business-workspace-dashboard-contract
+title: Scope owner dashboard data to the selected business
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-workspace-repair-master.yaml
+execution_inventory: docs/work/business-workspace-repair-execution-inventory.yaml
+tasks:
+- id: scope-owner-dashboard-to-selected-business
+  title: Accept and validate selected business context in the owner dashboard read
+    contract
+  type: implementation
+  status: done
+  inventory_item: owner-navigation
+  observable_outcome: Owner dashboard metrics and schedule summary belong to one explicitly
+    selected owned business.
+  dependencies:
+  - harden-business-repair-scope
+  evidence_boundary:
+  - JUnit coverage for selected profile filtering and invalid profile rejection.
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingRepository.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingRepository.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadServiceTest.java
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=BusinessOwnerDashboardReadServiceTest
+  started_at: '2026-07-29T08:42:44Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadService.java: 8e13af09bf1f8bc90a4795f2843a6ae985fd7e70d8948818791b612983e6313e
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadServiceTest.java: __missing__
+evidence:
+- task: scope-owner-dashboard-to-selected-business
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=BusinessOwnerDashboardReadServiceTest
+  ranAt: '2026-07-29T08:45:52Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOwnerDashboardController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingRepository.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadServiceTest.java
+  output: "[INFO] --- surefire:3.5.5:test (default-test) @ themuffinman ---\n[INFO]
+    Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO]
+    \n[INFO] -------------------------------------------------------\n[INFO]  T E
+    S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.business.service.BusinessOwnerDashboardReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.350 s -- in
+    com.themuffinman.app.business.service.BusinessOwnerDashboardReadServiceTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  11.969 s\n[INFO] Finished at: 2026-07-29T10:46:05+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-29T08:42:44Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerScheduleReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/repository/BusinessBookingRepository.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerDashboardReadServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

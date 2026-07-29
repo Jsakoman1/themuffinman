@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: business-product-alignment-discovery
+title: Make Business discovery controls backend-truthful
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-product-alignment-master.yaml
+execution_inventory: docs/work/business-product-alignment-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-workspace-repair-master.yaml
+  baseline_only_surfaces:
+  - Public directory endpoint and profile visibility rules.
+  residual_scope:
+  - Remove non-filtering discovery intents from the client.
+  retest_triggers:
+  - Changes to directory controls or filter handling.
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted
+    as new completion.
+tasks:
+- id: expose-only-backed-business-discovery-filters
+  title: Remove discovery filters that cannot filter public read data
+  type: implementation
+  status: done
+  inventory_item: discovery
+  observable_outcome: Business discovery exposes only filters backed by the current
+    public directory contract and no longer presents non-filtering intent controls
+    as active search tools.
+  dependencies:
+  - render-calendar-month-with-real-week-semantics
+  evidence_boundary:
+  - Frontend type-check/build and static surface validation.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run build
+  started_at: '2026-07-29T09:35:12Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue: 26adac992f8f5ff7383da7602f358f8031872d04a3a31e051748068c162003ba
+evidence:
+- task: expose-only-backed-business-discovery-filters
+  command: npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T09:35:40Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  output: |+
+    dist/assets/WorkQuestCreateView-D0xKuWZb.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-Drpzd5Vq.js                   12.12 kB │ gzip:   3.99 kB
+    dist/assets/BusinessServiceSchemaView-BKjkr9X1.js             12.26 kB │ gzip:   4.04 kB
+    dist/assets/CirclesView-ChFdSZ8j.js                           13.46 kB │ gzip:   4.31 kB
+    dist/assets/BusinessPublicView-cHJlXo8M.js                    14.01 kB │ gzip:   5.11 kB
+    dist/assets/WorkPage-DFWANtTH.js                              14.96 kB │ gzip:   5.50 kB
+    dist/assets/RidesView-DHlQFuFF.js                             15.24 kB │ gzip:   4.86 kB
+    dist/assets/WorkQuestDetailView-DOcI_uPL.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-IoBL6aSp.js                       18.64 kB │ gzip:   6.03 kB
+    dist/assets/ProfilePage-CDdUcap3.js                           24.54 kB │ gzip:   7.76 kB
+    dist/assets/HomeHubView-riEvIFsl.js                           24.62 kB │ gzip:   7.30 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-Do6BSlvA.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/BusinessOwnerPage-DVY-Sflc.js                     50.37 kB │ gzip:  11.93 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-C9AEDCKS.js                                 62.27 kB │ gzip:  15.40 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 558ms
+
+  startedAt: '2026-07-29T09:35:12Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

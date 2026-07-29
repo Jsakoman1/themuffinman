@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: human-first-all-surfaces-atomic-hardening
+title: Harden the all-surfaces human-first execution inventory
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+master_plan: docs/work/human-first-all-surfaces-master.yaml
+serial_task_execution: true
+execution_inventory: docs/work/human-first-all-surfaces-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces: []
+  residual_scope:
+  - Split each module family into one independently observable delivery task with
+    exact source, documentation, and runtime evidence paths.
+  retest_triggers:
+  - Any child plan path or task boundary changes.
+  non_duplication_rule: This task hardens planning only and cannot claim product UX
+    completion.
+preflight_artifact: docs/work/human-first-all-surfaces-preflight.md
+tasks:
+- id: harden-all-surfaces-inventory
+  title: Create an ordered atomic execution inventory
+  type: planning
+  status: done
+  inventory_item: harden-all-surfaces-plan
+  observable_outcome: Every child plan has one bounded task at a time with explicit
+    dependencies, validation command, evidence boundary, and route-level runtime scenario.
+  dependencies: []
+  evidence_boundary:
+  - verifier-safe child plan inventory
+  paths:
+  - docs/work/human-first-all-surfaces-master.yaml
+  - docs/work/human-first-all-surfaces-atomic-hardening.yaml
+  - docs/work/human-first-all-surfaces-analysis.md
+  - docs/work/human-first-all-surfaces-execution-inventory.yaml
+  - docs/work/human-first-all-surfaces-foundation.yaml
+  - docs/work/human-first-home-work.yaml
+  - docs/work/human-first-things-rides.yaml
+  - docs/work/human-first-people-profile.yaml
+  - docs/work/human-first-calendar-chat-search.yaml
+  - docs/work/human-first-all-surfaces-closeout.yaml
+  - docs/work/human-first-all-surfaces-preflight.md
+  required_paths:
+  - docs/work/human-first-all-surfaces-master.yaml
+  - docs/work/human-first-all-surfaces-atomic-hardening.yaml
+  - docs/work/human-first-all-surfaces-analysis.md
+  - docs/work/human-first-all-surfaces-preflight.md
+  - docs/work/human-first-all-surfaces-execution-inventory.yaml
+  validation: make audit-work-plan-recursion
+  started_at: '2026-07-29T14:14:22Z'
+  start_fingerprints:
+    docs/work/human-first-all-surfaces-master.yaml: 391eb0f89661b8268cb57fdb0c0eafc3fd278e4b037fc145783cd6871764b438
+    docs/work/human-first-all-surfaces-atomic-hardening.yaml: 4469ce24685d39518aa9d0224fee47562caa0e347440bb77f39cb8c5660d8996
+    docs/work/human-first-all-surfaces-analysis.md: a23ec49e37b7207a8323b24604497731d69219871e1d8649f0d1afed7dda713a
+    docs/work/human-first-all-surfaces-preflight.md: 28d814b6ed65040fb0f9726c9fbeff7875797b15d05470db6ae3036b1ab6973e
+    docs/work/human-first-all-surfaces-execution-inventory.yaml: b050b91e1b4927b500af88192080b553d1a225590cbf3dfa8acba2acfc331b7b
+evidence:
+- task: harden-all-surfaces-inventory
+  command: make audit-work-plan-recursion
+  ranAt: '2026-07-29T14:14:48Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/human-first-all-surfaces-analysis.md
+  - docs/work/human-first-all-surfaces-atomic-hardening.yaml
+  - docs/work/human-first-all-surfaces-closeout.yaml
+  - docs/work/human-first-all-surfaces-execution-inventory.yaml
+  - docs/work/human-first-all-surfaces-foundation.yaml
+  - docs/work/human-first-all-surfaces-master.yaml
+  - docs/work/human-first-all-surfaces-preflight.md
+  - docs/work/human-first-calendar-chat-search.yaml
+  - docs/work/human-first-home-work.yaml
+  - docs/work/human-first-people-profile.yaml
+  - docs/work/human-first-things-rides.yaml
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+
+  startedAt: '2026-07-29T14:14:22Z'
+  changedAfterStart: &1
+  - docs/work/human-first-all-surfaces-master.yaml
+  - docs/work/human-first-all-surfaces-atomic-hardening.yaml
+  - docs/work/human-first-all-surfaces-analysis.md
+  - docs/work/human-first-all-surfaces-preflight.md
+  - docs/work/human-first-all-surfaces-execution-inventory.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,60 @@
+kind: master
+version: 1
+id: business-product-alignment-master
+title: Align Business surfaces with persisted product capabilities
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-product-alignment-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/business-product-alignment-atomic-hardening.yaml
+objective: Repair the remaining Business product-alignment gaps so selected owner
+  context is URL-explicit, public booking exposes only persisted capabilities, and
+  calendar/discovery controls truthfully represent backend data.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-workspace-repair-master.yaml
+  - docs/runtime-evidence/business-booking-browser-2026-07-24.json
+  baseline_only_surfaces:
+  - Existing booking state transitions, capacity validation, quote calculation, and
+    public profile visibility remain backend baselines.
+  - Global cross-module Calendar remains unchanged; this program changes only the
+    isolated Business calendar presentation.
+  residual_scope:
+  - Owner Bookings and Service setup must carry the selected business and offering
+    explicitly through routes and API requests.
+  - Public booking must not promise recurrence, third-party booking, or attachments
+    without persisted domain contracts.
+  - The owner month calendar and discovery controls must describe real data rather
+    than placeholder behaviour.
+  retest_triggers:
+  - Changes to business booking query parameters, owner routes, public booking inputs,
+    calendar rendering, or discovery filters.
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted
+    as new completion.
+children:
+- docs/work/business-product-alignment-atomic-hardening.yaml
+- docs/work/business-product-alignment-owner-context.yaml
+- docs/work/business-product-alignment-public-booking.yaml
+- docs/work/business-product-alignment-calendar.yaml
+- docs/work/business-product-alignment-discovery.yaml
+- docs/work/business-product-alignment-closeout.yaml
+exit_criteria:
+- Every owner booking and service configuration route is scoped by selected business,
+  and service setup opens the selected offering.
+- Public booking presents only capabilities persisted and validated by the backend.
+- Owner calendar has correct day/week/month semantics and discovery shows only backend-supported
+  filtering controls.
+- Living docs, regression catalog, targeted browser evidence, frontend checks, and
+  strict plan verification pass.
+evidence:
+- verifiedAt: '2026-07-29T09:36:44Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  children:
+  - docs/work/business-product-alignment-atomic-hardening.yaml
+  - docs/work/business-product-alignment-owner-context.yaml
+  - docs/work/business-product-alignment-public-booking.yaml
+  - docs/work/business-product-alignment-calendar.yaml
+  - docs/work/business-product-alignment-discovery.yaml
+  - docs/work/business-product-alignment-closeout.yaml

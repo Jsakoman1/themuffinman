@@ -1,0 +1,64 @@
+kind: work
+version: 1
+id: business-workspace-closeout
+title: Close out Business workspace repair
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-workspace-repair-master.yaml
+execution_inventory: docs/work/business-workspace-repair-execution-inventory.yaml
+tasks:
+- id: reconcile-business-docs-and-regressions
+  title: Align Business domain documentation and regression coverage with repaired
+    owner flows
+  type: documentation
+  status: done
+  inventory_item: business-closeout
+  observable_outcome: Living documentation and regression coverage describe the final
+    owner/customer workflow without stale calendar or navigation claims.
+  dependencies:
+  - consolidate-owner-configuration-destinations
+  evidence_boundary:
+  - Passing backend/frontend regression suite
+  - work-plan verification
+  - and documentation audit.
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  validation: make audit-docs
+  started_at: '2026-07-29T09:04:48Z'
+  start_fingerprints:
+    docs/business-logic.md: bfb0cebc8f2391bf58ad879937bd02ddcbe1d9d1e00bda05afecf0d25e50f5a8
+    docs/domain-technical.md: 652dda43cd61542da4a1424065d53464b43970b57497b3edda83c7f235264781
+evidence:
+- task: reconcile-business-docs-and-regressions
+  command: make audit-docs
+  ranAt: '2026-07-29T09:05:40Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/implementation-backlog.md
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 348
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-29T09:04:48Z'
+  changedAfterStart: &1
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

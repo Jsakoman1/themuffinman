@@ -171,6 +171,10 @@ watch(
     <main
       class="vision-surface__stage"
     >
+      <nav v-if="workspaceHandoff.contextLabel || workspaceHandoff.returnTo" class="vision-surface__launch-context" aria-label="Vision workspace context">
+        <span v-if="workspaceHandoff.contextLabel">Helping with: {{ workspaceHandoff.contextLabel }}</span>
+        <RouterLink v-if="workspaceHandoff.returnTo" :to="workspaceHandoff.returnTo">Back to workspace</RouterLink>
+      </nav>
       <div class="vision-surface__layout" :class="{ 'vision-surface__layout--preview': showDebugRail }">
         <section class="vision-surface__console" :aria-busy="isLoading || voiceState === 'processing'">
           <VisionCanvasRenderer
@@ -257,6 +261,9 @@ watch(
   position: relative;
 }
 
+.vision-surface__launch-context { display:flex; align-items:center; justify-content:space-between; gap:0.75rem; margin-bottom:0.75rem; padding:0.6rem 0.8rem; border:1px solid color-mix(in srgb, var(--vision-surface-ink) 14%, transparent); border-radius:0.8rem; background:rgba(255,255,255,.72); color:var(--vision-surface-ink); font-size:.875rem; }
+.vision-surface__launch-context a { color:inherit; font-weight:600; }
+
 .vision-surface__layout {
   min-width: 0;
   min-height: 0;
@@ -296,4 +303,6 @@ watch(
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+@media (max-width: 600px) { .vision-surface__launch-context { align-items:flex-start; flex-direction:column; } }
 </style>

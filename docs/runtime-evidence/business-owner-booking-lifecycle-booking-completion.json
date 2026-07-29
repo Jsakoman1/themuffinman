@@ -1,0 +1,29 @@
+{
+  "capturedAt": "2026-07-29T12:37:39.703Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "bookingCompletion": {
+      "status": "passed",
+      "slug": "runtime-flexible-services",
+      "offeringId": 112,
+      "date": "2026-08-01"
+    },
+    "ownerConfirmationLifecycle": {
+      "status": "passed",
+      "bookingId": 141,
+      "ownerStatus": "CONFIRMED",
+      "customerStatus": "CONFIRMED",
+      "calendarStatus": "CONFIRMED",
+      "calendarRange": {
+        "from": "2026-08-01T07:00:00.000Z",
+        "to": "2026-08-01T09:30:00.000Z"
+      }
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

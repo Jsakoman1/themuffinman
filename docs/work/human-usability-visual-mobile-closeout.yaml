@@ -1,0 +1,217 @@
+kind: work
+version: 1
+id: human-usability-visual-mobile-closeout
+title: Verify Business-parity visual and mobile usability
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-usability-business-parity-master.yaml
+execution_inventory: docs/work/human-usability-business-parity-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-all-surfaces-master.yaml
+  baseline_only_surfaces:
+  - Existing route-family trace
+  residual_scope:
+  - Visual hierarchy and mobile cognitive load
+  retest_triggers:
+  - Any preceding visual change
+  non_duplication_rule: New screenshots and browser trace must be captured after this
+    program's changes.
+tasks:
+- id: audit-desktop-business-parity
+  title: Audit desktop Business parity
+  type: documentation
+  status: done
+  inventory_item: audit-desktop-parity
+  observable_outcome: Desktop screenshots demonstrate calm hierarchy, visible next
+    actions, and controlled density on Profile, Circles, Work, Rides, Home, and Chat.
+  dependencies:
+  - focus-chat-on-inbox-recovery
+  evidence_boundary:
+  - frontend type-check/build
+  - desktop screenshots
+  - browser trace
+  paths:
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  required_paths:
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T15:17:04Z'
+  start_fingerprints:
+    docs/product-memory.md: 78293adda3fc748d08548763843a514461f100587cfff8e230031ad706362e58
+    docs/work/human-usability-business-parity-master.yaml: 18fb660952988559488e8723409b503bdc32cae642647e7fe82c0311e7829495
+- id: audit-mobile-business-parity
+  title: Audit mobile Business parity
+  type: documentation
+  status: done
+  inventory_item: audit-mobile-parity
+  observable_outcome: Mobile screenshots demonstrate that detail, actions, and recovery
+    remain understandable without desktop side rails.
+  dependencies:
+  - audit-desktop-business-parity
+  evidence_boundary:
+  - frontend type-check/build
+  - mobile screenshots
+  - browser trace
+  paths:
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  required_paths:
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T15:20:23Z'
+  start_fingerprints:
+    docs/product-memory.md: ea8f7ec997743b34eb04d70624629b750f6183df999d505f465d91e8b82b6753
+    docs/work/human-usability-business-parity-master.yaml: c48b3126806462e50a850912e8639593b7ecdb5904d9ba73c1b9aa8b0f613e20
+- id: close-business-parity-program
+  title: Close Business-parity program
+  type: documentation
+  status: done
+  inventory_item: close-business-parity-program
+  observable_outcome: Product documentation distinguishes achieved Business parity
+    from explicit remaining visual or runtime boundaries.
+  dependencies:
+  - audit-mobile-business-parity
+  evidence_boundary:
+  - frontend type-check/build
+  - master verification
+  paths:
+  - docs/business-logic.md
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T15:21:46Z'
+  start_fingerprints:
+    docs/business-logic.md: 0c007d45fb1a76c40eb950d7da3252f6a5c7a698f3a01270718dd08ad5611362
+    docs/product-memory.md: d27ef81e840953de1f716bcf3eae9d8c484d2ba036420e7f8388a49d754e9f89
+    docs/work/human-usability-business-parity-master.yaml: a4903f1b05ee119d6b8c136018354569206b94ab5e3354eaa5449d7dc664c0e5
+evidence:
+- task: audit-desktop-business-parity
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T15:20:10Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  output: |+
+    dist/assets/WorkQuestCreateView-ADDanElh.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-B9cC9HwZ.js                   12.80 kB │ gzip:   4.25 kB
+    dist/assets/BusinessServiceSchemaView-D0UxzQGf.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/CirclesView-BzbX9D_K.js                           15.31 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-VIT6eUfg.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-DZMFFpjL.js                              15.67 kB │ gzip:   5.75 kB
+    dist/assets/RidesView-CcwVDjS-.js                             17.01 kB │ gzip:   5.47 kB
+    dist/assets/WorkQuestDetailView-CYtAeg1e.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-DnNO554Y.js                       19.53 kB │ gzip:   6.31 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/HomeHubView-CKzWBmGo.js                           25.90 kB │ gzip:   7.70 kB
+    dist/assets/ProfilePage-CxKbOwaW.js                           26.80 kB │ gzip:   8.40 kB
+    dist/assets/AuthenticatedShellView-8Rea5HV2.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Bxd1s9rg.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-BAB3-2Qb.js                                 62.51 kB │ gzip:  15.45 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 564ms
+
+  startedAt: '2026-07-29T15:17:04Z'
+  changedAfterStart: &1
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: audit-mobile-business-parity
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T15:21:31Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  output: |+
+    dist/assets/WorkQuestCreateView-ADDanElh.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-B9cC9HwZ.js                   12.80 kB │ gzip:   4.25 kB
+    dist/assets/BusinessServiceSchemaView-D0UxzQGf.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/CirclesView-BzbX9D_K.js                           15.31 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-VIT6eUfg.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-DZMFFpjL.js                              15.67 kB │ gzip:   5.75 kB
+    dist/assets/RidesView-CcwVDjS-.js                             17.01 kB │ gzip:   5.47 kB
+    dist/assets/WorkQuestDetailView-CYtAeg1e.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-DnNO554Y.js                       19.53 kB │ gzip:   6.31 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/HomeHubView-CKzWBmGo.js                           25.90 kB │ gzip:   7.70 kB
+    dist/assets/ProfilePage-CxKbOwaW.js                           26.80 kB │ gzip:   8.40 kB
+    dist/assets/AuthenticatedShellView-8Rea5HV2.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Bxd1s9rg.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-BAB3-2Qb.js                                 62.51 kB │ gzip:  15.45 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 585ms
+
+  startedAt: '2026-07-29T15:20:23Z'
+  changedAfterStart: &2
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: close-business-parity-program
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T15:22:29Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  output: |+
+    dist/assets/WorkQuestCreateView-ADDanElh.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-B9cC9HwZ.js                   12.80 kB │ gzip:   4.25 kB
+    dist/assets/BusinessServiceSchemaView-D0UxzQGf.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/CirclesView-BzbX9D_K.js                           15.31 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-VIT6eUfg.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-DZMFFpjL.js                              15.67 kB │ gzip:   5.75 kB
+    dist/assets/RidesView-CcwVDjS-.js                             17.01 kB │ gzip:   5.47 kB
+    dist/assets/WorkQuestDetailView-CYtAeg1e.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-DnNO554Y.js                       19.53 kB │ gzip:   6.31 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/HomeHubView-CKzWBmGo.js                           25.90 kB │ gzip:   7.70 kB
+    dist/assets/ProfilePage-CxKbOwaW.js                           26.80 kB │ gzip:   8.40 kB
+    dist/assets/AuthenticatedShellView-8Rea5HV2.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Bxd1s9rg.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-BAB3-2Qb.js                                 62.51 kB │ gzip:  15.45 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 548ms
+
+  startedAt: '2026-07-29T15:21:46Z'
+  changedAfterStart: &3
+  - docs/business-logic.md
+  - docs/product-memory.md
+  - docs/work/human-usability-business-parity-master.yaml
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

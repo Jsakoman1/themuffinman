@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -98,6 +99,15 @@ public class BusinessAvailabilityController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant to
     ) {
         return businessAvailabilityReadService.getPublicAvailability(slug, offeringId, from, to);
+    }
+
+    @GetMapping("/public/{slug}/availability/date")
+    public BusinessAvailabilityWindowListResponseDTO getPublicAvailabilityForBusinessDate(
+            @PathVariable String slug,
+            @RequestParam Long offeringId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        return businessAvailabilityReadService.getPublicAvailabilityForBusinessDate(slug, offeringId, date);
     }
 
     @GetMapping("/public/{slug}/availability/preview")

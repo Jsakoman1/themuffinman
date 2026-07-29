@@ -115,11 +115,14 @@ public class BusinessBookingController {
 
     @GetMapping("/owner/calendar")
     public BusinessOwnerCalendarProjectionDTO getOwnerCalendar(
+            @RequestParam(required = false) Long businessProfileId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant from,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant to,
             @AuthenticationPrincipal AppUser currentUser
     ) {
-        return businessOwnerCalendarReadService.getMyCalendar(currentUser, from, to);
+        return businessProfileId == null
+                ? businessOwnerCalendarReadService.getMyCalendar(currentUser, from, to)
+                : businessOwnerCalendarReadService.getMyCalendar(currentUser, businessProfileId, from, to);
     }
 
     @GetMapping("/owner/{bookingId}")

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,8 +21,13 @@ public class BusinessOwnerDashboardController {
     private final BusinessOwnerScheduleReadService businessOwnerScheduleReadService;
 
     @GetMapping("/me")
-    public BusinessOwnerDashboardDTO getMyDashboard(@AuthenticationPrincipal AppUser currentUser) {
-        return businessOwnerDashboardReadService.getMyDashboard(currentUser);
+    public BusinessOwnerDashboardDTO getMyDashboard(
+            @RequestParam(required = false) Long businessProfileId,
+            @AuthenticationPrincipal AppUser currentUser
+    ) {
+        return businessProfileId == null
+                ? businessOwnerDashboardReadService.getMyDashboard(currentUser)
+                : businessOwnerDashboardReadService.getMyDashboard(currentUser, businessProfileId);
     }
 
     @GetMapping("/me/schedule")

@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -101,6 +102,37 @@ class BusinessBookingValidationServiceTest {
                 Instant.parse("2026-08-12T09:30:00Z"),
                 policy()
         ));
+    }
+
+    @Test
+    void validateCreateAcceptsAnOfferedSlotLongerThanItsStartTimeGranularity() {
+        AppUser owner = user(1L, "owner");
+        AppUser customer = user(2L, "customer");
+        BusinessOffering offering = offering(owner);
+        offering.setDefaultDurationMinutes(45);
+        Instant start = Instant.parse("2026-08-12T09:00:00Z");
+        Instant end = Instant.parse("2026-08-12T09:45:00Z");
+
+        when(businessAvailabilityRuleRepository.findActiveByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
+        when(businessAvailabilityExceptionRepository.findByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
+        when(businessAvailabilityComputationService.deriveWindows(
+                offering.getBusinessProfile(), offering, List.of(), List.of(), start, end
+        )).thenReturn(List.of(
+                window(start, end),
+                window(Instant.parse("2026-08-12T09:30:00Z"), Instant.parse("2026-08-12T10:15:00Z"))
+        ));
+        when(businessBookingPrimitiveService.countOverlappingCapacityUsage(offering.getId(), start, end)).thenReturn(BigDecimal.ZERO);
+
+        assertDoesNotThrow(() -> businessBookingValidationService.validateCreate(offering, customer, start, end, policy()));
+    }
+
+    private BusinessAvailabilityWindowDTO window(Instant start, Instant end) {
+        return BusinessAvailabilityWindowDTO.builder()
+                .startsAt(start)
+                .endsAt(end)
+                .effectiveCapacity(1)
+                .timezone("Europe/Zurich")
+                .build();
     }
 
     private BusinessBookingPolicy policy() {

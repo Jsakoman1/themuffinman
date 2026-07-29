@@ -1,0 +1,103 @@
+kind: work
+version: 1
+id: business-mobile-calendar-month-agenda
+title: Provide a usable month agenda for Business owners on mobile
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-mobile-calendar-safe-mode.yaml
+  baseline_only_surfaces:
+  - Desktop six-week month grid.
+  residual_scope:
+  - Mobile Month control and chronological agenda over the existing owner calendar
+    projection.
+  retest_triggers:
+  - Changes to owner calendar range, modes, responsive rendering, or booking item
+    actions.
+  non_duplication_rule: The previous mobile Day and Week evidence is baseline-only;
+    this trace proves the new Month agenda.
+change_impact_review:
+  required: false
+  report: removed_after_closeout
+  disposition: not_applicable_with_reason
+tasks:
+- id: render-mobile-month-agenda
+  title: Render booked days as a mobile Month agenda
+  type: implementation
+  status: done
+  observable_outcome: Mobile owners can choose Month and see only booked days in chronological
+    agenda cards, with the same selectable booking actions as the calendar grid.
+  dependencies: []
+  evidence_boundary:
+  - frontend type-check/build
+  - mobile browser screenshot and runtime trace
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.json
+  - docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.png
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.png
+  manual_runtime_command: WEB_VIEWPORT=mobile WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.json
+    WEB_VISUAL_EVIDENCE_PATH=docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.png
+    node apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+evidence:
+- task: render-mobile-month-agenda
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T13:25:45Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.json
+  - docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.png
+  output: |+
+    dist/assets/WorkQuestCreateView-BZKPZQxL.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-D9-LWrRl.js                   12.12 kB │ gzip:   3.99 kB
+    dist/assets/BusinessServiceSchemaView-C8qav3hT.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/CirclesView-BscV1J1d.js                           13.46 kB │ gzip:   4.31 kB
+    dist/assets/WorkPage-qmGD-yBV.js                              14.96 kB │ gzip:   5.49 kB
+    dist/assets/RidesView-CeCVUdox.js                             15.24 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-BNMxB2nw.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkQuestDetailView-C-hphP_s.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-D2aV2sp-.js                       18.64 kB │ gzip:   6.04 kB
+    dist/assets/ProfilePage-DfsI3IEY.js                           24.54 kB │ gzip:   7.76 kB
+    dist/assets/HomeHubView-BY6Q-42d.js                           24.62 kB │ gzip:   7.30 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-D6LVLKVk.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-DB0lD55r.js                     56.42 kB │ gzip:  13.61 kB
+    dist/assets/index-3yKXthh5.js                                 62.51 kB │ gzip:  15.44 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 561ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  visualEvidencePaths:
+  - docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-owner-mobile-calendar-month-agenda.json

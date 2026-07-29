@@ -127,7 +127,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
       <div v-if="mobileDrawerOpen" class="app-shell__drawer-backdrop" @click.self="closeMobileDrawer">
         <aside id="mobile-workspace-drawer" ref="mobileDrawer" class="app-shell__drawer" aria-label="Workspace navigation" tabindex="-1" @keydown.esc.prevent="closeMobileDrawer">
           <header class="app-shell__drawer-header"><span>Workspace</span><AppButton type="button" tone="quiet" aria-label="Close navigation" @click="closeMobileDrawer">×</AppButton></header>
-          <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" show-children @click="closeMobileDrawer" />
+          <WorkspaceModuleRail :modules="workspaceNavigation.modules()" :active-module-id="activeNavId" show-children expand-all-children @click="closeMobileDrawer" />
           <nav class="app-shell__drawer-nav" aria-label="Personal"><p class="app-shell__nav-heading">Personal</p><RouterLink v-for="item in pinned" :key="`drawer-pin-${item.targetType}-${item.targetId}`" :to="item.route" class="app-shell__account-link" @click="closeMobileDrawer">★ {{ item.title }}</RouterLink><RouterLink v-for="item in appPersonalShortcuts" :key="item.id" :to="item.to" class="app-shell__account-link" @click="closeMobileDrawer">{{ item.label }}</RouterLink><RouterLink to="/chat" class="app-shell__account-link" @click="closeMobileDrawer">Chat</RouterLink><RouterLink to="/calendar" class="app-shell__account-link" @click="closeMobileDrawer">Calendar</RouterLink></nav>
           <div class="app-shell__drawer-account"><p class="app-shell__nav-heading">Account</p><AccountMenu placement="rail" /></div>
         </aside>
@@ -342,9 +342,11 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
 }
 
 .app-shell__content {
+  --persistent-vision-dock-clearance: calc(5.5rem + env(safe-area-inset-bottom, 0px));
   min-height: 0;
   width: 100%;
-  padding: var(--space-3) var(--workspace-content-gutter) 5rem;
+  padding: var(--space-3) var(--workspace-content-gutter) var(--persistent-vision-dock-clearance);
+  scroll-padding-bottom: var(--persistent-vision-dock-clearance);
 }
 
 .app-shell__content > * {
@@ -446,7 +448,7 @@ onBeforeUnmount(() => { window.removeEventListener("pointermove", resizeRail); w
   }
 
   .app-shell__content {
-    padding-bottom: 5.6rem;
+    --persistent-vision-dock-clearance: calc(10.25rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

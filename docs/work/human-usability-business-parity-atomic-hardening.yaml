@@ -1,0 +1,74 @@
+kind: work
+version: 1
+id: human-usability-business-parity-atomic-hardening
+title: Harden the Business-parity usability execution inventory
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-usability-business-parity-master.yaml
+execution_inventory: docs/work/human-usability-business-parity-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces: []
+  residual_scope:
+  - Atomic plan hardening
+  retest_triggers:
+  - Plan changes
+  non_duplication_rule: This task changes plan control only.
+tasks:
+- id: harden-business-parity-inventory
+  title: Harden Business-parity inventory
+  type: documentation
+  status: done
+  inventory_item: harden-business-parity-plan
+  observable_outcome: Every later task has one human outcome, bounded paths, a validation
+    command, and an evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - plan verifier
+  paths:
+  - docs/work/human-usability-business-parity-master.yaml
+  - docs/work/human-usability-business-parity-execution-inventory.yaml
+  - docs/work/human-usability-business-parity-atomic-hardening.yaml
+  - docs/work/human-usability-business-parity-preflight.md
+  - docs/work/human-usability-personal-social.yaml
+  - docs/work/human-usability-work-rides-home-chat.yaml
+  - docs/work/human-usability-visual-mobile-closeout.yaml
+  required_paths:
+  - docs/work/human-usability-business-parity-master.yaml
+  - docs/work/human-usability-business-parity-execution-inventory.yaml
+  - docs/work/human-usability-business-parity-preflight.md
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/human-usability-business-parity-master.yaml
+    docs/work/human-usability-business-parity-execution-inventory.yaml
+  started_at: '2026-07-29T14:50:37Z'
+  start_fingerprints:
+    docs/work/human-usability-business-parity-master.yaml: 7a53fc0e407a6019e8782f12bb18eb2b64cd95588f40de59f9847fb8c98f052e
+    docs/work/human-usability-business-parity-execution-inventory.yaml: aace79c2ed5e7d6435bd27bf4da639fc36d4dd9f6a3bbbee4abfcbec18e6a6c7
+    docs/work/human-usability-business-parity-preflight.md: bf797f0f0a48ae2819807904bb2fd68436267890993d74c411299bf4a6b1699a
+evidence:
+- task: harden-business-parity-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/human-usability-business-parity-master.yaml
+    docs/work/human-usability-business-parity-execution-inventory.yaml
+  ranAt: '2026-07-29T14:51:05Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/human-usability-business-parity-atomic-hardening.yaml
+  - docs/work/human-usability-business-parity-execution-inventory.yaml
+  - docs/work/human-usability-business-parity-master.yaml
+  - docs/work/human-usability-business-parity-preflight.md
+  - docs/work/human-usability-personal-social.yaml
+  - docs/work/human-usability-visual-mobile-closeout.yaml
+  - docs/work/human-usability-work-rides-home-chat.yaml
+  output: "Atomic task hardening audit passed (13 inventory items).\n\n"
+  startedAt: '2026-07-29T14:50:37Z'
+  changedAfterStart: &1
+  - docs/work/human-usability-business-parity-master.yaml
+  - docs/work/human-usability-business-parity-execution-inventory.yaml
+  - docs/work/human-usability-business-parity-preflight.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

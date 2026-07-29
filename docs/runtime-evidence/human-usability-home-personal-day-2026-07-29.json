@@ -1,0 +1,9 @@
+{
+  "result": "passed",
+  "browserErrors": [],
+  "checks": {
+    "today": true,
+    "question": true,
+    "attention": true
+  }
+}

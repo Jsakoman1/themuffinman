@@ -6,6 +6,9 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
+- BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,
+  booking rules, hours, and customer booking journeys so ordinary businesses can
+  publish and accept appointments without understanding internal booking-engine terms.
 - ENTITY-SURFACE-RESOURCE-CONTRACT-001: define a typed Business resource configuration contract
   before exposing a complete Web edit surface.
 - RUNTIME-PENDING-TRIAGE-001: keep the 14 explicitly pending runtime boundaries classified in

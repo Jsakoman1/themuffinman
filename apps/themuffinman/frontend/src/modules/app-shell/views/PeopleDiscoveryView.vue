@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, ref} from "vue"
-import {RouterLink} from "vue-router"
+import {useRouter} from "vue-router"
 import type {CircleSearchResultDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppStatus from "../components/AppStatus.vue"
@@ -8,12 +8,14 @@ import AppSearchField from "../components/AppSearchField.vue"
 import AppButton from "../components/AppButton.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
+import ObjectPreviewPanel from "../components/ObjectPreviewPanel.vue"
 import {useSurfaceViewState} from "../composables/useSurfaceViewState.ts"
 import {currentUser} from "../../identity/auth.ts"
 import SurfaceHeader from "../components/SurfaceHeader.vue"
 import {getAppSurfaceConfig} from "../shellDefinitions.ts"
 
 const query = ref("")
+const router = useRouter()
 const items = ref<CircleSearchResultDTO[]>([])
 // Search rows stay lightweight; relationship decisions are dispatched from the
 // backend-authorized profile action contract rather than inferred from labels.
@@ -35,15 +37,18 @@ const sendInvite = async (userId: number) => {
   catch { error.value = "Could not send this connection invite." }
   finally { isActing.value = false }
 }
+const openProfile = () => {
+  if (selectedPerson.value) void router.push(`/people/${selectedPerson.value.id}`)
+}
 </script>
 <template>
   <section class="people-discovery" data-people-context="relationship-visibility-actions">
     <SurfaceHeader :config="surface" title="Find people" description="Search people through Circles trust and visibility rules." />
     <CollectionToolbar title="People" :count="items.length" :busy="isLoading"><template #filters><AppSearchField v-model="query" label="Search people" placeholder="Search by username or profile" :busy="isLoading" @submit="search" /></template></CollectionToolbar>
     <AppStatus v-if="error" :message="error" tone="error" retry @retry="search" /><AppStatus v-else-if="isLoading" message="Searching people." /><AppStatus v-else-if="searched && items.length === 0" message="No people match this search." />
-    <div v-else class="people-discovery__workspace"><div class="results"><SurfaceRow v-for="person in items" :key="person.id" :row="{id: String(person.id), title: person.username, description: person.profileDescription || 'No profile description yet.', badge: person.relationLabel || person.resolutionLabel || 'Trust-aware profile', to: `/people/${person.id}`}" :selected="viewState.selectedId === person.id" @click="viewState.selectedId = person.id"><template #actions><AppButton v-if="person.primaryAction?.enabled" type="button" tone="primary" :loading="isActing" @click.stop="sendInvite(person.id)">{{ person.primaryAction.label || "Connect" }}</AppButton></template></SurfaceRow></div><aside class="people-context" aria-label="Person context"><template v-if="selectedPerson"><p class="eyebrow">Selected person</p><h2>{{ selectedPerson.username }}</h2><p>{{ selectedPerson.profileDescription || 'No profile description yet.' }}</p><dl><div v-if="selectedPerson.locationLabel"><dt>Area</dt><dd>{{ selectedPerson.locationLabel }}</dd></div><div><dt>Relationship</dt><dd>{{ selectedPerson.relationLabel || selectedPerson.resolutionLabel }}</dd></div></dl><RouterLink class="people-context__link" :to="`/people/${selectedPerson.id}`">Open full profile</RouterLink></template><template v-else><p class="eyebrow">Person context</p><h2>Select a person</h2><p>Choose a result to inspect its profile without leaving this search.</p></template></aside></div>
+    <div v-else class="people-discovery__workspace" :class="{'people-discovery__workspace--preview': selectedPerson}"><div class="results"><SurfaceRow v-for="person in items" :key="person.id" :row="{id: String(person.id), title: person.username, description: person.profileDescription || 'No profile description yet.', badge: person.relationLabel || person.resolutionLabel || 'Trust-aware profile', to: `/people/${person.id}`}" primary-action="preview" :selected="viewState.selectedId === person.id" @preview="viewState.selectedId = person.id"><template #actions><AppButton v-if="person.primaryAction?.enabled" type="button" tone="primary" :loading="isActing" @click.stop="sendInvite(person.id)">{{ person.primaryAction.label || "Connect" }}</AppButton></template></SurfaceRow></div><ObjectPreviewPanel v-if="selectedPerson" :open="true" :title="selectedPerson.username" subtitle="Selected person" detail-label="Open full profile" @close="viewState.selectedId = null" @open-detail="openProfile"><p>{{ selectedPerson.profileDescription || 'No profile description yet.' }}</p><dl><div v-if="selectedPerson.locationLabel"><dt>Area</dt><dd>{{ selectedPerson.locationLabel }}</dd></div><div><dt>Relationship</dt><dd>{{ selectedPerson.relationLabel || selectedPerson.resolutionLabel }}</dd></div></dl></ObjectPreviewPanel></div>
   </section>
 </template>
 <style scoped>
-.people-discovery{display:grid;gap:var(--space-3);max-width:none}.people-discovery header{display:flex;justify-content:space-between;align-items:end;gap:var(--space-3)}.eyebrow{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.people-discovery h1{margin:0;font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.intro{color:var(--text-muted)}.people-discovery__workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(18rem,24rem);align-items:start;overflow:hidden;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.results{display:grid;gap:0}.people-context{border-left:1px solid var(--border-subtle);padding:var(--space-3);background:var(--surface-raised)}.people-context p{color:var(--text-muted)}.people-context h2{margin:var(--space-1) 0;font-size:var(--text-size-title)}.people-context dl{display:grid;gap:var(--space-2);margin:var(--space-3) 0}.people-context dl div{display:flex;justify-content:space-between;gap:var(--space-2);border-bottom:1px solid var(--border-subtle);padding-bottom:var(--space-1)}.people-context dt{color:var(--text-soft);font-size:var(--text-size-meta)}.people-context dd{margin:0;text-align:right}.people-context__link{display:inline-flex;margin-top:var(--space-2);font-weight:var(--text-weight-semibold)}@media(max-width:860px){.people-discovery header{align-items:start;flex-direction:column}.people-discovery__workspace{grid-template-columns:1fr}.people-context{border-top:1px solid var(--border-subtle);border-left:0}}
+.people-discovery{display:grid;gap:var(--space-3);max-width:none}.people-discovery header{display:flex;justify-content:space-between;align-items:end;gap:var(--space-3)}.people-discovery h1{margin:0;font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.intro{color:var(--text-muted)}.people-discovery__workspace{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;overflow:hidden;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.people-discovery__workspace--preview{grid-template-columns:minmax(0,1fr) minmax(18rem,24rem)}.results{display:grid;gap:0}@media(max-width:980px){.people-discovery header{align-items:start;flex-direction:column}.people-discovery__workspace--preview{grid-template-columns:1fr}}
 </style>

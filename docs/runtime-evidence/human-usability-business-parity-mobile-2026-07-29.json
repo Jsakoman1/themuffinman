@@ -1,0 +1,54 @@
+{
+  "audit": "mobile-business-parity",
+  "date": "2026-07-29",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "results": [
+    {
+      "id": "profile",
+      "path": "/profile",
+      "markerPresent": true,
+      "overflow": false,
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-mobile-profile-2026-07-29.png"
+    },
+    {
+      "id": "circles",
+      "path": "/people/circles",
+      "markerPresent": true,
+      "overflow": false,
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-mobile-circles-2026-07-29.png"
+    },
+    {
+      "id": "work",
+      "path": "/work/find",
+      "markerPresent": true,
+      "overflow": false,
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-mobile-work-2026-07-29.png"
+    },
+    {
+      "id": "rides",
+      "path": "/rides",
+      "markerPresent": true,
+      "overflow": false,
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-mobile-rides-2026-07-29.png"
+    },
+    {
+      "id": "home",
+      "path": "/home",
+      "markerPresent": true,
+      "overflow": false,
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-mobile-home-2026-07-29.png"
+    },
+    {
+      "id": "chat",
+      "path": "/chat",
+      "markerPresent": true,
+      "overflow": false,
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-mobile-chat-2026-07-29.png"
+    }
+  ],
+  "consoleErrors": [],
+  "result": "passed"
+}

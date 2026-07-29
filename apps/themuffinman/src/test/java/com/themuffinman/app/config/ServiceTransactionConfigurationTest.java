@@ -10,6 +10,7 @@ import com.themuffinman.app.social.service.CircleMembershipService;
 import com.themuffinman.app.social.service.CircleReadService;
 import com.themuffinman.app.social.service.CircleRelationService;
 import com.themuffinman.app.vision.service.VisionConversationLifecycleService;
+import com.themuffinman.app.vision.service.VisionConversationQueryService;
 import com.themuffinman.app.workmarket.service.WorkmarketOptionsService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestExecutionPrimitiveService;
 import com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationReadService;
@@ -63,8 +64,8 @@ class ServiceTransactionConfigurationTest {
         assertMethodReadOnlyTransactional(CircleReadService.class, "getIncomingRequests", com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(CircleReadService.class, "getOutgoingRequests", com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(CircleReadService.class, "getRelationWithUser", com.themuffinman.app.identity.model.AppUser.class, Long.class);
-        assertMethodReadOnlyTransactional(VisionConversationLifecycleService.class, "loadConversation", Long.class, com.themuffinman.app.identity.model.AppUser.class);
-        assertMethodReadOnlyTransactional(VisionConversationLifecycleService.class, "listRecentConversations", com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(VisionConversationQueryService.class, "listRecentConversations", com.themuffinman.app.identity.model.AppUser.class);
+        assertMethodReadOnlyTransactional(VisionConversationQueryService.class, "loadConversation", Long.class, com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(WorkmarketQuestExecutionPrimitiveService.class, "resolveTarget", Long.class);
         assertMethodReadOnlyTransactional(WorkmarketQuestExecutionPrimitiveService.class, "resolveTargetForTermDecision", Long.class, com.themuffinman.app.identity.model.AppUser.class);
         assertMethodReadOnlyTransactional(WorkmarketQuestExecutionPrimitiveService.class, "resolveCreator", com.themuffinman.app.workmarket.dto.QuestRequestDTO.class, com.themuffinman.app.identity.model.AppUser.class);

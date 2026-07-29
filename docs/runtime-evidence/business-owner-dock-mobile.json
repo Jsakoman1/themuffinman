@@ -1,0 +1,59 @@
+{
+  "capturedAt": "2026-07-29T11:53:53.990Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "runtimeApiContract": {
+      "status": "passed",
+      "schemaStatus": 200,
+      "quoteStatus": 200,
+      "availabilityStatus": 200,
+      "schemaVersion": 2,
+      "demandFields": 1,
+      "options": 1,
+      "slots": 5
+    },
+    "ownerSetup": {
+      "status": "passed",
+      "route": "/business/service-setup",
+      "visibleText": "BUSINESS / SERVICE SETUP\n\nConfigure a service\n\nSet only what customers need to choose a time and understand the price. The backend still validates every booking and quote.\n\nSERVICE\nRuntime crew service\n1\nBasics\n2\nTime & capacity\n3\nCustomer questions\n4\nPrice rules\n5\nResources\n6\nPreview\nService basics\n\nChoose the type of appointment customers are booking.\n\nHow is this service delivered?\nAt a specifi"
+    },
+    "ownerCalendar": {
+      "status": "passed",
+      "route": "/business/calendar",
+      "businessId": 228,
+      "requests": [
+        {
+          "url": "http://localhost:8080/business/bookings/owner/calendar?businessProfileId=228&from=2026-07-25T22:00:00.000Z&to=2026-08-01T22:00:00.000Z",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:8080/business/bookings/owner/calendar?businessProfileId=228&from=2026-06-27T22:00:00.000Z&to=2026-08-08T22:00:00.000Z",
+          "status": 200
+        }
+      ],
+      "weekdayHeaders": 7,
+      "monthDays": 42,
+      "visibleText": "BUSINESS\n\nManage your business\n\nEach business has its own private workspace and schedule.\n\nACTIVE BUSINESS\nRuntime Flexible Services\nRuntime Idempotency 1784717445008\nRuntime Idempotency 1784717486716\nRuntime Idempotency 1784717530273\nFind a business\nMore\nOverview\nCalendar\nBookings\nServices\nSettings\n\nBusiness calendar\n\nJuly 2026\n6 bookings · Europe/Zurich\n‹\nToday\n›\nDay\nWeek\nMonth\n28\n29\n30\n1\n2\n3\n4\n"
+    },
+    "visionDockClearance": {
+      "status": "passed",
+      "viewport": "mobile"
+    },
+    "publicBusiness": {
+      "status": "passed",
+      "route": "/business/public/runtime-flexible-services",
+      "visibleText": "‹ Back to results\n\nBUSINESS\n\nRuntime Flexible Services\n\nA trusted local service, ready when you are.\n\nBook a service\nSave business\n\nBooking available\n\nR\n1\nservices\nEurope/Zurich\nlocal time zone\nAbout, gallery and contact\n\nSERVICES\n\nWhat can we help with?\n\nSelect one service. We will show only the details, price and times relevant to it.\n\nRuntime crew service\nService details\n40 CHF · 30 min · up to"
+    },
+    "visionSurface": {
+      "status": "passed",
+      "route": "/home",
+      "visionHost": 1
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

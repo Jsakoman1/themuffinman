@@ -1,0 +1,60 @@
+{
+  "audit": "desktop-business-parity",
+  "date": "2026-07-29",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "results": [
+    {
+      "id": "profile",
+      "path": "/profile",
+      "markerPresent": true,
+      "overflow": false,
+      "primaryText": "Profile\nSettings\n\nThe public identity people see.\n\nT\n\nYOUR PROFILE\n\ntest\n\nA short introduction helps people recognise who they are connecting with.\n\nPRIVACY\n\nYour contact details stay private. Choose later what your profile shares.\n\nEmail\ntest@test.com\nMember ",
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-desktop-profile-2026-07-29.png"
+    },
+    {
+      "id": "circles",
+      "path": "/people/circles",
+      "markerPresent": true,
+      "overflow": false,
+      "primaryText": "CIRCLES\n\nYour circles\n\nChoose who shares a trusted space with you.\n\nCreate circle\nMore\nFind people\nCircles\nRequests\nTrust circles\n0\nHow circles work\nCircles you manage\n\nSelect one circle, then manage its members here. Connections are not added to a circle unle",
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-desktop-circles-2026-07-29.png"
+    },
+    {
+      "id": "work",
+      "path": "/work/find",
+      "markerPresent": true,
+      "overflow": false,
+      "primaryText": "WORK\n\nFind work\n\nAvailable work visible to you.\n\nOffer work\nMore\n\nLOOKING FOR WORK\n\nBrowse work you can apply for. Opening a listing never commits you.\n\nOffer work\nFind work\n6\nRefine\nSearch work\nSort \nRecommended\nNewest\nSoonest\nHighest reward\nFilters\nKosenje t",
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-desktop-work-2026-07-29.png"
+    },
+    {
+      "id": "rides",
+      "path": "/rides",
+      "markerPresent": true,
+      "overflow": false,
+      "primaryText": "RIDES\n\nFind a ride\n\nFind a ride that fits your route. You choose whether to join.\n\nOffer a ride\nMore\n\nONE-TIME RIDE\n\nWhere do you need to go?\n\nSearch a route and choose a ride only when it suits you. You can set up regular commute matching later.\n\nLeaving from",
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-desktop-rides-2026-07-29.png"
+    },
+    {
+      "id": "home",
+      "path": "/home",
+      "markerPresent": true,
+      "overflow": false,
+      "primaryText": "HOME\n\nHome\n\nTODAY\n\nWhat needs your attention?\nStart with the next decision below, then return whenever you need an overview.\n\nNEEDS ATTENTION\n\n12 updates need a decision\nOpen attention\nContinue Vision\nvision\nResume your last guided task.\nContinue Vision\nvision",
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-desktop-home-2026-07-29.png"
+    },
+    {
+      "id": "chat",
+      "path": "/chat",
+      "markerPresent": true,
+      "overflow": false,
+      "primaryText": "",
+      "screenshot": "docs/runtime-evidence/human-usability-business-parity-desktop-chat-2026-07-29.png"
+    }
+  ],
+  "consoleErrors": [],
+  "result": "passed"
+}

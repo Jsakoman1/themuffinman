@@ -1,0 +1,61 @@
+kind: master
+version: 1
+id: business-human-first-ux-master
+title: Make Business setup and booking understandable to ordinary people
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/business-human-first-ux-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/business-human-first-ux-atomic-hardening.yaml
+objective: Replace Business engine-oriented screens with a calm human-first flow where
+  an owner can create a business, publish a service, set working hours, and accept
+  bookings, while a customer can understand price, availability, and booking outcome.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-product-alignment-master.yaml
+  baseline_only_surfaces:
+  - Existing backend ownership, booking permission, availability validation, price
+    calculation, and selected-business URL context remain authoritative.
+  - Existing owner calendar and booking lifecycle actions remain operational baselines.
+  residual_scope:
+  - Human-first owner onboarding and readiness state.
+  - Progressive service, price, hours, and booking-rule configuration.
+  - Date-first public appointment booking and a clear customer completion state.
+  - Plain-language information architecture and copy across Business screens.
+  retest_triggers:
+  - Changes to business profile creation, offering requests, availability rules, booking-policy
+    writes, quote/availability reads, or booking completion behavior.
+  non_duplication_rule: Prior verified Business alignment evidence is baseline-only
+    and must not be counted as proof for this redesign.
+exit_criteria:
+- A first-time owner can create a business and see the next required setup action
+  without technical implementation terms.
+- A normal appointment service can be published with name, duration, price, confirmation
+  behavior, and working hours before any advanced controls are shown.
+- Settings separates public page, working hours, booking rules, and advanced/dangerous
+  controls.
+- Customers choose a date before a real backend-backed available time, understand
+  price/confirmation terms, and receive a durable success state.
+- Advanced schema, pricing, capacity, and resource features are either editable through
+  a truthful UI or explicitly deferred behind a clear advanced boundary.
+- Business docs, regression catalog, browser evidence, and strict master verification
+  pass.
+children:
+- docs/work/business-human-first-ux-atomic-hardening.yaml
+- docs/work/business-human-first-owner-onboarding.yaml
+- docs/work/business-human-first-service-setup.yaml
+- docs/work/business-human-first-hours-settings.yaml
+- docs/work/business-human-first-customer-booking.yaml
+- docs/work/business-human-first-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-29T10:57:26Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  children:
+  - docs/work/business-human-first-ux-atomic-hardening.yaml
+  - docs/work/business-human-first-owner-onboarding.yaml
+  - docs/work/business-human-first-service-setup.yaml
+  - docs/work/business-human-first-hours-settings.yaml
+  - docs/work/business-human-first-customer-booking.yaml
+  - docs/work/business-human-first-closeout.yaml

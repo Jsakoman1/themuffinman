@@ -119,6 +119,21 @@ public interface BusinessBookingRepository extends JpaRepository<BusinessBooking
             join fetch booking.businessOffering offering
             join fetch booking.customerUser customer
             where owner.id = :ownerId
+            and profile.id = :profileId
+            and booking.startsAt >= :from
+            and booking.startsAt < :to
+            order by booking.startsAt asc, booking.id asc
+            """)
+    List<BusinessBooking> findDetailedByOwnerIdAndProfileIdAndStartsAtBetween(Long ownerId, Long profileId, Instant from, Instant to);
+
+    @Query("""
+            select booking
+            from BusinessBooking booking
+            join fetch booking.businessProfile profile
+            join fetch profile.owner owner
+            join fetch booking.businessOffering offering
+            join fetch booking.customerUser customer
+            where owner.id = :ownerId
             and booking.startsAt < :to
             and booking.endsAt > :from
             order by booking.startsAt asc, booking.id asc
@@ -182,6 +197,21 @@ public interface BusinessBookingRepository extends JpaRepository<BusinessBooking
             order by booking.startsAt asc, booking.id asc
             """)
     List<BusinessBooking> findUpcomingDetailedByOwnerId(Long ownerId, Collection<BusinessBookingStatus> statuses, Instant now);
+
+    @Query("""
+            select booking
+            from BusinessBooking booking
+            join fetch booking.businessProfile profile
+            join fetch profile.owner owner
+            join fetch booking.businessOffering offering
+            join fetch booking.customerUser customer
+            where owner.id = :ownerId
+            and profile.id = :profileId
+            and booking.status in :statuses
+            and booking.endsAt >= :now
+            order by booking.startsAt asc, booking.id asc
+            """)
+    List<BusinessBooking> findUpcomingDetailedByOwnerIdAndProfileId(Long ownerId, Long profileId, Collection<BusinessBookingStatus> statuses, Instant now);
 
     @Query("""
             select booking

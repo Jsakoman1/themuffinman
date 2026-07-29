@@ -175,6 +175,7 @@ Frontend vision surface note:
 - `UPDATE_PROFILE_LOCATION` covers exact location visibility control through the shared `LocationSettingsService`; Vision only supplies reviewed mode and label slots.
 - `CREATE_OFFERING` uses `BusinessOfferingService.createMyOffering`; `UPDATE_OFFERING` uses a backend title-only mutation so existing offering configuration is not replaced by Vision defaults.
 - `CREATE_BOOKING` delegates to `BusinessCreateBookingUseCase.createCustomerBooking` with reviewed offering and time slots; the use-case owns conflict validation, idempotency, policy, and status assignment.
+- `BusinessBookingValidationService` validates availability by finding the exact generated start/end interval selected by the client. It does not attempt to tile a booking across overlapping candidate windows, because fixed-duration services may have a duration longer than their start-time granularity.
 - `/circles` now provides a compact trusted-relationship surface for creating groups, searching people, managing incoming and outgoing requests, and blocking or unblocking users through backend-owned actions.
 - `apps/themuffinman/frontend/src/modules/vision/views/VisionSurfaceModernView.vue` is a detached terminal-console implementation path and is not reachable from the authenticated Web router.
 - VisionForWeb is the only Web UI prompt surface. The legacy `/vision` route and its bridge URLs redirect to `/home` with the prompt preserved for the inline host; the terminal canvas is reserved for a future separate application.
@@ -483,10 +484,17 @@ Technical notes:
 - Shared `ClientActionDTO` and `ClientActionToneDTO` provide a device-neutral action contract with labels, confirmation requirements, tone, and disabled reasons; domain-specific action enums remain available for compatibility.
 - `BusinessBookingPresentationService` resolves effective booking policy without mutating state, while write flows remain responsible for creating missing policy rows.
 - `BusinessBookingReadService` exposes separate owner and customer surfaces with pagination and filter contracts from the start.
+- `BusinessOwnerPage` reads the selected-profile dashboard only to render its pending-confirmation tab badge. `BusinessBookingsView` renders consequence language from server-provided `allowedActions`; it does not infer which action is permitted or mutate workflow state locally.
+- `ModuleTabs` accepts an optional accessible attention badge, while `ObjectPreviewPanel` accepts optional outcome text. These are presentation-only shared affordances: module read models and server-provided allowed actions remain their source, and the primitives never infer urgency, permission, or a state transition.
 - Vision's `view_business_bookings` route consumes the owner booking read surface together with the owner dashboard summary so booking review, pending confirmations, and capacity context stay backend-prepared.
 - `BusinessBookingReadSupport` centralizes safe page, safe size, and normalized query handling for booking read surfaces so owner and customer list contracts stay aligned.
-- `BusinessOwnerCalendarReadService` exposes a backend-prepared owner calendar projection grouped by the business timezone's local day, with per-day booking buckets and booking presentation metadata for mobile and web clients.
-- Owner schedule and owner dashboard read models are separate services, but both read from the same owner schedule summary interpretation so list and dashboard semantics do not drift.
+- `BusinessConfirmBookingUseCase` authorizes the owned pending booking, enforces manual-approval policy, transitions it to `CONFIRMED`, and publishes its status event. Customer detail reads and `BusinessOwnerCalendarReadService` then project that persisted status; neither client derives it locally.
+- `BusinessOwnerCalendarReadService` exposes a backend-prepared owner calendar projection for an owned `businessProfileId`, grouped by that profile's timezone local day with per-day booking buckets and booking presentation metadata for mobile and web clients. Its configured maximum is 42 days, so a full six-week owner month grid is backed by real booking data rather than client-side placeholder days. New owner workspace callers pass that selected profile id and rejected profiles are not readable; the controller retains the older no-id fallback only for legacy aggregate shell readers.
+- `BusinessOwnerCalendarView` renders the same projection as a desktop grid or a mobile Month agenda. The mobile agenda filters only empty day buckets for presentation; booking times, statuses, actions, and ownership remain backend-provided item data.
+- `BusinessOwnerPage` passes the route-selected `businessId` to all owner child reads. `BusinessBookingsView` includes it in the owner booking API request and calendar handoff; `BusinessServiceSchemaView` resolves the route-selected `businessId` and optional `offeringId` before loading editable schema state.
+- `BusinessPublicView` sends only the persisted single-booking demand contract. Recurrence, third-party recipient, consent, and file-upload values are deliberately absent until corresponding backend entities, validation, permissions, and API contracts exist.
+- `BusinessOwnerDashboardReadService` and `BusinessOwnerScheduleReadService` accept the same selected owned profile context for owner workspace reads. Their legacy no-id entrypoints retain compatibility only for older aggregate shell readers; new owner workspace routes pass `businessProfileId` explicitly.
+- Owner schedule and owner dashboard read models are separate services, but both read from the same selected-profile schedule interpretation so list and dashboard semantics do not drift.
 - `/vision` business previews reuse `BusinessPublicReadService` and `BusinessOwnerDashboardReadService` through `VisionBusinessPreviewRenderer`, so business page and availability snapshots stay backend-prepared and share the same business read model.
 - `business_booking_audit_event` persists transition history through synchronous domain events owned by the `business` package.
 - `business_gallery_image` keeps public gallery metadata separate from profile description and remains modular with the storage layer.
@@ -2004,7 +2012,8 @@ The cross-module product capability map is maintained in `docs/capability-invent
 - `TextPageQueryDTO` is used with Spring `@ModelAttribute` binding and therefore must expose setters for query parameters such as `q`, page, and size.
 - Chat group creation requires two or more other participant user IDs and the backend verifies the current user's accepted-contact relationship with each participant.
 - Frontend route recovery must distinguish a failed optional read from a failed primary read; a secondary Circles or Calendar request cannot blank usable content.
-- Business availability rules require a persisted business timezone; the authenticated Web profile surface exposes and saves that required field before availability setup.
+- Business availability rules require a persisted business timezone. In the owner Web workspace, recurring rules are rendered inside the selected profile's Settings surface; `BusinessAvailabilityExceptionsView` is the dedicated one-off closure/replacement collection and links back with the same selected `businessId` context.
+- `BusinessServiceSchemaView` configures one saved offering at a time. It reads the existing offering/schema/resource contracts and persists offering rules through the Business API; it must not expose local-only templates or defaults as if they were saved business configuration.
 ## Main surface read contracts
 
 Surface navigation and filtering remain backend-owned. `AVAILABLE` returns visible OPEN quests excluding the current owner, while `MY_VISIBLE` returns the current owner's visible OPEN, ASSIGNED, IN_PROGRESS, and WAITING_CONFIRMATION quests. The frontend only selects the preset for the route and renders backend-prepared destinations.
@@ -2027,6 +2036,7 @@ they do not determine requiredness, permissions, or workflow order.
 - Collection membership, backend filters, ordering, visibility, action availability, and workflow transitions remain backend-owned. Vue may retain only local presentation state such as panel openness, selected preview, row density, or scroll restoration.
 - A preview is route-preserving and may only render data already available through a canonical backend detail model. It cannot become a competing detail endpoint or infer an allowed action.
 - Object actions must use the backend DTO's allowed action/primary action fields or an existing authorized endpoint path. `AppActionDialog` confirms intent only; it is not authorization or workflow logic.
+- The authenticated human-first presentation contract is shared across module surfaces: orient the viewer to the current scope, place actionable backend attention before secondary history, retain selection context in a preview or detail surface where comparison matters, and state the human consequence of a permitted action. `ModuleTabs` may show an accessible backend-derived attention badge and `ObjectPreviewPanel` may render an outcome statement; neither component derives permissions, workflow state, or consequences on its own.
 - Board mutation, timeline mutation, bulk actions, shared saved views, generalized favorites/subscriptions, client caching, optimistic updates, virtualization, and infinite scrolling are blocked until their own backend, ordering, accessibility, ownership, and recovery contracts exist.
 ## Vision candidate context
 
@@ -2084,3 +2094,8 @@ The profile settings surface may progressively disclose independent preference g
 Closeout evidence must distinguish route integrity, responsive overflow, calendar view availability, and browser errors; a successful build alone is not product verification.
 
 The frontend may present Profile and Settings as sibling routes, but editing state remains isolated to Settings while the Profile route is a read-oriented summary surface.
+## Business human-first booking boundary
+
+- `BusinessAvailabilityReadService.getPublicAvailabilityForBusinessDate` accepts an ISO local date and resolves `[start of local day, end of local day]` with the saved `BusinessProfile.timezone` before delegating to the existing availability computation. It is exposed as `GET /business/public/{slug}/availability/date?offeringId=&date=`.
+- The public Web flow consumes that date endpoint, keeps slot selection as a backend-provided instant, and requests quote/booking preview only after a selected slot exists. It does not convert an arbitrary browser-local datetime into the business date.
+- Customer booking completion retains the returned `BusinessBookingResponseDTO` in the public flow so status, local time, price snapshot, and the My bookings destination remain visible after the write.

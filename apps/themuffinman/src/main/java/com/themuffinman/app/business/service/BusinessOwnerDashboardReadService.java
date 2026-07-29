@@ -25,14 +25,26 @@ public class BusinessOwnerDashboardReadService {
     public BusinessOwnerDashboardDTO getMyDashboard(AppUser currentUser) {
         BusinessProfile profile = businessProfileRepository.findByOwnerId(currentUser.getId())
                 .orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before viewing the dashboard"));
-        BusinessOwnerScheduleSummaryDTO summary = businessOwnerScheduleReadService.getMyScheduleSummary(currentUser);
+        return getDashboard(currentUser, profile);
+    }
+
+    public BusinessOwnerDashboardDTO getMyDashboard(AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileRepository.findAllByOwnerId(currentUser.getId()).stream()
+                .filter(candidate -> candidate.getId().equals(businessProfileId))
+                .findFirst()
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+        return getDashboard(currentUser, profile);
+    }
+
+    private BusinessOwnerDashboardDTO getDashboard(AppUser currentUser, BusinessProfile profile) {
+        BusinessOwnerScheduleSummaryDTO summary = businessOwnerScheduleReadService.getMyScheduleSummary(currentUser, profile.getId());
 
         return BusinessOwnerDashboardDTO.builder()
                 .businessProfileId(profile.getId())
                 .businessName(profile.getBusinessName())
                 .slug(profile.getSlug())
                 .bookingEnabled(profile.isBookingEnabled())
-                .activeOfferingCount((int) businessOfferingRepository.findByOwnerId(currentUser.getId()).stream()
+                .activeOfferingCount((int) businessOfferingRepository.findByBusinessProfileId(profile.getId(), currentUser.getId()).stream()
                         .filter(com.themuffinman.app.business.model.BusinessOffering::isActive)
                         .count())
                 .pendingConfirmationCount(summary.getPendingConfirmationCount())

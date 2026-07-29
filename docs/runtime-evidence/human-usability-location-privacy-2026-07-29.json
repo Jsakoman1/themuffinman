@@ -1,0 +1,17 @@
+{
+  "evidenceVersion": "human-usability-location-privacy-v1",
+  "capturedAt": "2026-07-29T14:56:54.677Z",
+  "route": "/profile/settings",
+  "viewer": "test@test.com",
+  "result": "passed",
+  "browserErrors": [],
+  "actualRoute": "/profile/settings",
+  "checks": {
+    "offVisible": true,
+    "advancedHidden": true,
+    "exactScopeVisible": true,
+    "radiusHidden": true
+  },
+  "overflowFree": true,
+  "screenshot": "docs/runtime-evidence/human-usability-location-privacy-2026-07-29.png"
+}

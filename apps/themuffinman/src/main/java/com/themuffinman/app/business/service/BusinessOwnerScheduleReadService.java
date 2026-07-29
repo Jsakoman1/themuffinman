@@ -36,18 +36,32 @@ public class BusinessOwnerScheduleReadService {
     public BusinessOwnerScheduleSummaryDTO getMyScheduleSummary(AppUser currentUser) {
         BusinessProfile profile = businessProfileRepository.findByOwnerId(currentUser.getId())
                 .orElseThrow(() -> ServiceErrors.badRequest("Create your business profile before viewing schedule"));
+        return getScheduleSummary(currentUser, profile);
+    }
+
+    public BusinessOwnerScheduleSummaryDTO getMyScheduleSummary(AppUser currentUser, Long businessProfileId) {
+        BusinessProfile profile = businessProfileRepository.findAllByOwnerId(currentUser.getId()).stream()
+                .filter(candidate -> candidate.getId().equals(businessProfileId))
+                .findFirst()
+                .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+        return getScheduleSummary(currentUser, profile);
+    }
+
+    private BusinessOwnerScheduleSummaryDTO getScheduleSummary(AppUser currentUser, BusinessProfile profile) {
         ZoneId zoneId = TimeSupport.requireZoneId(profile.getTimezone(), "Create your business profile before viewing schedule");
         LocalDate today = TimeSupport.today(zoneId);
         Instant dayStart = TimeSupport.startOfDay(today, zoneId);
         Instant dayEnd = TimeSupport.endOfDay(today, zoneId);
 
-        List<BusinessBooking> todayBookings = businessBookingRepository.findDetailedByOwnerIdAndStartsAtBetween(
+        List<BusinessBooking> todayBookings = businessBookingRepository.findDetailedByOwnerIdAndProfileIdAndStartsAtBetween(
                 currentUser.getId(),
+                profile.getId(),
                 dayStart,
                 dayEnd
         );
-        List<BusinessBooking> upcomingBookings = businessBookingRepository.findUpcomingDetailedByOwnerId(
+        List<BusinessBooking> upcomingBookings = businessBookingRepository.findUpcomingDetailedByOwnerIdAndProfileId(
                 currentUser.getId(),
+                profile.getId(),
                 UPCOMING_STATUSES,
                 TimeSupport.now()
         );

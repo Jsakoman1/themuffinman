@@ -6,7 +6,6 @@ status: verified
 audited_at: '2026-07-25'
 source_inventory: docs/capability-inventory.yaml
 source_target_catalog: docs/target-capability-catalog.yaml
-source_coverage_report: docs/work/target-capability-coverage-report.yaml
 purpose: >
   Record the current implementation inventory without reopening the retired
   redesign plans. This is a diagnostic snapshot; implementation status remains

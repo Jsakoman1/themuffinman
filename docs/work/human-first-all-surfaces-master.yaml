@@ -1,0 +1,44 @@
+kind: master
+version: 1
+id: human-first-all-surfaces
+title: Apply the human-first workspace pattern across authenticated surfaces
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/human-first-all-surfaces-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/human-first-all-surfaces-atomic-hardening.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-human-first-ux-master.yaml
+  - docs/work/business-owner-booking-attention.yaml
+  baseline_only_surfaces:
+  - Business owner, public booking, and booking lifecycle flows.
+  residual_scope:
+  - Human-first interaction improvements for Home, Work, Things, Rides, People, Circles,
+    Calendar, Chat, Profile, Search, and VisionForWeb.
+  retest_triggers:
+  - Changes to shared app shell, routes, backend-provided action rendering, or shared
+    workspace primitives.
+  non_duplication_rule: Business evidence is a pattern reference only; every non-Business
+    module needs its own runtime evidence.
+analysis_artifact: docs/work/human-first-all-surfaces-analysis.md
+preflight_artifact: docs/work/human-first-all-surfaces-preflight.md
+children:
+- docs/work/human-first-all-surfaces-foundation.yaml
+- docs/work/human-first-home-work.yaml
+- docs/work/human-first-things-rides.yaml
+- docs/work/human-first-people-profile.yaml
+- docs/work/human-first-calendar-chat-search.yaml
+- docs/work/human-first-all-surfaces-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-29T14:34:58Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  children:
+  - docs/work/human-first-all-surfaces-foundation.yaml
+  - docs/work/human-first-home-work.yaml
+  - docs/work/human-first-things-rides.yaml
+  - docs/work/human-first-people-profile.yaml
+  - docs/work/human-first-calendar-chat-search.yaml
+  - docs/work/human-first-all-surfaces-closeout.yaml

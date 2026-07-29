@@ -67,7 +67,7 @@ class BusinessOwnerCalendarReadServiceTest {
         BusinessBooking second = booking(6L, profile, owner, "bob", BusinessBookingStatus.PENDING_CONFIRMATION, Instant.parse("2026-07-09T10:00:00Z"));
 
         when(businessProfileRepository.findByOwnerId(owner.getId())).thenReturn(Optional.of(profile));
-        when(businessBookingRepository.findDetailedByOwnerIdAndOverlap(owner.getId(), from, to)).thenReturn(List.of(first, second));
+        when(businessBookingRepository.findDetailedByOwnerIdAndProfileIdAndOverlap(owner.getId(), profile.getId(), from, to)).thenReturn(List.of(first, second));
         when(businessBookingPresentationService.enrichForOwner(any(BusinessBookingResponseDTO.class), any(BusinessBooking.class), eq(owner)))
                 .thenAnswer(invocation -> {
                     BusinessBookingResponseDTO dto = invocation.getArgument(0);
@@ -91,6 +91,36 @@ class BusinessOwnerCalendarReadServiceTest {
         assertEquals("Confirmed", result.getDays().get(0).getItems().getFirst().getStatusLabel());
         assertEquals("Pending confirmation", result.getDays().get(1).getItems().getFirst().getStatusLabel());
         assertEquals("Europe/Zurich", result.getDays().get(0).getItems().getFirst().getTimezone());
+    }
+
+    @Test
+    void selectedProfileUsesOnlyItsBookings() {
+        AppUser owner = user(1L, "owner");
+        BusinessProfile selected = profile(owner);
+        BusinessProfile other = profile(owner); other.setId(11L); other.setBusinessName("Other");
+        Instant from = Instant.parse("2026-07-08T00:00:00Z");
+        Instant to = Instant.parse("2026-07-09T00:00:00Z");
+        when(businessProfileRepository.findAllByOwnerId(owner.getId())).thenReturn(List.of(selected, other));
+        when(businessBookingRepository.findDetailedByOwnerIdAndProfileIdAndOverlap(owner.getId(), selected.getId(), from, to)).thenReturn(List.of());
+
+        var result = businessOwnerCalendarReadService.getMyCalendar(owner, selected.getId(), from, to);
+
+        assertEquals(0, result.getTotalBookings());
+    }
+
+    @Test
+    void supportsSixWeekOwnerCalendarProjection() {
+        AppUser owner = user(1L, "owner");
+        BusinessProfile profile = profile(owner);
+        ZoneId zoneId = ZoneId.of(profile.getTimezone());
+        Instant from = LocalDate.of(2026, 6, 28).atStartOfDay(zoneId).toInstant();
+        Instant to = LocalDate.of(2026, 8, 9).atStartOfDay(zoneId).toInstant();
+        when(businessProfileRepository.findByOwnerId(owner.getId())).thenReturn(Optional.of(profile));
+        when(businessBookingRepository.findDetailedByOwnerIdAndProfileIdAndOverlap(owner.getId(), profile.getId(), from, to)).thenReturn(List.of());
+
+        var result = businessOwnerCalendarReadService.getMyCalendar(owner, from, to);
+
+        assertEquals(42, result.getDays().size());
     }
 
     private BusinessProfile profile(AppUser owner) {

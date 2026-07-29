@@ -254,6 +254,36 @@ regression_scenarios:
     commands:
       - cd apps/themuffinman && ./mvnw test -Dtest=BusinessOwnerCalendarReadServiceTest,VisionCapabilityPreviewServiceTest
       - node apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - id: business-owner-context-and-honest-public-booking
+    domain: business
+    risk: high
+    scenario: Owner booking, calendar, and service-setup routes keep their selected business and offering context; public booking exposes one persisted booking only; the owner month view receives all 42 backend-backed days; and discovery exposes only published booking and area filters.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+      - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+      - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+      - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.json
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=BusinessOwnerCalendarReadServiceTest
+      - npm --prefix apps/themuffinman/frontend run type-check
+      - npm --prefix apps/themuffinman/frontend run build
+      - WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.json node apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - id: business-human-first-owner-and-customer-journeys
+    area: business
+    scenario: A new owner can follow focused setup sections, while a customer chooses a business-local date before backend-backed times and sees a durable booking completion state.
+    evidence:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+      - apps/themuffinman/frontend/scripts/business-human-first-runtime.mjs
+      - docs/runtime-evidence/business-human-first-owner-onboarding.json
+      - docs/runtime-evidence/business-human-first-service-basics.json
+      - docs/runtime-evidence/business-human-first-hours.json
+      - docs/runtime-evidence/business-human-first-public-booking.json
+      - docs/runtime-evidence/business-human-first-booking-completion.json
+    validation:
+      - cd apps/themuffinman && ./mvnw test -Dtest=BusinessAvailabilityReadServiceTest
+      - npm --prefix apps/themuffinman/frontend run build
   - id: vision-runtime-provider-failure-recovery
     domain: vision
     risk: high
@@ -290,7 +320,7 @@ regression_scenarios:
   - id: frontend-ux-next-evolution-closeout
     domain: frontend-ux
     risk: high
-    scenario: The next-evolution shell preserves Today/Next orientation, context and command entry points, progressive Business booking with quantity/recipient/recurrence/quote states, cross-module detail links, keyboard-safe actions, and overflow-free desktop/mobile layouts.
+    scenario: The next-evolution shell preserves Today/Next orientation, context and command entry points, progressive Business booking with persisted service/detail/time/review states, cross-module detail links, keyboard-safe actions, and overflow-free desktop/mobile layouts.
     test_files:
       - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
       - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue

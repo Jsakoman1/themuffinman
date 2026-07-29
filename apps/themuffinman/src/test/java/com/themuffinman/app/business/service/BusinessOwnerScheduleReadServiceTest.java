@@ -56,8 +56,8 @@ class BusinessOwnerScheduleReadServiceTest {
         BusinessBooking upcomingBooking = booking(6L, profile, owner, "bob", BusinessBookingStatus.CONFIRMED, dayEnd.plus(Duration.ofHours(2)));
 
         when(businessProfileRepository.findByOwnerId(owner.getId())).thenReturn(Optional.of(profile));
-        when(businessBookingRepository.findDetailedByOwnerIdAndStartsAtBetween(owner.getId(), dayStart, dayEnd)).thenReturn(List.of(todayBooking));
-        when(businessBookingRepository.findUpcomingDetailedByOwnerId(eq(owner.getId()), anyCollection(), any(Instant.class)))
+        when(businessBookingRepository.findDetailedByOwnerIdAndProfileIdAndStartsAtBetween(owner.getId(), profile.getId(), dayStart, dayEnd)).thenReturn(List.of(todayBooking));
+        when(businessBookingRepository.findUpcomingDetailedByOwnerIdAndProfileId(eq(owner.getId()), eq(profile.getId()), anyCollection(), any(Instant.class)))
                 .thenReturn(List.of(todayBooking, upcomingBooking));
         when(businessBookingPresentationService.formatStatusLabel(BusinessBookingStatus.PENDING_CONFIRMATION)).thenReturn("Pending confirmation");
         when(businessBookingPresentationService.formatStatusLabel(BusinessBookingStatus.CONFIRMED)).thenReturn("Confirmed");

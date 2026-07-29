@@ -1,0 +1,20 @@
+{
+  "evidenceVersion": "human-usability-circle-requests-v1",
+  "capturedAt": "2026-07-29T15:00:05.100Z",
+  "viewer": "test@test.com",
+  "result": "failed",
+  "browserErrors": [],
+  "routes": {
+    "requests": "/people/requests",
+    "find": "/people/find"
+  },
+  "checks": {
+    "outcome": true,
+    "connection": true,
+    "noMembershipClaim": true,
+    "singlePurpose": false,
+    "noSelectedCircleAction": true
+  },
+  "overflowFree": true,
+  "screenshot": "docs/runtime-evidence/human-usability-circle-requests-2026-07-29.png"
+}

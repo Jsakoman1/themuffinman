@@ -1,6 +1,8 @@
 export type ModuleTab = {
   id: string
   label: string
+  badge?: string | number
+  badgeLabel?: string
   route: string
   backendScope: string
   permission?: string

@@ -129,7 +129,8 @@ export type WorkspaceCommandGroup = "personal" | "navigation" | "create" | "visi
 export type GuidedIntakeStep = {fieldId: string; inputKind: string; label: string; placeholder: string; choices: string[]; currentValue?: string; valid: boolean; error?: string; nextAction: string; complete: boolean}
 export type GuidedIntakeResponse = {flow: string; step: GuidedIntakeStep; draft: Record<string, string>; reviewReady: boolean}
 
-const activeBusinessParams = () => {
+const activeBusinessParams = (businessProfileId?: number) => {
+  if (typeof businessProfileId === "number") return {businessProfileId}
   const id = typeof window === "undefined" ? null : window.sessionStorage.getItem("activeBusinessProfileId")
   return id ? {businessProfileId: Number(id)} : {}
 }
@@ -385,8 +386,8 @@ export const userShellApi = {
     return (await api.delete<ChatMessageDTO>(`/chat/conversations/${conversationId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}`, withAuth())).data
   },
 
-  async getBusinessDashboard(): Promise<BusinessOwnerDashboardDTO> {
-    return (await api.get<BusinessOwnerDashboardDTO>("/business/dashboard/me", withAuth())).data
+  async getBusinessDashboard(businessProfileId?: number): Promise<BusinessOwnerDashboardDTO> {
+    return (await api.get<BusinessOwnerDashboardDTO>("/business/dashboard/me", {params: {businessProfileId}, ...withAuth()})).data
   },
 
   async getBusinessProfile(): Promise<BusinessProfileResponseDTO> {
@@ -496,8 +497,8 @@ export const userShellApi = {
     return (await api.post<BusinessResourceConfigurationDTO>(`/business/resources/profile/${profileId}/requirements/me`, request, withAuth())).data
   },
 
-  async getBusinessAvailabilityRules(): Promise<BusinessAvailabilityRuleListResponseDTO> {
-    return (await api.get<BusinessAvailabilityRuleListResponseDTO>("/business/availability-rules/me", {params: activeBusinessParams(), ...withAuth()})).data
+  async getBusinessAvailabilityRules(businessProfileId?: number): Promise<BusinessAvailabilityRuleListResponseDTO> {
+    return (await api.get<BusinessAvailabilityRuleListResponseDTO>("/business/availability-rules/me", {params: activeBusinessParams(businessProfileId), ...withAuth()})).data
   },
 
   async createBusinessAvailabilityRule(request: BusinessAvailabilityRuleRequestDTO): Promise<BusinessAvailabilityRuleResponseDTO> {
@@ -543,6 +544,9 @@ export const userShellApi = {
   async getPublicAvailability(slug: string, offeringId: number, from: string, to: string): Promise<{items: BusinessAvailabilityWindowDTO[]}> {
     return (await api.get(`/business/public/${encodeURIComponent(slug)}/availability`, {params: {offeringId, from, to}, ...withAuth()})).data
   },
+  async getPublicAvailabilityForBusinessDate(slug: string, offeringId: number, date: string): Promise<{items: BusinessAvailabilityWindowDTO[]}> {
+    return (await api.get(`/business/public/${encodeURIComponent(slug)}/availability/date`, {params: {offeringId, date}, ...withAuth()})).data
+  },
 
   async getBusinessFavorites(): Promise<BusinessFavorite[]> {
     return (await api.get<BusinessFavorite[]>("/business/favorites/me", withAuth())).data
@@ -572,15 +576,15 @@ export const userShellApi = {
     return (await api.post<BusinessBookingResponseDTO>(`/business/bookings/me/${bookingId}/reschedule`, {startsAt, endsAt, reason}, withAuth())).data
   },
 
-  async getBusinessOwnerBookings(): Promise<BusinessBookingListResponseDTO> {
+  async getBusinessOwnerBookings(businessProfileId?: number): Promise<BusinessBookingListResponseDTO> {
     return (await api.get<BusinessBookingListResponseDTO>("/business/bookings/owner", {
-      params: {page: 0, size: 50, ...activeBusinessParams()},
+      params: {page: 0, size: 50, businessProfileId: businessProfileId ?? activeBusinessProfileId() ?? undefined},
       ...withAuth()
     })).data
   },
 
-  async getBusinessOwnerCalendar(range: {from?: string; to?: string} = {}): Promise<BusinessOwnerCalendarProjectionDTO> {
-    return (await api.get<BusinessOwnerCalendarProjectionDTO>("/business/bookings/owner/calendar", {params: range, ...withAuth()})).data
+  async getBusinessOwnerCalendar(businessProfileId = activeBusinessProfileId(), range: {from?: string; to?: string} = {}): Promise<BusinessOwnerCalendarProjectionDTO> {
+    return (await api.get<BusinessOwnerCalendarProjectionDTO>("/business/bookings/owner/calendar", {params: {businessProfileId: businessProfileId ?? undefined, ...range}, ...withAuth()})).data
   },
   async getCalendarProjection(range: {from: string; to: string; sources?: string[]; businessId?: number; view?: "agenda" | "day" | "week" | "month"}): Promise<CalendarProjection> {
     const scopeKey = `calendar:${range.businessId ?? "all"}:${range.from}:${range.to}:${(range.sources || []).slice().sort().join(",")}`

@@ -1,0 +1,69 @@
+{
+  "capturedAt": "2026-07-29T14:33:55.427Z",
+  "baseUrl": "http://localhost:5173",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "home": {
+      "path": "/home",
+      "status": "passed",
+      "orientationPattern": "Needs attention|You are up to date",
+      "url": "http://localhost:5173/home"
+    },
+    "work": {
+      "path": "/work",
+      "status": "passed",
+      "orientationPattern": "Find work|My work|Work",
+      "url": "http://localhost:5173/work/find"
+    },
+    "things": {
+      "path": "/things?scope=mine",
+      "status": "passed",
+      "orientationPattern": "My things",
+      "url": "http://localhost:5173/things?scope=mine"
+    },
+    "rides": {
+      "path": "/rides/mine",
+      "status": "passed",
+      "orientationPattern": "My rides",
+      "url": "http://localhost:5173/rides/mine"
+    },
+    "people": {
+      "path": "/people",
+      "status": "passed",
+      "orientationPattern": "Your people",
+      "url": "http://localhost:5173/people"
+    },
+    "calendar": {
+      "path": "/calendar",
+      "status": "passed",
+      "orientationPattern": "Up next",
+      "url": "http://localhost:5173/calendar"
+    },
+    "chat": {
+      "path": "/chat",
+      "status": "passed",
+      "orientationPattern": "Chat",
+      "url": "http://localhost:5173/chat"
+    },
+    "profile": {
+      "path": "/profile/settings",
+      "status": "passed",
+      "orientationPattern": "Profile and location",
+      "url": "http://localhost:5173/profile/settings"
+    },
+    "search": {
+      "path": "/search/saved",
+      "status": "passed",
+      "orientationPattern": "Saved searches",
+      "url": "http://localhost:5173/search/saved"
+    },
+    "vision": {
+      "path": "/home?visionContext=Work%20help&visionReturnTo=%2Fwork",
+      "status": "passed",
+      "orientationPattern": "Work help|Vision",
+      "url": "http://localhost:5173/home?visionContext=Work%20help&visionReturnTo=%2Fwork"
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

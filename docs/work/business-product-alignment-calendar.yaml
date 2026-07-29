@@ -1,0 +1,109 @@
+kind: work
+version: 1
+id: business-product-alignment-calendar
+title: Make owner calendar range semantics operational
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-product-alignment-master.yaml
+execution_inventory: docs/work/business-product-alignment-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-workspace-repair-master.yaml
+  baseline_only_surfaces:
+  - Owner calendar backend projection and booking actions.
+  residual_scope:
+  - Correct client-side month layout, a backend-supported six-week range, and captured
+    browser evidence.
+  retest_triggers:
+  - Changes to owner calendar range or rendered calendar structure.
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted
+    as new completion.
+tasks:
+- id: render-calendar-month-with-real-week-semantics
+  title: Render correct owner month range and weekday structure
+  type: implementation
+  status: done
+  inventory_item: calendar
+  observable_outcome: The selected-business calendar renders a full six-week calendar
+    month in seven-day weeks, with backend-backed booking data for every displayed
+    day and no five-column pseudo-month.
+  dependencies:
+  - remove-unpersisted-public-booking-promises
+  evidence_boundary:
+  - Frontend type-check/build and new browser screenshot/runtime evidence.
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/BusinessProperties.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.json
+  - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.png
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/BusinessProperties.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.png
+  manual_runtime_command: WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.json
+    node apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.json
+  validation: cd apps/themuffinman && ./mvnw test -Dtest=BusinessOwnerCalendarReadServiceTest
+    && npm --prefix frontend run build
+  started_at: '2026-07-29T09:23:16Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue: 1d116d4c3627815cad741bbbd3f30e329c9e830962688112226533b12f933100
+evidence:
+- task: render-calendar-month-with-real-week-semantics
+  command: cd apps/themuffinman && ./mvnw test -Dtest=BusinessOwnerCalendarReadServiceTest
+    && npm --prefix frontend run build
+  ranAt: '2026-07-29T09:34:37Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/business-booking-runtime.mjs
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/BusinessProperties.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.json
+  - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.png
+  output: |+
+    dist/assets/WorkQuestCreateView-BZYaPE3h.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-vgKOr5Vm.js                   12.12 kB │ gzip:   3.99 kB
+    dist/assets/BusinessServiceSchemaView-Dr0aci8D.js             12.26 kB │ gzip:   4.04 kB
+    dist/assets/CirclesView-Br5ugZu7.js                           13.46 kB │ gzip:   4.31 kB
+    dist/assets/BusinessPublicView-BGxHNLNM.js                    14.01 kB │ gzip:   5.11 kB
+    dist/assets/WorkPage-CcVyp6_t.js                              14.96 kB │ gzip:   5.49 kB
+    dist/assets/RidesView-DEOn_DlA.js                             15.24 kB │ gzip:   4.86 kB
+    dist/assets/WorkQuestDetailView-CugncOmX.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/ChatSurfaceView-CpmOULKY.js                       18.64 kB │ gzip:   6.04 kB
+    dist/assets/ProfilePage-tcGE7Fik.js                           24.54 kB │ gzip:   7.76 kB
+    dist/assets/HomeHubView-BmIn2Buk.js                           24.62 kB │ gzip:   7.30 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/AuthenticatedShellView-eP0mCcxF.js                34.55 kB │ gzip:  11.49 kB
+    dist/assets/BusinessOwnerPage-CDdCOl-J.js                     50.37 kB │ gzip:  11.93 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/index-BzIgmu6r.js                                 62.27 kB │ gzip:  15.42 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 552ms
+
+  startedAt: '2026-07-29T09:23:16Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/src/main/java/com/themuffinman/app/config/BusinessProperties.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-owner-calendar-alignment-2026-07-29.json

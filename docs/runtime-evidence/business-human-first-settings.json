@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-07-29T10:31:40.896Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "settingsSections": {
+      "status": "passed",
+      "businessId": 228
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

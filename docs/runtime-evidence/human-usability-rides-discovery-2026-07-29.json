@@ -1,0 +1,14 @@
+{
+  "evidenceVersion": "human-usability-rides-discovery-v1",
+  "capturedAt": "2026-07-29T15:08:19.145Z",
+  "result": "passed",
+  "browserErrors": [],
+  "checks": {
+    "oneTime": true,
+    "question": true,
+    "primary": true,
+    "commuteSecondary": true
+  },
+  "overflowFree": true,
+  "screenshot": "docs/runtime-evidence/human-usability-rides-discovery-2026-07-29.png"
+}

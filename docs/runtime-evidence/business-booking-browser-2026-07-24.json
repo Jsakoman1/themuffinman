@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-07-24T12:20:43.678Z",
+  "capturedAt": "2026-07-29T09:04:03.606Z",
   "browser": "Playwright Chromium headless",
   "scenarios": {
     "runtimeApiContract": {
@@ -15,17 +15,17 @@
     "ownerSetup": {
       "status": "passed",
       "route": "/business/service-setup",
-      "visibleText": "TM\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◌\nChat\n□\nCalendar\n◇\nBusiness\nProfile\nBookings\nCalendar\n◎\nCircles\n▣\nThings\n↗\nRides\n\nPERSONAL\n\nAttention\n12\n◷\nActivity\n⌕\nSaved searches\n\nACCOUNT\n\nProfile\nSettings\nCreate\nSearch\n✦\nVision\nT\ntest\n\nBusiness / Service setup\n\nService rules and resources\n\nDefine demand, options, pricing rules, and shared capacity for each offering.\n\nOffering \nRuntime booking\nRuntime booking\nRun"
+      "visibleText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\nRuntime Flexible Services\nRuntime Idempotency 1784717445008\nRuntime Idempotency 1784717486716\nRuntime Idempotency 1784717530273\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n\nAccount\n\nT\ntest\n\nBUSINESS / SERVICE SETUP\n\nConfigure a service\n\nEvery control on this screen changes the selected saved service. Customer booking alway"
     },
     "ownerCalendar": {
       "status": "passed",
       "route": "/business/calendar",
-      "visibleText": "TM\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◌\nChat\n□\nCalendar\n◇\nBusiness\nProfile\nBookings\nCalendar\n◎\nCircles\n▣\nThings\n↗\nRides\n\nPERSONAL\n\nAttention\n12\n◷\nActivity\n⌕\nSaved searches\n\nACCOUNT\n\nProfile\nSettings\nCreate\nSearch\n✦\nVision\nT\ntest\n\nBUSINESS / AVAILABILITY\n\nAvailability\nSchedule rules\n4\nNew rule\nRuntime booking\nInactive\nThursday · 00:00:00–23:59:00\nCapacity 1 · 60 min\nEdit\nDelete\nRuntime booking\nInactive\nThur"
+      "visibleText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\nRuntime Flexible Services\nRuntime Idempotency 1784717445008\nRuntime Idempotency 1784717486716\nRuntime Idempotency 1784717530273\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n\nAccount\n\nT\ntest\n\nBUSINESS\n\nManage your business\n\nEach business has its own private workspace and schedule.\n\nACTIVE BUSINESS\nRuntime Flexible Services\nR"
     },
     "publicBusiness": {
       "status": "passed",
       "route": "/business/public/runtime-flexible-services",
-      "visibleText": "TM\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◌\nChat\n□\nCalendar\n◇\nBusiness\nProfile\nBookings\nCalendar\n◎\nCircles\n▣\nThings\n↗\nRides\n\nPERSONAL\n\nAttention\n12\n◷\nActivity\n⌕\nSaved searches\n\nACCOUNT\n\nProfile\nSettings\nCreate\nSearch\n✦\nVision\nT\ntest\nBack to results\n\nBUSINESS\n\nRuntime Flexible Services\n\nOfferings\n1\nRuntime crew service\nNo offering summary\n40 CHF · 30 min\nBook\nBUSINESS ACTIONS\nSave business\n\nBooking availability"
+      "visibleText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\nRuntime Flexible Services\nRuntime Idempotency 1784717445008\nRuntime Idempotency 1784717486716\nRuntime Idempotency 1784717530273\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n\nAccount\n\nT\ntest\n‹ Back to results\n\nBUSINESS\n\nRuntime Flexible Services\n\nA trusted local service, ready when you are.\n\nBook a service\nSave business\n\nBoo"
     },
     "visionSurface": {
       "status": "passed",

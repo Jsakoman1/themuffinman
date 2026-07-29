@@ -1,0 +1,67 @@
+kind: work
+version: 1
+id: business-workspace-calendar-contract
+title: Scope owner calendar data to the selected business
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-workspace-repair-master.yaml
+execution_inventory: docs/work/business-workspace-repair-execution-inventory.yaml
+tasks:
+- id: scope-owner-calendar-to-selected-business
+  title: Accept and validate selected business context in the owner calendar read
+    contract
+  type: implementation
+  status: done
+  inventory_item: calendar-contract
+  observable_outcome: Owner calendar responses contain bookings only for an explicitly
+    selected owned business; aggregate scheduling remains on the global Calendar contract.
+  dependencies:
+  - correct-owner-workspace-mapping
+  evidence_boundary:
+  - JUnit coverage for ownership
+  - selected profile filtering
+  - aggregate mode
+  - and invalid profile rejection.
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=BusinessOwnerCalendarReadServiceTest
+  started_at: '2026-07-29T08:48:58Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java: '018f3669efc19db17f5af656a24b82538893ba9f536df266c28e70fb1e9b0db9'
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java: 4b44fbb20115365a254a8414a1d701a6ead82c419f798c69f38c64abf6ed078f
+evidence:
+- task: scope-owner-calendar-to-selected-business
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=BusinessOwnerCalendarReadServiceTest
+  ranAt: '2026-07-29T08:49:56Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessBookingController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  output: "[INFO] --- surefire:3.5.5:test (default-test) @ themuffinman ---\n[INFO]
+    Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider\n[INFO]
+    \n[INFO] -------------------------------------------------------\n[INFO]  T E
+    S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.business.service.BusinessOwnerCalendarReadServiceTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.326 s -- in
+    com.themuffinman.app.business.service.BusinessOwnerCalendarReadServiceTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  12.316 s\n[INFO] Finished at: 2026-07-29T10:50:09+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-29T08:48:58Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOwnerCalendarReadServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,126 @@
+kind: execution_inventory
+version: 1
+id: human-first-all-surfaces-execution-inventory
+master_plan: docs/work/human-first-all-surfaces-master.yaml
+serial: true
+items:
+- id: harden-all-surfaces-plan
+  plan: docs/work/human-first-all-surfaces-atomic-hardening.yaml
+  task: harden-all-surfaces-inventory
+  status: verified
+  started_at: '2026-07-29T14:14:22Z'
+  verified_at: '2026-07-29T14:14:49Z'
+  evidence:
+    plan: docs/work/human-first-all-surfaces-atomic-hardening.yaml
+    task: harden-all-surfaces-inventory
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: establish-shared-attention-affordances
+  plan: docs/work/human-first-all-surfaces-foundation.yaml
+  task: establish-shared-attention-and-action-affordances
+  status: verified
+  started_at: '2026-07-29T14:15:23Z'
+  verified_at: '2026-07-29T14:16:06Z'
+  evidence:
+    plan: docs/work/human-first-all-surfaces-foundation.yaml
+    task: establish-shared-attention-and-action-affordances
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: simplify-home-attention
+  plan: docs/work/human-first-home-work.yaml
+  task: orient-home-around-attention-and-next-actions
+  status: verified
+  started_at: '2026-07-29T14:16:12Z'
+  verified_at: '2026-07-29T14:17:44Z'
+  evidence:
+    plan: docs/work/human-first-home-work.yaml
+    task: orient-home-around-attention-and-next-actions
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: clarify-work-decisions
+  plan: docs/work/human-first-home-work.yaml
+  task: clarify-work-and-application-decisions
+  status: verified
+  started_at: '2026-07-29T14:17:53Z'
+  verified_at: '2026-07-29T14:19:58Z'
+  evidence:
+    plan: docs/work/human-first-home-work.yaml
+    task: clarify-work-and-application-decisions
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: separate-things-operations
+  plan: docs/work/human-first-things-rides.yaml
+  task: separate-thing-inventory-from-borrow-decisions
+  status: verified
+  started_at: '2026-07-29T14:20:18Z'
+  verified_at: '2026-07-29T14:21:29Z'
+  evidence:
+    plan: docs/work/human-first-things-rides.yaml
+    task: separate-thing-inventory-from-borrow-decisions
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: separate-rides-operations
+  plan: docs/work/human-first-things-rides.yaml
+  task: separate-ride-setup-discovery-and-my-rides
+  status: verified
+  started_at: '2026-07-29T14:21:34Z'
+  verified_at: '2026-07-29T14:22:50Z'
+  evidence:
+    plan: docs/work/human-first-things-rides.yaml
+    task: separate-ride-setup-discovery-and-my-rides
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: clarify-people-and-circles
+  plan: docs/work/human-first-people-profile.yaml
+  task: clarify-people-requests-and-circle-context
+  status: verified
+  started_at: '2026-07-29T14:22:55Z'
+  verified_at: '2026-07-29T14:24:28Z'
+  evidence:
+    plan: docs/work/human-first-people-profile.yaml
+    task: clarify-people-requests-and-circle-context
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: simplify-profile-settings
+  plan: docs/work/human-first-people-profile.yaml
+  task: group-profile-settings-by-personal-intent
+  status: verified
+  started_at: '2026-07-29T14:24:34Z'
+  verified_at: '2026-07-29T14:25:46Z'
+  evidence:
+    plan: docs/work/human-first-people-profile.yaml
+    task: group-profile-settings-by-personal-intent
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: clarify-global-calendar
+  plan: docs/work/human-first-calendar-chat-search.yaml
+  task: orient-global-calendar-around-today-and-source-context
+  status: verified
+  started_at: '2026-07-29T14:25:51Z'
+  verified_at: '2026-07-29T14:26:53Z'
+  evidence:
+    plan: docs/work/human-first-calendar-chat-search.yaml
+    task: orient-global-calendar-around-today-and-source-context
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: clarify-chat-inbox
+  plan: docs/work/human-first-calendar-chat-search.yaml
+  task: make-chat-discovery-and-thread-recovery-clear
+  status: verified
+  started_at: '2026-07-29T14:26:59Z'
+  verified_at: '2026-07-29T14:27:42Z'
+  evidence:
+    plan: docs/work/human-first-calendar-chat-search.yaml
+    task: make-chat-discovery-and-thread-recovery-clear
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: simplify-search-and-vision
+  plan: docs/work/human-first-calendar-chat-search.yaml
+  task: simplify-search-and-vision-contextual-handoffs
+  status: verified
+  started_at: '2026-07-29T14:28:02Z'
+  verified_at: '2026-07-29T14:29:03Z'
+  evidence:
+    plan: docs/work/human-first-calendar-chat-search.yaml
+    task: simplify-search-and-vision-contextual-handoffs
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: close-all-surfaces-program
+  plan: docs/work/human-first-all-surfaces-closeout.yaml
+  task: verify-human-first-surface-consistency
+  status: verified
+  started_at: '2026-07-29T14:29:09Z'
+  verified_at: '2026-07-29T14:30:44Z'
+  evidence:
+    plan: docs/work/human-first-all-surfaces-closeout.yaml
+    task: verify-human-first-surface-consistency
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621

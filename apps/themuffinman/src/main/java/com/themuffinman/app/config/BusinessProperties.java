@@ -39,6 +39,6 @@ public class BusinessProperties {
     @Setter
     public static class Calendar {
         private int defaultProjectionDays = 7;
-        private int maxProjectionDays = 31;
+        private int maxProjectionDays = 42;
     }
 }

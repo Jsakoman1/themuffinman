@@ -1,0 +1,59 @@
+{
+  "capturedAt": "2026-07-29T11:53:37.130Z",
+  "browser": "Playwright Chromium headless",
+  "scenarios": {
+    "runtimeApiContract": {
+      "status": "passed",
+      "schemaStatus": 200,
+      "quoteStatus": 200,
+      "availabilityStatus": 200,
+      "schemaVersion": 2,
+      "demandFields": 1,
+      "options": 1,
+      "slots": 5
+    },
+    "ownerSetup": {
+      "status": "passed",
+      "route": "/business/service-setup",
+      "visibleText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\nRuntime Flexible Services\nRuntime Idempotency 1784717445008\nRuntime Idempotency 1784717486716\nRuntime Idempotency 1784717530273\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n\nAccount\n\nT\ntest\n\nBUSINESS / SERVICE SETUP\n\nConfigure a service\n\nSet only what customers need to choose a time and understand the price. The backend sti"
+    },
+    "ownerCalendar": {
+      "status": "passed",
+      "route": "/business/calendar",
+      "businessId": 228,
+      "requests": [
+        {
+          "url": "http://localhost:8080/business/bookings/owner/calendar?businessProfileId=228&from=2026-07-25T22:00:00.000Z&to=2026-08-01T22:00:00.000Z",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:8080/business/bookings/owner/calendar?businessProfileId=228&from=2026-06-27T22:00:00.000Z&to=2026-08-08T22:00:00.000Z",
+          "status": 200
+        }
+      ],
+      "weekdayHeaders": 7,
+      "monthDays": 42,
+      "visibleText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\nRuntime Flexible Services\nRuntime Idempotency 1784717445008\nRuntime Idempotency 1784717486716\nRuntime Idempotency 1784717530273\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n\nAccount\n\nT\ntest\n\nBUSINESS\n\nManage your business\n\nEach business has its own private workspace and schedule.\n\nACTIVE BUSINESS\nRuntime Flexible Services\nR"
+    },
+    "visionDockClearance": {
+      "status": "passed",
+      "viewport": "desktop"
+    },
+    "publicBusiness": {
+      "status": "passed",
+      "route": "/business/public/runtime-flexible-services",
+      "visibleText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\nRuntime Flexible Services\nRuntime Idempotency 1784717445008\nRuntime Idempotency 1784717486716\nRuntime Idempotency 1784717530273\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n\nAccount\n\nT\ntest\n‹ Back to results\n\nBUSINESS\n\nRuntime Flexible Services\n\nA trusted local service, ready when you are.\n\nBook a service\nSave business\n\nBoo"
+    },
+    "visionSurface": {
+      "status": "passed",
+      "route": "/home",
+      "visionHost": 1
+    },
+    "browserErrors": {
+      "status": "passed",
+      "errors": []
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

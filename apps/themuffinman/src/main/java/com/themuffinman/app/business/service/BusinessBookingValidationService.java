@@ -216,21 +216,8 @@ public class BusinessBookingValidationService {
                 endsAt
         );
 
-        Instant cursor = startsAt;
-        while (cursor.isBefore(endsAt)) {
-            Instant expectedCursor = cursor;
-            BusinessAvailabilityWindowDTO nextWindow = windows.stream()
-                    .filter(window -> window.getStartsAt().equals(expectedCursor))
-                    .findFirst()
-                    .orElseThrow(() -> ServiceErrors.conflict("Requested booking slot is not available"));
-            if (nextWindow.getEndsAt().isAfter(endsAt)) {
-                throw ServiceErrors.conflict("Requested booking slot is not aligned to business availability");
-            }
-            cursor = nextWindow.getEndsAt();
-        }
-
         return windows.stream()
-                .filter(window -> !window.getStartsAt().isBefore(startsAt) && !window.getEndsAt().isAfter(endsAt))
+                .filter(window -> window.getStartsAt().equals(startsAt) && window.getEndsAt().equals(endsAt))
                 .toList();
     }
 

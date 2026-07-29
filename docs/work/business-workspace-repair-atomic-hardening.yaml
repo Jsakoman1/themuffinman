@@ -1,0 +1,48 @@
+kind: work
+version: 1
+id: business-workspace-repair-atomic-hardening
+title: Harden Business workspace repair scope
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-workspace-repair-master.yaml
+execution_inventory: docs/work/business-workspace-repair-execution-inventory.yaml
+tasks:
+- id: harden-business-repair-scope
+  title: Record route, context, and regression boundaries before implementation
+  type: analysis
+  status: done
+  inventory_item: business-hardening
+  observable_outcome: A bounded preflight records selected-business URL/API ownership
+    and the exact owner/customer regression scenarios.
+  dependencies: []
+  evidence_boundary:
+  - Reviewed preflight artifact and plan coverage audit.
+  paths:
+  - docs/work/business-workspace-repair-preflight.md
+  required_paths:
+  - docs/work/business-workspace-repair-preflight.md
+  validation: make audit-plan-coverage
+  started_at: '2026-07-29T08:42:21Z'
+  start_fingerprints:
+    docs/work/business-workspace-repair-preflight.md: 5632b4b5741722879e2f41676458b3c6edb1d103907e0142bf7cec742b358542
+evidence:
+- task: harden-business-repair-scope
+  command: make audit-plan-coverage
+  ranAt: '2026-07-29T08:42:38Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/business-workspace-repair-preflight.md
+  output: |+
+    ruby scripts/audits/audit-plan-coverage.rb
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-29T08:42:21Z'
+  changedAfterStart: &1
+  - docs/work/business-workspace-repair-preflight.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

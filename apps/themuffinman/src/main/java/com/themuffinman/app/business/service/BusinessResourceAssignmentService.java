@@ -62,6 +62,34 @@ public class BusinessResourceAssignmentService {
         return assignments;
     }
 
+    @Transactional(readOnly = true)
+    public boolean hasAvailableResources(BusinessOffering offering, Instant startsAt, Instant endsAt) {
+        List<Map<String, Object>> requirements = jdbcTemplate.queryForList(
+                "select resource_pool_id, resource_type, required_count from business_offering_resource_requirement where business_offering_id = ? order by id",
+                offering.getId());
+        for (Map<String, Object> requirement : requirements) {
+            Long poolId = numberAsLong(requirement.get("resource_pool_id"));
+            String resourceType = String.valueOf(requirement.get("resource_type"));
+            int requiredCount = ((Number) requirement.get("required_count")).intValue();
+            String poolCondition = poolId == null ? "resource.resource_pool_id is null" : "resource.resource_pool_id = ?";
+            String sql = "select count(*) from business_resource resource "
+                    + "where resource.business_profile_id = ? and resource.active = true "
+                    + "and resource.resource_type = ? and " + poolCondition + " "
+                    + "and not exists (select 1 from business_booking_resource_assignment assignment "
+                    + "join business_booking existing on existing.id = assignment.business_booking_id "
+                    + "where assignment.business_resource_id = resource.id "
+                    + "and existing.status in ('PENDING_CONFIRMATION','CONFIRMED') "
+                    + "and existing.starts_at < ? and existing.ends_at > ?)";
+            List<Object> args = new ArrayList<>(List.of(offering.getBusinessProfile().getId(), resourceType));
+            if (poolId != null) args.add(poolId);
+            args.add(java.sql.Timestamp.from(endsAt));
+            args.add(java.sql.Timestamp.from(startsAt));
+            Integer availableCount = jdbcTemplate.queryForObject(sql, Integer.class, args.toArray());
+            if (availableCount == null || availableCount < requiredCount) return false;
+        }
+        return true;
+    }
+
     /** Rebuilds the current assignment for a rescheduled booking in the same transaction. */
     // The assignment table is the live reservation surface; the booking snapshot remains the original quote snapshot.
     @Transactional

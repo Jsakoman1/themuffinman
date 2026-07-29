@@ -1,0 +1,152 @@
+kind: execution_inventory
+version: 1
+id: human-usability-business-parity-execution-inventory
+master_plan: docs/work/human-usability-business-parity-master.yaml
+serial: true
+hardening_contract:
+  first_item: harden-business-parity-plan
+  advancement_rule: No later item may start until the hardening task is verifier-verified.
+items:
+- id: harden-business-parity-plan
+  sequence: 1
+  plan: docs/work/human-usability-business-parity-atomic-hardening.yaml
+  task: harden-business-parity-inventory
+  status: verified
+  started_at: '2026-07-29T14:50:37Z'
+  verified_at: '2026-07-29T14:51:05Z'
+  evidence:
+    plan: docs/work/human-usability-business-parity-atomic-hardening.yaml
+    task: harden-business-parity-inventory
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: simplify-profile-summary
+  sequence: 2
+  plan: docs/work/human-usability-personal-social.yaml
+  task: simplify-profile-summary-first-view
+  status: verified
+  started_at: '2026-07-29T14:51:12Z'
+  verified_at: '2026-07-29T14:54:46Z'
+  evidence:
+    plan: docs/work/human-usability-personal-social.yaml
+    task: simplify-profile-summary-first-view
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: disclose-location-privacy
+  sequence: 3
+  plan: docs/work/human-usability-personal-social.yaml
+  task: progressively-disclose-location-and-privacy
+  status: verified
+  started_at: '2026-07-29T14:54:54Z'
+  verified_at: '2026-07-29T14:57:30Z'
+  evidence:
+    plan: docs/work/human-usability-personal-social.yaml
+    task: progressively-disclose-location-and-privacy
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: clarify-circle-requests
+  sequence: 4
+  plan: docs/work/human-usability-personal-social.yaml
+  task: clarify-circle-connection-requests
+  status: verified
+  started_at: '2026-07-29T14:57:36Z'
+  verified_at: '2026-07-29T15:00:40Z'
+  evidence:
+    plan: docs/work/human-usability-personal-social.yaml
+    task: clarify-circle-connection-requests
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: clarify-circle-membership
+  sequence: 5
+  plan: docs/work/human-usability-personal-social.yaml
+  task: clarify-circle-membership-management
+  status: verified
+  started_at: '2026-07-29T15:00:51Z'
+  verified_at: '2026-07-29T15:03:17Z'
+  evidence:
+    plan: docs/work/human-usability-personal-social.yaml
+    task: clarify-circle-membership-management
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: orient-work-by-role
+  sequence: 6
+  plan: docs/work/human-usability-work-rides-home-chat.yaml
+  task: orient-work-first-view-by-role
+  status: verified
+  started_at: '2026-07-29T15:03:27Z'
+  verified_at: '2026-07-29T15:05:50Z'
+  evidence:
+    plan: docs/work/human-usability-work-rides-home-chat.yaml
+    task: orient-work-first-view-by-role
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: simplify-ride-discovery
+  sequence: 7
+  plan: docs/work/human-usability-work-rides-home-chat.yaml
+  task: simplify-ride-discovery-first-view
+  status: verified
+  started_at: '2026-07-29T15:05:57Z'
+  verified_at: '2026-07-29T15:09:14Z'
+  evidence:
+    plan: docs/work/human-usability-work-rides-home-chat.yaml
+    task: simplify-ride-discovery-first-view
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: defer-commute-setup
+  sequence: 8
+  plan: docs/work/human-usability-work-rides-home-chat.yaml
+  task: defer-commute-setup-until-opt-in
+  status: verified
+  started_at: '2026-07-29T15:09:23Z'
+  verified_at: '2026-07-29T15:11:43Z'
+  evidence:
+    plan: docs/work/human-usability-work-rides-home-chat.yaml
+    task: defer-commute-setup-until-opt-in
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: focus-home
+  sequence: 9
+  plan: docs/work/human-usability-work-rides-home-chat.yaml
+  task: focus-home-on-personal-day
+  status: verified
+  started_at: '2026-07-29T15:11:48Z'
+  verified_at: '2026-07-29T15:14:10Z'
+  evidence:
+    plan: docs/work/human-usability-work-rides-home-chat.yaml
+    task: focus-home-on-personal-day
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: focus-chat
+  sequence: 10
+  plan: docs/work/human-usability-work-rides-home-chat.yaml
+  task: focus-chat-on-inbox-recovery
+  status: verified
+  started_at: '2026-07-29T15:14:15Z'
+  verified_at: '2026-07-29T15:16:59Z'
+  evidence:
+    plan: docs/work/human-usability-work-rides-home-chat.yaml
+    task: focus-chat-on-inbox-recovery
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: audit-desktop-parity
+  sequence: 11
+  plan: docs/work/human-usability-visual-mobile-closeout.yaml
+  task: audit-desktop-business-parity
+  status: verified
+  started_at: '2026-07-29T15:17:04Z'
+  verified_at: '2026-07-29T15:20:14Z'
+  evidence:
+    plan: docs/work/human-usability-visual-mobile-closeout.yaml
+    task: audit-desktop-business-parity
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: audit-mobile-parity
+  sequence: 12
+  plan: docs/work/human-usability-visual-mobile-closeout.yaml
+  task: audit-mobile-business-parity
+  status: verified
+  started_at: '2026-07-29T15:20:23Z'
+  verified_at: '2026-07-29T15:21:35Z'
+  evidence:
+    plan: docs/work/human-usability-visual-mobile-closeout.yaml
+    task: audit-mobile-business-parity
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: close-business-parity-program
+  sequence: 13
+  plan: docs/work/human-usability-visual-mobile-closeout.yaml
+  task: close-business-parity-program
+  status: verified
+  started_at: '2026-07-29T15:21:46Z'
+  verified_at: '2026-07-29T15:22:33Z'
+  evidence:
+    plan: docs/work/human-usability-visual-mobile-closeout.yaml
+    task: close-business-parity-program
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621

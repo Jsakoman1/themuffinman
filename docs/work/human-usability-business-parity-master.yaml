@@ -1,0 +1,52 @@
+kind: master
+version: 1
+id: human-usability-business-parity
+title: Reach Business-level human usability across authenticated screens
+status: verified
+baseline: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/human-usability-business-parity-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/human-usability-business-parity-atomic-hardening.yaml
+preflight_artifact: docs/work/human-usability-business-parity-preflight.md
+goal_activation_hardening:
+  completed_on: 2026-07-29
+  required_audits:
+  - control-source validation
+  - targeted atomic-task hardening
+  - plan coverage
+  - work-plan recursion
+  execution_rule: Verify the hardening task before advancing the serial inventory.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-all-surfaces-master.yaml
+  baseline_only_surfaces:
+  - Business owner and public booking flows
+  residual_scope:
+  - Profile simplification
+  - Circle task clarity
+  - first-use Work and Rides guidance
+  - Home and Chat operational focus
+  - visual and mobile usability proof
+  retest_triggers:
+  - Changes to shared shell
+  - settings
+  - circles
+  - Work/Rides entry surfaces
+  - Home
+  - Chat
+  - or responsive layouts
+  non_duplication_rule: The prior human-first master is a baseline; this plan proves
+    only remaining Business-parity improvements and new visual evidence.
+children:
+- docs/work/human-usability-personal-social.yaml
+- docs/work/human-usability-work-rides-home-chat.yaml
+- docs/work/human-usability-visual-mobile-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-29T15:22:41Z'
+  revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+  children:
+  - docs/work/human-usability-personal-social.yaml
+  - docs/work/human-usability-work-rides-home-chat.yaml
+  - docs/work/human-usability-visual-mobile-closeout.yaml

@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-07-29T15:11:17.748Z",
+  "result": "passed",
+  "browserErrors": [],
+  "checks": {
+    "present": true,
+    "closed": true,
+    "summary": true,
+    "open": true
+  }
+}

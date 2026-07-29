@@ -1,0 +1,106 @@
+kind: execution_inventory
+version: 1
+id: business-human-first-ux-execution-inventory
+master_plan: docs/work/business-human-first-ux-master.yaml
+serial: true
+items:
+- id: harden-human-first-ux-plan
+  plan: docs/work/business-human-first-ux-atomic-hardening.yaml
+  task: harden-human-first-ux-tasks
+  status: verified
+  started_at: '2026-07-29T10:12:16Z'
+  verified_at: '2026-07-29T10:12:27Z'
+  evidence:
+    plan: docs/work/business-human-first-ux-atomic-hardening.yaml
+    task: harden-human-first-ux-tasks
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: create-human-first-owner-onboarding
+  plan: docs/work/business-human-first-owner-onboarding.yaml
+  task: create-owner-onboarding-and-readiness-checklist
+  status: verified
+  started_at: '2026-07-29T10:16:06Z'
+  verified_at: '2026-07-29T10:16:42Z'
+  evidence:
+    plan: docs/work/business-human-first-owner-onboarding.yaml
+    task: create-owner-onboarding-and-readiness-checklist
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: simplify-service-basics
+  plan: docs/work/business-human-first-service-setup.yaml
+  task: simplify-normal-service-create-and-edit
+  status: verified
+  started_at: '2026-07-29T10:16:53Z'
+  verified_at: '2026-07-29T10:19:07Z'
+  evidence:
+    plan: docs/work/business-human-first-service-setup.yaml
+    task: simplify-normal-service-create-and-edit
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: make-advanced-service-rules-truthful
+  plan: docs/work/business-human-first-service-setup.yaml
+  task: make-advanced-schema-pricing-and-resources-truthful
+  status: verified
+  started_at: '2026-07-29T10:19:14Z'
+  verified_at: '2026-07-29T10:24:45Z'
+  evidence:
+    plan: docs/work/business-human-first-service-setup.yaml
+    task: make-advanced-schema-pricing-and-resources-truthful
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: separate-hours-and-booking-rules
+  plan: docs/work/business-human-first-hours-settings.yaml
+  task: separate-hours-booking-rules-and-public-page-settings
+  status: verified
+  started_at: '2026-07-29T10:25:01Z'
+  verified_at: '2026-07-29T10:26:56Z'
+  evidence:
+    plan: docs/work/business-human-first-hours-settings.yaml
+    task: separate-hours-booking-rules-and-public-page-settings
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: unify-booking-rules-save-action
+  plan: docs/work/business-human-first-hours-settings.yaml
+  task: unify-booking-rules-save-action
+  status: verified
+  started_at: '2026-07-29T10:29:49Z'
+  verified_at: '2026-07-29T10:31:45Z'
+  evidence:
+    plan: docs/work/business-human-first-hours-settings.yaml
+    task: unify-booking-rules-save-action
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: make-availability-plain-language
+  plan: docs/work/business-human-first-hours-settings.yaml
+  task: make-working-hours-and-exceptions-plain-language
+  status: verified
+  started_at: '2026-07-29T10:31:51Z'
+  verified_at: '2026-07-29T10:35:03Z'
+  evidence:
+    plan: docs/work/business-human-first-hours-settings.yaml
+    task: make-working-hours-and-exceptions-plain-language
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: make-public-booking-date-first
+  plan: docs/work/business-human-first-customer-booking.yaml
+  task: make-public-booking-date-first-and-term-clear
+  status: verified
+  started_at: '2026-07-29T10:35:12Z'
+  verified_at: '2026-07-29T10:47:29Z'
+  evidence:
+    plan: docs/work/business-human-first-customer-booking.yaml
+    task: make-public-booking-date-first-and-term-clear
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: show-customer-booking-completion
+  plan: docs/work/business-human-first-customer-booking.yaml
+  task: show-durable-customer-booking-completion
+  status: verified
+  started_at: '2026-07-29T10:47:57Z'
+  verified_at: '2026-07-29T10:56:42Z'
+  evidence:
+    plan: docs/work/business-human-first-customer-booking.yaml
+    task: show-durable-customer-booking-completion
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621
+- id: close-human-first-business-ux
+  plan: docs/work/business-human-first-closeout.yaml
+  task: document-and-verify-human-first-business-ux
+  status: verified
+  started_at: '2026-07-29T10:56:51Z'
+  verified_at: '2026-07-29T10:57:26Z'
+  evidence:
+    plan: docs/work/business-human-first-closeout.yaml
+    task: document-and-verify-human-first-business-ux
+    revision: 9b7c2a5e78c49de65a0f0da1bb413c4de569c621

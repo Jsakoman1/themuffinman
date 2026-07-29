@@ -1,0 +1,12 @@
+{
+  "evidenceVersion": "human-usability-work-orientation-v1",
+  "capturedAt": "2026-07-29T15:05:11.824Z",
+  "result": "passed",
+  "browserErrors": [],
+  "checks": {
+    "intent": true,
+    "action": true
+  },
+  "overflowFree": true,
+  "screenshot": "docs/runtime-evidence/human-usability-work-orientation-2026-07-29.png"
+}
