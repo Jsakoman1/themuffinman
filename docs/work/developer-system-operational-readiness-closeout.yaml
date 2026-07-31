@@ -1,0 +1,110 @@
+kind: work
+version: 1
+id: developer-system-operational-readiness-closeout
+title: Reconcile developer-system operational readiness
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-system-operational-readiness-master.yaml
+execution_inventory: docs/work/developer-system-operational-readiness-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - close-developer-system-operational-readiness
+  required_results:
+  - classified_workspace_snapshot
+  - retention_candidate_report_without_deletion
+  - repository_visible_ci_with_unobserved_remote_boundary
+  - explicit_tool_catalog_and_help
+  - two_fresh_runtime_harness_migrations
+  - skill_create_or_defer_decision
+  - full_local_health
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-quality-next-master.yaml
+  baseline_only_surfaces:
+  - prior tooling, product, runtime, and release status
+  residual_scope:
+  - new workspace, retention, CI-source, catalog, runtime-pilot, and skill-decision
+    evidence
+  retest_triggers:
+  - any selected program path or evidence changes
+  non_duplication_rule: Closeout reports only this program's new controls and preserves
+    external boundaries.
+tasks:
+- id: close-developer-system-operational-readiness
+  title: Measure and close the operational-readiness program
+  type: validation
+  status: done
+  inventory_item: close-developer-system-operational-readiness
+  observable_outcome: A dated closeout records workspace classification, retention
+    candidates, CI source status, tool discovery, full health, two runtime migrations,
+    skill decision, and remaining external or destructive boundaries.
+  dependencies:
+  - record-runtime-evidence-skill-decision
+  evidence_boundary:
+  - dated machine-readable before/after closeout
+  - updated analysis and stable backlog residuals
+  - full local health without external-CI promotion
+  paths: &1
+  - docs/developer-system-operational-readiness-closeout-2026-07-31.yaml
+  - docs/work/developer-system-operational-readiness-analysis.md
+  - docs/implementation-backlog.md
+  - docs/release-operations-registry.yaml
+  required_paths: *1
+  validation: ruby scripts/tool-self-test.rb && ruby scripts/audits/audit-workspace-change-inventory.rb
+    docs/workspace-change-snapshot-2026-07-31.yaml && ruby scripts/audits/audit-work-artifact-retention.rb
+    --check docs/work-artifact-retention-review-2026-07-31.yaml && ruby scripts/audits/audit-tool-catalog.rb
+    --check && ruby scripts/audits/audit-delivery-provenance.rb && ruby scripts/audits/audit-docs-as-tests.rb
+  started_at: '2026-07-31T14:28:48Z'
+  start_fingerprints:
+    docs/developer-system-operational-readiness-closeout-2026-07-31.yaml: __missing__
+    docs/work/developer-system-operational-readiness-analysis.md: ec9fee0a551fb790a264ae68e65baf81308aa3566ce3da9f93ad28bb61b0cb46
+    docs/implementation-backlog.md: 764f70a11fe7e416df8e597f90f69d003079d008bb2fa9e5b556eeecc5d9eb6f
+    docs/release-operations-registry.yaml: 1cb8ab49cde81f671f2eceb3a6ec25c624b701f1795a460184e399b6d12de471
+evidence:
+- task: close-developer-system-operational-readiness
+  command: ruby scripts/tool-self-test.rb && ruby scripts/audits/audit-workspace-change-inventory.rb
+    docs/workspace-change-snapshot-2026-07-31.yaml && ruby scripts/audits/audit-work-artifact-retention.rb
+    --check docs/work-artifact-retention-review-2026-07-31.yaml && ruby scripts/audits/audit-tool-catalog.rb
+    --check && ruby scripts/audits/audit-delivery-provenance.rb && ruby scripts/audits/audit-docs-as-tests.rb
+  ranAt: '2026-07-31T14:30:19Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/release-operations-registry.yaml
+  - docs/developer-system-operational-readiness-closeout-2026-07-31.yaml
+  - docs/work/developer-system-operational-readiness-analysis.md
+  output: |+
+    STAGE class=tool_mechanics id=repository_map_query files=1
+    STAGE class=tool_mechanics id=tool_catalog files=1
+    STAGE class=tool_mechanics id=runtime_tools files=1
+    STAGE class=tool_mechanics id=context_search files=1
+    STAGE class=tool_mechanics id=change_validation files=1
+    STAGE class=tool_mechanics id=template_freshness files=1
+    STAGE class=tool_mechanics id=work_artifact_schema files=1
+    STAGE class=tool_mechanics id=tool_help files=1
+    Tool self-test passed (all stages; Ruby/Node syntax, YAML, AST, contracts, repository map, catalog, and bounded search).
+    Workspace change snapshot audit passed (468 immutable classified paths).
+    Work-artifact retention audit passed (189 artifacts, 54 review candidates, no deletion).
+    Tool catalog passed (74 tools, 5 categories, 12 help commands, 0 unreferenced).
+    Delivery provenance audit passed
+      build paths: 4
+      external release state: unknown_not_absent_in_external_environment
+    Docs as tests
+      statements scanned: 383
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-31T14:28:48Z'
+  changedAfterStart: &2
+  - docs/developer-system-operational-readiness-closeout-2026-07-31.yaml
+  - docs/work/developer-system-operational-readiness-analysis.md
+  - docs/implementation-backlog.md
+  - docs/release-operations-registry.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

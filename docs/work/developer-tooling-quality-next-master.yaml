@@ -1,0 +1,102 @@
+kind: master
+version: 1
+id: developer-tooling-quality-next
+title: Harden developer-tool health, templates, runtime evidence, and IntelliJ readiness
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+prepared_for_goal_pursuit: true
+execution_inventory: docs/work/developer-tooling-quality-next-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/developer-tooling-quality-next-atomic-hardening.yaml
+analysis_artifact: docs/work/developer-tooling-quality-next-analysis.md
+preflight_artifact: docs/work/developer-tooling-quality-next-preflight.md
+objective: Restore full tool health, enforce template and work-artifact freshness,
+  reduce diagnostic noise, pilot reusable runtime evidence infrastructure, and expose
+  shared IntelliJ runs without weakening repository-owned verification.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  generated_at: 2026-07-31 13:44:27.000000000 Z
+  scope: The first task updates one frontend product-contract assertion only.
+  dispositions:
+  - recommendation: docs/system-truth-registry.yaml
+    status: not_applicable_with_reason
+    reason: The repair aligns a validator label with an existing route and shell action;
+      it changes no truth owner or state.
+  - recommendation: docs/system-drift-control-registry.yaml
+    status: not_applicable_with_reason
+    reason: The validator is a product-contract health check and does not add a drift-control
+      contract.
+  - recommendation: docs/release-operations-registry.yaml
+    status: not_applicable_with_reason
+    reason: No dependency, build, release, or deployment source changes.
+  - recommendation: docs/system-map.md
+    status: reviewed
+    reason: Frontend script ownership and module relationships remain unchanged.
+  - recommendation: docs/runtime-acceptance-matrix.yaml
+    status: not_applicable_with_reason
+    reason: Static contract repair creates no browser/runtime evidence claim.
+  - recommendation: docs/regression-scenario-catalog.yaml
+    status: not_applicable_with_reason
+    reason: The route behavior is unchanged and needs no scenario meaning update.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  - docs/work/brand-header-sand-shell.yaml
+  baseline_only_surfaces:
+  - product routes, SideJobs behavior, and shell navigation
+  - work verifier and existing verified plan evidence
+  - non-pilot Playwright runtime scripts and evidence
+  - capability, runtime, truth, and release status
+  residual_scope:
+  - stale SideJobs product-contract assertion
+  - agent template canonical-path freshness
+  - compact attributable self-test output
+  - category-aware work-artifact schema validation
+  - shared runtime harness with one brand-header pilot
+  - shared IntelliJ run configurations and readiness audit
+  - closeout decision for deferred runtime migrations and a possible runtime-evidence
+    skill
+  retest_triggers:
+  - modern-surface validator assertion changes
+  - agent template path or validation-evidence contract changes
+  - self-test output/stage contract changes
+  - docs/work kind, status, task, or inventory schema changes
+  - shared runtime harness or brand-header pilot changes
+  - IntelliJ run configuration or routing audit changes
+  non_duplication_rule: Prior tooling, brand-header, and System Map evidence is baseline;
+    only new health repairs, audits, harness behavior, fresh pilot evidence, and IDE
+    readiness observations count as completion.
+known_boundaries:
+- IntelliJ indexing is environment-dependent and cannot be verifier-promoted from
+  XML.
+- Runtime pilot verification requires an owned local stack.
+- Historical work artifact kinds and statuses are preserved through explicit compatibility
+  rules.
+- New skill creation remains deferred until the harness pilot is verified.
+readiness_gate:
+  atomic_hardening_must_be_verified: true
+  first_goal_task: reconcile-modern-surface-sidejob-contract
+  continuation_rule: Start and verify exactly one execution-inventory item at a time.
+  dirty_path_rule: Preserve unrelated user changes and merge narrowly after each task
+    start snapshot.
+  runtime_rule: The brand-header pilot requires fresh owned browser evidence.
+children:
+- docs/work/developer-tooling-quality-next-atomic-hardening.yaml
+- docs/work/developer-tooling-quality-next-health.yaml
+- docs/work/developer-tooling-quality-next-control.yaml
+- docs/work/developer-tooling-quality-next-runtime.yaml
+- docs/work/developer-tooling-quality-next-idea.yaml
+- docs/work/developer-tooling-quality-next-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-31T14:00:05Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/developer-tooling-quality-next-atomic-hardening.yaml
+  - docs/work/developer-tooling-quality-next-health.yaml
+  - docs/work/developer-tooling-quality-next-control.yaml
+  - docs/work/developer-tooling-quality-next-runtime.yaml
+  - docs/work/developer-tooling-quality-next-idea.yaml
+  - docs/work/developer-tooling-quality-next-closeout.yaml

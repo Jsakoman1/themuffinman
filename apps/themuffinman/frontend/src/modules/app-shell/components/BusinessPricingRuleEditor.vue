@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import AppButton from "./AppButton.vue"
 
-const props = defineProps<{rules: Record<string, unknown>[]}>()
+const props = defineProps<{rules: Record<string, unknown>[]; defaultCurrency: string}>()
 const emit = defineEmits<{"update:rules": [rules: Record<string, unknown>[]]}>()
 
 const updateRule = (index: number, key: string, value: unknown) => emit("update:rules", props.rules.map((rule, ruleIndex) => ruleIndex === index ? {...rule, [key]: value} : rule))
-const addRule = () => emit("update:rules", [...props.rules, {ruleKey: "", ruleType: "BASE", billingUnit: "BOOKING", amount: null, currency: "CHF", active: true, sortOrder: props.rules.length}])
+const addRule = () => emit("update:rules", [...props.rules, {ruleKey: "", ruleType: "BASE", billingUnit: "BOOKING", amount: null, currency: props.defaultCurrency, active: true, sortOrder: props.rules.length}])
 const removeRule = (index: number) => emit("update:rules", props.rules.filter((_, ruleIndex) => ruleIndex !== index).map((rule, ruleIndex) => ({...rule, sortOrder: ruleIndex})))
 </script>
 
@@ -17,7 +17,7 @@ const removeRule = (index: number) => emit("update:rules", props.rules.filter((_
       <label>What is this for?<input :value="String(rule.ruleKey ?? '')" placeholder="e.g. Extra guest" @input="updateRule(index, 'ruleKey', ($event.target as HTMLInputElement).value)"></label>
       <label>Charged per<select :value="String(rule.billingUnit ?? 'BOOKING')" @change="updateRule(index, 'billingUnit', ($event.target as HTMLSelectElement).value)"><option value="BOOKING">Booking</option><option value="QUANTITY">Person or item</option><option value="DURATION">Hour</option></select></label>
       <label>Extra amount<input :value="String(rule.amount ?? '')" type="number" min="0" step="0.01" placeholder="0.00" @input="updateRule(index, 'amount', ($event.target as HTMLInputElement).value || null)"></label>
-      <label>Currency<input :value="String(rule.currency ?? 'CHF')" maxlength="3" @input="updateRule(index, 'currency', ($event.target as HTMLInputElement).value.toUpperCase())"></label>
+      <label>Currency<input :value="String(rule.currency ?? defaultCurrency)" maxlength="3" @input="updateRule(index, 'currency', ($event.target as HTMLInputElement).value.toUpperCase())"></label>
       <AppButton tone="danger" @click="removeRule(index)">Remove</AppButton>
     </div>
     <p class="business-rule-editor__note">The backend quote service remains authoritative for totals, ranges, and quote-required outcomes.</p>

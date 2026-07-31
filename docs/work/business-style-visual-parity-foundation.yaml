@@ -1,0 +1,110 @@
+kind: work
+version: 1
+id: business-style-visual-parity-foundation
+title: Unify shared authenticated orientation grammar
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-style-visual-parity-master.yaml
+execution_inventory: docs/work/business-style-visual-parity-execution-inventory.yaml
+execution_readiness:
+  atomic_contract_checked: true
+  inventory_items:
+  - unify-shared-orientation-grammar
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/brand-header-sand-shell.yaml
+  - docs/work/business-friendly-hierarchy.yaml
+  baseline_only_surfaces:
+  - authenticated shell branding
+  - Business owner workspace
+  residual_scope:
+  - shared non-Business header
+  - summary
+  - and task-surface visual consistency
+  retest_triggers:
+  - shared component or token changes
+  non_duplication_rule: Existing shell and Business evidence is baseline; this task
+    proves only shared primitive parity.
+tasks:
+- id: unify-shared-orientation-grammar
+  title: Unify shared orientation grammar
+  type: implementation
+  status: done
+  inventory_item: unify-shared-orientation-grammar
+  observable_outcome: Legacy SurfaceHeader and TaskSurface routes present the same
+    readable eyebrow, title, explanatory copy, action placement, warm contextual treatment,
+    and mobile stacking behavior as Business-oriented screens without changing their
+    route actions.
+  dependencies:
+  - harden-business-style-visual-parity-inventory
+  evidence_boundary:
+  - frontend type-check/build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:00:09Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue: bda5c86ba2a03d0c718ed7182f629b9006530c488b5f37647c6315cc3cbbb9c9
+    apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue: 77ba8abe8e1b3c208bc0a2cde888aaacb9c642760d897a8f25c09d1a7c7f1e8e
+    apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue: 262fd2278afe945c07ff7ae1312c2a85edea7467688b5c367241bd26c55e0a8a
+    apps/themuffinman/frontend/src/styles/base.css: 04d35776e6a01486eef945374428c68dbcdd37d91d3e61ae98cce4321fd4e0c9
+    docs/product-memory.md: b19b4dbcff31b2366a9c32af4e1b3299f2e4adab3e4c14b6d1e5a6a97c6074a2
+evidence:
+- task: unify-shared-orientation-grammar
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:05:23Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - docs/product-memory.md
+  - apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue
+  output: |+
+    dist/assets/CalendarPage-qG3yBSlg.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-CqbIipWh.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/ThingsDiscoveryView-DhyjGAOS.js                   13.48 kB │ gzip:   4.45 kB
+    dist/assets/BusinessPublicView-IModeOFj.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-J7zDe3rY.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-BCPErOd6.js                              16.10 kB │ gzip:   5.91 kB
+    dist/assets/WorkQuestDetailView-D4ost9DV.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-D-etpKs0.js                             17.40 kB │ gzip:   5.59 kB
+    dist/assets/ChatSurfaceView-BXyyVyWh.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-CP-k14yv.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CMdZoaOS.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-Dayo2v5B.js                35.43 kB │ gzip:  11.78 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-DC9WeJd4.js                     57.90 kB │ gzip:  13.98 kB
+    dist/assets/index-ClocdCqQ.js                                 62.84 kB │ gzip:  15.55 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 560ms
+
+  startedAt: '2026-07-29T19:00:09Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - docs/product-memory.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

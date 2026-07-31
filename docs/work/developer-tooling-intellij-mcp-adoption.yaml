@@ -1,0 +1,175 @@
+kind: work
+version: 1
+id: developer-tooling-intellij-mcp-adoption
+title: Standardize IntelliJ MCP routing and attributable tooling health
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-intellij-mcp-master.yaml
+execution_inventory: docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - define-intellij-mcp-routing-contract
+  - classify-tool-self-test-stages
+  - publish-hybrid-fast-path
+  mcp_dependency: optional
+  local_fallback_required: true
+  dirty_path_merge_required:
+  - docs/implementation-control.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - local verifier authority and existing validation semantics
+  - product contract validators
+  residual_scope:
+  - deterministic IDEA/local-tool routing contract
+  - attributable tool self-test stages
+  - compact workflow documentation
+  retest_triggers:
+  - IDEA capability, fallback, stage classification, or workflow authority changes
+  non_duplication_rule: IDEA availability is an accelerator boundary; no IDE result
+    is counted as new verifier or product evidence.
+tasks:
+- id: define-intellij-mcp-routing-contract
+  title: Define the IntelliJ MCP semantic routing and fallback contract
+  type: documentation
+  status: done
+  inventory_item: define-intellij-mcp-routing-contract
+  observable_outcome: A machine-readable routing contract maps supported investigation
+    intents to bounded IDEA tools, local fallbacks, preconditions, and the repository-owned
+    evidence command without requiring MCP availability.
+  dependencies:
+  - add-changed-path-validation-router
+  evidence_boundary:
+  - routing-contract schema and required-intent audit
+  paths: &1
+  - docs/intellij-mcp-fast-path.md
+  - docs/intellij-mcp-tool-routing.yaml
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  required_paths: *1
+  validation: ruby scripts/audits/audit-intellij-mcp-routing.rb
+  started_at: '2026-07-31T13:18:57Z'
+  start_fingerprints:
+    docs/intellij-mcp-fast-path.md: __missing__
+    docs/intellij-mcp-tool-routing.yaml: __missing__
+    scripts/audits/audit-intellij-mcp-routing.rb: __missing__
+- id: classify-tool-self-test-stages
+  title: Separate tool-mechanics and product-contract self-test stages
+  type: implementation
+  status: done
+  inventory_item: classify-tool-self-test-stages
+  observable_outcome: Tool self-test prints labeled stage and class information, preserves
+    every existing check, and reports the exact failing command without converting
+    a product-contract failure into a tooling pass.
+  dependencies:
+  - define-intellij-mcp-routing-contract
+  evidence_boundary:
+  - deterministic stage classification assertions
+  - preserved non-zero exit for a failing product contract fixture
+  paths: &2
+  - scripts/tool-self-test.rb
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  required_paths: *2
+  validation: ruby -c scripts/tool-self-test.rb && ruby scripts/tool-self-test.rb
+    --check-stage-contract
+  started_at: '2026-07-31T13:20:03Z'
+  start_fingerprints:
+    scripts/tool-self-test.rb: 6d7420d677b15d68f9646e601b634fcfc3303e55990ed1cf75392cc21263838e
+    scripts/audits/audit-intellij-mcp-routing.rb: 1b650aeb2da1425f228339d4752b104bed08f7fcd2400298a416309258f3e7f4
+- id: publish-hybrid-fast-path
+  title: Publish the compact hybrid developer workflow
+  type: documentation
+  status: done
+  inventory_item: publish-hybrid-fast-path
+  observable_outcome: The compact workflow tells agents when to use bounded local
+    context, IDEA semantic tools, changed-path validation routing, and final verifier
+    evidence, including the indexing/unavailable fallback.
+  dependencies:
+  - classify-tool-self-test-stages
+  evidence_boundary:
+  - documentation-as-tests
+  - IDEA routing-contract audit
+  paths: &3
+  - docs/codex-fast-path.md
+  - docs/implementation-control.md
+  - docs/intellij-mcp-fast-path.md
+  - Makefile
+  required_paths: *3
+  validation: ruby scripts/audits/audit-docs-as-tests.rb && ruby scripts/audits/audit-intellij-mcp-routing.rb
+  started_at: '2026-07-31T13:21:10Z'
+  start_fingerprints:
+    docs/codex-fast-path.md: 4168ce0949c11c57c9dc155ce53d60349b5a27d775ae1d1cf4443a9e4da94b57
+    docs/implementation-control.md: '0786565f58b17de0c908344a935c305fbd50b768578579f21f5ef9dec8280897'
+    docs/intellij-mcp-fast-path.md: c5e2fbf1a9ec54e675475fabed197a00183f02541f54ab7ad40cb20a81caf153
+    Makefile: e3804a9bf06c38f4f7d502dbe07ea92a68cd113e8e3921880d9bc47302e82d45
+evidence:
+- task: define-intellij-mcp-routing-contract
+  command: ruby scripts/audits/audit-intellij-mcp-routing.rb
+  ranAt: '2026-07-31T13:19:44Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/intellij-mcp-fast-path.md
+  - docs/intellij-mcp-tool-routing.yaml
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  output: "IntelliJ MCP routing audit passed (7 intents, local fallback and verifier
+    authority preserved).\n\n"
+  startedAt: '2026-07-31T13:18:57Z'
+  changedAfterStart: &4
+  - docs/intellij-mcp-fast-path.md
+  - docs/intellij-mcp-tool-routing.yaml
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: classify-tool-self-test-stages
+  command: ruby -c scripts/tool-self-test.rb && ruby scripts/tool-self-test.rb --check-stage-contract
+  ranAt: '2026-07-31T13:21:04Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/tool-self-test.rb
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  output: |+
+    Syntax OK
+    Tool self-test stage contract passed (14 stages, tooling and product classes).
+
+  startedAt: '2026-07-31T13:20:03Z'
+  changedAfterStart: &5
+  - scripts/tool-self-test.rb
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: publish-hybrid-fast-path
+  command: ruby scripts/audits/audit-docs-as-tests.rb && ruby scripts/audits/audit-intellij-mcp-routing.rb
+  ranAt: '2026-07-31T13:22:33Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/codex-fast-path.md
+  - docs/implementation-control.md
+  - docs/intellij-mcp-fast-path.md
+  output: |+
+    Docs as tests
+      statements scanned: 381
+      review needed: 0
+      high priority: 0
+    IntelliJ MCP routing audit passed (7 intents, local fallback and verifier authority preserved).
+
+  startedAt: '2026-07-31T13:21:10Z'
+  changedAfterStart: &6
+  - docs/codex-fast-path.md
+  - docs/implementation-control.md
+  - docs/intellij-mcp-fast-path.md
+  - Makefile
+  requiredPaths: *6
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

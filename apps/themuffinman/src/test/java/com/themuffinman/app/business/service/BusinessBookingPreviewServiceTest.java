@@ -53,4 +53,13 @@ class BusinessBookingPreviewServiceTest {
         assertEquals("Europe/Zurich", result.getTimezone());
         assertEquals(90, result.getDurationMinutes());
     }
+
+    @Test
+    void keepsTheSelectedStartTimeForTheCustomerReviewStep() {
+        BusinessProfile profile = new BusinessProfile(); profile.setSlug("studio"); profile.setActive(true); profile.setBookingEnabled(true); profile.setTimezone("Europe/Zurich");
+        BusinessOffering offering = new BusinessOffering(); offering.setId(7L); offering.setBusinessProfile(profile); offering.setActive(true); offering.setDefaultDurationMinutes(30);
+        when(businessOfferingRepository.findById(7L)).thenReturn(Optional.of(offering));
+        BusinessBookingPreviewRequestDTO request = new BusinessBookingPreviewRequestDTO(); request.setBusinessOfferingId(7L); request.setStartsAt(Instant.parse("2026-07-20T08:00:00Z"));
+        assertEquals(request.getStartsAt(), service.preview("studio", request).getStartsAt());
+    }
 }

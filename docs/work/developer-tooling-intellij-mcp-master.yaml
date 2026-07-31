@@ -1,0 +1,86 @@
+kind: master
+version: 1
+id: developer-tooling-intellij-mcp-optimization
+title: Optimize local developer tooling with a precise IntelliJ MCP fast path
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+prepared_for_goal_pursuit: true
+execution_inventory: docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml
+analysis_artifact: docs/work/developer-tooling-intellij-mcp-analysis.md
+preflight_artifact: docs/work/developer-tooling-intellij-mcp-preflight.md
+objective: Reduce repository-context output, improve semantic precision, select the
+  smallest safe validations, and define a deterministic IntelliJ MCP fallback path
+  without weakening repository-owned verification.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  generated_at: 2026-07-31 13:15:04.000000000 Z
+  scope: scripts/repository-map.rb and scripts/tool-self-test.rb for the first atomic
+    implementation task.
+  dispositions:
+  - recommendation: docs/system-truth-registry.yaml
+    status: not_applicable_with_reason
+    reason: Compact query serialization and local self-test assertions do not change
+      a canonical truth owner, fact, capability status, or runtime claim.
+  - recommendation: docs/system-drift-control-registry.yaml
+    status: not_applicable_with_reason
+    reason: The first task changes local output shape only; it does not add a new
+      drift-control rule. The later routing-contract task has its own retest trigger.
+  - recommendation: docs/system-map.md
+    status: reviewed
+    reason: Repository-owned tooling remains under scripts and documentation/control
+      ownership is unchanged; no System Map relationship edit is required.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - work-plan verifier and completion-state semantics
+  - System Map, truth, capability, and runtime status ownership
+  - existing product validators and Maven/npm validation commands
+  - product implementation in the current dirty working tree
+  residual_scope:
+  - compact bounded repository-map symbol queries
+  - intent-aware bounded local context retrieval
+  - deterministic changed-path validation recommendations
+  - repository-owned IntelliJ MCP routing and fallback contract
+  - attributable local tool self-test output
+  - measured token-proxy, latency, and result-quality closeout
+  retest_triggers:
+  - repository-map output schema or query filtering changes
+  - context-search ranking, modes, exclusions, or budget behavior changes
+  - validation-router path classification or recommended command changes
+  - IntelliJ MCP routing/fallback or local evidence authority changes
+  - tool self-test stage or product-validator invocation changes
+  non_duplication_rule: The verified System Map optimization and existing product
+    validation evidence are baseline-only; this program counts only new developer-tooling
+    behavior and fresh efficiency/precision measurements.
+known_boundaries:
+- IntelliJ MCP availability and symbol indexing are environment-dependent.
+- Repository scripts must remain executable without IDEA or MCP.
+- The current offer-work route contract failure is not repaired by this program.
+- IDEA inspection, build, or debugger success never replaces verifier evidence.
+readiness_gate:
+  atomic_hardening_must_be_verified: true
+  first_goal_task: compact-repository-map-query
+  continuation_rule: Start and verify exactly one execution-inventory item at a time.
+  dirty_path_rule: Preserve unrelated working-tree changes and merge narrowly into
+    any required path that is already modified when its task starts.
+children:
+- docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml
+- docs/work/developer-tooling-intellij-mcp-context.yaml
+- docs/work/developer-tooling-intellij-mcp-validation.yaml
+- docs/work/developer-tooling-intellij-mcp-adoption.yaml
+- docs/work/developer-tooling-intellij-mcp-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-31T13:24:31Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml
+  - docs/work/developer-tooling-intellij-mcp-context.yaml
+  - docs/work/developer-tooling-intellij-mcp-validation.yaml
+  - docs/work/developer-tooling-intellij-mcp-adoption.yaml
+  - docs/work/developer-tooling-intellij-mcp-closeout.yaml

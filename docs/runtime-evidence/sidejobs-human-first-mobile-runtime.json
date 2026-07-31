@@ -1,0 +1,43 @@
+{
+  "evidenceVersion": "sidejobs-human-first-runtime-v1",
+  "capturedAt": "2026-07-31T14:27:33.572Z",
+  "mode": "mobile",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "scenarios": {
+    "discovery": {
+      "status": "passed",
+      "route": "/work/find",
+      "expectedText": "Find SideJobs",
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    "posting": {
+      "status": "passed",
+      "route": "/work/quests/new",
+      "expectedText": "Post a SideJob",
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    "requests": {
+      "status": "passed",
+      "route": "/work/applications",
+      "expectedText": "My help requests",
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

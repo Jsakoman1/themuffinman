@@ -1,19 +1,21 @@
 :root {
   color-scheme: light;
   /* Product-wide visual grammar: calm macOS surfaces, semantic roles only. */
-  --canvas: #f5f5f7;
-  --canvas-raised: rgba(255, 255, 255, 0.82);
-  --rail-canvas: rgba(242, 242, 247, 0.88);
-  --surface-base: #ffffff;
-  --surface-raised: #ffffff;
-  --surface-hover: #f2f2f7;
-  --surface-selected: #e5e5ea;
-  --surface-muted: #f5f5f7;
-  --ink: #1d1d1f;
-  --ink-muted: #6e6e73;
-  --ink-quiet: #8e8e93;
-  --line-subtle: rgba(60, 60, 67, 0.16);
-  --line-strong: rgba(60, 60, 67, 0.3);
+  --canvas: #f8eedf;
+  --canvas-raised: rgba(255, 249, 239, 0.9);
+  --rail-canvas: #f2dfc2;
+  --surface-base: #fffdf8;
+  --surface-raised: #fff8ed;
+  --surface-hover: #f5e8d6;
+  --surface-selected: #ead6bd;
+  --surface-muted: #f8f0e5;
+  --surface-subtle: var(--surface-muted);
+  --surface-sunken: #f1e2ce;
+  --ink: #122d50;
+  --ink-muted: #625f61;
+  --ink-quiet: #817a73;
+  --line-subtle: rgba(82, 59, 40, 0.16);
+  --line-strong: rgba(82, 59, 40, 0.28);
   --control-bg: var(--surface-base);
   --control-bg-hover: var(--surface-hover);
   --control-bg-pressed: var(--surface-selected);
@@ -21,15 +23,49 @@
   --control-border-active: var(--line-strong);
   --control-ink: var(--ink);
   --control-ink-muted: var(--ink-muted);
-  --accent: #007aff;
-  --accent-muted: rgba(0, 122, 255, 0.12);
+  --accent: #7658a6;
+  --accent-muted: rgba(118, 88, 166, 0.14);
+  --accent-contrast: #ffffff;
+  --accent-hover: color-mix(in srgb, var(--accent) 88%, #000000);
   --accent-cyan: #32ade6;
   --accent-amber: #ff9f0a;
   --accent-red: #ff3b30;
-  --danger: #ff3b30;
-  --danger-muted: rgba(255, 59, 48, 0.12);
-  --success: #34c759;
-  --warning: #ff9f0a;
+  /* Friendly launcher roles are limited to purpose selection, never status or permission. */
+  --launcher-work-bg: #ffe0a6;
+  --launcher-work-ink: #17345d;
+  --launcher-share-bg: #e1d8f3;
+  --launcher-share-ink: #2e315c;
+  --launcher-business-bg: #ffd1b6;
+  --launcher-business-ink: #56301d;
+  --launcher-services-bg: #ccebe5;
+  --launcher-services-ink: #17483f;
+  --launcher-book-bg: var(--launcher-business-bg);
+  --launcher-book-ink: var(--launcher-business-ink);
+  --launcher-ride-bg: #cfe7d3;
+  --launcher-ride-ink: #1d4a43;
+  --launcher-people-bg: #d5e5fb;
+  --launcher-people-ink: #1b3e68;
+  --launcher-book-border: color-mix(in srgb, var(--launcher-book-ink) 18%, transparent);
+  --friendly-card-bg: var(--surface-raised);
+  --friendly-card-ink: var(--text);
+  --tile-bg: var(--surface-raised);
+  --tile-ink: var(--text);
+  --follow-up-bg: var(--surface-muted);
+  --follow-up-ink: var(--text);
+  --friendly-card-min-height: 7.25rem;
+  /* Orientation colour identifies a destination only, never a business state. */
+  --orientation-wash: color-mix(in srgb, #e7c99d 30%, var(--surface-raised));
+  --orientation-line: color-mix(in srgb, #9a6d3f 42%, var(--line-subtle));
+  --orientation-ink: #52391f;
+  --orientation-action-bg: color-mix(in srgb, var(--orientation-wash) 78%, var(--surface-raised));
+  --orientation-accent: var(--orientation-ink);
+  --orientation-action: var(--orientation-action-bg);
+  --orientation-action-ink: var(--orientation-ink);
+  --danger: #c94d47;
+  --danger-muted: rgba(201, 77, 71, 0.14);
+  --success: #427f62;
+  --success-muted: rgba(66, 127, 98, 0.14);
+  --warning: #b36e2d;
   /* Compatibility aliases are retained while route adoption is serially migrated. */
   --bg: var(--canvas);
   --bg-raised: var(--canvas-raised);
@@ -76,6 +112,8 @@
   --dense-row-height-comfortable: 3.75rem;
   /* Borders separate workspace regions. Elevation is reserved for real overlays. */
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
+  --shadow-control: 0 1px 2px rgba(82, 59, 40, 0.1);
+  --shadow-popover: 0 12px 30px rgba(82, 59, 40, 0.16);
   --shadow-overlay: 0 18px 50px rgba(0, 0, 0, 0.18);
   --focus-ring-color: rgba(0, 122, 255, 0.42);
   --focus-ring: 0 0 0 3px var(--focus-ring-color);
@@ -102,6 +140,11 @@
   --calendar-source-work: #30d158;
   --calendar-source-sharing: #ff9f0a;
   --calendar-source-social: #bf5af2;
+  --calendar-days: 7;
+  --calendar-event-column: 0;
+  --calendar-event-columns: 1;
+  --header-sand-start: #f4d3a7;
+  --header-sand-middle: #f8e7cb;
   --app-material-blur: blur(18px);
   --workspace-content-max-width: 120rem;
   --workspace-content-gutter: clamp(1.25rem, 3.5vw, 4rem);
@@ -168,13 +211,28 @@
   --accent-cyan: #32ade6;
   --accent-amber: #ff9f0a;
   --accent-red: #ff3b30;
+  --launcher-work-bg: #ffe0a6;
+  --launcher-work-ink: #17345d;
+  --launcher-share-bg: #e1d8f3;
+  --launcher-share-ink: #2e315c;
+  --launcher-business-bg: #ffd1b6;
+  --launcher-business-ink: #56301d;
+  --launcher-services-bg: #ccebe5;
+  --launcher-services-ink: #17483f;
+  --launcher-book-bg: var(--launcher-business-bg);
+  --launcher-book-ink: var(--launcher-business-ink);
+  --launcher-ride-bg: #cfe7d3;
+  --launcher-ride-ink: #1d4a43;
+  --launcher-people-bg: #d5e5fb;
+  --launcher-people-ink: #1b3e68;
+  --friendly-card-min-height: 7.25rem;
   --danger: #ff3b30;
   --danger-muted: rgba(255, 59, 48, 0.12);
   --success: #34c759;
   --warning: #ff9f0a;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) and (width < 0px) {
   :root[data-theme="system"] {
     color-scheme: dark;
     --canvas: #1c1c1e;
@@ -195,6 +253,21 @@
     --accent-cyan: #64d2ff;
     --accent-amber: #ff9f0a;
     --accent-red: #ff453a;
+    --launcher-work-bg: #5d4518;
+    --launcher-work-ink: #ffe7b4;
+    --launcher-share-bg: #41385d;
+    --launcher-share-ink: #ece4ff;
+    --launcher-business-bg: #623b29;
+    --launcher-business-ink: #ffdfca;
+    --launcher-services-bg: #24534a;
+    --launcher-services-ink: #d4f5ec;
+    --launcher-book-bg: var(--launcher-business-bg);
+    --launcher-book-ink: var(--launcher-business-ink);
+    --launcher-ride-bg: #294d40;
+    --launcher-ride-ink: #d8f4df;
+    --launcher-people-bg: #294866;
+    --launcher-people-ink: #d9ecff;
+    --friendly-card-min-height: 7.25rem;
     --danger: #ff453a;
     --danger-muted: rgba(255, 69, 58, 0.18);
     --success: #30d158;
@@ -222,6 +295,21 @@
   --accent-cyan: #64d2ff;
   --accent-amber: #ff9f0a;
   --accent-red: #ff453a;
+  --launcher-work-bg: #5d4518;
+  --launcher-work-ink: #ffe7b4;
+  --launcher-share-bg: #41385d;
+  --launcher-share-ink: #ece4ff;
+  --launcher-business-bg: #623b29;
+  --launcher-business-ink: #ffdfca;
+  --launcher-services-bg: #24534a;
+  --launcher-services-ink: #d4f5ec;
+  --launcher-book-bg: var(--launcher-business-bg);
+  --launcher-book-ink: var(--launcher-business-ink);
+  --launcher-ride-bg: #294d40;
+  --launcher-ride-ink: #d8f4df;
+  --launcher-people-bg: #294866;
+  --launcher-people-ink: #d9ecff;
+  --friendly-card-min-height: 7.25rem;
   --danger: #ff453a;
   --danger-muted: rgba(255, 69, 58, 0.18);
   --success: #30d158;
@@ -334,6 +422,15 @@ button:disabled {
 #app {
   min-height: 100svh;
   padding-bottom: var(--safe-bottom);
+}
+
+.profile-summary--friendly .profile-summary__next {
+  background: var(--launcher-people-bg);
+}
+
+.profile-summary--friendly .profile-summary__edit {
+  background: var(--launcher-people-ink);
+  color: var(--launcher-people-bg);
 }
 
 @media (pointer: coarse) {

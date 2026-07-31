@@ -67,6 +67,7 @@ class RideOfferServiceTest {
         assertEquals(20L, result.getId());
         assertEquals(List.of("Neighbors"), result.getVisibleCircleNames());
         assertEquals(List.of(RideAllowedActionDTO.EDIT, RideAllowedActionDTO.CANCEL), result.getAllowedActions());
+        assertEquals("Your changes are shared with everyone who can see this ride.", result.getActions().getFirst().getOutcome());
     }
 
     @Test
@@ -129,6 +130,7 @@ class RideOfferServiceTest {
         assertEquals(1, result.getItems().size());
         assertEquals("Zurich", result.getItems().getFirst().getDestination());
         assertEquals(List.of(RideAllowedActionDTO.EDIT, RideAllowedActionDTO.CANCEL), result.getItems().getFirst().getAllowedActions());
+        assertEquals("The ride is cancelled and participants are notified.", result.getItems().getFirst().getActions().getLast().getOutcome());
     }
 
     @Test

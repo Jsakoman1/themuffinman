@@ -72,3 +72,4 @@ review_batch_contract:
   batch: work_sharing
   authority: docs/permission-visibility-matrix.yaml#workmarket_quest
   runtime_promotion: forbidden_without_runtime_evidence
+ # Services review and availability endpoints remain capability-traced through public-read and booking-customer authority.

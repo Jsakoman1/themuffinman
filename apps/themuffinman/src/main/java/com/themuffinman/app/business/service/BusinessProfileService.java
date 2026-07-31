@@ -25,11 +25,11 @@ public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final BusinessProfileMgr businessProfileMgr;
 
-    public BusinessProfileListResponseDTO getDirectory(String query) {
+    public BusinessProfileListResponseDTO getDirectory(AppUser currentUser, String query) {
         String normalizedQuery = query == null ? "" : query.trim();
         var profiles = normalizedQuery.isBlank()
-                ? businessProfileRepository.findActiveProfiles()
-                : businessProfileRepository.searchActiveProfiles(normalizedQuery);
+                ? businessProfileRepository.findActiveProfilesOwnedByOtherThan(currentUser.getId())
+                : businessProfileRepository.searchActiveProfilesOwnedByOtherThan(currentUser.getId(), normalizedQuery);
         return BusinessProfileListResponseDTO.builder()
                 .items(profiles.stream()
                         .map(businessProfileMgr::toDto)

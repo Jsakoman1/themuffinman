@@ -1,0 +1,48 @@
+name: Repository validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Backend, frontend, and tooling health
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: apps/themuffinman/pom.xml
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: apps/themuffinman/frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm --prefix apps/themuffinman/frontend ci
+
+      - name: Run backend tests
+        run: make backend-test
+
+      - name: Type-check frontend
+        run: make frontend-type-check
+
+      - name: Build frontend and verify generated contracts
+        run: make frontend-build
+
+      - name: Verify local tooling
+        run: make tool-self-test

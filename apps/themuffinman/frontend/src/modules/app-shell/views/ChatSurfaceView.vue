@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue"
 import {RouterLink, useRoute, useRouter} from "vue-router"
-import type {ChatAttachmentUploadDTO, ChatConversationSummaryDTO, ChatMessageDTO, CircleSearchResultDTO} from "../../../contracts/index.ts"
+import type {ChatAttachmentUploadDTO, ChatMessageDTO, CircleSearchResultDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppIconButton from "../components/AppIconButton.vue"
 import AppButton from "../components/AppButton.vue"
@@ -10,13 +10,16 @@ import AppFormFooter from "../components/AppFormFooter.vue"
 import AppStatus from "../components/AppStatus.vue"
 import {confirmAction} from "../composables/useActionDialog.ts"
 import {useChatRealtime} from "../composables/useChatRealtime.ts"
+import {useChatWorkspace} from "../composables/useChatWorkspace.ts"
 import {formatDateTime} from "../../../services/formatters.ts"
 import TaskSurface from "../components/TaskSurface.vue"
+import ChatConversationList from "../components/ChatConversationList.vue"
+import ChatThread from "../components/ChatThread.vue"
+import ChatComposer from "../components/ChatComposer.vue"
+import ChatNewConversationDialog from "../components/ChatNewConversationDialog.vue"
 
 const route = useRoute()
 const router = useRouter()
-const conversations = ref<ChatConversationSummaryDTO[]>([])
-const messages = ref<ChatMessageDTO[]>([])
 const hasMoreConversations = ref(false)
 const hasMoreMessages = ref(false)
 const conversationPage = ref(0)
@@ -48,18 +51,9 @@ const isSearchingParticipants = ref(false)
 const directQuery = ref("")
 const directCandidates = ref<CircleSearchResultDTO[]>([])
 const isOpeningDirect = ref(false)
+const newConversationOpen = ref(false)
 const selectedId = computed(() => Number(route.params.conversationId) || null)
-const selectedConversation = computed(() => conversations.value.find(item => item.conversationId === selectedId.value) ?? null)
-const isUnread = (conversation: ChatConversationSummaryDTO) => conversation.lastMessageId !== null && conversation.lastSeenMessageId !== conversation.lastMessageId
-const unreadCount = computed(() => conversations.value.filter(conversation => !conversation.archived && !conversation.muted && isUnread(conversation)).length)
-const isPriority = (conversation: ChatConversationSummaryDTO) => Boolean(conversation.contextType && ["BUSINESS", "BOOKING", "WORK"].includes(conversation.contextType))
-const conversationSections = computed(() => [
-  {id: "priority", label: "Priority", items: conversations.value.filter(item => !item.archived && !item.muted && isPriority(item))},
-  {id: "unread", label: "Unread", items: conversations.value.filter(item => !item.archived && !item.muted && isUnread(item) && !isPriority(item))},
-  {id: "other", label: "All conversations", items: conversations.value.filter(item => !item.archived && !item.muted && !isUnread(item) && !isPriority(item))},
-  {id: "muted", label: "Muted", items: conversations.value.filter(item => !item.archived && item.muted)},
-  {id: "archived", label: "Archived", items: conversations.value.filter(item => item.archived)}
-].filter(section => section.items.length))
+const {conversations, messages, selectedConversation, unreadCount, conversationSections, isUnread, replaceMessage, appendMessageIfMissing, typingParticipantNames, latestOwnMessageSeen, applyRealtimePresence, setActiveTypingUsers} = useChatWorkspace(selectedId)
 const relatedContext = computed(() => {
   const safePath = (value: unknown) => typeof value === "string" && /^\/(business|work|chat|bookings)(\/|$)/.test(value) ? value : null
   return {business: safePath(route.query.businessPath), booking: safePath(route.query.bookingPath), work: safePath(route.query.workPath)}
@@ -104,6 +98,7 @@ const loadMessages = async () => {
   try {
     const sync = await userShellApi.getChatConversationSync(selectedId.value)
     messages.value = sync.messages
+    setActiveTypingUsers(sync.activeTypingUserIds)
     await userShellApi.markChatConversationRead(selectedId.value, sync.messages.at(-1)?.id)
     hasMoreMessages.value = false
     nextMessageId.value = null
@@ -130,6 +125,7 @@ const syncConversation = async () => {
     const existing = new Map(messages.value.map(message => [message.id, message]))
     sync.messages.forEach(message => existing.set(message.id, message))
     messages.value = [...existing.values()].sort((left, right) => left.id - right.id)
+    setActiveTypingUsers(sync.activeTypingUserIds)
     syncStatus.value = "Conversation refreshed from the server."
     error.value = ""
   } catch (requestError) {
@@ -142,10 +138,9 @@ const handleRealtimeEvent = (event: import("../../../contracts/index.ts").ChatSo
     if (event.resyncRequired && selectedId.value) void syncConversation()
     return
   }
+  applyRealtimePresence(event)
   if (event.conversationId === selectedId.value && event.message) {
-    const existing = new Map(messages.value.map(message => [message.id, message]))
-    existing.set(event.message.id, event.message)
-    messages.value = [...existing.values()].sort((left, right) => left.id - right.id)
+    appendMessageIfMissing(event.message)
   }
   void loadConversations()
   if (event.conversationId === selectedId.value && !event.message) void syncConversation()
@@ -160,6 +155,7 @@ const realtimeLabel = computed(() => ({
   DISCONNECTED: "Disconnected"
 }[realtimeStatus.value] ?? "Unavailable"))
 const realtimeNeedsAction = computed(() => realtimeStatus.value === "DISCONNECTED" || realtimeStatus.value === "RECONNECTING")
+const reconnectThread = () => { chatRealtime.reconnect(); if (selectedId.value) void syncConversation() }
 const retry = async () => {
   const action = retryAction.value
   retryAction.value = null
@@ -189,6 +185,7 @@ const createGroup = async () => {
     participantQuery.value = ""
     participantCandidates.value = []
     selectedParticipantIds.value = []
+    newConversationOpen.value = false
     await loadConversations()
     await router.push(`/chat/${created.conversationId}`)
   } catch { error.value = "Could not create the group conversation." } finally { isCreatingGroup.value = false }
@@ -201,7 +198,7 @@ const searchDirectParticipants = async () => {
 }
 const openDirectChat = async (userId: number) => {
   isOpeningDirect.value = true; error.value = ""
-  try { const conversation = await userShellApi.openDirectChat(userId); directQuery.value = ""; directCandidates.value = []; await loadConversations(); await router.push(`/chat/${conversation.conversationId}`) } catch { error.value = "Could not open this conversation." } finally { isOpeningDirect.value = false }
+  try { const conversation = await userShellApi.openDirectChat(userId); directQuery.value = ""; directCandidates.value = []; newConversationOpen.value = false; await loadConversations(); await router.push(`/chat/${conversation.conversationId}`) } catch { error.value = "Could not open this conversation." } finally { isOpeningDirect.value = false }
 }
 const leaveGroup = async () => {
   if (!selectedId.value || selectedConversation.value?.conversationType !== "GROUP" || !await confirmAction("Leave this group conversation?", "Leave conversation")) return
@@ -221,7 +218,6 @@ const loadOlderMessages = async () => {
   hasMoreMessages.value = page.hasMore
   nextMessageId.value = page.nextBeforeMessageId
 }
-const replaceMessage = (message: ChatMessageDTO) => { messages.value = messages.value.map(item => item.id === message.id ? message : item) }
 const clearAttachmentPreview = () => { if (attachmentPreviewUrl.value) URL.revokeObjectURL(attachmentPreviewUrl.value); attachmentPreviewUrl.value = null }
 const uploadAttachment = async (event: Event) => { const file = (event.target as HTMLInputElement).files?.[0]; if (!file) return; clearAttachmentPreview(); attachmentPreviewUrl.value = file.type.startsWith("image/") ? URL.createObjectURL(file) : null; isUploadingAttachment.value = true; error.value = ""; try { attachment.value = await userShellApi.uploadChatAttachment(file); actionFeedback.value = "Attachment ready to send." } catch { clearAttachmentPreview(); error.value = "Could not upload this attachment." } finally { isUploadingAttachment.value = false } }
 const removeAttachment = async () => {
@@ -237,13 +233,19 @@ const beginEdit = (message: ChatMessageDTO) => { editingId.value = message.id; e
 const saveEdit = async (message: ChatMessageDTO) => { if (!selectedId.value || !editingDraft.value.trim()) return; try { replaceMessage(await userShellApi.updateChatMessage(selectedId.value, message.id, editingDraft.value.trim())); editingId.value = null; actionFeedback.value = "Message updated." } catch { error.value = "Could not edit this message." } }
 const remove = async (message: ChatMessageDTO) => { if (!selectedId.value || !await confirmAction("Delete this message?", "Delete message")) return; try { await userShellApi.deleteChatMessage(selectedId.value, message.id); messages.value = messages.value.map(item => item.id === message.id ? {...item, deleted: true, messageBody: null} : item); actionFeedback.value = "Message deleted." } catch { error.value = "Could not delete this message." } }
 const toggleReaction = async (message: ChatMessageDTO) => { if (!selectedId.value) return; const own = message.reactions.find(reaction => reaction.ownReaction && reaction.emoji === "👍"); try { replaceMessage(own ? await userShellApi.removeChatReaction(selectedId.value, message.id, "👍") : await userShellApi.addChatReaction(selectedId.value, message.id, "👍")); actionFeedback.value = own ? "Reaction removed." : "Reaction added." } catch { error.value = "Could not update this reaction." } }
-const recoverConversation = () => { if (document.visibilityState === "visible" && selectedId.value) void syncConversation() }
+const recoverConversation = () => {
+  if (document.visibilityState !== "visible") return
+  chatRealtime.refreshPresence()
+  void userShellApi.heartbeatChatPresence()
+  if (selectedId.value) void syncConversation()
+}
 const recoverWhenOnline = () => { if (selectedId.value) void syncConversation() }
 const draftKey = computed(() => selectedId.value ? `chat-draft:v2:${selectedId.value}` : "chat-draft:v2:new")
 const persistDraft = () => { if (typeof window === "undefined") return; if (draft.value.trim()) window.localStorage.setItem(draftKey.value, draft.value); else window.localStorage.removeItem(draftKey.value) }
 watch(draft, persistDraft)
 watch(selectedId, () => {
   draft.value = typeof window === "undefined" ? "" : window.localStorage.getItem(draftKey.value) || ""
+  setActiveTypingUsers([])
   void loadMessages()
   if (selectedId.value && attachmentRequested.value) window.setTimeout(() => attachmentInput.value?.focus(), 0)
 })
@@ -253,6 +255,7 @@ onMounted(() => {
   const requestedUserId = Number(route.query.userId)
   if (Number.isInteger(requestedUserId) && requestedUserId > 0) void openDirectChat(requestedUserId)
   chatRealtime.connect()
+  void userShellApi.heartbeatChatPresence()
   if (attachmentRequested.value && !selectedId.value) syncStatus.value = "Select a conversation to attach a file."
   document.addEventListener("visibilitychange", recoverConversation)
   window.addEventListener("online", recoverWhenOnline)
@@ -268,10 +271,10 @@ onBeforeUnmount(() => {
   <!-- UX simplification: conversation selection is the first action; circle clubs reuse this group-chat surface. -->
   <!-- Post-start hardening marker: realtime recovery remains visible in the same task surface. -->
   <TaskSurface mode="workspace" label="Chat workspace"><section class="chat-surface" data-preview-model="shared-adjacent-preview" data-mental-model="inbox-select-recover-converse" data-chat-first-view="inbox-priority-recovery" :aria-busy="isLoading || isLoadingMore || isSyncing || isSending || undefined">
-  <header class="chat-surface__header" aria-labelledby="chat-surface-title"><div><p class="chat-surface__eyebrow">Chat</p><h1 id="chat-surface-title">{{ selectedId ? selectedConversation?.title || "Conversation" : unreadCount ? `${unreadCount} unread conversation${unreadCount === 1 ? '' : 's'}` : "Chat" }}</h1><small class="chat-surface__realtime-status" :class="`chat-surface__realtime-status--${realtimeStatus.toLowerCase()}`" role="status" aria-live="polite">{{ realtimeLabel }}<template v-if="realtimeNeedsAction"> · Messages will refresh when reconnected</template></small></div><div class="chat-surface__header-actions"><RouterLink v-if="selectedId" to="/chat" class="chat-surface__back">Back to inbox</RouterLink><AppButton v-if="realtimeNeedsAction" type="button" tone="secondary" :loading="realtimeStatus === 'RECONNECTING'" @click="chatRealtime.reconnect">Reconnect and refresh</AppButton><details class="chat-surface__new-menu"><summary>New</summary><div><AppButton type="button" tone="secondary" @click="directQuery = directQuery ? '' : ' '" >Message</AppButton><AppButton type="button" tone="secondary" @click="groupTitle = groupTitle ? '' : ' '" >Group</AppButton></div></details></div></header>
+    <header class="chat-surface__header" aria-labelledby="chat-surface-title"><div><p class="chat-surface__eyebrow">Chat</p><h1 id="chat-surface-title">{{ selectedId ? selectedConversation?.title || "Conversation" : unreadCount ? `${unreadCount} unread conversation${unreadCount === 1 ? '' : 's'}` : "Chat" }}</h1><small class="chat-surface__realtime-status" :class="`chat-surface__realtime-status--${realtimeStatus.toLowerCase()}`" role="status" aria-live="polite">{{ realtimeLabel }}<template v-if="realtimeNeedsAction && !selectedId"> · Messages will refresh when reconnected</template></small></div><div class="chat-surface__header-actions"><RouterLink v-if="selectedId" to="/chat" class="chat-surface__back">Back to inbox</RouterLink><AppButton type="button" tone="primary" @click="newConversationOpen = true">New message</AppButton></div></header>
     <section v-if="!selectedId" class="chat-surface__inbox-intent" aria-label="Inbox guidance"><p class="chat-surface__eyebrow">Your inbox</p><strong>{{ unreadCount ? 'Start with an unread conversation or a priority thread.' : 'You are caught up.' }}</strong><span>{{ unreadCount ? 'Priority conversations appear first. Opening one marks it ready to continue.' : 'Choose a conversation or start a new message when you need one.' }}</span></section>
-    <form v-if="directQuery !== ''" class="chat-surface__direct-create" @submit.prevent><AppFormField label="Person"><input v-model="directQuery" placeholder="Find someone to chat with" aria-label="Find someone to chat with" @input="searchDirectParticipants"></AppFormField><span v-if="isSearchingParticipants">Searching…</span><div class="chat-surface__direct-candidates"><AppButton v-for="candidate in directCandidates" :key="candidate.id" type="button" tone="secondary" :loading="isOpeningDirect" @click="openDirectChat(candidate.id)">{{ candidate.username }}</AppButton></div></form>
-    <form v-if="groupTitle !== '' || participantQuery !== ''" class="chat-surface__group-create" @submit.prevent="createGroup">
+    <ChatNewConversationDialog :open="newConversationOpen" :direct-query="directQuery" :group-title="groupTitle" :participant-query="participantQuery" :direct-candidates="directCandidates" :participant-candidates="participantCandidates" :selected-participant-ids="selectedParticipantIds" :searching="isSearchingParticipants" :opening-direct="isOpeningDirect" :creating-group="isCreatingGroup" @close="newConversationOpen = false" @update:direct-query="directQuery = $event" @update:group-title="groupTitle = $event" @update:participant-query="participantQuery = $event" @search-direct="searchDirectParticipants" @search-participants="searchParticipants" @open-direct="openDirectChat" @toggle-participant="toggleParticipant" @create-group="createGroup" />
+    <form v-if="false && (groupTitle !== '' || participantQuery !== '')" class="chat-surface__group-create" @submit.prevent="createGroup">
       <AppFormField label="Group name" required><input v-model="groupTitle" placeholder="Group name" maxlength="120" aria-label="Group name"></AppFormField>
       <AppFormField label="Participants"><input v-model="participantQuery" placeholder="Find people" aria-label="Find people" @input="searchParticipants"></AppFormField>
       <span v-if="isSearchingParticipants">Searching…</span>
@@ -281,7 +284,12 @@ onBeforeUnmount(() => {
     <AppStatus v-if="error" :message="error" tone="error" retry :retry-label="retryLabel" @retry="retry" />
     <AppStatus v-if="actionFeedback" :message="actionFeedback" tone="success" />
     <AppStatus v-if="selectedId && syncStatus" :message="syncStatus" :tone="syncStatus.startsWith('Could not') ? 'stale' : 'neutral'" :busy="isSyncing" :retry="syncStatus.startsWith('Could not')" @retry="syncConversation" />
-    <div class="chat-surface__layout" data-chat-layout="two-pane">
+    <div class="chat-workspace" :class="selectedId ? 'chat-workspace--thread' : 'chat-workspace--inbox'" data-chat-layout="two-pane" data-thread-presentation="grouped-bubbles">
+      <ChatConversationList :sections="conversationSections" :selected-id="selectedId" :empty="!isLoading && conversations.length === 0" :has-more="hasMoreConversations" :loading-more="isLoadingMore" @load-more="loadMoreConversations" />
+      <ChatThread :selected-id="selectedId" :conversation="selectedConversation" :messages="messages" :has-more="hasMoreMessages" :typing-participant-names="typingParticipantNames" :latest-own-message-seen="latestOwnMessageSeen" :editing-id="editingId" :editing-draft="editingDraft" :reconnecting="realtimeNeedsAction" @older="loadOlderMessages" @leave="leaveGroup" @reconnect="reconnectThread" @reply="replyingTo = $event" @react="toggleReaction" @edit="beginEdit" @update:editing-draft="editingDraft = $event" @save-edit="saveEdit" @cancel-edit="editingId = null" @remove="remove" />
+      <ChatComposer v-if="selectedId" v-model:draft="draft" :attachment="attachment" :attachment-preview-url="attachmentPreviewUrl" :replying-to="replyingTo" :sending="isSending" :uploading="isUploadingAttachment" @send="send" @typing="chatRealtime.setTyping(selectedId, $event)" @attach="uploadAttachment" @remove-attachment="removeAttachment" @cancel-reply="replyingTo = null" />
+    </div>
+    <div v-if="false" class="chat-surface__layout" :class="selectedId ? 'chat-surface__layout--thread' : 'chat-surface__layout--inbox'" data-chat-layout="legacy-two-pane">
       <aside class="chat-surface__index" aria-label="Conversations">
         <section v-for="section in conversationSections" :key="section.id" class="chat-surface__conversation-section" :aria-label="section.label"><h2>{{ section.label }}</h2><RouterLink v-for="conversation in section.items" :key="conversation.conversationId" :to="`/chat/${conversation.conversationId}`" class="chat-surface__conversation" :class="{'chat-surface__conversation--active': selectedId === conversation.conversationId, 'chat-surface__conversation--unread': isUnread(conversation)}"><strong>{{ conversation.title || conversation.otherUsername || `Conversation #${conversation.conversationId}` }}</strong><span>{{ conversation.lastMessageAt ? formatDate(conversation.lastMessageAt) : "No messages" }}<template v-if="isUnread(conversation)"> · Unread</template><template v-if="conversation.muted"> · Muted</template></span></RouterLink></section>
         <p v-if="!isLoading && conversations.length === 0" class="chat-surface__status" role="status">No conversations yet. Start a chat to see it here.</p>
@@ -293,17 +301,18 @@ onBeforeUnmount(() => {
         <p v-if="!selectedId" class="chat-surface__status" role="status">{{ attachmentRequested ? "Choose a conversation before attaching a file." : unreadCount ? "Choose an unread conversation to continue where you left off." : "Choose a conversation, or start a new message." }}</p>
         <div v-else-if="messages.length === 0" class="chat-surface__status" role="status">No messages yet. You can send the first message.</div>
         <article v-for="message in messages" v-else :key="message.id" class="chat-surface__message" :class="{'chat-surface__message--own': message.ownMessage}">
-          <span class="chat-surface__message-author">{{ message.senderUsername }} · {{ formatDate(message.createdAt) }}</span><form v-if="editingId === message.id" @submit.prevent="saveEdit(message)"><input v-model="editingDraft"><AppButton type="submit" tone="primary">Save</AppButton><AppButton type="button" tone="secondary" @click="editingId = null">Cancel</AppButton></form><template v-else><p v-if="message.replyToMessageId" class="chat-surface__reply">Reply to message #{{ message.replyToMessageId }}</p><p>{{ message.deleted ? "Message deleted" : message.messageBody || message.attachmentName || "Attachment" }}</p><a v-if="message.attachmentUrl && !message.deleted && message.attachmentAvailability !== 'UNAVAILABLE'" class="chat-surface__attachment-link" :href="message.attachmentUrl" target="_blank" rel="noreferrer">Open attachment</a><small v-if="message.attachmentAvailability === 'UNAVAILABLE'" class="chat-surface__attachment-unavailable">Attachment unavailable. It may have expired or storage is temporarily unavailable.</small></template><div v-if="selectedId && !message.deleted" class="chat-surface__message-actions"><AppButton type="button" tone="quiet" @click="toggleReaction(message)">{{ message.reactions.some(reaction => reaction.ownReaction && reaction.emoji === "👍") ? "👍" : "Like" }}</AppButton><AppButton type="button" tone="quiet" @click="replyingTo = message">Reply</AppButton><AppIconButton v-if="message.ownMessage" label="Edit message" @click="beginEdit(message)"><span aria-hidden="true">✎</span></AppIconButton><AppIconButton v-if="message.ownMessage" label="Delete message" tone="danger" @click="remove(message)"><span aria-hidden="true">⌫</span></AppIconButton></div>
+          <span class="chat-surface__message-author">{{ message.senderUsername }} · {{ formatDate(message.createdAt) }}</span><form v-if="editingId === message.id" @submit.prevent="saveEdit(message)"><input v-model="editingDraft"><AppButton type="submit" tone="primary">Save</AppButton><AppButton type="button" tone="secondary" @click="editingId = null">Cancel</AppButton></form><template v-else><p v-if="message.replyToMessageId" class="chat-surface__reply">Reply to message #{{ message.replyToMessageId }}</p><p>{{ message.deleted ? "Message deleted" : message.messageBody || message.attachmentName || "Attachment" }}</p><a v-if="message.attachmentUrl && !message.deleted && message.attachmentAvailability !== 'UNAVAILABLE'" class="chat-surface__attachment-link" :href="message.attachmentUrl || undefined" target="_blank" rel="noreferrer">Open attachment</a><small v-if="message.attachmentAvailability === 'UNAVAILABLE'" class="chat-surface__attachment-unavailable">Attachment unavailable. It may have expired or storage is temporarily unavailable.</small></template><div v-if="selectedId && !message.deleted" class="chat-surface__message-actions"><AppButton type="button" tone="quiet" @click="toggleReaction(message)">{{ message.reactions.some(reaction => reaction.ownReaction && reaction.emoji === "👍") ? "👍" : "Like" }}</AppButton><AppButton type="button" tone="quiet" @click="replyingTo = message">Reply</AppButton><AppIconButton v-if="message.ownMessage" label="Edit message" @click="beginEdit(message)"><span aria-hidden="true">✎</span></AppIconButton><AppIconButton v-if="message.ownMessage" label="Delete message" tone="danger" @click="remove(message)"><span aria-hidden="true">⌫</span></AppIconButton></div>
         </article>
       </main>
-      <nav v-if="selectedId && (relatedContext.business || relatedContext.booking || relatedContext.work)" class="chat-surface__related" aria-label="Related context"><strong>Related context</strong><RouterLink v-if="relatedContext.business" :to="relatedContext.business">Open business</RouterLink><RouterLink v-if="relatedContext.booking" :to="relatedContext.booking">Open booking</RouterLink><RouterLink v-if="relatedContext.work" :to="relatedContext.work">Open work</RouterLink></nav>
-      <form v-if="selectedId" class="chat-surface__composer" aria-label="Conversation composer" @submit.prevent="send"><p v-if="replyingTo" class="chat-surface__replying">Replying to {{ replyingTo.senderUsername }} <AppButton type="button" tone="quiet" @click="replyingTo = null">Cancel</AppButton></p><input v-model="draft" placeholder="Write a message." aria-label="Message" maxlength="2000" :disabled="isSending"><label class="chat-surface__attachment">{{ isUploadingAttachment ? "Uploading…" : attachment ? attachment.attachmentName : "Attach" }}<input ref="attachmentInput" type="file" accept="image/*,.pdf,.txt" @change="uploadAttachment" :disabled="isUploadingAttachment || isSending"></label><img v-if="attachmentPreviewUrl" class="chat-surface__attachment-preview" :src="attachmentPreviewUrl" alt="Selected attachment preview"><AppButton type="button" v-if="attachment" tone="danger" @click="removeAttachment">Remove</AppButton><AppButton type="submit" tone="primary" :loading="isSending" :disabled="isUploadingAttachment">{{ isSending ? "Sending…" : "Send" }}</AppButton></form>
+      <nav v-if="selectedId && (relatedContext.business || relatedContext.booking || relatedContext.work)" class="chat-surface__related" aria-label="Related context"><strong>Related context</strong><RouterLink v-if="relatedContext.business" :to="relatedContext.business || '/business'">Open business</RouterLink><RouterLink v-if="relatedContext.booking" :to="relatedContext.booking || '/business/my-bookings'">Open booking</RouterLink><RouterLink v-if="relatedContext.work" :to="relatedContext.work || '/work'">Open work</RouterLink></nav>
+      <form v-if="selectedId" class="chat-surface__composer" aria-label="Conversation composer" @submit.prevent="send"><p v-if="replyingTo" class="chat-surface__replying">Replying to {{ replyingTo?.senderUsername }} <AppButton type="button" tone="quiet" @click="replyingTo = null">Cancel</AppButton></p><input v-model="draft" placeholder="Write a message." aria-label="Message" maxlength="2000" :disabled="isSending"><label class="chat-surface__attachment">{{ isUploadingAttachment ? "Uploading…" : attachment?.attachmentName || "Attach" }}<input ref="attachmentInput" type="file" accept="image/*,.pdf,.txt" @change="uploadAttachment" :disabled="isUploadingAttachment || isSending"></label><img v-if="attachmentPreviewUrl" class="chat-surface__attachment-preview" :src="attachmentPreviewUrl || undefined" alt="Selected attachment preview"><AppButton type="button" v-if="attachment" tone="danger" @click="removeAttachment">Remove</AppButton><AppButton type="submit" tone="primary" :loading="isSending" :disabled="isUploadingAttachment">{{ isSending ? "Sending…" : "Send" }}</AppButton></form>
     </div>
-    <nav v-if="selectedId && conversationContextRoute" class="chat-surface__related chat-surface__related--context" aria-label="Conversation related context"><strong>Related context</strong><RouterLink :to="conversationContextRoute.to">{{ conversationContextRoute.label }}</RouterLink></nav>
+    <nav v-if="selectedId && conversationContextRoute" class="chat-surface__related chat-surface__related--context" aria-label="Conversation related context"><strong>Related context</strong><RouterLink :to="conversationContextRoute.to || '/chat'">{{ conversationContextRoute.label }}</RouterLink></nav>
   </section></TaskSurface>
 </template>
 
 <style scoped>
+.chat-surface__header{border-bottom-color:var(--orientation-line)}
 .chat-surface{max-width:none;gap:var(--space-3)}.chat-surface__layout{grid-template-columns:var(--workspace-rail-width) minmax(0,1fr);gap:0;min-height:clamp(32rem,68vh,48rem);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);overflow:hidden;background:var(--surface-base)}.chat-surface__index,.chat-surface__thread{border:0;border-radius:0;box-shadow:none}.chat-surface__index{border-right:1px solid var(--border-subtle);padding:var(--space-2);background:var(--rail-canvas)}.chat-surface__thread{padding:var(--space-4);background:var(--surface-base)}.chat-surface__conversation{border-radius:var(--radius-control);padding:var(--space-2)}.chat-surface__conversation--active{background:var(--surface-selected);box-shadow:inset 2px 0 var(--accent)}.chat-surface__message{border:1px solid var(--border-subtle);border-radius:var(--radius-surface);box-shadow:none;background:var(--surface-raised)}.chat-surface__message--own{border-color:var(--accent);background:var(--accent-muted);color:var(--text)}.chat-surface__composer{border-radius:var(--radius-surface);box-shadow:none;background:var(--surface-raised)}.chat-surface__composer input,.chat-surface__attachment,.chat-surface__create-toggle,.chat-surface__back{border-radius:var(--radius-control)}.chat-surface__create-toggle{background:var(--control-bg);color:var(--text-muted)}.chat-surface__composer button[type=submit]{background:var(--accent);color:var(--canvas)}
 .chat-surface{display:grid;gap:var(--space-3);max-width:none}.chat-surface__header{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3)}.chat-surface__header-actions{display:flex;gap:var(--space-1);flex-wrap:wrap}.chat-surface__eyebrow{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}h1{margin:0;font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.chat-surface__direct-create,.chat-surface__group-create{display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center;padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.chat-surface__direct-create input,.chat-surface__group-create input{min-width:14rem;flex:1;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--control-ink);font:inherit}.chat-surface__direct-create button,.chat-surface__group-create button{min-height:var(--control-height-default);border:1px solid var(--accent);border-radius:var(--radius-control);padding:var(--space-1) var(--space-3);background:var(--accent);color:var(--canvas);font:inherit;font-size:var(--text-size-meta);cursor:pointer}.chat-surface__layout{display:grid;grid-template-columns:var(--workspace-rail-width) minmax(0,1fr) var(--detail-rail-width);gap:0;min-height:clamp(32rem,68vh,48rem);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);overflow:hidden;background:var(--surface-base)}.chat-surface__index,.chat-surface__thread{border:0;border-radius:0;background:var(--surface-base);padding:var(--space-3)}.chat-surface__index{display:grid;align-content:start;gap:var(--space-1);border-right:1px solid var(--border-subtle);background:var(--rail-canvas)}.chat-surface__conversation{display:grid;gap:var(--space-1);padding:var(--space-2);border-radius:var(--radius-control)}.chat-surface__conversation span,.chat-surface__message-author{color:var(--text-muted);font-size:var(--text-size-meta)}.chat-surface__conversation--active{background:var(--surface-selected);box-shadow:inset 2px 0 var(--accent)}.chat-surface__thread{display:grid;align-content:start;gap:var(--space-2);overflow:auto}.chat-surface__message{max-width:72%;padding:var(--space-2) var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised)}.chat-surface__message--own{justify-self:end;border-color:var(--accent);background:var(--accent-muted);color:var(--text)}.chat-surface__message p{margin:var(--space-1) 0 0}.chat-surface__message--own .chat-surface__message-author{color:var(--text-muted)}.chat-surface__more,.chat-surface__older{justify-self:start;border:1px solid var(--control-border);border-radius:var(--radius-control);background:transparent;color:var(--control-ink);padding:var(--space-1) var(--space-2);cursor:pointer}.chat-surface__status{padding:var(--space-3) 0;color:var(--text-muted)}.chat-surface__status--error{color:var(--danger)}.chat-surface__status button{margin-left:var(--space-2);border:0;background:transparent;color:inherit;text-decoration:underline;cursor:pointer}@media(max-width:980px){.chat-surface__layout{grid-template-columns:var(--workspace-rail-width) minmax(0,1fr)}.chat-surface__context{grid-column:2;border-top:1px solid var(--border-subtle);border-left:0}}@media(max-width:700px){.chat-surface__layout{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto}.chat-surface__index{max-height:14rem;border-right:0;border-bottom:1px solid var(--border-subtle);overflow:auto}.chat-surface__message{max-width:100%}}
 .chat-surface{display:grid;gap:var(--space-3);max-width:none}.chat-surface__header{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3)}.chat-surface__header-actions{display:flex;gap:var(--space-1);flex-wrap:wrap}.chat-surface__eyebrow{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}h1{margin:0;font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.chat-surface__inbox-intent{display:grid;gap:var(--space-1);max-width:48rem;padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised)}.chat-surface__inbox-intent strong{color:var(--text)}.chat-surface__inbox-intent span{color:var(--text-muted)}.chat-surface__direct-create,.chat-surface__group-create{display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center;padding:var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.chat-surface__direct-create input,.chat-surface__group-create input{min-width:14rem;flex:1;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--control-ink);font:inherit}.chat-surface__direct-create button,.chat-surface__group-create button{min-height:var(--control-height-default);border:1px solid var(--accent);border-radius:var(--radius-control);padding:var(--space-1) var(--space-3);background:var(--accent);color:var(--canvas);font:inherit;font-size:var(--text-size-meta);cursor:pointer}.chat-surface__layout{display:grid;grid-template-columns:var(--workspace-rail-width) minmax(0,1fr) var(--detail-rail-width);gap:0;min-height:clamp(32rem,68vh,48rem);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);overflow:hidden;background:var(--surface-base)}.chat-surface__index,.chat-surface__thread{border:0;border-radius:0;background:var(--surface-base);padding:var(--space-3)}.chat-surface__index{display:grid;align-content:start;gap:var(--space-1);border-right:1px solid var(--border-subtle);background:var(--rail-canvas)}.chat-surface__conversation{display:grid;gap:var(--space-1);padding:var(--space-2);border-radius:var(--radius-control)}.chat-surface__conversation span,.chat-surface__message-author{color:var(--text-muted);font-size:var(--text-size-meta)}.chat-surface__conversation--active{background:var(--surface-selected);box-shadow:inset 2px 0 var(--accent)}.chat-surface__thread{display:grid;align-content:start;gap:var(--space-2);overflow:auto}.chat-surface__message{max-width:72%;padding:var(--space-2) var(--space-3);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised)}.chat-surface__message--own{justify-self:end;border-color:var(--accent);background:var(--accent-muted);color:var(--text)}.chat-surface__message p{margin:var(--space-1) 0 0}.chat-surface__message--own .chat-surface__message-author{color:var(--text-muted)}.chat-surface__more,.chat-surface__older{justify-self:start;border:1px solid var(--control-border);border-radius:var(--radius-control);background:transparent;color:var(--control-ink);padding:var(--space-1) var(--space-2);cursor:pointer}.chat-surface__status{padding:var(--space-3) 0;color:var(--text-muted)}.chat-surface__status--error{color:var(--danger)}.chat-surface__status button{margin-left:var(--space-2);border:0;background:transparent;color:inherit;text-decoration:underline;cursor:pointer}@media(max-width:980px){.chat-surface__layout{grid-template-columns:var(--workspace-rail-width) minmax(0,1fr)}.chat-surface__context{grid-column:2;border-top:1px solid var(--border-subtle);border-left:0}}@media(max-width:700px){.chat-surface__layout{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto}.chat-surface__index{max-height:14rem;border-right:0;border-bottom:1px solid var(--border-subtle);overflow:auto}.chat-surface__message{max-width:100%}}
@@ -329,6 +338,8 @@ onBeforeUnmount(() => {
 .chat-surface__message:hover .chat-surface__message-actions, .chat-surface__message:focus-within .chat-surface__message-actions { opacity: 1; }
 @media (max-width: 700px) {
   .chat-surface__layout { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 0; }
+  .chat-surface__layout--thread .chat-surface__index, .chat-surface__layout--inbox .chat-surface__thread { display: none; }
+  .chat-surface__layout--thread .chat-surface__composer { grid-column: 1; }
   .chat-surface__index { max-height: 12rem; border-right: 0; border-bottom: 1px solid var(--border-subtle); overflow: auto; }
   .chat-surface__thread { min-height: 24rem; padding: var(--space-3); }
   .chat-surface__composer { grid-column: 1; min-width: 0; width: 100%; box-sizing: border-box; }
@@ -340,4 +351,6 @@ onBeforeUnmount(() => {
 .chat-surface__layout { grid-template-columns: minmax(16rem, 20rem) minmax(0, 1fr); }
 .chat-surface__conversation strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 700px) { .chat-surface__layout { grid-template-columns: 1fr; } }
+.chat-surface{container-type:inline-size}
+.chat-workspace{display:grid;grid-template-columns:minmax(16rem,20rem) minmax(0,1fr);grid-template-rows:minmax(28rem,68vh) auto;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);overflow:hidden;background:var(--surface-base)}.chat-workspace :deep(.chat-conversation-list){grid-row:1 / span 2}.chat-workspace :deep(.chat-composer){grid-column:2}@media(max-width:700px){.chat-workspace{display:block;border:0;border-radius:0}.chat-workspace--inbox :deep(.chat-thread),.chat-workspace--inbox :deep(.chat-composer),.chat-workspace--thread :deep(.chat-conversation-list){display:none}}
 </style>

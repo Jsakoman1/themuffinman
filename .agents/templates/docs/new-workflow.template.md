@@ -24,7 +24,7 @@
 
 - Update `docs/business-logic.md` for product behavior.
 - Update `docs/domain-technical.md` for entities, states, permissions, and invariants.
-- Update `docs/agent-operating-model.md` or generated artifacts when automation can invoke or inspect the workflow.
+- Update `docs/agent-operating-model.yaml`, its relevant sections, or generated artifacts when automation can invoke or inspect the workflow.
 
 ## Validation Evidence
 

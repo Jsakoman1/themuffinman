@@ -1,6 +1,7 @@
 package com.themuffinman.app.workmarket.dto;
 
 import com.themuffinman.app.common.dto.NavigationTargetDTO;
+import com.themuffinman.app.common.dto.ClientActionDTO;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.model.QuestStatus;
 import lombok.*;
@@ -49,6 +50,7 @@ public class QuestApplicationResponseDTO {
 
     private QuestApplicationStatus status;
     private List<ApplicationAllowedActionDTO> allowedActions;
+    private List<ClientActionDTO> actions;
     private QuestApplicationPresentationDTO presentation;
     private Instant createdAt;
 }

@@ -1,0 +1,112 @@
+kind: work
+version: 1
+id: generic-preview-elimination-atomic-hardening
+title: Harden the generic preview elimination inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/generic-preview-elimination-master.yaml
+execution_inventory: docs/work/generic-preview-elimination-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: []
+  baseline_only_surfaces:
+  - existing API and permission behavior
+  residual_scope:
+  - complete source inventory and bounded execution mapping
+  retest_triggers:
+  - plan
+  - inventory
+  - or required-path changes
+  non_duplication_rule: This task proves execution readiness only.
+tasks:
+- id: harden-preview-elimination-inventory
+  title: Verify the complete removal inventory
+  type: documentation
+  status: done
+  inventory_item: harden-preview-elimination-inventory
+  observable_outcome: Every legacy preview occurrence is assigned to exactly one atomic
+    task or documented as a permitted specialised exception.
+  dependencies: []
+  evidence_boundary:
+  - atomic hardening audit
+  - serial inventory audit
+  - YAML parse
+  paths: &1
+  - docs/work/generic-preview-elimination-master.yaml
+  - docs/work/generic-preview-elimination-execution-inventory.yaml
+  - docs/work/generic-preview-elimination-atomic-hardening.yaml
+  - docs/work/generic-preview-elimination-collections.yaml
+  - docs/work/generic-preview-elimination-details.yaml
+  - docs/work/generic-preview-elimination-exceptions.yaml
+  - docs/work/generic-preview-elimination-closeout.yaml
+  required_paths: *1
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/generic-preview-elimination-master.yaml
+    docs/work/generic-preview-elimination-execution-inventory.yaml && ruby scripts/audits/audit-serial-execution-inventory.rb
+    docs/work/generic-preview-elimination-master.yaml docs/work/generic-preview-elimination-execution-inventory.yaml
+    && ruby scripts/audits/audit-work-plan-recursion.rb
+  started_at: '2026-07-30T04:46:31Z'
+  start_fingerprints:
+    docs/work/generic-preview-elimination-master.yaml: f2ce24580f98286a5e9a47419207c960c7dc2e66762c2b21dd40ab3a9062c0e4
+    docs/work/generic-preview-elimination-execution-inventory.yaml: 4fcaaf36f6941d80de51ca62738139dc79f027dd80805e86a0cc2d35e2ae3b5c
+    docs/work/generic-preview-elimination-atomic-hardening.yaml: 50000697a4fcc8244f5e02da783f170904cd4cc56eceeff53f91cd373f1a5989
+    docs/work/generic-preview-elimination-collections.yaml: 801a3873f802520c81fb8c0d528f60e7163a2136d299969f9a983b03f0514d0c
+    docs/work/generic-preview-elimination-details.yaml: 376b67ba7724a1906e5a21e97a73e39a915f67698bae08a0e422474462edea05
+    docs/work/generic-preview-elimination-exceptions.yaml: a1fdfa6bbe92db7083e1b4163d73b14de292ca6f782af672c04ea0ce44c35db5
+    docs/work/generic-preview-elimination-closeout.yaml: c8d71de0aafee9f5836e8290d74ca5f7a32e159411550cc729cc3017ceaf776c
+hardening_inventory:
+  collection_legacy:
+  - BusinessDiscoveryView
+  - WorkApplicationsView
+  - WorkspaceSurfaceView
+  - CollectionContextRail
+  detail_legacy:
+  - DetailSurface
+  - DetailUtilityRail
+  - PeopleProfileView
+  - ThingDetailView
+  - RideDetailView
+  - WorkApplicationDetailView
+  - WorkQuestDetailView
+  - BusinessProfileView
+  specialised_exception:
+  - BusinessOwnerCalendarView
+  - CalendarEventPopover
+  - ReviewPane
+  - ChatSurfaceView
+evidence:
+- task: harden-preview-elimination-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/generic-preview-elimination-master.yaml
+    docs/work/generic-preview-elimination-execution-inventory.yaml && ruby scripts/audits/audit-serial-execution-inventory.rb
+    docs/work/generic-preview-elimination-master.yaml docs/work/generic-preview-elimination-execution-inventory.yaml
+    && ruby scripts/audits/audit-work-plan-recursion.rb
+  ranAt: '2026-07-30T04:47:12Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/generic-preview-elimination-atomic-hardening.yaml
+  - docs/work/generic-preview-elimination-closeout.yaml
+  - docs/work/generic-preview-elimination-collections.yaml
+  - docs/work/generic-preview-elimination-details.yaml
+  - docs/work/generic-preview-elimination-exceptions.yaml
+  - docs/work/generic-preview-elimination-execution-inventory.yaml
+  - docs/work/generic-preview-elimination-master.yaml
+  output: |+
+    Atomic task hardening audit passed (5 inventory items).
+    Serial execution inventory audit passed (5 strict items).
+    Work-plan recursion audit passed (no recursive validation commands).
+
+  startedAt: '2026-07-30T04:46:31Z'
+  changedAfterStart: &2
+  - docs/work/generic-preview-elimination-master.yaml
+  - docs/work/generic-preview-elimination-execution-inventory.yaml
+  - docs/work/generic-preview-elimination-atomic-hardening.yaml
+  - docs/work/generic-preview-elimination-collections.yaml
+  - docs/work/generic-preview-elimination-details.yaml
+  - docs/work/generic-preview-elimination-exceptions.yaml
+  - docs/work/generic-preview-elimination-closeout.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

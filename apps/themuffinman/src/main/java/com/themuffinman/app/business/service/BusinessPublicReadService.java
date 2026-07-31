@@ -24,6 +24,7 @@ public class BusinessPublicReadService {
     private final BusinessGalleryImageRepository businessGalleryImageRepository;
     private final BusinessOfferingMgr businessOfferingMgr;
     private final BusinessGalleryImageMgr businessGalleryImageMgr;
+    private final BusinessReviewService businessReviewService;
 
     public BusinessPublicPageDTO getPublicBusinessPage(String slug) {
         BusinessProfile profile = businessProfileRepository.findBySlug(slug)
@@ -46,6 +47,7 @@ public class BusinessPublicReadService {
                 .heroImageUrl(profile.getHeroImageUrl())
                 .timezone(profile.getTimezone())
                 .bookingEnabled(profile.isBookingEnabled())
+                .ratingSummary(businessReviewService.getPublicRatingSummary(profile.getId()))
                 .offerings(businessOfferingRepository.findActiveByBusinessProfileId(profile.getId()).stream()
                         .map(businessOfferingMgr::toDto)
                         .toList())

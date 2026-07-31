@@ -73,6 +73,7 @@ After implementation, record durable product lessons here only when they are pro
 - PRODUCT-ARCHITECTURE-PORTABLE-CLIENTS-001: Web, future iPhone, and future Apple Watch clients must consume the same backend-owned domain, permission, workflow, calendar, booking, matching, pricing, and Vision contracts. Frontends remain thin presentation clients; they may own only local interaction state and must not become a second business-rule implementation.
 - PRODUCT-MAINTAINABILITY-APPLE-UI-001: The Apple-inspired product language requires a deliberately small CSS and component system. One token source, one spacing/type/control grammar, shallow selectors, shared primitives, and aggressive removal of dead styles/components are preferred over local visual cleverness. Every future redesign should be globally changeable without editing hundreds of page-specific files.
 - PRODUCT-DESIGN-APPLE-WEB-003: The 2026 Apple-inspired direction uses a layered product family language: neutral content surfaces, semantic light/dark colors, system-first typography, and restrained translucent materials only for functional navigation/toolbar/sidebar layers. Glass, blur, gradients, accent colors, and motion are selective hierarchy tools, never decoration applied to every card. The Web adapts these principles without copying Apple product screens or proprietary assets. Source contract: `docs/apple-desktop-design-reference.md`.
+- PRODUCT-BRAND-HEADER-001: The authenticated Web shell uses the supplied TheMuffinMan logo as one persistent shared header identity. Home gives that mark a deliberately larger hero treatment, while working modules retain a compact header. A warm camel/sand treatment belongs to the shell header and navigation layer, while work surfaces stay neutral and readable; the stable sidebar remains the primary desktop navigation rather than being replaced by branded home-page content.
 - PRODUCT-FLOW-APPLE-WEB-001: Complex TheMuffinMan tasks should follow an Apple-like guided flow: orient the user, ask for one meaningful decision, preview the consequence, confirm explicitly, and show completion/recovery. Home is the calm starting base; it prioritizes Today, Next, Needs attention, Favorites, and a few quick actions instead of dumping every module into one dashboard.
 - PRODUCT-HUMAN-FIRST-ALL-SURFACES-001: The Business-proven human-first pattern applies across authenticated modules without borrowing Business terminology: start with the person’s current scope and actionable attention, make the next decision clear, preserve list/detail context where useful, explain the consequence of permitted actions, progressively disclose secondary setup, and finish with a useful next step or recovery. This remains a presentation pattern; all permissions, state transitions, and action availability stay backend-owned.
 - PRODUCT-CONTEXT-MULTI-BUSINESS-001: Business context is a first-class shell context. Personal, All businesses, Favorites, and each owned business must be switchable from one compact picker, with URL, backend read model, calendar, and active identity changing together. No business switch may depend on visiting another tab first.
@@ -134,6 +135,66 @@ After implementation, record durable product lessons here only when they are pro
 Reference contract adoption checkpoint: 2026-07-24. The Apple desktop reference is the primary UI/UX and interaction authority; product-specific behavior remains backend-owned.
 Shared interaction grammar checkpoint: 2026-07-24. AppButton and AppStatus are the canonical control/status primitives; page-local variants must be justified by domain behavior.
 Visual language checkpoint: 2026-07-24. Use semantic Apple-like materials and system typography; do not introduce universal glass, decorative gradients, or local token dialects.
+
+Friendly launcher palette checkpoint: purpose selection may use the shared Work, sharing, booking, ride, and people pastel token roles. These colours identify a Home launcher destination only; they never encode status, permission, urgency, or a domain state, which remain backend-owned and use the existing semantic status language.
+
+Purpose-icon foundation checkpoint: the authenticated app uses a single code-native SVG icon family for Home, Work, Things, Business, Services, Rides, People, discovery, activity, chat, and profile. Icons and pastel destination roles orient navigation only; they never substitute text labels or encode a business state.
+
+Friendly Home launcher checkpoint: Home now opens with a named greeting and a small grid of backend-permitted, whole-card actions for Work, Things, Business discovery, and Rides. The old repeated module dashboard is not part of the first view; attention remains a recovery route beneath the launcher.
+
+Home landing refinement checkpoint: the first Home view now pairs a plain-language day greeting with larger pastel destination cards, shared SVG purpose icons, and two quieter follow-up cards for attention and schedule. The launcher remains a navigation choice, not a dashboard or a source of client-owned business logic.
+
+Friendly mobile navigation checkpoint: mobile keeps five stable icon-led tabs for Home, Explore, Activity, Chat, and Profile. Less common module routes stay in the accessible More drawer rather than reshuffling the bottom bar.
+
+Friendly launcher mobile audit checkpoint 2026-07-29: Fresh authenticated Chromium evidence at 390x844 is recorded in `docs/runtime-evidence/friendly-launcher-mobile-runtime.json` with companion light and dark screenshots. Both themes retained the greeting, four purpose cards, compact recovery and schedule, unobscured five-tab navigation, and an accessible More drawer without horizontal overflow or browser-console errors.
+
+Friendly desktop launcher checkpoint: desktop retains the stable workspace rail but gives Home a centred wider launcher canvas. At desktop width the four primary purpose cards form one visual row, while attention and schedule remain subordinate follow-up surfaces.
+
+Friendly launcher desktop audit checkpoint 2026-07-29: Fresh authenticated Chromium evidence at 1440x1000 is recorded in `docs/runtime-evidence/friendly-launcher-desktop-runtime.json` with companion light and dark screenshots. Both themes retained the stable desktop workspace rail, one-row four-card purpose launcher, clear recovery and schedule follow-up, no mobile-tab collision, no horizontal overflow, and no browser-console errors.
+
+Friendly launcher program closeout 2026-07-29: Home now has one backend-owned purpose launcher contract across responsive layouts. The design intentionally stops at destination selection, compact recovery, and a next-calendar handoff; it does not turn Home into a second module dashboard or move permission, availability, workflow, or status rules into frontend colour and layout decisions.
+
+Home follow-up design checkpoint: attention recovery and the next schedule item use the same shared, whole-card presentation as the purpose launcher. A person can scan each card's purpose, one short explanation, and one clear destination without treating Home as a dense dashboard. The cards are presentation-only: their routes and the displayed attention/calendar data remain backend-owned.
+
+Friendly collection grammar checkpoint: authenticated collection screens may use the shared purpose-led header and summary card primitives to orient a person, state one short reason to act, and offer a canonical route. These components are presentation-only and use semantic purpose tones solely for destination or task context; they do not encode status, permission, price, urgency, availability, or workflow state.
+
+Work and Things discovery checkpoint: Work uses one visible creation handoff and a compact purpose explanation before its scan-first results. Things uses the same collection orientation while leaving each existing backend-authorized borrow, withdraw, edit, and archive action in place. Neutral result cards preserve status, reward, owner, condition, and availability as factual content rather than treating them as decorative destination tones.
+
+Rides route-flow checkpoint: a one-time route remains the first decision, while regular commute matching is an optional disclosed preference. Ride suggestions use the same readable neutral-card grammar as other factual collections; consent, seat availability, trust visibility, and lifecycle state remain explicit backend-owned facts rather than colour-coded destination intent.
+
+People and Circles checkpoint: People groups connection review, trusted-circle management, and settings into readable intent cards while keeping the accepted-connections list factual. Circles now presents a warm first-circle invitation when empty and keeps membership, visibility, and chat actions in the established server-authorized context surface.
+
+Personal attention checkpoint: Profile remains an identity-first summary. Activity and Notifications use stronger card separation and a dedicated attention surface so recovery is readable before the longer factual history; existing mark-read, dismiss, snooze, mute, and route behaviour remain unchanged.
+
+Calendar mobile checkpoint: Mobile calendar prioritises a readable chronological agenda after the immediate “Up next” card. The dense authorised day, week, and month planning grids remain available on desktop, while source filters and event destinations retain their original behaviour.
+
+Chat mobile checkpoint: Chat remains a split inbox and thread workspace on desktop. On a narrow screen it deliberately shows either the inbox or the selected thread, with the existing “Back to inbox” route as the return path; message, realtime, attachment, and related-context behaviour are unchanged.
+
+Business and service discovery checkpoint: Owners enter through a purpose-led business workspace header and keep the short essential creation flow. Service discovery leads with a plain-language search purpose; on mobile, selecting a business replaces the result list with one dedicated context and an explicit return to results rather than stacking two competing panes.
+
+Detail and creation checkpoint: Shared detail surfaces now carry one quiet card boundary, readable header, and consistent action rail. On mobile the main content gains compact breathing room before lower-priority utility content; domain fields, validation, and submission workflows remain unchanged.
+
+App-wide desktop audit checkpoint 2026-07-29: Fresh light and dark 1440px Chromium captures are recorded in `docs/runtime-evidence/app-wide-friendly-design-desktop-light.png` and `docs/runtime-evidence/app-wide-friendly-design-desktop-dark.png`. Work, Things, Rides, People, attention, Calendar, Chat, Business, and Services completed without horizontal overflow or browser errors in the paired runtime trace; collection cards, contextual selection, and shared detail boundaries remain legible at desktop scale.
+
+App-wide mobile audit checkpoint 2026-07-29: Fresh 390px light and dark Chromium captures are recorded in `docs/runtime-evidence/app-wide-friendly-design-mobile-light.png` and `docs/runtime-evidence/app-wide-friendly-design-mobile-dark.png`. The audited route matrix has no horizontal overflow or browser errors. Calendar exposes a chronological agenda, Chat starts as an inbox-only surface, and the shared collection/detail grammar holds one readable task column across Work, Things, Rides, People, attention, Business, and Services.
+
+App-wide friendly-design closeout 2026-07-29: The authenticated Web application now uses a common human-first rhythm—orient, show the next meaningful choice, and reveal factual detail only where it helps. The reusable card and detail grammar is intentionally presentation-only, so existing backend-owned permissions, rules, lifecycle states, prices, and booking decisions continue to be the product authority.
+
+Business local-tabs checkpoint: The workspace rail contains one Business entry rather than a growing list of owned-business links. The Business landing page keeps “My businesses” plus each owned business as local tabs; selecting a business then opens the established owner workspace and its operational tabs. Ownership, permissions, and business selection remain backend-authorized.
+
+Business entry and Services discovery checkpoint: Once an owned business has a local tab, the Business landing page does not repeat it as an inline preview or second selection link. Services and Favorites are customer-facing discovery surfaces, so their backend projections exclude businesses owned by the current viewer; owners manage their own services only through their Business workspace.
+
+Business tab persistence checkpoint: The business-selection tab bar is shared by the landing page and every owner subpage. A person can return to all businesses or switch the active business without first leaving Profile, Calendar, Bookings, Services, or Settings; the second tab row remains dedicated to the current business operation.
+
+Business friendly hierarchy checkpoint: Owner subpages put business-selection tabs at the top of the content, before the selected-business identity and operational tabs. The shared booking colour role now gives the workspace identity, setup checklist, and factual overview cards the same warm destination character as Home without using colour to represent booking status or permissions.
+
+Quiet workspace rail checkpoint: The backend-prepared workspace rail now returns module entries without module-specific child links. Canonical subroutes remain available through the owning module's local tab bar, keeping global navigation stable while preserving backend route and permission authority.
+
+Work and Things local-tabs checkpoint: Work keeps Find work, My work, and Applications at the top of its module content. Things keeps Find things, My things, and Requests in the same local position. The routes and the backend-owned collections behind them are unchanged.
+
+People, Rides, and Services local-tabs checkpoint: People exposes people, discovery, circles, requests, and settings as local content navigation; Rides exposes find and my rides; Services exposes discovery and favorites. These links replace rail children without changing their backend scopes or canonical routes.
+
+Local tabs navigation closeout 2026-07-29: The workspace rail is now intentionally module-only. Every remaining multi-section module owns its task navigation at the top of content, following the same predictable pattern as Business. This is a presentation relocation only: backend-prepared routes, visibility, permissions, and workflows are unchanged.
 ### Settings progressive disclosure
 
 Profile settings follow the Apple Settings mental model: identity is immediately visible, while gallery, appearance, workspace defaults, and location/privacy are compact rows that open only when the user asks. Summaries show the current value without loading every control into the first view.
@@ -147,3 +208,23 @@ Business-parity desktop audit checkpoint 2026-07-29: Fresh 1440px Chromium scree
 Business-parity mobile audit checkpoint 2026-07-29: The same six routes were reviewed at 390px in `docs/runtime-evidence/human-usability-business-parity-mobile-2026-07-29.json`. All retained their first-view entry point without horizontal overflow or browser-console errors; route-specific setup such as regular commute matching remains optional rather than competing with the immediate task.
 
 Business-parity program closeout 2026-07-29: Profile, Circles, Work, Rides, Home, and Chat now follow the same human-first entry standard proven in Business: orient the person in plain language, foreground one meaningful next decision, keep secondary setup optional, and preserve recovery/context after an action. This closes the planned authenticated-screen parity work; it does not replace future route-specific visual review when shared shell or responsive layouts change, nor does it expand the established Business owner or public booking scope.
+
+Shared orientation grammar checkpoint 2026-07-29: Authenticated headers and contextual action surfaces use one quiet destination treatment: a compact coloured orientation edge, plain-language title and explanation, and a grouped next action. Warm colour introduces a destination only; prices, statuses, permissions, and lifecycle facts remain neutral. On narrow screens, the primary action becomes a full-width reachable control before secondary actions.
+
+Canonical page-orientation checkpoint: `PageOrientationHeader` is the single implementation behind general surface and friendly collection headers. Existing wrappers preserve route-level inputs while the shared component owns the title, explanation, destination tone, action overflow, and mobile action stacking contract.
+
+Human-first Web contract checkpoint 2026-07-29: Desktop navigation keeps Updates, Calendar, and Chat visible; ordinary discovery opens the selected object directly; Chat and Calendar retain specialized interaction surfaces; and backend-prepared action descriptors supply the consequence language for Business, Work, Rides, and Things.
+
+Authenticated context migration checkpoint: Calendar, Chat, Profile, attention, onboarding, notification preferences, Work creation, and Business service setup use the shared context, collection, detail, or guided-setup layout contract. Their routes, form submissions, realtime behavior, availability, pricing, and permission decisions remain backend-owned.
+
+Human UI runtime evidence checkpoint: final desktop and mobile review must capture Home, Work, Calendar, a discovered object detail, and a discovered Business setup route from the current authenticated seed. The audit fails if either contextual destination is unavailable; fixed IDs and substitute screenshots are not valid evidence.
+
+Human UI mobile evidence checkpoint 2026-07-29: fresh 390px authenticated captures cover Home, Work, Calendar, a seeded Thing detail, and a seeded Business setup route. The runtime trace records no horizontal overflow or browser-console errors across all five routes.
+
+Services human UX checkpoint 2026-07-30: a business is a small public website before it is a booking form. The visitor sees identity, contact, gallery, services/prices and completed-booking ratings; booking begins with a business-local calendar and retains safe input if a selected time becomes stale.
+
+Creation and setup hierarchy checkpoint 2026-07-29: Work creation and Business setup keep the current action, small progress steps, and plain-language explanation ahead of optional technical configuration. Pricing, availability, booking validation, and permissions remain server-authoritative.
+
+Business-style desktop evidence checkpoint 2026-07-29: Fresh authenticated 1440px browser evidence covers Home, Work, Calendar, Profile, Things, and Chat. The trace checks the shared branded hierarchy and records that each reviewed route has no horizontal overflow.
+
+Business-style mobile evidence checkpoint 2026-07-29: Fresh authenticated 390px browser evidence covers the same Home, Work, Calendar, Profile, Things, and Chat routes. Each retained a single readable task column without horizontal overflow.

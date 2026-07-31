@@ -1,0 +1,49 @@
+kind: master
+version: 1
+id: local-tabs-navigation
+title: Move module subnavigation from the workspace rail into local top tabs
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/local-tabs-navigation-execution-inventory.yaml
+analysis_artifact: docs/work/local-tabs-navigation-analysis.md
+goal_activation_hardening:
+  started_on: 2026-07-29
+  result: atomic tasks have bounded paths
+  leaf validations: 
+  and verifier-owned evidence boundaries: 
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/work/business-local-tabs.yaml
+  baseline_only_surfaces:
+  - backend route authority
+  - permissions
+  - detail routes
+  - create and lifecycle workflows
+  residual_scope:
+  - rail child removal and persistent local tabs for Work
+  - Things
+  - People
+  - Rides
+  - and Services
+  retest_triggers:
+  - WorkspaceNavigationService
+  - WorkspaceModuleRail
+  - named route family views
+  - or ModuleTabs
+  non_duplication_rule: Prior visual work is baseline; this program proves only the
+    navigation-placement change.
+children:
+- docs/work/local-tabs-navigation-foundation.yaml
+- docs/work/local-tabs-navigation-modules.yaml
+- docs/work/local-tabs-navigation-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-29T18:22:33Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/local-tabs-navigation-foundation.yaml
+  - docs/work/local-tabs-navigation-modules.yaml
+  - docs/work/local-tabs-navigation-closeout.yaml

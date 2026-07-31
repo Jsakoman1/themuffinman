@@ -1,0 +1,37 @@
+{
+  "scenarios": [
+    {
+      "viewport": "390x844",
+      "theme": "light",
+      "launcher": 4,
+      "followUps": 2,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "viewport": "390x844",
+      "theme": "dark",
+      "launcher": 4,
+      "followUps": 2,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "viewport": "1440x1000",
+      "theme": "light",
+      "launcher": 4,
+      "followUps": 2,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "viewport": "1440x1000",
+      "theme": "dark",
+      "launcher": 4,
+      "followUps": 2,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "result": "passed"
+}

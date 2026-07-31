@@ -1,0 +1,77 @@
+kind: master
+version: 1
+id: business-style-visual-parity
+title: Apply the Business and Home visual hierarchy across authenticated screens
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+prepared_for_goal_pursuit: true
+execution_inventory: docs/work/business-style-visual-parity-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/business-style-visual-parity-atomic-hardening.yaml
+analysis_artifact: docs/work/business-style-visual-parity-analysis.md
+preflight_artifact: docs/work/business-style-visual-parity-preflight.md
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  generated_at: 2026-07-29 18:58:06.000000000 Z
+  scope: 28 declared shared-primitives, route views, styling, and product-memory paths;
+    excludes unrelated dirty workspace changes.
+  dispositions:
+  - recommendation: docs/system-truth-registry.yaml
+    status: not_applicable_with_reason
+    reason: Presentation-only changes do not alter a canonical truth owner, endpoint,
+      entity, permission, or capability status.
+  - recommendation: docs/system-drift-control-registry.yaml
+    status: not_applicable_with_reason
+    reason: The plan does not add or change a documented drift-control contract.
+  - recommendation: docs/system-map.md
+    status: reviewed
+    reason: The app-shell frontend ownership remains unchanged; the selected routes
+      and shared primitives stay within that owner boundary.
+  - recommendation: docs/runtime-acceptance-matrix.yaml
+    status: reviewed
+    reason: Fresh authenticated desktop and mobile browser evidence is explicitly
+      required by the two closeout tasks.
+  - recommendation: docs/regression-scenario-catalog.yaml
+    status: reviewed
+    reason: The closeout runtime trace covers representative collection, planning,
+      detail, and setup route families without changing their underlying scenarios.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/work/business-friendly-hierarchy.yaml
+  - docs/work/brand-header-sand-shell.yaml
+  - docs/work/home-brand-hero-header.yaml
+  baseline_only_surfaces:
+  - shared branded shell and Home hero
+  - Business owner navigation and booking workflow
+  - backend-prepared route, permission, action, and data contracts
+  residual_scope:
+  - align legacy headers and contextual surfaces with the Business/Home visual hierarchy
+  - remove route-family presentation drift across collection, workspace, detail, and
+    creation screens
+  - capture representative responsive browser evidence after the visual changes
+  retest_triggers:
+  - shared header, task surface, summary card, or responsive token changes
+  - any named route-family layout or preview-boundary change
+  - changes to authenticated shell, local tabs, or mobile navigation
+  non_duplication_rule: Existing Business, Home, and app-wide friendly evidence is
+    baseline-only; this program counts only new cross-route visual parity repairs
+    and fresh representative browser proof.
+children:
+- docs/work/business-style-visual-parity-atomic-hardening.yaml
+- docs/work/business-style-visual-parity-foundation.yaml
+- docs/work/business-style-visual-parity-workspaces.yaml
+- docs/work/business-style-visual-parity-details.yaml
+- docs/work/business-style-visual-parity-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-29T19:15:50Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/business-style-visual-parity-atomic-hardening.yaml
+  - docs/work/business-style-visual-parity-foundation.yaml
+  - docs/work/business-style-visual-parity-workspaces.yaml
+  - docs/work/business-style-visual-parity-details.yaml
+  - docs/work/business-style-visual-parity-closeout.yaml

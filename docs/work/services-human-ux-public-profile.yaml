@@ -1,0 +1,112 @@
+kind: work
+version: 1
+id: services-human-ux-public-profile
+title: Restore the public business page as a useful mini-site
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-human-ux-master.yaml
+execution_inventory: docs/work/services-human-ux-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/services-business-detail-clarity.yaml
+  - docs/work/business-human-first-ux-master.yaml
+  baseline_only_surfaces:
+  - public profile DTO and sanitization
+  - Services navigation context
+  - booking mutations
+  residual_scope:
+  - business identity, contact, gallery, price list, rating, and tabbed information
+    hierarchy
+  retest_triggers:
+  - public profile fields, profile layout, gallery, or contact actions change
+  non_duplication_rule: Existing public data and booking behavior remain baseline;
+    this task proves the mini-site hierarchy only.
+tasks:
+- id: restore-public-business-mini-site
+  title: Show the complete public business identity before booking
+  type: implementation
+  status: done
+  inventory_item: restore-public-business-mini-site
+  observable_outcome: A public business page keeps its identity visible and offers
+    URL-backed Overview, Services & prices, and Reviews tabs containing hero/logo,
+    title, description, address, contact/website actions, gallery, rating summary,
+    and an honest service price list before calendar-led booking.
+  dependencies:
+  - add-verified-business-reviews
+  evidence_boundary:
+  - frontend type-check and production build
+  - public profile contract validation
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicProfileHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessContactActions.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicProfileHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessContactActions.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  started_at: '2026-07-30T16:47:42Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: 34b48a80e7659a4fab929112676f146bc227d6ccda932824f5d24b72b5d304b1
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicProfileHeader.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessContactActions.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceCard.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue: __missing__
+    apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs: a5f5e552f379028ae3e03d93f2af25e4f6fa03416196cf9eb3867bf7ca4972b3
+evidence:
+- task: restore-public-business-mini-site
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  ranAt: '2026-07-30T16:49:40Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessContactActions.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicProfileHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceCard.vue
+  output: |+
+    dist/assets/WorkPage-_uF_z2la.js                              13.12 kB │ gzip:   5.05 kB
+    dist/assets/RidesView-dKVmy3nv.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-SnB61eiO.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/CirclesView-BpVyu0IE.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-DffCt4Zt.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-hpr-Yjhk.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/BusinessPublicView-CHg8gZ8P.js                    18.48 kB │ gzip:   6.40 kB
+    dist/assets/HomeHubView-CsLECBFR.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-C-thyxnH.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-Dzn1o2KN.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-DcGAp8rA.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-D94oiAa9.js                     53.79 kB │ gzip:  13.24 kB
+    dist/assets/index-D3n-2nIS.js                                 63.18 kB │ gzip:  15.72 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 599ms
+    Services human UX validation passed (8 checks).
+
+  startedAt: '2026-07-30T16:47:42Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicProfileHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessContactActions.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

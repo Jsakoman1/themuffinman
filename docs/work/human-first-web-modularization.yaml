@@ -1,0 +1,464 @@
+kind: work
+version: 1
+id: human-first-web-modularization
+title: Split oversized shell API, data, and renderer modules by domain
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-web-experience-master.yaml
+execution_inventory: docs/work/human-first-web-experience-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/main-surfaces-surface-architecture.yaml
+  baseline_only_surfaces:
+  - API endpoints
+  - route behavior
+  - DTO meaning
+  - rendered user workflows
+  residual_scope:
+  - domain API modules
+  - domain surface loaders
+  - specialized surface renderers
+  retest_triggers:
+  - API import
+  - shell data assembly
+  - renderer
+  - router
+  - or generated-contract changes
+  non_duplication_rule: This is behavior-preserving decomposition; prior capability
+    evidence is not repeated.
+readiness:
+  strategy: Extract by domain behind a compatibility facade, then remove the facade
+    only after imports migrate.
+  no_rewrite_rule: Endpoint paths, generated types, route behavior, and user-visible
+    workflows must remain unchanged.
+  size_targets:
+    userShellApi.ts: compatibility exports only
+    shellSurfaceData.ts: dispatch only
+    SurfaceContentView.vue: archetype selection only
+tasks:
+- id: extract-work-and-business-api-clients
+  title: Extract Work and Business API clients
+  type: implementation
+  status: done
+  inventory_item: extract-work-and-business-api-clients
+  observable_outcome: Work and Business calls live in focused domain clients over
+    the shared HTTP client while userShellApi preserves compatibility exports.
+  dependencies:
+  - consume-rides-and-things-client-actions
+  evidence_boundary:
+  - frontend type-check/build
+  - import-boundary audit
+  paths: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/businessApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/workApi.ts
+  required_paths: *1
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T21:44:23Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: b01c38330ac816f6a1aca663517f830df92072964b95f6c042aefffad8c1c6b5
+    apps/themuffinman/frontend/src/modules/app-shell/api/businessApi.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/api/workApi.ts: __missing__
+- id: extract-chat-and-calendar-api-clients
+  title: Extract Chat and Calendar API clients
+  type: implementation
+  status: done
+  inventory_item: extract-chat-and-calendar-api-clients
+  observable_outcome: Chat and Calendar calls live in focused domain clients over
+    the shared HTTP client while userShellApi preserves compatibility exports.
+  dependencies:
+  - extract-work-and-business-api-clients
+  evidence_boundary:
+  - frontend type-check/build
+  - import-boundary audit
+  paths: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/calendarApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/chatApi.ts
+  required_paths: *2
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T21:45:22Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 02e314d08c69a528a7d35cdbfa5456e8ff13f13e1e125841de845b61959a2993
+    apps/themuffinman/frontend/src/modules/app-shell/api/calendarApi.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/api/chatApi.ts: __missing__
+- id: extract-workspace-and-personal-api-clients
+  title: Extract workspace, notification, and profile API clients
+  type: implementation
+  status: done
+  inventory_item: extract-workspace-and-personal-api-clients
+  observable_outcome: Workspace shell, notification, and profile calls live in focused
+    clients while userShellApi preserves compatibility exports.
+  dependencies:
+  - extract-chat-and-calendar-api-clients
+  evidence_boundary:
+  - frontend type-check/build
+  - import-boundary audit
+  paths: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/workspaceApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/notificationApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/profileApi.ts
+  required_paths: *3
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T21:45:58Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 7a6dd683b7b4adb5fceda57839dfa057e7e7f40d922752af367502052c9fcccc
+    apps/themuffinman/frontend/src/modules/app-shell/api/workspaceApi.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/api/notificationApi.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/api/profileApi.ts: __missing__
+- id: extract-social-and-sharing-api-clients
+  title: Extract social, Thing, and Ride API clients
+  type: implementation
+  status: done
+  inventory_item: extract-social-and-sharing-api-clients
+  observable_outcome: Social, Thing, and Ride calls live in focused clients and userShellApi
+    is reduced to a compatibility facade with no endpoint implementation.
+  dependencies:
+  - extract-workspace-and-personal-api-clients
+  evidence_boundary:
+  - frontend type-check/build
+  - import-boundary audit
+  paths: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/socialApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/thingsApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/ridesApi.ts
+  required_paths: *4
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T21:46:41Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 9258642e15baeaecb2190c8ad21283e4d25c0524bc55bc871b53fed967dc600a
+    apps/themuffinman/frontend/src/modules/app-shell/api/socialApi.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/api/thingsApi.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/api/ridesApi.ts: __missing__
+- id: split-shell-surface-data
+  title: Split shell surface assembly by domain
+  type: implementation
+  status: done
+  inventory_item: split-shell-surface-data
+  observable_outcome: Work, Business, Calendar, People, and Profile view-model assembly
+    resides in explicit domain loaders and shellSurfaceData only dispatches by surface
+    id.
+  dependencies:
+  - extract-social-and-sharing-api-clients
+  evidence_boundary:
+  - frontend type-check/build
+  - surface contract validation
+  paths: &5
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/workSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/businessSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/calendarSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/peopleSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/profileSurfaceData.ts
+  required_paths: *5
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T21:47:45Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts: e6d3361fb0c045e0a6f41aafcb1c54ba3d57aad575d3d59960873cd03bf856e1
+    apps/themuffinman/frontend/src/modules/app-shell/data/workSurfaceData.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/data/businessSurfaceData.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/data/calendarSurfaceData.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/data/peopleSurfaceData.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/data/profileSurfaceData.ts: __missing__
+- id: split-surface-renderers
+  title: Replace the monolithic surface renderer with explicit archetypes
+  type: implementation
+  status: done
+  inventory_item: split-surface-renderers
+  observable_outcome: SurfaceContentView delegates dashboard, collection, operational,
+    and profile rendering to focused components while Chat and Calendar remain specialized
+    routes.
+  dependencies:
+  - split-shell-surface-data
+  evidence_boundary:
+  - frontend type-check/build
+  - modern-surface validation
+  paths: &6
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DashboardSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/OperationsSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ProfileSurfaceRenderer.vue
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  required_paths: *6
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T21:50:08Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue: 5f931d70925b7765cc9d7578af0490628ce580eae1d62a801de43d4052d66b0d
+    apps/themuffinman/frontend/src/modules/app-shell/components/DashboardSurfaceRenderer.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/CollectionSurfaceRenderer.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/OperationsSurfaceRenderer.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/ProfileSurfaceRenderer.vue: __missing__
+    apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs: 6217a5da6d47905105fd395e14b6e49b88c55de57e3eb63a637c0d5ea0d3c4ea
+evidence:
+- task: extract-work-and-business-api-clients
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:45:08Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/businessApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/workApi.ts
+  output: |+
+    dist/assets/ThingsDiscoveryView-WoLOwGLi.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-m6oBTNwB.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-7Qe8PWjN.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-Bv7935mO.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-CGrpNrCQ.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BatC_odZ.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-CkljQ0EZ.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-BuDUPDjx.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-BFKH9X5X.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-DPwMPNkQ.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-B1Den2JW.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-Dqhr96z4.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-D0KGpzsR.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-BJ8Fh5ON.js                                 63.18 kB │ gzip:  15.74 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 590ms
+
+  startedAt: '2026-07-29T21:44:23Z'
+  changedAfterStart: &7
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/businessApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/workApi.ts
+  requiredPaths: *7
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: extract-chat-and-calendar-api-clients
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:45:43Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/calendarApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/chatApi.ts
+  output: |+
+    dist/assets/ThingsDiscoveryView-WoLOwGLi.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-m6oBTNwB.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-7Qe8PWjN.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-Bv7935mO.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-CGrpNrCQ.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BatC_odZ.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-CkljQ0EZ.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-BuDUPDjx.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-BFKH9X5X.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-DPwMPNkQ.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-B1Den2JW.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-Dqhr96z4.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-D0KGpzsR.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-BJ8Fh5ON.js                                 63.18 kB │ gzip:  15.74 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 591ms
+
+  startedAt: '2026-07-29T21:45:22Z'
+  changedAfterStart: &8
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/calendarApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/chatApi.ts
+  requiredPaths: *8
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: extract-workspace-and-personal-api-clients
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:46:29Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/notificationApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/profileApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/workspaceApi.ts
+  output: |+
+    dist/assets/ThingsDiscoveryView-WoLOwGLi.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-m6oBTNwB.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-7Qe8PWjN.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-Bv7935mO.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-CGrpNrCQ.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BatC_odZ.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-CkljQ0EZ.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-BuDUPDjx.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-BFKH9X5X.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-DPwMPNkQ.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-B1Den2JW.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-Dqhr96z4.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-D0KGpzsR.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-BJ8Fh5ON.js                                 63.18 kB │ gzip:  15.74 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 635ms
+
+  startedAt: '2026-07-29T21:45:58Z'
+  changedAfterStart: &9
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/workspaceApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/notificationApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/profileApi.ts
+  requiredPaths: *9
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: extract-social-and-sharing-api-clients
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:47:30Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/ridesApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/socialApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/thingsApi.ts
+  output: |+
+    dist/assets/ThingsDiscoveryView-WoLOwGLi.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-m6oBTNwB.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-7Qe8PWjN.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-Bv7935mO.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-CGrpNrCQ.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BatC_odZ.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-CkljQ0EZ.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-BuDUPDjx.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-BFKH9X5X.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-DPwMPNkQ.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-B1Den2JW.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-Dqhr96z4.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-D0KGpzsR.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-BJ8Fh5ON.js                                 63.18 kB │ gzip:  15.74 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 720ms
+
+  startedAt: '2026-07-29T21:46:41Z'
+  changedAfterStart: &10
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/socialApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/thingsApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/ridesApi.ts
+  requiredPaths: *10
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: split-shell-surface-data
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface &&
+    npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T21:49:48Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/businessSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/calendarSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/peopleSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/profileSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/workSurfaceData.ts
+  output: |+
+    dist/assets/ThingsDiscoveryView-CiBooYWO.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-DxOMDLB_.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-CpF65Yy-.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-ChS0EKY3.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-Haq8un_g.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BNsODHtF.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-CB1IZrGn.js                          15.97 kB │ gzip:   5.39 kB
+    dist/assets/WorkQuestDetailView-BQBVjegH.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-BuI-omxa.js                           20.24 kB │ gzip:   6.28 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-DlI03fI1.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-6JF4zGdh.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-2NoWwIkS.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Bz27q4CJ.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-B6Aj92Gj.js                                 63.18 kB │ gzip:  15.74 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 619ms
+
+  startedAt: '2026-07-29T21:47:45Z'
+  changedAfterStart: &11
+  - apps/themuffinman/frontend/src/modules/app-shell/shellSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/workSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/businessSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/calendarSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/peopleSurfaceData.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/data/profileSurfaceData.ts
+  requiredPaths: *11
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: split-surface-renderers
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface &&
+    npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T21:52:03Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DashboardSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/OperationsSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ProfileSurfaceRenderer.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-CiBooYWO.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-DxOMDLB_.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-CpF65Yy-.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-ChS0EKY3.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-Haq8un_g.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BNsODHtF.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-CB1IZrGn.js                          15.97 kB │ gzip:   5.39 kB
+    dist/assets/WorkQuestDetailView-BQBVjegH.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-BuI-omxa.js                           20.24 kB │ gzip:   6.28 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-DlI03fI1.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-6JF4zGdh.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-2NoWwIkS.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Bz27q4CJ.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-B6Aj92Gj.js                                 63.18 kB │ gzip:  15.74 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 616ms
+
+  startedAt: '2026-07-29T21:50:08Z'
+  changedAfterStart: &12
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DashboardSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/OperationsSurfaceRenderer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ProfileSurfaceRenderer.vue
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  requiredPaths: *12
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

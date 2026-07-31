@@ -1,0 +1,116 @@
+kind: master
+version: 1
+id: developer-system-operational-readiness
+title: Stabilize developer operations, CI, tool discovery, and runtime reuse
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+prepared_for_goal_pursuit: true
+execution_inventory: docs/work/developer-system-operational-readiness-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/developer-system-operational-readiness-atomic-hardening.yaml
+analysis_artifact: docs/work/developer-system-operational-readiness-analysis.md
+preflight_artifact: docs/work/developer-system-operational-readiness-preflight.md
+objective: Make the current developer system reviewable, continuously validatable,
+  easier to discover, and more reusable without claiming external operations or mutating
+  unrelated user work.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  generated_at: 2026-07-31 14:13:36.000000000 Z
+  scope: Ten existing tooling, control, release, backlog, and selected runtime-script
+    paths available during planning; future files remain owned by their atomic tasks.
+  dispositions:
+  - recommendation: docs/system-truth-registry.yaml
+    status: not_applicable_with_reason
+    reason: The program changes developer-operation controls and no canonical product
+      truth owner.
+  - recommendation: docs/system-drift-control-registry.yaml
+    status: reviewed
+    reason: New CI, catalog, workspace, and retention controls are bounded by implementation
+      control and do not become status authorities.
+  - recommendation: docs/release-operations-registry.yaml
+    status: reviewed
+    reason: The CI task updates repository-visible configuration while retaining remote
+      execution as unobserved.
+  - recommendation: docs/system-map.md
+    status: not_applicable_with_reason
+    reason: Product topology, ownership, endpoints, data, and domain relationships
+      do not change.
+  - recommendation: docs/runtime-acceptance-matrix.yaml
+    status: reviewed
+    reason: Selected runtime rows remain unchanged during planning and must be reconciled
+      only after fresh pilot evidence.
+  - recommendation: docs/regression-scenario-catalog.yaml
+    status: reviewed
+    reason: Existing scenario meaning is reused; any evidence-link impact is reviewed
+      after each runtime migration.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-quality-next-master.yaml
+  - docs/work/brand-header-sand-shell.yaml
+  baseline_only_surfaces:
+  - product routes, domain behavior, permissions, APIs, and database schema
+  - existing verified plan evidence and runtime acceptance status
+  - IntelliJ MCP routing and shared run configuration discovery
+  - non-selected runtime scripts and their historical evidence
+  residual_scope:
+  - workspace-change classification and checkpoint readiness
+  - work-artifact retention policy and reference-aware candidates
+  - repository-visible CI configuration with explicit unobserved boundary
+  - local-tool metadata and generated help
+  - two shared runtime-harness migrations
+  - conditional runtime-evidence skill decision
+  - final measured operational-readiness evidence
+  retest_triggers:
+  - workspace status reporting or classification rule changes
+  - work-artifact reference or retention rule changes
+  - CI workflow or release-operation source changes
+  - local-tool catalog, Make target, or self-test integration changes
+  - selected runtime script or shared harness changes
+  - backlog or skill-readiness contract changes
+  non_duplication_rule: Prior tooling and runtime evidence remains baseline; only
+    the new operational controls, fresh pilot evidence, and new closeout measurements
+    count.
+known_boundaries:
+- A classified workspace is not a clean or committed workspace.
+- A repository-visible workflow is not evidence of an external CI execution.
+- Retention candidates are not authorization to delete work artifacts.
+- Skill installation outside the workspace requires a separate user-authorized task.
+readiness_gate:
+  atomic_hardening_must_be_verified: true
+  first_goal_task: capture-workspace-change-baseline
+  continuation_rule: Start and verify exactly one execution-inventory item at a time.
+  dirty_path_rule: Preserve unrelated changes and rely on fresh task fingerprints.
+  runtime_rule: Both runtime migrations require fresh owned browser evidence.
+readiness_review:
+  inventory_items: 9
+  dependency_chain_checked: true
+  task_mapping_checked: true
+  required_paths_checked: true
+  future_path_ownership_checked: true
+  repeated_shared_paths_require_fresh_serial_edits: true
+  leaf_validations_checked: true
+  recursive_verification_absent: true
+  changed_path_router_gap_assigned: ".github/workflows/"
+  destructive_commands_absent: true
+children:
+- docs/work/developer-system-operational-readiness-atomic-hardening.yaml
+- docs/work/developer-system-operational-readiness-workspace.yaml
+- docs/work/developer-system-operational-readiness-ci.yaml
+- docs/work/developer-system-operational-readiness-tooling.yaml
+- docs/work/developer-system-operational-readiness-runtime.yaml
+- docs/work/developer-system-operational-readiness-skill.yaml
+- docs/work/developer-system-operational-readiness-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-31T14:30:33Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/developer-system-operational-readiness-atomic-hardening.yaml
+  - docs/work/developer-system-operational-readiness-workspace.yaml
+  - docs/work/developer-system-operational-readiness-ci.yaml
+  - docs/work/developer-system-operational-readiness-tooling.yaml
+  - docs/work/developer-system-operational-readiness-runtime.yaml
+  - docs/work/developer-system-operational-readiness-skill.yaml
+  - docs/work/developer-system-operational-readiness-closeout.yaml

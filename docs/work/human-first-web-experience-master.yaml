@@ -1,0 +1,88 @@
+kind: master
+version: 1
+id: human-first-web-experience
+title: Complete the human-first reference-aligned Web experience
+status: draft
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/human-first-web-experience-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/human-first-web-experience-atomic-hardening.yaml
+analysis_artifact: docs/work/human-first-web-experience-analysis.md
+preflight_artifact: docs/work/human-first-web-experience-preflight.md
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  disposition: reviewed_for_goal_preparation
+  review_boundary: Planned existing implementation paths; final closeout must regenerate the report from the completed diff.
+  required_closeout_reviews:
+    - endpoint and capability traceability
+    - permission and entity-retention registries where backend contracts change
+    - runtime acceptance and regression scenarios for changed Web routes
+    - business, domain-technical, and System Map documentation
+reference_assets:
+  - docs/work/examples/mobile_example.png
+  - docs/work/examples/web_app_header_example.png
+  - docs/work/assets/logo_transparent.png
+objective: >
+  Finish the authenticated Web experience so navigation, notifications, object
+  opening, Chat, Calendar, Business setup, and shared visual language are
+  predictable to a non-technical person, visibly aligned with the supplied warm
+  sand and pastel references, and thin over backend-owned product rules.
+readiness:
+  atomic_inventory_items: 38
+  execution_mode: strict_serial
+  next_entrypoint:
+    plan: docs/work/human-first-web-navigation-notifications.yaml
+    task: simplify-shell-navigation
+  implementation_started: false
+  decision: Ready for goal pursuing only after the atomic-hardening child is verifier-verified.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/human-ui-unification-no-mascot-master.yaml
+    - docs/work/human-usability-business-parity-master.yaml
+    - docs/work/main-surfaces-modernization-master.yaml
+    - docs/work/local-tabs-navigation-master.yaml
+  baseline_only_surfaces:
+    - authenticated shell and route ownership
+    - existing Home destination hierarchy
+    - existing Business owner and customer workflows
+    - backend permission and allowed-action decisions
+    - existing Chat transport, storage, and realtime behavior
+    - existing Calendar source aggregation
+  residual_scope:
+    - visible Personal and Account navigation without nested desktop More or profile menus
+    - removal of incomplete Activity and Saved searches promotion
+    - coherent Notifications, action-required, and resume-later mental models
+    - one direct-open row contract with specialized review panes only where justified
+    - stable light sand theme, complete semantic tokens, coherent purpose icons, and optimized logo presentation
+    - familiar desktop and mobile Chat interaction
+    - readable day, week, and month Calendar interaction with timezone-correct placement
+    - backend-prepared Business setup defaults and extension of the existing reusable ClientActionDTO presentation contract
+    - domain-sized frontend API, surface-data, and renderer modules
+    - fresh cross-route contrast, desktop, and mobile evidence
+  retest_triggers:
+    - authenticated navigation or account-control changes
+    - notification or activity endpoint contract changes
+    - shared SurfaceRow or object-opening changes
+    - theme, token, icon, logo, or header changes
+    - Chat route, API, realtime, message, or responsive changes
+    - Calendar projection, timezone, source, layout, or responsive changes
+    - Business setup or ClientActionDTO contract changes
+    - shared API or surface-renderer decomposition
+  non_duplication_rule: >
+    Previously verified shell, Home, Business, tabs, and backend workflow evidence
+    remains baseline-only. Completion counts only the residual repairs and fresh
+    evidence produced by this program.
+children:
+  - docs/work/human-first-web-experience-atomic-hardening.yaml
+  - docs/work/human-first-web-navigation-notifications.yaml
+  - docs/work/human-first-web-interaction-contract.yaml
+  - docs/work/human-first-web-visual-foundation.yaml
+  - docs/work/human-first-web-chat.yaml
+  - docs/work/human-first-web-calendar.yaml
+  - docs/work/human-first-web-backend-ui-contracts.yaml
+  - docs/work/human-first-web-modularization.yaml
+  - docs/work/human-first-web-closeout.yaml
+evidence: []

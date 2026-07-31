@@ -1,0 +1,53 @@
+kind: developer_tooling_quality_closeout
+version: 1
+id: developer-tooling-quality-next-closeout-2026-07-31
+date: 2026-07-31
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+result: passed
+measurements:
+  full_self_test:
+    result: passed
+    stages: 16
+    product_contract_stages: 4
+  tooling_self_test:
+    result: passed
+    output_lines: 13
+    aggregate_stage_output: true
+  template_freshness:
+    result: passed
+    templates: 7
+  work_artifact_schema:
+    result: passed
+    artifacts: 180
+  intellij_routing:
+    result: passed
+    intents: 7
+    shared_run_configurations: 5
+runtime_pilot:
+  result: passed
+  evidence: docs/runtime-evidence/brand-header-sand-runtime.json
+  captured_at: 2026-07-31T13:55:41.776Z
+  desktop: {header_visible: true, logo_visible: true, sidebar_visible: true, overflow_free: true}
+  mobile: {header_visible: true, logo_visible: true, sidebar_visible: true, overflow_free: true}
+  browser_errors: []
+intellij_mcp_observation:
+  get_run_configurations:
+    result: passed
+    discovered_names:
+      - TheMuffinMan Backend
+      - TheMuffinMan Backend Tests
+      - TheMuffinMan Frontend Build
+      - TheMuffinMan Frontend Dev
+      - TheMuffinMan Frontend Type Check
+  symbol_probe:
+    query: WorkspaceNavigationService
+    result: fallback_required
+    matches: 0
+    interpretation: IDE indexing remains environment-dependent; use repository-map and context-search for this symbol until IDEA resolves it.
+deferred_follow_ups:
+  - DEVTOOL-RUNTIME-HARNESS-001
+  - DEVTOOL-RUNTIME-EVIDENCE-SKILL-001
+boundaries:
+  - Shared run XML and IDE discovery are configuration/readiness evidence, not execution evidence.
+  - Only brand-header-runtime.mjs uses the shared harness in this pass.
+  - No product route, domain, permission, API, schema, or deployment behavior changed.

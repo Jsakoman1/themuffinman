@@ -1,0 +1,188 @@
+kind: work
+version: 1
+id: human-ui-unification-no-mascot-foundation
+title: Standardize visual tokens, purpose icons, and page orientation
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_hardening:
+  prerequisite: Atomic hardening must be verifier-verified before theme or header
+    implementation begins.
+master_plan: docs/work/human-ui-unification-no-mascot-master.yaml
+execution_inventory: docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/brand-header-sand-shell.yaml
+  - docs/work/business-style-visual-parity-foundation.yaml
+  baseline_only_surfaces:
+  - logo asset
+  - shell navigation
+  - existing semantic status colours
+  residual_scope:
+  - theme-layer consistency
+  - lighter destination palette
+  - code-native purpose icons
+  - one canonical orientation implementation
+  retest_triggers:
+  - theme token
+  - shell
+  - icon
+  - or page-header changes
+  non_duplication_rule: Existing shell and header evidence is baseline; this plan
+    proves the new visual system and canonical implementation only.
+tasks:
+- id: standardize-theme-and-purpose-icons
+  title: Standardize theme layers and purpose icons
+  type: implementation
+  status: done
+  inventory_item: standardize-theme-and-purpose-icons
+  observable_outcome: Light, system, and dark modes no longer mix a light sand shell
+    with unintended dark destination tiles, and Work, Things, Services, Rides, and
+    People use one accessible code-native SVG icon family without mascot or bitmap
+    assets.
+  dependencies:
+  - harden-human-ui-unification-inventory
+  evidence_boundary:
+  - frontend type-check/build
+  - theme and icon source review
+  paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:29:30Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/styles/base.css: fbc5ac8649a722cc737c1671a73b6cb3da6a0c806d06e0af3ad120a27c635f74
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: fed910073f459806c2004aa0c56d4af0a10d47c65ef72d856e938b10fc7da52a
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue: __missing__
+    docs/product-memory.md: 7fe2b493d9f9cbbe26fe2239990d3e354cfe21be59c725a3d11875cdf56d1f25
+- id: consolidate-page-orientation-header
+  title: Consolidate page orientation headers
+  type: implementation
+  status: done
+  inventory_item: consolidate-page-orientation-header
+  observable_outcome: Friendly and legacy route headers render through one canonical
+    orientation component with a common eyebrow, title, explanation, tone, action,
+    overflow, and mobile stacking contract.
+  dependencies:
+  - standardize-theme-and-purpose-icons
+  evidence_boundary:
+  - frontend type-check/build
+  - compatibility-wrapper source review
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/PageOrientationHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/PageOrientationHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:31:07Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/PageOrientationHeader.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue: f6a1d7efc8f612f8b8da000677a0ea2e5a5dc890f058b09ab03aa7228264e8b7
+    apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue: 0c7e2ddf10d1a07390d76c760afaaf4b39bee678ade839480431484779cdf224
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue: 9705f0056387fc9ede11902dfbb89d8ebebebb8022d42a138f3663e21e5e7166
+    docs/product-memory.md: f87646c1e447115569d0e5a2de1df8193498e336cd07bc89f66a92eef96be112
+evidence:
+- task: standardize-theme-and-purpose-icons
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:30:57Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  - docs/product-memory.md
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  output: |+
+    dist/assets/CalendarPage-B1euwjUm.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-FmhLxEde.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-CesaT2Ha.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-BzrdCm_y.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-1EqTpZrD.js                           15.80 kB │ gzip:   4.98 kB
+    dist/assets/WorkPage-BUTG1dut.js                              16.17 kB │ gzip:   5.93 kB
+    dist/assets/WorkQuestDetailView-WqJGxAm8.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView--r7f6TK0.js                             17.44 kB │ gzip:   5.60 kB
+    dist/assets/ChatSurfaceView-M0fWOVbt.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DCaA7Gn1.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CNC-SLpH.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BaxFMZJs.js                37.55 kB │ gzip:  12.60 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-CzDWKTv6.js                     57.90 kB │ gzip:  13.98 kB
+    dist/assets/index-CQfzVqUn.js                                 62.84 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 575ms
+
+  startedAt: '2026-07-29T19:29:30Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  - docs/product-memory.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: consolidate-page-orientation-header
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:32:32Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - docs/product-memory.md
+  - apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/PageOrientationHeader.vue
+  output: |+
+    dist/assets/CalendarPage-CzEmxAog.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-XHJ8_Mx7.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-7sOT9dgA.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-BEup2BL6.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BCK1EdLh.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-DnokZqnH.js                              16.17 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-CrGa8fLm.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-UC0Mer2-.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-B6p7t056.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-CZS-S0S_.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CPZ7LFzy.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-hpzdoNgx.js                37.55 kB │ gzip:  12.60 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-DLZmQDns.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-BA0X1-71.js                                 62.88 kB │ gzip:  15.57 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 586ms
+
+  startedAt: '2026-07-29T19:31:07Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/PageOrientationHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/FriendlyCollectionHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceContentView.vue
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -6,6 +6,34 @@ require "open3"
 budget = 12_000
 max_files = 12
 max_rows_per_file = 8
+mode = "general"
+if (index = ARGV.index("--mode"))
+  mode = ARGV[index + 1].to_s
+  ARGV.slice!(index, 2)
+end
+mode_rules = {
+  "general" => {
+    "description" => "balanced source and canonical-document ranking",
+    "weight" => ->(path) { path.start_with?("docs/") ? 2 : 1 }
+  },
+  "symbol" => {
+    "description" => "source definitions and typed client/backend references before documentation",
+    "weight" => ->(path) { path.start_with?("apps/") ? 4 : path.start_with?("scripts/") ? 3 : 1 }
+  },
+  "callsite" => {
+    "description" => "executable callers, controllers, services, and client callsites before prose",
+    "weight" => ->(path) { path.start_with?("apps/") ? 5 : path.start_with?("scripts/") ? 2 : 1 }
+  },
+  "canonical" => {
+    "description" => "canonical documentation before implementation references",
+    "weight" => lambda do |path|
+      next 6 if %w[docs/system-map.md docs/capability-inventory.yaml docs/implementation-control.md docs/runtime-acceptance-matrix.yaml].include?(path)
+
+      path.start_with?("docs/") ? 4 : 1
+    end
+  }
+}.freeze
+abort "--mode must be one of: #{mode_rules.keys.join(", ")}" unless mode_rules.key?(mode)
 if (index = ARGV.index("--budget"))
   begin
     budget = Integer(ARGV[index + 1])
@@ -71,13 +99,13 @@ stdout.each_line do |line|
 end
 
 ranked = matches.sort_by do |path, rows|
-  source_weight = path.start_with?("docs/") ? 2 : 1
-  [-rows.length * source_weight, path]
+  [-rows.length * mode_rules.fetch(mode).fetch("weight").call(path), path]
 end
 
 max_output_chars = budget
-output = +"Context search: #{query}\n"
+output = +"Context search (mode=#{mode}): #{query}\n"
 output << "Matches: #{matches.values.sum(&:length)} in #{matches.length} files; showing up to #{max_files} files.\n\n"
+output << "Ranking: #{mode_rules.fetch(mode).fetch("description")}.\n\n"
 output << "Canonical authorities: docs/system-map.md, docs/capability-inventory.yaml, docs/implementation-control.md, docs/runtime-acceptance-matrix.yaml\n\n"
 
 ranked.first(max_files).each do |path, rows|
@@ -89,9 +117,10 @@ ranked.first(max_files).each do |path, rows|
   output << "\n"
 end
 
-if output.length > max_output_chars
-  output = output.byteslice(0, max_output_chars)
-  output << "\n...[context truncated at #{max_output_chars} characters]\n"
+if output.bytesize > max_output_chars
+  suffix = "\n...[context truncated at #{max_output_chars} bytes]\n"
+  output = output.byteslice(0, max_output_chars - suffix.bytesize)
+  output << suffix
 end
 
 puts output

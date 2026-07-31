@@ -1,0 +1,68 @@
+kind: execution-inventory
+version: 1
+id: generic-preview-elimination-execution-inventory
+master_plan: docs/work/generic-preview-elimination-master.yaml
+serial: true
+execution_hardening:
+  owner_task: harden-preview-elimination-inventory
+  contract: No implementation begins before the full preview inventory and each bounded
+    task are verifier-verified.
+  reviewed_at: 2026-07-30
+  review_result: Each legacy occurrence has exactly one owner; only explicit specialised
+    patterns remain permitted.
+items:
+- id: harden-preview-elimination-inventory
+  sequence: 1
+  plan: docs/work/generic-preview-elimination-atomic-hardening.yaml
+  task: harden-preview-elimination-inventory
+  status: verified
+  started_at: '2026-07-30T04:46:31Z'
+  verified_at: '2026-07-30T04:47:12Z'
+  evidence:
+    plan: docs/work/generic-preview-elimination-atomic-hardening.yaml
+    task: harden-preview-elimination-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: direct-open-legacy-collections
+  sequence: 2
+  plan: docs/work/generic-preview-elimination-collections.yaml
+  task: direct-open-legacy-collections
+  status: verified
+  started_at: '2026-07-30T04:47:18Z'
+  verified_at: '2026-07-30T04:52:36Z'
+  evidence:
+    plan: docs/work/generic-preview-elimination-collections.yaml
+    task: direct-open-legacy-collections
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: flatten-generic-detail-rails
+  sequence: 3
+  plan: docs/work/generic-preview-elimination-details.yaml
+  task: flatten-generic-detail-rails
+  status: verified
+  started_at: '2026-07-30T04:52:47Z'
+  verified_at: '2026-07-30T04:55:01Z'
+  evidence:
+    plan: docs/work/generic-preview-elimination-details.yaml
+    task: flatten-generic-detail-rails
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: replace-calendar-object-preview
+  sequence: 4
+  plan: docs/work/generic-preview-elimination-exceptions.yaml
+  task: replace-calendar-object-preview
+  status: verified
+  started_at: '2026-07-30T04:55:08Z'
+  verified_at: '2026-07-30T04:57:53Z'
+  evidence:
+    plan: docs/work/generic-preview-elimination-exceptions.yaml
+    task: replace-calendar-object-preview
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: enforce-preview-free-contract
+  sequence: 5
+  plan: docs/work/generic-preview-elimination-closeout.yaml
+  task: enforce-preview-free-contract
+  status: verified
+  started_at: '2026-07-30T04:57:58Z'
+  verified_at: '2026-07-30T04:59:12Z'
+  evidence:
+    plan: docs/work/generic-preview-elimination-closeout.yaml
+    task: enforce-preview-free-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

@@ -5,7 +5,7 @@ optimization_baseline: docs/system-map-optimization-baseline-2026-07-22.yaml
 canonical_cross_reference: docs/endpoint-client-evidence-registry.yaml
 runtime_matrix:
   canonical_source: docs/runtime-acceptance-matrix.yaml
-  passed_scenarios: 67
+  passed_scenarios: 70
   pending_runtime_scenarios: 14
   rule: pending_runtime_is_not_runtime_proof
 endpoint_consumer_review:
@@ -76,3 +76,4 @@ core_product_stabilization_runtime:
   canonical_runtime_matrix_unchanged: true
   reason: HTTP smoke trace covers authenticated core/Business/Rides read paths but does not prove browser interaction, mutation conflict, failure injection, replay, native, or production behavior.
  # BUSINESS-BOOKING-RUNTIME-001 keeps static capability evidence separate from runtime acceptance.
+ # SERVICES-HUMAN-UX-001 references desktop and mobile browser evidence.

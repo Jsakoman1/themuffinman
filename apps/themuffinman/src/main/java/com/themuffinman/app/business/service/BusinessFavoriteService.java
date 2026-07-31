@@ -43,6 +43,9 @@ public class BusinessFavoriteService {
         BusinessProfile profile = profileRepository.findById(businessProfileId)
                 .filter(BusinessProfile::isActive)
                 .orElseThrow(() -> ServiceErrors.notFound("Business profile not found"));
+        if (profile.getOwner().getId().equals(currentUser.getId())) {
+            throw ServiceErrors.badRequest("You cannot save your own business as a favorite");
+        }
         BusinessFavorite favorite = favoriteRepository.findByOwnerIdAndBusinessProfileId(currentUser.getId(), businessProfileId)
                 .orElseGet(() -> {
                     BusinessFavorite created = new BusinessFavorite();

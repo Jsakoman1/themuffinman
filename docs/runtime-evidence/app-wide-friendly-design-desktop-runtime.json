@@ -1,0 +1,80 @@
+{
+  "viewport": "1440x1100",
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "routes": [
+    {
+      "route": "/work",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\nMy work\nFind work\nApplications\n◇\nBusiness\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRide",
+      "url": "http://localhost:5173/work/find"
+    },
+    {
+      "route": "/share/things",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\n◇\nServices\n▣\nThings\nMy things\nFind things\n◎\nPeople\n↗\nRides\n\nPerson",
+      "url": "http://localhost:5173/share/things"
+    },
+    {
+      "route": "/rides",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\nMy rides\nFind ride\n\nPersonal\n",
+      "url": "http://localhost:5173/rides"
+    },
+    {
+      "route": "/people",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\n◇\nServices\n▣\nThings\n◎\nPeople\nOverview\nCircles\n↗\nRides\n\nPersonal\n\nA",
+      "url": "http://localhost:5173/people"
+    },
+    {
+      "route": "/activity",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n",
+      "url": "http://localhost:5173/activity"
+    },
+    {
+      "route": "/notifications",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n",
+      "url": "http://localhost:5173/notifications"
+    },
+    {
+      "route": "/calendar",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n",
+      "url": "http://localhost:5173/calendar"
+    },
+    {
+      "route": "/chat",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\n◇\nServices\n▣\nThings\n◎\nPeople\n↗\nRides\n\nPersonal\n\nAttention\n12\nMore\n",
+      "url": "http://localhost:5173/chat"
+    },
+    {
+      "route": "/business",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "TM\n\nTheMuffinMan\n\nWorkspace\n\n⌂\nHome\n▤\nWork\n◇\nBusiness\nRuntime Flexible Services\nRuntime Idempotency 1784717445008\nRuntim",
+      "url": "http://localhost:5173/business"
+    },
+    {
+      "route": "/services",
+      "title": "TheMuffinMan",
+      "overflow": false,
+      "bodyText": "",
+      "url": "http://localhost:5173/services"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,35 @@
+kind: work_artifact_schema
+version: 1
+purpose: Classify docs/work artifacts without treating structural validity as delivery completion.
+categories:
+  executable:
+    kinds: [work, master]
+    required_fields: [kind, version, id, status]
+    allowed_statuses: [draft, active, verified, complete]
+    task_requirements:
+      work: [id, title, observable_outcome, dependencies, evidence_boundary, paths, required_paths, validation]
+  inventory:
+    kinds: [execution-inventory, execution_inventory]
+    required_fields: [kind, version, id]
+    item_required_fields: [id, plan, task, status]
+  historical:
+    kinds:
+      - capability_execution_board
+      - capability_gap_analysis
+      - capability_inventory_audit
+      - contract_matrix
+      - domain_contract_draft
+      - frontend-route-action-matrix
+      - frontend-surface-archetype-matrix
+      - product_backend_device_contract_bundle
+      - query_scope_contract
+      - runtime_scenario_catalog
+    required_fields: [kind, version]
+compatibility_rule: Historical variants are recognized inputs and are never normalized into executable completion state.
+legacy_path_exceptions:
+  docs/work/home-friendly-follow-ups-execution-inventory.yaml:
+    missing_required_fields: [id]
+legacy_task_metadata_path_prefixes:
+  - docs/work/system-map-optimization-
+strict_task_rule: Work-task metadata is enforced only when strict_verification is true; older work artifacts remain historical inputs.
+non_authority_rule: This schema audit validates shape and declared category only; work completion remains owned by work-verify evidence.

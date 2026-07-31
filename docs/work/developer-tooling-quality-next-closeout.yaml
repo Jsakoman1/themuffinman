@@ -1,0 +1,106 @@
+kind: work
+version: 1
+id: developer-tooling-quality-next-closeout
+title: Reconcile and close the developer-tooling quality pass
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-quality-next-master.yaml
+execution_inventory: docs/work/developer-tooling-quality-next-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - close-developer-tooling-quality-next
+  required_results:
+  - full_and_tooling_self_test_health
+  - compact_output_measurement
+  - template_and_work_schema_audits
+  - runtime_pilot_evidence
+  - idea_run_discovery_and_symbol_fallback
+  - stable_deferred_follow_up_ids
+  dirty_merge_required:
+  - docs/implementation-backlog.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  baseline_only_surfaces:
+  - prior tooling measurements and product/runtime status
+  residual_scope:
+  - new health, template, schema, runtime-pilot, and IDE-readiness evidence
+  - stable deferred follow-ups
+  retest_triggers:
+  - any selected program path changes
+  non_duplication_rule: Closeout reports only new repairs and preserves external IDE
+    and non-pilot runtime boundaries.
+tasks:
+- id: close-developer-tooling-quality-next
+  title: Measure health and record remaining follow-ups
+  type: validation
+  status: done
+  inventory_item: close-developer-tooling-quality-next
+  observable_outcome: A dated closeout records full/tooling self-test health, compact
+    output size, template and work-schema results, runtime-pilot evidence, IDEA run
+    discovery and symbol fallback, and stable deferred IDs for non-pilot migrations
+    and the conditional runtime-evidence skill.
+  dependencies:
+  - add-shared-intellij-run-configurations
+  evidence_boundary:
+  - dated machine-readable closeout
+  - updated analysis measurements
+  - persistent deferred follow-up IDs
+  paths: &1
+  - docs/developer-tooling-quality-next-closeout-2026-07-31.yaml
+  - docs/work/developer-tooling-quality-next-analysis.md
+  - docs/implementation-backlog.md
+  required_paths: *1
+  validation: ruby scripts/tool-self-test.rb && ruby scripts/audits/audit-template-freshness.rb
+    && ruby scripts/audits/audit-work-artifact-schema.rb && ruby scripts/audits/audit-intellij-mcp-routing.rb
+    && ruby scripts/audits/audit-docs-as-tests.rb
+  started_at: '2026-07-31T13:58:29Z'
+  start_fingerprints:
+    docs/developer-tooling-quality-next-closeout-2026-07-31.yaml: __missing__
+    docs/work/developer-tooling-quality-next-analysis.md: 699fe2be6b010da5577edd7d58785d863f629b9ae24dbce860f5c750bdc1334d
+    docs/implementation-backlog.md: 69f361c9d33ad2fce85e8ac1e0fe2dabb5d9c1d6a0feb6d4a06dd3d6a1734af8
+evidence:
+- task: close-developer-tooling-quality-next
+  command: ruby scripts/tool-self-test.rb && ruby scripts/audits/audit-template-freshness.rb
+    && ruby scripts/audits/audit-work-artifact-schema.rb && ruby scripts/audits/audit-intellij-mcp-routing.rb
+    && ruby scripts/audits/audit-docs-as-tests.rb
+  ranAt: '2026-07-31T13:59:42Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/developer-tooling-quality-next-closeout-2026-07-31.yaml
+  - docs/work/developer-tooling-quality-next-analysis.md
+  output: |+
+    STAGE class=product_contract id=web_surface_contract files=1
+    STAGE class=product_contract id=admin_agent_scenarios files=1
+    STAGE class=product_contract id=modern_surface_contract files=1
+    STAGE class=tool_mechanics id=repository_map files=1
+    STAGE class=tool_mechanics id=repository_map_query files=1
+    STAGE class=tool_mechanics id=tool_catalog files=1
+    STAGE class=tool_mechanics id=runtime_tools files=1
+    STAGE class=tool_mechanics id=context_search files=1
+    STAGE class=tool_mechanics id=change_validation files=1
+    STAGE class=tool_mechanics id=template_freshness files=1
+    STAGE class=tool_mechanics id=work_artifact_schema files=1
+    Tool self-test passed (all stages; Ruby/Node syntax, YAML, AST, contracts, repository map, catalog, and bounded search).
+    Template freshness audit passed (7 templates, canonical sources and verifier evidence).
+    Work-artifact schema audit passed (180 artifacts; executable, inventory, and historical categories).
+    IntelliJ MCP routing audit passed (7 intents, 5 shared runs, local fallback and verifier authority preserved).
+    Docs as tests
+      statements scanned: 381
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-31T13:58:29Z'
+  changedAfterStart: &2
+  - docs/developer-tooling-quality-next-closeout-2026-07-31.yaml
+  - docs/work/developer-tooling-quality-next-analysis.md
+  - docs/implementation-backlog.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

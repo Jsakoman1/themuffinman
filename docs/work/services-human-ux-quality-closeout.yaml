@@ -1,0 +1,383 @@
+kind: work
+version: 1
+id: services-human-ux-quality-closeout
+title: Verify Services usability across responsive layouts
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-human-ux-master.yaml
+execution_inventory: docs/work/services-human-ux-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/work/business-style-visual-parity-master.yaml
+  baseline_only_surfaces:
+  - existing shared-shell and generic responsive evidence
+  residual_scope:
+  - Services-specific tabs, reviews, accessibility, desktop, mobile, light, dark,
+    and booking recovery evidence
+  retest_triggers:
+  - Services layout, calendar focus, responsive behavior, or shared shell changes
+  non_duplication_rule: Prior broad screenshots cannot close this route-specific customer
+    journey.
+tasks:
+- id: verify-services-responsive-accessibility
+  title: Verify calendar semantics, focus, and responsive structure
+  type: implementation
+  status: done
+  inventory_item: verify-services-responsive-accessibility
+  observable_outcome: Services discovery, public profile tabs, review list/form, calendar,
+    slots, and booking review remain keyboard-operable, labeled, focus-visible, and
+    free of horizontal overflow at supported desktop and mobile widths.
+  dependencies:
+  - align-services-product-documentation
+  evidence_boundary:
+  - frontend type-check/build
+  - Services static accessibility and responsive contract validation
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityCalendar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessReviewList.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityCalendar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessReviewList.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  started_at: '2026-07-30T17:00:25Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue: b68fe20d948ab091db71b0d366805a225a4fc06423bb2a87a0b07172b9d41a0d
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: 0ebe91ed98f79be62518e56f76f4f90a960aa825857239f0b830f2d01aebb20b
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityCalendar.vue: 4cde77698c5e5adc1932449e292dff8c9490a9019370cbd9b84c4c8706a23443
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue: becf1e4afc308ced844f715a7ebe5c408c0f872e01ab2600aefea4d6fc7af478
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue: e5a0f926adb39de62dff6a390eb01a13462cb7f75b7d575dad08234dddc7296c
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessReviewList.vue: c4d911dcd83d4abc5186f5df6ecdc2017c47d46a02287e0baa3367bd91520f09
+    apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs: 742cb0c67bfc0d59ae1ceaa65de156409e6619968e1f3f58d7b153dfba4fbae4
+- id: audit-services-desktop-journey
+  title: Capture the complete Services desktop journey
+  type: validation
+  status: done
+  inventory_item: audit-services-desktop-journey
+  observable_outcome: Fresh light and dark desktop evidence shows understandable discovery,
+    complete business identity, tabs, gallery, service price list, verified reviews,
+    service choice, available-day calendar, time selection, booking review, success,
+    review submission, empty month, and stale-slot recovery without browser errors
+    or overflow.
+  dependencies:
+  - verify-services-responsive-accessibility
+  evidence_boundary:
+  - owned-stack Chromium trace
+  - light and dark desktop screenshots
+  paths:
+  - apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs
+  - docs/runtime-evidence/services-human-ux-desktop-runtime.json
+  - docs/runtime-evidence/services-human-ux-desktop-light.png
+  - docs/runtime-evidence/services-human-ux-desktop-dark.png
+  required_paths:
+  - apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs
+  - docs/runtime-evidence/services-human-ux-desktop-runtime.json
+  - docs/runtime-evidence/services-human-ux-desktop-light.png
+  - docs/runtime-evidence/services-human-ux-desktop-dark.png
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/services-human-ux-desktop-light.png
+  - docs/runtime-evidence/services-human-ux-desktop-dark.png
+  manual_runtime_command: WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/services-human-ux-desktop-runtime.json
+    WEB_VISUAL_EVIDENCE_PREFIX=docs/runtime-evidence/services-human-ux-desktop node
+    apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs --viewport=desktop
+  runtime_evidence_paths:
+  - docs/runtime-evidence/services-human-ux-desktop-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  started_at: '2026-07-30T17:02:53Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs: __missing__
+    docs/runtime-evidence/services-human-ux-desktop-runtime.json: __missing__
+    docs/runtime-evidence/services-human-ux-desktop-light.png: __missing__
+    docs/runtime-evidence/services-human-ux-desktop-dark.png: __missing__
+- id: audit-services-mobile-journey
+  title: Capture the complete Services mobile journey
+  type: validation
+  status: done
+  inventory_item: audit-services-mobile-journey
+  observable_outcome: Fresh light and dark mobile evidence shows one readable task
+    column, usable public tabs, gallery, price list, reviews, reachable contact and
+    service actions, usable month/day/time selection, persistent booking context,
+    review submission, recovery, and no horizontal overflow.
+  dependencies:
+  - audit-services-desktop-journey
+  evidence_boundary:
+  - owned-stack Chromium trace
+  - light and dark mobile screenshots
+  paths:
+  - apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs
+  - docs/runtime-evidence/services-human-ux-mobile-runtime.json
+  - docs/runtime-evidence/services-human-ux-mobile-light.png
+  - docs/runtime-evidence/services-human-ux-mobile-dark.png
+  required_paths:
+  - apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs
+  - docs/runtime-evidence/services-human-ux-mobile-runtime.json
+  - docs/runtime-evidence/services-human-ux-mobile-light.png
+  - docs/runtime-evidence/services-human-ux-mobile-dark.png
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/services-human-ux-mobile-light.png
+  - docs/runtime-evidence/services-human-ux-mobile-dark.png
+  manual_runtime_command: WEB_RUNTIME_EVIDENCE_PATH=docs/runtime-evidence/services-human-ux-mobile-runtime.json
+    WEB_VISUAL_EVIDENCE_PREFIX=docs/runtime-evidence/services-human-ux-mobile node
+    apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs --viewport=mobile
+  runtime_evidence_paths:
+  - docs/runtime-evidence/services-human-ux-mobile-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  started_at: '2026-07-30T17:04:02Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs: 9b3cacf2eceb776546837c000f41a313c4360ba780d02b340e9f2527ec4d974b
+    docs/runtime-evidence/services-human-ux-mobile-runtime.json: __missing__
+    docs/runtime-evidence/services-human-ux-mobile-light.png: __missing__
+    docs/runtime-evidence/services-human-ux-mobile-dark.png: __missing__
+- id: close-services-program-truth
+  title: Reconcile Services capability, interface, data, permission, and runtime truth
+  type: documentation
+  status: done
+  inventory_item: close-services-program-truth
+  observable_outcome: Canonical capability, endpoint, entity, permission, evidence,
+    and runtime registries describe the implemented Services calendar and verified-review
+    boundaries without promoting unsupported comments, moderation, payments, or native
+    runtime proof.
+  dependencies:
+  - audit-services-mobile-journey
+  evidence_boundary:
+  - System Map impact dispositions
+  - truth, interface, data-workflow, capability-evidence, runtime-acceptance, and
+    documentation audits
+  paths:
+  - docs/system-truth-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/entity-relation-retention-registry.yaml
+  - docs/permission-visibility-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/services-human-ux-master.yaml
+  - docs/work/services-human-ux-preflight.md
+  required_paths:
+  - docs/system-truth-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/entity-relation-retention-registry.yaml
+  - docs/permission-visibility-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/services-human-ux-master.yaml
+  - docs/work/services-human-ux-preflight.md
+  validation: make audit-truth-registry && make audit-interface-evidence && make audit-data-workflow-impact
+    && make audit-capability-evidence && make audit-runtime-acceptance && make audit-docs
+  started_at: '2026-07-30T17:04:30Z'
+  start_fingerprints:
+    docs/system-truth-registry.yaml: 4b13c7f2229ca10fe01a28292ffaead7b826326c79bfe38848b8acd61d5e52a6
+    docs/system-drift-control-registry.yaml: 2cfa4f56ef05640f19ce2b4fc484c156d28122ab4e7483b3441765e623b8fcc9
+    docs/endpoint-capability-traceability-registry.yaml: fcfd7620440e5fb005a57b644903013718e8379d292c31de05c2af50034e781d
+    docs/entity-relation-retention-registry.yaml: e2fbafbf47358f61a46ba11e65d7c338fb99a082f9bd8a791388f85632f1c2c6
+    docs/permission-visibility-matrix.yaml: 5862eaa07623698c4d9d670fa25fad488bcbfe96be46aea066ac7d6e26ca6a29
+    docs/capability-evidence-registry.yaml: 1275bea57c0456bb13de8d38283da7bd3ce97ec711222f813f26de5c3e0ee4f3
+    docs/runtime-acceptance-matrix.yaml: eeae9a068ce7cfddc62d07a650ea926d6b2c6d5e6908b41f60138556ce784cd3
+    docs/work/services-human-ux-master.yaml: '03976b119e0b326214844c2316d3f5c8d0f8e02c0148702d071ebf719eb92423'
+    docs/work/services-human-ux-preflight.md: b9cbf8025f04c38b6680a8ef1a5c376b4479aa860697fb514651b19ef9c3cea7
+evidence:
+- task: verify-services-responsive-accessibility
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  ranAt: '2026-07-30T17:02:39Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityCalendar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessReviewList.vue
+  output: |+
+    dist/assets/WorkPage-Bzl3fpbP.js                              13.12 kB │ gzip:   5.06 kB
+    dist/assets/RidesView-CK_ENmcd.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-DrviaNO4.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/CirclesView-CUeDw-W6.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-BoCsCO6S.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-DesN8xJb.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-DfINSQ-H.js                           20.24 kB │ gzip:   6.28 kB
+    dist/assets/BusinessPublicView-Drmro2GO.js                    21.24 kB │ gzip:   7.08 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-Cml9KYfH.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-CTB76rUg.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-C9LG1wmY.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-alG377PB.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-Crb83C57.js                                 63.59 kB │ gzip:  15.79 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 624ms
+    Services human UX validation passed (13 checks).
+
+  startedAt: '2026-07-30T17:00:25Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityCalendar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessAvailabilityPicker.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicSectionTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessReviewList.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: audit-services-desktop-journey
+  command: npm --prefix apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  ranAt: '2026-07-30T17:03:48Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs
+  - docs/runtime-evidence/services-human-ux-desktop-dark.png
+  - docs/runtime-evidence/services-human-ux-desktop-light.png
+  - docs/runtime-evidence/services-human-ux-desktop-runtime.json
+  output: |+
+    dist/assets/WorkPage-Bzl3fpbP.js                              13.12 kB │ gzip:   5.06 kB
+    dist/assets/RidesView-CK_ENmcd.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-DrviaNO4.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/CirclesView-CUeDw-W6.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-BoCsCO6S.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-DesN8xJb.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-DfINSQ-H.js                           20.24 kB │ gzip:   6.28 kB
+    dist/assets/BusinessPublicView-Drmro2GO.js                    21.24 kB │ gzip:   7.08 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-Cml9KYfH.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-CTB76rUg.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-C9LG1wmY.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-alG377PB.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-Crb83C57.js                                 63.59 kB │ gzip:  15.79 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 595ms
+    Services human UX validation passed (13 checks).
+
+  startedAt: '2026-07-30T17:02:53Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs
+  - docs/runtime-evidence/services-human-ux-desktop-runtime.json
+  - docs/runtime-evidence/services-human-ux-desktop-light.png
+  - docs/runtime-evidence/services-human-ux-desktop-dark.png
+  requiredPaths: *2
+  visualEvidencePaths:
+  - docs/runtime-evidence/services-human-ux-desktop-light.png
+  - docs/runtime-evidence/services-human-ux-desktop-dark.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/services-human-ux-desktop-runtime.json
+- task: audit-services-mobile-journey
+  command: npm --prefix apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  ranAt: '2026-07-30T17:04:18Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs
+  - docs/runtime-evidence/services-human-ux-mobile-dark.png
+  - docs/runtime-evidence/services-human-ux-mobile-light.png
+  - docs/runtime-evidence/services-human-ux-mobile-runtime.json
+  output: |+
+    dist/assets/WorkPage-Bzl3fpbP.js                              13.12 kB │ gzip:   5.06 kB
+    dist/assets/RidesView-CK_ENmcd.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-DrviaNO4.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/CirclesView-CUeDw-W6.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-BoCsCO6S.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-DesN8xJb.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-DfINSQ-H.js                           20.24 kB │ gzip:   6.28 kB
+    dist/assets/BusinessPublicView-Drmro2GO.js                    21.24 kB │ gzip:   7.08 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-Cml9KYfH.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-CTB76rUg.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-C9LG1wmY.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-alG377PB.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-Crb83C57.js                                 63.59 kB │ gzip:  15.79 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 617ms
+    Services human UX validation passed (13 checks).
+
+  startedAt: '2026-07-30T17:04:02Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/scripts/services-human-ux-runtime.mjs
+  - docs/runtime-evidence/services-human-ux-mobile-runtime.json
+  - docs/runtime-evidence/services-human-ux-mobile-light.png
+  - docs/runtime-evidence/services-human-ux-mobile-dark.png
+  requiredPaths: *3
+  visualEvidencePaths:
+  - docs/runtime-evidence/services-human-ux-mobile-light.png
+  - docs/runtime-evidence/services-human-ux-mobile-dark.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/services-human-ux-mobile-runtime.json
+- task: close-services-program-truth
+  command: make audit-truth-registry && make audit-interface-evidence && make audit-data-workflow-impact
+    && make audit-capability-evidence && make audit-runtime-acceptance && make audit-docs
+  ranAt: '2026-07-30T17:07:11Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/capability-evidence-registry.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/entity-relation-retention-registry.yaml
+  - docs/permission-visibility-matrix.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/system-truth-registry.yaml
+  - docs/work/services-human-ux-master.yaml
+  - docs/work/services-human-ux-preflight.md
+  output: |2+
+      unclassified_non_web: 68
+      web_source_linked: 159
+    Data and workflow impact audit passed
+      Flyway migrations: 90
+      ownership domains: 8
+      workflow coverage rows: 6
+    Capability evidence freshness audit passed
+      passed runtime scenarios: 68
+      pending runtime scenarios: 14
+      passed evidence paths checked: 65
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (68 passed, 14 pending runtime scenarios).
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 376
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-30T17:04:30Z'
+  changedAfterStart: &4
+  - docs/system-truth-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/endpoint-capability-traceability-registry.yaml
+  - docs/entity-relation-retention-registry.yaml
+  - docs/permission-visibility-matrix.yaml
+  - docs/capability-evidence-registry.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - docs/work/services-human-ux-master.yaml
+  - docs/work/services-human-ux-preflight.md
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

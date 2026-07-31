@@ -1,0 +1,463 @@
+kind: work
+version: 1
+id: human-first-web-backend-ui-contracts
+title: Move remaining product defaults and action presentation behind the API
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-web-experience-master.yaml
+execution_inventory: docs/work/human-first-web-experience-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-human-first-ux-master.yaml
+  baseline_only_surfaces:
+  - Business validation
+  - quote authority
+  - booking state transitions
+  - allowed-action permissions
+  residual_scope:
+  - Business setup metadata and extension of the existing ClientActionDTO presentation
+    contract
+  retest_triggers:
+  - Business setup DTO
+  - ClientActionDTO
+  - generated contract
+  - or consuming view changes
+  non_duplication_rule: Existing business rules remain baseline; this plan removes
+    only duplicated client defaults and presentation mappings.
+readiness:
+  reuse_decision: Extend ClientActionDTO; do not introduce a parallel ActionDescriptor
+    abstraction.
+  authority_boundary: Allowed-action enums and services continue to decide permission;
+    ClientActionDTO only prepares human presentation.
+  rollout: Business and Work migrate first, followed by Rides and Things in a separate
+    atomic pair.
+tasks:
+- id: publish-business-setup-contract
+  title: Publish Business offering setup defaults and options
+  type: implementation
+  status: done
+  inventory_item: publish-business-setup-contract
+  observable_outcome: One backend endpoint returns offering defaults, allowed options,
+    setup steps, field metadata, constraints, and readiness without changing booking
+    or quote authority.
+  dependencies:
+  - add-calendar-event-popover
+  evidence_boundary:
+  - targeted Business backend tests
+  - generated API contract
+  - living docs
+  paths: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingSetupDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOfferingSetupService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingSetupServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  required_paths: *1
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=BusinessOfferingSetupServiceTest,BusinessOfferingServiceTest
+  started_at: '2026-07-29T21:26:55Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingSetupDTO.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOfferingSetupService.java: __missing__
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java: 2321371666582fbc41562c526e6ee4ad97cc28519bd88c8bc36046f3cbccf1ee
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingSetupServiceTest.java: __missing__
+    docs/business-logic.md: 8c1ca180f499b2ce91082739afe3cbe6573fa70d45d994411803ed042f8b6fa1
+    docs/domain-technical.md: 051c6bf061b0519f582f3fd01d1b83562bdea2fc35baa191a3e0863e174b4710
+- id: consume-business-setup-contract
+  title: Remove Business setup defaults and schema guessing from Vue
+  type: implementation
+  status: done
+  inventory_item: consume-business-setup-contract
+  observable_outcome: Business offering and schema screens consume generated setup
+    types with no hard-coded CHF, duration, booking-mode, enum-option, snake-case
+    normalization, or unchecked casts.
+  dependencies:
+  - publish-business-setup-contract
+  evidence_boundary:
+  - generated contract
+  - frontend type-check/build
+  paths: &2
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPricingRuleEditor.vue
+  required_paths: *2
+  validation: npm --prefix apps/themuffinman/frontend run generate:contracts && npm
+    --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T21:29:44Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts: fd16fc7dbc129b3c471d5d0fa32009449932337be9ff1b15ae64cc4d2e321be9
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 59c08ad2316f99fad003870d50892b4a105849786a46aaab3a7d351a749991ae
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue: bda062116929a1bb0e6a3523f08920f0d9df9a557e01a51e6577b4486273b7f8
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: 05bf436ece0e8d43d81270816664e3d6cb5d89201d844f0b8ab48fb7034506db
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPricingRuleEditor.vue: 301b9b433293524035dd2f38c2b93958620ee21219d88a0698e1d78be37aa04a
+- id: extend-client-actions-for-business-and-work
+  title: Extend existing client actions for Business and Work
+  type: implementation
+  status: done
+  inventory_item: extend-client-actions-for-business-and-work
+  observable_outcome: Existing ClientActionDTO carries outcome guidance, and Business
+    booking plus Work application assemblers populate complete actions while their
+    domain permission services remain authoritative.
+  dependencies:
+  - consume-business-setup-contract
+  evidence_boundary:
+  - Business and Work presentation tests
+  - generated DTO contract
+  - living docs
+  paths: &3
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ClientActionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPresentationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPresentationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssemblerTest.java
+  - docs/domain-technical.md
+  required_paths: *3
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=BusinessBookingPresentationServiceTest,WorkmarketQuestApplicationPresentationAssemblerTest
+  started_at: '2026-07-29T21:34:29Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ClientActionDTO.java: 2f040e6fa073fd82c14a45f8926a225c0859ec4b4f9f3170f75aa26388e005bb
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPresentationService.java: a8acc5a7a7a2ed8ea84f2436a918f01f355eb797a675d6441a4384c8a06829eb
+    apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssembler.java: ead905407d53e36ab90386b179ec566dda0380cca069e1a0aa3c30820ce06577
+    apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java: 4d4132b571d0ccf2b3be111ba1e732ade74c89242c0518cfe88c9130c720602d
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPresentationServiceTest.java: 588e6ae65ff8abd275046e81f04efdd52d368702e9290a184920ae7b7d24633b
+    apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssemblerTest.java: __missing__
+    docs/domain-technical.md: 209e53b9c68e114830cd3312f590beae65c79859c0efba8d68df13e4906c6185
+- id: consume-business-and-work-client-actions
+  title: Render Business and Work client actions through one component
+  type: implementation
+  status: done
+  inventory_item: consume-business-and-work-client-actions
+  observable_outcome: Business booking and Work application review render labels,
+    tones, confirmations, and outcomes through one ClientActionList component instead
+    of local allowedActions presentation mappings.
+  dependencies:
+  - extend-client-actions-for-business-and-work
+  evidence_boundary:
+  - generated contract
+  - frontend type-check/build
+  paths: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ClientActionList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  required_paths: *4
+  validation: npm --prefix apps/themuffinman/frontend run generate:contracts && npm
+    --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T21:37:12Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts: 6e734587c163ce9a5e05f5957fcad08f2b9ef833dd50482d6a06abdc75eb8566
+    apps/themuffinman/frontend/src/modules/app-shell/components/ClientActionList.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue: be7714dba7f7285991f673cc2735b39e3803d3dc584988312a8b661f24faa5a0
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue: 386783f846f6fc1d04052ca47a70e5f2bfff623d102b52a3f4d2c730d22c037f
+- id: extend-client-actions-for-rides-and-things
+  title: Extend client actions to Rides and Things
+  type: implementation
+  status: done
+  inventory_item: extend-client-actions-for-rides-and-things
+  observable_outcome: Ride and Thing response DTOs expose backend-prepared ClientActionDTO
+    lists derived from their existing allowed-action enums without changing permission
+    decisions.
+  dependencies:
+  - consume-business-and-work-client-actions
+  evidence_boundary:
+  - targeted Ride and Thing tests
+  - living technical contract
+  paths: &5
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java
+  - docs/domain-technical.md
+  required_paths: *5
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=RideOfferServiceTest,ThingSharingServiceTest
+  started_at: '2026-07-29T21:39:32Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java: '08da724fa0fb8ce356a6c032ff40390161ea3fc76c57c5818fa28b68a64f4658'
+    apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java: 99df0c6847890a6909c59ddf7c04730b714d2d66347b5b9a2a9ba1054967204f
+    apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java: 8c9efd80e26e45e8321bb76ab5e432b3da5df10da9e3666d17200d60b6b50084
+    apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java: 32eb563656e2087d2b369ed4acdf322f623e378b8aaa4cd699b17f41e6d6b72e
+    apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java: 4986da142822eefe58079d97cc6d9e480b56d008187427ff804d2b48fd68de96
+    apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java: 399596e5c75a1a71b8c371e53a07930a2bf65cd170af57039ec9fc2391d958ed
+    apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java: a3baae7edf4199e517a6047c8126e3f4e82f9ddd8512640dbe34ab1aed27a94e
+    docs/domain-technical.md: 7c101058ef2a8eba0ea7ea1301102a6ba2ffe284d81298b1aaed98d4b9aec22f
+- id: consume-rides-and-things-client-actions
+  title: Render Ride and Thing client actions through the shared component
+  type: implementation
+  status: done
+  inventory_item: consume-rides-and-things-client-actions
+  observable_outcome: Ride and Thing list/detail surfaces use ClientActionList for
+    backend-prepared labels, tones, confirmation, and outcome copy instead of local
+    action-name mapping.
+  dependencies:
+  - extend-client-actions-for-rides-and-things
+  evidence_boundary:
+  - generated contract
+  - frontend type-check/build
+  paths: &6
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ClientActionList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  required_paths: *6
+  validation: npm --prefix apps/themuffinman/frontend run generate:contracts && npm
+    --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T21:42:12Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts: c8bef9a0c540a68b06565127011b9a038ccecce38ad84ad275675f9ddfc8ab6b
+    apps/themuffinman/frontend/src/modules/app-shell/components/ClientActionList.vue: 1724a91b0aaec40f6d95dc873f7cca2a9392ae048c83607b96fd711215d0ca9f
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: dd6182c6520f8d93488021a9fb59c57c73d839d608062b83ff865f447a836a3a
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: b7c319f68691dd418c11fed0a2518905b4db75a5ff8583573ed369f80c355516
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue: cd2ba399a24e99c27de34eefcb87c6d28de672a79fec20e129f534fcc67788f6
+evidence:
+- task: publish-business-setup-contract
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=BusinessOfferingSetupServiceTest,BusinessOfferingServiceTest
+  ranAt: '2026-07-29T21:29:12Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingSetupDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOfferingSetupService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingSetupServiceTest.java
+  output: "[INFO] \n[INFO] -------------------------------------------------------\n[INFO]
+    \ T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.business.service.BusinessOfferingSetupServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.328 s -- in
+    com.themuffinman.app.business.service.BusinessOfferingSetupServiceTest\n[INFO]
+    Running com.themuffinman.app.business.service.BusinessOfferingServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.072 s -- in
+    com.themuffinman.app.business.service.BusinessOfferingServiceTest\n[INFO] \n[INFO]
+    Results:\n[INFO] \n[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0\n[INFO]
+    \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  14.105 s\n[INFO] Finished at: 2026-07-29T23:29:27+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-29T21:26:55Z'
+  changedAfterStart: &7
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessOfferingSetupDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessOfferingSetupService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessOfferingController.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessOfferingSetupServiceTest.java
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  requiredPaths: *7
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: consume-business-setup-contract
+  command: npm --prefix apps/themuffinman/frontend run generate:contracts && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T21:33:20Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPricingRuleEditor.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-BhBizhqg.js                   12.03 kB │ gzip:   4.00 kB
+    dist/assets/BusinessServiceSchemaView-BsOivgrM.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/RidesView-a0wWrsHq.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-IhZAjUFL.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-D7t0ihrl.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-Sv3Jp5IN.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-3tSN0G7Z.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-BtPX9NE7.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/HomeHubView-CmpgSB2-.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-Cyn7PyxI.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-DLerbLMX.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-CRfD06t8.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-SDR3kRsT.js                     56.95 kB │ gzip:  13.88 kB
+    dist/assets/index-SUw1mDe3.js                                 63.07 kB │ gzip:  15.68 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 733ms
+
+  startedAt: '2026-07-29T21:29:44Z'
+  changedAfterStart: &8
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPricingRuleEditor.vue
+  requiredPaths: *8
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: extend-client-actions-for-business-and-work
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=BusinessBookingPresentationServiceTest,WorkmarketQuestApplicationPresentationAssemblerTest
+  ranAt: '2026-07-29T21:36:40Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPresentationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ClientActionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPresentationServiceTest.java
+  - docs/domain-technical.md
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssemblerTest.java
+  output: "[INFO] \n[INFO] -------------------------------------------------------\n[INFO]
+    \ T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.business.service.BusinessBookingPresentationServiceTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.240 s -- in
+    com.themuffinman.app.business.service.BusinessBookingPresentationServiceTest\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationPresentationAssemblerTest\n[INFO]
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestApplicationPresentationAssemblerTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  13.966 s\n[INFO] Finished at: 2026-07-29T23:36:55+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-29T21:34:29Z'
+  changedAfterStart: &9
+  - apps/themuffinman/src/main/java/com/themuffinman/app/common/dto/ClientActionDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessBookingPresentationService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssembler.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestApplicationResponseDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingPresentationServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationPresentationAssemblerTest.java
+  - docs/domain-technical.md
+  requiredPaths: *9
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: consume-business-and-work-client-actions
+  command: npm --prefix apps/themuffinman/frontend run generate:contracts && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T21:39:19Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ClientActionList.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-CytRzBBN.js                   12.03 kB │ gzip:   4.01 kB
+    dist/assets/BusinessServiceSchemaView-DiHdcsAf.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/RidesView-G88yGdU5.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-Epp4PN-N.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-BlUIB2g4.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CJ825ip9.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-BZQ1nmpN.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-CxbNE4na.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-D7iY-TRd.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-C1lKL-16.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-DviNj_Em.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BXA641uC.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-CC0eVeP8.js                     55.29 kB │ gzip:  13.68 kB
+    dist/assets/index-CGkuP5JO.js                                 63.09 kB │ gzip:  15.70 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 611ms
+
+  startedAt: '2026-07-29T21:37:12Z'
+  changedAfterStart: &10
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ClientActionList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  requiredPaths: *10
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: extend-client-actions-for-rides-and-things
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=RideOfferServiceTest,ThingSharingServiceTest
+  ranAt: '2026-07-29T21:41:48Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java
+  - docs/domain-technical.md
+  output: "[INFO] \n[INFO] -------------------------------------------------------\n[INFO]
+    \ T E S T S\n[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.rides.service.RideOfferServiceTest\n[INFO] Tests
+    run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.330 s -- in com.themuffinman.app.rides.service.RideOfferServiceTest\n[INFO]
+    Running com.themuffinman.app.things.service.ThingSharingServiceTest\n[INFO] Tests
+    run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.120 s -- in com.themuffinman.app.things.service.ThingSharingServiceTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  14.987 s\n[INFO] Finished at: 2026-07-29T23:42:04+02:00\n[INFO] ------------------------------------------------------------------------\n\n"
+  startedAt: '2026-07-29T21:39:32Z'
+  changedAfterStart: &11
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/dto/RideOfferResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/rides/mapper/RideOfferMgr.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingListingResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/dto/ThingBorrowRequestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/things/mapper/ThingSharingMgr.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/rides/service/RideOfferServiceTest.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/things/service/ThingSharingServiceTest.java
+  - docs/domain-technical.md
+  requiredPaths: *11
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: consume-rides-and-things-client-actions
+  command: npm --prefix apps/themuffinman/frontend run generate:contracts && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T21:43:59Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ClientActionList.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-WoLOwGLi.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-m6oBTNwB.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-7Qe8PWjN.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-Bv7935mO.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-CGrpNrCQ.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BatC_odZ.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-CkljQ0EZ.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-BuDUPDjx.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-BFKH9X5X.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-DPwMPNkQ.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-B1Den2JW.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-Dqhr96z4.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-D0KGpzsR.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-BJ8Fh5ON.js                                 63.18 kB │ gzip:  15.74 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 581ms
+
+  startedAt: '2026-07-29T21:42:12Z'
+  changedAfterStart: &12
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ClientActionList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  requiredPaths: *12
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

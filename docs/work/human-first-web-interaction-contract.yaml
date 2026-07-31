@@ -1,0 +1,302 @@
+kind: work
+version: 1
+id: human-first-web-interaction-contract
+title: Replace generic preview behavior with predictable object opening
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-web-experience-master.yaml
+execution_inventory: docs/work/human-first-web-experience-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/main-surfaces-interaction-action-system.yaml
+  baseline_only_surfaces:
+  - existing detail routes
+  - backend allowed actions
+  - dialog confirmation
+  residual_scope:
+  - one row activation contract
+  - direct-open discovery
+  - removal of duplicate previews
+  - specialized operational review
+  retest_triggers:
+  - SurfaceRow
+  - route-return
+  - discovery
+  - booking-review
+  - or application-review changes
+  non_duplication_rule: Existing detail screens are baseline; only activation and
+    review interaction changes are new completion.
+readiness:
+  default_activation: Navigate directly to the canonical detail and preserve return
+    state.
+  exceptions:
+  - Repeated owner decisions use ReviewPane.
+  - Calendar events use a contextual popover.
+  - Chat uses an inbox-thread split.
+  decision: ObjectPreviewPanel is retired from generic discovery and retained only
+    until specialized consumers migrate.
+tasks:
+- id: simplify-surface-row-contract
+  title: Give every interactive row one primary activation
+  type: implementation
+  status: done
+  inventory_item: simplify-surface-row-contract
+  observable_outcome: SurfaceRow has one keyboard-and-pointer-consistent navigate
+    or select contract with no competing click, preview, and open semantics.
+  dependencies:
+  - redesign-notification-experience
+  evidence_boundary:
+  - component contract audit
+  - frontend type-check/build
+  paths: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  required_paths: *1
+  validation: npm --prefix apps/themuffinman/frontend run validate:modern-surface
+    && npm --prefix apps/themuffinman/frontend run type-check
+  started_at: '2026-07-29T20:39:04Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue: e9da265a80a7e038bee579cd5250a5385aee8e5e87dbaa4b43f0f7aa39f5d544
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts: f4a7060a3a7e33939ff8a0f83c3e079f343810bca66b43a41a2d936ba2b0eddd
+    apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs: af6c332e088588200b173d9fab81a44d1b7807f6c6e17e59d847faee0e0f9c13
+- id: migrate-discovery-to-direct-open
+  title: Make discovery rows open canonical details directly
+  type: implementation
+  status: done
+  inventory_item: migrate-discovery-to-direct-open
+  observable_outcome: Work, People, Things, and Rides open their canonical detail
+    on the first activation and restore query, filters, and scroll when the user returns.
+  dependencies:
+  - simplify-surface-row-contract
+  evidence_boundary:
+  - frontend type-check/build
+  - route action audit
+  paths: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  required_paths: *2
+  validation: ruby scripts/audits/audit-ui-entrypoints.rb && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  started_at: '2026-07-29T20:41:35Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue: fc562b74d5a67e55f8b80bdbd0f0a032c3013abbb1a9ce2d6cb4db5250fbedb8
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue: d6fa05bb5ae536b39b65ea9a94b040bd38266784b701a0dc6b184a7d6b84159c
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: 31666e70a2d0a0ea5852ad80b23e95cbcf6b19686989acf1fd21d85ce5893c1e
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: 70307bd2b2f4e3dd9c7ebf9b3b57df913be4b20d5bc34574815b6f00a36e7277
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts: 42195fc2e54b0fb5bba8d784aa76f305624f393605ef8fc8256aefba05bc357c
+- id: remove-duplicative-config-previews
+  title: Remove preview panes that repeat configuration rows
+  type: implementation
+  status: done
+  inventory_item: remove-duplicative-config-previews
+  observable_outcome: Business offerings, special dates, and customer bookings use
+    direct detail, inline expansion, or edit dialogs without a second summary pane;
+    Notifications is already owned by the preceding notification task.
+  dependencies:
+  - migrate-discovery-to-direct-open
+  evidence_boundary:
+  - frontend type-check/build
+  - source audit for obsolete preview selectors
+  paths: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  required_paths: *3
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T20:47:39Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue: 27504b657b6e9dd552eb11570fc31c7a910731213488459c5f55dfe1c2d8a19a
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue: a9db43b0e09636441fc240de6dfdb2a2d53dcb996c6bc36b668b659558fdcb0c
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue: 9f89a773f9b0c3f9a691d30681cdad53848c0a9e424f8e6c38501942bf4b04d8
+- id: specialize-operational-review
+  title: Use a true review pane only for repeated decisions
+  type: implementation
+  status: done
+  inventory_item: specialize-operational-review
+  observable_outcome: Work application and owner booking queues use one route-aware
+    ReviewPane with complete context and actions on desktop and a full-screen selected
+    item on mobile.
+  dependencies:
+  - remove-duplicative-config-previews
+  evidence_boundary:
+  - frontend type-check/build
+  - review-pane contract audit
+  paths: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ReviewPane.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  required_paths: *4
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T20:50:03Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/ReviewPane.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue: 7d1b22eb2e11b51dd2baf8b066bbf6f5bfa06075000608ad3ab6ea70fb6d47e4
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue: 7777ff49d2a935e2919e73cab9953874cf0106c2e19001edc13468b7aaca3910
+    apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue: 18bc641f000e8051ea5c90571be7bce9083ba52a889f3234549f57ddaaa32496
+evidence:
+- task: simplify-surface-row-contract
+  command: npm --prefix apps/themuffinman/frontend run validate:modern-surface &&
+    npm --prefix apps/themuffinman/frontend run type-check
+  ranAt: '2026-07-29T20:41:18Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  output: |2+
+
+    > frontend@0.0.0 validate:modern-surface
+    > node ./scripts/validate-modern-surface-contract.mjs
+
+    Modern surface contract passed (78 checks).
+
+    > frontend@0.0.0 type-check
+    > vue-tsc --noEmit
+
+
+  startedAt: '2026-07-29T20:39:04Z'
+  changedAfterStart: &5
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-discovery-to-direct-open
+  command: ruby scripts/audits/audit-ui-entrypoints.rb && npm --prefix apps/themuffinman/frontend
+    run type-check && npm --prefix apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T20:47:25Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  output: |+
+    dist/assets/CalendarPage-Bq3NmM9w.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-B71IW6ev.js                   12.03 kB │ gzip:   4.00 kB
+    dist/assets/BusinessServiceSchemaView-_YzKvftl.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-B5p3RVZA.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-Zms_diXm.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-CsWlAMPa.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-DQh80fgp.js                           15.80 kB │ gzip:   4.98 kB
+    dist/assets/WorkQuestDetailView-CiNnCg5j.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-CI0romXs.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-BmkHbsZp.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CZfcocbS.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-CV7ytOK7.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-CbwODFes.js                     57.90 kB │ gzip:  13.98 kB
+    dist/assets/index-C4EG303T.js                                 62.79 kB │ gzip:  15.60 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 615ms
+
+  startedAt: '2026-07-29T20:41:35Z'
+  changedAfterStart: &6
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useSurfaceViewState.ts
+  requiredPaths: *6
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: remove-duplicative-config-previews
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T20:49:53Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  output: |+
+    dist/assets/CalendarPage-C7hkHo6M.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-BQ2Wn7vQ.js                   12.03 kB │ gzip:   4.00 kB
+    dist/assets/BusinessServiceSchemaView-CZQSPPBJ.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-CB_vQ5cT.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-DRlNNUfj.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-B_9778_d.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-z0A55Xxe.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-CHkk3sJ_.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/ChatSurfaceView-CD8AGkNy.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DRgYgNgr.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BNKcwTI0.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BKtbq5S0.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Dt8KjjgC.js                     56.28 kB │ gzip:  13.69 kB
+    dist/assets/index-CHLDzkK5.js                                 62.79 kB │ gzip:  15.61 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 554ms
+
+  startedAt: '2026-07-29T20:47:39Z'
+  changedAfterStart: &7
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOfferingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessAvailabilityExceptionsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessMyBookingsView.vue
+  requiredPaths: *7
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: specialize-operational-review
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T20:51:58Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ReviewPane.vue
+  output: |+
+    dist/assets/CalendarPage-Ct8iAABC.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-DGc5pXV5.js                   12.03 kB │ gzip:   4.00 kB
+    dist/assets/BusinessServiceSchemaView-CF8yifSi.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-DFf5Jkea.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-D3_AFOw8.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-CgSDRUJL.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BxWhx5yt.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-CshgPIiY.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-JEYrC_nR.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-Bhy4UIzZ.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-B1Yly157.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BfRMF-e3.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-DfwkQrjr.js                     57.80 kB │ gzip:  14.24 kB
+    dist/assets/index-BDTXd0iR.js                                 62.78 kB │ gzip:  15.61 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 551ms
+
+  startedAt: '2026-07-29T20:50:03Z'
+  changedAfterStart: &8
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ReviewPane.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessBookingsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  requiredPaths: *8
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

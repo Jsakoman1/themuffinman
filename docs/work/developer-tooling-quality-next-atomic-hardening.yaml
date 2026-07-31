@@ -1,0 +1,99 @@
+kind: work
+version: 1
+id: developer-tooling-quality-next-atomic-hardening
+title: Harden the developer-tooling quality execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-quality-next-master.yaml
+execution_inventory: docs/work/developer-tooling-quality-next-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - harden-developer-tooling-quality-next-inventory
+  package_path_count: 10
+  next_item_after_verification: reconcile-modern-surface-sidejob-contract
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  baseline_only_surfaces:
+  - all existing implementation and runtime evidence
+  residual_scope:
+  - atomic inventory hardening only
+  retest_triggers:
+  - master, child, analysis, preflight, or inventory path changes
+  non_duplication_rule: This task proves plan readiness only.
+tasks:
+- id: harden-developer-tooling-quality-next-inventory
+  title: Harden the follow-up tooling inventory
+  type: documentation
+  status: done
+  inventory_item: harden-developer-tooling-quality-next-inventory
+  observable_outcome: Every selected repair has one observable outcome, exact required
+    paths, one previous dependency, a leaf validation, and a distinct evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - atomic-task hardening audit
+  - strict serial inventory audit
+  paths: &1
+  - docs/work/developer-tooling-quality-next-analysis.md
+  - docs/work/developer-tooling-quality-next-preflight.md
+  - docs/work/developer-tooling-quality-next-master.yaml
+  - docs/work/developer-tooling-quality-next-execution-inventory.yaml
+  - docs/work/developer-tooling-quality-next-atomic-hardening.yaml
+  - docs/work/developer-tooling-quality-next-health.yaml
+  - docs/work/developer-tooling-quality-next-control.yaml
+  - docs/work/developer-tooling-quality-next-runtime.yaml
+  - docs/work/developer-tooling-quality-next-idea.yaml
+  - docs/work/developer-tooling-quality-next-closeout.yaml
+  required_paths: *1
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/developer-tooling-quality-next-master.yaml
+    docs/work/developer-tooling-quality-next-execution-inventory.yaml
+  started_at: '2026-07-31T13:42:41Z'
+  start_fingerprints:
+    docs/work/developer-tooling-quality-next-analysis.md: 2124cb693e446b425945ef60fd9c364e9bdfccb6c34167e46939dd571741853e
+    docs/work/developer-tooling-quality-next-preflight.md: ae07d67e6841f919b908ac900dca7b19ca57a3b12cd161ca51cdc40271efcb05
+    docs/work/developer-tooling-quality-next-master.yaml: 3725d71248f29e0d1c7105f0a7d86ea6b0284fb5d769c2d6065547f3d101df79
+    docs/work/developer-tooling-quality-next-execution-inventory.yaml: 12eaebb2e22ee0832caaeb63c7ac63a51f3c8e0da44c1397800eac355f8ea523
+    docs/work/developer-tooling-quality-next-atomic-hardening.yaml: bbc93ccd32f333844836f830c4bd5fd73c7f6d94bece568b2f5aa68eabb6672f
+    docs/work/developer-tooling-quality-next-health.yaml: 570247bf1c87d80ad7194975d9c7942b0b97de79702d97abc4ac10c037fbe2d3
+    docs/work/developer-tooling-quality-next-control.yaml: 912c5d7637baba2aa2ec6ea8ba012bfe14090bd524d54b6decda49316b1438ab
+    docs/work/developer-tooling-quality-next-runtime.yaml: f5591cee0333814044ecbd616df3399c1c519e7d65fc74502f801ca097bd72bc
+    docs/work/developer-tooling-quality-next-idea.yaml: 98654e603c552f76bfd6a49c1f6eaac1850d949f45c99dd5776ded1701097b49
+    docs/work/developer-tooling-quality-next-closeout.yaml: 25b1bf2a38c12b30ef10770e569da0208d8e294f027bcc94bead470803a61d3f
+evidence:
+- task: harden-developer-tooling-quality-next-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/developer-tooling-quality-next-master.yaml
+    docs/work/developer-tooling-quality-next-execution-inventory.yaml
+  ranAt: '2026-07-31T13:43:32Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/developer-tooling-quality-next-analysis.md
+  - docs/work/developer-tooling-quality-next-atomic-hardening.yaml
+  - docs/work/developer-tooling-quality-next-closeout.yaml
+  - docs/work/developer-tooling-quality-next-control.yaml
+  - docs/work/developer-tooling-quality-next-execution-inventory.yaml
+  - docs/work/developer-tooling-quality-next-health.yaml
+  - docs/work/developer-tooling-quality-next-idea.yaml
+  - docs/work/developer-tooling-quality-next-master.yaml
+  - docs/work/developer-tooling-quality-next-preflight.md
+  - docs/work/developer-tooling-quality-next-runtime.yaml
+  output: "Atomic task hardening audit passed (9 inventory items).\n\n"
+  startedAt: '2026-07-31T13:42:41Z'
+  changedAfterStart: &2
+  - docs/work/developer-tooling-quality-next-analysis.md
+  - docs/work/developer-tooling-quality-next-preflight.md
+  - docs/work/developer-tooling-quality-next-master.yaml
+  - docs/work/developer-tooling-quality-next-execution-inventory.yaml
+  - docs/work/developer-tooling-quality-next-atomic-hardening.yaml
+  - docs/work/developer-tooling-quality-next-health.yaml
+  - docs/work/developer-tooling-quality-next-control.yaml
+  - docs/work/developer-tooling-quality-next-runtime.yaml
+  - docs/work/developer-tooling-quality-next-idea.yaml
+  - docs/work/developer-tooling-quality-next-closeout.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

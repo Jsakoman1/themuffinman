@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: sidejobs-human-first-contract
+title: Add backend-prepared SideJob presentation contract
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/sidejobs-human-first-master.yaml
+execution_inventory: docs/work/sidejobs-human-first-execution-inventory.yaml
+tasks:
+- id: add-sidejob-presentation-contract
+  title: Publish summary facts and viewer attention through Work reads
+  type: implementation
+  status: done
+  inventory_item: add-sidejob-presentation-contract
+  observable_outcome: Search and detail reads expose server-prepared SideJob summary
+    facts, human labels, and viewer-specific attention without changing lifecycle
+    authority.
+  dependencies:
+  - harden-sidejobs-human-first-inventory
+  evidence_boundary:
+  - JUnit read-model tests
+  - generated frontend contract
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssemblerTest.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssemblerTest.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  validation: cd apps/themuffinman && ./mvnw test -Dtest=WorkmarketQuestPresentationAssemblerTest
+    && npm --prefix frontend run validate:contracts
+  started_at: '2026-07-30T19:28:39Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java: a79cdb824dcf56a115e73ec3b8e5b2f654495853a1a41d3611fd5d0889c23bf8
+    apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java: c758facaa29e61f9e5b2b43e13e5c2a5ab4b9c36d04c23803ad51ec11a185f88
+    apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssembler.java: 8d017bfb86650add44b192d4ab3ad714a936d5350b85d325c7b022684a0b31ad
+    apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssemblerTest.java: __missing__
+    apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts: 8b2d33767ef5077f55cad4d088f9f6f44b6aba29ea7e4b1314d86e49e75d97f3
+evidence:
+- task: add-sidejob-presentation-contract
+  command: cd apps/themuffinman && ./mvnw test -Dtest=WorkmarketQuestPresentationAssemblerTest
+    && npm --prefix frontend run validate:contracts
+  ranAt: '2026-07-30T19:30:45Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssemblerTest.java
+  output: "[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.workmarket.service.WorkmarketQuestPresentationAssemblerTest\n[INFO]
+    Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.330 s -- in
+    com.themuffinman.app.workmarket.service.WorkmarketQuestPresentationAssemblerTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  13.452 s\n[INFO] Finished at: 2026-07-30T21:31:00+02:00\n[INFO] ------------------------------------------------------------------------\n\n>
+    frontend@0.0.0 validate:contracts\n> node ./scripts/generate-vision-contracts.mjs
+    --check\n\nGenerated frontend contract is fresh.\n\n"
+  startedAt: '2026-07-30T19:28:39Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/dto/QuestDetailResponseDTO.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssembler.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssemblerTest.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

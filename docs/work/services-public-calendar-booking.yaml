@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: services-public-calendar-booking
+title: Connect public calendar selection to booking
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-public-calendar-master.yaml
+execution_inventory: docs/work/services-public-calendar-execution-inventory.yaml
+tasks:
+- id: connect-calendar-to-booking
+  title: Preserve selected service and slot through booking validation
+  type: implementation
+  status: done
+  inventory_item: connect-calendar-to-booking
+  observable_outcome: Calendar slot selection drives quote preview booking and stale-slot
+    recovery without losing safe form input.
+  dependencies:
+  - render-public-calendar-views
+  evidence_boundary:
+  - booking validation test
+  - frontend build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingSelectionSummary.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingSelectionSummary.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw test -Dtest=BusinessBookingValidationServiceTest
+    && npm --prefix frontend run type-check && npm --prefix frontend run build
+  started_at: '2026-07-30T17:25:55Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: 017e325dfc5efc3f396f4bbbc1e77966c7c8dcd37468a9921c9e8715c55c9ba4
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingSelectionSummary.vue: dc47c8b992d6f78c7e8bcdaa0885d471a25fb3622e96dda50e0bed88e4d3bbc5
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java: ae282e5b6b89623572e9dcb699bb4caf90a54a607a6efb9ed6e0165dbf9b4961
+evidence:
+- task: connect-calendar-to-booking
+  command: cd apps/themuffinman && ./mvnw test -Dtest=BusinessBookingValidationServiceTest
+    && npm --prefix frontend run type-check && npm --prefix frontend run build
+  ranAt: '2026-07-30T17:27:06Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingSelectionSummary.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-CRU0q6uC.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/WorkPage-eRUuH70J.js                              13.12 kB │ gzip:   5.05 kB
+    dist/assets/RidesView-BXe7a_Js.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-C0xk00Rv.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/CirclesView-D1Drwwsv.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-Di7h-kgG.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-a0uslXpj.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-D4zn8YjP.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/BusinessPublicView-CVlBMcQK.js                    23.33 kB │ gzip:   7.67 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-D1WmNYSI.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-0anadUlO.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BhkmQISu.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Cmmb65V7.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-8RusYU_C.js                                 63.60 kB │ gzip:  15.80 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 628ms
+
+  startedAt: '2026-07-30T17:25:55Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessBookingSelectionSummary.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
+import com.themuffinman.app.common.dto.ClientActionDTO;
 import com.themuffinman.app.rides.model.RideStatus;
 
 @Data
@@ -27,6 +28,7 @@ public class RideOfferResponseDTO {
     private boolean canLeave;
     private boolean canManage;
     private List<RideAllowedActionDTO> allowedActions;
+    private List<ClientActionDTO> actions;
     private Instant updatedAt;
     private Instant startedAt;
     private Instant completedAt;

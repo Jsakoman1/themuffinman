@@ -66,6 +66,7 @@ endpoint_review_batches:
     authority_rows: [identity_profile]
     endpoint_registry: docs/endpoint-reconciliation-review.yaml
     runtime_promotion: forbidden_without_runtime_evidence
+ # Services reviews: only the completed booking customer writes; public reads use safe projections.
 runtime_pending_web_vision_parity:
   scenario: runtime-visibility-web-vision-parity
   assertions: [same_viewer_policy, same_fields, same_allowed_actions, same_redaction, fresh_read_after_revoke]

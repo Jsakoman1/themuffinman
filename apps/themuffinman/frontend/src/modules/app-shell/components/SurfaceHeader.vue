@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed} from "vue"
-import {RouterLink} from "vue-router"
 import type {AppSurfaceConfig} from "../shellDefinitions.ts"
+import PageOrientationHeader from "./PageOrientationHeader.vue"
 
 const props = defineProps<{config: AppSurfaceConfig; detailLabel?: string; title?: string; description?: string}>()
 const primaryAction = computed(() => props.config.actions.find(action => action.tone === "primary") ?? props.config.actions[0])
@@ -9,43 +9,14 @@ const secondaryActions = computed(() => props.config.actions.filter(action => ac
 </script>
 
 <template>
-  <header class="surface-header" :data-action-count="config.actions.length" :aria-labelledby="`surface-title-${config.id}`">
-    <div v-if="detailLabel" class="surface-header__location"><span class="surface-header__detail">{{ detailLabel }}</span></div>
-    <div class="surface-header__identity">
-      <p class="surface-header__eyebrow">{{ config.eyebrow }}</p>
-      <h1 :id="`surface-title-${config.id}`" class="surface-header__title">{{ props.title ?? config.title }}</h1>
-      <p v-if="description" class="surface-header__description">{{ description }}</p>
-    </div>
-    <div v-if="primaryAction || $slots.utility" class="surface-header__actions" aria-label="Primary and secondary surface actions">
-      <slot name="utility" />
-      <RouterLink v-if="primaryAction" :to="primaryAction.to" class="surface-header__action" :class="`surface-header__action--${primaryAction.tone ?? 'secondary'}`">{{ primaryAction.label }}</RouterLink>
-      <details v-if="secondaryActions.length" class="surface-header__overflow">
-        <summary>More</summary>
-        <div class="surface-header__overflow-menu">
-          <RouterLink v-for="action in secondaryActions" :key="action.label" :to="action.to">{{ action.label }}</RouterLink>
-        </div>
-      </details>
-    </div>
-  </header>
+  <PageOrientationHeader
+    :eyebrow="props.config.eyebrow"
+    :title="props.title ?? props.config.title"
+    :description="props.description"
+    :detail-label="props.detailLabel"
+    :primary-action="primaryAction"
+    :secondary-actions="secondaryActions"
+  >
+    <template #utility><slot name="utility" /></template>
+  </PageOrientationHeader>
 </template>
-
-<style scoped>
-.surface-header { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: var(--space-3) var(--space-5); padding: var(--space-2) 0; }
-.surface-header__location { display: flex; align-items: center; grid-column: 1/-1; min-width: 0; }
-.surface-header__identity { min-width: 0; }
-.surface-header__eyebrow { margin: 0 0 var(--space-1); color: var(--text-soft); font-size: var(--text-size-label); font-weight: var(--text-weight-semibold); letter-spacing: var(--tracking-label); line-height: 1.2; text-transform: uppercase; }
-.surface-header__title, .surface-header__detail { margin: 0; }
-.surface-header__description { grid-column: 1; max-width: 42rem; margin: var(--space-1) 0 0; color: var(--text-muted); font-size: var(--text-size-body); line-height: var(--text-leading-body); }
-.surface-header__detail { overflow: hidden; color: var(--text-soft); font-size: var(--text-size-body); text-overflow: ellipsis; white-space: nowrap; }
-.surface-header__title { min-width: 0; font-size: var(--text-size-page-title); letter-spacing: var(--tracking-display); line-height: 1.08; }
-.surface-header__actions { display: flex; justify-content: flex-end; gap: var(--space-2); flex-wrap: wrap; }
-.surface-header__overflow { position: relative; }
-.surface-header__overflow summary { display: inline-flex; align-items: center; min-height: var(--control-height-default); border: 1px solid var(--control-border); border-radius: var(--radius-control); padding: var(--space-1) var(--space-3); color: var(--text-muted); cursor: pointer; list-style: none; }
-.surface-header__overflow summary::-webkit-details-marker { display: none; }
-.surface-header__overflow-menu { position: absolute; z-index: var(--z-popover); top: calc(100% + var(--space-1)); right: 0; display: grid; min-width: 12rem; padding: var(--space-1); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--surface-raised); box-shadow: var(--shadow-overlay); }
-.surface-header__overflow-menu a { padding: var(--space-2); border-radius: var(--radius-control); color: var(--text-muted); }
-.surface-header__overflow-menu a:hover { background: var(--surface-hover); color: var(--text); }
-.surface-header__action { display: inline-flex; align-items: center; justify-content: center; min-height: var(--control-height-default); border: 1px solid var(--control-border); border-radius: var(--radius-control); padding: var(--space-1) var(--space-3); background: var(--control-bg); color: var(--control-ink); font-size: var(--text-size-body); font-weight: var(--text-weight-semibold); white-space: nowrap; }
-.surface-header__action--primary, .surface-header__action--vision { border-color: var(--accent); background: var(--accent); color: var(--canvas); }
-@media(max-width:760px){.surface-header{grid-template-columns:1fr;align-items:start}.surface-header__actions{justify-content:flex-start}}
-</style>

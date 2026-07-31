@@ -1,0 +1,98 @@
+kind: work
+version: 1
+id: generic-preview-elimination-closeout
+title: Enforce the preview-free Web contract
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/generic-preview-elimination-master.yaml
+execution_inventory: docs/work/generic-preview-elimination-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-web-experience-closeout.yaml
+  baseline_only_surfaces:
+  - unrelated visual reference parity
+  residual_scope:
+  - repository-wide negative regression contract and representative route evidence
+  retest_triggers:
+  - any app-shell component or view change
+  non_duplication_rule: Existing screenshots do not count as proof of this repaired
+    invariant.
+tasks:
+- id: enforce-preview-free-contract
+  title: Add exhaustive generic preview regression protection
+  type: implementation
+  status: done
+  inventory_item: enforce-preview-free-contract
+  observable_outcome: A dedicated audit fails when a generic preview, collection context
+    rail, or detail utility rail is reintroduced outside the explicitly permitted
+    specialised components.
+  dependencies:
+  - replace-calendar-object-preview
+  evidence_boundary:
+  - new global audit
+  - frontend type-check
+  - frontend build
+  paths: &1
+  - apps/themuffinman/frontend/scripts/validate-preview-free-contract.mjs
+  - apps/themuffinman/frontend/package.json
+  - apps/themuffinman/frontend/scripts/validate-human-first-web-contract.mjs
+  - docs/implementation-control.md
+  required_paths: *1
+  validation: npm --prefix apps/themuffinman/frontend run validate:preview-free &&
+    npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-30T04:57:58Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/validate-preview-free-contract.mjs: __missing__
+    apps/themuffinman/frontend/package.json: f9127049e89b62d4f72d0388d970b0a8dbb5a54588f7be3c3a677a025735d212
+    apps/themuffinman/frontend/scripts/validate-human-first-web-contract.mjs: b165417a5e6638ea550d53515b5f77520d0d01ca50736d06c709083fa67dbe01
+    docs/implementation-control.md: a1bfaabe31d4b9d389e9371aee17d12a42d811a424168b3e96a6d423515758de
+hardening_boundary: The audit scans every app-shell view and component; only named
+  specialised exceptions are allowed.
+evidence:
+- task: enforce-preview-free-contract
+  command: npm --prefix apps/themuffinman/frontend run validate:preview-free && npm
+    --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-30T04:59:06Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/package.json
+  - docs/implementation-control.md
+  - apps/themuffinman/frontend/scripts/validate-human-first-web-contract.mjs
+  - apps/themuffinman/frontend/scripts/validate-preview-free-contract.mjs
+  output: |+
+    dist/assets/ThingsDiscoveryView-CMpUtJ34.js                   10.52 kB │ gzip:   3.73 kB
+    dist/assets/WorkPage-ik-AeEgt.js                              13.12 kB │ gzip:   5.05 kB
+    dist/assets/RidesView-F2ZTgSh8.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-CL14fhd0.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/BusinessPublicView-TbfoA646.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-CRxFME-z.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-C4aOTpni.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-B1viayeF.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/HomeHubView-Cej-ozIh.js                           20.24 kB │ gzip:   6.28 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-r0_-QTB8.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-Cmdqa8sP.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-BhFdTreg.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-HcHdajO5.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-BrUy5uyR.js                                 63.18 kB │ gzip:  15.73 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 849ms
+
+  startedAt: '2026-07-30T04:57:58Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/scripts/validate-preview-free-contract.mjs
+  - apps/themuffinman/frontend/package.json
+  - apps/themuffinman/frontend/scripts/validate-human-first-web-contract.mjs
+  - docs/implementation-control.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

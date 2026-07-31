@@ -1,0 +1,71 @@
+kind: master
+version: 1
+id: app-wide-friendly-design
+title: Apply the friendly, colourful, human-first design language across authenticated
+  Web and mobile layouts
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/app-wide-friendly-design-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/app-wide-friendly-design-atomic-hardening.yaml
+analysis_artifact: docs/work/app-wide-friendly-design-analysis.md
+preflight_artifact: docs/work/app-wide-friendly-design-preflight.md
+goal_activation_hardening:
+  started_on: 2026-07-29
+  required_audits:
+  - control-source validation
+  - atomic-task hardening
+  - plan coverage
+  - work-plan recursion
+  delivery_contract: Thirteen inventory-linked tasks run serially; shared visual primitives,
+    route-family repairs, responsive composition, and fresh light/dark evidence remain
+    independently verifiable.
+  advancement_rule: No product implementation may start until the hardening inventory
+    task has verifier-recorded evidence.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-all-surfaces-master.yaml
+  - docs/work/human-usability-business-parity-master.yaml
+  - docs/work/friendly-launcher-design-master.yaml
+  - docs/work/home-friendly-follow-ups.yaml
+  baseline_only_surfaces:
+  - backend-owned domain read models, permissions, actions, and workflows
+  - Business owner setup and public booking lifecycle
+  - Home launcher, Home follow-up cards, desktop rail, and fixed mobile tabs
+  - identity entry and Vision conversation workflows
+  residual_scope:
+  - shared friendly collection and detail presentation grammar
+  - Work, Things, Rides, People, Circles, Profile, Activity, notifications, Calendar,
+    Chat, Business overview, and Service discovery visual simplification
+  - responsive mobile composition for previously desktop-first collections and split
+    panes
+  - fresh light/dark visual and runtime proof for changed representative routes
+  retest_triggers:
+  - changes to shared app-shell components, responsive breakpoints, or semantic colour
+    tokens
+  - changes to any named route family or its backend-provided action rendering
+  - changes to Calendar, Chat, Business discovery, or detail-shell composition
+  non_duplication_rule: Existing human-first, Business, and Home evidence remains
+    baseline-only; this program counts only the new shared visual grammar, responsive
+    repairs, and fresh route evidence.
+children:
+- docs/work/app-wide-friendly-design-atomic-hardening.yaml
+- docs/work/app-wide-friendly-design-foundation.yaml
+- docs/work/app-wide-friendly-design-marketplace.yaml
+- docs/work/app-wide-friendly-design-personal.yaml
+- docs/work/app-wide-friendly-design-context.yaml
+- docs/work/app-wide-friendly-design-detail.yaml
+- docs/work/app-wide-friendly-design-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-29T17:55:57Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/app-wide-friendly-design-atomic-hardening.yaml
+  - docs/work/app-wide-friendly-design-foundation.yaml
+  - docs/work/app-wide-friendly-design-marketplace.yaml
+  - docs/work/app-wide-friendly-design-personal.yaml
+  - docs/work/app-wide-friendly-design-context.yaml
+  - docs/work/app-wide-friendly-design-detail.yaml
+  - docs/work/app-wide-friendly-design-closeout.yaml

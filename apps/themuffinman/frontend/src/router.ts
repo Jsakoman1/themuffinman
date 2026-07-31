@@ -215,7 +215,7 @@ const routes = [
                 path: 'business/public/:slug',
                 name: 'business-public',
                 component: BusinessPublicView,
-                meta: {requiresAuth: true, surfaceId: 'business'}
+                meta: {requiresAuth: true, surfaceId: 'business-discovery'}
             },
             {
                 path: 'business/my-bookings',

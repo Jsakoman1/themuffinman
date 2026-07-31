@@ -1,33 +1,39 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue"
 import {RouterLink, useRoute} from "vue-router"
-import {getAppSurfaceConfig} from "../shellDefinitions.ts"
 import {useShellSurfaceData} from "../shellSurfaceData.ts"
 import AppLoadingState from "../components/AppLoadingState.vue"
 import AppStatus from "../components/AppStatus.vue"
-import SurfaceHeader from "../components/SurfaceHeader.vue"
 import SurfaceRow from "../components/SurfaceRow.vue"
 import HomeCalendarPreview from "../components/HomeCalendarPreview.vue"
-import {userShellApi, type AttentionCenter} from "../api/userShellApi.ts"
+import HomeActionTile from "../components/HomeActionTile.vue"
+import HomeFollowUpCard from "../components/HomeFollowUpCard.vue"
+import type {AppPurposeIconName} from "../components/AppPurposeIcon.vue"
+import {userShellApi, type ActivityItem} from "../api/userShellApi.ts"
 
 const route = useRoute()
-const surface = getAppSurfaceConfig("home")
 const {model, isLoading, error, reload} = useShellSurfaceData("home", route)
+const launcher = computed(() => model.value.home)
 const homeSections = computed(() => model.value.sections)
-const attention = ref<AttentionCenter | null>(null)
-const attentionItems = computed(() => attention.value?.items.filter(item => item.resumable || item.route).slice(0, 4) ?? [])
-const nextAttentionItem = computed(() => attentionItems.value[0] ?? null)
-onMounted(async () => { try { attention.value = await userShellApi.getAttentionCenter() } catch { attention.value = null } })
+const recentActivity = ref<ActivityItem[]>([])
+const nextResumeItem = computed(() => recentActivity.value.find(item => item.resumable && item.route) ?? null)
+onMounted(async () => { try { recentActivity.value = await userShellApi.getRecentActivity() } catch { recentActivity.value = [] } })
+const iconFor = (key: string): AppPurposeIconName => ({work: "work", things: "things", business: "business", rides: "rides"}[key] as AppPurposeIconName | undefined) ?? "home"
 </script>
 
 <template>
   <section class="home-hub" aria-live="polite" :aria-busy="isLoading || undefined" data-native-frame="calm-content-canvas" data-home-model="personal-day-next-action">
-    <SurfaceHeader :config="surface" />
     <AppLoadingState v-if="isLoading" label="Loading your active workspace" :rows="5" />
     <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="reload" />
     <div v-else class="home-hub__content">
-      <section class="home-hub__day" aria-label="Your day"><p>Today</p><h1>What needs your attention?</h1><span>{{ nextAttentionItem ? 'Start with the next decision below, then return whenever you need an overview.' : 'You are up to date. Browse a space when you are ready.' }}</span></section>
-      <section v-if="attention" class="home-hub__attention" aria-labelledby="home-attention-title"><header><div><p>Needs attention</p><h2 id="home-attention-title">{{ attention.unreadCount ? `${attention.unreadCount} updates need a decision` : 'You are up to date' }}</h2></div><RouterLink to="/notifications">Open attention</RouterLink></header><div v-if="attentionItems.length" class="home-hub__rows"><SurfaceRow v-for="item in attentionItems" :key="`${item.kind}-${item.resumeKey || item.occurredAt}`" :row="{title: item.title, description: item.summary, badge: item.kind, to: item.route || '/notifications'}" density="compact" /></div><p v-else>There is nothing you need to act on right now.</p></section>
+      <section class="home-hub__welcome" aria-label="Your home"><p>YOUR DAY</p><h1>Hey, {{ launcher?.greetingName || 'there' }}!</h1><span>Choose one useful thing to do, then get on with your day.</span></section>
+      <nav class="home-hub__launcher" aria-label="Choose what you want to do">
+        <HomeActionTile v-for="action in launcher?.launcherActions ?? []" :key="action.id" :label="action.label" :description="action.description" :icon="iconFor(action.iconKey)" :to="action.route" :tone="action.colourRole" />
+      </nav>
+      <section class="home-hub__follow-up" aria-label="Continue where you left off">
+        <HomeFollowUpCard eyebrow="Continue where you left off" :title="nextResumeItem ? nextResumeItem.title : 'You are up to date'" :description="nextResumeItem?.summary || 'There is nothing you need to pick up right now.'" :to="nextResumeItem?.route || '/home'" :action-label="nextResumeItem ? 'Continue' : 'Stay here'" icon="people" tone="attention" />
+      </section>
+      <HomeCalendarPreview class="home-hub__follow-up" />
       <div class="home-hub__sections">
         <section v-for="section in homeSections" :key="section.title" class="home-hub__section" :aria-labelledby="`home-${section.title.toLowerCase()}-title`">
           <header class="home-hub__section-header">
@@ -50,11 +56,10 @@ onMounted(async () => { try { attention.value = await userShellApi.getAttentionC
         </section>
       </div>
     </div>
-    <HomeCalendarPreview />
   </section>
 </template>
 
 <style scoped>
-.home-hub{display:grid;gap:var(--space-4);min-width:0;max-width:72rem}.home-hub__content{display:grid;gap:var(--space-4)}.home-hub__day{display:grid;gap:var(--space-1);max-width:48rem}.home-hub__day p{margin:0;color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.home-hub__day h1{margin:0;color:var(--text);font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.home-hub__day span{color:var(--text-muted)}.home-hub__attention{display:grid;gap:var(--space-2);border:1px solid var(--accent);border-radius:var(--radius-surface);background:var(--accent-muted);overflow:hidden}.home-hub__attention header{display:flex;justify-content:space-between;gap:var(--space-3);align-items:end;padding:var(--space-3)}.home-hub__attention p,.home-hub__attention h2{margin:0}.home-hub__attention header p{color:var(--text-muted);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.home-hub__attention h2{font-size:var(--text-size-title)}.home-hub__attention>a{color:var(--accent);font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold)}.home-hub__attention>p{margin:0;padding:0 var(--space-3) var(--space-3);color:var(--text-muted)}.home-hub__sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3)}.home-hub__section{display:grid;align-content:start;min-width:0;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base);overflow:hidden}.home-hub__section-header{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-2);padding:var(--space-3);border-bottom:1px solid var(--border-subtle)}.home-hub__section-header h2{margin:0;color:var(--text);font-size:var(--text-size-title);letter-spacing:var(--tracking-tight)}.home-hub__actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:var(--space-1)}.home-hub__action{padding:var(--space-1) var(--space-2);border:1px solid var(--border-subtle);border-radius:var(--radius-control);color:var(--text);font-size:var(--text-size-meta);text-decoration:none;white-space:nowrap}.home-hub__action:hover{border-color:var(--accent);color:var(--accent)}.home-hub__group{border-bottom:1px solid var(--border-subtle)}.home-hub__group:last-child{border-bottom:0}.home-hub__group h3{margin:0;padding:var(--space-2) var(--space-3) var(--space-1);color:var(--text-muted);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.home-hub__group-empty{margin:0;padding:var(--space-2) var(--space-3);color:var(--text-soft);font-size:var(--text-size-meta)}.home-hub__rows :deep(.surface-row:last-child){border-bottom:0}.home-hub__section>.app-status{margin:var(--space-3)}
+.home-hub{display:grid;min-width:0;max-width:72rem}.home-hub__content{display:grid;gap:var(--space-5)}.home-hub__welcome{display:grid;gap:var(--space-1);padding:var(--space-3) 0 var(--space-2)}.home-hub__welcome p{margin:0;color:var(--orientation-ink);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label)}.home-hub__welcome h1{margin:0;font-size:clamp(2rem,4vw,3.25rem);letter-spacing:var(--tracking-display);line-height:1}.home-hub__welcome span{max-width:32rem;color:var(--text-muted);line-height:var(--text-leading-body)}.home-hub__launcher{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3)}.home-hub__follow-up{min-width:0}.home-hub__sections{display:none}.home-hub__rows :deep(.surface-row:last-child){border-bottom:0}@media(min-width:900px){.home-hub__launcher{grid-template-columns:repeat(4,minmax(0,1fr))}.home-hub__content{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.home-hub__welcome,.home-hub__launcher{grid-column:1 / -1}}
 @media(max-width:760px){.home-hub__sections{grid-template-columns:1fr}.home-hub__section-header{align-items:flex-start;flex-direction:column}.home-hub__actions{justify-content:flex-start}}
 </style>

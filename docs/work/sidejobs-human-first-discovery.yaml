@@ -1,0 +1,87 @@
+kind: work
+version: 1
+id: sidejobs-human-first-discovery
+title: Reframe SideJobs navigation and discovery
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/sidejobs-human-first-master.yaml
+execution_inventory: docs/work/sidejobs-human-first-execution-inventory.yaml
+tasks:
+- id: reframe-sidejobs-discovery
+  title: Make SideJobs discovery goal-led and scannable
+  type: implementation
+  status: done
+  inventory_item: reframe-sidejobs-discovery
+  observable_outcome: The module presents Find SideJobs, Post a SideJob, and My activity
+    with readable cards that use only backend-prepared facts.
+  dependencies:
+  - add-sidejob-presentation-contract
+  evidence_boundary:
+  - frontend type check
+  - production build
+  - Web route contract
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && npm --prefix apps/themuffinman/frontend
+    run validate:web-surface
+  started_at: '2026-07-30T19:31:07Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue: 71c87de7102df48a62b66093fce4877137e02c043bc9e20f08f3632fde051d10
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue: 0cd68c51c1868df864c52cdc9807ee7f6d56ad28264c7666dc899acaa4825a13
+    apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts: a7894a9810996a589974af7b25e685a9454f1f295812fb4636860dc4514968a2
+    apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts: 494006b239dc971af61e5f681d043de907f098d384306645f2cfd4edfc408454
+evidence:
+- task: reframe-sidejobs-discovery
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && npm --prefix apps/themuffinman/frontend
+    run validate:web-surface
+  ranAt: '2026-07-30T19:32:43Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  output: |+
+    dist/assets/CalendarPage-BzQknJe_.js                          16.01 kB │ gzip:   5.41 kB
+    dist/assets/WorkQuestDetailView-CqghlJ36.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-C_tKrbtu.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/BusinessPublicView-D46Ze6hH.js                    23.33 kB │ gzip:   7.67 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-CX7VuHVa.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-2tUTF_Kr.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-Ds40Ra1J.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BEUXxiYu.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-BlkI_YJI.js                                 63.64 kB │ gzip:  15.81 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 594ms
+
+    > frontend@0.0.0 validate:web-surface
+    > node ./scripts/validate-web-surface-contract.mjs
+
+    Web surface contract passed: canonical routes, visible actions, Calendar modes, and recovery signals are present.
+
+  startedAt: '2026-07-30T19:31:07Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/moduleTabRegistry.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

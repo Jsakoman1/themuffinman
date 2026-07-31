@@ -17,6 +17,10 @@ interaction_contract_regressions:
     - collection shortcuts never intercept typing, selection, or escape behavior while focus is in an editable control; outside editable controls Arrow/J/K selects, Enter opens, P previews where enabled, and Escape clears collection state
     - shared form-field primitives preserve an accessible name for every slotted native or contenteditable control, while explicit aria-label and aria-labelledby values remain authoritative
     - routed identity, workspace, and Vision surfaces remain native dynamic imports; router/auth/route-registry are the only eager navigation core and route loading must not reset canonical collection URL context
+services_human_ux:
+  public_profile: Services navigation remains active when opening a public business; overview exposes identity, contact, gallery, price list, and rating summary.
+  calendar_booking: A selected service receives a business-local bounded availability calendar and only backend-returned slots.
+  review_eligibility: Only a completed booking customer may submit or update one review; public review data excludes booking-private fields.
     - collection performance work preserves backend-owned membership, ordering, pagination, and permissions; viewport virtualization is permitted only for a stable backend cursor/window contract and display/selection state remains presentation-only
 regression_scenarios:
   - id: agent-exact-target-fail-closed
@@ -391,4 +395,33 @@ regression_scenarios:
       - cd apps/themuffinman && ./mvnw -Dtest=ThingWishlistServiceTest test
       - make dev
       - node apps/themuffinman/frontend/scripts/frontend-structural-redesign-runtime.mjs
+  - id: services-public-calendar-privacy-and-booking
+    domain: business
+    risk: high
+    scenario: A selected public service exposes a keyboard-operable Month, Week, and Day calendar with only aggregate availability and safe times; navigation preserves booking input, while backend booking validation rejects a stale slot.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+      - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessBookingValidationServiceTest.java
+      - apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+      - docs/runtime-evidence/services-public-calendar-desktop-runtime.json
+      - docs/runtime-evidence/services-public-calendar-mobile-runtime.json
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=BusinessAvailabilityReadServiceTest,BusinessBookingValidationServiceTest
+      - make dev
+      - node apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs --viewport=desktop
+      - node apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs --viewport=mobile
+  - id: sidejobs-human-first-presentation
+    domain: work
+    risk: medium
+    scenario: SideJobs labels remain a human-facing presentation over backend-owned quest and help-request workflow rules, with readable discovery, posting, and request routes on desktop and mobile.
+    test_files:
+      - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestPresentationAssemblerTest.java
+      - apps/themuffinman/frontend/scripts/sidejobs-human-first-runtime.mjs
+      - docs/runtime-evidence/sidejobs-human-first-desktop-runtime.json
+      - docs/runtime-evidence/sidejobs-human-first-mobile-runtime.json
+    commands:
+      - cd apps/themuffinman && ./mvnw test -Dtest=WorkmarketQuestPresentationAssemblerTest
+      - make dev
+      - node apps/themuffinman/frontend/scripts/sidejobs-human-first-runtime.mjs
+      - SIDEJOBS_RUNTIME_MODE=mobile node apps/themuffinman/frontend/scripts/sidejobs-human-first-runtime.mjs
  # BUSINESS-BOOKING-RUNTIME-001: flexible Business scenarios require browser/API evidence.

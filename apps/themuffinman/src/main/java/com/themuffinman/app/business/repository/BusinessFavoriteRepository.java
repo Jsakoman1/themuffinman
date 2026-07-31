@@ -12,9 +12,9 @@ public interface BusinessFavoriteRepository extends JpaRepository<BusinessFavori
     List<BusinessFavorite> findByOwnerIdAndBusinessProfileActiveTrueOrderByCreatedAtDesc(Long ownerId);
     Optional<BusinessFavorite> findByOwnerIdAndBusinessProfileId(Long ownerId, Long businessProfileId);
 
-    @Query("select f.businessProfile from BusinessFavorite f join fetch f.businessProfile.owner where f.owner.id = :ownerId and f.businessProfile.active = true order by f.businessProfile.businessName asc, f.businessProfile.id asc")
+    @Query("select f.businessProfile from BusinessFavorite f join fetch f.businessProfile.owner where f.owner.id = :ownerId and f.businessProfile.active = true and f.businessProfile.owner.id <> :ownerId order by f.businessProfile.businessName asc, f.businessProfile.id asc")
     List<BusinessProfile> findFavoriteActiveProfiles(Long ownerId);
 
-    @Query("select f.businessProfile from BusinessFavorite f join fetch f.businessProfile.owner where f.owner.id = :ownerId and f.businessProfile.active = true and (lower(f.businessProfile.businessName) like lower(concat('%', :query, '%')) or lower(coalesce(f.businessProfile.headline, '')) like lower(concat('%', :query, '%')) or lower(coalesce(f.businessProfile.description, '')) like lower(concat('%', :query, '%'))) order by f.businessProfile.businessName asc, f.businessProfile.id asc")
+    @Query("select f.businessProfile from BusinessFavorite f join fetch f.businessProfile.owner where f.owner.id = :ownerId and f.businessProfile.active = true and f.businessProfile.owner.id <> :ownerId and (lower(f.businessProfile.businessName) like lower(concat('%', :query, '%')) or lower(coalesce(f.businessProfile.headline, '')) like lower(concat('%', :query, '%')) or lower(coalesce(f.businessProfile.description, '')) like lower(concat('%', :query, '%'))) order by f.businessProfile.businessName asc, f.businessProfile.id asc")
     List<BusinessProfile> searchFavoriteActiveProfiles(Long ownerId, String query);
 }

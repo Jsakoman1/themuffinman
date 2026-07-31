@@ -1,6 +1,9 @@
 SHELL := /bin/zsh
 
-.PHONY: dev dev-stop dev-doctor clean-generated control-check audit-atomic-task-hardening context-search repository-map audit-tool-catalog tool-self-test
+.PHONY: help dev dev-stop dev-doctor clean-generated control-check audit-atomic-task-hardening context-search repository-map change-validation workspace-change-report audit-tool-catalog audit-template-freshness audit-work-artifact-schema audit-work-artifact-retention audit-intellij-mcp-routing tool-self-test
+
+help:
+	ruby scripts/tool-help.rb
 
 dev:
 	$(MAKE) -C apps/themuffinman dev
@@ -31,13 +34,31 @@ validate-frontend-contracts:
 
 context-search:
 	@if [ -z "$(q)" ]; then echo 'usage: make context-search q="search phrase"'; exit 1; fi
-	ruby scripts/context-search.rb --budget "$(or $(budget),12000)" --max-files "$(or $(files),12)" --max-lines "$(or $(lines),8)" "$(q)"
+	ruby scripts/context-search.rb $(if $(mode),--mode "$(mode)") --budget "$(or $(budget),12000)" --max-files "$(or $(files),12)" --max-lines "$(or $(lines),8)" "$(q)"
 
 repository-map:
-	ruby scripts/repository-map.rb $(if $(q),--query "$(q)",--check)
+	@ruby scripts/repository-map.rb $(if $(q),--query "$(q)" --max-output "$(or $(budget),20000)",--check)
+
+change-validation:
+	ruby scripts/change-validation.rb $(paths)
+
+workspace-change-report:
+	ruby scripts/audits/audit-workspace-change-inventory.rb
 
 audit-tool-catalog:
 	ruby scripts/audits/audit-tool-catalog.rb --check
+
+audit-template-freshness:
+	ruby scripts/audits/audit-template-freshness.rb
+
+audit-work-artifact-schema:
+	ruby scripts/audits/audit-work-artifact-schema.rb
+
+audit-work-artifact-retention:
+	ruby scripts/audits/audit-work-artifact-retention.rb --check docs/work-artifact-retention-review-2026-07-31.yaml
+
+audit-intellij-mcp-routing:
+	ruby scripts/audits/audit-intellij-mcp-routing.rb
 
 tool-self-test:
 	ruby scripts/tool-self-test.rb

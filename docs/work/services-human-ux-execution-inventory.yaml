@@ -1,0 +1,157 @@
+kind: execution-inventory
+version: 1
+id: services-human-ux-execution-inventory
+master_plan: docs/work/services-human-ux-master.yaml
+serial: true
+hardening_contract:
+  first_item: harden-services-human-ux-inventory
+  advancement_rule: No product implementation starts until hardening is verifier-verified.
+  evidence_contract: Backend and frontend tasks use targeted tests/builds; visual
+    tasks require fresh owned-stack browser traces and screenshots.
+  prepared_item_count: 13
+  mapping_rule: Every child task maps exactly once and depends only on the immediately
+    preceding inventory item.
+items:
+- id: harden-services-human-ux-inventory
+  sequence: 1
+  plan: docs/work/services-human-ux-atomic-hardening.yaml
+  task: harden-services-human-ux-inventory
+  status: verified
+  started_at: '2026-07-30T16:35:01Z'
+  verified_at: '2026-07-30T16:36:54Z'
+  evidence:
+    plan: docs/work/services-human-ux-atomic-hardening.yaml
+    task: harden-services-human-ux-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: clarify-services-discovery
+  sequence: 2
+  plan: docs/work/services-human-ux-discovery.yaml
+  task: clarify-services-discovery
+  status: verified
+  started_at: '2026-07-30T16:41:24Z'
+  verified_at: '2026-07-30T16:42:43Z'
+  evidence:
+    plan: docs/work/services-human-ux-discovery.yaml
+    task: clarify-services-discovery
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-verified-business-reviews
+  sequence: 3
+  plan: docs/work/services-human-ux-reviews.yaml
+  task: add-verified-business-reviews
+  status: verified
+  started_at: '2026-07-30T16:42:48Z'
+  verified_at: '2026-07-30T16:47:36Z'
+  evidence:
+    plan: docs/work/services-human-ux-reviews.yaml
+    task: add-verified-business-reviews
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: restore-public-business-mini-site
+  sequence: 4
+  plan: docs/work/services-human-ux-public-profile.yaml
+  task: restore-public-business-mini-site
+  status: verified
+  started_at: '2026-07-30T16:47:42Z'
+  verified_at: '2026-07-30T16:49:45Z'
+  evidence:
+    plan: docs/work/services-human-ux-public-profile.yaml
+    task: restore-public-business-mini-site
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-public-availability-calendar-contract
+  sequence: 5
+  plan: docs/work/services-human-ux-availability-contract.yaml
+  task: add-public-availability-calendar-contract
+  status: verified
+  started_at: '2026-07-30T16:49:56Z'
+  verified_at: '2026-07-30T16:51:06Z'
+  evidence:
+    plan: docs/work/services-human-ux-availability-contract.yaml
+    task: add-public-availability-calendar-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: render-public-availability-calendar
+  sequence: 6
+  plan: docs/work/services-human-ux-booking.yaml
+  task: render-public-availability-calendar
+  status: verified
+  started_at: '2026-07-30T16:51:13Z'
+  verified_at: '2026-07-30T16:53:23Z'
+  evidence:
+    plan: docs/work/services-human-ux-booking.yaml
+    task: render-public-availability-calendar
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: integrate-calendar-led-booking
+  sequence: 7
+  plan: docs/work/services-human-ux-booking.yaml
+  task: integrate-calendar-led-booking
+  status: verified
+  started_at: '2026-07-30T16:53:35Z'
+  verified_at: '2026-07-30T16:55:18Z'
+  evidence:
+    plan: docs/work/services-human-ux-booking.yaml
+    task: integrate-calendar-led-booking
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: expose-business-reviews-in-services
+  sequence: 8
+  plan: docs/work/services-human-ux-reviews.yaml
+  task: expose-business-reviews-in-services
+  status: verified
+  started_at: '2026-07-30T16:55:27Z'
+  verified_at: '2026-07-30T16:58:27Z'
+  evidence:
+    plan: docs/work/services-human-ux-reviews.yaml
+    task: expose-business-reviews-in-services
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: align-services-product-documentation
+  sequence: 9
+  plan: docs/work/services-human-ux-documentation.yaml
+  task: align-services-product-documentation
+  status: verified
+  started_at: '2026-07-30T16:58:38Z'
+  verified_at: '2026-07-30T17:00:10Z'
+  evidence:
+    plan: docs/work/services-human-ux-documentation.yaml
+    task: align-services-product-documentation
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: verify-services-responsive-accessibility
+  sequence: 10
+  plan: docs/work/services-human-ux-quality-closeout.yaml
+  task: verify-services-responsive-accessibility
+  status: verified
+  started_at: '2026-07-30T17:00:25Z'
+  verified_at: '2026-07-30T17:02:44Z'
+  evidence:
+    plan: docs/work/services-human-ux-quality-closeout.yaml
+    task: verify-services-responsive-accessibility
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-services-desktop-journey
+  sequence: 11
+  plan: docs/work/services-human-ux-quality-closeout.yaml
+  task: audit-services-desktop-journey
+  status: verified
+  started_at: '2026-07-30T17:02:53Z'
+  verified_at: '2026-07-30T17:03:49Z'
+  evidence:
+    plan: docs/work/services-human-ux-quality-closeout.yaml
+    task: audit-services-desktop-journey
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-services-mobile-journey
+  sequence: 12
+  plan: docs/work/services-human-ux-quality-closeout.yaml
+  task: audit-services-mobile-journey
+  status: verified
+  started_at: '2026-07-30T17:04:02Z'
+  verified_at: '2026-07-30T17:04:19Z'
+  evidence:
+    plan: docs/work/services-human-ux-quality-closeout.yaml
+    task: audit-services-mobile-journey
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: close-services-program-truth
+  sequence: 13
+  plan: docs/work/services-human-ux-quality-closeout.yaml
+  task: close-services-program-truth
+  status: verified
+  started_at: '2026-07-30T17:04:30Z'
+  verified_at: '2026-07-30T17:07:17Z'
+  evidence:
+    plan: docs/work/services-human-ux-quality-closeout.yaml
+    task: close-services-program-truth
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

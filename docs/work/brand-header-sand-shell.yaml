@@ -1,0 +1,124 @@
+kind: work
+version: 1
+id: brand-header-sand-shell
+title: Add a persistent branded sand header to the authenticated workspace
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/work/friendly-launcher-design-master.yaml
+  baseline_only_surfaces:
+  - backend navigation and permissions
+  - home launcher routes and data
+  - module-local navigation
+  residual_scope:
+  - use the supplied logo as the shared authenticated shell identity
+  - introduce the sand/camel visual layer while retaining the sidebar and neutral
+    working surfaces
+  - verify the header at desktop and mobile widths
+  retest_triggers:
+  - AuthenticatedShellView
+  - shared base style tokens
+  - Vite asset resolution
+  - Home layout or mobile navigation changes
+  non_duplication_rule: Existing friendly launcher and authenticated-shell evidence
+    is baseline; this plan proves only the supplied brand asset, persistent header,
+    and warm shared shell treatment.
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-impact.md
+  disposition: reviewed
+tasks:
+- id: add-persistent-brand-header-and-sand-shell
+  title: Add persistent brand header and sand shell
+  type: implementation
+  status: done
+  observable_outcome: Every authenticated desktop and mobile page retains the existing
+    navigation model while showing the supplied TheMuffinMan logo in one sticky shared
+    header and using a calm camel/sand shell around readable neutral working surfaces.
+  dependencies: []
+  evidence_boundary:
+  - frontend type-check/build
+  - fresh desktop and mobile authenticated Chromium captures
+  paths:
+  - apps/themuffinman/frontend/src/brand.ts
+  - apps/themuffinman/frontend/vite.config.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  required_paths:
+  - apps/themuffinman/frontend/src/brand.ts
+  - apps/themuffinman/frontend/vite.config.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  manual_runtime_command: node apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  runtime_evidence_paths:
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+evidence:
+- task: add-persistent-brand-header-and-sand-shell
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T18:45:11Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/vite.config.ts
+  - docs/product-memory.md
+  - apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  - apps/themuffinman/frontend/src/brand.ts
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  output: |+
+    dist/assets/CalendarPage-biIkXa4n.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-BEWWeplz.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-DqX8ObVK.js                   13.48 kB │ gzip:   4.45 kB
+    dist/assets/BusinessPublicView-CbMVuXGh.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-C2YSG6xQ.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-CpMpyzKR.js                              16.10 kB │ gzip:   5.92 kB
+    dist/assets/WorkQuestDetailView-CghBEfHf.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-BPSriX6o.js                             17.40 kB │ gzip:   5.59 kB
+    dist/assets/ChatSurfaceView-BahOdfrE.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-BVau4wFt.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage--e_tbavP.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BaU8Iaaq.js                35.38 kB │ gzip:  11.77 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Bf0ZE0pf.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index--fDOD1sI.js                                 62.84 kB │ gzip:  15.58 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 622ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/brand.ts
+  - apps/themuffinman/frontend/vite.config.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  visualEvidencePaths:
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/brand-header-sand-runtime.json

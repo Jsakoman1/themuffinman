@@ -1,0 +1,68 @@
+{
+  "evidenceVersion": "human-ui-unification-v1",
+  "capturedAt": "2026-07-29T19:47:07.023Z",
+  "mode": "mobile",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "routes": [
+    {
+      "name": "home",
+      "route": "/home",
+      "screenshot": "docs/runtime-evidence/human-ui-unification-mobile-home.png",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    {
+      "name": "work",
+      "route": "/work/find",
+      "screenshot": "docs/runtime-evidence/human-ui-unification-mobile-work.png",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    {
+      "name": "calendar",
+      "route": "/calendar",
+      "screenshot": "docs/runtime-evidence/human-ui-unification-mobile-calendar.png",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    {
+      "name": "detail",
+      "route": "/things/232",
+      "screenshot": "docs/runtime-evidence/human-ui-unification-mobile-detail.png",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    },
+    {
+      "name": "setup",
+      "route": "/business/service-setup?businessId=228",
+      "screenshot": "docs/runtime-evidence/human-ui-unification-mobile-setup.png",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      }
+    }
+  ],
+  "browserErrors": [],
+  "result": "passed"
+}

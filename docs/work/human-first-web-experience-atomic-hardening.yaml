@@ -1,0 +1,129 @@
+kind: work
+version: 1
+id: human-first-web-experience-atomic-hardening
+title: Harden the human-first Web experience execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-web-experience-master.yaml
+execution_inventory: docs/work/human-first-web-experience-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+  baseline_only_surfaces:
+  - verified product behavior
+  residual_scope:
+  - execution readiness and atomic mapping
+  retest_triggers:
+  - plan
+  - inventory
+  - dependency
+  - validation
+  - or required-path edits
+  non_duplication_rule: This child proves plan readiness only.
+tasks:
+- id: harden-human-first-web-inventory
+  title: Harden the serial execution inventory
+  type: documentation
+  status: done
+  inventory_item: harden-human-first-web-inventory
+  observable_outcome: All 38 delivery items map one-to-one to bounded tasks with exact
+    paths, a strict predecessor dependency, leaf validation, and a distinct evidence
+    boundary.
+  dependencies: []
+  evidence_boundary:
+  - 38-item atomic-task hardening audit
+  - recursion audit
+  - YAML parse
+  - manually reviewed task-width and path-ownership table
+  paths: &1
+  - docs/work/human-first-web-experience-master.yaml
+  - docs/work/human-first-web-experience-execution-inventory.yaml
+  - docs/work/human-first-web-experience-atomic-hardening.yaml
+  - docs/work/human-first-web-navigation-notifications.yaml
+  - docs/work/human-first-web-interaction-contract.yaml
+  - docs/work/human-first-web-visual-foundation.yaml
+  - docs/work/human-first-web-chat.yaml
+  - docs/work/human-first-web-calendar.yaml
+  - docs/work/human-first-web-backend-ui-contracts.yaml
+  - docs/work/human-first-web-modularization.yaml
+  - docs/work/human-first-web-closeout.yaml
+  - docs/work/human-first-web-experience-analysis.md
+  - docs/work/human-first-web-experience-preflight.md
+  - scripts/audits/audit-serial-execution-inventory.rb
+  - docs/implementation-control.md
+  required_paths: *1
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/human-first-web-experience-master.yaml
+    docs/work/human-first-web-experience-execution-inventory.yaml && ruby scripts/audits/audit-serial-execution-inventory.rb
+    docs/work/human-first-web-experience-master.yaml docs/work/human-first-web-experience-execution-inventory.yaml
+    && ruby scripts/audits/audit-work-plan-recursion.rb && ruby -e 'require "yaml";
+    ARGV.each { |path| YAML.load_file(path) }' docs/work/human-first-web-*.yaml
+  started_at: '2026-07-29T20:23:08Z'
+  start_fingerprints:
+    docs/work/human-first-web-experience-master.yaml: 4457373ef1a0fce7fc65ea98bf7f95ef6a315246b93d433111600c4916a48e43
+    docs/work/human-first-web-experience-execution-inventory.yaml: e1a6b7dffe1f7c92fe7d819a4e07e77bda2a6ba1890053676cd975eba01b4a8e
+    docs/work/human-first-web-experience-atomic-hardening.yaml: b29987e18febcd77292e5c39db2c143262a4ade52f10ad3643baef9e870ccdf0
+    docs/work/human-first-web-navigation-notifications.yaml: c83d4cf71959f4130aeaa794cc48f3bf45082b2dc72816dafe8a19f99cb8e1c0
+    docs/work/human-first-web-interaction-contract.yaml: c4a863c3723ba51b9196c5a0ddf9c5a9503f54a5cbf9e9f129592eceefabde24
+    docs/work/human-first-web-visual-foundation.yaml: e1782fd446b0cb52be0678c1b5c7c7e6c32b5278e8086eeac3f297da0bd5f57d
+    docs/work/human-first-web-chat.yaml: 493d53f18538a84287b4756045965f48346aa74f4293f0cb9029d470f9e08f45
+    docs/work/human-first-web-calendar.yaml: 679427fad4a5a3653a1085219809de8a2a0946b49665ff4982eccbbe8f9575e3
+    docs/work/human-first-web-backend-ui-contracts.yaml: 42206a55d34c0902395cee0b85066b36f0f5be042d29811e66a037c9c54d3d2e
+    docs/work/human-first-web-modularization.yaml: 0fb7e932362433187e0a9d58b714accc41fd197f0db0452fdba78796460dc567
+    docs/work/human-first-web-closeout.yaml: faf38e346e6c8e1ff63a44157f201d7ee5f6df49487b79c824067634878ae69e
+    docs/work/human-first-web-experience-analysis.md: e4387cab9853c2cb0862c9a7425ced4da406db91dd5a53e3346a1e0e714cd626
+    docs/work/human-first-web-experience-preflight.md: dbe50957b705aa483f90a39c15151f00d9f54ab4ef3f4ec2cbbe2d2ae5be0972
+evidence:
+- task: harden-human-first-web-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/human-first-web-experience-master.yaml
+    docs/work/human-first-web-experience-execution-inventory.yaml && ruby scripts/audits/audit-serial-execution-inventory.rb
+    docs/work/human-first-web-experience-master.yaml docs/work/human-first-web-experience-execution-inventory.yaml
+    && ruby scripts/audits/audit-work-plan-recursion.rb && ruby -e 'require "yaml";
+    ARGV.each { |path| YAML.load_file(path) }' docs/work/human-first-web-*.yaml
+  ranAt: '2026-07-29T20:30:10Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  - docs/work/human-first-web-backend-ui-contracts.yaml
+  - docs/work/human-first-web-calendar.yaml
+  - docs/work/human-first-web-chat.yaml
+  - docs/work/human-first-web-closeout.yaml
+  - docs/work/human-first-web-experience-analysis.md
+  - docs/work/human-first-web-experience-atomic-hardening.yaml
+  - docs/work/human-first-web-experience-execution-inventory.yaml
+  - docs/work/human-first-web-experience-master.yaml
+  - docs/work/human-first-web-experience-preflight.md
+  - docs/work/human-first-web-interaction-contract.yaml
+  - docs/work/human-first-web-modularization.yaml
+  - docs/work/human-first-web-navigation-notifications.yaml
+  - docs/work/human-first-web-visual-foundation.yaml
+  - scripts/audits/audit-serial-execution-inventory.rb
+  output: |+
+    Atomic task hardening audit passed (38 inventory items).
+    Serial execution inventory audit passed (38 strict items).
+    Work-plan recursion audit passed (no recursive validation commands).
+
+  startedAt: '2026-07-29T20:23:08Z'
+  changedAfterStart: &2
+  - docs/work/human-first-web-experience-master.yaml
+  - docs/work/human-first-web-experience-execution-inventory.yaml
+  - docs/work/human-first-web-experience-atomic-hardening.yaml
+  - docs/work/human-first-web-navigation-notifications.yaml
+  - docs/work/human-first-web-interaction-contract.yaml
+  - docs/work/human-first-web-visual-foundation.yaml
+  - docs/work/human-first-web-chat.yaml
+  - docs/work/human-first-web-calendar.yaml
+  - docs/work/human-first-web-backend-ui-contracts.yaml
+  - docs/work/human-first-web-modularization.yaml
+  - docs/work/human-first-web-closeout.yaml
+  - docs/work/human-first-web-experience-analysis.md
+  - docs/work/human-first-web-experience-preflight.md
+  - scripts/audits/audit-serial-execution-inventory.rb
+  - docs/implementation-control.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

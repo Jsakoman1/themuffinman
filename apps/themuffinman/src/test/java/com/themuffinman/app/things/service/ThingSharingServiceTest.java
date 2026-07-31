@@ -102,6 +102,7 @@ class ThingSharingServiceTest {
         assertEquals(20L, result.getId());
         assertEquals(ThingBorrowRequestStatus.PENDING, result.getStatus());
         assertEquals(borrower.getId(), result.getBorrowerId());
+        assertEquals("The borrower can collect the item and it becomes unavailable to others.", result.getActions().getFirst().getOutcome());
     }
 
     @Test
@@ -144,6 +145,7 @@ class ThingSharingServiceTest {
 
         assertEquals(20L, result.getItems().getFirst().getMyPendingRequestId());
         assertEquals(List.of(ThingAllowedActionDTO.CANCEL_BORROW_REQUEST), result.getItems().getFirst().getAllowedActions());
+        assertEquals("Your borrowing request is withdrawn.", result.getItems().getFirst().getActions().getFirst().getOutcome());
     }
 
     @Test

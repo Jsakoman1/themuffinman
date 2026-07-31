@@ -175,8 +175,22 @@ public class BusinessBookingPresentationService {
                     .confirmationMessage(actor.equals("owner") && action == BusinessBookingAllowedActionDTO.REJECT
                             ? "Reject this booking request?"
                             : label + "?")
+                    .outcome(actionOutcome(action, actor))
                     .build();
         }).toList();
+    }
+
+    private String actionOutcome(BusinessBookingAllowedActionDTO action, String actor) {
+        return switch (action) {
+            case CONFIRM -> "The appointment is reserved and the customer is notified.";
+            case REJECT -> "The requested time is released and the customer is notified.";
+            case COMPLETE -> "The appointment is recorded as completed.";
+            case MARK_NO_SHOW -> "The appointment is recorded as not attended.";
+            case CANCEL, CANCEL_AS_OWNER -> "The booking is cancelled and the other participant is notified.";
+            case RESCHEDULE -> actor.equals("owner")
+                    ? "Choose a new time after availability is checked."
+                    : "Request a new time after availability is checked.";
+        };
     }
 
     private String resolveCustomerBlockingReason(BusinessBooking booking, AppUser currentUser, Instant now) {

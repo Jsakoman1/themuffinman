@@ -9,24 +9,21 @@ import AppFormField from "../components/AppFormField.vue"
 import AppFormFooter from "../components/AppFormFooter.vue"
 import AppStatus from "../components/AppStatus.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
-import SurfaceRow from "../components/SurfaceRow.vue"
-import ObjectPreviewPanel from "../components/ObjectPreviewPanel.vue"
+import FriendlyCollectionHeader from "../components/FriendlyCollectionHeader.vue"
+import ModuleTabs from "../components/ModuleTabs.vue"
 
 const router = useRouter()
 const businesses = ref<BusinessProfileResponseDTO[]>([])
-const selectedBusinessId = ref<number | null>(null)
 const isLoading = ref(true)
 const error = ref("")
 const createOpen = ref(false)
 const isCreating = ref(false)
 const createError = ref("")
 const newBusiness = ref<Pick<BusinessProfileRequestDTO, "businessName" | "headline" | "publicAddressLabel" | "timezone">>({businessName: "", headline: "", publicAddressLabel: "", timezone: "Europe/Zurich"})
-const selectedBusiness = computed(() => businesses.value.find((business) => business.id === selectedBusinessId.value) ?? null)
-const openBusiness = () => {
-  if (selectedBusiness.value) {
-    void router.push({path: "/business/profile", query: {businessId: String(selectedBusiness.value.id)}})
-  }
-}
+const businessTabs = computed(() => [
+  {id: "overview", label: "My businesses", route: "/business", backendScope: "business.owner", emptyState: "Create your first business.", primaryAction: "Create a business"},
+  ...businesses.value.map((business) => ({id: `business-${business.id}`, label: business.businessName, route: `/business/profile?businessId=${business.id}`, backendScope: "business.owner.workspace", emptyState: "Open this business workspace."}))
+])
 const load = async () => {
   isLoading.value = true
   error.value = ""
@@ -70,21 +67,15 @@ onMounted(() => void load())
 
 <template>
   <section class="business-overview" aria-label="My businesses">
+    <ModuleTabs :tabs="businessTabs" active-id="overview" />
+    <FriendlyCollectionHeader eyebrow="Your workspace" title="My businesses" description="Create a business here, or use a business tab above to manage one you already own." />
     <CollectionToolbar title="My businesses" :count="businesses.length" :busy="isLoading"><template #actions><AppButton type="button" tone="primary" @click="createOpen = true">Add business</AppButton></template></CollectionToolbar>
     <AppStatus v-if="isLoading" message="Loading your businesses." busy />
     <AppStatus v-else-if="error" :message="error" tone="error" retry @retry="load" />
     <AppStatus v-else-if="!businesses.length" message="You do not have a business yet. Create your first one to get started." />
-    <section v-else class="business-overview__workspace" :class="{'business-overview__workspace--preview': selectedBusiness}" aria-label="Owned businesses">
-      <div class="business-overview__list">
-        <SurfaceRow v-for="business in businesses" :key="business.id" :row="{id: String(business.id), title: business.businessName, description: business.headline || 'Business workspace', badge: business.active ? 'Active' : 'Archived', to: {path: '/business/profile', query: {businessId: String(business.id)}}}" primary-action="preview" :selected="selectedBusinessId === business.id" @preview="selectedBusinessId = business.id" />
-      </div>
-      <ObjectPreviewPanel v-if="selectedBusiness" :open="true" :title="selectedBusiness.businessName" subtitle="Business workspace" @close="selectedBusinessId = null" @open-detail="openBusiness">
-        <p>{{ selectedBusiness.headline || "Open this business workspace to manage its profile, services, bookings, and calendar." }}</p>
-        <dl>
-          <div><dt>Status</dt><dd>{{ selectedBusiness.active ? "Active" : "Archived" }}</dd></div>
-          <div><dt>Workspace</dt><dd>Business profile</dd></div>
-        </dl>
-      </ObjectPreviewPanel>
+    <section v-else class="business-overview__selection-hint" aria-label="Business workspace guidance">
+      <strong>{{ businesses.length === 1 ? "Your business is ready to manage." : "Your businesses are ready to manage." }}</strong>
+      <span>Choose a business tab above to open its profile, services, bookings, calendar, and settings.</span>
     </section>
     <AppDialog :open="createOpen" title="Create your business" layout="workspace" @close="createOpen = false; createError = ''">
       <form class="business-overview__create-form" @submit.prevent="createBusiness">
@@ -102,6 +93,5 @@ onMounted(() => void load())
 </template>
 
 <style scoped>
-.business-overview{display:grid;gap:var(--space-4);min-width:0}.business-overview__workspace{display:grid;grid-template-columns:minmax(0,1fr);overflow:hidden;border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.business-overview__workspace--preview{grid-template-columns:minmax(0,1fr) minmax(18rem,24rem)}.business-overview__list{display:grid}.business-overview__list :deep(.surface-row:last-child){border-bottom:0}.business-overview__create-form{display:grid;gap:var(--space-3)}.business-overview__create-form header{display:grid;gap:var(--space-1)}.business-overview__create-form h2,.business-overview__create-form p{margin:0}.business-overview__create-form header>p:last-child{color:var(--text-muted)}.business-overview__eyebrow{color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.business-overview__create-form input{width:100%;box-sizing:border-box;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--control-ink);font:inherit}
-@media(max-width:980px){.business-overview__workspace--preview{grid-template-columns:minmax(0,1fr)}}
+.business-overview{display:grid;gap:var(--space-4);min-width:0}.business-overview__selection-hint{display:grid;gap:var(--space-1);padding:var(--space-3);border:1px solid var(--launcher-book-border);border-radius:var(--radius-surface);background:var(--launcher-book-bg);color:var(--launcher-book-ink);box-shadow:var(--shadow-card)}.business-overview__selection-hint span{color:var(--text-muted)}.business-overview__create-form{display:grid;gap:var(--space-3)}.business-overview__create-form header{display:grid;gap:var(--space-1)}.business-overview__create-form h2,.business-overview__create-form p{margin:0}.business-overview__create-form header>p:last-child{color:var(--text-muted)}.business-overview__eyebrow{color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.business-overview__create-form input{width:100%;box-sizing:border-box;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--control-ink);font:inherit}
 </style>

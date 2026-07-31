@@ -1,0 +1,341 @@
+kind: work
+version: 1
+id: human-first-web-closeout
+title: Verify the completed human-first Web experience
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-web-experience-master.yaml
+execution_inventory: docs/work/human-first-web-experience-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-ui-unification-no-mascot-closeout.yaml
+  baseline_only_surfaces:
+  - prior screenshots and overflow evidence
+  residual_scope:
+  - fresh static contract
+  - contrast audit
+  - and browser evidence for changed routes
+  retest_triggers:
+  - all implementation tasks in this master
+  non_duplication_rule: Closeout counts only fresh evidence produced from the final
+    implementation state.
+readiness:
+  runtime_stack: Use the workspace-owned make dev process and close it with make dev-stop.
+  route_resolution: Resolve representative entities and Business setup routes dynamically;
+    never hardcode seeded IDs.
+  freshness: Every screenshot and JSON trace must be created after the final implementation
+    task.
+tasks:
+- id: validate-human-first-static-contract
+  title: Validate code, contracts, tests, and standardization
+  type: validation
+  status: done
+  inventory_item: validate-human-first-static-contract
+  observable_outcome: Backend tests, generated contracts, frontend type-check/build,
+    route audits, full style audit, and documentation audits all pass on the completed
+    source state.
+  dependencies:
+  - split-surface-renderers
+  evidence_boundary:
+  - backend test result
+  - frontend build
+  - static audits
+  - docs audit
+  paths: &1
+  - apps/themuffinman/frontend/scripts/validate-human-first-web-contract.mjs
+  - apps/themuffinman/frontend/package.json
+  - docs/product-memory.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  required_paths: *1
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run validate:web-surface
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-docs
+  started_at: '2026-07-29T21:52:21Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/validate-human-first-web-contract.mjs: __missing__
+    apps/themuffinman/frontend/package.json: d9a67e86c7d3b96f42c5ddf90cde7baed1555445e39084cd96c85baac7ad10d7
+    docs/product-memory.md: b14cb6651c0b8eb1301fa57eaf0ce46e46d3e1dbc39e6b88ca6e6bc1bbab43c5
+    docs/business-logic.md: 6703395f17d80daee90c123dc9c0a7b831e583b5339b9731416bfd5103d562d4
+    docs/domain-technical.md: 94165f0aaefd9b42367fcecff1cf8da753bc47576f95f178e94979524f0ca500
+- id: verify-human-first-desktop
+  title: Verify changed experiences on desktop
+  type: documentation
+  status: done
+  inventory_item: verify-human-first-desktop
+  observable_outcome: Fresh 1440px browser evidence proves the reference-aligned Home/header,
+    visible sidebar IA, notification drawer, direct-open discovery, modern Chat, readable
+    Calendar, and Business setup without browser errors or horizontal overflow.
+  dependencies:
+  - validate-human-first-static-contract
+  evidence_boundary:
+  - seven desktop screenshots
+  - authenticated runtime trace
+  - contrast results
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/human-first-web-desktop-home.png
+  - docs/runtime-evidence/human-first-web-desktop-navigation.png
+  - docs/runtime-evidence/human-first-web-desktop-notifications.png
+  - docs/runtime-evidence/human-first-web-desktop-discovery.png
+  - docs/runtime-evidence/human-first-web-desktop-chat.png
+  - docs/runtime-evidence/human-first-web-desktop-calendar.png
+  - docs/runtime-evidence/human-first-web-desktop-business-setup.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/human-first-web-desktop-runtime.json
+  paths:
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/runtime-evidence/human-first-web-desktop-runtime.json
+  - docs/runtime-evidence/human-first-web-desktop-home.png
+  - docs/runtime-evidence/human-first-web-desktop-navigation.png
+  - docs/runtime-evidence/human-first-web-desktop-notifications.png
+  - docs/runtime-evidence/human-first-web-desktop-discovery.png
+  - docs/runtime-evidence/human-first-web-desktop-chat.png
+  - docs/runtime-evidence/human-first-web-desktop-calendar.png
+  - docs/runtime-evidence/human-first-web-desktop-business-setup.png
+  required_paths:
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/runtime-evidence/human-first-web-desktop-runtime.json
+  - docs/runtime-evidence/human-first-web-desktop-home.png
+  - docs/runtime-evidence/human-first-web-desktop-navigation.png
+  - docs/runtime-evidence/human-first-web-desktop-notifications.png
+  - docs/runtime-evidence/human-first-web-desktop-discovery.png
+  - docs/runtime-evidence/human-first-web-desktop-chat.png
+  - docs/runtime-evidence/human-first-web-desktop-calendar.png
+  - docs/runtime-evidence/human-first-web-desktop-business-setup.png
+  validation: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T21:55:55Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs: __missing__
+    docs/runtime-evidence/human-first-web-desktop-runtime.json: __missing__
+    docs/runtime-evidence/human-first-web-desktop-home.png: __missing__
+    docs/runtime-evidence/human-first-web-desktop-navigation.png: __missing__
+    docs/runtime-evidence/human-first-web-desktop-notifications.png: __missing__
+    docs/runtime-evidence/human-first-web-desktop-discovery.png: __missing__
+    docs/runtime-evidence/human-first-web-desktop-chat.png: __missing__
+    docs/runtime-evidence/human-first-web-desktop-calendar.png: __missing__
+    docs/runtime-evidence/human-first-web-desktop-business-setup.png: __missing__
+- id: verify-human-first-mobile
+  title: Verify changed experiences on mobile
+  type: documentation
+  status: done
+  inventory_item: verify-human-first-mobile
+  observable_outcome: Fresh 390px browser evidence proves the larger Home identity,
+    five-item bottom navigation, full-screen notifications, direct-open details, inbox-to-thread
+    Chat, meaningful Calendar modes, and readable Business setup without clipping
+    or browser errors.
+  dependencies:
+  - verify-human-first-desktop
+  evidence_boundary:
+  - seven mobile screenshots
+  - authenticated runtime trace
+  - touch and contrast results
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/human-first-web-mobile-home.png
+  - docs/runtime-evidence/human-first-web-mobile-navigation.png
+  - docs/runtime-evidence/human-first-web-mobile-notifications.png
+  - docs/runtime-evidence/human-first-web-mobile-detail.png
+  - docs/runtime-evidence/human-first-web-mobile-chat.png
+  - docs/runtime-evidence/human-first-web-mobile-calendar.png
+  - docs/runtime-evidence/human-first-web-mobile-business-setup.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/human-first-web-mobile-runtime.json
+  paths: &2
+  - docs/runtime-evidence/human-first-web-mobile-runtime.json
+  - docs/runtime-evidence/human-first-web-mobile-home.png
+  - docs/runtime-evidence/human-first-web-mobile-navigation.png
+  - docs/runtime-evidence/human-first-web-mobile-notifications.png
+  - docs/runtime-evidence/human-first-web-mobile-detail.png
+  - docs/runtime-evidence/human-first-web-mobile-chat.png
+  - docs/runtime-evidence/human-first-web-mobile-calendar.png
+  - docs/runtime-evidence/human-first-web-mobile-business-setup.png
+  required_paths: *2
+  validation: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T21:57:32Z'
+  start_fingerprints:
+    docs/runtime-evidence/human-first-web-mobile-runtime.json: __missing__
+    docs/runtime-evidence/human-first-web-mobile-home.png: __missing__
+    docs/runtime-evidence/human-first-web-mobile-navigation.png: __missing__
+    docs/runtime-evidence/human-first-web-mobile-notifications.png: __missing__
+    docs/runtime-evidence/human-first-web-mobile-detail.png: __missing__
+    docs/runtime-evidence/human-first-web-mobile-chat.png: __missing__
+    docs/runtime-evidence/human-first-web-mobile-calendar.png: __missing__
+    docs/runtime-evidence/human-first-web-mobile-business-setup.png: __missing__
+evidence:
+- task: validate-human-first-static-contract
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test && node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run validate:web-surface
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build && make audit-docs
+  ranAt: '2026-07-29T21:55:16Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/package.json
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - apps/themuffinman/frontend/scripts/validate-human-first-web-contract.mjs
+  output: |+
+    dist/assets/WorkQuestDetailView-WKDeTEgn.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/HomeHubView-BWnIdLzK.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-BjlYTPOi.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-FyIpagKK.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-jtAZc-pE.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-mXeOpXyu.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-uN83TEdF.js                                 63.18 kB │ gzip:  15.75 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 760ms
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 374
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-29T21:52:21Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/scripts/validate-human-first-web-contract.mjs
+  - apps/themuffinman/frontend/package.json
+  - docs/product-memory.md
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: verify-human-first-desktop
+  command: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:57:17Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/runtime-evidence/human-first-web-desktop-business-setup.png
+  - docs/runtime-evidence/human-first-web-desktop-calendar.png
+  - docs/runtime-evidence/human-first-web-desktop-chat.png
+  - docs/runtime-evidence/human-first-web-desktop-discovery.png
+  - docs/runtime-evidence/human-first-web-desktop-home.png
+  - docs/runtime-evidence/human-first-web-desktop-navigation.png
+  - docs/runtime-evidence/human-first-web-desktop-notifications.png
+  - docs/runtime-evidence/human-first-web-desktop-runtime.json
+  output: |+
+    dist/assets/ThingsDiscoveryView-BMzb5AgO.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-BgmuQYIS.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-1RoaFCaJ.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-Cw4-cqBq.js                              14.97 kB │ gzip:   5.61 kB
+    dist/assets/BusinessPublicView-BVJoD62p.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CCq0J8N3.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-51O9hdDm.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-WKDeTEgn.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/HomeHubView-BWnIdLzK.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-BjlYTPOi.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-FyIpagKK.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-jtAZc-pE.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-mXeOpXyu.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-uN83TEdF.js                                 63.18 kB │ gzip:  15.75 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 782ms
+
+  startedAt: '2026-07-29T21:55:55Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/scripts/human-first-web-runtime.mjs
+  - docs/runtime-evidence/human-first-web-desktop-runtime.json
+  - docs/runtime-evidence/human-first-web-desktop-home.png
+  - docs/runtime-evidence/human-first-web-desktop-navigation.png
+  - docs/runtime-evidence/human-first-web-desktop-notifications.png
+  - docs/runtime-evidence/human-first-web-desktop-discovery.png
+  - docs/runtime-evidence/human-first-web-desktop-chat.png
+  - docs/runtime-evidence/human-first-web-desktop-calendar.png
+  - docs/runtime-evidence/human-first-web-desktop-business-setup.png
+  requiredPaths: *4
+  visualEvidencePaths:
+  - docs/runtime-evidence/human-first-web-desktop-home.png
+  - docs/runtime-evidence/human-first-web-desktop-navigation.png
+  - docs/runtime-evidence/human-first-web-desktop-notifications.png
+  - docs/runtime-evidence/human-first-web-desktop-discovery.png
+  - docs/runtime-evidence/human-first-web-desktop-chat.png
+  - docs/runtime-evidence/human-first-web-desktop-calendar.png
+  - docs/runtime-evidence/human-first-web-desktop-business-setup.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/human-first-web-desktop-runtime.json
+- task: verify-human-first-mobile
+  command: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:57:59Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/runtime-evidence/human-first-web-mobile-business-setup.png
+  - docs/runtime-evidence/human-first-web-mobile-calendar.png
+  - docs/runtime-evidence/human-first-web-mobile-chat.png
+  - docs/runtime-evidence/human-first-web-mobile-detail.png
+  - docs/runtime-evidence/human-first-web-mobile-home.png
+  - docs/runtime-evidence/human-first-web-mobile-navigation.png
+  - docs/runtime-evidence/human-first-web-mobile-notifications.png
+  - docs/runtime-evidence/human-first-web-mobile-runtime.json
+  output: |+
+    dist/assets/ThingsDiscoveryView-BMzb5AgO.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/RidesView-BgmuQYIS.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-1RoaFCaJ.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/WorkPage-Cw4-cqBq.js                              14.97 kB │ gzip:   5.61 kB
+    dist/assets/BusinessPublicView-BVJoD62p.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CCq0J8N3.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-51O9hdDm.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-WKDeTEgn.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/HomeHubView-BWnIdLzK.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-BjlYTPOi.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-FyIpagKK.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-jtAZc-pE.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-mXeOpXyu.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-uN83TEdF.js                                 63.18 kB │ gzip:  15.75 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 760ms
+
+  startedAt: '2026-07-29T21:57:32Z'
+  changedAfterStart: &5
+  - docs/runtime-evidence/human-first-web-mobile-runtime.json
+  - docs/runtime-evidence/human-first-web-mobile-home.png
+  - docs/runtime-evidence/human-first-web-mobile-navigation.png
+  - docs/runtime-evidence/human-first-web-mobile-notifications.png
+  - docs/runtime-evidence/human-first-web-mobile-detail.png
+  - docs/runtime-evidence/human-first-web-mobile-chat.png
+  - docs/runtime-evidence/human-first-web-mobile-calendar.png
+  - docs/runtime-evidence/human-first-web-mobile-business-setup.png
+  requiredPaths: *5
+  visualEvidencePaths:
+  - docs/runtime-evidence/human-first-web-mobile-home.png
+  - docs/runtime-evidence/human-first-web-mobile-navigation.png
+  - docs/runtime-evidence/human-first-web-mobile-notifications.png
+  - docs/runtime-evidence/human-first-web-mobile-detail.png
+  - docs/runtime-evidence/human-first-web-mobile-chat.png
+  - docs/runtime-evidence/human-first-web-mobile-calendar.png
+  - docs/runtime-evidence/human-first-web-mobile-business-setup.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/human-first-web-mobile-runtime.json

@@ -1,0 +1,205 @@
+kind: work
+version: 1
+id: developer-tooling-quality-next-health
+title: Restore full tooling health and template freshness
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-quality-next-master.yaml
+execution_inventory: docs/work/developer-tooling-quality-next-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - reconcile-modern-surface-sidejob-contract
+  - enforce-agent-template-freshness
+  - compact-tool-self-test-output
+  dirty_merge_required:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  - scripts/tool-self-test.rb
+  - Makefile
+  changed_path_prefix_added: ".agents/"
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  baseline_only_surfaces:
+  - work/offer route and current SideJobs shell action
+  - existing product contract checks unrelated to the stale label
+  residual_scope:
+  - one stale modern-surface assertion
+  - template path freshness
+  - compact successful self-test output
+  retest_triggers:
+  - selected validator, template, or self-test path changes
+  non_duplication_rule: Existing product behavior is reused; these tasks prove health
+    and freshness only.
+tasks:
+- id: reconcile-modern-surface-sidejob-contract
+  title: Align the discoverability assertion with current SideJobs language
+  type: implementation
+  status: done
+  inventory_item: reconcile-modern-surface-sidejob-contract
+  observable_outcome: The modern-surface validator recognizes the existing work/offer
+    route and Post a SideJob shell action without changing navigation or product behavior.
+  dependencies:
+  - harden-developer-tooling-quality-next-inventory
+  evidence_boundary:
+  - modern-surface product-contract validation
+  paths: &1
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  required_paths: *1
+  validation: node apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  started_at: '2026-07-31T13:44:43Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs: 1b535d6e35af756c8158306799df0af2d61f30997f092550cb5e071422bd9d19
+- id: enforce-agent-template-freshness
+  title: Repair and enforce canonical agent-template references
+  type: implementation
+  status: done
+  inventory_item: enforce-agent-template-freshness
+  observable_outcome: Every agent template references existing canonical sources and
+    current verifier evidence rules, with a deterministic audit preventing regression.
+  dependencies:
+  - reconcile-modern-surface-sidejob-contract
+  evidence_boundary:
+  - template path and retired-source audit
+  - tooling-only self-test
+  paths: &2
+  - ".agents/templates/docs/new-module.template.md"
+  - ".agents/templates/docs/new-workflow.template.md"
+  - ".agents/templates/docs/new-endpoint.template.md"
+  - ".agents/templates/docs/new-dto-contract.template.md"
+  - ".agents/templates/docs/new-permission-rule.template.md"
+  - ".agents/templates/docs/schema-migration.template.md"
+  - ".agents/templates/validation-evidence.template.yaml"
+  - scripts/audits/audit-template-freshness.rb
+  - scripts/change-validation.rb
+  - scripts/tool-self-test.rb
+  - Makefile
+  required_paths: *2
+  validation: ruby scripts/audits/audit-template-freshness.rb && ruby scripts/tool-self-test.rb
+    --tooling-only
+  started_at: '2026-07-31T13:44:58Z'
+  start_fingerprints:
+    ".agents/templates/docs/new-module.template.md": 51dd229d0ffe2cde4e6bd2fa17baf70120575d82e496450ab5711d8748a6120a
+    ".agents/templates/docs/new-workflow.template.md": 10fe50af1dc03a65fc3efb0e26b6bc9bd58e66dc33646cdbd8f59985e84dfa47
+    ".agents/templates/docs/new-endpoint.template.md": 615f4605f654e15aca01b93bc1d713654d88c47c57e1a5c7616da6f66eb4a155
+    ".agents/templates/docs/new-dto-contract.template.md": a1507060545e05d0cab87525ecd78e768f143c65fc99a2871b69e32d25bfbc64
+    ".agents/templates/docs/new-permission-rule.template.md": 998bcdc3beccdef5dc0416778259e3a17b12624e246ef4981b14f11548e1a880
+    ".agents/templates/docs/schema-migration.template.md": 4a6b963041934f4e7a823e180a156593da2b491b338745844b91cdef6d67209e
+    ".agents/templates/validation-evidence.template.yaml": 37594a5b035efba39c3c7476ea51353d9acda9ae855c34f8600cc70907f15d7d
+    scripts/audits/audit-template-freshness.rb: __missing__
+    scripts/change-validation.rb: aa5f5da2c26d1d8a9cc82621848804e9df90b6b4d05ce0d75956f1b75454f159
+    scripts/tool-self-test.rb: 1bdcd02cd7c6b5bff3a9520614e0baee3315bf44c4fedaa8e5a28986fb9bb5d0
+    Makefile: b26efc86acbf2949f544ff48e43b3d65652740f63fa81af1ea129dc7fc6934b1
+- id: compact-tool-self-test-output
+  title: Aggregate successful self-test stages without losing failure precision
+  type: implementation
+  status: done
+  inventory_item: compact-tool-self-test-output
+  observable_outcome: Default successful tooling output reports one line per stage
+    with file counts, while verbose mode and failures retain exact file and command
+    details.
+  dependencies:
+  - enforce-agent-template-freshness
+  evidence_boundary:
+  - compact-output bound
+  - verbose and failure-attribution contract
+  paths: &3
+  - scripts/tool-self-test.rb
+  required_paths: *3
+  validation: ruby scripts/tool-self-test.rb --tooling-only | ruby -e 'lines = STDIN.readlines;
+    abort "self-test output too noisy" if lines.length > 25; abort "missing aggregate
+    counts" unless lines.any? { |line| line.include?("files=") }'
+  started_at: '2026-07-31T13:49:21Z'
+  start_fingerprints:
+    scripts/tool-self-test.rb: ddc7aab192c4b69c42c6b163bfd7e94ca978e6e0c06bb22d7fb65a5ae36e8487
+evidence:
+- task: reconcile-modern-surface-sidejob-contract
+  command: node apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  ranAt: '2026-07-31T13:44:52Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  output: "Modern surface contract passed (78 checks).\n\n"
+  startedAt: '2026-07-31T13:44:43Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/scripts/validate-modern-surface-contract.mjs
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: enforce-agent-template-freshness
+  command: ruby scripts/audits/audit-template-freshness.rb && ruby scripts/tool-self-test.rb
+    --tooling-only
+  ranAt: '2026-07-31T13:48:59Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".agents/templates/docs/new-dto-contract.template.md"
+  - ".agents/templates/docs/new-endpoint.template.md"
+  - ".agents/templates/docs/new-module.template.md"
+  - ".agents/templates/docs/new-permission-rule.template.md"
+  - ".agents/templates/docs/new-workflow.template.md"
+  - ".agents/templates/docs/schema-migration.template.md"
+  - ".agents/templates/validation-evidence.template.yaml"
+  - Makefile
+  - scripts/tool-self-test.rb
+  - scripts/audits/audit-template-freshness.rb
+  - scripts/change-validation.rb
+  output: |+
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=yaml_parse
+    STAGE class=tool_mechanics id=frontend_ast_index
+    STAGE class=tool_mechanics id=repository_map
+    STAGE class=tool_mechanics id=repository_map_query
+    STAGE class=tool_mechanics id=tool_catalog
+    STAGE class=tool_mechanics id=runtime_tools
+    STAGE class=tool_mechanics id=context_search
+    STAGE class=tool_mechanics id=change_validation
+    STAGE class=tool_mechanics id=template_freshness
+    Tool self-test passed (tooling-only; Ruby/Node syntax, YAML, AST, contracts, repository map, catalog, and bounded search).
+
+  startedAt: '2026-07-31T13:44:58Z'
+  changedAfterStart: &5
+  - ".agents/templates/docs/new-module.template.md"
+  - ".agents/templates/docs/new-workflow.template.md"
+  - ".agents/templates/docs/new-endpoint.template.md"
+  - ".agents/templates/docs/new-dto-contract.template.md"
+  - ".agents/templates/docs/new-permission-rule.template.md"
+  - ".agents/templates/docs/schema-migration.template.md"
+  - ".agents/templates/validation-evidence.template.yaml"
+  - scripts/audits/audit-template-freshness.rb
+  - scripts/change-validation.rb
+  - scripts/tool-self-test.rb
+  - Makefile
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: compact-tool-self-test-output
+  command: ruby scripts/tool-self-test.rb --tooling-only | ruby -e 'lines = STDIN.readlines;
+    abort "self-test output too noisy" if lines.length > 25; abort "missing aggregate
+    counts" unless lines.any? { |line| line.include?("files=") }'
+  ranAt: '2026-07-31T13:50:13Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/tool-self-test.rb
+  output: "\n"
+  startedAt: '2026-07-31T13:49:21Z'
+  changedAfterStart: &6
+  - scripts/tool-self-test.rb
+  requiredPaths: *6
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

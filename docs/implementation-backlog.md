@@ -9,6 +9,7 @@ listed in `docs/implementation-control.md`.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,
   booking rules, hours, and customer booking journeys so ordinary businesses can
   publish and accept appointments without understanding internal booking-engine terms.
+- SIDEJOBS-HUMAN-FIRST-001: execute the prepared `docs/work/sidejobs-human-first-master.yaml` to replace Work/Quest-facing language with SideJobs, publish backend-prepared human summaries, and simplify discovery, posting, requests, and owner decisions without renaming persisted Quest storage in the first migration.
 - ENTITY-SURFACE-RESOURCE-CONTRACT-001: define a typed Business resource configuration contract
   before exposing a complete Web edit surface.
 - RUNTIME-PENDING-TRIAGE-001: keep the 14 explicitly pending runtime boundaries classified in
@@ -19,6 +20,11 @@ listed in `docs/implementation-control.md`.
 - OPT-BASELINE-002: continue endpoint-to-capability-to-client-to-test evidence reconciliation.
 - OPT-BASELINE-003: maintain machine-checkable dependency direction rules and accepted exceptions.
 - OPT-BASELINE-005: preserve explicit native/device and production-operation evidence boundaries.
+- DEVTOOL-RUNTIME-SKILL-CREATION-001: in a separate explicitly authorized task, use
+  the system skill-creator to package the verified runtime-evidence harness workflow;
+  retain the repository work verifier as the sole completion authority. Read the
+  readiness decision in `docs/runtime-evidence-skill-decision-2026-07-31.yaml` and
+  the measured boundary in `docs/developer-system-operational-readiness-closeout-2026-07-31.yaml`.
 
 ## Mapping sources retained
 

@@ -1,0 +1,14 @@
+kind: execution_inventory
+version: 1
+master_plan: docs/work/home-friendly-follow-ups.yaml
+items:
+- id: unify-home-follow-up-surfaces
+  plan: docs/work/home-friendly-follow-ups.yaml
+  task: unify-home-follow-up-surfaces
+  status: verified
+  started_at: '2026-07-29T17:15:19Z'
+  verified_at: '2026-07-29T17:18:58Z'
+  evidence:
+    plan: docs/work/home-friendly-follow-ups.yaml
+    task: unify-home-follow-up-surfaces
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

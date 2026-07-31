@@ -32,6 +32,7 @@ public class WorkmarketQuestMgr {
 
         return QuestResponseDTO.builder()
                 .id(quest.getId())
+                .sideJobLabel("SideJob")
                 .resourceVersion(quest.getVersion())
                 .creatorId(quest.getCreator().getId())
                 .creatorUsername(quest.getCreator().getUsername())

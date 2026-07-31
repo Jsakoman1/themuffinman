@@ -1,0 +1,103 @@
+kind: work
+version: 1
+id: generic-preview-elimination-collections
+title: Direct-open every remaining legacy collection
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/generic-preview-elimination-master.yaml
+execution_inventory: docs/work/generic-preview-elimination-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-web-interaction-contract.yaml
+  baseline_only_surfaces:
+  - already direct-opening Work
+  - People
+  - Things
+  - and Rides discovery
+  residual_scope:
+  - Business discovery
+  - personal work applications
+  - and workspace hub context rail
+  retest_triggers:
+  - collection row or return-route changes
+  non_duplication_rule: Existing direct-open evidence is reused, not recounted.
+tasks:
+- id: direct-open-legacy-collections
+  title: Remove remaining collection context rails
+  type: implementation
+  status: done
+  inventory_item: direct-open-legacy-collections
+  observable_outcome: Every non-operational collection row opens its canonical route
+    with no selected-row side context or second Open full detail action.
+  dependencies:
+  - harden-preview-elimination-inventory
+  evidence_boundary:
+  - global source contract
+  - frontend type-check
+  - frontend build
+  paths: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  - docs/business-logic.md
+  required_paths: *1
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-30T04:47:18Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue: a7879517b3f20824a6be8b0618e051357f7708cf883a74dcd3f7b4ea8e6b62d5
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue: a18526c6f2dea4096c456d6c0138418f228982ab17606ed0a45d0362a0c4ce87
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue: d16c3b4e3f6afa22002bff9a1fe8a8e4715d68d2b04bdd963856f8a39aaee174
+    apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue: 12ea6915255ff368d5cbfa021ca529f2df1bc9b28ddb4227993a47bb123e1213
+    docs/business-logic.md: 6ed345685cb6a568d9293c38fce87ffc8f81c0313d9f0754c5213e4e18b93879
+hardening_boundary: This plan owns all non-operational list-side context rails and
+  no canonical detail layout changes.
+evidence:
+- task: direct-open-legacy-collections
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-30T04:52:31Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+  - docs/business-logic.md
+  output: |+
+    dist/assets/ThingsDiscoveryView-CFFjkaf6.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/WorkPage-CrYYORGb.js                              13.12 kB │ gzip:   5.05 kB
+    dist/assets/RidesView-DOnlDVb1.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/BusinessServiceSchemaView-Bye4qCBi.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/BusinessPublicView-Cqr23M6_.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CiMWVqmi.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-DXqoRxqt.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-D6KomFLF.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-ByBJGqnl.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-BEi2WKgM.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-D_Hjqgdm.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-C4ht0EW9.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-COPHKr9y.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-D1vXhdsR.js                                 63.18 kB │ gzip:  15.76 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 721ms
+
+  startedAt: '2026-07-30T04:47:18Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkspaceSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  - docs/business-logic.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

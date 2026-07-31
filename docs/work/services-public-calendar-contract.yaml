@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: services-public-calendar-contract
+title: Add public aggregate calendar contract
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-public-calendar-master.yaml
+execution_inventory: docs/work/services-public-calendar-execution-inventory.yaml
+tasks:
+- id: add-public-calendar-projection
+  title: Return safe local day and time-bucket availability
+  type: implementation
+  status: done
+  inventory_item: add-public-calendar-projection
+  observable_outcome: A selected public offering receives bounded Day Week Month projection
+    states and safe bookable slots without private booking data.
+  dependencies:
+  - harden-services-public-calendar-inventory
+  evidence_boundary:
+  - targeted availability service tests
+  - generated frontend contract
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessPublicAvailabilityCalendarDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessPublicAvailabilityCalendarDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  validation: cd apps/themuffinman && ./mvnw test -Dtest=BusinessAvailabilityReadServiceTest
+    && npm --prefix frontend run validate:contracts
+  started_at: '2026-07-30T17:20:24Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java: 9eb6804e94ee5d40661fd7286fbab892ea0b807e6adc97f665517922cf125c4d
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java: d804b55ad667a50bd6f2b6c08e2b529b6cc1ebfbf968a5f3ddf3c90887b7e4d5
+    apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessPublicAvailabilityCalendarDTO.java: b151964d10470e384bc4800210ea8130b6a6a1ffc7e6770b527fa4efbe4d3dea
+    apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java: 5fdfe534f21848dd67b1847c7a8435b67e7e442f4ede84e2a5c4e3e2e3687f90
+    apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts: b6b45d8403d13fb4bb8cffcdd04edc9ebc30ce8be5764861ed1f6fd01a6768c8
+evidence:
+- task: add-public-calendar-projection
+  command: cd apps/themuffinman && ./mvnw test -Dtest=BusinessAvailabilityReadServiceTest
+    && npm --prefix frontend run validate:contracts
+  ranAt: '2026-07-30T17:21:49Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessPublicAvailabilityCalendarDTO.java
+  output: "[INFO] -------------------------------------------------------\n[INFO]
+    Running com.themuffinman.app.business.service.BusinessAvailabilityReadServiceTest\n[INFO]
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.449 s -- in
+    com.themuffinman.app.business.service.BusinessAvailabilityReadServiceTest\n[INFO]
+    \n[INFO] Results:\n[INFO] \n[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped:
+    0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  20.353 s\n[INFO] Finished at: 2026-07-30T19:22:11+02:00\n[INFO] ------------------------------------------------------------------------\n\n>
+    frontend@0.0.0 validate:contracts\n> node ./scripts/generate-vision-contracts.mjs
+    --check\n\nGenerated frontend contract is fresh.\n\n"
+  startedAt: '2026-07-30T17:20:24Z'
+  changedAfterStart: &1
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/service/BusinessAvailabilityReadService.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/controller/BusinessAvailabilityController.java
+  - apps/themuffinman/src/main/java/com/themuffinman/app/business/dto/BusinessPublicAvailabilityCalendarDTO.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/business/service/BusinessAvailabilityReadServiceTest.java
+  - apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

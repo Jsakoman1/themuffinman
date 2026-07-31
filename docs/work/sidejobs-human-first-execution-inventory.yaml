@@ -1,0 +1,83 @@
+kind: execution_inventory
+version: 1
+id: sidejobs-human-first-execution-inventory
+master_plan: docs/work/sidejobs-human-first-master.yaml
+serial_execution: true
+items:
+- id: harden-sidejobs-human-first-inventory
+  sequence: 1
+  plan: docs/work/sidejobs-human-first-atomic-hardening.yaml
+  task: harden-sidejobs-human-first-inventory
+  status: verified
+  started_at: '2026-07-30T19:27:26Z'
+  verified_at: '2026-07-30T19:27:41Z'
+  evidence:
+    plan: docs/work/sidejobs-human-first-atomic-hardening.yaml
+    task: harden-sidejobs-human-first-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-sidejob-presentation-contract
+  sequence: 2
+  plan: docs/work/sidejobs-human-first-contract.yaml
+  task: add-sidejob-presentation-contract
+  status: verified
+  started_at: '2026-07-30T19:28:39Z'
+  verified_at: '2026-07-30T19:31:00Z'
+  evidence:
+    plan: docs/work/sidejobs-human-first-contract.yaml
+    task: add-sidejob-presentation-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: reframe-sidejobs-discovery
+  sequence: 3
+  plan: docs/work/sidejobs-human-first-discovery.yaml
+  task: reframe-sidejobs-discovery
+  status: verified
+  started_at: '2026-07-30T19:31:07Z'
+  verified_at: '2026-07-30T19:32:48Z'
+  evidence:
+    plan: docs/work/sidejobs-human-first-discovery.yaml
+    task: reframe-sidejobs-discovery
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: reframe-sidejob-detail-and-request
+  sequence: 4
+  plan: docs/work/sidejobs-human-first-detail.yaml
+  task: reframe-sidejob-detail-and-request
+  status: verified
+  started_at: '2026-07-30T19:32:55Z'
+  verified_at: '2026-07-30T19:36:25Z'
+  evidence:
+    plan: docs/work/sidejobs-human-first-detail.yaml
+    task: reframe-sidejob-detail-and-request
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: simplify-sidejob-posting
+  sequence: 5
+  plan: docs/work/sidejobs-human-first-posting.yaml
+  task: simplify-sidejob-posting
+  status: verified
+  started_at: '2026-07-30T19:36:30Z'
+  verified_at: '2026-07-30T19:38:31Z'
+  evidence:
+    plan: docs/work/sidejobs-human-first-posting.yaml
+    task: simplify-sidejob-posting
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: clarify-sidejob-applications
+  sequence: 6
+  plan: docs/work/sidejobs-human-first-applications.yaml
+  task: clarify-sidejob-applications
+  status: verified
+  started_at: '2026-07-30T19:38:37Z'
+  verified_at: '2026-07-30T19:40:58Z'
+  evidence:
+    plan: docs/work/sidejobs-human-first-applications.yaml
+    task: clarify-sidejob-applications
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: close-sidejobs-human-first-truth
+  sequence: 7
+  plan: docs/work/sidejobs-human-first-closeout.yaml
+  task: close-sidejobs-human-first-truth
+  status: verified
+  started_at: '2026-07-30T19:41:04Z'
+  verified_at: '2026-07-30T19:44:45Z'
+  evidence:
+    plan: docs/work/sidejobs-human-first-closeout.yaml
+    task: close-sidejobs-human-first-truth
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

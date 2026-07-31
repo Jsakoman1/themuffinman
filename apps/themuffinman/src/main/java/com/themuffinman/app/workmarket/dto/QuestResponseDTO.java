@@ -20,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestResponseDTO {
     private long id;
+    private String sideJobLabel;
     private Long resourceVersion;
 
     private Long creatorId;

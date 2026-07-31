@@ -26,6 +26,7 @@ public class BusinessPublicPageDTO {
     private String heroImageUrl;
     private String timezone;
     private boolean bookingEnabled;
+    private BusinessRatingSummaryDTO ratingSummary;
     private List<BusinessOfferingResponseDTO> offerings;
     private List<BusinessGalleryImageResponseDTO> galleryImages;
 }

@@ -1,0 +1,82 @@
+{
+  "viewport": "390x844",
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "routes": [
+    {
+      "route": "/work",
+      "overflow": false,
+      "bodyText": "WORK\n\nFind work\nBrowse work you can apply for. Opening a listing never commits you.\nOffer work\n✦\nLOOKING FOR WORK\nChoose",
+      "url": "http://localhost:5173/work/find"
+    },
+    {
+      "route": "/share/things",
+      "overflow": false,
+      "bodyText": "Things\nRides\nRequests\n\nTHINGS\n\nThings to borrow\nFind things shared by people in your circles.\nList a thing\nThings to bor",
+      "url": "http://localhost:5173/share/things"
+    },
+    {
+      "route": "/rides",
+      "overflow": false,
+      "bodyText": "RIDES\n\nFind a ride\nFind a ride that fits your route. You choose whether to join.\nOffer a ride\n↗\nONE-TIME RIDE\nWhere do y",
+      "url": "http://localhost:5173/rides"
+    },
+    {
+      "route": "/people",
+      "overflow": false,
+      "bodyText": "PEOPLE\n\nYour people\nYour accepted connections. Review invitations and manage sharing circles separately.\nFind people\n◌\nR",
+      "url": "http://localhost:5173/people"
+    },
+    {
+      "route": "/circles",
+      "overflow": false,
+      "bodyText": "CIRCLES\n\nYour circles\nChoose who shares a trusted space with you.\nCreate circle\nFind people\nCircles\nRequests\nTrust circl",
+      "url": "http://localhost:5173/circles"
+    },
+    {
+      "route": "/profile",
+      "overflow": false,
+      "bodyText": "Profile\nSettings\n\nThe public identity people see.\n\nT\n\nYOUR PROFILE\n\ntest\n\nA short introduction helps people recognise wh",
+      "url": "http://localhost:5173/profile"
+    },
+    {
+      "route": "/activity",
+      "overflow": false,
+      "bodyText": "YOUR SPACE\n\nActivity\nPick up what needs you, then review the rest when you have time.\nSTART HERE\nContinue Vision\nResume ",
+      "url": "http://localhost:5173/activity"
+    },
+    {
+      "route": "/notifications",
+      "overflow": false,
+      "bodyText": "Notifications\n8\nMark all read\n\nATTENTION CENTER\n\n12 unread updates\n\nResume one of your next actions.\n\nContinue Vision\nvi",
+      "url": "http://localhost:5173/notifications"
+    },
+    {
+      "route": "/calendar",
+      "overflow": false,
+      "bodyText": "CALENDAR\n\nJul 26 – Aug 1, 2026\n\nEverything scheduled across your workspace.\n\n‹\nToday\n›\nSchedule\n10\nTimes shown in UTC\nDa",
+      "url": "http://localhost:5173/calendar"
+    },
+    {
+      "route": "/chat",
+      "overflow": false,
+      "bodyText": "CHAT\n\n1 unread conversation\nConnected\nNew\n\nYOUR INBOX\n\nStart with an unread conversation or a priority thread.\nPriority ",
+      "url": "http://localhost:5173/chat"
+    },
+    {
+      "route": "/business",
+      "overflow": false,
+      "bodyText": "YOUR WORKSPACE\n\nMy businesses\nChoose a business to manage, or create one with just the essentials.\nMy businesses\n4\nAdd b",
+      "url": "http://localhost:5173/business"
+    },
+    {
+      "route": "/business/find",
+      "overflow": false,
+      "bodyText": "Find service\n\nSERVICES\n\nFind a service\nSearch by name, then use booking or area only when it helps you decide.\nPublic bu",
+      "url": "http://localhost:5173/business/find"
+    }
+  ],
+  "errors": []
+}

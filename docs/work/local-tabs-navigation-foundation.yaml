@@ -1,0 +1,118 @@
+kind: work
+version: 1
+id: local-tabs-navigation-foundation
+title: Establish quiet rail navigation
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/local-tabs-navigation-master.yaml
+execution_inventory: docs/work/local-tabs-navigation-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-local-tabs.yaml
+  baseline_only_surfaces:
+  - routes and permissions
+  residual_scope:
+  - rail child policy
+  retest_triggers:
+  - WorkspaceNavigationService
+  non_duplication_rule: Existing navigation evidence is baseline.
+tasks:
+- id: harden-local-tabs-program
+  title: Harden local tabs program
+  type: documentation
+  inventory_item: harden-local-tabs-program
+  status: done
+  observable_outcome: Every execution item has exact paths, dependencies, a leaf validation,
+    and an evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - control-source and atomic-task audits
+  paths:
+  - docs/work/local-tabs-navigation-master.yaml
+  - docs/work/local-tabs-navigation-execution-inventory.yaml
+  - docs/work/local-tabs-navigation-foundation.yaml
+  - docs/work/local-tabs-navigation-modules.yaml
+  - docs/work/local-tabs-navigation-closeout.yaml
+  required_paths:
+  - docs/work/local-tabs-navigation-master.yaml
+  - docs/work/local-tabs-navigation-execution-inventory.yaml
+  validation: ruby scripts/validate-control-sources.rb && ruby scripts/audits/audit-atomic-task-hardening.rb
+    docs/work/local-tabs-navigation-master.yaml docs/work/local-tabs-navigation-execution-inventory.yaml
+  started_at: '2026-07-29T18:17:47Z'
+  start_fingerprints:
+    docs/work/local-tabs-navigation-master.yaml: 0c23301d0f1d96ec0a254ef56441c860517b119a758e1d6070bbcd2aa312fb72
+    docs/work/local-tabs-navigation-execution-inventory.yaml: 89b2eb812bd8eb291dbce582a82ae2db35ca037c80b22354424d6b8fe26949cf
+- id: quiet-workspace-rail
+  title: Keep workspace rail at module level
+  type: implementation
+  inventory_item: quiet-workspace-rail
+  status: done
+  observable_outcome: Workspace navigation returns no child links for Work, Things,
+    People, Rides, or Services; their canonical module routes remain unchanged.
+  dependencies:
+  - harden-local-tabs-program
+  evidence_boundary:
+  - JUnit navigation contract
+  paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - docs/product-memory.md
+  validation: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml -q -Dtest=WorkspaceNavigationContractTest
+    test"
+  started_at: '2026-07-29T18:18:03Z'
+  start_fingerprints:
+    apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java: c929f7d7f5a256f3f26475b5188d7f918fa9be291c2b08424a69ae3e351e94f8
+    apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java: c296431409d602f1faf51ce924a99d1bf0279f30500d7d80577208c4765f5dec
+    docs/product-memory.md: b739db72f2137953f98784ef5b550f834cb97050b2246428ade718c24204939f
+evidence:
+- task: harden-local-tabs-program
+  command: ruby scripts/validate-control-sources.rb && ruby scripts/audits/audit-atomic-task-hardening.rb
+    docs/work/local-tabs-navigation-master.yaml docs/work/local-tabs-navigation-execution-inventory.yaml
+  ranAt: '2026-07-29T18:17:58Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/local-tabs-navigation-closeout.yaml
+  - docs/work/local-tabs-navigation-execution-inventory.yaml
+  - docs/work/local-tabs-navigation-foundation.yaml
+  - docs/work/local-tabs-navigation-master.yaml
+  - docs/work/local-tabs-navigation-modules.yaml
+  output: |+
+    Control sources valid (181 YAML files, capability and target inventories present).
+    Atomic task hardening audit passed (5 inventory items).
+
+  startedAt: '2026-07-29T18:17:47Z'
+  changedAfterStart: &1
+  - docs/work/local-tabs-navigation-master.yaml
+  - docs/work/local-tabs-navigation-execution-inventory.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: quiet-workspace-rail
+  command: "./apps/themuffinman/mvnw -f apps/themuffinman/pom.xml -q -Dtest=WorkspaceNavigationContractTest
+    test"
+  ranAt: '2026-07-29T18:18:34Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - docs/product-memory.md
+  output: "\n"
+  startedAt: '2026-07-29T18:18:03Z'
+  changedAfterStart: &2
+  - apps/themuffinman/src/main/java/com/themuffinman/app/activity/service/WorkspaceNavigationService.java
+  - apps/themuffinman/src/test/java/com/themuffinman/app/activity/WorkspaceNavigationContractTest.java
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

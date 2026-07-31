@@ -1,0 +1,105 @@
+kind: work
+version: 1
+id: services-human-ux-documentation
+title: Align Services product and technical truth
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-human-ux-master.yaml
+execution_inventory: docs/work/services-human-ux-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-human-first-ux-master.yaml
+  baseline_only_surfaces:
+  - existing booking and public-profile rules
+  residual_scope:
+  - Services mental model, review eligibility, calendar projection, and regression
+    coverage
+  retest_triggers:
+  - Services public journey, calendar contract, or booking recovery semantics change
+  non_duplication_rule: Documentation records only the implemented residual behavior
+    and does not restate unrelated Business rules.
+tasks:
+- id: align-services-product-documentation
+  title: Document the Services mini-site and calendar booking contract
+  type: documentation
+  status: done
+  inventory_item: align-services-product-documentation
+  observable_outcome: Product, technical, capability, operating-model, and regression
+    sources consistently describe Services as tabbed public business discovery, verified
+    reviews, a service price list, and a backend-backed calendar booking journey.
+  dependencies:
+  - expose-business-reviews-in-services
+  evidence_boundary:
+  - documentation and regression-catalog audits
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/capability-inventory.yaml
+  - docs/agent-operating-model.yaml
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/capability-inventory.yaml
+  - docs/agent-operating-model.yaml
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  validation: cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest
+    && cd ../.. && make audit-docs && make audit-target-capability-catalog
+  started_at: '2026-07-30T16:58:38Z'
+  start_fingerprints:
+    docs/business-logic.md: b3e7a4893290c2d526467843b10399950655e10be5a77ed9dfad25fbd6bd230d
+    docs/domain-technical.md: bc222c60c4ec00a38b3dd0cb4ce99e397b2af42d860135653217d5278be3c28b
+    docs/product-memory.md: 6adbb90c6ae504fa0c8a38c614096d9d500e54ef46ec00dcbc4c2cacce28a11b
+    docs/regression-scenario-catalog.yaml: a337ce9f8ea2dd364d89fbb3af9b8c16dd27ff91c19e72b9beb8601a3fc17283
+    docs/target-capability-catalog.yaml: 45d02aee643e7688d5c71e7b1b91bb5a877337f8a4e0efcf8969274e7155c164
+    docs/capability-inventory.yaml: 1b77dc9edafafe3676c6ac2be2559cbc279812645aab51c282b5a23667c246f4
+    docs/agent-operating-model.yaml: 0f185d9ea9defadad75e590edceeb9d75f5680e8e6317dc3f1c2dea775c57ab9
+    apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java: e170d02761b3c3a37cad2ffa2ce944f10cfbb944a08a20d4d6d61a590c20fdcf
+evidence:
+- task: align-services-product-documentation
+  command: cd apps/themuffinman && ./mvnw test -Dtest=AgentOperatingModelValidationTest
+    && cd ../.. && make audit-docs && make audit-target-capability-catalog
+  ranAt: '2026-07-30T16:59:52Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  - docs/agent-operating-model.yaml
+  - docs/business-logic.md
+  - docs/capability-inventory.yaml
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/target-capability-catalog.yaml
+  output: "[INFO] Results:\n[INFO] \n[INFO] Tests run: 2, Failures: 0, Errors: 0,
+    Skipped: 0\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO]
+    BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO]
+    Total time:  12.286 s\n[INFO] Finished at: 2026-07-30T19:00:05+02:00\n[INFO] ------------------------------------------------------------------------\nruby
+    scripts/audits/audit-work-plan-recursion.rb\nWork-plan recursion audit passed
+    (no recursive validation commands).\nruby scripts/audits/audit-docs-as-tests.rb\nDocs
+    as tests\n  statements scanned: 376\n  review needed: 0\n  high priority: 0\nruby
+    scripts/audits/audit-target-capability-catalog.rb\nTarget capability catalog audit
+    passed (123 capabilities, 8 modules, 152 inventory IDs available).\n\n"
+  startedAt: '2026-07-30T16:58:38Z'
+  changedAfterStart: &1
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/target-capability-catalog.yaml
+  - docs/capability-inventory.yaml
+  - docs/agent-operating-model.yaml
+  - apps/themuffinman/src/test/java/com/themuffinman/app/docs/AgentOperatingModelValidationTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

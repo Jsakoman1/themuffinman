@@ -1,0 +1,99 @@
+kind: execution-inventory
+version: 1
+id: business-style-visual-parity-execution-inventory
+master_plan: docs/work/business-style-visual-parity-master.yaml
+serial: true
+hardening_contract:
+  first_item: harden-business-style-visual-parity-inventory
+  advancement_rule: No implementation item starts until hardening is verifier-verified.
+  evidence_contract: Each implementation item runs a frontend type-check/build; the
+    closeout items add current desktop and mobile browser evidence.
+items:
+- id: harden-business-style-visual-parity-inventory
+  sequence: 1
+  plan: docs/work/business-style-visual-parity-atomic-hardening.yaml
+  task: harden-business-style-visual-parity-inventory
+  status: verified
+  started_at: '2026-07-29T18:59:19Z'
+  verified_at: '2026-07-29T19:00:03Z'
+  evidence:
+    plan: docs/work/business-style-visual-parity-atomic-hardening.yaml
+    task: harden-business-style-visual-parity-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: unify-shared-orientation-grammar
+  sequence: 2
+  plan: docs/work/business-style-visual-parity-foundation.yaml
+  task: unify-shared-orientation-grammar
+  status: verified
+  started_at: '2026-07-29T19:00:09Z'
+  verified_at: '2026-07-29T19:05:27Z'
+  evidence:
+    plan: docs/work/business-style-visual-parity-foundation.yaml
+    task: unify-shared-orientation-grammar
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: align-collection-workspaces
+  sequence: 3
+  plan: docs/work/business-style-visual-parity-workspaces.yaml
+  task: align-collection-workspaces
+  status: verified
+  started_at: '2026-07-29T19:05:34Z'
+  verified_at: '2026-07-29T19:07:24Z'
+  evidence:
+    plan: docs/work/business-style-visual-parity-workspaces.yaml
+    task: align-collection-workspaces
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: align-contextual-planning-workspaces
+  sequence: 4
+  plan: docs/work/business-style-visual-parity-workspaces.yaml
+  task: align-contextual-planning-workspaces
+  status: verified
+  started_at: '2026-07-29T19:07:48Z'
+  verified_at: '2026-07-29T19:10:42Z'
+  evidence:
+    plan: docs/work/business-style-visual-parity-workspaces.yaml
+    task: align-contextual-planning-workspaces
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: align-detail-context
+  sequence: 5
+  plan: docs/work/business-style-visual-parity-details.yaml
+  task: align-detail-context
+  status: verified
+  started_at: '2026-07-29T19:10:51Z'
+  verified_at: '2026-07-29T19:12:07Z'
+  evidence:
+    plan: docs/work/business-style-visual-parity-details.yaml
+    task: align-detail-context
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: align-creation-and-setup-context
+  sequence: 6
+  plan: docs/work/business-style-visual-parity-details.yaml
+  task: align-creation-and-setup-context
+  status: verified
+  started_at: '2026-07-29T19:12:13Z'
+  verified_at: '2026-07-29T19:12:59Z'
+  evidence:
+    plan: docs/work/business-style-visual-parity-details.yaml
+    task: align-creation-and-setup-context
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-business-style-parity-desktop
+  sequence: 7
+  plan: docs/work/business-style-visual-parity-closeout.yaml
+  task: audit-business-style-parity-desktop
+  status: verified
+  started_at: '2026-07-29T19:13:05Z'
+  verified_at: '2026-07-29T19:15:12Z'
+  evidence:
+    plan: docs/work/business-style-visual-parity-closeout.yaml
+    task: audit-business-style-parity-desktop
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-business-style-parity-mobile
+  sequence: 8
+  plan: docs/work/business-style-visual-parity-closeout.yaml
+  task: audit-business-style-parity-mobile
+  status: verified
+  started_at: '2026-07-29T19:15:16Z'
+  verified_at: '2026-07-29T19:15:49Z'
+  evidence:
+    plan: docs/work/business-style-visual-parity-closeout.yaml
+    task: audit-business-style-parity-mobile
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

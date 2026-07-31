@@ -2,6 +2,7 @@
 import {computed} from "vue"
 import {RouterLink, useRoute} from "vue-router"
 import type {WorkspaceNavigationModule} from "../../../contracts/index.ts"
+import AppPurposeIcon, {type AppPurposeIconName} from "./AppPurposeIcon.vue"
 
 const props = withDefaults(defineProps<{
   modules: WorkspaceNavigationModule[]
@@ -18,7 +19,7 @@ const isChildActive = (path: string) => {
   const cleanPath = path.split("?")[0]
   return route.path === cleanPath || route.path.startsWith(`${cleanPath}/`)
 }
-const iconFor = (key: string) => ({home: "⌂", work: "▤", chat: "◌", calendar: "□", business: "◇", services: "⌕", people: "◎", circles: "◎", things: "▣", rides: "↗"}[key] ?? "•")
+const iconFor = (key: string): AppPurposeIconName => ({home: "home", work: "work", chat: "chat", calendar: "calendar", business: "business", services: "services", people: "people", circles: "people", things: "things", rides: "rides"}[key] ?? "explore") as AppPurposeIconName
 </script>
 
 <template>
@@ -30,7 +31,7 @@ const iconFor = (key: string) => ({home: "⌂", work: "▤", chat: "◌", calend
         :class="{'workspace-module-rail__module--active': isModuleActive(module)}"
         :aria-current="isModuleActive(module) ? 'page' : undefined"
       >
-        <span class="workspace-module-rail__icon" aria-hidden="true">{{ iconFor(module.iconKey) }}</span>
+        <span class="workspace-module-rail__icon" aria-hidden="true"><AppPurposeIcon :name="iconFor(module.iconKey)" :size="18" /></span>
         <span class="workspace-module-rail__label">{{ module.label }}</span>
       </RouterLink>
       <div v-if="shouldShowChildren(module) && childrenFor(module).length > 0" class="workspace-module-rail__children" :data-module="module.id">

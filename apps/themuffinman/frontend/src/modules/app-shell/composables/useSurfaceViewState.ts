@@ -4,6 +4,7 @@ import type {DisplayDensity} from "../api/userShellApi.ts"
 export type SurfaceViewState = {
   displayDensity: DisplayDensity
   selectedId: number | null
+  // Compatibility-only until every old collection releases its preview pane.
   previewId: number | null
   scrollY: number
 }
@@ -19,7 +20,7 @@ export const collectionPerformancePolicy = Object.freeze({
   selection: "presentation-only"
 })
 
-export type CollectionKeyboardCallbacks = {open: (id: number) => void; preview?: (id: number) => void; clear: () => void}
+export type CollectionKeyboardCallbacks = {open: (id: number) => void; clear: () => void}
 export const handleCollectionKeyboard = (event: KeyboardEvent, ids: number[], state: SurfaceViewState, callbacks: CollectionKeyboardCallbacks) => {
   const target = event.target
   if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || (target instanceof HTMLElement && target.isContentEditable) || !ids.length) return false
@@ -28,17 +29,21 @@ export const handleCollectionKeyboard = (event: KeyboardEvent, ids: number[], st
   if (event.key === "ArrowDown" || event.key.toLowerCase() === "j") { move(1); return true }
   if (event.key === "ArrowUp" || event.key.toLowerCase() === "k") { move(-1); return true }
   if (event.key === "Enter" && state.selectedId !== null) { event.preventDefault(); callbacks.open(state.selectedId); return true }
-  if (event.key.toLowerCase() === "p" && state.selectedId !== null && callbacks.preview) { event.preventDefault(); state.previewId = state.selectedId; callbacks.preview(state.selectedId); return true }
   if (event.key === "Escape") { event.preventDefault(); callbacks.clear(); return true }
   return false
 }
 
 const blankState = (): SurfaceViewState => ({displayDensity: "compact", selectedId: null, previewId: null, scrollY: 0})
 const stableContext = (value: string) => {
-  try { const url = new URL(value, "https://workspace.local"); url.searchParams.delete("selected"); url.searchParams.delete("preview"); return `${url.pathname}${url.search}` } catch { return value }
+  try { const url = new URL(value, "https://workspace.local"); url.searchParams.delete("selected"); return `${url.pathname}${url.search}` } catch { return value }
 }
 export const buildSurfaceScopeKey = (surface: string, viewerId: number | undefined, context: string) => `surface-view-state:${surface}:viewer:${viewerId ?? "anonymous"}:${stableContext(context)}`
 export const splitViewBounds = Object.freeze({min: 280, max: 560})
+
+// Details receive the complete canonical collection URL. This lets their back
+// action restore the user's search, filters, sort and collection scope instead
+// of rebuilding a partial route in every discovery surface.
+export const collectionReturnQuery = (collectionPath: string) => ({returnTo: collectionPath})
 
 const readState = (key: string): SurfaceViewState => {
   if (typeof window === "undefined") return blankState()

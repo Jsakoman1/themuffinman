@@ -1,0 +1,50 @@
+kind: runtime_evidence_skill_decision
+version: 1
+date: 2026-07-31
+decision: create
+completion_authority: repository work verifier
+status: recommended_for_separate_authorized_task
+basis:
+  verified_harness_pilots:
+  - id: brand-header-sand
+    evidence: docs/runtime-evidence/brand-header-sand-runtime.json
+    coverage: visual header scenario with desktop and mobile artifacts
+  - id: business-style-visual-parity
+    evidence:
+    - docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json
+    - docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json
+    coverage: six authenticated routes with overflow and browser-error checks
+  - id: sidejobs-human-first
+    evidence:
+    - docs/runtime-evidence/sidejobs-human-first-desktop-runtime.json
+    - docs/runtime-evidence/sidejobs-human-first-mobile-runtime.json
+    coverage: three authenticated semantic scenarios on desktop and mobile
+  shared_primitives:
+  - browser lifecycle and cleanup
+  - seeded authentication
+  - browser-error collection
+  - viewport and overflow inspection
+  - JSON evidence writing
+rationale: Three independently verified pilots use the same stable primitives across visual,
+  route-parity, and semantic scenarios. A focused skill can standardize future migrations
+  without replacing task-specific runtime assertions or verifier-controlled completion.
+future_package_boundary:
+  proposed_name: runtime-evidence-harness
+  location: outside_this_repository
+  scope:
+  - choose an existing runtime script and preserve its scenario-specific assertions
+  - migrate only to the shared frontend runtime harness
+  - capture fresh per-scenario evidence
+  - run the task leaf validation and repository work verifier
+  exclusions:
+  - installing or promoting the skill in this master
+  - treating screenshots or browser evidence as completion authority
+  - replacing product-specific assertions with generic checks
+authorization_boundary: Use the system skill-creator only in a separate, explicitly
+  user-authorized task; installation and promotion are not owned by this repository
+  work plan.
+success_criteria_for_future_skill:
+- preserves repository work verifier as the only completion authority
+- records exact runtime command, evidence paths, and failed-scenario diagnostics
+- requires fresh desktop and mobile evidence when a scenario declares both modes
+- keeps runtime service startup and shutdown ownership explicit

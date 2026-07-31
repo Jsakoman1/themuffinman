@@ -127,6 +127,44 @@ const archiveBusiness = async () => {
 
 onMounted(() => void load())
 </script>
+<style scoped>
+.business-profile{border-top:1px solid var(--orientation-line)}
+
+.business-profile { display:grid; gap:var(--space-3); max-width:none; }.business-profile__intro{margin:0;color:var(--text-muted);line-height:1.5}
+.business-profile h1 { margin:0; color:var(--text); font-size:var(--text-size-page-title); letter-spacing:var(--tracking-tight); }
+.business-profile__workspace { display:grid; grid-template-columns:minmax(0,1fr); gap:var(--space-3); align-items:start; }
+.business-profile__main { display:grid; gap:var(--space-3); min-width:0; }
+.business-profile__form { display:grid; gap:var(--space-3); }.business-profile__section-card{padding:var(--space-4);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.business-profile__section-heading{display:grid;gap:var(--space-1)}.business-profile__section-heading h2,.business-profile__section-heading p{margin:0}.business-profile__section-heading h2{font-size:var(--text-size-title)}.business-profile__section-heading p{color:var(--text-muted);line-height:1.5}
+.business-profile__form input,.business-profile__form textarea,.business-profile__gallery-form input { width:100%; border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }
+.business-profile__form textarea { min-height:7rem; resize:vertical; }
+.business-profile__form input:focus-visible,.business-profile__form textarea:focus-visible,.business-profile__gallery-form input:focus-visible { border-color:var(--control-border-active); outline:2px solid var(--focus-ring); outline-offset:2px; }
+.business-profile__grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); }
+.business-profile__toggle { display:flex; align-items:center; gap:var(--space-2); color:var(--text); font-size:var(--text-size-body); font-weight:var(--text-weight-semibold); }
+.business-profile__policy { display:grid; gap:var(--space-3); margin:0; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); padding:var(--space-3); background:var(--surface-raised); }
+.business-profile__policy legend { padding:0 var(--space-1); color:var(--text); font-weight:var(--text-weight-semibold); }
+.business-profile__advanced-policy{display:grid;gap:var(--space-2);color:var(--text-muted)}.business-profile__advanced-policy summary{cursor:pointer;color:var(--text);font-weight:var(--text-weight-semibold)}.business-profile__advanced-policy[open]{padding-top:var(--space-2);border-top:1px solid var(--border-subtle)}
+.business-profile__toggle input { width:auto; }
+.business-profile__gallery { display:grid; gap:var(--space-3); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-base); }
+.business-profile__gallery h2,.business-profile__gallery p { margin:0; }
+.business-profile__gallery h2 { color:var(--text); font-size:var(--text-size-title); }
+.business-profile__gallery header p { margin-top:var(--space-1); color:var(--text-muted); font-size:var(--text-size-meta); }
+.business-profile__gallery-form { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) minmax(5rem,.6fr) auto; gap:var(--space-2); align-items:end; }
+.business-profile__gallery-upload { display:flex; gap:var(--space-2); align-items:end; padding-top:var(--space-2); border-top:1px solid var(--border-subtle); }
+.business-profile__gallery-preview { width:3rem; height:3rem; object-fit:cover; border-radius:var(--radius-control); }
+.business-profile__gallery-list { display:grid; gap:0; overflow:hidden; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); }
+.business-profile__create-form { display:grid; gap:var(--space-3); }
+.business-profile__utility { display:grid; gap:var(--space-2); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
+.business-profile__utility h2,.business-profile__utility p { margin:0; }
+.business-profile__utility h2 { color:var(--text); font-size:var(--text-size-title); }
+.business-profile__utility dl { display:grid; gap:var(--space-2); margin:var(--space-2) 0; }
+.business-profile__utility dl div { display:flex; justify-content:space-between; gap:var(--space-2); border-top:1px solid var(--border-subtle); padding-top:var(--space-2); }
+.business-profile__utility dt { color:var(--text-soft); font-size:var(--text-size-meta); }
+.business-profile__utility dd { margin:0; color:var(--text); font-size:var(--text-size-meta); font-weight:var(--text-weight-semibold); }
+.business-profile__utility-note { color:var(--text-soft); font-size:var(--text-size-meta); line-height:1.45; }
+.business-profile :deep(.app-dialog__utility) { padding:var(--space-3); color:var(--text-muted); font-size:var(--text-size-body); line-height:1.5; }
+@media(max-width:860px) { .business-profile__workspace { grid-template-columns:1fr; } .business-profile__utility { order:2; } }
+@media(max-width:700px) { .business-profile__grid,.business-profile__gallery-form { grid-template-columns:1fr; } .business-profile__selector select { min-width:0; } }
+</style>
 
 <template>
   <section class="business-profile" data-mental-model="identity-content-gallery-inspector">
@@ -182,39 +220,3 @@ onMounted(() => void load())
   </section>
 </template>
 
-<style scoped>
-.business-profile { display:grid; gap:var(--space-3); max-width:none; }.business-profile__intro{margin:0;color:var(--text-muted);line-height:1.5}
-.business-profile h1 { margin:0; color:var(--text); font-size:var(--text-size-page-title); letter-spacing:var(--tracking-tight); }
-.business-profile__workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(16rem,22rem); gap:var(--space-3); align-items:start; }
-.business-profile__main { display:grid; gap:var(--space-3); min-width:0; }
-.business-profile__form { display:grid; gap:var(--space-3); }.business-profile__section-card{padding:var(--space-4);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-base)}.business-profile__section-heading{display:grid;gap:var(--space-1)}.business-profile__section-heading h2,.business-profile__section-heading p{margin:0}.business-profile__section-heading h2{font-size:var(--text-size-title)}.business-profile__section-heading p{color:var(--text-muted);line-height:1.5}
-.business-profile__form input,.business-profile__form textarea,.business-profile__gallery-form input { width:100%; border:1px solid var(--control-border); border-radius:var(--radius-control); padding:var(--space-2); background:var(--control-bg); color:var(--control-ink); font:inherit; }
-.business-profile__form textarea { min-height:7rem; resize:vertical; }
-.business-profile__form input:focus-visible,.business-profile__form textarea:focus-visible,.business-profile__gallery-form input:focus-visible { border-color:var(--control-border-active); outline:2px solid var(--focus-ring); outline-offset:2px; }
-.business-profile__grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); }
-.business-profile__toggle { display:flex; align-items:center; gap:var(--space-2); color:var(--text); font-size:var(--text-size-body); font-weight:var(--text-weight-semibold); }
-.business-profile__policy { display:grid; gap:var(--space-3); margin:0; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); padding:var(--space-3); background:var(--surface-raised); }
-.business-profile__policy legend { padding:0 var(--space-1); color:var(--text); font-weight:var(--text-weight-semibold); }
-.business-profile__advanced-policy{display:grid;gap:var(--space-2);color:var(--text-muted)}.business-profile__advanced-policy summary{cursor:pointer;color:var(--text);font-weight:var(--text-weight-semibold)}.business-profile__advanced-policy[open]{padding-top:var(--space-2);border-top:1px solid var(--border-subtle)}
-.business-profile__toggle input { width:auto; }
-.business-profile__gallery { display:grid; gap:var(--space-3); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-base); }
-.business-profile__gallery h2,.business-profile__gallery p { margin:0; }
-.business-profile__gallery h2 { color:var(--text); font-size:var(--text-size-title); }
-.business-profile__gallery header p { margin-top:var(--space-1); color:var(--text-muted); font-size:var(--text-size-meta); }
-.business-profile__gallery-form { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) minmax(5rem,.6fr) auto; gap:var(--space-2); align-items:end; }
-.business-profile__gallery-upload { display:flex; gap:var(--space-2); align-items:end; padding-top:var(--space-2); border-top:1px solid var(--border-subtle); }
-.business-profile__gallery-preview { width:3rem; height:3rem; object-fit:cover; border-radius:var(--radius-control); }
-.business-profile__gallery-list { display:grid; gap:0; overflow:hidden; border:1px solid var(--border-subtle); border-radius:var(--radius-surface); }
-.business-profile__create-form { display:grid; gap:var(--space-3); }
-.business-profile__utility { display:grid; gap:var(--space-2); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
-.business-profile__utility h2,.business-profile__utility p { margin:0; }
-.business-profile__utility h2 { color:var(--text); font-size:var(--text-size-title); }
-.business-profile__utility dl { display:grid; gap:var(--space-2); margin:var(--space-2) 0; }
-.business-profile__utility dl div { display:flex; justify-content:space-between; gap:var(--space-2); border-top:1px solid var(--border-subtle); padding-top:var(--space-2); }
-.business-profile__utility dt { color:var(--text-soft); font-size:var(--text-size-meta); }
-.business-profile__utility dd { margin:0; color:var(--text); font-size:var(--text-size-meta); font-weight:var(--text-weight-semibold); }
-.business-profile__utility-note { color:var(--text-soft); font-size:var(--text-size-meta); line-height:1.45; }
-.business-profile :deep(.app-dialog__utility) { padding:var(--space-3); color:var(--text-muted); font-size:var(--text-size-body); line-height:1.5; }
-@media(max-width:860px) { .business-profile__workspace { grid-template-columns:1fr; } .business-profile__utility { order:2; } }
-@media(max-width:700px) { .business-profile__grid,.business-profile__gallery-form { grid-template-columns:1fr; } .business-profile__selector select { min-width:0; } }
-</style>

@@ -10,9 +10,13 @@
     "generate:contracts": "node ./scripts/generate-vision-contracts.mjs",
     "validate:contracts": "node ./scripts/generate-vision-contracts.mjs --check",
     "validate:web-surface": "node ./scripts/validate-web-surface-contract.mjs",
+    "validate:human-first": "node ./scripts/validate-human-first-web-contract.mjs",
+    "validate:preview-free": "node ./scripts/validate-preview-free-contract.mjs",
     "type-check": "vue-tsc --noEmit",
     "validate:admin-agent-ui": "node ./scripts/validate-admin-agent-ui-scenarios.mjs",
-    "validate:modern-surface": "node ./scripts/validate-modern-surface-contract.mjs"
+    "validate:modern-surface": "node ./scripts/validate-modern-surface-contract.mjs",
+    "test:runtime-harness": "node ./scripts/runtime-harness-self-test.mjs",
+    "audit:ui-style": "node ./scripts/audit-ui-style-standardization.mjs --scope=all"
   },
   "dependencies": {
     "@tiptap/extension-image": "^3.7.2",

@@ -24,3 +24,4 @@
 ## Validation Evidence
 
 - Record migration tests, backend tests, generated-artifact refreshes, and any frontend checks required by exposed contract changes.
+- Record completion through the current work-plan verifier; a manually written evidence note is not sufficient.

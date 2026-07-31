@@ -13,10 +13,19 @@ AST_SCRIPT = File.join(ROOT, "apps/themuffinman/frontend/scripts/repository-ast-
 query = nil
 check_only = false
 write_output = false
+max_output = 20_000
 ARGV.each_with_index do |arg, index|
   query = ARGV[index + 1] if arg == "--query"
   check_only = true if arg == "--check"
   write_output = true if arg == "--write"
+  next unless arg == "--max-output"
+
+  begin
+    max_output = Integer(ARGV[index + 1])
+  rescue ArgumentError, TypeError
+    abort "--max-output must be a positive integer"
+  end
+  abort "--max-output must be at least 512" if max_output < 512
 end
 
 ast_stdout, ast_stderr, ast_status = Open3.capture3("node", AST_SCRIPT, "--json", chdir: ROOT)
@@ -113,23 +122,79 @@ map = {
   }
 }
 
-if query
+def compact_frontend_match(row, needle)
+  {
+    "path" => row.fetch("path"),
+    "symbols" => row.fetch("symbols").select { |symbol| JSON.generate(symbol).downcase.include?(needle) },
+    "matching_imports" => row.fetch("imports").select { |import_path| import_path.downcase.include?(needle) }
+  }
+end
+
+def compact_backend_match(row)
+  row.slice("path", "package", "classes", "interfaces", "controllers", "services", "repositories", "endpoints")
+end
+
+def bounded_rows(rows, max_output)
+  selected = []
+  rows.each do |row|
+    candidate = selected + [row]
+    break if JSON.generate(candidate).bytesize > max_output
+
+    selected << row
+  end
+  { "rows" => selected, "truncated" => selected.length < rows.length }
+end
+
+def compact_query_map(map, query, max_output)
   needle = query.downcase
-  map["matches"] = {
-    "frontend" => frontend["files"].select { |row| JSON.generate(row).downcase.include?(needle) },
-    "backend" => backend.select { |row| JSON.generate(row).downcase.include?(needle) },
-    "capabilities" => capabilities.select { |row| JSON.generate(row).downcase.include?(needle) }
+  frontend_matches = map.dig("frontend_ast", "files").select { |row| JSON.generate(row).downcase.include?(needle) }
+    .map { |row| compact_frontend_match(row, needle) }
+  backend_matches = map.dig("backend", "files").select { |row| JSON.generate(row).downcase.include?(needle) }
+    .map { |row| compact_backend_match(row) }
+  capability_matches = map.dig("graph", "capabilities").select { |row| JSON.generate(row).downcase.include?(needle) }
+
+  # Keep each result family bounded so a common query never turns a targeted lookup
+  # into a serialization of the complete AST/import graph.
+  per_family_budget = [max_output / 3, 512].max
+  frontend_result = bounded_rows(frontend_matches, per_family_budget)
+  backend_result = bounded_rows(backend_matches, per_family_budget)
+  capability_result = bounded_rows(capability_matches, per_family_budget)
+
+  {
+    "version" => map.fetch("version"),
+    "kind" => "repository_context_query",
+    "generated_at" => map.fetch("generated_at"),
+    "query" => query,
+    "max_output_bytes" => max_output,
+    "summary" => {
+      "backend_files" => map.dig("backend", "summary", "files"),
+      "frontend_files" => map.dig("frontend_ast", "summary", "files"),
+      "capability_nodes" => map.dig("graph", "summary", "capability_nodes"),
+      "frontend_import_edges" => map.dig("graph", "summary", "frontend_import_edges")
+    },
+    "matches" => {
+      "frontend" => frontend_result.fetch("rows"),
+      "backend" => backend_result.fetch("rows"),
+      "capabilities" => capability_result.fetch("rows")
+    },
+    "truncated" => {
+      "frontend" => frontend_result.fetch("truncated"),
+      "backend" => backend_result.fetch("truncated"),
+      "capabilities" => capability_result.fetch("truncated")
+    }
   }
 end
 
 if check_only
   puts "Repository context map passed (#{backend.length} backend files, #{frontend.dig("summary", "files")} frontend files, #{yaml_files.length} YAML files)."
 else
-  serialized = JSON.pretty_generate(map)
+  output = query ? compact_query_map(map, query, max_output) : map
+  serialized = JSON.pretty_generate(output)
+  abort "Repository context query exceeded --max-output (#{serialized.bytesize} > #{max_output})" if query && serialized.bytesize > max_output
   if write_output
     output_path = File.join(ROOT, "docs/audit-output/repository-context-map.json")
     FileUtils.mkdir_p(File.dirname(output_path))
-    File.write(output_path, serialized)
+    File.write(output_path, JSON.pretty_generate(map))
     puts "Repository context map written to docs/audit-output/repository-context-map.json"
   else
     puts serialized

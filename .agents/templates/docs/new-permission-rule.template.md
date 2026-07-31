@@ -25,7 +25,7 @@
 
 - Update `docs/business-logic.md` when users can observe the rule.
 - Update `docs/domain-technical.md` with the authoritative permission invariant.
-- Update `docs/agent-operating-model.md` and permission matrices when automation can invoke or explain the rule.
+- Update `docs/agent-operating-model.yaml`, its relevant sections, and permission matrices when automation can invoke or explain the rule.
 
 ## Validation Evidence
 

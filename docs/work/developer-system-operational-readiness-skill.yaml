@@ -1,0 +1,85 @@
+kind: work
+version: 1
+id: developer-system-operational-readiness-skill
+title: Decide runtime-evidence skill readiness
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-system-operational-readiness-master.yaml
+execution_inventory: docs/work/developer-system-operational-readiness-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - record-runtime-evidence-skill-decision
+  minimum_verified_harness_pilots: 3
+  installation_in_scope: false
+  future_skill_creator_authorization_required: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-quality-next-master.yaml
+  baseline_only_surfaces:
+  - installed system skills and plugin availability
+  residual_scope:
+  - evidence-based create or defer decision after three total harness pilots
+  retest_triggers:
+  - harness API, migrated scenario count, skill location, or completion-authority
+    rule changes
+  non_duplication_rule: The decision records readiness only and does not install or
+    promote a skill.
+tasks:
+- id: record-runtime-evidence-skill-decision
+  title: Record the post-pilot skill decision
+  type: documentation
+  status: done
+  inventory_item: record-runtime-evidence-skill-decision
+  observable_outcome: A machine-readable decision uses the three verified harness
+    scenarios to recommend creation or continued deferral, names the future package
+    boundary, and preserves work-verifier authority.
+  dependencies:
+  - migrate-sidejobs-runtime-harness
+  evidence_boundary:
+  - explicit pilot count and evidence links
+  - create/defer rationale and future authorization boundary
+  paths: &1
+  - docs/runtime-evidence-skill-decision-2026-07-31.yaml
+  - docs/implementation-backlog.md
+  - docs/work/developer-system-operational-readiness-analysis.md
+  required_paths: *1
+  validation: ruby -ryaml -e 'decision = YAML.load_file(%q{docs/runtime-evidence-skill-decision-2026-07-31.yaml});
+    abort %q{invalid decision} unless %w[create defer].include?(decision[%q{decision}]);
+    abort %q{missing verifier boundary} unless decision[%q{completion_authority}]
+    == %q{repository work verifier}' && ruby scripts/audits/audit-docs-as-tests.rb
+  started_at: '2026-07-31T14:27:48Z'
+  start_fingerprints:
+    docs/runtime-evidence-skill-decision-2026-07-31.yaml: __missing__
+    docs/implementation-backlog.md: 8c1d252db263b665a570639ae0b4c8444e2671f3f978c481b11539fd4deff1eb
+    docs/work/developer-system-operational-readiness-analysis.md: 64b91f84672cb6787d492ddef8a283f4ec40f87cc390d5ca209a1290c010d408
+evidence:
+- task: record-runtime-evidence-skill-decision
+  command: ruby -ryaml -e 'decision = YAML.load_file(%q{docs/runtime-evidence-skill-decision-2026-07-31.yaml});
+    abort %q{invalid decision} unless %w[create defer].include?(decision[%q{decision}]);
+    abort %q{missing verifier boundary} unless decision[%q{completion_authority}]
+    == %q{repository work verifier}' && ruby scripts/audits/audit-docs-as-tests.rb
+  ranAt: '2026-07-31T14:28:26Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-backlog.md
+  - docs/runtime-evidence-skill-decision-2026-07-31.yaml
+  - docs/work/developer-system-operational-readiness-analysis.md
+  output: |+
+    Docs as tests
+      statements scanned: 383
+      review needed: 0
+      high priority: 0
+
+  startedAt: '2026-07-31T14:27:48Z'
+  changedAfterStart: &2
+  - docs/runtime-evidence-skill-decision-2026-07-31.yaml
+  - docs/implementation-backlog.md
+  - docs/work/developer-system-operational-readiness-analysis.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

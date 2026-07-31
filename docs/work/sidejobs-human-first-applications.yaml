@@ -1,0 +1,81 @@
+kind: work
+version: 1
+id: sidejobs-human-first-applications
+title: Clarify SideJob requests and owner decisions
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/sidejobs-human-first-master.yaml
+execution_inventory: docs/work/sidejobs-human-first-execution-inventory.yaml
+tasks:
+- id: clarify-sidejob-applications
+  title: Explain requester and owner decision states in SideJob language
+  type: implementation
+  status: done
+  inventory_item: clarify-sidejob-applications
+  observable_outcome: Requesters can understand their submitted requests and owners
+    can review people in a selected SideJob without raw workflow jargon or permission
+    inference.
+  dependencies:
+  - simplify-sidejob-posting
+  evidence_boundary:
+  - frontend type check
+  - production build
+  - owner application read test
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationsReadServiceTest.java
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationsReadServiceTest.java
+  validation: cd apps/themuffinman && ./mvnw test -Dtest=WorkmarketQuestApplicationsReadServiceTest
+    && npm --prefix frontend run type-check && npm --prefix frontend run build
+  started_at: '2026-07-30T19:38:37Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue: 4faba420b3a0137f652731e771aba03ca5e7ea1a1f14a1b4324808daf41f4edb
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue: cf967434b37898d7663a1883385602f56eb79429227b7585c1d9296075922982
+    apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationsReadServiceTest.java: __missing__
+evidence:
+- task: clarify-sidejob-applications
+  command: cd apps/themuffinman && ./mvnw test -Dtest=WorkmarketQuestApplicationsReadServiceTest
+    && npm --prefix frontend run type-check && npm --prefix frontend run build
+  ranAt: '2026-07-30T19:40:41Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationsReadServiceTest.java
+  output: |+
+    dist/assets/ThingsDiscoveryView-tY9J7Nfa.js                   10.52 kB │ gzip:   3.73 kB
+    dist/assets/RidesView-ekajqQKu.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/WorkPage-B5lHuw8b.js                              13.36 kB │ gzip:   5.15 kB
+    dist/assets/BusinessServiceSchemaView-NHe2wtca.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/CirclesView-BIGqrRiW.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-DQw1BcMo.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-BBV05_Dd.js                   17.52 kB │ gzip:   5.18 kB
+    dist/assets/HomeHubView-B418Gm7D.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/BusinessPublicView-CzAzEbu_.js                    23.33 kB │ gzip:   7.67 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-jV1JUwQV.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-KiM-uJM2.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-B1fe2tRt.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BPd2jg7w.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-DLkGd_q_.js                                 63.64 kB │ gzip:  15.81 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 613ms
+
+  startedAt: '2026-07-30T19:38:37Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestApplicationsView.vue
+  - apps/themuffinman/src/test/java/com/themuffinman/app/workmarket/service/WorkmarketQuestApplicationsReadServiceTest.java
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

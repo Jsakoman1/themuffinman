@@ -1,0 +1,242 @@
+kind: work
+version: 1
+id: human-first-web-visual-foundation
+title: Close the warm reference-aligned visual system
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-web-experience-master.yaml
+execution_inventory: docs/work/human-first-web-experience-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-ui-unification-no-mascot-foundation.yaml
+  - docs/work/home-brand-hero-header.yaml
+  baseline_only_surfaces:
+  - existing logo source
+  - Home launcher hierarchy
+  - semantic status colors
+  residual_scope:
+  - closed theme aliases
+  - complete tokens
+  - optimized header logo
+  - desktop SVG icons
+  - whole-app style and contrast guard
+  retest_triggers:
+  - token
+  - theme
+  - shell
+  - header
+  - logo
+  - icon
+  - or audit changes
+  non_duplication_rule: Prior screenshots are comparison context; this plan closes
+    only remaining visual-system defects.
+readiness:
+  reference_contract: Warm sand canvas, navy text, large pastel destinations, restrained
+    controls, and a prominent tightly cropped wordmark.
+  asset_boundary: docs/work/assets/logo_transparent.png is source material; the runtime
+    asset belongs in frontend/public.
+  theme_decision: Light is the reference-aligned default; any retained explicit dark
+    mode must use a complete independent token scope.
+tasks:
+- id: close-theme-token-contract
+  title: Eliminate mixed theme layers and missing semantic tokens
+  type: implementation
+  status: done
+  inventory_item: close-theme-token-contract
+  observable_outcome: Authenticated pages default to one reference-aligned light sand
+    token scope with readable controls and no undeclared variables or accidental system-dark
+    mixing; any explicit dark choice remains internally coherent.
+  dependencies:
+  - specialize-operational-review
+  evidence_boundary:
+  - token audit
+  - contrast-oriented source audit
+  - frontend build
+  paths: &1
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  required_paths: *1
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T20:52:11Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/styles/base.css: 9c19ffedb56f97e58aad611627afb9968e53537f36aa3cc7edc1a4760576ba2c
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 150bed5cad4c21e5f028e3a8a774886539ea667488c78e5c24035f9926e6d8a5
+    apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue: 0e02c203b9d7ca49f9f857de3c9c7323de8df07ac55ed91751bbc81300ca29bd
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue: 19189dbeb19295eddad2af1cc61fe939ff062286893e94b56b52fcfd634d1be5
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: 9e25fb628173168256215341b86b0fa9081ff156d54116496f0f34c2f11ffdfc
+- id: refine-logo-header-and-icons
+  title: Make the logo and navigation identity deliberate
+  type: implementation
+  status: done
+  inventory_item: refine-logo-header-and-icons
+  observable_outcome: A tightly bounded transparent wordmark is prominent on Home,
+    compact on subpages, and desktop navigation uses the same SVG purpose-icon family
+    as mobile.
+  dependencies:
+  - close-theme-token-contract
+  evidence_boundary:
+  - asset dimension review
+  - frontend type-check/build
+  paths: &2
+  - apps/themuffinman/frontend/public/logo_header.png
+  - apps/themuffinman/frontend/src/brand.ts
+  - apps/themuffinman/frontend/vite.config.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  required_paths: *2
+  validation: file apps/themuffinman/frontend/public/logo_header.png && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T20:55:34Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/public/logo_header.png: __missing__
+    apps/themuffinman/frontend/src/brand.ts: 72d773666e1a159d5441da4ac5f748697bec5f6f56bf213f4ce06b2b95f4f573
+    apps/themuffinman/frontend/vite.config.ts: 1d98bdb71978fd356fde082144c45326d3e18476867233e3f4cdc876053e6e31
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: a14ca338168f35433ebe57b9af61995a56b5f0c3e013ef363e5cbc24a04cae83
+    apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue: c75c956df3cade4a877fde3cd030201b4cc8959dba24ec012da92f65d35e55c0
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue: a5ed25584fb730e55ad593fff8b1b4378c7ddbd118dc534a1c9d0e109a632e7b
+- id: expand-visual-standardization-audit
+  title: Audit every authenticated Vue surface for visual drift
+  type: implementation
+  status: done
+  inventory_item: expand-visual-standardization-audit
+  observable_outcome: The style audit discovers all app-shell Vue files and rejects
+    repeated style blocks, undeclared tokens, forbidden Unicode module icons, and
+    uncontrolled hard-coded brand colors.
+  dependencies:
+  - refine-logo-header-and-icons
+  evidence_boundary:
+  - whole-app style audit
+  - package script execution
+  paths: &3
+  - apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+  - apps/themuffinman/frontend/package.json
+  - apps/themuffinman/frontend/src/styles/base.css
+  required_paths: *3
+  validation: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all
+  started_at: '2026-07-29T20:56:58Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs: eecc9ec5ca60ecd51238df35d3f6306babc9d73be56585d60ab372a3559f71ec
+    apps/themuffinman/frontend/package.json: 949b09b4dafd260e8b43cbab5d0ca6c82bacc7e272229f2b01821c2d25690d8f
+    apps/themuffinman/frontend/src/styles/base.css: 60a1fbcbe1aeb2a40ce679964b3e6dfc8bfeabfde37b3436132c5fbfae4e93cb
+evidence:
+- task: close-theme-token-contract
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T20:55:18Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/styles/base.css
+  output: |+
+    dist/assets/CalendarPage-CoBttMbv.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-bGk0oe75.js                   12.03 kB │ gzip:   4.01 kB
+    dist/assets/BusinessServiceSchemaView-CtVHpBDD.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-BCBZvV53.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-wFkgPIaj.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-B0f9D9YR.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-B8ACUNSZ.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-bAi4X4Mb.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-Db_cXImN.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-Bsh5Fm1_.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CabHNhYI.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BIZHx_WI.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BkWB8c0p.js                     57.80 kB │ gzip:  14.24 kB
+    dist/assets/index-bXB5IWbm.js                                 62.78 kB │ gzip:  15.61 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 544ms
+
+  startedAt: '2026-07-29T20:52:11Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: refine-logo-header-and-icons
+  command: file apps/themuffinman/frontend/public/logo_header.png && npm --prefix
+    apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T20:56:48Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/vite.config.ts
+  - apps/themuffinman/frontend/public/logo_header.png
+  - apps/themuffinman/frontend/src/brand.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  output: |+
+    dist/assets/CalendarPage-IQ1TXQBa.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-2H-pSACs.js                   12.03 kB │ gzip:   4.00 kB
+    dist/assets/BusinessServiceSchemaView--e-OtZdq.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-BybARE-5.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-mVxck7Ba.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-BciFGkLY.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-C_YS5Dhy.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-DqRpmJRF.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-iMmEEPQ-.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-Bg6Bqsq-.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-D05cwsd1.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-1yqDNjpp.js                35.42 kB │ gzip:  11.84 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BEPaTwJ2.js                     57.80 kB │ gzip:  14.24 kB
+    dist/assets/index-DCFdfA8p.js                                 62.78 kB │ gzip:  15.63 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 556ms
+
+  startedAt: '2026-07-29T20:55:34Z'
+  changedAfterStart: &5
+  - apps/themuffinman/frontend/public/logo_header.png
+  - apps/themuffinman/frontend/src/brand.ts
+  - apps/themuffinman/frontend/vite.config.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/WorkspaceModuleRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  requiredPaths: *5
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: expand-visual-standardization-audit
+  command: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all
+  ranAt: '2026-07-29T20:58:47Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/package.json
+  - apps/themuffinman/frontend/src/styles/base.css
+  - apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+  output: "UI style standardization audit passed (all, 96 app-shell Vue files).\n\n"
+  startedAt: '2026-07-29T20:56:58Z'
+  changedAfterStart: &6
+  - apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+  - apps/themuffinman/frontend/package.json
+  - apps/themuffinman/frontend/src/styles/base.css
+  requiredPaths: *6
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

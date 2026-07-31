@@ -1,0 +1,122 @@
+kind: execution-inventory
+version: 1
+id: developer-tooling-quality-next-execution-inventory
+master_plan: docs/work/developer-tooling-quality-next-master.yaml
+status: draft
+serial: true
+hardening_contract:
+  first_item: harden-developer-tooling-quality-next-inventory
+  advancement_rule: No implementation item starts until hardening is verifier-verified.
+  evidence_contract: Each item produces new bounded local evidence; runtime and IDE
+    environment observations remain separate from source/build success.
+readiness_review:
+  dependency_chain_checked: true
+  task_mapping_checked: true
+  required_paths_checked: true
+  future_path_ownership_checked: true
+  leaf_validations_checked: true
+  recursive_verification_absent: true
+  changed_path_router_gaps_assigned:
+  - ".agents"
+  - ".run"
+  runtime_item: migrate-brand-header-runtime-pilot
+items:
+- id: harden-developer-tooling-quality-next-inventory
+  sequence: 1
+  plan: docs/work/developer-tooling-quality-next-atomic-hardening.yaml
+  task: harden-developer-tooling-quality-next-inventory
+  status: verified
+  started_at: '2026-07-31T13:42:41Z'
+  verified_at: '2026-07-31T13:43:32Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-atomic-hardening.yaml
+    task: harden-developer-tooling-quality-next-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: reconcile-modern-surface-sidejob-contract
+  sequence: 2
+  plan: docs/work/developer-tooling-quality-next-health.yaml
+  task: reconcile-modern-surface-sidejob-contract
+  status: verified
+  started_at: '2026-07-31T13:44:43Z'
+  verified_at: '2026-07-31T13:44:52Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-health.yaml
+    task: reconcile-modern-surface-sidejob-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: enforce-agent-template-freshness
+  sequence: 3
+  plan: docs/work/developer-tooling-quality-next-health.yaml
+  task: enforce-agent-template-freshness
+  status: verified
+  started_at: '2026-07-31T13:44:58Z'
+  verified_at: '2026-07-31T13:49:06Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-health.yaml
+    task: enforce-agent-template-freshness
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: compact-tool-self-test-output
+  sequence: 4
+  plan: docs/work/developer-tooling-quality-next-health.yaml
+  task: compact-tool-self-test-output
+  status: verified
+  started_at: '2026-07-31T13:49:21Z'
+  verified_at: '2026-07-31T13:50:20Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-health.yaml
+    task: compact-tool-self-test-output
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: enforce-work-artifact-schema
+  sequence: 5
+  plan: docs/work/developer-tooling-quality-next-control.yaml
+  task: enforce-work-artifact-schema
+  status: verified
+  started_at: '2026-07-31T13:50:50Z'
+  verified_at: '2026-07-31T13:52:18Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-control.yaml
+    task: enforce-work-artifact-schema
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-shared-runtime-evidence-harness
+  sequence: 6
+  plan: docs/work/developer-tooling-quality-next-runtime.yaml
+  task: add-shared-runtime-evidence-harness
+  status: verified
+  started_at: '2026-07-31T13:52:36Z'
+  verified_at: '2026-07-31T13:53:10Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-runtime.yaml
+    task: add-shared-runtime-evidence-harness
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: migrate-brand-header-runtime-pilot
+  sequence: 7
+  plan: docs/work/developer-tooling-quality-next-runtime.yaml
+  task: migrate-brand-header-runtime-pilot
+  status: verified
+  started_at: '2026-07-31T13:53:17Z'
+  verified_at: '2026-07-31T13:55:55Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-runtime.yaml
+    task: migrate-brand-header-runtime-pilot
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-shared-intellij-run-configurations
+  sequence: 8
+  plan: docs/work/developer-tooling-quality-next-idea.yaml
+  task: add-shared-intellij-run-configurations
+  status: verified
+  started_at: '2026-07-31T13:56:02Z'
+  verified_at: '2026-07-31T13:58:17Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-idea.yaml
+    task: add-shared-intellij-run-configurations
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: close-developer-tooling-quality-next
+  sequence: 9
+  plan: docs/work/developer-tooling-quality-next-closeout.yaml
+  task: close-developer-tooling-quality-next
+  status: verified
+  started_at: '2026-07-31T13:58:29Z'
+  verified_at: '2026-07-31T13:59:56Z'
+  evidence:
+    plan: docs/work/developer-tooling-quality-next-closeout.yaml
+    task: close-developer-tooling-quality-next
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

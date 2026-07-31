@@ -1,0 +1,33 @@
+kind: master
+version: 1
+id: sidejobs-human-first
+title: Reframe Work as a human-friendly SideJobs module
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+prepared_for_goal_pursuit: true
+analysis_artifact: docs/work/sidejobs-human-first-analysis.md
+execution_inventory: docs/work/sidejobs-human-first-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/sidejobs-human-first-atomic-hardening.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans: [docs/work/app-wide-friendly-design-master.yaml, docs/work/human-first-web-experience-master.yaml]
+  baseline_only_surfaces: [Quest persistence schema, existing application authorization, assignment lifecycle, Circle visibility policy, Vision quest mutation]
+  residual_scope: [SideJobs vocabulary, backend-prepared summary and attention reads, intent-led discovery, detail/request hierarchy, truthful posting flow, runtime proof]
+  retest_triggers: [Quest DTO changes, search endpoint changes, application action changes, Work route changes, responsive Work UI changes]
+  non_duplication_rule: Existing Quest lifecycle and permission evidence remains baseline; this program changes only the SideJobs presentation contract and its consuming Web flows unless a named task changes backend rules.
+requirements:
+  - Public UI calls the module SideJobs and calls a Quest a SideJob without renaming persisted Quest storage in this program.
+  - Every list/detail decision is backed by a server-prepared label, fact, or allowed action.
+  - Discovery cards answer what, when/where, reward/agreement, scale, and next action without opening the detail.
+  - Posting never presents a category or promise that is not persisted and validated.
+  - My activity is role-neutral and groups attention without exposing another person's private request data.
+children:
+  - docs/work/sidejobs-human-first-atomic-hardening.yaml
+  - docs/work/sidejobs-human-first-contract.yaml
+  - docs/work/sidejobs-human-first-discovery.yaml
+  - docs/work/sidejobs-human-first-detail.yaml
+  - docs/work/sidejobs-human-first-posting.yaml
+  - docs/work/sidejobs-human-first-applications.yaml
+  - docs/work/sidejobs-human-first-closeout.yaml

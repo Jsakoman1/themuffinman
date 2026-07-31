@@ -1,0 +1,95 @@
+kind: work
+version: 1
+id: local-tabs-navigation-closeout
+title: Close local tabs navigation program
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/local-tabs-navigation-master.yaml
+execution_inventory: docs/work/local-tabs-navigation-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/local-tabs-navigation-modules.yaml
+  baseline_only_surfaces:
+  - prior runtime evidence
+  residual_scope:
+  - documentation closeout
+  retest_triggers:
+  - named module navigation
+  non_duplication_rule: Existing screenshots are baseline.
+tasks:
+- id: close-local-tabs-navigation
+  title: Close local tabs navigation
+  type: documentation
+  inventory_item: close-local-tabs-navigation
+  status: done
+  observable_outcome: Product documentation records the stable module-rail and local-tab
+    rule.
+  dependencies:
+  - add-people-rides-services-local-tabs
+  evidence_boundary:
+  - frontend type-check/build
+  - master verification
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/work/local-tabs-navigation-master.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/work/local-tabs-navigation-master.yaml
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T18:22:10Z'
+  start_fingerprints:
+    docs/business-logic.md: 57622791278c91b2b65a5a146e84f734a1aba0321396cf4bb0ed1d4f59fb4386
+    docs/domain-technical.md: 8664cf6fc0a26560cb6caa2bca3618e1c72ead532a672768921a47f80299b923
+    docs/product-memory.md: 0531fd40be82da31e6e84fe4eecdaf38527d46dff4eacb6ba597c047731e9eae
+    docs/work/local-tabs-navigation-master.yaml: 00b217f78f7614f664075a87f7fe6c6ab75e0a108387647c7d6b45ba4054d7d0
+evidence:
+- task: close-local-tabs-navigation
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T18:22:28Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/work/local-tabs-navigation-master.yaml
+  output: |+
+    dist/assets/CalendarPage-C2O49TEW.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-DowWfL-P.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-CJ1uFxQX.js                   13.48 kB │ gzip:   4.46 kB
+    dist/assets/BusinessPublicView-CC8tnRjg.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CQIN1B71.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-9LE7bh7H.js                              16.10 kB │ gzip:   5.92 kB
+    dist/assets/WorkQuestDetailView-C3hEQ3zj.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-DTHqUH2P.js                             17.40 kB │ gzip:   5.59 kB
+    dist/assets/ChatSurfaceView-lb-4QPeA.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-BB3ttbkv.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-v_SwUkuB.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-aeYTeKfm.js                35.14 kB │ gzip:  11.67 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-CsiN_jkR.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-Bf4e0h4O.js                                 62.85 kB │ gzip:  15.57 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 581ms
+
+  startedAt: '2026-07-29T18:22:10Z'
+  changedAfterStart: &1
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/work/local-tabs-navigation-master.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

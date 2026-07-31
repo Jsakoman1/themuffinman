@@ -1,0 +1,271 @@
+kind: work
+version: 1
+id: human-ui-unification-no-mascot-closeout
+title: Verify Home and cross-route visual unification
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_hardening:
+  prerequisite: Runtime proof follows the final whole-app style audit and must use
+    fresh artifacts from this program.
+master_plan: docs/work/human-ui-unification-no-mascot-master.yaml
+execution_inventory: docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-style-visual-parity-closeout.yaml
+  baseline_only_surfaces:
+  - prior Home-only screenshots and overflow traces
+  residual_scope:
+  - fresh Home
+  - collection
+  - context
+  - detail
+  - and setup screenshots at desktop and mobile widths
+  retest_triggers:
+  - any planned visual-system
+  - Home
+  - archetype
+  - route-adoption
+  - or responsive change
+  non_duplication_rule: Previous screenshots are reference context only; closeout
+    requires fresh multi-route evidence from this implementation state.
+runtime_route_resolution:
+  rule: Resolve representative detail and Business setup destinations through canonical
+    visible links or authenticated seeded responses; never hardcode entity or business
+    identifiers.
+  required_families:
+  - Home
+  - Work collection
+  - Calendar context
+  - object detail
+  - Business setup
+  failure_policy: A missing representative destination is a failed runtime audit,
+    not permission to substitute another Home screenshot.
+tasks:
+- id: audit-human-ui-desktop
+  title: Audit unified UI on desktop
+  type: documentation
+  status: done
+  inventory_item: audit-human-ui-desktop
+  observable_outcome: Fresh authenticated 1440px screenshots and trace prove Home,
+    Work, Calendar, a detail route, and Business setup share the intended friendly
+    hierarchy without clipping, unintended theme mixing, horizontal overflow, or browser
+    errors.
+  dependencies:
+  - consolidate-marketplace-personal-styles
+  evidence_boundary:
+  - frontend type-check/build
+  - five desktop screenshots
+  - authenticated browser trace
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/human-ui-unification-desktop-home.png
+  - docs/runtime-evidence/human-ui-unification-desktop-work.png
+  - docs/runtime-evidence/human-ui-unification-desktop-calendar.png
+  - docs/runtime-evidence/human-ui-unification-desktop-detail.png
+  - docs/runtime-evidence/human-ui-unification-desktop-setup.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/human-ui-unification-desktop-runtime.json
+  paths:
+  - apps/themuffinman/frontend/scripts/human-ui-unification-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/human-ui-unification-desktop-home.png
+  - docs/runtime-evidence/human-ui-unification-desktop-work.png
+  - docs/runtime-evidence/human-ui-unification-desktop-calendar.png
+  - docs/runtime-evidence/human-ui-unification-desktop-detail.png
+  - docs/runtime-evidence/human-ui-unification-desktop-setup.png
+  - docs/runtime-evidence/human-ui-unification-desktop-runtime.json
+  required_paths:
+  - apps/themuffinman/frontend/scripts/human-ui-unification-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/human-ui-unification-desktop-home.png
+  - docs/runtime-evidence/human-ui-unification-desktop-work.png
+  - docs/runtime-evidence/human-ui-unification-desktop-calendar.png
+  - docs/runtime-evidence/human-ui-unification-desktop-detail.png
+  - docs/runtime-evidence/human-ui-unification-desktop-setup.png
+  - docs/runtime-evidence/human-ui-unification-desktop-runtime.json
+  validation: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run validate:web-surface
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T19:43:12Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/human-ui-unification-runtime.mjs: __missing__
+    docs/product-memory.md: 888572839003298f00da7b6761bbc9c2211043a681c3dbe8468fc8a961461874
+    docs/runtime-evidence/human-ui-unification-desktop-home.png: __missing__
+    docs/runtime-evidence/human-ui-unification-desktop-work.png: __missing__
+    docs/runtime-evidence/human-ui-unification-desktop-calendar.png: __missing__
+    docs/runtime-evidence/human-ui-unification-desktop-detail.png: __missing__
+    docs/runtime-evidence/human-ui-unification-desktop-setup.png: __missing__
+    docs/runtime-evidence/human-ui-unification-desktop-runtime.json: __missing__
+- id: audit-human-ui-mobile
+  title: Audit unified UI on mobile
+  type: documentation
+  status: done
+  inventory_item: audit-human-ui-mobile
+  observable_outcome: Fresh authenticated 390px screenshots and trace prove the same
+    five route families retain a compact first view, readable touch controls, deliberate
+    context transitions, and no horizontal overflow or browser errors.
+  dependencies:
+  - audit-human-ui-desktop
+  evidence_boundary:
+  - frontend type-check/build
+  - five mobile screenshots
+  - authenticated browser trace
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/human-ui-unification-mobile-home.png
+  - docs/runtime-evidence/human-ui-unification-mobile-work.png
+  - docs/runtime-evidence/human-ui-unification-mobile-calendar.png
+  - docs/runtime-evidence/human-ui-unification-mobile-detail.png
+  - docs/runtime-evidence/human-ui-unification-mobile-setup.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/human-ui-unification-mobile-runtime.json
+  paths:
+  - docs/product-memory.md
+  - docs/runtime-evidence/human-ui-unification-mobile-home.png
+  - docs/runtime-evidence/human-ui-unification-mobile-work.png
+  - docs/runtime-evidence/human-ui-unification-mobile-calendar.png
+  - docs/runtime-evidence/human-ui-unification-mobile-detail.png
+  - docs/runtime-evidence/human-ui-unification-mobile-setup.png
+  - docs/runtime-evidence/human-ui-unification-mobile-runtime.json
+  required_paths:
+  - docs/product-memory.md
+  - docs/runtime-evidence/human-ui-unification-mobile-home.png
+  - docs/runtime-evidence/human-ui-unification-mobile-work.png
+  - docs/runtime-evidence/human-ui-unification-mobile-calendar.png
+  - docs/runtime-evidence/human-ui-unification-mobile-detail.png
+  - docs/runtime-evidence/human-ui-unification-mobile-setup.png
+  - docs/runtime-evidence/human-ui-unification-mobile-runtime.json
+  validation: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run validate:web-surface
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T19:46:58Z'
+  start_fingerprints:
+    docs/product-memory.md: 1b5ec19491e0160eba21e9de364fa64443cd453c3fba203453483f222c4e420d
+    docs/runtime-evidence/human-ui-unification-mobile-home.png: __missing__
+    docs/runtime-evidence/human-ui-unification-mobile-work.png: __missing__
+    docs/runtime-evidence/human-ui-unification-mobile-calendar.png: __missing__
+    docs/runtime-evidence/human-ui-unification-mobile-detail.png: __missing__
+    docs/runtime-evidence/human-ui-unification-mobile-setup.png: __missing__
+    docs/runtime-evidence/human-ui-unification-mobile-runtime.json: __missing__
+evidence:
+- task: audit-human-ui-desktop
+  command: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run validate:web-surface
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T19:46:53Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/product-memory.md
+  - apps/themuffinman/frontend/scripts/human-ui-unification-runtime.mjs
+  - docs/runtime-evidence/human-ui-unification-desktop-calendar.png
+  - docs/runtime-evidence/human-ui-unification-desktop-detail.png
+  - docs/runtime-evidence/human-ui-unification-desktop-home.png
+  - docs/runtime-evidence/human-ui-unification-desktop-runtime.json
+  - docs/runtime-evidence/human-ui-unification-desktop-setup.png
+  - docs/runtime-evidence/human-ui-unification-desktop-work.png
+  output: |+
+    dist/assets/CalendarPage-BQ79SCoJ.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-B-53luTB.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/ThingsDiscoveryView-7zubM5I8.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-CAu_iZzA.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-Ddg7tSuN.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-Szt-b8mP.js                              16.22 kB │ gzip:   5.95 kB
+    dist/assets/WorkQuestDetailView-D3-WjrIE.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/RidesView-CZR-mjYX.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-CHNadBYL.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DJGhMSd1.js                           21.36 kB │ gzip:   6.54 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DfcPBcm4.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-DMPruncx.js                35.53 kB │ gzip:  11.82 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BoY_Ug17.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-DBED1Ss3.js                                 62.97 kB │ gzip:  15.60 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 599ms
+
+  startedAt: '2026-07-29T19:43:12Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/scripts/human-ui-unification-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/human-ui-unification-desktop-home.png
+  - docs/runtime-evidence/human-ui-unification-desktop-work.png
+  - docs/runtime-evidence/human-ui-unification-desktop-calendar.png
+  - docs/runtime-evidence/human-ui-unification-desktop-detail.png
+  - docs/runtime-evidence/human-ui-unification-desktop-setup.png
+  - docs/runtime-evidence/human-ui-unification-desktop-runtime.json
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/human-ui-unification-desktop-home.png
+  - docs/runtime-evidence/human-ui-unification-desktop-work.png
+  - docs/runtime-evidence/human-ui-unification-desktop-calendar.png
+  - docs/runtime-evidence/human-ui-unification-desktop-detail.png
+  - docs/runtime-evidence/human-ui-unification-desktop-setup.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/human-ui-unification-desktop-runtime.json
+- task: audit-human-ui-mobile
+  command: node apps/themuffinman/frontend/scripts/audit-ui-style-standardization.mjs
+    --scope=all && npm --prefix apps/themuffinman/frontend run validate:web-surface
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T19:47:28Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/product-memory.md
+  - docs/runtime-evidence/human-ui-unification-mobile-calendar.png
+  - docs/runtime-evidence/human-ui-unification-mobile-detail.png
+  - docs/runtime-evidence/human-ui-unification-mobile-home.png
+  - docs/runtime-evidence/human-ui-unification-mobile-runtime.json
+  - docs/runtime-evidence/human-ui-unification-mobile-setup.png
+  - docs/runtime-evidence/human-ui-unification-mobile-work.png
+  output: |+
+    dist/assets/CalendarPage-BQ79SCoJ.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-B-53luTB.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/ThingsDiscoveryView-7zubM5I8.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-CAu_iZzA.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-Ddg7tSuN.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-Szt-b8mP.js                              16.22 kB │ gzip:   5.95 kB
+    dist/assets/WorkQuestDetailView-D3-WjrIE.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/RidesView-CZR-mjYX.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-CHNadBYL.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DJGhMSd1.js                           21.36 kB │ gzip:   6.54 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DfcPBcm4.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-DMPruncx.js                35.53 kB │ gzip:  11.82 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BoY_Ug17.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-DBED1Ss3.js                                 62.97 kB │ gzip:  15.60 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 554ms
+
+  startedAt: '2026-07-29T19:46:58Z'
+  changedAfterStart: &2
+  - docs/product-memory.md
+  - docs/runtime-evidence/human-ui-unification-mobile-home.png
+  - docs/runtime-evidence/human-ui-unification-mobile-work.png
+  - docs/runtime-evidence/human-ui-unification-mobile-calendar.png
+  - docs/runtime-evidence/human-ui-unification-mobile-detail.png
+  - docs/runtime-evidence/human-ui-unification-mobile-setup.png
+  - docs/runtime-evidence/human-ui-unification-mobile-runtime.json
+  requiredPaths: *2
+  visualEvidencePaths:
+  - docs/runtime-evidence/human-ui-unification-mobile-home.png
+  - docs/runtime-evidence/human-ui-unification-mobile-work.png
+  - docs/runtime-evidence/human-ui-unification-mobile-calendar.png
+  - docs/runtime-evidence/human-ui-unification-mobile-detail.png
+  - docs/runtime-evidence/human-ui-unification-mobile-setup.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/human-ui-unification-mobile-runtime.json

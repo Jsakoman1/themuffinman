@@ -3,7 +3,9 @@ package com.themuffinman.app.business.controller;
 import com.themuffinman.app.business.dto.BusinessOfferingListResponseDTO;
 import com.themuffinman.app.business.dto.BusinessOfferingRequestDTO;
 import com.themuffinman.app.business.dto.BusinessOfferingResponseDTO;
+import com.themuffinman.app.business.dto.BusinessOfferingSetupDTO;
 import com.themuffinman.app.business.service.BusinessOfferingService;
+import com.themuffinman.app.business.service.BusinessOfferingSetupService;
 import com.themuffinman.app.business.service.BusinessOfferingSchemaService;
 import com.themuffinman.app.identity.model.AppUser;
 import jakarta.validation.Valid;
@@ -26,6 +28,12 @@ public class BusinessOfferingController {
 
     private final BusinessOfferingService businessOfferingService;
     private final BusinessOfferingSchemaService businessOfferingSchemaService;
+    private final BusinessOfferingSetupService businessOfferingSetupService;
+
+    @GetMapping("/setup/me")
+    public BusinessOfferingSetupDTO getMyOfferingSetup(@RequestParam Long businessProfileId, @AuthenticationPrincipal AppUser currentUser) {
+        return businessOfferingSetupService.getSetup(currentUser, businessProfileId);
+    }
 
     @GetMapping("/me")
     public BusinessOfferingListResponseDTO getMyOfferings(@RequestParam(required = false) Long businessProfileId, @AuthenticationPrincipal AppUser currentUser) {

@@ -4,6 +4,12 @@ recordedAt: unknown
 summary:
   - Replace this entry with a short validation summary for the change.
 commands:
+  - command: make work-verify plan=<work-plan>
+    scope: verifier
+    result: not_applicable
+    ranAt: unknown
+    summary: Replace this placeholder with verifier-created evidence; do not mark a plan verified manually.
+    skippedReason: Template placeholder only.
   - command: ruby scripts/todo-audit.rb
     scope: docs
     result: not_applicable
@@ -11,7 +17,7 @@ commands:
     summary: Replace this example with an actual command result or remove it.
     skippedReason: Template placeholder only.
 generatedArtifacts:
-  - path: docs/generated/source-of-truth-audit.json
+  - path: docs/audit-output/<change-id>.json
     action: not_applicable
     result: not_applicable
     ranAt: unknown

@@ -10,16 +10,19 @@ import BusinessOwnerOverviewView from "./BusinessOwnerOverviewView.vue"
 import BusinessOfferingsView from "./BusinessOfferingsView.vue"
 import BusinessBookingsView from "./BusinessBookingsView.vue"
 import BusinessOwnerCalendarView from "./BusinessOwnerCalendarView.vue"
-import SurfaceHeader from "../components/SurfaceHeader.vue"
-import {getAppSurfaceConfig} from "../shellDefinitions.ts"
+import FriendlyCollectionHeader from "../components/FriendlyCollectionHeader.vue"
 import type {BusinessOwnerDashboardDTO} from "../../../contracts/index.ts"
 
 const route = useRoute()
 const router = useRouter()
-const surface = getAppSurfaceConfig("business")
 const profiles = ref<Awaited<ReturnType<typeof userShellApi.getMyBusinessProfiles>>>([])
 const error = ref("")
 const dashboard = ref<BusinessOwnerDashboardDTO | null>(null)
+const businessTabs = computed(() => [
+  {id: "overview", label: "My businesses", route: "/business", backendScope: "business.owner", emptyState: "Create your first business."},
+  ...profiles.value.map((profile) => ({id: `business-${profile.id}`, label: profile.businessName, route: `/business/profile?businessId=${profile.id}`, backendScope: "business.owner.workspace", emptyState: "Open this business workspace."}))
+])
+const activeBusinessTab = computed(() => selectedBusinessId.value ? `business-${selectedBusinessId.value}` : "overview")
 const tabs = computed(() => [
   {id: "profile", label: "Overview", route: `/business/profile?businessId=${selectedBusinessId.value ?? ''}`, backendScope: "business.owner.overview", emptyState: "Create your business profile."},
   {id: "calendar", label: "Calendar", route: `/business/calendar?businessId=${selectedBusinessId.value ?? ''}`, backendScope: "business.owner.calendar", emptyState: "No availability configured."},
@@ -45,7 +48,8 @@ onMounted(async () => { try { profiles.value = await userShellApi.getMyBusinessP
 
 <template>
   <section class="business-owner-page" aria-label="Business owner workspace" data-owner-tabs="overview calendar bookings services" data-context-boundary="active-business" data-mental-model="business-overview-tabs-detail" data-navigation-model="stable-tabs" :data-business-id="selectedBusinessId ?? undefined">
-    <SurfaceHeader :config="surface" title="Manage your business" description="Each business has its own private workspace and schedule."><template #utility><ContextSwitcher :model-value="selectedBusinessId" :options="options" label="Active business" empty-label="Create a business" @update:model-value="switchBusiness" /></template></SurfaceHeader>
+    <ModuleTabs :tabs="businessTabs" :active-id="activeBusinessTab" />
+    <section class="business-owner-page__hero"><FriendlyCollectionHeader eyebrow="Business workspace" title="Manage your business" description="Choose one business, then manage its profile, services, bookings, and calendar." tone="book"><template #actions><ContextSwitcher :model-value="selectedBusinessId" :options="options" label="Active business" empty-label="Create a business" @update:model-value="switchBusiness" /></template></FriendlyCollectionHeader></section>
     <ModuleTabs :tabs="tabs" :active-id="activeTab" />
     <AppStatus v-if="error" :message="error" tone="error" />
     <component :is="view" :key="`${activeTab}:${selectedBusinessId ?? 'none'}`" v-bind="selectedBusinessId ? {businessId: selectedBusinessId} : {}" />
@@ -53,5 +57,5 @@ onMounted(async () => { try { profiles.value = await userShellApi.getMyBusinessP
 </template>
 
 <style scoped>
-.business-owner-page{display:grid;gap:var(--space-4);min-width:0}
+.business-owner-page{display:grid;gap:var(--space-4);min-width:0}.business-owner-page__hero{padding:var(--space-3) var(--space-4);border:1px solid color-mix(in srgb,var(--launcher-book-ink) 15%,transparent);border-radius:calc(var(--radius-card) + .2rem);background:var(--launcher-book-bg);box-shadow:0 1px 0 color-mix(in srgb,var(--launcher-book-ink) 10%,transparent)}.business-owner-page__hero :deep(.friendly-collection-header){padding:0}.business-owner-page__hero :deep(.friendly-collection-header__copy p),.business-owner-page__hero :deep(.friendly-collection-header__copy h1),.business-owner-page__hero :deep(.friendly-collection-header__copy span){color:var(--launcher-book-ink)}@media(max-width:700px){.business-owner-page__hero{padding:var(--space-3)}}
 </style>

@@ -1,0 +1,94 @@
+kind: work
+version: 1
+id: generic-preview-elimination-exceptions
+title: Preserve only specialised object inspection
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/generic-preview-elimination-master.yaml
+execution_inventory: docs/work/generic-preview-elimination-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-web-calendar.yaml
+  - docs/work/human-first-web-chat.yaml
+  baseline_only_surfaces:
+  - ReviewPane for owner queues
+  - CalendarEventPopover
+  - and Chat split view
+  residual_scope:
+  - Business owner calendar uses generic ObjectPreviewPanel
+  retest_triggers:
+  - owner calendar selection or generic preview component changes
+  non_duplication_rule: Specialised review and chat behavior is reused without retesting
+    unrelated flows.
+tasks:
+- id: replace-calendar-object-preview
+  title: Replace the owner calendar generic preview
+  type: implementation
+  status: done
+  inventory_item: replace-calendar-object-preview
+  observable_outcome: Clicking an owner calendar event opens a small calendar-specific
+    quick look, while the generic ObjectPreviewPanel is removed from the application.
+  dependencies:
+  - flatten-generic-detail-rails
+  evidence_boundary:
+  - global source contract
+  - frontend type-check
+  - frontend build
+  paths: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CalendarEventPopover.vue
+  required_paths: *1
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-30T04:55:08Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue: a759a296afd2cb119853410bcb8d2e1f5c6adb7a63215922af3bcd25db49f7fa
+    apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue: ef035af36594b88d245e6586cc9941762782a08fd5cc42dfcd5b3cd4b5b0c904
+    apps/themuffinman/frontend/src/modules/app-shell/components/CalendarEventPopover.vue: 79c16680abd905c85dcbf2707db6222f2b5d924bf9a47af57bcfa291418fea60
+hardening_boundary: Calendar quick look remains contextual; ReviewPane and Chat are
+  deliberately outside this removal task.
+evidence:
+- task: replace-calendar-object-preview
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-30T04:57:48Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CalendarEventPopover.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-BTSdtxSE.js                   10.52 kB │ gzip:   3.72 kB
+    dist/assets/WorkPage-CjOacpCQ.js                              13.12 kB │ gzip:   5.05 kB
+    dist/assets/RidesView-Dk2B2o3-.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-B6Fz_Dgk.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/BusinessPublicView-Dh0iu2Ji.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CT3t7Gzb.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-CdwEfz6V.js                          16.01 kB │ gzip:   5.41 kB
+    dist/assets/WorkQuestDetailView-Czq501Gm.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/HomeHubView-B0rCBp7J.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-DJOTpaOZ.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-DIaiILMv.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-C9xpIHiO.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-CdzBw292.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-CZndOlC5.js                                 63.18 kB │ gzip:  15.72 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 815ms
+
+  startedAt: '2026-07-30T04:55:08Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerCalendarView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CalendarEventPopover.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

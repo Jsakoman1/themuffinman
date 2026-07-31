@@ -3,8 +3,6 @@ package com.themuffinman.app.activity;
 import com.themuffinman.app.activity.dto.ActivityItemDTO;
 import com.themuffinman.app.activity.service.ActivityReadService;
 import com.themuffinman.app.activity.service.WorkspaceNavigationService;
-import com.themuffinman.app.business.service.BusinessFavoriteService;
-import com.themuffinman.app.business.service.BusinessProfileService;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.PersonalShortcutService;
 import com.themuffinman.app.notification.dto.AttentionCenterDTO;
@@ -26,24 +24,22 @@ class WorkspaceNavigationContractTest {
         ActivityReadService activity = mock(ActivityReadService.class);
         AttentionCenterService attention = mock(AttentionCenterService.class);
         PersonalShortcutService shortcuts = mock(PersonalShortcutService.class);
-        BusinessFavoriteService favorites = mock(BusinessFavoriteService.class);
-        BusinessProfileService profiles = mock(BusinessProfileService.class);
         when(activity.getRecent(user)).thenReturn(List.of(ActivityItemDTO.builder().source("chat").readState("UNREAD").build()));
         when(attention.getMine(user)).thenReturn(AttentionCenterDTO.builder().unreadCount(1).items(List.of()).build());
         when(shortcuts.getMine(user)).thenReturn(List.of());
-        when(favorites.getMine(user)).thenReturn(List.of());
-        when(profiles.getMyProfiles(user)).thenReturn(List.of());
 
         WorkspaceNavigationResponseDTOAssertions result = new WorkspaceNavigationResponseDTOAssertions(
-                new WorkspaceNavigationService(activity, attention, shortcuts, favorites, profiles).getNavigation(user)
+                new WorkspaceNavigationService(activity, attention, shortcuts).getNavigation(user)
         );
 
         assertThat(result.version()).isEqualTo("workspace-navigation-v1");
         assertThat(result.modules()).extracting("id").containsExactly("home", "work", "business", "services", "things", "people", "rides");
-        assertThat(result.module("work").getChildren()).extracting("route").contains("/work/find", "/work/quests", "/work/applications");
-        assertThat(result.module("services").getChildren()).extracting("route").containsExactly("/business/find");
-        assertThat(result.module("things").getChildren()).extracting("route").containsExactly("/things/mine", "/things");
-        assertThat(result.module("rides").getChildren()).extracting("route").containsExactly("/rides/mine", "/rides");
+        assertThat(result.module("work").getChildren()).isEmpty();
+        assertThat(result.module("services").getChildren()).isEmpty();
+        assertThat(result.module("business").getChildren()).isEmpty();
+        assertThat(result.module("things").getChildren()).isEmpty();
+        assertThat(result.module("people").getChildren()).isEmpty();
+        assertThat(result.module("rides").getChildren()).isEmpty();
         assertThat(result.module("things").getRoute()).isEqualTo("/things/mine");
         assertThat(result.module("rides").getRoute()).isEqualTo("/rides/mine");
         assertThat(result.modules()).allMatch(module -> module.isVisible() && module.getRelevanceReason() != null);

@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,7 +38,7 @@ class BusinessFavoriteServiceTest {
     @Test
     void addIsIdempotentForSameBusiness() {
         AppUser user = user(1L);
-        BusinessProfile profile = profile(10L, user);
+        BusinessProfile profile = profile(10L, user(2L));
         BusinessFavorite favorite = favorite(user, profile);
         when(profileRepository.findById(10L)).thenReturn(Optional.of(profile));
         when(favoriteRepository.findByOwnerIdAndBusinessProfileId(1L, 10L)).thenReturn(Optional.of(favorite));
@@ -51,7 +52,7 @@ class BusinessFavoriteServiceTest {
     @Test
     void addCreatesFavoriteForVisibleBusiness() {
         AppUser user = user(1L);
-        BusinessProfile profile = profile(10L, user);
+        BusinessProfile profile = profile(10L, user(2L));
         when(profileRepository.findById(10L)).thenReturn(Optional.of(profile));
         when(favoriteRepository.findByOwnerIdAndBusinessProfileId(1L, 10L)).thenReturn(Optional.empty());
         when(favoriteRepository.save(any(BusinessFavorite.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -86,6 +87,14 @@ class BusinessFavoriteServiceTest {
 
         assertEquals(1, result.getItems().size());
         verify(favoriteRepository).searchFavoriteActiveProfiles(1L, "dog");
+    }
+
+    @Test
+    void addRejectsSavingOwnBusiness() {
+        AppUser user = user(1L);
+        when(profileRepository.findById(10L)).thenReturn(Optional.of(profile(10L, user)));
+
+        assertThrows(RuntimeException.class, () -> service.add(user, 10L));
     }
 
     private BusinessFavorite favorite(AppUser user, BusinessProfile profile) {

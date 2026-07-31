@@ -22,7 +22,7 @@
 
 - Update `docs/business-logic.md` for product behavior.
 - Update `docs/domain-technical.md` for entities, relations, validations, workflows, and invariants.
-- Update `docs/agent-operating-model.md`, generated artifacts, and admin/sandbox generation coverage if automation can operate on the module.
+- Update `docs/agent-operating-model.yaml`, its relevant sections, generated artifacts, and admin/sandbox generation coverage if automation can operate on the module.
 
 ## Validation Evidence
 

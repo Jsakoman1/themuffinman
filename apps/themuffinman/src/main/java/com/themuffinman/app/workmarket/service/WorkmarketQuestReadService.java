@@ -156,6 +156,7 @@ public class WorkmarketQuestReadService {
                 : null);
 
         QuestDetailResponseDTO response = QuestDetailResponseDTO.builder()
+                .sideJobLabel("SideJob")
                 .summary(questResponse)
                 .sections(questDetailSectionsFactory.buildSections(quest, currentUser, questResponse, myApplication, applicationsView))
                 .quest(questResponse)

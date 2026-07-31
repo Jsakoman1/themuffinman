@@ -1,0 +1,99 @@
+kind: work
+version: 1
+id: developer-tooling-intellij-mcp-closeout
+title: Measure and close the developer-tooling optimization
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-intellij-mcp-master.yaml
+execution_inventory: docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - measure-and-close-tooling-optimization
+  required_measurements:
+  - compact_query_bytes_and_elapsed_time
+  - context_budget_and_result_classes
+  - validation_router_fixture_results
+  - idea_semantic_success_or_fallback
+  - tooling_health_and_product_contract_boundary
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - prior tool catalog and System Map optimization evidence
+  - product runtime and capability status
+  residual_scope:
+  - new tooling efficiency, precision, fallback, and health evidence
+  retest_triggers:
+  - any planned tooling or workflow-contract path changes
+  non_duplication_rule: Closeout reports only new measurements and preserves the current
+    product-contract failure and environment-dependent IDEA limits explicitly.
+tasks:
+- id: measure-and-close-tooling-optimization
+  title: Measure compactness, routing precision, fallback, and tool health
+  type: validation
+  status: done
+  inventory_item: measure-and-close-tooling-optimization
+  observable_outcome: A machine-readable closeout records before/after query bytes
+    and elapsed time, context budgets, validation-router fixture results, IDEA semantic
+    success/fallback observations, tool catalog health, and any still-failing product
+    contract without promoting unrelated status.
+  dependencies:
+  - publish-hybrid-fast-path
+  evidence_boundary:
+  - fresh tooling optimization closeout YAML
+  - updated analysis with measured before/after findings
+  - local tooling and routing audit results
+  paths: &1
+  - docs/developer-tooling-intellij-mcp-closeout-2026-07-31.yaml
+  - docs/work/developer-tooling-intellij-mcp-analysis.md
+  required_paths: *1
+  validation: ruby scripts/tool-self-test.rb --tooling-only && ruby scripts/audits/audit-tool-catalog.rb
+    --check && ruby scripts/audits/audit-intellij-mcp-routing.rb && ruby scripts/change-validation.rb
+    --check-fixtures
+  started_at: '2026-07-31T13:22:47Z'
+  start_fingerprints:
+    docs/developer-tooling-intellij-mcp-closeout-2026-07-31.yaml: __missing__
+    docs/work/developer-tooling-intellij-mcp-analysis.md: 0b1d5d43a0557760d12d1ed7dd845fa4b380e1b7e37e7901e512ce4090df567b
+evidence:
+- task: measure-and-close-tooling-optimization
+  command: ruby scripts/tool-self-test.rb --tooling-only && ruby scripts/audits/audit-tool-catalog.rb
+    --check && ruby scripts/audits/audit-intellij-mcp-routing.rb && ruby scripts/change-validation.rb
+    --check-fixtures
+  ranAt: '2026-07-31T13:24:16Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/developer-tooling-intellij-mcp-closeout-2026-07-31.yaml
+  - docs/work/developer-tooling-intellij-mcp-analysis.md
+  output: |+
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=frontend_script_syntax
+    STAGE class=tool_mechanics id=yaml_parse
+    STAGE class=tool_mechanics id=frontend_ast_index
+    STAGE class=tool_mechanics id=repository_map
+    STAGE class=tool_mechanics id=repository_map_query
+    STAGE class=tool_mechanics id=tool_catalog
+    STAGE class=tool_mechanics id=runtime_tools
+    STAGE class=tool_mechanics id=context_search
+    STAGE class=tool_mechanics id=change_validation
+    Tool self-test passed (tooling-only; Ruby/Node syntax, YAML, AST, contracts, repository map, catalog, and bounded search).
+    Tool catalog passed (67 tools, 5 categories, 0 unreferenced).
+    IntelliJ MCP routing audit passed (7 intents, local fallback and verifier authority preserved).
+    Changed-path validation fixtures passed (6 classes, advisory-only).
+
+  startedAt: '2026-07-31T13:22:47Z'
+  changedAfterStart: &2
+  - docs/developer-tooling-intellij-mcp-closeout-2026-07-31.yaml
+  - docs/work/developer-tooling-intellij-mcp-analysis.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

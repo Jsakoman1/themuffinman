@@ -26,7 +26,7 @@
 
 - Update `docs/domain-technical.md` with the endpoint contract and service boundary.
 - Update `docs/business-logic.md` when the endpoint changes user-facing behavior.
-- Update `docs/agent-operating-model.md` and generated endpoint inventories when agents can call or reason about the endpoint.
+- Update `docs/agent-operating-model.yaml`, its relevant sections, and generated endpoint inventories when agents can call or reason about the endpoint.
 
 ## Validation Evidence
 

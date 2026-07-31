@@ -1,0 +1,62 @@
+kind: execution-inventory
+version: 1
+id: local-tabs-navigation
+master_plan: docs/work/local-tabs-navigation-master.yaml
+serial_task_execution: true
+hardening_reviewed_on: 2026-07-29
+items:
+- id: harden-local-tabs-program
+  plan: docs/work/local-tabs-navigation-foundation.yaml
+  task: harden-local-tabs-program
+  order: 1
+  status: verified
+  started_at: '2026-07-29T18:17:47Z'
+  verified_at: '2026-07-29T18:17:59Z'
+  evidence:
+    plan: docs/work/local-tabs-navigation-foundation.yaml
+    task: harden-local-tabs-program
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: quiet-workspace-rail
+  plan: docs/work/local-tabs-navigation-foundation.yaml
+  task: quiet-workspace-rail
+  order: 2
+  status: verified
+  started_at: '2026-07-29T18:18:03Z'
+  verified_at: '2026-07-29T18:18:47Z'
+  evidence:
+    plan: docs/work/local-tabs-navigation-foundation.yaml
+    task: quiet-workspace-rail
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-work-things-local-tabs
+  plan: docs/work/local-tabs-navigation-modules.yaml
+  task: add-work-things-local-tabs
+  order: 3
+  status: verified
+  started_at: '2026-07-29T18:18:54Z'
+  verified_at: '2026-07-29T18:19:50Z'
+  evidence:
+    plan: docs/work/local-tabs-navigation-modules.yaml
+    task: add-work-things-local-tabs
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-people-rides-services-local-tabs
+  plan: docs/work/local-tabs-navigation-modules.yaml
+  task: add-people-rides-services-local-tabs
+  order: 4
+  status: verified
+  started_at: '2026-07-29T18:19:58Z'
+  verified_at: '2026-07-29T18:22:06Z'
+  evidence:
+    plan: docs/work/local-tabs-navigation-modules.yaml
+    task: add-people-rides-services-local-tabs
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: close-local-tabs-navigation
+  plan: docs/work/local-tabs-navigation-closeout.yaml
+  task: close-local-tabs-navigation
+  order: 5
+  status: verified
+  started_at: '2026-07-29T18:22:10Z'
+  verified_at: '2026-07-29T18:22:33Z'
+  evidence:
+    plan: docs/work/local-tabs-navigation-closeout.yaml
+    task: close-local-tabs-navigation
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

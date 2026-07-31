@@ -41,6 +41,8 @@ class CalendarReadServiceTest {
 
         assertEquals(List.of(), result.getEvents());
         assertEquals(List.of("business", "quest", "ride"), result.getAvailableSources());
+        assertEquals("Business bookings", result.getSources().getFirst().getLabel());
+        assertEquals("#527a9b", result.getSources().get(1).getColor());
         assertEquals("DAY", result.getView());
         verify(questRepository, never()).findForQuestList();
         verify(rideOfferRepository, never()).findVisibleActiveOffers(7L);

@@ -18,11 +18,11 @@ public interface BusinessProfileRepository extends JpaRepository<BusinessProfile
     @Query("select bp from BusinessProfile bp join fetch bp.owner where bp.slug = :slug")
     Optional<BusinessProfile> findBySlug(String slug);
 
-    @Query("select bp from BusinessProfile bp join fetch bp.owner where bp.active = true order by bp.businessName asc, bp.id asc")
-    List<BusinessProfile> findActiveProfiles();
+    @Query("select bp from BusinessProfile bp join fetch bp.owner where bp.active = true and bp.owner.id <> :viewerId order by bp.businessName asc, bp.id asc")
+    List<BusinessProfile> findActiveProfilesOwnedByOtherThan(Long viewerId);
 
-    @Query("select bp from BusinessProfile bp join fetch bp.owner where bp.active = true and (lower(bp.businessName) like lower(concat('%', :query, '%')) or lower(coalesce(bp.headline, '')) like lower(concat('%', :query, '%')) or lower(coalesce(bp.description, '')) like lower(concat('%', :query, '%'))) order by bp.businessName asc, bp.id asc")
-    List<BusinessProfile> searchActiveProfiles(String query);
+    @Query("select bp from BusinessProfile bp join fetch bp.owner where bp.active = true and bp.owner.id <> :viewerId and (lower(bp.businessName) like lower(concat('%', :query, '%')) or lower(coalesce(bp.headline, '')) like lower(concat('%', :query, '%')) or lower(coalesce(bp.description, '')) like lower(concat('%', :query, '%'))) order by bp.businessName asc, bp.id asc")
+    List<BusinessProfile> searchActiveProfilesOwnedByOtherThan(Long viewerId, String query);
 
     boolean existsBySlug(String slug);
 

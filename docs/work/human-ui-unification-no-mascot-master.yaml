@@ -1,0 +1,90 @@
+kind: master
+version: 1
+id: human-ui-unification-no-mascot
+title: Unify authenticated UI and refresh Home without mascot assets
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_hardening:
+  owner_task: harden-human-ui-unification-inventory
+  contract: The execution inventory is the sole serial queue; no implementation starts
+    before the hardening task is verifier-verified.
+execution_inventory: docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+analysis_artifact: docs/work/human-ui-unification-no-mascot-analysis.md
+preflight_artifact: docs/work/human-ui-unification-no-mascot-preflight.md
+reference_assets:
+- docs/work/examples/mobile_example.png
+- docs/work/examples/web_app_header_example.png
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  generated_at: 2026-07-29 19:24:40.000000000 Z
+  scope: 13 existing representative frontend and product-memory paths; planned new
+    component and audit paths are covered by their owning atomic tasks.
+  dispositions:
+  - recommendation: docs/system-truth-registry.yaml
+    status: not_applicable_with_reason
+    reason: Presentation and code-organization changes do not alter capability
+    permission: 
+    endpoint: 
+    or domain truth.: 
+  - recommendation: docs/system-drift-control-registry.yaml
+    status: not_applicable_with_reason
+    reason: No operational drift-control contract changes.
+  - recommendation: docs/system-map.md
+    status: reviewed
+    reason: All implementation remains inside the authenticated app-shell frontend
+      owner.
+  - recommendation: docs/runtime-acceptance-matrix.yaml
+    status: reviewed
+    reason: Fresh multi-route desktop and mobile traces are mandatory closeout tasks.
+  - recommendation: docs/regression-scenario-catalog.yaml
+    status: reviewed
+    reason: Existing route scenarios remain behaviorally unchanged and are exercised
+      through representative browser routes.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-style-visual-parity-master.yaml
+  - docs/work/brand-header-sand-shell.yaml
+  - docs/work/home-brand-hero-header.yaml
+  baseline_only_surfaces:
+  - backend-prepared route and action contracts
+  - Business and Home human hierarchy
+  - shell sidebar and logo identity
+  - local module tabs
+  - existing booking and marketplace workflows
+  residual_scope:
+  - lighter reference-aligned Home composition without mascot assets
+  - one canonical page-orientation grammar
+  - shared collection/detail/setup archetypes
+  - removal of duplicate scoped-style fragments
+  - fresh representative subpage visual proof
+  retest_triggers:
+  - theme or destination-token changes
+  - Home header or launcher composition changes
+  - shared archetype component changes
+  - migration of bespoke route headers
+  - responsive layout or style-block consolidation
+  non_duplication_rule: Prior hierarchy and overflow evidence is baseline only; completion
+    counts only new visual-system repairs, code consolidation, and fresh multi-route
+    screenshots.
+children:
+- docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+- docs/work/human-ui-unification-no-mascot-foundation.yaml
+- docs/work/human-ui-unification-no-mascot-home.yaml
+- docs/work/human-ui-unification-no-mascot-archetypes.yaml
+- docs/work/human-ui-unification-no-mascot-cleanup.yaml
+- docs/work/human-ui-unification-no-mascot-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-29T19:47:33Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+  - docs/work/human-ui-unification-no-mascot-foundation.yaml
+  - docs/work/human-ui-unification-no-mascot-home.yaml
+  - docs/work/human-ui-unification-no-mascot-archetypes.yaml
+  - docs/work/human-ui-unification-no-mascot-cleanup.yaml
+  - docs/work/human-ui-unification-no-mascot-closeout.yaml

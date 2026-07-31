@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestPresentationDTO {
+    private String sideJobLabel;
     private String statusLabel;
     private String statusBadgeClass;
     private String statusSurfaceClass;
@@ -66,4 +67,12 @@ public class QuestPresentationDTO {
     private QuestDetailExecutionActionDTO primaryExecutionAction;
     @Nullable
     private String executionHelperText;
+    private String rewardLabel;
+    private String commitmentLabel;
+    @Nullable
+    private String nextActionLabel;
+    @Nullable
+    private String nextActionOutcome;
+    @Nullable
+    private String attentionLabel;
 }

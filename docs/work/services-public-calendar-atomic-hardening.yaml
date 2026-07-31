@@ -1,0 +1,58 @@
+kind: work
+version: 1
+id: services-public-calendar-atomic-hardening
+title: Harden public calendar execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-public-calendar-master.yaml
+execution_inventory: docs/work/services-public-calendar-execution-inventory.yaml
+tasks:
+- id: harden-services-public-calendar-inventory
+  title: Verify the public calendar inventory is atomic and privacy bounded
+  type: documentation
+  status: done
+  inventory_item: harden-services-public-calendar-inventory
+  observable_outcome: Every queued item has one outcome, bounded paths, dependency,
+    validation command, and evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - atomic hardening audit
+  - serial inventory audit
+  paths:
+  - docs/work/services-public-calendar-master.yaml
+  - docs/work/services-public-calendar-execution-inventory.yaml
+  - docs/work/services-public-calendar-analysis.md
+  required_paths:
+  - docs/work/services-public-calendar-master.yaml
+  - docs/work/services-public-calendar-execution-inventory.yaml
+  - docs/work/services-public-calendar-analysis.md
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/services-public-calendar-master.yaml
+    docs/work/services-public-calendar-execution-inventory.yaml
+  started_at: '2026-07-30T17:20:03Z'
+  start_fingerprints:
+    docs/work/services-public-calendar-master.yaml: 5f4d5653bb53a120db267aac3925ef5ea80a974508f0ad9451b31ed3e0047ad6
+    docs/work/services-public-calendar-execution-inventory.yaml: de8a74bc2081b510dff62955dd91250754c7644146f661b72abbf3b566f6f761
+    docs/work/services-public-calendar-analysis.md: ae691dfe29fa0fac262184a48ba12b197644f038be48f097cee7a265a4ac735e
+evidence:
+- task: harden-services-public-calendar-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/services-public-calendar-master.yaml
+    docs/work/services-public-calendar-execution-inventory.yaml
+  ranAt: '2026-07-30T17:20:13Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/services-public-calendar-analysis.md
+  - docs/work/services-public-calendar-execution-inventory.yaml
+  - docs/work/services-public-calendar-master.yaml
+  output: "Atomic task hardening audit passed (5 inventory items).\n\n"
+  startedAt: '2026-07-30T17:20:03Z'
+  changedAfterStart: &1
+  - docs/work/services-public-calendar-master.yaml
+  - docs/work/services-public-calendar-execution-inventory.yaml
+  - docs/work/services-public-calendar-analysis.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

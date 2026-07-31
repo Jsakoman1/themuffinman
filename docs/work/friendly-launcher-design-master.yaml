@@ -1,0 +1,60 @@
+kind: master
+version: 1
+id: friendly-launcher-design
+title: Move the authenticated workspace to a friendly colourful launcher design
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/friendly-launcher-design-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/friendly-launcher-design-atomic-hardening.yaml
+preflight_artifact: docs/work/friendly-launcher-design-preflight.md
+goal_activation_hardening:
+  started_on: 2026-07-29
+  required_audits:
+  - control-source validation
+  - atomic-task hardening
+  - plan coverage
+  - work-plan recursion
+  delivery_contract: Twelve inventory-linked tasks run in sequence; backend read-model,
+    Web consumption, visual audits, and closeout are independently verifiable.
+  advancement_rule: No product implementation may start until the hardening inventory
+    task has verifier-recorded evidence.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-usability-business-parity-master.yaml
+  - docs/work/business-human-first-ux-master.yaml
+  baseline_only_surfaces:
+  - Business owner setup
+  - public booking flow
+  - booking pricing and availability rules
+  - existing module detail workflows
+  residual_scope:
+  - purpose-led Home launcher
+  - semantic action-card primitives
+  - mobile tab-bar information architecture
+  - desktop launcher composition
+  - fresh light/dark visual evidence
+  retest_triggers:
+  - changes to Home read assembly
+  - authenticated shell
+  - navigation registry
+  - shared visual tokens
+  - contextual composer clearance
+  - or responsive breakpoints
+  non_duplication_rule: Earlier human-first and Business evidence is baseline-only;
+    this program counts only the new launcher behaviour and new rendered evidence.
+children:
+- docs/work/friendly-launcher-design-foundations.yaml
+- docs/work/friendly-launcher-design-home.yaml
+- docs/work/friendly-launcher-design-navigation.yaml
+- docs/work/friendly-launcher-design-visual-closeout.yaml
+evidence:
+- verifiedAt: '2026-07-29T16:53:18Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/friendly-launcher-design-foundations.yaml
+  - docs/work/friendly-launcher-design-home.yaml
+  - docs/work/friendly-launcher-design-navigation.yaml
+  - docs/work/friendly-launcher-design-visual-closeout.yaml

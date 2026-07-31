@@ -1,6 +1,6 @@
 version: 1
 purpose: Repository-visible release and recovery evidence index; external operations remain unknown until evidenced.
-reviewed_round: 36
+reviewed_round: 37
 operations:
 - id: local_build_and_test
   owner: repository_makefiles_and_package_manifests
@@ -18,10 +18,11 @@ operations:
   evidence_class: source-trace
   state: local_only
 - id: ci_pipeline
-  owner: unknown
-  evidence: []
-  evidence_class: unknown
-  state: external_unknown
+  owner: repository_validation_workflow
+  evidence: [.github/workflows/repository-validation.yml]
+  evidence_class: source-trace
+  state: repository_visible_unobserved
+  reviewed_at: '2026-07-31'
 - id: deployment_and_promotion
   owner: unknown
   evidence: []
@@ -45,5 +46,6 @@ operations:
 rules:
 - repository_visible_local_controls_do_not_prove_production_operations
 - external_unknown_requires_explicit_evidence_before_promotion
+- repository_visible_ci_requires_remote_run_evidence_before_execution_claim
 - recovery_claim_requires_exercise_or_operator_evidence
 extension_review: docs/release-operations-extension-review.yaml

@@ -418,7 +418,7 @@ export interface AppUserRoleOptionDTO {
 
 export interface AttentionCenterDTO {
   unreadCount: number
-  items: ActivityItemDTO[]
+  items: QuestNewsItemResponseDTO[]
 }
 
 export interface AuthResponseDTO {
@@ -754,6 +754,40 @@ export interface BusinessOfferingResponseDTO {
   updatedAt: string
 }
 
+export interface BusinessOfferingSetupDTO {
+  contractVersion: string
+  defaults: BusinessOfferingRequestDTO
+  pricingTypes: BusinessOfferingSetupOptionDTO[]
+  bookingModes: BusinessOfferingSetupOptionDTO[]
+  fulfillmentModes: BusinessOfferingSetupOptionDTO[]
+  durationOptions: BusinessOfferingSetupOptionDTO[]
+  steps: BusinessOfferingSetupStepDTO[]
+  fields: BusinessOfferingSetupFieldDTO[]
+  readyForBookings: boolean
+  readinessMessage: string
+}
+
+export interface BusinessOfferingSetupFieldDTO {
+  name: string
+  label: string
+  helpText: string
+  required: boolean
+  minimum: number
+  maximum: number
+}
+
+export interface BusinessOfferingSetupOptionDTO {
+  value: string
+  label: string
+  helpText: string
+}
+
+export interface BusinessOfferingSetupStepDTO {
+  id: string
+  title: string
+  description: string
+}
+
 export interface BusinessOwnerBookingCreateRequestDTO {
   businessOfferingId: number
   customerUserId: number
@@ -881,6 +915,28 @@ export interface BusinessProfileResponseDTO {
   updatedAt: string
 }
 
+export interface BusinessPublicAvailabilityCalendarDTO {
+  businessOfferingId: number
+  view: string
+  timezone: string
+  fromDate: string
+  toDate: string
+  days: BusinessPublicAvailabilityDayDTO[]
+}
+
+export interface BusinessPublicAvailabilityDayDTO {
+  date: string
+  availabilityState: string
+  availableSlotCount: number
+  slots: BusinessPublicAvailabilitySlotDTO[]
+}
+
+export interface BusinessPublicAvailabilitySlotDTO {
+  startsAt: string
+  endsAt: string
+  timezone: string
+}
+
 export interface BusinessPublicPageDTO {
   businessProfileId: number
   businessName: string
@@ -897,6 +953,7 @@ export interface BusinessPublicPageDTO {
   heroImageUrl: string
   timezone: string
   bookingEnabled: boolean
+  ratingSummary: BusinessRatingSummaryDTO
   offerings: BusinessOfferingResponseDTO[]
   galleryImages: BusinessGalleryImageResponseDTO[]
 }
@@ -925,6 +982,33 @@ export interface BusinessQuoteResponseDTO {
   ownerReviewRequired: boolean
   schemaVersion: number
   explanations: string[]
+}
+
+export interface BusinessRatingSummaryDTO {
+  averageStars: number
+  reviewCount: number
+}
+
+export interface BusinessReviewListResponseDTO {
+  items: BusinessReviewResponseDTO[]
+  page: number
+  size: number
+}
+
+export interface BusinessReviewRequestDTO {
+  stars: number
+  comment?: string | null
+}
+
+export interface BusinessReviewResponseDTO {
+  id: number
+  bookingId: number
+  reviewerUsername: string
+  stars: number
+  comment: string | null
+  serviceTitle: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface BusinessScheduleItemDTO {
@@ -967,6 +1051,8 @@ export interface CalendarEventDTO {
   startsAt: string
   endsAt: string
   timezone: string
+  startsAtLocal: string
+  endsAtLocal: string
   status: string
   businessId: number
   businessName: string
@@ -981,7 +1067,14 @@ export interface CalendarProjectionDTO {
   rangeKind: string
   timezone: string
   availableSources: string[]
+  sources: CalendarSourceDTO[]
   events: CalendarEventDTO[]
+}
+
+export interface CalendarSourceDTO {
+  key: string
+  label: string
+  color: string
 }
 
 export interface ChatAdminConversationSupportViewDTO {
@@ -1436,6 +1529,7 @@ export interface ClientActionDTO {
   requiresConfirmation: boolean
   confirmationTitle: string | null
   confirmationMessage: string | null
+  outcome: string | null
   disabledReason: string | null
 }
 
@@ -1984,6 +2078,7 @@ export interface QuestApplicationResponseDTO {
   proposedPrice: number
   status: QuestApplicationStatus
   allowedActions: ApplicationAllowedActionDTO[]
+  actions: ClientActionDTO[]
   presentation: QuestApplicationPresentationDTO
   createdAt: string
 }
@@ -2043,6 +2138,7 @@ export interface QuestDetailRailItemDTO {
 }
 
 export interface QuestDetailResponseDTO {
+  sideJobLabel: string
   summary: QuestResponseDTO
   sections: QuestDetailSectionsDTO
   quest: QuestResponseDTO
@@ -2173,6 +2269,7 @@ export interface WorkmarketQuestNewsItemResponseDTO {
 }
 
 export interface QuestPresentationDTO {
+  sideJobLabel: string
   statusLabel: string
   statusBadgeClass: string
   statusSurfaceClass: string
@@ -2212,6 +2309,11 @@ export interface QuestPresentationDTO {
   awaitingConfirmationBadgeVisible: boolean
   primaryExecutionAction: QuestDetailExecutionActionDTO | null
   executionHelperText: string | null
+  rewardLabel: string
+  commitmentLabel: string
+  nextActionLabel: string | null
+  nextActionOutcome: string | null
+  attentionLabel: string | null
 }
 
 export interface QuestPreviewResponseDTO {
@@ -2253,6 +2355,7 @@ export interface QuestRequestDTO {
 
 export interface QuestResponseDTO {
   id: number
+  sideJobLabel: string
   resourceVersion: number
   creatorId: number
   creatorUsername: string
@@ -2375,6 +2478,7 @@ export interface RideOfferResponseDTO {
   canLeave: boolean
   canManage: boolean
   allowedActions: RideAllowedActionDTO[]
+  actions: ClientActionDTO[]
   updatedAt: string
   startedAt: string
   completedAt: string
@@ -2440,6 +2544,7 @@ export interface ThingBorrowRequestResponseDTO {
   createdAt: string
   stateExplanation: string
   allowedActions: ThingAllowedActionDTO[]
+  actions: ClientActionDTO[]
 }
 
 export interface ThingListingListResponseDTO {
@@ -2467,6 +2572,7 @@ export interface ThingListingResponseDTO {
   updatedAt: string
   availabilityLabel: string
   allowedActions: ThingAllowedActionDTO[]
+  actions: ClientActionDTO[]
 }
 
 export interface ThingPreviewResponseDTO {

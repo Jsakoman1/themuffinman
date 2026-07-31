@@ -1,0 +1,68 @@
+kind: developer_system_operational_readiness_closeout
+version: 1
+date: 2026-07-31
+completion_authority: repository work verifier
+result: verified_local_controls
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+measured_results:
+  workspace_change_baseline:
+    evidence: docs/workspace-change-snapshot-2026-07-31.yaml
+    immutable_classified_paths: 468
+    audit: passed
+    boundary: The snapshot is review evidence, not a clean-worktree or commit claim.
+  work_artifact_retention:
+    policy: docs/work-artifact-retention-policy.yaml
+    review: docs/work-artifact-retention-review-2026-07-31.yaml
+    artifacts_reviewed: 189
+    review_candidates: 54
+    deletion_performed: false
+    audit: passed
+  repository_visible_ci:
+    workflow: .github/workflows/repository-validation.yml
+    state: repository_visible_unobserved
+    commands:
+    - make backend-test
+    - make frontend-type-check
+    - make frontend-build
+    - ruby scripts/tool-self-test.rb
+    boundary: Workflow source does not prove an external CI run.
+  local_tool_discovery:
+    catalog: docs/local-tool-catalog.yaml
+    tools: 74
+    categories: 5
+    help_commands: 12
+    audit: passed
+  shared_runtime_harness:
+    verified_pilots: 3
+    new_migrations:
+    - id: business-style-visual-parity
+      evidence:
+      - docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json
+      - docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json
+      result: passed
+      coverage: six routes per viewport with no overflow or browser errors
+    - id: sidejobs-human-first
+      evidence:
+      - docs/runtime-evidence/sidejobs-human-first-desktop-runtime.json
+      - docs/runtime-evidence/sidejobs-human-first-mobile-runtime.json
+      result: passed
+      coverage: three semantic scenarios per viewport with no browser errors
+  skill_readiness:
+    decision: create
+    evidence: docs/runtime-evidence-skill-decision-2026-07-31.yaml
+    boundary: Creation and installation require a separate explicitly authorized task.
+  full_local_health:
+    tool_self_test_stages: 17
+    validations:
+    - workspace snapshot audit
+    - work-artifact retention audit
+    - local-tool catalog audit
+    - delivery provenance audit
+    - documentation-as-tests audit
+    result: passed
+residual_boundaries:
+- A classified workspace remains dirty until a separately authorized review and commit flow.
+- Retention review candidates require an approved exact deletion manifest before any pruning.
+- CI execution, deployment, recovery, and incident operation remain external-unknown.
+- Remaining runtime scripts are not migrated by this program.
+- Runtime-evidence skill creation is tracked as DEVTOOL-RUNTIME-SKILL-CREATION-001.

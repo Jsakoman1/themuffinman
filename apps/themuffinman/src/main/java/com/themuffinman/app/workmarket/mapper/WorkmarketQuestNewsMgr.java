@@ -10,6 +10,8 @@ import com.themuffinman.app.workmarket.model.QuestNewsType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class WorkmarketQuestNewsMgr {
@@ -77,6 +79,10 @@ public class WorkmarketQuestNewsMgr {
                 .retryable(false)
                 .dedupeKey("news:" + item.getId())
                 .build();
+    }
+
+    public List<QuestNewsItemResponseDTO> toDtos(List<QuestNewsItem> items) {
+        return items.stream().map(this::toDto).toList();
     }
 
 }

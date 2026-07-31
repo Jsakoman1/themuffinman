@@ -1,0 +1,279 @@
+kind: work
+version: 1
+id: app-wide-friendly-design-closeout
+title: Verify and close the app-wide friendly design program
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/app-wide-friendly-design-master.yaml
+execution_inventory: docs/work/app-wide-friendly-design-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/friendly-launcher-design-master.yaml
+  baseline_only_surfaces:
+  - prior Home and Business screenshots
+  residual_scope:
+  - fresh representative light/dark desktop/mobile visual evidence and documentation
+    closeout
+  retest_triggers:
+  - any changed route family
+  - shell
+  - shared primitive
+  - or responsive composition
+  non_duplication_rule: Earlier evidence is context only; these audits count only
+    newly captured app-wide friendly-design evidence.
+tasks:
+- id: audit-app-wide-friendly-design-desktop
+  title: Audit app-wide friendly design on desktop
+  type: documentation
+  status: done
+  inventory_item: audit-app-wide-friendly-design-desktop
+  observable_outcome: Fresh 1440px light/dark screenshots and browser trace prove
+    representative collection, context, and detail surfaces preserve clear hierarchy
+    and desktop continuity.
+  dependencies:
+  - align-detail-and-creation-surfaces
+  evidence_boundary:
+  - frontend type-check/build
+  - light/dark desktop screenshots
+  - authenticated browser trace
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-dark.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-runtime.json
+  paths:
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-dark.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-runtime.json
+  required_paths:
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-dark.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:45:24Z'
+  start_fingerprints:
+    docs/product-memory.md: ebf84a3bb25ccf8af8ddb77eef4c9fd26c1ac7db1f6ba5be6bfad056546686dd
+    docs/work/app-wide-friendly-design-master.yaml: 5affc2aa75858201d398193949d92a6e576d5579c63c6d31a45b2b3c71041ea8
+    docs/runtime-evidence/app-wide-friendly-design-desktop-light.png: __missing__
+    docs/runtime-evidence/app-wide-friendly-design-desktop-dark.png: __missing__
+    docs/runtime-evidence/app-wide-friendly-design-desktop-runtime.json: __missing__
+- id: audit-app-wide-friendly-design-mobile
+  title: Audit app-wide friendly design on mobile
+  type: documentation
+  status: done
+  inventory_item: audit-app-wide-friendly-design-mobile
+  observable_outcome: Fresh 390px light/dark screenshots and browser trace prove representative
+    mobile routes use one task column, readable controls, recovery, and no horizontal
+    overflow.
+  dependencies:
+  - audit-app-wide-friendly-design-desktop
+  evidence_boundary:
+  - frontend type-check/build
+  - light/dark mobile screenshots
+  - authenticated browser trace
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-dark.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-runtime.json
+  paths:
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-dark.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-runtime.json
+  required_paths:
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-dark.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:53:10Z'
+  start_fingerprints:
+    docs/product-memory.md: 4a9efcc30bc486528df4c3d6e4db84048ff27a87534bfa7658f9b06243cc9f88
+    docs/work/app-wide-friendly-design-master.yaml: 21e5cddbf589f2c8c39842b319d8121da7d733fe3387dd95b0fbb993464b7bc7
+    docs/runtime-evidence/app-wide-friendly-design-mobile-light.png: __missing__
+    docs/runtime-evidence/app-wide-friendly-design-mobile-dark.png: __missing__
+    docs/runtime-evidence/app-wide-friendly-design-mobile-runtime.json: __missing__
+- id: close-app-wide-friendly-design-program
+  title: Close app-wide friendly design program
+  type: documentation
+  status: done
+  inventory_item: close-app-wide-friendly-design-program
+  observable_outcome: Product and technical documentation record the achieved shared
+    design boundaries and new evidence before master verification.
+  dependencies:
+  - audit-app-wide-friendly-design-mobile
+  evidence_boundary:
+  - frontend type-check/build
+  - master verification
+  - relevant documentation audits
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:55:26Z'
+  start_fingerprints:
+    docs/business-logic.md: 673deeae18e49842efd0df4399a23da59c9362ea50a506ae96658e6a02714a67
+    docs/domain-technical.md: ffb8cbeca84ea5487dc8e0e5acf1e426a8fbae3ff4ef179b5cd9a07729e8c957
+    docs/product-memory.md: 73782fac73a53bf182861eab1d991bbb44c0913f513128b7f993819c2b1771d7
+    docs/work/app-wide-friendly-design-master.yaml: f7ee222c7ef6ad582b0d080c7b8133713f301d5af6869db12dceb334f22cade4
+evidence:
+- task: audit-app-wide-friendly-design-desktop
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:53:01Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/product-memory.md
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-dark.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-runtime.json
+  - docs/work/app-wide-friendly-design-master.yaml
+  output: |+
+    dist/assets/CalendarPage-DjYYBB7e.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-CZ7Euj21.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-BC1yBkqF.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/BusinessPublicView-DrLdGmc3.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/WorkPage-DmrV0quZ.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-BhZdm5hV.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-Cwju-G6T.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/RidesView-BG_fkNB1.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-8UAkX6WQ.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-B0QD-N9g.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-ClyZ1JM9.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-CR9pxtbI.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BzlMlnNA.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-D5M7tPiw.js                                 62.82 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 700ms
+
+  startedAt: '2026-07-29T17:45:24Z'
+  changedAfterStart: &1
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-dark.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-runtime.json
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-dark.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/app-wide-friendly-design-desktop-runtime.json
+- task: audit-app-wide-friendly-design-mobile
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:55:14Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/product-memory.md
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-dark.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-runtime.json
+  - docs/work/app-wide-friendly-design-master.yaml
+  output: |+
+    dist/assets/CalendarPage-DjYYBB7e.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-CZ7Euj21.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-BC1yBkqF.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/BusinessPublicView-DrLdGmc3.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/WorkPage-DmrV0quZ.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-BhZdm5hV.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-Cwju-G6T.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/RidesView-BG_fkNB1.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-8UAkX6WQ.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-B0QD-N9g.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-ClyZ1JM9.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-CR9pxtbI.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BzlMlnNA.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-D5M7tPiw.js                                 62.82 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 609ms
+
+  startedAt: '2026-07-29T17:53:10Z'
+  changedAfterStart: &2
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-dark.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-runtime.json
+  requiredPaths: *2
+  visualEvidencePaths:
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-light.png
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-dark.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/app-wide-friendly-design-mobile-runtime.json
+- task: close-app-wide-friendly-design-program
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:55:52Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  output: |+
+    dist/assets/CalendarPage-DjYYBB7e.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-CZ7Euj21.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-BC1yBkqF.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/BusinessPublicView-DrLdGmc3.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/WorkPage-DmrV0quZ.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-BhZdm5hV.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-Cwju-G6T.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/RidesView-BG_fkNB1.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-8UAkX6WQ.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-B0QD-N9g.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-ClyZ1JM9.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-CR9pxtbI.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BzlMlnNA.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-D5M7tPiw.js                                 62.82 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 618ms
+
+  startedAt: '2026-07-29T17:55:26Z'
+  changedAfterStart: &3
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/product-memory.md
+  - docs/work/app-wide-friendly-design-master.yaml
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

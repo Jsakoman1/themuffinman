@@ -1,0 +1,63 @@
+kind: work
+version: 1
+id: sidejobs-human-first-atomic-hardening
+title: Harden SideJobs execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/sidejobs-human-first-master.yaml
+execution_inventory: docs/work/sidejobs-human-first-execution-inventory.yaml
+tasks:
+- id: harden-sidejobs-human-first-inventory
+  title: Verify SideJobs tasks are serial and independently observable
+  type: documentation
+  status: done
+  inventory_item: harden-sidejobs-human-first-inventory
+  observable_outcome: Every SideJobs implementation slice has exact bounded paths,
+    one outcome, dependency order, and leaf evidence.
+  dependencies: []
+  evidence_boundary:
+  - atomic hardening audit
+  - serial inventory audit
+  paths:
+  - docs/work/sidejobs-human-first-analysis.md
+  - docs/work/sidejobs-human-first-master.yaml
+  - docs/work/sidejobs-human-first-execution-inventory.yaml
+  required_paths:
+  - docs/work/sidejobs-human-first-analysis.md
+  - docs/work/sidejobs-human-first-master.yaml
+  - docs/work/sidejobs-human-first-execution-inventory.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/sidejobs-human-first-master.yaml
+    docs/work/sidejobs-human-first-execution-inventory.yaml && ruby scripts/audits/audit-serial-execution-inventory.rb
+    docs/work/sidejobs-human-first-master.yaml docs/work/sidejobs-human-first-execution-inventory.yaml
+  started_at: '2026-07-30T19:27:26Z'
+  start_fingerprints:
+    docs/work/sidejobs-human-first-analysis.md: cb80e2c5b38d07b919013e113f49c3570685454be12cb9674bccb7c0f5035d2c
+    docs/work/sidejobs-human-first-master.yaml: a7f1feb66a9dc5ada62e72e436a7e1594424a7b819e8c676c5d178cf4a074bc4
+    docs/work/sidejobs-human-first-execution-inventory.yaml: 238ae9d35cd4be6005ae919f7e48d708cfea5b6236c06bb8f8a4e2be35ddea97
+evidence:
+- task: harden-sidejobs-human-first-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/sidejobs-human-first-master.yaml
+    docs/work/sidejobs-human-first-execution-inventory.yaml && ruby scripts/audits/audit-serial-execution-inventory.rb
+    docs/work/sidejobs-human-first-master.yaml docs/work/sidejobs-human-first-execution-inventory.yaml
+  ranAt: '2026-07-30T19:27:40Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/sidejobs-human-first-analysis.md
+  - docs/work/sidejobs-human-first-execution-inventory.yaml
+  - docs/work/sidejobs-human-first-master.yaml
+  output: |+
+    Atomic task hardening audit passed (7 inventory items).
+    Serial execution inventory audit passed (7 strict items).
+
+  startedAt: '2026-07-30T19:27:26Z'
+  changedAfterStart: &1
+  - docs/work/sidejobs-human-first-analysis.md
+  - docs/work/sidejobs-human-first-master.yaml
+  - docs/work/sidejobs-human-first-execution-inventory.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

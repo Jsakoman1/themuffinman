@@ -56,20 +56,13 @@ export type AppPrimaryNavItem = {
   to: RouteLocationRaw
 }
 
-export type AppPersonalShortcut = {
-  id: "activity" | "saved-searches"
-  label: string
-  icon: string
-  description: string
-  to: RouteLocationRaw
-}
-
 export const authenticatedShellContract = {
   landmarks: ["primary-navigation", "workspace-context", "workspace-main"],
   layout: "stable-left-rail-context-header-main-surface",
   vision: "contextual-entry-remains-separate-from-command-navigation",
-  header: "back-context-account-only",
-  navigation: "one-stable-rail-with-module-owned-tabs"
+  header: "brand-and-context-only",
+  navigation: "visible-desktop-personal-and-account-rail-with-module-owned-tabs",
+  mobileNavigation: ["Home", "Explore", "Calendar", "Chat", "Profile"]
 } as const
 
 // Closeout disposition: authenticated module pages own their tabs and actions;
@@ -79,10 +72,8 @@ export {topLevelNavigationPromotionPolicy}
 
 export const appPrimaryNavItems: AppPrimaryNavItem[] = buildAppPrimaryNavItems()
 export const appSecondaryNavItems: AppPrimaryNavItem[] = buildAppSecondaryNavItems()
-export const appPersonalShortcuts: AppPersonalShortcut[] = [
-  {id: "activity", label: "Activity", icon: "◷", description: "Your viewer-scoped recent activity.", to: {path: "/activity"}},
-  {id: "saved-searches", label: "Saved searches", icon: "⌕", description: "Your server-owned saved searches.", to: {path: "/search/saved"}}
-]
+// Activity and saved searches remain direct-route compatibility surfaces. They are
+// intentionally absent from ordinary navigation until each has a complete user journey.
 
 const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
   home: {
@@ -90,20 +81,20 @@ const appSurfaceConfigs: Record<AppSurfaceId, AppSurfaceConfig> = {
     actions: []
   },
   work: {
-    id: "work", archetype: "work", navId: "work", eyebrow: "Work", title: "Work",
+    id: "work", archetype: "work", navId: "work", eyebrow: "SideJobs", title: "SideJobs",
     actions: [
-      {label: "Offer work", to: {path: "/work/offer"}, tone: "primary"},
-      {label: "Find work", to: {path: "/work/find"}},
-      {label: "My work", to: {path: "/work/quests"}},
+      {label: "Post a SideJob", to: {path: "/work/offer"}, tone: "primary"},
+      {label: "Find SideJobs", to: {path: "/work/find"}},
+      {label: "My SideJobs", to: {path: "/work/quests"}},
     ]
   },
   "work-quests": {
-    id: "work-quests", archetype: "work", navId: "work", eyebrow: "Work / Mine", title: "My work",
-    actions: [{label: "Offer work", to: {path: "/work/offer"}}, {label: "Work", to: {path: "/work"}}]
+    id: "work-quests", archetype: "work", navId: "work", eyebrow: "SideJobs / Mine", title: "My SideJobs",
+    actions: [{label: "Post a SideJob", to: {path: "/work/offer"}}, {label: "SideJobs", to: {path: "/work"}}]
   },
   "work-applications": {
-    id: "work-applications", archetype: "work", navId: "work", eyebrow: "Work / My applications", title: "My applications",
-    actions: [{label: "Work", to: {path: "/work"}}]
+    id: "work-applications", archetype: "work", navId: "work", eyebrow: "SideJobs / My activity", title: "My activity",
+    actions: [{label: "SideJobs", to: {path: "/work"}}]
   },
   chat: {
     id: "chat", archetype: "chat", navId: "chat", eyebrow: "Chat", title: "Chat",

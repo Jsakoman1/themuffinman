@@ -1,0 +1,85 @@
+kind: work
+version: 1
+id: services-public-calendar-ui
+title: Render public Day Week Month calendar
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-public-calendar-master.yaml
+execution_inventory: docs/work/services-public-calendar-execution-inventory.yaml
+tasks:
+- id: render-public-calendar-views
+  title: Render accessible clickable Month Week and Day public views
+  type: implementation
+  status: done
+  inventory_item: render-public-calendar-views
+  observable_outcome: A visitor can switch views, navigate ranges, distinguish public
+    availability state in text, and select only safe slots.
+  dependencies:
+  - add-public-calendar-projection
+  evidence_boundary:
+  - frontend type check
+  - production build
+  - calendar interaction validation
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicAvailabilityCalendar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicAvailabilityCalendar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  started_at: '2026-07-30T17:22:25Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicAvailabilityCalendar.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue: acada79b67c39941819dcdb071981c5565336282dd34a5ea1661ae49f810b7d3
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 6a4a1eb89070d61fdc893a9fceb0f5e69ec10b8102a3404fa42c8052db24f064
+    apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs: c1f4bf15a421177d0a4931d5f9928386951d6bbc1eb7a3c9504e33b02be8ce41
+evidence:
+- task: render-public-calendar-views
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build && node apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  ranAt: '2026-07-30T17:24:37Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicAvailabilityCalendar.vue
+  output: |+
+    dist/assets/WorkPage-C53KaQmb.js                              13.12 kB │ gzip:   5.06 kB
+    dist/assets/RidesView-CCxDy_C4.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-BNWwjF6D.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/CirclesView-CUQygo_d.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-BhZzO4q1.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-BdGH9Q4S.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/HomeHubView-CUBBMUfW.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/BusinessPublicView-Cd3UVxy6.js                    23.11 kB │ gzip:   7.59 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-Bx_yjhz5.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-BWHT2r8Q.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-0ekdDT2j.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-E1tQNn2Q.js                     53.79 kB │ gzip:  13.24 kB
+    dist/assets/index-DPru3HtR.js                                 63.60 kB │ gzip:  15.81 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 572ms
+    Services human UX validation passed (14 checks).
+
+  startedAt: '2026-07-30T17:22:25Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessPublicAvailabilityCalendar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessPublicView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/scripts/validate-services-human-ux.mjs
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

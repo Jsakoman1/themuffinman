@@ -11,6 +11,17 @@ Use `make context-search q="phrase"` before loading broad files. It is a bounded
 read-only repository search intended to reduce duplicate inspection and unnecessary
 agent context; it does not replace canonical registries or validation.
 
+## Semantic IDE and local-tool routing
+
+Use the local context pack first, then use IntelliJ MCP only when it can resolve an
+exact symbol, file, call relationship, rename target, or owned debug session. Bound
+IDE results and fall back immediately to the repository command named in
+[`docs/intellij-mcp-tool-routing.yaml`](intellij-mcp-tool-routing.yaml) when indexing
+or IDE state is unavailable. MCP is discovery and diagnosis only: repository scripts,
+task leaf commands, and `make work-verify` remain the only validation and completion
+authority. Use `make change-validation paths="..."` as an advisory command selector;
+it never executes a command or changes status.
+
 The compact repository control check is `make control-check`. It validates the retained
 control sources, YAML, plan coverage, documentation, capability/runtime evidence, and
 canonical registries, then removes disposable generated output. `make audit-all` remains
@@ -48,6 +59,14 @@ generated reports or stale plan references.
 Completed plans and cleanup reports are not control sources. The current
 work-plan graph and canonical registries are the only durable implementation
 state; disposable cleanup output is removed at closeout.
+
+## Work-artifact retention review
+
+Use `make audit-work-artifact-retention` to validate the current dated retention
+review. It classifies active state, retained historical references, and unreferenced
+verified review candidates. It never deletes a work artifact or changes verifier
+status. Any cleanup requires a separate user-authorized plan with an exact manifest
+and a fresh reference check immediately before deletion.
 
 ## States
 
@@ -124,6 +143,7 @@ For a normal non-trivial repair or feature, the smallest reliable control path i
 
 ```text
 make system-map-impact
+RUBYOPT= ruby scripts/audits/audit-serial-execution-inventory.rb <master-plan> <execution-inventory>
 make work-start plan=<child-plan> task=<task-id>   # serial plans only
 make work-verify plan=<child-plan> task=<task-id>
 make audit-truth-registry
@@ -172,6 +192,10 @@ capability's inventory status.
 Run `make audit-delivery-provenance` after changing build sources, dependency manifests, generated-contract paths, or
 delivery provenance. It validates repository-visible paths and requires external CI/release behavior to stay explicitly
 unknown until independent evidence is available.
+
+The repository validation workflow is a checked-in CI baseline, not proof that a
+remote runner has executed it. Keep the release-operations registry at
+`repository_visible_unobserved` until an independent CI run provides durable evidence.
 
 Run `make system-map-impact` before a non-trivial feature closeout or with explicit changed paths to generate an
 advisory relationship report. It recommends registries, canonical docs, and runtime sources for review; it never sets
@@ -223,6 +247,8 @@ Source tests, type checks, and production builds do not count as browser or devi
 The static Web contract preflight can be run with `npm --prefix apps/themuffinman/frontend run validate:web-surface`.
 It checks canonical route presence and ordering, visible entry actions, Calendar modes/timezone labeling, and
 Chat/Circles recovery affordances; it supplements but does not replace browser traces.
+
+Run `npm --prefix apps/themuffinman/frontend run validate:preview-free` after changing an app-shell view or shared detail component. It rejects generic preview and context-rail primitives; calendar quick looks, Chat split view, and ReviewPane remain specialised patterns.
 
 Run `ruby scripts/audits/audit-ui-entrypoints.rb` (also included in `make audit-frontend`) to verify that primary
 navigation, shell surfaces, authenticated routes, create handoffs, and configured surface actions remain connected.

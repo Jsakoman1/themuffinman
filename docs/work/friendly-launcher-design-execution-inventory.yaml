@@ -1,0 +1,145 @@
+kind: execution-inventory
+version: 1
+id: friendly-launcher-design-execution-inventory
+master_plan: docs/work/friendly-launcher-design-master.yaml
+serial: true
+hardening_contract:
+  first_item: harden-friendly-launcher-inventory
+  advancement_rule: No later item may start until the hardening task is verifier-verified
+    and all inventory items have a matching child-plan inventory_item link.
+  evidence_contract: Visual audit items use stable light/dark screenshot paths and
+    separate runtime JSON paths; closeout never substitutes prior Business-parity
+    evidence for new launcher evidence.
+items:
+- id: harden-friendly-launcher-inventory
+  sequence: 1
+  plan: docs/work/friendly-launcher-design-atomic-hardening.yaml
+  task: harden-friendly-launcher-inventory
+  status: verified
+  started_at: '2026-07-29T16:27:27Z'
+  verified_at: '2026-07-29T16:28:02Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-atomic-hardening.yaml
+    task: harden-friendly-launcher-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: establish-semantic-launcher-tokens
+  sequence: 2
+  plan: docs/work/friendly-launcher-design-foundations.yaml
+  task: establish-semantic-launcher-tokens
+  status: verified
+  started_at: '2026-07-29T16:28:10Z'
+  verified_at: '2026-07-29T16:28:58Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-foundations.yaml
+    task: establish-semantic-launcher-tokens
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: create-shared-home-action-tile
+  sequence: 3
+  plan: docs/work/friendly-launcher-design-foundations.yaml
+  task: create-shared-home-action-tile
+  status: verified
+  started_at: '2026-07-29T16:29:11Z'
+  verified_at: '2026-07-29T16:29:57Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-foundations.yaml
+    task: create-shared-home-action-tile
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: prepare-home-launcher-projection
+  sequence: 4
+  plan: docs/work/friendly-launcher-design-home.yaml
+  task: create-home-launcher-read-model
+  status: verified
+  started_at: '2026-07-29T16:30:10Z'
+  verified_at: '2026-07-29T16:34:22Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-home.yaml
+    task: create-home-launcher-read-model
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: consume-home-launcher-contract
+  sequence: 5
+  plan: docs/work/friendly-launcher-design-home.yaml
+  task: consume-home-launcher-contract
+  status: verified
+  started_at: '2026-07-29T16:34:32Z'
+  verified_at: '2026-07-29T16:36:48Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-home.yaml
+    task: consume-home-launcher-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: replace-home-dashboard-first-view
+  sequence: 6
+  plan: docs/work/friendly-launcher-design-home.yaml
+  task: replace-home-dashboard-first-view
+  status: verified
+  started_at: '2026-07-29T16:37:03Z'
+  verified_at: '2026-07-29T16:39:11Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-home.yaml
+    task: replace-home-dashboard-first-view
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-compact-home-recovery-and-follow-up
+  sequence: 7
+  plan: docs/work/friendly-launcher-design-home.yaml
+  task: add-compact-home-recovery-and-follow-up
+  status: verified
+  started_at: '2026-07-29T16:39:21Z'
+  verified_at: '2026-07-29T16:42:02Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-home.yaml
+    task: add-compact-home-recovery-and-follow-up
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: establish-mobile-tab-bar
+  sequence: 8
+  plan: docs/work/friendly-launcher-design-navigation.yaml
+  task: establish-mobile-tab-bar
+  status: verified
+  started_at: '2026-07-29T16:42:20Z'
+  verified_at: '2026-07-29T16:43:34Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-navigation.yaml
+    task: establish-mobile-tab-bar
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: adapt-desktop-launcher-composition
+  sequence: 9
+  plan: docs/work/friendly-launcher-design-navigation.yaml
+  task: adapt-desktop-launcher-composition
+  status: verified
+  started_at: '2026-07-29T16:43:50Z'
+  verified_at: '2026-07-29T16:44:49Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-navigation.yaml
+    task: adapt-desktop-launcher-composition
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-friendly-launcher-mobile
+  sequence: 10
+  plan: docs/work/friendly-launcher-design-visual-closeout.yaml
+  task: audit-friendly-launcher-mobile
+  status: verified
+  started_at: '2026-07-29T16:45:00Z'
+  verified_at: '2026-07-29T16:50:41Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-visual-closeout.yaml
+    task: audit-friendly-launcher-mobile
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-friendly-launcher-desktop
+  sequence: 11
+  plan: docs/work/friendly-launcher-design-visual-closeout.yaml
+  task: audit-friendly-launcher-desktop
+  status: verified
+  started_at: '2026-07-29T16:51:23Z'
+  verified_at: '2026-07-29T16:52:16Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-visual-closeout.yaml
+    task: audit-friendly-launcher-desktop
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: close-friendly-launcher-program
+  sequence: 12
+  plan: docs/work/friendly-launcher-design-visual-closeout.yaml
+  task: close-friendly-launcher-program
+  status: verified
+  started_at: '2026-07-29T16:52:24Z'
+  verified_at: '2026-07-29T16:53:12Z'
+  evidence:
+    plan: docs/work/friendly-launcher-design-visual-closeout.yaml
+    task: close-friendly-launcher-program
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

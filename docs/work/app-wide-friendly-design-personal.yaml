@@ -1,0 +1,174 @@
+kind: work
+version: 1
+id: app-wide-friendly-design-personal
+title: Clarify personal, relationship, and attention surfaces
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/app-wide-friendly-design-master.yaml
+execution_inventory: docs/work/app-wide-friendly-design-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-usability-business-parity-master.yaml
+  baseline_only_surfaces:
+  - connection
+  - circle
+  - profile
+  - and notification permissions
+  residual_scope:
+  - entry hierarchy
+  - friendly empty states
+  - personal action grouping
+  - and attention scanability
+  retest_triggers:
+  - PeopleOverviewView
+  - CirclesView
+  - ProfilePage
+  - ActivityView
+  - NotificationsView
+  - or shared primitives
+  non_duplication_rule: Existing behaviour evidence remains baseline; this plan proves
+    only the revised presentation.
+tasks:
+- id: clarify-people-and-circles-entry
+  title: Clarify People and Circles entry
+  type: implementation
+  status: done
+  inventory_item: clarify-people-and-circles-entry
+  observable_outcome: People and Circles foreground one understandable relationship
+    task, group secondary choices, and turn empty state into a clear next step.
+  dependencies:
+  - simplify-rides-route-flow
+  evidence_boundary:
+  - frontend type-check/build
+  - authenticated People/Circles browser trace
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:34:10Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue: c0eb8cfe13e25b4b0fc80d3de9a8e650bbc71b444c2e7c42e5a39ec047191ef6
+    apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue: f202d1de4450436f52fc4de1d598e5314bbd756587367692e1da516f0e34232b
+    docs/product-memory.md: 348bfc709c8d29cc34e13c66fe3cec17ab4c7150b4dceaee68197539dc355337
+- id: simplify-profile-activity-and-notifications
+  title: Simplify Profile, Activity, and notifications
+  type: implementation
+  status: done
+  inventory_item: simplify-profile-activity-and-notifications
+  observable_outcome: Personal profile remains calm while Activity and notifications
+    make the next meaningful recovery visible before lower-priority history.
+  dependencies:
+  - clarify-people-and-circles-entry
+  evidence_boundary:
+  - frontend type-check/build
+  - authenticated Profile/Activity/notifications browser trace
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:36:32Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue: 56a63c5238f3a468de91b1fcdb7431b746ec1d91d50a4fd8df11b15d29851c7a
+    apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue: 1d7005cdae3ee2a619c61902a97cfeedc40ab632e064ff215baf7c201097cf2c
+    apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue: 1ae0f7fbc123a1bbc89975f96e13380d729404109cfb436d0db0e5b877849882
+    docs/product-memory.md: f71f9484cf8a15338dc801212c427b51eab7fac3662ad4b6aed7344ba73c6db2
+evidence:
+- task: clarify-people-and-circles-entry
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:36:15Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/WorkQuestCreateView--kx420xU.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-Cen_G7el.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-CNwHST68.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/BusinessPublicView-DtmYVTKT.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-BI5NWA84.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-CyHcFb9s.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-BO6FTY8v.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-CUfZx_az.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-CMw6p9h_.js                       19.53 kB │ gzip:   6.31 kB
+    dist/assets/HomeHubView-CIZ8W5ep.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BaQgO2zB.js                           26.80 kB │ gzip:   8.40 kB
+    dist/assets/AuthenticatedShellView-Ca93WrnK.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-oTrDRLHf.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-BN7FiMxB.js                                 62.80 kB │ gzip:  15.54 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 606ms
+
+  startedAt: '2026-07-29T17:34:10Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - docs/product-memory.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: simplify-profile-activity-and-notifications
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:41:57Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/WorkQuestCreateView-BVtjZEIr.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-BkCMsEwW.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-D3c6LXAo.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/BusinessPublicView-CEpDB4JS.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-DHXtqDMW.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-AL3Mdd7W.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-DCcTIFHT.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-CsH2A872.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-BW7UHEOT.js                       19.53 kB │ gzip:   6.31 kB
+    dist/assets/HomeHubView-CspfF3RA.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-D_5WPqAX.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BoJiT0zH.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Gl77PF8S.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-BhWgTBWH.js                                 62.81 kB │ gzip:  15.55 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 617ms
+
+  startedAt: '2026-07-29T17:36:32Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

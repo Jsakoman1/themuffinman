@@ -4,7 +4,9 @@ import com.themuffinman.app.business.model.BusinessBooking;
 import com.themuffinman.app.business.repository.BusinessBookingRepository;
 import com.themuffinman.app.calendar.dto.CalendarEventDTO;
 import com.themuffinman.app.calendar.dto.CalendarProjectionDTO;
+import com.themuffinman.app.calendar.dto.CalendarSourceDTO;
 import com.themuffinman.app.common.errors.ServiceErrors;
+import com.themuffinman.app.common.time.TimeSupport;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.rides.model.RideOffer;
 import com.themuffinman.app.rides.repository.RideOfferRepository;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -30,6 +34,11 @@ public class CalendarReadService {
     private static final Set<String> SUPPORTED_SOURCES = Set.of("business", "quest", "ride");
     private static final Instant OPEN_ENDED_EVENT_END = Instant.parse("9999-12-31T00:00:00Z");
     private static final int MAX_EVENTS_PER_PROJECTION = 500;
+    private static final List<CalendarSourceDTO> CALENDAR_SOURCES = List.of(
+            CalendarSourceDTO.builder().key("business").label("Business bookings").color("#8d6cab").build(),
+            CalendarSourceDTO.builder().key("quest").label("Work").color("#527a9b").build(),
+            CalendarSourceDTO.builder().key("ride").label("Rides").color("#4b8d77").build()
+    );
 
     private final BusinessBookingRepository businessBookingRepository;
     private final WorkmarketQuestRepository questRepository;
@@ -63,7 +72,8 @@ public class CalendarReadService {
                 .view(view)
                 .rangeKind(view.equals("AGENDA") ? "OPEN" : view)
                 .timezone("UTC")
-                .availableSources(List.of("business", "quest", "ride"))
+                .availableSources(CALENDAR_SOURCES.stream().map(CalendarSourceDTO::getKey).toList())
+                .sources(CALENDAR_SOURCES)
                 .events(events)
                 .build();
     }
@@ -100,6 +110,8 @@ public class CalendarReadService {
                 .startsAt(booking.getStartsAt())
                 .endsAt(booking.getEndsAt())
                 .timezone(booking.getTimezone())
+                .startsAtLocal(localTime(booking.getStartsAt(), booking.getTimezone()))
+                .endsAtLocal(localTime(booking.getEndsAt(), booking.getTimezone()))
                 .status(booking.getStatus().name())
                 .businessId(booking.getBusinessProfile().getId())
                 .businessName(booking.getBusinessProfile().getBusinessName())
@@ -126,6 +138,8 @@ public class CalendarReadService {
                 .startsAt(quest.getScheduledAt())
                 .endsAt(endsAt)
                 .timezone("UTC")
+                .startsAtLocal(localTime(quest.getScheduledAt(), "UTC"))
+                .endsAtLocal(localTime(endsAt, "UTC"))
                 .status(quest.getStatus().name())
                 .navigationPath("/work/quests/" + quest.getId())
                 .allDay(false)
@@ -147,6 +161,8 @@ public class CalendarReadService {
                 .startsAt(ride.getDepartureAt())
                 .endsAt(ride.getDepartureAt().plus(Duration.ofHours(1)))
                 .timezone("UTC")
+                .startsAtLocal(localTime(ride.getDepartureAt(), "UTC"))
+                .endsAtLocal(localTime(ride.getDepartureAt().plus(Duration.ofHours(1)), "UTC"))
                 .status(ride.getStatus().name())
                 .navigationPath("/rides/" + ride.getId())
                 .allDay(false)
@@ -157,5 +173,10 @@ public class CalendarReadService {
         String view = requestedView == null || requestedView.isBlank() ? "AGENDA" : requestedView.trim().toUpperCase(Locale.ROOT);
         if (!Set.of("AGENDA", "DAY", "WEEK", "MONTH").contains(view)) throw ServiceErrors.badRequest("Calendar view is not supported");
         return view;
+    }
+
+    private String localTime(Instant instant, String timezone) {
+        ZoneId zoneId = TimeSupport.resolveZoneIdOrDefault(timezone, ZoneId.of("UTC"));
+        return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(instant.atZone(zoneId));
     }
 }

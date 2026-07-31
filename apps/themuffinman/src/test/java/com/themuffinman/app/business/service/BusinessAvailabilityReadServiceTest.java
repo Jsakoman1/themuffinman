@@ -87,4 +87,28 @@ class BusinessAvailabilityReadServiceTest {
 
         assertEquals(List.of(availableStart), result.getItems().stream().map(BusinessAvailabilityWindowDTO::getStartsAt).toList());
     }
+
+    @Test
+    void calendarIncludesUnavailableBusinessLocalDays() {
+        BusinessProfile profile = new BusinessProfile();
+        profile.setId(10L); profile.setSlug("dog-groomer"); profile.setActive(true); profile.setBookingEnabled(true); profile.setTimezone("Europe/Zurich");
+        BusinessOffering offering = new BusinessOffering();
+        offering.setId(20L); offering.setBusinessProfile(profile); offering.setActive(true); offering.setTitle("Trim");
+        Instant start = Instant.parse("2026-08-12T09:00:00Z");
+        Instant end = Instant.parse("2026-08-12T09:45:00Z");
+        when(businessProfileRepository.findBySlug("dog-groomer")).thenReturn(Optional.of(profile));
+        when(businessOfferingRepository.findActiveByBusinessProfileId(10L)).thenReturn(List.of(offering));
+        when(businessAvailabilityRuleRepository.findActiveByBusinessProfileId(10L)).thenReturn(List.of());
+        when(businessAvailabilityExceptionRepository.findByBusinessProfileId(10L)).thenReturn(List.of());
+        when(businessAvailabilityComputationService.deriveWindows(any(), any(), any(), any(), any(), any())).thenReturn(List.of(BusinessAvailabilityWindowDTO.builder().startsAt(start).endsAt(end).build()));
+        when(businessResourceAssignmentService.hasAvailableResources(offering, start, end)).thenReturn(true);
+
+        var result = service.getPublicAvailabilityCalendar("dog-groomer", 20L, LocalDate.of(2026, 8, 12), 2);
+
+        assertEquals("Europe/Zurich", result.getTimezone());
+        assertEquals(List.of("LIMITED", "UNAVAILABLE"), result.getDays().stream().map(day -> day.getAvailabilityState()).toList());
+        assertEquals(start, result.getDays().getFirst().getSlots().getFirst().getStartsAt());
+        assertEquals(end, result.getDays().getFirst().getSlots().getFirst().getEndsAt());
+        assertEquals("MONTH", result.getView());
+    }
 }

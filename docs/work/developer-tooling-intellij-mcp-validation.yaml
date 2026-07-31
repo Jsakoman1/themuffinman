@@ -1,0 +1,85 @@
+kind: work
+version: 1
+id: developer-tooling-intellij-mcp-validation
+title: Route changed paths to the smallest safe validation set
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-intellij-mcp-master.yaml
+execution_inventory: docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - add-changed-path-validation-router
+  advisory_only: true
+  fixture_classes:
+  - backend
+  - frontend
+  - migration
+  - documentation_control
+  - tooling
+  - mixed
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - verifier-selected task validations
+  - existing audit, Maven, npm, and runtime command meanings
+  residual_scope:
+  - advisory deterministic changed-path validation routing
+  retest_triggers:
+  - path taxonomy or recommended leaf command changes
+  non_duplication_rule: The router recommends commands only; verifier evidence remains
+    the sole implementation completion source.
+tasks:
+- id: add-changed-path-validation-router
+  title: Add an explainable changed-path validation router
+  type: implementation
+  status: done
+  inventory_item: add-changed-path-validation-router
+  observable_outcome: One read-only command accepts explicit repository-relative paths
+    or the current diff and emits a deduplicated ordered validation set with a reason
+    for each backend, frontend, migration, documentation/control, tooling, or mixed
+    recommendation.
+  dependencies:
+  - add-intent-aware-context-search
+  evidence_boundary:
+  - backend, frontend, migration, control, tooling, and mixed routing fixtures
+  - advisory-only and deterministic-output assertions
+  paths: &1
+  - scripts/change-validation.rb
+  - scripts/tool-self-test.rb
+  - Makefile
+  required_paths: *1
+  validation: ruby -c scripts/change-validation.rb && ruby scripts/change-validation.rb
+    --check-fixtures
+  started_at: '2026-07-31T13:17:10Z'
+  start_fingerprints:
+    scripts/change-validation.rb: __missing__
+    scripts/tool-self-test.rb: 1dc08372fadd6328bc34e39c40f67bdac2626b3c7d398baebcc106d03b4c797c
+    Makefile: 2189c63fd0690572577a3aeb1af6948483dce99a903f8dfa28ca0e7b5bfd3a1c
+evidence:
+- task: add-changed-path-validation-router
+  command: ruby -c scripts/change-validation.rb && ruby scripts/change-validation.rb
+    --check-fixtures
+  ranAt: '2026-07-31T13:18:52Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - scripts/tool-self-test.rb
+  - scripts/change-validation.rb
+  output: |+
+    Syntax OK
+    Changed-path validation fixtures passed (6 classes, advisory-only).
+
+  startedAt: '2026-07-31T13:17:10Z'
+  changedAfterStart: &2
+  - scripts/change-validation.rb
+  - scripts/tool-self-test.rb
+  - Makefile
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

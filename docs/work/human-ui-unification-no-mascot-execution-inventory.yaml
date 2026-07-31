@@ -1,0 +1,136 @@
+kind: execution-inventory
+version: 1
+id: human-ui-unification-no-mascot-execution-inventory
+master_plan: docs/work/human-ui-unification-no-mascot-master.yaml
+serial: true
+execution_hardening:
+  owner_task: harden-human-ui-unification-inventory
+  contract: Sequence, task mapping, dependencies, required paths, and leaf validations
+    are reviewed as one serial contract.
+hardening_contract:
+  first_item: harden-human-ui-unification-inventory
+  advancement_rule: No UI implementation starts until hardening is verifier-verified.
+  evidence_contract: Every implementation task runs frontend type-check/build; closeout
+    adds fresh multi-route desktop and mobile browser evidence.
+items:
+- id: harden-human-ui-unification-inventory
+  sequence: 1
+  plan: docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+  task: harden-human-ui-unification-inventory
+  status: verified
+  started_at: '2026-07-29T19:28:48Z'
+  verified_at: '2026-07-29T19:29:23Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+    task: harden-human-ui-unification-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: standardize-theme-and-purpose-icons
+  sequence: 2
+  plan: docs/work/human-ui-unification-no-mascot-foundation.yaml
+  task: standardize-theme-and-purpose-icons
+  status: verified
+  started_at: '2026-07-29T19:29:30Z'
+  verified_at: '2026-07-29T19:31:01Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-foundation.yaml
+    task: standardize-theme-and-purpose-icons
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: consolidate-page-orientation-header
+  sequence: 3
+  plan: docs/work/human-ui-unification-no-mascot-foundation.yaml
+  task: consolidate-page-orientation-header
+  status: verified
+  started_at: '2026-07-29T19:31:07Z'
+  verified_at: '2026-07-29T19:32:37Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-foundation.yaml
+    task: consolidate-page-orientation-header
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: refresh-home-landing
+  sequence: 4
+  plan: docs/work/human-ui-unification-no-mascot-home.yaml
+  task: refresh-home-landing
+  status: verified
+  started_at: '2026-07-29T19:32:47Z'
+  verified_at: '2026-07-29T19:34:28Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-home.yaml
+    task: refresh-home-landing
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: standardize-collection-workspace-primitives
+  sequence: 5
+  plan: docs/work/human-ui-unification-no-mascot-archetypes.yaml
+  task: standardize-collection-workspace-primitives
+  status: verified
+  started_at: '2026-07-29T19:34:35Z'
+  verified_at: '2026-07-29T19:39:03Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-archetypes.yaml
+    task: standardize-collection-workspace-primitives
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: standardize-detail-form-primitives
+  sequence: 6
+  plan: docs/work/human-ui-unification-no-mascot-archetypes.yaml
+  task: standardize-detail-form-primitives
+  status: verified
+  started_at: '2026-07-29T19:39:08Z'
+  verified_at: '2026-07-29T19:39:52Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-archetypes.yaml
+    task: standardize-detail-form-primitives
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: migrate-bespoke-authenticated-context
+  sequence: 7
+  plan: docs/work/human-ui-unification-no-mascot-archetypes.yaml
+  task: migrate-bespoke-authenticated-context
+  status: verified
+  started_at: '2026-07-29T19:40:01Z'
+  verified_at: '2026-07-29T19:41:26Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-archetypes.yaml
+    task: migrate-bespoke-authenticated-context
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: consolidate-shared-business-styles
+  sequence: 8
+  plan: docs/work/human-ui-unification-no-mascot-cleanup.yaml
+  task: consolidate-shared-business-styles
+  status: verified
+  started_at: '2026-07-29T19:41:49Z'
+  verified_at: '2026-07-29T19:42:42Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-cleanup.yaml
+    task: consolidate-shared-business-styles
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: consolidate-marketplace-personal-styles
+  sequence: 9
+  plan: docs/work/human-ui-unification-no-mascot-cleanup.yaml
+  task: consolidate-marketplace-personal-styles
+  status: verified
+  started_at: '2026-07-29T19:42:49Z'
+  verified_at: '2026-07-29T19:43:06Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-cleanup.yaml
+    task: consolidate-marketplace-personal-styles
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-human-ui-desktop
+  sequence: 10
+  plan: docs/work/human-ui-unification-no-mascot-closeout.yaml
+  task: audit-human-ui-desktop
+  status: verified
+  started_at: '2026-07-29T19:43:12Z'
+  verified_at: '2026-07-29T19:46:58Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-closeout.yaml
+    task: audit-human-ui-desktop
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-human-ui-mobile
+  sequence: 11
+  plan: docs/work/human-ui-unification-no-mascot-closeout.yaml
+  task: audit-human-ui-mobile
+  status: verified
+  started_at: '2026-07-29T19:46:58Z'
+  verified_at: '2026-07-29T19:47:33Z'
+  evidence:
+    plan: docs/work/human-ui-unification-no-mascot-closeout.yaml
+    task: audit-human-ui-mobile
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

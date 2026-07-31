@@ -1,6 +1,9 @@
 package com.themuffinman.app.business.service;
 
 import com.themuffinman.app.business.dto.BusinessAvailabilityWindowListResponseDTO;
+import com.themuffinman.app.business.dto.BusinessPublicAvailabilityCalendarDTO;
+import com.themuffinman.app.business.dto.BusinessPublicAvailabilityDayDTO;
+import com.themuffinman.app.business.dto.BusinessPublicAvailabilitySlotDTO;
 import com.themuffinman.app.business.model.BusinessOffering;
 import com.themuffinman.app.business.model.BusinessProfile;
 import com.themuffinman.app.business.repository.BusinessAvailabilityExceptionRepository;
@@ -17,6 +20,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,6 +68,46 @@ public class BusinessAvailabilityReadService {
         Instant from = date.atStartOfDay(zone).toInstant();
         Instant to = date.plusDays(1).atStartOfDay(zone).toInstant().minusNanos(1);
         return getPublicAvailability(slug, offeringId, from, to);
+    }
+
+    public BusinessPublicAvailabilityCalendarDTO getPublicAvailabilityCalendar(String slug, Long offeringId, LocalDate fromDate, int days) {
+        return getPublicAvailabilityCalendar(slug, offeringId, fromDate, days, "MONTH");
+    }
+
+    public BusinessPublicAvailabilityCalendarDTO getPublicAvailabilityCalendar(String slug, Long offeringId, LocalDate fromDate, int days, String view) {
+        if (fromDate == null) throw ServiceErrors.badRequest("Calendar start date is required");
+        if (days < 1 || days > 31) throw ServiceErrors.badRequest("Calendar range must be between 1 and 31 days");
+        String safeView = switch (view == null ? "MONTH" : view.toUpperCase()) {
+            case "MONTH", "WEEK", "DAY" -> view.toUpperCase();
+            default -> throw ServiceErrors.badRequest("Calendar view must be MONTH, WEEK, or DAY");
+        };
+        BusinessProfile profile = findBookableProfile(slug);
+        ZoneId zone = TimeSupport.requireZoneId(profile.getTimezone(), "Business timezone is required before deriving availability");
+        LocalDate toDate = fromDate.plusDays(days - 1L);
+        List<com.themuffinman.app.business.dto.BusinessAvailabilityWindowDTO> windows = getPublicAvailability(
+                slug, offeringId, fromDate.atStartOfDay(zone).toInstant(), toDate.plusDays(1).atStartOfDay(zone).toInstant()
+        ).getItems();
+        Map<LocalDate, List<com.themuffinman.app.business.dto.BusinessAvailabilityWindowDTO>> byDate = windows.stream()
+                .collect(Collectors.groupingBy(window -> window.getStartsAt().atZone(zone).toLocalDate()));
+        return BusinessPublicAvailabilityCalendarDTO.builder()
+                .businessOfferingId(offeringId)
+                .view(safeView)
+                .timezone(profile.getTimezone())
+                .fromDate(fromDate)
+                .toDate(toDate)
+                .days(fromDate.datesUntil(toDate.plusDays(1)).map(date -> {
+                    List<com.themuffinman.app.business.dto.BusinessAvailabilityWindowDTO> slots = byDate.getOrDefault(date, List.of());
+                    return BusinessPublicAvailabilityDayDTO.builder().date(date)
+                            .availabilityState(slots.isEmpty() ? "UNAVAILABLE" : slots.size() == 1 ? "LIMITED" : "AVAILABLE")
+                            .availableSlotCount(slots.size())
+                            .slots(slots.stream().map(slot -> BusinessPublicAvailabilitySlotDTO.builder()
+                                    .startsAt(slot.getStartsAt())
+                                    .endsAt(slot.getEndsAt())
+                                    .timezone(slot.getTimezone())
+                                    .build()).toList())
+                            .build();
+                }).toList())
+                .build();
     }
 
     private BusinessProfile findBookableProfile(String slug) {

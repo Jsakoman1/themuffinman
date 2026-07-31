@@ -1,0 +1,85 @@
+kind: work
+version: 1
+id: services-human-ux-atomic-hardening
+title: Harden the Services human UX execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-human-ux-master.yaml
+execution_inventory: docs/work/services-human-ux-execution-inventory.yaml
+execution_readiness:
+  atomic_contract_checked: true
+  inventory_item_count: 13
+  first_product_item: clarify-services-discovery
+  next_allowed_after_verification: clarify-services-discovery
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-style-visual-parity-atomic-hardening.yaml
+  baseline_only_surfaces:
+  - product implementation
+  residual_scope:
+  - plan and execution-inventory hardening only
+  retest_triggers:
+  - any Services master, child, inventory, analysis, or preflight change
+  non_duplication_rule: This task proves execution readiness only and cannot count
+    as product implementation.
+tasks:
+- id: harden-services-human-ux-inventory
+  title: Harden the Services human UX inventory
+  type: documentation
+  status: done
+  inventory_item: harden-services-human-ux-inventory
+  observable_outcome: Every Services delivery item has one observable outcome, exact
+    paths, a single predecessor, a leaf validation, and an explicit evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - atomic-task hardening audit
+  - serial execution inventory audit
+  paths:
+  - docs/work/services-human-ux-master.yaml
+  - docs/work/services-human-ux-execution-inventory.yaml
+  - docs/work/services-human-ux-atomic-hardening.yaml
+  - docs/work/services-human-ux-preflight.md
+  required_paths:
+  - docs/work/services-human-ux-master.yaml
+  - docs/work/services-human-ux-execution-inventory.yaml
+  - docs/work/services-human-ux-atomic-hardening.yaml
+  - docs/work/services-human-ux-preflight.md
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/services-human-ux-master.yaml
+    docs/work/services-human-ux-execution-inventory.yaml && ruby scripts/audits/audit-serial-execution-inventory.rb
+    docs/work/services-human-ux-master.yaml docs/work/services-human-ux-execution-inventory.yaml
+  started_at: '2026-07-30T16:35:01Z'
+  start_fingerprints:
+    docs/work/services-human-ux-master.yaml: a97093f8d4d493994265f39a75e53a741650057352e6b9f6f0ccd7e9c003ed69
+    docs/work/services-human-ux-execution-inventory.yaml: 3cd2cc6572d6a7f990a2477fb39908fdfedd9362adff57003d82f6b33e74b89b
+    docs/work/services-human-ux-atomic-hardening.yaml: 3e5775451a3aad72e1fffc289c0389cee8d41e2366fbb9757b446ead7e358de6
+    docs/work/services-human-ux-preflight.md: 136c2d0feaaa3405adc9080237eff9975336bf220762730b07afaa12185cd8e3
+evidence:
+- task: harden-services-human-ux-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/services-human-ux-master.yaml
+    docs/work/services-human-ux-execution-inventory.yaml && ruby scripts/audits/audit-serial-execution-inventory.rb
+    docs/work/services-human-ux-master.yaml docs/work/services-human-ux-execution-inventory.yaml
+  ranAt: '2026-07-30T16:36:54Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/services-human-ux-atomic-hardening.yaml
+  - docs/work/services-human-ux-execution-inventory.yaml
+  - docs/work/services-human-ux-master.yaml
+  - docs/work/services-human-ux-preflight.md
+  output: |+
+    Atomic task hardening audit passed (13 inventory items).
+    Serial execution inventory audit passed (13 strict items).
+
+  startedAt: '2026-07-30T16:35:01Z'
+  changedAfterStart: &1
+  - docs/work/services-human-ux-master.yaml
+  - docs/work/services-human-ux-execution-inventory.yaml
+  - docs/work/services-human-ux-atomic-hardening.yaml
+  - docs/work/services-human-ux-preflight.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

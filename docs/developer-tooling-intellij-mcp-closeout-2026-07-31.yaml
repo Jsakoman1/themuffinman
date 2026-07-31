@@ -1,0 +1,80 @@
+kind: developer_tooling_intellij_mcp_closeout
+version: 1
+id: developer-tooling-intellij-mcp-closeout-2026-07-31
+master_plan: docs/work/developer-tooling-intellij-mcp-master.yaml
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+generated_at: 2026-07-31T13:23:04Z
+status: measured
+scope:
+  new_repairs:
+  - compact repository-map query serialization
+  - intent-aware bounded context search
+  - advisory changed-path validation routing
+  - IntelliJ MCP semantic routing with local fallback
+  - attributable tooling versus product-contract self-test stages
+  preserved_boundaries:
+  - full product self-test still fails at modern_surface_contract because offer work route is discoverable
+  - IntelliJ symbol search returned no WorkspaceNavigationService item in the current IDE index
+  - capability, runtime, release, and product status were not promoted
+measurements:
+  repository_map_query:
+    fixture: WorkspaceNavigationService
+    before_bytes: 1041493
+    after_bytes: 921
+    reduction_percent: 99.91
+    after_elapsed_seconds: 1.817
+    max_output_bytes: 20000
+    global_ast_or_import_graph_emitted: false
+  context_search:
+    fixture: WorkspaceNavigationService
+    mode: symbol
+    budget_bytes: 2048
+    observed_bytes: 2048
+    observed_elapsed_seconds: 0.038
+    mode_and_ranking_explained: true
+  validation_router:
+    fixture_classes: [backend, frontend, migration, documentation_control, tooling, mixed]
+    result: passed
+    advisory_only: true
+  tooling_self_test:
+    command: ruby scripts/tool-self-test.rb --tooling-only
+    result: passed
+    elapsed_seconds: 7.633
+    stage_classes: [tool_mechanics, product_contract]
+  full_self_test:
+    command: ruby scripts/tool-self-test.rb
+    result: failed_as_expected_external_boundary
+    elapsed_seconds: 4.319
+    failure_stage: modern_surface_contract
+    failure_message: offer work route is discoverable
+  intellij_semantic_fallback:
+    preferred_call: IDEA search_symbol WorkspaceNavigationService
+    preferred_result: no_items
+    fallback_call: ruby scripts/repository-map.rb --query WorkspaceNavigationService --max-output 20000
+    fallback_result: one_backend_match
+    fallback_output_bytes: 921
+    result: documented_fallback_confirmed
+change_impact_review:
+  report: docs/audit-output/system-map-change-impact.json
+  generated_at: 2026-07-31T13:23:04Z
+  dispositions:
+  - recommendation: docs/system-truth-registry.yaml
+    status: not_applicable_with_reason
+    reason: Tool routing and output changes do not alter canonical product, capability, runtime, or truth claims.
+  - recommendation: docs/system-drift-control-registry.yaml
+    status: not_applicable_with_reason
+    reason: The program documents tool routing and validates it locally but does not introduce a registry-owned drift rule.
+  - recommendation: docs/release-operations-registry.yaml
+    status: not_applicable_with_reason
+    reason: Makefile targets remain local developer commands and do not change build, release, or deployment provenance.
+  - recommendation: docs/system-map.md
+    status: reviewed
+    reason: Tooling remains in scripts and implementation-control documentation; no module or canonical ownership relationship changed.
+validations:
+  - ruby scripts/tool-self-test.rb --tooling-only
+  - ruby scripts/audits/audit-tool-catalog.rb --check
+  - ruby scripts/audits/audit-intellij-mcp-routing.rb
+  - ruby scripts/change-validation.rb --check-fixtures
+  - ruby scripts/audits/audit-docs-as-tests.rb
+boundary: This artifact measures developer-tooling behavior only. It is not product,
+  browser-runtime, capability, release, or implementation-completion evidence.

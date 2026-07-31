@@ -1,6 +1,7 @@
 package com.themuffinman.app.things.dto;
 
 import com.themuffinman.app.things.model.ThingBorrowRequestStatus;
+import com.themuffinman.app.common.dto.ClientActionDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,4 +21,5 @@ public class ThingBorrowRequestResponseDTO {
     private Instant createdAt;
     private String stateExplanation;
     private List<ThingAllowedActionDTO> allowedActions;
+    private List<ClientActionDTO> actions;
 }

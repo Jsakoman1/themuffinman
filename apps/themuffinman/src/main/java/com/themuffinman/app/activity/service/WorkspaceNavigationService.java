@@ -4,9 +4,6 @@ import com.themuffinman.app.activity.dto.ActivityItemDTO;
 import com.themuffinman.app.activity.dto.WorkspaceNavigationChildDTO;
 import com.themuffinman.app.activity.dto.WorkspaceNavigationModuleDTO;
 import com.themuffinman.app.activity.dto.WorkspaceNavigationResponseDTO;
-import com.themuffinman.app.business.dto.BusinessFavoriteResponseDTO;
-import com.themuffinman.app.business.service.BusinessFavoriteService;
-import com.themuffinman.app.business.service.BusinessProfileService;
 import com.themuffinman.app.identity.dto.PersonalShortcutResponseDTO;
 import com.themuffinman.app.identity.model.AppUser;
 import com.themuffinman.app.identity.service.PersonalShortcutService;
@@ -30,8 +27,6 @@ public class WorkspaceNavigationService {
     private final ActivityReadService activityReadService;
     private final com.themuffinman.app.notification.service.AttentionCenterService attentionCenterService;
     private final PersonalShortcutService personalShortcutService;
-    private final BusinessFavoriteService businessFavoriteService;
-    private final BusinessProfileService businessProfileService;
 
     public WorkspaceNavigationResponseDTO getNavigation(AppUser user) {
         if (user == null) {
@@ -63,38 +58,20 @@ public class WorkspaceNavigationService {
             Map<String, Long> unreadBySource,
             List<PersonalShortcutResponseDTO> shortcuts
     ) {
-        List<BusinessFavoriteResponseDTO> favoriteBusinesses = businessFavoriteService.getMine(user);
-        List<com.themuffinman.app.business.dto.BusinessProfileResponseDTO> ownedBusinesses = businessProfileService.getMyProfiles(user);
-        List<ChildDefinition> serviceChildren = new java.util.ArrayList<>(List.of(
-                child("services-find", "Find service", "/business/find", 1, "search public businesses")
-        ));
-        favoriteBusinesses.forEach(favorite -> serviceChildren.add(child(
-                "service-favorite-" + favorite.getBusinessProfileId(),
-                favorite.getBusinessName(),
-                "/business/public/" + favorite.getSlug(),
-                serviceChildren.size() + 1,
-                "favorite business"
-        )));
         return List.of(
                 module("home", "Home", "home", "/home", 1, "workspace orientation", activityBySource, unreadBySource, List.of()),
                 module("work", "Work", "work", "/work", 2, reason("workmarket", shortcuts, "primary work workspace"), activityBySource, unreadBySource,
-                        List.of(child("work-my-work", "My work", "/work/quests", 1, "owned work and submitted work"), child("work-find", "Find work", "/work/find", 2, "work discovery"), child("work-applications", "Applications", "/work/applications", 3, "all incoming and outgoing applications"))),
+                        List.of()),
                 module("business", "Business", "business", "/business", 3, "your business spaces", activityBySource, unreadBySource,
-                        ownedBusinesses.stream().map(business -> child(
-                                "business-owned-" + business.getId(),
-                                business.getBusinessName(),
-                                "/business/profile?businessId=" + business.getId(),
-                                ownedBusinesses.indexOf(business) + 1,
-                                "owned business"
-                        )).toList()),
+                        List.of()),
                 module("services", "Services", "business", "/business/find", 4, "discover businesses and services", activityBySource, unreadBySource,
-                        serviceChildren),
+                        List.of()),
                 module("things", "Things", "things", "/things/mine", 5, "lending and borrowing", activityBySource, unreadBySource,
-                        List.of(child("things-mine", "My things", "/things/mine", 1, "owned listings and borrow requests"), child("things-find", "Find things", "/things", 2, "search available listings"))),
+                        List.of()),
                 module("people", "People", "people", "/people", 6, "connections and circles", activityBySource, unreadBySource,
-                        List.of(child("people-overview", "Overview", "/people", 1, "requests, friends, groups, and quick actions"), child("people-circles", "Circles", "/people/circles", 2, "manage groups"))),
+                        List.of()),
                 module("rides", "Rides", "rides", "/rides/mine", 7, "circle-scoped ride coordination", activityBySource, unreadBySource,
-                        List.of(child("rides-mine", "My rides", "/rides/mine", 1, "rides you offer and riders who joined"), child("rides-find", "Find ride", "/rides", 2, "find an available ride")))
+                        List.of())
         );
     }
 

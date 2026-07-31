@@ -1,0 +1,201 @@
+kind: work
+version: 1
+id: business-style-visual-parity-details
+title: Align detail and creation contexts with the Business hierarchy
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-style-visual-parity-master.yaml
+execution_inventory: docs/work/business-style-visual-parity-execution-inventory.yaml
+execution_readiness:
+  atomic_contract_checked: true
+  inventory_items:
+  - align-detail-context
+  - align-creation-and-setup-context
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-details.yaml
+  - docs/work/business-friendly-hierarchy.yaml
+  baseline_only_surfaces:
+  - detail data loading
+  - mutations
+  - permissions
+  - Business booking setup
+  residual_scope:
+  - detail and setup visual orientation
+  - action grouping
+  - and responsive composition
+  retest_triggers:
+  - detail surface primitive
+  - named detail route
+  - creation or setup form layout
+  non_duplication_rule: Existing detail workflow evidence is baseline; this plan proves
+    only visual parity with Business/Home.
+tasks:
+- id: align-detail-context
+  title: Align decision detail contexts
+  type: implementation
+  status: done
+  inventory_item: align-detail-context
+  observable_outcome: Work, Thing, Ride, People, and application details use one clear
+    purpose header, readable summary, grouped primary action, and calm utility rail
+    so a person can decide what to do before encountering technical metadata.
+  dependencies:
+  - align-contextual-planning-workspaces
+  evidence_boundary:
+  - frontend type-check/build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:10:51Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue: acff781043950cbd796abb4270ce24311fe8d4ff5d02e4a5b1fd27f4dba79b17
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue: f2190bf10935097f370a638e6ae968b3bef55326569fef513597c526b5333d63
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue: cd8533b070e23b0c9de2173f2817c9825564d476dbac1b7f02c96cd459afe092
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue: 4efd915823d47c16741dedb63cbea06cae30f1249b76ed448b4e11d4d4b0142d
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue: 3c14bd2e53699e558f6328ee04c546aeb2afb91167a62b4192c10357ffe7f6fe
+    apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue: daa02552d3a00c8386b47d79c79fdd0cf91843362fbce5ce0a35f393aab8f87b
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue: 13dbbc9046739247e0c951aa5a022af50a564e0f73d91501ec3fe5f693abfd08
+- id: align-creation-and-setup-context
+  title: Align creation and setup contexts
+  type: implementation
+  status: done
+  inventory_item: align-creation-and-setup-context
+  observable_outcome: Creating work and configuring a Business service or profile
+    uses progressive, plain-language steps with one primary action and optional detail
+    visually subordinate to the task at hand.
+  dependencies:
+  - align-detail-context
+  evidence_boundary:
+  - frontend type-check/build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:12:13Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue: 0bb7fe462f22beff962cfa97bf6ea7ae00ed5e0a85d8a0e5430acee206f453a8
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue: 67afb5b29de76e52857deff1dc1a5a1415680f528f4aacae3290d7c5e4045ea3
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: c695d14da861362d767d8265f5ae439e052d2aaaddfee612c2ce118a6fee1d99
+    apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue: a7f7f618c8d9b167e1b911181cfd5e298834c9a7566d01c58296266cabda8199
+    docs/product-memory.md: 551cb980bf4288acf9a482e2f99ed40156e769e25f0c9e48fc2691718c59e4ee
+evidence:
+- task: align-detail-context
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:12:03Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  output: |+
+    dist/assets/CalendarPage-D_ib8zJY.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-Bbgf4tuM.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-Csc14bch.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-V48SquTF.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-CGs0SnmP.js                           15.80 kB │ gzip:   4.98 kB
+    dist/assets/WorkPage-D9w9-3K8.js                              16.17 kB │ gzip:   5.93 kB
+    dist/assets/WorkQuestDetailView-CJo58Guq.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-ChOyC6Ec.js                             17.44 kB │ gzip:   5.60 kB
+    dist/assets/ChatSurfaceView-Cq88Qgwm.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-D07UoLcQ.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CyHnFd7N.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-CvIL54FW.js                35.43 kB │ gzip:  11.78 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-VlGDJf_I.js                     57.90 kB │ gzip:  13.98 kB
+    dist/assets/index-D9yEFach.js                                 62.84 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 558ms
+
+  startedAt: '2026-07-29T19:10:51Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: align-creation-and-setup-context
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:12:55Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/CalendarPage-Dwc7POGa.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-BudlhDVW.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-DNN3ey3I.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-DnPn4Iqy.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-u2J-1Rl7.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-DpLGk4Ij.js                              16.17 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-Ck1xsZSx.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-ZeUv9vZf.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-Bl_kovx0.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DFDnqQJV.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-MYVNe-sv.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-lSKt5QwW.js                35.43 kB │ gzip:  11.78 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Ub01g-P4.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-D2xd0qZh.js                                 62.84 kB │ gzip:  15.57 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 561ms
+
+  startedAt: '2026-07-29T19:12:13Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/BusinessServiceSetupStepper.vue
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

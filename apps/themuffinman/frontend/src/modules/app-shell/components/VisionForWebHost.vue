@@ -118,8 +118,7 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeydown))
 .vision-web-host__header div { display: grid; gap: .15rem; }.vision-web-host__header span, .vision-web-host__hint { color: var(--text-muted); font-size: var(--text-size-meta); }.vision-web-host__hint, .vision-web-host__response { margin: 0; }.vision-web-host__response { padding: .65rem; border-radius: var(--radius-control); background: var(--surface-hover); }.vision-web-host__error { margin: 0; color: var(--danger); }.vision-web-host__close { border: 0; background: transparent; color: var(--text-muted); font-size: 1.25rem; cursor: pointer; }.vision-web-host__composer { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: .5rem; }.vision-web-host__composer input, .vision-web-host__composer button { min-height: var(--control-height-default); padding: .5rem; border: 1px solid var(--control-border); border-radius: var(--radius-control); background: var(--control-bg); color: var(--control-ink); font: inherit; }.vision-web-host__composer button { background: var(--accent); border-color: var(--accent); color: var(--canvas); cursor: pointer; }.vision-web-host__composer button:disabled { opacity: .55; cursor: not-allowed; }
 @media (max-width: 640px) { .vision-web-host__panel:not(.vision-web-host__panel--persistent) { position: fixed; top: 4.5rem; right: .75rem; left: .75rem; width: auto; } .vision-web-host__panel--persistent { right: .75rem; bottom: max(.75rem, env(safe-area-inset-bottom)); left: .75rem; width: auto; } .vision-web-host__composer { grid-template-columns: minmax(0, 1fr) auto auto; } .vision-web-host__composer input { min-width: 0; } }
 @media (prefers-reduced-motion: reduce) { .vision-web-host__orb { animation: none; } }
-</style>
-<style scoped>
+
 /* Native assistant dock: persistent Vision stays present without becoming a dashboard card. */
 .vision-web-host__panel--persistent { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:var(--space-2); width:min(34rem,calc(100vw - 2rem)); padding:var(--space-2); border:1px solid var(--line-strong); border-radius:999px; background:color-mix(in srgb,var(--surface-raised) 92%,transparent); box-shadow:var(--shadow-overlay); backdrop-filter:var(--app-material-blur); }
 .vision-web-host__panel--persistent .vision-web-host__header { display:flex; align-items:center; gap:var(--space-2); min-width:0; }
@@ -135,3 +134,4 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeydown))
 .vision-web-host__panel--persistent .vision-web-host__composer .vision-web-host__mic { background:transparent; color:var(--text-muted); }
 @media(max-width:640px){.vision-web-host__panel--persistent{right:.75rem;bottom:max(.75rem,env(safe-area-inset-bottom));left:.75rem;width:auto}.vision-web-host__panel--persistent .vision-web-host__response,.vision-web-host__panel--persistent .vision-web-host__error{right:0;width:calc(100vw - 1.5rem)}}
 </style>
+

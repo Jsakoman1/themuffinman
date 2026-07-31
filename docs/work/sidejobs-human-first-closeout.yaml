@@ -1,0 +1,88 @@
+kind: work
+version: 1
+id: sidejobs-human-first-closeout
+title: Close SideJobs product truth
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/sidejobs-human-first-master.yaml
+execution_inventory: docs/work/sidejobs-human-first-execution-inventory.yaml
+tasks:
+- id: close-sidejobs-human-first-truth
+  title: Record terminology, boundaries, and responsive SideJobs evidence
+  type: documentation
+  status: done
+  inventory_item: close-sidejobs-human-first-truth
+  observable_outcome: Product/domain docs and desktop/mobile browser traces prove
+    SideJobs remains a truthful frontend presentation over backend-owned Work rules.
+  dependencies:
+  - clarify-sidejob-applications
+  evidence_boundary:
+  - documentation audit
+  - runtime acceptance audit
+  - desktop/mobile browser traces
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/sidejobs-human-first-runtime.mjs
+  - docs/runtime-evidence/sidejobs-human-first-desktop-runtime.json
+  - docs/runtime-evidence/sidejobs-human-first-mobile-runtime.json
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/sidejobs-human-first-runtime.mjs
+  - docs/runtime-evidence/sidejobs-human-first-desktop-runtime.json
+  - docs/runtime-evidence/sidejobs-human-first-mobile-runtime.json
+  validation: make audit-docs && make audit-runtime-acceptance
+  started_at: '2026-07-30T19:41:04Z'
+  start_fingerprints:
+    docs/business-logic.md: 7e011a39e8b3f60a03fe9292f7bf038f10fc73270fcbc0af161c888788787372
+    docs/domain-technical.md: bb9fc6db2fb7c1fda911131601f68d49a815ad8a5b1375176920d525e14e5135
+    docs/regression-scenario-catalog.yaml: ccab22dd4a91b3d3eaf4323e58a7a99e38f37de6564a5e05b356f1516c484ca2
+    docs/runtime-acceptance-matrix.yaml: 02cd98b1942a40b6befe6bc3b36c401713200b056c07d86df93f6d8faf2bb8df
+    apps/themuffinman/frontend/scripts/sidejobs-human-first-runtime.mjs: __missing__
+    docs/runtime-evidence/sidejobs-human-first-desktop-runtime.json: __missing__
+    docs/runtime-evidence/sidejobs-human-first-mobile-runtime.json: __missing__
+evidence:
+- task: close-sidejobs-human-first-truth
+  command: make audit-docs && make audit-runtime-acceptance
+  ranAt: '2026-07-30T19:44:39Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/sidejobs-human-first-runtime.mjs
+  - docs/runtime-evidence/sidejobs-human-first-desktop-runtime.json
+  - docs/runtime-evidence/sidejobs-human-first-mobile-runtime.json
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 379
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (70 passed, 14 pending runtime scenarios).
+
+  startedAt: '2026-07-30T19:41:04Z'
+  changedAfterStart: &1
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/sidejobs-human-first-runtime.mjs
+  - docs/runtime-evidence/sidejobs-human-first-desktop-runtime.json
+  - docs/runtime-evidence/sidejobs-human-first-mobile-runtime.json
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

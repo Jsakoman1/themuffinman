@@ -1,0 +1,141 @@
+kind: work
+version: 1
+id: developer-system-operational-readiness-workspace
+title: Make workspace state and plan retention reviewable
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-system-operational-readiness-master.yaml
+execution_inventory: docs/work/developer-system-operational-readiness-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - capture-workspace-change-baseline
+  - enforce-work-artifact-retention-policy
+  snapshot_is_historical: true
+  delete_commands_allowed: false
+  cleanup_requires_future_exact_manifest: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-quality-next-master.yaml
+  baseline_only_surfaces:
+  - current user changes and verified plan evidence
+  residual_scope:
+  - reproducible workspace snapshot and classification
+  - reference-aware retention policy and candidate report
+  retest_triggers:
+  - Git status parser or classification rules change
+  - work artifact references, statuses, or retention rules change
+  non_duplication_rule: Reports classify existing state and never count it as newly
+    delivered product behavior.
+tasks:
+- id: capture-workspace-change-baseline
+  title: Capture a reproducible classified workspace baseline
+  type: implementation
+  status: done
+  inventory_item: capture-workspace-change-baseline
+  observable_outcome: A deterministic tool and immutable dated snapshot classify every
+    changed path by product, tooling, documentation, evidence, and generated-state
+    group without modifying any classified path.
+  dependencies:
+  - harden-developer-system-operational-readiness-inventory
+  evidence_boundary:
+  - snapshot count reconciliation against Git porcelain
+  - deterministic classification fixture checks
+  paths: &1
+  - docs/workspace-change-snapshot-2026-07-31.yaml
+  - scripts/audits/audit-workspace-change-inventory.rb
+  - Makefile
+  - docs/codex-fast-path.md
+  required_paths: *1
+  validation: ruby scripts/audits/audit-workspace-change-inventory.rb --check-fixtures
+    && ruby scripts/audits/audit-workspace-change-inventory.rb docs/workspace-change-snapshot-2026-07-31.yaml
+  started_at: '2026-07-31T14:16:28Z'
+  start_fingerprints:
+    docs/workspace-change-snapshot-2026-07-31.yaml: __missing__
+    scripts/audits/audit-workspace-change-inventory.rb: __missing__
+    Makefile: 0c9a57ebb83b0389658731945b0739418c68bcebba5b625e0f161a5dfd97d6a0
+    docs/codex-fast-path.md: a624d5c7c7c162e334afd68621d8fdb10769c92ee297b9133d6833b1f6d61269
+- id: enforce-work-artifact-retention-policy
+  title: Add reference-aware work-artifact retention review
+  type: implementation
+  status: done
+  inventory_item: enforce-work-artifact-retention-policy
+  observable_outcome: A machine-readable policy and deterministic candidate report
+    distinguish retained authorities, referenced history, and unreferenced verified
+    cleanup candidates without deleting any artifact.
+  dependencies:
+  - capture-workspace-change-baseline
+  evidence_boundary:
+  - retention-policy fixture checks
+  - current-corpus candidate reconciliation
+  paths: &2
+  - docs/work-artifact-retention-policy.yaml
+  - docs/work-artifact-retention-review-2026-07-31.yaml
+  - scripts/audits/audit-work-artifact-retention.rb
+  - Makefile
+  - docs/implementation-control.md
+  required_paths: *2
+  validation: ruby scripts/audits/audit-work-artifact-retention.rb --check-fixtures
+    && ruby scripts/audits/audit-work-artifact-retention.rb --check docs/work-artifact-retention-review-2026-07-31.yaml
+  started_at: '2026-07-31T14:17:53Z'
+  start_fingerprints:
+    docs/work-artifact-retention-policy.yaml: __missing__
+    docs/work-artifact-retention-review-2026-07-31.yaml: __missing__
+    scripts/audits/audit-work-artifact-retention.rb: __missing__
+    Makefile: eaaec0522e96e6dd3846833ef623d685f7802878241b83d979dad0d088717e4b
+    docs/implementation-control.md: 573abb75c019c522866e84df6b6fb765df47ad519d6b72a960572f40d5a962d6
+evidence:
+- task: capture-workspace-change-baseline
+  command: ruby scripts/audits/audit-workspace-change-inventory.rb --check-fixtures
+    && ruby scripts/audits/audit-workspace-change-inventory.rb docs/workspace-change-snapshot-2026-07-31.yaml
+  ranAt: '2026-07-31T14:17:40Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/codex-fast-path.md
+  - docs/workspace-change-snapshot-2026-07-31.yaml
+  - scripts/audits/audit-workspace-change-inventory.rb
+  output: |+
+    Workspace change inventory fixtures passed (6 categories and porcelain status groups).
+    Workspace change snapshot audit passed (468 immutable classified paths).
+
+  startedAt: '2026-07-31T14:16:28Z'
+  changedAfterStart: &3
+  - docs/workspace-change-snapshot-2026-07-31.yaml
+  - scripts/audits/audit-workspace-change-inventory.rb
+  - Makefile
+  - docs/codex-fast-path.md
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: enforce-work-artifact-retention-policy
+  command: ruby scripts/audits/audit-work-artifact-retention.rb --check-fixtures &&
+    ruby scripts/audits/audit-work-artifact-retention.rb --check docs/work-artifact-retention-review-2026-07-31.yaml
+  ranAt: '2026-07-31T14:19:07Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/implementation-control.md
+  - docs/work-artifact-retention-policy.yaml
+  - docs/work-artifact-retention-review-2026-07-31.yaml
+  - scripts/audits/audit-work-artifact-retention.rb
+  output: |+
+    Work-artifact retention fixtures passed (active, historical, referenced, and candidate classes).
+    Work-artifact retention audit passed (189 artifacts, 54 review candidates, no deletion).
+
+  startedAt: '2026-07-31T14:17:53Z'
+  changedAfterStart: &4
+  - docs/work-artifact-retention-policy.yaml
+  - docs/work-artifact-retention-review-2026-07-31.yaml
+  - scripts/audits/audit-work-artifact-retention.rb
+  - Makefile
+  - docs/implementation-control.md
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

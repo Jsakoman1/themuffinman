@@ -1,0 +1,117 @@
+kind: work
+version: 1
+id: human-ui-unification-no-mascot-atomic-hardening
+title: Harden the human UI unification inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_hardening:
+  scope: This child owns plan readiness only; verifier evidence, rather than this
+    declaration, determines task completion.
+master_plan: docs/work/human-ui-unification-no-mascot-master.yaml
+execution_inventory: docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-style-visual-parity-atomic-hardening.yaml
+  baseline_only_surfaces:
+  - previous verified UI programs
+  residual_scope:
+  - plan readiness and atomic mapping only
+  retest_triggers:
+  - inventory
+  - child-plan
+  - required-path
+  - or dependency changes
+  non_duplication_rule: This task proves execution readiness only.
+tasks:
+- id: harden-human-ui-unification-inventory
+  title: Harden the serial execution inventory
+  type: documentation
+  status: done
+  inventory_item: harden-human-ui-unification-inventory
+  observable_outcome: Every visual and cleanup task has one bounded outcome, exact
+    required paths, dependencies, leaf validation, and a distinct evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - atomic-task hardening audit
+  - plan coverage audit
+  - recursion audit
+  paths:
+  - docs/work/human-ui-unification-no-mascot-master.yaml
+  - docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+  - docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+  - docs/work/human-ui-unification-no-mascot-foundation.yaml
+  - docs/work/human-ui-unification-no-mascot-home.yaml
+  - docs/work/human-ui-unification-no-mascot-archetypes.yaml
+  - docs/work/human-ui-unification-no-mascot-cleanup.yaml
+  - docs/work/human-ui-unification-no-mascot-closeout.yaml
+  - docs/work/human-ui-unification-no-mascot-analysis.md
+  - docs/work/human-ui-unification-no-mascot-preflight.md
+  required_paths:
+  - docs/work/human-ui-unification-no-mascot-master.yaml
+  - docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+  - docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+  - docs/work/human-ui-unification-no-mascot-foundation.yaml
+  - docs/work/human-ui-unification-no-mascot-home.yaml
+  - docs/work/human-ui-unification-no-mascot-archetypes.yaml
+  - docs/work/human-ui-unification-no-mascot-cleanup.yaml
+  - docs/work/human-ui-unification-no-mascot-closeout.yaml
+  - docs/work/human-ui-unification-no-mascot-analysis.md
+  - docs/work/human-ui-unification-no-mascot-preflight.md
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/human-ui-unification-no-mascot-master.yaml
+    docs/work/human-ui-unification-no-mascot-execution-inventory.yaml && ruby scripts/audits/audit-work-plan-recursion.rb
+    && ruby scripts/audits/audit-plan-coverage.rb
+  started_at: '2026-07-29T19:28:48Z'
+  start_fingerprints:
+    docs/work/human-ui-unification-no-mascot-master.yaml: 735157f235bf2de7360d3390dd515ab242c3628f9339490235caa81bce54924d
+    docs/work/human-ui-unification-no-mascot-execution-inventory.yaml: 3f5bd002c956c4011af63a2bb6127056ba75c0a1bbccbbb8e4098cef9c737ea5
+    docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml: cc181363acd75d2d93653990b5ab5c96f006b5ac5a77fe4b209f96e6158f67f8
+    docs/work/human-ui-unification-no-mascot-foundation.yaml: 50776a8a0883d5ad8c1cd313c27fb60145f0172f04e7bb2096b56f7c19c93f0e
+    docs/work/human-ui-unification-no-mascot-home.yaml: 7d1550beff673bc04f9a6ec8f1de452177ded9b4487dbe7d283ecf285abe0419
+    docs/work/human-ui-unification-no-mascot-archetypes.yaml: 1c224b897f820ae66512602f4a2db53f65d4866b9360048fc197cae916bc1958
+    docs/work/human-ui-unification-no-mascot-cleanup.yaml: 5389f09a31fa1b209c8993188dae3648119da4032a5c125b79c302a7fc788df0
+    docs/work/human-ui-unification-no-mascot-closeout.yaml: 3f91af6e4f625ba7d5f4414741fef1ae5a8fb66981d9c20ffe0437c57161e038
+    docs/work/human-ui-unification-no-mascot-analysis.md: '094a4e593002c2b3eb2ad375bf5758b07c3536acd1c67b243dcb298c14bfe168'
+    docs/work/human-ui-unification-no-mascot-preflight.md: 205d239081d4c044a9662d185eb4d4b09b6668895f4f56294a6c51311224bfa3
+evidence:
+- task: harden-human-ui-unification-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/human-ui-unification-no-mascot-master.yaml
+    docs/work/human-ui-unification-no-mascot-execution-inventory.yaml && ruby scripts/audits/audit-work-plan-recursion.rb
+    && ruby scripts/audits/audit-plan-coverage.rb
+  ranAt: '2026-07-29T19:29:23Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/human-ui-unification-no-mascot-analysis.md
+  - docs/work/human-ui-unification-no-mascot-archetypes.yaml
+  - docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+  - docs/work/human-ui-unification-no-mascot-cleanup.yaml
+  - docs/work/human-ui-unification-no-mascot-closeout.yaml
+  - docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+  - docs/work/human-ui-unification-no-mascot-foundation.yaml
+  - docs/work/human-ui-unification-no-mascot-home.yaml
+  - docs/work/human-ui-unification-no-mascot-master.yaml
+  - docs/work/human-ui-unification-no-mascot-preflight.md
+  output: |+
+    Atomic task hardening audit passed (11 inventory items).
+    Work-plan recursion audit passed (no recursive validation commands).
+    Plan coverage audit passed (0 open inventory plans).
+
+  startedAt: '2026-07-29T19:28:48Z'
+  changedAfterStart: &1
+  - docs/work/human-ui-unification-no-mascot-master.yaml
+  - docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+  - docs/work/human-ui-unification-no-mascot-atomic-hardening.yaml
+  - docs/work/human-ui-unification-no-mascot-foundation.yaml
+  - docs/work/human-ui-unification-no-mascot-home.yaml
+  - docs/work/human-ui-unification-no-mascot-archetypes.yaml
+  - docs/work/human-ui-unification-no-mascot-cleanup.yaml
+  - docs/work/human-ui-unification-no-mascot-closeout.yaml
+  - docs/work/human-ui-unification-no-mascot-analysis.md
+  - docs/work/human-ui-unification-no-mascot-preflight.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

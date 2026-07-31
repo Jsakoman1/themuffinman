@@ -1,0 +1,67 @@
+{
+  "evidenceVersion": "business-style-visual-parity-v1",
+  "capturedAt": "2026-07-31T14:25:10.255Z",
+  "mode": "desktop",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "routes": [
+    {
+      "route": "/home",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "route": "/work/find",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "route": "/calendar",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "route": "/profile",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "route": "/things",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    },
+    {
+      "route": "/chat",
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      }
+    }
+  ],
+  "browserErrors": [],
+  "result": "passed"
+}

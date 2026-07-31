@@ -1,0 +1,402 @@
+kind: work
+version: 1
+id: human-first-web-chat
+title: Rebuild Chat as a familiar modern conversation experience
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/human-first-web-experience-master.yaml
+execution_inventory: docs/work/human-first-web-experience-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-ui-unification-no-mascot-master.yaml
+  baseline_only_surfaces:
+  - Chat permissions
+  - storage
+  - pagination
+  - attachments
+  - reactions
+  - message mutation
+  - realtime recovery
+  residual_scope:
+  - maintainable frontend boundary
+  - modern inbox
+  - modern thread
+  - typing/read/reply/reaction feedback
+  - mobile inbox-thread separation
+  retest_triggers:
+  - Chat component
+  - API
+  - route
+  - realtime
+  - composer
+  - message
+  - or responsive changes
+  non_duplication_rule: Existing Chat backend capability is baseline; this plan proves
+    only the new human interaction and its integration.
+readiness:
+  backend_reuse: Existing pagination, mutation, attachment, reaction, typing, read-state,
+    and realtime contracts remain authoritative.
+  desktop_model: Conversation list and active thread are a deliberate split view.
+  mobile_model: "/chat is the inbox and /chat/:conversationId is a full-screen thread."
+tasks:
+- id: decompose-chat-surface
+  title: Separate Chat orchestration from presentation
+  type: implementation
+  status: done
+  inventory_item: decompose-chat-surface
+  observable_outcome: ChatSurfaceView delegates stateful conversation orchestration
+    to one composable and renders inbox, thread, and composer through focused components
+    without changing API behavior.
+  dependencies:
+  - expand-visual-standardization-audit
+  evidence_boundary:
+  - frontend type-check/build
+  - Chat source-size audit
+  paths: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatConversationList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  required_paths: *1
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T20:58:53Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: cd7a78d9a0a7c7f40475bc0e226b618a58fe6ce74ab24989e4cec61612b40d9b
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatConversationList.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue: __missing__
+- id: modernize-chat-inbox
+  title: Present conversations like a modern inbox
+  type: implementation
+  status: done
+  inventory_item: modernize-chat-inbox
+  observable_outcome: Conversation rows show avatar, title, message preview, relative
+    time, muted state, and unread count while new direct and group conversations open
+    in a dialog or mobile sheet.
+  dependencies:
+  - decompose-chat-surface
+  evidence_boundary:
+  - frontend type-check/build
+  - inbox component review
+  paths: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatConversationList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatNewConversationDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  required_paths: *2
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T21:03:00Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatConversationList.vue: 250289237c12b98eb78194c40a68babc707c925e1210e009813bd3907652a0c1
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatNewConversationDialog.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 68d90e2b0958c9ebce49362f6deea1c595ee3d293d337e25009698acd37e424c
+- id: modernize-chat-thread
+  title: Present messages as a familiar conversation
+  type: implementation
+  status: done
+  inventory_item: modernize-chat-thread
+  observable_outcome: Messages group by sender and day, use readable incoming and
+    outgoing bubbles, render quoted replies and attachments inline, and keep a multiline
+    composer fixed to the thread.
+  dependencies:
+  - modernize-chat-inbox
+  evidence_boundary:
+  - frontend type-check/build
+  - thread component review
+  paths: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatMessageBubble.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  required_paths: *3
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T21:04:27Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue: 49cbf69a198865efa81beef80647c4adba8a2adf3bd934bffae7ada3924d60fa
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatMessageBubble.vue: __missing__
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue: 3c821095768ed69b95685e18f6b387d0f7791113900ca9f3f2145816bf82a030
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 1ef8967216f2f31f47bf487ea629ed21fc9ed7b7aecc06853f3ff1891592d3d5
+- id: connect-chat-presence-and-read-state
+  title: Expose typing and read-state feedback
+  type: implementation
+  status: done
+  inventory_item: connect-chat-presence-and-read-state
+  observable_outcome: The active thread uses existing backend and realtime contracts
+    to show typing participants and the read state of the viewer's latest message
+    without changing message authority.
+  dependencies:
+  - modernize-chat-thread
+  evidence_boundary:
+  - targeted Chat read/realtime tests
+  - frontend type-check/build
+  paths: &4
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  required_paths: *4
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=ChatControllerTest,ChatRealtimeServiceTest
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T21:06:39Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts: 2fe33e561e16b096ba06d962d5b20af4d13b4e40323dfe3daf55bcfbb4a1988e
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts: 415bd6d3b4b4e570bd1892f430d31b1ccc742e5a73bb5c6fa9884fa4efe53680
+    apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts: 06f62a6541e47e8aff29c975e980c8721718ded4cf476a1895d7b63bc5dcf3a3
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue: 8cf59610b1c718f2e79bda2908906f755091b4d33702f680acc14e88f5b442a6
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue: 45b2dc2b099e01cbe6938aef575488cd35af9126b886f9e7412fc430a66c5bc9
+- id: connect-chat-message-actions-and-recovery
+  title: Make message actions and reconnect state unobtrusive
+  type: implementation
+  status: done
+  inventory_item: connect-chat-message-actions-and-recovery
+  observable_outcome: Reply, reaction, edit, and delete controls appear through hover,
+    focus, or long press, and a disconnected thread shows one recoverable reconnect
+    state without permanent button clutter.
+  dependencies:
+  - connect-chat-presence-and-read-state
+  evidence_boundary:
+  - targeted Chat mutation/realtime tests
+  - frontend type-check/build
+  paths: &5
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatMessageBubble.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  required_paths: *5
+  validation: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=ChatControllerTest,ChatRealtimeServiceTest
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  started_at: '2026-07-29T21:10:50Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts: ce4f6c19e406dca27867442256ff46c3ed697b35dcf768dd6d31f054117be323
+    apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts: d3e85384a53c8e0d1fa0748a7e6a83555e9d8ebd2d55c58951a6d0a1a4921760
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatMessageBubble.vue: 83f5f182d92fbdfdcbe8b2898813d34a8c23064c98e666a80c14ff099256f5d6
+    apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue: 86c99a07931f5e2ad28f9e9fb5fdb1bab50f785bb1b628c3b79956e5d7e748eb
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 48c2bb65bf4db2d0f2393e10261d8839ad3e0aad9cc91f77b25ecfa657744c18
+evidence:
+- task: decompose-chat-surface
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:02:44Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatConversationList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  output: |+
+    dist/assets/CalendarPage-D5Dyeghs.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-C1HhV9kL.js                   12.03 kB │ gzip:   4.01 kB
+    dist/assets/BusinessServiceSchemaView-BqVo_qxc.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-CRp1sxzl.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-D88F_1Qq.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-BGM1T4Jc.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-Pfr_nl0w.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-C-2w1l_n.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/ChatSurfaceView-DFHPkmnW.js                       20.16 kB │ gzip:   6.81 kB
+    dist/assets/HomeHubView-ChpI_c0o.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-RhmK1ewx.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-9qj_lt81.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-D_BCuQUX.js                     57.80 kB │ gzip:  14.24 kB
+    dist/assets/index-CCKvYT4F.js                                 62.78 kB │ gzip:  15.62 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 579ms
+
+  startedAt: '2026-07-29T20:58:53Z'
+  changedAfterStart: &6
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatConversationList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  requiredPaths: *6
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: modernize-chat-inbox
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:04:17Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatConversationList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatNewConversationDialog.vue
+  output: |+
+    dist/assets/CalendarPage-CMCO2IXG.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-_WyuM0Y7.js                   12.03 kB │ gzip:   4.01 kB
+    dist/assets/BusinessServiceSchemaView-7AMFUXc2.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-BSpXAqrC.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-BZMo7WGT.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-CLoCExMc.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CoJNVSVC.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-CwN9B7UW.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-9xLaUr3S.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/ChatSurfaceView-eh5QV1sD.js                       21.53 kB │ gzip:   7.27 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-YaU7Ohpb.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-CaSO2rRK.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-kxzMPJ55.js                     57.80 kB │ gzip:  14.24 kB
+    dist/assets/index-CwCnbIjr.js                                 62.78 kB │ gzip:  15.61 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 556ms
+
+  startedAt: '2026-07-29T21:03:00Z'
+  changedAfterStart: &7
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatConversationList.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatNewConversationDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  requiredPaths: *7
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: modernize-chat-thread
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T21:06:28Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatMessageBubble.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  output: |+
+    dist/assets/CalendarPage-DxdUmivA.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-DvXyu_fg.js                   12.03 kB │ gzip:   4.01 kB
+    dist/assets/BusinessServiceSchemaView-CMD4tThe.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-Bid-eteS.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-BfFP572f.js                              14.97 kB │ gzip:   5.62 kB
+    dist/assets/BusinessPublicView-gQWj0jTu.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-CBEi6yaj.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-DtbZ6aMU.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-szq13tdc.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/ChatSurfaceView-CYOUZxOR.js                       22.23 kB │ gzip:   7.45 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DwLYMRYf.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-ChikxLTk.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-C2p1hJEh.js                     57.80 kB │ gzip:  14.24 kB
+    dist/assets/index-Bdp9f-16.js                                 62.78 kB │ gzip:  15.62 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 554ms
+
+  startedAt: '2026-07-29T21:04:27Z'
+  changedAfterStart: &8
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatMessageBubble.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  requiredPaths: *8
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: connect-chat-presence-and-read-state
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=ChatControllerTest,ChatRealtimeServiceTest
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T21:10:13Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  output: |+
+    dist/assets/CalendarPage-B-o2vV3W.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-C5RGX399.js                   12.03 kB │ gzip:   4.00 kB
+    dist/assets/BusinessServiceSchemaView-BZTgJuVK.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-B1RTMPrk.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-OOuFBzPg.js                              14.97 kB │ gzip:   5.61 kB
+    dist/assets/BusinessPublicView-BENvOTR8.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-DJXeA9tt.js                           15.80 kB │ gzip:   4.98 kB
+    dist/assets/WorkQuestDetailView-C8cMk0b3.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/HomeHubView-B491aS2L.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/ChatSurfaceView-DRhsRCy-.js                       23.67 kB │ gzip:   7.91 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DsUufHWQ.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-BS1BDPIp.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-C_DXhTrv.js                     57.80 kB │ gzip:  14.24 kB
+    dist/assets/index-BtaXtIUp.js                                 62.88 kB │ gzip:  15.64 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 653ms
+
+  startedAt: '2026-07-29T21:06:39Z'
+  changedAfterStart: &9
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/api/userShellApi.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatComposer.vue
+  requiredPaths: *9
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: connect-chat-message-actions-and-recovery
+  command: apps/themuffinman/mvnw -f apps/themuffinman/pom.xml test -Dtest=ChatControllerTest,ChatRealtimeServiceTest
+    && npm --prefix apps/themuffinman/frontend run type-check && npm --prefix apps/themuffinman/frontend
+    run build
+  ranAt: '2026-07-29T21:13:44Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatMessageBubble.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  output: |+
+    dist/assets/CalendarPage-BV_m2a8A.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-DlLbOVn1.js                   12.03 kB │ gzip:   4.00 kB
+    dist/assets/BusinessServiceSchemaView-At_XkOqZ.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/RidesView-DyLOR31E.js                             14.56 kB │ gzip:   4.67 kB
+    dist/assets/WorkPage-Cg2fOPy7.js                              14.97 kB │ gzip:   5.61 kB
+    dist/assets/BusinessPublicView-Vq8yWMcY.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-4bIIRCxX.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-t2ys9gMb.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-B1tsMj7M.js                           21.29 kB │ gzip:   6.52 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-B42516rs.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-Cp-2xHom.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-Bt6HZNed.js                35.42 kB │ gzip:  11.85 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BFmj6TaU.js                     57.80 kB │ gzip:  14.24 kB
+    dist/assets/index-BwZLOM9f.js                                 62.88 kB │ gzip:  15.65 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 594ms
+
+  startedAt: '2026-07-29T21:10:50Z'
+  changedAfterStart: &10
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatWorkspace.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/composables/useChatRealtime.ts
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatMessageBubble.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ChatThread.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  requiredPaths: *10
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

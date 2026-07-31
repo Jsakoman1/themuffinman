@@ -1,0 +1,82 @@
+kind: work
+version: 1
+id: developer-tooling-quality-next-control
+title: Enforce category-aware work-artifact structure
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-quality-next-master.yaml
+execution_inventory: docs/work/developer-tooling-quality-next-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - enforce-work-artifact-schema
+  compatibility_rule: Historical variants are explicit inputs, not completion normalization.
+  status_authority: false
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  baseline_only_surfaces:
+  - verified historical work artifacts and evidence
+  residual_scope:
+  - machine-readable kind/status compatibility contract
+  - structural audit for new and current work artifacts
+  retest_triggers:
+  - docs/work artifact kind, status, task, or inventory changes
+  non_duplication_rule: The schema audit validates structure only and never becomes
+    a second completion authority.
+tasks:
+- id: enforce-work-artifact-schema
+  title: Add category-aware work-artifact schema validation
+  type: implementation
+  status: done
+  inventory_item: enforce-work-artifact-schema
+  observable_outcome: A machine-readable contract and audit distinguish executable
+    plans from registries/contracts, preserve declared historical variants, and reject
+    unsafe new kind, status, task, or inventory ambiguity.
+  dependencies:
+  - compact-tool-self-test-output
+  evidence_boundary:
+  - current corpus schema audit
+  - fixture checks for accepted and rejected artifact categories
+  paths: &1
+  - docs/work-artifact-schema.yaml
+  - scripts/audits/audit-work-artifact-schema.rb
+  - scripts/tool-self-test.rb
+  - Makefile
+  required_paths: *1
+  validation: ruby scripts/audits/audit-work-artifact-schema.rb --check-fixtures &&
+    ruby scripts/audits/audit-work-artifact-schema.rb
+  started_at: '2026-07-31T13:50:50Z'
+  start_fingerprints:
+    docs/work-artifact-schema.yaml: __missing__
+    scripts/audits/audit-work-artifact-schema.rb: __missing__
+    scripts/tool-self-test.rb: 69e3faa4df810bc5cc14003c20f12685cab78a7d01bdc4d4cf2be6c57d16d0e3
+    Makefile: 2c1f8b716d5ae63a37316a45261a136eec8a59abda1bb07255743d87b83e77c9
+evidence:
+- task: enforce-work-artifact-schema
+  command: ruby scripts/audits/audit-work-artifact-schema.rb --check-fixtures && ruby
+    scripts/audits/audit-work-artifact-schema.rb
+  ranAt: '2026-07-31T13:52:18Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - scripts/tool-self-test.rb
+  - docs/work-artifact-schema.yaml
+  - scripts/audits/audit-work-artifact-schema.rb
+  output: |+
+    Work-artifact schema fixtures passed (accepted executable/historical and rejected ambiguous artifacts).
+    Work-artifact schema audit passed (180 artifacts; executable, inventory, and historical categories).
+
+  startedAt: '2026-07-31T13:50:50Z'
+  changedAfterStart: &2
+  - docs/work-artifact-schema.yaml
+  - scripts/audits/audit-work-artifact-schema.rb
+  - scripts/tool-self-test.rb
+  - Makefile
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

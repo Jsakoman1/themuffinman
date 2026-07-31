@@ -1,0 +1,79 @@
+kind: work
+version: 1
+id: business-tabs-persistence
+title: Keep business-selection tabs visible in owner subpages
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-local-tabs.yaml
+  baseline_only_surfaces:
+  - business profile
+  - calendar
+  - bookings
+  - services
+  - settings
+  - and their backend workflows
+  residual_scope:
+  - persistent local business-selection tabs on owner subpages
+  retest_triggers:
+  - BusinessOwnerPage or ModuleTabs changes
+  non_duplication_rule: The prior navigation move is baseline; this plan proves only
+    that its local tabs persist on owner routes.
+tasks:
+- id: persist-business-selection-tabs
+  title: Persist business selection tabs
+  type: implementation
+  status: done
+  observable_outcome: Every owner Business subpage keeps the same My businesses and
+    owned-business tab bar above its existing operational tabs.
+  dependencies: []
+  evidence_boundary:
+  - frontend type-check/build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+evidence:
+- task: persist-business-selection-tabs
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T18:09:04Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/CalendarPage-xqv5G9tW.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-DkgTGpu9.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-CtPaIKrk.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/BusinessPublicView-BqGSZgeq.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-CN1W-6lf.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-DtcC5Erj.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-D9Jn-yzE.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/RidesView-9xsDzfsz.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-hKplPmfU.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DLroaanI.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-B3YgZv9c.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-7oSTzj2R.js                35.14 kB │ gzip:  11.67 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-m2T4ElmZ.js                     57.84 kB │ gzip:  13.96 kB
+    dist/assets/index-7gCxENuq.js                                 62.83 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 890ms
+
+  requiredPaths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOwnerPage.vue
+  - docs/product-memory.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

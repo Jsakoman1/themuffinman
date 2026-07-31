@@ -1,0 +1,100 @@
+kind: work
+version: 1
+id: business-style-visual-parity-atomic-hardening
+title: Harden the Business-style visual parity execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-style-visual-parity-master.yaml
+execution_inventory: docs/work/business-style-visual-parity-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-atomic-hardening.yaml
+  baseline_only_surfaces:
+  - existing verified visual programs
+  residual_scope:
+  - atomic inventory hardening only
+  retest_triggers:
+  - inventory or child-plan path changes
+  non_duplication_rule: This task proves plan readiness, not product implementation.
+tasks:
+- id: harden-business-style-visual-parity-inventory
+  title: Harden the visual parity inventory
+  type: documentation
+  status: done
+  inventory_item: harden-business-style-visual-parity-inventory
+  observable_outcome: Every visual repair has one bounded outcome, exact required
+    paths, dependencies, a leaf validation command, and a distinct evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - atomic-task hardening audit
+  - plan coverage audit
+  - work-plan recursion audit
+  paths:
+  - docs/work/business-style-visual-parity-master.yaml
+  - docs/work/business-style-visual-parity-execution-inventory.yaml
+  - docs/work/business-style-visual-parity-atomic-hardening.yaml
+  - docs/work/business-style-visual-parity-foundation.yaml
+  - docs/work/business-style-visual-parity-workspaces.yaml
+  - docs/work/business-style-visual-parity-details.yaml
+  - docs/work/business-style-visual-parity-closeout.yaml
+  - docs/work/business-style-visual-parity-analysis.md
+  - docs/work/business-style-visual-parity-preflight.md
+  required_paths:
+  - docs/work/business-style-visual-parity-master.yaml
+  - docs/work/business-style-visual-parity-execution-inventory.yaml
+  - docs/work/business-style-visual-parity-atomic-hardening.yaml
+  - docs/work/business-style-visual-parity-foundation.yaml
+  - docs/work/business-style-visual-parity-workspaces.yaml
+  - docs/work/business-style-visual-parity-details.yaml
+  - docs/work/business-style-visual-parity-closeout.yaml
+  - docs/work/business-style-visual-parity-analysis.md
+  - docs/work/business-style-visual-parity-preflight.md
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/business-style-visual-parity-master.yaml
+    docs/work/business-style-visual-parity-execution-inventory.yaml
+  started_at: '2026-07-29T18:59:19Z'
+  start_fingerprints:
+    docs/work/business-style-visual-parity-master.yaml: 61e2986bc732a33425e39e073ec5fd4e94f01642a7ef289ac657e49aff5af86f
+    docs/work/business-style-visual-parity-execution-inventory.yaml: dd447d1ce59ebce5e24a3b0417f67be58bd38d67ca55ef0320ea95d2651aa714
+    docs/work/business-style-visual-parity-atomic-hardening.yaml: 472916ec36fd76bcff89b3eaa3963fcbccc64a92557d6555cd5842c133fdd0bb
+    docs/work/business-style-visual-parity-foundation.yaml: 3bf8586b651bbf7e9e3835ba6efe5a61752d4a6144ea4a12ce3f954ada36bc54
+    docs/work/business-style-visual-parity-workspaces.yaml: 62e090edbd2fcc500d87d3fb9de7fe8f0ace0ed70392b6b455cd573ca9a708b4
+    docs/work/business-style-visual-parity-details.yaml: 64e8e76a7824e81e08b7c2f3b143fcb54a0436d02bc1b9fea0495aa57f51da4e
+    docs/work/business-style-visual-parity-closeout.yaml: 6f753cbc6f18e8f248cf1ae4e252672185f04ea46197f62e7883057273153b46
+    docs/work/business-style-visual-parity-analysis.md: 7145425c24d8b9aa1458ec6d7885395ecdbe1bca60851a3e93704435d4628dab
+    docs/work/business-style-visual-parity-preflight.md: 3ea45798a639dec0c2ac6c3aef6113cd04e9ef583815d374eb41820b72a388e2
+evidence:
+- task: harden-business-style-visual-parity-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/business-style-visual-parity-master.yaml
+    docs/work/business-style-visual-parity-execution-inventory.yaml
+  ranAt: '2026-07-29T19:00:02Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/business-style-visual-parity-analysis.md
+  - docs/work/business-style-visual-parity-atomic-hardening.yaml
+  - docs/work/business-style-visual-parity-closeout.yaml
+  - docs/work/business-style-visual-parity-details.yaml
+  - docs/work/business-style-visual-parity-execution-inventory.yaml
+  - docs/work/business-style-visual-parity-foundation.yaml
+  - docs/work/business-style-visual-parity-master.yaml
+  - docs/work/business-style-visual-parity-preflight.md
+  - docs/work/business-style-visual-parity-workspaces.yaml
+  output: "Atomic task hardening audit passed (8 inventory items).\n\n"
+  startedAt: '2026-07-29T18:59:19Z'
+  changedAfterStart: &1
+  - docs/work/business-style-visual-parity-master.yaml
+  - docs/work/business-style-visual-parity-execution-inventory.yaml
+  - docs/work/business-style-visual-parity-atomic-hardening.yaml
+  - docs/work/business-style-visual-parity-foundation.yaml
+  - docs/work/business-style-visual-parity-workspaces.yaml
+  - docs/work/business-style-visual-parity-details.yaml
+  - docs/work/business-style-visual-parity-closeout.yaml
+  - docs/work/business-style-visual-parity-analysis.md
+  - docs/work/business-style-visual-parity-preflight.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

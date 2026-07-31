@@ -26,7 +26,7 @@
 
 - Update `docs/domain-technical.md` with DTO semantics and invariants.
 - Update `docs/business-logic.md` if field meaning changes user behavior.
-- Update `docs/agent-operating-model.md` or generated contract artifacts when automation consumes the DTO.
+- Update `docs/agent-operating-model.yaml`, its relevant sections, or generated contract artifacts when automation consumes the DTO.
 
 ## Validation Evidence
 

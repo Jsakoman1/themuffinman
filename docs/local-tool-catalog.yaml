@@ -1,0 +1,65 @@
+kind: local_tool_catalog_metadata
+version: 1
+purpose: Explicit metadata rules for every repository-discovered local tool and compact developer help.
+discovery:
+  paths: [scripts/**/*.rb, scripts/*.java, apps/themuffinman/frontend/scripts/*.mjs, apps/themuffinman/frontend/scripts/*.js]
+required_metadata: [category, owner, invocation_template, preconditions, mutation_class, expected_cost]
+metadata_rules:
+  - pattern: scripts/audits/audit-*.rb
+    category: audit
+    owner: developer_control
+    invocation_template: ruby <tool-path>
+    preconditions: [repository_root]
+    mutation_class: read_only
+    expected_cost: short
+  - pattern: scripts/audits/generate-*.rb
+    category: generator
+    owner: developer_control
+    invocation_template: ruby <tool-path>
+    preconditions: [repository_root]
+    mutation_class: generates_local_artifact
+    expected_cost: short
+  - pattern: scripts/*.rb
+    category: control_helper
+    owner: developer_control
+    invocation_template: ruby <tool-path>
+    preconditions: [repository_root]
+    mutation_class: command_specific
+    expected_cost: short
+  - pattern: scripts/*.java
+    category: java_ast_parser
+    owner: repository_navigation
+    invocation_template: invoked_by_repository-map
+    preconditions: [java_runtime]
+    mutation_class: read_only
+    expected_cost: medium
+  - pattern: apps/themuffinman/frontend/scripts/*.mjs
+    category: frontend_runtime_or_validator
+    owner: frontend_platform
+    invocation_template: node <tool-path>
+    preconditions: [node_dependencies]
+    mutation_class: command_specific
+    expected_cost: short
+  - pattern: apps/themuffinman/frontend/scripts/*.js
+    category: frontend_runtime_or_validator
+    owner: frontend_platform
+    invocation_template: node <tool-path>
+    preconditions: [node_dependencies]
+    mutation_class: command_specific
+    expected_cost: short
+commands:
+  - {id: help, target: help, purpose: Show compact local-tool entry points., preconditions: [repository_root], expected_cost: instant}
+  - {id: context_search, target: context-search, purpose: Read a bounded source and canonical-document context pack., preconditions: [query], expected_cost: short}
+  - {id: change_validation, target: change-validation, purpose: Select advisory leaf validations for explicit changed paths., preconditions: [repository_relative_paths], expected_cost: instant}
+  - {id: workspace_change_report, target: workspace-change-report, purpose: Classify the current dirty worktree without modifying it., preconditions: [repository_root], expected_cost: short}
+  - {id: repository_map, target: repository-map, purpose: Validate or query compact repository structure., preconditions: [repository_root], expected_cost: short}
+  - {id: tool_self_test, target: tool-self-test, purpose: Validate repository tooling and product-contract stages., preconditions: [node_dependencies], expected_cost: medium}
+  - {id: work_start, target: work-start, purpose: Snapshot one serial task before implementation., preconditions: [plan, task], expected_cost: instant}
+  - {id: work_verify, target: work-verify, purpose: Run one task leaf validation and record bounded evidence., preconditions: [plan], expected_cost: command_specific}
+  - {id: control_check, target: control-check, purpose: Run compact repository-control validation and clean disposable output., preconditions: [repository_root], expected_cost: medium}
+  - {id: dev, target: dev, purpose: Start the owned local backend and frontend stack., preconditions: [local_database, node_dependencies], expected_cost: long_running}
+  - {id: dev_stop, target: dev-stop, purpose: Stop only the owned local development stack., preconditions: [owned_local_stack], expected_cost: short}
+  - {id: dev_doctor, target: dev-doctor, purpose: Inspect local development prerequisites and ports., preconditions: [repository_root], expected_cost: short}
+rules:
+  no_completion_authority: Tool metadata and help never set work, runtime, capability, or release status.
+  runtime_or_process_commands_require_owned_environment: true

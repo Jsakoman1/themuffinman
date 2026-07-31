@@ -2,15 +2,27 @@
 
 Read `AGENTS.md`, then `docs/implementation-control.md`.
 
+Run `make help` for the compact, catalog-backed list of local entry points. The
+catalog records each discovered tool's owner, preconditions, mutation class, and
+expected cost; it is discovery metadata, not a completion authority.
+
 For the compact final control pass, run `make control-check`; it also removes disposable
 generated output. Use `make audit-all` only when a broad diagnostic review is useful.
 
 For targeted repository context, use `make context-search q="phrase"`. It searches
 source and canonical documentation while excluding dependencies, generated output,
 runtime evidence, and build artifacts, then returns a bounded ranked context pack.
+Use `mode=symbol`, `mode=callsite`, or `mode=canonical` when the investigation intent
+is known. Use `make change-validation paths="path-a path-b"` to obtain an advisory,
+deduplicated leaf-validation set before selecting the task's required command.
 Use `make repository-map` for a quick structural check, or
-`ruby scripts/repository-map.rb --query "SymbolName"` to inspect the combined
-frontend AST/backend symbol map.
+`ruby scripts/repository-map.rb --query "SymbolName" --max-output 20000` for a
+compact symbol result rather than the full frontend AST/backend map.
+For a large dirty workspace, use `make workspace-change-report` before opening broad
+diffs. It classifies current paths without editing them; a dated workspace snapshot is
+an immutable historical handoff, not permission to commit, delete, or restore files.
+When IDEA can resolve the exact symbol, use its call hierarchy, file inspection, or
+rename support through the bounded fallback rules in `docs/intellij-mcp-fast-path.md`.
 Use `make tool-self-test` after changing local tooling or its shared helpers.
 
 For a non-trivial change, use `docs/system-map.md` to locate the canonical domain,

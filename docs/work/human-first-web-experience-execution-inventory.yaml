@@ -1,0 +1,428 @@
+kind: execution-inventory
+version: 1
+id: human-first-web-experience-execution-inventory
+master_plan: docs/work/human-first-web-experience-master.yaml
+serial: true
+execution_hardening:
+  owner_task: harden-human-first-web-inventory
+  contract: No implementation task starts until this complete one-to-one inventory
+    is verifier-verified.
+items:
+- id: harden-human-first-web-inventory
+  sequence: 1
+  plan: docs/work/human-first-web-experience-atomic-hardening.yaml
+  task: harden-human-first-web-inventory
+  status: verified
+  started_at: '2026-07-29T20:23:08Z'
+  verified_at: '2026-07-29T20:30:11Z'
+  evidence:
+    plan: docs/work/human-first-web-experience-atomic-hardening.yaml
+    task: harden-human-first-web-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: simplify-shell-navigation
+  sequence: 2
+  plan: docs/work/human-first-web-navigation-notifications.yaml
+  task: simplify-shell-navigation
+  status: verified
+  started_at: '2026-07-29T20:31:22Z'
+  verified_at: '2026-07-29T20:33:56Z'
+  evidence:
+    plan: docs/work/human-first-web-navigation-notifications.yaml
+    task: simplify-shell-navigation
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: retire-incomplete-personal-surfaces
+  sequence: 3
+  plan: docs/work/human-first-web-navigation-notifications.yaml
+  task: retire-incomplete-personal-surfaces
+  status: verified
+  started_at: '2026-07-29T20:34:15Z'
+  verified_at: '2026-07-29T20:35:23Z'
+  evidence:
+    plan: docs/work/human-first-web-navigation-notifications.yaml
+    task: retire-incomplete-personal-surfaces
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: separate-notification-resume-contracts
+  sequence: 4
+  plan: docs/work/human-first-web-navigation-notifications.yaml
+  task: separate-notification-resume-contracts
+  status: verified
+  started_at: '2026-07-29T20:35:31Z'
+  verified_at: '2026-07-29T20:37:22Z'
+  evidence:
+    plan: docs/work/human-first-web-navigation-notifications.yaml
+    task: separate-notification-resume-contracts
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: redesign-notification-experience
+  sequence: 5
+  plan: docs/work/human-first-web-navigation-notifications.yaml
+  task: redesign-notification-experience
+  status: verified
+  started_at: '2026-07-29T20:37:29Z'
+  verified_at: '2026-07-29T20:38:53Z'
+  evidence:
+    plan: docs/work/human-first-web-navigation-notifications.yaml
+    task: redesign-notification-experience
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: simplify-surface-row-contract
+  sequence: 6
+  plan: docs/work/human-first-web-interaction-contract.yaml
+  task: simplify-surface-row-contract
+  status: verified
+  started_at: '2026-07-29T20:39:04Z'
+  verified_at: '2026-07-29T20:41:21Z'
+  evidence:
+    plan: docs/work/human-first-web-interaction-contract.yaml
+    task: simplify-surface-row-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: migrate-discovery-to-direct-open
+  sequence: 7
+  plan: docs/work/human-first-web-interaction-contract.yaml
+  task: migrate-discovery-to-direct-open
+  status: verified
+  started_at: '2026-07-29T20:41:35Z'
+  verified_at: '2026-07-29T20:47:29Z'
+  evidence:
+    plan: docs/work/human-first-web-interaction-contract.yaml
+    task: migrate-discovery-to-direct-open
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: remove-duplicative-config-previews
+  sequence: 8
+  plan: docs/work/human-first-web-interaction-contract.yaml
+  task: remove-duplicative-config-previews
+  status: verified
+  started_at: '2026-07-29T20:47:39Z'
+  verified_at: '2026-07-29T20:49:57Z'
+  evidence:
+    plan: docs/work/human-first-web-interaction-contract.yaml
+    task: remove-duplicative-config-previews
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: specialize-operational-review
+  sequence: 9
+  plan: docs/work/human-first-web-interaction-contract.yaml
+  task: specialize-operational-review
+  status: verified
+  started_at: '2026-07-29T20:50:03Z'
+  verified_at: '2026-07-29T20:52:02Z'
+  evidence:
+    plan: docs/work/human-first-web-interaction-contract.yaml
+    task: specialize-operational-review
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: close-theme-token-contract
+  sequence: 10
+  plan: docs/work/human-first-web-visual-foundation.yaml
+  task: close-theme-token-contract
+  status: verified
+  started_at: '2026-07-29T20:52:11Z'
+  verified_at: '2026-07-29T20:55:22Z'
+  evidence:
+    plan: docs/work/human-first-web-visual-foundation.yaml
+    task: close-theme-token-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: refine-logo-header-and-icons
+  sequence: 11
+  plan: docs/work/human-first-web-visual-foundation.yaml
+  task: refine-logo-header-and-icons
+  status: verified
+  started_at: '2026-07-29T20:55:34Z'
+  verified_at: '2026-07-29T20:56:53Z'
+  evidence:
+    plan: docs/work/human-first-web-visual-foundation.yaml
+    task: refine-logo-header-and-icons
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: expand-visual-standardization-audit
+  sequence: 12
+  plan: docs/work/human-first-web-visual-foundation.yaml
+  task: expand-visual-standardization-audit
+  status: verified
+  started_at: '2026-07-29T20:56:58Z'
+  verified_at: '2026-07-29T20:58:48Z'
+  evidence:
+    plan: docs/work/human-first-web-visual-foundation.yaml
+    task: expand-visual-standardization-audit
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: decompose-chat-surface
+  sequence: 13
+  plan: docs/work/human-first-web-chat.yaml
+  task: decompose-chat-surface
+  status: verified
+  started_at: '2026-07-29T20:58:53Z'
+  verified_at: '2026-07-29T21:02:48Z'
+  evidence:
+    plan: docs/work/human-first-web-chat.yaml
+    task: decompose-chat-surface
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: modernize-chat-inbox
+  sequence: 14
+  plan: docs/work/human-first-web-chat.yaml
+  task: modernize-chat-inbox
+  status: verified
+  started_at: '2026-07-29T21:03:00Z'
+  verified_at: '2026-07-29T21:04:22Z'
+  evidence:
+    plan: docs/work/human-first-web-chat.yaml
+    task: modernize-chat-inbox
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: modernize-chat-thread
+  sequence: 15
+  plan: docs/work/human-first-web-chat.yaml
+  task: modernize-chat-thread
+  status: verified
+  started_at: '2026-07-29T21:04:27Z'
+  verified_at: '2026-07-29T21:06:32Z'
+  evidence:
+    plan: docs/work/human-first-web-chat.yaml
+    task: modernize-chat-thread
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: connect-chat-presence-and-read-state
+  sequence: 16
+  plan: docs/work/human-first-web-chat.yaml
+  task: connect-chat-presence-and-read-state
+  status: verified
+  started_at: '2026-07-29T21:06:39Z'
+  verified_at: '2026-07-29T21:10:33Z'
+  evidence:
+    plan: docs/work/human-first-web-chat.yaml
+    task: connect-chat-presence-and-read-state
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: connect-chat-message-actions-and-recovery
+  sequence: 17
+  plan: docs/work/human-first-web-chat.yaml
+  task: connect-chat-message-actions-and-recovery
+  status: verified
+  started_at: '2026-07-29T21:10:50Z'
+  verified_at: '2026-07-29T21:14:06Z'
+  evidence:
+    plan: docs/work/human-first-web-chat.yaml
+    task: connect-chat-message-actions-and-recovery
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: enrich-calendar-projection
+  sequence: 18
+  plan: docs/work/human-first-web-calendar.yaml
+  task: enrich-calendar-projection
+  status: verified
+  started_at: '2026-07-29T21:14:13Z'
+  verified_at: '2026-07-29T21:16:12Z'
+  evidence:
+    plan: docs/work/human-first-web-calendar.yaml
+    task: enrich-calendar-projection
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: redesign-calendar-toolbar
+  sequence: 19
+  plan: docs/work/human-first-web-calendar.yaml
+  task: redesign-calendar-toolbar
+  status: verified
+  started_at: '2026-07-29T21:16:18Z'
+  verified_at: '2026-07-29T21:18:15Z'
+  evidence:
+    plan: docs/work/human-first-web-calendar.yaml
+    task: redesign-calendar-toolbar
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: correct-calendar-timezone-placement
+  sequence: 20
+  plan: docs/work/human-first-web-calendar.yaml
+  task: correct-calendar-timezone-placement
+  status: verified
+  started_at: '2026-07-29T21:18:21Z'
+  verified_at: '2026-07-29T21:19:44Z'
+  evidence:
+    plan: docs/work/human-first-web-calendar.yaml
+    task: correct-calendar-timezone-placement
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: complete-calendar-time-grid
+  sequence: 21
+  plan: docs/work/human-first-web-calendar.yaml
+  task: complete-calendar-time-grid
+  status: verified
+  started_at: '2026-07-29T21:19:49Z'
+  verified_at: '2026-07-29T21:22:12Z'
+  evidence:
+    plan: docs/work/human-first-web-calendar.yaml
+    task: complete-calendar-time-grid
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: modernize-calendar-mobile-modes
+  sequence: 22
+  plan: docs/work/human-first-web-calendar.yaml
+  task: modernize-calendar-mobile-modes
+  status: verified
+  started_at: '2026-07-29T21:22:18Z'
+  verified_at: '2026-07-29T21:24:06Z'
+  evidence:
+    plan: docs/work/human-first-web-calendar.yaml
+    task: modernize-calendar-mobile-modes
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-calendar-event-popover
+  sequence: 23
+  plan: docs/work/human-first-web-calendar.yaml
+  task: add-calendar-event-popover
+  status: verified
+  started_at: '2026-07-29T21:24:11Z'
+  verified_at: '2026-07-29T21:26:38Z'
+  evidence:
+    plan: docs/work/human-first-web-calendar.yaml
+    task: add-calendar-event-popover
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: publish-business-setup-contract
+  sequence: 24
+  plan: docs/work/human-first-web-backend-ui-contracts.yaml
+  task: publish-business-setup-contract
+  status: verified
+  started_at: '2026-07-29T21:26:55Z'
+  verified_at: '2026-07-29T21:29:27Z'
+  evidence:
+    plan: docs/work/human-first-web-backend-ui-contracts.yaml
+    task: publish-business-setup-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: consume-business-setup-contract
+  sequence: 25
+  plan: docs/work/human-first-web-backend-ui-contracts.yaml
+  task: consume-business-setup-contract
+  status: verified
+  started_at: '2026-07-29T21:29:44Z'
+  verified_at: '2026-07-29T21:33:26Z'
+  evidence:
+    plan: docs/work/human-first-web-backend-ui-contracts.yaml
+    task: consume-business-setup-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: extend-client-actions-for-business-and-work
+  sequence: 26
+  plan: docs/work/human-first-web-backend-ui-contracts.yaml
+  task: extend-client-actions-for-business-and-work
+  status: verified
+  started_at: '2026-07-29T21:34:29Z'
+  verified_at: '2026-07-29T21:36:55Z'
+  evidence:
+    plan: docs/work/human-first-web-backend-ui-contracts.yaml
+    task: extend-client-actions-for-business-and-work
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: consume-business-and-work-client-actions
+  sequence: 27
+  plan: docs/work/human-first-web-backend-ui-contracts.yaml
+  task: consume-business-and-work-client-actions
+  status: verified
+  started_at: '2026-07-29T21:37:12Z'
+  verified_at: '2026-07-29T21:39:24Z'
+  evidence:
+    plan: docs/work/human-first-web-backend-ui-contracts.yaml
+    task: consume-business-and-work-client-actions
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: extend-client-actions-for-rides-and-things
+  sequence: 28
+  plan: docs/work/human-first-web-backend-ui-contracts.yaml
+  task: extend-client-actions-for-rides-and-things
+  status: verified
+  started_at: '2026-07-29T21:39:32Z'
+  verified_at: '2026-07-29T21:42:04Z'
+  evidence:
+    plan: docs/work/human-first-web-backend-ui-contracts.yaml
+    task: extend-client-actions-for-rides-and-things
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: consume-rides-and-things-client-actions
+  sequence: 29
+  plan: docs/work/human-first-web-backend-ui-contracts.yaml
+  task: consume-rides-and-things-client-actions
+  status: verified
+  started_at: '2026-07-29T21:42:12Z'
+  verified_at: '2026-07-29T21:44:04Z'
+  evidence:
+    plan: docs/work/human-first-web-backend-ui-contracts.yaml
+    task: consume-rides-and-things-client-actions
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: extract-work-and-business-api-clients
+  sequence: 30
+  plan: docs/work/human-first-web-modularization.yaml
+  task: extract-work-and-business-api-clients
+  status: verified
+  started_at: '2026-07-29T21:44:23Z'
+  verified_at: '2026-07-29T21:45:13Z'
+  evidence:
+    plan: docs/work/human-first-web-modularization.yaml
+    task: extract-work-and-business-api-clients
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: extract-chat-and-calendar-api-clients
+  sequence: 31
+  plan: docs/work/human-first-web-modularization.yaml
+  task: extract-chat-and-calendar-api-clients
+  status: verified
+  started_at: '2026-07-29T21:45:22Z'
+  verified_at: '2026-07-29T21:45:48Z'
+  evidence:
+    plan: docs/work/human-first-web-modularization.yaml
+    task: extract-chat-and-calendar-api-clients
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: extract-workspace-and-personal-api-clients
+  sequence: 32
+  plan: docs/work/human-first-web-modularization.yaml
+  task: extract-workspace-and-personal-api-clients
+  status: verified
+  started_at: '2026-07-29T21:45:58Z'
+  verified_at: '2026-07-29T21:46:34Z'
+  evidence:
+    plan: docs/work/human-first-web-modularization.yaml
+    task: extract-workspace-and-personal-api-clients
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: extract-social-and-sharing-api-clients
+  sequence: 33
+  plan: docs/work/human-first-web-modularization.yaml
+  task: extract-social-and-sharing-api-clients
+  status: verified
+  started_at: '2026-07-29T21:46:41Z'
+  verified_at: '2026-07-29T21:47:35Z'
+  evidence:
+    plan: docs/work/human-first-web-modularization.yaml
+    task: extract-social-and-sharing-api-clients
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: split-shell-surface-data
+  sequence: 34
+  plan: docs/work/human-first-web-modularization.yaml
+  task: split-shell-surface-data
+  status: verified
+  started_at: '2026-07-29T21:47:45Z'
+  verified_at: '2026-07-29T21:49:53Z'
+  evidence:
+    plan: docs/work/human-first-web-modularization.yaml
+    task: split-shell-surface-data
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: split-surface-renderers
+  sequence: 35
+  plan: docs/work/human-first-web-modularization.yaml
+  task: split-surface-renderers
+  status: verified
+  started_at: '2026-07-29T21:50:08Z'
+  verified_at: '2026-07-29T21:52:08Z'
+  evidence:
+    plan: docs/work/human-first-web-modularization.yaml
+    task: split-surface-renderers
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: validate-human-first-static-contract
+  sequence: 36
+  plan: docs/work/human-first-web-closeout.yaml
+  task: validate-human-first-static-contract
+  status: verified
+  started_at: '2026-07-29T21:52:21Z'
+  verified_at: '2026-07-29T21:55:53Z'
+  evidence:
+    plan: docs/work/human-first-web-closeout.yaml
+    task: validate-human-first-static-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: verify-human-first-desktop
+  sequence: 37
+  plan: docs/work/human-first-web-closeout.yaml
+  task: verify-human-first-desktop
+  status: verified
+  started_at: '2026-07-29T21:55:55Z'
+  verified_at: '2026-07-29T21:57:23Z'
+  evidence:
+    plan: docs/work/human-first-web-closeout.yaml
+    task: verify-human-first-desktop
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: verify-human-first-mobile
+  sequence: 38
+  plan: docs/work/human-first-web-closeout.yaml
+  task: verify-human-first-mobile
+  status: verified
+  started_at: '2026-07-29T21:57:32Z'
+  verified_at: '2026-07-29T21:58:05Z'
+  evidence:
+    plan: docs/work/human-first-web-closeout.yaml
+    task: verify-human-first-mobile
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

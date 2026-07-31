@@ -1,0 +1,88 @@
+kind: master
+version: 1
+id: services-human-ux
+title: Make Services understandable, trustworthy, and easy to book
+status: complete
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+prepared_for_goal_pursuit: true
+execution_inventory: docs/work/services-human-ux-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/services-human-ux-atomic-hardening.yaml
+analysis_artifact: docs/work/services-human-ux-analysis.md
+preflight_artifact: docs/work/services-human-ux-preflight.md
+change_impact_review:
+  required: true
+  report: docs/audit-output/system-map-change-impact.json
+  generated_at: '2026-07-30T16:34:15Z'
+  scope: 21 existing Services frontend, Business backend, test, and canonical documentation paths; planned new review and calendar files inherit those owners.
+  dispositions:
+    - recommendation: docs/system-truth-registry.yaml
+      status: reviewed
+      reason: Business remains the canonical domain owner for profiles, offerings, availability, bookings, ratings, and reviews.
+    - recommendation: docs/system-drift-control-registry.yaml
+      status: reviewed
+      reason: The final closeout task records endpoint, contract-generation, migration, and runtime drift controls.
+    - recommendation: docs/endpoint-capability-traceability-registry.yaml
+      status: reviewed
+      reason: The final closeout task owns traceability for new public calendar and Business review endpoints.
+    - recommendation: docs/entity-relation-retention-registry.yaml
+      status: reviewed
+      reason: The final closeout task owns the BusinessReview relation and retention truth.
+    - recommendation: docs/permission-visibility-matrix.yaml
+      status: reviewed
+      reason: The final closeout task records public review reads and completed-booking customer write eligibility.
+    - recommendation: docs/capability-evidence-registry.yaml
+      status: reviewed
+      reason: Capability evidence can advance only after targeted tests and fresh browser traces pass.
+    - recommendation: docs/business-logic.md
+      status: reviewed
+      reason: The documentation task owns the mini-site, price list, review, and booking meaning.
+    - recommendation: docs/domain-technical.md
+      status: reviewed
+      reason: The documentation task owns review invariants and calendar projection semantics.
+    - recommendation: docs/system-map.md
+      status: reviewed
+      reason: Services stays in the Business backend and app-shell client ownership boundary.
+    - recommendation: docs/runtime-acceptance-matrix.yaml
+      status: reviewed
+      reason: The final closeout task updates runtime truth only from new desktop and mobile evidence.
+    - recommendation: docs/regression-scenario-catalog.yaml
+      status: reviewed
+      reason: The documentation task adds calendar, recovery, rating, review eligibility, and empty-state scenarios.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/business-human-first-ux-master.yaml
+    - docs/work/business-product-alignment-master.yaml
+    - docs/work/business-booking-slot-validation-qa.yaml
+    - docs/work/business-style-visual-parity-master.yaml
+    - docs/work/services-business-detail-clarity.yaml
+  baseline_only_surfaces:
+    - Services route and global navigation ownership
+    - public profile visibility and favorites
+    - service schema, quote, preview, creation, and booking lifecycle rules
+    - owner Business workspace and owner calendar
+    - shared app-shell tokens and navigation
+  residual_scope:
+    - human-readable Services discovery cards
+    - full public business mini-site with Overview, Services & prices, and Reviews tabs
+    - completed-booking ratings and reviews
+    - backend-prepared public availability calendar projection
+    - calendar-led customer booking and conflict recovery
+    - responsive, accessible, light/dark browser verification
+  retest_triggers:
+    - public business, review, or availability contract changes
+    - Services discovery, public profile tabs, price list, reviews, calendar, or booking interaction changes
+    - shared calendar, shell, navigation, responsive token, or focus behavior changes
+  non_duplication_rule: Prior route, booking, owner-calendar, and app-wide visual evidence is baseline-only; this program counts only the new Services customer journey, verified-review domain, and fresh route-specific proof.
+children:
+  - docs/work/services-human-ux-atomic-hardening.yaml
+  - docs/work/services-human-ux-discovery.yaml
+  - docs/work/services-human-ux-reviews.yaml
+  - docs/work/services-human-ux-public-profile.yaml
+  - docs/work/services-human-ux-availability-contract.yaml
+  - docs/work/services-human-ux-booking.yaml
+  - docs/work/services-human-ux-documentation.yaml
+  - docs/work/services-human-ux-quality-closeout.yaml
+evidence: []

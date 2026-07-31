@@ -90,6 +90,25 @@ class BusinessBookingValidationServiceTest {
     }
 
     @Test
+    void validateCreateRejectsAStaleCalendarSlotThatNoLongerHasAvailabilityCoverage() {
+        AppUser owner = user(1L, "owner");
+        AppUser customer = user(2L, "customer");
+        BusinessOffering offering = offering(owner);
+        Instant start = Instant.parse("2026-08-12T09:00:00Z");
+        Instant end = Instant.parse("2026-08-12T10:00:00Z");
+
+        when(businessAvailabilityRuleRepository.findActiveByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
+        when(businessAvailabilityExceptionRepository.findByBusinessProfileId(offering.getBusinessProfile().getId())).thenReturn(List.of());
+        when(businessAvailabilityComputationService.deriveWindows(
+                offering.getBusinessProfile(), offering, List.of(), List.of(), start, end
+        )).thenReturn(List.of());
+
+        assertThrows(ResponseStatusException.class, () -> businessBookingValidationService.validateCreate(
+                offering, customer, start, end, policy()
+        ));
+    }
+
+    @Test
     void validateCreateRejectsFixedOfferingWithMismatchedDuration() {
         AppUser owner = user(1L, "owner");
         AppUser customer = user(2L, "customer");
@@ -126,6 +145,7 @@ class BusinessBookingValidationServiceTest {
         assertDoesNotThrow(() -> businessBookingValidationService.validateCreate(offering, customer, start, end, policy()));
     }
 
+    // Booking validation remains the server-side authority when a calendar slot becomes stale.
     private BusinessAvailabilityWindowDTO window(Instant start, Instant end) {
         return BusinessAvailabilityWindowDTO.builder()
                 .startsAt(start)

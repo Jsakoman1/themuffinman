@@ -5,6 +5,10 @@ metadata:
 
 purpose: Product agent safety only. Implementation planning and completion live in docs/work/*.yaml.
 
+product_contracts:
+  services_public_booking:
+    rule: Public availability exposes only business-local bookable slots; review writes require the completed booking customer.
+
 safety:
   rules:
     - id: exact-target-before-mutation

@@ -227,7 +227,7 @@ public class VisionSearchDiscoveryService {
         candidates.addAll(discoverUsers(currentUser, query));
         candidates.addAll(discoverApplications(currentUser, query));
         candidates.addAll(discoverThings(currentUser, query));
-        candidates.addAll(discoverBusinesses(query));
+        candidates.addAll(discoverBusinesses(currentUser, query));
         return candidates.stream()
                 .filter(candidate -> filterFamily == null || filterFamily.equals(candidate.item().getEntityFamily()))
                 .sorted(Comparator
@@ -373,10 +373,10 @@ public class VisionSearchDiscoveryService {
                 .toList();
     }
 
-    private List<SearchCandidate> discoverBusinesses(String query) {
+    private List<SearchCandidate> discoverBusinesses(AppUser currentUser, String query) {
         String normalizedQuery = normalizeFamilyQuery(query, SemanticEntityFamily.BUSINESS);
         if (normalizedQuery.isBlank()) return List.of();
-        return businessProfileRepository.searchActiveProfiles(normalizedQuery).stream()
+        return businessProfileRepository.searchActiveProfilesOwnedByOtherThan(currentUser.getId(), normalizedQuery).stream()
                 .limit(3)
                 .map(profile -> scoredItem(
                         "business", "view_business", profile.getId(), profile.getBusinessName(), profile.getHeadline(),

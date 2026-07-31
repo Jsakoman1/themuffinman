@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="TheMuffinMan Frontend Build" type="ShConfigurationType">
+    <option name="SCRIPT_TEXT" value="npm run build" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/apps/themuffinman/frontend" />
+    <option name="INTEGRATED" value="true" />
+    <method v="2" />
+  </configuration>
+</component>

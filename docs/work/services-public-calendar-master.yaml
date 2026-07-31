@@ -1,0 +1,30 @@
+kind: master
+version: 1
+id: services-public-calendar
+title: Add a private clickable public Day Week Month availability calendar
+status: complete
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+prepared_for_goal_pursuit: true
+# Atomic hardening verified that public calendar work remains serial and never crosses the owner/private-booking boundary.
+analysis_artifact: docs/work/services-public-calendar-analysis.md
+execution_inventory: docs/work/services-public-calendar-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/services-public-calendar-atomic-hardening.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  baseline_only_surfaces: [owner Business calendar, private bookings, resource allocation, existing booking lifecycle]
+  residual_scope: [public aggregate availability projection, Day Week Month UI, public booking handoff, privacy/accessibility/runtime proof]
+  non_duplication_rule: Public calendar never returns owner-calendar events or private booking fields.
+requirements:
+  - Visitor selects an active service before public availability is loaded.
+  - Month, Week, and Day are calendar presentation states over a bounded backend range projection.
+  - Unavailable blocks are inert and disclose no reason; only safe slots are clickable.
+  - Existing backend quote preview and booking validation remain final authority.
+  - Calendar works by keyboard, does not rely on color alone, and is usable at desktop and mobile widths.
+children:
+  - docs/work/services-public-calendar-atomic-hardening.yaml
+  - docs/work/services-public-calendar-contract.yaml
+  - docs/work/services-public-calendar-ui.yaml
+  - docs/work/services-public-calendar-booking.yaml
+  - docs/work/services-public-calendar-closeout.yaml

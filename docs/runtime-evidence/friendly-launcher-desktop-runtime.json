@@ -1,0 +1,24 @@
+{
+  "viewport": "1440x1000",
+  "out": [
+    {
+      "theme": "light",
+      "marker": 1,
+      "tiles": 4,
+      "railVisible": true,
+      "mobileTabsVisible": false,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "theme": "dark",
+      "marker": 1,
+      "tiles": 4,
+      "railVisible": true,
+      "mobileTabsVisible": false,
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "result": "passed"
+}

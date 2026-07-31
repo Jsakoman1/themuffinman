@@ -1,0 +1,97 @@
+kind: work
+version: 1
+id: developer-tooling-intellij-mcp-atomic-hardening
+title: Harden the developer-tooling and IntelliJ MCP execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-intellij-mcp-master.yaml
+execution_inventory: docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - harden-developer-tooling-intellij-mcp-inventory
+  package_path_count: 9
+  next_item_after_verification: compact-repository-map-query
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - existing verified control and product behavior
+  residual_scope:
+  - atomic inventory hardening only
+  retest_triggers:
+  - master, child-plan, analysis, preflight, or inventory path changes
+  non_duplication_rule: This task proves plan readiness and does not prove tooling
+    implementation or product behavior.
+tasks:
+- id: harden-developer-tooling-intellij-mcp-inventory
+  title: Harden the tooling optimization inventory
+  type: documentation
+  status: done
+  inventory_item: harden-developer-tooling-intellij-mcp-inventory
+  observable_outcome: Every tooling improvement maps to one ordered atomic task with
+    exact paths, one leaf validation, explicit dependencies, and a distinct evidence
+    boundary.
+  dependencies: []
+  evidence_boundary:
+  - atomic-task hardening audit
+  - strict serial execution-inventory audit
+  paths: &1
+  - docs/work/developer-tooling-intellij-mcp-analysis.md
+  - docs/work/developer-tooling-intellij-mcp-preflight.md
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  - docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+  - docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml
+  - docs/work/developer-tooling-intellij-mcp-context.yaml
+  - docs/work/developer-tooling-intellij-mcp-validation.yaml
+  - docs/work/developer-tooling-intellij-mcp-adoption.yaml
+  - docs/work/developer-tooling-intellij-mcp-closeout.yaml
+  required_paths: *1
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/developer-tooling-intellij-mcp-master.yaml
+    docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+  started_at: '2026-07-31T13:11:41Z'
+  start_fingerprints:
+    docs/work/developer-tooling-intellij-mcp-analysis.md: 4fb79c227bad0fe3ada36a2016806c1caf1335af5815fdca8f127b785149df42
+    docs/work/developer-tooling-intellij-mcp-preflight.md: 69a2ece1cfd3768f0d3aace218024d338c25a7129f2d29d5cd6771dfbfb1edb4
+    docs/work/developer-tooling-intellij-mcp-master.yaml: 91f942c184c26dc216cb653de091aba5fb4777233dbb8fbf3d7e709fa94745a1
+    docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml: f527e2bb8078360485c3beb6b4e5dd9cbc1090be2c51a1bfea301cff375b8abe
+    docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml: 9f39552e7d97ca88047b9db57e99cfd0f0c0b900cc2056bd6dd29614ddc2c0e2
+    docs/work/developer-tooling-intellij-mcp-context.yaml: 2c8c50e64da176075320e27903e1e3bd274322c954c6b0a6aa5db1edc983c7ce
+    docs/work/developer-tooling-intellij-mcp-validation.yaml: 8d66bff192c63b1cdbd513ec84a2f3a2b34558a1aa5361ff4ddd5135d57b3784
+    docs/work/developer-tooling-intellij-mcp-adoption.yaml: 7719032c1721c617a663ccfa341a56a2624258ec8099532c5f84f00f2a18f292
+    docs/work/developer-tooling-intellij-mcp-closeout.yaml: 91f7500d49c93b10f97753410e9cf6fa2d014322e8a1c1bd802bb51c51f19271
+evidence:
+- task: harden-developer-tooling-intellij-mcp-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/developer-tooling-intellij-mcp-master.yaml
+    docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+  ranAt: '2026-07-31T13:12:37Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/developer-tooling-intellij-mcp-adoption.yaml
+  - docs/work/developer-tooling-intellij-mcp-analysis.md
+  - docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml
+  - docs/work/developer-tooling-intellij-mcp-closeout.yaml
+  - docs/work/developer-tooling-intellij-mcp-context.yaml
+  - docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  - docs/work/developer-tooling-intellij-mcp-preflight.md
+  - docs/work/developer-tooling-intellij-mcp-validation.yaml
+  output: "Atomic task hardening audit passed (8 inventory items).\n\n"
+  startedAt: '2026-07-31T13:11:41Z'
+  changedAfterStart: &2
+  - docs/work/developer-tooling-intellij-mcp-analysis.md
+  - docs/work/developer-tooling-intellij-mcp-preflight.md
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  - docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+  - docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml
+  - docs/work/developer-tooling-intellij-mcp-context.yaml
+  - docs/work/developer-tooling-intellij-mcp-validation.yaml
+  - docs/work/developer-tooling-intellij-mcp-adoption.yaml
+  - docs/work/developer-tooling-intellij-mcp-closeout.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

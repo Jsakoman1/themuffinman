@@ -1,0 +1,88 @@
+kind: work
+version: 1
+id: friendly-launcher-design-atomic-hardening
+title: Harden the friendly launcher execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/friendly-launcher-design-master.yaml
+execution_inventory: docs/work/friendly-launcher-design-execution-inventory.yaml
+hardening_review:
+  inventory_item_count: 12
+  required_task_properties:
+  - inventory_item
+  - observable_outcome
+  - dependencies
+  - required_paths
+  - validation
+  - evidence_boundary
+  visual_evidence_policy: Light/dark mobile and desktop screenshots plus runtime traces
+    are required only for the two visual audit atoms.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-usability-business-parity-master.yaml
+  baseline_only_surfaces:
+  - existing route behaviour
+  residual_scope:
+  - atomic path
+  - dependency
+  - validation
+  - and evidence review
+  retest_triggers:
+  - any inventory or child-plan change before goal activation
+  non_duplication_rule: This task verifies plan readiness only and does not claim
+    product implementation.
+tasks:
+- id: harden-friendly-launcher-inventory
+  title: Harden friendly launcher atomic inventory
+  type: documentation
+  status: done
+  inventory_item: harden-friendly-launcher-inventory
+  observable_outcome: Every proposed launcher task has one bounded result, exact required
+    paths, ordered dependencies, leaf validation, and a distinct visual or runtime
+    evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - plan coverage audit
+  - atomic task hardening audit
+  - plan recursion audit
+  paths:
+  - docs/work/friendly-launcher-design-master.yaml
+  - docs/work/friendly-launcher-design-execution-inventory.yaml
+  - docs/work/friendly-launcher-design-atomic-hardening.yaml
+  - docs/work/friendly-launcher-design-analysis.md
+  required_paths:
+  - docs/work/friendly-launcher-design-master.yaml
+  - docs/work/friendly-launcher-design-execution-inventory.yaml
+  - docs/work/friendly-launcher-design-atomic-hardening.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/friendly-launcher-design-master.yaml
+    docs/work/friendly-launcher-design-execution-inventory.yaml
+  started_at: '2026-07-29T16:27:27Z'
+  start_fingerprints:
+    docs/work/friendly-launcher-design-master.yaml: cb81926d030a9c4998a59ac871aca9073afb5546864c71992ffcc58a69ff9cd9
+    docs/work/friendly-launcher-design-execution-inventory.yaml: '08bd37e5bbe750c326add53b8dc985db672e32c3409baf341120a11e7e8b11b5'
+    docs/work/friendly-launcher-design-atomic-hardening.yaml: fd44b72fc584b285d7d4c49830d3c3696d00e6e7c269671872aa5fc17fdd6ae5
+evidence:
+- task: harden-friendly-launcher-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/friendly-launcher-design-master.yaml
+    docs/work/friendly-launcher-design-execution-inventory.yaml
+  ranAt: '2026-07-29T16:28:01Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/friendly-launcher-design-analysis.md
+  - docs/work/friendly-launcher-design-atomic-hardening.yaml
+  - docs/work/friendly-launcher-design-execution-inventory.yaml
+  - docs/work/friendly-launcher-design-master.yaml
+  output: "Atomic task hardening audit passed (12 inventory items).\n\n"
+  startedAt: '2026-07-29T16:27:27Z'
+  changedAfterStart: &1
+  - docs/work/friendly-launcher-design-master.yaml
+  - docs/work/friendly-launcher-design-execution-inventory.yaml
+  - docs/work/friendly-launcher-design-atomic-hardening.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

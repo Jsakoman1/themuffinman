@@ -1,0 +1,194 @@
+kind: work
+version: 1
+id: business-style-visual-parity-closeout
+title: Capture responsive visual proof for Business-style parity
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-style-visual-parity-master.yaml
+execution_inventory: docs/work/business-style-visual-parity-execution-inventory.yaml
+execution_readiness:
+  atomic_contract_checked: true
+  inventory_items:
+  - audit-business-style-parity-desktop
+  - audit-business-style-parity-mobile
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-closeout.yaml
+  - docs/work/brand-header-sand-shell.yaml
+  baseline_only_surfaces:
+  - previous Home
+  - Business
+  - and app-wide friendly screenshots
+  residual_scope:
+  - fresh visual evidence for the current cross-route visual grammar
+  retest_triggers:
+  - any shared shell
+  - shared primitive
+  - named route
+  - or responsive layout change
+  non_duplication_rule: Earlier screenshots are context only; only fresh representative
+    cross-route browser evidence closes this plan.
+tasks:
+- id: audit-business-style-parity-desktop
+  title: Audit Business-style parity on desktop
+  type: documentation
+  status: done
+  inventory_item: audit-business-style-parity-desktop
+  observable_outcome: Fresh 1440px browser evidence proves Home, a collection workspace,
+    a planning workspace, and a detail or setup screen share the warm Business/Home
+    hierarchy while retaining their domain purpose.
+  dependencies:
+  - align-creation-and-setup-context
+  evidence_boundary:
+  - frontend type-check/build
+  - desktop screenshot
+  - authenticated browser trace
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/business-style-visual-parity-desktop.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json
+  paths:
+  - apps/themuffinman/frontend/scripts/business-style-visual-parity-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/business-style-visual-parity-desktop.png
+  - docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json
+  required_paths:
+  - apps/themuffinman/frontend/scripts/business-style-visual-parity-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/business-style-visual-parity-desktop.png
+  - docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:13:05Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/business-style-visual-parity-runtime.mjs: __missing__
+    docs/product-memory.md: 273d5e4d6173a2ad8c5f95969039bcb4bbd588dc18aef5306268150097beabf0
+    docs/runtime-evidence/business-style-visual-parity-desktop.png: __missing__
+    docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json: __missing__
+- id: audit-business-style-parity-mobile
+  title: Audit Business-style parity on mobile
+  type: documentation
+  status: done
+  inventory_item: audit-business-style-parity-mobile
+  observable_outcome: Fresh 390px browser evidence proves the same representative
+    route families preserve readable hierarchy, one task column, and no unintended
+    horizontal overflow.
+  dependencies:
+  - audit-business-style-parity-desktop
+  evidence_boundary:
+  - frontend type-check/build
+  - mobile screenshot
+  - authenticated browser trace
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/business-style-visual-parity-mobile.png
+  manual_runtime_command: make dev
+  runtime_evidence_paths:
+  - docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json
+  paths:
+  - docs/product-memory.md
+  - docs/runtime-evidence/business-style-visual-parity-mobile.png
+  - docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json
+  required_paths:
+  - docs/product-memory.md
+  - docs/runtime-evidence/business-style-visual-parity-mobile.png
+  - docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:15:16Z'
+  start_fingerprints:
+    docs/product-memory.md: c3e3153a21004da1ee71664b5087d5449a29cdb44d92e0d012d50d946d8f627c
+    docs/runtime-evidence/business-style-visual-parity-mobile.png: __missing__
+    docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json: __missing__
+evidence:
+- task: audit-business-style-parity-desktop
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:15:07Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/product-memory.md
+  - apps/themuffinman/frontend/scripts/business-style-visual-parity-runtime.mjs
+  - docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json
+  - docs/runtime-evidence/business-style-visual-parity-desktop.png
+  output: |+
+    dist/assets/CalendarPage-Dwc7POGa.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-BudlhDVW.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-DNN3ey3I.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-DnPn4Iqy.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-u2J-1Rl7.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-DpLGk4Ij.js                              16.17 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-Ck1xsZSx.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-ZeUv9vZf.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-Bl_kovx0.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DFDnqQJV.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-MYVNe-sv.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-lSKt5QwW.js                35.43 kB │ gzip:  11.78 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Ub01g-P4.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-D2xd0qZh.js                                 62.84 kB │ gzip:  15.57 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 643ms
+
+  startedAt: '2026-07-29T19:13:05Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/scripts/business-style-visual-parity-runtime.mjs
+  - docs/product-memory.md
+  - docs/runtime-evidence/business-style-visual-parity-desktop.png
+  - docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json
+  requiredPaths: *1
+  visualEvidencePaths:
+  - docs/runtime-evidence/business-style-visual-parity-desktop.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-style-visual-parity-desktop-runtime.json
+- task: audit-business-style-parity-mobile
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:15:45Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/product-memory.md
+  - docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json
+  - docs/runtime-evidence/business-style-visual-parity-mobile.png
+  output: |+
+    dist/assets/CalendarPage-Dwc7POGa.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-BudlhDVW.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-DNN3ey3I.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-DnPn4Iqy.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-u2J-1Rl7.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-DpLGk4Ij.js                              16.17 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-Ck1xsZSx.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-ZeUv9vZf.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-Bl_kovx0.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DFDnqQJV.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-MYVNe-sv.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-lSKt5QwW.js                35.43 kB │ gzip:  11.78 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Ub01g-P4.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-D2xd0qZh.js                                 62.84 kB │ gzip:  15.57 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 546ms
+
+  startedAt: '2026-07-29T19:15:16Z'
+  changedAfterStart: &2
+  - docs/product-memory.md
+  - docs/runtime-evidence/business-style-visual-parity-mobile.png
+  - docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json
+  requiredPaths: *2
+  visualEvidencePaths:
+  - docs/runtime-evidence/business-style-visual-parity-mobile.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/business-style-visual-parity-mobile-runtime.json

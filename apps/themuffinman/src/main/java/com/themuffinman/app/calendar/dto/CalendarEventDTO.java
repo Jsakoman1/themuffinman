@@ -14,6 +14,8 @@ public class CalendarEventDTO {
     private Instant startsAt;
     private Instant endsAt;
     private String timezone;
+    private String startsAtLocal;
+    private String endsAtLocal;
     private String status;
     private Long businessId;
     private String businessName;

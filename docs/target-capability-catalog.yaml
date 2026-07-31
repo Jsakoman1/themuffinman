@@ -18,6 +18,8 @@ surface_definitions:
   web_ui: Direct browser surface using the shared authenticated shell.
   mobile: Native mobile client surface.
   watch: Focused Watch interaction or backend handoff surface.
+services_public_mini_site:
+  description: Public business identity, service prices, verified reviews, and backend-backed local-time appointment booking.
   api: Backend contract available to supported clients.
 modules:
   - id: platform

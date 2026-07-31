@@ -3,6 +3,8 @@ package com.themuffinman.app.workmarket.service;
 import com.themuffinman.app.workmarket.dto.ApplicationAllowedActionDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationPresentationDTO;
 import com.themuffinman.app.workmarket.dto.QuestApplicationResponseDTO;
+import com.themuffinman.app.common.dto.ClientActionDTO;
+import com.themuffinman.app.common.dto.ClientActionToneDTO;
 import com.themuffinman.app.workmarket.model.QuestApplication;
 import com.themuffinman.app.workmarket.model.QuestApplicationStatus;
 import com.themuffinman.app.workmarket.service.WorkmarketPresentationHelper;
@@ -26,6 +28,7 @@ public class WorkmarketQuestApplicationPresentationAssembler {
         }
 
         dto.setAllowedActions(List.copyOf(allowedActions));
+        dto.setActions(toClientActions(allowedActions));
         boolean canApprove = allowedActions.contains(ApplicationAllowedActionDTO.APPROVE);
         boolean canDecline = allowedActions.contains(ApplicationAllowedActionDTO.DECLINE);
         dto.setPresentation(QuestApplicationPresentationDTO.builder()
@@ -44,6 +47,43 @@ public class WorkmarketQuestApplicationPresentationAssembler {
                 .showManagementActions(canApprove || canDecline)
                 .build());
         return dto;
+    }
+
+    private List<ClientActionDTO> toClientActions(List<ApplicationAllowedActionDTO> allowedActions) {
+        return allowedActions.stream().map(action -> {
+            boolean destructive = action == ApplicationAllowedActionDTO.WITHDRAW
+                    || action == ApplicationAllowedActionDTO.DECLINE
+                    || action == ApplicationAllowedActionDTO.RELEASE_WORKER;
+            String label = switch (action) {
+                case EDIT -> "Edit application";
+                case WITHDRAW -> "Withdraw application";
+                case APPROVE -> "Approve applicant";
+                case DECLINE -> "Decline applicant";
+                case RELEASE_WORKER -> "Release worker";
+                case REPLACE_WORKER -> "Replace worker";
+            };
+            return ClientActionDTO.builder()
+                    .id(action.name())
+                    .label(label)
+                    .tone(destructive ? ClientActionToneDTO.DANGER : ClientActionToneDTO.PRIMARY)
+                    .enabled(true)
+                    .requiresConfirmation(action != ApplicationAllowedActionDTO.EDIT && action != ApplicationAllowedActionDTO.REPLACE_WORKER)
+                    .confirmationTitle(label)
+                    .confirmationMessage(label + "?")
+                    .outcome(actionOutcome(action))
+                    .build();
+        }).toList();
+    }
+
+    private String actionOutcome(ApplicationAllowedActionDTO action) {
+        return switch (action) {
+            case EDIT -> "Your changes are saved for the work owner to review.";
+            case WITHDRAW -> "Your application is withdrawn and the work owner is notified.";
+            case APPROVE -> "This person is assigned to the work and is notified.";
+            case DECLINE -> "This person is not selected and is notified.";
+            case RELEASE_WORKER -> "This person's assignment ends and the work slot becomes available again.";
+            case REPLACE_WORKER -> "Choose another pending applicant for the available work slot.";
+        };
     }
 
     public List<ApplicationAllowedActionDTO> resolveApplicantActions(QuestApplication application) {

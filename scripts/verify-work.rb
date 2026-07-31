@@ -6,6 +6,7 @@ require "open3"
 require "time"
 require "yaml"
 require "digest"
+require "shellwords"
 
 ROOT = File.expand_path("..", __dir__)
 
@@ -38,7 +39,12 @@ def changed_files(root, baseline)
   fail!(porcelain) unless porcelain_status.success?
 
   files = diff.lines.map(&:strip).reject(&:empty?)
-  porcelain.lines.each { |line| files << line[3..].strip if line.start_with?("?? ") }
+  porcelain.lines.each do |line|
+    next unless line.start_with?("?? ")
+
+    path = line[3..].strip
+    files << (path.start_with?("\"") ? Shellwords.shellsplit(path).first : path)
+  end
   files.uniq
 end
 

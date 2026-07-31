@@ -6,9 +6,12 @@ import type {ShellSurfaceSection, ShellSurfaceMetric} from "../shellSurfaceData.
 import SurfaceRow from "./SurfaceRow.vue"
 import SurfaceHeader from "./SurfaceHeader.vue"
 import SurfaceMetricGrid from "./SurfaceMetricGrid.vue"
-import SurfaceSection from "./SurfaceSection.vue"
 import AppLoadingState from "./AppLoadingState.vue"
 import AppEmptyState from "./AppEmptyState.vue"
+import DashboardSurfaceRenderer from "./DashboardSurfaceRenderer.vue"
+import CollectionSurfaceRenderer from "./CollectionSurfaceRenderer.vue"
+import OperationsSurfaceRenderer from "./OperationsSurfaceRenderer.vue"
+import ProfileSurfaceRenderer from "./ProfileSurfaceRenderer.vue"
 import {formatCalendarDay, formatCalendarTitle, formatTime} from "../../../services/formatters.ts"
 
 const props = defineProps<{
@@ -70,7 +73,7 @@ const formatDay = (date: Date) => formatCalendarDay(date)
   <section class="surface-content" :class="surfaceClass" :data-surface-id="config.id" aria-live="polite">
     <SurfaceHeader :config="config" :detail-label="detailLabel" />
 
-    <SurfaceMetricGrid v-if="config.id !== 'business'" :metrics="metrics" />
+    <SurfaceMetricGrid v-if="config.id !== 'business' && config.archetype !== 'home'" :metrics="metrics" />
 
     <p v-if="note" class="surface-content__note">{{ note }}</p>
 
@@ -106,7 +109,10 @@ const formatDay = (date: Date) => formatCalendarDay(date)
       <p v-if="calendarRows.length === 0" class="surface-content__empty-state">No scheduled work or business events are available yet.</p>
     </div>
 
-    <div v-else-if="!loading && !error && config.archetype === 'business'" class="surface-content__operations" aria-label="Business operations">
+    <DashboardSurfaceRenderer v-else-if="!loading && !error && config.archetype === 'home'" :metrics="metrics" :sections="sections" />
+    <OperationsSurfaceRenderer v-else-if="!loading && !error && config.archetype === 'business'" :sections="sections" />
+    <ProfileSurfaceRenderer v-else-if="!loading && !error && config.archetype === 'profile'" :sections="sections" />
+    <div v-else-if="false" class="surface-content__operations" aria-label="Business operations">
       <p class="surface-content__business-intro">Choose a business section from the sidebar. Your profile, bookings, services, and calendar stay in one focused workspace.</p>
       <section v-for="section in sections" :key="section.title" class="surface-content__operations-group">
         <div class="surface-content__operations-heading">
@@ -120,9 +126,7 @@ const formatDay = (date: Date) => formatCalendarDay(date)
       </section>
     </div>
 
-    <div v-else-if="!loading && !error" class="surface-content__collection" aria-label="Workspace collection">
-      <SurfaceSection v-for="section in sections" :key="section.title" :section="section" />
-    </div>
+    <CollectionSurfaceRenderer v-else-if="!loading && !error" :sections="sections" />
 
     <AppEmptyState v-if="!loading && !error && sections.length === 0" title="Nothing here yet." />
   </section>
@@ -141,31 +145,6 @@ const formatDay = (date: Date) => formatCalendarDay(date)
   .surface-content__inbox-layout { grid-template-columns: minmax(20rem, 0.7fr) minmax(0, 1.8fr); }
 }
 
-.surface-content__header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 0.75rem 1rem;
-  padding: 0.35rem 0.1rem;
-}
-
-.surface-content__location {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-width: 0;
-  grid-column: 1 / -1;
-}
-
-.surface-content__location-mark {
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
-.surface-content__eyebrow,
-.surface-content__title,
 .surface-content__detail-label,
 .surface-content__metric-label,
 .surface-content__metric-value,
@@ -177,14 +156,6 @@ const formatDay = (date: Date) => formatCalendarDay(date)
   margin: 0;
 }
 
-.surface-content__eyebrow {
-  color:var(--text-muted);
-  font-size: 0.76rem;
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .surface-content__detail-label {
   color:var(--text-muted);
   font-size: 0.84rem;
@@ -193,21 +164,6 @@ const formatDay = (date: Date) => formatCalendarDay(date)
   white-space: nowrap;
 }
 
-.surface-content__title {
-  min-width: 0;
-  font-size: clamp(1.55rem, 2.5vw, 2.3rem);
-  letter-spacing: -0.075em;
-  line-height: 1;
-}
-
-.surface-content__actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.45rem;
-}
-
-.surface-content__action,
 .surface-content__row-link {
   display: inline-flex;
   align-items: center;
@@ -223,8 +179,6 @@ const formatDay = (date: Date) => formatCalendarDay(date)
   white-space: nowrap;
 }
 
-.surface-content__action--primary,
-.surface-content__action--vision,
 .surface-content__row-link--vision {
   border-color: var(--accent);
   background: var(--accent);
@@ -699,8 +653,7 @@ const formatDay = (date: Date) => formatCalendarDay(date)
     min-height: 2.5rem;
   }
 }
-</style>
-<style scoped>
+
 /* Shared graphite surface contract: collection primitives stay dense and token-owned. */
 .surface-content--business .surface-content__operations { gap: var(--space-5); }
 .surface-content--business .surface-content__business-intro { margin: 0; max-width: 42rem; color: var(--text-muted); font-size: var(--text-size-body); }

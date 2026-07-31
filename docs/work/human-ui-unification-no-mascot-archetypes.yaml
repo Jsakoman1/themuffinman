@@ -1,0 +1,304 @@
+kind: work
+version: 1
+id: human-ui-unification-no-mascot-archetypes
+title: Standardize authenticated screen archetypes
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_hardening:
+  prerequisite: Archetype creation and route adoption remain separate serial tasks
+    to preserve bounded evidence.
+master_plan: docs/work/human-ui-unification-no-mascot-master.yaml
+execution_inventory: docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/business-style-visual-parity-workspaces.yaml
+  - docs/work/business-style-visual-parity-details.yaml
+  baseline_only_surfaces:
+  - backend result data
+  - mutations
+  - permissions
+  - route ownership
+  - existing local tabs
+  residual_scope:
+  - shared collection/workspace composition
+  - shared detail/setup composition
+  - migration of bespoke authenticated contexts
+  retest_triggers:
+  - shared archetype or named route layout changes
+  non_duplication_rule: Existing workflow verification is baseline; this plan proves
+    only visual composition and component adoption.
+tasks:
+- id: standardize-collection-workspace-primitives
+  title: Standardize collection and workspace primitives
+  type: implementation
+  status: done
+  inventory_item: standardize-collection-workspace-primitives
+  observable_outcome: Collection and contextual workspace routes use one spacing,
+    toolbar, tab, row, selected-preview, and mobile list-to-context contract without
+    route-local visual reinvention.
+  dependencies:
+  - refresh-home-landing
+  evidence_boundary:
+  - frontend type-check/build
+  - shared primitive source review
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:34:35Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue: d947fa9c7f2a9e3e2e7ae8d961212a8fc0b196c5b343c1aa89ea1b7d60f4febd
+    apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue: d84b0bca1e3a3862af29a78cc9f88a716184ce314a9dfbb5f9f688bd6e93b275
+    apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue: '0104409e01f9dc10a1289f128a5e993a50bdaf5589c329228cce2f6c518a3db1'
+    apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue: b8586d2a7ee509175561e609c7cf1b5165eca64884d4f0d90b20ffbb60d2fcde
+    apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue: 52b2127034feb67a55a1dc0aa2007c82cf6c13284a623137296deac7088d4075
+    apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue: d329b441fb3b5698809d417bc23f8fdd40ff7f829b37a15d229b109aa335ecce
+- id: standardize-detail-form-primitives
+  title: Standardize detail and guided-form primitives
+  type: implementation
+  status: done
+  inventory_item: standardize-detail-form-primitives
+  observable_outcome: Detail and setup routes share one main/utility hierarchy, contextual
+    header, progressive form spacing, action footer, dialog, and narrow-screen collapse
+    contract.
+  dependencies:
+  - standardize-collection-workspace-primitives
+  evidence_boundary:
+  - frontend type-check/build
+  - shared primitive source review
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GuidedIntakePanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GuidedIntakePanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:39:08Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue: d7f0b5717fa199157822e67de9fd9a71985a3be076b6c8001af95d3cf900e9c9
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue: fb09100dd0af0c71abb1894db05609ef418e0e5cc07528f8dd03a79baccaaf1d
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue: 6e5550340865a22a5524897f32e994d2cd7dd6f0d141d1970d91f1660d265907
+    apps/themuffinman/frontend/src/modules/app-shell/components/GuidedIntakePanel.vue: 88fffbc3e333f02b0748952695e2d98e8108c0ee590b366e110c48849a060f85
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue: 9f68a63e9ab00ddde12e4b4e0ad0e5a3a1480c9994060c7c666660c141d7f357
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue: 98ba4b4de7fc26c7657bdbdb98a93f973a89fe8d44638f5d600722bbb84ca614
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue: e6aaa0129d26940c6b470909dd6ca6e83a40aa680fade24e4a577abce65aaf67
+- id: migrate-bespoke-authenticated-context
+  title: Migrate bespoke authenticated contexts
+  type: implementation
+  status: done
+  inventory_item: migrate-bespoke-authenticated-context
+  observable_outcome: Calendar, Chat, Profile, Notifications, onboarding, notification
+    settings, Work creation, and Business service setup orient the person through
+    the canonical header/archetype grammar and replace remaining technical-first copy
+    with plain-language task framing.
+  dependencies:
+  - standardize-detail-form-primitives
+  evidence_boundary:
+  - frontend type-check/build
+  - named-route source review
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:40:01Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: da2fe0a8da73abce50b405b912bddfd61ee88aad24fce27b9e21c0c158e02a8d
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 860935d3823d488dc7134b346d59899f61c4deb77040fe9b3f0aa391a4339c02
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue: 6276f8b6e077b9548c4e7a030e27194588d12c959cae3a6dde58b1601572f4cc
+    apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue: a7c2edb4eada57843d4ac71ce3422d5eeb7c8d3368dc92c434e220cdd265f1bf
+    apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue: 03ba6dad9908451d603e33af0ee553053adb4294784650c0af77f70ebba8a378
+    apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue: 9ef05460552887899e84b8ea14b314ed6045dc2cef128650dd4a0366e59d9419
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue: 7cb01a9b8f6eac5672128804297243eeb138ba29a95c43bcc9caa2164d9e6e63
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue: 02fab7d957d779f1cb297ae93469f4d1b218a4c0f1d4eee5138b851ab89be303
+    docs/product-memory.md: b63984462e81dc9cd76d42d8dd2eadc69c3fcfb35e7f159d348d875c4e48c1b7
+evidence:
+- task: standardize-collection-workspace-primitives
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:38:59Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  output: |+
+    dist/assets/CalendarPage-cdQV2Dx6.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-DWAywFfE.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/ThingsDiscoveryView-BivC9z36.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-C5Kgz8hi.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-CdCF-_4m.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-CJIMPEda.js                              16.22 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-DWkdeV99.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-Bz8-7Hn1.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-BHMlEw4B.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-vxpx1G8L.js                           21.36 kB │ gzip:   6.53 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-Cu3IHnMX.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BhUecjoK.js                35.53 kB │ gzip:  11.82 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-DGbSIYE_.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-B4mvMIGi.js                                 62.97 kB │ gzip:  15.62 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 569ms
+
+  startedAt: '2026-07-29T19:34:35Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/TaskSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionToolbar.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ModuleTabs.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/SurfaceRow.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/ObjectPreviewPanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/CollectionContextRail.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: standardize-detail-form-primitives
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:39:47Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GuidedIntakePanel.vue
+  output: |+
+    dist/assets/CalendarPage-COZsjIO3.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-CwwAaRws.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/ThingsDiscoveryView-DWu-r5_d.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-BT1Qhwjj.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BSbie9EX.js                           15.80 kB │ gzip:   4.98 kB
+    dist/assets/WorkPage-CGqKiRS1.js                              16.22 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-DiXoDqOZ.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-B_Cq2DhY.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-CBwEIWcT.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DkE4sfZs.js                           21.36 kB │ gzip:   6.53 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-bH5HxAMN.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-C_LDha74.js                35.53 kB │ gzip:  11.82 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-DJFW0bYX.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-BgAilraQ.js                                 62.97 kB │ gzip:  15.60 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 610ms
+
+  startedAt: '2026-07-29T19:39:08Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurfaceHeader.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/GuidedIntakePanel.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormField.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppFormFooter.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppDialog.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-bespoke-authenticated-context
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:41:22Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/CalendarPage-oEyhjKXa.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-BM6VLai_.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/ThingsDiscoveryView-dP0rsT5E.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-CA09S_Cs.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-D-qyOYF4.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-xpH1gqoB.js                              16.22 kB │ gzip:   5.95 kB
+    dist/assets/WorkQuestDetailView-DFnhwIqk.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-DBSB0eSw.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-A3gggJeQ.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-DPUQKgSn.js                           21.36 kB │ gzip:   6.53 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-BKFIeiag.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-DmMf0TUB.js                35.53 kB │ gzip:  11.82 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-gR8sb_mz.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-DNxkzv7p.js                                 62.97 kB │ gzip:  15.60 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 567ms
+
+  startedAt: '2026-07-29T19:40:01Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/OnboardingView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationPreferencesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestCreateView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessServiceSchemaView.vue
+  - docs/product-memory.md
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

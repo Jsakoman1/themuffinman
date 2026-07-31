@@ -12,16 +12,21 @@ import type {
   DashboardPlannerItemDTO,
   QuestApplicationResponseDTO,
   QuestResponseDTO,
-  ThingBorrowRequestResponseDTO,
-  RideOfferResponseDTO,
   WorkspaceCommandItem,
   UserProfileViewDTO
 } from "../../contracts/index.ts"
 import {currentUser} from "../identity/auth.ts"
 import {getAppSurfaceConfig, type AppSurfaceId} from "./shellDefinitions.ts"
 import {resolveSurfaceDetailRoute} from "./shellRouteRegistry.ts"
-import {userShellApi} from "./api/userShellApi.ts"
+import {userShellApi, type WorkspaceHomeResponse} from "./api/userShellApi.ts"
 import {formatDate, formatDateTime, formatNumber} from "../../services/formatters.ts"
+import {loadWorkSurfaceData} from "./data/workSurfaceData.ts"
+import {loadBusinessSurfaceData} from "./data/businessSurfaceData.ts"
+import {loadCalendarSurfaceData} from "./data/calendarSurfaceData.ts"
+import {loadPeopleSurfaceData} from "./data/peopleSurfaceData.ts"
+import {loadProfileSurfaceData} from "./data/profileSurfaceData.ts"
+
+// Domain loader boundaries keep the subsequent extraction incremental and auditable.
 
 export type ShellSurfaceMetric = {
   label: string
@@ -57,6 +62,7 @@ export type ShellSurfaceViewModel = {
   metrics: ShellSurfaceMetric[]
   sections: ShellSurfaceSection[]
   note?: string
+  home?: WorkspaceHomeResponse
 }
 
 export const homeOrientationSections = ["Requests", "Calendar"] as const
@@ -98,24 +104,6 @@ const createApplicationRow = (application: QuestApplicationResponseDTO): ShellSu
   meta: `${application.questCreatorUsername} · ${formatDate(application.createdAt)}`,
   badge: application.status,
   to: applicationRoute(application.id),
-})
-
-const createHomeThingRequestRow = (request: ThingBorrowRequestResponseDTO, role: "sent" | "received"): ShellSurfaceRow => ({
-  id: `thing-request-${role}-${request.id}`,
-  title: `Thing request #${request.id}`,
-  description: role === "sent" ? `You asked to borrow · ${request.stateExplanation}` : `${request.borrowerUsername} asked to borrow · ${request.stateExplanation}`,
-  meta: formatDate(request.createdAt),
-  badge: request.status,
-  to: {path: role === "sent" ? "/things" : "/things/mine"}
-})
-
-const createHomeRideRow = (ride: RideOfferResponseDTO): ShellSurfaceRow => ({
-  id: `ride-${ride.id}`,
-  title: `${ride.origin} → ${ride.destination}`,
-  description: ride.viewerIsDriver ? `You offer this ride · ${ride.joinedSeats}/${ride.seats} seats joined` : `You joined this ride · ${ride.joinedSeats}/${ride.seats} seats joined`,
-  meta: formatDateTime(ride.departureAt),
-  badge: ride.status,
-  to: {path: `/rides/${ride.id}`}
 })
 
 const createChatRow = (conversation: ChatConversationSummaryDTO): ShellSurfaceRow => ({
@@ -219,65 +207,13 @@ const createProfileActionRow = (profileView: UserProfileViewDTO): ShellSurfaceRo
   return rows
 }
 
-const loadHomeData = async (): Promise<ShellSurfaceViewModel> => {
-  const [dashboard, applications, ownerBookings, customerBookings, incomingPeople, outgoingPeople, sentThings, receivedThings, rides, commandCatalog] = await Promise.all([
-    backendRequest(() => userShellApi.getDashboard()),
-    backendRequest(() => userShellApi.getMyApplications()),
-    backendRequest(() => userShellApi.getBusinessOwnerBookings()),
-    backendRequest(() => userShellApi.getMyBusinessBookings()),
-    backendRequest(() => userShellApi.getIncomingCircleRequests()),
-    backendRequest(() => userShellApi.getOutgoingCircleRequests()),
-    backendRequest(() => userShellApi.getMyThingBorrowRequests()),
-    backendRequest(() => userShellApi.getThingOwnerBorrowRequests()),
-    backendRequest(() => userShellApi.getRideOffers()),
-    backendRequest(() => userShellApi.getWorkspaceCommandCatalog())
-  ])
+const loadHomeData = async (): Promise<ShellSurfaceViewModel> => ({
+  metrics: [],
+  sections: [],
+  home: await backendRequest(() => userShellApi.getWorkspaceHome())
+})
 
-  const relevantApplication = (application: QuestApplicationResponseDTO) => ["PENDING", "APPROVED"].includes(application.status)
-  const applicationRows = applications.items
-    .filter(relevantApplication)
-    .map(createApplicationRow)
-  const incomingApplicationRows = (await Promise.all(dashboard.myQuests.slice(0, 50).map(async (quest) => backendRequest(() => userShellApi.getQuestApplications(quest.id)))))
-    .flatMap((view) => view.visibleApplications.filter(relevantApplication).map((application) => ({
-        ...createApplicationRow(application),
-        id: `home-incoming-application-${application.id}`,
-        description: `${application.applicantUsername} applied to your job`,
-        meta: formatDate(application.createdAt),
-        to: applicationRoute(application.id)
-      })))
-  const incomingServiceRows = ownerBookings.items
-    .filter((booking) => ["PENDING", "REQUESTED", "CONFIRMED"].includes(booking.status))
-    .slice(0, 3)
-    .map((booking) => ({...createBookingRow(booking), id: `service-incoming-${booking.id}`, title: booking.businessOfferingTitle, description: `${booking.customerUsername} · ${booking.statusLabel}`}))
-  const myServiceRows = customerBookings.items
-    .filter((booking) => !["COMPLETED", "CANCELLED", "REJECTED"].includes(booking.status))
-    .slice(0, 3)
-    .map((booking) => ({...createBookingRow(booking), id: `service-outgoing-${booking.id}`, title: booking.businessOfferingTitle, description: `${booking.businessName} · ${booking.statusLabel}`, to: {path: "/business/my-bookings"}}))
-  const incomingPeopleRows = incomingPeople.items.slice(0, 3).map((request) => ({...createCircleRequestRow(request), id: `people-incoming-${request.id}`, title: `${request.counterpartUsername} wants to connect`, description: "Incoming connection request", to: {path: "/people/requests"}}))
-  const outgoingPeopleRows = outgoingPeople.items.slice(0, 3).map((request) => ({...createCircleRequestRow(request), id: `people-outgoing-${request.id}`, title: `Request to ${request.counterpartUsername}`, description: "Outgoing connection request", to: {path: "/people/requests"}}))
-  const sentThingRows = sentThings.filter((request) => !["RETURNED", "DECLINED", "CANCELLED"].includes(request.status)).slice(0, 3).map((request) => createHomeThingRequestRow(request, "sent"))
-  const receivedThingRows = receivedThings.filter((request) => !["RETURNED", "DECLINED", "CANCELLED"].includes(request.status)).slice(0, 3).map((request) => createHomeThingRequestRow(request, "received"))
-  const rideRows = rides.items
-    .filter((ride) => ride.active && ["OPEN", "FULL", "IN_PROGRESS"].includes(ride.status) && (ride.viewerIsDriver || ride.viewerJoined))
-    .slice(0, 3)
-    .map(createHomeRideRow)
-  const actionFor = (routes: string[]) => [...commandCatalog.create, ...commandCatalog.navigation].filter((command) => routes.includes(command.route))
-
-  return {
-    metrics: [],
-    sections: [
-      {title: "Work", description: "Jobs you applied for and new applications for your jobs.", emptyState: "No active work or applications.", rows: [...incomingApplicationRows, ...applicationRows].slice(0, 4), groups: [{title: "New applications", rows: incomingApplicationRows.slice(0, 3)}, {title: "My applications", rows: applicationRows.slice(0, 3)}], actions: actionFor(["/work/quests/new"])},
-      {title: "Business", description: "New reservations for your businesses.", emptyState: "No new business reservations.", rows: incomingServiceRows, actions: actionFor(["/business"])},
-      {title: "Services", description: "Appointments you booked with other businesses.", emptyState: "No upcoming services.", rows: myServiceRows, actions: actionFor(["/business/find"])},
-      {title: "Things", description: "Borrow requests sent and received for your things.", emptyState: "No active thing requests.", rows: [...receivedThingRows, ...sentThingRows].slice(0, 4), actions: actionFor(["/things"])},
-      {title: "People", description: "Connection requests waiting for you or someone else.", emptyState: "No pending people requests.", rows: [...incomingPeopleRows, ...outgoingPeopleRows].slice(0, 4), actions: actionFor(["/circles"])},
-      {title: "Rides", description: "Rides you offer or have joined.", emptyState: "No active rides.", rows: rideRows, actions: actionFor(["/rides"])}
-    ],
-    note: ""
-  }
-}
-
-const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
+export const loadWorkData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
   const [dashboard, applications] = await Promise.all([
     userShellApi.getDashboard(),
     surfaceId === "work-applications" || surfaceId === "work-quests" ? backendRequest(() => userShellApi.getMyApplications()) : Promise.resolve(null)
@@ -461,7 +397,7 @@ const loadChatData = async (route: RouteLocationNormalizedLoaded): Promise<Shell
   }
 }
 
-const loadBusinessData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
+export const loadBusinessData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
   // Owner dashboard/calendar require an active business profile. Resolve the
   // profile first so an unconfigured account does not generate expected 400s.
   const [profile, bookings] = await Promise.all([
@@ -622,7 +558,7 @@ const createBusinessProfileRows = (profile: BusinessProfileResponseDTO, dashboar
   }
 ]
 
-const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
+export const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
   const [dashboard, profile] = await Promise.all([
     backendRequest(() => userShellApi.getDashboard()),
     backendRequest(() => userShellApi.getBusinessProfile())
@@ -686,7 +622,7 @@ const loadCalendarData = async (): Promise<ShellSurfaceViewModel> => {
   }
 }
 
-const loadCirclesData = async (): Promise<ShellSurfaceViewModel> => {
+export const loadCirclesData = async (): Promise<ShellSurfaceViewModel> => {
   const [overview, incomingRequests, connections] = await Promise.all([
     userShellApi.getCirclesOverview(),
     userShellApi.getIncomingCircleRequests(),
@@ -736,7 +672,7 @@ const loadCirclesData = async (): Promise<ShellSurfaceViewModel> => {
   }
 }
 
-const loadProfileData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
+export const loadProfileData = async (surfaceId: AppSurfaceId): Promise<ShellSurfaceViewModel> => {
   const appUser = await userShellApi.getCurrentAppUser()
   const profileView = await backendRequest(() => userShellApi.getCurrentProfileView(appUser.id))
 
@@ -838,22 +774,22 @@ const resolveSurfaceData = async (surfaceId: AppSurfaceId, route: RouteLocationN
     case "work":
     case "work-quests":
     case "work-applications":
-      return loadWorkData(surfaceId)
+      return loadWorkSurfaceData(surfaceId)
     case "chat":
     case "chat-conversation":
       return loadChatData(route)
     case "calendar":
-      return loadCalendarData()
+      return loadCalendarSurfaceData()
     case "business":
     case "business-profile":
     case "business-bookings":
     case "business-calendar":
-      return loadBusinessData(surfaceId)
+      return loadBusinessSurfaceData(surfaceId)
     case "circles":
-      return loadCirclesData()
+      return loadPeopleSurfaceData()
     case "profile":
     case "profile-settings":
-      return loadProfileData(surfaceId)
+      return loadProfileSurfaceData(surfaceId)
     case "notifications":
     case "activity":
       return {metrics: [], sections: []}

@@ -27,3 +27,4 @@ rules:
 - runtime_proof_requires_fresh_runtime_artifact
 - registry_must_reference_canonical_source
 - selected_drift_control_requires_its_own_strict_work_plan
+- services_human_ux_closeout_uses_serial_runtime_evidence

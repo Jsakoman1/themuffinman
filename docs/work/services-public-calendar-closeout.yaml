@@ -1,0 +1,77 @@
+kind: work
+version: 1
+id: services-public-calendar-closeout
+title: Close public calendar product truth
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/services-public-calendar-master.yaml
+execution_inventory: docs/work/services-public-calendar-execution-inventory.yaml
+tasks:
+- id: close-public-calendar-truth
+  title: Record public calendar semantics and verify responsive runtime
+  type: documentation
+  status: done
+  inventory_item: close-public-calendar-truth
+  observable_outcome: Docs and runtime evidence distinguish public aggregate availability
+    from private owner booking data across desktop and mobile.
+  dependencies:
+  - connect-calendar-to-booking
+  evidence_boundary:
+  - documentation audit
+  - runtime acceptance audit
+  paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+  required_paths:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+  validation: make audit-docs && make audit-runtime-acceptance
+  started_at: '2026-07-30T17:27:34Z'
+  start_fingerprints:
+    docs/business-logic.md: ae334b3539d20fbe65a6e6b2966a597db03e871c143a0d18dabfcc0dd779bccb
+    docs/domain-technical.md: ec2df0bcb03c0656b48365d9abdb6a91543823b0e350cea8a0771345feb623fc
+    docs/regression-scenario-catalog.yaml: fe7884b2428251a7d67ba7c2b3071d797227dd2a09bc574a5e6f727698002a03
+    docs/runtime-acceptance-matrix.yaml: 16dc18933bde1ed16385c7a51607cc51ee633b921a48ab8a1e2fc7f6270c55ba
+    apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs: __missing__
+evidence:
+- task: close-public-calendar-truth
+  command: make audit-docs && make audit-runtime-acceptance
+  ranAt: '2026-07-30T17:36:50Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+  output: |+
+    ruby scripts/audits/audit-work-plan-recursion.rb
+    Work-plan recursion audit passed (no recursive validation commands).
+    ruby scripts/audits/audit-docs-as-tests.rb
+    Docs as tests
+      statements scanned: 377
+      review needed: 0
+      high priority: 0
+    ruby scripts/audits/audit-runtime-acceptance.rb
+    Runtime acceptance audit passed (69 passed, 14 pending runtime scenarios).
+
+  startedAt: '2026-07-30T17:27:34Z'
+  changedAfterStart: &1
+  - docs/business-logic.md
+  - docs/domain-technical.md
+  - docs/regression-scenario-catalog.yaml
+  - docs/runtime-acceptance-matrix.yaml
+  - apps/themuffinman/frontend/scripts/services-public-calendar-runtime.mjs
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

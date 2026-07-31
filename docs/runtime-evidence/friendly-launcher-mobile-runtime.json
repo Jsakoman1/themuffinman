@@ -1,0 +1,24 @@
+{
+  "viewport": "390x844",
+  "out": [
+    {
+      "theme": "light",
+      "marker": 1,
+      "tiles": 4,
+      "overflow": false,
+      "drawerVisible": true,
+      "drawerModules": 21,
+      "errors": []
+    },
+    {
+      "theme": "dark",
+      "marker": 1,
+      "tiles": 4,
+      "overflow": false,
+      "drawerVisible": true,
+      "drawerModules": 21,
+      "errors": []
+    }
+  ],
+  "result": "passed"
+}

@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
+import com.themuffinman.app.common.dto.ClientActionDTO;
 
 @Data
 @Builder
@@ -22,4 +23,5 @@ public class ThingListingResponseDTO {
     private Instant updatedAt;
     private String availabilityLabel;
     private List<ThingAllowedActionDTO> allowedActions;
+    private List<ClientActionDTO> actions;
 }

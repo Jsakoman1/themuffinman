@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue"
+import {computed, onMounted, ref, watch} from "vue"
+// Discovery cards preserve native route and keyboard interaction semantics.
 import {useRoute, useRouter} from "vue-router"
 import type {BusinessProfileResponseDTO} from "../../../contracts/index.ts"
 import {userShellApi} from "../api/userShellApi.ts"
 import AppStatus from "../components/AppStatus.vue"
 import AppSearchField from "../components/AppSearchField.vue"
 import CollectionToolbar from "../components/CollectionToolbar.vue"
-import SurfaceRow from "../components/SurfaceRow.vue"
-import {handleCollectionKeyboard, useSurfaceViewState} from "../composables/useSurfaceViewState.ts"
-import {currentUser} from "../../identity/auth.ts"
 import ModuleTabs from "../components/ModuleTabs.vue"
 import {getModuleTabs} from "../moduleTabRegistry.ts"
-import SurfaceHeader from "../components/SurfaceHeader.vue"
-import {getAppSurfaceConfig} from "../shellDefinitions.ts"
+import FriendlyCollectionHeader from "../components/FriendlyCollectionHeader.vue"
+import BusinessDiscoveryCard from "../components/BusinessDiscoveryCard.vue"
 
 const route = useRoute()
 const router = useRouter()
@@ -22,19 +20,11 @@ const matchesIntent = (business: BusinessProfileResponseDTO) => intentFilter.val
 const items = computed(() => rawItems.value.filter(matchesIntent))
 const isFavoritesView = computed(() => route.path === "/business/favorites")
 const visibleItems = computed(() => items.value)
-const operationalSummary = (business: BusinessProfileResponseDTO) => {
-  const availability = business.active ? (business.bookingEnabled ? "Open for booking" : "Profile available") : "Unavailable"
-  const location = business.publicAddressLabel ? `Area: ${business.publicAddressLabel}` : "Area not published"
-  return `${availability} · Services and prices on profile · ${location}`
-}
 const query = ref(typeof route.query.q === "string" ? route.query.q : "")
 const isLoading = ref(true)
 const error = ref("")
-const {state: viewState} = useSurfaceViewState("business-discovery", computed(() => currentUser.value?.id), computed(() => route.fullPath))
-const selectedBusiness = computed(() => visibleItems.value.find(item => item.id === viewState.value.selectedId) ?? null)
 const businessTabs = computed(() => getModuleTabs("services")?.tabs ?? [])
 const favoriteIds = ref<Set<number>>(new Set())
-const surface = getAppSurfaceConfig("business-discovery")
 
 const load = async () => {
   isLoading.value = true
@@ -42,7 +32,6 @@ const load = async () => {
   try {
     rawItems.value = (await (isFavoritesView.value ? userShellApi.getBusinessFavoriteDirectory(query.value.trim()) : userShellApi.getBusinessDirectory(query.value.trim()))).items
     favoriteIds.value = new Set((await userShellApi.getBusinessFavorites()).map(item => item.businessProfileId))
-    if (!visibleItems.value.some(item => item.id === viewState.value.selectedId)) viewState.value.selectedId = null
   } catch {
     error.value = "Could not load businesses."
   } finally {
@@ -63,23 +52,18 @@ watch(() => route.query.q, (value) => {
   void load()
 })
 
-const handleKeyboard = (event: KeyboardEvent) => handleCollectionKeyboard(event, visibleItems.value.map(item => item.id), viewState.value, {
-  open: (id) => { viewState.value.selectedId = id },
-  clear: () => { viewState.value.selectedId = null; viewState.value.previewId = null }
-})
-onMounted(() => { window.addEventListener("keydown", handleKeyboard); void load() })
-onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
+onMounted(() => void load())
 </script>
 
 <template>
-  <section class="business-discovery" data-preview-model="shared-adjacent-preview" data-business-page-model="discover-preview-book">
-    <ModuleTabs :tabs="businessTabs" active-id="find" />
-    <SurfaceHeader :config="surface" :title="isFavoritesView ? 'Favorite businesses' : 'Find a service'" :description="isFavoritesView ? 'Your saved businesses, ready to revisit.' : 'Discover businesses and services by name, then narrow results by published booking or area details.'" />
+  <section class="business-discovery" data-collection-rhythm="oriented" data-business-page-model="discover-book">
+    <ModuleTabs :tabs="businessTabs" :active-id="isFavoritesView ? 'favorites' : 'find'" />
+    <FriendlyCollectionHeader eyebrow="Services" :title="isFavoritesView ? 'Favorite businesses' : 'Find a service'" :description="isFavoritesView ? 'Businesses you saved, ready to revisit.' : 'Search for a business, then open its page to see services, prices, availability and contact details.'" />
 
     <CollectionToolbar :title="isFavoritesView ? 'Favorite businesses' : 'Public businesses'" :count="visibleItems.length" :busy="isLoading" filter-summary="Search and refine">
       <template #filters>
-        <AppSearchField v-model="query" label="Search businesses" placeholder="Search businesses" :busy="isLoading" @submit="submitSearch" />
-        <label class="business-discovery__intent"><span>Show</span><select v-model="intentFilter" aria-label="Business discovery filter"><option value="ALL">All businesses</option><option value="BOOK_NOW">Bookings available</option><option value="WITH_AREA">Published area</option></select></label>
+        <AppSearchField v-model="query" label="What service or business do you need?" placeholder="Search businesses" :busy="isLoading" @submit="submitSearch" />
+        <label class="business-discovery__intent"><span>Show</span><select v-model="intentFilter" aria-label="Filter businesses"><option value="ALL">All businesses</option><option value="BOOK_NOW">Book online</option><option value="WITH_AREA">With a published area</option></select></label>
       </template>
     </CollectionToolbar>
 
@@ -87,13 +71,13 @@ onBeforeUnmount(() => window.removeEventListener("keydown", handleKeyboard))
     <AppStatus v-else-if="isLoading" message="Loading businesses." />
     <AppStatus v-else-if="visibleItems.length === 0" :message="isFavoritesView ? 'You have no favorite businesses yet.' : 'No public businesses match this search.'" />
     <div v-else class="business-discovery__workspace">
-      <div class="business-discovery__list" aria-label="Business results"><SurfaceRow
+      <div class="business-discovery__list" aria-label="Service providers"><BusinessDiscoveryCard
         v-for="business in visibleItems"
         :key="business.id"
-        :selected="viewState.selectedId === business.id"
-        :row="{id: String(business.id), title: business.businessName, description: business.headline || business.description || 'Public business profile', badge: favoriteIds.has(business.id) ? 'Saved' : business.bookingEnabled ? 'Bookings available' : 'Profile only', meta: operationalSummary(business)}"
-        @click="viewState.selectedId = business.id"
-      /></div><aside class="business-context" aria-label="Business context"><template v-if="selectedBusiness"><p class="business-discovery__eyebrow">Selected business</p><h2>{{ selectedBusiness.businessName }}</h2><p>{{ selectedBusiness.headline || selectedBusiness.description || 'Public business profile' }}</p><dl><div><dt>Profile</dt><dd>{{ selectedBusiness.slug }}</dd></div><div><dt>Bookings</dt><dd>{{ selectedBusiness.bookingEnabled ? 'Available' : 'Not enabled' }}</dd></div><div v-if="selectedBusiness.publicAddressLabel"><dt>Area</dt><dd>{{ selectedBusiness.publicAddressLabel }}</dd></div></dl><RouterLink class="business-context__link" :to="{path: `/business/public/${selectedBusiness.slug}`, query: {returnTo: route.fullPath}}">Open full detail</RouterLink></template><template v-else><p class="business-discovery__eyebrow">Business context</p><h2>Select a business</h2><p>Choose a result to inspect its profile without leaving this collection.</p></template></aside>
+        :business="business"
+        :saved="favoriteIds.has(business.id)"
+        :to="{path: `/business/public/${business.slug}`, query: {returnTo: route.fullPath}}"
+      /></div>
     </div>
   </section>
 </template>
@@ -108,17 +92,8 @@ h1 { margin: 0; color: var(--text); font-size: var(--text-size-page-title); lett
 .business-discovery__search input { min-width: min(24rem, 58vw); border: 1px solid var(--border-subtle); border-radius: var(--radius-control); padding: var(--space-1) var(--space-2); background: var(--control-bg); color: var(--text); font: inherit; }
 .business-discovery__search button { background: var(--accent); color: var(--canvas); }
 .business-discovery__search button:disabled { cursor: wait; opacity: .65; }
-.business-discovery__workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); overflow: hidden; border: 1px solid var(--border-subtle); border-radius: var(--radius-surface); background: var(--surface-base); }
-.business-discovery__list { min-width: 0; }
-.business-discovery__list :deep(.surface-row:last-child) { border-bottom: 0; }
-.business-context { border-left: 1px solid var(--border-subtle); padding: var(--space-3); background: var(--surface-raised); }
-.business-context p { color: var(--text-muted); }
-.business-context dl { display: grid; gap: var(--space-2); margin: var(--space-3) 0; }
-.business-context dl div { display: flex; justify-content: space-between; gap: var(--space-2); border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--space-1); }
-.business-context dt { color: var(--text-soft); font-size: var(--text-size-meta); }
-.business-context dd { margin: 0; text-align: right; }
-.business-context__link { display: inline-flex; margin-top: var(--space-2); font-weight: var(--text-weight-semibold); }
-@media (max-width: 860px) { .business-discovery__workspace { grid-template-columns: 1fr; } .business-context { border-left: 0; border-top: 1px solid var(--border-subtle); } }
+.business-discovery__workspace { min-width: 0; }
+.business-discovery__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--space-3); min-width: 0; }
 @media (max-width: 640px) { .business-discovery__header { align-items: start; flex-direction: column; } .business-discovery__search { width: 100%; } .business-discovery__search input { min-width: 0; width: 100%; } }
 .business-discovery__intent{display:inline-flex;align-items:center;gap:var(--space-1);color:var(--text-muted);font-size:var(--text-size-meta)}.business-discovery__intent select{min-height:var(--control-height-default);padding:var(--space-1) var(--space-2);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--control-bg);color:var(--control-ink);font:inherit}
 </style>

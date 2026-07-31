@@ -1,0 +1,115 @@
+kind: work
+version: 1
+id: generic-preview-elimination-details
+title: Flatten generic detail side rails
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/generic-preview-elimination-master.yaml
+execution_inventory: docs/work/generic-preview-elimination-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-all-surfaces-master.yaml
+  baseline_only_surfaces:
+  - canonical detail route loading and backend action decisions
+  residual_scope:
+  - People
+  - Thing
+  - Ride
+  - Work application
+  - Quest
+  - and Business profile utility rails
+  retest_triggers:
+  - shared detail component or any named detail screen
+  non_duplication_rule: This task changes layout only and reuses existing domain behavior.
+tasks:
+- id: flatten-generic-detail-rails
+  title: Make standard details single-column and action-led
+  type: implementation
+  status: done
+  inventory_item: flatten-generic-detail-rails
+  observable_outcome: Standard detail pages show one content flow with compact in-context
+    actions, never a generic right-side details or utility preview rail.
+  dependencies:
+  - direct-open-legacy-collections
+  evidence_boundary:
+  - global source contract
+  - frontend type-check
+  - frontend build
+  paths: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  required_paths: *1
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-30T04:52:47Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue: 4eff04e25f69dbdec07cf3a695571395b5cc8a4064674c794d0371e4ab2aad8f
+    apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue: 5f7648e35eceb15f0acc760415cfa45a405c355687b448ec25de0e2c24e1bfcd
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue: bb05dee14cb877b4a93b61f57ce80b1e69e38318530eaa97734d691e730f826f
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue: f158377c1d8cc2128d9878f9275ca30ecbd22af1b6ed3af316436728eeab1ff3
+    apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue: 22dfd15f4b155e6088a51e3a9fc7e0876c0b0dbb53262f77d4a379fb7b22f4c8
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue: 7cad8e268129d02eb9a7e3b39c4a707cd638c9d61949aafe67f5796c8199ffa5
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue: e674685eed9c063e701c64f6705cdb1eecc4f797c32064e76f196575fcf60954
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue: 3324bd28b9e1ede3fecc8beef883ea8d06b6e63aea14d26a21fbda163db3ea41
+hardening_boundary: This plan owns generic detail layout only; it does not alter routes,
+  backend actions, or owner review queues.
+evidence:
+- task: flatten-generic-detail-rails
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-30T04:54:56Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  output: |+
+    dist/assets/ThingsDiscoveryView-BTJRy4uB.js                   10.52 kB │ gzip:   3.73 kB
+    dist/assets/WorkPage-BKkfc3C6.js                              13.12 kB │ gzip:   5.06 kB
+    dist/assets/RidesView-CYUedjLE.js                             13.31 kB │ gzip:   4.51 kB
+    dist/assets/BusinessServiceSchemaView-BbZSatDJ.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/BusinessPublicView-D8CJH9nD.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-BmLxV4m9.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-DLlSmTUs.js                          15.97 kB │ gzip:   5.38 kB
+    dist/assets/WorkQuestDetailView-BtPB7PFb.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/HomeHubView-DDY1erqQ.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-Be4CpioA.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-BWSJpt-g.js                           26.83 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-ByBBlAWA.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-vyvHd4PT.js                     55.33 kB │ gzip:  13.69 kB
+    dist/assets/index-9UzuO38X.js                                 63.18 kB │ gzip:  15.73 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 681ms
+
+  startedAt: '2026-07-30T04:52:47Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailSurface.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/DetailUtilityRail.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleProfileView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RideDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkApplicationDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkQuestDetailView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessProfileView.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

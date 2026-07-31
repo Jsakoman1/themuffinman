@@ -1,6 +1,8 @@
 package com.themuffinman.app.things.mapper;
 
 import com.themuffinman.app.common.validation.RichTextInputValidator;
+import com.themuffinman.app.common.dto.ClientActionDTO;
+import com.themuffinman.app.common.dto.ClientActionToneDTO;
 import com.themuffinman.app.things.dto.ThingBorrowRequestResponseDTO;
 import com.themuffinman.app.things.dto.ThingAllowedActionDTO;
 import com.themuffinman.app.things.dto.ThingListingResponseDTO;
@@ -37,6 +39,7 @@ public class ThingSharingMgr {
                 .updatedAt(listing.getUpdatedAt())
                 .availabilityLabel(listing.isArchived() ? "Archived" : listing.isAvailable() ? "Available to borrow" : "Currently unavailable")
                 .allowedActions(allowedListingActions(listing, myPendingRequestId, viewer))
+                .actions(toClientActions(allowedListingActions(listing, myPendingRequestId, viewer)))
                 .build();
     }
 
@@ -75,6 +78,50 @@ public class ThingSharingMgr {
                     case APPROVED -> List.of(ThingAllowedActionDTO.RETURN_BORROWED_THING);
                     default -> List.of();
                 })
+                .actions(toClientActions(switch (request.getStatus()) {
+                    case PENDING -> List.of(ThingAllowedActionDTO.APPROVE_BORROW_REQUEST, ThingAllowedActionDTO.DECLINE_BORROW_REQUEST, ThingAllowedActionDTO.CANCEL_BORROW_REQUEST);
+                    case APPROVED -> List.of(ThingAllowedActionDTO.RETURN_BORROWED_THING);
+                    default -> List.of();
+                }))
                 .build();
+    }
+
+    private List<ClientActionDTO> toClientActions(List<ThingAllowedActionDTO> allowedActions) {
+        return allowedActions.stream().map(action -> {
+            boolean destructive = action == ThingAllowedActionDTO.ARCHIVE
+                    || action == ThingAllowedActionDTO.CANCEL_BORROW_REQUEST
+                    || action == ThingAllowedActionDTO.DECLINE_BORROW_REQUEST;
+            String label = switch (action) {
+                case EDIT -> "Edit listing";
+                case ARCHIVE -> "Archive listing";
+                case REQUEST_BORROW -> "Request to borrow";
+                case CANCEL_BORROW_REQUEST -> "Withdraw request";
+                case APPROVE_BORROW_REQUEST -> "Approve request";
+                case DECLINE_BORROW_REQUEST -> "Decline request";
+                case RETURN_BORROWED_THING -> "Mark returned";
+            };
+            return ClientActionDTO.builder()
+                    .id(action.name())
+                    .label(label)
+                    .tone(destructive ? ClientActionToneDTO.DANGER : action == ThingAllowedActionDTO.EDIT ? ClientActionToneDTO.SECONDARY : ClientActionToneDTO.PRIMARY)
+                    .enabled(true)
+                    .requiresConfirmation(action != ThingAllowedActionDTO.EDIT && action != ThingAllowedActionDTO.REQUEST_BORROW && action != ThingAllowedActionDTO.RETURN_BORROWED_THING)
+                    .confirmationTitle(label)
+                    .confirmationMessage(label + "?")
+                    .outcome(actionOutcome(action))
+                    .build();
+        }).toList();
+    }
+
+    private String actionOutcome(ThingAllowedActionDTO action) {
+        return switch (action) {
+            case EDIT -> "Your listing details are updated.";
+            case ARCHIVE -> "The listing is hidden and cannot receive new requests.";
+            case REQUEST_BORROW -> "The owner is asked to approve your request.";
+            case CANCEL_BORROW_REQUEST -> "Your borrowing request is withdrawn.";
+            case APPROVE_BORROW_REQUEST -> "The borrower can collect the item and it becomes unavailable to others.";
+            case DECLINE_BORROW_REQUEST -> "The borrower is notified that this request was not approved.";
+            case RETURN_BORROWED_THING -> "The item becomes available for others to request.";
+        };
     }
 }

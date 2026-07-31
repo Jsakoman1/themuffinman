@@ -103,3 +103,4 @@ next_optimization_control_state:
   confidence: high
   update_trigger: serial task verification, closeout, or next queue change
  # BUSINESS-BOOKING-RUNTIME-001 owns flexible Business runtime status and points to the captured API/browser evidence artifact.
+ # SERVICES-HUMAN-UX-001: public mini-site, local availability calendar, and verified booking reviews are runtime-evidenced.

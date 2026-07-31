@@ -1,0 +1,158 @@
+kind: work
+version: 1
+id: developer-tooling-quality-next-runtime
+title: Pilot a shared browser runtime-evidence harness
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-quality-next-master.yaml
+execution_inventory: docs/work/developer-tooling-quality-next-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - add-shared-runtime-evidence-harness
+  - migrate-brand-header-runtime-pilot
+  pure_helper_test_precedes_browser_use: true
+  owned_stack_required_for_pilot: true
+  fresh_visual_paths: 2
+  fresh_runtime_paths: 1
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/brand-header-sand-shell.yaml
+  baseline_only_surfaces:
+  - all non-brand-header runtime scripts
+  - authenticated shell behavior and existing screenshots
+  residual_scope:
+  - shared runtime helper primitives
+  - one brand-header migration and fresh equivalence evidence
+  retest_triggers:
+  - runtime harness or brand-header script changes
+  non_duplication_rule: Existing brand evidence is baseline; only the migrated pilot
+    and fresh post-start captures count.
+tasks:
+- id: add-shared-runtime-evidence-harness
+  title: Add testable shared runtime-evidence primitives
+  type: implementation
+  status: done
+  inventory_item: add-shared-runtime-evidence-harness
+  observable_outcome: Runtime scripts can share environment-derived URLs, viewports,
+    seeded authentication, browser-error collection, overflow checks, JSON writing,
+    and guaranteed browser cleanup, with pure helpers tested without a running stack.
+  dependencies:
+  - enforce-work-artifact-schema
+  evidence_boundary:
+  - runtime harness pure-helper tests
+  - frontend script syntax and tooling self-test
+  paths: &1
+  - apps/themuffinman/frontend/scripts/runtime-harness.mjs
+  - apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+  - apps/themuffinman/frontend/package.json
+  required_paths: *1
+  validation: node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+    && node --check apps/themuffinman/frontend/scripts/runtime-harness.mjs
+  started_at: '2026-07-31T13:52:36Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/runtime-harness.mjs: __missing__
+    apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs: __missing__
+    apps/themuffinman/frontend/package.json: 61b608af9ac937202a3b955687f3b4d184f77adcefbdb3b104dd08194c5d28bc
+- id: migrate-brand-header-runtime-pilot
+  title: Migrate and runtime-verify the brand-header pilot
+  type: implementation
+  status: done
+  inventory_item: migrate-brand-header-runtime-pilot
+  observable_outcome: The brand-header scenario uses the shared harness and still
+    produces passing desktop/mobile visibility, overflow, screenshot, and JSON evidence.
+  dependencies:
+  - add-shared-runtime-evidence-harness
+  evidence_boundary:
+  - frontend type-check/build
+  - fresh owned Chromium desktop/mobile evidence
+  paths: &2
+  - apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  required_paths: *2
+  requires_visual_evidence: true
+  visual_evidence_paths:
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  manual_runtime_command: node apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  runtime_evidence_paths:
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-31T13:53:17Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/scripts/brand-header-runtime.mjs: 90673b1e4975cf6f1c1ea582b2d4136ae1e557ac3d6514760af6123298d4afef
+    docs/runtime-evidence/brand-header-sand-desktop.png: f13a3c69687651b906f26e6c8cc4ba25e48ca2bd8ff7c7c919adbb5d0022a1c1
+    docs/runtime-evidence/brand-header-sand-mobile.png: b040926dfc9bef78669524d5d021e7f9d7d7c537bda7c0261730ba69677c9314
+    docs/runtime-evidence/brand-header-sand-runtime.json: 0e446197d2c2c96fcba945b5e2f2844f5842327e441834c9bdfd6cb5bb1b6204
+evidence:
+- task: add-shared-runtime-evidence-harness
+  command: node apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs &&
+    node --check apps/themuffinman/frontend/scripts/runtime-harness.mjs
+  ranAt: '2026-07-31T13:53:10Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/package.json
+  - apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+  - apps/themuffinman/frontend/scripts/runtime-harness.mjs
+  output: "Runtime harness self-test passed (URLs, viewports, browser errors, evidence
+    writing, and cleanup).\n\n"
+  startedAt: '2026-07-31T13:52:36Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/scripts/runtime-harness.mjs
+  - apps/themuffinman/frontend/scripts/runtime-harness-self-test.mjs
+  - apps/themuffinman/frontend/package.json
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: migrate-brand-header-runtime-pilot
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-31T13:55:50Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  output: |+
+    dist/assets/ThingsDiscoveryView-tY9J7Nfa.js                   10.52 kB │ gzip:   3.73 kB
+    dist/assets/RidesView-ekajqQKu.js                             13.31 kB │ gzip:   4.52 kB
+    dist/assets/WorkPage-B5lHuw8b.js                              13.36 kB │ gzip:   5.15 kB
+    dist/assets/BusinessServiceSchemaView-NHe2wtca.js             13.49 kB │ gzip:   4.55 kB
+    dist/assets/CirclesView-BIGqrRiW.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/CalendarPage-DQw1BcMo.js                          16.01 kB │ gzip:   5.40 kB
+    dist/assets/WorkQuestDetailView-BBV05_Dd.js                   17.52 kB │ gzip:   5.18 kB
+    dist/assets/HomeHubView-B418Gm7D.js                           20.24 kB │ gzip:   6.27 kB
+    dist/assets/BusinessPublicView-CzAzEbu_.js                    23.33 kB │ gzip:   7.67 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ChatSurfaceView-jV1JUwQV.js                       25.28 kB │ gzip:   8.40 kB
+    dist/assets/ProfilePage-KiM-uJM2.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-B1fe2tRt.js                35.36 kB │ gzip:  11.83 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BPd2jg7w.js                     53.79 kB │ gzip:  13.25 kB
+    dist/assets/index-DLkGd_q_.js                                 63.64 kB │ gzip:  15.81 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 615ms
+
+  startedAt: '2026-07-31T13:53:17Z'
+  changedAfterStart: &4
+  - apps/themuffinman/frontend/scripts/brand-header-runtime.mjs
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  - docs/runtime-evidence/brand-header-sand-runtime.json
+  requiredPaths: *4
+  visualEvidencePaths:
+  - docs/runtime-evidence/brand-header-sand-desktop.png
+  - docs/runtime-evidence/brand-header-sand-mobile.png
+  runtimeEvidencePaths:
+  - docs/runtime-evidence/brand-header-sand-runtime.json

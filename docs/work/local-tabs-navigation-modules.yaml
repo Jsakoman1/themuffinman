@@ -1,0 +1,160 @@
+kind: work
+version: 1
+id: local-tabs-navigation-modules
+title: Add local tabs to module content
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/local-tabs-navigation-master.yaml
+execution_inventory: docs/work/local-tabs-navigation-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-master.yaml
+  baseline_only_surfaces:
+  - module workflows
+  residual_scope:
+  - local tabs
+  retest_triggers:
+  - named module pages
+  non_duplication_rule: Existing flow evidence is baseline.
+tasks:
+- id: add-work-things-local-tabs
+  title: Add Work and Things local tabs
+  type: implementation
+  inventory_item: add-work-things-local-tabs
+  status: done
+  observable_outcome: Work and Things show their canonical subroutes as persistent
+    top tabs inside the module content.
+  dependencies:
+  - quiet-workspace-rail
+  evidence_boundary:
+  - frontend type-check/build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T18:18:54Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue: c1a33eb656a508486e433f10e16c02c1f4597314db2bd25fdf9031b8ace356ee
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: d6d48f6100db5421c80c3a289a1bdddc1657d0d56eae220efce40aae83d743bb
+    docs/product-memory.md: 4412fdb2a4a285c9c3947da5ba47fbccaa7a0c7e2589761b20624a2c99d9a317
+- id: add-people-rides-services-local-tabs
+  title: Add People, Rides, and Services local tabs
+  type: implementation
+  inventory_item: add-people-rides-services-local-tabs
+  status: done
+  observable_outcome: People, Rides, and Services expose their canonical subroutes
+    as persistent top tabs inside the module content.
+  dependencies:
+  - add-work-things-local-tabs
+  evidence_boundary:
+  - frontend type-check/build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T18:19:58Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue: 2c1759a37bfe9625cf47d3f53a7b343c35e443bcd19e2b6e66bd0c5385a757e7
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: 529f280bb14c304a2e32aae0cb280b3a5490b57995b0ba842100422de9ec6cb9
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue: c9ad5d78488fe966ec2d545387c66f318d94c8cba6a24fb85eab59ee58d6fb53
+    docs/product-memory.md: 8891fa8167cf92fa37f6d71ce83248ec81d5c6a036b2e2770b80fa19d73da12c
+evidence:
+- task: add-work-things-local-tabs
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T18:19:45Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/CalendarPage-CgYz54M0.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-C53tQkCY.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-DvO6aq-x.js                   13.48 kB │ gzip:   4.45 kB
+    dist/assets/BusinessPublicView-Ck0rA-2c.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-Bdx9RsEy.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-BYoqrtZ2.js                              16.10 kB │ gzip:   5.92 kB
+    dist/assets/WorkQuestDetailView-kusBOZbh.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-BMKzjSMB.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-D_waNSBM.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-Ccr7mwrY.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DwzYQHzZ.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BszN1eXn.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BhAJag-f.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-Bh65j2S9.js                                 62.84 kB │ gzip:  15.57 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 613ms
+
+  startedAt: '2026-07-29T18:18:54Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/product-memory.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: add-people-rides-services-local-tabs
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T18:22:01Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/CalendarPage-C2O49TEW.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-DowWfL-P.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-CJ1uFxQX.js                   13.48 kB │ gzip:   4.46 kB
+    dist/assets/BusinessPublicView-CC8tnRjg.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CQIN1B71.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-9LE7bh7H.js                              16.10 kB │ gzip:   5.92 kB
+    dist/assets/WorkQuestDetailView-C3hEQ3zj.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-DTHqUH2P.js                             17.40 kB │ gzip:   5.59 kB
+    dist/assets/ChatSurfaceView-lb-4QPeA.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-BB3ttbkv.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-v_SwUkuB.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-aeYTeKfm.js                35.14 kB │ gzip:  11.67 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-CsiN_jkR.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-Bf4e0h4O.js                                 62.85 kB │ gzip:  15.57 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 660ms
+
+  startedAt: '2026-07-29T18:19:58Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -47,6 +47,7 @@ class BusinessBookingPresentationServiceTest {
         assertEquals("Pending confirmation", result.getStatusLabel());
         assertEquals(2, result.getAllowedActions().size());
         assertEquals("CANCEL", result.getAllowedActions().getFirst().name());
+        assertEquals("The booking is cancelled and the other participant is notified.", result.getActions().getFirst().getOutcome());
         verify(businessBookingPolicyService).resolveEffectivePolicy(owner);
     }
 

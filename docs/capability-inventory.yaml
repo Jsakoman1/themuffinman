@@ -18,6 +18,10 @@ interaction_contract_audit:
   plan: docs/work/capability-inventory-audit.yaml
   scope: authenticated route ownership, backend read-model/action boundaries, and guarded desktop interaction expansion
   invariants:
+services_human_ux:
+  status: implemented
+  evidence: docs/work/services-human-ux-master.yaml
+  scope: Services discovery, public business mini-site, verified booking reviews, and calendar-led booking.
     - backend query parameters determine collection membership and authorization
     - client display state may not create permissions, workflow transitions, or shared persistence
     - preview complements but never replaces canonical detail routes

@@ -68,9 +68,11 @@ import type {
   NotificationPreferenceUpdateDTO,
   WorkspaceNavigationResponse,
   BusinessOfferingSchemaDTO,
+  BusinessOfferingSetupDTO,
   BusinessResourceConfigurationDTO,
   BusinessPublicQuoteDTO,
   BusinessAvailabilityWindowDTO,
+  BusinessPublicAvailabilityCalendarDTO,
   CalendarProjection,
 } from "../../../contracts/index.ts"
 
@@ -91,6 +93,8 @@ export type ProfileGalleryImageRequest = {
   sortOrder?: number
   active?: boolean
 }
+
+export type CalendarProjectionRequest = {from: string; to: string; sources?: string[]; businessId?: number; view?: "agenda" | "day" | "week" | "month"}
 
 export type BusinessFavorite = {
   id: number
@@ -117,7 +121,7 @@ export type SavedSearchIntent = {id: number; query: string; entityFamily: string
 export type SafetyReport = {id: number; targetFamily: string; targetId: number | null; reason: string; status: string; createdAt: string}
 export type OnboardingProgress = {id: number | null; currentStep: string; skipped: boolean; completed: boolean; updatedAt: string | null}
 export type ActivityItem = {kind: string; title: string; summary: string; route: string; primaryActionLabel: string; occurredAt: string; resumeKey: string | null; resumable: boolean}
-export type AttentionCenter = {unreadCount: number; items: ActivityItem[]}
+export type AttentionCenter = {unreadCount: number; items: import("../../../contracts/index.ts").QuestNewsItemResponseDTO[]}
 export type PersonalShortcut = {targetId: number; targetType: string; title: string; route: string}
 export type WorkspaceRailPreference = {railWidthPx: number}
 export type AppearancePreference = {theme: "SYSTEM" | "DARK" | "LIGHT"}
@@ -128,6 +132,8 @@ export const businessContextRoute = (businessProfileId: number) => ({path: "/bus
 export type WorkspaceCommandGroup = "personal" | "navigation" | "create" | "vision"
 export type GuidedIntakeStep = {fieldId: string; inputKind: string; label: string; placeholder: string; choices: string[]; currentValue?: string; valid: boolean; error?: string; nextAction: string; complete: boolean}
 export type GuidedIntakeResponse = {flow: string; step: GuidedIntakeStep; draft: Record<string, string>; reviewReady: boolean}
+export type WorkspaceHomeLauncherAction = {id: string; label: string; description: string; route: string; iconKey: string; colourRole: "work" | "share" | "book" | "ride" | "people"}
+export type WorkspaceHomeResponse = {contractVersion: "workspace-home-v1" | string; greetingName: string; launcherActions: WorkspaceHomeLauncherAction[]}
 
 const activeBusinessParams = (businessProfileId?: number) => {
   if (typeof businessProfileId === "number") return {businessProfileId}
@@ -146,7 +152,11 @@ export const setActiveBusinessProfileId = (profileId: number | null) => {
   else window.sessionStorage.setItem("activeBusinessProfileId", String(profileId))
 }
 
+// Legacy compatibility facade. Focused modules are the preferred import boundary.
 export const userShellApi = {
+  async getWorkspaceHome(signal?: AbortSignal): Promise<WorkspaceHomeResponse> {
+    return (await api.get<WorkspaceHomeResponse>("/workspace/home", {signal, ...withAuth()})).data
+  },
   async advanceGuidedIntake(request: {flow: string; draft?: Record<string, string>; fieldId?: string; fieldValue?: string; action?: string}): Promise<GuidedIntakeResponse> {
     return (await api.post<GuidedIntakeResponse>("/guided-intake/step", request, withAuth())).data
   },
@@ -370,6 +380,10 @@ export const userShellApi = {
     return (await api.patch<ActionResultDTO>(`/chat/conversations/${conversationId}/read`, upToMessageId ? {upToMessageId} : undefined, withAuth())).data
   },
 
+  async heartbeatChatPresence(): Promise<ActionResultDTO> {
+    return (await api.post<ActionResultDTO>("/chat/presence/heartbeat", undefined, withAuth())).data
+  },
+
   async updateChatMessage(conversationId: number, messageId: number, messageBody: string): Promise<ChatMessageDTO> {
     return (await api.patch<ChatMessageDTO>(`/chat/conversations/${conversationId}/messages/${messageId}`, {messageBody}, withAuth())).data
   },
@@ -478,6 +492,11 @@ export const userShellApi = {
     await api.delete(`/business/offerings/${offeringId}/me`, withAuth())
   },
 
+  async getBusinessOfferingSetup(businessProfileId = activeBusinessProfileId()): Promise<BusinessOfferingSetupDTO> {
+    if (!businessProfileId) throw new Error("Choose a business before configuring a service")
+    return (await api.get<BusinessOfferingSetupDTO>("/business/offerings/setup/me", {params: {businessProfileId}, ...withAuth()})).data
+  },
+
   async getBusinessOfferingSchema(offeringId: number): Promise<BusinessOfferingSchemaDTO> {
     return (await api.get<BusinessOfferingSchemaDTO>(`/business/offerings/${offeringId}/schema/me`, withAuth())).data
   },
@@ -547,6 +566,15 @@ export const userShellApi = {
   async getPublicAvailabilityForBusinessDate(slug: string, offeringId: number, date: string): Promise<{items: BusinessAvailabilityWindowDTO[]}> {
     return (await api.get(`/business/public/${encodeURIComponent(slug)}/availability/date`, {params: {offeringId, date}, ...withAuth()})).data
   },
+  async getPublicBusinessReviews(slug: string) {
+    return (await api.get<import("../../../contracts/index.ts").BusinessReviewListResponseDTO>(`/business/public/${encodeURIComponent(slug)}/reviews`, withAuth())).data
+  },
+  async saveBusinessReview(bookingId: number, request: import("../../../contracts/index.ts").BusinessReviewRequestDTO) {
+    return (await api.post(`/business/bookings/me/${bookingId}/review`, request, withAuth())).data
+  },
+  async getPublicAvailabilityCalendar(slug: string, offeringId: number, fromDate: string, days = 14, view = "MONTH"): Promise<BusinessPublicAvailabilityCalendarDTO> {
+    return (await api.get(`/business/public/${encodeURIComponent(slug)}/availability/calendar`, {params: {offeringId, fromDate, days, view}, ...withAuth()})).data
+  },
 
   async getBusinessFavorites(): Promise<BusinessFavorite[]> {
     return (await api.get<BusinessFavorite[]>("/business/favorites/me", withAuth())).data
@@ -586,7 +614,7 @@ export const userShellApi = {
   async getBusinessOwnerCalendar(businessProfileId = activeBusinessProfileId(), range: {from?: string; to?: string} = {}): Promise<BusinessOwnerCalendarProjectionDTO> {
     return (await api.get<BusinessOwnerCalendarProjectionDTO>("/business/bookings/owner/calendar", {params: {businessProfileId: businessProfileId ?? undefined, ...range}, ...withAuth()})).data
   },
-  async getCalendarProjection(range: {from: string; to: string; sources?: string[]; businessId?: number; view?: "agenda" | "day" | "week" | "month"}): Promise<CalendarProjection> {
+  async getCalendarProjection(range: CalendarProjectionRequest): Promise<CalendarProjection> {
     const scopeKey = `calendar:${range.businessId ?? "all"}:${range.from}:${range.to}:${(range.sources || []).slice().sort().join(",")}`
     return (await api.get<CalendarProjection>("/calendar", {params: {from: range.from, to: range.to, source: range.sources, businessId: range.businessId, view: range.view, scopeKey}, ...withAuth()})).data
   },

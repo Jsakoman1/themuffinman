@@ -1,0 +1,156 @@
+kind: execution-inventory
+version: 1
+id: app-wide-friendly-design-execution-inventory
+master_plan: docs/work/app-wide-friendly-design-master.yaml
+serial: true
+hardening_contract:
+  first_item: harden-app-wide-friendly-design-inventory
+  advancement_rule: No product task may start until the hardening task is verifier-verified
+    and every item maps to one child-plan task.
+  evidence_contract: Each changed surface produces a frontend build; desktop and mobile
+    visual audits add fresh light/dark screenshots and authenticated runtime JSON.
+  reviewed_on: 2026-07-29
+items:
+- id: harden-app-wide-friendly-design-inventory
+  sequence: 1
+  plan: docs/work/app-wide-friendly-design-atomic-hardening.yaml
+  task: harden-app-wide-friendly-design-inventory
+  status: verified
+  started_at: '2026-07-29T17:27:16Z'
+  verified_at: '2026-07-29T17:28:06Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-atomic-hardening.yaml
+    task: harden-app-wide-friendly-design-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: establish-friendly-collection-primitives
+  sequence: 2
+  plan: docs/work/app-wide-friendly-design-foundation.yaml
+  task: establish-friendly-collection-primitives
+  status: verified
+  started_at: '2026-07-29T17:28:17Z'
+  verified_at: '2026-07-29T17:29:33Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-foundation.yaml
+    task: establish-friendly-collection-primitives
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: simplify-work-and-things-discovery
+  sequence: 3
+  plan: docs/work/app-wide-friendly-design-marketplace.yaml
+  task: simplify-work-and-things-discovery
+  status: verified
+  started_at: '2026-07-29T17:29:53Z'
+  verified_at: '2026-07-29T17:32:43Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-marketplace.yaml
+    task: simplify-work-and-things-discovery
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: simplify-rides-route-flow
+  sequence: 4
+  plan: docs/work/app-wide-friendly-design-marketplace.yaml
+  task: simplify-rides-route-flow
+  status: verified
+  started_at: '2026-07-29T17:32:54Z'
+  verified_at: '2026-07-29T17:33:58Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-marketplace.yaml
+    task: simplify-rides-route-flow
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: clarify-people-and-circles-entry
+  sequence: 5
+  plan: docs/work/app-wide-friendly-design-personal.yaml
+  task: clarify-people-and-circles-entry
+  status: verified
+  started_at: '2026-07-29T17:34:10Z'
+  verified_at: '2026-07-29T17:36:20Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-personal.yaml
+    task: clarify-people-and-circles-entry
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: simplify-profile-activity-and-notifications
+  sequence: 6
+  plan: docs/work/app-wide-friendly-design-personal.yaml
+  task: simplify-profile-activity-and-notifications
+  status: verified
+  started_at: '2026-07-29T17:36:32Z'
+  verified_at: '2026-07-29T17:42:02Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-personal.yaml
+    task: simplify-profile-activity-and-notifications
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: adapt-calendar-to-agenda-first-mobile
+  sequence: 7
+  plan: docs/work/app-wide-friendly-design-context.yaml
+  task: adapt-calendar-to-agenda-first-mobile
+  status: verified
+  started_at: '2026-07-29T17:42:05Z'
+  verified_at: '2026-07-29T17:43:00Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-context.yaml
+    task: adapt-calendar-to-agenda-first-mobile
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: repair-chat-mobile-inbox-thread-flow
+  sequence: 8
+  plan: docs/work/app-wide-friendly-design-context.yaml
+  task: repair-chat-mobile-inbox-thread-flow
+  status: verified
+  started_at: '2026-07-29T17:43:05Z'
+  verified_at: '2026-07-29T17:43:27Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-context.yaml
+    task: repair-chat-mobile-inbox-thread-flow
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: simplify-business-and-service-discovery
+  sequence: 9
+  plan: docs/work/app-wide-friendly-design-context.yaml
+  task: simplify-business-and-service-discovery
+  status: verified
+  started_at: '2026-07-29T17:43:31Z'
+  verified_at: '2026-07-29T17:44:25Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-context.yaml
+    task: simplify-business-and-service-discovery
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: align-detail-and-creation-surfaces
+  sequence: 10
+  plan: docs/work/app-wide-friendly-design-detail.yaml
+  task: align-detail-and-creation-surfaces
+  status: verified
+  started_at: '2026-07-29T17:44:31Z'
+  verified_at: '2026-07-29T17:45:17Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-detail.yaml
+    task: align-detail-and-creation-surfaces
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-app-wide-friendly-design-desktop
+  sequence: 11
+  plan: docs/work/app-wide-friendly-design-closeout.yaml
+  task: audit-app-wide-friendly-design-desktop
+  status: verified
+  started_at: '2026-07-29T17:45:24Z'
+  verified_at: '2026-07-29T17:53:06Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-closeout.yaml
+    task: audit-app-wide-friendly-design-desktop
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: audit-app-wide-friendly-design-mobile
+  sequence: 12
+  plan: docs/work/app-wide-friendly-design-closeout.yaml
+  task: audit-app-wide-friendly-design-mobile
+  status: verified
+  started_at: '2026-07-29T17:53:10Z'
+  verified_at: '2026-07-29T17:55:19Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-closeout.yaml
+    task: audit-app-wide-friendly-design-mobile
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: close-app-wide-friendly-design-program
+  sequence: 13
+  plan: docs/work/app-wide-friendly-design-closeout.yaml
+  task: close-app-wide-friendly-design-program
+  status: verified
+  started_at: '2026-07-29T17:55:26Z'
+  verified_at: '2026-07-29T17:55:57Z'
+  evidence:
+    plan: docs/work/app-wide-friendly-design-closeout.yaml
+    task: close-app-wide-friendly-design-program
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

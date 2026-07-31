@@ -1,0 +1,105 @@
+kind: work
+version: 1
+id: developer-system-operational-readiness-tooling
+title: Formalize local-tool metadata and generated help
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-system-operational-readiness-master.yaml
+execution_inventory: docs/work/developer-system-operational-readiness-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - formalize-local-tool-catalog
+  catalog_count_is_discovered_not_hardcoded: true
+  help_is_generated_from_catalog: true
+  completion_authority: work verifier
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-quality-next-master.yaml
+  baseline_only_surfaces:
+  - current tool implementations and their validation authority
+  residual_scope:
+  - explicit tool metadata, help generation, and catalog-integrity checks
+  retest_triggers:
+  - tool, Make target, catalog schema, cost, side-effect, or ownership changes
+  non_duplication_rule: The catalog describes existing tools and does not create another
+    completion authority.
+tasks:
+- id: formalize-local-tool-catalog
+  title: Add explicit local-tool metadata and help
+  type: implementation
+  status: done
+  inventory_item: formalize-local-tool-catalog
+  observable_outcome: Every local tool is represented by explicit category, owner,
+    invocation, preconditions, mutation class, and expected-cost metadata, and `make
+    help` renders a compact deterministic view from that source.
+  dependencies:
+  - add-repository-validation-ci
+  evidence_boundary:
+  - catalog-to-files and catalog-to-Make integrity
+  - deterministic generated-help check
+  - tooling-only self-test
+  paths: &1
+  - docs/local-tool-catalog.yaml
+  - scripts/audits/audit-tool-catalog.rb
+  - scripts/tool-help.rb
+  - scripts/tool-self-test.rb
+  - Makefile
+  - docs/codex-fast-path.md
+  required_paths: *1
+  validation: ruby scripts/audits/audit-tool-catalog.rb --check && ruby scripts/tool-help.rb
+    --check && ruby scripts/tool-self-test.rb --tooling-only
+  started_at: '2026-07-31T14:20:40Z'
+  start_fingerprints:
+    docs/local-tool-catalog.yaml: __missing__
+    scripts/audits/audit-tool-catalog.rb: f82747c8f4c4bcfac8e03d760953af5bc3ccb41f12014f378f9108d66f07a1ce
+    scripts/tool-help.rb: __missing__
+    scripts/tool-self-test.rb: 5ad55850bc38ac59c197632aa29ee8ef6e333064edb7657c08a37d6e011c7bcc
+    Makefile: a882fd9259738fa3f92310fb7b4b536128e12b5bd4a61de916196311a3e386b2
+    docs/codex-fast-path.md: 117415e31281019f5b7935fa59c9995dfdd351a361be36865c46de18d8000f12
+evidence:
+- task: formalize-local-tool-catalog
+  command: ruby scripts/audits/audit-tool-catalog.rb --check && ruby scripts/tool-help.rb
+    --check && ruby scripts/tool-self-test.rb --tooling-only
+  ranAt: '2026-07-31T14:23:51Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - docs/codex-fast-path.md
+  - scripts/audits/audit-tool-catalog.rb
+  - scripts/tool-self-test.rb
+  - docs/local-tool-catalog.yaml
+  - scripts/tool-help.rb
+  output: |+
+    Tool catalog passed (74 tools, 5 categories, 12 help commands, 0 unreferenced).
+    Tool help check passed (12 catalog commands map to Make targets).
+    STAGE class=tool_mechanics id=ruby_syntax files=49
+    STAGE class=tool_mechanics id=frontend_script_syntax files=24
+    STAGE class=tool_mechanics id=yaml_parse files=276
+    STAGE class=tool_mechanics id=frontend_ast_index files=1
+    STAGE class=tool_mechanics id=repository_map files=1
+    STAGE class=tool_mechanics id=repository_map_query files=1
+    STAGE class=tool_mechanics id=tool_catalog files=1
+    STAGE class=tool_mechanics id=runtime_tools files=1
+    STAGE class=tool_mechanics id=context_search files=1
+    STAGE class=tool_mechanics id=change_validation files=1
+    STAGE class=tool_mechanics id=template_freshness files=1
+    STAGE class=tool_mechanics id=work_artifact_schema files=1
+    STAGE class=tool_mechanics id=tool_help files=1
+    Tool self-test passed (tooling-only; Ruby/Node syntax, YAML, AST, contracts, repository map, catalog, and bounded search).
+
+  startedAt: '2026-07-31T14:20:40Z'
+  changedAfterStart: &2
+  - docs/local-tool-catalog.yaml
+  - scripts/audits/audit-tool-catalog.rb
+  - scripts/tool-help.rb
+  - scripts/tool-self-test.rb
+  - Makefile
+  - docs/codex-fast-path.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

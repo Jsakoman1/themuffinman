@@ -1,0 +1,159 @@
+kind: work
+version: 1
+id: app-wide-friendly-design-marketplace
+title: Simplify Work, Things, and Rides browsing
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/app-wide-friendly-design-master.yaml
+execution_inventory: docs/work/app-wide-friendly-design-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-all-surfaces-master.yaml
+  baseline_only_surfaces:
+  - Work/Ride/Thing backend actions and canonical detail routes
+  residual_scope:
+  - discovery hierarchy
+  - duplicate CTA removal
+  - summary-card readability
+  - and mobile form disclosure
+  retest_triggers:
+  - WorkPage
+  - ThingsDiscoveryView
+  - RidesView
+  - or shared collection primitive changes
+  non_duplication_rule: Existing route behavior remains baseline; fresh proof covers
+    only the new presentation and responsive composition.
+tasks:
+- id: simplify-work-and-things-discovery
+  title: Simplify Work and Things discovery
+  type: implementation
+  status: done
+  inventory_item: simplify-work-and-things-discovery
+  observable_outcome: Work and Things each expose one clear primary creation/request
+    decision and readable scan-first discovery cards on desktop and mobile.
+  dependencies:
+  - establish-friendly-collection-primitives
+  evidence_boundary:
+  - frontend type-check/build
+  - authenticated Work/Things browser trace
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:29:53Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue: ee66b9ee6af0d402c5ebd049818bd4574bae4ba293224a01ec889d40865acb17
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: 6b35caaf8b1cd3d061c65b12f91ac0f55d0f05329e80ce62a2ae041dbd0a4e31
+    docs/product-memory.md: d708d9e9365b34b7a955dacbaa99f9efb6480e5baa210068951f1c01e245f15f
+- id: simplify-rides-route-flow
+  title: Simplify rides route flow
+  type: implementation
+  status: done
+  inventory_item: simplify-rides-route-flow
+  observable_outcome: Rides presents a route-first essential decision, leaves recurring
+    matching optional, and renders suggestions as readable consent-aware cards.
+  dependencies:
+  - simplify-work-and-things-discovery
+  evidence_boundary:
+  - frontend type-check/build
+  - authenticated Rides browser trace
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:32:54Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: f4ed103bdc8a118c5b61d661cb886c9d013b03aeaa3cca8ee4dfe8f483f6dec4
+    docs/product-memory.md: 8e7bf1b522618b237ee6a82be8b766fa95259a908984ba7380a2d6c944e7e33a
+evidence:
+- task: simplify-work-and-things-discovery
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:32:38Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/WorkQuestCreateView-BMNJAHEC.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-C1kKz_GL.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-CKZ2cjNF.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/CirclesView-CCl_pOi-.js                           15.31 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-DbKp98MG.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-DlWF87U2.js                              16.49 kB │ gzip:   6.04 kB
+    dist/assets/RidesView-DVMnpBsZ.js                             17.01 kB │ gzip:   5.48 kB
+    dist/assets/WorkQuestDetailView-DJNC0klw.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/ChatSurfaceView-DMlbViZo.js                       19.53 kB │ gzip:   6.31 kB
+    dist/assets/HomeHubView-D0NCbS-M.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-CBHB6U-K.js                           26.80 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-Bwc_r0jf.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BFRTS7Qs.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-DVx_fM92.js                                 62.69 kB │ gzip:  15.52 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 601ms
+
+  startedAt: '2026-07-29T17:29:53Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - docs/product-memory.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: simplify-rides-route-flow
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:33:53Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/WorkQuestCreateView-zFrukJSX.js                    9.14 kB │ gzip:   3.29 kB
+    dist/assets/ThingsDiscoveryView-CfkTJ7Wz.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-0zg6LEMa.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/CirclesView-B1mpWL-y.js                           15.31 kB │ gzip:   4.86 kB
+    dist/assets/BusinessPublicView-BnJpqvDS.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-lIMptSAi.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/WorkQuestDetailView-eFm5jUpU.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/RidesView-C-p3fVTy.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-DPJV3_a9.js                       19.53 kB │ gzip:   6.31 kB
+    dist/assets/HomeHubView-ONZ_QlVw.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-Bm7lWAr6.js                           26.80 kB │ gzip:   8.41 kB
+    dist/assets/AuthenticatedShellView-D3PhSNb2.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-D5dCKG_p.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-B1ldltbI.js                                 62.79 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 617ms
+
+  startedAt: '2026-07-29T17:32:54Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

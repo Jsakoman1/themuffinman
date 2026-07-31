@@ -1,0 +1,55 @@
+kind: master
+version: 1
+id: generic-preview-elimination
+title: Eliminate generic detail preview surfaces
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/generic-preview-elimination-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/generic-preview-elimination-atomic-hardening.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-web-experience-master.yaml
+  baseline_only_surfaces:
+  - backend permissions and action contracts
+  - canonical detail routes
+  - Chat inbox-thread split
+  - owner booking and owner application review workflows
+  residual_scope:
+  - generic ObjectPreviewPanel and CollectionContextRail remain in reachable Web surfaces
+  - detail-side utility rails make direct detail pages look like previews
+  - stale preview metadata and styles obscure the interaction contract
+  - no exhaustive regression check currently rejects the generic preview pattern
+  retest_triggers:
+  - changes to shared row, detail, calendar, or review components
+  - any new collection or detail view
+  non_duplication_rule: Prior human-first evidence is baseline-only; this program
+    records only removal and fresh regression evidence.
+children:
+- docs/work/generic-preview-elimination-atomic-hardening.yaml
+- docs/work/generic-preview-elimination-collections.yaml
+- docs/work/generic-preview-elimination-details.yaml
+- docs/work/generic-preview-elimination-exceptions.yaml
+- docs/work/generic-preview-elimination-closeout.yaml
+hardening_review:
+  verified_inventory:
+  - ObjectPreviewPanel
+  - CollectionContextRail
+  - DetailSurface
+  - DetailUtilityRail
+  - stale preview metadata
+  permitted_specialised_patterns:
+  - ReviewPane
+  - CalendarEventPopover
+  - Chat inbox-thread split
+evidence:
+- verifiedAt: '2026-07-30T04:59:16Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  children:
+  - docs/work/generic-preview-elimination-atomic-hardening.yaml
+  - docs/work/generic-preview-elimination-collections.yaml
+  - docs/work/generic-preview-elimination-details.yaml
+  - docs/work/generic-preview-elimination-exceptions.yaml
+  - docs/work/generic-preview-elimination-closeout.yaml

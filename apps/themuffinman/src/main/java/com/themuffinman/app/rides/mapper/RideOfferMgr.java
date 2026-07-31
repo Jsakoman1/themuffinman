@@ -1,6 +1,8 @@
 package com.themuffinman.app.rides.mapper;
 
 import com.themuffinman.app.common.validation.RichTextInputValidator;
+import com.themuffinman.app.common.dto.ClientActionDTO;
+import com.themuffinman.app.common.dto.ClientActionToneDTO;
 import com.themuffinman.app.rides.dto.RideOfferResponseDTO;
 import com.themuffinman.app.rides.dto.RideAllowedActionDTO;
 import com.themuffinman.app.rides.model.RideOffer;
@@ -57,6 +59,7 @@ public class RideOfferMgr {
                 .canLeave(canLeave)
                 .canManage(canManage)
                 .allowedActions(allowedActions)
+                .actions(toClientActions(allowedActions))
                 .updatedAt(offer.getUpdatedAt())
                 .startedAt(offer.getStartedAt())
                 .completedAt(offer.getCompletedAt())
@@ -65,5 +68,40 @@ public class RideOfferMgr {
                 .visibleCircleIds(offer.getVisibleCircles().stream().map(CircleGroup::getId).sorted().toList())
                 .createdAt(offer.getCreatedAt())
                 .build();
+    }
+
+    private List<ClientActionDTO> toClientActions(List<RideAllowedActionDTO> allowedActions) {
+        return allowedActions.stream().map(action -> {
+            boolean destructive = action == RideAllowedActionDTO.CANCEL;
+            String label = switch (action) {
+                case EDIT -> "Edit ride";
+                case JOIN -> "Join ride";
+                case LEAVE -> "Leave ride";
+                case START -> "Start ride";
+                case COMPLETE -> "Complete ride";
+                case CANCEL -> "Cancel ride";
+            };
+            return ClientActionDTO.builder()
+                    .id(action.name())
+                    .label(label)
+                    .tone(destructive ? ClientActionToneDTO.DANGER : action == RideAllowedActionDTO.EDIT || action == RideAllowedActionDTO.LEAVE ? ClientActionToneDTO.SECONDARY : ClientActionToneDTO.PRIMARY)
+                    .enabled(true)
+                    .requiresConfirmation(action == RideAllowedActionDTO.START || action == RideAllowedActionDTO.COMPLETE || destructive)
+                    .confirmationTitle(label)
+                    .confirmationMessage(label + "?")
+                    .outcome(actionOutcome(action))
+                    .build();
+        }).toList();
+    }
+
+    private String actionOutcome(RideAllowedActionDTO action) {
+        return switch (action) {
+            case EDIT -> "Your changes are shared with everyone who can see this ride.";
+            case JOIN -> "Your seat is reserved and the driver can see you are joining.";
+            case LEAVE -> "Your seat becomes available for someone else.";
+            case START -> "Participants can see that the journey is in progress.";
+            case COMPLETE -> "The ride is recorded as completed.";
+            case CANCEL -> "The ride is cancelled and participants are notified.";
+        };
     }
 }

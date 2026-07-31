@@ -15,5 +15,6 @@ public class CalendarProjectionDTO {
     private String rangeKind;
     private String timezone;
     private List<String> availableSources;
+    private List<CalendarSourceDTO> sources;
     private List<CalendarEventDTO> events;
 }

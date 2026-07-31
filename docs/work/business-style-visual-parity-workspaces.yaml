@@ -1,0 +1,198 @@
+kind: work
+version: 1
+id: business-style-visual-parity-workspaces
+title: Align collection and planning workspaces with Business hierarchy
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/business-style-visual-parity-master.yaml
+execution_inventory: docs/work/business-style-visual-parity-execution-inventory.yaml
+execution_readiness:
+  atomic_contract_checked: true
+  inventory_items:
+  - align-collection-workspaces
+  - align-contextual-planning-workspaces
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/app-wide-friendly-design-marketplace.yaml
+  - docs/work/app-wide-friendly-design-context.yaml
+  baseline_only_surfaces:
+  - backend result collections
+  - booking
+  - borrow
+  - ride
+  - and chat actions
+  residual_scope:
+  - visual hierarchy and preview composition only
+  retest_triggers:
+  - named workspace view layout or shared primitive changes
+  non_duplication_rule: Existing collection workflow evidence is baseline; this plan
+    proves only new visual parity.
+tasks:
+- id: align-collection-workspaces
+  title: Align discovery and collection workspaces
+  type: implementation
+  status: done
+  inventory_item: align-collection-workspaces
+  observable_outcome: Work, Things, Rides, Services, and People discovery use the
+    same local-navigation, purpose-header, next-action, and list/preview rhythm as
+    Business without duplicating tabs or changing backend actions.
+  dependencies:
+  - unify-shared-orientation-grammar
+  evidence_boundary:
+  - frontend type-check/build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:05:34Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue: 95161e7536e16d706a2f5148e209edc1d5fa650d938ef3986debecb64ec0d04d
+    apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue: 842ac54ce6ab18436cf916621139e94a5dc573eb62dcc705577d5d245bd466ef
+    apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue: d82709e6aec8dfd173a4b13055133b2c645dd30f237cb8816be11042bbd0192c
+    apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue: 8ada34b30124daf96c869027a854221548009d38e944f45711ddd487568b9e22
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue: f343d3d6a4764ad9db58cbc94e9a22a9cbc7a48d6476aa45839a116b51f9ac27
+    apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue: 527a836c083fed21f522cb71a49cea9bf60ab288fa45e21f6db3965e7ef143b1
+- id: align-contextual-planning-workspaces
+  title: Align planning and personal workspaces
+  type: implementation
+  status: done
+  inventory_item: align-contextual-planning-workspaces
+  observable_outcome: Calendar, Chat, Profile, Activity, Notifications, and Circles
+    retain their domain-specific controls while adopting the same first-view hierarchy,
+    warm context treatment, and mobile density as the Business workspace.
+  dependencies:
+  - align-collection-workspaces
+  evidence_boundary:
+  - frontend type-check/build
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:07:48Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: 1d23ddd7caa6afc05135224a84117285e04d1d67c16b028ee6ae0e45f4e3e087
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 9d9ffa0e546d9a3857608683cf6ce1c43561b2902efe4dd8f7586008d956d9f9
+    apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue: 8ad710ce89b0eed5402d737044305ebe71978ff81c6f4c1f345d61e928779a50
+    apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue: f90daefd71eb1c6aa47cd9184aae2c3cc037cc4f80b0cc9cddc6c8c57b70c9a2
+    apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue: c39186d23b74b3a19d08d894d3bd88e4079b51717b6c2e8674dd1c27bb5d949e
+    apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue: 62c065b36de32e49f55a61ac52fb8509617990df277eb92787480a4b0d75b0c2
+evidence:
+- task: align-collection-workspaces
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:07:20Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  output: |+
+    dist/assets/CalendarPage-CxAMYQwH.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-CPyrOGuJ.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-uxfNPA3d.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-BwF-gID6.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-CT-Bj_cG.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-Ct2zIGez.js                              16.17 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-DUwX2n70.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-B38x7Vv1.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-kDhktFk0.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-Bl-5a7U8.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-eBMlu0i-.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-BWKjdPvm.js                35.43 kB │ gzip:  11.78 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-DGvJJ48h.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-B2FhgXAP.js                                 62.84 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 546ms
+
+  startedAt: '2026-07-29T19:05:34Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/WorkDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ThingsDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/RidesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/PeopleDiscoveryView.vue
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: align-contextual-planning-workspaces
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:10:37Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  output: |+
+    dist/assets/CalendarPage-Dfj1FJAS.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-DHOLRA6J.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/ThingsDiscoveryView-C6cjW30N.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-tyHiHEH8.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/CirclesView-BDrrdsMy.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-BCCyPaV-.js                              16.17 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-U1t_PabT.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-oxOncAbf.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-Dk-mG8ee.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-BaBj8bIu.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-C9KG5E0D.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-eNcAHSU4.js                35.43 kB │ gzip:  11.78 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Bk2_IwJU.js                     57.90 kB │ gzip:  13.98 kB
+    dist/assets/index-D2k_zU1f.js                                 62.84 kB │ gzip:  15.58 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 641ms
+
+  startedAt: '2026-07-29T19:07:48Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ProfilePage.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ActivityView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/NotificationsView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CirclesView.vue
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

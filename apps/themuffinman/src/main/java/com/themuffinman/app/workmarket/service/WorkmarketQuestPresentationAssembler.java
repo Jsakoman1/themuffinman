@@ -48,6 +48,10 @@ public class WorkmarketQuestPresentationAssembler {
     }
 
     public QuestPresentationDTO buildPresentation(Quest quest, QuestResponseDTO questResponse, AppUser currentUser) {
+        return buildPresentation(quest, questResponse, currentUser, 0);
+    }
+
+    public QuestPresentationDTO buildPresentation(Quest quest, QuestResponseDTO questResponse, AppUser currentUser, int pendingApplicationCount) {
         boolean canStart = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.START);
         boolean canComplete = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.COMPLETE);
         boolean canRespondToTermChange = questResponse.getAllowedActions().contains(QuestAllowedActionDTO.CONFIRM_TERM_CHANGE)
@@ -97,13 +101,17 @@ public class WorkmarketQuestPresentationAssembler {
                         ? QuestDetailExecutionActionDTO.START
                         : (canComplete ? QuestDetailExecutionActionDTO.COMPLETE : null))
                 .executionHelperText(questResponse.getViewerRelation() == QuestViewerRelationDTO.APPROVED_APPLICANT
-                        ? "You are the approved applicant for this quest."
+                        ? "You are selected to help with this SideJob."
                         : null)
+                .nextActionLabel(resolveNextActionLabel(questResponse, canViewApplications))
+                .nextActionOutcome(resolveNextActionOutcome(questResponse, canViewApplications))
+                .attentionLabel(resolveAttentionLabel(questResponse, canViewApplications, pendingApplicationCount))
                 .build();
     }
 
     private QuestPresentationDTO.QuestPresentationDTOBuilder baseBuilder(Quest quest, AppUser currentUser) {
         return QuestPresentationDTO.builder()
+                .sideJobLabel("SideJob")
                 .statusLabel(presentationHelper.formatQuestStatus(quest.getStatus()))
                 .statusBadgeClass(presentationHelper.badgeClassForQuestStatus(quest.getStatus()))
                 .statusSurfaceClass(presentationHelper.surfaceClassForQuestStatus(quest.getStatus()))
@@ -116,6 +124,8 @@ public class WorkmarketQuestPresentationAssembler {
                 .assigneeTargetLabel(presentationHelper.formatAssigneeTarget(quest.getAssigneeTarget()))
                 .suggestedApplicationPrice(suggestedApplicationPrice(quest.getAwardAmount()))
                 .applicationDraftRules(buildApplicationDraftRules(quest.getAwardAmount()))
+                .rewardLabel(isFreeQuest(quest.getAwardAmount()) ? "Volunteer" : "Paid")
+                .commitmentLabel(presentationHelper.formatAssigneeTarget(quest.getAssigneeTarget()))
                 .slotProgressLabel(null)
                 .remainingSlotsLabel(null)
                 .approvedApplicantsVisible(false)
@@ -124,6 +134,29 @@ public class WorkmarketQuestPresentationAssembler {
                 .termChangeConfirmLabel(null)
                 .termChangeRejectLabel(null)
                 .visibleToCirclesLabel(null);
+    }
+
+    private String resolveNextActionLabel(QuestResponseDTO response, boolean canViewApplications) {
+        if (response.getAllowedActions().contains(QuestAllowedActionDTO.APPLY)) return "Offer to help";
+        if (canViewApplications) return "Review requests";
+        if (response.getMyApplicationId() != null) return "View your request";
+        return "View SideJob";
+    }
+
+    private String resolveNextActionOutcome(QuestResponseDTO response, boolean canViewApplications) {
+        if (response.getAllowedActions().contains(QuestAllowedActionDTO.APPLY)) return "The owner receives your request to help. Nothing is confirmed yet.";
+        if (canViewApplications) return "Review requests and choose the person who will help.";
+        if (response.getMyApplicationId() != null) return "See your submitted request and any action still available.";
+        return "Review the SideJob details before deciding.";
+    }
+
+    private String resolveAttentionLabel(QuestResponseDTO response, boolean canViewApplications, int pendingApplicationCount) {
+        if (canViewApplications && pendingApplicationCount > 0) {
+            return pendingApplicationCount == 1 ? "1 request needs your review" : pendingApplicationCount + " requests need your review";
+        }
+        if (response.getViewerRelation() == QuestViewerRelationDTO.APPROVED_APPLICANT) return "You are selected to help";
+        if (response.isHasApplied() && response.getStatus() == QuestStatus.OPEN) return "Waiting for the owner's reply";
+        return null;
     }
 
     private QuestApplicationDraftRulesViewDTO buildApplicationDraftRules(BigDecimal awardAmount) {

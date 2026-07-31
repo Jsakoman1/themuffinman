@@ -4,6 +4,8 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  // Runtime branding is a frontend asset; reference source assets remain in docs.
+  publicDir: "public",
   build: {
     rollupOptions: {
       output: {

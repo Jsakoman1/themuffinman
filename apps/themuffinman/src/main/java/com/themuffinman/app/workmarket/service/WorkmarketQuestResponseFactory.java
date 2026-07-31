@@ -33,6 +33,9 @@ public class WorkmarketQuestResponseFactory {
         int approvedApplicationCount = Math.toIntExact(
                 questApplicationRepository.countByQuestIdAndStatus(quest.getId(), QuestApplicationStatus.APPROVED)
         );
+        int pendingApplicationCount = canViewApplications
+                ? Math.toIntExact(questApplicationRepository.countByQuestIdAndStatus(quest.getId(), QuestApplicationStatus.PENDING))
+                : 0;
         int remainingAssigneeSlots = Math.max(workerTarget - approvedApplicationCount, 0);
 
         response = questMgr.withViewerContext(
@@ -45,7 +48,7 @@ public class WorkmarketQuestResponseFactory {
         );
         response.setApprovedApplicationCount(approvedApplicationCount);
         response.setRemainingAssigneeSlots(remainingAssigneeSlots);
-        response.setPresentation(questPresentationAssembler.buildPresentation(quest, response, currentUser));
+        response.setPresentation(questPresentationAssembler.buildPresentation(quest, response, currentUser, pendingApplicationCount));
         return response;
     }
 

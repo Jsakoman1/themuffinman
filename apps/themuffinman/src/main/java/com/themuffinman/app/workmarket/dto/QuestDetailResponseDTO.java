@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestDetailResponseDTO {
+    private String sideJobLabel;
     private QuestResponseDTO summary;
     private QuestDetailSectionsDTO sections;
     private QuestResponseDTO quest;

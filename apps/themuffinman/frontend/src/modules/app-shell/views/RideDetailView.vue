@@ -7,6 +7,7 @@ import {ridesApi} from "../../rides/api/ridesApi.ts"
 import AppStatus from "../components/AppStatus.vue"
 import AppButton from "../components/AppButton.vue"
 import DetailSurface from "../components/DetailSurface.vue"
+// Full ride details keep permitted actions in the main reading flow.
 import DetailUtilityRail from "../components/DetailUtilityRail.vue"
 import DetailSurfaceHeader from "../components/DetailSurfaceHeader.vue"
 
@@ -38,6 +39,17 @@ const run = async (label: string, action: () => Promise<RideOfferResponseDTO>) =
 watch(rideId, () => void load())
 onMounted(() => void load())
 </script>
+<style scoped>
+.ride-detail__trust{border-top-color:var(--orientation-line)}
+
+.ride-detail{display:grid;gap:var(--space-3)}.ride-detail__back{justify-self:start;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-1) var(--space-2);background:transparent;color:var(--text-muted);font:inherit;font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold);cursor:pointer}.ride-detail__header{padding:var(--space-4) var(--space-5)}.ride-detail__header p{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.ride-detail__header h1{margin:0;color:var(--text);font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.ride-detail__facts{display:grid;gap:var(--space-2);margin:0}.ride-detail__facts div{display:flex;justify-content:space-between;gap:var(--space-3);padding-bottom:var(--space-2);border-bottom:1px solid var(--border-subtle)}.ride-detail__facts dt{color:var(--text-soft);font-size:var(--text-size-meta)}.ride-detail__facts dd{margin:0;color:var(--text);font-size:var(--text-size-body);text-align:right}.ride-detail__note{margin:var(--space-4) 0 0;color:var(--text-muted);line-height:1.5}.ride-detail :deep(.detail-utility-rail button){width:calc(100% - 2 * var(--space-3));margin:var(--space-3);min-height:var(--control-height-default);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--surface-base);color:var(--text);font:inherit;font-weight:var(--text-weight-semibold);cursor:pointer}.ride-detail :deep(.detail-utility-rail .ride-detail__danger){color:var(--danger)}
+
+.ride-detail__back:hover { border-color: var(--border-strong); background: var(--surface-hover); color: var(--text); }
+.ride-detail :deep(.detail-utility-rail button:hover) { border-color: var(--border-strong); background: var(--surface-hover); }
+.ride-detail :deep(.detail-utility-rail .ride-detail__danger:hover) { border-color: var(--danger); background: var(--danger-muted); }
+.ride-detail__trust { display:grid; gap:var(--space-1); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
+.ride-detail__trust strong { color:var(--text); }
+</style>
 
 <template>
   <section class="ride-detail">
@@ -56,13 +68,4 @@ onMounted(() => void load())
   </section>
 </template>
 
-<style scoped>
-.ride-detail{display:grid;gap:var(--space-3)}.ride-detail__back{justify-self:start;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-1) var(--space-2);background:transparent;color:var(--text-muted);font:inherit;font-size:var(--text-size-meta);font-weight:var(--text-weight-semibold);cursor:pointer}.ride-detail__header{padding:var(--space-4) var(--space-5)}.ride-detail__header p{margin:0 0 var(--space-1);color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.ride-detail__header h1{margin:0;color:var(--text);font-size:var(--text-size-page-title);letter-spacing:var(--tracking-tight)}.ride-detail__facts{display:grid;gap:var(--space-2);margin:0}.ride-detail__facts div{display:flex;justify-content:space-between;gap:var(--space-3);padding-bottom:var(--space-2);border-bottom:1px solid var(--border-subtle)}.ride-detail__facts dt{color:var(--text-soft);font-size:var(--text-size-meta)}.ride-detail__facts dd{margin:0;color:var(--text);font-size:var(--text-size-body);text-align:right}.ride-detail__note{margin:var(--space-4) 0 0;color:var(--text-muted);line-height:1.5}.ride-detail :deep(.detail-utility-rail button){width:calc(100% - 2 * var(--space-3));margin:var(--space-3);min-height:var(--control-height-default);border:1px solid var(--control-border);border-radius:var(--radius-control);background:var(--surface-base);color:var(--text);font:inherit;font-weight:var(--text-weight-semibold);cursor:pointer}.ride-detail :deep(.detail-utility-rail .ride-detail__danger){color:var(--danger)}
-</style>
-<style scoped>
-.ride-detail__back:hover { border-color: var(--border-strong); background: var(--surface-hover); color: var(--text); }
-.ride-detail :deep(.detail-utility-rail button:hover) { border-color: var(--border-strong); background: var(--surface-hover); }
-.ride-detail :deep(.detail-utility-rail .ride-detail__danger:hover) { border-color: var(--danger); background: var(--danger-muted); }
-.ride-detail__trust { display:grid; gap:var(--space-1); padding:var(--space-3); border:1px solid var(--border-subtle); border-radius:var(--radius-surface); background:var(--surface-raised); color:var(--text-muted); }
-.ride-detail__trust strong { color:var(--text); }
-</style>
+

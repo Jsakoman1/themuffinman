@@ -27,8 +27,8 @@ onMounted(() => advance("start"))
 </script>
 
 <template>
-  <section class="guided-intake" aria-live="polite">
-    <header><p class="guided-intake__eyebrow">Guided setup</p><h2>{{ title || "Let's do this one step at a time" }}</h2><p>{{ description || "The backend will guide the next useful question; you only decide the next step." }}</p></header>
+  <section class="guided-intake" data-archetype="guided-setup" aria-live="polite">
+    <header><p class="guided-intake__eyebrow">Guided setup</p><h2>{{ title || "Let's do this one step at a time" }}</h2><p>{{ description || "We will ask only for the information needed to prepare your draft." }}</p></header>
     <div v-if="loading && !step" class="guided-intake__status">Loading the first step…</div>
     <form v-else-if="step && !step.complete" @submit.prevent="advance()">
       <AppFormField :label="step.label" :hint="step.placeholder" required>
@@ -37,13 +37,14 @@ onMounted(() => advance("start"))
         <input v-else v-model="value" :type="step.inputKind === 'number' ? 'number' : step.inputKind === 'datetime-local' ? 'datetime-local' : 'text'" :placeholder="step.placeholder" />
       </AppFormField>
       <p v-if="error" class="guided-intake__error" role="alert">{{ error }}</p>
-      <footer><AppButton type="button" tone="quiet" @click="emit('cancel')">Cancel</AppButton><AppButton type="button" tone="secondary" @click="advance('back')">Back</AppButton><span class="guided-intake__progress">{{ Object.keys(draft).length }} completed</span><AppButton type="submit" tone="primary" :loading="loading">Next</AppButton></footer>
+      <footer><AppButton type="button" tone="quiet" @click="emit('cancel')">Cancel</AppButton><AppButton type="button" tone="secondary" @click="advance('back')">Back</AppButton><span class="guided-intake__progress">{{ Object.keys(draft).length }} answers saved</span><AppButton type="submit" tone="primary" :loading="loading">Continue</AppButton></footer>
     </form>
-    <div v-else class="guided-intake__review"><h3>Review ready</h3><p>All guided fields are complete. Review the summary before creating.</p><AppButton type="button" tone="secondary" @click="emit('cancel')">Cancel</AppButton></div>
+    <div v-else class="guided-intake__review"><h3>Your draft is ready to review</h3><p>Nothing has been posted yet. Check the details, then publish when you are ready.</p><AppButton type="button" tone="secondary" @click="emit('cancel')">Cancel</AppButton></div>
   </section>
 </template>
 
 <style scoped>
 .guided-intake{display:grid;gap:var(--space-4);max-width:44rem;padding:var(--space-5);border:1px solid var(--border-subtle);border-radius:var(--radius-surface);background:var(--surface-raised)}
 .guided-intake header{display:grid;gap:var(--space-1)}.guided-intake h2,.guided-intake h3,.guided-intake p{margin:0}.guided-intake__eyebrow{color:var(--text-soft);font-size:var(--text-size-label);font-weight:var(--text-weight-semibold);letter-spacing:var(--tracking-label);text-transform:uppercase}.guided-intake header p:last-child{color:var(--text-muted);font-size:var(--text-size-body)}.guided-intake input,.guided-intake textarea,.guided-intake select{width:100%;border:1px solid var(--control-border);border-radius:var(--radius-control);padding:var(--space-2);background:var(--control-bg);color:var(--text);font:inherit}.guided-intake textarea{resize:vertical}.guided-intake footer{display:flex;align-items:center;justify-content:space-between;gap:var(--space-2)}.guided-intake__progress{color:var(--text-muted);font-size:var(--text-size-meta)}.guided-intake__error{color:var(--danger);font-size:var(--text-size-body)}.guided-intake__status{color:var(--text-muted)}
+.guided-intake{border-radius:calc(var(--radius-surface) + .2rem);background:var(--surface-muted)}.guided-intake header{padding-bottom:var(--space-2);border-bottom:1px solid var(--border-subtle)}
 </style>

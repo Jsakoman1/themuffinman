@@ -1,0 +1,122 @@
+kind: work
+version: 1
+id: developer-tooling-intellij-mcp-context
+title: Make local repository context compact and intent-aware
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-intellij-mcp-master.yaml
+execution_inventory: docs/work/developer-tooling-intellij-mcp-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - compact-repository-map-query
+  - add-intent-aware-context-search
+  shared_path_rule: scripts/tool-self-test.rb changes once per serial task after a
+    fresh verifier start snapshot.
+  output_boundary: Query and context fixtures must remain within their declared byte
+    budgets and must not serialize the global map in compact mode.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - repository AST generation and full-map write mode
+  - canonical documentation and source content
+  residual_scope:
+  - compact symbol query response
+  - bounded intent-aware context ranking
+  retest_triggers:
+  - repository-map query schema, AST matching, or context-search ranking changes
+  non_duplication_rule: Existing AST and fixed-string search behavior is baseline;
+    only new bounded query and intent behavior counts as completion.
+tasks:
+- id: compact-repository-map-query
+  title: Return only bounded matches from repository-map queries
+  type: implementation
+  status: done
+  inventory_item: compact-repository-map-query
+  observable_outcome: A symbol query returns a compact result envelope containing
+    summary counts and exact frontend/backend/capability matches without serializing
+    the global AST or import graph.
+  dependencies:
+  - harden-developer-tooling-intellij-mcp-inventory
+  evidence_boundary:
+  - deterministic compact-query assertions
+  - maximum-output fixture assertion
+  paths: &1
+  - scripts/repository-map.rb
+  - scripts/tool-self-test.rb
+  required_paths: *1
+  validation: ruby -c scripts/repository-map.rb && ruby scripts/repository-map.rb
+    --query WorkspaceNavigationService --max-output 20000 | ruby -rjson -e 'payload
+    = JSON.parse(STDIN.read); abort "missing match" if payload.dig("matches", "backend").to_a.empty?;
+    abort "global AST leaked" if payload.key?("frontend_ast")'
+  started_at: '2026-07-31T13:15:20Z'
+  start_fingerprints:
+    scripts/repository-map.rb: d1dfcd31afface9d77433a6d9a0fc00605e8936158c7f4b5ae03d0dbb260a658
+    scripts/tool-self-test.rb: 983bc9c30e276ca247b84da62da2b1c52a3d850bddaa258c082ccca212b70d1f
+- id: add-intent-aware-context-search
+  title: Add bounded symbol, callsite, and canonical-document context modes
+  type: implementation
+  status: done
+  inventory_item: add-intent-aware-context-search
+  observable_outcome: Context search accepts an explicit intent mode, reports its
+    ranking rationale, preserves exclusions, and never exceeds the requested output
+    budget.
+  dependencies:
+  - compact-repository-map-query
+  evidence_boundary:
+  - deterministic mode-ranking assertions
+  - output-budget and exclusion assertions
+  paths: &2
+  - scripts/context-search.rb
+  - scripts/tool-self-test.rb
+  required_paths: *2
+  validation: ruby -c scripts/context-search.rb && ruby scripts/context-search.rb
+    --mode symbol --budget 2048 WorkspaceNavigationService | ruby -e 'text = STDIN.read;
+    abort "budget exceeded" if text.bytesize > 2300; abort "mode missing" unless text.include?("symbol")'
+  started_at: '2026-07-31T13:16:23Z'
+  start_fingerprints:
+    scripts/context-search.rb: d7569fa6caef364c44dc2e1a5e0066fdc800ec1442300e9d648a551121ea0cbb
+    scripts/tool-self-test.rb: df32742b8e3a49fa702e5876bc2529fda94863ca58f260c2f51e51b0bdf54073
+evidence:
+- task: compact-repository-map-query
+  command: ruby -c scripts/repository-map.rb && ruby scripts/repository-map.rb --query
+    WorkspaceNavigationService --max-output 20000 | ruby -rjson -e 'payload = JSON.parse(STDIN.read);
+    abort "missing match" if payload.dig("matches", "backend").to_a.empty?; abort
+    "global AST leaked" if payload.key?("frontend_ast")'
+  ranAt: '2026-07-31T13:16:15Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/repository-map.rb
+  - scripts/tool-self-test.rb
+  output: "Syntax OK\n\n"
+  startedAt: '2026-07-31T13:15:20Z'
+  changedAfterStart: &3
+  - scripts/repository-map.rb
+  - scripts/tool-self-test.rb
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: add-intent-aware-context-search
+  command: ruby -c scripts/context-search.rb && ruby scripts/context-search.rb --mode
+    symbol --budget 2048 WorkspaceNavigationService | ruby -e 'text = STDIN.read;
+    abort "budget exceeded" if text.bytesize > 2300; abort "mode missing" unless text.include?("symbol")'
+  ranAt: '2026-07-31T13:17:05Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/context-search.rb
+  - scripts/tool-self-test.rb
+  output: "Syntax OK\n\n"
+  startedAt: '2026-07-31T13:16:23Z'
+  changedAfterStart: &4
+  - scripts/context-search.rb
+  - scripts/tool-self-test.rb
+  requiredPaths: *4
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

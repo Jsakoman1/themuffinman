@@ -19,11 +19,11 @@ export type ModuleTabDefinition = {
 export const moduleTabRegistry: Readonly<Record<string, ModuleTabDefinition>> = {
   work: {
     moduleId: "work",
-    title: "Work",
+    title: "SideJobs",
     tabs: [
-      {id: "discover", label: "Find work", route: "/work/find", backendScope: "work.discover", emptyState: "No work is available yet.", primaryAction: "Create a work offer"},
-      {id: "mine", label: "My work", route: "/work/quests", backendScope: "work.mine", emptyState: "You do not own any work yet.", primaryAction: "Create a work offer"},
-      {id: "applications", label: "My applications", route: "/work/applications", backendScope: "work.applications", emptyState: "You have no applications yet."}
+      {id: "discover", label: "Find SideJobs", route: "/work/find", backendScope: "work.discover", emptyState: "No SideJobs are available yet.", primaryAction: "Post a SideJob"},
+      {id: "mine", label: "My SideJobs", route: "/work/quests", backendScope: "work.mine", emptyState: "You have not posted a SideJob yet.", primaryAction: "Post a SideJob"},
+      {id: "applications", label: "My activity", route: "/work/applications", backendScope: "work.applications", emptyState: "You have no SideJob activity yet."}
     ]
   },
   business: {
@@ -37,7 +37,8 @@ export const moduleTabRegistry: Readonly<Record<string, ModuleTabDefinition>> = 
     moduleId: "services",
     title: "Services",
     tabs: [
-      {id: "find", label: "Find service", route: "/business/find", backendScope: "business.discover", emptyState: "No businesses match this search.", primaryAction: "Search services"}
+      {id: "find", label: "Find service", route: "/business/find", backendScope: "business.discover", emptyState: "No businesses match this search.", primaryAction: "Search services"},
+      {id: "favorites", label: "Favorites", route: "/business/favorites", backendScope: "business.favorites", emptyState: "You have no favorite businesses yet."}
     ]
   },
   share: {
@@ -69,6 +70,6 @@ export const moduleTabRegistry: Readonly<Record<string, ModuleTabDefinition>> = 
 }
 
 export function getModuleTabs(moduleId: string): ModuleTabDefinition | undefined {
-  // Work uses one canonical vocabulary: Find work, My work, My applications.
+  // SideJobs uses one canonical vocabulary: find, post, and personal activity.
   return moduleTabRegistry[moduleId]
 }

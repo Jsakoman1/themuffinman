@@ -1,0 +1,94 @@
+kind: work
+version: 1
+id: app-wide-friendly-design-atomic-hardening
+title: Harden the app-wide friendly design execution inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/app-wide-friendly-design-master.yaml
+execution_inventory: docs/work/app-wide-friendly-design-execution-inventory.yaml
+hardening_review:
+  inventory_item_count: 13
+  audited_on: 2026-07-29
+  required_task_properties:
+  - inventory_item
+  - observable_outcome
+  - dependencies
+  - required_paths
+  - validation
+  - evidence_boundary
+  visual_evidence_policy: Desktop and mobile audit atoms each require new light/dark
+    screenshots and authenticated runtime JSON.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/friendly-launcher-design-master.yaml
+  baseline_only_surfaces:
+  - existing verified route workflows
+  residual_scope:
+  - atomic path
+  - dependency
+  - validation
+  - and evidence review
+  retest_triggers:
+  - any inventory or child-plan change before product implementation
+  non_duplication_rule: This task proves plan readiness only and does not claim product
+    implementation.
+tasks:
+- id: harden-app-wide-friendly-design-inventory
+  title: Harden app-wide friendly design atomic inventory
+  type: documentation
+  status: done
+  inventory_item: harden-app-wide-friendly-design-inventory
+  observable_outcome: Every proposed design repair has one bounded result, exact required
+    paths, ordered dependencies, leaf validation, and distinct evidence.
+  dependencies: []
+  evidence_boundary:
+  - control-source validation
+  - atomic-task hardening audit
+  - plan coverage audit
+  - work-plan recursion audit
+  paths:
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/work/app-wide-friendly-design-execution-inventory.yaml
+  - docs/work/app-wide-friendly-design-atomic-hardening.yaml
+  - docs/work/app-wide-friendly-design-analysis.md
+  - docs/work/app-wide-friendly-design-preflight.md
+  required_paths:
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/work/app-wide-friendly-design-execution-inventory.yaml
+  - docs/work/app-wide-friendly-design-atomic-hardening.yaml
+  - docs/work/app-wide-friendly-design-preflight.md
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/app-wide-friendly-design-master.yaml
+    docs/work/app-wide-friendly-design-execution-inventory.yaml
+  started_at: '2026-07-29T17:27:16Z'
+  start_fingerprints:
+    docs/work/app-wide-friendly-design-master.yaml: 48c930387b65dc849639f970b022c7b1ed2a1f014f55782fbe212f808fcee51e
+    docs/work/app-wide-friendly-design-execution-inventory.yaml: ab33f3749e874125d5c07cd838f568a1e724f113723fcd72200d3e018ec02ca7
+    docs/work/app-wide-friendly-design-atomic-hardening.yaml: d74b658994301e6a8aab76891abe8625f2bc66d7c1562772c2e4a8e060dec7c2
+    docs/work/app-wide-friendly-design-preflight.md: 545b9bc114d7a2d0b4b1de0675dc1b6cc48e83dfd3338678b29832ab67a196b6
+evidence:
+- task: harden-app-wide-friendly-design-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/app-wide-friendly-design-master.yaml
+    docs/work/app-wide-friendly-design-execution-inventory.yaml
+  ranAt: '2026-07-29T17:28:06Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/app-wide-friendly-design-analysis.md
+  - docs/work/app-wide-friendly-design-atomic-hardening.yaml
+  - docs/work/app-wide-friendly-design-execution-inventory.yaml
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/work/app-wide-friendly-design-preflight.md
+  output: "Atomic task hardening audit passed (13 inventory items).\n\n"
+  startedAt: '2026-07-29T17:27:16Z'
+  changedAfterStart: &1
+  - docs/work/app-wide-friendly-design-master.yaml
+  - docs/work/app-wide-friendly-design-execution-inventory.yaml
+  - docs/work/app-wide-friendly-design-atomic-hardening.yaml
+  - docs/work/app-wide-friendly-design-preflight.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

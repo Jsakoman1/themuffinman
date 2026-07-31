@@ -1,0 +1,109 @@
+kind: execution-inventory
+version: 1
+id: developer-tooling-intellij-mcp-execution-inventory
+master_plan: docs/work/developer-tooling-intellij-mcp-master.yaml
+status: draft
+serial: true
+hardening_contract:
+  first_item: harden-developer-tooling-intellij-mcp-inventory
+  advancement_rule: No implementation item starts until hardening is verifier-verified.
+  evidence_contract: Each item produces deterministic local evidence; IDEA remains
+    an optional semantic accelerator and never becomes verifier authority.
+readiness_review:
+  dependency_chain_checked: true
+  task_mapping_checked: true
+  required_paths_checked: true
+  leaf_validations_checked: true
+  recursive_verification_absent: true
+  future_paths_owned_by_first_referencing_task: true
+  known_dirty_overlap:
+  - docs/implementation-control.md
+items:
+- id: harden-developer-tooling-intellij-mcp-inventory
+  sequence: 1
+  plan: docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml
+  task: harden-developer-tooling-intellij-mcp-inventory
+  status: verified
+  started_at: '2026-07-31T13:11:41Z'
+  verified_at: '2026-07-31T13:12:37Z'
+  evidence:
+    plan: docs/work/developer-tooling-intellij-mcp-atomic-hardening.yaml
+    task: harden-developer-tooling-intellij-mcp-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: compact-repository-map-query
+  sequence: 2
+  plan: docs/work/developer-tooling-intellij-mcp-context.yaml
+  task: compact-repository-map-query
+  status: verified
+  started_at: '2026-07-31T13:15:20Z'
+  verified_at: '2026-07-31T13:16:17Z'
+  evidence:
+    plan: docs/work/developer-tooling-intellij-mcp-context.yaml
+    task: compact-repository-map-query
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-intent-aware-context-search
+  sequence: 3
+  plan: docs/work/developer-tooling-intellij-mcp-context.yaml
+  task: add-intent-aware-context-search
+  status: verified
+  started_at: '2026-07-31T13:16:23Z'
+  verified_at: '2026-07-31T13:17:05Z'
+  evidence:
+    plan: docs/work/developer-tooling-intellij-mcp-context.yaml
+    task: add-intent-aware-context-search
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-changed-path-validation-router
+  sequence: 4
+  plan: docs/work/developer-tooling-intellij-mcp-validation.yaml
+  task: add-changed-path-validation-router
+  status: verified
+  started_at: '2026-07-31T13:17:10Z'
+  verified_at: '2026-07-31T13:18:52Z'
+  evidence:
+    plan: docs/work/developer-tooling-intellij-mcp-validation.yaml
+    task: add-changed-path-validation-router
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: define-intellij-mcp-routing-contract
+  sequence: 5
+  plan: docs/work/developer-tooling-intellij-mcp-adoption.yaml
+  task: define-intellij-mcp-routing-contract
+  status: verified
+  started_at: '2026-07-31T13:18:57Z'
+  verified_at: '2026-07-31T13:19:44Z'
+  evidence:
+    plan: docs/work/developer-tooling-intellij-mcp-adoption.yaml
+    task: define-intellij-mcp-routing-contract
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: classify-tool-self-test-stages
+  sequence: 6
+  plan: docs/work/developer-tooling-intellij-mcp-adoption.yaml
+  task: classify-tool-self-test-stages
+  status: verified
+  started_at: '2026-07-31T13:20:03Z'
+  verified_at: '2026-07-31T13:21:04Z'
+  evidence:
+    plan: docs/work/developer-tooling-intellij-mcp-adoption.yaml
+    task: classify-tool-self-test-stages
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: publish-hybrid-fast-path
+  sequence: 7
+  plan: docs/work/developer-tooling-intellij-mcp-adoption.yaml
+  task: publish-hybrid-fast-path
+  status: verified
+  started_at: '2026-07-31T13:21:10Z'
+  verified_at: '2026-07-31T13:22:38Z'
+  evidence:
+    plan: docs/work/developer-tooling-intellij-mcp-adoption.yaml
+    task: publish-hybrid-fast-path
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: measure-and-close-tooling-optimization
+  sequence: 8
+  plan: docs/work/developer-tooling-intellij-mcp-closeout.yaml
+  task: measure-and-close-tooling-optimization
+  status: verified
+  started_at: '2026-07-31T13:22:47Z'
+  verified_at: '2026-07-31T13:24:24Z'
+  evidence:
+    plan: docs/work/developer-tooling-intellij-mcp-closeout.yaml
+    task: measure-and-close-tooling-optimization
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

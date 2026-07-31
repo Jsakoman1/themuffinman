@@ -1,0 +1,87 @@
+kind: work
+version: 1
+id: developer-system-operational-readiness-ci
+title: Add a repository-visible continuous-validation baseline
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-system-operational-readiness-master.yaml
+execution_inventory: docs/work/developer-system-operational-readiness-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - add-repository-validation-ci
+  workflow_source_is_not_remote_execution_evidence: true
+  changed_path_router_prefix_added: ".github/workflows/"
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-quality-next-master.yaml
+  baseline_only_surfaces:
+  - local validation behavior and external release state
+  residual_scope:
+  - repository-visible CI workflow and honest release-registry classification
+  retest_triggers:
+  - workflow triggers, Java/Node setup, validation commands, or release evidence changes
+  non_duplication_rule: Workflow source is new configuration evidence and never re-labels
+    local or external runs.
+tasks:
+- id: add-repository-validation-ci
+  title: Configure repository validation in CI
+  type: implementation
+  status: done
+  inventory_item: add-repository-validation-ci
+  observable_outcome: A checked-in CI workflow runs backend tests, frontend type-check
+    and build, generated-contract checks, and tooling health while the release registry
+    continues to mark remote execution unobserved until independent evidence exists.
+  dependencies:
+  - enforce-work-artifact-retention-policy
+  evidence_boundary:
+  - workflow syntax and required-command contract
+  - delivery provenance and release-registry audit
+  paths: &1
+  - ".github/workflows/repository-validation.yml"
+  - docs/release-operations-registry.yaml
+  - docs/implementation-control.md
+  - scripts/change-validation.rb
+  required_paths: *1
+  validation: ruby -e 'text = File.read(%q{.github/workflows/repository-validation.yml});
+    %w[backend-test frontend-type-check frontend-build tool-self-test].each { |command|
+    abort "required workflow command missing" unless text.include?(command) }' &&
+    ruby scripts/change-validation.rb --check-fixtures && ruby scripts/audits/audit-delivery-provenance.rb
+  started_at: '2026-07-31T14:19:15Z'
+  start_fingerprints:
+    ".github/workflows/repository-validation.yml": __missing__
+    docs/release-operations-registry.yaml: 904969a2b2c728227a4a84485174313e5b1cfad69f6a8d9d1550b34514ef4702
+    docs/implementation-control.md: 5b5a56c9d39f4b6b1cb9bb06d6ef8f7af0999d7b4301f180145538e360dd091b
+    scripts/change-validation.rb: 7230da7749fec892c745741c9e916be08d31a8ab968d06a0a66f104c3278e2c7
+evidence:
+- task: add-repository-validation-ci
+  command: ruby -e 'text = File.read(%q{.github/workflows/repository-validation.yml});
+    %w[backend-test frontend-type-check frontend-build tool-self-test].each { |command|
+    abort "required workflow command missing" unless text.include?(command) }' &&
+    ruby scripts/change-validation.rb --check-fixtures && ruby scripts/audits/audit-delivery-provenance.rb
+  ranAt: '2026-07-31T14:20:32Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/implementation-control.md
+  - docs/release-operations-registry.yaml
+  - ".github/workflows/repository-validation.yml"
+  - scripts/change-validation.rb
+  output: |+
+    Changed-path validation fixtures passed (9 classes, advisory-only).
+    Delivery provenance audit passed
+      build paths: 4
+      external release state: unknown_not_absent_in_external_environment
+
+  startedAt: '2026-07-31T14:19:15Z'
+  changedAfterStart: &2
+  - ".github/workflows/repository-validation.yml"
+  - docs/release-operations-registry.yaml
+  - docs/implementation-control.md
+  - scripts/change-validation.rb
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

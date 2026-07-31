@@ -1,0 +1,96 @@
+kind: work
+version: 1
+id: developer-tooling-quality-next-idea
+title: Add shared IntelliJ run configurations and readiness checks
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-tooling-quality-next-master.yaml
+execution_inventory: docs/work/developer-tooling-quality-next-execution-inventory.yaml
+execution_readiness:
+  inventory_items:
+  - add-shared-intellij-run-configurations
+  shared_run_count: 5
+  changed_path_prefix_added: ".run/"
+  source_configuration_is_not_execution_evidence: true
+  independent_idea_observation_required_at_closeout: true
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-intellij-mcp-master.yaml
+  baseline_only_surfaces:
+  - IntelliJ MCP routing and local fallback contract
+  residual_scope:
+  - repository-visible run configurations
+  - deterministic XML/routing audit
+  retest_triggers:
+  - shared run XML or IntelliJ routing audit changes
+  non_duplication_rule: XML validity and IDE discovery are recorded separately; run
+    configuration files do not prove execution or indexing.
+tasks:
+- id: add-shared-intellij-run-configurations
+  title: Add backend and frontend shared IntelliJ runs
+  type: implementation
+  status: done
+  inventory_item: add-shared-intellij-run-configurations
+  observable_outcome: IntelliJ can discover repository-shared backend start/test and
+    frontend dev/type-check/build configurations, and a local audit verifies their
+    names, working directories, commands, and XML structure.
+  dependencies:
+  - migrate-brand-header-runtime-pilot
+  evidence_boundary:
+  - XML/run-configuration audit
+  - IDEA get-run-configurations observation at closeout
+  paths: &1
+  - ".run/TheMuffinMan Backend.run.xml"
+  - ".run/TheMuffinMan Backend Tests.run.xml"
+  - ".run/TheMuffinMan Frontend Dev.run.xml"
+  - ".run/TheMuffinMan Frontend Type Check.run.xml"
+  - ".run/TheMuffinMan Frontend Build.run.xml"
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  - scripts/change-validation.rb
+  - docs/intellij-mcp-fast-path.md
+  required_paths: *1
+  validation: ruby scripts/audits/audit-intellij-mcp-routing.rb
+  started_at: '2026-07-31T13:56:02Z'
+  start_fingerprints:
+    ".run/TheMuffinMan Backend.run.xml": __missing__
+    ".run/TheMuffinMan Backend Tests.run.xml": __missing__
+    ".run/TheMuffinMan Frontend Dev.run.xml": __missing__
+    ".run/TheMuffinMan Frontend Type Check.run.xml": __missing__
+    ".run/TheMuffinMan Frontend Build.run.xml": __missing__
+    scripts/audits/audit-intellij-mcp-routing.rb: 5457d7bf2b8430484f01e03703cd8101d0500619c3dae52a069f5e2964b4705a
+    scripts/change-validation.rb: 65f48e29f12d83ab984172f3d091065f136500d324218433bab97f7609be938f
+    docs/intellij-mcp-fast-path.md: edacea6768346eb055f819e32d95ba033fac3aa372a60db578283199f348322a
+evidence:
+- task: add-shared-intellij-run-configurations
+  command: ruby scripts/audits/audit-intellij-mcp-routing.rb
+  ranAt: '2026-07-31T13:58:17Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".run/TheMuffinMan Backend Tests.run.xml"
+  - ".run/TheMuffinMan Backend.run.xml"
+  - ".run/TheMuffinMan Frontend Build.run.xml"
+  - ".run/TheMuffinMan Frontend Dev.run.xml"
+  - ".run/TheMuffinMan Frontend Type Check.run.xml"
+  - docs/intellij-mcp-fast-path.md
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  - scripts/change-validation.rb
+  output: "IntelliJ MCP routing audit passed (7 intents, 5 shared runs, local fallback
+    and verifier authority preserved).\n\n"
+  startedAt: '2026-07-31T13:56:02Z'
+  changedAfterStart: &2
+  - ".run/TheMuffinMan Backend.run.xml"
+  - ".run/TheMuffinMan Backend Tests.run.xml"
+  - ".run/TheMuffinMan Frontend Dev.run.xml"
+  - ".run/TheMuffinMan Frontend Type Check.run.xml"
+  - ".run/TheMuffinMan Frontend Build.run.xml"
+  - scripts/audits/audit-intellij-mcp-routing.rb
+  - scripts/change-validation.rb
+  - docs/intellij-mcp-fast-path.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

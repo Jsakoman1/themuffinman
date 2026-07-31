@@ -1,0 +1,226 @@
+kind: work
+version: 1
+id: app-wide-friendly-design-context
+title: Repair calendar, chat, and business context surfaces
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/app-wide-friendly-design-master.yaml
+execution_inventory: docs/work/app-wide-friendly-design-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/human-first-all-surfaces-master.yaml
+  - docs/work/business-human-first-ux-master.yaml
+  baseline_only_surfaces:
+  - calendar source/booking semantics
+  - chat transport
+  - Business booking setup
+  residual_scope:
+  - agenda-first mobile calendar
+  - single-pane mobile chat
+  - responsive service discovery and business overview
+  retest_triggers:
+  - CalendarPage
+  - ChatSurfaceView
+  - BusinessDiscoveryView
+  - BusinessOverviewView
+  - or responsive split-pane changes
+  non_duplication_rule: Existing calendar/chat/Business workflow evidence remains
+    baseline; only the revised presentation and responsive behaviour are counted.
+tasks:
+- id: adapt-calendar-to-agenda-first-mobile
+  title: Adapt Calendar to agenda-first mobile
+  type: implementation
+  status: done
+  inventory_item: adapt-calendar-to-agenda-first-mobile
+  observable_outcome: Calendar gives mobile users an agenda-first next-event view
+    while retaining the authorised desktop day/week/month planning model and source
+    context.
+  dependencies:
+  - simplify-profile-activity-and-notifications
+  evidence_boundary:
+  - frontend type-check/build
+  - authenticated Calendar browser trace
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:42:05Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue: 9329c2485e8622e67385470509791b4c325f5afa562b038c4d8a848fdae93150
+    docs/product-memory.md: 6c5b8965ecfd991334866d7dfb2e563c223c8021f388681e58d19f9fdc5dc8f3
+- id: repair-chat-mobile-inbox-thread-flow
+  title: Repair Chat mobile inbox-thread flow
+  type: implementation
+  status: done
+  inventory_item: repair-chat-mobile-inbox-thread-flow
+  observable_outcome: Chat keeps desktop split-pane continuity but renders one deliberate
+    inbox or thread surface at a time on mobile with an obvious return path.
+  dependencies:
+  - adapt-calendar-to-agenda-first-mobile
+  evidence_boundary:
+  - frontend type-check/build
+  - authenticated Chat desktop/mobile browser trace
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:43:05Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue: 4d13ef5a2dec6c503a1dcc5a3f28f8f1d37cecb1319e8beded455b6e00ee8c64
+    docs/product-memory.md: '06882b4314d70998d4ae94ae14cb9736ccc4c3992e6cbd6e1679f233ced421d8'
+- id: simplify-business-and-service-discovery
+  title: Simplify Business overview and Service discovery
+  type: implementation
+  status: done
+  inventory_item: simplify-business-and-service-discovery
+  observable_outcome: Business overview and Service discovery use purpose-led collection
+    hierarchy and reveal one selected business without retaining a competing desktop
+    context pane on mobile.
+  dependencies:
+  - repair-chat-mobile-inbox-thread-flow
+  evidence_boundary:
+  - frontend type-check/build
+  - authenticated Business/Services browser trace
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T17:43:31Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOverviewView.vue: 983be0d4e034e4bda4f89cca7b05d393330640f08be9caeb3284285c175a0098
+    apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue: f392c315a2d6a52937d62d2a776dee927518a6507dcb4abb217512b88cbf3cc7
+    docs/product-memory.md: 104d7d9544e777bb2b28f31ab4b4b8118264d7df8f85edf5c1d248e9ad981ffd
+evidence:
+- task: adapt-calendar-to-agenda-first-mobile
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:42:56Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/CalendarPage-BCo1ytY_.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-D3SVxEBq.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-vg8YteQW.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/BusinessPublicView-BTVhiHg1.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-BfTL4i7g.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-fJA-P2Gi.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-5O_BgrNf.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-CI-_hOAz.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-J85Y44dl.js                       19.53 kB │ gzip:   6.31 kB
+    dist/assets/HomeHubView-CP999omb.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-Bd05-NGa.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-CfZQSgUj.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BGEmzFZE.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-C8utzfnj.js                                 62.81 kB │ gzip:  15.56 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 585ms
+
+  startedAt: '2026-07-29T17:42:05Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/CalendarPage.vue
+  - docs/product-memory.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: repair-chat-mobile-inbox-thread-flow
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:43:22Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/CalendarPage-DSQQ1NOK.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-CsE6XQ7s.js                   12.90 kB │ gzip:   4.29 kB
+    dist/assets/BusinessServiceSchemaView-32H-y3xz.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/BusinessPublicView-CUK9GNQ4.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-CoxqzdvV.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-CDJNmrbF.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkQuestDetailView-Bj0SPp1J.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-BSmP-IcV.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-LMKANC28.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-wsQyZRdv.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-Dt-geEcm.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-zM6K7guc.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-Ce13Hf7O.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-Du-XEDEi.js                                 62.81 kB │ gzip:  15.55 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 591ms
+
+  startedAt: '2026-07-29T17:43:05Z'
+  changedAfterStart: &2
+  - apps/themuffinman/frontend/src/modules/app-shell/views/ChatSurfaceView.vue
+  - docs/product-memory.md
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: simplify-business-and-service-discovery
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T17:44:20Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOverviewView.vue
+  - docs/product-memory.md
+  output: |+
+    dist/assets/CalendarPage-AEDgfJ9T.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/ThingsDiscoveryView-Dg9It8OT.js                   12.90 kB │ gzip:   4.28 kB
+    dist/assets/BusinessServiceSchemaView-C7XzIa5i.js             13.45 kB │ gzip:   4.61 kB
+    dist/assets/BusinessPublicView-_HxG-4Cm.js                    15.58 kB │ gzip:   5.54 kB
+    dist/assets/WorkPage-BgCSKMLX.js                              15.62 kB │ gzip:   5.77 kB
+    dist/assets/CirclesView-CbdqQdZn.js                           15.80 kB │ gzip:   4.98 kB
+    dist/assets/WorkQuestDetailView-CgSfNXpn.js                   17.05 kB │ gzip:   5.11 kB
+    dist/assets/RidesView-BUt62MWZ.js                             17.05 kB │ gzip:   5.48 kB
+    dist/assets/ChatSurfaceView-Bur8ZK2r.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-pXkzYIpl.js                           21.20 kB │ gzip:   6.49 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-DhKgnG-M.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-fwhavQ5U.js                35.14 kB │ gzip:  11.68 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-BwJ2dbzs.js                     57.37 kB │ gzip:  13.89 kB
+    dist/assets/index-DFeqo7hq.js                                 62.82 kB │ gzip:  15.58 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 671ms
+
+  startedAt: '2026-07-29T17:43:31Z'
+  changedAfterStart: &3
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessOverviewView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/BusinessDiscoveryView.vue
+  - docs/product-memory.md
+  requiredPaths: *3
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

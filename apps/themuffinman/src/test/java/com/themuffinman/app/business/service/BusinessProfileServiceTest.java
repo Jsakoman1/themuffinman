@@ -84,9 +84,10 @@ class BusinessProfileServiceTest {
     void getDirectoryReturnsActiveProfiles() {
         BusinessProfile active = profile(11L, user(1L, "owner"), "Blue Bakery", "blue-bakery", true);
 
-        when(businessProfileRepository.findActiveProfiles()).thenReturn(List.of(active));
+        AppUser viewer = user(2L, "viewer");
+        when(businessProfileRepository.findActiveProfilesOwnedByOtherThan(viewer.getId())).thenReturn(List.of(active));
 
-        var result = businessProfileService.getDirectory("");
+        var result = businessProfileService.getDirectory(viewer, "");
 
         assertEquals(1, result.getItems().size());
         assertEquals("blue-bakery", result.getItems().getFirst().getSlug());
@@ -96,9 +97,10 @@ class BusinessProfileServiceTest {
     void getDirectoryUsesBackendSearchWhenQueryIsPresent() {
         BusinessProfile active = profile(11L, user(1L, "owner"), "Blue Bakery", "blue-bakery", true);
 
-        when(businessProfileRepository.searchActiveProfiles("bakery")).thenReturn(List.of(active));
+        AppUser viewer = user(2L, "viewer");
+        when(businessProfileRepository.searchActiveProfilesOwnedByOtherThan(viewer.getId(), "bakery")).thenReturn(List.of(active));
 
-        var result = businessProfileService.getDirectory(" bakery ");
+        var result = businessProfileService.getDirectory(viewer, " bakery ");
 
         assertEquals(List.of("blue-bakery"), result.getItems().stream().map(item -> item.getSlug()).toList());
     }

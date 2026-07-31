@@ -21,5 +21,7 @@ public class ClientActionDTO {
     @Nullable
     private String confirmationMessage;
     @Nullable
+    private String outcome;
+    @Nullable
     private String disabledReason;
 }

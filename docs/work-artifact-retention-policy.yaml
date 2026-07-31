@@ -1,0 +1,35 @@
+kind: work_artifact_retention_policy
+version: 1
+purpose: Classify docs/work artifacts for reference-aware retention review without deleting or changing completion state.
+canonical_owner: docs/implementation-control.md
+reference_scope:
+  include:
+    - AGENTS.md
+    - Makefile
+    - scripts/
+    - docs/ excluding docs/work/, docs/audit-output/, and docs/runtime-evidence/
+  exclude:
+    - self-references inside docs/work/
+    - generated audit output
+    - runtime evidence payload text
+classification:
+  active_or_draft:
+    action: retain
+    rule: Any work, master, or inventory artifact with active or draft status remains operational state.
+  historical_contract:
+    action: retain
+    rule: Non-executable artifact kinds remain retained history unless a later canonical migration explicitly supersedes them.
+  externally_referenced_verified:
+    action: retain
+    rule: A verified executable artifact referenced from the configured external scope remains retained history.
+  unreferenced_verified:
+    action: review_candidate
+    rule: An unreferenced verified executable artifact is a cleanup candidate only; it is never deleted by this audit.
+  other_status:
+    action: retain
+    rule: Unknown, reviewed, completed, or implementation-deferred statuses require explicit human disposition.
+candidate_contract:
+  requires_exact_manifest: true
+  requires_reference_recheck_immediately_before_cleanup: true
+  deletion_authority: separate_user_authorized_cleanup_task
+  completion_authority: repository work verifier

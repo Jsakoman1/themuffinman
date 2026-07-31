@@ -1,0 +1,61 @@
+kind: execution_inventory
+version: 1
+id: services-public-calendar-execution-inventory
+master_plan: docs/work/services-public-calendar-master.yaml
+serial_execution: true
+items:
+- id: harden-services-public-calendar-inventory
+  sequence: 1
+  plan: docs/work/services-public-calendar-atomic-hardening.yaml
+  task: harden-services-public-calendar-inventory
+  status: verified
+  started_at: '2026-07-30T17:20:03Z'
+  verified_at: '2026-07-30T17:20:13Z'
+  evidence:
+    plan: docs/work/services-public-calendar-atomic-hardening.yaml
+    task: harden-services-public-calendar-inventory
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: add-public-calendar-projection
+  sequence: 2
+  plan: docs/work/services-public-calendar-contract.yaml
+  task: add-public-calendar-projection
+  status: verified
+  started_at: '2026-07-30T17:20:24Z'
+  verified_at: '2026-07-30T17:22:12Z'
+  evidence:
+    plan: docs/work/services-public-calendar-contract.yaml
+    task: add-public-calendar-projection
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: render-public-calendar-views
+  sequence: 3
+  plan: docs/work/services-public-calendar-ui.yaml
+  task: render-public-calendar-views
+  status: verified
+  started_at: '2026-07-30T17:22:25Z'
+  verified_at: '2026-07-30T17:24:42Z'
+  evidence:
+    plan: docs/work/services-public-calendar-ui.yaml
+    task: render-public-calendar-views
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: connect-calendar-to-booking
+  sequence: 4
+  plan: docs/work/services-public-calendar-booking.yaml
+  task: connect-calendar-to-booking
+  status: verified
+  started_at: '2026-07-30T17:25:55Z'
+  verified_at: '2026-07-30T17:27:24Z'
+  evidence:
+    plan: docs/work/services-public-calendar-booking.yaml
+    task: connect-calendar-to-booking
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+- id: close-public-calendar-truth
+  sequence: 5
+  plan: docs/work/services-public-calendar-closeout.yaml
+  task: close-public-calendar-truth
+  status: verified
+  started_at: '2026-07-30T17:27:34Z'
+  verified_at: '2026-07-30T17:36:55Z'
+  evidence:
+    plan: docs/work/services-public-calendar-closeout.yaml
+    task: close-public-calendar-truth
+    revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d

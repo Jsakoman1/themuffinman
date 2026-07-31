@@ -1,0 +1,39 @@
+{
+  "evidenceVersion": "brand-header-sand-v1",
+  "capturedAt": "2026-07-31T13:55:41.776Z",
+  "browser": "Playwright Chromium headless",
+  "result": "passed",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "headerVisible": true,
+      "logoVisible": true,
+      "sidebarVisible": true,
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      },
+      "screenshot": "/Users/jsakoman/Desktop/themuffinman/docs/runtime-evidence/brand-header-sand-desktop.png"
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "headerVisible": true,
+      "logoVisible": true,
+      "sidebarVisible": true,
+      "overflowFree": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "screenshot": "/Users/jsakoman/Desktop/themuffinman/docs/runtime-evidence/brand-header-sand-mobile.png"
+    }
+  ],
+  "browserErrors": []
+}

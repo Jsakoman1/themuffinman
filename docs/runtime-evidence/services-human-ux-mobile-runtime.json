@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-07-30T17:04:03.155Z",
+  "viewport": "mobile",
+  "scenarios": {
+    "publicServices": {
+      "status": "passed",
+      "overflow": false,
+      "text": "Find service\nFavorites\n‹ Back to services\nR\n\nLOCAL SERVICE\n\nRuntime Flexible Services\nSave\n\nNew business — no reviews yet\n\nOverview\nServices & prices\nReviews\n\nSERVICES\n\nWhat can we help with?\n\nSelect one service. We will show only the details, price and times relevant to it.\n\nRuntime crew service\n\nService details are confirmed when you book.\n\n40 CHF · 30 min\n\nChoose service\nVision\n◉\n↑\nHome\nExplore\nCalendar\nChat\nProfile"
+    }
+  },
+  "browserErrors": [],
+  "result": "passed"
+}

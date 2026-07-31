@@ -1,5 +1,5 @@
-import {onBeforeUnmount, ref} from "vue"
-import type {ChatSocketEventDTO} from "../../../contracts/index.ts"
+import {computed, onBeforeUnmount, ref} from "vue"
+import type {ChatSocketClientMessageDTO, ChatSocketEventDTO} from "../../../contracts/index.ts"
 import {API_BASE_URL} from "../../../api/httpClient.ts"
 import {token} from "../../../services/sessionService.ts"
 
@@ -17,10 +17,12 @@ export const useChatRealtime = (onEvent: (event: ChatSocketEventDTO) => void) =>
   const state = ref<ChatRealtimeState>("DISCONNECTED")
   const lastEvent = ref<ChatSocketEventDTO | null>(null)
   const recoveryVersion = ref(0)
+  const isLive = computed(() => state.value === "CONNECTED")
   let socket: WebSocket | null = null
   let reconnectTimer: number | null = null
   let disposed = false
   let reconnectAttempt = 0
+  const typingStopTimers = new Map<number, number>()
 
   const clearReconnectTimer = () => {
     if (reconnectTimer !== null) {
@@ -49,6 +51,7 @@ export const useChatRealtime = (onEvent: (event: ChatSocketEventDTO) => void) =>
       const recovered = reconnectAttempt > 0
       reconnectAttempt = 0
       state.value = "CONNECTED"
+      send({type: "chat.presence.ping"})
       if (recovered) recoveryVersion.value += 1
     }
     socket.onmessage = (message) => {
@@ -70,9 +73,33 @@ export const useChatRealtime = (onEvent: (event: ChatSocketEventDTO) => void) =>
     }
   }
 
+  const send = (payload: ChatSocketClientMessageDTO) => {
+    if (socket?.readyState !== WebSocket.OPEN) return false
+    socket.send(JSON.stringify(payload))
+    return true
+  }
+
+  const setTyping = (conversationId: number, typing: boolean) => {
+    const existingTimer = typingStopTimers.get(conversationId)
+    if (existingTimer !== undefined) window.clearTimeout(existingTimer)
+    if (!typing) {
+      typingStopTimers.delete(conversationId)
+      return send({type: "chat.typing", conversationId, typing: false})
+    }
+    const sent = send({type: "chat.typing", conversationId, typing: true})
+    if (sent) {
+      typingStopTimers.set(conversationId, window.setTimeout(() => setTyping(conversationId, false), 1800))
+    }
+    return sent
+  }
+
+  const refreshPresence = () => send({type: "chat.presence.ping"})
+
   const disconnect = () => {
     disposed = true
     clearReconnectTimer()
+    typingStopTimers.forEach(timer => window.clearTimeout(timer))
+    typingStopTimers.clear()
     socket?.close()
     socket = null
     state.value = "DISCONNECTED"
@@ -105,5 +132,5 @@ export const useChatRealtime = (onEvent: (event: ChatSocketEventDTO) => void) =>
   window.addEventListener("offline", handleOffline)
   window.addEventListener("online", handleOnline)
 
-  return {state, lastEvent, recoveryVersion, connect, reconnect, disconnect}
+  return {state, lastEvent, recoveryVersion, isLive, connect, reconnect, disconnect, setTyping, refreshPresence}
 }

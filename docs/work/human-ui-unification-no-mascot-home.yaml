@@ -1,0 +1,129 @@
+kind: work
+version: 1
+id: human-ui-unification-no-mascot-home
+title: Refresh the Home landing page without a mascot
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+execution_hardening:
+  prerequisite: Home implementation follows the verified foundation tasks and retains
+    their compatibility boundaries.
+master_plan: docs/work/human-ui-unification-no-mascot-master.yaml
+execution_inventory: docs/work/human-ui-unification-no-mascot-execution-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/home-brand-hero-header.yaml
+  - docs/work/business-style-visual-parity-master.yaml
+  baseline_only_surfaces:
+  - backend-prepared greeting
+  - launcher actions
+  - attention
+  - schedule
+  - sidebar
+  - mobile bottom navigation
+  residual_scope:
+  - integrated logo/greeting composition
+  - lighter purpose tiles
+  - stronger code-native icons
+  - balanced desktop and mobile first view
+  retest_triggers:
+  - Home shell header
+  - launcher
+  - follow-up
+  - schedule
+  - or responsive composition changes
+  non_duplication_rule: Existing Home behavior and routes are reused; this task proves
+    only the new landing composition and responsive visual hierarchy.
+tasks:
+- id: refresh-home-landing
+  title: Refresh the Home landing composition
+  type: implementation
+  status: done
+  inventory_item: refresh-home-landing
+  observable_outcome: Home keeps the supplied logo and current backend actions but
+    presents one cohesive landing composition with a compact human greeting, light
+    pastel 2x2 purpose tiles, clear code-native icons, quieter follow-up cards, and
+    no clipped or detached hero at desktop or mobile widths.
+  dependencies:
+  - consolidate-page-orientation-header
+  evidence_boundary:
+  - frontend type-check/build
+  - Home desktop/mobile browser evidence deferred to closeout
+  paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeActionTile.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeCalendarPreview.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  - docs/product-memory.md
+  required_paths:
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeActionTile.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeCalendarPreview.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  - docs/product-memory.md
+  validation: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  started_at: '2026-07-29T19:32:47Z'
+  start_fingerprints:
+    apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue: 13084a75026c92c7cb5f9414d64c9e98627105f3981bd40ce59e27808fd22526
+    apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue: a980e4b2cd91effea6295795ac4c9b9bbc32f7f1dbf74c2f94e8c152a07598a4
+    apps/themuffinman/frontend/src/modules/app-shell/components/HomeActionTile.vue: 1b14887845fb3eb310c1a18b5fc1e3b02b0489328bb1516c54e71f9e1d668f58
+    apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue: 45094c260af718dcd243175d13c8819cdb741b5ce6f04ac324ab7377f86b1f08
+    apps/themuffinman/frontend/src/modules/app-shell/components/HomeCalendarPreview.vue: c3cecaa5d6a1057cf6f8774cbc191a8b9f9fd3d889542bb9d0588b4dc4f1d227
+    apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue: ff874770d396dc631abb9d3002f0ce061c80cff1458141546ff959e16cb2be03
+    docs/product-memory.md: 64fef5b7efd4c0f1fd8696be5a9dd894638b24ad14d5899dbf0fc9c19885c6c7
+evidence:
+- task: refresh-home-landing
+  command: npm --prefix apps/themuffinman/frontend run type-check && npm --prefix
+    apps/themuffinman/frontend run build
+  ranAt: '2026-07-29T19:34:24Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeCalendarPreview.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - docs/product-memory.md
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeActionTile.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue
+  output: |+
+    dist/assets/CalendarPage-Dq0v-McG.js                           9.27 kB │ gzip:   3.32 kB
+    dist/assets/BusinessServiceSchemaView-NOwxSWaW.js             13.45 kB │ gzip:   4.60 kB
+    dist/assets/ThingsDiscoveryView-DZqJA7GU.js                   13.51 kB │ gzip:   4.47 kB
+    dist/assets/BusinessPublicView-Czm6GMTT.js                    15.58 kB │ gzip:   5.53 kB
+    dist/assets/CirclesView-Bx_wUU4n.js                           15.80 kB │ gzip:   4.99 kB
+    dist/assets/WorkPage-Do1RWkou.js                              16.17 kB │ gzip:   5.94 kB
+    dist/assets/WorkQuestDetailView-xA1D4FbO.js                   17.05 kB │ gzip:   5.10 kB
+    dist/assets/RidesView-CP5-6k7d.js                             17.44 kB │ gzip:   5.61 kB
+    dist/assets/ChatSurfaceView-CQSUF9nv.js                       19.60 kB │ gzip:   6.33 kB
+    dist/assets/HomeHubView-BNghUC9K.js                           21.36 kB │ gzip:   6.54 kB
+    dist/assets/vue-core-Do5t9vJD.js                              24.75 kB │ gzip:   9.54 kB
+    dist/assets/ProfilePage-D36ZK2lk.js                           26.83 kB │ gzip:   8.42 kB
+    dist/assets/AuthenticatedShellView-D-PFGecT.js                35.53 kB │ gzip:  11.82 kB
+    dist/assets/vendor-yH5XZJ76.js                                50.87 kB │ gzip:  19.88 kB
+    dist/assets/BusinessOwnerPage-WaeR3kKs.js                     57.90 kB │ gzip:  13.99 kB
+    dist/assets/index-2Ij6QkCO.js                                 62.97 kB │ gzip:  15.62 kB
+    dist/assets/editor-CXq_cpRu.js                               464.33 kB │ gzip: 149.74 kB
+
+    ✓ built in 609ms
+
+  startedAt: '2026-07-29T19:32:47Z'
+  changedAfterStart: &1
+  - apps/themuffinman/frontend/src/modules/app-shell/views/AuthenticatedShellView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/views/HomeHubView.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeActionTile.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeFollowUpCard.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/HomeCalendarPreview.vue
+  - apps/themuffinman/frontend/src/modules/app-shell/components/AppPurposeIcon.vue
+  - docs/product-memory.md
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

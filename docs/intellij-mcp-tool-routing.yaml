@@ -1,0 +1,62 @@
+kind: intellij_mcp_tool_routing
+version: 1
+status: active
+canonical_owner: docs/implementation-control.md
+purpose: Route code investigation to IntelliJ MCP when semantic IDE data is available,
+  while retaining deterministic repository-local fallbacks and verifier-owned evidence.
+rules:
+  - Always pass the known project path to IDEA tools.
+  - Bound semantic results with depth, node, child, or result limits.
+  - Use IDEA output for discovery, diagnosis, and safe refactoring; never as implementation completion evidence.
+  - Fall back immediately when indexing, symbol resolution, run configuration, or debugger state is unavailable.
+  - Repository scripts must not invoke IDEA MCP tools.
+intents:
+  - id: bounded_context
+    use_when: A task needs a small source-and-document context pack before broad inspection.
+    preferred: make context-search q="phrase"
+    preconditions: [known_phrase, bounded_budget]
+    fallback: rg with explicit paths and output limits
+    local_evidence: none; discovery only
+    bounds: context-search budget, max-files, and max-lines
+  - id: known_symbol
+    use_when: A fully qualified or uniquely named Java, Kotlin, TypeScript, or Vue symbol is known.
+    preferred: IDEA search_symbol or get_symbol_info
+    preconditions: [project_index_ready, project_path]
+    fallback: ruby scripts/repository-map.rb --query "SymbolName" --max-output 20000
+    local_evidence: none; discovery only
+    bounds: maxResults and compact query output budget
+  - id: call_relationship
+    use_when: The task asks who calls a method or which methods it calls.
+    preferred: IDEA analyze_calls
+    preconditions: [resolved_callable_fqn, project_index_ready, project_path]
+    fallback: make audit-endpoint-callsite-linker or bounded local source inspection
+    local_evidence: targeted backend/frontend test selected by change-validation
+    bounds: depth, maxChildren, maxNodes, childOffset
+  - id: symbol_rename
+    use_when: A resolved symbol must be renamed across source references.
+    preferred: IDEA rename_refactoring
+    preconditions: [resolved_symbol, project_index_ready, clean_target_scope]
+    fallback: bounded manual edit after local repository-map and callsite inspection
+    local_evidence: compiler/type-check and relevant targeted tests
+    bounds: exact symbol target and previewed affected paths
+  - id: edited_file_inspection
+    use_when: An edited file needs compiler-aware diagnostics before final validation.
+    preferred: IDEA get_file_problems or lint_files
+    preconditions: [project_index_ready, project_path, exact_file_path]
+    fallback: language compiler, type-check, or relevant local audit
+    local_evidence: task leaf validation through work verifier
+    bounds: exact edited file paths only
+  - id: runtime_diagnosis
+    use_when: A running local process requires branch, value, reachability, or stack evidence.
+    preferred: IDEA debugger with logpoints before suspending breakpoints
+    preconditions: [owned_local_process, active_debug_session, exact_source_location]
+    fallback: owned runtime harness, focused tests, or structured application logs
+    local_evidence: declared runtime artifact and verifier-executed scenario when required
+    bounds: exact session, source location, timeout, and drained event tail
+  - id: validation_selection
+    use_when: A task needs the smallest safe repository validation set for changed paths.
+    preferred: make change-validation paths="..."
+    preconditions: [repository_relative_paths]
+    fallback: docs/system-map.md and task-specific work-plan validation
+    local_evidence: work verifier executes the selected task leaf command
+    bounds: explicit paths; router is advisory and executes no recommended command

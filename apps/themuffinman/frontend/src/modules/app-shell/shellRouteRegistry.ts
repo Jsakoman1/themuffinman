@@ -77,6 +77,7 @@ export const topLevelNavigationSurfaceIds: AppSurfaceId[] = [
 
 export const primaryNavigationSurfaceIds: AppSurfaceId[] = ["home", "work", "business", "business-discovery", "things", "circles", "rides"]
 export const secondaryNavigationSurfaceIds: AppSurfaceId[] = ["chat", "calendar", "profile"]
+export const mobilePrimaryNavigationSurfaceIds: AppSurfaceId[] = ["home", "work", "calendar", "chat", "profile"]
 
 /** The shell owns canonical entry routes; module screens must not rebuild them. The header owns only back/context/account. */
 export const canonicalRouteForSurface = (surfaceId: AppSurfaceId): RouteLocationRaw =>
@@ -314,8 +315,8 @@ export const surfaceOwnershipMatrix: Record<AppSurfaceId, ShellSurfaceOwnership>
     primaryNavLabel: "Activity",
     primaryNavDescription: "Viewer-scoped history and resumable tasks.",
     canonicalEntryRoute: {path: "/activity"},
-    visionPrompt: "show my recent activity",
-    moduleSpaceRule: "Stay in Activity for history, resume, and dismiss actions.",
+    visionPrompt: "help me continue something I was already doing",
+    moduleSpaceRule: "Activity is a compatibility route; Home owns ordinary resume guidance and Updates owns notifications.",
     visionRule: "Use Vision only for guided continuation of an explicitly selected item.",
     topLevelNavEligible: false
   }
@@ -394,7 +395,6 @@ export const visionWebRouteContracts: VisionWebRouteContract[] = [
   {routeKey: "notifications.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/notifications$/, requiresTarget: false},
   {routeKey: "attention.notifications", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/notifications$/, requiresTarget: false},
   {routeKey: "activity.index", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/activity$/, requiresTarget: false},
-  {routeKey: "attention.activity", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/activity$/, requiresTarget: false},
   {routeKey: "search.saved", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/search\/saved$/, requiresTarget: false},
   {routeKey: "profile.notifications", action: "NAVIGATE_TO_SURFACE", pathPattern: /^\/profile\/settings\/notifications$/, requiresTarget: false}
 ]

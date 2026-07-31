@@ -7,6 +7,7 @@ import com.themuffinman.app.business.dto.BusinessAvailabilityRuleListResponseDTO
 import com.themuffinman.app.business.dto.BusinessAvailabilityRuleRequestDTO;
 import com.themuffinman.app.business.dto.BusinessAvailabilityRuleResponseDTO;
 import com.themuffinman.app.business.dto.BusinessAvailabilityWindowListResponseDTO;
+import com.themuffinman.app.business.dto.BusinessPublicAvailabilityCalendarDTO;
 import com.themuffinman.app.business.service.BusinessAvailabilityReadService;
 import com.themuffinman.app.business.service.BusinessAvailabilityService;
 import com.themuffinman.app.identity.model.AppUser;
@@ -108,6 +109,17 @@ public class BusinessAvailabilityController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         return businessAvailabilityReadService.getPublicAvailabilityForBusinessDate(slug, offeringId, date);
+    }
+
+    @GetMapping("/public/{slug}/availability/calendar")
+    public BusinessPublicAvailabilityCalendarDTO getPublicAvailabilityCalendar(
+            @PathVariable String slug,
+            @RequestParam Long offeringId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(defaultValue = "14") int days,
+            @RequestParam(defaultValue = "MONTH") String view
+    ) {
+        return businessAvailabilityReadService.getPublicAvailabilityCalendar(slug, offeringId, fromDate, days, view);
     }
 
     @GetMapping("/public/{slug}/availability/preview")

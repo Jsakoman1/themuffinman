@@ -26,9 +26,14 @@ This document explains the product in user-facing terms. It is meant to stay ali
 
 ## Authenticated Web completion rules
 
-Home is the authenticated starting point and base camp, not a second navigation system. It opens as a personal-day overview that frames the next attention decision before module summaries. Its backend-prepared Attention Center shows only resumable or routable updates. It then shows active, viewer-scoped items grouped into Work, Business, Services, Things, People, and Rides. Work includes jobs the user applied for and new applications to the user's jobs; Business includes incoming reservations for owned businesses; Services includes appointments booked with other businesses; People shows connection requests; Things shows sent and received borrow requests; Rides shows active offers and joined rides. Each item opens the canonical module surface, while the left navigation remains responsible for full browsing and discovery.
+Collection rows open their actual item on the first click. Search results, saved
+businesses, personal applications, and workspace sections never require a second
+preview pane or an “Open full detail” action. Owner booking and owner application
+queues are the deliberate exception because they support repeated operational review.
 
-The authenticated navbar has seven primary destinations: Home, Work, Business, Services, Things, People, and Rides. Business opens the user's own-business overview; its individual business list belongs inside that page and is not repeated as navbar children. Services is the public-business discovery workspace with Find service and individual favorite-business quick links (favorites are not represented as one generic group link). Work has My work, Find work, and Applications. Things defaults to My things and also has Find things. People has Overview and Circles. Rides defaults to My rides and also has Find ride. Chat and Calendar remain available under More so they stay reachable without competing with the core module rail.
+Home is the authenticated starting point and base camp, not a second navigation system. It opens as a personal-day overview with a separate “Continue where you left off” resume suggestion before module summaries. Updates are notifications that happened and appear in the Updates inbox, while resumable activity stays on Home. It then shows active, viewer-scoped items grouped into Work, Business, Services, Things, People, and Rides. Work includes jobs the user applied for and new applications to the user's jobs; Business includes incoming reservations for owned businesses; Services includes appointments booked with other businesses; People shows connection requests; Things shows sent and received borrow requests; Rides shows active offers and joined rides. Each item opens the canonical module surface, while the left navigation remains responsible for full browsing and discovery.
+
+The authenticated navbar has seven primary destinations: Home, Work, Business, Services, Things, People, and Rides. Business opens the user's own-business overview; its individual business list belongs inside that page and is not repeated as navbar children. Once a business tab exists, it is the only entry to that owner workspace: the landing page does not repeat a second business preview or link. Services is the customer-facing public-business discovery workspace with Find service and Favorites; it excludes the viewer's own businesses, because owners manage those only from Business. Work has My work, Find work, and Applications. Things defaults to My things and also has Find things. People has Overview and Circles. Rides defaults to My rides and also has Find ride. Chat and Calendar remain available under More so they stay reachable without competing with the core module rail.
 
 Home is intentionally compact: six module cards show only relevant active rows and backend-provided basic actions such as creating work, finding a service, listing a thing, managing circles, or offering a ride. It does not list owned businesses as rows. Calendar is part of Home, defaults to Week, and can switch to Day or Month; an empty period still renders its date grid so an empty calendar is distinguishable from a failed load.
 
@@ -867,7 +872,7 @@ Location lookup recovery:
 ### What the module does
 
 - Business Hub lets an authenticated user publish and manage one or more business profiles tied to their account.
-- Active business profiles appear in a directory and can be opened as a public business page. The favorite-business view is filtered by the backend for the current user; the browser does not fetch the full public directory and filter favorites locally.
+- Active business profiles owned by other people appear in Services and can be opened as a public business page. That detail remains in the Services navigation context and starts with the service choice; supplementary business information is optional and follows the service list. The favorite-business view is filtered by the backend for the current user and excludes their own businesses; the browser does not fetch the full public directory and filter favorites locally. A person cannot favorite their own business.
 - A business may also publish bookable offerings, availability rules, booking policy defaults, gallery images, and owner schedule reads.
 - Booking workflow is backend-owned so the same contract can later support web, iPhone, and `/vision` clients without duplicating rules in the UI.
 
@@ -914,6 +919,7 @@ Location lookup recovery:
 - Booking persistence stores absolute `startsAt` and `endsAt` timestamps and still returns timezone context in DTOs.
 - DST handling belongs to the backend availability and booking rules, not to frontend-only logic.
 - Public booking is date-first. The customer chooses a business-local date, and the backend resolves that date's exact UTC range from the business timezone before returning valid slots. The browser never derives availability ranges or local-date boundaries on its own.
+- After choosing a service, a public business page offers Month, Week, and Day availability views. They show only business-local dates, safe bookable times, and aggregate `AVAILABLE`, `LIMITED`, or `UNAVAILABLE` states; unavailable dates are not actionable. They never reveal existing appointments, customers, notes, resources, capacity use, or why a time is unavailable. Changing the displayed calendar range does not discard the customer's selected service, form answers, or selected time.
 - A slot shown to a customer is a single bookable interval. Its duration may be longer than the spacing between possible start times; backend booking validation accepts that exact offered start/end pair and then applies capacity and policy checks.
 - `INSTANT` offerings create `CONFIRMED` bookings immediately.
 - `REQUEST` offerings create `PENDING_CONFIRMATION` bookings that still reserve capacity immediately.
@@ -1204,9 +1210,9 @@ Because an active quest can already have an approved worker, so changing the sch
 Home is an orientation dashboard. Sidebar navigation owns module discovery, so Home does not duplicate module quick-action links; dashboard metrics and attention rows lead to the relevant destination when one exists.
 
 Find Work is external discovery. It uses the backend `AVAILABLE` preset and must not show the current user's own quests. My quests uses `MY_VISIBLE`, so an owner's newly created OPEN quest remains visible in the owner's work surface.
-## Attention center
+## Updates projection
 
-The Notifications surface includes a compact attention center assembled from the viewer-scoped notification and activity read models. It shows the unread count and only backend-provided safe destinations; it does not invent cross-module state in the browser.
+`GET /attention/me` is a compatibility endpoint for the Updates UI. Its unread count and displayed items both come from the same viewer-scoped news stream. Resumable activity is intentionally excluded and remains Home-only guidance.
 
 ## Authenticated navigation shortcuts
 
@@ -1236,7 +1242,19 @@ does not require reading or completing settings first.
 
 Runtime closeout validates meaningful route and state transitions rather than page-load screenshots or broad smoke traces.
 
+The authenticated Home launcher is a backend-prepared Activity read model at `GET /workspace/home`. It returns the current person's greeting and only launcher destinations represented in the viewer's permitted command catalog. The friendly labels `Mini jobs & help`, `Share & lend`, `Book services`, and `Car sharing` are presentation names for existing Work, Things, Business discovery, and Rides routes; they do not create new domains or grant new actions.
+
+Home shows at most one actionable attention item as a recovery handoff. Its schedule follow-up shows only the next calendar item and links to the dedicated Calendar route; detailed notification lists and calendar grids remain in their owned surfaces.
+
+Friendly launcher closeout: Home is purpose-led rather than a module dashboard. Its four whole-card destinations use the shared Work, sharing, booking, and ride colour roles only to help a person choose a destination; they never communicate workflow status, urgency, permission, or availability. Mobile keeps Home, Explore, Activity, Chat, and Profile as fixed tabs, while the More drawer recovers the full workspace navigation. Desktop keeps the existing workspace rail and uses the same launcher contract in a wider canvas. Fresh authenticated light/dark Chromium evidence for both layouts is recorded under `docs/runtime-evidence/friendly-launcher-{mobile,desktop}-runtime.json`.
+
 Business-parity usability closeout: the authenticated entry surfaces for Profile, Circles, Work, Rides, Home, and Chat use the same interaction contract as Business. Each begins with the person's current purpose and a clear next decision, keeps optional setup out of the primary path, and preserves backend-owned permissions, actions, and workflow state. Desktop and mobile runtime evidence is retained under `docs/runtime-evidence/human-usability-business-parity-*-2026-07-29.json`; a shared-shell or responsive-layout change requires a fresh route-specific review rather than assuming that a passing build proves visual usability.
+
+SideJobs are the human-facing presentation of the existing Work quest workflow. A person can find SideJobs, post a private draft only after review, offer to help, and track or review help requests. The backend remains authoritative for eligibility, visibility, allowed actions, assignment, pricing validation, and lifecycle transitions; “SideJob” and “help request” do not introduce a second persistence model. Fresh desktop and mobile browser evidence is retained in `docs/runtime-evidence/sidejobs-human-first-*-runtime.json`.
+
+App-wide friendly-design closeout: authenticated collections now state one plain-language purpose, foreground one canonical next action, and present factual items as calm readable cards. Mobile uses one task column: Calendar becomes agenda-first, Chat chooses inbox or thread, and service discovery chooses results or one selected business. These presentation choices do not alter the backend-owned action catalog, permissions, prices, availability, booking, or workflow rules. Fresh light/dark desktop and mobile evidence is retained under `docs/runtime-evidence/app-wide-friendly-design-*-runtime.json`.
+
+Module navigation closeout: the authenticated workspace rail is a stable list of product modules. Work, Things, People, Rides, Services, and Business present their subroutes as local tabs inside the module content, so a person changes module globally and changes task locally without losing canonical routes or authorized actions.
 
 ## Flexible Business booking contract (2026-07-24)
 
@@ -1254,6 +1272,14 @@ Calendar views group every booking whose time interval overlaps the requested ra
 Owner setup is the source of truth for fulfillment mode, duration increments, quantity bounds, capacity, pricing rules, demand fields, options, resources, and business timezone.
 
 The setup surface exposes these rules as backend-owned configuration rather than requiring frontend-specific business logic.
+
+Business action presentation is also backend-prepared: a permitted action includes its label, tone, confirmation text, and expected outcome. The Web client renders that descriptor but does not decide whether a booking, service, or quote transition is allowed.
+
+### Services public mini-site and reviews
+
+Services opens an active business as its public mini-site, retaining Services navigation. Overview presents identity, image, description, contact, address, gallery, and rating; Services & prices presents honest service cards; Reviews contains only feedback tied to completed bookings. A customer selects a service, then uses a business-local Month, Week, or Day availability calendar to choose an available day and backend-returned time. If availability changes at submit time, their answers remain and they choose another time. Only the customer of a completed booking may create or update one 1–5 star review.
+
+Business service creation reads one owner-authorized setup contract before showing defaults, valid choices, field help, setup steps, and readiness guidance. The API owns these defaults so Web and future native clients start from the same booking behavior.
 
 The portable contract surface is shared by Web and future native clients: calendar events carry their source and safe navigation target, business workspace responses identify whether the user is viewing all businesses or one business, and Vision responses identify presentation metadata separately from backend confirmation. These fields are descriptive and never grant access by themselves.
 ## Trust and decision explanations

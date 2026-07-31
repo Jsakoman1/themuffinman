@@ -28,9 +28,10 @@ public class BusinessProfileController {
 
     @GetMapping
     public BusinessProfileListResponseDTO getDirectory(
-            @RequestParam(value = "q", required = false) String query
+            @RequestParam(value = "q", required = false) String query,
+            @AuthenticationPrincipal AppUser currentUser
     ) {
-        return businessProfileService.getDirectory(query);
+        return businessProfileService.getDirectory(currentUser, query);
     }
 
     @GetMapping("/me")

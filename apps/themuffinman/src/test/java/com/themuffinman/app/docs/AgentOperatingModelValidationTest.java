@@ -31,4 +31,11 @@ class AgentOperatingModelValidationTest {
         assertEquals("phone_handoff", contract.path("device_matrix").path("watch").path("allowed_actions").get(5).asText());
         assertTrue(contract.path("field_classification").path("diagnostic_only").size() > 0);
     }
+
+    @Test
+    void servicesPublicBookingSafetyContractIsDeclared() throws Exception {
+        Path repoRoot = Path.of("..").toAbsolutePath().normalize().getParent();
+        JsonNode model = new ObjectMapper(new YAMLFactory()).readTree(Files.readString(repoRoot.resolve("docs/agent-operating-model.yaml")));
+        assertTrue(model.path("product_contracts").path("services_public_booking").path("rule").asText().contains("completed booking customer"));
+    }
 }

@@ -1,0 +1,113 @@
+kind: work
+version: 1
+id: developer-system-operational-readiness-atomic-hardening
+title: Harden the developer-system operational-readiness inventory
+status: verified
+baseline: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+strict_verification: true
+serial_task_execution: true
+master_plan: docs/work/developer-system-operational-readiness-master.yaml
+execution_inventory: docs/work/developer-system-operational-readiness-execution-inventory.yaml
+execution_readiness:
+  inventory_items: 9
+  package_paths: 11
+  next_item_after_verification: capture-workspace-change-baseline
+  implementation_started: false
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/developer-tooling-quality-next-master.yaml
+  baseline_only_surfaces:
+  - all product implementation and existing runtime evidence
+  residual_scope:
+  - plan and inventory hardening only
+  retest_triggers:
+  - any master, child, analysis, preflight, or inventory change
+  non_duplication_rule: This task proves execution readiness only.
+tasks:
+- id: harden-developer-system-operational-readiness-inventory
+  title: Verify the atomic execution package
+  type: documentation
+  status: done
+  inventory_item: harden-developer-system-operational-readiness-inventory
+  observable_outcome: Every delivery item maps once to one atomic task with exact
+    paths, a single prior dependency, leaf validation, and bounded evidence.
+  dependencies: []
+  evidence_boundary:
+  - atomic-task hardening audit
+  - strict serial-inventory audit
+  - complete YAML parse
+  paths: &1
+  - docs/work/developer-system-operational-readiness-analysis.md
+  - docs/work/developer-system-operational-readiness-preflight.md
+  - docs/work/developer-system-operational-readiness-master.yaml
+  - docs/work/developer-system-operational-readiness-execution-inventory.yaml
+  - docs/work/developer-system-operational-readiness-atomic-hardening.yaml
+  - docs/work/developer-system-operational-readiness-workspace.yaml
+  - docs/work/developer-system-operational-readiness-ci.yaml
+  - docs/work/developer-system-operational-readiness-tooling.yaml
+  - docs/work/developer-system-operational-readiness-runtime.yaml
+  - docs/work/developer-system-operational-readiness-skill.yaml
+  - docs/work/developer-system-operational-readiness-closeout.yaml
+  required_paths: *1
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/developer-system-operational-readiness-master.yaml
+    docs/work/developer-system-operational-readiness-execution-inventory.yaml && ruby
+    scripts/audits/audit-serial-execution-inventory.rb docs/work/developer-system-operational-readiness-master.yaml
+    docs/work/developer-system-operational-readiness-execution-inventory.yaml && ruby
+    -ryaml -e 'ARGV.each { |path| YAML.load_file(path) }' docs/work/developer-system-operational-readiness-*.yaml
+  started_at: '2026-07-31T14:13:31Z'
+  start_fingerprints:
+    docs/work/developer-system-operational-readiness-analysis.md: 90921293a0615dd65469cf4d00f24ef1d67044c8ac0218e18f9e77406239e0aa
+    docs/work/developer-system-operational-readiness-preflight.md: 181c81b9f893693f55f5966e8c262f6c711120f3720ae3b4f3e6681ae60646f8
+    docs/work/developer-system-operational-readiness-master.yaml: 7d6e8a2da76d5caf2e0347d90ae3284cda3fe88b60f150b26092541ae0869c06
+    docs/work/developer-system-operational-readiness-execution-inventory.yaml: d0121bde52259ec7557c570229864de0c2d81157cf3bfaa02e73945f151a04e9
+    docs/work/developer-system-operational-readiness-atomic-hardening.yaml: b534e05cf4d25d2a5417290e92cfda095b36207481bb98d8a13d8a2d95314674
+    docs/work/developer-system-operational-readiness-workspace.yaml: 30083ddeb036696600e8b4165a694ab8f25bf9a3e7e1308133ea5242a2c15de5
+    docs/work/developer-system-operational-readiness-ci.yaml: de65c4c99f58f36f4bf92844ab67407aeded7214f4a159945c831f22f7d96c78
+    docs/work/developer-system-operational-readiness-tooling.yaml: ff4a1f1f4e5d1c27ebc21b504912e21f8d1c7d13f44efda1d03ab1b708450570
+    docs/work/developer-system-operational-readiness-runtime.yaml: 203c03d7d050d6fc19bb490b76606776863475a7be254eada9d8495283746f01
+    docs/work/developer-system-operational-readiness-skill.yaml: cb972261b567dd10fbaf141c70c15fd308fc11ff6b61d6d64cb32c604a9bd5aa
+    docs/work/developer-system-operational-readiness-closeout.yaml: 4fecaea765e2b98b9672fafe67998efecf36ee8fa6186e3449ed333d73ef58e1
+evidence:
+- task: harden-developer-system-operational-readiness-inventory
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/developer-system-operational-readiness-master.yaml
+    docs/work/developer-system-operational-readiness-execution-inventory.yaml && ruby
+    scripts/audits/audit-serial-execution-inventory.rb docs/work/developer-system-operational-readiness-master.yaml
+    docs/work/developer-system-operational-readiness-execution-inventory.yaml && ruby
+    -ryaml -e 'ARGV.each { |path| YAML.load_file(path) }' docs/work/developer-system-operational-readiness-*.yaml
+  ranAt: '2026-07-31T14:14:47Z'
+  revision: a18b811e65001f68d174b42d1574f6c0f2ffc18d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/developer-system-operational-readiness-analysis.md
+  - docs/work/developer-system-operational-readiness-atomic-hardening.yaml
+  - docs/work/developer-system-operational-readiness-ci.yaml
+  - docs/work/developer-system-operational-readiness-closeout.yaml
+  - docs/work/developer-system-operational-readiness-execution-inventory.yaml
+  - docs/work/developer-system-operational-readiness-master.yaml
+  - docs/work/developer-system-operational-readiness-preflight.md
+  - docs/work/developer-system-operational-readiness-runtime.yaml
+  - docs/work/developer-system-operational-readiness-skill.yaml
+  - docs/work/developer-system-operational-readiness-tooling.yaml
+  - docs/work/developer-system-operational-readiness-workspace.yaml
+  output: |+
+    Atomic task hardening audit passed (9 inventory items).
+    Serial execution inventory audit passed (9 strict items).
+
+  startedAt: '2026-07-31T14:13:31Z'
+  changedAfterStart: &2
+  - docs/work/developer-system-operational-readiness-analysis.md
+  - docs/work/developer-system-operational-readiness-preflight.md
+  - docs/work/developer-system-operational-readiness-master.yaml
+  - docs/work/developer-system-operational-readiness-execution-inventory.yaml
+  - docs/work/developer-system-operational-readiness-atomic-hardening.yaml
+  - docs/work/developer-system-operational-readiness-workspace.yaml
+  - docs/work/developer-system-operational-readiness-ci.yaml
+  - docs/work/developer-system-operational-readiness-tooling.yaml
+  - docs/work/developer-system-operational-readiness-runtime.yaml
+  - docs/work/developer-system-operational-readiness-skill.yaml
+  - docs/work/developer-system-operational-readiness-closeout.yaml
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
