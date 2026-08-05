@@ -147,11 +147,22 @@ items:
   order: 12
   plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
   task: publish-dora-v06-release
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T12:34:07Z'
+  verified_at: '2026-08-05T12:36:12Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+    task: publish-dora-v06-release
+    revision: 001a3a3b51b2af9756d8a7ddf736278ac440a4b1
 - id: muffinman-v06-pin
   sequence: 13
   order: 13
   plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
   task: pin-muffinman-to-dora-v06
-  status: pending
+  status: verified
+  started_at: '2026-08-05T12:36:19Z'
+  verified_at: '2026-08-05T12:36:46Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+    task: pin-muffinman-to-dora-v06
+    revision: 001a3a3b51b2af9756d8a7ddf736278ac440a4b1

@@ -2,13 +2,15 @@ kind: master
 version: 1
 id: dora-v06-standalone-bootstrap-master
 title: Make Dora independently installable and beginner-operational
-status: draft
+status: verified
 baseline: 3c10315
 strict_verification: true
 serial_task_execution: true
 atomic_task_hardening_plan: docs/work/dora-v06-standalone-bootstrap-atomic-hardening.yaml
 execution_inventory: docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
-objective: Deliver explicit-source Dora bootstrap, declared starter packs, universal plugin execution, MuffinMan adoption, beginner onboarding, and a reversible v0.6 release without importing product authority into Dora.
+objective: Deliver explicit-source Dora bootstrap, declared starter packs, universal
+  plugin execution, MuffinMan adoption, beginner onboarding, and a reversible v0.6
+  release without importing product authority into Dora.
 analysis_source: docs/work/dora-v06-standalone-bootstrap-analysis.md
 preflight_source: docs/work/dora-v06-standalone-bootstrap-preflight.md
 goal_readiness_source: docs/work/dora-v06-standalone-bootstrap-goal-readiness.md
@@ -16,8 +18,13 @@ change_impact_review:
   required: true
   report: docs/audit-output/system-map-change-impact.json
   disposition: reviewed_for_goal_preparation
-  review_boundary: The planning-only diff maps to control registries and System Map documentation; refresh the report and record dispositions if implementation changes their ownership or state.
-  required_closeout_reviews: [docs/system-truth-registry.yaml, docs/system-drift-control-registry.yaml, docs/system-map.md]
+  review_boundary: The planning-only diff maps to control registries and System Map
+    documentation; refresh the report and record dispositions if implementation changes
+    their ownership or state.
+  required_closeout_reviews:
+  - docs/system-truth-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/system-map.md
 readiness:
   atomic_inventory_items: 13
   execution_mode: strict_serial
@@ -25,22 +32,56 @@ readiness:
     plan: docs/work/dora-v06-standalone-bootstrap-atomic-hardening.yaml
     task: harden-v06-bootstrap-plan
   implementation_started: false
-  decision: Ready to start goal-controlled plan hardening; implementation may begin only after the first task receives verifier evidence.
+  decision: Ready to start goal-controlled plan hardening; implementation may begin
+    only after the first task receives verifier evidence.
 hardening_review:
-  contract: Each of the thirteen inventory entries maps one-to-one to an atomic child task with exact paths, a direct serial predecessor, a leaf validation, and a bounded evidence claim.
-  implementation_gate: Only dora-v06-harden may start before verifier evidence proves the hardening task.
-  release_gate: The final release and consumer-pin tasks require separate external approval after local proof is complete.
+  contract: Each of the thirteen inventory entries maps one-to-one to an atomic child
+    task with exact paths, a direct serial predecessor, a leaf validation, and a bounded
+    evidence claim.
+  implementation_gate: Only dora-v06-harden may start before verifier evidence proves
+    the hardening task.
+  release_gate: The final release and consumer-pin tasks require separate external
+    approval after local proof is complete.
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/dora-v05-reusable-audits-and-plugins-master.yaml]
-  baseline_only_surfaces: [Dora v0.5 controls and plugins, MuffinMan product behavior and runtime evidence]
-  residual_scope: [explicit-source bootstrap, starter packs, plugin runner, full MuffinMan manifest adoption, onboarding, independent zero-knowledge fixture, v0.6 release and pin]
-  retest_triggers: [changed bootstrap source/ref policy, starter template, plugin manifest/runner, MuffinMan adapter, fixture, handoff, or pin]
-  non_duplication_rule: v0.5 evidence is baseline-only; v0.6 completion requires fresh zero-knowledge bootstrap and manifest-runner evidence.
+  reused_verified_plans:
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.5 controls and plugins
+  - MuffinMan product behavior and runtime evidence
+  residual_scope:
+  - explicit-source bootstrap
+  - starter packs
+  - plugin runner
+  - full MuffinMan manifest adoption
+  - onboarding
+  - independent zero-knowledge fixture
+  - v0.6 release and pin
+  retest_triggers:
+  - changed bootstrap source/ref policy
+  - starter template
+  - plugin manifest/runner
+  - MuffinMan adapter
+  - fixture
+  - handoff
+  - or pin
+  non_duplication_rule: v0.5 evidence is baseline-only; v0.6 completion requires fresh
+    zero-knowledge bootstrap and manifest-runner evidence.
 principles:
-  - Bootstrap requires an explicit source and never silently downloads code.
-  - Starters create declared technical skeletons, never guessed business products.
-  - Plugins run only from a declared manifest and write reports, not completion claims.
-  - Release and consumer pin are separate approval-gated reversible operations.
-children: [docs/work/dora-v06-standalone-bootstrap-atomic-hardening.yaml, docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml, docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml, docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml]
-evidence: []
+- Bootstrap requires an explicit source and never silently downloads code.
+- Starters create declared technical skeletons, never guessed business products.
+- Plugins run only from a declared manifest and write reports, not completion claims.
+- Release and consumer pin are separate approval-gated reversible operations.
+children:
+- docs/work/dora-v06-standalone-bootstrap-atomic-hardening.yaml
+- docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+- docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+- docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+evidence:
+- verifiedAt: '2026-08-05T12:36:58Z'
+  revision: 001a3a3b51b2af9756d8a7ddf736278ac440a4b1
+  children:
+  - docs/work/dora-v06-standalone-bootstrap-atomic-hardening.yaml
+  - docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  - docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  - docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml

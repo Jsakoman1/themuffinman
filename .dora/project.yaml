@@ -18,11 +18,11 @@ context:
 distribution:
   method: git_subtree
   source_repository: https://github.com/Jsakoman1/dora.git
-  source_ref: v0.5.0
-  source_commit: 4c9271cbe4d6798ea4124d85896129b0e51941e1
+  source_ref: v0.6.0
+  source_commit: d1335b5e46748fe97f3f29652fe1a62aa991aaa3
   subtree_prefix: dora
   update_command: git subtree pull --prefix=dora dora main --squash
-  rollback_rule: Revert the separate MuffinMan v0.5.0 pin commit to restore v0.4.0; do not reconstruct product evidence from Dora.
+  rollback_rule: Revert the separate MuffinMan v0.6.0 pin commit to restore the recorded v0.5.0 pin; do not reconstruct product evidence from Dora.
 extensions:
   - id: muffinman-reusable-plugin-manifest
     category: product_contract

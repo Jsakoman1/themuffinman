@@ -35,8 +35,8 @@ rollback:
   post_release: Restore the recorded embedded Dora revision or pin from the immutable release revision; never reconstruct product evidence from Dora.
 release_gate:
   required_decisions: [remote destination and owner, Dora version and immutable revision, MuffinMan consumption and pinning method, reviewed history-preservation procedure]
-  current_state: awaiting_explicit_external_approval
+  current_state: approved_and_published
 next_release:
   version: v0.6.0
   handoff: docs/dora-release-handoff-v06.yaml
-  state: awaiting_external_approval
+  state: published_unpinned

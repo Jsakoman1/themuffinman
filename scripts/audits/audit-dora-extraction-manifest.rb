@@ -86,7 +86,9 @@ if require_approved_release || check_handoff_draft
     failures << "published release handoff must explicitly be unpinned or pinned" unless consumption["status"] == "release_published_unpinned"
   end
   if require_approved_release
-    remote_output, remote_status = Open3.capture2e("git", "ls-remote", release["repository"], "refs/tags/#{release["version"]}*")
+    configured_remote, configured_status = Open3.capture2e("git", "-C", ROOT, "remote", "get-url", "dora")
+    remote = configured_status.success? && configured_remote.include?("Jsakoman1/dora") ? "dora" : release["repository"]
+    remote_output, remote_status = Open3.capture2e("git", "ls-remote", remote, "refs/tags/#{release["version"]}*")
     failures << "published Dora tag is not reachable" unless remote_status.success? && remote_output.include?(release["immutable_commit"])
   end
 end
