@@ -46,4 +46,4 @@ release_gate:
 next_release:
   version: v1.2.0
   handoff: docs/dora-release-handoff-v12.yaml
-  state: published_unpinned
+  state: published_pinned

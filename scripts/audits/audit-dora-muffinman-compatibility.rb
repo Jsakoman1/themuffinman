@@ -53,6 +53,8 @@ failures << "MuffinMan Dora distribution source_ref must be versioned" unless di
 failures << "MuffinMan Dora distribution source_commit must be immutable" unless distribution["source_commit"].to_s.match?(/\A[0-9a-f]{40}\z/)
 handoff_version = distribution["source_ref"].to_s.split(".").first(2).join.delete(".")
 handoff_path = File.join(ROOT, "docs/dora-release-handoff-#{handoff_version}.yaml")
+failures << "release handoff is missing for pinned Dora ref #{distribution["source_ref"]}" unless File.file?(handoff_path)
+abort "Dora/MuffinMan compatibility audit failed:\n- #{failures.join("\n- ")}" unless failures.empty?
 handoff = YAML.load_file(handoff_path)
 release = handoff.fetch("release", {})
 consumption = handoff.fetch("consumption", {})

@@ -2,7 +2,7 @@ kind: work
 version: 1
 id: dora-v12-evidence-and-release
 title: Link capability change evidence to revision and release only with approval
-status: active
+status: verified
 baseline: 470b6e9
 strict_verification: true
 serial_task_execution: true
@@ -149,6 +149,12 @@ tasks:
   - docs/dora-release-handoff-v12.yaml
   - scripts/audits/audit-dora-muffinman-compatibility.rb
   validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  status: done
+  started_at: '2026-08-05T17:44:24Z'
+  start_fingerprints:
+    ".dora/project.yaml": 2bf9cdcf6919088ab9a15a402390f7db5f056a8dfa0d42b5ed5d7c75ef75c3cc
+    docs/dora-release-handoff-v12.yaml: 22b94275834f13f652632268bc785ed46f21b8e8c37261019cc123002243fd46
+    scripts/audits/audit-dora-muffinman-compatibility.rb: 8a2fd057689e2aa6c444143ce69b5221fe066fce7590a6c2ded496e2760d8849
 evidence:
 - task: add-revision-evidence-trace
   command: ruby dora/test/revision_evidence_trace_test.rb
@@ -247,3 +253,23 @@ evidence:
   runtimeEvidencePaths: []
   startedAt: '2026-08-05T17:42:33Z'
   changedAfterStart: *5
+- task: pin-muffinman-v12
+  command: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  ranAt: '2026-08-05T17:45:10Z'
+  revision: fc9ad8ba668511a9b55931dd4704bddc8d02eefb
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v12.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  output: "Dora/MuffinMan compatibility audit passed (work-start, work-verify delegate
+    through Dora with a standalone fixture trace).\n\n"
+  requiredPaths: &6
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v12.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:44:24Z'
+  changedAfterStart: *6

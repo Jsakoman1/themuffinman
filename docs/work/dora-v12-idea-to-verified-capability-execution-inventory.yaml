@@ -264,4 +264,10 @@ items:
   order: 23
   plan: docs/work/dora-v12-evidence-and-release.yaml
   task: pin-muffinman-v12
-  status: pending
+  status: verified
+  started_at: '2026-08-05T17:44:24Z'
+  verified_at: '2026-08-05T17:45:12Z'
+  evidence:
+    plan: docs/work/dora-v12-evidence-and-release.yaml
+    task: pin-muffinman-v12
+    revision: fc9ad8ba668511a9b55931dd4704bddc8d02eefb
