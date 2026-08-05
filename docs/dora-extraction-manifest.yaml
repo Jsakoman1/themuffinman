@@ -46,4 +46,4 @@ release_gate:
 next_release:
   version: v1.1.0
   handoff: docs/dora-release-handoff-v11.yaml
-  state: awaiting_external_approval
+  state: published_pinned

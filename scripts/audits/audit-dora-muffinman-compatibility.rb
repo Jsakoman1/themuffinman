@@ -7,7 +7,7 @@ require "yaml"
 
 ROOT = File.expand_path("../..", __dir__)
 MATRIX_PATH = File.join(ROOT, "docs/dora-muffinman-compatibility-matrix.yaml")
-CURRENT_HANDOFF_PATH = File.join(ROOT, "docs/dora-release-handoff-v10.yaml")
+CURRENT_HANDOFF_PATH = File.join(ROOT, "docs/dora-release-handoff-v11.yaml")
 
 def target_body(target)
   lines = File.readlines(File.join(ROOT, "Makefile"), chomp: true)
