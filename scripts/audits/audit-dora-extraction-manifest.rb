@@ -72,6 +72,7 @@ if require_approved_release || check_handoff_draft
   consumption = handoff.fetch("consumption", {})
   %w[repository version immutable_commit].each { |field| failures << "release handoff is missing #{field}" if release[field].to_s.empty? }
   failures << "release handoff version differs from expected version" if expected_version && release["version"] != expected_version
+  failures << "release handoff approval scope is missing" unless handoff.dig("approval", "scope").to_s.match?(/Publish Dora/)
   failures << "release handoff does not declare git_subtree" unless consumption["method"] == "git_subtree"
   if next_release
     failures << "manifest next release handoff differs from requested handoff" unless next_release["handoff"] == handoff_path

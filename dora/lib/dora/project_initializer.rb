@@ -20,7 +20,11 @@ module Dora
       write_yaml(File.join(root, ".dora/project.yaml"), adapter(project_id))
       write_yaml(File.join(root, ".dora/project-control.yaml"), project_control)
       control_files.each { |relative, content| write_yaml(File.join(root, relative), content) }
-      files = manifest.fetch("files")
+      files = manifest.fetch("files").dup
+      agent_knowledge_files.each do |relative, template|
+        FileUtils.mkdir_p(File.dirname(File.join(root, relative)))
+        FileUtils.cp(template, File.join(root, relative))
+      end
       files << ProjectLauncher.write!(root, template_path: File.expand_path("../../templates/project-launcher", __dir__))
       files += StackPack.apply!(stack_pack_path, project_root: root).fetch("files") if stack_pack_path
       if ci_pack_path
@@ -47,6 +51,17 @@ module Dora
       {".dora/controls/tool-catalog.yaml" => {"kind" => "dora_tool_catalog", "version" => 1, "commands" => [{"id" => "control-check", "target" => "control-check", "purpose" => "Run project-defined control checks.", "preconditions" => ["project setup complete"], "expected_cost" => "short"}]}, ".dora/controls/change-routing.yaml" => {"kind" => "dora_change_routing", "version" => 1, "rules" => []}, ".dora/controls/context-search.yaml" => {"kind" => "dora_context_search", "version" => 1, "roots" => ["docs"], "exclusions" => []}, ".dora/controls/workspace-inventory.yaml" => {"kind" => "dora_workspace_inventory", "version" => 1, "categories" => []}, ".dora/controls/documentation-evidence.yaml" => {"kind" => "dora_documentation_evidence", "version" => 1, "claims" => []}, ".dora/controls/system-map.yaml" => {"kind" => "dora_system_map", "version" => 1, "nodes" => [], "edges" => []}, ".dora/controls/artifact-policy.yaml" => {"kind" => "dora_artifact_policy", "version" => 1, "generated_roots" => ["docs/audit-output"], "deletion_authority" => "project_authorized_command"}, ".dora/controls/backlog.yaml" => {"kind" => "dora_backlog", "version" => 1, "sources" => []}}
     end
     private_class_method :control_files
+
+    def self.agent_knowledge_files
+      templates = File.expand_path("../../templates", __dir__)
+      {
+        "docs/product-brief.yaml" => File.join(templates, "product-brief.yaml"),
+        "docs/domain-library.yaml" => File.join(templates, "domain-library.yaml"),
+        ".dora/agent-project-profile.yaml" => File.join(templates, "agent-project-profile.yaml"),
+        "AGENTS.md" => File.join(templates, "codex-project-entrypoint.md")
+      }
+    end
+    private_class_method :agent_knowledge_files
 
     def self.write_yaml(path, value)
       File.write(path, YAML.dump(value).sub(/\A---\n/, ""))

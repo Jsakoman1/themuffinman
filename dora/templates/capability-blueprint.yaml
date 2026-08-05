@@ -1,0 +1,23 @@
+kind: dora_capability_blueprint
+version: 1
+capability: Replace with a neutral capability name.
+ownership:
+  service_owner: Replace with the backend or service authority.
+  product_boundary: Replace with the capability boundary.
+api_boundary:
+  commands: [Replace with a typed command contract.]
+  queries: [Replace with a typed query contract.]
+state_model:
+  states: [draft, active]
+  transitions: [{from: draft, to: active, trigger: replace-with-trigger}]
+permissions:
+  rules: [Replace with an actor/action/boundary rule.]
+validations:
+  rules: [Replace with a deterministic validation rule.]
+evidence:
+  static: [Replace with static analysis or contract evidence.]
+  tests: [Replace with an automated behavior test.]
+  runtime: [Replace with runtime observation needed for acceptance.]
+client_responsibilities:
+  presentation: [Render server-prepared capability data.]
+  interactions: [Send declared commands and display validation outcomes.]

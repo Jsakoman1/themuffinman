@@ -1,0 +1,10 @@
+kind: dora_domain_library_schema
+version: 1
+purpose: Describe portable domain language, rules, permissions, workflows, and acceptance scenarios for an application under construction.
+required_fields: [kind, version, vocabulary, entities, invariants, permission_rules, workflows, acceptance_scenarios]
+named_list_fields: [vocabulary, entities, invariants, permission_rules, workflows, acceptance_scenarios]
+invariants:
+  - Every named item has a stable id and a factual description.
+  - Every workflow declares an initial state and at least one transition.
+  - Permission rules state an actor, action, and boundary.
+  - Acceptance scenarios are business examples, not runtime evidence.

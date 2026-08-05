@@ -3,6 +3,18 @@
 module Dora
   module Plugins
     class ArchitectureIntegrity
+      def self.analyze!(root:, source_roots:, inputs:)
+        declared_paths = inputs.fetch("paths", Array(source_roots).map { |source_root| source_root.fetch("path") })
+        rules = inputs.fetch("rules", [])
+        validate_paths!(root: root, paths: declared_paths)
+        {
+          "paths" => declared_paths,
+          "forbidden" => scan_forbidden!(root: root, rules: rules)
+        }
+      rescue KeyError => error
+        fail!("architecture analysis inputs are incomplete: #{error.message}")
+      end
+
       def self.validate_paths!(root:, paths:)
         root = File.expand_path(root)
         Array(paths).each do |path|

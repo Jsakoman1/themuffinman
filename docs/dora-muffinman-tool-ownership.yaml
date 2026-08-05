@@ -1,13 +1,20 @@
 kind: dora_muffinman_tool_ownership
 version: 1
 policy: Every local audit is classified; extract moves reusable mechanics to Dora, delegate keeps only MuffinMan inputs and destinations, and product_retained keeps product truth or repository-specific evidence authority.
+v08_boundary:
+  parser_ownership: Dora owns the reusable Java and TypeScript/Vue AST implementations; MuffinMan retains compatibility redirects only.
+  analysis_ownership: Dora owns built-in static analysis; MuffinMan declares product roots, rules, and report destinations in .dora/plugins.yaml.
+  retained_authority: MuffinMan retains product meaning, runtime evidence, historical records, and local operational inputs.
 groups:
   - id: reusable_static_analysis
     decision: delegate
-    reason: Algorithms are Dora plugins; MuffinMan supplies roots, configuration, and report destinations.
-    dora_surfaces: [dora/lib/dora/plugin_runner.rb, dora/lib/dora/plugin_adapter.rb]
+    reason: Algorithms execute as Dora built-ins; MuffinMan declares only product roots, analysis inputs, and report destinations in its manifest.
+    dora_surfaces: [dora/lib/dora/builtin_plugin_runner.rb, dora/lib/dora/plugin_runner.rb, dora/lib/dora/plugin_adapter.rb]
     manifest_required: true
     manifest_path: .dora/plugins.yaml
+    wrapper_contract:
+      allowed_statement: exec("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", "<plugin-id>")
+      forbidden: [local reusable analysis implementation, DORA_PLUGIN_RUNNER bypass]
     audits: [audit-api-contract-drift.rb, audit-canonical-source-integrity.rb, audit-configuration-environment-drift.rb, audit-endpoint-callsite-linker.rb, audit-frontend-interaction-contract.rb, audit-frontend-route-surfaces.rb, audit-frontend-stale-surfaces.rb, audit-mapper-usage.rb, audit-module-dependency-direction.rb, audit-read-surface-inventory.rb, audit-ui-entrypoints.rb]
   - id: reusable_control_mechanics
     decision: extract
@@ -23,7 +30,7 @@ groups:
     decision: product_retained
     reason: These scripts verify historical MuffinMan plan records or the current repository-specific v0.7 graph and are not a reusable product capability.
     retention_basis: historical_product_record
-    audits: [audit-dora-v04-operational-plan.rb, audit-dora-v05-reusable-plan.rb, audit-dora-v06-bootstrap-plan.rb, audit-dora-v07-product-boundary-plan.rb, audit-dora-muffinman-product-boundary.rb, audit-dora-muffinman-tool-ownership.rb]
+    audits: [audit-dora-v04-operational-plan.rb, audit-dora-v05-reusable-plan.rb, audit-dora-v06-bootstrap-plan.rb, audit-dora-v07-product-boundary-plan.rb, audit-dora-v08-agent-first-plan.rb, audit-dora-muffinman-product-boundary.rb, audit-dora-muffinman-tool-ownership.rb]
   - id: muffinman_product_truth_and_evidence
     decision: product_retained
     reason: These audits own MuffinMan capability, entity, permission, workflow, documentation, runtime, native, or registry meaning.

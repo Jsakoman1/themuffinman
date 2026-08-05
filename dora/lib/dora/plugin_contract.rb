@@ -13,7 +13,12 @@ module Dora
       fail!("plugin ids must be unique and non-empty") if ids.any? { |id| id.to_s.strip.empty? } || ids.uniq.length != ids.length
 
       plugins.each do |plugin|
-        %w[id entrypoint source_roots inputs output].each { |field| fail!("plugin #{plugin["id"] || "<unknown>"} is missing #{field}") unless present?(plugin[field]) }
+        %w[id source_roots inputs output].each { |field| fail!("plugin #{plugin["id"] || "<unknown>"} is missing #{field}") unless present?(plugin[field]) }
+        entrypoint = plugin["entrypoint"]
+        builtin = plugin["builtin"]
+        fail!("plugin #{plugin["id"]} must declare exactly one of entrypoint or builtin") unless present?(entrypoint) ^ present?(builtin)
+        fail!("plugin #{plugin["id"]} entrypoint is invalid") if present?(entrypoint) && !safe_relative_path?(entrypoint)
+        fail!("plugin #{plugin["id"]} builtin is invalid") if present?(builtin) && !builtin.match?(/\A[a-z][a-z0-9-]*\z/)
         fail!("plugin #{plugin["id"]} source_roots must be a list") unless plugin["source_roots"].is_a?(Array)
         plugin["source_roots"].each do |root|
           fail!("plugin #{plugin["id"]} source root is invalid") unless root.is_a?(Hash) && root["id"].to_s.match?(/\A[a-z0-9][a-z0-9_-]*\z/) && safe_relative_path?(root["path"])

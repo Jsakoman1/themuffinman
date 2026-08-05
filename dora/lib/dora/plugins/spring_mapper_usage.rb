@@ -3,6 +3,12 @@
 module Dora
   module Plugins
     class SpringMapperUsage
+      def self.analyze_declared!(root:, inputs:)
+        analyze!(root: root, mapper_glob: inputs.fetch("mapper_glob"), source_root: inputs.fetch("source_root"))
+      rescue KeyError => error
+        fail!("Spring mapper inputs are incomplete: #{error.message}")
+      end
+
       def self.analyze!(root:, mapper_glob:, source_root:)
         fail!("mapper glob is invalid") unless safe_relative_path?(mapper_glob)
         fail!("source root is invalid") unless safe_relative_path?(source_root)

@@ -1,0 +1,10 @@
+kind: dora_voice_capability_blueprint_schema
+version: 1
+purpose: Design a domain-neutral voice capability with deterministic safety boundaries around any consequential action.
+required_fields: [kind, version, transcription, semantic_interpretation, typed_capability_selection, deterministic_validation, review, confirmation, execution, consent, retention, evaluation]
+invariants:
+  - Transcription and semantic interpretation are fallible inputs, never authorization.
+  - Semantic interpretation selects only declared typed capabilities and structured arguments.
+  - Deterministic validation, review, and explicit confirmation precede consequential execution.
+  - Consent, retention, and evaluation are project-owned policies; raw conversation memory is not a Dora default.
+  - The blueprint contains no credentials, provider secrets, product intents, entity names, or mutation adapters.

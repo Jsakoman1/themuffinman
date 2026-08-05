@@ -1,0 +1,24 @@
+capability_blueprint:
+  kind: dora_capability_blueprint
+  version: 1
+  capability: shared-note
+  ownership: {service_owner: note-service, product_boundary: shared-note}
+  api_boundary: {commands: [create-note], queries: [read-note]}
+  state_model: {states: [draft, published], transitions: [{from: draft, to: published, trigger: publish}]}
+  permissions: {rules: [author-may-publish-own-note]}
+  validations: {rules: [content-must-be-present]}
+  evidence: {static: [contract-check], tests: [publish-test], runtime: [reviewed-flow]}
+  client_responsibilities: {presentation: [render-note], interactions: [submit-command]}
+voice_blueprint:
+  kind: dora_voice_capability_blueprint
+  version: 1
+  transcription: {input: consented-audio, output: text-with-uncertainty}
+  semantic_interpretation: {input: text, output: typed-candidate}
+  typed_capability_selection: {allowed_capabilities: [create-note], selection_rule: select-declared-capability-only}
+  deterministic_validation: {rule: validate-permissions-and-state-outside-language-model}
+  review: {rule: show-candidate-and-effects}
+  confirmation: {rule: require explicit confirmation before consequential action}
+  execution: {rule: execute typed adapter only after confirmation and validation}
+  consent: {rule: record-required-consent-before-processing}
+  retention: {rule: retain-minimum-approved-artifacts; raw conversation memory is disabled by default}
+  evaluation: {rule: evaluate-approved-fixtures-by-stage}

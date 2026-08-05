@@ -21,3 +21,4 @@ invariants:
   - Product-specific audit, runtime, and capability evidence remains outside this compatibility surface.
   - Every MuffinMan audit is classified as delegated reusable mechanics, extracted reusable mechanics, or product-retained authority in the ownership catalog.
   - A product-retained audit remains because it owns product meaning, product runtime authority, historical product record, or project-specific operational input.
+  - Reusable parser implementations and static-analysis algorithms are Dora-owned; MuffinMan compatibility shells contain no reusable analysis code.

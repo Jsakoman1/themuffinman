@@ -1,0 +1,517 @@
+kind: work
+version: 1
+id: dora-v08-agent-first-operating-system-01-source-engines
+title: Physically extract portable source-analysis engines
+status: verified
+baseline: d6ac8d5
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+master_plan: docs/work/dora-v08-agent-first-operating-system-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+  atomicity_contract: Each source engine must become independently executable from
+    Dora before wrappers can retire.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  baseline_only_surfaces:
+  - v0.7 wrapper delegation
+  residual_scope:
+  - builtin plugin execution
+  - AST engines
+  - and wrapper retirement
+  retest_triggers:
+  - changed plugin contract
+  - parser
+  - source root
+  - or wrapper
+  non_duplication_rule: a wrapper calling Dora is not proof that its algorithm is
+    inside Dora.
+tasks:
+- id: add-builtin-plugin-runner-contract
+  title: Add a built-in Dora plugin execution contract
+  type: implementation
+  status: done
+  inventory_item: dora-v08-builtin-runner
+  observable_outcome: A manifest can select a Dora-owned built-in plugin without a
+    consuming project's Ruby script.
+  dependencies:
+  - dora-v08-harden
+  evidence_boundary:
+  - builtin plugin runner test
+  paths:
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/lib/dora/plugin_contract.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/plugin.schema.yaml
+  - dora/test/builtin_plugin_runner_test.rb
+  required_paths:
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/lib/dora/plugin_contract.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/plugin.schema.yaml
+  - dora/test/builtin_plugin_runner_test.rb
+  validation: ruby dora/test/builtin_plugin_runner_test.rb
+  started_at: '2026-08-05T13:44:15Z'
+  start_fingerprints:
+    dora/lib/dora/builtin_plugin_runner.rb: __missing__
+    dora/lib/dora/plugin_contract.rb: 24e0c5c7783febaaa3514a31c006762ac6f22ec03e3df5a00eac2ba36eb40c0f
+    dora/lib/dora/plugin_runner.rb: 0a270a3e27c62ab6bd44d13a7adee54f0e9c54a10c0ccfd7b4342d16483b1c87
+    dora/plugin.schema.yaml: 797b4b95ff93a530ea199baf29c3754493f0b2bae7bd480db287ae02666a387e
+    dora/test/builtin_plugin_runner_test.rb: __missing__
+- id: extract-generic-java-ast-index
+  title: Extract a configurable Java AST index
+  type: implementation
+  status: done
+  inventory_item: dora-v08-java-ast
+  observable_outcome: Dora parses declared Java roots with JDK APIs and emits a bounded
+    portable JSON index without MuffinMan path assumptions.
+  dependencies:
+  - dora-v08-builtin-runner
+  evidence_boundary:
+  - portable Java AST fixture
+  paths:
+  - dora/tools/java-ast-index/RepositoryJavaAstIndex.java
+  - dora/lib/dora/plugins/java_ast_index.rb
+  - dora/java-ast-index.schema.yaml
+  - dora/test/java_ast_index_test.rb
+  - scripts/RepositoryJavaAstIndex.java
+  - scripts/repository-map.rb
+  required_paths:
+  - dora/tools/java-ast-index/RepositoryJavaAstIndex.java
+  - dora/lib/dora/plugins/java_ast_index.rb
+  - dora/java-ast-index.schema.yaml
+  - dora/test/java_ast_index_test.rb
+  - scripts/RepositoryJavaAstIndex.java
+  - scripts/repository-map.rb
+  validation: ruby dora/test/java_ast_index_test.rb
+  started_at: '2026-08-05T13:46:53Z'
+  start_fingerprints:
+    dora/tools/java-ast-index/RepositoryJavaAstIndex.java: __missing__
+    dora/lib/dora/plugins/java_ast_index.rb: __missing__
+    dora/java-ast-index.schema.yaml: __missing__
+    dora/test/java_ast_index_test.rb: __missing__
+    scripts/RepositoryJavaAstIndex.java: 842db54b993f4319fa8521344012febf7bbb76aaadb14f218fefa162f9069caa
+    scripts/repository-map.rb: 86c83435cf7cf17ebb712dbf96e486044b61f3e6b6a22bb9abd399b4973727aa
+- id: extract-generic-typescript-vue-ast-index
+  title: Extract a configurable TypeScript and Vue AST index
+  type: implementation
+  status: done
+  inventory_item: dora-v08-ts-vue-ast
+  observable_outcome: Dora parses declared TypeScript and Vue roots through a declared
+    Node dependency contract and emits a bounded portable index.
+  dependencies:
+  - dora-v08-java-ast
+  evidence_boundary:
+  - portable TypeScript/Vue AST fixture
+  paths:
+  - dora/tools/typescript-vue-ast-index.mjs
+  - dora/lib/dora/plugins/typescript_vue_ast_index.rb
+  - dora/typescript-vue-ast-index.schema.yaml
+  - dora/test/typescript_vue_ast_index_test.rb
+  - apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  - scripts/repository-map.rb
+  required_paths:
+  - dora/tools/typescript-vue-ast-index.mjs
+  - dora/lib/dora/plugins/typescript_vue_ast_index.rb
+  - dora/typescript-vue-ast-index.schema.yaml
+  - dora/test/typescript_vue_ast_index_test.rb
+  - apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  - scripts/repository-map.rb
+  validation: ruby dora/test/typescript_vue_ast_index_test.rb
+  started_at: '2026-08-05T13:49:42Z'
+  start_fingerprints:
+    dora/tools/typescript-vue-ast-index.mjs: __missing__
+    dora/lib/dora/plugins/typescript_vue_ast_index.rb: __missing__
+    dora/typescript-vue-ast-index.schema.yaml: __missing__
+    dora/test/typescript_vue_ast_index_test.rb: __missing__
+    apps/themuffinman/frontend/scripts/repository-ast-index.mjs: cb60d665e63670821cc6a079020e6605ef79641fdbff58e4493144d89ddcb4b3
+    scripts/repository-map.rb: d792f4df9811627dbd51d429956efbfbd3d62614e54c276f3e53486d9acbd3e7
+- id: make-architecture-analysis-a-builtin-plugin
+  title: Make architecture analysis Dora-owned
+  type: implementation
+  status: done
+  inventory_item: dora-v08-architecture-plugin
+  observable_outcome: A declared architecture rule set runs through a Dora built-in
+    plugin and produces a portable report without MuffinMan package names.
+  dependencies:
+  - dora-v08-ts-vue-ast
+  evidence_boundary:
+  - architecture builtin fixture
+  paths:
+  - dora/lib/dora/plugins/architecture_integrity.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/architecture_builtin_plugin_test.rb
+  - dora/fixtures/source-analysis/architecture-rules.yaml
+  required_paths:
+  - dora/lib/dora/plugins/architecture_integrity.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/architecture_builtin_plugin_test.rb
+  - dora/fixtures/source-analysis/architecture-rules.yaml
+  validation: ruby dora/test/architecture_builtin_plugin_test.rb
+  started_at: '2026-08-05T13:57:10Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/architecture_integrity.rb: 5a0a022e74354a5b7bc3d64e9e2599f7c08b43b2a24ba1de1a9b1d584b750f20
+    dora/lib/dora/builtin_plugin_runner.rb: a179cffdee0948d391dad07d717541746e17b232f82a70ea598b5b714ff575b6
+    dora/test/architecture_builtin_plugin_test.rb: __missing__
+    dora/fixtures/source-analysis/architecture-rules.yaml: __missing__
+- id: make-http-contract-analysis-a-builtin-plugin
+  title: Make HTTP contract analysis Dora-owned
+  type: implementation
+  status: done
+  inventory_item: dora-v08-http-plugin
+  observable_outcome: A declared backend DTO/controller and client contract runs through
+    Dora without generated MuffinMan contract names or paths.
+  dependencies:
+  - dora-v08-architecture-plugin
+  evidence_boundary:
+  - HTTP builtin fixture
+  paths:
+  - dora/lib/dora/plugins/http_contract_linker.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/http_builtin_plugin_test.rb
+  - dora/fixtures/source-analysis/http-contract.yaml
+  required_paths:
+  - dora/lib/dora/plugins/http_contract_linker.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/http_builtin_plugin_test.rb
+  - dora/fixtures/source-analysis/http-contract.yaml
+  validation: ruby dora/test/http_builtin_plugin_test.rb
+  started_at: '2026-08-05T13:57:48Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/http_contract_linker.rb: 9ef1e91ceb43fa4d56b17a9b9df0f9a1a430410f8052f7456c77cafca957becc
+    dora/lib/dora/builtin_plugin_runner.rb: 12b85bce4ff1cb1626c9cec0b41314510f79134b4ab5062b3cffbf808d18b69f
+    dora/test/http_builtin_plugin_test.rb: __missing__
+    dora/fixtures/source-analysis/http-contract.yaml: __missing__
+- id: make-spring-analysis-a-builtin-plugin
+  title: Make Spring analysis Dora-owned
+  type: implementation
+  status: done
+  inventory_item: dora-v08-spring-plugin
+  observable_outcome: Configuration and mapper analysis run from declared roots and
+    report through Dora without MuffinMan-specific wrapper logic.
+  dependencies:
+  - dora-v08-http-plugin
+  evidence_boundary:
+  - Spring builtin fixture
+  paths:
+  - dora/lib/dora/plugins/spring_configuration_drift.rb
+  - dora/lib/dora/plugins/spring_mapper_usage.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/spring_builtin_plugin_test.rb
+  required_paths:
+  - dora/lib/dora/plugins/spring_configuration_drift.rb
+  - dora/lib/dora/plugins/spring_mapper_usage.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/spring_builtin_plugin_test.rb
+  validation: ruby dora/test/spring_builtin_plugin_test.rb
+  started_at: '2026-08-05T13:58:29Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/spring_configuration_drift.rb: e3795b8bf9db363b8f2eaf90c8e1a2e070d9c88072222fd1652d4a55569e5e01
+    dora/lib/dora/plugins/spring_mapper_usage.rb: dedcd18e56569cc4ba480bb284c77b9b38fd14d75e2f9e8e84ee66d243863607
+    dora/lib/dora/builtin_plugin_runner.rb: 15252f2e669210dcb927bb8547b24637f62da1654ddbf884d736c38693f57697
+    dora/test/spring_builtin_plugin_test.rb: __missing__
+- id: make-vue-analysis-a-builtin-plugin
+  title: Make Vue analysis Dora-owned
+  type: implementation
+  status: done
+  inventory_item: dora-v08-vue-plugin
+  observable_outcome: Navigation, interaction, stale-surface, read-surface, and entrypoint
+    analysis run through declared Dora plugin inputs.
+  dependencies:
+  - dora-v08-spring-plugin
+  evidence_boundary:
+  - Vue builtin fixture
+  paths:
+  - dora/lib/dora/plugins/vue_navigation.rb
+  - dora/lib/dora/plugins/vue_surface_hygiene.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/vue_builtin_plugin_test.rb
+  required_paths:
+  - dora/lib/dora/plugins/vue_navigation.rb
+  - dora/lib/dora/plugins/vue_surface_hygiene.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/vue_builtin_plugin_test.rb
+  validation: ruby dora/test/vue_builtin_plugin_test.rb
+  started_at: '2026-08-05T13:59:03Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/vue_navigation.rb: 9e27df9dce63e52f532d7e0d618d779aa93738885dfa10ca93dac1b94af12ca8
+    dora/lib/dora/plugins/vue_surface_hygiene.rb: a1930cd3ba73b4ac89ec8d5c6cdd2e59aa94fca45b192c4c29f012b4fc819035
+    dora/lib/dora/builtin_plugin_runner.rb: 389cd97648202258a3ee55fc7b797b0d9aead4ef82ffaa574b9251aa5b2128cc
+    dora/test/vue_builtin_plugin_test.rb: __missing__
+- id: retire-muffinman-analysis-algorithms
+  title: Retire remaining MuffinMan reusable-analysis algorithms
+  type: implementation
+  status: done
+  inventory_item: dora-v08-retire-wrappers
+  observable_outcome: MuffinMan retained wrappers declare only product inputs and
+    report destinations; their reusable algorithms execute from Dora built-ins.
+  dependencies:
+  - dora-v08-vue-plugin
+  evidence_boundary:
+  - physical extraction and ownership audit
+  paths:
+  - ".dora/plugins.yaml"
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-mapper-usage.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  - dora/test/physical_plugin_extraction_test.rb
+  required_paths:
+  - ".dora/plugins.yaml"
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-mapper-usage.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  - dora/test/physical_plugin_extraction_test.rb
+  validation: ruby dora/test/physical_plugin_extraction_test.rb
+  started_at: '2026-08-05T13:59:51Z'
+  start_fingerprints:
+    ".dora/plugins.yaml": d924d60d28a6fd8a5790cc7b53ea03d389fd997891c2eb5557df8ab7ff539e72
+    docs/dora-muffinman-tool-ownership.yaml: 727f8d4b5dd3e470e93f528440eb047621a4758cc00d424881cd942805bc5d60
+    scripts/audits/audit-api-contract-drift.rb: fa0155be685b1a8f6d15d291b27df15ad13c64564bbfc9bbbcd6f25c246dcc56
+    scripts/audits/audit-canonical-source-integrity.rb: c9909b03f97c345a5a2b063f757b774465e0aabc57d34e9799a2efffaf8eaa32
+    scripts/audits/audit-configuration-environment-drift.rb: e2e36dd36d7ee87d1fe52510ba2999ee195c5ae72e046512109485e062dba47a
+    scripts/audits/audit-endpoint-callsite-linker.rb: d030dcf7e6f29519347036ac1ad03b857b41341cfa2dc7c049966e65c374e9e6
+    scripts/audits/audit-frontend-interaction-contract.rb: 047651b6a05fb6c743e9852fbbfa6e6afc8c72fcb3794eccaee30886d66e48c3
+    scripts/audits/audit-frontend-route-surfaces.rb: d982b2db455937cbb25c5b642a403dfa331d4e5af5d77efbe6aff7cb6a042be9
+    scripts/audits/audit-frontend-stale-surfaces.rb: 481f483b154624565d1d6a8fdcd86f6cbfe6ec6ffe1616994eab4e2798028755
+    scripts/audits/audit-mapper-usage.rb: e924bccce96c9605baa58be3e3556c6beb6238de6fb287349683b9d0bc303a7b
+    scripts/audits/audit-module-dependency-direction.rb: 44e37beca483d80d16294c3d337a1e5640b7b7f811ed896d098d147a3224a786
+    scripts/audits/audit-read-surface-inventory.rb: b16650be31d6550bb74d9ab893c47a52978b01ab64d5bf2ddcbb8a7a72151a1c
+    scripts/audits/audit-ui-entrypoints.rb: 9b54441c4c780a2c7b38b8d291d8b55ca4bae981c8099fd177b0f2cc34c4f826
+    scripts/audits/audit-dora-muffinman-tool-ownership.rb: a2557aac751f6bec21d33862f603725ab9fe06dc6e381544c8b5cc7b699b4b25
+    scripts/audits/audit-dora-muffinman-compatibility.rb: eccbdfb475ce67a766cb2c1dacb0e17822e4b54935c3aae2b2e56f01eea628e2
+    dora/test/physical_plugin_extraction_test.rb: __missing__
+evidence:
+- task: add-builtin-plugin-runner-contract
+  command: ruby dora/test/builtin_plugin_runner_test.rb
+  ranAt: '2026-08-05T13:46:41Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugin_contract.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/plugin.schema.yaml
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/builtin_plugin_runner_test.rb
+  output: "Dora built-in plugin runner test passed (no project Ruby entrypoint required).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/lib/dora/plugin_contract.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/plugin.schema.yaml
+  - dora/test/builtin_plugin_runner_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:44:15Z'
+  changedAfterStart: *1
+- task: extract-generic-java-ast-index
+  command: ruby dora/test/java_ast_index_test.rb
+  ranAt: '2026-08-05T13:49:36Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/RepositoryJavaAstIndex.java
+  - scripts/repository-map.rb
+  - dora/java-ast-index.schema.yaml
+  - dora/lib/dora/plugins/java_ast_index.rb
+  - dora/test/java_ast_index_test.rb
+  - dora/tools/java-ast-index/RepositoryJavaAstIndex.java
+  output: "Dora Java AST index test passed (portable JDK parser and redirected MuffinMan
+    compatibility shell).\n\n"
+  requiredPaths: &2
+  - dora/tools/java-ast-index/RepositoryJavaAstIndex.java
+  - dora/lib/dora/plugins/java_ast_index.rb
+  - dora/java-ast-index.schema.yaml
+  - dora/test/java_ast_index_test.rb
+  - scripts/RepositoryJavaAstIndex.java
+  - scripts/repository-map.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:46:53Z'
+  changedAfterStart: *2
+- task: extract-generic-typescript-vue-ast-index
+  command: ruby dora/test/typescript_vue_ast_index_test.rb
+  ranAt: '2026-08-05T13:51:54Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  - scripts/repository-map.rb
+  - dora/lib/dora/plugins/typescript_vue_ast_index.rb
+  - dora/test/typescript_vue_ast_index_test.rb
+  - dora/tools/typescript-vue-ast-index.mjs
+  - dora/typescript-vue-ast-index.schema.yaml
+  output: "Dora TypeScript/Vue AST index test passed (declared consumer parser and
+    redirected MuffinMan compatibility shell).\n\n"
+  requiredPaths: &3
+  - dora/tools/typescript-vue-ast-index.mjs
+  - dora/lib/dora/plugins/typescript_vue_ast_index.rb
+  - dora/typescript-vue-ast-index.schema.yaml
+  - dora/test/typescript_vue_ast_index_test.rb
+  - apps/themuffinman/frontend/scripts/repository-ast-index.mjs
+  - scripts/repository-map.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:49:42Z'
+  changedAfterStart: *3
+- task: make-architecture-analysis-a-builtin-plugin
+  command: ruby dora/test/architecture_builtin_plugin_test.rb
+  ranAt: '2026-08-05T13:57:43Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugins/architecture_integrity.rb
+  - dora/fixtures/source-analysis/architecture-rules.yaml
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/architecture_builtin_plugin_test.rb
+  output: "Dora architecture built-in plugin test passed (declared portable rules
+    and diagnostic report).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/plugins/architecture_integrity.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/architecture_builtin_plugin_test.rb
+  - dora/fixtures/source-analysis/architecture-rules.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:57:10Z'
+  changedAfterStart: *4
+- task: make-http-contract-analysis-a-builtin-plugin
+  command: ruby dora/test/http_builtin_plugin_test.rb
+  ranAt: '2026-08-05T13:58:24Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugins/http_contract_linker.rb
+  - dora/fixtures/source-analysis/http-contract.yaml
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/http_builtin_plugin_test.rb
+  output: "Dora HTTP built-in plugin test passed (declared DTO, controller, and client
+    contract).\n\n"
+  requiredPaths: &5
+  - dora/lib/dora/plugins/http_contract_linker.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/http_builtin_plugin_test.rb
+  - dora/fixtures/source-analysis/http-contract.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:57:48Z'
+  changedAfterStart: *5
+- task: make-spring-analysis-a-builtin-plugin
+  command: ruby dora/test/spring_builtin_plugin_test.rb
+  ranAt: '2026-08-05T13:58:59Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugins/spring_configuration_drift.rb
+  - dora/lib/dora/plugins/spring_mapper_usage.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/spring_builtin_plugin_test.rb
+  output: "Dora Spring built-in plugin test passed (declared configuration and mapper
+    analysis).\n\n"
+  requiredPaths: &6
+  - dora/lib/dora/plugins/spring_configuration_drift.rb
+  - dora/lib/dora/plugins/spring_mapper_usage.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/spring_builtin_plugin_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:58:29Z'
+  changedAfterStart: *6
+- task: make-vue-analysis-a-builtin-plugin
+  command: ruby dora/test/vue_builtin_plugin_test.rb
+  ranAt: '2026-08-05T13:59:44Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugins/vue_navigation.rb
+  - dora/lib/dora/plugins/vue_surface_hygiene.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/vue_builtin_plugin_test.rb
+  output: "Dora Vue built-in plugin test passed (navigation, interaction, stale, read-surface,
+    and entrypoint evidence).\n\n"
+  requiredPaths: &7
+  - dora/lib/dora/plugins/vue_navigation.rb
+  - dora/lib/dora/plugins/vue_surface_hygiene.rb
+  - dora/lib/dora/builtin_plugin_runner.rb
+  - dora/test/vue_builtin_plugin_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:59:03Z'
+  changedAfterStart: *7
+- task: retire-muffinman-analysis-algorithms
+  command: ruby dora/test/physical_plugin_extraction_test.rb
+  ranAt: '2026-08-05T14:03:02Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/plugins.yaml"
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-mapper-usage.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  - dora/test/physical_plugin_extraction_test.rb
+  output: "Dora physical plugin extraction test passed (eleven MuffinMan shells and
+    both parser redirects are Dora-owned).\n\n"
+  requiredPaths: &8
+  - ".dora/plugins.yaml"
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-mapper-usage.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  - dora/test/physical_plugin_extraction_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:59:51Z'
+  changedAfterStart: *8

@@ -1,0 +1,10 @@
+kind: dora_product_brief
+version: 1
+product: Replace with the product name.
+user_problem: Replace with the user problem this product addresses.
+primary_users: [Replace with a primary user group.]
+intended_outcomes: [Replace with a measurable user or business outcome.]
+non_goals: [Replace with an explicit out-of-scope outcome.]
+assumptions: [Replace with an assumption that needs validation.]
+risks: [Replace with a material delivery, adoption, or safety risk.]
+unanswered_decisions: [Replace with a decision that must be made before implementation.] 

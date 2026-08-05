@@ -6,9 +6,10 @@ require "fileutils"
 require "open3"
 require "time"
 require "yaml"
+require_relative "../dora/lib/dora/plugins/java_ast_index"
+require_relative "../dora/lib/dora/plugins/typescript_vue_ast_index"
 
 ROOT = File.expand_path("..", __dir__)
-AST_SCRIPT = File.join(ROOT, "apps/themuffinman/frontend/scripts/repository-ast-index.mjs")
 
 query = nil
 check_only = false
@@ -28,12 +29,8 @@ ARGV.each_with_index do |arg, index|
   abort "--max-output must be at least 512" if max_output < 512
 end
 
-ast_stdout, ast_stderr, ast_status = Open3.capture3("node", AST_SCRIPT, "--json", chdir: ROOT)
-abort(ast_stderr.empty? ? "Frontend AST index failed" : ast_stderr) unless ast_status.success?
-frontend = JSON.parse(ast_stdout)
-java_stdout, java_stderr, java_status = Open3.capture3("java", "scripts/RepositoryJavaAstIndex.java", "apps/themuffinman/src/main/java", chdir: ROOT)
-abort(java_stderr.empty? ? "Java AST index failed" : java_stderr) unless java_status.success?
-java_ast = JSON.parse(java_stdout)
+frontend = Dora::Plugins::TypeScriptVueAstIndex.index!(root: ROOT, source_roots: [{"id" => "frontend", "path" => "apps/themuffinman/frontend/src"}], package_root: "apps/themuffinman/frontend")
+java_ast = Dora::Plugins::JavaAstIndex.index!(root: ROOT, source_roots: [{"id" => "backend", "path" => "apps/themuffinman/src/main/java"}])
 
 java_files = Dir[File.join(ROOT, "apps/themuffinman/src/main/java/**/*.java")]
 backend = java_files.map do |path|

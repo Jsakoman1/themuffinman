@@ -32,7 +32,7 @@ module Dora
       apply_ci!(project_root, package_root, ci_pack_path) if ci_pack_path
       write_source_record(project_root, source)
 
-      {"project_root" => project_root, "package_path" => PACKAGE_DIRECTORY, "source_ref" => source.fetch("ref")}
+      {"project_root" => project_root, "package_path" => PACKAGE_DIRECTORY, "source_ref" => source.fetch("ref"), "agent_profile" => ".dora/agent-project-profile.yaml"}
     end
 
     def self.apply_ci!(project_root, package_root, ci_pack_path)

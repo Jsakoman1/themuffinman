@@ -5,6 +5,17 @@ module Dora
     class HttpContractLinker
       HTTP = {"get" => "GET", "post" => "POST", "put" => "PUT", "patch" => "PATCH", "delete" => "DELETE"}.freeze
 
+      def self.analyze!(root:, inputs:)
+        result = {
+          "endpoint_links" => endpoint_links!(root: root, controller_glob: inputs.fetch("controller_glob"), client_glob: inputs.fetch("client_glob"))
+        }
+        if inputs["dto_glob"] || inputs["contract_path"] || inputs["frontend_glob"]
+          %w[dto_glob contract_path frontend_glob].each { |field| fail!("HTTP contract input is missing #{field}") unless inputs[field].is_a?(String) && !inputs[field].empty? }
+          result["dto_drift"] = dto_drift!(root: root, dto_glob: inputs.fetch("dto_glob"), contract_path: inputs.fetch("contract_path"), frontend_glob: inputs.fetch("frontend_glob"))
+        end
+        result
+      end
+
       def self.dto_drift!(root:, dto_glob:, contract_path:, frontend_glob:)
         root = File.expand_path(root)
         validate_paths!(dto_glob, contract_path, frontend_glob)

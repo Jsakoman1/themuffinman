@@ -1,0 +1,290 @@
+kind: work
+version: 1
+id: dora-v08-agent-first-operating-system-02-agent-knowledge
+title: Give Dora structured product knowledge and a Codex operating profile
+status: verified
+baseline: d6ac8d5
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+master_plan: docs/work/dora-v08-agent-first-operating-system-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+  atomicity_contract: Product knowledge structures and Codex instructions must be
+    validated separately from application business meaning.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan business and domain documentation
+  residual_scope:
+  - generic project brief
+  - domain library
+  - and Codex profile
+  retest_triggers:
+  - changed schema
+  - template
+  - bootstrap
+  - or validation
+  non_duplication_rule: Dora supplies structures and validation
+  never copied MuffinMan business content.: 
+tasks:
+- id: add-product-brief-contract
+  title: Add a product brief contract
+  type: implementation
+  status: done
+  inventory_item: dora-v08-product-brief
+  observable_outcome: A project can declare its user problem, outcomes, non-goals,
+    assumptions, risks, and unanswered decisions in a validated portable brief.
+  dependencies:
+  - dora-v08-retire-wrappers
+  evidence_boundary:
+  - product brief contract test
+  paths:
+  - dora/product-brief.schema.yaml
+  - dora/templates/product-brief.yaml
+  - dora/lib/dora/product_brief.rb
+  - dora/test/product_brief_test.rb
+  required_paths:
+  - dora/product-brief.schema.yaml
+  - dora/templates/product-brief.yaml
+  - dora/lib/dora/product_brief.rb
+  - dora/test/product_brief_test.rb
+  validation: ruby dora/test/product_brief_test.rb
+  started_at: '2026-08-05T14:03:08Z'
+  start_fingerprints:
+    dora/product-brief.schema.yaml: __missing__
+    dora/templates/product-brief.yaml: __missing__
+    dora/lib/dora/product_brief.rb: __missing__
+    dora/test/product_brief_test.rb: __missing__
+- id: add-domain-workflow-permission-library
+  title: Add a domain workflow and permission library
+  type: implementation
+  status: done
+  inventory_item: dora-v08-domain-library
+  observable_outcome: A project can declare domain vocabulary, entities, invariants,
+    permission rules, workflow transitions, and acceptance scenarios without assuming
+    a specific business vertical.
+  dependencies:
+  - dora-v08-product-brief
+  evidence_boundary:
+  - domain library contract test
+  paths:
+  - dora/domain-library.schema.yaml
+  - dora/templates/domain-library.yaml
+  - dora/lib/dora/domain_library.rb
+  - dora/test/domain_library_test.rb
+  required_paths:
+  - dora/domain-library.schema.yaml
+  - dora/templates/domain-library.yaml
+  - dora/lib/dora/domain_library.rb
+  - dora/test/domain_library_test.rb
+  validation: ruby dora/test/domain_library_test.rb
+  started_at: '2026-08-05T14:03:57Z'
+  start_fingerprints:
+    dora/domain-library.schema.yaml: __missing__
+    dora/templates/domain-library.yaml: __missing__
+    dora/lib/dora/domain_library.rb: __missing__
+    dora/test/domain_library_test.rb: __missing__
+- id: add-codex-agent-project-profile
+  title: Add a Codex agent project profile
+  type: implementation
+  status: done
+  inventory_item: dora-v08-agent-profile
+  observable_outcome: A project declares machine-readable agent entrypoints, canonical
+    knowledge sources, stack commands, authority limits, evidence requirements, and
+    safe implementation order.
+  dependencies:
+  - dora-v08-domain-library
+  evidence_boundary:
+  - agent profile contract test
+  paths:
+  - dora/agent-project-profile.schema.yaml
+  - dora/templates/agent-project-profile.yaml
+  - dora/lib/dora/agent_project_profile.rb
+  - dora/test/agent_project_profile_test.rb
+  required_paths:
+  - dora/agent-project-profile.schema.yaml
+  - dora/templates/agent-project-profile.yaml
+  - dora/lib/dora/agent_project_profile.rb
+  - dora/test/agent_project_profile_test.rb
+  validation: ruby dora/test/agent_project_profile_test.rb
+  started_at: '2026-08-05T14:05:05Z'
+  start_fingerprints:
+    dora/agent-project-profile.schema.yaml: __missing__
+    dora/templates/agent-project-profile.yaml: __missing__
+    dora/lib/dora/agent_project_profile.rb: __missing__
+    dora/test/agent_project_profile_test.rb: __missing__
+- id: bootstrap-agent-knowledge-artifacts
+  title: Bootstrap product and agent knowledge artifacts
+  type: implementation
+  status: done
+  inventory_item: dora-v08-bootstrap-knowledge
+  observable_outcome: A new Dora project receives empty but valid brief, domain library,
+    agent profile, and Codex entrypoint artifacts alongside technical controls.
+  dependencies:
+  - dora-v08-agent-profile
+  evidence_boundary:
+  - knowledge bootstrap fixture
+  paths:
+  - dora/lib/dora/project_initializer.rb
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/templates/init-manifest.yaml
+  - dora/templates/codex-project-entrypoint.md
+  - dora/test/agent_knowledge_bootstrap_test.rb
+  required_paths:
+  - dora/lib/dora/project_initializer.rb
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/templates/init-manifest.yaml
+  - dora/templates/codex-project-entrypoint.md
+  - dora/test/agent_knowledge_bootstrap_test.rb
+  validation: ruby dora/test/agent_knowledge_bootstrap_test.rb
+  started_at: '2026-08-05T14:05:59Z'
+  start_fingerprints:
+    dora/lib/dora/project_initializer.rb: 1ffc5450d9a52cba47e6c94bbac97886dbb0adf895e3a0d4ec32165a44cb617e
+    dora/lib/dora/project_bootstrap.rb: 42a93a4f7902825e5e902573db619305cad7d02b756661dd0c14f8172b4dad4a
+    dora/templates/init-manifest.yaml: 56294f8b39cc3b5f53020cb4cb3126d1867e3add5d18616766059c86a577e770
+    dora/templates/codex-project-entrypoint.md: __missing__
+    dora/test/agent_knowledge_bootstrap_test.rb: __missing__
+- id: validate-project-knowledge-and-agent-context
+  title: Validate project knowledge and agent context
+  type: implementation
+  status: done
+  inventory_item: dora-v08-knowledge-audit
+  observable_outcome: Dora doctor fails closed when a selected project omits required
+    knowledge artifacts or has inconsistent capability, domain, or agent references.
+  dependencies:
+  - dora-v08-bootstrap-knowledge
+  evidence_boundary:
+  - knowledge-aware doctor test
+  paths:
+  - dora/lib/dora/project_doctor.rb
+  - dora/lib/dora/project_knowledge.rb
+  - dora/bin/dora
+  - dora/test/project_knowledge_doctor_test.rb
+  required_paths:
+  - dora/lib/dora/project_doctor.rb
+  - dora/lib/dora/project_knowledge.rb
+  - dora/bin/dora
+  - dora/test/project_knowledge_doctor_test.rb
+  validation: ruby dora/test/project_knowledge_doctor_test.rb
+  started_at: '2026-08-05T14:06:42Z'
+  start_fingerprints:
+    dora/lib/dora/project_doctor.rb: cf328d93f55e0371e9dd3c87f958ea9e3de705b570af0355aed3cbb2d82a3053
+    dora/lib/dora/project_knowledge.rb: __missing__
+    dora/bin/dora: 01352316fe33ab99fa3da84bc9712ccd0e41956c957905fb790e3dda0f9359ab
+    dora/test/project_knowledge_doctor_test.rb: __missing__
+evidence:
+- task: add-product-brief-contract
+  command: ruby dora/test/product_brief_test.rb
+  ranAt: '2026-08-05T14:03:53Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/product_brief.rb
+  - dora/product-brief.schema.yaml
+  - dora/templates/product-brief.yaml
+  - dora/test/product_brief_test.rb
+  output: "Dora product brief test passed (portable intent, boundaries, and explicit
+    uncertainty).\n\n"
+  requiredPaths: &1
+  - dora/product-brief.schema.yaml
+  - dora/templates/product-brief.yaml
+  - dora/lib/dora/product_brief.rb
+  - dora/test/product_brief_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:03:08Z'
+  changedAfterStart: *1
+- task: add-domain-workflow-permission-library
+  command: ruby dora/test/domain_library_test.rb
+  ranAt: '2026-08-05T14:04:49Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/domain-library.schema.yaml
+  - dora/lib/dora/domain_library.rb
+  - dora/templates/domain-library.yaml
+  - dora/test/domain_library_test.rb
+  output: "Dora domain library test passed (vocabulary, invariants, permissions, workflows,
+    and acceptance scenarios).\n\n"
+  requiredPaths: &2
+  - dora/domain-library.schema.yaml
+  - dora/templates/domain-library.yaml
+  - dora/lib/dora/domain_library.rb
+  - dora/test/domain_library_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:03:57Z'
+  changedAfterStart: *2
+- task: add-codex-agent-project-profile
+  command: ruby dora/test/agent_project_profile_test.rb
+  ranAt: '2026-08-05T14:05:53Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/agent-project-profile.schema.yaml
+  - dora/lib/dora/agent_project_profile.rb
+  - dora/templates/agent-project-profile.yaml
+  - dora/test/agent_project_profile_test.rb
+  output: "Dora agent project profile test passed (entrypoints, authority, evidence,
+    and safe work order).\n\n"
+  requiredPaths: &3
+  - dora/agent-project-profile.schema.yaml
+  - dora/templates/agent-project-profile.yaml
+  - dora/lib/dora/agent_project_profile.rb
+  - dora/test/agent_project_profile_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:05:05Z'
+  changedAfterStart: *3
+- task: bootstrap-agent-knowledge-artifacts
+  command: ruby dora/test/agent_knowledge_bootstrap_test.rb
+  ranAt: '2026-08-05T14:06:37Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/templates/init-manifest.yaml
+  - dora/templates/codex-project-entrypoint.md
+  - dora/test/agent_knowledge_bootstrap_test.rb
+  output: "Dora agent knowledge bootstrap test passed (brief, domain library, agent
+    profile, and Codex entrypoint).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/project_initializer.rb
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/templates/init-manifest.yaml
+  - dora/templates/codex-project-entrypoint.md
+  - dora/test/agent_knowledge_bootstrap_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:05:59Z'
+  changedAfterStart: *4
+- task: validate-project-knowledge-and-agent-context
+  command: ruby dora/test/project_knowledge_doctor_test.rb
+  ranAt: '2026-08-05T14:07:20Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/project_doctor.rb
+  - dora/lib/dora/project_knowledge.rb
+  - dora/test/project_knowledge_doctor_test.rb
+  output: "Dora project knowledge doctor test passed (required agent knowledge fails
+    closed when incomplete).\n\n"
+  requiredPaths: &5
+  - dora/lib/dora/project_doctor.rb
+  - dora/lib/dora/project_knowledge.rb
+  - dora/bin/dora
+  - dora/test/project_knowledge_doctor_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:06:42Z'
+  changedAfterStart: *5

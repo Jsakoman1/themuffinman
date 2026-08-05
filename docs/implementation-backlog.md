@@ -6,7 +6,7 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
-- DORA-V07-COMPLETE-PRODUCT-BOUNDARY-001: execute `docs/work/dora-v07-complete-product-boundary-master.yaml` to extract every verified reusable delivery mechanism from MuffinMan into Dora, classify every remaining local audit as delegate or product-retained, provide a buildable technical starter, and prove a clean product/Dora boundary before a separately approved release and pin.
+- DORA-V08-AGENT-FIRST-OPERATING-SYSTEM-001: execute `docs/work/dora-v08-agent-first-operating-system-master.yaml` to physically extract remaining reusable analysis engines, give Dora a project-knowledge and Codex-agent operating model, provide architecture and voice-capability blueprints, and prove an independent idea-to-validated-application workflow before a separately approved release and pin.
 
 - UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,

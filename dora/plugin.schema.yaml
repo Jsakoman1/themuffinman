@@ -1,10 +1,13 @@
 kind: dora_plugin_manifest_schema
 version: 1
 purpose: Declare optional stack plugins without Dora inferring source roots, product behavior, or completion status.
-plugin_required_fields: [id, entrypoint, source_roots, inputs, output]
+plugin_required_fields: [id, source_roots, inputs, output]
+plugin_execution_one_of: [entrypoint, builtin]
 source_root_required_fields: [id, path]
 output_required_fields: [kind, path]
 invariants:
   - Plugin source roots are project-owned relative paths.
+  - A plugin runs either a project-owned Ruby entrypoint or a Dora built-in; never both.
+  - Built-ins are Dora-owned static analysis only and do not require executable project code.
   - Inputs describe only static analysis configuration supplied by the consuming project.
   - Plugin output is a report contract, never a capability, runtime, or release conclusion.

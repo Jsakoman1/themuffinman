@@ -1,0 +1,98 @@
+kind: work
+version: 1
+id: dora-v08-agent-first-operating-system-atomic-hardening
+title: Harden the Dora agent-first program before implementation
+status: verified
+baseline: d6ac8d5
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+master_plan: docs/work/dora-v08-agent-first-operating-system-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+  atomicity_contract: Hardening must prove exact scope and direct dependency before
+    source or knowledge implementation begins.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  baseline_only_surfaces:
+  - v0.7.1 plan evidence
+  residual_scope:
+  - v0.8 atomic contract
+  retest_triggers:
+  - changed plan
+  - inventory
+  - or ownership classification
+  non_duplication_rule: no source implementation before hardening evidence.
+tasks:
+- id: harden-agent-first-program
+  title: Harden all agent-first atomic tasks
+  type: docs-only
+  status: done
+  inventory_item: dora-v08-harden
+  observable_outcome: Every v0.8 task has exact required paths, one leaf validation,
+    direct serial dependency, and a product-versus-Dora ownership decision.
+  dependencies: []
+  evidence_boundary:
+  - v0.8 plan hardening audit
+  paths:
+  - docs/work/dora-v08-agent-first-operating-system-master.yaml
+  - docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+  - docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
+  - docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  - docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  - docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  - docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+  - scripts/audits/audit-dora-v08-agent-first-plan.rb
+  required_paths:
+  - docs/work/dora-v08-agent-first-operating-system-master.yaml
+  - docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+  - docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
+  - docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  - docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  - docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  - docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+  - scripts/audits/audit-dora-v08-agent-first-plan.rb
+  validation: ruby scripts/audits/audit-dora-v08-agent-first-plan.rb
+  started_at: '2026-08-05T13:39:37Z'
+  start_fingerprints:
+    docs/work/dora-v08-agent-first-operating-system-master.yaml: 348f7d885ac14e42e4e1a031a12bb9e7883680fce0761c1ce3001cbf0acc06a8
+    docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml: 2d0472fd5253671ddc7ea6f40b8edb185f2f6472756624d74be0f31f0fa33a12
+    docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml: 4c54501757c4581ddbff21a34af6f99f05462a0503a180bc6ebdbfd0ac7b4fce
+    docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml: bd04151e577691b96874b549c3c568191b596a3acc1275d7287b7af2808901a7
+    docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml: fda63f2c4ee9ae9ab609392a32ea793880075a7b367709e7ae5de535532f0a1b
+    docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml: 7f5ad6212c213c16b3dd343e45b35acffc73a81467211347e46dbfef3e3bcdf5
+    docs/work/dora-v08-agent-first-operating-system-04-release.yaml: 947d8bbe19746b868e8ea4569086a3f5b3998ac0317d3de3e4ef799d8f03bd81
+    scripts/audits/audit-dora-v08-agent-first-plan.rb: __missing__
+evidence:
+- task: harden-agent-first-program
+  command: ruby scripts/audits/audit-dora-v08-agent-first-plan.rb
+  ranAt: '2026-08-05T13:44:15Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  - docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  - docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  - docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+  - docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
+  - docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+  - docs/work/dora-v08-agent-first-operating-system-master.yaml
+  - scripts/audits/audit-dora-v08-agent-first-plan.rb
+  output: "Dora v0.8 agent-first plan audit passed (22 exact serial tasks; physical
+    extraction, agent, voice, and approval gates are explicit).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v08-agent-first-operating-system-master.yaml
+  - docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+  - docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
+  - docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  - docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  - docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  - docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+  - scripts/audits/audit-dora-v08-agent-first-plan.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:39:37Z'
+  changedAfterStart: *1

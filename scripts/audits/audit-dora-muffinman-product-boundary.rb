@@ -38,13 +38,21 @@ manifest = YAML.load_file(File.join(ROOT, ".dora/plugins.yaml"))
 plugins = Array(manifest["plugins"])
 Array(static_group && static_group["audits"]).each do |audit|
   entrypoint = "scripts/audits/#{audit}"
-  plugin = plugins.find { |candidate| candidate["entrypoint"] == entrypoint }
-  failures << "delegated audit has no declared Dora plugin: #{audit}" unless plugin
+  wrapper = File.read(File.join(ROOT, entrypoint))
+  plugin = plugins.find { |candidate| wrapper.include?(candidate["id"].to_s) }
+  failures << "delegated audit has no declared Dora built-in plugin: #{audit}" unless plugin && plugin["builtin"].to_s != ""
   next unless plugin
 
-  wrapper = File.read(File.join(ROOT, entrypoint))
   failures << "delegated audit does not route through Dora: #{audit}" unless wrapper.include?("plugin-run") && wrapper.include?(plugin.fetch("id"))
+  statements = wrapper.lines.grep_v(/^#!|^#|^\s*$/)
+  failures << "delegated audit retains reusable local analysis: #{audit}" unless statements.length == 1
   failures << "delegated audit has no Dora report destination: #{audit}" unless plugin.dig("output", "path").to_s.start_with?("docs/audit-output/")
+end
+
+failures << "MuffinMan Java parser is not a Dora compatibility redirect" unless File.read(File.join(ROOT, "scripts/RepositoryJavaAstIndex.java")).include?("dora/tools/java-ast-index")
+failures << "MuffinMan TypeScript/Vue parser is not a Dora compatibility redirect" unless File.read(File.join(ROOT, "apps/themuffinman/frontend/scripts/repository-ast-index.mjs")).include?("typescript-vue-ast-index.mjs")
+%w[dora/lib/dora/plugins/java_ast_index.rb dora/lib/dora/plugins/typescript_vue_ast_index.rb dora/lib/dora/builtin_plugin_runner.rb].each do |path|
+  failures << "required Dora reusable engine is missing: #{path}" unless File.file?(File.join(ROOT, path))
 end
 
 failures << "compatibility matrix kind is invalid" unless matrix["kind"] == "dora_muffinman_compatibility_matrix" && matrix["version"].to_i == 1

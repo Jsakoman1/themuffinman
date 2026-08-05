@@ -1,0 +1,12 @@
+kind: dora_typescript_vue_ast_index_schema
+version: 1
+purpose: Parse declared TypeScript, JavaScript, and Vue source roots through a consuming project's declared Node parser dependency.
+required_inputs: [project_root, source_roots, package_root, parser_module]
+source_root_required_fields: [id, path]
+output:
+  kind: typescript_vue_ast_index
+  fields: [version, kind, sourceRoots, parser, files, summary]
+invariants:
+  - Dora resolves the parser from the declared consuming-project package root, never from an implicit global module.
+  - Indexed file paths are relative to the supplied project root.
+  - Parse output is static evidence only and never a product or runtime conclusion.

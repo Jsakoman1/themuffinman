@@ -53,3 +53,6 @@ boundary audit.
 For a complete beginner and operator workflow—including plugins, reports,
 upgrades, and the boundary between Dora and a product—read
 [`docs/operator-guide.md`](docs/operator-guide.md).
+
+For the Codex-first route from an idea to verified application work, read
+[`docs/agent-first-application-guide.md`](docs/agent-first-application-guide.md).

@@ -1,0 +1,246 @@
+kind: execution_inventory
+version: 1
+id: dora-v08-agent-first-operating-system-execution-inventory
+master_plan: docs/work/dora-v08-agent-first-operating-system-master.yaml
+status: draft
+hardening_contract:
+  verifier: ruby scripts/audits/audit-dora-v08-agent-first-plan.rb
+  item_count: 22
+  mapping: Every item maps exactly once to one child-plan task and has one observable
+    outcome.
+  dependency: Each item directly depends on its immediate predecessor; one global
+    item may be in progress.
+  ownership: Dora-extracted code must be executable in an independent consumer; product-retained
+    code must have a documented product-authority reason.
+items:
+- id: dora-v08-harden
+  order: 1
+  plan: docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
+  task: harden-agent-first-program
+  status: verified
+  started_at: '2026-08-05T13:39:37Z'
+  verified_at: '2026-08-05T13:44:15Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
+    task: harden-agent-first-program
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-builtin-runner
+  order: 2
+  plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  task: add-builtin-plugin-runner-contract
+  status: verified
+  started_at: '2026-08-05T13:44:15Z'
+  verified_at: '2026-08-05T13:46:41Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+    task: add-builtin-plugin-runner-contract
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-java-ast
+  order: 3
+  plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  task: extract-generic-java-ast-index
+  status: verified
+  started_at: '2026-08-05T13:46:53Z'
+  verified_at: '2026-08-05T13:49:36Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+    task: extract-generic-java-ast-index
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-ts-vue-ast
+  order: 4
+  plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  task: extract-generic-typescript-vue-ast-index
+  status: verified
+  started_at: '2026-08-05T13:49:42Z'
+  verified_at: '2026-08-05T13:51:54Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+    task: extract-generic-typescript-vue-ast-index
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-architecture-plugin
+  order: 5
+  plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  task: make-architecture-analysis-a-builtin-plugin
+  status: verified
+  started_at: '2026-08-05T13:57:10Z'
+  verified_at: '2026-08-05T13:57:44Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+    task: make-architecture-analysis-a-builtin-plugin
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-http-plugin
+  order: 6
+  plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  task: make-http-contract-analysis-a-builtin-plugin
+  status: verified
+  started_at: '2026-08-05T13:57:48Z'
+  verified_at: '2026-08-05T13:58:24Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+    task: make-http-contract-analysis-a-builtin-plugin
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-spring-plugin
+  order: 7
+  plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  task: make-spring-analysis-a-builtin-plugin
+  status: verified
+  started_at: '2026-08-05T13:58:29Z'
+  verified_at: '2026-08-05T13:58:59Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+    task: make-spring-analysis-a-builtin-plugin
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-vue-plugin
+  order: 8
+  plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  task: make-vue-analysis-a-builtin-plugin
+  status: verified
+  started_at: '2026-08-05T13:59:03Z'
+  verified_at: '2026-08-05T13:59:44Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+    task: make-vue-analysis-a-builtin-plugin
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-retire-wrappers
+  order: 9
+  plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+  task: retire-muffinman-analysis-algorithms
+  status: verified
+  started_at: '2026-08-05T13:59:51Z'
+  verified_at: '2026-08-05T14:03:03Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+    task: retire-muffinman-analysis-algorithms
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-product-brief
+  order: 10
+  plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  task: add-product-brief-contract
+  status: verified
+  started_at: '2026-08-05T14:03:08Z'
+  verified_at: '2026-08-05T14:03:53Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+    task: add-product-brief-contract
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-domain-library
+  order: 11
+  plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  task: add-domain-workflow-permission-library
+  status: verified
+  started_at: '2026-08-05T14:03:57Z'
+  verified_at: '2026-08-05T14:04:49Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+    task: add-domain-workflow-permission-library
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-agent-profile
+  order: 12
+  plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  task: add-codex-agent-project-profile
+  status: verified
+  started_at: '2026-08-05T14:05:05Z'
+  verified_at: '2026-08-05T14:05:54Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+    task: add-codex-agent-project-profile
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-bootstrap-knowledge
+  order: 13
+  plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  task: bootstrap-agent-knowledge-artifacts
+  status: verified
+  started_at: '2026-08-05T14:05:59Z'
+  verified_at: '2026-08-05T14:06:37Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+    task: bootstrap-agent-knowledge-artifacts
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-knowledge-audit
+  order: 14
+  plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+  task: validate-project-knowledge-and-agent-context
+  status: verified
+  started_at: '2026-08-05T14:06:42Z'
+  verified_at: '2026-08-05T14:07:20Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+    task: validate-project-knowledge-and-agent-context
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-architecture-blueprint
+  order: 15
+  plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  task: add-architecture-capability-blueprint
+  status: verified
+  started_at: '2026-08-05T14:07:25Z'
+  verified_at: '2026-08-05T14:07:52Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+    task: add-architecture-capability-blueprint
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-voice-blueprint
+  order: 16
+  plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  task: add-safe-voice-capability-blueprint
+  status: verified
+  started_at: '2026-08-05T14:07:57Z'
+  verified_at: '2026-08-05T14:08:25Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+    task: add-safe-voice-capability-blueprint
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-blueprint-tests
+  order: 17
+  plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  task: prove-blueprint-boundaries-and-fixtures
+  status: verified
+  started_at: '2026-08-05T14:08:32Z'
+  verified_at: '2026-08-05T14:09:03Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+    task: prove-blueprint-boundaries-and-fixtures
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-agent-consumer
+  order: 18
+  plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  task: prove-independent-codex-first-application
+  status: verified
+  started_at: '2026-08-05T14:09:13Z'
+  verified_at: '2026-08-05T14:10:18Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+    task: prove-independent-codex-first-application
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-product-boundary
+  order: 19
+  plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  task: reprove-muffinman-product-boundary
+  status: verified
+  started_at: '2026-08-05T14:10:24Z'
+  verified_at: '2026-08-05T14:10:46Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+    task: reprove-muffinman-product-boundary
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-operator-guide
+  order: 20
+  plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+  task: publish-agent-first-operator-guide
+  status: verified
+  started_at: '2026-08-05T14:10:51Z'
+  verified_at: '2026-08-05T14:11:13Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+    task: publish-agent-first-operator-guide
+    revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+- id: dora-v08-release
+  order: 21
+  plan: docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+  task: publish-dora-v08-release
+  status: in_progress
+  started_at: '2026-08-05T14:12:24Z'
+- id: muffinman-v08-pin
+  order: 22
+  plan: docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+  task: pin-muffinman-to-dora-v08
+  status: pending

@@ -5,6 +5,7 @@ require "yaml"
 require_relative "adapter"
 require_relative "control_contracts"
 require_relative "project_control"
+require_relative "project_knowledge"
 
 module Dora
   class ProjectDoctor
@@ -16,6 +17,7 @@ module Dora
       check_declared_paths(adapter, project_root, checks)
       check_declared_commands(adapter, project_root, checks)
       check_control_bundle(adapter_path, project_root, control_schema_path, checks)
+      check_project_knowledge(project_root, checks)
       {"healthy" => checks.all? { |check| check.fetch("status") == "passed" }, "checks" => checks}
     rescue Psych::Exception => error
       {"healthy" => false, "checks" => [failed("adapter-file", "cannot read adapter: #{error.message}")]}
@@ -92,6 +94,18 @@ module Dora
       checks << failed("project-control", error.message)
     end
     private_class_method :check_control_bundle
+
+    def self.check_project_knowledge(project_root, checks)
+      unless project_root
+        checks << failed("project-knowledge", "project knowledge cannot be checked")
+        return
+      end
+      ProjectKnowledge.validate!(project_root)
+      checks << passed("project-knowledge", "product brief, domain library, agent profile, and agent entrypoint are valid")
+    rescue ArgumentError => error
+      checks << failed("project-knowledge", error.message)
+    end
+    private_class_method :check_project_knowledge
 
     def self.executable_for(command)
       return nil unless command.is_a?(String) && !command.empty?

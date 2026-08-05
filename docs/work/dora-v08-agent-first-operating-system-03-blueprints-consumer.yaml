@@ -1,0 +1,320 @@
+kind: work
+version: 1
+id: dora-v08-agent-first-operating-system-03-blueprints-consumer
+title: Add neutral capability blueprints and prove the Codex-first consumer
+status: verified
+baseline: d6ac8d5
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+master_plan: docs/work/dora-v08-agent-first-operating-system-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
+  atomicity_contract: Blueprints prove neutral safety contracts and the consumer proves
+    a deterministic agent workflow, not LLM behavior.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan Vision architecture and product memory
+  residual_scope:
+  - neutral architecture/voice blueprints
+  - first-app proof
+  - boundary reproof
+  - and operator guide
+  retest_triggers:
+  - changed blueprint
+  - fixture
+  - knowledge profile
+  - or consumer command
+  non_duplication_rule: a blueprint documents reusable safety boundaries but never
+    turns a product-specific Vision capability into Dora code.
+tasks:
+- id: add-architecture-capability-blueprint
+  title: Add a generic architecture and capability blueprint
+  type: implementation
+  status: done
+  inventory_item: dora-v08-architecture-blueprint
+  observable_outcome: Dora offers a neutral template for capability ownership, API
+    boundary, state, permissions, validation, evidence, and client responsibility.
+  dependencies:
+  - dora-v08-knowledge-audit
+  evidence_boundary:
+  - architecture blueprint test
+  paths:
+  - dora/capability-blueprint.schema.yaml
+  - dora/templates/capability-blueprint.yaml
+  - dora/docs/architecture-capability-blueprint.md
+  - dora/test/capability_blueprint_test.rb
+  required_paths:
+  - dora/capability-blueprint.schema.yaml
+  - dora/templates/capability-blueprint.yaml
+  - dora/docs/architecture-capability-blueprint.md
+  - dora/test/capability_blueprint_test.rb
+  validation: ruby dora/test/capability_blueprint_test.rb
+  started_at: '2026-08-05T14:07:25Z'
+  start_fingerprints:
+    dora/capability-blueprint.schema.yaml: __missing__
+    dora/templates/capability-blueprint.yaml: __missing__
+    dora/docs/architecture-capability-blueprint.md: __missing__
+    dora/test/capability_blueprint_test.rb: __missing__
+- id: add-safe-voice-capability-blueprint
+  title: Add a safe voice capability blueprint
+  type: implementation
+  status: done
+  inventory_item: dora-v08-voice-blueprint
+  observable_outcome: Dora provides a domain-neutral voice design contract that separates
+    transcription, semantic interpretation, typed capability selection, deterministic
+    validation, review, confirmation, execution, consent, retention, and evaluation.
+  dependencies:
+  - dora-v08-architecture-blueprint
+  evidence_boundary:
+  - voice blueprint safety test
+  paths:
+  - dora/voice-capability-blueprint.schema.yaml
+  - dora/templates/voice-capability-blueprint.yaml
+  - dora/docs/voice-capability-blueprint.md
+  - dora/test/voice_capability_blueprint_test.rb
+  required_paths:
+  - dora/voice-capability-blueprint.schema.yaml
+  - dora/templates/voice-capability-blueprint.yaml
+  - dora/docs/voice-capability-blueprint.md
+  - dora/test/voice_capability_blueprint_test.rb
+  validation: ruby dora/test/voice_capability_blueprint_test.rb
+  started_at: '2026-08-05T14:07:57Z'
+  start_fingerprints:
+    dora/voice-capability-blueprint.schema.yaml: __missing__
+    dora/templates/voice-capability-blueprint.yaml: __missing__
+    dora/docs/voice-capability-blueprint.md: __missing__
+    dora/test/voice_capability_blueprint_test.rb: __missing__
+- id: prove-blueprint-boundaries-and-fixtures
+  title: Prove blueprint safety boundaries and fixtures
+  type: implementation
+  status: done
+  inventory_item: dora-v08-blueprint-tests
+  observable_outcome: Independent fixtures prove that product-specific names, real
+    credentials, unconfirmed mutations, and raw conversation memory cannot be represented
+    as Dora blueprint defaults.
+  dependencies:
+  - dora-v08-voice-blueprint
+  evidence_boundary:
+  - blueprint boundary fixture
+  paths:
+  - dora/fixtures/agent-first-project/blueprints.yaml
+  - dora/test/blueprint_boundary_fixture_test.rb
+  - dora/lib/dora/blueprint_validator.rb
+  required_paths:
+  - dora/fixtures/agent-first-project/blueprints.yaml
+  - dora/test/blueprint_boundary_fixture_test.rb
+  - dora/lib/dora/blueprint_validator.rb
+  validation: ruby dora/test/blueprint_boundary_fixture_test.rb
+  started_at: '2026-08-05T14:08:32Z'
+  start_fingerprints:
+    dora/fixtures/agent-first-project/blueprints.yaml: __missing__
+    dora/test/blueprint_boundary_fixture_test.rb: __missing__
+    dora/lib/dora/blueprint_validator.rb: __missing__
+- id: prove-independent-codex-first-application
+  title: Prove an independent Codex-first application workflow
+  type: implementation
+  status: done
+  inventory_item: dora-v08-agent-consumer
+  observable_outcome: A fixture starts with an explicit idea, bootstraps a buildable
+    project, completes product/domain/agent artifacts, runs built-in Dora analysis,
+    creates and verifies an atomic plan, and contains no MuffinMan path or business
+    rule.
+  dependencies:
+  - dora-v08-blueprint-tests
+  evidence_boundary:
+  - independent agent-first consumer fixture
+  paths:
+  - dora/fixtures/agent-first-project/README.md
+  - dora/test/independent_agent_first_consumer_test.rb
+  - dora/test/fixtures/agent-first-project-idea.yaml
+  required_paths:
+  - dora/fixtures/agent-first-project/README.md
+  - dora/test/independent_agent_first_consumer_test.rb
+  - dora/test/fixtures/agent-first-project-idea.yaml
+  validation: ruby dora/test/independent_agent_first_consumer_test.rb
+  started_at: '2026-08-05T14:09:13Z'
+  start_fingerprints:
+    dora/fixtures/agent-first-project/README.md: __missing__
+    dora/test/independent_agent_first_consumer_test.rb: __missing__
+    dora/test/fixtures/agent-first-project-idea.yaml: __missing__
+- id: reprove-muffinman-product-boundary
+  title: Reprove the MuffinMan product boundary
+  type: docs-only
+  status: done
+  inventory_item: dora-v08-product-boundary
+  observable_outcome: The ownership audit proves every reusable parser and static-analysis
+    algorithm is Dora-owned while retained MuffinMan controls have a product, runtime,
+    historical, or local-operational reason.
+  dependencies:
+  - dora-v08-agent-consumer
+  evidence_boundary:
+  - v0.8 product-boundary audit
+  paths:
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  required_paths:
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-product-boundary.rb
+  started_at: '2026-08-05T14:10:24Z'
+  start_fingerprints:
+    docs/dora-muffinman-tool-ownership.yaml: 40a5e8160cc22ff9bc7ea1da4a0067ecb365b388bdcaf621b339ab5a95f0a043
+    docs/dora-muffinman-compatibility-matrix.yaml: 01212afc154ddedb89ed713861de87f28a9a42201bf6f49264c8e962bc740f60
+    scripts/audits/audit-dora-muffinman-product-boundary.rb: 3ec908fd30b993f5ca26439f1fba7a1d99f494ab50648c1a0352b8dc7d6233b3
+- id: publish-agent-first-operator-guide
+  title: Publish the agent-first Dora operator guide
+  type: docs-only
+  status: done
+  inventory_item: dora-v08-operator-guide
+  observable_outcome: A beginner and Codex agent can follow one documented route from
+    idea through knowledge, planning, implementation, validation, runtime evidence,
+    and handoff without treating Dora as product authority.
+  dependencies:
+  - dora-v08-product-boundary
+  evidence_boundary:
+  - agent-first guide coverage test
+  paths:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/agent_first_operator_guide_test.rb
+  required_paths:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/agent_first_operator_guide_test.rb
+  validation: ruby dora/test/agent_first_operator_guide_test.rb
+  started_at: '2026-08-05T14:10:51Z'
+  start_fingerprints:
+    dora/README.md: c9812b14363b043c572c2ae0ed2e084f6a0373d216fe33d737bb7d91f7e0e210
+    dora/docs/agent-first-application-guide.md: __missing__
+    dora/test/agent_first_operator_guide_test.rb: __missing__
+evidence:
+- task: add-architecture-capability-blueprint
+  command: ruby dora/test/capability_blueprint_test.rb
+  ranAt: '2026-08-05T14:07:52Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/capability-blueprint.schema.yaml
+  - dora/docs/architecture-capability-blueprint.md
+  - dora/templates/capability-blueprint.yaml
+  - dora/test/capability_blueprint_test.rb
+  output: "Dora capability blueprint test passed (ownership, API, state, permissions,
+    validation, evidence, and client boundaries).\n\n"
+  requiredPaths: &1
+  - dora/capability-blueprint.schema.yaml
+  - dora/templates/capability-blueprint.yaml
+  - dora/docs/architecture-capability-blueprint.md
+  - dora/test/capability_blueprint_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:07:25Z'
+  changedAfterStart: *1
+- task: add-safe-voice-capability-blueprint
+  command: ruby dora/test/voice_capability_blueprint_test.rb
+  ranAt: '2026-08-05T14:08:25Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/docs/voice-capability-blueprint.md
+  - dora/templates/voice-capability-blueprint.yaml
+  - dora/test/voice_capability_blueprint_test.rb
+  - dora/voice-capability-blueprint.schema.yaml
+  output: "Dora voice capability blueprint test passed (interpretation is separated
+    from validation, confirmation, execution, consent, retention, and evaluation).\n\n"
+  requiredPaths: &2
+  - dora/voice-capability-blueprint.schema.yaml
+  - dora/templates/voice-capability-blueprint.yaml
+  - dora/docs/voice-capability-blueprint.md
+  - dora/test/voice_capability_blueprint_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:07:57Z'
+  changedAfterStart: *2
+- task: prove-blueprint-boundaries-and-fixtures
+  command: ruby dora/test/blueprint_boundary_fixture_test.rb
+  ranAt: '2026-08-05T14:09:03Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/fixtures/agent-first-project/blueprints.yaml
+  - dora/lib/dora/blueprint_validator.rb
+  - dora/test/blueprint_boundary_fixture_test.rb
+  output: "Dora blueprint boundary fixture test passed (neutral defaults, no credentials,
+    no raw memory, and no unconfirmed execution).\n\n"
+  requiredPaths: &3
+  - dora/fixtures/agent-first-project/blueprints.yaml
+  - dora/test/blueprint_boundary_fixture_test.rb
+  - dora/lib/dora/blueprint_validator.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:08:32Z'
+  changedAfterStart: *3
+- task: prove-independent-codex-first-application
+  command: ruby dora/test/independent_agent_first_consumer_test.rb
+  ranAt: '2026-08-05T14:10:16Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/fixtures/agent-first-project/README.md
+  - dora/test/fixtures/agent-first-project-idea.yaml
+  - dora/test/independent_agent_first_consumer_test.rb
+  output: "Dora independent agent-first consumer test passed (idea, bootstrap, knowledge,
+    analysis, atomic plan, and verified evidence).\n\n"
+  requiredPaths: &4
+  - dora/fixtures/agent-first-project/README.md
+  - dora/test/independent_agent_first_consumer_test.rb
+  - dora/test/fixtures/agent-first-project-idea.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:09:13Z'
+  changedAfterStart: *4
+- task: reprove-muffinman-product-boundary
+  command: ruby scripts/audits/audit-dora-muffinman-product-boundary.rb
+  ranAt: '2026-08-05T14:10:46Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  output: "Dora/MuffinMan product-boundary audit passed (47 audits classified; reusable
+    mechanics route to Dora and retained controls keep product authority).\n\n"
+  requiredPaths: &5
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:10:24Z'
+  changedAfterStart: *5
+- task: publish-agent-first-operator-guide
+  command: ruby dora/test/agent_first_operator_guide_test.rb
+  ranAt: '2026-08-05T14:11:13Z'
+  revision: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/agent_first_operator_guide_test.rb
+  output: "Dora agent-first operator guide test passed (idea through knowledge, plan,
+    implementation, validation, runtime evidence, and handoff).\n\n"
+  requiredPaths: &6
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/agent_first_operator_guide_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:10:51Z'
+  changedAfterStart: *6

@@ -3,6 +3,24 @@
 module Dora
   module Plugins
     class VueSurfaceHygiene
+      def self.analyze_declared!(root:, inputs:)
+        hygiene = scan!(root: root, source_glob: inputs.fetch("source_glob"), required_markers: inputs.fetch("required_markers", []))
+        files = hygiene.fetch("files").map { |path| [path, File.read(File.join(root, path))] }.to_h
+        forbidden = Array(inputs.fetch("forbidden_markers", [])).flat_map do |marker|
+          files.select { |_path, content| content.include?(marker) }.keys.map { |path| {"marker" => marker, "path" => path} }
+        end
+        required_read_markers = Array(inputs.fetch("required_read_markers", []))
+        required_entrypoints = Array(inputs.fetch("required_entrypoints", []))
+        {
+          "hygiene" => hygiene,
+          "stale_markers" => forbidden,
+          "read_markers" => required_read_markers.map { |marker| {"marker" => marker, "present" => files.values.any? { |content| content.include?(marker) }} },
+          "entrypoints" => required_entrypoints.map { |marker| {"marker" => marker, "present" => files.values.any? { |content| content.include?(marker) }} }
+        }
+      rescue KeyError => error
+        fail!("Vue surface inputs are incomplete: #{error.message}")
+      end
+
       def self.scan!(root:, source_glob:, required_markers: [])
         fail!("source glob is invalid") unless safe_relative_path?(source_glob)
         root = File.expand_path(root)

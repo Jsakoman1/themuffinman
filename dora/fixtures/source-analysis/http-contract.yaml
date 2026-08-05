@@ -1,0 +1,19 @@
+kind: dora_http_contract_analysis
+version: 1
+source_roots:
+  - id: backend
+    path: backend
+  - id: frontend
+    path: frontend
+inputs:
+  controller_glob: backend/controller/*Controller.java
+  client_glob: frontend/*.ts
+  dto_glob: backend/dto/*DTO.java
+  contract_path: frontend/contracts.ts
+  frontend_glob: frontend/**/*.{ts,vue}
+output:
+  kind: static-analysis-report
+  path: reports/http-contract.json
+invariants:
+  - Controller, DTO, contract, and client paths are supplied by the consuming project.
+  - Endpoint links and DTO drift are static diagnostics only.

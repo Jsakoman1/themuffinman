@@ -40,7 +40,8 @@ failures << "MuffinMan Dora plugin manifest validation failed: #{[stdout, stderr
   "scripts/audits/audit-read-surface-inventory.rb" => "vue-read-surface-hygiene"
 }.each do |path, plugin_id|
   wrapper = File.read(File.join(ROOT, path))
-  failures << "#{path} does not delegate through its declared Dora plugin" unless wrapper.include?("plugin-run") && wrapper.include?(plugin_id)
+  plugin = Array(YAML.load_file(File.join(ROOT, ".dora/plugins.yaml"))["plugins"]).find { |candidate| candidate["id"] == plugin_id }
+  failures << "#{path} does not delegate through its declared Dora built-in plugin" unless wrapper.include?("plugin-run") && wrapper.include?(plugin_id) && plugin && plugin["builtin"].to_s != "" && !wrapper.include?("DORA_PLUGIN_RUNNER")
   stdout, stderr, status = Open3.capture3("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", plugin_id, chdir: ROOT)
   failures << "Dora runner failed for #{plugin_id}: #{[stdout, stderr].join("\n").strip}" unless status.success?
 end

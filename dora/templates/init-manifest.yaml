@@ -13,3 +13,7 @@ files:
   - .dora/controls/system-map.yaml
   - .dora/controls/artifact-policy.yaml
   - .dora/controls/backlog.yaml
+  - docs/product-brief.yaml
+  - docs/domain-library.yaml
+  - .dora/agent-project-profile.yaml
+  - AGENTS.md

@@ -2,57 +2,68 @@ kind: dora_plugin_manifest
 version: 1
 plugins:
   - id: architecture-integrity
-    entrypoint: scripts/audits/audit-module-dependency-direction.rb
-    source_roots: [{id: backend, path: apps/themuffinman/src/main/java}]
-    inputs: {rules: docs/module-dependency-direction.yaml}
+    builtin: architecture-integrity
+    source_roots: [{id: backend, path: apps/themuffinman/src/main/java}, {id: frontend, path: apps/themuffinman/frontend/src}]
+    inputs:
+      paths: [apps/themuffinman/src/main/java, apps/themuffinman/frontend/src]
+      rules:
+        - {id: domain_to_frontend, source_glob: apps/themuffinman/src/main/java/**/*.java, forbidden_pattern: 'import\s+.*(?:frontend|apps\.themuffinman\.frontend)'}
+        - id: frontend_feature_to_backend_internals
+          source_glob: apps/themuffinman/frontend/src/**/*.{ts,vue}
+          forbidden_pattern: '(?:import|from)\s+["''](?:com\.themuffinman\.app|\.\.\/.*backend)'
     output: {kind: architecture-integrity-report, path: docs/audit-output/dora/architecture-integrity.json}
   - id: spring-configuration-drift
-    entrypoint: scripts/audits/audit-configuration-environment-drift.rb
-    source_roots: [{id: backend, path: apps/themuffinman/src/main/resources}]
-    inputs: {properties_path: apps/themuffinman/src/main/resources/application.properties}
-    output: {kind: configuration-environment-drift-report, path: docs/audit-output/dora/spring-configuration-drift.json}
+    builtin: spring-configuration-drift
+    source_roots: [{id: resources, path: apps/themuffinman/src/main/resources}]
+    inputs: {properties_path: apps/themuffinman/src/main/resources/application.properties, property_prefixes: [app.]}
+    output: {kind: configuration-environment-drift-report, path: docs/audit-output/configuration-environment-drift.json}
   - id: spring-mapper-usage
-    entrypoint: scripts/audits/audit-mapper-usage.rb
+    builtin: spring-mapper-usage
     source_roots: [{id: backend, path: apps/themuffinman/src/main/java}]
-    inputs: {mapper_root: apps/themuffinman/src/main/java}
-    output: {kind: mapper-usage-report, path: docs/audit-output/dora/spring-mapper-usage.json}
+    inputs: {mapper_glob: apps/themuffinman/src/main/java/com/themuffinman/app/*/mapper/*.java, source_root: apps/themuffinman/src/main/java/com/themuffinman/app}
+    output: {kind: mapper-usage-report, path: docs/audit-output/mapper-usage-audit.json}
   - id: http-contract-linker
-    entrypoint: scripts/audits/audit-endpoint-callsite-linker.rb
+    builtin: http-contract-linker
     source_roots: [{id: backend, path: apps/themuffinman/src/main/java}, {id: frontend, path: apps/themuffinman/frontend/src}]
-    inputs: {contract: endpoint-client-callsite}
-    output: {kind: http-contract-link-report, path: docs/audit-output/dora/http-contract-linker.json}
+    inputs: {controller_glob: apps/themuffinman/src/main/java/com/themuffinman/app/*/controller/*Controller.java, client_glob: apps/themuffinman/frontend/src/modules/**/*Api.ts}
+    output: {kind: http-contract-link-report, path: docs/audit-output/endpoint-callsite-linker.json}
   - id: http-contract-drift
-    entrypoint: scripts/audits/audit-api-contract-drift.rb
+    builtin: http-contract-linker
     source_roots: [{id: backend, path: apps/themuffinman/src/main/java}, {id: frontend, path: apps/themuffinman/frontend/src}]
-    inputs: {contract: dto-client-contract}
-    output: {kind: http-contract-drift-report, path: docs/audit-output/dora/http-contract-drift.json}
-  - id: vue-navigation
-    entrypoint: scripts/audits/audit-frontend-route-surfaces.rb
-    source_roots: [{id: frontend, path: apps/themuffinman/frontend/src}]
-    inputs: {router: apps/themuffinman/frontend/src/router}
-    output: {kind: static-navigation-report, path: docs/audit-output/dora/vue-navigation.json}
+    inputs:
+      controller_glob: apps/themuffinman/src/main/java/com/themuffinman/app/*/controller/*Controller.java
+      client_glob: apps/themuffinman/frontend/src/modules/**/*Api.ts
+      dto_glob: apps/themuffinman/src/main/java/com/themuffinman/app/**/*DTO.java
+      contract_path: apps/themuffinman/frontend/src/contracts/generated/themuffinmanContract.ts
+      frontend_glob: 'apps/themuffinman/frontend/src/**/*.{ts,vue}'
+    output: {kind: http-contract-drift-report, path: docs/audit-output/api-contract-drift.json}
   - id: canonical-source-integrity
-    entrypoint: scripts/audits/audit-canonical-source-integrity.rb
-    source_roots: [{id: backend, path: apps/themuffinman/src/main/java}]
-    inputs: {contract: canonical-source-integrity}
+    builtin: architecture-integrity
+    source_roots: [{id: docs, path: docs}]
+    inputs: {paths: [docs/system-truth-registry.yaml], rules: []}
     output: {kind: architecture-integrity-report, path: docs/audit-output/dora/canonical-source-integrity.json}
-  - id: vue-interaction-hygiene
-    entrypoint: scripts/audits/audit-frontend-interaction-contract.rb
+  - id: vue-navigation
+    builtin: vue-navigation
     source_roots: [{id: frontend, path: apps/themuffinman/frontend/src}]
-    inputs: {contract: vue-interaction-hygiene}
+    inputs: {router_path: apps/themuffinman/frontend/src/router.ts, navigation_paths: [apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts], required_surfaces: []}
+    output: {kind: static-navigation-report, path: docs/audit-output/frontend-route-surface-inventory.json}
+  - id: vue-interaction-hygiene
+    builtin: vue-surface-hygiene
+    source_roots: [{id: frontend, path: apps/themuffinman/frontend/src}]
+    inputs: {source_glob: apps/themuffinman/frontend/src/**/*.vue, required_markers: [aria-selected, 'role="dialog"', 'role="search"']}
     output: {kind: vue-hygiene-report, path: docs/audit-output/dora/vue-interaction-hygiene.json}
   - id: vue-stale-surface-hygiene
-    entrypoint: scripts/audits/audit-frontend-stale-surfaces.rb
+    builtin: vue-surface-hygiene
     source_roots: [{id: frontend, path: apps/themuffinman/frontend/src}]
-    inputs: {contract: vue-stale-surface-hygiene}
-    output: {kind: vue-hygiene-report, path: docs/audit-output/dora/vue-stale-surface-hygiene.json}
+    inputs: {source_glob: 'apps/themuffinman/frontend/src/**/*.{ts,vue,css}', forbidden_markers: []}
+    output: {kind: vue-hygiene-report, path: docs/audit-output/frontend-stale-surface-audit.json}
   - id: vue-read-surface-hygiene
-    entrypoint: scripts/audits/audit-read-surface-inventory.rb
-    source_roots: [{id: frontend, path: apps/themuffinman/frontend/src}]
-    inputs: {contract: vue-read-surface-hygiene}
-    output: {kind: vue-hygiene-report, path: docs/audit-output/dora/vue-read-surface-hygiene.json}
+    builtin: vue-surface-hygiene
+    source_roots: [{id: backend, path: apps/themuffinman/src/main/java}]
+    inputs: {source_glob: apps/themuffinman/src/main/java/com/themuffinman/app/*/service/*.java}
+    output: {kind: static-analysis-report, path: docs/audit-output/read-surface-inventory.json}
   - id: vue-ui-entrypoints
-    entrypoint: scripts/audits/audit-ui-entrypoints.rb
+    builtin: vue-navigation
     source_roots: [{id: frontend, path: apps/themuffinman/frontend/src}]
-    inputs: {contract: vue-ui-entrypoints}
+    inputs: {router_path: apps/themuffinman/frontend/src/router.ts, navigation_paths: [apps/themuffinman/frontend/src/modules/app-shell/shellDefinitions.ts, apps/themuffinman/frontend/src/modules/app-shell/shellRouteRegistry.ts], required_surfaces: [home, work, chat, calendar, business, circles, things, rides, profile]}
     output: {kind: static-navigation-report, path: docs/audit-output/dora/vue-ui-entrypoints.json}

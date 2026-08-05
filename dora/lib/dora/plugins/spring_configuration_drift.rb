@@ -3,6 +3,12 @@
 module Dora
   module Plugins
     class SpringConfigurationDrift
+      def self.analyze_declared!(root:, inputs:)
+        analyze!(root: root, properties_path: inputs.fetch("properties_path"), property_prefixes: inputs.fetch("property_prefixes"))
+      rescue KeyError => error
+        fail!("Spring configuration inputs are incomplete: #{error.message}")
+      end
+
       def self.analyze!(root:, properties_path:, property_prefixes:)
         fail!("properties path is invalid") unless safe_relative_path?(properties_path)
         fail!("property prefixes must be a non-empty list") unless property_prefixes.is_a?(Array) && !property_prefixes.empty?

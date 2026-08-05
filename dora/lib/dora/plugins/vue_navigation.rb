@@ -3,6 +3,12 @@
 module Dora
   module Plugins
     class VueNavigation
+      def self.analyze_declared!(root:, inputs:)
+        analyze!(root: root, router_path: inputs.fetch("router_path"), navigation_paths: inputs.fetch("navigation_paths"), required_surfaces: inputs.fetch("required_surfaces", []))
+      rescue KeyError => error
+        fail!("Vue navigation inputs are incomplete: #{error.message}")
+      end
+
       def self.analyze!(root:, router_path:, navigation_paths:, required_surfaces:)
         root = File.expand_path(root)
         paths = [router_path, *Array(navigation_paths)]

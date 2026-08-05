@@ -1,0 +1,12 @@
+kind: dora_java_ast_index_schema
+version: 1
+purpose: Parse declared Java source roots with JDK compiler APIs and return a portable static source index.
+required_inputs: [project_root, source_roots]
+source_root_required_fields: [id, path]
+output:
+  kind: java_ast_index
+  fields: [version, kind, sourceRoots, files, summary]
+invariants:
+  - The project root and all source roots are caller-supplied paths.
+  - Indexed file paths are relative to the supplied project root.
+  - The tool reports parse diagnostics but never infers product completion or runtime behavior.

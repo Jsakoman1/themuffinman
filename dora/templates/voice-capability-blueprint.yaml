@@ -1,0 +1,25 @@
+kind: dora_voice_capability_blueprint
+version: 1
+transcription:
+  input: User-provided audio with declared consent.
+  output: Text plus confidence and transcription uncertainty.
+semantic_interpretation:
+  input: Transcribed text and the declared capability catalogue.
+  output: Structured candidate intent, arguments, and uncertainty.
+typed_capability_selection:
+  allowed_capabilities: [replace-with-a-project-declared-capability]
+  selection_rule: Match only a declared typed capability; otherwise request clarification.
+deterministic_validation:
+  rule: Validate permissions, argument shape, state, and business invariants outside the language model.
+review:
+  rule: Show the interpreted action and meaningful effects to the user before execution.
+confirmation:
+  rule: Require explicit confirmation for every consequential action; no confirmation means no execution.
+execution:
+  rule: Call the project's typed capability adapter only after confirmation and validation.
+consent:
+  rule: Obtain and record the project's required consent before audio processing or retention.
+retention:
+  rule: Retain only the minimum approved artifacts for the declared project policy; raw conversation memory is disabled by default.
+evaluation:
+  rule: Evaluate transcription, interpretation, validation rejection, confirmation, and execution outcomes separately with non-production fixtures.

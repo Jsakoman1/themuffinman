@@ -11,6 +11,7 @@ require File.join(ROOT, "lib/dora/work_execution")
 require File.join(ROOT, "lib/dora/project_initializer")
 require File.join(ROOT, "lib/dora/project_bootstrap")
 require File.join(ROOT, "lib/dora/project_doctor")
+require File.join(ROOT, "lib/dora/project_knowledge")
 require File.join(ROOT, "lib/dora/command_registry")
 require File.join(ROOT, "lib/dora/tool_selection_commands")
 require File.join(ROOT, "lib/dora/discovery_commands")
@@ -104,6 +105,14 @@ def diagnose_project(adapter_path)
   return if report.fetch("healthy")
 
   exit 1
+end
+
+def show_project_knowledge(adapter_path)
+  adapter = YAML.load_file(adapter_path)
+  root = File.expand_path(adapter.fetch("project").fetch("root"), File.dirname(File.expand_path(adapter_path)))
+  puts YAML.dump(Dora::ProjectKnowledge.validate!(root)).sub(/\A---\n/, "")
+rescue ArgumentError, KeyError, Psych::Exception => error
+  fail!(error.message)
 end
 
 def show_help(adapter_path = nil)
@@ -247,6 +256,9 @@ when "help"
 when "doctor"
   fail!("usage: dora doctor <adapter-path>") unless ARGV.length == 1
   diagnose_project(ARGV.first)
+when "knowledge"
+  fail!("usage: dora knowledge <adapter-path>") unless ARGV.length == 1
+  show_project_knowledge(ARGV.first)
 when "tools"
   fail!("usage: dora tools <adapter-path>") unless ARGV.length == 1
   list_tools(ARGV.first)

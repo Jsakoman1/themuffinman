@@ -24,10 +24,31 @@ delegate = groups.select { |group| group["decision"] == "delegate" }.flat_map { 
 reusable_group = groups.find { |group| group["id"] == "reusable_static_analysis" }
 failures << "reusable static analysis must require the shared plugin manifest" unless reusable_group && reusable_group["manifest_required"] == true && reusable_group["manifest_path"] == ".dora/plugins.yaml"
 manifest = YAML.load_file(File.join(ROOT, ".dora/plugins.yaml"))
-entrypoints = Array(manifest["plugins"]).map { |plugin| plugin["entrypoint"] }
-reusable_wrappers = delegate.grep(/\Aaudit-(api-contract-drift|canonical-source-integrity|configuration-environment-drift|endpoint-callsite-linker|frontend-interaction-contract|frontend-route-surfaces|frontend-stale-surfaces|mapper-usage|module-dependency-direction|read-surface-inventory|ui-entrypoints)\.rb\z/)
-missing_manifest = reusable_wrappers.reject { |name| entrypoints.include?("scripts/audits/#{name}") }
-failures << "delegated wrappers missing manifest entrypoints: #{missing_manifest.join(", ")}" unless missing_manifest.empty?
-Array(manifest["plugins"]).each { |plugin| failures << "plugin #{plugin["id"]} has no report path" unless plugin.dig("output", "path").to_s.match?(/\Adocs\/audit-output\//) }
+plugins = Array(manifest["plugins"])
+plugins_by_id = plugins.to_h { |plugin| [plugin["id"], plugin] }
+wrapper_plugins = {
+  "audit-api-contract-drift.rb" => "http-contract-drift",
+  "audit-canonical-source-integrity.rb" => "canonical-source-integrity",
+  "audit-configuration-environment-drift.rb" => "spring-configuration-drift",
+  "audit-endpoint-callsite-linker.rb" => "http-contract-linker",
+  "audit-frontend-interaction-contract.rb" => "vue-interaction-hygiene",
+  "audit-frontend-route-surfaces.rb" => "vue-navigation",
+  "audit-frontend-stale-surfaces.rb" => "vue-stale-surface-hygiene",
+  "audit-mapper-usage.rb" => "spring-mapper-usage",
+  "audit-module-dependency-direction.rb" => "architecture-integrity",
+  "audit-read-surface-inventory.rb" => "vue-read-surface-hygiene",
+  "audit-ui-entrypoints.rb" => "vue-ui-entrypoints"
+}
+wrapper_plugins.each do |name, plugin_id|
+  plugin = plugins_by_id[plugin_id]
+  failures << "delegated wrapper #{name} has no Dora built-in manifest plugin" unless plugin && plugin["builtin"].to_s != ""
+  wrapper = File.read(File.join(ROOT, "scripts/audits", name))
+  expected = "exec(\"dora/bin/dora\", \"plugin-run\", \".dora/plugins.yaml\", \"#{plugin_id}\")"
+  failures << "delegated wrapper #{name} contains local analysis instead of a Dora execution shell" unless wrapper.include?(expected) && !wrapper.include?("DORA_PLUGIN_RUNNER") && wrapper.lines.grep_v(/^#!|^#|^\s*$/).length == 1
+end
+plugins.each do |plugin|
+  failures << "plugin #{plugin["id"]} has no Dora built-in" if plugin["builtin"].to_s.empty?
+  failures << "plugin #{plugin["id"]} has no report path" unless plugin.dig("output", "path").to_s.match?(/\Adocs\/audit-output\//)
+end
 abort "Dora/MuffinMan tool ownership audit failed:\n- #{failures.join("\n- ")}" unless failures.empty?
 puts "Dora/MuffinMan tool ownership audit passed (#{actual.length} local audits classified)."
