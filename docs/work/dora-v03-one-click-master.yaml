@@ -2,36 +2,69 @@ kind: master
 version: 1
 id: dora-v03-one-click-master
 title: Make Dora one-click ready for new application control setups
-status: draft
+status: verified
 baseline: 835cbd2
 strict_verification: true
 serial_task_execution: true
 atomic_task_hardening_plan: docs/work/dora-v03-one-click-atomic-task-hardening.yaml
 execution_inventory: docs/work/dora-v03-one-click-execution-inventory.yaml
-objective: Deliver a portable Dora v0.3 bootstrap, unified project configuration, CLI, optional Spring/Vue and CI packs, and fixture proof without moving MuffinMan product meaning into Dora.
+objective: Deliver a portable Dora v0.3 bootstrap, unified project configuration,
+  CLI, optional Spring/Vue and CI packs, and fixture proof without moving MuffinMan
+  product meaning into Dora.
 analysis_source: docs/work/dora-v03-one-click-analysis.md
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/dora-tooling-extraction-master.yaml]
-  baseline_only_surfaces: [Dora v0.2 engines, MuffinMan domain behaviour, local product audits, runtime evidence, and v0.2 release handoff]
-  residual_scope: [one-click bootstrap, unified config, CLI dispatch, generic control audits, optional technology packs, and v0.3 release]
-  retest_triggers: [changed Dora CLI, adapter schema, generated project template, pack contract, release manifest, or MuffinMan pin]
-  non_duplication_rule: Dora v0.2 and MuffinMan product evidence are baseline-only and cannot be counted as v0.3 completion.
+  reused_verified_plans:
+  - docs/work/dora-tooling-extraction-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.2 engines
+  - MuffinMan domain behaviour
+  - local product audits
+  - runtime evidence
+  - and v0.2 release handoff
+  residual_scope:
+  - one-click bootstrap
+  - unified config
+  - CLI dispatch
+  - generic control audits
+  - optional technology packs
+  - and v0.3 release
+  retest_triggers:
+  - changed Dora CLI
+  - adapter schema
+  - generated project template
+  - pack contract
+  - release manifest
+  - or MuffinMan pin
+  non_duplication_rule: Dora v0.2 and MuffinMan product evidence are baseline-only
+    and cannot be counted as v0.3 completion.
 principles:
-  - Dora generates control structure and validates mechanics; consumer projects own product meaning.
-  - Every generated file is adapter-declared, deterministic, and tested in a standalone fixture.
-  - Every destructive cleanup operation requires explicit project policy and a dry-run path.
-  - Technology packs are optional and never become Dora core assumptions.
+- Dora generates control structure and validates mechanics; consumer projects own
+  product meaning.
+- Every generated file is adapter-declared, deterministic, and tested in a standalone
+  fixture.
+- Every destructive cleanup operation requires explicit project policy and a dry-run
+  path.
+- Technology packs are optional and never become Dora core assumptions.
 hardening_review:
   state: ready_for_verifier
   reviewed_at: 2026-08-05
   findings:
-    - CLI exposure is split into tool-selection, discovery, and analysis command groups.
-    - Plan schema, serial integrity, retention review, cleanup, release, and consuming-project pin each have independent closeout boundaries.
-    - The release task remains explicitly external-approval-gated and cannot substitute for the later adapter pin task.
+  - CLI exposure is split into tool-selection, discovery, and analysis command groups.
+  - Plan schema, serial integrity, retention review, cleanup, release, and consuming-project
+    pin each have independent closeout boundaries.
+  - The release task remains explicitly external-approval-gated and cannot substitute
+    for the later adapter pin task.
 children:
+- docs/work/dora-v03-one-click-atomic-task-hardening.yaml
+- docs/work/dora-v03-one-click-01-bootstrap.yaml
+- docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+- docs/work/dora-v03-one-click-03-packs-and-release.yaml
+evidence:
+- verifiedAt: '2026-08-05T11:09:09Z'
+  revision: 9a8b73ad39663d51f780f7d2688eba3f7bcfd7d4
+  children:
   - docs/work/dora-v03-one-click-atomic-task-hardening.yaml
   - docs/work/dora-v03-one-click-01-bootstrap.yaml
   - docs/work/dora-v03-one-click-02-cli-and-controls.yaml
   - docs/work/dora-v03-one-click-03-packs-and-release.yaml
-evidence: []

@@ -195,10 +195,21 @@ items:
   order: 18
   plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
   task: publish-dora-v03-release
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T10:53:48Z'
+  verified_at: '2026-08-05T11:08:28Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
+    task: publish-dora-v03-release
+    revision: 9a8b73ad39663d51f780f7d2688eba3f7bcfd7d4
 - id: muffinman-v03-pin
   order: 19
   plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
   task: pin-muffinman-to-dora-v03
-  status: pending
+  status: verified
+  started_at: '2026-08-05T11:08:35Z'
+  verified_at: '2026-08-05T11:08:58Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
+    task: pin-muffinman-to-dora-v03
+    revision: 9a8b73ad39663d51f780f7d2688eba3f7bcfd7d4

@@ -1,26 +1,30 @@
 kind: dora_release_handoff
 version: 1
-status: awaiting_external_approval
+status: published
+approved_by: user
+approved_at: 2026-08-05
 release:
   repository: https://github.com/Jsakoman1/dora.git
   visibility: private
   default_branch: main
   version: v0.3.0
-  immutable_commit: pending_external_release
+  immutable_commit: 42be78e503b4549d52ce88f6c752359610933a61
   source_parent_commit: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
 consumption:
   project: muffinman
   method: git_subtree
   subtree_prefix: dora
-  status: release_published_unpinned
+  pinned_ref: v0.3.0
+  pinned_commit: 42be78e503b4549d52ce88f6c752359610933a61
+  status: pinned
   local_adapter: .dora/project.yaml
-  update_rule: After the immutable v0.3.0 tag is published, MuffinMan records that exact commit in a separate reversible subtree pin update.
+  update_rule: MuffinMan records the reviewed immutable v0.3.0 commit in its adapter; future updates remain separate, reviewable subtree pin commits.
 preservation:
   - MuffinMan retains all product code, product documentation, work plans, runtime evidence, and its adapter.
   - Dora v0.3 exports only the dora/ package paths; it does not move or rewrite MuffinMan product paths.
   - The release must be an annotated immutable tag resolved against the private Dora repository before MuffinMan is pinned.
 rollback:
-  - Do not replace local Dora before the tag has resolved remotely and the separate pin commit is reviewed.
+  - Revert the separate MuffinMan v0.3.0 pin commit to return to v0.2.0 before any subsequent subtree update.
   - Revert the later MuffinMan subtree pin commit to return to v0.2.0 if v0.3.0 is unsuitable.
 verification:
   - ruby scripts/audits/audit-dora-extraction-manifest.rb --check-handoff-draft --handoff docs/dora-release-handoff-v03.yaml --expected-version v0.3.0
