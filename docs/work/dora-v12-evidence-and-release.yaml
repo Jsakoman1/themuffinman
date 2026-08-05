@@ -124,7 +124,7 @@ tasks:
   - scripts/audits/audit-dora-extraction-manifest.rb
   validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
     --handoff docs/dora-release-handoff-v12.yaml --expected-version v1.2.0
-  status: in_progress
+  status: done
   started_at: '2026-08-05T17:42:33Z'
   start_fingerprints:
     docs/dora-release-handoff-v12.yaml: 0f012ed7bac723c1de4f13f05dc4300dc80d55e343e67b9108fcedaf66b23dfe
@@ -226,3 +226,24 @@ evidence:
   runtimeEvidencePaths: []
   startedAt: '2026-08-05T17:25:39Z'
   changedAfterStart: *4
+- task: publish-dora-v12
+  command: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v12.yaml --expected-version v1.2.0
+  ranAt: '2026-08-05T17:44:08Z'
+  revision: c3dc9e050f288ae07024c677e749ab0244846b7c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-extraction-manifest.yaml
+  - docs/dora-release-handoff-v12.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  output: "Dora extraction manifest audit passed (2713 classified repository paths;
+    released).\n\n"
+  requiredPaths: &5
+  - docs/dora-release-handoff-v12.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:42:33Z'
+  changedAfterStart: *5

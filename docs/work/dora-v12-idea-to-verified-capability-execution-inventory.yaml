@@ -253,8 +253,13 @@ items:
   order: 22
   plan: docs/work/dora-v12-evidence-and-release.yaml
   task: publish-dora-v12
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T17:42:33Z'
+  verified_at: '2026-08-05T17:44:09Z'
+  evidence:
+    plan: docs/work/dora-v12-evidence-and-release.yaml
+    task: publish-dora-v12
+    revision: c3dc9e050f288ae07024c677e749ab0244846b7c
 - id: v12-pin
   order: 23
   plan: docs/work/dora-v12-evidence-and-release.yaml
