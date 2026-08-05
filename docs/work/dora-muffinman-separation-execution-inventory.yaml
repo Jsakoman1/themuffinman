@@ -1,0 +1,131 @@
+kind: execution_inventory
+version: 1
+id: dora-muffinman-separation-execution-inventory
+master_plan: docs/work/dora-muffinman-separation-master.yaml
+status: active
+hardening_review:
+  reviewed_at: 2026-08-05
+  mapping_rule: Each item maps to one strict serial child task; sequence is the only
+    allowed execution order.
+items:
+- id: dora-harden-plan
+  order: 1
+  plan: docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+  task: harden-dora-separation-plan
+  status: verified
+  started_at: '2026-08-05T09:19:07Z'
+  verified_at: '2026-08-05T09:19:44Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+    task: harden-dora-separation-plan
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-boundary-inventory
+  order: 2
+  plan: docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+  task: inventory-control-ownership
+  status: verified
+  started_at: '2026-08-05T09:21:05Z'
+  verified_at: '2026-08-05T09:24:37Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+    task: inventory-control-ownership
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-adapter-contract
+  order: 3
+  plan: docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+  task: define-project-adapter-contract
+  status: verified
+  started_at: '2026-08-05T09:24:45Z'
+  verified_at: '2026-08-05T09:25:59Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+    task: define-project-adapter-contract
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-core-layout
+  order: 4
+  plan: docs/work/dora-muffinman-separation-02-dora-core.yaml
+  task: create-dora-portable-layout
+  status: verified
+  started_at: '2026-08-05T09:26:06Z'
+  verified_at: '2026-08-05T09:33:14Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-02-dora-core.yaml
+    task: create-dora-portable-layout
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-core-verifier
+  order: 5
+  plan: docs/work/dora-muffinman-separation-02-dora-core.yaml
+  task: parameterize-core-verifier
+  status: verified
+  started_at: '2026-08-05T09:33:14Z'
+  verified_at: '2026-08-05T09:34:37Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-02-dora-core.yaml
+    task: parameterize-core-verifier
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-muffinman-config
+  order: 6
+  plan: docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+  task: add-muffinman-dora-adapter
+  status: verified
+  started_at: '2026-08-05T09:34:48Z'
+  verified_at: '2026-08-05T09:35:32Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+    task: add-muffinman-dora-adapter
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-compatibility-delegates
+  order: 7
+  plan: docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+  task: retain-muffinman-command-compatibility
+  status: verified
+  started_at: '2026-08-05T09:35:52Z'
+  verified_at: '2026-08-05T09:37:31Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+    task: retain-muffinman-command-compatibility
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-fixture-proof
+  order: 8
+  plan: docs/work/dora-muffinman-separation-04-portability-proof.yaml
+  task: prove-dora-on-independent-fixture
+  status: verified
+  started_at: '2026-08-05T09:37:43Z'
+  verified_at: '2026-08-05T09:38:13Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-04-portability-proof.yaml
+    task: prove-dora-on-independent-fixture
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-equivalence-proof
+  order: 9
+  plan: docs/work/dora-muffinman-separation-04-portability-proof.yaml
+  task: prove-muffinman-control-equivalence
+  status: verified
+  started_at: '2026-08-05T09:38:19Z'
+  verified_at: '2026-08-05T09:39:03Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-04-portability-proof.yaml
+    task: prove-muffinman-control-equivalence
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-extraction-manifest
+  order: 10
+  plan: docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+  task: create-reversible-extraction-manifest
+  status: verified
+  started_at: '2026-08-05T09:39:09Z'
+  verified_at: '2026-08-05T09:41:44Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+    task: create-reversible-extraction-manifest
+    revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+- id: dora-release-handoff
+  order: 11
+  plan: docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+  task: document-approved-release-handoff
+  status: verified
+  started_at: '2026-08-05T09:45:19Z'
+  verified_at: '2026-08-05T09:48:05Z'
+  evidence:
+    plan: docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+    task: document-approved-release-handoff
+    revision: d4f0c60704ceeb69a9861c2f90a3cdb9e671f735

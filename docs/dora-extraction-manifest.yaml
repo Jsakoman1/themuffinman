@@ -1,0 +1,35 @@
+kind: dora_extraction_manifest
+version: 1
+status: released
+purpose: Preserve a complete, reversible separation boundary before any Dora repository release or history operation is approved.
+source_repository:
+  baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  dora_package_prefix: dora/
+  current_distribution: git_subtree_pinned
+ownership:
+  dora_owned:
+    - dora/bin/dora
+    - dora/lib/dora/adapter.rb
+    - dora/lib/dora/work_verifier.rb
+    - dora/project-adapter.schema.yaml
+    - dora/templates/work-plan.yaml
+    - dora/README.md
+    - dora/test/work_verifier_test.rb
+    - dora/test/portable_fixture_test.rb
+    - dora/fixtures/muffinman-adapter.yaml
+    - dora/fixtures/standalone-project/
+  muffinman_retained_prefixes: [.dora/, apps/, docs/, frontend/, scripts/, services/, .gitignore, AGENTS.md, Makefile, README.md, package.json, package-lock.json, custom, open]
+  repository_operational_prefixes: [.agents/, .codex/, .github/, .idea/, .run/]
+preservation:
+  required:
+    - Keep the source repository and its Git history unchanged during local Dora preparation.
+    - Keep all MuffinMan product source, documentation, work plans, tests, runtime evidence, and local adapters in the source repository.
+    - Copy Dora only from the declared dora_owned paths after an approved destination and immutable release revision exist.
+    - Record the Dora revision in MuffinMan before changing the distribution from embedded_local_package.
+  prohibited_before_approval: [deleting source-repository paths, rewriting source-repository history, publishing a remote repository, replacing local Dora with a remote dependency]
+rollback:
+  local_pre_release: Keep the embedded dora/ package and `.dora/project.yaml`; discard only the separately created release workspace after comparing it with this manifest.
+  post_release: Restore the recorded embedded Dora revision or pin from the immutable release revision; never reconstruct product evidence from Dora.
+release_gate:
+  required_decisions: [remote destination and owner, Dora version and immutable revision, MuffinMan consumption and pinning method, reviewed history-preservation procedure]
+  current_state: approved_and_published

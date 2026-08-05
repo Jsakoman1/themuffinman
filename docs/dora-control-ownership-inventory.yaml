@@ -1,0 +1,98 @@
+kind: dora_control_ownership_inventory
+version: 1
+status: active
+purpose: Classify the pre-extraction MuffinMan delivery-control surface so each current command and script has one intended Dora or MuffinMan ownership outcome.
+scope:
+  included:
+    - root Makefile targets
+    - scripts/**/*.rb
+    - scripts/*.java
+    - apps/themuffinman/frontend/scripts/*.{mjs,js}
+  excluded:
+    - application source, tests, migrations, and package manifests
+    - SQL fixture files, which remain MuffinMan development data
+    - historical evidence and generated audit output
+classification_contract:
+  selection: first_matching_rule_wins
+  allowed_owners: [dora_core, dora_adapter, muffinman_extension, historical_retention]
+  dora_core: Reusable protocol or schema logic that must not encode MuffinMan product meaning.
+  dora_adapter: Reusable mechanism that needs project-declared paths, commands, registries, or output locations before moving to Dora.
+  muffinman_extension: Product-specific logic, contracts, runtime scenarios, or orchestration that remains owned by MuffinMan.
+  historical_retention: Preserved legacy artifact that is intentionally not invoked by Dora or MuffinMan control flow.
+baseline_counts:
+  scripts: 78
+  make_targets: 53
+consumer_adapter_bindings:
+  - project: muffinman
+    adapter: .dora/project.yaml
+    dora_entrypoint: dora/bin/dora
+    rule: MuffinMan owns every path and extension declared by its adapter; Dora validates declarations and never promotes their product status.
+rules:
+  - id: dora-core-work-protocol
+    owner: dora_core
+    subjects:
+      - script:scripts/verify-work.rb
+      - script:scripts/audits/audit-atomic-task-hardening.rb
+      - script:scripts/audits/audit-work-artifact-schema.rb
+      - script:scripts/audits/audit-work-plan-recursion.rb
+      - make:work-create
+      - make:master-create
+      - make:work-start
+      - make:work-verify
+  - id: dora-adapter-repository-control
+    owner: dora_adapter
+    subjects:
+      - script:scripts/audit_support.rb
+      - script:scripts/change-validation.rb
+      - script:scripts/clean-generated-artifacts.rb
+      - script:scripts/context-search.rb
+      - script:scripts/repository-map.rb
+      - script:scripts/todo-audit.rb
+      - script:scripts/tool-help.rb
+      - script:scripts/tool-self-test.rb
+      - script:scripts/validate-control-sources.rb
+      - script:scripts/RepositoryJavaAstIndex.java
+      - script:scripts/audits/audit-canonical-source-integrity.rb
+      - script:scripts/audits/audit-dora-control-ownership.rb
+      - script:scripts/audits/audit-dora-muffinman-compatibility.rb
+      - script:scripts/audits/audit-dora-extraction-manifest.rb
+      - script:scripts/audits/audit-intellij-mcp-routing.rb
+      - script:scripts/audits/audit-plan-coverage.rb
+      - script:scripts/audits/audit-template-freshness.rb
+      - script:scripts/audits/audit-tool-catalog.rb
+      - script:scripts/audits/audit-work-artifact-retention.rb
+      - script:scripts/audits/audit-workspace-change-inventory.rb
+      - make:help
+      - make:context-search
+      - make:repository-map
+      - make:change-validation
+      - make:workspace-change-report
+      - make:audit-tool-catalog
+      - make:audit-template-freshness
+      - make:audit-work-artifact-schema
+      - make:audit-work-artifact-retention
+      - make:audit-intellij-mcp-routing
+      - make:tool-self-test
+      - make:audit-todo
+      - make:audit-atomic-task-hardening
+      - make:audit-plan-coverage
+      - make:audit-canonical-source-integrity
+      - make:audit-work-plan-recursion
+      - make:clean-generated
+      - make:control-check
+  - id: muffinman-product-control-fallback
+    owner: muffinman_extension
+    patterns:
+      - script:scripts/audits/*.rb
+      - script:scripts/*.rb
+      - script:scripts/*.java
+      - script:apps/themuffinman/frontend/scripts/*.mjs
+      - script:apps/themuffinman/frontend/scripts/*.js
+      - make:*
+    rationale: Product-specific audits, frontend harnesses, runtime scenarios, build commands, and domain registries stay with MuffinMan until a later task proves they can use the adapter contract.
+invariants:
+  - Every discovered subject matches exactly one selected rule under the declared precedence.
+  - A Dora core subject may not directly name apps/themuffinman or a MuffinMan domain registry.
+  - Dora adapter subjects are not Dora core until their path and command inputs are declared by an adapter contract.
+  - MuffinMan extensions remain local even when invoked by a generic root Make target.
+  - Adding a control script or Make target requires updating baseline_counts and an explicit ownership rule before this audit can pass.

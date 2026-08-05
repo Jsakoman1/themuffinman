@@ -1,0 +1,124 @@
+kind: work
+version: 1
+id: dora-muffinman-separation-02-dora-core
+title: Build the portable Dora core
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-muffinman-separation-execution-inventory.yaml
+master_plan: docs/work/dora-muffinman-separation-master.yaml
+hardening_review:
+  reviewed_at: 2026-08-05
+  outcome: Dora package layout and root-independent verifier behavior are separate
+    atomic outcomes.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan-specific audit behavior until delegated
+  residual_scope:
+  - portable Dora layout and root-independent core verifier
+  retest_triggers:
+  - changed Dora CLI
+  - schema
+  - templates
+  - or verifier protocol
+  non_duplication_rule: Passing existing MuffinMan checks is not portable-core proof
+    without the independent fixture.
+tasks:
+- id: create-dora-portable-layout
+  title: Create Dora package boundaries and reusable templates
+  type: implementation
+  status: done
+  inventory_item: dora-core-layout
+  observable_outcome: Dora exposes a self-contained CLI, libraries, templates, and
+    documented extension points with no product source embedded in the package.
+  dependencies:
+  - define-project-adapter-contract
+  evidence_boundary:
+  - Dora self-test and package-boundary audit
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/adapter.rb
+  - dora/templates/work-plan.yaml
+  - dora/README.md
+  - scripts/audits/audit-dora-package-boundary.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/README.md
+  - scripts/audits/audit-dora-package-boundary.rb
+  validation: ruby scripts/audits/audit-dora-package-boundary.rb
+  started_at: '2026-08-05T09:26:06Z'
+  start_fingerprints:
+    dora/bin/dora: b8d60fbd8d95be2a81b2a70c35df9e0047aa81338d6d74dfa7850f7186b2c934
+    dora/README.md: __missing__
+    scripts/audits/audit-dora-package-boundary.rb: __missing__
+- id: parameterize-core-verifier
+  title: Make Dora work verification resolve paths through an adapter
+  type: implementation
+  status: done
+  inventory_item: dora-core-verifier
+  observable_outcome: The Dora verifier validates the existing work-plan protocol
+    against the adapter-declared project root and no longer assumes MuffinMan directories.
+  dependencies:
+  - create-dora-portable-layout
+  evidence_boundary:
+  - verifier unit tests for two distinct adapter roots
+  paths:
+  - dora/lib/dora/work_verifier.rb
+  - dora/test/work_verifier_test.rb
+  - dora/bin/dora
+  required_paths:
+  - dora/lib/dora/work_verifier.rb
+  - dora/test/work_verifier_test.rb
+  - dora/bin/dora
+  validation: ruby dora/test/work_verifier_test.rb
+  started_at: '2026-08-05T09:33:14Z'
+  start_fingerprints:
+    dora/lib/dora/work_verifier.rb: __missing__
+    dora/test/work_verifier_test.rb: __missing__
+    dora/bin/dora: 4523a5498920e99b11540fcddb51e1b67f0fed5bff9de779ad8a17c0440c1d80
+evidence:
+- task: create-dora-portable-layout
+  command: ruby scripts/audits/audit-dora-package-boundary.rb
+  ranAt: '2026-08-05T09:33:14Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/bin/dora
+  - dora/lib/dora/adapter.rb
+  - dora/templates/work-plan.yaml
+  - scripts/audits/audit-dora-package-boundary.rb
+  output: "Dora package boundary audit passed (5 portable files, no embedded product
+    path).\n\n"
+  startedAt: '2026-08-05T09:26:06Z'
+  changedAfterStart: &1
+  - dora/bin/dora
+  - dora/README.md
+  - scripts/audits/audit-dora-package-boundary.rb
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: parameterize-core-verifier
+  command: ruby dora/test/work_verifier_test.rb
+  ranAt: '2026-08-05T09:34:37Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/work_verifier.rb
+  - dora/test/work_verifier_test.rb
+  output: "Dora work verifier test passed (two independent adapter roots).\n\n"
+  startedAt: '2026-08-05T09:33:14Z'
+  changedAfterStart: &2
+  - dora/lib/dora/work_verifier.rb
+  - dora/test/work_verifier_test.rb
+  - dora/bin/dora
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

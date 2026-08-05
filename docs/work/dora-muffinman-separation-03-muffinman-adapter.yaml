@@ -1,0 +1,123 @@
+kind: work
+version: 1
+id: dora-muffinman-separation-03-muffinman-adapter
+title: Connect MuffinMan to Dora without changing product authority
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-muffinman-separation-execution-inventory.yaml
+master_plan: docs/work/dora-muffinman-separation-master.yaml
+hardening_review:
+  reviewed_at: 2026-08-05
+  outcome: Product adapter declaration and command compatibility delegation are separate
+    atomic outcomes.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - existing MuffinMan Make control entry points
+  baseline_only_surfaces:
+  - MuffinMan product logic
+  - current capability status
+  - runtime proof
+  residual_scope:
+  - MuffinMan adapter and compatibility delegates
+  retest_triggers:
+  - changed product adapter
+  - Make target
+  - or product extension declaration
+  non_duplication_rule: Compatibility validates control invocation only; it does not
+    re-award product capability completion.
+tasks:
+- id: add-muffinman-dora-adapter
+  title: Declare MuffinMan's product-owned paths and extensions to Dora
+  type: implementation
+  status: done
+  inventory_item: dora-muffinman-config
+  observable_outcome: MuffinMan supplies all Dora inputs through one adapter file
+    and explicitly declares its product-specific audits, docs, evidence, and runtime
+    commands.
+  dependencies:
+  - parameterize-core-verifier
+  evidence_boundary:
+  - passing adapter validation and product extension ownership audit
+  paths:
+  - ".dora/project.yaml"
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  required_paths:
+  - ".dora/project.yaml"
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  validation: dora/bin/dora validate-adapter .dora/project.yaml
+  started_at: '2026-08-05T09:34:48Z'
+  start_fingerprints:
+    ".dora/project.yaml": __missing__
+    docs/dora-control-ownership-inventory.yaml: 6662a65a47be4de887bed1fa3f813a051ad420f73112c8cc7dd53375fa3a2c47
+    scripts/audits/audit-dora-control-ownership.rb: 517fc04ee4e976ba7ae5098b21a006e11ec588dffc4fb56b305446a7b8870335
+- id: retain-muffinman-command-compatibility
+  title: Delegate retained MuffinMan control commands to Dora
+  type: implementation
+  status: done
+  inventory_item: dora-compatibility-delegates
+  observable_outcome: Existing MuffinMan control commands remain callable at the repository
+    root and delegate generic work to Dora while product extensions remain declared
+    locally.
+  dependencies:
+  - add-muffinman-dora-adapter
+  evidence_boundary:
+  - compatibility command matrix with matching exit status and evidence locations
+  paths:
+  - Makefile
+  - ".dora/project.yaml"
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - Makefile
+  - ".dora/project.yaml"
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  started_at: '2026-08-05T09:35:52Z'
+  start_fingerprints:
+    Makefile: c684c8e0e774cea1d517f438e2adc44da702d60f92ecc5fd901b03056dc58a8e
+    ".dora/project.yaml": 2a82fe87a21a0e219bdcc684ffef23cf49107b5f2f7b278cb2e772e5f8d85b08
+    scripts/audits/audit-dora-muffinman-compatibility.rb: __missing__
+evidence:
+- task: add-muffinman-dora-adapter
+  command: dora/bin/dora validate-adapter .dora/project.yaml
+  ranAt: '2026-08-05T09:35:32Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/project.yaml"
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  output: "Dora adapter valid: muffinman (4 project extensions).\n\n"
+  startedAt: '2026-08-05T09:34:48Z'
+  changedAfterStart: &1
+  - ".dora/project.yaml"
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: retain-muffinman-command-compatibility
+  command: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  ranAt: '2026-08-05T09:37:31Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - Makefile
+  - ".dora/project.yaml"
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  output: "Dora/MuffinMan compatibility audit passed (work-start, work-verify retain
+    root commands with Dora preflight).\n\n"
+  startedAt: '2026-08-05T09:35:52Z'
+  changedAfterStart: &2
+  - Makefile
+  - ".dora/project.yaml"
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

@@ -1,0 +1,116 @@
+kind: work
+version: 1
+id: dora-muffinman-separation-01-boundary-contract
+title: Define Dora and MuffinMan ownership and adapter contract
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-muffinman-separation-execution-inventory.yaml
+master_plan: docs/work/dora-muffinman-separation-master.yaml
+hardening_review:
+  reviewed_at: 2026-08-05
+  outcome: Ownership classification and adapter contract are separate atomic outcomes.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan product sources
+  - tests
+  - registries
+  - and existing runtime evidence
+  residual_scope:
+  - classify current tools and define adapter inputs without moving product code
+  retest_triggers:
+  - changed tool classification or adapter schema
+  non_duplication_rule: Existing product audits remain product evidence and are not
+    reclassified as Dora proof.
+tasks:
+- id: inventory-control-ownership
+  title: Classify every control tool by reusable or product-specific ownership
+  type: implementation
+  status: done
+  inventory_item: dora-boundary-inventory
+  observable_outcome: One machine-readable inventory assigns every current control
+    command and script to Dora core, Dora adapter, MuffinMan extension, or historical
+    retention.
+  dependencies:
+  - harden-dora-separation-plan
+  evidence_boundary:
+  - inventory validation showing no uncategorized control tool
+  paths:
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  required_paths:
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  validation: ruby scripts/audits/audit-dora-control-ownership.rb
+  started_at: '2026-08-05T09:21:05Z'
+  start_fingerprints:
+    docs/dora-control-ownership-inventory.yaml: __missing__
+    scripts/audits/audit-dora-control-ownership.rb: __missing__
+- id: define-project-adapter-contract
+  title: Define the portable Dora project adapter contract
+  type: implementation
+  status: done
+  inventory_item: dora-adapter-contract
+  observable_outcome: A versioned schema defines project roots, commands, evidence
+    locations, enabled extensions, and explicit ownership without Dora naming MuffinMan
+    paths.
+  dependencies:
+  - inventory-control-ownership
+  evidence_boundary:
+  - schema and valid MuffinMan adapter fixture
+  paths:
+  - dora/project-adapter.schema.yaml
+  - dora/fixtures/muffinman-adapter.yaml
+  - dora/bin/dora
+  required_paths:
+  - dora/project-adapter.schema.yaml
+  - dora/fixtures/muffinman-adapter.yaml
+  - dora/bin/dora
+  validation: dora/bin/dora validate-adapter dora/fixtures/muffinman-adapter.yaml
+  started_at: '2026-08-05T09:24:45Z'
+  start_fingerprints:
+    dora/project-adapter.schema.yaml: __missing__
+    dora/fixtures/muffinman-adapter.yaml: __missing__
+    dora/bin/dora: __missing__
+evidence:
+- task: inventory-control-ownership
+  command: ruby scripts/audits/audit-dora-control-ownership.rb
+  ranAt: '2026-08-05T09:24:37Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  output: "Dora control ownership audit passed (128 subjects; dora_adapter=36, dora_core=8,
+    muffinman_extension=84).\n\n"
+  startedAt: '2026-08-05T09:21:05Z'
+  changedAfterStart: &1
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: define-project-adapter-contract
+  command: dora/bin/dora validate-adapter dora/fixtures/muffinman-adapter.yaml
+  ranAt: '2026-08-05T09:25:59Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/fixtures/muffinman-adapter.yaml
+  - dora/project-adapter.schema.yaml
+  output: "Dora adapter valid: muffinman (2 project extensions).\n\n"
+  startedAt: '2026-08-05T09:24:45Z'
+  changedAfterStart: &2
+  - dora/project-adapter.schema.yaml
+  - dora/fixtures/muffinman-adapter.yaml
+  - dora/bin/dora
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

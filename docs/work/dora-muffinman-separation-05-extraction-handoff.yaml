@@ -1,0 +1,115 @@
+kind: work
+version: 1
+id: dora-muffinman-separation-05-extraction-handoff
+title: Prepare reversible Dora extraction and release handoff
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-muffinman-separation-execution-inventory.yaml
+master_plan: docs/work/dora-muffinman-separation-master.yaml
+hardening_review:
+  reviewed_at: 2026-08-05
+  outcome: Reversible extraction preparation is separate from the externally approved
+    release handoff.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - Dora portability proof and MuffinMan equivalence proof
+  baseline_only_surfaces:
+  - existing Git history
+  - product source
+  - historical evidence
+  residual_scope:
+  - reversible extraction manifest and gated remote release handoff
+  retest_triggers:
+  - changed package contents
+  - release revision
+  - or remote integration method
+  non_duplication_rule: An extraction manifest records provenance but never replaces
+    source, test, or runtime evidence.
+tasks:
+- id: create-reversible-extraction-manifest
+  title: Record exact Dora extraction contents and preservation checks
+  type: implementation
+  status: done
+  inventory_item: dora-extraction-manifest
+  observable_outcome: A manifest lists every Dora-owned path, every retained MuffinMan-owned
+    path, immutable baseline references, and rollback checks before any repository
+    split.
+  dependencies:
+  - prove-muffinman-control-equivalence
+  evidence_boundary:
+  - manifest integrity audit confirms complete ownership and no unclassified move
+  paths:
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  required_paths:
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  validation: ruby scripts/audits/audit-dora-extraction-manifest.rb
+  started_at: '2026-08-05T09:39:09Z'
+  start_fingerprints:
+    docs/dora-extraction-manifest.yaml: __missing__
+    scripts/audits/audit-dora-extraction-manifest.rb: __missing__
+- id: document-approved-release-handoff
+  title: Document the explicitly approved Dora repository release procedure
+  type: docs-only
+  status: done
+  inventory_item: dora-release-handoff
+  observable_outcome: A release handoff documents the chosen remote destination, immutable
+    Dora version, MuffinMan pinning method, history-preservation command review, and
+    rollback procedure after the owner approves the external operation.
+  dependencies:
+  - create-reversible-extraction-manifest
+  evidence_boundary:
+  - reviewed handoff with an approved remote destination and a verified pinned Dora
+    revision
+  paths:
+  - docs/dora-release-handoff.yaml
+  - ".dora/project.yaml"
+  required_paths:
+  - docs/dora-release-handoff.yaml
+  - ".dora/project.yaml"
+  validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+  started_at: '2026-08-05T09:45:19Z'
+  start_fingerprints:
+    docs/dora-release-handoff.yaml: __missing__
+    ".dora/project.yaml": 68591d1f705459e31479fe8d673bcdf66cee71c33b97ad352dbe6c83053c8b8e
+evidence:
+- task: create-reversible-extraction-manifest
+  command: ruby scripts/audits/audit-dora-extraction-manifest.rb
+  ranAt: '2026-08-05T09:41:44Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  output: "Dora extraction manifest audit passed (2191 classified repository paths;
+    local preparation only).\n\n"
+  startedAt: '2026-08-05T09:39:09Z'
+  changedAfterStart: &1
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: document-approved-release-handoff
+  command: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+  ranAt: '2026-08-05T09:48:04Z'
+  revision: d4f0c60704ceeb69a9861c2f90a3cdb9e671f735
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff.yaml
+  output: "Dora extraction manifest audit passed (2192 classified repository paths;
+    released).\n\n"
+  startedAt: '2026-08-05T09:45:19Z'
+  changedAfterStart: &2
+  - docs/dora-release-handoff.yaml
+  - ".dora/project.yaml"
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

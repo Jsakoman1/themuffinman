@@ -1,0 +1,71 @@
+kind: master
+version: 1
+id: dora-muffinman-separation-master
+title: Separate reusable Dora delivery controls from the MuffinMan product
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+atomic_task_hardening_plan: docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+execution_inventory: docs/work/dora-muffinman-separation-execution-inventory.yaml
+objective: Create Dora as a portable, versioned delivery-control package while preserving
+  MuffinMan as an independent product application with unchanged product authority
+  and retained evidence.
+analysis_source: docs/work/dora-muffinman-separation-analysis.md
+hardening_review:
+  state: ready_for_verifier
+  reviewed_at: 2026-08-05
+  rule: Every master child task is represented exactly once in the global serial inventory
+    before implementation may begin.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  - docs/system-map.md
+  - existing Makefile control-check and audit suite behavior
+  baseline_only_surfaces:
+  - MuffinMan backend, frontend, database migrations, product behavior, and runtime
+    evidence
+  - verified historical work plans and retained audit output
+  residual_scope:
+  - hard-coded product paths in reusable control scripts
+  - no portable project-adapter contract for control tooling
+  - no independent fixture proving generic Dora behavior
+  - no reversible extraction manifest or version-pinning handoff
+  retest_triggers:
+  - any changed Dora core command, adapter contract, Make delegate, product-specific
+    audit declaration, or evidence path
+  - any moved source, template, schema, or registry reference
+  non_duplication_rule: Existing MuffinMan capability, runtime, and verified-plan
+    evidence is baseline-only and is never counted as Dora migration completion.
+principles:
+- Dora owns reusable mechanisms, never MuffinMan domain meaning or status.
+- MuffinMan product rules, registries, tests, runtime evidence, and extensions remain
+  in MuffinMan.
+- Every migration step is additive or compatibility-preserving until equivalence is
+  proven.
+- Remote publication or Git-history rewriting requires a separate explicit approval.
+exit_gate:
+- Dora core runs against a second fixture project through a documented adapter.
+- MuffinMan runs the same retained control entry points through compatibility delegates.
+- all moved or delegated tools are classified and referenced by an extraction manifest.
+- no product-owned source or evidence is deleted during the local migration.
+- a release handoff records the exact Dora revision and the separately approved remote
+  split procedure.
+children:
+- docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+- docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+- docs/work/dora-muffinman-separation-02-dora-core.yaml
+- docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+- docs/work/dora-muffinman-separation-04-portability-proof.yaml
+- docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+evidence:
+- verifiedAt: '2026-08-05T09:48:14Z'
+  revision: d4f0c60704ceeb69a9861c2f90a3cdb9e671f735
+  children:
+  - docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+  - docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+  - docs/work/dora-muffinman-separation-02-dora-core.yaml
+  - docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+  - docs/work/dora-muffinman-separation-04-portability-proof.yaml
+  - docs/work/dora-muffinman-separation-05-extraction-handoff.yaml

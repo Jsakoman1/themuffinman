@@ -1,0 +1,21 @@
+kind: dora_muffinman_compatibility_matrix
+version: 1
+status: active
+purpose: Define the retained root work commands and prove that Dora preflight precedes the existing verifier without changing MuffinMan-owned evidence locations.
+adapter: .dora/project.yaml
+entries:
+  - target: work-start
+    dora_preflight: dora/bin/dora validate-work-plan .dora/project.yaml "$(plan)"
+    retained_verifier: ruby scripts/verify-work.rb action=start plan="$(plan)" task="$(task)"
+    evidence_paths: [docs/work, docs/work/dora-muffinman-separation-execution-inventory.yaml]
+    proof: A successful serial start first validates the selected plan through Dora, then preserves the existing start snapshot and inventory mutation behavior.
+  - target: work-verify
+    dora_preflight: dora/bin/dora validate-work-plan .dora/project.yaml "$(plan)"
+    retained_verifier: ruby scripts/verify-work.rb plan="$(plan)" task="$(task)"
+    evidence_paths: [docs/work]
+    proof: A successful verification first validates the selected plan through Dora, then preserves verifier-generated task evidence in the selected work plan.
+invariants:
+  - Dora preflight is fail-closed and runs before the retained verifier command.
+  - Dora does not create or relocate MuffinMan verification evidence.
+  - Product-specific audit, runtime, and capability evidence remains outside this compatibility surface.
+

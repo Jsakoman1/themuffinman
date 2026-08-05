@@ -1,0 +1,101 @@
+kind: work
+version: 1
+id: dora-muffinman-separation-atomic-task-hardening
+title: Harden the Dora separation master into serial atomic delivery tasks
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-muffinman-separation-execution-inventory.yaml
+master_plan: docs/work/dora-muffinman-separation-master.yaml
+hardening_review:
+  reviewed_at: 2026-08-05
+  outcome: The post-start review must confirm bounded paths, dependencies, evidence
+    boundaries, and one global task mapping.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/system-map-optimization-master.yaml
+  baseline_only_surfaces:
+  - all MuffinMan product behavior and existing evidence
+  residual_scope:
+  - validate the Dora migration task graph before implementation
+  retest_triggers:
+  - any changed Dora master
+  - child plan
+  - inventory
+  - or analysis boundary
+  non_duplication_rule: Prior plan evidence remains baseline context and is not Dora
+    delivery evidence.
+tasks:
+- id: harden-dora-separation-plan
+  title: Verify the Dora separation plan has one ordered, bounded implementation queue
+  type: docs-only
+  status: done
+  inventory_item: dora-harden-plan
+  observable_outcome: The master, every child task, and the one global inventory map
+    to exactly one ordered and independently verifiable migration outcome.
+  dependencies: []
+  evidence_boundary:
+  - passing atomic-task hardening audit for the Dora master and inventory
+  paths:
+  - docs/work/dora-muffinman-separation-master.yaml
+  - docs/work/dora-muffinman-separation-execution-inventory.yaml
+  - docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+  - docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+  - docs/work/dora-muffinman-separation-02-dora-core.yaml
+  - docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+  - docs/work/dora-muffinman-separation-04-portability-proof.yaml
+  - docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+  required_paths:
+  - docs/work/dora-muffinman-separation-master.yaml
+  - docs/work/dora-muffinman-separation-execution-inventory.yaml
+  - docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+  - docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+  - docs/work/dora-muffinman-separation-02-dora-core.yaml
+  - docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+  - docs/work/dora-muffinman-separation-04-portability-proof.yaml
+  - docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-muffinman-separation-master.yaml
+    docs/work/dora-muffinman-separation-execution-inventory.yaml
+  started_at: '2026-08-05T09:19:07Z'
+  start_fingerprints:
+    docs/work/dora-muffinman-separation-master.yaml: eba85684208955df81fecf36b027cfb83c0500b5760679daac3ec7240c7fd9f0
+    docs/work/dora-muffinman-separation-execution-inventory.yaml: 892af920a6a89c18cf2346864d61f3882d47c3001686d097d098207c2ad71362
+    docs/work/dora-muffinman-separation-atomic-task-hardening.yaml: d97c2a9e5444932df4e8bd712eaa69b85db2c709c8d0d69f13cb2c991dfe1461
+    docs/work/dora-muffinman-separation-01-boundary-contract.yaml: f0c0ebc286af6309a312c4e51c5bf910898e0e6efbfda7332af66a9793690aba
+    docs/work/dora-muffinman-separation-02-dora-core.yaml: dd642d5bab4e75f4d5c345eea1197e2a9934b5ba79595e71ea00e3dc1f16afe5
+    docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml: 951e652b982a6ef04e5458fea8f6bf01e71b34125efb86f2d841e85ab482a15d
+    docs/work/dora-muffinman-separation-04-portability-proof.yaml: e829ae6f486e33cf22c61abed450be08d54ac72af9ac7ec8d72662fda635f5d9
+    docs/work/dora-muffinman-separation-05-extraction-handoff.yaml: 240ef381784294023a135367e1dc8d9ffd45a223bd82634b1dd4c36c3335d69e
+evidence:
+- task: harden-dora-separation-plan
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-muffinman-separation-master.yaml
+    docs/work/dora-muffinman-separation-execution-inventory.yaml
+  ranAt: '2026-08-05T09:19:44Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+  - docs/work/dora-muffinman-separation-02-dora-core.yaml
+  - docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+  - docs/work/dora-muffinman-separation-04-portability-proof.yaml
+  - docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+  - docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+  - docs/work/dora-muffinman-separation-execution-inventory.yaml
+  - docs/work/dora-muffinman-separation-master.yaml
+  output: "Atomic task hardening audit passed (11 inventory items).\n\n"
+  startedAt: '2026-08-05T09:19:07Z'
+  changedAfterStart: &1
+  - docs/work/dora-muffinman-separation-master.yaml
+  - docs/work/dora-muffinman-separation-execution-inventory.yaml
+  - docs/work/dora-muffinman-separation-atomic-task-hardening.yaml
+  - docs/work/dora-muffinman-separation-01-boundary-contract.yaml
+  - docs/work/dora-muffinman-separation-02-dora-core.yaml
+  - docs/work/dora-muffinman-separation-03-muffinman-adapter.yaml
+  - docs/work/dora-muffinman-separation-04-portability-proof.yaml
+  - docs/work/dora-muffinman-separation-05-extraction-handoff.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

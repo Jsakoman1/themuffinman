@@ -1,0 +1,114 @@
+kind: work
+version: 1
+id: dora-muffinman-separation-04-portability-proof
+title: Prove Dora portability and MuffinMan equivalence
+status: verified
+baseline: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-muffinman-separation-execution-inventory.yaml
+master_plan: docs/work/dora-muffinman-separation-master.yaml
+hardening_review:
+  reviewed_at: 2026-08-05
+  outcome: Independent-fixture portability and MuffinMan equivalence are separate
+    proofs.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - existing MuffinMan control evidence
+  baseline_only_surfaces:
+  - all unchanged product behavior and browser/runtime acceptance
+  residual_scope:
+  - independent fixture proof and retained-command equivalence
+  retest_triggers:
+  - changed Dora core
+  - adapter semantics
+  - or compatibility target
+  non_duplication_rule: Product checks run for compatibility are not recorded as new
+    product completion.
+tasks:
+- id: prove-dora-on-independent-fixture
+  title: Run Dora against a non-MuffinMan fixture project
+  type: implementation
+  status: done
+  inventory_item: dora-fixture-proof
+  observable_outcome: A minimal independent fixture invokes Dora planning, verification,
+    and documentation checks without any MuffinMan-named source path.
+  dependencies:
+  - retain-muffinman-command-compatibility
+  evidence_boundary:
+  - fixture adapter and passing portable core test
+  paths:
+  - dora/fixtures/standalone-project/.dora/project.yaml
+  - dora/fixtures/standalone-project/docs/work/example.yaml
+  - dora/test/portable_fixture_test.rb
+  required_paths:
+  - dora/fixtures/standalone-project/.dora/project.yaml
+  - dora/fixtures/standalone-project/docs/work/example.yaml
+  - dora/test/portable_fixture_test.rb
+  validation: ruby dora/test/portable_fixture_test.rb
+  started_at: '2026-08-05T09:37:43Z'
+  start_fingerprints:
+    dora/fixtures/standalone-project/.dora/project.yaml: __missing__
+    dora/fixtures/standalone-project/docs/work/example.yaml: __missing__
+    dora/test/portable_fixture_test.rb: __missing__
+- id: prove-muffinman-control-equivalence
+  title: Compare Dora-delegated and retained MuffinMan control outcomes
+  type: implementation
+  status: done
+  inventory_item: dora-equivalence-proof
+  observable_outcome: The declared retained MuffinMan control surface has matching
+    exit results, ownership classifications, and evidence destinations after delegation.
+  dependencies:
+  - prove-dora-on-independent-fixture
+  evidence_boundary:
+  - generated equivalence report validated against the compatibility matrix
+  paths:
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  started_at: '2026-08-05T09:38:19Z'
+  start_fingerprints:
+    docs/dora-muffinman-compatibility-matrix.yaml: __missing__
+    scripts/audits/audit-dora-muffinman-compatibility.rb: ef7f46d79a35dd6aae63ddf9b9e0f49c4566a466b88776ed5825e3f1e40a9393
+evidence:
+- task: prove-dora-on-independent-fixture
+  command: ruby dora/test/portable_fixture_test.rb
+  ranAt: '2026-08-05T09:38:13Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/fixtures/standalone-project/.dora/project.yaml
+  - dora/fixtures/standalone-project/docs/work/example.yaml
+  - dora/test/portable_fixture_test.rb
+  output: "Dora portable fixture test passed (standalone adapter and work plan).\n\n"
+  startedAt: '2026-08-05T09:37:43Z'
+  changedAfterStart: &1
+  - dora/fixtures/standalone-project/.dora/project.yaml
+  - dora/fixtures/standalone-project/docs/work/example.yaml
+  - dora/test/portable_fixture_test.rb
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: prove-muffinman-control-equivalence
+  command: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  ranAt: '2026-08-05T09:39:02Z'
+  revision: a35a18dec5f58a2c2409e72dfb5dd88ee921df57
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  output: "Dora/MuffinMan compatibility audit passed (work-start, work-verify retain
+    root commands with Dora preflight).\n\n"
+  startedAt: '2026-08-05T09:38:19Z'
+  changedAfterStart: &2
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  requiredPaths: *2
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

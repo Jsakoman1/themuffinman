@@ -1,0 +1,32 @@
+kind: dora_release_handoff
+version: 1
+status: published
+approved_by: user
+approved_at: 2026-08-05
+release:
+  repository: https://github.com/Jsakoman1/dora.git
+  visibility: private
+  default_branch: main
+  version: v0.1.0
+  immutable_commit: eb45f00e7805f25a053bd23a957b238142120ce6
+  source_parent_commit: d4f0c60
+consumption:
+  project: muffinman
+  method: git_subtree
+  subtree_prefix: dora
+  pinned_ref: v0.1.0
+  pinned_commit: eb45f00e7805f25a053bd23a957b238142120ce6
+  local_adapter: .dora/project.yaml
+  update_rule: Fetch and review a Dora release, then run `git subtree pull --prefix=dora dora main --squash`, verify Dora and MuffinMan controls, and commit the resulting MuffinMan update separately.
+preservation:
+  - The original MuffinMan repository remains the owner of product code, product documentation, work plans, runtime evidence, and `.dora/project.yaml`.
+  - Dora was exported from the committed dora/ subtree; no source-repository path was deleted or history rewritten.
+  - The remote repository contains only the Dora export branch and tag, not MuffinMan product files.
+rollback:
+  - Revert the separate MuffinMan subtree-update commit if a later Dora release is unsuitable.
+  - Pin MuffinMan back to this immutable v0.1.0 commit before attempting another update.
+  - Never use Dora rollback to recreate or overwrite MuffinMan product evidence.
+verification:
+  - dora/bin/dora validate-adapter .dora/project.yaml
+  - ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+  - ruby scripts/audits/audit-dora-muffinman-compatibility.rb
