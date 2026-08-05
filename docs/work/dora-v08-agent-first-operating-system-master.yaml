@@ -2,49 +2,104 @@ kind: master
 version: 1
 id: dora-v08-agent-first-operating-system-master
 title: Make Dora an agent-first application operating system
-status: draft
+status: verified
 baseline: d6ac8d5
 strict_verification: true
 serial_task_execution: true
 atomic_task_hardening_plan: docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
 execution_inventory: docs/work/dora-v08-agent-first-operating-system-execution-inventory.yaml
-objective: Physically extract reusable analysis engines from MuffinMan, give Dora a machine-readable product and agent knowledge model, add generic architecture and voice-capability blueprints, and prove that Codex can bootstrap and validate a new application from an explicit idea without importing MuffinMan product meaning.
+objective: Physically extract reusable analysis engines from MuffinMan, give Dora
+  a machine-readable product and agent knowledge model, add generic architecture and
+  voice-capability blueprints, and prove that Codex can bootstrap and validate a new
+  application from an explicit idea without importing MuffinMan product meaning.
 analysis_source: docs/work/dora-v08-agent-first-operating-system-analysis.md
 preflight_source: docs/work/dora-v08-agent-first-operating-system-preflight.md
 goal_readiness_source: docs/work/dora-v08-agent-first-operating-system-goal-readiness.md
 change_impact_review:
   required: true
-  review_boundary: v0.8 changes delivery controls, source indexing, generated project knowledge, and agent instructions; MuffinMan product semantics and runtime evidence remain retained.
-  required_closeout_reviews: [docs/dora-muffinman-tool-ownership.yaml, docs/dora-muffinman-compatibility-matrix.yaml, docs/dora-release-handoff-v08.yaml]
+  review_boundary: v0.8 changes delivery controls, source indexing, generated project
+    knowledge, and agent instructions; MuffinMan product semantics and runtime evidence
+    remain retained.
+  required_closeout_reviews:
+  - docs/dora-muffinman-tool-ownership.yaml
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - docs/dora-release-handoff-v08.yaml
 readiness:
   execution_mode: strict_serial
   atomic_inventory_items: 22
   implementation_started: false
-  decision: Ready for atomic-task hardening only; no extraction, agent profile, or product knowledge implementation may start before its verifier evidence exists.
+  decision: Ready for atomic-task hardening only; no extraction, agent profile, or
+    product knowledge implementation may start before its verifier evidence exists.
 hardening_review:
   verifier: ruby scripts/audits/audit-dora-v08-agent-first-plan.rb
-  contract: Each item must identify its exact source or template paths, an independent fixture or test, direct prior-item dependency, and a declared Dora-versus-product ownership result.
-  physical_extraction_gate: Parser and analysis tasks must remove or redirect their named MuffinMan implementation path; delegation alone is insufficient.
-  agent_proof_gate: The independent proof must demonstrate the generated agent contract and controlled workflow, not claim that a future language-model response is deterministically correct.
-  voice_gate: The voice blueprint may define safety and evaluation contracts only; no real provider credential, product-specific intent, entity resolver, or mutation adapter belongs in Dora.
+  contract: Each item must identify its exact source or template paths, an independent
+    fixture or test, direct prior-item dependency, and a declared Dora-versus-product
+    ownership result.
+  physical_extraction_gate: Parser and analysis tasks must remove or redirect their
+    named MuffinMan implementation path; delegation alone is insufficient.
+  agent_proof_gate: The independent proof must demonstrate the generated agent contract
+    and controlled workflow, not claim that a future language-model response is deterministically
+    correct.
+  voice_gate: The voice blueprint may define safety and evaluation contracts only;
+    no real provider credential, product-specific intent, entity resolver, or mutation
+    adapter belongs in Dora.
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/dora-v07-complete-product-boundary-master.yaml]
-  baseline_only_surfaces: [Dora v0.7.1 bootstrap, plugin runner, and product-boundary classification]
-  residual_scope: [physical analysis-engine extraction, generic AST runners, product brief, domain library, Codex agent profile, architecture blueprint, voice blueprint, independent idea-to-application proof, v0.8 release and pin]
-  retest_triggers: [changed static-analysis algorithm, parser, generated starter, knowledge schema, agent workflow, blueprint, consumer proof, release handoff, or adapter pin]
-  non_duplication_rule: v0.7 delegation evidence does not prove algorithm portability; v0.8 must prove that a fresh project can run built-in Dora engines without MuffinMan scripts or documents.
+  reused_verified_plans:
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.7.1 bootstrap
+  - plugin runner
+  - and product-boundary classification
+  residual_scope:
+  - physical analysis-engine extraction
+  - generic AST runners
+  - product brief
+  - domain library
+  - Codex agent profile
+  - architecture blueprint
+  - voice blueprint
+  - independent idea-to-application proof
+  - v0.8 release and pin
+  retest_triggers:
+  - changed static-analysis algorithm
+  - parser
+  - generated starter
+  - knowledge schema
+  - agent workflow
+  - blueprint
+  - consumer proof
+  - release handoff
+  - or adapter pin
+  non_duplication_rule: v0.7 delegation evidence does not prove algorithm portability;
+    v0.8 must prove that a fresh project can run built-in Dora engines without MuffinMan
+    scripts or documents.
 principles:
-  - Dora owns reusable delivery mechanisms and neutral capability blueprints, never a consuming product's entities, permissions, business workflows, customer data, or production authority.
-  - Every product claim in Dora must be declared by that consuming project in structured knowledge artifacts; Codex must not infer omitted business rules.
-  - Voice input is treated as untrusted input: transcription, semantics, typed capability selection, deterministic validation, review, confirmation, audit record, and execution remain separate boundaries.
-  - A starter is only one-click-ready when bootstrap, declared setup, test, build, doctor, agent context, and evidence commands work from a reviewed local Dora source.
-  - Product-specific Vision implementations remain in MuffinMan; Dora exports only reusable contracts, templates, and test fixtures.
-  - Release and consumer pin are separate external-approval gates.
+- Dora owns reusable delivery mechanisms and neutral capability blueprints, never
+  a consuming product's entities, permissions, business workflows, customer data,
+  or production authority.
+- Every product claim in Dora must be declared by that consuming project in structured
+  knowledge artifacts; Codex must not infer omitted business rules.
+- Voice input is treated as untrusted input: transcription, semantics, typed capability
+    selection, deterministic validation, review, confirmation, audit record, and execution
+    remain separate boundaries.
+- A starter is only one-click-ready when bootstrap, declared setup, test, build, doctor,
+  agent context, and evidence commands work from a reviewed local Dora source.
+- Product-specific Vision implementations remain in MuffinMan; Dora exports only reusable
+  contracts, templates, and test fixtures.
+- Release and consumer pin are separate external-approval gates.
 children:
+- docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
+- docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
+- docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
+- docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
+- docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+evidence:
+- verifiedAt: '2026-08-05T14:14:35Z'
+  revision: 9230f230199d2e758aab306806f75198d180da3e
+  children:
   - docs/work/dora-v08-agent-first-operating-system-atomic-hardening.yaml
   - docs/work/dora-v08-agent-first-operating-system-01-source-engines.yaml
   - docs/work/dora-v08-agent-first-operating-system-02-agent-knowledge.yaml
   - docs/work/dora-v08-agent-first-operating-system-03-blueprints-consumer.yaml
   - docs/work/dora-v08-agent-first-operating-system-04-release.yaml
-evidence: []

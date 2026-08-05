@@ -237,10 +237,21 @@ items:
   order: 21
   plan: docs/work/dora-v08-agent-first-operating-system-04-release.yaml
   task: publish-dora-v08-release
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T14:12:24Z'
+  verified_at: '2026-08-05T14:14:00Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+    task: publish-dora-v08-release
+    revision: 9230f230199d2e758aab306806f75198d180da3e
 - id: muffinman-v08-pin
   order: 22
   plan: docs/work/dora-v08-agent-first-operating-system-04-release.yaml
   task: pin-muffinman-to-dora-v08
-  status: pending
+  status: verified
+  started_at: '2026-08-05T14:14:06Z'
+  verified_at: '2026-08-05T14:14:31Z'
+  evidence:
+    plan: docs/work/dora-v08-agent-first-operating-system-04-release.yaml
+    task: pin-muffinman-to-dora-v08
+    revision: 9230f230199d2e758aab306806f75198d180da3e
