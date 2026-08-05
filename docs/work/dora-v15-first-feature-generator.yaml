@@ -1,0 +1,157 @@
+kind: work
+version: 1
+id: dora-v15-first-feature-generator
+title: Generate a reviewable first feature skeleton
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-feature-contract
+  - v15-feature-preview
+  - v15-feature-apply
+  boundary: Reviewable skeletons only; no inferred domain semantics or source acceptance
+    claim.
+tasks:
+- id: define-feature-skeleton-contract
+  inventory_item: v15-feature-contract
+  title: Define confirmed feature skeleton inputs
+  type: implementation
+  observable_outcome: Dora validates a confirmed capability, explicit entities, fields,
+    permissions, workflow, API operations, and UI blueprint reference before generation.
+  dependencies:
+  - v15-session-consumer
+  paths:
+  - dora/feature-skeleton.schema.yaml
+  - dora/lib/dora/feature_skeleton.rb
+  - dora/test/feature_skeleton_test.rb
+  required_paths:
+  - dora/feature-skeleton.schema.yaml
+  - dora/lib/dora/feature_skeleton.rb
+  - dora/test/feature_skeleton_test.rb
+  evidence_boundary:
+  - Confirmed and missing-decision fixtures only; no generated code.
+  validation: ruby dora/test/feature_skeleton_test.rb
+  status: done
+  started_at: '2026-08-05T19:58:01Z'
+  start_fingerprints:
+    dora/feature-skeleton.schema.yaml: __missing__
+    dora/lib/dora/feature_skeleton.rb: __missing__
+    dora/test/feature_skeleton_test.rb: __missing__
+- id: expose-feature-skeleton-preview
+  inventory_item: v15-feature-preview
+  title: Preview first feature skeleton files
+  type: implementation
+  observable_outcome: Dora produces a read-only migration, backend, API, Vue, test,
+    runtime, and documentation file proposal from valid confirmed input.
+  dependencies:
+  - v15-feature-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/feature_skeleton.rb
+  - dora/test/feature_skeleton_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/feature_skeleton.rb
+  - dora/test/feature_skeleton_command_test.rb
+  evidence_boundary:
+  - Preview output only; no source or project file is written.
+  validation: ruby dora/test/feature_skeleton_command_test.rb
+  status: done
+  started_at: '2026-08-05T19:59:32Z'
+  start_fingerprints:
+    dora/bin/dora: 44a67321023c291f09f02d8c8d50772bb6aee8a2daa79a72757f00f1c40e443d
+    dora/lib/dora/feature_skeleton.rb: 740edfb8a2b7f54e8059bd460870420b6df4c7d61fa8efb48e5b41e6833c7fb7
+    dora/test/feature_skeleton_command_test.rb: __missing__
+- id: add-feature-skeleton-safe-apply
+  inventory_item: v15-feature-apply
+  title: Apply a feature skeleton safely
+  type: implementation
+  observable_outcome: Dora applies a reviewed skeleton only to declared empty paths
+    and rejects collisions, traversal, and missing confirmation.
+  dependencies:
+  - v15-feature-preview
+  paths:
+  - dora/lib/dora/feature_skeleton_apply.rb
+  - dora/templates/feature-skeleton/migration.sql
+  - dora/test/feature_skeleton_apply_test.rb
+  required_paths:
+  - dora/lib/dora/feature_skeleton_apply.rb
+  - dora/templates/feature-skeleton/migration.sql
+  - dora/test/feature_skeleton_apply_test.rb
+  evidence_boundary:
+  - Dry-run
+  - apply
+  - collision rejection
+  - and generated skeleton assertions only.
+  validation: ruby dora/test/feature_skeleton_apply_test.rb
+  status: done
+  started_at: '2026-08-05T20:00:33Z'
+  start_fingerprints:
+    dora/lib/dora/feature_skeleton_apply.rb: __missing__
+    dora/templates/feature-skeleton/migration.sql: __missing__
+    dora/test/feature_skeleton_apply_test.rb: __missing__
+evidence:
+- task: define-feature-skeleton-contract
+  command: ruby dora/test/feature_skeleton_test.rb
+  ranAt: '2026-08-05T19:58:27Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/feature-skeleton.schema.yaml
+  - dora/lib/dora/feature_skeleton.rb
+  - dora/test/feature_skeleton_test.rb
+  output: "Dora feature skeleton test passed (only explicit confirmed feature model
+    inputs are accepted).\n\n"
+  requiredPaths: &1
+  - dora/feature-skeleton.schema.yaml
+  - dora/lib/dora/feature_skeleton.rb
+  - dora/test/feature_skeleton_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:58:01Z'
+  changedAfterStart: *1
+- task: expose-feature-skeleton-preview
+  command: ruby dora/test/feature_skeleton_command_test.rb
+  ranAt: '2026-08-05T20:00:24Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/feature_skeleton.rb
+  - dora/test/feature_skeleton_command_test.rb
+  output: "Dora feature skeleton command test passed (read-only proposals cover migration,
+    backend, API, Vue, tests, runtime, and documentation).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/feature_skeleton.rb
+  - dora/test/feature_skeleton_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:59:32Z'
+  changedAfterStart: *2
+- task: add-feature-skeleton-safe-apply
+  command: ruby dora/test/feature_skeleton_apply_test.rb
+  ranAt: '2026-08-05T20:02:16Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/feature_skeleton_apply.rb
+  - dora/templates/feature-skeleton/migration.sql
+  - dora/test/feature_skeleton_apply_test.rb
+  output: "Dora feature skeleton apply test passed (dry-run, reviewed placeholders,
+    collision rejection, and traversal rejection are enforced).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/feature_skeleton_apply.rb
+  - dora/templates/feature-skeleton/migration.sql
+  - dora/test/feature_skeleton_apply_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:00:33Z'
+  changedAfterStart: *3

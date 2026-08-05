@@ -1,0 +1,6 @@
+kind: dora_session_create_app_consumer
+version: 1
+id: garden-supplies
+capability: Record supply
+open_decision: Should the application work offline?
+boundary: A fresh consumer receives declared Dora knowledge and first work only; no product source is generated.

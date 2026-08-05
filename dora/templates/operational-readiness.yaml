@@ -1,0 +1,7 @@
+kind: dora_operational_readiness
+version: 1
+status: requires_confirmed_project_values
+required_sections: [environment, secret_references, health, logging, rate_limits, dependencies, deployment_runbook]
+secret_boundary: Store references only; never write secret values into Dora artifacts.
+deployment_boundary: Deployment remains opt-in and requires explicit approval when an external environment would change.
+completion_boundary: This template neither deploys nor proves production readiness.

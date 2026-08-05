@@ -1,0 +1,121 @@
+kind: master
+version: 1
+id: dora-v15-application-authoring-master
+title: Make Dora generate a controlled first application feature from confirmed intent
+status: verified
+implementation_ready: true
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+target_release: v1.5.0
+objective: Extend Dora from v1.4 planning and technical proof into a Codex-first route
+  that converts confirmed intent into a reviewable application foundation, without
+  inferring product meaning or mutating external systems.
+analysis_source: docs/work/dora-v15-application-authoring-analysis.md
+principles:
+- Generate only from explicit, user-confirmed interview answers and declared domain
+  decisions.
+- A generated skeleton is review input, never product completion, authorization, or
+  release proof.
+- Keep authentication, ownership, data safety, demo data, and deployment opt-in and
+  neutral.
+- Preserve existing project files by default; every apply route must support preview
+  and non-overwrite behavior.
+- Require static checks before source generation and project-owned tests/runtime evidence
+  after it.
+workstreams:
+- id: session-to-create-app
+  priority: 1
+  outcome: A complete confirmed interview session can produce reviewed create-app
+    knowledge without manual YAML assembly.
+- id: first-feature-generator
+  priority: 1
+  outcome: A confirmed capability can produce a reviewable migration/backend/API/frontend/test/documentation
+    skeleton.
+- id: auth-permission-starter
+  priority: 1
+  outcome: An opt-in neutral starter supplies technical auth, ownership, role, and
+    audit surfaces without choosing policy.
+- id: data-safety-and-demo-profile
+  priority: 2
+  outcome: A project can declare backup, restore, export, retention, audit, and demo-data
+    separation controls.
+- id: migration-api-safety
+  priority: 2
+  outcome: Dora detects declared migration/API/DTO/workflow inconsistencies before
+    work is accepted as ready.
+- id: architecture-decisions
+  priority: 2
+  outcome: Codex records alternatives, rationale, consequences, and an explicit offline/sync
+    decision.
+- id: ui-accessibility-blueprints
+  priority: 3
+  outcome: A confirmed feature can select neutral, accessible UI interaction patterns
+    without product copy or visual claims.
+- id: operational-readiness
+  priority: 3
+  outcome: A project can declare and check operational prerequisites before an explicitly
+    chosen deployment route.
+- id: capability-acceptance-evidence
+  priority: 3
+  outcome: A confirmed capability produces explicit static, test, and runtime evidence
+    obligations with no implied pass state.
+non_goals:
+- Generate DoomsDayStorage or any other product without confirmed product decisions.
+- Deploy an application, access a real database, install packages, or create secrets
+  automatically.
+- Replace project-owned implementation, tests, runtime proof, documentation, or release
+  approval.
+required_before_goal_pursuit:
+- Perform a scope and overlap analysis against Dora v1.4 commands and existing consumers.
+- Convert every workstream into independently verifiable atomic tasks and one strict
+  serial execution inventory.
+- Define source-generation review, dry-run, empty-destination, and rollback boundaries.
+- Define explicit approval gates for package download, browser execution, database
+  startup, backup/restore, and deployment.
+- Define independent-consumer evidence for every reusable starter or generator.
+- Verifier-verify the first atomic hardening task before any Dora implementation task
+  starts.
+children:
+- docs/work/dora-v15-atomic-hardening.yaml
+- docs/work/dora-v15-session-to-create-app.yaml
+- docs/work/dora-v15-first-feature-generator.yaml
+- docs/work/dora-v15-auth-permission-starter.yaml
+- docs/work/dora-v15-data-safety-demo.yaml
+- docs/work/dora-v15-migration-api-safety.yaml
+- docs/work/dora-v15-architecture-decisions.yaml
+- docs/work/dora-v15-ui-accessibility-blueprints.yaml
+- docs/work/dora-v15-operational-readiness.yaml
+- docs/work/dora-v15-capability-acceptance-evidence.yaml
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v15-atomic-hardening.yaml
+strict_verification: true
+serial_task_execution: true
+atomic_task_contract:
+  required_fields:
+  - observable_outcome
+  - dependencies
+  - required_paths
+  - evidence_boundary
+  - validation
+  execution_rule: Start exactly one inventory item only after its direct predecessor
+    is verifier-marked verified.
+  generation_rule: Generation tasks require confirmed inputs, preview, non-overwrite
+    protection, and explicit review boundaries.
+preflight_source: docs/work/dora-v15-application-authoring-preflight.md
+goal_readiness_source: docs/work/dora-v15-application-authoring-goal-readiness.md
+completion_boundary: Verified v1.5 work proves only the declared Dora control surfaces
+  and their bounded local tests. It does not prove a consumer product, install packages,
+  start a database, run a browser, publish a release, or deploy software.
+evidence:
+- verifiedAt: '2026-08-05T20:11:08Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  children:
+  - docs/work/dora-v15-atomic-hardening.yaml
+  - docs/work/dora-v15-session-to-create-app.yaml
+  - docs/work/dora-v15-first-feature-generator.yaml
+  - docs/work/dora-v15-auth-permission-starter.yaml
+  - docs/work/dora-v15-data-safety-demo.yaml
+  - docs/work/dora-v15-migration-api-safety.yaml
+  - docs/work/dora-v15-architecture-decisions.yaml
+  - docs/work/dora-v15-ui-accessibility-blueprints.yaml
+  - docs/work/dora-v15-operational-readiness.yaml
+  - docs/work/dora-v15-capability-acceptance-evidence.yaml

@@ -1,0 +1,67 @@
+kind: work
+version: 1
+id: dora-v15-ui-accessibility-blueprints
+title: Add neutral UI and accessibility catalog
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-ui-catalog
+  boundary: Neutral static patterns only; no product copy, visual acceptance, or browser
+    claim.
+tasks:
+- id: add-ui-accessibility-catalog
+  inventory_item: v15-ui-catalog
+  title: Publish neutral accessible UI blueprint catalog
+  type: implementation
+  observable_outcome: Dora provides declared list/detail, filter, status, state, mobile,
+    and accessibility blueprints without product copy or visual completion claims.
+  dependencies:
+  - v15-adr-cli
+  paths:
+  - dora/ui-blueprint-catalog.schema.yaml
+  - dora/templates/ui-blueprints.yaml
+  - dora/docs/ui-accessibility-blueprints.md
+  - dora/test/ui_blueprint_catalog_test.rb
+  required_paths:
+  - dora/ui-blueprint-catalog.schema.yaml
+  - dora/templates/ui-blueprints.yaml
+  - dora/docs/ui-accessibility-blueprints.md
+  - dora/test/ui_blueprint_catalog_test.rb
+  evidence_boundary:
+  - Static catalog and product-copy exclusion assertions only.
+  validation: ruby dora/test/ui_blueprint_catalog_test.rb
+  status: done
+  started_at: '2026-08-05T20:07:59Z'
+  start_fingerprints:
+    dora/ui-blueprint-catalog.schema.yaml: __missing__
+    dora/templates/ui-blueprints.yaml: __missing__
+    dora/docs/ui-accessibility-blueprints.md: __missing__
+    dora/test/ui_blueprint_catalog_test.rb: __missing__
+evidence:
+- task: add-ui-accessibility-catalog
+  command: ruby dora/test/ui_blueprint_catalog_test.rb
+  ranAt: '2026-08-05T20:08:23Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/docs/ui-accessibility-blueprints.md
+  - dora/templates/ui-blueprints.yaml
+  - dora/test/ui_blueprint_catalog_test.rb
+  - dora/ui-blueprint-catalog.schema.yaml
+  output: "Dora UI blueprint catalog test passed (neutral list/detail, filters, status,
+    states, mobile, and accessibility guidance is present).\n\n"
+  requiredPaths: &1
+  - dora/ui-blueprint-catalog.schema.yaml
+  - dora/templates/ui-blueprints.yaml
+  - dora/docs/ui-accessibility-blueprints.md
+  - dora/test/ui_blueprint_catalog_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:07:59Z'
+  changedAfterStart: *1

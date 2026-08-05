@@ -1,0 +1,4 @@
+kind: dora_capability_acceptance_schema
+version: 1
+required_fields: [kind, version, capability, acceptance_statements, static_checks, test_scenarios, runtime_scenarios, confirmation]
+completion_boundary: This contract creates evidence obligations only. It never marks a capability accepted, tested, or proven.

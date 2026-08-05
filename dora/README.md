@@ -102,3 +102,23 @@ The optional `dora runtime-profile-apply <destination> --dry-run|--apply` profil
 contains only a neutral technical health check. Browser installation and runtime
 execution require explicit user approval; the profile is not authentication,
 authorization, backup, deployment, or production readiness.
+
+## v1.5 controlled application assembly
+
+After a complete confirmed interview session, `dora session-create-app` can preview
+or create a new empty project without manually assembling a create-app bundle:
+
+```text
+dora session-create-app my-app --input session-create-app.yaml --preview
+dora session-create-app my-app --input session-create-app.yaml --apply
+```
+
+For one explicitly confirmed capability, `dora feature-skeleton` proposes migration,
+backend, API, Vue, test, runtime-evidence, and documentation paths without writing
+project files. The Ruby apply API writes only review-required placeholders, rejects
+path traversal and collisions, and is not implementation or acceptance proof.
+
+v1.5 also supplies neutral auth/permission, data-safety/demo-data, UI/accessibility,
+operational-readiness, migration/API-workflow safety, architecture-decision, and
+capability-acceptance contracts. They require explicit consumer declarations. They
+never create credentials, real data, secrets, deployments, or passing evidence.

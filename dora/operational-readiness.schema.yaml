@@ -1,0 +1,4 @@
+kind: dora_operational_readiness_schema
+version: 1
+required_fields: [kind, version, environment, secret_references, health, logging, rate_limits, dependencies, deployment_runbook, confirmation]
+completion_boundary: This profile validates declared prerequisites only. It does not create secrets, deploy software, contact monitoring, or prove production readiness.

@@ -1,0 +1,112 @@
+kind: work
+version: 1
+id: dora-v15-data-safety-demo
+title: Add data safety and demo separation declarations
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-data-contract
+  - v15-data-profile
+  boundary: Data safety declarations and static templates only; no real database or
+    backup action.
+tasks:
+- id: define-data-safety-contract
+  inventory_item: v15-data-contract
+  title: Define data safety and demo isolation contract
+  type: implementation
+  observable_outcome: Dora validates explicit backup, restore-test, export, retention,
+    audit, and demo-data isolation declarations.
+  dependencies:
+  - v15-auth-consumer
+  paths:
+  - dora/data-safety-profile.schema.yaml
+  - dora/lib/dora/data_safety_profile.rb
+  - dora/test/data_safety_profile_test.rb
+  required_paths:
+  - dora/data-safety-profile.schema.yaml
+  - dora/lib/dora/data_safety_profile.rb
+  - dora/test/data_safety_profile_test.rb
+  evidence_boundary:
+  - Declaration validation only; no database
+  - export
+  - deletion
+  - backup
+  - or restore runs.
+  validation: ruby dora/test/data_safety_profile_test.rb
+  status: done
+  started_at: '2026-08-05T20:04:06Z'
+  start_fingerprints:
+    dora/data-safety-profile.schema.yaml: __missing__
+    dora/lib/dora/data_safety_profile.rb: __missing__
+    dora/test/data_safety_profile_test.rb: __missing__
+- id: add-data-safety-demo-profile
+  inventory_item: v15-data-profile
+  title: Add safe data profile templates
+  type: implementation
+  observable_outcome: Dora creates reviewable data-safety and demo-data templates
+    with explicit external approval boundaries.
+  dependencies:
+  - v15-data-contract
+  paths:
+  - dora/packs/data-safety-demo.yaml
+  - dora/templates/data-safety-demo/README.md
+  - dora/test/data_safety_demo_assets_test.rb
+  required_paths:
+  - dora/packs/data-safety-demo.yaml
+  - dora/templates/data-safety-demo/README.md
+  - dora/test/data_safety_demo_assets_test.rb
+  evidence_boundary:
+  - Static template and real-data exclusion assertions only.
+  validation: ruby dora/test/data_safety_demo_assets_test.rb
+  status: done
+  started_at: '2026-08-05T20:04:59Z'
+  start_fingerprints:
+    dora/packs/data-safety-demo.yaml: __missing__
+    dora/templates/data-safety-demo/README.md: __missing__
+    dora/test/data_safety_demo_assets_test.rb: __missing__
+evidence:
+- task: define-data-safety-contract
+  command: ruby dora/test/data_safety_profile_test.rb
+  ranAt: '2026-08-05T20:04:55Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/data-safety-profile.schema.yaml
+  - dora/lib/dora/data_safety_profile.rb
+  - dora/test/data_safety_profile_test.rb
+  output: "Dora data safety profile test passed (confirmed controls and real-data/demo
+    separation are required without external actions).\n\n"
+  requiredPaths: &1
+  - dora/data-safety-profile.schema.yaml
+  - dora/lib/dora/data_safety_profile.rb
+  - dora/test/data_safety_profile_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:04:06Z'
+  changedAfterStart: *1
+- task: add-data-safety-demo-profile
+  command: ruby dora/test/data_safety_demo_assets_test.rb
+  ranAt: '2026-08-05T20:05:23Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/packs/data-safety-demo.yaml
+  - dora/templates/data-safety-demo/README.md
+  - dora/test/data_safety_demo_assets_test.rb
+  output: "Dora data safety demo assets test passed (static templates require approval
+    and keep demo data separate from real data).\n\n"
+  requiredPaths: &2
+  - dora/packs/data-safety-demo.yaml
+  - dora/templates/data-safety-demo/README.md
+  - dora/test/data_safety_demo_assets_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:04:59Z'
+  changedAfterStart: *2

@@ -1,0 +1,4 @@
+kind: dora_reviewable_api_skeleton
+capability: {{capability}}
+entity: {{entity}}
+review_required: true

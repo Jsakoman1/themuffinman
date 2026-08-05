@@ -1,0 +1,6 @@
+kind: dora_data_safety_profile
+version: 1
+status: requires_explicit_confirmed_declarations
+required_controls: [backup, restore_test, export, retention, audit, demo_data]
+external_actions: explicit_user_approval_required
+completion_boundary: This template is not an executable backup, restore, export, retention, or audit configuration.

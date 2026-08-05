@@ -1,0 +1,108 @@
+kind: work
+version: 1
+id: dora-v15-auth-permission-starter
+title: Add neutral auth and permission starter
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-auth-contract
+  - v15-auth-consumer
+  boundary: Neutral declared surfaces only; no credentials, provider setup, or policy
+    choice.
+tasks:
+- id: define-auth-starter-contract
+  inventory_item: v15-auth-contract
+  title: Define explicit auth and ownership declarations
+  type: implementation
+  observable_outcome: Dora validates declared roles, ownership boundary, authentication
+    mode, and audit event names without selecting a policy.
+  dependencies:
+  - v15-feature-apply
+  paths:
+  - dora/auth-permission-starter.schema.yaml
+  - dora/lib/dora/auth_permission_starter.rb
+  - dora/test/auth_permission_starter_test.rb
+  required_paths:
+  - dora/auth-permission-starter.schema.yaml
+  - dora/lib/dora/auth_permission_starter.rb
+  - dora/test/auth_permission_starter_test.rb
+  evidence_boundary:
+  - Valid and invalid neutral declaration fixtures only.
+  validation: ruby dora/test/auth_permission_starter_test.rb
+  status: done
+  started_at: '2026-08-05T20:02:29Z'
+  start_fingerprints:
+    dora/auth-permission-starter.schema.yaml: __missing__
+    dora/lib/dora/auth_permission_starter.rb: __missing__
+    dora/test/auth_permission_starter_test.rb: __missing__
+- id: prove-auth-starter-consumer
+  inventory_item: v15-auth-consumer
+  title: Prove neutral auth starter consumer
+  type: implementation
+  observable_outcome: A fresh consumer can preview and apply neutral auth surfaces
+    without default credentials or product policy.
+  dependencies:
+  - v15-auth-contract
+  paths:
+  - dora/starters/auth-permission-neutral.yaml
+  - dora/templates/starters/auth-permission-neutral/README.md
+  - dora/test/independent_auth_permission_starter_consumer_test.rb
+  required_paths:
+  - dora/starters/auth-permission-neutral.yaml
+  - dora/templates/starters/auth-permission-neutral/README.md
+  - dora/test/independent_auth_permission_starter_consumer_test.rb
+  evidence_boundary:
+  - Fresh consumer files and no-credential/no-policy assertions only.
+  validation: ruby dora/test/independent_auth_permission_starter_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T20:03:08Z'
+  start_fingerprints:
+    dora/starters/auth-permission-neutral.yaml: __missing__
+    dora/templates/starters/auth-permission-neutral/README.md: __missing__
+    dora/test/independent_auth_permission_starter_consumer_test.rb: __missing__
+evidence:
+- task: define-auth-starter-contract
+  command: ruby dora/test/auth_permission_starter_test.rb
+  ranAt: '2026-08-05T20:03:00Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/auth-permission-starter.schema.yaml
+  - dora/lib/dora/auth_permission_starter.rb
+  - dora/test/auth_permission_starter_test.rb
+  output: "Dora auth permission starter test passed (only explicit roles, ownership,
+    auth mode, and audit events are accepted).\n\n"
+  requiredPaths: &1
+  - dora/auth-permission-starter.schema.yaml
+  - dora/lib/dora/auth_permission_starter.rb
+  - dora/test/auth_permission_starter_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:02:29Z'
+  changedAfterStart: *1
+- task: prove-auth-starter-consumer
+  command: ruby dora/test/independent_auth_permission_starter_consumer_test.rb
+  ranAt: '2026-08-05T20:04:02Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/starters/auth-permission-neutral.yaml
+  - dora/templates/starters/auth-permission-neutral/README.md
+  - dora/test/independent_auth_permission_starter_consumer_test.rb
+  output: "Dora independent auth permission starter consumer test passed (fresh consumer
+    receives only neutral, credential-free, policy-free surfaces).\n\n"
+  requiredPaths: &2
+  - dora/starters/auth-permission-neutral.yaml
+  - dora/templates/starters/auth-permission-neutral/README.md
+  - dora/test/independent_auth_permission_starter_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:03:08Z'
+  changedAfterStart: *2

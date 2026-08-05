@@ -1,0 +1,225 @@
+kind: execution_inventory
+version: 1
+id: dora-v15-application-authoring-execution-inventory
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+status: prepared
+execution_mode: strict_serial
+atomic_hardening:
+  task_count: 19
+  task_shape: One observable outcome, bounded required paths, direct dependency, leaf
+    validation, and evidence boundary.
+  queue_rule: A later item cannot start until its direct predecessor is verifier-marked
+    verified.
+ownership_boundary: Dora owns neutral declarations, templates, generators, and diagnostics;
+  a consumer owns product decisions, generated-code review, tests, runtime authority,
+  and all external side effects.
+items:
+- id: v15-harden
+  order: 1
+  plan: docs/work/dora-v15-atomic-hardening.yaml
+  task: harden-v15-program
+  status: verified
+  started_at: '2026-08-05T19:53:29Z'
+  verified_at: '2026-08-05T19:54:27Z'
+  evidence:
+    plan: docs/work/dora-v15-atomic-hardening.yaml
+    task: harden-v15-program
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-session-contract
+  order: 2
+  plan: docs/work/dora-v15-session-to-create-app.yaml
+  task: define-session-conversion-contract
+  status: verified
+  started_at: '2026-08-05T19:54:33Z'
+  verified_at: '2026-08-05T19:55:33Z'
+  evidence:
+    plan: docs/work/dora-v15-session-to-create-app.yaml
+    task: define-session-conversion-contract
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-session-create
+  order: 3
+  plan: docs/work/dora-v15-session-to-create-app.yaml
+  task: expose-session-create-app
+  status: verified
+  started_at: '2026-08-05T19:55:43Z'
+  verified_at: '2026-08-05T19:57:17Z'
+  evidence:
+    plan: docs/work/dora-v15-session-to-create-app.yaml
+    task: expose-session-create-app
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-session-consumer
+  order: 4
+  plan: docs/work/dora-v15-session-to-create-app.yaml
+  task: prove-session-create-app-consumer
+  status: verified
+  started_at: '2026-08-05T19:57:32Z'
+  verified_at: '2026-08-05T19:57:56Z'
+  evidence:
+    plan: docs/work/dora-v15-session-to-create-app.yaml
+    task: prove-session-create-app-consumer
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-feature-contract
+  order: 5
+  plan: docs/work/dora-v15-first-feature-generator.yaml
+  task: define-feature-skeleton-contract
+  status: verified
+  started_at: '2026-08-05T19:58:01Z'
+  verified_at: '2026-08-05T19:58:27Z'
+  evidence:
+    plan: docs/work/dora-v15-first-feature-generator.yaml
+    task: define-feature-skeleton-contract
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-feature-preview
+  order: 6
+  plan: docs/work/dora-v15-first-feature-generator.yaml
+  task: expose-feature-skeleton-preview
+  status: verified
+  started_at: '2026-08-05T19:59:32Z'
+  verified_at: '2026-08-05T20:00:25Z'
+  evidence:
+    plan: docs/work/dora-v15-first-feature-generator.yaml
+    task: expose-feature-skeleton-preview
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-feature-apply
+  order: 7
+  plan: docs/work/dora-v15-first-feature-generator.yaml
+  task: add-feature-skeleton-safe-apply
+  status: verified
+  started_at: '2026-08-05T20:00:33Z'
+  verified_at: '2026-08-05T20:02:17Z'
+  evidence:
+    plan: docs/work/dora-v15-first-feature-generator.yaml
+    task: add-feature-skeleton-safe-apply
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-auth-contract
+  order: 8
+  plan: docs/work/dora-v15-auth-permission-starter.yaml
+  task: define-auth-starter-contract
+  status: verified
+  started_at: '2026-08-05T20:02:29Z'
+  verified_at: '2026-08-05T20:03:00Z'
+  evidence:
+    plan: docs/work/dora-v15-auth-permission-starter.yaml
+    task: define-auth-starter-contract
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-auth-consumer
+  order: 9
+  plan: docs/work/dora-v15-auth-permission-starter.yaml
+  task: prove-auth-starter-consumer
+  status: verified
+  started_at: '2026-08-05T20:03:08Z'
+  verified_at: '2026-08-05T20:04:02Z'
+  evidence:
+    plan: docs/work/dora-v15-auth-permission-starter.yaml
+    task: prove-auth-starter-consumer
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-data-contract
+  order: 10
+  plan: docs/work/dora-v15-data-safety-demo.yaml
+  task: define-data-safety-contract
+  status: verified
+  started_at: '2026-08-05T20:04:06Z'
+  verified_at: '2026-08-05T20:04:55Z'
+  evidence:
+    plan: docs/work/dora-v15-data-safety-demo.yaml
+    task: define-data-safety-contract
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-data-profile
+  order: 11
+  plan: docs/work/dora-v15-data-safety-demo.yaml
+  task: add-data-safety-demo-profile
+  status: verified
+  started_at: '2026-08-05T20:04:59Z'
+  verified_at: '2026-08-05T20:05:23Z'
+  evidence:
+    plan: docs/work/dora-v15-data-safety-demo.yaml
+    task: add-data-safety-demo-profile
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-migration-check
+  order: 12
+  plan: docs/work/dora-v15-migration-api-safety.yaml
+  task: add-migration-safety-check
+  status: verified
+  started_at: '2026-08-05T20:05:28Z'
+  verified_at: '2026-08-05T20:05:59Z'
+  evidence:
+    plan: docs/work/dora-v15-migration-api-safety.yaml
+    task: add-migration-safety-check
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-api-check
+  order: 13
+  plan: docs/work/dora-v15-migration-api-safety.yaml
+  task: add-api-workflow-safety-check
+  status: verified
+  started_at: '2026-08-05T20:06:03Z'
+  verified_at: '2026-08-05T20:06:37Z'
+  evidence:
+    plan: docs/work/dora-v15-migration-api-safety.yaml
+    task: add-api-workflow-safety-check
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-adr-contract
+  order: 14
+  plan: docs/work/dora-v15-architecture-decisions.yaml
+  task: define-architecture-decision-contract
+  status: verified
+  started_at: '2026-08-05T20:06:45Z'
+  verified_at: '2026-08-05T20:07:15Z'
+  evidence:
+    plan: docs/work/dora-v15-architecture-decisions.yaml
+    task: define-architecture-decision-contract
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-adr-cli
+  order: 15
+  plan: docs/work/dora-v15-architecture-decisions.yaml
+  task: expose-architecture-decision-cli
+  status: verified
+  started_at: '2026-08-05T20:07:20Z'
+  verified_at: '2026-08-05T20:07:51Z'
+  evidence:
+    plan: docs/work/dora-v15-architecture-decisions.yaml
+    task: expose-architecture-decision-cli
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-ui-catalog
+  order: 16
+  plan: docs/work/dora-v15-ui-accessibility-blueprints.yaml
+  task: add-ui-accessibility-catalog
+  status: verified
+  started_at: '2026-08-05T20:07:59Z'
+  verified_at: '2026-08-05T20:08:23Z'
+  evidence:
+    plan: docs/work/dora-v15-ui-accessibility-blueprints.yaml
+    task: add-ui-accessibility-catalog
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-operational-profile
+  order: 17
+  plan: docs/work/dora-v15-operational-readiness.yaml
+  task: add-operational-readiness-profile
+  status: verified
+  started_at: '2026-08-05T20:08:26Z'
+  verified_at: '2026-08-05T20:09:01Z'
+  evidence:
+    plan: docs/work/dora-v15-operational-readiness.yaml
+    task: add-operational-readiness-profile
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-acceptance-contract
+  order: 18
+  plan: docs/work/dora-v15-capability-acceptance-evidence.yaml
+  task: define-acceptance-evidence-contract
+  status: verified
+  started_at: '2026-08-05T20:09:08Z'
+  verified_at: '2026-08-05T20:09:49Z'
+  evidence:
+    plan: docs/work/dora-v15-capability-acceptance-evidence.yaml
+    task: define-acceptance-evidence-contract
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+- id: v15-acceptance-consumer
+  order: 19
+  plan: docs/work/dora-v15-capability-acceptance-evidence.yaml
+  task: prove-acceptance-evidence-consumer
+  status: verified
+  started_at: '2026-08-05T20:09:52Z'
+  verified_at: '2026-08-05T20:10:18Z'
+  evidence:
+    plan: docs/work/dora-v15-capability-acceptance-evidence.yaml
+    task: prove-acceptance-evidence-consumer
+    revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96

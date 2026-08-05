@@ -1,0 +1,108 @@
+kind: work
+version: 1
+id: dora-v15-migration-api-safety
+title: Add static migration and API safety checks
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-migration-check
+  - v15-api-check
+  boundary: Static findings only; neither task mutates migrations, contracts, or application
+    code.
+tasks:
+- id: add-migration-safety-check
+  inventory_item: v15-migration-check
+  title: Detect declared migration safety gaps
+  type: implementation
+  observable_outcome: Dora reports edited historical migrations and declared missing
+    foreign-key or index review without changing schema files.
+  dependencies:
+  - v15-data-profile
+  paths:
+  - dora/lib/dora/migration_safety.rb
+  - dora/packs/migration-safety.yaml
+  - dora/test/migration_safety_test.rb
+  required_paths:
+  - dora/lib/dora/migration_safety.rb
+  - dora/packs/migration-safety.yaml
+  - dora/test/migration_safety_test.rb
+  evidence_boundary:
+  - Static migration fixtures only; no database execution.
+  validation: ruby dora/test/migration_safety_test.rb
+  status: done
+  started_at: '2026-08-05T20:05:28Z'
+  start_fingerprints:
+    dora/lib/dora/migration_safety.rb: __missing__
+    dora/packs/migration-safety.yaml: __missing__
+    dora/test/migration_safety_test.rb: __missing__
+- id: add-api-workflow-safety-check
+  inventory_item: v15-api-check
+  title: Detect API and workflow contract gaps
+  type: implementation
+  observable_outcome: Dora reports declared DTO/API/client/permission/workflow mismatches
+    without generating or modifying application code.
+  dependencies:
+  - v15-migration-check
+  paths:
+  - dora/lib/dora/api_workflow_safety.rb
+  - dora/packs/api-workflow-safety.yaml
+  - dora/test/api_workflow_safety_test.rb
+  required_paths:
+  - dora/lib/dora/api_workflow_safety.rb
+  - dora/packs/api-workflow-safety.yaml
+  - dora/test/api_workflow_safety_test.rb
+  evidence_boundary:
+  - Static declaration fixtures and findings only.
+  validation: ruby dora/test/api_workflow_safety_test.rb
+  status: done
+  started_at: '2026-08-05T20:06:03Z'
+  start_fingerprints:
+    dora/lib/dora/api_workflow_safety.rb: __missing__
+    dora/packs/api-workflow-safety.yaml: __missing__
+    dora/test/api_workflow_safety_test.rb: __missing__
+evidence:
+- task: add-migration-safety-check
+  command: ruby dora/test/migration_safety_test.rb
+  ranAt: '2026-08-05T20:05:59Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/migration_safety.rb
+  - dora/packs/migration-safety.yaml
+  - dora/test/migration_safety_test.rb
+  output: "Dora migration safety test passed (static findings detect historical changes
+    and missing foreign-key/index review).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/migration_safety.rb
+  - dora/packs/migration-safety.yaml
+  - dora/test/migration_safety_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:05:28Z'
+  changedAfterStart: *1
+- task: add-api-workflow-safety-check
+  command: ruby dora/test/api_workflow_safety_test.rb
+  ranAt: '2026-08-05T20:06:37Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/api_workflow_safety.rb
+  - dora/packs/api-workflow-safety.yaml
+  - dora/test/api_workflow_safety_test.rb
+  output: "Dora API workflow safety test passed (static findings detect DTO/API/client/permission/workflow
+    gaps).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/api_workflow_safety.rb
+  - dora/packs/api-workflow-safety.yaml
+  - dora/test/api_workflow_safety_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:06:03Z'
+  changedAfterStart: *2

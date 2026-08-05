@@ -47,6 +47,9 @@ require File.join(ROOT, "lib/dora/command_envelope")
 require File.join(ROOT, "lib/dora/starter_compatibility")
 require File.join(ROOT, "lib/dora/idea_interview_session")
 require File.join(ROOT, "lib/dora/authoring_next")
+require File.join(ROOT, "lib/dora/session_create_app")
+require File.join(ROOT, "lib/dora/feature_skeleton")
+require File.join(ROOT, "lib/dora/architecture_decision")
 require File.join(ROOT, "lib/dora/vertical_slice_generator")
 require File.join(ROOT, "lib/dora/vertical_slice_readiness")
 require File.join(ROOT, "lib/dora/decision_record")
@@ -213,6 +216,41 @@ def create_app_from_interview(destination, interview_path, source_path, starter:
     File.write(path, YAML.dump(bundle))
     create_app(destination, path)
   end
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def create_app_from_session(destination, input_path, preview: false)
+  bundle = Dora::SessionCreateApp.convert!(YAML.load_file(input_path))
+  if preview
+    payload = Dora::SessionCreateApp.preview!(YAML.load_file(input_path)).merge("kind" => "dora_session_create_app_preview", "version" => 1, "completion_boundary" => "Preview creates no project and does not implement a capability.")
+    return emit_envelope(payload, citations: [File.basename(input_path)]) || puts(YAML.dump(payload).sub(/\A---\n/, ""))
+  end
+  Dir.mktmpdir("dora-session-create-app") do |temporary|
+    bundle_path = File.join(temporary, "create-app.yaml")
+    File.write(bundle_path, YAML.dump(bundle))
+    create_app(destination, bundle_path)
+  end
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def preview_feature_skeleton(input_path)
+  payload = Dora::FeatureSkeleton.preview!(YAML.load_file(input_path))
+  citation = input_path.start_with?("/") ? File.basename(input_path) : input_path
+  return if emit_envelope(payload, citations: [citation])
+
+  puts YAML.dump(payload).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def append_architecture_decision(log_path, input_path)
+  result = Dora::ArchitectureDecision.append!(path: log_path, entry: YAML.load_file(input_path))
+  citation = log_path.start_with?("/") ? File.basename(log_path) : log_path
+  return if emit_envelope(result, citations: [citation], side_effect: "local_mutation")
+
+  puts YAML.dump(result).sub(/\A---\n/, "")
 rescue ArgumentError, Psych::Exception => error
   fail!(error.message)
 end
@@ -678,6 +716,23 @@ when "create-app"
     fail!("usage: dora create-app <destination> --interview <idea-interview.yaml> --source <bootstrap-source.yaml> [--starter <starter-id>] [--codex-integrate] [--format json|yaml]") unless destination && interview && source && (!starter_option || starter)
     create_app_from_interview(destination, interview, source, starter: starter, codex_integration: !codex.nil?)
   end
+when "session-create-app"
+  destination = ARGV.shift
+  input_option = ARGV.index("--input")
+  input_path = input_option && ARGV[input_option + 1]
+  preview = ARGV.delete("--preview")
+  apply = ARGV.delete("--apply")
+  fail!("usage: dora session-create-app <destination> --input <session-create-app.yaml> --preview|--apply [--format json|yaml]") unless destination && input_option == 0 && input_path && (!!preview ^ !!apply)
+  create_app_from_session(destination, input_path, preview: !preview.nil?)
+when "feature-skeleton"
+  fail!("usage: dora feature-skeleton <confirmed-feature-skeleton.yaml> [--format json|yaml]") unless ARGV.length == 1
+  preview_feature_skeleton(ARGV.first)
+when "architecture-decision"
+  log_path = ARGV.shift
+  input_option = ARGV.index("--input")
+  input_path = input_option && ARGV[input_option + 1]
+  fail!("usage: dora architecture-decision <decision-log.yaml> --input <confirmed-decision.yaml> [--format json|yaml]") unless log_path && input_option == 0 && ARGV.length == 2 && input_path
+  append_architecture_decision(log_path, input_path)
 when "codex-integrate"
   fail!("usage: dora codex-integrate <project-root> [--format json|yaml]") unless ARGV.length == 1
   install_codex_integration(ARGV.first)

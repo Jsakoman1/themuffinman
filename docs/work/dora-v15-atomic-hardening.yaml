@@ -1,0 +1,102 @@
+kind: work
+version: 1
+id: dora-v15-atomic-hardening
+title: Harden the Dora v1.5 application authoring program
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+tasks:
+- id: harden-v15-program
+  inventory_item: v15-harden
+  title: Verify v1.5 atomic task precision
+  type: implementation
+  observable_outcome: Every v1.5 delivery item has one bounded outcome, exact required
+    paths, a direct predecessor, a leaf validation command, and an evidence boundary.
+  dependencies: []
+  paths:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  - docs/work/dora-v15-application-authoring-execution-inventory.yaml
+  - docs/work/dora-v15-session-to-create-app.yaml
+  - docs/work/dora-v15-first-feature-generator.yaml
+  - docs/work/dora-v15-auth-permission-starter.yaml
+  - docs/work/dora-v15-data-safety-demo.yaml
+  - docs/work/dora-v15-migration-api-safety.yaml
+  - docs/work/dora-v15-architecture-decisions.yaml
+  - docs/work/dora-v15-ui-accessibility-blueprints.yaml
+  - docs/work/dora-v15-operational-readiness.yaml
+  - docs/work/dora-v15-capability-acceptance-evidence.yaml
+  required_paths:
+  - docs/work/dora-v15-application-authoring-master.yaml
+  - docs/work/dora-v15-application-authoring-execution-inventory.yaml
+  - docs/work/dora-v15-session-to-create-app.yaml
+  - docs/work/dora-v15-first-feature-generator.yaml
+  - docs/work/dora-v15-auth-permission-starter.yaml
+  - docs/work/dora-v15-data-safety-demo.yaml
+  - docs/work/dora-v15-migration-api-safety.yaml
+  - docs/work/dora-v15-architecture-decisions.yaml
+  - docs/work/dora-v15-ui-accessibility-blueprints.yaml
+  - docs/work/dora-v15-operational-readiness.yaml
+  - docs/work/dora-v15-capability-acceptance-evidence.yaml
+  evidence_boundary:
+  - Atomic-task structure only; no generator
+  - consumer
+  - browser
+  - database
+  - backup
+  - or deployment behavior is proved.
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v15-application-authoring-master.yaml
+    docs/work/dora-v15-application-authoring-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-05T19:53:29Z'
+  start_fingerprints:
+    docs/work/dora-v15-application-authoring-master.yaml: 06cd9f9fa0bacf4b984abe1915eab54c562d47c9038f64e2bb2e6f0bd1dee1b5
+    docs/work/dora-v15-application-authoring-execution-inventory.yaml: 80f299c0cd082b7815f613b2fceaa96b77ef89da60632157328e04e103c17e57
+    docs/work/dora-v15-session-to-create-app.yaml: b9aae6a544cdbbd3f9467d96d488e05cf597aa052f9ad9fc257ebc9d13b6b1b0
+    docs/work/dora-v15-first-feature-generator.yaml: dfafaafe21bf60cc3ca4e30008872c1c8ceb0cd0c660f56011625b96f2e65a09
+    docs/work/dora-v15-auth-permission-starter.yaml: b7a27aab139fc4d1676bda3354f96413fd137a9685c616bf6912cbb04cdf838a
+    docs/work/dora-v15-data-safety-demo.yaml: 986e45f0ab30c25ce0b9a320b2b21293dace666cc1dfa83d794c1cd16a58674b
+    docs/work/dora-v15-migration-api-safety.yaml: 04d966ac52b54a7432c5adfbd873bc75418c21ebbb48f6c08c9c547534d82dc4
+    docs/work/dora-v15-architecture-decisions.yaml: b57f00b1e27f313f32d33e416f7208f660ac1ff0ebe6db13170394721c414b00
+    docs/work/dora-v15-ui-accessibility-blueprints.yaml: d0803bb525fe3f3b04a694cec2d2afa316f2788f558235b24775a488b2dbdcf6
+    docs/work/dora-v15-operational-readiness.yaml: a0361ed723bfed945ba213c7c291f7560300690d36d01da1714fc25f866757f9
+    docs/work/dora-v15-capability-acceptance-evidence.yaml: ec40345e926474c208d3485ad0aead2afeb1452926f51861ca0009951fa99e61
+evidence:
+- task: harden-v15-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v15-application-authoring-master.yaml
+    docs/work/dora-v15-application-authoring-execution-inventory.yaml
+  ranAt: '2026-08-05T19:54:27Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v15-application-authoring-execution-inventory.yaml
+  - docs/work/dora-v15-application-authoring-master.yaml
+  - docs/work/dora-v15-architecture-decisions.yaml
+  - docs/work/dora-v15-auth-permission-starter.yaml
+  - docs/work/dora-v15-capability-acceptance-evidence.yaml
+  - docs/work/dora-v15-data-safety-demo.yaml
+  - docs/work/dora-v15-first-feature-generator.yaml
+  - docs/work/dora-v15-migration-api-safety.yaml
+  - docs/work/dora-v15-operational-readiness.yaml
+  - docs/work/dora-v15-session-to-create-app.yaml
+  - docs/work/dora-v15-ui-accessibility-blueprints.yaml
+  output: "Atomic task hardening audit passed (19 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v15-application-authoring-master.yaml
+  - docs/work/dora-v15-application-authoring-execution-inventory.yaml
+  - docs/work/dora-v15-session-to-create-app.yaml
+  - docs/work/dora-v15-first-feature-generator.yaml
+  - docs/work/dora-v15-auth-permission-starter.yaml
+  - docs/work/dora-v15-data-safety-demo.yaml
+  - docs/work/dora-v15-migration-api-safety.yaml
+  - docs/work/dora-v15-architecture-decisions.yaml
+  - docs/work/dora-v15-ui-accessibility-blueprints.yaml
+  - docs/work/dora-v15-operational-readiness.yaml
+  - docs/work/dora-v15-capability-acceptance-evidence.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:53:29Z'
+  changedAfterStart: *1

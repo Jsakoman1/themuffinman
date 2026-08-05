@@ -1,0 +1,4 @@
+kind: dora_architecture_decision_schema
+version: 1
+required_fields: [kind, version, id, status, alternatives, rationale, consequences, citations, offline_sync, confirmation]
+completion_boundary: An architecture decision is cited intent. It does not configure infrastructure, select a provider automatically, or prove a deployed system.

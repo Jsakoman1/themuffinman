@@ -1,0 +1,112 @@
+kind: work
+version: 1
+id: dora-v15-architecture-decisions
+title: Add architecture decisions and offline choice
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-adr-contract
+  - v15-adr-cli
+  boundary: Cited append-only decisions only; open architecture choices remain unresolved
+    until explicitly decided.
+tasks:
+- id: define-architecture-decision-contract
+  inventory_item: v15-adr-contract
+  title: Define cited architecture decision contract
+  type: implementation
+  observable_outcome: Dora validates alternatives, rationale, consequences, citations,
+    status, and explicit offline/sync decision state.
+  dependencies:
+  - v15-api-check
+  paths:
+  - dora/architecture-decision.schema.yaml
+  - dora/lib/dora/architecture_decision.rb
+  - dora/test/architecture_decision_test.rb
+  required_paths:
+  - dora/architecture-decision.schema.yaml
+  - dora/lib/dora/architecture_decision.rb
+  - dora/test/architecture_decision_test.rb
+  evidence_boundary:
+  - Accepted
+  - proposed
+  - and unresolved decision fixtures only.
+  validation: ruby dora/test/architecture_decision_test.rb
+  status: done
+  started_at: '2026-08-05T20:06:45Z'
+  start_fingerprints:
+    dora/architecture-decision.schema.yaml: __missing__
+    dora/lib/dora/architecture_decision.rb: __missing__
+    dora/test/architecture_decision_test.rb: __missing__
+- id: expose-architecture-decision-cli
+  inventory_item: v15-adr-cli
+  title: Expose append-only architecture decision command
+  type: implementation
+  observable_outcome: Codex can append one cited architecture decision or explicit
+    unresolved offline decision without replacing prior records.
+  dependencies:
+  - v15-adr-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/architecture_decision.rb
+  - dora/test/architecture_decision_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/architecture_decision.rb
+  - dora/test/architecture_decision_command_test.rb
+  evidence_boundary:
+  - Append
+  - duplicate rejection
+  - and preservation fixtures only.
+  validation: ruby dora/test/architecture_decision_command_test.rb
+  status: done
+  started_at: '2026-08-05T20:07:20Z'
+  start_fingerprints:
+    dora/bin/dora: 7069b744acedaff59a429a1796464cfe7a646372be65d2cd7d7a7f09f66dbdfa
+    dora/lib/dora/architecture_decision.rb: 4f886f98e4775e2171cdc49acdeabef9ec1cf9846b564a5796be2261860e1eaa
+    dora/test/architecture_decision_command_test.rb: __missing__
+evidence:
+- task: define-architecture-decision-contract
+  command: ruby dora/test/architecture_decision_test.rb
+  ranAt: '2026-08-05T20:07:15Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/architecture-decision.schema.yaml
+  - dora/lib/dora/architecture_decision.rb
+  - dora/test/architecture_decision_test.rb
+  output: "Dora architecture decision test passed (cited alternatives, consequences,
+    and explicit offline/sync state are required).\n\n"
+  requiredPaths: &1
+  - dora/architecture-decision.schema.yaml
+  - dora/lib/dora/architecture_decision.rb
+  - dora/test/architecture_decision_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:06:45Z'
+  changedAfterStart: *1
+- task: expose-architecture-decision-cli
+  command: ruby dora/test/architecture_decision_command_test.rb
+  ranAt: '2026-08-05T20:07:50Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/architecture_decision.rb
+  - dora/test/architecture_decision_command_test.rb
+  output: "Dora architecture decision command test passed (cited decisions append
+    without replacing prior records and duplicates are rejected).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/architecture_decision.rb
+  - dora/test/architecture_decision_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:07:20Z'
+  changedAfterStart: *2

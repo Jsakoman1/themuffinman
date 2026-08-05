@@ -1,0 +1,68 @@
+kind: work
+version: 1
+id: dora-v15-operational-readiness
+title: Add operational readiness profile
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-operational-profile
+  boundary: Readiness declarations only; no secrets, deployment, monitoring account,
+    or external action.
+tasks:
+- id: add-operational-readiness-profile
+  inventory_item: v15-operational-profile
+  title: Add opt-in operational readiness profile
+  type: implementation
+  observable_outcome: Dora validates and renders declared environment, secret-reference,
+    health, logging, rate-limit, dependency, and deployment-runbook prerequisites
+    without deploying.
+  dependencies:
+  - v15-ui-catalog
+  paths:
+  - dora/operational-readiness.schema.yaml
+  - dora/lib/dora/operational_readiness.rb
+  - dora/templates/operational-readiness.yaml
+  - dora/test/operational_readiness_test.rb
+  required_paths:
+  - dora/operational-readiness.schema.yaml
+  - dora/lib/dora/operational_readiness.rb
+  - dora/templates/operational-readiness.yaml
+  - dora/test/operational_readiness_test.rb
+  evidence_boundary:
+  - Static declarations and no-secret/no-deployment assertions only.
+  validation: ruby dora/test/operational_readiness_test.rb
+  status: done
+  started_at: '2026-08-05T20:08:26Z'
+  start_fingerprints:
+    dora/operational-readiness.schema.yaml: __missing__
+    dora/lib/dora/operational_readiness.rb: __missing__
+    dora/templates/operational-readiness.yaml: __missing__
+    dora/test/operational_readiness_test.rb: __missing__
+evidence:
+- task: add-operational-readiness-profile
+  command: ruby dora/test/operational_readiness_test.rb
+  ranAt: '2026-08-05T20:09:01Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/operational_readiness.rb
+  - dora/operational-readiness.schema.yaml
+  - dora/templates/operational-readiness.yaml
+  - dora/test/operational_readiness_test.rb
+  output: "Dora operational readiness test passed (declared prerequisites are validated
+    without secret values or deployment behavior).\n\n"
+  requiredPaths: &1
+  - dora/operational-readiness.schema.yaml
+  - dora/lib/dora/operational_readiness.rb
+  - dora/templates/operational-readiness.yaml
+  - dora/test/operational_readiness_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:08:26Z'
+  changedAfterStart: *1

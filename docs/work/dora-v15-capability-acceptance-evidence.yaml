@@ -1,0 +1,103 @@
+kind: work
+version: 1
+id: dora-v15-capability-acceptance-evidence
+title: Compile capability acceptance evidence obligations
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-acceptance-contract
+  - v15-acceptance-consumer
+  boundary: Evidence obligations and unresolved states only; no fabricated passed
+    evidence or capability completion claim.
+tasks:
+- id: define-acceptance-evidence-contract
+  inventory_item: v15-acceptance-contract
+  title: Define acceptance evidence obligation contract
+  type: implementation
+  observable_outcome: Dora validates confirmed acceptance statements and creates declared
+    static, test, runtime, and unresolved evidence obligations without a pass claim.
+  dependencies:
+  - v15-operational-profile
+  paths:
+  - dora/capability-acceptance.schema.yaml
+  - dora/lib/dora/capability_acceptance.rb
+  - dora/test/capability_acceptance_test.rb
+  required_paths:
+  - dora/capability-acceptance.schema.yaml
+  - dora/lib/dora/capability_acceptance.rb
+  - dora/test/capability_acceptance_test.rb
+  evidence_boundary:
+  - Confirmed and unresolved acceptance fixtures only; no generated test execution.
+  validation: ruby dora/test/capability_acceptance_test.rb
+  status: done
+  started_at: '2026-08-05T20:09:08Z'
+  start_fingerprints:
+    dora/capability-acceptance.schema.yaml: __missing__
+    dora/lib/dora/capability_acceptance.rb: __missing__
+    dora/test/capability_acceptance_test.rb: __missing__
+- id: prove-acceptance-evidence-consumer
+  inventory_item: v15-acceptance-consumer
+  title: Prove acceptance evidence in a fresh consumer
+  type: implementation
+  observable_outcome: A temporary consumer receives declared evidence obligations
+    and retains unresolved state until its own tests and runtime proof exist.
+  dependencies:
+  - v15-acceptance-contract
+  paths:
+  - dora/test/fixtures/capability-acceptance-consumer.yaml
+  - dora/test/independent_capability_acceptance_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/capability-acceptance-consumer.yaml
+  - dora/test/independent_capability_acceptance_consumer_test.rb
+  evidence_boundary:
+  - Fresh consumer declaration and no-passing-evidence assertions only.
+  validation: ruby dora/test/independent_capability_acceptance_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T20:09:52Z'
+  start_fingerprints:
+    dora/test/fixtures/capability-acceptance-consumer.yaml: __missing__
+    dora/test/independent_capability_acceptance_consumer_test.rb: __missing__
+evidence:
+- task: define-acceptance-evidence-contract
+  command: ruby dora/test/capability_acceptance_test.rb
+  ranAt: '2026-08-05T20:09:49Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/capability-acceptance.schema.yaml
+  - dora/lib/dora/capability_acceptance.rb
+  - dora/test/capability_acceptance_test.rb
+  output: "Dora capability acceptance test passed (confirmed obligations remain unresolved
+    until independent evidence exists).\n\n"
+  requiredPaths: &1
+  - dora/capability-acceptance.schema.yaml
+  - dora/lib/dora/capability_acceptance.rb
+  - dora/test/capability_acceptance_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:09:08Z'
+  changedAfterStart: *1
+- task: prove-acceptance-evidence-consumer
+  command: ruby dora/test/independent_capability_acceptance_consumer_test.rb
+  ranAt: '2026-08-05T20:10:18Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/capability-acceptance-consumer.yaml
+  - dora/test/independent_capability_acceptance_consumer_test.rb
+  output: "Dora independent capability acceptance consumer test passed (a fresh consumer
+    receives unresolved obligations rather than fabricated evidence).\n\n"
+  requiredPaths: &2
+  - dora/test/fixtures/capability-acceptance-consumer.yaml
+  - dora/test/independent_capability_acceptance_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T20:09:52Z'
+  changedAfterStart: *2

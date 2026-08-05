@@ -1,0 +1,6 @@
+kind: dora_static_safety_pack
+version: 1
+id: migration-safety
+input_kind: dora_migration_safety_input
+checks: [historical_migration_changed, foreign_key_review_missing, index_review_missing]
+completion_boundary: This pack reports declared static findings only; it does not mutate migration files or connect to a database.

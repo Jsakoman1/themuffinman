@@ -1,0 +1,4 @@
+kind: dora_ui_blueprint_catalog_schema
+version: 1
+required_fields: [kind, version, blueprints, accessibility_baseline, completion_boundary]
+completion_boundary: A blueprint catalog is a neutral planning aid. It does not supply product copy, visual acceptance evidence, or browser proof.

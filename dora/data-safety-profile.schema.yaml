@@ -1,0 +1,4 @@
+kind: dora_data_safety_profile_schema
+version: 1
+required_fields: [kind, version, backup, restore_test, export, retention, audit, demo_data, confirmation]
+completion_boundary: This contract records confirmed operational intent only. It does not access, back up, restore, export, retain, or delete any data.

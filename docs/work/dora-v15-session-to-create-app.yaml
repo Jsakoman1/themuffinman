@@ -1,0 +1,154 @@
+kind: work
+version: 1
+id: dora-v15-session-to-create-app
+title: Convert confirmed interview sessions into create-app input
+status: verified
+baseline: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v15-application-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v15-application-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v15-session-contract
+  - v15-session-create
+  - v15-session-consumer
+  boundary: Confirmed session conversion and fresh-consumer context only; no inferred
+    rule or product implementation.
+tasks:
+- id: define-session-conversion-contract
+  inventory_item: v15-session-contract
+  title: Define complete-session conversion contract
+  type: implementation
+  observable_outcome: Dora validates that only a complete user_confirmed interview
+    session and explicit open decisions can become create-app input.
+  dependencies:
+  - v15-harden
+  paths:
+  - dora/session-create-app.schema.yaml
+  - dora/lib/dora/session_create_app.rb
+  - dora/test/session_create_app_test.rb
+  required_paths:
+  - dora/session-create-app.schema.yaml
+  - dora/lib/dora/session_create_app.rb
+  - dora/test/session_create_app_test.rb
+  evidence_boundary:
+  - Valid
+  - incomplete
+  - inferred
+  - and open-decision session fixtures only.
+  validation: ruby dora/test/session_create_app_test.rb
+  status: done
+  started_at: '2026-08-05T19:54:33Z'
+  start_fingerprints:
+    dora/session-create-app.schema.yaml: __missing__
+    dora/lib/dora/session_create_app.rb: __missing__
+    dora/test/session_create_app_test.rb: __missing__
+- id: expose-session-create-app
+  inventory_item: v15-session-create
+  title: Expose session-based create-app command
+  type: implementation
+  observable_outcome: Codex can preview or create a new project from one complete
+    session without a hand-authored interview YAML and without overwriting a destination.
+  dependencies:
+  - v15-session-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/session_create_app.rb
+  - dora/test/session_create_app_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/session_create_app.rb
+  - dora/test/session_create_app_command_test.rb
+  evidence_boundary:
+  - Preview
+  - empty-destination creation
+  - and unrelated-file preservation only.
+  validation: ruby dora/test/session_create_app_command_test.rb
+  status: done
+  started_at: '2026-08-05T19:55:43Z'
+  start_fingerprints:
+    dora/bin/dora: 1e0f2ffad27544c2aaf7f0a039bcaba790c114e0112e245c90b94b8294c4967f
+    dora/lib/dora/session_create_app.rb: 9753f82286293f652f47399dca4d687224874d38fa80655e26e0e949b7cb8dc7
+    dora/test/session_create_app_command_test.rb: __missing__
+- id: prove-session-create-app-consumer
+  inventory_item: v15-session-consumer
+  title: Prove session conversion in a fresh consumer
+  type: implementation
+  observable_outcome: A temporary consumer receives declared product knowledge and
+    first work from a complete session without product implementation.
+  dependencies:
+  - v15-session-create
+  paths:
+  - dora/test/fixtures/session-create-app-consumer.yaml
+  - dora/test/independent_session_create_app_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/session-create-app-consumer.yaml
+  - dora/test/independent_session_create_app_consumer_test.rb
+  evidence_boundary:
+  - Fresh project context and no product source assertions only.
+  validation: ruby dora/test/independent_session_create_app_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T19:57:32Z'
+  start_fingerprints:
+    dora/test/fixtures/session-create-app-consumer.yaml: __missing__
+    dora/test/independent_session_create_app_consumer_test.rb: __missing__
+evidence:
+- task: define-session-conversion-contract
+  command: ruby dora/test/session_create_app_test.rb
+  ranAt: '2026-08-05T19:55:33Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/session_create_app.rb
+  - dora/session-create-app.schema.yaml
+  - dora/test/session_create_app_test.rb
+  output: "Dora session create-app test passed (complete confirmed sessions convert
+    to declared create-app input without resolving open decisions).\n\n"
+  requiredPaths: &1
+  - dora/session-create-app.schema.yaml
+  - dora/lib/dora/session_create_app.rb
+  - dora/test/session_create_app_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:54:33Z'
+  changedAfterStart: *1
+- task: expose-session-create-app
+  command: ruby dora/test/session_create_app_command_test.rb
+  ranAt: '2026-08-05T19:57:16Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/session_create_app.rb
+  - dora/test/session_create_app_command_test.rb
+  output: "Dora session create-app command test passed (preview and safe empty-destination
+    creation use only complete confirmed sessions).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/session_create_app.rb
+  - dora/test/session_create_app_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:55:43Z'
+  changedAfterStart: *2
+- task: prove-session-create-app-consumer
+  command: ruby dora/test/independent_session_create_app_consumer_test.rb
+  ranAt: '2026-08-05T19:57:55Z'
+  revision: 97aff932f0fd55207b5eceb549ebd8d0415a9a96
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/session-create-app-consumer.yaml
+  - dora/test/independent_session_create_app_consumer_test.rb
+  output: "Dora independent session create-app consumer test passed (fresh declared
+    context preserves open decisions without product source).\n\n"
+  requiredPaths: &3
+  - dora/test/fixtures/session-create-app-consumer.yaml
+  - dora/test/independent_session_create_app_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:57:32Z'
+  changedAfterStart: *3

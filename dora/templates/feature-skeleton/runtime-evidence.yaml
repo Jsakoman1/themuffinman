@@ -1,0 +1,4 @@
+kind: dora_runtime_evidence_skeleton
+capability: {{capability}}
+status: declared
+review_required: true
