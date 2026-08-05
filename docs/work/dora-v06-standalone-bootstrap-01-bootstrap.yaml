@@ -1,0 +1,235 @@
+kind: work
+version: 1
+id: dora-v06-standalone-bootstrap-01-bootstrap
+title: Add explicit-source Dora bootstrap and starter packs
+status: verified
+baseline: 3c10315
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+master_plan: docs/work/dora-v06-standalone-bootstrap-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+  atomicity_contract: Each task changes only its declared bootstrap or starter surface
+    and proves one local outcome.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  baseline_only_surfaces:
+  - v0.5 initializer and local launcher
+  residual_scope:
+  - explicit source bootstrap and declared starter packs
+  retest_triggers:
+  - changed bootstrap source/ref
+  - initializer
+  - or starter template
+  non_duplication_rule: v0.5 consumer fixture is baseline only.
+tasks:
+- id: define-explicit-bootstrap-source-contract
+  title: Define an explicit and safe Dora bootstrap source contract
+  type: implementation
+  status: done
+  inventory_item: dora-v06-source-contract
+  observable_outcome: Dora accepts only declared local source paths and immutable
+    refs for bootstrap, rejecting implicit network or unsafe destinations.
+  dependencies:
+  - dora-v06-harden
+  evidence_boundary:
+  - bootstrap source contract test
+  paths:
+  - dora/lib/dora/bootstrap_source.rb
+  - dora/bootstrap-source.schema.yaml
+  - dora/test/bootstrap_source_test.rb
+  required_paths:
+  - dora/lib/dora/bootstrap_source.rb
+  - dora/bootstrap-source.schema.yaml
+  - dora/test/bootstrap_source_test.rb
+  validation: ruby dora/test/bootstrap_source_test.rb
+  started_at: '2026-08-05T12:21:21Z'
+  start_fingerprints:
+    dora/lib/dora/bootstrap_source.rb: __missing__
+    dora/bootstrap-source.schema.yaml: __missing__
+    dora/test/bootstrap_source_test.rb: __missing__
+- id: add-local-source-project-bootstrap
+  title: Bootstrap a project from an explicit local Dora source
+  type: implementation
+  status: done
+  inventory_item: dora-v06-bootstrap
+  observable_outcome: One Dora command copies or links an explicit local source, initializes
+    a project, and leaves a working project-local launcher.
+  dependencies:
+  - dora-v06-source-contract
+  evidence_boundary:
+  - empty-directory bootstrap integration test
+  paths:
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_bootstrap_test.rb
+  required_paths:
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_bootstrap_test.rb
+  validation: ruby dora/test/project_bootstrap_test.rb
+  started_at: '2026-08-05T12:22:33Z'
+  start_fingerprints:
+    dora/lib/dora/project_bootstrap.rb: __missing__
+    dora/bin/dora: 03df6f58f2edaa0b09b0d4067fcdf7f07342c6dfa64779901ebd46ec50693193
+    dora/lib/dora/command_registry.rb: 4be96692cab5e6df56ec20897b570ee401f25de2d3c7f4874f9f0445db9ffe17
+    dora/test/project_bootstrap_test.rb: __missing__
+- id: define-starter-pack-contract
+  title: Define starter packs that create technical skeletons only
+  type: implementation
+  status: done
+  inventory_item: dora-v06-starter-contract
+  observable_outcome: Dora validates declared starter ids, files, commands, and boundaries
+    without business-domain assumptions.
+  dependencies:
+  - dora-v06-bootstrap
+  evidence_boundary:
+  - starter pack contract test
+  paths:
+  - dora/lib/dora/starter_pack.rb
+  - dora/starter-pack.schema.yaml
+  - dora/test/starter_pack_test.rb
+  required_paths:
+  - dora/lib/dora/starter_pack.rb
+  - dora/starter-pack.schema.yaml
+  - dora/test/starter_pack_test.rb
+  validation: ruby dora/test/starter_pack_test.rb
+  started_at: '2026-08-05T12:24:25Z'
+  start_fingerprints:
+    dora/lib/dora/starter_pack.rb: __missing__
+    dora/starter-pack.schema.yaml: __missing__
+    dora/test/starter_pack_test.rb: __missing__
+- id: add-blank-and-spring-vue-starters
+  title: Add blank and Spring/Vue technical starters
+  type: implementation
+  status: done
+  inventory_item: dora-v06-starters
+  observable_outcome: A consumer selects either a blank or Spring/Vue starter and
+    receives only declared project skeleton, commands, controls, and CI.
+  dependencies:
+  - dora-v06-starter-contract
+  evidence_boundary:
+  - two-starter bootstrap fixture test
+  paths:
+  - dora/starters/blank.yaml
+  - dora/starters/spring-vue.yaml
+  - dora/lib/dora/starter_pack.rb
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/starter_bootstrap_test.rb
+  - dora/README.md
+  required_paths:
+  - dora/starters/blank.yaml
+  - dora/starters/spring-vue.yaml
+  - dora/lib/dora/starter_pack.rb
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/starter_bootstrap_test.rb
+  - dora/README.md
+  validation: ruby dora/test/starter_bootstrap_test.rb
+  started_at: '2026-08-05T12:26:00Z'
+  start_fingerprints:
+    dora/starters/blank.yaml: __missing__
+    dora/starters/spring-vue.yaml: __missing__
+    dora/lib/dora/starter_pack.rb: c10e520cec8fcca6b93c3f66744b6a688b93c8b2968925711d6f97ac0b177787
+    dora/lib/dora/project_bootstrap.rb: 7ea0b32f917b18e71ec30baa29bd131b691f04e1284be9337ee1bdcbb7b035e6
+    dora/bin/dora: 3fa7dde7ed603e26f8fdc38696af3af4e04d23c52d5116b301c44a9e0362482f
+    dora/lib/dora/command_registry.rb: 1988f23b9c6c476d3c138caf58f9b6cbd838d433056e1dbb4bd2eed514b3dbc0
+    dora/test/starter_bootstrap_test.rb: __missing__
+    dora/README.md: 534f7bef65297fa705d53a1316a074cdadab6be3d97c7bb9097ca0386b1d2770
+evidence:
+- task: define-explicit-bootstrap-source-contract
+  command: ruby dora/test/bootstrap_source_test.rb
+  ranAt: '2026-08-05T12:22:27Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bootstrap-source.schema.yaml
+  - dora/lib/dora/bootstrap_source.rb
+  - dora/test/bootstrap_source_test.rb
+  output: "Dora bootstrap source test passed (local reviewed sources only).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/bootstrap_source.rb
+  - dora/bootstrap-source.schema.yaml
+  - dora/test/bootstrap_source_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:21:21Z'
+  changedAfterStart: *1
+- task: add-local-source-project-bootstrap
+  command: ruby dora/test/project_bootstrap_test.rb
+  ranAt: '2026-08-05T12:24:17Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/test/project_bootstrap_test.rb
+  output: "Dora project bootstrap test passed (explicit local source and launcher).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_bootstrap_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:22:33Z'
+  changedAfterStart: *2
+- task: define-starter-pack-contract
+  command: ruby dora/test/starter_pack_test.rb
+  ranAt: '2026-08-05T12:25:01Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/starter_pack.rb
+  - dora/starter-pack.schema.yaml
+  - dora/test/starter_pack_test.rb
+  output: "Dora starter pack contract test passed (technical skeletons only).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/starter_pack.rb
+  - dora/starter-pack.schema.yaml
+  - dora/test/starter_pack_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:24:25Z'
+  changedAfterStart: *3
+- task: add-blank-and-spring-vue-starters
+  command: ruby dora/test/starter_bootstrap_test.rb
+  ranAt: '2026-08-05T12:26:54Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/lib/dora/starter_pack.rb
+  - dora/starters/blank.yaml
+  - dora/starters/spring-vue.yaml
+  - dora/test/starter_bootstrap_test.rb
+  output: "Dora starter bootstrap test passed (two technical starters only).\n\n"
+  requiredPaths: &4
+  - dora/starters/blank.yaml
+  - dora/starters/spring-vue.yaml
+  - dora/lib/dora/starter_pack.rb
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/starter_bootstrap_test.rb
+  - dora/README.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:26:00Z'
+  changedAfterStart: *4

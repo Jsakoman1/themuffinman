@@ -7,6 +7,7 @@ module Dora
   class CommandRegistry
     CORE_COMMANDS = [
       {"usage" => "dora init <destination> --project <project-id>", "purpose" => "Create a declared Dora control structure."},
+      {"usage" => "dora bootstrap <destination> --project <project-id> --source <bootstrap-source.yaml> [--starter <starter-id>] [--ci <ci-pack>]", "purpose" => "Copy an explicitly declared local Dora source, optionally apply a technical starter and CI pack, and initialize a project-local launcher."},
       {"usage" => "dora configure <adapter-path> --control <control-id> --from <yaml-path>", "purpose" => "Apply one explicit project-owned control configuration."},
       {"usage" => "dora help [adapter-path]", "purpose" => "List Dora commands and optional project extensions."},
       {"usage" => "dora doctor <adapter-path>", "purpose" => "Diagnose declared project paths, commands, and controls."},
@@ -25,6 +26,7 @@ module Dora
       {"usage" => "dora validate-work-plan <adapter-path> <work-plan-path>", "purpose" => "Validate a project work plan."},
       {"usage" => "dora plan-contract <work-plan-path>", "purpose" => "Validate reusable atomic task fields without project assumptions."},
       {"usage" => "dora plugin-contract <plugin-manifest-path>", "purpose" => "Validate declared optional plugin roots, inputs, and report contract."},
+      {"usage" => "dora plugin-run <plugin-manifest-path> <plugin-id>", "purpose" => "Execute one declared local Ruby plugin without shell interpolation."},
       {"usage" => "dora work-start <adapter-path> plan=<path> task=<id>", "purpose" => "Start one project-owned work item."},
       {"usage" => "dora work-verify <adapter-path> plan=<path> [task=<id>]", "purpose" => "Verify one project-owned work item."}
     ].freeze

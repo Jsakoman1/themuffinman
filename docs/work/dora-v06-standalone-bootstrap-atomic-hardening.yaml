@@ -1,0 +1,81 @@
+kind: work
+version: 1
+id: dora-v06-standalone-bootstrap-atomic-hardening
+title: Harden the Dora v0.6 standalone bootstrap plan
+status: verified
+baseline: 3c10315
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+master_plan: docs/work/dora-v06-standalone-bootstrap-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.5 verified delivery
+  residual_scope:
+  - v0.6 task boundaries and serial mapping
+  retest_triggers:
+  - changed v0.6 plan or inventory
+  non_duplication_rule: v0.5 hardening does not validate v0.6 tasks.
+tasks:
+- id: harden-v06-bootstrap-plan
+  title: Verify every v0.6 queue item has one bounded outcome
+  type: docs-only
+  status: done
+  inventory_item: dora-v06-harden
+  observable_outcome: Every v0.6 inventory item maps once to exact paths, a leaf validation,
+    evidence boundary, and preceding serial dependency.
+  dependencies: []
+  evidence_boundary:
+  - v0.6 plan hardening audit
+  paths:
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  - docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+  - docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  - docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  - docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+  - scripts/audits/audit-dora-v06-bootstrap-plan.rb
+  required_paths:
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  - docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+  - docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  - docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  - docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+  - scripts/audits/audit-dora-v06-bootstrap-plan.rb
+  validation: ruby scripts/audits/audit-dora-v06-bootstrap-plan.rb
+  started_at: '2026-08-05T12:19:57Z'
+  start_fingerprints:
+    docs/work/dora-v06-standalone-bootstrap-master.yaml: 2e0ae6de7a4be78b062ad0eb437fc46b87aec6305d6bb17ea91dfd6a26fb21f1
+    docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml: bee5dfc88ae9e5e10a4701c57e754f400640c2f4fa7b663e8a67c3b95ea522bc
+    docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml: 56ed1018a6b3f9401854d075f8a09538f9c042e109435a0fc425663e724b7ed4
+    docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml: afb8bcae4c126715c8a5be3eb22b65d6ee01bbc3f1f8b1784cadddfe5f347fc8
+    docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml: 7784fb6ba3dc1f633750cd90e809a225b9233790fd46b3776896bbb9860c6f5c
+    scripts/audits/audit-dora-v06-bootstrap-plan.rb: __missing__
+evidence:
+- task: harden-v06-bootstrap-plan
+  command: ruby scripts/audits/audit-dora-v06-bootstrap-plan.rb
+  ranAt: '2026-08-05T12:21:14Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  - docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  - docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+  - docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  - scripts/audits/audit-dora-v06-bootstrap-plan.rb
+  output: "Dora v0.6 bootstrap plan audit passed (13 atomic serial items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  - docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+  - docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  - docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  - docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+  - scripts/audits/audit-dora-v06-bootstrap-plan.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:19:57Z'
+  changedAfterStart: *1

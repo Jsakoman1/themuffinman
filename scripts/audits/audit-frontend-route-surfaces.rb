@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+exec("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", "vue-navigation") unless ENV["DORA_PLUGIN_RUNNER"] == "1"
+
 require "json"
 require "fileutils"
 require "time"

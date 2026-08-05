@@ -24,6 +24,18 @@ adapter_path = matrix["adapter"].to_s
 failures << "compatibility matrix adapter is missing" if adapter_path.empty?
 stdout, stderr, status = Open3.capture3("dora/bin/dora", "validate-adapter", adapter_path, chdir: ROOT)
 failures << "MuffinMan Dora adapter validation failed: #{[stdout, stderr].join("\n").strip}" unless status.success?
+stdout, stderr, status = Open3.capture3("dora/bin/dora", "plugin-contract", ".dora/plugins.yaml", chdir: ROOT)
+failures << "MuffinMan Dora plugin manifest validation failed: #{[stdout, stderr].join("\n").strip}" unless status.success?
+{
+  "scripts/audits/audit-api-contract-drift.rb" => "http-contract-drift",
+  "scripts/audits/audit-endpoint-callsite-linker.rb" => "http-contract-linker",
+  "scripts/audits/audit-frontend-route-surfaces.rb" => "vue-navigation"
+}.each do |path, plugin_id|
+  wrapper = File.read(File.join(ROOT, path))
+  failures << "#{path} does not delegate through its declared Dora plugin" unless wrapper.include?("plugin-run") && wrapper.include?(plugin_id)
+  stdout, stderr, status = Open3.capture3("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", plugin_id, chdir: ROOT)
+  failures << "Dora runner failed for #{plugin_id}: #{[stdout, stderr].join("\n").strip}" unless status.success?
+end
 adapter = YAML.load_file(File.join(ROOT, adapter_path)) if File.file?(File.join(ROOT, adapter_path))
 distribution = adapter.is_a?(Hash) ? adapter.fetch("distribution", {}) : {}
 %w[source_repository source_ref source_commit].each do |field|

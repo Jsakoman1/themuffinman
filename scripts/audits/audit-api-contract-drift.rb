@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+exec("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", "http-contract-drift") unless ENV["DORA_PLUGIN_RUNNER"] == "1"
+
 require "time"
 require_relative "../audit_support"
 require_relative "../../dora/lib/dora/plugins/http_contract_linker"

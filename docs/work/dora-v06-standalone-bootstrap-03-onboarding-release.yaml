@@ -1,0 +1,181 @@
+kind: work
+version: 1
+id: dora-v06-standalone-bootstrap-03-onboarding-release
+title: Document, prove, and release standalone Dora bootstrap
+status: active
+baseline: 3c10315
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+master_plan: docs/work/dora-v06-standalone-bootstrap-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+  atomicity_contract: Local onboarding and fixture proof must finish before separately
+    approved release and consumer-pin tasks.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  baseline_only_surfaces:
+  - v0.5 consumer fixtures and release
+  residual_scope:
+  - beginner guide
+  - zero-knowledge fixture
+  - v0.6 release and pin
+  retest_triggers:
+  - changed onboarding
+  - bootstrap
+  - fixture
+  - handoff
+  - or adapter pin
+  non_duplication_rule: v0.5 release evidence is baseline only.
+tasks:
+- id: publish-beginner-onboarding
+  title: Publish a beginner-safe new-project guide
+  type: docs-only
+  status: done
+  inventory_item: dora-v06-onboarding
+  observable_outcome: A new developer can follow one documented explicit-source path
+    from empty directory to a healthy Dora project without MuffinMan knowledge.
+  dependencies:
+  - dora-v06-wrapper-parity
+  evidence_boundary:
+  - onboarding command coverage audit
+  paths:
+  - dora/README.md
+  - dora/docs/new-project.md
+  - dora/test/readme_onboarding_test.rb
+  required_paths:
+  - dora/README.md
+  - dora/docs/new-project.md
+  - dora/test/readme_onboarding_test.rb
+  validation: ruby dora/test/readme_onboarding_test.rb
+  started_at: '2026-08-05T12:31:05Z'
+  start_fingerprints:
+    dora/README.md: f93189c1c66813c3594a571d24459c8f0da503d9b407f4ac676f131f71f1d084
+    dora/docs/new-project.md: __missing__
+    dora/test/readme_onboarding_test.rb: __missing__
+- id: prove-zero-knowledge-bootstrap
+  title: Prove zero-knowledge bootstrap from an empty directory
+  type: implementation
+  status: done
+  inventory_item: dora-v06-zero-knowledge
+  observable_outcome: A fixture copies only an explicit Dora source, selects a starter,
+    configures declared commands, runs doctor, CI generation, and one plugin without
+    manual project wiring.
+  dependencies:
+  - dora-v06-onboarding
+  evidence_boundary:
+  - end-to-end zero-knowledge bootstrap fixture
+  paths:
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/fixtures/zero-knowledge-bootstrap/README.md
+  - dora/test/zero_knowledge_bootstrap_test.rb
+  required_paths:
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/fixtures/zero-knowledge-bootstrap/README.md
+  - dora/test/zero_knowledge_bootstrap_test.rb
+  validation: ruby dora/test/zero_knowledge_bootstrap_test.rb
+  started_at: '2026-08-05T12:32:08Z'
+  start_fingerprints:
+    dora/lib/dora/project_bootstrap.rb: 7e506752b82f87d8c83fa04ce5812d5f04b07a1cbced339701277aab225c1ba5
+    dora/bin/dora: 3526468158c7e6bbbf2ee0ca7926b215f9eade70df89412490c90504919d6bb8
+    dora/lib/dora/command_registry.rb: 8433b60bb83435d34628cd276cd0923690173c802893f6eea7ec0d417ca48917
+    dora/fixtures/zero-knowledge-bootstrap/: __missing__
+    dora/test/zero_knowledge_bootstrap_test.rb: __missing__
+- id: publish-dora-v06-release
+  title: Publish immutable Dora v0.6 release
+  type: implementation
+  status: in_progress
+  inventory_item: dora-v06-release
+  observable_outcome: Dora v0.6 is published as an immutable private tag with an approved
+    handoff after independent bootstrap proof.
+  dependencies:
+  - dora-v06-zero-knowledge
+  evidence_boundary:
+  - remote tag and v0.6 handoff
+  requires_external_approval: true
+  paths:
+  - docs/dora-release-handoff-v06.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  required_paths:
+  - docs/dora-release-handoff-v06.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v06.yaml --expected-version v0.6.0
+  started_at: '2026-08-05T12:34:07Z'
+  start_fingerprints:
+    docs/dora-release-handoff-v06.yaml: __missing__
+    docs/dora-extraction-manifest.yaml: 41acdbaaa88025eeb436fa8b082440cce35128f0eb593434e71b5319edf057ad
+    scripts/audits/audit-dora-extraction-manifest.rb: d27870f81b4e008ba5b119f9993f240d621e4d717523a0ceb010fc45c23a8542
+- id: pin-muffinman-to-dora-v06
+  title: Pin MuffinMan to reviewed Dora v0.6
+  type: implementation
+  status: pending
+  inventory_item: muffinman-v06-pin
+  observable_outcome: MuffinMan records the reviewed v0.6 commit in a reversible adapter
+    pin after publication.
+  dependencies:
+  - dora-v06-release
+  evidence_boundary:
+  - MuffinMan compatibility audit and pinned handoff
+  requires_external_approval: true
+  paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v06.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v06.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+evidence:
+- task: publish-beginner-onboarding
+  command: ruby dora/test/readme_onboarding_test.rb
+  ranAt: '2026-08-05T12:31:47Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/docs/new-project.md
+  - dora/test/readme_onboarding_test.rb
+  output: "Dora onboarding guide test passed (explicit local beginner bootstrap path).\n\n"
+  requiredPaths: &1
+  - dora/README.md
+  - dora/docs/new-project.md
+  - dora/test/readme_onboarding_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:31:05Z'
+  changedAfterStart: *1
+- task: prove-zero-knowledge-bootstrap
+  command: ruby dora/test/zero_knowledge_bootstrap_test.rb
+  ranAt: '2026-08-05T12:33:14Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/fixtures/zero-knowledge-bootstrap/README.md
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/test/zero_knowledge_bootstrap_test.rb
+  output: "Dora zero-knowledge bootstrap test passed (local source, starter, CI, doctor,
+    and plugin).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/project_bootstrap.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/fixtures/zero-knowledge-bootstrap/README.md
+  - dora/test/zero_knowledge_bootstrap_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:32:08Z'
+  changedAfterStart: *2

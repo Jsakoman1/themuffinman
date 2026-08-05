@@ -7,6 +7,7 @@ require "yaml"
 require_relative "../lib/dora/plugin_contract"
 
 DORA_BIN = File.expand_path("../bin/dora", __dir__)
+MUFFINMAN_ROOT = File.expand_path("../..", __dir__)
 
 def manifest(id, root)
   {"kind" => "dora_plugin_manifest", "version" => 1, "plugins" => [{"id" => id, "entrypoint" => "dora/plugins/#{id}", "source_roots" => [{"id" => "source", "path" => root}], "inputs" => {"extensions" => ["rb"]}, "output" => {"kind" => "static-analysis-report"}}]}
@@ -31,5 +32,9 @@ Dir.mktmpdir("dora-plugin-contract") do |root|
     abort "wrong unsafe root failure" unless error.message.include?("invalid")
   end
 end
+
+muffinman_manifest = File.join(MUFFINMAN_ROOT, ".dora/plugins.yaml")
+expected = %w[architecture-integrity http-contract-drift http-contract-linker spring-configuration-drift spring-mapper-usage vue-navigation]
+abort "MuffinMan plugin manifest did not validate" unless Dora::PluginContract.validate!(muffinman_manifest).fetch("plugins").sort == expected
 
 puts "Dora plugin contract test passed (two isolated manifests and root safety)."

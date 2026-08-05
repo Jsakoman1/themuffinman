@@ -6,7 +6,7 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
-- DORA-V05-REUSABLE-AUDITS-001: execute `docs/work/dora-v05-reusable-audits-and-plugins-master.yaml` to extract configured plan-governance controls and optional Spring/Vue static-analysis plugins with isolated consumer fixtures; do not move product-owned audits into Dora.
+- DORA-V06-STANDALONE-BOOTSTRAP-001: execute `docs/work/dora-v06-standalone-bootstrap-master.yaml` to add an explicit-source bootstrap, optional starter packs, a declared plugin runner, full MuffinMan manifest adoption, a zero-knowledge fixture, and release/pin evidence; Dora must not infer product behavior or silently download code.
 
 - UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,

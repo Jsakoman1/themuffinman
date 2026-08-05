@@ -9,6 +9,7 @@ require File.join(ROOT, "lib/dora/adapter")
 require File.join(ROOT, "lib/dora/work_verifier")
 require File.join(ROOT, "lib/dora/work_execution")
 require File.join(ROOT, "lib/dora/project_initializer")
+require File.join(ROOT, "lib/dora/project_bootstrap")
 require File.join(ROOT, "lib/dora/project_doctor")
 require File.join(ROOT, "lib/dora/command_registry")
 require File.join(ROOT, "lib/dora/tool_selection_commands")
@@ -19,6 +20,7 @@ require File.join(ROOT, "lib/dora/control_commands")
 require File.join(ROOT, "lib/dora/atomic_plan_contract")
 require File.join(ROOT, "lib/dora/plan_coverage")
 require File.join(ROOT, "lib/dora/plugin_contract")
+require File.join(ROOT, "lib/dora/plugin_runner")
 
 def fail!(message)
   warn "Dora adapter validation failed: #{message}"
@@ -59,6 +61,13 @@ rescue ArgumentError => error
   fail!(error.message)
 end
 
+def run_plugin(manifest_path, plugin_id)
+  result = Dora::PluginRunner.run!(manifest_path, plugin_id: plugin_id)
+  puts result.fetch("output")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
 def execute_work(adapter_path, arguments)
   puts Dora::WorkExecution.run(adapter_path: adapter_path, schema_path: SCHEMA_PATH, arguments: arguments)
 rescue Dora::WorkExecution::Error, ArgumentError => error
@@ -73,6 +82,17 @@ def initialize_project(destination, project_id, stack = nil, ci = nil, ci_comman
   fail!("unknown CI pack: #{ci}") if ci_pack && !File.file?(ci_pack)
   files = Dora::ProjectInitializer.initialize!(destination, project_id: project_id, manifest_path: manifest, stack_pack_path: pack, ci_pack_path: ci_pack, ci_template_path: File.join(ROOT, "templates/github-actions-control.yml"), ci_commands_path: ci_commands)
   puts "Dora project initialized: #{File.expand_path(destination)} (#{files.length} control files)."
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def bootstrap_project(destination, project_id, source_descriptor_path, starter = nil, ci = nil)
+  starter_path = starter && File.join(ROOT, "starters", "#{starter}.yaml")
+  fail!("unknown starter pack: #{starter}") if starter_path && !File.file?(starter_path)
+  ci_path = ci && File.join(ROOT, "packs", "#{ci}.yaml")
+  fail!("unknown CI pack: #{ci}") if ci_path && !File.file?(ci_path)
+  result = Dora::ProjectBootstrap.bootstrap!(destination, project_id: project_id, source_descriptor_path: source_descriptor_path, starter_pack_path: starter_path, ci_pack_path: ci_path)
+  puts "Dora project bootstrapped: #{result.fetch("project_root")} (#{result.fetch("package_path")} pinned to #{result.fetch("source_ref")})."
 rescue ArgumentError => error
   fail!(error.message)
 end
@@ -163,6 +183,9 @@ when "plan-coverage"
 when "plugin-contract"
   fail!("usage: dora plugin-contract <plugin-manifest-path>") unless ARGV.length == 1
   validate_plugin_contract(ARGV.first)
+when "plugin-run"
+  fail!("usage: dora plugin-run <plugin-manifest-path> <plugin-id>") unless ARGV.length == 2
+  run_plugin(ARGV[0], ARGV[1])
 when "work-start"
   fail!("usage: dora work-start <adapter-path> plan=<path> task=<id>") if ARGV.length < 3
   execute_work(ARGV.shift, ["action=start", *ARGV])
@@ -182,6 +205,19 @@ when "init"
   expected_length = 2 + (stack_option ? 2 : 0) + (ci_option ? 2 : 0) + (commands_option ? 2 : 0)
   fail!("usage: dora init <destination> --project <project-id> [--stack <stack-id>] [--ci <ci-id> --commands <project-commands.yaml>]") unless destination && project_option && ARGV.length == expected_length && project_id && (!stack_option || stack) && (!ci_option || ci) && (ci_option ? commands_option && ci_commands : !commands_option)
   initialize_project(destination, project_id, stack, ci, ci_commands)
+when "bootstrap"
+  destination = ARGV.shift
+  project_option = ARGV.index("--project")
+  source_option = ARGV.index("--source")
+  starter_option = ARGV.index("--starter")
+  ci_option = ARGV.index("--ci")
+  project_id = project_option ? ARGV[project_option + 1] : nil
+  source_descriptor_path = source_option ? ARGV[source_option + 1] : nil
+  starter = starter_option ? ARGV[starter_option + 1] : nil
+  ci = ci_option ? ARGV[ci_option + 1] : nil
+  expected_length = 4 + (starter_option ? 2 : 0) + (ci_option ? 2 : 0)
+  fail!("usage: dora bootstrap <destination> --project <project-id> --source <bootstrap-source.yaml> [--starter <starter-id>] [--ci <ci-pack>]") unless destination && project_option && source_option && ARGV.length == expected_length && project_id && source_descriptor_path && (!starter_option || starter) && (!ci_option || ci)
+  bootstrap_project(destination, project_id, source_descriptor_path, starter, ci)
 when "configure"
   adapter_path = ARGV.shift
   control_option = ARGV.index("--control")

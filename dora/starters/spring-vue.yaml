@@ -1,0 +1,13 @@
+kind: dora_starter_pack
+version: 1
+id: spring-vue
+technical_only: true
+commands: {setup: 'true', test: 'true', build: 'true'}
+directories: [backend/src/main/java, frontend/src]
+files:
+  .dora/stack.yaml:
+    kind: dora_stack
+    version: 1
+    source_roots: [backend, frontend]
+  README.md: "# Spring and Vue technical starter\n\nAdd product modules, authentication, schemas, and user-facing features deliberately.\n"
+boundaries: [No product domain, authentication, database schema, or user-facing feature is generated.]

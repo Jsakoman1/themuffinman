@@ -1,0 +1,235 @@
+kind: work
+version: 1
+id: dora-v06-standalone-bootstrap-02-plugin-adoption
+title: Run declared Dora plugins and adopt them in MuffinMan
+status: verified
+baseline: 3c10315
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+master_plan: docs/work/dora-v06-standalone-bootstrap-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v06-standalone-bootstrap-execution-inventory.yaml
+  atomicity_contract: Each task changes only declared reusable-plugin execution or
+    MuffinMan adapter surfaces and proves one bounded outcome.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  baseline_only_surfaces:
+  - v0.5 plugin libraries and compatibility wrappers
+  residual_scope:
+  - plugin runner
+  - report contract
+  - MuffinMan manifest and wrapper parity
+  retest_triggers:
+  - changed plugin manifest
+  - runner
+  - report schema
+  - or wrapper
+  non_duplication_rule: v0.5 plugin tests are baseline only.
+tasks:
+- id: add-declared-plugin-runner
+  title: Run only declared plugin manifest entries
+  type: implementation
+  status: done
+  inventory_item: dora-v06-plugin-runner
+  observable_outcome: Dora executes one declared plugin by id with declared roots
+    and rejects unknown or undeclared plugins.
+  dependencies:
+  - dora-v06-starters
+  evidence_boundary:
+  - plugin runner fixture test
+  paths:
+  - dora/lib/dora/plugin_runner.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/plugin_runner_test.rb
+  required_paths:
+  - dora/lib/dora/plugin_runner.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/plugin_runner_test.rb
+  validation: ruby dora/test/plugin_runner_test.rb
+  started_at: '2026-08-05T12:27:16Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_runner.rb: __missing__
+    dora/bin/dora: 8f9382c03044ba0dead92be9813f37a0b3594581a1eebf2b1004a0de2b6402ba
+    dora/lib/dora/command_registry.rb: 5f260ff2fbc5819876736cbd432091bc63612d4ff72fe677f320f4b996c96cb1
+    dora/test/plugin_runner_test.rb: __missing__
+- id: standardize-plugin-report-contract
+  title: Standardize portable plugin report output
+  type: implementation
+  status: done
+  inventory_item: dora-v06-plugin-reports
+  observable_outcome: Every runner result has declared report kind, inputs, findings,
+    and an explicit non-completion boundary.
+  dependencies:
+  - dora-v06-plugin-runner
+  evidence_boundary:
+  - plugin report contract test
+  paths:
+  - dora/lib/dora/plugin_report.rb
+  - dora/plugin-report.schema.yaml
+  - dora/test/plugin_report_test.rb
+  required_paths:
+  - dora/lib/dora/plugin_report.rb
+  - dora/plugin-report.schema.yaml
+  - dora/test/plugin_report_test.rb
+  validation: ruby dora/test/plugin_report_test.rb
+  started_at: '2026-08-05T12:28:13Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_report.rb: __missing__
+    dora/plugin-report.schema.yaml: __missing__
+    dora/test/plugin_report_test.rb: __missing__
+- id: adopt-plugin-manifest-in-muffinman
+  title: Declare MuffinMan reusable plugin inputs in one manifest
+  type: implementation
+  status: done
+  inventory_item: dora-v06-muffinman-manifest
+  observable_outcome: MuffinMan declares every reused Dora static plugin, roots, and
+    report destinations through its adapter-owned manifest.
+  dependencies:
+  - dora-v06-plugin-reports
+  evidence_boundary:
+  - MuffinMan manifest validation and runner dry-run
+  paths:
+  - ".dora/plugins.yaml"
+  - ".dora/project.yaml"
+  - dora/test/plugin_contract_test.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - ".dora/plugins.yaml"
+  - ".dora/project.yaml"
+  - dora/test/plugin_contract_test.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: dora/bin/dora plugin-contract .dora/plugins.yaml
+  started_at: '2026-08-05T12:28:48Z'
+  start_fingerprints:
+    ".dora/plugins.yaml": __missing__
+    ".dora/project.yaml": d52615a0a75fb48e3dc45b90d348d65fbc5e27a83d332e1288d1f90c1c345929
+    dora/test/plugin_contract_test.rb: ff709022859d185bf4a6810386a7dcc7d8af83397027923236d3be20b60c2c77
+    scripts/audits/audit-dora-muffinman-compatibility.rb: bdf90a00b2ece26a98cefe72bbdaa404f5669218330bb34bf1ca91fca30e48f2
+- id: reduce-muffinman-plugin-wrappers-to-runner-parity
+  title: Reduce reusable MuffinMan wrappers to runner parity
+  type: implementation
+  status: done
+  inventory_item: dora-v06-wrapper-parity
+  observable_outcome: Reusable plugin wrappers invoke the Dora runner and retain only
+    explicit product report routing or product-owned checks.
+  dependencies:
+  - dora-v06-muffinman-manifest
+  evidence_boundary:
+  - wrapper parity audit
+  paths:
+  - ".dora/plugins.yaml"
+  - dora/lib/dora/plugin_runner.rb
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - ".dora/plugins.yaml"
+  - dora/lib/dora/plugin_runner.rb
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  started_at: '2026-08-05T12:30:09Z'
+  start_fingerprints:
+    ".dora/plugins.yaml": 4c8e8d39f21aa76120266bc1c83fc8e27e5918f712ceb890cfc8d8ef53f97a2f
+    dora/lib/dora/plugin_runner.rb: 6c3e68cbc100deeaed3f3f294f0dc4f0ac99c17ef8db5c3df1a5624114cf0b93
+    scripts/audits/audit-api-contract-drift.rb: 6f837a147fd4727d1becb7fed5fc5d0a76a99b6cdf0802e28ab99d8475205cd3
+    scripts/audits/audit-endpoint-callsite-linker.rb: b0b4b1aaa90dcf46ae7fa93b0ce37ebb26e8ddf6fb0ea14ab06e3163e8a0d99c
+    scripts/audits/audit-frontend-route-surfaces.rb: fa00902b9316e194f7ada57b621ad14e6eefe2b75ed4850f5ea9e24046cc6561
+    scripts/audits/audit-dora-muffinman-compatibility.rb: 6536e08e679fc9bdfcf85cc8bf47a815df919c4aaaf270888abdd88d10508f94
+evidence:
+- task: add-declared-plugin-runner
+  command: ruby dora/test/plugin_runner_test.rb
+  ranAt: '2026-08-05T12:28:05Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_runner_test.rb
+  output: "Dora plugin runner test passed (declared local plugins only).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/plugin_runner.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/plugin_runner_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:27:16Z'
+  changedAfterStart: *1
+- task: standardize-plugin-report-contract
+  command: ruby dora/test/plugin_report_test.rb
+  ranAt: '2026-08-05T12:28:41Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugin_report.rb
+  - dora/plugin-report.schema.yaml
+  - dora/test/plugin_report_test.rb
+  output: "Dora plugin report contract test passed (diagnostic output only).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/plugin_report.rb
+  - dora/plugin-report.schema.yaml
+  - dora/test/plugin_report_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:28:13Z'
+  changedAfterStart: *2
+- task: adopt-plugin-manifest-in-muffinman
+  command: dora/bin/dora plugin-contract .dora/plugins.yaml
+  ranAt: '2026-08-05T12:29:25Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/project.yaml"
+  - dora/test/plugin_contract_test.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  - ".dora/plugins.yaml"
+  output: "Dora plugin contract valid: architecture-integrity, spring-configuration-drift,
+    spring-mapper-usage, http-contract-linker, vue-navigation.\n\n"
+  requiredPaths: &3
+  - ".dora/plugins.yaml"
+  - ".dora/project.yaml"
+  - dora/test/plugin_contract_test.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:28:48Z'
+  changedAfterStart: *3
+- task: reduce-muffinman-plugin-wrappers-to-runner-parity
+  command: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  ranAt: '2026-08-05T12:30:58Z'
+  revision: 3c103154101a909514c9c7b39028dbf1a874946a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - ".dora/plugins.yaml"
+  - dora/lib/dora/plugin_runner.rb
+  output: "Dora/MuffinMan compatibility audit passed (work-start, work-verify delegate
+    through Dora with a standalone fixture trace).\n\n"
+  requiredPaths: &4
+  - ".dora/plugins.yaml"
+  - dora/lib/dora/plugin_runner.rb
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:30:09Z'
+  changedAfterStart: *4

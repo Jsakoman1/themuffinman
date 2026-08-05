@@ -1,0 +1,29 @@
+kind: dora_release_handoff
+version: 1
+status: awaiting_external_approval
+release:
+  repository: https://github.com/Jsakoman1/dora.git
+  visibility: private
+  default_branch: main
+  version: v0.6.0
+  immutable_commit: pending_external_release
+  source_parent_commit: pending_local_release_commit
+consumption:
+  project: muffinman
+  method: git_subtree
+  subtree_prefix: dora
+  status: release_published_unpinned
+  pinned_ref: pending_release_pin
+  pinned_commit: pending_release_pin
+  local_adapter: .dora/project.yaml
+  update_rule: MuffinMan remains on v0.5.0 until the immutable v0.6.0 tag is reachable and a separate reviewed adapter pin is recorded.
+preservation:
+  - MuffinMan retains product code, product documentation, work plans, runtime evidence, and its adapter.
+  - Dora v0.6 exports only dora package paths and never rewrites MuffinMan product history.
+  - The release tag resolves before MuffinMan is pinned.
+rollback:
+  - Before the adapter pin, MuffinMan remains on its v0.5.0 pin.
+  - After the adapter pin, revert only the dedicated v0.6.0 pin commit to restore v0.5.0.
+verification:
+  - ruby scripts/audits/audit-dora-extraction-manifest.rb --check-handoff-draft --handoff docs/dora-release-handoff-v06.yaml --expected-version v0.6.0
+  - After approval: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release --handoff docs/dora-release-handoff-v06.yaml --expected-version v0.6.0

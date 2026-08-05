@@ -1,0 +1,33 @@
+kind: dora_plugin_manifest
+version: 1
+plugins:
+  - id: architecture-integrity
+    entrypoint: scripts/audits/audit-module-dependency-direction.rb
+    source_roots: [{id: backend, path: apps/themuffinman/src/main/java}]
+    inputs: {rules: docs/module-dependency-direction.yaml}
+    output: {kind: architecture-integrity-report}
+  - id: spring-configuration-drift
+    entrypoint: scripts/audits/audit-configuration-environment-drift.rb
+    source_roots: [{id: backend, path: apps/themuffinman/src/main/resources}]
+    inputs: {properties_path: apps/themuffinman/src/main/resources/application.properties}
+    output: {kind: configuration-environment-drift-report}
+  - id: spring-mapper-usage
+    entrypoint: scripts/audits/audit-mapper-usage.rb
+    source_roots: [{id: backend, path: apps/themuffinman/src/main/java}]
+    inputs: {mapper_root: apps/themuffinman/src/main/java}
+    output: {kind: mapper-usage-report}
+  - id: http-contract-linker
+    entrypoint: scripts/audits/audit-endpoint-callsite-linker.rb
+    source_roots: [{id: backend, path: apps/themuffinman/src/main/java}, {id: frontend, path: apps/themuffinman/frontend/src}]
+    inputs: {contract: endpoint-client-callsite}
+    output: {kind: http-contract-link-report}
+  - id: http-contract-drift
+    entrypoint: scripts/audits/audit-api-contract-drift.rb
+    source_roots: [{id: backend, path: apps/themuffinman/src/main/java}, {id: frontend, path: apps/themuffinman/frontend/src}]
+    inputs: {contract: dto-client-contract}
+    output: {kind: http-contract-drift-report}
+  - id: vue-navigation
+    entrypoint: scripts/audits/audit-frontend-route-surfaces.rb
+    source_roots: [{id: frontend, path: apps/themuffinman/frontend/src}]
+    inputs: {router: apps/themuffinman/frontend/src/router}
+    output: {kind: static-navigation-report}

@@ -24,6 +24,10 @@ distribution:
   update_command: git subtree pull --prefix=dora dora main --squash
   rollback_rule: Revert the separate MuffinMan v0.5.0 pin commit to restore v0.4.0; do not reconstruct product evidence from Dora.
 extensions:
+  - id: muffinman-reusable-plugin-manifest
+    category: product_contract
+    paths: [.dora/plugins.yaml, scripts/audits]
+    invocation: dora/bin/dora plugin-run .dora/plugins.yaml <plugin-id>
   - id: muffinman-domain-audits
     category: audit
     paths: [scripts/audits, docs/capability-inventory.yaml, docs/runtime-acceptance-matrix.yaml]

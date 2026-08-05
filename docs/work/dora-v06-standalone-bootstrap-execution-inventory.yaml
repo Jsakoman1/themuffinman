@@ -1,0 +1,157 @@
+kind: execution_inventory
+version: 1
+id: dora-v06-standalone-bootstrap-execution-inventory
+master_plan: docs/work/dora-v06-standalone-bootstrap-master.yaml
+status: draft
+hardening_contract:
+  item_count: 13
+  mapping: Every inventory item maps once to one child task.
+  dependency: Each item after the first depends directly on its predecessor.
+  approval_boundary: Only the final release and consumer-pin items may require external
+    approval.
+items:
+- id: dora-v06-harden
+  sequence: 1
+  order: 1
+  plan: docs/work/dora-v06-standalone-bootstrap-atomic-hardening.yaml
+  task: harden-v06-bootstrap-plan
+  status: verified
+  started_at: '2026-08-05T12:19:57Z'
+  verified_at: '2026-08-05T12:21:14Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-atomic-hardening.yaml
+    task: harden-v06-bootstrap-plan
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-source-contract
+  sequence: 2
+  order: 2
+  plan: docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  task: define-explicit-bootstrap-source-contract
+  status: verified
+  started_at: '2026-08-05T12:21:21Z'
+  verified_at: '2026-08-05T12:22:27Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+    task: define-explicit-bootstrap-source-contract
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-bootstrap
+  sequence: 3
+  order: 3
+  plan: docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  task: add-local-source-project-bootstrap
+  status: verified
+  started_at: '2026-08-05T12:22:33Z'
+  verified_at: '2026-08-05T12:24:18Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+    task: add-local-source-project-bootstrap
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-starter-contract
+  sequence: 4
+  order: 4
+  plan: docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  task: define-starter-pack-contract
+  status: verified
+  started_at: '2026-08-05T12:24:25Z'
+  verified_at: '2026-08-05T12:25:01Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+    task: define-starter-pack-contract
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-starters
+  sequence: 5
+  order: 5
+  plan: docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+  task: add-blank-and-spring-vue-starters
+  status: verified
+  started_at: '2026-08-05T12:26:00Z'
+  verified_at: '2026-08-05T12:26:54Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-01-bootstrap.yaml
+    task: add-blank-and-spring-vue-starters
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-plugin-runner
+  sequence: 6
+  order: 6
+  plan: docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  task: add-declared-plugin-runner
+  status: verified
+  started_at: '2026-08-05T12:27:16Z'
+  verified_at: '2026-08-05T12:28:06Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+    task: add-declared-plugin-runner
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-plugin-reports
+  sequence: 7
+  order: 7
+  plan: docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  task: standardize-plugin-report-contract
+  status: verified
+  started_at: '2026-08-05T12:28:13Z'
+  verified_at: '2026-08-05T12:28:41Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+    task: standardize-plugin-report-contract
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-muffinman-manifest
+  sequence: 8
+  order: 8
+  plan: docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  task: adopt-plugin-manifest-in-muffinman
+  status: verified
+  started_at: '2026-08-05T12:28:48Z'
+  verified_at: '2026-08-05T12:29:25Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+    task: adopt-plugin-manifest-in-muffinman
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-wrapper-parity
+  sequence: 9
+  order: 9
+  plan: docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+  task: reduce-muffinman-plugin-wrappers-to-runner-parity
+  status: verified
+  started_at: '2026-08-05T12:30:09Z'
+  verified_at: '2026-08-05T12:30:59Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-02-plugin-adoption.yaml
+    task: reduce-muffinman-plugin-wrappers-to-runner-parity
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-onboarding
+  sequence: 10
+  order: 10
+  plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+  task: publish-beginner-onboarding
+  status: verified
+  started_at: '2026-08-05T12:31:05Z'
+  verified_at: '2026-08-05T12:31:47Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+    task: publish-beginner-onboarding
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-zero-knowledge
+  sequence: 11
+  order: 11
+  plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+  task: prove-zero-knowledge-bootstrap
+  status: verified
+  started_at: '2026-08-05T12:32:08Z'
+  verified_at: '2026-08-05T12:33:15Z'
+  evidence:
+    plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+    task: prove-zero-knowledge-bootstrap
+    revision: 3c103154101a909514c9c7b39028dbf1a874946a
+- id: dora-v06-release
+  sequence: 12
+  order: 12
+  plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+  task: publish-dora-v06-release
+  status: in_progress
+  started_at: '2026-08-05T12:34:07Z'
+- id: muffinman-v06-pin
+  sequence: 13
+  order: 13
+  plan: docs/work/dora-v06-standalone-bootstrap-03-onboarding-release.yaml
+  task: pin-muffinman-to-dora-v06
+  status: pending

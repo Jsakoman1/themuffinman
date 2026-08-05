@@ -13,6 +13,9 @@ ownership:
     - dora/project-adapter.schema.yaml
     - dora/project-control.schema.yaml
     - dora/plugin.schema.yaml
+    - dora/bootstrap-source.schema.yaml
+    - dora/starter-pack.schema.yaml
+    - dora/plugin-report.schema.yaml
     - dora/packs/
     - dora/templates/
     - dora/README.md
@@ -32,8 +35,8 @@ rollback:
   post_release: Restore the recorded embedded Dora revision or pin from the immutable release revision; never reconstruct product evidence from Dora.
 release_gate:
   required_decisions: [remote destination and owner, Dora version and immutable revision, MuffinMan consumption and pinning method, reviewed history-preservation procedure]
-  current_state: approved_and_published
+  current_state: awaiting_explicit_external_approval
 next_release:
-  version: v0.5.0
-  handoff: docs/dora-release-handoff-v05.yaml
-  state: published_pinned
+  version: v0.6.0
+  handoff: docs/dora-release-handoff-v06.yaml
+  state: awaiting_external_approval
