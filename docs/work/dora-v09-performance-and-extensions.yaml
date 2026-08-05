@@ -1,0 +1,186 @@
+kind: work
+version: 1
+id: dora-v09-performance-and-extensions
+title: Improve repeat-run speed and optional neutral exports
+status: verified
+baseline: 1738e94
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  atomicity_contract: Extensions prove correctness and cannot mutate projects or external
+    services.
+tasks:
+- id: add-source-analysis-cache
+  inventory_item: v09-cache
+  type: implementation
+  observable_outcome: A bounded versioned cache matches uncached source analysis and
+    invalidates on input change
+  dependencies:
+  - v09-decisions
+  evidence_boundary:
+  - cache invalidation fixture
+  paths:
+  - dora/lib/dora/analysis_cache.rb
+  - dora/analysis-cache.schema.yaml
+  - dora/test/analysis_cache_test.rb
+  required_paths:
+  - dora/lib/dora/analysis_cache.rb
+  - dora/analysis-cache.schema.yaml
+  - dora/test/analysis_cache_test.rb
+  validation: ruby dora/test/analysis_cache_test.rb
+  status: done
+  started_at: '2026-08-05T14:41:20Z'
+  start_fingerprints:
+    dora/lib/dora/analysis_cache.rb: __missing__
+    dora/analysis-cache.schema.yaml: __missing__
+    dora/test/analysis_cache_test.rb: __missing__
+- id: add-read-only-finding-export
+  inventory_item: v09-sarif
+  type: implementation
+  observable_outcome: Standard findings export to a read-only portable annotation
+    format
+  dependencies:
+  - v09-cache
+  evidence_boundary:
+  - export snapshot fixture
+  paths:
+  - dora/lib/dora/finding_export.rb
+  - dora/finding-export.schema.yaml
+  - dora/test/finding_export_test.rb
+  required_paths:
+  - dora/lib/dora/finding_export.rb
+  - dora/finding-export.schema.yaml
+  - dora/test/finding_export_test.rb
+  validation: ruby dora/test/finding_export_test.rb
+  status: done
+  started_at: '2026-08-05T14:42:01Z'
+  start_fingerprints:
+    dora/lib/dora/finding_export.rb: __missing__
+    dora/finding-export.schema.yaml: __missing__
+    dora/test/finding_export_test.rb: __missing__
+- id: add-voice-evaluation-contract
+  inventory_item: v09-voice-evaluation
+  type: implementation
+  observable_outcome: Voice evaluation fixtures record stage outcomes without credentials
+    or execution adapters
+  dependencies:
+  - v09-sarif
+  evidence_boundary:
+  - no-credential voice fixture
+  paths:
+  - dora/voice-evaluation.schema.yaml
+  - dora/lib/dora/voice_evaluation.rb
+  - dora/test/voice_evaluation_test.rb
+  required_paths:
+  - dora/voice-evaluation.schema.yaml
+  - dora/lib/dora/voice_evaluation.rb
+  - dora/test/voice_evaluation_test.rb
+  validation: ruby dora/test/voice_evaluation_test.rb
+  status: done
+  started_at: '2026-08-05T14:42:43Z'
+  start_fingerprints:
+    dora/voice-evaluation.schema.yaml: __missing__
+    dora/lib/dora/voice_evaluation.rb: __missing__
+    dora/test/voice_evaluation_test.rb: __missing__
+- id: prove-accelerated-consumer
+  inventory_item: v09-consumer-proof
+  type: implementation
+  observable_outcome: A fresh project uses context next status impact cache and closeout
+    without MuffinMan data
+  dependencies:
+  - v09-voice-evaluation
+  evidence_boundary:
+  - accelerated independent consumer
+  paths:
+  - dora/test/independent_accelerated_consumer_test.rb
+  - dora/test/fixtures/accelerated-project-idea.yaml
+  required_paths:
+  - dora/test/independent_accelerated_consumer_test.rb
+  - dora/test/fixtures/accelerated-project-idea.yaml
+  validation: ruby dora/test/independent_accelerated_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T14:43:35Z'
+  start_fingerprints:
+    dora/test/independent_accelerated_consumer_test.rb: __missing__
+    dora/test/fixtures/accelerated-project-idea.yaml: __missing__
+evidence:
+- task: add-source-analysis-cache
+  command: ruby dora/test/analysis_cache_test.rb
+  ranAt: '2026-08-05T14:41:52Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/analysis-cache.schema.yaml
+  - dora/lib/dora/analysis_cache.rb
+  - dora/test/analysis_cache_test.rb
+  output: "Dora analysis cache test passed (uncached result matches cached result
+    and input changes invalidate it).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/analysis_cache.rb
+  - dora/analysis-cache.schema.yaml
+  - dora/test/analysis_cache_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:41:20Z'
+  changedAfterStart: *1
+- task: add-read-only-finding-export
+  command: ruby dora/test/finding_export_test.rb
+  ranAt: '2026-08-05T14:42:38Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/finding-export.schema.yaml
+  - dora/lib/dora/finding_export.rb
+  - dora/test/finding_export_test.rb
+  output: "Dora finding export test passed (read-only portable annotation snapshot).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/finding_export.rb
+  - dora/finding-export.schema.yaml
+  - dora/test/finding_export_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:42:01Z'
+  changedAfterStart: *2
+- task: add-voice-evaluation-contract
+  command: ruby dora/test/voice_evaluation_test.rb
+  ranAt: '2026-08-05T14:43:24Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/voice_evaluation.rb
+  - dora/test/voice_evaluation_test.rb
+  - dora/voice-evaluation.schema.yaml
+  output: "Dora voice evaluation test passed (credential-free fixture stages with
+    no execution adapter).\n\n"
+  requiredPaths: &3
+  - dora/voice-evaluation.schema.yaml
+  - dora/lib/dora/voice_evaluation.rb
+  - dora/test/voice_evaluation_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:42:43Z'
+  changedAfterStart: *3
+- task: prove-accelerated-consumer
+  command: ruby dora/test/independent_accelerated_consumer_test.rb
+  ranAt: '2026-08-05T14:44:23Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/accelerated-project-idea.yaml
+  - dora/test/independent_accelerated_consumer_test.rb
+  output: "Dora independent accelerated consumer test passed (fresh project uses context,
+    next, status, impact, cache, and closeout without MuffinMan data).\n\n"
+  requiredPaths: &4
+  - dora/test/independent_accelerated_consumer_test.rb
+  - dora/test/fixtures/accelerated-project-idea.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:43:35Z'
+  changedAfterStart: *4

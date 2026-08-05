@@ -1,0 +1,17 @@
+kind: dora_agent_feedback_projects
+version: 1
+projects:
+  - id: shared-notes
+    product: Shared notes
+    user_problem: A group needs visible decisions.
+    task_id: write-note
+    required_path: docs/note.md
+    documentation: docs/note.md
+    decision: NOTE-1
+  - id: appointment-booking
+    product: Appointment booking
+    user_problem: A business needs bookable time slots.
+    task_id: write-booking
+    required_path: docs/booking.md
+    documentation: docs/booking.md
+    decision: BOOKING-1

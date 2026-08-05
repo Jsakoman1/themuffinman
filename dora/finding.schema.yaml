@@ -1,0 +1,9 @@
+kind: dora_finding_schema
+version: 1
+purpose: Represent diagnostic findings consistently without inferring product acceptance or release status.
+required_fields: [kind, version, id, severity, location, explanation, repair, evidence, diagnostic_boundary]
+severity_values: [info, warning, error]
+invariants:
+  - A finding identifies a declared diagnostic observation, not a product defect by itself.
+  - Location and repair guidance remain explicit and project-owned.
+  - Findings never prove runtime acceptance, completion, or release readiness.

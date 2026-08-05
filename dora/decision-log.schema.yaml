@@ -1,0 +1,9 @@
+kind: dora_decision_log_schema
+version: 1
+purpose: Keep project-owned decisions traceable to declared domain, plan, and evidence references.
+entry_required_fields: [id, decision, status, domain_references, plan_references, evidence_references]
+allowed_statuses: [proposed, accepted, superseded]
+invariants:
+  - Decision ids are stable within one project decision log.
+  - References identify project-owned domain, plan, or evidence artifacts; Dora does not infer their meaning.
+  - A decision log records traceability and does not establish product completion or release approval.

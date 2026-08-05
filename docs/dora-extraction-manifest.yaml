@@ -16,6 +16,13 @@ ownership:
     - dora/bootstrap-source.schema.yaml
     - dora/starter-pack.schema.yaml
     - dora/plugin-report.schema.yaml
+    - dora/agent-context.schema.yaml
+    - dora/analysis-cache.schema.yaml
+    - dora/change-impact.schema.yaml
+    - dora/decision-log.schema.yaml
+    - dora/finding-export.schema.yaml
+    - dora/finding.schema.yaml
+    - dora/voice-evaluation.schema.yaml
     - dora/packs/
     - dora/templates/
     - dora/README.md
@@ -37,6 +44,6 @@ release_gate:
   required_decisions: [remote destination and owner, Dora version and immutable revision, MuffinMan consumption and pinning method, reviewed history-preservation procedure]
   current_state: approved_and_published
 next_release:
-  version: v0.8.0
-  handoff: docs/dora-release-handoff-v08.yaml
-  state: published_unpinned
+  version: v0.9.0
+  handoff: docs/dora-release-handoff-v09.yaml
+  state: awaiting_external_approval

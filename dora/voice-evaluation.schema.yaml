@@ -1,0 +1,10 @@
+kind: dora_voice_evaluation_schema
+version: 1
+purpose: Record non-production fixture outcomes for each voice-capability safety stage without provider credentials or execution adapters.
+required_stage_ids: [transcription, semantic_interpretation, deterministic_validation, review, confirmation, execution]
+allowed_outcomes: [passed, rejected, blocked, skipped]
+forbidden_fields: [api_key, token, secret, credential, execution_adapter, provider]
+invariants:
+  - Stage outcomes are fixture observations, not production runtime evidence.
+  - The execution stage may be skipped; this contract never invokes an adapter.
+  - Credentials and provider-specific configuration are outside Dora evaluation fixtures.

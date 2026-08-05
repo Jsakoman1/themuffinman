@@ -12,6 +12,10 @@ require File.join(ROOT, "lib/dora/project_initializer")
 require File.join(ROOT, "lib/dora/project_bootstrap")
 require File.join(ROOT, "lib/dora/project_doctor")
 require File.join(ROOT, "lib/dora/project_knowledge")
+require File.join(ROOT, "lib/dora/agent_next")
+require File.join(ROOT, "lib/dora/agent_closeout")
+require File.join(ROOT, "lib/dora/project_status")
+require File.join(ROOT, "lib/dora/plugin_discovery")
 require File.join(ROOT, "lib/dora/command_registry")
 require File.join(ROOT, "lib/dora/tool_selection_commands")
 require File.join(ROOT, "lib/dora/discovery_commands")
@@ -112,6 +116,34 @@ def show_project_knowledge(adapter_path)
   root = File.expand_path(adapter.fetch("project").fetch("root"), File.dirname(File.expand_path(adapter_path)))
   puts YAML.dump(Dora::ProjectKnowledge.validate!(root)).sub(/\A---\n/, "")
 rescue ArgumentError, KeyError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_agent_next(adapter_path, inventory_path)
+  adapter = YAML.load_file(adapter_path)
+  root = File.expand_path(adapter.fetch("project").fetch("root"), File.dirname(File.expand_path(adapter_path)))
+  puts YAML.dump(Dora::AgentNext.next!(project_root: root, inventory_path: inventory_path)).sub(/\A---\n/, "")
+rescue ArgumentError, KeyError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_agent_closeout(adapter_path, work_plan, task_id, impact_path, changed_paths)
+  adapter = YAML.load_file(adapter_path)
+  root = File.expand_path(adapter.fetch("project").fetch("root"), File.dirname(File.expand_path(adapter_path)))
+  puts YAML.dump(Dora::AgentCloseout.review!(project_root: root, work_plan: work_plan, task_id: task_id, impact_path: impact_path, changed_paths: changed_paths)).sub(/\A---\n/, "")
+rescue ArgumentError, KeyError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_project_status(adapter_path, inventory_path)
+  puts YAML.dump(Dora::ProjectStatus.report!(adapter_path: adapter_path, inventory_path: inventory_path, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml"))).sub(/\A---\n/, "")
+rescue ArgumentError, KeyError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_plugin_discovery(manifest_path = nil)
+  puts YAML.dump(Dora::PluginDiscovery.catalog!(manifest_path: manifest_path)).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
   fail!(error.message)
 end
 
@@ -259,6 +291,22 @@ when "doctor"
 when "knowledge"
   fail!("usage: dora knowledge <adapter-path>") unless ARGV.length == 1
   show_project_knowledge(ARGV.first)
+when "agent-next"
+  fail!("usage: dora agent-next <adapter-path> <execution-inventory-path>") unless ARGV.length == 2
+  show_agent_next(ARGV[0], ARGV[1])
+when "agent-closeout"
+  adapter_path = ARGV.shift
+  work_plan = ARGV.shift
+  task_id = ARGV.shift
+  impact_path = ARGV.shift
+  fail!("usage: dora agent-closeout <adapter-path> <work-plan-path> <task-id> <change-impact-path> <changed-path>...") unless adapter_path && work_plan && task_id && impact_path && !ARGV.empty?
+  show_agent_closeout(adapter_path, work_plan, task_id, impact_path, ARGV)
+when "status"
+  fail!("usage: dora status <adapter-path> <execution-inventory-path>") unless ARGV.length == 2
+  show_project_status(ARGV[0], ARGV[1])
+when "plugins"
+  fail!("usage: dora plugins [plugin-manifest-path]") unless ARGV.length <= 1
+  show_plugin_discovery(ARGV.first)
 when "tools"
   fail!("usage: dora tools <adapter-path>") unless ARGV.length == 1
   list_tools(ARGV.first)

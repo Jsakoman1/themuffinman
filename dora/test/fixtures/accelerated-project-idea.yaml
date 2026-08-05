@@ -1,0 +1,8 @@
+kind: dora_application_idea
+version: 1
+product: Garden journal
+user_problem: A small gardening group needs a simple shared record of planting decisions.
+primary_user: Garden group member
+first_capability: Record and read one planting note.
+non_goal: Do not build a social network or marketplace.
+open_decision: Who may archive a planting note?

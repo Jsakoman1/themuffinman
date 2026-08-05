@@ -1,0 +1,147 @@
+kind: work
+version: 1
+id: dora-v09-project-experience
+title: Make Dora understandable and usable by a beginner
+status: verified
+baseline: 1738e94
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  atomicity_contract: Setup and status never invent product meaning or completion.
+tasks:
+- id: add-guided-project-intake
+  inventory_item: v09-guided-new
+  type: implementation
+  observable_outcome: Explicit answers produce valid project knowledge without invented
+    rules
+  dependencies:
+  - v09-feedback-proof
+  evidence_boundary:
+  - guided intake fixture
+  paths:
+  - dora/lib/dora/project_intake.rb
+  - dora/templates/project-intake.yaml
+  - dora/test/project_intake_test.rb
+  required_paths:
+  - dora/lib/dora/project_intake.rb
+  - dora/templates/project-intake.yaml
+  - dora/test/project_intake_test.rb
+  validation: ruby dora/test/project_intake_test.rb
+  status: done
+  started_at: '2026-08-05T14:36:35Z'
+  start_fingerprints:
+    dora/lib/dora/project_intake.rb: __missing__
+    dora/templates/project-intake.yaml: __missing__
+    dora/test/project_intake_test.rb: __missing__
+- id: add-project-status-command
+  inventory_item: v09-status
+  type: implementation
+  observable_outcome: One report separates health active work open decisions and evidence
+    gaps
+  dependencies:
+  - v09-guided-new
+  evidence_boundary:
+  - status fixture
+  paths:
+  - dora/lib/dora/project_status.rb
+  - dora/bin/dora
+  - dora/test/project_status_test.rb
+  required_paths:
+  - dora/lib/dora/project_status.rb
+  - dora/bin/dora
+  - dora/test/project_status_test.rb
+  validation: ruby dora/test/project_status_test.rb
+  status: done
+  started_at: '2026-08-05T14:37:40Z'
+  start_fingerprints:
+    dora/lib/dora/project_status.rb: __missing__
+    dora/bin/dora: 710a7b3e4eab63857452776f4303a3a26783d2485093736dc480b3174450d54e
+    dora/test/project_status_test.rb: __missing__
+- id: add-plugin-discovery
+  inventory_item: v09-plugin-discovery
+  type: implementation
+  observable_outcome: Built-ins and declared inputs are discoverable without source
+    inspection
+  dependencies:
+  - v09-status
+  evidence_boundary:
+  - plugin discovery fixture
+  paths:
+  - dora/lib/dora/plugin_discovery.rb
+  - dora/bin/dora
+  - dora/test/plugin_discovery_test.rb
+  required_paths:
+  - dora/lib/dora/plugin_discovery.rb
+  - dora/bin/dora
+  - dora/test/plugin_discovery_test.rb
+  validation: ruby dora/test/plugin_discovery_test.rb
+  status: done
+  started_at: '2026-08-05T14:38:31Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_discovery.rb: __missing__
+    dora/bin/dora: 8d1908e50ac746f4cf355d1263be831f0f37cdefd045fc732d7f81e564e4e8e2
+    dora/test/plugin_discovery_test.rb: __missing__
+evidence:
+- task: add-guided-project-intake
+  command: ruby dora/test/project_intake_test.rb
+  ranAt: '2026-08-05T14:37:29Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_intake.rb
+  - dora/templates/project-intake.yaml
+  - dora/test/project_intake_test.rb
+  output: "Dora project intake test passed (explicit valid knowledge with no inferred
+    product rules).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/project_intake.rb
+  - dora/templates/project-intake.yaml
+  - dora/test/project_intake_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:36:35Z'
+  changedAfterStart: *1
+- task: add-project-status-command
+  command: ruby dora/test/project_status_test.rb
+  ranAt: '2026-08-05T14:38:25Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/project_status.rb
+  - dora/test/project_status_test.rb
+  output: "Dora project status test passed (health, work, decisions, and evidence
+    gaps stay separate).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/project_status.rb
+  - dora/bin/dora
+  - dora/test/project_status_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:37:40Z'
+  changedAfterStart: *2
+- task: add-plugin-discovery
+  command: ruby dora/test/plugin_discovery_test.rb
+  ranAt: '2026-08-05T14:39:07Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/plugin_discovery.rb
+  - dora/test/plugin_discovery_test.rb
+  output: "Dora plugin discovery test passed (built-ins and declared plugin inputs
+    are inspectable).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/plugin_discovery.rb
+  - dora/bin/dora
+  - dora/test/plugin_discovery_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:38:31Z'
+  changedAfterStart: *3

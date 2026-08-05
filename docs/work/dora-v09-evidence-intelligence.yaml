@@ -1,0 +1,147 @@
+kind: work
+version: 1
+id: dora-v09-evidence-intelligence
+title: Standardize findings and traceability
+status: verified
+baseline: 1738e94
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  atomicity_contract: Diagnostics tests runtime observations and product authority
+    remain distinct.
+tasks:
+- id: standardize-finding-envelope
+  inventory_item: v09-findings
+  type: implementation
+  observable_outcome: Every built-in report can emit a portable severity location
+    explanation and repair envelope
+  dependencies:
+  - v09-plugin-discovery
+  evidence_boundary:
+  - finding compatibility fixture
+  paths:
+  - dora/finding.schema.yaml
+  - dora/lib/dora/finding.rb
+  - dora/test/finding_test.rb
+  required_paths:
+  - dora/finding.schema.yaml
+  - dora/lib/dora/finding.rb
+  - dora/test/finding_test.rb
+  validation: ruby dora/test/finding_test.rb
+  status: done
+  started_at: '2026-08-05T14:39:30Z'
+  start_fingerprints:
+    dora/finding.schema.yaml: __missing__
+    dora/lib/dora/finding.rb: __missing__
+    dora/test/finding_test.rb: __missing__
+- id: add-change-impact-contract
+  inventory_item: v09-impact
+  type: implementation
+  observable_outcome: Projects declare path-to-validation documentation evidence and
+    decision impact
+  dependencies:
+  - v09-findings
+  evidence_boundary:
+  - two-project impact fixture
+  paths:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_impact.rb
+  - dora/test/change_impact_test.rb
+  required_paths:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_impact.rb
+  - dora/test/change_impact_test.rb
+  validation: ruby dora/test/change_impact_test.rb
+  status: done
+  started_at: '2026-08-05T14:40:01Z'
+  start_fingerprints:
+    dora/change-impact.schema.yaml: 136860efc542722ad4b4319dbd85797cce5dd7a3a98d21ee87db4468f52c30f6
+    dora/lib/dora/change_impact.rb: __missing__
+    dora/test/change_impact_test.rb: __missing__
+- id: add-decision-traceability
+  inventory_item: v09-decisions
+  type: implementation
+  observable_outcome: Stable decisions link declared domain plan and evidence references
+  dependencies:
+  - v09-impact
+  evidence_boundary:
+  - decision traceability fixture
+  paths:
+  - dora/decision-log.schema.yaml
+  - dora/lib/dora/decision_log.rb
+  - dora/test/decision_log_test.rb
+  required_paths:
+  - dora/decision-log.schema.yaml
+  - dora/lib/dora/decision_log.rb
+  - dora/test/decision_log_test.rb
+  validation: ruby dora/test/decision_log_test.rb
+  status: done
+  started_at: '2026-08-05T14:40:39Z'
+  start_fingerprints:
+    dora/decision-log.schema.yaml: __missing__
+    dora/lib/dora/decision_log.rb: __missing__
+    dora/test/decision_log_test.rb: __missing__
+evidence:
+- task: standardize-finding-envelope
+  command: ruby dora/test/finding_test.rb
+  ranAt: '2026-08-05T14:39:55Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/finding.schema.yaml
+  - dora/lib/dora/finding.rb
+  - dora/test/finding_test.rb
+  output: "Dora finding test passed (portable severity, location, explanation, repair,
+    and evidence envelope).\n\n"
+  requiredPaths: &1
+  - dora/finding.schema.yaml
+  - dora/lib/dora/finding.rb
+  - dora/test/finding_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:39:30Z'
+  changedAfterStart: *1
+- task: add-change-impact-contract
+  command: ruby dora/test/change_impact_test.rb
+  ranAt: '2026-08-05T14:40:32Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_impact.rb
+  - dora/test/change_impact_test.rb
+  output: "Dora change impact test passed (two projects retain their own declared
+    validation, evidence, documentation, and decisions).\n\n"
+  requiredPaths: &2
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_impact.rb
+  - dora/test/change_impact_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:40:01Z'
+  changedAfterStart: *2
+- task: add-decision-traceability
+  command: ruby dora/test/decision_log_test.rb
+  ranAt: '2026-08-05T14:41:14Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/decision-log.schema.yaml
+  - dora/lib/dora/decision_log.rb
+  - dora/test/decision_log_test.rb
+  output: "Dora decision log test passed (stable decisions link declared domain, plan,
+    and evidence references).\n\n"
+  requiredPaths: &3
+  - dora/decision-log.schema.yaml
+  - dora/lib/dora/decision_log.rb
+  - dora/test/decision_log_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:40:39Z'
+  changedAfterStart: *3

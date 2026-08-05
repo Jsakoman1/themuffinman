@@ -1,0 +1,86 @@
+kind: work
+version: 1
+id: dora-v09-atomic-hardening
+title: Harden Dora v0.9 into exact serial work
+status: verified
+baseline: 1738e94
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  atomicity_contract: No implementation begins before exact paths dependencies validations
+    and boundaries are proven.
+tasks:
+- id: harden-v09-program
+  inventory_item: v09-harden
+  type: docs-only
+  title: Harden v0.9 atomic inventory
+  observable_outcome: Every v0.9 task has exact paths, one leaf validation, direct
+    serial dependency, and an explicit Dora-versus-product boundary.
+  dependencies: []
+  evidence_boundary:
+  - atomic hardening audit
+  paths:
+  - docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+  - docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  - docs/work/dora-v09-atomic-hardening.yaml
+  - docs/work/dora-v09-agent-feedback-loop.yaml
+  - docs/work/dora-v09-project-experience.yaml
+  - docs/work/dora-v09-evidence-intelligence.yaml
+  - docs/work/dora-v09-performance-and-extensions.yaml
+  - docs/work/dora-v09-release.yaml
+  required_paths:
+  - docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+  - docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  - docs/work/dora-v09-atomic-hardening.yaml
+  - docs/work/dora-v09-agent-feedback-loop.yaml
+  - docs/work/dora-v09-project-experience.yaml
+  - docs/work/dora-v09-evidence-intelligence.yaml
+  - docs/work/dora-v09-performance-and-extensions.yaml
+  - docs/work/dora-v09-release.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+    docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-05T14:29:46Z'
+  start_fingerprints:
+    docs/work/dora-v09-codex-delivery-acceleration-master.yaml: 451e8a7e4f6f5d0d3e1b4f56fbf52e155816a223ed63ec1387b991ad99fa5e48
+    docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml: b9ed91222d776f2607acc4c6efbe35f1555aafcc6bf8c50be3b3ddb2d2487457
+    docs/work/dora-v09-atomic-hardening.yaml: 2154402bdfbdf82c94563930f60f946cc5de990d90b8e81f28912925f2572830
+    docs/work/dora-v09-agent-feedback-loop.yaml: c116142e10272868e2860831d4b059617da228948a3b79fddc477aa8bfd28acb
+    docs/work/dora-v09-project-experience.yaml: 7cf07471aa284794427226252cd2d631b156db98e1912611b2fa229d313c61ec
+    docs/work/dora-v09-evidence-intelligence.yaml: a907b1c63fa70a8b4bc9933a9a55d197d70e9586295d7c5e16d73136292bdeb0
+    docs/work/dora-v09-performance-and-extensions.yaml: da2a0f29dbb9936e18edadabfd5bb395c174f4aca8c6e2b556093f34490829f3
+    docs/work/dora-v09-release.yaml: aec976d3e102c5f4a331fbd61a1be475bbc85539dedabeca9859f95ac70ade9e
+evidence:
+- task: harden-v09-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+    docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  ranAt: '2026-08-05T14:30:47Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v09-agent-feedback-loop.yaml
+  - docs/work/dora-v09-atomic-hardening.yaml
+  - docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  - docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+  - docs/work/dora-v09-evidence-intelligence.yaml
+  - docs/work/dora-v09-performance-and-extensions.yaml
+  - docs/work/dora-v09-project-experience.yaml
+  - docs/work/dora-v09-release.yaml
+  output: "Atomic task hardening audit passed (18 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+  - docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  - docs/work/dora-v09-atomic-hardening.yaml
+  - docs/work/dora-v09-agent-feedback-loop.yaml
+  - docs/work/dora-v09-project-experience.yaml
+  - docs/work/dora-v09-evidence-intelligence.yaml
+  - docs/work/dora-v09-performance-and-extensions.yaml
+  - docs/work/dora-v09-release.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:29:46Z'
+  changedAfterStart: *1

@@ -1,0 +1,18 @@
+kind: dora_project_intake_template
+version: 1
+purpose: Capture explicit product, domain, and agent-operating answers before implementation.
+required_answer_groups:
+  - product_brief
+  - domain_library
+  - agent_profile
+rules:
+  - Supply every required field from the linked Dora knowledge schemas.
+  - Keep uncertainties as unanswered decisions; do not turn them into inferred rules.
+  - Describe permissions, workflow transitions, and acceptance scenarios explicitly.
+  - Declare project commands and authority limits explicitly.
+output:
+  kind: dora_project_knowledge
+  files:
+    product_brief: docs/product-brief.yaml
+    domain_library: docs/domain-library.yaml
+    agent_profile: .dora/agent-project-profile.yaml

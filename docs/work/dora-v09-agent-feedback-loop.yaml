@@ -1,0 +1,226 @@
+kind: work
+version: 1
+id: dora-v09-agent-feedback-loop
+title: Give Codex bounded context and deterministic daily-work guidance
+status: verified
+baseline: 1738e94
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+master_plan: docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  atomicity_contract: Each command adds one deterministic behavior and independent
+    fixture.
+tasks:
+- id: add-task-context-pack
+  inventory_item: v09-context
+  type: implementation
+  observable_outcome: A declared task yields a bounded cited context pack
+  dependencies:
+  - v09-harden
+  evidence_boundary:
+  - two-project context fixture
+  paths:
+  - dora/lib/dora/agent_context.rb
+  - dora/agent-context.schema.yaml
+  - dora/test/agent_context_test.rb
+  required_paths:
+  - dora/lib/dora/agent_context.rb
+  - dora/agent-context.schema.yaml
+  - dora/test/agent_context_test.rb
+  validation: ruby dora/test/agent_context_test.rb
+  status: done
+  started_at: '2026-08-05T14:30:53Z'
+  start_fingerprints:
+    dora/lib/dora/agent_context.rb: __missing__
+    dora/agent-context.schema.yaml: __missing__
+    dora/test/agent_context_test.rb: __missing__
+- id: add-agent-next-command
+  inventory_item: v09-next
+  type: implementation
+  observable_outcome: Dora reports the first eligible declared action or exact blocker
+  dependencies:
+  - v09-context
+  evidence_boundary:
+  - agent-next fixture
+  paths:
+  - dora/lib/dora/agent_next.rb
+  - dora/bin/dora
+  - dora/test/agent_next_test.rb
+  required_paths:
+  - dora/lib/dora/agent_next.rb
+  - dora/bin/dora
+  - dora/test/agent_next_test.rb
+  validation: ruby dora/test/agent_next_test.rb
+  status: done
+  started_at: '2026-08-05T14:31:49Z'
+  start_fingerprints:
+    dora/lib/dora/agent_next.rb: __missing__
+    dora/bin/dora: 14ffe13490a5dc0dd8d0bc65dfb7e1732952da927840594f6343a5fc635878ec
+    dora/test/agent_next_test.rb: __missing__
+- id: add-change-check-contract
+  inventory_item: v09-change-check
+  type: implementation
+  observable_outcome: Changed paths map to declared validation and documentation obligations
+  dependencies:
+  - v09-next
+  evidence_boundary:
+  - change-check fixture
+  paths:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_check.rb
+  - dora/test/change_check_test.rb
+  required_paths:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_check.rb
+  - dora/test/change_check_test.rb
+  validation: ruby dora/test/change_check_test.rb
+  status: done
+  started_at: '2026-08-05T14:32:38Z'
+  start_fingerprints:
+    dora/change-impact.schema.yaml: __missing__
+    dora/lib/dora/change_check.rb: __missing__
+    dora/test/change_check_test.rb: __missing__
+- id: add-closeout-guidance
+  inventory_item: v09-closeout
+  type: implementation
+  observable_outcome: Dora reports closeout gaps without status mutation
+  dependencies:
+  - v09-change-check
+  evidence_boundary:
+  - read-only closeout fixture
+  paths:
+  - dora/lib/dora/agent_closeout.rb
+  - dora/bin/dora
+  - dora/test/agent_closeout_test.rb
+  required_paths:
+  - dora/lib/dora/agent_closeout.rb
+  - dora/bin/dora
+  - dora/test/agent_closeout_test.rb
+  validation: ruby dora/test/agent_closeout_test.rb
+  status: done
+  started_at: '2026-08-05T14:34:44Z'
+  start_fingerprints:
+    dora/lib/dora/agent_closeout.rb: __missing__
+    dora/bin/dora: 7c4d25ea93a3a709b8fddf62ab05fa894082e922610ef60756658a728d74a1fa
+    dora/test/agent_closeout_test.rb: __missing__
+- id: prove-feedback-loop-consumer
+  inventory_item: v09-feedback-proof
+  type: implementation
+  observable_outcome: Two independent projects receive different bounded agent guidance
+  dependencies:
+  - v09-closeout
+  evidence_boundary:
+  - independent feedback consumer
+  paths:
+  - dora/test/independent_agent_feedback_consumer_test.rb
+  - dora/test/fixtures/agent-feedback-project.yaml
+  required_paths:
+  - dora/test/independent_agent_feedback_consumer_test.rb
+  - dora/test/fixtures/agent-feedback-project.yaml
+  validation: ruby dora/test/independent_agent_feedback_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T14:35:45Z'
+  start_fingerprints:
+    dora/test/independent_agent_feedback_consumer_test.rb: __missing__
+    dora/test/fixtures/agent-feedback-project.yaml: __missing__
+evidence:
+- task: add-task-context-pack
+  command: ruby dora/test/agent_context_test.rb
+  ranAt: '2026-08-05T14:31:31Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/agent-context.schema.yaml
+  - dora/lib/dora/agent_context.rb
+  - dora/test/agent_context_test.rb
+  output: "Dora agent context test passed (bounded selected task and declared cited
+    knowledge only).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/agent_context.rb
+  - dora/agent-context.schema.yaml
+  - dora/test/agent_context_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:30:53Z'
+  changedAfterStart: *1
+- task: add-agent-next-command
+  command: ruby dora/test/agent_next_test.rb
+  ranAt: '2026-08-05T14:32:26Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/agent_next.rb
+  - dora/test/agent_next_test.rb
+  output: "Dora agent-next test passed (first eligible item or the sole declared active
+    item).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/agent_next.rb
+  - dora/bin/dora
+  - dora/test/agent_next_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:31:49Z'
+  changedAfterStart: *2
+- task: add-change-check-contract
+  command: ruby dora/test/change_check_test.rb
+  ranAt: '2026-08-05T14:34:38Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_check.rb
+  - dora/test/change_check_test.rb
+  output: "Dora change-check test passed (declared validation, documentation, evidence,
+    decision, and unmatched-path guidance).\n\n"
+  requiredPaths: &3
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_check.rb
+  - dora/test/change_check_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:32:38Z'
+  changedAfterStart: *3
+- task: add-closeout-guidance
+  command: ruby dora/test/agent_closeout_test.rb
+  ranAt: '2026-08-05T14:35:39Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/agent_closeout.rb
+  - dora/test/agent_closeout_test.rb
+  output: "Dora agent closeout test passed (read-only gaps and declared follow-up
+    only).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/agent_closeout.rb
+  - dora/bin/dora
+  - dora/test/agent_closeout_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:34:44Z'
+  changedAfterStart: *4
+- task: prove-feedback-loop-consumer
+  command: ruby dora/test/independent_agent_feedback_consumer_test.rb
+  ranAt: '2026-08-05T14:36:25Z'
+  revision: 1738e94ef07a1ebc39968027515fd64e973f9cb0
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/agent-feedback-project.yaml
+  - dora/test/independent_agent_feedback_consumer_test.rb
+  output: "Dora independent agent feedback consumer test passed (two projects receive
+    bounded, declared, different guidance).\n\n"
+  requiredPaths: &5
+  - dora/test/independent_agent_feedback_consumer_test.rb
+  - dora/test/fixtures/agent-feedback-project.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T14:35:45Z'
+  changedAfterStart: *5
