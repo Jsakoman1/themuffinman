@@ -10,3 +10,6 @@
 # Disposable local audit outputs. Stable generated snapshots under docs/generated
 # remain tracked when they are contract, documentation, or audit source material.
 docs/audit-output/
+
+# Dora analysis cache is a local, reproducible acceleration artifact.
+.dora/cache/

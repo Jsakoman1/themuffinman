@@ -43,6 +43,15 @@ ownership = manifest.fetch("ownership", {})
 dora_owned = Array(ownership["dora_owned"])
 failures << "Dora ownership list is empty" if dora_owned.empty?
 dora_owned.each { |path| failures << "Dora-owned path is missing: #{path}" unless File.exist?(File.join(ROOT, path)) }
+if expected_version == "v1.0.0"
+  %w[
+    dora/project-new.schema.yaml
+    dora/project-memory.schema.yaml
+    dora/lib/dora/project_new.rb
+    dora/lib/dora/project_memory.rb
+    dora/lib/dora/project_upgrade.rb
+  ].each { |path| failures << "Dora v1.0 release artifact is missing: #{path}" unless File.file?(File.join(ROOT, path)) }
+end
 retained = Array(ownership["muffinman_retained_prefixes"])
 operational = Array(ownership["repository_operational_prefixes"])
 unclassified = repository_paths.reject do |path|

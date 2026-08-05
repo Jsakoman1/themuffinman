@@ -2,7 +2,7 @@ kind: work
 version: 1
 id: dora-v10-release
 title: Publish and pin Dora v1.0 only with approval
-status: active
+status: verified
 baseline: d941c20f7fc274d1773703954dd9c5f23b0749ef
 strict_verification: true
 serial_task_execution: true
@@ -35,7 +35,7 @@ tasks:
   - scripts/audits/audit-dora-extraction-manifest.rb
   validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
     --handoff docs/dora-release-handoff-v10.yaml --expected-version v1.0.0
-  status: in_progress
+  status: done
   started_at: '2026-08-05T15:43:26Z'
   start_fingerprints:
     docs/dora-release-handoff-v10.yaml: __missing__
@@ -60,3 +60,51 @@ tasks:
   - docs/dora-release-handoff-v10.yaml
   - scripts/audits/audit-dora-muffinman-compatibility.rb
   validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  status: done
+  started_at: '2026-08-05T15:46:27Z'
+  start_fingerprints:
+    ".dora/project.yaml": 1363e9a4b0be4616f713b3ee446f599cab5def04b59464a0cc501315b6b82bde
+    docs/dora-release-handoff-v10.yaml: 9f2e9aeeb9b277261300494279a8b0295885d3881e510e157086d74b22f1e99d
+    scripts/audits/audit-dora-muffinman-compatibility.rb: 3c82bbb1067f7625e8232091ea15337f74193b1ad3ea4a5c42a06574ea29e10e
+evidence:
+- task: publish-dora-v10
+  command: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v10.yaml --expected-version v1.0.0
+  ranAt: '2026-08-05T15:46:19Z'
+  revision: 894f116af9ca23fc7b000a645adf591fd656208c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-extraction-manifest.yaml
+  - docs/dora-release-handoff-v10.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  output: "Dora extraction manifest audit passed (2585 classified repository paths;
+    released).\n\n"
+  requiredPaths: &1
+  - docs/dora-release-handoff-v10.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:43:26Z'
+  changedAfterStart: *1
+- task: pin-muffinman-v10
+  command: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  ranAt: '2026-08-05T15:46:44Z'
+  revision: 894f116af9ca23fc7b000a645adf591fd656208c
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v10.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  output: "Dora/MuffinMan compatibility audit passed (work-start, work-verify delegate
+    through Dora with a standalone fixture trace).\n\n"
+  requiredPaths: &2
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v10.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:46:27Z'
+  changedAfterStart: *2
