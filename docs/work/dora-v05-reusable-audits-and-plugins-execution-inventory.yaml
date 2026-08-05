@@ -182,11 +182,22 @@ items:
   order: 15
   plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
   task: publish-dora-v05-release
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T12:06:41Z'
+  verified_at: '2026-08-05T12:09:16Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+    task: publish-dora-v05-release
+    revision: 879d45599ab7082a5776be46f0be63ff5c556487
 - id: muffinman-v05-pin
   sequence: 16
   order: 16
   plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
   task: pin-muffinman-to-dora-v05
-  status: pending
+  status: verified
+  started_at: '2026-08-05T12:09:20Z'
+  verified_at: '2026-08-05T12:09:41Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+    task: pin-muffinman-to-dora-v05
+    revision: 879d45599ab7082a5776be46f0be63ff5c556487

@@ -1,27 +1,29 @@
 kind: dora_release_handoff
 version: 1
-status: awaiting_external_approval
+status: published
 release:
   repository: https://github.com/Jsakoman1/dora.git
   visibility: private
   default_branch: main
   version: v0.5.0
-  immutable_commit: pending_external_release
+  immutable_commit: 4c9271cbe4d6798ea4124d85896129b0e51941e1
   source_parent_commit: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
 consumption:
   project: muffinman
   method: git_subtree
   subtree_prefix: dora
-  status: release_published_unpinned
+  status: pinned
+  pinned_ref: v0.5.0
+  pinned_commit: 4c9271cbe4d6798ea4124d85896129b0e51941e1
   local_adapter: .dora/project.yaml
-  update_rule: After the immutable v0.5.0 tag is published, MuffinMan records that exact commit in a separate reversible subtree pin update.
+  update_rule: MuffinMan is pinned to the immutable v0.5.0 tag commit; later upgrades require a new reviewed handoff and reversible pin update.
 preservation:
   - MuffinMan retains product code, product documentation, work plans, runtime evidence, and its adapter.
   - Dora v0.5 exports only dora package paths and never rewrites MuffinMan product history.
   - The release tag resolves before MuffinMan is pinned.
 rollback:
-  - Do not change the MuffinMan adapter until the v0.5.0 tag resolves remotely.
-  - Revert the later v0.5.0 adapter pin to return to v0.4.0 if required.
+  - The v0.5.0 tag resolves remotely before MuffinMan is pinned.
+  - Revert the v0.5.0 adapter pin to return to the recorded v0.4.0 pin if required.
 verification:
   - ruby scripts/audits/audit-dora-extraction-manifest.rb --check-handoff-draft --handoff docs/dora-release-handoff-v05.yaml --expected-version v0.5.0
   - After approval: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release --handoff docs/dora-release-handoff-v05.yaml --expected-version v0.5.0

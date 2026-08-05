@@ -2,7 +2,7 @@ kind: work
 version: 1
 id: dora-v05-reusable-audits-and-plugins-03-adoption-and-release
 title: Prove Dora v0.5 adoption and publish a reversible release
-status: active
+status: verified
 baseline: 8349ce4
 strict_verification: true
 serial_task_execution: true
@@ -82,7 +82,7 @@ tasks:
 - id: publish-dora-v05-release
   title: Publish immutable Dora v0.5 release
   type: implementation
-  status: in_progress
+  status: done
   inventory_item: dora-v05-release
   observable_outcome: The reviewed Dora v0.5 package is exported to the private Dora
     repository as an immutable tag without MuffinMan product paths.
@@ -109,7 +109,7 @@ tasks:
 - id: pin-muffinman-to-dora-v05
   title: Pin MuffinMan to reviewed Dora v0.5
   type: implementation
-  status: pending
+  status: done
   inventory_item: muffinman-v05-pin
   observable_outcome: MuffinMan records the reviewed Dora v0.5 tag commit in a separate
     reversible adapter pin.
@@ -126,6 +126,11 @@ tasks:
   - docs/dora-release-handoff-v05.yaml
   - scripts/audits/audit-dora-muffinman-compatibility.rb
   validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  started_at: '2026-08-05T12:09:20Z'
+  start_fingerprints:
+    ".dora/project.yaml": '021858265d697ba11b1c4c320ba0fb4d6cfe5a2a4fa358a625d13a844ea8e537'
+    docs/dora-release-handoff-v05.yaml: 044aeebd05531e2584ade2c2065ff7d0849bacc6c6f92a7c8391ff34712895bd
+    scripts/audits/audit-dora-muffinman-compatibility.rb: c622153c29ce6d02e5c495a2df3d51cccca6d2e3ed06df4a65714a8ac06c5052
 evidence:
 - task: prove-generic-governance-consumer-adoption
   command: ruby dora/test/independent_governance_consumer_test.rb
@@ -162,3 +167,44 @@ evidence:
   runtimeEvidencePaths: []
   startedAt: '2026-08-05T12:05:26Z'
   changedAfterStart: *2
+- task: publish-dora-v05-release
+  command: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v05.yaml --expected-version v0.5.0
+  ranAt: '2026-08-05T12:09:15Z'
+  revision: 879d45599ab7082a5776be46f0be63ff5c556487
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-extraction-manifest.yaml
+  - docs/dora-release-handoff-v05.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  output: "Dora extraction manifest audit passed (2364 classified repository paths;
+    released).\n\n"
+  requiredPaths: &3
+  - docs/dora-release-handoff-v05.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:06:41Z'
+  changedAfterStart: *3
+- task: pin-muffinman-to-dora-v05
+  command: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  ranAt: '2026-08-05T12:09:40Z'
+  revision: 879d45599ab7082a5776be46f0be63ff5c556487
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v05.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  output: "Dora/MuffinMan compatibility audit passed (work-start, work-verify delegate
+    through Dora with a standalone fixture trace).\n\n"
+  requiredPaths: &4
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v05.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:09:20Z'
+  changedAfterStart: *4
