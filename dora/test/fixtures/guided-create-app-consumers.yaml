@@ -1,0 +1,21 @@
+kind: dora_guided_create_app_consumers
+version: 1
+consumers:
+  - id: garden-journal
+    users: [member]
+    problem: Garden notes are lost.
+    capability: Record a garden note
+    concepts: [garden-note]
+    permission: A member records a note in their own garden.
+    workflow: A draft garden note becomes recorded.
+    forbidden: [No public garden notes.]
+    decision: How long are garden notes retained?
+  - id: volunteer-roster
+    users: [coordinator]
+    problem: Volunteer availability is scattered.
+    capability: Record volunteer availability
+    concepts: [availability]
+    permission: A coordinator records availability for their assigned team.
+    workflow: Submitted availability becomes reviewed.
+    forbidden: [No public volunteer schedules.]
+    decision: Who may view reviewed availability?

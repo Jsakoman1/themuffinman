@@ -1,0 +1,262 @@
+kind: execution_inventory
+version: 1
+id: dora-v12-idea-to-verified-capability-execution-inventory
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+status: draft
+planning_audit: atomic_hardening_passed_pending_work_verifier
+hardening_contract:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v12-idea-to-verified-capability-master.yaml
+    docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  mapping: Every item maps once to one exact atomic task; only one global item may
+    run.
+  dependency: Every item directly depends on the immediately preceding inventory item;
+    no parallel execution path exists.
+  ownership: Dora owns neutral delivery mechanics; consumers own product meaning,
+    runtime authority, source approval, and external side effects.
+  path_coverage: Every item has one declared implementation boundary and one matching
+    child task.
+  execution_gate: The first item must be verifier-marked verified before implementation
+    starts.
+items:
+- id: v12-harden
+  order: 1
+  plan: docs/work/dora-v12-atomic-hardening.yaml
+  task: harden-v12-program
+  status: verified
+  started_at: '2026-08-05T17:05:09Z'
+  verified_at: '2026-08-05T17:05:28Z'
+  evidence:
+    plan: docs/work/dora-v12-atomic-hardening.yaml
+    task: harden-v12-program
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-interview-contract
+  order: 2
+  plan: docs/work/dora-v12-guided-intake.yaml
+  task: define-idea-interview-contract
+  status: verified
+  started_at: '2026-08-05T17:05:34Z'
+  verified_at: '2026-08-05T17:06:14Z'
+  evidence:
+    plan: docs/work/dora-v12-guided-intake.yaml
+    task: define-idea-interview-contract
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-create-bundle-contract
+  order: 3
+  plan: docs/work/dora-v12-guided-intake.yaml
+  task: define-create-app-bundle
+  status: verified
+  started_at: '2026-08-05T17:06:26Z'
+  verified_at: '2026-08-05T17:07:11Z'
+  evidence:
+    plan: docs/work/dora-v12-guided-intake.yaml
+    task: define-create-app-bundle
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-create-app-command
+  order: 4
+  plan: docs/work/dora-v12-guided-intake.yaml
+  task: expose-create-app-command
+  status: verified
+  started_at: '2026-08-05T17:07:22Z'
+  verified_at: '2026-08-05T17:11:59Z'
+  evidence:
+    plan: docs/work/dora-v12-guided-intake.yaml
+    task: expose-create-app-command
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-create-app-consumer
+  order: 5
+  plan: docs/work/dora-v12-guided-intake.yaml
+  task: prove-guided-create-app-consumers
+  status: verified
+  started_at: '2026-08-05T17:12:04Z'
+  verified_at: '2026-08-05T17:12:47Z'
+  evidence:
+    plan: docs/work/dora-v12-guided-intake.yaml
+    task: prove-guided-create-app-consumers
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-capability-contract
+  order: 6
+  plan: docs/work/dora-v12-capability-readiness.yaml
+  task: define-capability-package-contract
+  status: verified
+  started_at: '2026-08-05T17:12:52Z'
+  verified_at: '2026-08-05T17:13:58Z'
+  evidence:
+    plan: docs/work/dora-v12-capability-readiness.yaml
+    task: define-capability-package-contract
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-domain-compiler
+  order: 7
+  plan: docs/work/dora-v12-capability-readiness.yaml
+  task: add-domain-contradiction-compiler
+  status: verified
+  started_at: '2026-08-05T17:14:15Z'
+  verified_at: '2026-08-05T17:15:06Z'
+  evidence:
+    plan: docs/work/dora-v12-capability-readiness.yaml
+    task: add-domain-contradiction-compiler
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-readiness-contract
+  order: 8
+  plan: docs/work/dora-v12-capability-readiness.yaml
+  task: add-capability-readiness-report
+  status: verified
+  started_at: '2026-08-05T17:15:12Z'
+  verified_at: '2026-08-05T17:15:44Z'
+  evidence:
+    plan: docs/work/dora-v12-capability-readiness.yaml
+    task: add-capability-readiness-report
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-readiness-consumer
+  order: 9
+  plan: docs/work/dora-v12-capability-readiness.yaml
+  task: prove-capability-readiness-consumers
+  status: verified
+  started_at: '2026-08-05T17:15:47Z'
+  verified_at: '2026-08-05T17:16:11Z'
+  evidence:
+    plan: docs/work/dora-v12-capability-readiness.yaml
+    task: prove-capability-readiness-consumers
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-codex-integrate
+  order: 10
+  plan: docs/work/dora-v12-codex-experience.yaml
+  task: expose-codex-integration-command
+  status: verified
+  started_at: '2026-08-05T17:16:17Z'
+  verified_at: '2026-08-05T17:16:38Z'
+  evidence:
+    plan: docs/work/dora-v12-codex-experience.yaml
+    task: expose-codex-integration-command
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-explain-contract
+  order: 11
+  plan: docs/work/dora-v12-codex-experience.yaml
+  task: add-explain-contract
+  status: verified
+  started_at: '2026-08-05T17:16:44Z'
+  verified_at: '2026-08-05T17:17:18Z'
+  evidence:
+    plan: docs/work/dora-v12-codex-experience.yaml
+    task: add-explain-contract
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-next-diagnose
+  order: 12
+  plan: docs/work/dora-v12-codex-experience.yaml
+  task: expose-next-and-diagnose-commands
+  status: verified
+  started_at: '2026-08-05T17:18:13Z'
+  verified_at: '2026-08-05T17:18:37Z'
+  evidence:
+    plan: docs/work/dora-v12-codex-experience.yaml
+    task: expose-next-and-diagnose-commands
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-codex-experience-consumer
+  order: 13
+  plan: docs/work/dora-v12-codex-experience.yaml
+  task: prove-codex-experience-consumers
+  status: verified
+  started_at: '2026-08-05T17:18:44Z'
+  verified_at: '2026-08-05T17:19:05Z'
+  evidence:
+    plan: docs/work/dora-v12-codex-experience.yaml
+    task: prove-codex-experience-consumers
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-stack-catalog
+  order: 14
+  plan: docs/work/dora-v12-neutral-stack-and-plugin.yaml
+  task: define-neutral-stack-catalog
+  status: verified
+  started_at: '2026-08-05T17:19:14Z'
+  verified_at: '2026-08-05T17:19:47Z'
+  evidence:
+    plan: docs/work/dora-v12-neutral-stack-and-plugin.yaml
+    task: define-neutral-stack-catalog
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-starter-selection
+  order: 15
+  plan: docs/work/dora-v12-neutral-stack-and-plugin.yaml
+  task: add-neutral-starter-selection
+  status: verified
+  started_at: '2026-08-05T17:19:59Z'
+  verified_at: '2026-08-05T17:20:39Z'
+  evidence:
+    plan: docs/work/dora-v12-neutral-stack-and-plugin.yaml
+    task: add-neutral-starter-selection
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-plugin-read-boundary
+  order: 16
+  plan: docs/work/dora-v12-neutral-stack-and-plugin.yaml
+  task: add-plugin-read-boundary-report
+  status: verified
+  started_at: '2026-08-05T17:21:02Z'
+  verified_at: '2026-08-05T17:21:50Z'
+  evidence:
+    plan: docs/work/dora-v12-neutral-stack-and-plugin.yaml
+    task: add-plugin-read-boundary-report
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-stack-plugin-consumer
+  order: 17
+  plan: docs/work/dora-v12-neutral-stack-and-plugin.yaml
+  task: prove-neutral-stack-consumers
+  status: verified
+  started_at: '2026-08-05T17:21:54Z'
+  verified_at: '2026-08-05T17:22:21Z'
+  evidence:
+    plan: docs/work/dora-v12-neutral-stack-and-plugin.yaml
+    task: prove-neutral-stack-consumers
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-revision-trace
+  order: 18
+  plan: docs/work/dora-v12-evidence-and-release.yaml
+  task: add-revision-evidence-trace
+  status: verified
+  started_at: '2026-08-05T17:22:26Z'
+  verified_at: '2026-08-05T17:23:01Z'
+  evidence:
+    plan: docs/work/dora-v12-evidence-and-release.yaml
+    task: add-revision-evidence-trace
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-evidence-explain
+  order: 19
+  plan: docs/work/dora-v12-evidence-and-release.yaml
+  task: expose-evidence-explain-command
+  status: verified
+  started_at: '2026-08-05T17:23:04Z'
+  verified_at: '2026-08-05T17:23:31Z'
+  evidence:
+    plan: docs/work/dora-v12-evidence-and-release.yaml
+    task: expose-evidence-explain-command
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-evidence-consumer
+  order: 20
+  plan: docs/work/dora-v12-evidence-and-release.yaml
+  task: prove-evidence-trace-consumers
+  status: verified
+  started_at: '2026-08-05T17:23:33Z'
+  verified_at: '2026-08-05T17:23:57Z'
+  evidence:
+    plan: docs/work/dora-v12-evidence-and-release.yaml
+    task: prove-evidence-trace-consumers
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-create-app-no-bundle
+  order: 21
+  plan: docs/work/dora-v12-evidence-and-release.yaml
+  task: create-app-from-interview
+  status: verified
+  started_at: '2026-08-05T17:25:39Z'
+  verified_at: '2026-08-05T17:26:48Z'
+  evidence:
+    plan: docs/work/dora-v12-evidence-and-release.yaml
+    task: create-app-from-interview
+    revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+- id: v12-release
+  order: 22
+  plan: docs/work/dora-v12-evidence-and-release.yaml
+  task: publish-dora-v12
+  status: in_progress
+  started_at: '2026-08-05T17:42:33Z'
+- id: v12-pin
+  order: 23
+  plan: docs/work/dora-v12-evidence-and-release.yaml
+  task: pin-muffinman-v12
+  status: pending

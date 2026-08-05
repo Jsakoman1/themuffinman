@@ -1,0 +1,13 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v12-capability-readiness
+title: Generate and validate a first capability package before implementation
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+status: draft
+outcomes:
+  - Capability package links intent, vocabulary, permissions, workflow, API boundary, tests, and runtime scenario.
+  - Readiness engine reports exact blockers, contradictions, and recommended next action.
+  - One ready atomic plan can be generated only when declared prerequisites are present.
+boundaries:
+  - Readiness is not a completion claim or authorization to bypass review.
+  - Missing product policy remains unresolved rather than receiving a generated default.

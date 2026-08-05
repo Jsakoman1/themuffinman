@@ -23,7 +23,7 @@ module Dora
       execution_policy = execution_policy_for(plugin)
       cache = AnalysisCache.fetch!(cache_root: File.join(root, ".dora/cache"), key: "plugin-#{plugin_id}", input: cache_input(root, plugin)) { execute_plugin(root, plugin, plugin_id, execution_policy) }
       result = cache.fetch("value")
-      report = PluginReport.build!(plugin_id: plugin_id, inputs: plugin.fetch("inputs"), findings: result.fetch("findings"), output: plugin.fetch("output").merge("path" => report_path), finding_context: {"source_roots" => plugin.fetch("source_roots").map { |source| source.fetch("path") }}, execution_boundary: result.fetch("execution").fetch("policy"))
+      report = PluginReport.build!(plugin_id: plugin_id, inputs: plugin.fetch("inputs"), findings: result.fetch("findings"), output: plugin.fetch("output").merge("path" => report_path), finding_context: {"source_roots" => plugin.fetch("source_roots").map { |source| source.fetch("path") }}, execution_boundary: result.fetch("execution").fetch("policy"), read_boundary: {"declared_source_roots" => plugin.fetch("source_roots").map { |source| source.slice("id", "path") }, "report_path" => report_path, "actual_enforcement" => "Dora validates declared source-root paths for built-ins and passes them to built-in analysis. Custom entrypoints remain project-trusted processes and are not filesystem-sandboxed.", "unsupported_guarantees" => PluginContract::REQUIRED_UNSUPPORTED_GUARANTEES})
       ReportWriter.write_json!(root: root, relative_path: report_path, payload: report)
       report.merge(result.fetch("execution")).merge("source_roots" => plugin.fetch("source_roots"), "cache" => cache.fetch("cache"))
     end

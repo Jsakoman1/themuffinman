@@ -6,7 +6,7 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
-- DORA-V11-CODEX-FIRST-ERGONOMICS-001: make Dora v1.0 self-contained and low-friction for Codex-first delivery. Prioritize a usable local launcher from `dora new`, cache identity correctness, memory drift, one bounded agent session, stable machine command contracts, approval records, safe upgrade apply, plugin policy, and independently proven optional traceability, coordination, and Codex integration. Plan: `docs/work/dora-v11-codex-first-ergonomics-master.yaml`.
+- DORA-V12-IDEA-TO-VERIFIED-CAPABILITY-001: make Dora turn a declared idea into a ready first capability with minimal Codex setup. Prioritize guided intake with answer provenance, generated knowledge and capability packages, deterministic readiness/contradiction detection, compact Codex startup commands, neutral technical stack packs, and stronger evidence traceability. Plan: `docs/work/dora-v12-idea-to-verified-capability-master.yaml`.
 
 - UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,

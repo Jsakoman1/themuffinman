@@ -7,7 +7,6 @@ require "yaml"
 
 ROOT = File.expand_path("../..", __dir__)
 MATRIX_PATH = File.join(ROOT, "docs/dora-muffinman-compatibility-matrix.yaml")
-CURRENT_HANDOFF_PATH = File.join(ROOT, "docs/dora-release-handoff-v11.yaml")
 
 def target_body(target)
   lines = File.readlines(File.join(ROOT, "Makefile"), chomp: true)
@@ -52,7 +51,9 @@ distribution = adapter.is_a?(Hash) ? adapter.fetch("distribution", {}) : {}
 end
 failures << "MuffinMan Dora distribution source_ref must be versioned" unless distribution["source_ref"].to_s.match?(/\Av\d+\.\d+\.\d+\z/)
 failures << "MuffinMan Dora distribution source_commit must be immutable" unless distribution["source_commit"].to_s.match?(/\A[0-9a-f]{40}\z/)
-handoff = YAML.load_file(CURRENT_HANDOFF_PATH)
+handoff_version = distribution["source_ref"].to_s.split(".").first(2).join.delete(".")
+handoff_path = File.join(ROOT, "docs/dora-release-handoff-#{handoff_version}.yaml")
+handoff = YAML.load_file(handoff_path)
 release = handoff.fetch("release", {})
 consumption = handoff.fetch("consumption", {})
 failures << "current Dora handoff is not published and pinned" unless handoff["status"] == "published" && consumption["status"] == "pinned"

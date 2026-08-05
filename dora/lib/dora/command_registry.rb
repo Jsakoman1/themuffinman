@@ -8,6 +8,12 @@ module Dora
     CORE_COMMANDS = [
       {"usage" => "dora init <destination> --project <project-id>", "purpose" => "Create a declared Dora control structure."},
       {"usage" => "dora new <destination> --answers <project-new.yaml>", "purpose" => "Create neutral project knowledge and one explicit first work declaration from supplied answers."},
+      {"usage" => "dora create-app <destination> --bundle <create-app.yaml> [--format json|yaml]", "purpose" => "Create a new Dora project from a cited idea interview, an explicit first capability, and a reviewed local Dora source."},
+      {"usage" => "dora codex-integrate <project-root> [--format json|yaml]", "purpose" => "Install optional project-local Dora navigation for Codex without changing user-owned AGENTS.md instructions."},
+      {"usage" => "dora explain <project|capability> <path> [--format json|yaml]", "purpose" => "Explain declared project or capability state in plain language with citations and omissions."},
+      {"usage" => "dora next <adapter-path> <execution-inventory-path> [--format json|yaml]", "purpose" => "Return one cited declared safe next action without starting work."},
+      {"usage" => "dora diagnose <adapter-path> [--format json|yaml]", "purpose" => "Return declared project blockers and remediation without repairing files or starting work."},
+      {"usage" => "dora evidence-explain <revision-evidence-trace.yaml> [--format json|yaml]", "purpose" => "Explain what one declared capability revision is and is not evidenced by, with citations."},
       {"usage" => "dora bootstrap <destination> --project <project-id> --source <bootstrap-source.yaml> [--starter <starter-id>] [--ci <ci-pack>]", "purpose" => "Copy an explicitly declared local Dora source, optionally apply a technical starter and CI pack, and initialize a project-local launcher."},
       {"usage" => "dora upgrade-apply <consumer-root> --source <bootstrap-source.yaml> --approval <approval-record.yaml>", "purpose" => "Apply a reviewed local Dora upgrade only with an explicit scoped approval and backup."},
       {"usage" => "dora upgrade-rollback <consumer-root> --backup <recorded-backup-path> --approval <approval-record.yaml>", "purpose" => "Restore a recorded local Dora package backup only with explicit rollback approval."},

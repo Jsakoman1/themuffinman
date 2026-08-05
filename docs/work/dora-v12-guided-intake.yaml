@@ -1,0 +1,187 @@
+kind: work
+version: 1
+id: dora-v12-guided-intake
+title: Turn declared interview answers into a non-overwriting project bundle
+status: verified
+baseline: 470b6e9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+tasks:
+- id: define-idea-interview-contract
+  inventory_item: v12-interview-contract
+  title: Define answer-provenance interview contract
+  type: implementation
+  observable_outcome: Dora validates user answers and preserves unanswered decisions
+    without inferred policy
+  dependencies:
+  - v12-harden
+  evidence_boundary:
+  - valid and missing-answer interview fixtures
+  paths:
+  - dora/idea-interview.schema.yaml
+  - dora/lib/dora/idea_interview.rb
+  - dora/test/idea_interview_test.rb
+  required_paths:
+  - dora/idea-interview.schema.yaml
+  - dora/lib/dora/idea_interview.rb
+  - dora/test/idea_interview_test.rb
+  validation: ruby dora/test/idea_interview_test.rb
+  status: done
+  started_at: '2026-08-05T17:05:34Z'
+  start_fingerprints:
+    dora/idea-interview.schema.yaml: __missing__
+    dora/lib/dora/idea_interview.rb: __missing__
+    dora/test/idea_interview_test.rb: __missing__
+- id: define-create-app-bundle
+  inventory_item: v12-create-bundle-contract
+  title: Define one-command project bundle contract
+  type: implementation
+  observable_outcome: Dora validates one declared bundle containing project knowledge
+    first capability and optional technical choices
+  dependencies:
+  - v12-interview-contract
+  evidence_boundary:
+  - complete and unresolved create-app bundle fixtures
+  paths:
+  - dora/create-app.schema.yaml
+  - dora/lib/dora/create_app.rb
+  - dora/test/create_app_contract_test.rb
+  required_paths:
+  - dora/create-app.schema.yaml
+  - dora/lib/dora/create_app.rb
+  - dora/test/create_app_contract_test.rb
+  validation: ruby dora/test/create_app_contract_test.rb
+  status: done
+  started_at: '2026-08-05T17:06:26Z'
+  start_fingerprints:
+    dora/create-app.schema.yaml: __missing__
+    dora/lib/dora/create_app.rb: __missing__
+    dora/test/create_app_contract_test.rb: __missing__
+- id: expose-create-app-command
+  inventory_item: v12-create-app-command
+  title: Expose explicit create-app command
+  type: implementation
+  observable_outcome: Dora creates only declared Dora-owned project bundle files and
+    reports preservation boundaries
+  dependencies:
+  - v12-create-bundle-contract
+  evidence_boundary:
+  - create-app CLI fixture with Git baseline
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/create_app_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/create_app_command_test.rb
+  validation: ruby dora/test/create_app_command_test.rb
+  status: done
+  started_at: '2026-08-05T17:07:22Z'
+  start_fingerprints:
+    dora/bin/dora: 48f89246fd1f0ed59e0fca34e8b7bbfe4536da25f5720be2dd8caf68abf48f01
+    dora/lib/dora/command_registry.rb: 74c19d08c89f4a4e49886349ce68fcf7f4633ab8809c0d46b9d9a6af22310862
+    dora/test/create_app_command_test.rb: __missing__
+- id: prove-guided-create-app-consumers
+  inventory_item: v12-create-app-consumer
+  title: Prove guided project creation isolation
+  type: implementation
+  observable_outcome: Two projects receive distinct cited knowledge and preserve their
+    own instructions through create-app
+  dependencies:
+  - v12-create-app-command
+  evidence_boundary:
+  - two-consumer guided creation fixture
+  paths:
+  - dora/test/fixtures/guided-create-app-consumers.yaml
+  - dora/test/independent_guided_create_app_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/guided-create-app-consumers.yaml
+  - dora/test/independent_guided_create_app_consumer_test.rb
+  validation: ruby dora/test/independent_guided_create_app_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T17:12:04Z'
+  start_fingerprints:
+    dora/test/fixtures/guided-create-app-consumers.yaml: __missing__
+    dora/test/independent_guided_create_app_consumer_test.rb: __missing__
+evidence:
+- task: define-idea-interview-contract
+  command: ruby dora/test/idea_interview_test.rb
+  ranAt: '2026-08-05T17:06:14Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/idea-interview.schema.yaml
+  - dora/lib/dora/idea_interview.rb
+  - dora/test/idea_interview_test.rb
+  output: "Dora idea interview test passed (user provenance and unanswered decisions
+    remain explicit).\n\n"
+  requiredPaths: &1
+  - dora/idea-interview.schema.yaml
+  - dora/lib/dora/idea_interview.rb
+  - dora/test/idea_interview_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:05:34Z'
+  changedAfterStart: *1
+- task: define-create-app-bundle
+  command: ruby dora/test/create_app_contract_test.rb
+  ranAt: '2026-08-05T17:07:11Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/create-app.schema.yaml
+  - dora/lib/dora/create_app.rb
+  - dora/test/create_app_contract_test.rb
+  output: "Dora create-app contract test passed (explicit bundle preserves interview
+    provenance and opt-ins).\n\n"
+  requiredPaths: &2
+  - dora/create-app.schema.yaml
+  - dora/lib/dora/create_app.rb
+  - dora/test/create_app_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:06:26Z'
+  changedAfterStart: *2
+- task: expose-create-app-command
+  command: ruby dora/test/create_app_command_test.rb
+  ranAt: '2026-08-05T17:11:58Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/create_app_command_test.rb
+  output: "Dora create-app command test passed (declared project bundle, Git baseline,
+    and preservation boundary).\n\n"
+  requiredPaths: &3
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/create_app_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:07:22Z'
+  changedAfterStart: *3
+- task: prove-guided-create-app-consumers
+  command: ruby dora/test/independent_guided_create_app_consumer_test.rb
+  ranAt: '2026-08-05T17:12:46Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/guided-create-app-consumers.yaml
+  - dora/test/independent_guided_create_app_consumer_test.rb
+  output: "Dora independent guided create-app consumer test passed (two projects keep
+    distinct cited intent and preserve user instructions).\n\n"
+  requiredPaths: &4
+  - dora/test/fixtures/guided-create-app-consumers.yaml
+  - dora/test/independent_guided_create_app_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:12:04Z'
+  changedAfterStart: *4

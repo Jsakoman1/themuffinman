@@ -1,0 +1,187 @@
+kind: work
+version: 1
+id: dora-v12-codex-experience
+title: Give Codex and beginners compact cited startup and explanation commands
+status: verified
+baseline: 470b6e9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+tasks:
+- id: expose-codex-integration-command
+  inventory_item: v12-codex-integrate
+  title: Expose non-overwriting Codex integration command
+  type: implementation
+  observable_outcome: Dora installs its optional guidance through one explicit command
+    while preserving user instructions
+  dependencies:
+  - v12-readiness-consumer
+  evidence_boundary:
+  - existing-guidance CLI fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/codex_integration_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/codex_integration_command_test.rb
+  validation: ruby dora/test/codex_integration_command_test.rb
+  status: done
+  started_at: '2026-08-05T17:16:17Z'
+  start_fingerprints:
+    dora/bin/dora: f8dd5ac4a7ed94d20abe83d9d53d3041fd6bbb502a2f3b8de64b9dbf3a6e6fbf
+    dora/lib/dora/command_registry.rb: 9887294e75b28a4b9596fc0bca623b8bc0676a54f896a28531ed3266a89cd406
+    dora/test/codex_integration_command_test.rb: __missing__
+- id: add-explain-contract
+  inventory_item: v12-explain-contract
+  title: Define beginner explanation contract
+  type: implementation
+  observable_outcome: Dora explains project capability and evidence state in plain
+    language with citations and omissions
+  dependencies:
+  - v12-codex-integrate
+  evidence_boundary:
+  - project and capability explanation fixtures
+  paths:
+  - dora/explain.schema.yaml
+  - dora/lib/dora/explain.rb
+  - dora/test/explain_test.rb
+  required_paths:
+  - dora/explain.schema.yaml
+  - dora/lib/dora/explain.rb
+  - dora/test/explain_test.rb
+  validation: ruby dora/test/explain_test.rb
+  status: done
+  started_at: '2026-08-05T17:16:44Z'
+  start_fingerprints:
+    dora/explain.schema.yaml: __missing__
+    dora/lib/dora/explain.rb: __missing__
+    dora/test/explain_test.rb: __missing__
+- id: expose-next-and-diagnose-commands
+  inventory_item: v12-next-diagnose
+  title: Expose concise next and diagnose commands
+  type: implementation
+  observable_outcome: Dora returns cited safe next action blockers and remediation
+    without starting work
+  dependencies:
+  - v12-explain-contract
+  evidence_boundary:
+  - next and diagnose command fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/next_diagnose_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/next_diagnose_command_test.rb
+  validation: ruby dora/test/next_diagnose_command_test.rb
+  status: done
+  started_at: '2026-08-05T17:18:13Z'
+  start_fingerprints:
+    dora/bin/dora: a52f13c40307435adeaf0e66fb84284ccc3461d1719558746dbe64a465d5c0fa
+    dora/lib/dora/command_registry.rb: a80e659ebde97299a12975db4c04852ded853d912f4df7126afab4a89c416139
+    dora/test/next_diagnose_command_test.rb: 8a4470e047932262abdbae3d8d79fc481cafebae801b864c913eebc892b67d23
+- id: prove-codex-experience-consumers
+  inventory_item: v12-codex-experience-consumer
+  title: Prove compact Codex experience
+  type: implementation
+  observable_outcome: Two projects preserve distinct instructions and receive only
+    their own cited startup guidance
+  dependencies:
+  - v12-next-diagnose
+  evidence_boundary:
+  - two-consumer Codex experience fixture
+  paths:
+  - dora/test/fixtures/codex-experience-consumers.yaml
+  - dora/test/independent_codex_experience_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/codex-experience-consumers.yaml
+  - dora/test/independent_codex_experience_consumer_test.rb
+  validation: ruby dora/test/independent_codex_experience_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T17:18:44Z'
+  start_fingerprints:
+    dora/test/fixtures/codex-experience-consumers.yaml: __missing__
+    dora/test/independent_codex_experience_consumer_test.rb: __missing__
+evidence:
+- task: expose-codex-integration-command
+  command: ruby dora/test/codex_integration_command_test.rb
+  ranAt: '2026-08-05T17:16:38Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/codex_integration_command_test.rb
+  output: "Dora Codex integration command test passed (one explicit command preserves
+    user instructions and changed guidance).\n\n"
+  requiredPaths: &1
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/codex_integration_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:16:17Z'
+  changedAfterStart: *1
+- task: add-explain-contract
+  command: ruby dora/test/explain_test.rb
+  ranAt: '2026-08-05T17:17:18Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/explain.schema.yaml
+  - dora/lib/dora/explain.rb
+  - dora/test/explain_test.rb
+  output: "Dora explain test passed (plain-language project and capability explanations
+    preserve citations and omissions).\n\n"
+  requiredPaths: &2
+  - dora/explain.schema.yaml
+  - dora/lib/dora/explain.rb
+  - dora/test/explain_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:16:44Z'
+  changedAfterStart: *2
+- task: expose-next-and-diagnose-commands
+  command: ruby dora/test/next_diagnose_command_test.rb
+  ranAt: '2026-08-05T17:18:37Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/next_diagnose_command_test.rb
+  output: "Dora next and diagnose command test passed (safe next action and compact
+    diagnosis are read-only).\n\n"
+  requiredPaths: &3
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/next_diagnose_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:18:13Z'
+  changedAfterStart: *3
+- task: prove-codex-experience-consumers
+  command: ruby dora/test/independent_codex_experience_consumer_test.rb
+  ranAt: '2026-08-05T17:19:04Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/codex-experience-consumers.yaml
+  - dora/test/independent_codex_experience_consumer_test.rb
+  output: "Dora independent Codex experience consumer test passed (two projects preserve
+    distinct instructions and receive only their own cited next task).\n\n"
+  requiredPaths: &4
+  - dora/test/fixtures/codex-experience-consumers.yaml
+  - dora/test/independent_codex_experience_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:18:44Z'
+  changedAfterStart: *4

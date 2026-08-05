@@ -1,0 +1,13 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v12-guided-intake
+title: Convert an explicit idea interview into declared project knowledge without inference
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+status: draft
+outcomes:
+  - Versioned interview schema with answer provenance and explicit unanswered decisions.
+  - One non-overwriting create-app bundle containing brief, domain library, agent profile, and first capability candidate.
+  - Human-readable explanation and machine-readable command response.
+boundaries:
+  - No generated requirement may be presented as user-supplied unless its source answer is cited.
+  - Creation may initialize only Dora-owned paths and explicit local Git state.

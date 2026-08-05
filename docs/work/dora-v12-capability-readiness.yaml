@@ -1,0 +1,182 @@
+kind: work
+version: 1
+id: dora-v12-capability-readiness
+title: Generate a first capability package and deterministic readiness blockers
+status: verified
+baseline: 470b6e9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+tasks:
+- id: define-capability-package-contract
+  inventory_item: v12-capability-contract
+  title: Define first capability package contract
+  type: implementation
+  observable_outcome: One package links intent domain permissions workflow API tests
+    runtime and atomic work references
+  dependencies:
+  - v12-create-app-consumer
+  evidence_boundary:
+  - complete and unresolved package fixtures
+  paths:
+  - dora/capability-package.schema.yaml
+  - dora/lib/dora/capability_package.rb
+  - dora/test/capability_package_test.rb
+  required_paths:
+  - dora/capability-package.schema.yaml
+  - dora/lib/dora/capability_package.rb
+  - dora/test/capability_package_test.rb
+  validation: ruby dora/test/capability_package_test.rb
+  status: done
+  started_at: '2026-08-05T17:12:52Z'
+  start_fingerprints:
+    dora/capability-package.schema.yaml: __missing__
+    dora/lib/dora/capability_package.rb: __missing__
+    dora/test/capability_package_test.rb: __missing__
+- id: add-domain-contradiction-compiler
+  inventory_item: v12-domain-compiler
+  title: Detect declared domain contradictions
+  type: implementation
+  observable_outcome: Dora reports missing permission workflow entity status and evidence
+    links without repairing them by inference
+  dependencies:
+  - v12-capability-contract
+  evidence_boundary:
+  - contradictory and coherent domain fixtures
+  paths:
+  - dora/lib/dora/domain_compiler.rb
+  - dora/test/domain_compiler_test.rb
+  required_paths:
+  - dora/lib/dora/domain_compiler.rb
+  - dora/test/domain_compiler_test.rb
+  validation: ruby dora/test/domain_compiler_test.rb
+  status: done
+  started_at: '2026-08-05T17:14:15Z'
+  start_fingerprints:
+    dora/lib/dora/domain_compiler.rb: __missing__
+    dora/test/domain_compiler_test.rb: __missing__
+- id: add-capability-readiness-report
+  inventory_item: v12-readiness-contract
+  title: Report implementation readiness
+  type: implementation
+  observable_outcome: Dora returns ready flag exact blockers and one declared next
+    action without a completion claim
+  dependencies:
+  - v12-domain-compiler
+  evidence_boundary:
+  - ready and blocked readiness fixtures
+  paths:
+  - dora/capability-readiness.schema.yaml
+  - dora/lib/dora/capability_readiness.rb
+  - dora/test/capability_readiness_test.rb
+  required_paths:
+  - dora/capability-readiness.schema.yaml
+  - dora/lib/dora/capability_readiness.rb
+  - dora/test/capability_readiness_test.rb
+  validation: ruby dora/test/capability_readiness_test.rb
+  status: done
+  started_at: '2026-08-05T17:15:12Z'
+  start_fingerprints:
+    dora/capability-readiness.schema.yaml: __missing__
+    dora/lib/dora/capability_readiness.rb: __missing__
+    dora/test/capability_readiness_test.rb: __missing__
+- id: prove-capability-readiness-consumers
+  inventory_item: v12-readiness-consumer
+  title: Prove capability readiness isolation
+  type: implementation
+  observable_outcome: Two projects expose only their own blockers and ready work without
+    product inference
+  dependencies:
+  - v12-readiness-contract
+  evidence_boundary:
+  - two-consumer capability readiness fixture
+  paths:
+  - dora/test/fixtures/capability-readiness-consumers.yaml
+  - dora/test/independent_capability_readiness_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/capability-readiness-consumers.yaml
+  - dora/test/independent_capability_readiness_consumer_test.rb
+  validation: ruby dora/test/independent_capability_readiness_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T17:15:47Z'
+  start_fingerprints:
+    dora/test/fixtures/capability-readiness-consumers.yaml: __missing__
+    dora/test/independent_capability_readiness_consumer_test.rb: __missing__
+evidence:
+- task: define-capability-package-contract
+  command: ruby dora/test/capability_package_test.rb
+  ranAt: '2026-08-05T17:13:58Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/capability-package.schema.yaml
+  - dora/lib/dora/capability_package.rb
+  - dora/test/capability_package_test.rb
+  output: "Dora capability package test passed (intent, domain, API, evidence, and
+    atomic work remain explicitly linked).\n\n"
+  requiredPaths: &1
+  - dora/capability-package.schema.yaml
+  - dora/lib/dora/capability_package.rb
+  - dora/test/capability_package_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:12:52Z'
+  changedAfterStart: *1
+- task: add-domain-contradiction-compiler
+  command: ruby dora/test/domain_compiler_test.rb
+  ranAt: '2026-08-05T17:15:06Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/domain_compiler.rb
+  - dora/test/domain_compiler_test.rb
+  output: "Dora domain compiler test passed (declared domain contradictions and missing
+    evidence are reported without inferred repair).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/domain_compiler.rb
+  - dora/test/domain_compiler_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:14:15Z'
+  changedAfterStart: *2
+- task: add-capability-readiness-report
+  command: ruby dora/test/capability_readiness_test.rb
+  ranAt: '2026-08-05T17:15:44Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/capability-readiness.schema.yaml
+  - dora/lib/dora/capability_readiness.rb
+  - dora/test/capability_readiness_test.rb
+  output: "Dora capability readiness test passed (ready and blocked capability states
+    retain exact gaps and one declared next action).\n\n"
+  requiredPaths: &3
+  - dora/capability-readiness.schema.yaml
+  - dora/lib/dora/capability_readiness.rb
+  - dora/test/capability_readiness_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:15:12Z'
+  changedAfterStart: *3
+- task: prove-capability-readiness-consumers
+  command: ruby dora/test/independent_capability_readiness_consumer_test.rb
+  ranAt: '2026-08-05T17:16:11Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/capability-readiness-consumers.yaml
+  - dora/test/independent_capability_readiness_consumer_test.rb
+  output: "Dora independent capability readiness consumer test passed (two consumers
+    receive only their own ready state or exact blockers).\n\n"
+  requiredPaths: &4
+  - dora/test/fixtures/capability-readiness-consumers.yaml
+  - dora/test/independent_capability_readiness_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:15:47Z'
+  changedAfterStart: *4

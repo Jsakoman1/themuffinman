@@ -62,6 +62,20 @@ if expected_version == "v1.1.0"
     dora/lib/dora/project_upgrade.rb
   ].each { |path| failures << "Dora v1.1 release artifact is missing: #{path}" unless File.file?(File.join(ROOT, path)) }
 end
+if expected_version == "v1.2.0"
+  %w[
+    dora/idea-interview.schema.yaml
+    dora/create-app.schema.yaml
+    dora/capability-package.schema.yaml
+    dora/capability-readiness.schema.yaml
+    dora/revision-evidence-trace.schema.yaml
+    dora/lib/dora/idea_interview.rb
+    dora/lib/dora/create_app.rb
+    dora/lib/dora/domain_compiler.rb
+    dora/lib/dora/capability_readiness.rb
+    dora/lib/dora/revision_evidence_trace.rb
+  ].each { |path| failures << "Dora v1.2 release artifact is missing: #{path}" unless File.file?(File.join(ROOT, path)) }
+end
 retained = Array(ownership["muffinman_retained_prefixes"])
 operational = Array(ownership["repository_operational_prefixes"])
 unclassified = repository_paths.reject do |path|

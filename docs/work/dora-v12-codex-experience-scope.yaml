@@ -1,0 +1,12 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v12-codex-experience
+title: Make Dora commands and guidance easier for Codex and beginners to use
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+status: draft
+outcomes:
+  - Compact startup, explain, diagnose, and next-action command contracts.
+  - One cited Codex session combines project readiness, selected capability, work, evidence gaps, and authority boundary.
+  - Opt-in integration command preserves user-owned instructions and provides discoverable Dora guidance.
+boundaries:
+  - Commands remain deterministic, cited, and explicit about side effects and omissions.

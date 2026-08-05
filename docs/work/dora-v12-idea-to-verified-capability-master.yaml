@@ -1,0 +1,84 @@
+kind: master
+version: 1
+id: dora-v12-idea-to-verified-capability-master
+title: Make Dora take Codex from a reviewed idea to a verified first capability with minimal setup
+status: draft
+implementation_ready: true
+baseline: 470b6e9
+target_release: v1.2.0
+objective: >-
+  Make the safe path from an idea to a first verified capability substantially easier for a beginner and Codex,
+  while retaining declared product ownership, deterministic readiness, evidence boundaries, and explicit approval gates.
+analysis_source: docs/work/dora-v12-idea-to-verified-capability-analysis.md
+preflight_source: docs/work/dora-v12-idea-to-verified-capability-preflight.md
+goal_readiness_source: docs/work/dora-v12-idea-to-verified-capability-goal-readiness.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+  baseline_only_surfaces:
+    - self-contained Dora source, project creation, agent session, command envelopes, traceability, leases, plugin policy, safe upgrade, and opt-in Codex guidance
+  non_duplication_rule: >-
+    v1.2 reuses v1.1 control mechanics and changes only the setup friction, readiness precision,
+    generated capability package, neutral technical packs, and evidence navigation needed for the new path.
+  residual_scope:
+    - Guided project creation still requires users or Codex to compose several YAML inputs manually.
+    - Dora has no deterministic capability-readiness or domain-contradiction compiler.
+    - Codex integration is library-only rather than a discoverable command, and startup guidance remains fragmented.
+    - Existing stack packs and plugin boundaries need neutral catalog selection and more precise declared read evidence.
+    - Capability trace does not yet connect a verified task, changed paths, evidence artifacts, and a release revision.
+  retest_triggers:
+    - Changed project creation, intake, generated knowledge, or Git baseline behavior.
+    - Changed capability, domain, permission, workflow, readiness, or agent-session contracts.
+    - Changed starter pack, plugin execution/report, or integration ownership behavior.
+    - Changed trace, evidence, release handoff, compatibility, or pin behavior.
+principles:
+  - Dora asks for and records product decisions; it never invents them.
+  - A generated artifact is declared starting context, not implementation or release proof.
+  - Every command exposes citations, side effects, omissions, and remediation in stable machine-readable form.
+  - Generated Dora-owned content is idempotent and never overwrites user-owned instructions or code.
+  - Domain, permission, workflow, API, test, and runtime evidence links must be checked for contradictions before work is marked ready.
+  - Technical stack packs are neutral, optional, independently proven, and separate from product logic.
+workstreams:
+  - docs/work/dora-v12-guided-intake-scope.yaml
+  - docs/work/dora-v12-capability-readiness-scope.yaml
+  - docs/work/dora-v12-codex-experience-scope.yaml
+  - docs/work/dora-v12-neutral-stack-and-plugin-scope.yaml
+  - docs/work/dora-v12-evidence-and-release-scope.yaml
+children:
+  - docs/work/dora-v12-atomic-hardening.yaml
+  - docs/work/dora-v12-guided-intake.yaml
+  - docs/work/dora-v12-capability-readiness.yaml
+  - docs/work/dora-v12-codex-experience.yaml
+  - docs/work/dora-v12-neutral-stack-and-plugin.yaml
+  - docs/work/dora-v12-evidence-and-release.yaml
+execution_inventory: docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v12-atomic-hardening.yaml
+strict_verification: true
+serial_task_execution: true
+required_before_goal_pursuit:
+  - Define the interview answer provenance, unanswered-decision representation, and no-inference boundary.
+  - Define a single generated project bundle and its exact ownership/overwrite behavior.
+  - Define readiness blockers and contradiction rules before generating implementation work.
+  - Define capability-package references from intent through runtime evidence without a completion claim.
+  - Select no more than two neutral stack packs for the first slice and require independent consumers.
+  - Create hardened atomic child plans, one global serial inventory, exact paths, leaf validations, and evidence boundaries.
+success_criteria:
+  - A beginner or Codex can create a neutral project and a first capability package from a declared interview without hand-authoring boilerplate YAML.
+  - Dora reports precise missing decisions, contradictions, and next actions before implementation begins.
+  - Codex can receive a compact cited startup session and one ready atomic task without repository inference.
+  - Generated project guidance preserves distinct user-owned instructions across independent consumers.
+  - A capability trace connects intent, permissions, workflow, implementation plan, tests, and runtime evidence while retaining unresolved gaps.
+  - Selected neutral stack packs and safer plugin controls are independently proven without MuffinMan data.
+  - v1.2 is published and pinned only after explicit approval and full compatibility proof.
+release_boundary:
+  - No remote publication, tag, consumer pin, or destructive migration may occur without explicit user approval.
+  - Draft planning and local validation do not authorize implementation beyond a started atomic work task.
+readiness:
+  execution_mode: strict_serial
+  atomic_inventory_items: 23
+  first_item: v12-harden
+  decision: Ready to create a goal and execute only atomic-task hardening; no v1.2 implementation may begin before its verifier evidence passes.
+hardening_review:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v12-idea-to-verified-capability-master.yaml docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  state: audit_passed_pending_work_verifier
+  boundary: Atomic hardening checks planning precision only; it does not prove any v1.2 feature.

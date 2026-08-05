@@ -1,0 +1,11 @@
+kind: dora_create_app_schema
+version: 1
+purpose: Define one explicit bundle that can create Dora-owned project knowledge and a first capability candidate from a validated user interview.
+required_fields: [kind, version, interview, dora_source, first_capability, first_work]
+first_capability_required_fields: [id, title, interview_answer]
+first_work_required_fields: [id, title, observable_outcome, required_paths, validation, evidence_boundary]
+optional_fields: [starter, codex_integration]
+invariants:
+  - The bundle uses a validated interview with the same project id and preserves its answer provenance.
+  - First capability and first work are declared starting context, not generated implementation or completion proof.
+  - Starter selection and Codex integration are explicit opt-ins; Dora does not infer either one.

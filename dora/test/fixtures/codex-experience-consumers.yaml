@@ -1,0 +1,9 @@
+kind: dora_codex_experience_consumers
+version: 1
+consumers:
+  - id: garden-guide
+    instruction: Garden instructions are user-owned.
+    task: record-garden-note
+  - id: roster-guide
+    instruction: Roster instructions are user-owned.
+    task: record-availability

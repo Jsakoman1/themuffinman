@@ -1,0 +1,182 @@
+kind: work
+version: 1
+id: dora-v12-neutral-stack-and-plugin
+title: Select neutral stack starters and make plugin boundaries more precise
+status: verified
+baseline: 470b6e9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+tasks:
+- id: define-neutral-stack-catalog
+  inventory_item: v12-stack-catalog
+  title: Define supported neutral stack catalog
+  type: implementation
+  observable_outcome: Dora declares technical starter capabilities and exclusions
+    without product behavior
+  dependencies:
+  - v12-codex-experience-consumer
+  evidence_boundary:
+  - stack catalog fixture
+  paths:
+  - dora/stack-catalog.schema.yaml
+  - dora/lib/dora/stack_catalog.rb
+  - dora/test/stack_catalog_test.rb
+  required_paths:
+  - dora/stack-catalog.schema.yaml
+  - dora/lib/dora/stack_catalog.rb
+  - dora/test/stack_catalog_test.rb
+  validation: ruby dora/test/stack_catalog_test.rb
+  status: done
+  started_at: '2026-08-05T17:19:14Z'
+  start_fingerprints:
+    dora/stack-catalog.schema.yaml: __missing__
+    dora/lib/dora/stack_catalog.rb: __missing__
+    dora/test/stack_catalog_test.rb: __missing__
+- id: add-neutral-starter-selection
+  inventory_item: v12-starter-selection
+  title: Select one declared neutral starter
+  type: implementation
+  observable_outcome: Create-app applies only one declared technical starter and records
+    its boundaries
+  dependencies:
+  - v12-stack-catalog
+  evidence_boundary:
+  - two-starter selection fixture
+  paths:
+  - dora/lib/dora/create_app.rb
+  - dora/test/create_app_starter_selection_test.rb
+  required_paths:
+  - dora/lib/dora/create_app.rb
+  - dora/test/create_app_starter_selection_test.rb
+  validation: ruby dora/test/create_app_starter_selection_test.rb
+  status: done
+  started_at: '2026-08-05T17:19:59Z'
+  start_fingerprints:
+    dora/lib/dora/create_app.rb: d34627832ff2d9542555e956ba4eb9a9dfb683eb0276fa272bb50c686fee271f
+    dora/test/create_app_starter_selection_test.rb: __missing__
+- id: add-plugin-read-boundary-report
+  inventory_item: v12-plugin-read-boundary
+  title: Report declared plugin read boundary
+  type: implementation
+  observable_outcome: Plugin reports record declared source roots and actual report
+    boundary without claiming filesystem sandboxing
+  dependencies:
+  - v12-starter-selection
+  evidence_boundary:
+  - custom and built-in plugin boundary fixture
+  paths:
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/test/plugin_read_boundary_test.rb
+  required_paths:
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/test/plugin_read_boundary_test.rb
+  validation: ruby dora/test/plugin_read_boundary_test.rb
+  status: done
+  started_at: '2026-08-05T17:21:02Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_runner.rb: 9d0b7ec720714a24133b9a5e0fa52c99ae003bb39f5adafca65dfa77e3d8f7a3
+    dora/lib/dora/plugin_report.rb: e08da8751e1cd8be7923cc51e8fcacd205547a79484a0ebab9afc515553a0c1e
+    dora/test/plugin_read_boundary_test.rb: __missing__
+- id: prove-neutral-stack-consumers
+  inventory_item: v12-stack-plugin-consumer
+  title: Prove neutral starter and plugin isolation
+  type: implementation
+  observable_outcome: Two projects use different neutral starters and retain no MuffinMan
+    data or false sandbox claim
+  dependencies:
+  - v12-plugin-read-boundary
+  evidence_boundary:
+  - two-consumer stack and plugin fixture
+  paths:
+  - dora/test/fixtures/neutral-stack-consumers.yaml
+  - dora/test/independent_neutral_stack_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/neutral-stack-consumers.yaml
+  - dora/test/independent_neutral_stack_consumer_test.rb
+  validation: ruby dora/test/independent_neutral_stack_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T17:21:54Z'
+  start_fingerprints:
+    dora/test/fixtures/neutral-stack-consumers.yaml: __missing__
+    dora/test/independent_neutral_stack_consumer_test.rb: __missing__
+evidence:
+- task: define-neutral-stack-catalog
+  command: ruby dora/test/stack_catalog_test.rb
+  ranAt: '2026-08-05T17:19:46Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/stack_catalog.rb
+  - dora/stack-catalog.schema.yaml
+  - dora/test/stack_catalog_test.rb
+  output: "Dora stack catalog test passed (declared neutral starters retain technical
+    capabilities and product exclusions).\n\n"
+  requiredPaths: &1
+  - dora/stack-catalog.schema.yaml
+  - dora/lib/dora/stack_catalog.rb
+  - dora/test/stack_catalog_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:19:14Z'
+  changedAfterStart: *1
+- task: add-neutral-starter-selection
+  command: ruby dora/test/create_app_starter_selection_test.rb
+  ranAt: '2026-08-05T17:20:39Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/create_app.rb
+  - dora/test/create_app_starter_selection_test.rb
+  output: "Dora create-app starter selection test passed (one declared neutral starter
+    is selected and unknown choices are rejected).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/create_app.rb
+  - dora/test/create_app_starter_selection_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:19:59Z'
+  changedAfterStart: *2
+- task: add-plugin-read-boundary-report
+  command: ruby dora/test/plugin_read_boundary_test.rb
+  ranAt: '2026-08-05T17:21:49Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugin_report.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_read_boundary_test.rb
+  output: "Dora plugin read boundary test passed (custom and built-in reports distinguish
+    declared roots from absent sandbox guarantees).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/test/plugin_read_boundary_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:21:02Z'
+  changedAfterStart: *3
+- task: prove-neutral-stack-consumers
+  command: ruby dora/test/independent_neutral_stack_consumer_test.rb
+  ranAt: '2026-08-05T17:22:20Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/neutral-stack-consumers.yaml
+  - dora/test/independent_neutral_stack_consumer_test.rb
+  output: "Dora independent neutral stack consumer test passed (two neutral starters
+    and trusted plugins remain isolated from MuffinMan data and sandbox claims).\n\n"
+  requiredPaths: &4
+  - dora/test/fixtures/neutral-stack-consumers.yaml
+  - dora/test/independent_neutral_stack_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:21:54Z'
+  changedAfterStart: *4

@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: dora-v12-atomic-hardening
+title: Harden Dora v1.2 into exact serial work
+status: verified
+baseline: 470b6e9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+planning_audit: Atomic hardening audit passed before work verification; verifier evidence
+  remains authoritative.
+tasks:
+- id: harden-v12-program
+  inventory_item: v12-harden
+  title: Verify v1.2 atomic execution inventory
+  type: docs-only
+  observable_outcome: Every v1.2 task has one bounded outcome exact paths one leaf
+    audit serial dependency and evidence boundary
+  dependencies: []
+  evidence_boundary:
+  - atomic hardening audit
+  paths:
+  - docs/work/dora-v12-idea-to-verified-capability-master.yaml
+  - docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  - docs/work/dora-v12-atomic-hardening.yaml
+  - docs/work/dora-v12-guided-intake.yaml
+  - docs/work/dora-v12-capability-readiness.yaml
+  - docs/work/dora-v12-codex-experience.yaml
+  - docs/work/dora-v12-neutral-stack-and-plugin.yaml
+  - docs/work/dora-v12-evidence-and-release.yaml
+  required_paths:
+  - docs/work/dora-v12-idea-to-verified-capability-master.yaml
+  - docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  - docs/work/dora-v12-atomic-hardening.yaml
+  - docs/work/dora-v12-guided-intake.yaml
+  - docs/work/dora-v12-capability-readiness.yaml
+  - docs/work/dora-v12-codex-experience.yaml
+  - docs/work/dora-v12-neutral-stack-and-plugin.yaml
+  - docs/work/dora-v12-evidence-and-release.yaml
+  verification_required_paths:
+  - docs/work/dora-v12-idea-to-verified-capability-master.yaml
+  - docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  - docs/work/dora-v12-atomic-hardening.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v12-idea-to-verified-capability-master.yaml
+    docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-05T17:05:09Z'
+  start_fingerprints:
+    docs/work/dora-v12-idea-to-verified-capability-master.yaml: bb47c1e3708632e335a55dc7926eb41837a47ced429f17ac5b05c98693f1a85b
+    docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml: ae03ed4f34195a8bcb96f37c2094390eba67128c5fbb127f769404bc1c206ef8
+    docs/work/dora-v12-atomic-hardening.yaml: 12e11a291f9ed305bdb386ea384087ba790dcdac703436ecd2d13cf1ce37c733
+evidence:
+- task: harden-v12-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v12-idea-to-verified-capability-master.yaml
+    docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  ranAt: '2026-08-05T17:05:28Z'
+  revision: 470b6e9bea609d5dd0f0e0ff3966f5d377b6be1d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v12-atomic-hardening.yaml
+  - docs/work/dora-v12-capability-readiness.yaml
+  - docs/work/dora-v12-codex-experience.yaml
+  - docs/work/dora-v12-evidence-and-release.yaml
+  - docs/work/dora-v12-guided-intake.yaml
+  - docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  - docs/work/dora-v12-idea-to-verified-capability-master.yaml
+  - docs/work/dora-v12-neutral-stack-and-plugin.yaml
+  output: "Atomic task hardening audit passed (22 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v12-idea-to-verified-capability-master.yaml
+  - docs/work/dora-v12-idea-to-verified-capability-execution-inventory.yaml
+  - docs/work/dora-v12-atomic-hardening.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T17:05:09Z'
+  changedAfterStart: *1

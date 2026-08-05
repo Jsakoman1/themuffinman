@@ -1,0 +1,11 @@
+kind: dora_revision_evidence_consumers
+version: 1
+consumers:
+  - id: garden
+    capability: record-garden-note
+    revision: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    runtime: recorded
+  - id: roster
+    capability: record-availability
+    revision: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    runtime: pending

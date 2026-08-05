@@ -1,0 +1,15 @@
+kind: dora_capability_package_schema
+version: 1
+required_fields:
+  - kind
+  - version
+  - id
+  - title
+  - intent
+  - domain
+  - api
+  - tests
+  - runtime
+  - work
+  - unresolved
+completion_boundary: A capability package declares implementation inputs and evidence intent only; it does not prove implementation, runtime acceptance, or release readiness.

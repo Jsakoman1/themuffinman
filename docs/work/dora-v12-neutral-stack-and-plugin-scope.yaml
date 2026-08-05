@@ -1,0 +1,12 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v12-neutral-stack-and-plugin
+title: Add neutral technical starters and more precise local analysis boundaries
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+status: draft
+outcomes:
+  - Select and prove at most two neutral technical stack packs.
+  - Improve plugin input/output provenance and report read boundaries.
+  - Evaluate real isolation options without claiming unsupported sandboxing.
+boundaries:
+  - No product rules, credentials, runtime data, or MuffinMan-specific paths enter a Dora stack pack.

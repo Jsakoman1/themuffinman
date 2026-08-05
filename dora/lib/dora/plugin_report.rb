@@ -4,14 +4,15 @@ module Dora
   class PluginReport
     COMPLETION_BOUNDARY = "Static plugin output is diagnostic evidence only and does not prove product completion, runtime acceptance, or release readiness."
 
-    def self.build!(plugin_id:, inputs:, findings:, output:, finding_context: {}, execution_boundary: {})
+    def self.build!(plugin_id:, inputs:, findings:, output:, finding_context: {}, execution_boundary: {}, read_boundary: {})
       fail!("plugin report id is invalid") unless plugin_id.is_a?(String) && plugin_id.match?(/\A[a-z][a-z0-9_-]*\z/)
       fail!("plugin report inputs must be a mapping") unless inputs.is_a?(Hash)
       fail!("plugin report findings must be a list") unless findings.is_a?(Array)
       fail!("plugin report output must be a mapping") unless output.is_a?(Hash) && output["kind"].to_s.match?(/\A[a-z][a-z0-9_-]*\z/)
       fail!("plugin report finding context must be a mapping") unless finding_context.is_a?(Hash)
       fail!("plugin report execution boundary must be a mapping") unless execution_boundary.is_a?(Hash)
-      {"kind" => "dora_plugin_report", "version" => 1, "plugin" => plugin_id, "inputs" => inputs, "findings" => findings.each_with_index.map { |finding, index| standard_finding(plugin_id, finding, index, finding_context) }, "output" => output, "execution_boundary" => execution_boundary, "finding_contract" => "dora_finding", "completion_boundary" => COMPLETION_BOUNDARY}
+      fail!("plugin report read boundary must be a mapping") unless read_boundary.is_a?(Hash)
+      {"kind" => "dora_plugin_report", "version" => 1, "plugin" => plugin_id, "inputs" => inputs, "findings" => findings.each_with_index.map { |finding, index| standard_finding(plugin_id, finding, index, finding_context) }, "output" => output, "execution_boundary" => execution_boundary, "read_boundary" => read_boundary, "finding_contract" => "dora_finding", "completion_boundary" => COMPLETION_BOUNDARY}
     end
 
     def self.standard_finding(plugin_id, finding, index, context)

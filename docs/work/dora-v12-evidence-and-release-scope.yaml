@@ -1,0 +1,13 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v12-evidence-and-release
+title: Strengthen change-to-evidence traceability and preserve release discipline
+master_plan: docs/work/dora-v12-idea-to-verified-capability-master.yaml
+status: draft
+outcomes:
+  - Trace links capability, atomic task, changed paths, validation, runtime evidence, and release revision.
+  - Independent consumer proofs cover guided creation and capability readiness.
+  - Release handoff records only actually verified contracts and retains rollback steps.
+boundaries:
+  - Evidence aggregation never claims feature completion or production acceptance by inference.
+  - Publication and pin remain separate explicitly approved external actions.
