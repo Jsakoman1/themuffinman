@@ -93,8 +93,9 @@ if require_approved_release || check_handoff_draft
   if require_approved_release
     configured_remote, configured_status = Open3.capture2e("git", "-C", ROOT, "remote", "get-url", "dora")
     remote = configured_status.success? && configured_remote.include?("Jsakoman1/dora") ? "dora" : release["repository"]
-    remote_output, remote_status = Open3.capture2e("git", "ls-remote", remote, "refs/tags/#{release["version"]}*")
-    failures << "published Dora tag is not reachable" unless remote_status.success? && remote_output.include?(release["immutable_commit"])
+    remote_output, remote_status = Open3.capture2e("git", "ls-remote", remote, "refs/tags/#{release["version"]}^{}")
+    remote_commit = remote_output.split.first
+    failures << "published Dora tag is not reachable at the declared immutable commit" unless remote_status.success? && remote_commit == release["immutable_commit"]
     failures << "published Dora release has an invalid consumer state" unless %w[release_published_unpinned pinned].include?(consumption["status"])
   end
 end

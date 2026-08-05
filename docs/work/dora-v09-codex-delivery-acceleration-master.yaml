@@ -2,76 +2,98 @@ kind: master
 version: 1
 id: dora-v09-codex-delivery-acceleration-master
 title: Make Dora faster and clearer for daily Codex-guided application delivery
-status: draft
+status: verified
 implementation_ready: true
 baseline: 1738e94
-objective: "Reduce the repeated reasoning and navigation cost of using Dora while preserving its v0.8 boundary: Dora controls delivery mechanics; each consuming project owns product meaning and runtime authority."
+objective: 'Reduce the repeated reasoning and navigation cost of using Dora while
+  preserving its v0.8 boundary: Dora controls delivery mechanics; each consuming project
+  owns product meaning and runtime authority.'
 analysis_source: docs/work/dora-v09-codex-delivery-acceleration-analysis.md
 preflight_source: docs/work/dora-v09-codex-delivery-acceleration-preflight.md
 goal_readiness_source: docs/work/dora-v09-codex-delivery-acceleration-goal-readiness.md
 required_before_goal_pursuit:
-  - Atomic-task hardening with one global serial execution inventory; it is prepared but not yet verified.
-  - Fresh independent-consumer fixture proof for every new agent command.
-  - Explicit approval before any release, GitHub write, or consumer pin.
+- Atomic-task hardening with one global serial execution inventory; it is prepared
+  but not yet verified.
+- Fresh independent-consumer fixture proof for every new agent command.
+- Explicit approval before any release, GitHub write, or consumer pin.
 priorities:
   p0:
-    - task-scoped Codex context and deterministic next-step guidance
-    - beginner project status and guided initialization
-    - portable standard finding envelope
+  - task-scoped Codex context and deterministic next-step guidance
+  - beginner project status and guided initialization
+  - portable standard finding envelope
   p1:
-    - changed-path impact and closeout guidance
-    - decision traceability from brief through evidence
-    - plugin discovery and declared-input diagnostics
+  - changed-path impact and closeout guidance
+  - decision traceability from brief through evidence
+  - plugin discovery and declared-input diagnostics
   p2:
-    - incremental analysis cache and performance evidence
-    - SARIF or optional GitHub annotation export
-    - neutral voice evaluation and provider-interface contracts
+  - incremental analysis cache and performance evidence
+  - SARIF or optional GitHub annotation export
+  - neutral voice evaluation and provider-interface contracts
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
   reused_verified_plans:
-    - docs/work/dora-v08-agent-first-operating-system-master.yaml
+  - docs/work/dora-v08-agent-first-operating-system-master.yaml
   baseline_only_surfaces:
-    - Dora v0.8 bootstrap, knowledge contracts, built-in analyses, voice safety blueprint, and release/pin proof
+  - Dora v0.8 bootstrap, knowledge contracts, built-in analyses, voice safety blueprint,
+    and release/pin proof
   residual_scope:
-    - daily agent navigation and closeout loop
-    - beginner-facing project orientation
-    - standard static-analysis findings
-    - deterministic change-impact guidance
-    - decision-to-evidence traceability
-    - measured performance and optional integration exports
+  - daily agent navigation and closeout loop
+  - beginner-facing project orientation
+  - standard static-analysis findings
+  - deterministic change-impact guidance
+  - decision-to-evidence traceability
+  - measured performance and optional integration exports
   retest_triggers:
-    - changed command contract
-    - changed project knowledge schema
-    - changed finding or plugin report schema
-    - changed cache key or parser behavior
-    - changed optional external export
-  non_duplication_rule: v0.8 proves safety and portability; v0.9 must prove lower operational friction with new independent fixtures, not relabel prior evidence.
+  - changed command contract
+  - changed project knowledge schema
+  - changed finding or plugin report schema
+  - changed cache key or parser behavior
+  - changed optional external export
+  non_duplication_rule: v0.8 proves safety and portability; v0.9 must prove lower
+    operational friction with new independent fixtures, not relabel prior evidence.
 principles:
-  - Codex receives only declared, bounded context and deterministic recommendations.
-  - Dora reports readiness and evidence gaps, never product completion or release authority.
-  - Every recommendation names its source artifacts and its uncertainty or missing prerequisite.
-  - Caches are disposable, versioned, bounded to project roots, and correctness-tested.
-  - Optional integration exports remain read-only until a project explicitly configures them.
-  - Voice work remains a contract and evaluation layer; application-owned adapters execute no default mutation.
+- Codex receives only declared, bounded context and deterministic recommendations.
+- Dora reports readiness and evidence gaps, never product completion or release authority.
+- Every recommendation names its source artifacts and its uncertainty or missing prerequisite.
+- Caches are disposable, versioned, bounded to project roots, and correctness-tested.
+- Optional integration exports remain read-only until a project explicitly configures
+  them.
+- Voice work remains a contract and evaluation layer; application-owned adapters execute
+  no default mutation.
 children:
+- docs/work/dora-v09-atomic-hardening.yaml
+- docs/work/dora-v09-agent-feedback-loop.yaml
+- docs/work/dora-v09-project-experience.yaml
+- docs/work/dora-v09-evidence-intelligence.yaml
+- docs/work/dora-v09-performance-and-extensions.yaml
+- docs/work/dora-v09-release.yaml
+execution_inventory: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v09-atomic-hardening.yaml
+strict_verification: true
+serial_task_execution: true
+hardening_review:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+    docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
+  agent_boundary: Context and next-step outputs are deterministic from declared project
+    artifacts and cite their sources.
+  evidence_boundary: Status and findings may report gaps but never product completion.
+  extension_boundary: Cache and exports are bounded and read-only; voice work remains
+    evaluation-only without credentials or execution adapters.
+  release_boundary: Only the final two tasks may require external approval, tag, push,
+    or consumer pinning.
+readiness:
+  execution_mode: strict_serial
+  atomic_inventory_items: 18
+  first_item: v09-harden
+  decision: Ready to create a goal and execute the hardening task only; no v0.9 implementation
+    may begin before hardening is verifier-verified.
+evidence:
+- verifiedAt: '2026-08-05T14:50:21Z'
+  revision: f686ad55a8e6a7acf217235c4a0eea19db24f8e0
+  children:
   - docs/work/dora-v09-atomic-hardening.yaml
   - docs/work/dora-v09-agent-feedback-loop.yaml
   - docs/work/dora-v09-project-experience.yaml
   - docs/work/dora-v09-evidence-intelligence.yaml
   - docs/work/dora-v09-performance-and-extensions.yaml
   - docs/work/dora-v09-release.yaml
-execution_inventory: docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
-atomic_task_hardening_plan: docs/work/dora-v09-atomic-hardening.yaml
-strict_verification: true
-serial_task_execution: true
-hardening_review:
-  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v09-codex-delivery-acceleration-master.yaml docs/work/dora-v09-codex-delivery-acceleration-execution-inventory.yaml
-  agent_boundary: Context and next-step outputs are deterministic from declared project artifacts and cite their sources.
-  evidence_boundary: Status and findings may report gaps but never product completion.
-  extension_boundary: Cache and exports are bounded and read-only; voice work remains evaluation-only without credentials or execution adapters.
-  release_boundary: Only the final two tasks may require external approval, tag, push, or consumer pinning.
-readiness:
-  execution_mode: strict_serial
-  atomic_inventory_items: 18
-  first_item: v09-harden
-  decision: Ready to create a goal and execute the hardening task only; no v0.9 implementation may begin before hardening is verifier-verified.

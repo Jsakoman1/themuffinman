@@ -193,10 +193,21 @@ items:
   order: 17
   plan: docs/work/dora-v09-release.yaml
   task: publish-dora-v09
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T14:46:11Z'
+  verified_at: '2026-08-05T14:49:25Z'
+  evidence:
+    plan: docs/work/dora-v09-release.yaml
+    task: publish-dora-v09
+    revision: f686ad55a8e6a7acf217235c4a0eea19db24f8e0
 - id: v09-pin
   order: 18
   plan: docs/work/dora-v09-release.yaml
   task: pin-muffinman-v09
-  status: pending
+  status: verified
+  started_at: '2026-08-05T14:49:31Z'
+  verified_at: '2026-08-05T14:50:12Z'
+  evidence:
+    plan: docs/work/dora-v09-release.yaml
+    task: pin-muffinman-v09
+    revision: f686ad55a8e6a7acf217235c4a0eea19db24f8e0

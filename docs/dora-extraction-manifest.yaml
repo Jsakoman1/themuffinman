@@ -46,4 +46,4 @@ release_gate:
 next_release:
   version: v0.9.0
   handoff: docs/dora-release-handoff-v09.yaml
-  state: awaiting_external_approval
+  state: published_unpinned
