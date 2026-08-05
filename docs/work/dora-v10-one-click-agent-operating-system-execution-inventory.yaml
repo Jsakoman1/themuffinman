@@ -1,0 +1,226 @@
+kind: execution_inventory
+version: 1
+id: dora-v10-one-click-agent-operating-system-execution-inventory
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+status: draft
+hardening_contract:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+    docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  mapping: Every item maps once to one exact atomic task; only one global item may
+    run.
+  dependency: Every item directly depends on the immediately preceding inventory item;
+    no parallel execution path exists.
+  ownership: Dora owns neutral delivery mechanics; consuming projects own product
+    meaning, runtime authority, source approval, and external side effects.
+  path_coverage: Every item has one declared implementation boundary and one matching
+    child task; no inventory item represents a whole workstream.
+items:
+- id: v10-harden
+  order: 1
+  plan: docs/work/dora-v10-atomic-hardening.yaml
+  task: harden-v10-program
+  status: verified
+  started_at: '2026-08-05T15:15:53Z'
+  verified_at: '2026-08-05T15:16:52Z'
+  evidence:
+    plan: docs/work/dora-v10-atomic-hardening.yaml
+    task: harden-v10-program
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-new-contract
+  order: 2
+  plan: docs/work/dora-v10-one-click-entrypoint.yaml
+  task: add-project-new-contract
+  status: verified
+  started_at: '2026-08-05T15:17:02Z'
+  verified_at: '2026-08-05T15:17:52Z'
+  evidence:
+    plan: docs/work/dora-v10-one-click-entrypoint.yaml
+    task: add-project-new-contract
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-new-command
+  order: 3
+  plan: docs/work/dora-v10-one-click-entrypoint.yaml
+  task: add-project-new-command
+  status: verified
+  started_at: '2026-08-05T15:18:28Z'
+  verified_at: '2026-08-05T15:19:12Z'
+  evidence:
+    plan: docs/work/dora-v10-one-click-entrypoint.yaml
+    task: add-project-new-command
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-project-memory
+  order: 4
+  plan: docs/work/dora-v10-one-click-entrypoint.yaml
+  task: add-project-memory-contract
+  status: verified
+  started_at: '2026-08-05T15:19:23Z'
+  verified_at: '2026-08-05T15:22:10Z'
+  evidence:
+    plan: docs/work/dora-v10-one-click-entrypoint.yaml
+    task: add-project-memory-contract
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-new-memory-command
+  order: 5
+  plan: docs/work/dora-v10-one-click-entrypoint.yaml
+  task: wire-project-memory-entrypoint
+  status: verified
+  started_at: '2026-08-05T15:23:49Z'
+  verified_at: '2026-08-05T15:24:22Z'
+  evidence:
+    plan: docs/work/dora-v10-one-click-entrypoint.yaml
+    task: wire-project-memory-entrypoint
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-new-consumer
+  order: 6
+  plan: docs/work/dora-v10-one-click-entrypoint.yaml
+  task: prove-one-click-entrypoint-consumer
+  status: verified
+  started_at: '2026-08-05T15:24:28Z'
+  verified_at: '2026-08-05T15:25:27Z'
+  evidence:
+    plan: docs/work/dora-v10-one-click-entrypoint.yaml
+    task: prove-one-click-entrypoint-consumer
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-agent-context
+  order: 7
+  plan: docs/work/dora-v10-agent-command-surface.yaml
+  task: add-agent-context-command
+  status: verified
+  started_at: '2026-08-05T15:25:33Z'
+  verified_at: '2026-08-05T15:26:32Z'
+  evidence:
+    plan: docs/work/dora-v10-agent-command-surface.yaml
+    task: add-agent-context-command
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-command-parity
+  order: 8
+  plan: docs/work/dora-v10-agent-command-surface.yaml
+  task: add-agent-command-parity
+  status: verified
+  started_at: '2026-08-05T15:26:37Z'
+  verified_at: '2026-08-05T15:27:39Z'
+  evidence:
+    plan: docs/work/dora-v10-agent-command-surface.yaml
+    task: add-agent-command-parity
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-agent-consumer
+  order: 9
+  plan: docs/work/dora-v10-agent-command-surface.yaml
+  task: prove-agent-command-surface-consumer
+  status: verified
+  started_at: '2026-08-05T15:27:45Z'
+  verified_at: '2026-08-05T15:28:33Z'
+  evidence:
+    plan: docs/work/dora-v10-agent-command-surface.yaml
+    task: prove-agent-command-surface-consumer
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-impact-contract
+  order: 10
+  plan: docs/work/dora-v10-evidence-pipeline.yaml
+  task: unify-change-impact-contract
+  status: verified
+  started_at: '2026-08-05T15:28:39Z'
+  verified_at: '2026-08-05T15:29:35Z'
+  evidence:
+    plan: docs/work/dora-v10-evidence-pipeline.yaml
+    task: unify-change-impact-contract
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-plugin-findings
+  order: 11
+  plan: docs/work/dora-v10-evidence-pipeline.yaml
+  task: emit-standard-plugin-findings
+  status: verified
+  started_at: '2026-08-05T15:29:43Z'
+  verified_at: '2026-08-05T15:30:31Z'
+  evidence:
+    plan: docs/work/dora-v10-evidence-pipeline.yaml
+    task: emit-standard-plugin-findings
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-evidence-status
+  order: 12
+  plan: docs/work/dora-v10-evidence-pipeline.yaml
+  task: expose-evidence-status
+  status: verified
+  started_at: '2026-08-05T15:30:37Z'
+  verified_at: '2026-08-05T15:31:18Z'
+  evidence:
+    plan: docs/work/dora-v10-evidence-pipeline.yaml
+    task: expose-evidence-status
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-plugin-cache
+  order: 13
+  plan: docs/work/dora-v10-evidence-pipeline.yaml
+  task: integrate-analysis-cache
+  status: verified
+  started_at: '2026-08-05T15:31:23Z'
+  verified_at: '2026-08-05T15:32:10Z'
+  evidence:
+    plan: docs/work/dora-v10-evidence-pipeline.yaml
+    task: integrate-analysis-cache
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-finding-export
+  order: 14
+  plan: docs/work/dora-v10-evidence-pipeline.yaml
+  task: expose-finding-export
+  status: verified
+  started_at: '2026-08-05T15:32:15Z'
+  verified_at: '2026-08-05T15:32:41Z'
+  evidence:
+    plan: docs/work/dora-v10-evidence-pipeline.yaml
+    task: expose-finding-export
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-evidence-consumer
+  order: 15
+  plan: docs/work/dora-v10-evidence-pipeline.yaml
+  task: prove-evidence-pipeline-consumer
+  status: verified
+  started_at: '2026-08-05T15:32:49Z'
+  verified_at: '2026-08-05T15:33:26Z'
+  evidence:
+    plan: docs/work/dora-v10-evidence-pipeline.yaml
+    task: prove-evidence-pipeline-consumer
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-source-verification
+  order: 16
+  plan: docs/work/dora-v10-distribution-lifecycle.yaml
+  task: verify-reviewed-source-descriptor
+  status: verified
+  started_at: '2026-08-05T15:33:32Z'
+  verified_at: '2026-08-05T15:34:23Z'
+  evidence:
+    plan: docs/work/dora-v10-distribution-lifecycle.yaml
+    task: verify-reviewed-source-descriptor
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-upgrade-preview
+  order: 17
+  plan: docs/work/dora-v10-distribution-lifecycle.yaml
+  task: add-upgrade-preview-command
+  status: verified
+  started_at: '2026-08-05T15:34:29Z'
+  verified_at: '2026-08-05T15:35:21Z'
+  evidence:
+    plan: docs/work/dora-v10-distribution-lifecycle.yaml
+    task: add-upgrade-preview-command
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-lifecycle-consumer
+  order: 18
+  plan: docs/work/dora-v10-distribution-lifecycle.yaml
+  task: prove-distribution-lifecycle-consumer
+  status: verified
+  started_at: '2026-08-05T15:35:26Z'
+  verified_at: '2026-08-05T15:35:52Z'
+  evidence:
+    plan: docs/work/dora-v10-distribution-lifecycle.yaml
+    task: prove-distribution-lifecycle-consumer
+    revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+- id: v10-release
+  order: 19
+  plan: docs/work/dora-v10-release.yaml
+  task: publish-dora-v10
+  status: in_progress
+  started_at: '2026-08-05T15:43:26Z'
+- id: v10-pin
+  order: 20
+  plan: docs/work/dora-v10-release.yaml
+  task: pin-muffinman-v10
+  status: pending

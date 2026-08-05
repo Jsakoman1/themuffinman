@@ -3,7 +3,7 @@ version: 1
 status: released
 purpose: Preserve a complete, reversible separation boundary before any Dora repository release or history operation is approved.
 source_repository:
-  baseline: d6ac8d57cd4a7c019cdf16fba12e2989cb972693
+  baseline: d941c20f7fc274d1773703954dd9c5f23b0749ef
   dora_package_prefix: dora/
   current_distribution: git_subtree_pinned
 ownership:
@@ -42,8 +42,8 @@ rollback:
   post_release: Restore the recorded embedded Dora revision or pin from the immutable release revision; never reconstruct product evidence from Dora.
 release_gate:
   required_decisions: [remote destination and owner, Dora version and immutable revision, MuffinMan consumption and pinning method, reviewed history-preservation procedure]
-  current_state: approved_and_published
+  current_state: awaiting_explicit_external_approval
 next_release:
-  version: v0.9.0
-  handoff: docs/dora-release-handoff-v09.yaml
-  state: published_unpinned
+  version: v1.0.0
+  handoff: docs/dora-release-handoff-v10.yaml
+  state: awaiting_external_approval

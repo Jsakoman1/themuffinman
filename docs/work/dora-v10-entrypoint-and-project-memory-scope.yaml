@@ -1,0 +1,20 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v10-entrypoint-and-project-memory
+title: Give a beginner one no-invention project entrypoint and durable project memory
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+status: draft
+outcomes:
+  - A supported `dora new` path accepts explicit answers or a non-interactive answer file and creates valid neutral project knowledge.
+  - Project memory links product brief, domain library, open decisions, capability intent, and current work through declared references.
+  - The entrypoint creates only neutral Dora control artifacts and the first bounded work item; it creates no product implementation.
+decisions_required:
+  - Interactive prompts, answer-file input, or both.
+  - Minimal capability-map schema and its explicit non-completion boundary.
+evidence_needed:
+  - beginner one-command fixture
+  - non-interactive Codex answer-file fixture
+  - invalid and incomplete input rejection fixture
+boundaries:
+  - Do not infer business workflows, permissions, entities, technical stack, or architecture from an idea.
+  - Do not write outside the explicit destination or publish anything.

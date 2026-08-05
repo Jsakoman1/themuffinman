@@ -1,0 +1,149 @@
+kind: work
+version: 1
+id: dora-v10-agent-command-surface
+title: Expose Dora's complete bounded agent workflow
+status: verified
+baseline: d941c20f7fc274d1773703954dd9c5f23b0749ef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  atomicity_contract: Commands expose declared guidance only and never start work,
+    record completion, or grant approval.
+hardening_boundary: Each task exposes one command concern or one isolated consumer
+  proof; command visibility and documentation parity stay independently verifiable.
+tasks:
+- id: add-agent-context-command
+  inventory_item: v10-agent-context
+  type: implementation
+  observable_outcome: Codex can request a bounded cited task context through one public
+    CLI command
+  dependencies:
+  - v10-new-consumer
+  evidence_boundary:
+  - two-project agent-context CLI fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_context_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_context_command_test.rb
+  validation: ruby dora/test/agent_context_command_test.rb
+  status: done
+  started_at: '2026-08-05T15:25:33Z'
+  start_fingerprints:
+    dora/bin/dora: '09414b0dd3111175b0000448f25e29defea612cf39b3d1c27ddf9dfd3c5aec05'
+    dora/lib/dora/command_registry.rb: ef5c74f0c39672b0a413fe73918760d8dcb8cea143d9f6edd038cab067cb1834
+    dora/test/agent_context_command_test.rb: __missing__
+- id: add-agent-command-parity
+  inventory_item: v10-command-parity
+  type: implementation
+  observable_outcome: Help registry README and agent guide list the same supported
+    bounded agent commands
+  dependencies:
+  - v10-agent-context
+  evidence_boundary:
+  - command documentation parity fixture
+  paths:
+  - dora/lib/dora/command_registry.rb
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/agent_command_surface_test.rb
+  required_paths:
+  - dora/lib/dora/command_registry.rb
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/agent_command_surface_test.rb
+  validation: ruby dora/test/agent_command_surface_test.rb
+  status: done
+  started_at: '2026-08-05T15:26:37Z'
+  start_fingerprints:
+    dora/README.md: 73ee420fef24a11ae8f44587edbb6039aa2019306fbf35d6117621932b2c0125
+    dora/docs/agent-first-application-guide.md: afb34a5b8468b9a124642d6d4153878c916e52443bc9c7f28ad63ed6f50e7ac6
+    dora/test/agent_command_surface_test.rb: __missing__
+- id: prove-agent-command-surface-consumer
+  inventory_item: v10-agent-consumer
+  type: implementation
+  observable_outcome: Two independent projects receive only their own documented agent
+    command outputs
+  dependencies:
+  - v10-command-parity
+  evidence_boundary:
+  - independent agent command consumer
+  paths:
+  - dora/test/independent_agent_command_surface_consumer_test.rb
+  - dora/test/fixtures/agent-command-projects.yaml
+  required_paths:
+  - dora/test/independent_agent_command_surface_consumer_test.rb
+  - dora/test/fixtures/agent-command-projects.yaml
+  validation: ruby dora/test/independent_agent_command_surface_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T15:27:45Z'
+  start_fingerprints:
+    dora/test/independent_agent_command_surface_consumer_test.rb: __missing__
+    dora/test/fixtures/agent-command-projects.yaml: __missing__
+evidence:
+- task: add-agent-context-command
+  command: ruby dora/test/agent_context_command_test.rb
+  ranAt: '2026-08-05T15:26:32Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_context_command_test.rb
+  output: "Dora agent context command test passed (two projects receive bounded cited
+    context without cross-project knowledge).\n\n"
+  requiredPaths: &1
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_context_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:25:33Z'
+  changedAfterStart: *1
+- task: add-agent-command-parity
+  command: ruby dora/test/agent_command_surface_test.rb
+  ranAt: '2026-08-05T15:27:38Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_command_surface_test.rb
+  output: "Dora agent command surface test passed (registry, README, and agent guide
+    expose the same bounded commands).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/command_registry.rb
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/agent_command_surface_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:26:37Z'
+  changedAfterStart: *2
+- task: prove-agent-command-surface-consumer
+  command: ruby dora/test/independent_agent_command_surface_consumer_test.rb
+  ranAt: '2026-08-05T15:28:32Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/agent-command-projects.yaml
+  - dora/test/independent_agent_command_surface_consumer_test.rb
+  output: "Dora independent agent command surface consumer test passed (two projects
+    receive only their own documented guidance).\n\n"
+  requiredPaths: &3
+  - dora/test/independent_agent_command_surface_consumer_test.rb
+  - dora/test/fixtures/agent-command-projects.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:27:45Z'
+  changedAfterStart: *3

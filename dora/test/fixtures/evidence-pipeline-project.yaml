@@ -1,0 +1,7 @@
+kind: dora_evidence_pipeline_project
+version: 1
+project_id: evidence-journal
+product: Evidence garden journal
+open_decision: Who may archive an evidence note?
+task_id: record-evidence-note
+plugin_id: evidence-plugin

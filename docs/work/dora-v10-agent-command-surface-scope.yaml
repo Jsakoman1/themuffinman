@@ -1,0 +1,16 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v10-agent-command-surface
+title: Make the complete Dora agent workflow public, discoverable, and machine-readable
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+status: draft
+outcomes:
+  - Public CLI commands expose intake, bounded agent context, next action, status, impact, closeout, and plugin discovery.
+  - Command registry, executable help, README, and agent-first guide remain synchronized by a contract test.
+  - Every command produces deterministic project-relative output and names its evidence or non-completion boundary.
+evidence_needed:
+  - command registry parity fixture
+  - two-project CLI output fixture
+  - unsupported and unsafe input rejection fixture
+boundaries:
+  - Commands recommend declared work only; they never start implementation, mark completion, or grant approval.

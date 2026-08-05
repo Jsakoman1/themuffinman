@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: dora-v10-atomic-hardening
+title: Harden Dora v1.0 into exact serial work
+status: verified
+baseline: d941c20f7fc274d1773703954dd9c5f23b0749ef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  atomicity_contract: No v1.0 implementation begins before exact paths, dependencies,
+    validations, and evidence boundaries are audit-proven.
+hardening_checklist:
+- one outcome per task
+- exact required paths
+- direct serial dependency
+- leaf validation
+- evidence boundary
+- Dora-product ownership boundary
+tasks:
+- id: harden-v10-program
+  inventory_item: v10-harden
+  type: docs-only
+  observable_outcome: Every v1.0 task has exact paths, one leaf validation, a direct
+    serial dependency, and an explicit Dora-versus-product boundary.
+  dependencies: []
+  evidence_boundary:
+  - atomic hardening audit
+  paths:
+  - docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+  - docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  - docs/work/dora-v10-atomic-hardening.yaml
+  - docs/work/dora-v10-one-click-entrypoint.yaml
+  - docs/work/dora-v10-agent-command-surface.yaml
+  - docs/work/dora-v10-evidence-pipeline.yaml
+  - docs/work/dora-v10-distribution-lifecycle.yaml
+  - docs/work/dora-v10-release.yaml
+  required_paths:
+  - docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+  - docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  - docs/work/dora-v10-atomic-hardening.yaml
+  - docs/work/dora-v10-one-click-entrypoint.yaml
+  - docs/work/dora-v10-agent-command-surface.yaml
+  - docs/work/dora-v10-evidence-pipeline.yaml
+  - docs/work/dora-v10-distribution-lifecycle.yaml
+  - docs/work/dora-v10-release.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+    docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-05T15:15:53Z'
+  start_fingerprints:
+    docs/work/dora-v10-one-click-agent-operating-system-master.yaml: 857453cf0ea9a45a358c7dfaef31902068542fe5743a91e897e4b755e54aa25b
+    docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml: e929284a7839fb93059cf14f8caca4747941508a3d8c0bf26ab5caab90b67a31
+    docs/work/dora-v10-atomic-hardening.yaml: d94e56784e46cdf9c51411c50adb85ee9f359269e779061b493033c8bbfd7a75
+    docs/work/dora-v10-one-click-entrypoint.yaml: 9b4cd9f8b5da259fc4d7e74da39393f40d8c370dd8d901ddd328ad6e73dd935d
+    docs/work/dora-v10-agent-command-surface.yaml: 4884fe7bae3f1cedd49f5904147884ccd97a4ecf94ee241a920150ea645a6278
+    docs/work/dora-v10-evidence-pipeline.yaml: 528e39b52f116f36ae561e5de046716e965b7ec29952c33f6ddd66bdc8062076
+    docs/work/dora-v10-distribution-lifecycle.yaml: 3832060787c1b16379715da7496c7fbe5d9df1456d081f9cc6c2147acf9b03ba
+    docs/work/dora-v10-release.yaml: e8630578bb6404adf38ef6391472b0bc83a0cafcad11f595ecfb5a0aea124107
+evidence:
+- task: harden-v10-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+    docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  ranAt: '2026-08-05T15:16:52Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v10-agent-command-surface.yaml
+  - docs/work/dora-v10-atomic-hardening.yaml
+  - docs/work/dora-v10-distribution-lifecycle.yaml
+  - docs/work/dora-v10-evidence-pipeline.yaml
+  - docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  - docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+  - docs/work/dora-v10-one-click-entrypoint.yaml
+  - docs/work/dora-v10-release.yaml
+  output: "Atomic task hardening audit passed (19 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+  - docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  - docs/work/dora-v10-atomic-hardening.yaml
+  - docs/work/dora-v10-one-click-entrypoint.yaml
+  - docs/work/dora-v10-agent-command-surface.yaml
+  - docs/work/dora-v10-evidence-pipeline.yaml
+  - docs/work/dora-v10-distribution-lifecycle.yaml
+  - docs/work/dora-v10-release.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:15:53Z'
+  changedAfterStart: *1

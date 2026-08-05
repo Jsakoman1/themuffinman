@@ -1,0 +1,17 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v10-distribution-lifecycle
+title: Make Dora source consumption and upgrades reproducible without weakening safety
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+status: draft
+outcomes:
+  - A reviewed source descriptor identifies repository, immutable tag commit, and checksum or equivalent content verification.
+  - A dry-run upgrade command reports package/control migrations and rollback instructions without mutating a consumer.
+  - Release automation records immutable tag, compatibility proof, and consumer pin only after explicit approval.
+evidence_needed:
+  - valid and tampered source descriptor fixtures
+  - two-consumer no-mutation upgrade-preview fixture
+  - release handoff and compatibility audit fixture
+boundaries:
+  - No default remote download, silent upgrade, history rewrite, or consumer pin.
+  - Publication, tag creation, remote writes, and consumer pinning remain separately approved external actions.

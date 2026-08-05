@@ -1,0 +1,10 @@
+kind: dora_project_new_schema
+version: 1
+purpose: Define explicit answers required to create a neutral Dora-controlled project and its first bounded work item.
+required_fields: [kind, version, project_id, intake, first_work]
+first_work_required_fields: [id, title, observable_outcome, required_paths, validation, evidence_boundary]
+invariants:
+  - Project creation consumes explicit project-owned answers and does not infer product rules, a stack, or implementation code.
+  - Intake remains the canonical source for product, domain, and agent-operating knowledge.
+  - First work is one bounded declaration, not evidence of implementation or completion.
+  - Required paths are project-relative and validation is declared by the consuming project.

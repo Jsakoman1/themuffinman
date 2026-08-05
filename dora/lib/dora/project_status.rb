@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "json"
 require_relative "adapter"
+require_relative "decision_log"
 require_relative "project_doctor"
 require_relative "project_knowledge"
 
@@ -24,6 +26,8 @@ module Dora
         "health" => {"healthy" => health.fetch("healthy"), "failed_checks" => health.fetch("checks").select { |check| check.fetch("status") == "failed" }.map { |check| check.fetch("id") }},
         "active_work" => items.select { |item| item["status"] == "in_progress" }.map { |item| item.slice("id", "plan", "task") },
         "open_decisions" => knowledge.dig("product_brief", "unanswered_decisions"),
+        "findings" => findings_for(root),
+        "decision_log" => decision_entries_for(root),
         "evidence_gaps" => items.reject { |item| item["status"] == "verified" }.map { |item| item.slice("id", "plan", "task", "status") },
         "completion" => {"claimed" => false, "reason" => "Only project work verification records completion evidence."}
       }.freeze
@@ -35,6 +39,24 @@ module Dora
       path.is_a?(String) && !path.empty? && !path.start_with?("/") && !path.split("/").include?("..")
     end
     private_class_method :safe_relative_path?
+
+    def self.findings_for(root)
+      Dir[File.join(root, "docs/audit-output/**/*.json")].sort.flat_map do |path|
+        report = JSON.parse(File.read(path))
+        next [] unless report["kind"] == "dora_plugin_report" && report["finding_contract"] == "dora_finding"
+
+        Array(report["findings"]).map { |finding| finding.slice("id", "severity", "location", "explanation", "repair", "evidence", "diagnostic_boundary") }
+      rescue JSON::ParserError
+        []
+      end
+    end
+    private_class_method :findings_for
+
+    def self.decision_entries_for(root)
+      path = File.join(root, ".dora/decision-log.yaml")
+      File.file?(path) ? DecisionLog.load!(path).fetch("entries").map { |entry| entry.slice("id", "decision", "status", "evidence_references") } : []
+    end
+    private_class_method :decision_entries_for
 
     def self.fail!(message)
       raise ArgumentError, message

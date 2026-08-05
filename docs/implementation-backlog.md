@@ -6,7 +6,7 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
-- DORA-V09-CODEX-DELIVERY-ACCELERATION-001: refine Dora from a validated delivery-control package into a faster day-to-day Codex operating system through task-scoped context, safe next-step and change-impact guidance, a beginner project dashboard, standard findings, decision traceability, and measured analysis performance. Execute `docs/work/dora-v09-codex-delivery-acceleration-master.yaml` only after atomic-task hardening and a separately approved goal.
+- DORA-V10-ONE-CLICK-AGENT-OPERATING-SYSTEM-001: turn Dora v0.9's verified but separate agent, intake, evidence, cache, and release capabilities into one discoverable Codex-first project workflow. Prioritize a no-invention `dora new` path, a complete public agent command surface, a unified evidence pipeline, reviewed release-source upgrade flow, and independent consumer proof. Plan: `docs/work/dora-v10-one-click-agent-operating-system-master.yaml`.
 
 - UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,

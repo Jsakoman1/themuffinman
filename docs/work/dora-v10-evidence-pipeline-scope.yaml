@@ -1,0 +1,22 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v10-evidence-pipeline
+title: Connect declared analysis, findings, impact, decisions, cache, and read-only exports
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+status: draft
+outcomes:
+  - Plugin results can emit standard diagnostic findings without changing existing project semantics.
+  - One canonical path-impact contract drives change guidance and closeout obligations.
+  - Status reports declared findings, decision references, evidence gaps, and cache observations separately.
+  - Declared static-analysis runs may reuse a versioned local cache and export read-only annotations.
+decisions_required:
+  - Canonical change-impact API and migration path from ChangeCheck.
+  - Supported portable export format and optional CI/GitHub annotation boundary.
+evidence_needed:
+  - plugin-to-finding-to-status fixture
+  - impact compatibility fixture
+  - cache hit, invalidation, and no-stale-result fixture
+  - read-only export snapshot
+boundaries:
+  - Diagnostics never prove runtime acceptance, product completion, or release readiness.
+  - Exports and cache must not mutate product sources or external services by default.

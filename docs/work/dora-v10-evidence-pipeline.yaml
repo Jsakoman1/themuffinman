@@ -1,0 +1,282 @@
+kind: work
+version: 1
+id: dora-v10-evidence-pipeline
+title: Connect diagnostics impact decisions cache and export into one advisory pipeline
+status: verified
+baseline: d941c20f7fc274d1773703954dd9c5f23b0749ef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  atomicity_contract: Diagnostics remain distinct from test and runtime evidence and
+    never establish completion.
+hardening_boundary: Each task adds one compatible evidence transition or isolated
+  consumer proof; no diagnostic output is promoted to completion evidence.
+tasks:
+- id: unify-change-impact-contract
+  inventory_item: v10-impact-contract
+  type: implementation
+  observable_outcome: Change guidance and closeout use one compatible declared path-impact
+    service
+  dependencies:
+  - v10-agent-consumer
+  evidence_boundary:
+  - two-project compatibility fixture
+  paths:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_check.rb
+  - dora/lib/dora/change_impact.rb
+  - dora/test/change_impact_compatibility_test.rb
+  required_paths:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_check.rb
+  - dora/lib/dora/change_impact.rb
+  - dora/test/change_impact_compatibility_test.rb
+  validation: ruby dora/test/change_impact_compatibility_test.rb
+  status: done
+  started_at: '2026-08-05T15:28:39Z'
+  start_fingerprints:
+    dora/change-impact.schema.yaml: 8d827d399546b072fc1dd16f7da126e47706b70cc36aa7a109e2544b59056ec3
+    dora/lib/dora/change_check.rb: 57ae13f8d292e1dfbfe744d61caf54902dfe1619bbb5d41c6bc4fb6d9b856afc
+    dora/lib/dora/change_impact.rb: f064956f8b2b8e1e5ea214e0ebfd4dbf13b4208ebf86d625f4c16d3589eff965
+    dora/test/change_impact_compatibility_test.rb: __missing__
+- id: emit-standard-plugin-findings
+  inventory_item: v10-plugin-findings
+  type: implementation
+  observable_outcome: A declared plugin run emits compatible standard diagnostic findings
+  dependencies:
+  - v10-impact-contract
+  evidence_boundary:
+  - plugin finding compatibility fixture
+  paths:
+  - dora/lib/dora/plugin_report.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_finding_pipeline_test.rb
+  required_paths:
+  - dora/lib/dora/plugin_report.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_finding_pipeline_test.rb
+  validation: ruby dora/test/plugin_finding_pipeline_test.rb
+  status: done
+  started_at: '2026-08-05T15:29:43Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_report.rb: b1d584f2e45e651cf5cfe6bf60187a8aa094f96c5cceb04c7cde3b5acfb40ea3
+    dora/lib/dora/plugin_runner.rb: 9b7b5d2df8b56afa1dfb9f70e8a430b8e29855b5a8095d777f0b38998aa3d97d
+    dora/test/plugin_finding_pipeline_test.rb: __missing__
+- id: expose-evidence-status
+  inventory_item: v10-evidence-status
+  type: implementation
+  observable_outcome: Project status separates declared findings decisions evidence
+    gaps and completion boundary
+  dependencies:
+  - v10-plugin-findings
+  evidence_boundary:
+  - evidence-aware project status fixture
+  paths:
+  - dora/lib/dora/project_status.rb
+  - dora/lib/dora/decision_log.rb
+  - dora/test/evidence_status_test.rb
+  required_paths:
+  - dora/lib/dora/project_status.rb
+  - dora/lib/dora/decision_log.rb
+  - dora/test/evidence_status_test.rb
+  validation: ruby dora/test/evidence_status_test.rb
+  status: done
+  started_at: '2026-08-05T15:30:37Z'
+  start_fingerprints:
+    dora/lib/dora/project_status.rb: 6bdeb1032c936421a0691ba83ed442179126c16977cf6b627ff2a8b17b9d6f01
+    dora/lib/dora/decision_log.rb: 187b20f7e149bdfa50a17ed73c153e0e825786862afaf53c075e4df3f87f31e2
+    dora/test/evidence_status_test.rb: __missing__
+- id: integrate-analysis-cache
+  inventory_item: v10-plugin-cache
+  type: implementation
+  observable_outcome: A declared static plugin run reports a bounded cache hit or
+    miss and invalidates changed inputs
+  dependencies:
+  - v10-evidence-status
+  evidence_boundary:
+  - plugin cache invalidation fixture
+  paths:
+  - dora/lib/dora/analysis_cache.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_analysis_cache_test.rb
+  required_paths:
+  - dora/lib/dora/analysis_cache.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_analysis_cache_test.rb
+  validation: ruby dora/test/plugin_analysis_cache_test.rb
+  status: done
+  started_at: '2026-08-05T15:31:23Z'
+  start_fingerprints:
+    dora/lib/dora/analysis_cache.rb: 4a517e60e43c28c376dee3f17d281ab23c973f3f504bf38672789e522b0dacbd
+    dora/lib/dora/plugin_runner.rb: 7118ae079887214c502c673d7383ba2340ebd3e329ba752dccbf7e4326c7eb7e
+    dora/test/plugin_analysis_cache_test.rb: __missing__
+- id: expose-finding-export
+  inventory_item: v10-finding-export
+  type: implementation
+  observable_outcome: Standard findings export through a documented read-only public
+    command
+  dependencies:
+  - v10-plugin-cache
+  evidence_boundary:
+  - portable export CLI snapshot
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/finding_export_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/finding_export_command_test.rb
+  validation: ruby dora/test/finding_export_command_test.rb
+  status: done
+  started_at: '2026-08-05T15:32:15Z'
+  start_fingerprints:
+    dora/bin/dora: 62f7737fdfe836e84e43e82ee6a7053c21abbab6c83364f05ebaf0e272936bbd
+    dora/lib/dora/command_registry.rb: ee211777965b317d0b2d485a521e6aa63da33bac5b236cc532be50b3855504a6
+    dora/test/finding_export_command_test.rb: __missing__
+- id: prove-evidence-pipeline-consumer
+  inventory_item: v10-evidence-consumer
+  type: implementation
+  observable_outcome: A fresh project traces one declared plugin result through findings
+    impact status export and closeout
+  dependencies:
+  - v10-finding-export
+  evidence_boundary:
+  - independent evidence pipeline consumer
+  paths:
+  - dora/test/independent_evidence_pipeline_consumer_test.rb
+  - dora/test/fixtures/evidence-pipeline-project.yaml
+  required_paths:
+  - dora/test/independent_evidence_pipeline_consumer_test.rb
+  - dora/test/fixtures/evidence-pipeline-project.yaml
+  validation: ruby dora/test/independent_evidence_pipeline_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T15:32:49Z'
+  start_fingerprints:
+    dora/test/independent_evidence_pipeline_consumer_test.rb: __missing__
+    dora/test/fixtures/evidence-pipeline-project.yaml: __missing__
+evidence:
+- task: unify-change-impact-contract
+  command: ruby dora/test/change_impact_compatibility_test.rb
+  ranAt: '2026-08-05T15:29:34Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_check.rb
+  - dora/lib/dora/change_impact.rb
+  - dora/test/change_impact_compatibility_test.rb
+  output: "Dora change impact compatibility test passed (the canonical impact service
+    and compatibility facade agree for two projects).\n\n"
+  requiredPaths: &1
+  - dora/change-impact.schema.yaml
+  - dora/lib/dora/change_check.rb
+  - dora/lib/dora/change_impact.rb
+  - dora/test/change_impact_compatibility_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:28:39Z'
+  changedAfterStart: *1
+- task: emit-standard-plugin-findings
+  command: ruby dora/test/plugin_finding_pipeline_test.rb
+  ranAt: '2026-08-05T15:30:31Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugin_report.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_finding_pipeline_test.rb
+  output: "Dora plugin finding pipeline test passed (declared plugin output becomes
+    standard diagnostic findings).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/plugin_report.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_finding_pipeline_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:29:43Z'
+  changedAfterStart: *2
+- task: expose-evidence-status
+  command: ruby dora/test/evidence_status_test.rb
+  ranAt: '2026-08-05T15:31:18Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/decision_log.rb
+  - dora/lib/dora/project_status.rb
+  - dora/test/evidence_status_test.rb
+  output: "Dora evidence status test passed (findings, decisions, gaps, and completion
+    boundary remain separate).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/project_status.rb
+  - dora/lib/dora/decision_log.rb
+  - dora/test/evidence_status_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:30:37Z'
+  changedAfterStart: *3
+- task: integrate-analysis-cache
+  command: ruby dora/test/plugin_analysis_cache_test.rb
+  ranAt: '2026-08-05T15:32:10Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/analysis_cache.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_analysis_cache_test.rb
+  output: "Dora plugin analysis cache test passed (declared plugin analysis reports
+    hits and invalidates changed source inputs).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/analysis_cache.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_analysis_cache_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:31:23Z'
+  changedAfterStart: *4
+- task: expose-finding-export
+  command: ruby dora/test/finding_export_command_test.rb
+  ranAt: '2026-08-05T15:32:41Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/finding_export_command_test.rb
+  output: "Dora finding export command test passed (standard findings export through
+    a read-only public CLI command).\n\n"
+  requiredPaths: &5
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/finding_export_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:32:15Z'
+  changedAfterStart: *5
+- task: prove-evidence-pipeline-consumer
+  command: ruby dora/test/independent_evidence_pipeline_consumer_test.rb
+  ranAt: '2026-08-05T15:33:26Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/evidence-pipeline-project.yaml
+  - dora/test/independent_evidence_pipeline_consumer_test.rb
+  output: "Dora independent evidence pipeline consumer test passed (a fresh project
+    traces diagnostic findings through impact, status, export, and closeout without
+    completion claims).\n\n"
+  requiredPaths: &6
+  - dora/test/independent_evidence_pipeline_consumer_test.rb
+  - dora/test/fixtures/evidence-pipeline-project.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:32:49Z'
+  changedAfterStart: *6

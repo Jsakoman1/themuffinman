@@ -13,7 +13,7 @@ properties:
     const: 1
   source:
     type: object
-    required: [path, ref]
+    required: [path, ref, checksum]
     properties:
       path:
         type: string
@@ -22,3 +22,7 @@ properties:
         type: string
         pattern: '^[0-9a-fA-F]{40}$'
         description: Immutable reviewed commit identifier recorded with the copied local source.
+      checksum:
+        type: string
+        pattern: '^[0-9a-fA-F]{64}$'
+        description: SHA-256 digest of the reviewed local Dora source content, excluding Git metadata.

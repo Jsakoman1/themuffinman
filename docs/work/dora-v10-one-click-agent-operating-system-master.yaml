@@ -1,0 +1,94 @@
+kind: master
+version: 1
+id: dora-v10-one-click-agent-operating-system-master
+title: Turn Dora v0.9 capabilities into one discoverable Codex-first delivery workflow
+status: draft
+implementation_ready: true
+baseline: d941c20f7fc274d1773703954dd9c5f23b0749ef
+target_release: v1.0.0
+objective: >-
+  Make Dora one-click ready for an explicit idea-to-verified-work path while preserving
+  project ownership of product meaning, runtime authority, and external approval.
+analysis_source: docs/work/dora-v10-one-click-agent-operating-system-analysis.md
+preflight_source: docs/work/dora-v10-one-click-agent-operating-system-preflight.md
+goal_readiness_source: docs/work/dora-v10-one-click-agent-operating-system-goal-readiness.md
+prior_verified_baseline:
+  - docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+  - docs/dora-release-handoff-v09.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/dora-v09-codex-delivery-acceleration-master.yaml
+    - docs/work/dora-v08-agent-first-operating-system-master.yaml
+  baseline_only_surfaces:
+    - v0.9 task context, next-step, closeout, status, finding, impact, cache, voice evaluation, and release mechanics
+  residual_scope:
+    - one beginner and Codex entrypoint over existing neutral contracts
+    - complete and documented public agent command surface
+    - integrated evidence and cache workflow
+    - verified source consumption and upgrade lifecycle
+  retest_triggers:
+    - changed public Dora CLI command or registry
+    - changed project knowledge or change-impact schema
+    - changed plugin report, finding, or cache key contract
+    - changed bootstrap source verification or upgrade behavior
+    - changed release, external export, or consumer pin boundary
+  non_duplication_rule: >-
+    v0.9 proves individual portable mechanics; v1.0 must prove their coherent public
+    workflow and independent consumer lifecycle rather than repeat individual fixtures.
+principles:
+  - Dora generates neutral structure and deterministic guidance only from declared project inputs.
+  - Product requirements, domain rules, permissions, runtime authority, and acceptance remain consumer-owned.
+  - Every user-visible command has a documented input contract, machine-readable output contract, and independent fixture.
+  - Findings, status, cache, and exports are diagnostic or advisory until a project verifier records evidence.
+  - Network source acquisition, release publication, and consumer pinning require explicit approval and immutable references.
+workstreams:
+  - docs/work/dora-v10-entrypoint-and-project-memory-scope.yaml
+  - docs/work/dora-v10-agent-command-surface-scope.yaml
+  - docs/work/dora-v10-evidence-pipeline-scope.yaml
+  - docs/work/dora-v10-distribution-lifecycle-scope.yaml
+children:
+  - docs/work/dora-v10-atomic-hardening.yaml
+  - docs/work/dora-v10-one-click-entrypoint.yaml
+  - docs/work/dora-v10-agent-command-surface.yaml
+  - docs/work/dora-v10-evidence-pipeline.yaml
+  - docs/work/dora-v10-distribution-lifecycle.yaml
+  - docs/work/dora-v10-release.yaml
+execution_inventory: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v10-atomic-hardening.yaml
+strict_verification: true
+serial_task_execution: true
+hardening_review:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v10-one-click-agent-operating-system-master.yaml docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  agent_boundary: Public commands use only declared project knowledge and work artifacts, cite their inputs, and never issue a completion conclusion.
+  evidence_boundary: Findings, cache, status, and exports remain advisory until project verification records evidence.
+  distribution_boundary: Source verification and upgrade preview remain local and non-mutating; remote operations require explicit approval.
+  release_boundary: Only the final two tasks may publish, tag, push, or pin a consumer.
+  review_state: Prepared for leaf-audit verification before any v1.0 implementation task begins.
+sequencing:
+  - Harden the master into atomic tasks and one serial inventory before implementation.
+  - Deliver project entrypoint and project memory before agent command exposure.
+  - Deliver command exposure before evidence-pipeline integration.
+  - Deliver an independent end-to-end consumer proof before any release preparation.
+  - Require explicit approval only for publication, tag creation, remote writes, and consumer pinning.
+required_before_goal_pursuit:
+  - A preflight maps every proposed public command to an existing or new contract, exact paths, and leaf validation.
+  - Atomic-task hardening creates one global serial execution inventory with no parallel path.
+  - The recorded `dora new` decision preserves answer-file input as canonical and permits an interactive wrapper that writes the same explicit answers.
+  - The recorded evidence decision makes ChangeImpact the canonical path-impact API while ChangeCheck remains a tested compatibility facade during migration.
+  - The recorded distribution decision requires immutable tag, commit, checksum, dry-run migration report, rollback instructions, and no default network mutation.
+success_criteria:
+  - A beginner can create a neutral controlled project from explicit answers through one supported public command.
+  - Codex can obtain context, next action, project status, impact, and closeout through documented public commands.
+  - One declared plugin run produces compatible standard findings and advisory downstream guidance.
+  - Cache correctness, status transparency, and input invalidation are independently proven.
+  - A verified source-upgrade preview changes no consumer files and reports all proposed migrations.
+  - An independent consumer proves the full workflow without MuffinMan data.
+release_boundary:
+  - No release, tag, push, GitHub annotation delivery, remote source download, or consumer pin occurs without explicit user approval.
+  - A v1.0 release must be reachable by immutable tag and independently compatibility-audited before pinning MuffinMan.
+readiness:
+  execution_mode: strict_serial
+  atomic_inventory_items: 20
+  first_item: v10-harden
+  decision: Ready to create a goal and execute the hardening task only; no v1.0 implementation may begin before hardening is verifier-verified.

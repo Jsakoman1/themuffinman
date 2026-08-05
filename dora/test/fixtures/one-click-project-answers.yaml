@@ -1,0 +1,61 @@
+kind: dora_project_new
+version: 1
+project_id: garden-journal
+intake:
+  kind: dora_project_intake
+  version: 1
+  product_brief:
+    kind: dora_product_brief
+    version: 1
+    product: Garden journal
+    user_problem: A garden group needs a shared record of planting decisions.
+    primary_users: [Garden member]
+    intended_outcomes: [Members can find a planting decision before planting.]
+    non_goals: [Do not build a marketplace.]
+    assumptions: [Members agree to share their garden notes.]
+    risks: [Members may not record decisions consistently.]
+    unanswered_decisions: ['Who may archive a planting note?']
+  domain_library:
+    kind: dora_domain_library
+    version: 1
+    vocabulary:
+      - {id: planting-note, description: A shared record of one planting decision.}
+    entities:
+      - {id: planting-note, description: A note owned by one garden group.}
+    invariants:
+      - {id: group-owner, description: A planting note belongs to one garden group.}
+    permission_rules:
+      - {id: record, actor: member, action: record, boundary: their garden group}
+    workflows:
+      - id: planting-note
+        initial_state: draft
+        transitions:
+          - {from: draft, to: recorded, action: record}
+    acceptance_scenarios:
+      - {id: record, given: a garden member, when: they record a planting note, then: their group can read it}
+  agent_profile:
+    kind: dora_agent_project_profile
+    version: 1
+    entrypoints:
+      - {id: agent-guide, path: AGENTS.md, purpose: Read the project's operating instructions first.}
+    canonical_knowledge:
+      - {id: product-brief, path: docs/product-brief.yaml, purpose: Declared product intent.}
+      - {id: domain-library, path: docs/domain-library.yaml, purpose: Declared domain rules.}
+    stack_commands:
+      - {id: test, command: 'true', purpose: Run the fixture validation.}
+    authority_limits:
+      - {id: external-changes, rule: Do not publish, deploy, or change external state without explicit approval.}
+    evidence_requirements:
+      - {id: implementation, rule: Record a passing leaf validation before marking a work item verified.}
+    implementation_order:
+      - {id: understand, rule: Read canonical product and domain knowledge before planning a change.}
+      - {id: plan, rule: Define one bounded observable work item before implementation.}
+      - {id: implement, rule: Make the smallest change that satisfies the bounded item.}
+      - {id: verify, rule: Run declared validation and retain its evidence.}
+first_work:
+  id: record-note
+  title: Record a planting note
+  observable_outcome: A planting-note guide exists.
+  required_paths: [docs/planting-note.md]
+  validation: 'true'
+  evidence_boundary: [garden note fixture]

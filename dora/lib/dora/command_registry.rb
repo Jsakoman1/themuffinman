@@ -7,6 +7,7 @@ module Dora
   class CommandRegistry
     CORE_COMMANDS = [
       {"usage" => "dora init <destination> --project <project-id>", "purpose" => "Create a declared Dora control structure."},
+      {"usage" => "dora new <destination> --answers <project-new.yaml>", "purpose" => "Create neutral project knowledge and one explicit first work declaration from supplied answers."},
       {"usage" => "dora bootstrap <destination> --project <project-id> --source <bootstrap-source.yaml> [--starter <starter-id>] [--ci <ci-pack>]", "purpose" => "Copy an explicitly declared local Dora source, optionally apply a technical starter and CI pack, and initialize a project-local launcher."},
       {"usage" => "dora configure <adapter-path> --control <control-id> --from <yaml-path>", "purpose" => "Apply one explicit project-owned control configuration."},
       {"usage" => "dora help [adapter-path]", "purpose" => "List Dora commands and optional project extensions."},
@@ -28,7 +29,12 @@ module Dora
       {"usage" => "dora plugin-contract <plugin-manifest-path>", "purpose" => "Validate declared optional plugin roots, inputs, and report contract."},
       {"usage" => "dora plugin-run <plugin-manifest-path> <plugin-id>", "purpose" => "Execute one declared local Ruby plugin without shell interpolation."},
       {"usage" => "dora work-start <adapter-path> plan=<path> task=<id>", "purpose" => "Start one project-owned work item."},
-      {"usage" => "dora work-verify <adapter-path> plan=<path> [task=<id>]", "purpose" => "Verify one project-owned work item."}
+      {"usage" => "dora work-verify <adapter-path> plan=<path> [task=<id>]", "purpose" => "Verify one project-owned work item."},
+      {"usage" => "dora agent-context <adapter-path> <work-plan-path> <task-id>", "purpose" => "Emit cited declared context for one bounded task without inferring completion."},
+      {"usage" => "dora agent-next <adapter-path> <execution-inventory-path>", "purpose" => "Select the next declared pending work item without starting it."},
+      {"usage" => "dora status <adapter-path> <execution-inventory-path>", "purpose" => "Report declared project health, open decisions, and evidence gaps without a completion claim."},
+      {"usage" => "dora findings-export <plugin-report.json>", "purpose" => "Convert standard plugin findings into read-only portable annotations."},
+      {"usage" => "dora agent-closeout <adapter-path> <work-plan-path> <task-id> <change-impact-path> <changed-path>...", "purpose" => "Report declared closeout gaps for one task without recording verification or approval."}
     ].freeze
 
     def self.list(adapter_path: nil, schema_path:)

@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "json"
 
 ROOT = File.expand_path("..", __dir__)
 SCHEMA_PATH = File.join(ROOT, "project-adapter.schema.yaml")
@@ -9,12 +10,17 @@ require File.join(ROOT, "lib/dora/adapter")
 require File.join(ROOT, "lib/dora/work_verifier")
 require File.join(ROOT, "lib/dora/work_execution")
 require File.join(ROOT, "lib/dora/project_initializer")
+require File.join(ROOT, "lib/dora/project_new")
+require File.join(ROOT, "lib/dora/project_memory")
 require File.join(ROOT, "lib/dora/project_bootstrap")
+require File.join(ROOT, "lib/dora/project_upgrade")
 require File.join(ROOT, "lib/dora/project_doctor")
 require File.join(ROOT, "lib/dora/project_knowledge")
+require File.join(ROOT, "lib/dora/agent_context")
 require File.join(ROOT, "lib/dora/agent_next")
 require File.join(ROOT, "lib/dora/agent_closeout")
 require File.join(ROOT, "lib/dora/project_status")
+require File.join(ROOT, "lib/dora/finding_export")
 require File.join(ROOT, "lib/dora/plugin_discovery")
 require File.join(ROOT, "lib/dora/command_registry")
 require File.join(ROOT, "lib/dora/tool_selection_commands")
@@ -91,6 +97,49 @@ rescue ArgumentError => error
   fail!(error.message)
 end
 
+def create_project_from_answers(destination, answers_path)
+  answers = Dora::ProjectNew.validate!(YAML.load_file(answers_path))
+  root = File.expand_path(destination)
+  Dora::ProjectInitializer.initialize!(root, project_id: answers.fetch("project_id"), manifest_path: File.join(ROOT, "templates/init-manifest.yaml"))
+  knowledge = answers.fetch("intake")
+  write_yaml(File.join(root, "docs/product-brief.yaml"), knowledge.fetch("product_brief"))
+  write_yaml(File.join(root, "docs/domain-library.yaml"), knowledge.fetch("domain_library"))
+  write_yaml(File.join(root, ".dora/agent-project-profile.yaml"), knowledge.fetch("agent_profile"))
+  first_work = answers.fetch("first_work")
+  plan_path = "docs/work/first-work.yaml"
+  plan = {"kind" => "work", "version" => 1, "id" => "first-work", "title" => first_work.fetch("title"), "status" => "draft", "baseline" => "pending_git_baseline", "strict_verification" => true, "serial_task_execution" => true, "execution_inventory" => "docs/work/execution-inventory.yaml", "tasks" => [first_work.merge("inventory_item" => first_work.fetch("id"), "dependencies" => [])]}
+  inventory = {"kind" => "execution_inventory", "version" => 1, "id" => "first-work", "master_plan" => plan_path, "items" => [{"id" => first_work.fetch("id"), "order" => 1, "plan" => plan_path, "task" => first_work.fetch("id"), "status" => "pending"}]}
+  write_yaml(File.join(root, plan_path), plan)
+  write_yaml(File.join(root, "docs/work/execution-inventory.yaml"), inventory)
+  write_yaml(File.join(root, "docs/project-memory.yaml"), project_memory(knowledge, first_work, plan_path))
+  puts "Dora project created: #{root} (explicit knowledge and first work declaration; create a Git baseline before work-start)."
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def project_memory(knowledge, first_work, plan_path)
+  open_decisions = knowledge.fetch("product_brief").fetch("unanswered_decisions").each_with_index.map do |statement, index|
+    {"id" => "open-decision-#{index + 1}", "statement" => statement, "source" => "docs/product-brief.yaml"}
+  end
+  Dora::ProjectMemory.validate!(
+    "kind" => "dora_project_memory",
+    "version" => 1,
+    "project_intent" => {"product_brief" => "docs/product-brief.yaml", "domain_library" => "docs/domain-library.yaml"},
+    "canonical_knowledge" => [
+      {"id" => "product", "path" => "docs/product-brief.yaml", "purpose" => "Declared product intent and unresolved decisions."},
+      {"id" => "domain", "path" => "docs/domain-library.yaml", "purpose" => "Declared domain rules and workflows."},
+      {"id" => "agent", "path" => ".dora/agent-project-profile.yaml", "purpose" => "Declared Codex operating constraints and commands."}
+    ],
+    "open_decisions" => open_decisions,
+    "capability_intent" => [{"id" => first_work.fetch("id"), "intended_outcome" => first_work.fetch("observable_outcome"), "knowledge_references" => ["product", "domain", "agent"]}],
+    "current_work" => {"plan" => plan_path, "task" => first_work.fetch("id"), "state" => "planned"}
+  )
+end
+
+def write_yaml(path, document)
+  File.write(path, YAML.dump(document).sub(/\A---\n/, ""))
+end
+
 def bootstrap_project(destination, project_id, source_descriptor_path, starter = nil, ci = nil)
   starter_path = starter && File.join(ROOT, "starters", "#{starter}.yaml")
   fail!("unknown starter pack: #{starter}") if starter_path && !File.file?(starter_path)
@@ -99,6 +148,12 @@ def bootstrap_project(destination, project_id, source_descriptor_path, starter =
   result = Dora::ProjectBootstrap.bootstrap!(destination, project_id: project_id, source_descriptor_path: source_descriptor_path, starter_pack_path: starter_path, ci_pack_path: ci_path)
   puts "Dora project bootstrapped: #{result.fetch("project_root")} (#{result.fetch("package_path")} pinned to #{result.fetch("source_ref")})."
 rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def preview_project_upgrade(project_root, source_descriptor_path)
+  puts YAML.dump(Dora::ProjectUpgrade.preview!(project_root: project_root, source_descriptor_path: source_descriptor_path)).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
   fail!(error.message)
 end
 
@@ -127,6 +182,14 @@ rescue ArgumentError, KeyError, Psych::Exception => error
   fail!(error.message)
 end
 
+def show_agent_context(adapter_path, work_plan, task_id)
+  adapter = YAML.load_file(adapter_path)
+  root = File.expand_path(adapter.fetch("project").fetch("root"), File.dirname(File.expand_path(adapter_path)))
+  puts YAML.dump(Dora::AgentContext.build!(project_root: root, work_plan: work_plan, task_id: task_id)).sub(/\A---\n/, "")
+rescue ArgumentError, KeyError, Psych::Exception => error
+  fail!(error.message)
+end
+
 def show_agent_closeout(adapter_path, work_plan, task_id, impact_path, changed_paths)
   adapter = YAML.load_file(adapter_path)
   root = File.expand_path(adapter.fetch("project").fetch("root"), File.dirname(File.expand_path(adapter_path)))
@@ -138,6 +201,14 @@ end
 def show_project_status(adapter_path, inventory_path)
   puts YAML.dump(Dora::ProjectStatus.report!(adapter_path: adapter_path, inventory_path: inventory_path, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml"))).sub(/\A---\n/, "")
 rescue ArgumentError, KeyError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_finding_export(report_path)
+  report = JSON.parse(File.read(report_path))
+  fail!("finding report kind is invalid") unless report["kind"] == "dora_plugin_report" && report["finding_contract"] == "dora_finding"
+  puts YAML.dump(Dora::FindingExport.export!(report.fetch("findings"))).sub(/\A---\n/, "")
+rescue Errno::ENOENT, JSON::ParserError, ArgumentError, KeyError => error
   fail!(error.message)
 end
 
@@ -246,6 +317,12 @@ when "init"
   expected_length = 2 + (stack_option ? 2 : 0) + (ci_option ? 2 : 0) + (commands_option ? 2 : 0)
   fail!("usage: dora init <destination> --project <project-id> [--stack <stack-id>] [--ci <ci-id> --commands <project-commands.yaml>]") unless destination && project_option && ARGV.length == expected_length && project_id && (!stack_option || stack) && (!ci_option || ci) && (ci_option ? commands_option && ci_commands : !commands_option)
   initialize_project(destination, project_id, stack, ci, ci_commands)
+when "new"
+  destination = ARGV.shift
+  answers_option = ARGV.index("--answers")
+  answers_path = answers_option ? ARGV[answers_option + 1] : nil
+  fail!("usage: dora new <destination> --answers <project-new.yaml>") unless destination && answers_option == 0 && ARGV.length == 2 && answers_path
+  create_project_from_answers(destination, answers_path)
 when "bootstrap"
   destination = ARGV.shift
   project_option = ARGV.index("--project")
@@ -259,6 +336,12 @@ when "bootstrap"
   expected_length = 4 + (starter_option ? 2 : 0) + (ci_option ? 2 : 0)
   fail!("usage: dora bootstrap <destination> --project <project-id> --source <bootstrap-source.yaml> [--starter <starter-id>] [--ci <ci-pack>]") unless destination && project_option && source_option && ARGV.length == expected_length && project_id && source_descriptor_path && (!starter_option || starter) && (!ci_option || ci)
   bootstrap_project(destination, project_id, source_descriptor_path, starter, ci)
+when "upgrade-preview"
+  project_root = ARGV.shift
+  source_option = ARGV.index("--source")
+  source_descriptor_path = source_option ? ARGV[source_option + 1] : nil
+  fail!("usage: dora upgrade-preview <consumer-root> --source <bootstrap-source.yaml>") unless project_root && source_option == 0 && ARGV.length == 2 && source_descriptor_path
+  preview_project_upgrade(project_root, source_descriptor_path)
 when "configure"
   adapter_path = ARGV.shift
   control_option = ARGV.index("--control")
@@ -294,6 +377,9 @@ when "knowledge"
 when "agent-next"
   fail!("usage: dora agent-next <adapter-path> <execution-inventory-path>") unless ARGV.length == 2
   show_agent_next(ARGV[0], ARGV[1])
+when "agent-context"
+  fail!("usage: dora agent-context <adapter-path> <work-plan-path> <task-id>") unless ARGV.length == 3
+  show_agent_context(ARGV[0], ARGV[1], ARGV[2])
 when "agent-closeout"
   adapter_path = ARGV.shift
   work_plan = ARGV.shift
@@ -304,6 +390,9 @@ when "agent-closeout"
 when "status"
   fail!("usage: dora status <adapter-path> <execution-inventory-path>") unless ARGV.length == 2
   show_project_status(ARGV[0], ARGV[1])
+when "findings-export"
+  fail!("usage: dora findings-export <plugin-report.json>") unless ARGV.length == 1
+  show_finding_export(ARGV.first)
 when "plugins"
   fail!("usage: dora plugins [plugin-manifest-path]") unless ARGV.length <= 1
   show_plugin_discovery(ARGV.first)

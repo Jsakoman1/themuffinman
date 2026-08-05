@@ -14,7 +14,7 @@ module Dora
       fail!("decision log has no entries") if entries.empty?
       ids = entries.map { |entry| validate_entry!(entry); entry.fetch("id") }
       fail!("decision log ids must be unique") unless ids.uniq.length == ids.length
-      {"kind" => "dora_decision_log", "version" => 1, "entries" => entries.sort_by { |entry| entry.fetch("id") }, "completion_boundary" => "Decision traceability is documentation only and does not prove implementation, runtime acceptance, or release approval."}.freeze
+      {"kind" => "dora_decision_log", "version" => 1, "entries" => entries.sort_by { |entry| entry.fetch("id") }, "decision_boundary" => "Decision records describe declared choices and references; they do not resolve open product questions by inference.", "completion_boundary" => "Decision traceability is documentation only and does not prove implementation, runtime acceptance, or release approval."}.freeze
     rescue Psych::Exception => error
       fail!("decision log YAML is invalid: #{error.message}")
     end

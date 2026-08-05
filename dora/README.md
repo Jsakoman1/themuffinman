@@ -11,22 +11,18 @@ verification, documentation contracts, and controlled project extensions.
 
 ## Start a new project
 
-Use an explicit local Dora source. Dora never downloads code during bootstrap and
-never invents product behavior. The complete beginner path is in
-[`docs/new-project.md`](docs/new-project.md).
+For a new product, complete `templates/project-new.yaml` with the product brief,
+domain library, agent profile, and first bounded work item. Then use the one public
+entrypoint. Dora writes only neutral control artifacts, declared knowledge, project
+memory, and the first work declaration; it does not invent product behavior or code.
 
 ```text
-/absolute/path/to/dora/bin/dora bootstrap my-app --project my-app --source bootstrap-source.yaml --starter blank
-cd my-app
-./bin/dora doctor .dora/project.yaml
+/absolute/path/to/dora/bin/dora new my-app --answers project-new.yaml
 ```
 
-The `blank` starter creates a neutral technical skeleton. The `spring-vue` starter
-creates only empty backend and frontend roots. The `spring-vue-buildable` starter
-adds a compilable Spring application and a dependency-free Vue browser surface so
-the declared project commands can run immediately. All starters leave product
-domains, authentication, data schemas, and user-facing features for deliberate
-project work.
+For a project-local Dora package, reviewed immutable source, technical starter, or
+CI pack, use `dora bootstrap`. Dora never downloads code during bootstrap. The
+complete beginner path is in [`docs/new-project.md`](docs/new-project.md).
 
 It owns reusable protocols and command mechanics. A consuming project owns its
 domain behavior, source code, tests, runtime evidence, documentation, and
@@ -56,3 +52,16 @@ upgrades, and the boundary between Dora and a product—read
 
 For the Codex-first route from an idea to verified application work, read
 [`docs/agent-first-application-guide.md`](docs/agent-first-application-guide.md).
+
+## Public agent command surface
+
+Use these commands from the Dora package that controls the project. Every output is
+declared guidance; only project work verification records completion evidence.
+
+```text
+dora agent-context <adapter-path> <work-plan-path> <task-id>
+dora agent-next <adapter-path> <execution-inventory-path>
+dora status <adapter-path> <execution-inventory-path>
+dora impact <adapter-path> <node-id>...
+dora agent-closeout <adapter-path> <work-plan-path> <task-id> <change-impact-path> <changed-path>...
+```

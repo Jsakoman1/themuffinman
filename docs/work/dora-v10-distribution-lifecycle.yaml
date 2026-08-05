@@ -1,0 +1,145 @@
+kind: work
+version: 1
+id: dora-v10-distribution-lifecycle
+title: Verify Dora source inputs and preview consumer upgrades without mutation
+status: verified
+baseline: d941c20f7fc274d1773703954dd9c5f23b0749ef
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+master_plan: docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v10-one-click-agent-operating-system-execution-inventory.yaml
+  atomicity_contract: Source verification and upgrade preview do not download, overwrite,
+    pin, or mutate a consumer project.
+hardening_boundary: Each task validates one local lifecycle contract or isolated proof;
+  only the final release plan may perform approved remote operations.
+tasks:
+- id: verify-reviewed-source-descriptor
+  inventory_item: v10-source-verification
+  type: implementation
+  observable_outcome: A reviewed source descriptor requires matching immutable ref
+    and content checksum and rejects tampering
+  dependencies:
+  - v10-evidence-consumer
+  evidence_boundary:
+  - valid and tampered source descriptor fixtures
+  paths:
+  - dora/bootstrap-source.schema.yaml
+  - dora/lib/dora/bootstrap_source.rb
+  - dora/test/bootstrap_source_verification_test.rb
+  required_paths:
+  - dora/bootstrap-source.schema.yaml
+  - dora/lib/dora/bootstrap_source.rb
+  - dora/test/bootstrap_source_verification_test.rb
+  validation: ruby dora/test/bootstrap_source_verification_test.rb
+  status: done
+  started_at: '2026-08-05T15:33:32Z'
+  start_fingerprints:
+    dora/bootstrap-source.schema.yaml: a9d65b3ec2759bc01c18a942bac39b78c603b9495935bcf8bffaad74bf028994
+    dora/lib/dora/bootstrap_source.rb: 43e0e7ebb2ab213f1fb0c714b8f75d57d06e8342610cd5892b0330e7f92df4ff
+    dora/test/bootstrap_source_verification_test.rb: __missing__
+- id: add-upgrade-preview-command
+  inventory_item: v10-upgrade-preview
+  type: implementation
+  observable_outcome: One command reports a source-pinned Dora upgrade and migration
+    preview without changing project files
+  dependencies:
+  - v10-source-verification
+  evidence_boundary:
+  - two-consumer no-mutation upgrade preview fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/project_upgrade.rb
+  - dora/test/project_upgrade_preview_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/project_upgrade.rb
+  - dora/test/project_upgrade_preview_test.rb
+  validation: ruby dora/test/project_upgrade_preview_test.rb
+  status: done
+  started_at: '2026-08-05T15:34:29Z'
+  start_fingerprints:
+    dora/bin/dora: ce0931cc97bf8c012aab882eb8ebdcf00ef6cb12723c43ca53f24f5630f6a0ae
+    dora/lib/dora/project_upgrade.rb: __missing__
+    dora/test/project_upgrade_preview_test.rb: __missing__
+- id: prove-distribution-lifecycle-consumer
+  inventory_item: v10-lifecycle-consumer
+  type: implementation
+  observable_outcome: Two fresh consumers prove source verification and upgrade preview
+    without MuffinMan data or mutation
+  dependencies:
+  - v10-upgrade-preview
+  evidence_boundary:
+  - independent lifecycle consumer fixture
+  paths:
+  - dora/test/independent_distribution_lifecycle_consumer_test.rb
+  - dora/test/fixtures/distribution-lifecycle-sources.yaml
+  required_paths:
+  - dora/test/independent_distribution_lifecycle_consumer_test.rb
+  - dora/test/fixtures/distribution-lifecycle-sources.yaml
+  validation: ruby dora/test/independent_distribution_lifecycle_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T15:35:26Z'
+  start_fingerprints:
+    dora/test/independent_distribution_lifecycle_consumer_test.rb: __missing__
+    dora/test/fixtures/distribution-lifecycle-sources.yaml: __missing__
+evidence:
+- task: verify-reviewed-source-descriptor
+  command: ruby dora/test/bootstrap_source_verification_test.rb
+  ranAt: '2026-08-05T15:34:23Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bootstrap-source.schema.yaml
+  - dora/lib/dora/bootstrap_source.rb
+  - dora/test/bootstrap_source_verification_test.rb
+  output: "Dora bootstrap source verification test passed (reviewed immutable refs
+    and checksums reject tampered local source content).\n\n"
+  requiredPaths: &1
+  - dora/bootstrap-source.schema.yaml
+  - dora/lib/dora/bootstrap_source.rb
+  - dora/test/bootstrap_source_verification_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:33:32Z'
+  changedAfterStart: *1
+- task: add-upgrade-preview-command
+  command: ruby dora/test/project_upgrade_preview_test.rb
+  ranAt: '2026-08-05T15:35:21Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/project_upgrade.rb
+  - dora/test/project_upgrade_preview_test.rb
+  output: "Dora project upgrade preview test passed (two consumer previews report
+    migrations without modifying pinned projects).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/project_upgrade.rb
+  - dora/test/project_upgrade_preview_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:34:29Z'
+  changedAfterStart: *2
+- task: prove-distribution-lifecycle-consumer
+  command: ruby dora/test/independent_distribution_lifecycle_consumer_test.rb
+  ranAt: '2026-08-05T15:35:51Z'
+  revision: d941c20f7fc274d1773703954dd9c5f23b0749ef
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/distribution-lifecycle-sources.yaml
+  - dora/test/independent_distribution_lifecycle_consumer_test.rb
+  output: "Dora independent distribution lifecycle consumer test passed (two verified-source
+    consumers preview upgrades without mutation or MuffinMan data).\n\n"
+  requiredPaths: &3
+  - dora/test/independent_distribution_lifecycle_consumer_test.rb
+  - dora/test/fixtures/distribution-lifecycle-sources.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T15:35:26Z'
+  changedAfterStart: *3

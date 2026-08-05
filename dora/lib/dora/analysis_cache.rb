@@ -15,14 +15,14 @@ module Dora
       path = File.join(root, "#{key}-v#{version}-#{digest}.json")
       if File.file?(path)
         cached = JSON.parse(File.read(path))
-        return {"value" => cached.fetch("value"), "cache" => {"hit" => true, "key" => key, "input_digest" => digest}}.freeze
+        return {"value" => cached.fetch("value"), "cache" => {"hit" => true, "key" => key, "input_digest" => digest, "version" => version}}.freeze
       end
 
       fail!("cache miss requires an analysis block") unless block_given?
       value = yield
       payload = {"kind" => "dora_analysis_cache_entry", "version" => version, "key" => key, "input_digest" => digest, "value" => value}
       File.write(path, JSON.generate(payload))
-      {"value" => value, "cache" => {"hit" => false, "key" => key, "input_digest" => digest}}.freeze
+      {"value" => value, "cache" => {"hit" => false, "key" => key, "input_digest" => digest, "version" => version}}.freeze
     end
 
     def self.canonical(value)
