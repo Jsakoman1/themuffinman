@@ -1,22 +1,22 @@
 kind: dora_release_handoff
 version: 1
-status: awaiting_external_approval
+status: published
 release:
   repository: https://github.com/Jsakoman1/dora.git
   visibility: private
   default_branch: main
   version: v0.7.1
-  immutable_commit: pending_external_release
-  source_parent_commit: pending_main_commit
+  immutable_commit: 6842ba490ab9b2ff991badb42f2252b2951a0486
+  source_parent_commit: 92bc93b5ef1230e663d353780e73ce01343af1e0
 consumption:
   project: muffinman
   method: git_subtree
   subtree_prefix: dora
-  status: release_published_unpinned
-  pinned_ref: v0.6.0
-  pinned_commit: d1335b5e46748fe97f3f29652fe1a62aa991aaa3
+  status: pinned
+  pinned_ref: v0.7.1
+  pinned_commit: 6842ba490ab9b2ff991badb42f2252b2951a0486
   local_adapter: .dora/project.yaml
-  update_rule: Dora v0.7.1 will replace v0.7.0 because it corrects standalone Dora regression tests before MuffinMan changes its pin; later upgrades require a new reviewed handoff and reversible pin update.
+  update_rule: MuffinMan is pinned to immutable Dora v0.7.1 tag commit 6842ba490ab9b2ff991badb42f2252b2951a0486; later upgrades require a new reviewed handoff and reversible pin update.
 approval:
   approved_by: user
   approved_at: 2026-08-05

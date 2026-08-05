@@ -2,13 +2,15 @@ kind: master
 version: 1
 id: dora-v07-complete-product-boundary-master
 title: Complete Dora and leave MuffinMan product-only
-status: draft
+status: verified
 baseline: 55b4fc4
 strict_verification: true
 serial_task_execution: true
 atomic_task_hardening_plan: docs/work/dora-v07-complete-product-boundary-atomic-hardening.yaml
 execution_inventory: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
-objective: Extract all reusable delivery-control mechanisms from MuffinMan into Dora, retain only product truth in MuffinMan, and prove an independent buildable technical consumer before an approval-gated v0.7 release and pin.
+objective: Extract all reusable delivery-control mechanisms from MuffinMan into Dora,
+  retain only product truth in MuffinMan, and prove an independent buildable technical
+  consumer before an approval-gated v0.7 release and pin.
 analysis_source: docs/work/dora-v07-complete-product-boundary-analysis.md
 preflight_source: docs/work/dora-v07-complete-product-boundary-preflight.md
 goal_readiness_source: docs/work/dora-v07-complete-product-boundary-goal-readiness.md
@@ -16,8 +18,13 @@ change_impact_review:
   required: true
   report: docs/audit-output/system-map-change-impact.json
   disposition: reviewed_for_goal_preparation
-  review_boundary: The planning-only diff maps to control registries and System Map documentation; refresh the report and record a disposition if extraction changes their ownership or state.
-  required_closeout_reviews: [docs/system-truth-registry.yaml, docs/system-drift-control-registry.yaml, docs/system-map.md]
+  review_boundary: The planning-only diff maps to control registries and System Map
+    documentation; refresh the report and record a disposition if extraction changes
+    their ownership or state.
+  required_closeout_reviews:
+  - docs/system-truth-registry.yaml
+  - docs/system-drift-control-registry.yaml
+  - docs/system-map.md
 readiness:
   atomic_inventory_items: 13
   execution_mode: strict_serial
@@ -25,24 +32,70 @@ readiness:
     plan: docs/work/dora-v07-complete-product-boundary-atomic-hardening.yaml
     task: harden-v07-product-boundary-plan
   implementation_started: false
-  decision: Ready to start goal-controlled hardening only; extraction implementation requires first-task verifier evidence.
+  decision: Ready to start goal-controlled hardening only; extraction implementation
+    requires first-task verifier evidence.
 hardening_review:
-  contract: Each of the thirteen inventory entries must prove one extract, delegate, retain, consumer, or release outcome with exact paths and direct serial dependency.
-  implementation_gate: Only dora-v07-harden may start before verifier evidence records a v0.7 semantic audit.
-  release_gate: The final release and consumer pin require separate external approval after all local boundary proof is complete.
-  ownership_gate: The catalogue must classify every local audit before any wrapper delegation begins.
+  contract: Each of the thirteen inventory entries must prove one extract, delegate,
+    retain, consumer, or release outcome with exact paths and direct serial dependency.
+  implementation_gate: Only dora-v07-harden may start before verifier evidence records
+    a v0.7 semantic audit.
+  release_gate: The final release and consumer pin require separate external approval
+    after all local boundary proof is complete.
+  ownership_gate: The catalogue must classify every local audit before any wrapper
+    delegation begins.
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/dora-v06-standalone-bootstrap-master.yaml]
-  baseline_only_surfaces: [Dora v0.6 bootstrap and plugin runner, MuffinMan product behavior and evidence]
-  residual_scope: [portable report writer, plugin protocol v2, static-wrapper delegation, explicit retained-audit registry, buildable technical starter, independent consumer proof, product-boundary audit, v0.7 release and pin]
-  retest_triggers: [changed reusable audit algorithm, report contract, manifest, starter, product-retained classification, consumer fixture, release handoff, or adapter pin]
-  non_duplication_rule: v0.6 evidence is baseline-only; v0.7 requires a fresh independent buildable-consumer and complete extract/delegate/retain classification.
+  reused_verified_plans:
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.6 bootstrap and plugin runner
+  - MuffinMan product behavior and evidence
+  residual_scope:
+  - portable report writer
+  - plugin protocol v2
+  - static-wrapper delegation
+  - explicit retained-audit registry
+  - buildable technical starter
+  - independent consumer proof
+  - product-boundary audit
+  - v0.7 release and pin
+  retest_triggers:
+  - changed reusable audit algorithm
+  - report contract
+  - manifest
+  - starter
+  - product-retained classification
+  - consumer fixture
+  - release handoff
+  - or adapter pin
+  non_duplication_rule: v0.6 evidence is baseline-only; v0.7 requires a fresh independent
+    buildable-consumer and complete extract/delegate/retain classification.
 principles:
-  - Dora owns reusable mechanics, never MuffinMan business meaning or evidence authority.
-  - Every MuffinMan local audit is classified as Dora-extracted, Dora-delegated, or explicitly product-retained.
-  - Dora reports are diagnostic outputs, never product completion claims.
-  - A starter may be buildable but must remain domain-free.
-  - Publication and consumer pin remain separately approval-gated.
-children: [docs/work/dora-v07-complete-product-boundary-atomic-hardening.yaml, docs/work/dora-v07-complete-product-boundary-01-core.yaml, docs/work/dora-v07-complete-product-boundary-02-delegation.yaml, docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml, docs/work/dora-v07-complete-product-boundary-04-release.yaml]
-evidence: []
+- Dora owns reusable mechanics, never MuffinMan business meaning or evidence authority.
+- Every MuffinMan local audit is classified as Dora-extracted, Dora-delegated, or
+  explicitly product-retained.
+- Dora reports are diagnostic outputs, never product completion claims.
+- A starter may be buildable but must remain domain-free.
+- Publication and consumer pin remain separately approval-gated.
+release_correction:
+  published_version: v0.7.1
+  immutable_commit: 6842ba490ab9b2ff991badb42f2252b2951a0486
+  supersedes_tag: v0.7.0
+  reason: Correct three Dora-only regression tests discovered by the full standalone
+    package suite before any MuffinMan pin was pushed.
+  validation: 64 Dora tests pass from the standalone package root.
+children:
+- docs/work/dora-v07-complete-product-boundary-atomic-hardening.yaml
+- docs/work/dora-v07-complete-product-boundary-01-core.yaml
+- docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+- docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+- docs/work/dora-v07-complete-product-boundary-04-release.yaml
+evidence:
+- verifiedAt: '2026-08-05T13:19:54Z'
+  revision: 92bc93b5ef1230e663d353780e73ce01343af1e0
+  children:
+  - docs/work/dora-v07-complete-product-boundary-atomic-hardening.yaml
+  - docs/work/dora-v07-complete-product-boundary-01-core.yaml
+  - docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+  - docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  - docs/work/dora-v07-complete-product-boundary-04-release.yaml
