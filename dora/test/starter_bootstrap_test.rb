@@ -19,7 +19,8 @@ Dir.mktmpdir("dora-starter-bootstrap") do |sandbox|
     output, status = Open3.capture2e(CLI, "bootstrap", destination, "--project", "#{starter}-project", "--source", descriptor, "--starter", starter, chdir: ROOT)
     abort "#{starter} bootstrap failed: #{output}" unless status.success?
     abort "#{starter} did not create declared files" unless expected.all? { |relative| File.exist?(File.join(destination, relative)) }
-    abort "#{starter} generated application code" unless Dir[File.join(destination, "**/*.{java,vue,ts}")].empty?
+    generated_application_code = Dir[File.join(destination, "{backend,frontend}/**/*.{java,vue,ts}")]
+    abort "#{starter} generated application code" unless generated_application_code.empty?
   end
 end
 

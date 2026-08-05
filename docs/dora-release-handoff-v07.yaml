@@ -5,7 +5,7 @@ release:
   repository: https://github.com/Jsakoman1/dora.git
   visibility: private
   default_branch: main
-  version: v0.7.0
+  version: v0.7.1
   immutable_commit: pending_external_release
   source_parent_commit: pending_main_commit
 consumption:
@@ -13,21 +13,24 @@ consumption:
   method: git_subtree
   subtree_prefix: dora
   status: release_published_unpinned
-  pinned_ref: pending_external_release
-  pinned_commit: pending_external_release
+  pinned_ref: v0.6.0
+  pinned_commit: d1335b5e46748fe97f3f29652fe1a62aa991aaa3
   local_adapter: .dora/project.yaml
-  update_rule: MuffinMan remains pinned to v0.6.0 until Dora v0.7.0 is published and this handoff records its immutable tag commit.
+  update_rule: Dora v0.7.1 will replace v0.7.0 because it corrects standalone Dora regression tests before MuffinMan changes its pin; later upgrades require a new reviewed handoff and reversible pin update.
 approval:
   approved_by: user
   approved_at: 2026-08-05
-  scope: Publish Dora v0.7.0, then pin MuffinMan to its reviewed immutable commit and push both repositories.
+  scope: Publish corrective Dora v0.7.1, then pin MuffinMan to its reviewed immutable commit and push both repositories.
+supersedes:
+  release: v0.7.0
+  reason: The immutable v0.7.0 tag exposed three Dora-only regression tests that were corrected before any MuffinMan pin was pushed.
 preservation:
   - MuffinMan retains product code, product documentation, work plans, runtime evidence, and its adapter.
-  - Dora v0.7 exports only dora package paths and never rewrites MuffinMan product history.
+  - Dora v0.7.1 exports only dora package paths and never rewrites MuffinMan product history.
   - The release tag must resolve before the MuffinMan adapter pin changes.
 rollback:
   - Before the adapter pin, MuffinMan remains on its v0.6.0 pin.
-  - After the adapter pin, revert only the dedicated v0.7.0 pin commit to restore v0.6.0.
+  - After the adapter pin, revert only the dedicated v0.7.1 pin commit to restore v0.6.0.
 verification:
-  - ruby scripts/audits/audit-dora-extraction-manifest.rb --check-handoff-draft --handoff docs/dora-release-handoff-v07.yaml --expected-version v0.7.0
-  - ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release --handoff docs/dora-release-handoff-v07.yaml --expected-version v0.7.0
+  - ruby scripts/audits/audit-dora-extraction-manifest.rb --check-handoff-draft --handoff docs/dora-release-handoff-v07.yaml --expected-version v0.7.1
+  - ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release --handoff docs/dora-release-handoff-v07.yaml --expected-version v0.7.1

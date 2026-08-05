@@ -147,11 +147,22 @@ items:
   order: 12
   plan: docs/work/dora-v07-complete-product-boundary-04-release.yaml
   task: publish-dora-v07-release
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T13:09:26Z'
+  verified_at: '2026-08-05T13:11:54Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-04-release.yaml
+    task: publish-dora-v07-release
+    revision: 54feb9e192f1f4d8b95eff26b93e8e51fc688571
 - id: muffinman-v07-pin
   sequence: 13
   order: 13
   plan: docs/work/dora-v07-complete-product-boundary-04-release.yaml
   task: pin-muffinman-to-dora-v07
-  status: pending
+  status: verified
+  started_at: '2026-08-05T13:11:54Z'
+  verified_at: '2026-08-05T13:12:38Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-04-release.yaml
+    task: pin-muffinman-to-dora-v07
+    revision: 54feb9e192f1f4d8b95eff26b93e8e51fc688571

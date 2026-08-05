@@ -73,6 +73,10 @@ if require_approved_release || check_handoff_draft
   %w[repository version immutable_commit].each { |field| failures << "release handoff is missing #{field}" if release[field].to_s.empty? }
   failures << "release handoff version differs from expected version" if expected_version && release["version"] != expected_version
   failures << "release handoff does not declare git_subtree" unless consumption["method"] == "git_subtree"
+  if next_release
+    failures << "manifest next release handoff differs from requested handoff" unless next_release["handoff"] == handoff_path
+    failures << "manifest next release version differs from handoff version" unless next_release["version"] == release["version"]
+  end
   if check_handoff_draft
     failures << "draft release handoff must retain pending immutable commit" unless release["immutable_commit"] == "pending_external_release"
     failures << "draft release handoff must be unpinned" unless consumption["status"] == "release_published_unpinned"

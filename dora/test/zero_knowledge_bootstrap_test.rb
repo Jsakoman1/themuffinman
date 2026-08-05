@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "fileutils"
+require "json"
 require "open3"
 require "tmpdir"
 require "yaml"
@@ -22,10 +23,11 @@ Dir.mktmpdir("dora-zero-knowledge") do |sandbox|
   abort "bootstrapped project is not healthy" unless status.success?
   FileUtils.mkdir_p(File.join(project, "plugins"))
   File.write(File.join(project, "plugins", "fixture.rb"), "puts 'fixture plugin ran'\n")
-  manifest = {"kind" => "dora_plugin_manifest", "version" => 1, "plugins" => [{"id" => "fixture", "entrypoint" => "plugins/fixture.rb", "source_roots" => [{"id" => "project", "path" => "src"}], "inputs" => {"fixture" => true}, "output" => {"kind" => "fixture-report"}}]}
+  manifest = {"kind" => "dora_plugin_manifest", "version" => 1, "plugins" => [{"id" => "fixture", "entrypoint" => "plugins/fixture.rb", "source_roots" => [{"id" => "project", "path" => "src"}], "inputs" => {"fixture" => true}, "output" => {"kind" => "fixture-report", "path" => "docs/audit-output/fixture.json"}}]}
   File.write(File.join(project, ".dora/plugins.yaml"), YAML.dump(manifest))
   output, status = Open3.capture2e(File.join(project, "bin/dora"), "plugin-run", ".dora/plugins.yaml", "fixture", chdir: project)
-  abort "declared fixture plugin did not run: #{output}" unless status.success? && output.include?("fixture plugin ran")
+  report_path = File.join(project, "docs/audit-output/fixture.json")
+  abort "declared fixture plugin did not run: #{output}" unless status.success? && File.file?(report_path) && JSON.parse(File.read(report_path)).fetch("findings").first.fetch("output").include?("fixture plugin ran")
 end
 
 puts "Dora zero-knowledge bootstrap test passed (local source, starter, CI, doctor, and plugin)."
