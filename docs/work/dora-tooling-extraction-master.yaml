@@ -2,39 +2,73 @@ kind: master
 version: 1
 id: dora-tooling-extraction-master
 title: Extract reusable control tooling from MuffinMan into Dora
-status: draft
+status: verified
 baseline: 35093d9
 strict_verification: true
 serial_task_execution: true
 atomic_task_hardening_plan: docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
 execution_inventory: docs/work/dora-tooling-extraction-execution-inventory.yaml
-objective: Evolve Dora from a portable adapter validator into a reusable delivery-control toolkit while retaining MuffinMan product authority and compatible local workflows.
+objective: Evolve Dora from a portable adapter validator into a reusable delivery-control
+  toolkit while retaining MuffinMan product authority and compatible local workflows.
 analysis_source: docs/work/dora-tooling-extraction-analysis.md
 scope_control:
   standard: docs/plan-scope-control-standard.yaml
-  reused_verified_plans: [docs/work/dora-muffinman-separation-master.yaml]
-  baseline_only_surfaces: [MuffinMan product behavior, domain rules, runtime scenarios, capability status, and existing evidence]
-  residual_scope: [stateful verifier, reusable local-tool primitives, generic analysis engines, optional language/runtime plugins, and v0.2+ subtree releases]
-  retest_triggers: [changed Dora core/plugin, adapter schema, delegated Make command, product extension manifest, or release pin]
-  non_duplication_rule: Existing MuffinMan product and Dora v0.1.0 evidence is baseline-only and is never counted as new tooling-extraction completion.
+  reused_verified_plans:
+  - docs/work/dora-muffinman-separation-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan product behavior
+  - domain rules
+  - runtime scenarios
+  - capability status
+  - and existing evidence
+  residual_scope:
+  - stateful verifier
+  - reusable local-tool primitives
+  - generic analysis engines
+  - optional language/runtime plugins
+  - and v0.2+ subtree releases
+  retest_triggers:
+  - changed Dora core/plugin
+  - adapter schema
+  - delegated Make command
+  - product extension manifest
+  - or release pin
+  non_duplication_rule: Existing MuffinMan product and Dora v0.1.0 evidence is baseline-only
+    and is never counted as new tooling-extraction completion.
 principles:
-  - Dora core owns mechanics and protocol; product projects own meaning and completion claims.
-  - A script moves only after its inputs are adapter-declared and its standalone fixture passes.
-  - Product-specific audits may consume Dora engines but remain local extensions.
-  - Every Dora release is immutable and every MuffinMan subtree update is separately reviewable and reversible.
+- Dora core owns mechanics and protocol; product projects own meaning and completion
+  claims.
+- A script moves only after its inputs are adapter-declared and its standalone fixture
+  passes.
+- Product-specific audits may consume Dora engines but remain local extensions.
+- Every Dora release is immutable and every MuffinMan subtree update is separately
+  reviewable and reversible.
 hardening_review:
   state: ready_for_verifier
   reviewed_at: 2026-08-05
   findings:
-    - Local tooling is split into independently testable catalog, lifecycle, backlog, routing, search, and inventory outcomes.
-    - Java/Spring and TypeScript/Vue source-map plugins are independent tasks behind one shared plugin contract.
-    - Stateful verifier extraction includes the retained MuffinMan verifier wrapper as a compatibility surface.
-    - The v0.2 release audit must receive the exact handoff path and expected version, rather than accepting the v0.1 handoff.
+  - Local tooling is split into independently testable catalog, lifecycle, backlog,
+    routing, search, and inventory outcomes.
+  - Java/Spring and TypeScript/Vue source-map plugins are independent tasks behind
+    one shared plugin contract.
+  - Stateful verifier extraction includes the retained MuffinMan verifier wrapper
+    as a compatibility surface.
+  - The v0.2 release audit must receive the exact handoff path and expected version,
+    rather than accepting the v0.1 handoff.
 children:
+- docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
+- docs/work/dora-tooling-extraction-01-execution-core.yaml
+- docs/work/dora-tooling-extraction-02-local-tooling.yaml
+- docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+- docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+- docs/work/dora-tooling-extraction-05-release-closeout.yaml
+evidence:
+- verifiedAt: '2026-08-05T10:21:16Z'
+  revision: 0b4c7b60e74c3147925ff973ec86473a81897131
+  children:
   - docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
   - docs/work/dora-tooling-extraction-01-execution-core.yaml
   - docs/work/dora-tooling-extraction-02-local-tooling.yaml
   - docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
   - docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
   - docs/work/dora-tooling-extraction-05-release-closeout.yaml
-evidence: []

@@ -65,12 +65,16 @@ if require_approved_release
   %w[repository version immutable_commit].each { |field| failures << "release handoff is missing #{field}" if release[field].to_s.empty? }
   failures << "release handoff version differs from expected version" if expected_version && release["version"] != expected_version
   failures << "release handoff does not declare git_subtree" unless consumption["method"] == "git_subtree"
-  failures << "release handoff pin differs from immutable commit" unless consumption["pinned_commit"] == release["immutable_commit"]
-  adapter = YAML.load_file(File.join(ROOT, ".dora/project.yaml"))
-  distribution = adapter.fetch("distribution", {})
-  failures << "adapter source commit differs from release handoff" unless distribution["source_commit"] == release["immutable_commit"]
-  failures << "adapter source ref differs from release handoff" unless distribution["source_ref"] == release["version"]
-  remote_output, remote_status = Open3.capture2e("git", "ls-remote", distribution["source_repository"], "refs/tags/#{release["version"]}^{}")
+  if consumption["status"] == "pinned"
+    failures << "release handoff pin differs from immutable commit" unless consumption["pinned_commit"] == release["immutable_commit"]
+    adapter = YAML.load_file(File.join(ROOT, ".dora/project.yaml"))
+    distribution = adapter.fetch("distribution", {})
+    failures << "adapter source commit differs from release handoff" unless distribution["source_commit"] == release["immutable_commit"]
+    failures << "adapter source ref differs from release handoff" unless distribution["source_ref"] == release["version"]
+  else
+    failures << "published release handoff must explicitly be unpinned or pinned" unless consumption["status"] == "release_published_unpinned"
+  end
+  remote_output, remote_status = Open3.capture2e("git", "ls-remote", release["repository"], "refs/tags/#{release["version"]}^{}")
   failures << "published Dora tag is not reachable" unless remote_status.success? && remote_output.include?(release["immutable_commit"])
 end
 

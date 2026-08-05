@@ -184,10 +184,21 @@ items:
   order: 17
   plan: docs/work/dora-tooling-extraction-05-release-closeout.yaml
   task: publish-dora-v02-release
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T10:16:54Z'
+  verified_at: '2026-08-05T10:20:17Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-05-release-closeout.yaml
+    task: publish-dora-v02-release
+    revision: 0b4c7b60e74c3147925ff973ec86473a81897131
 - id: muffinman-v02-pin
   order: 18
   plan: docs/work/dora-tooling-extraction-05-release-closeout.yaml
   task: pin-and-verify-muffinman-dora-update
-  status: pending
+  status: verified
+  started_at: '2026-08-05T10:20:23Z'
+  verified_at: '2026-08-05T10:21:06Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-05-release-closeout.yaml
+    task: pin-and-verify-muffinman-dora-update
+    revision: 0b4c7b60e74c3147925ff973ec86473a81897131

@@ -23,6 +23,13 @@ adapter_path = matrix["adapter"].to_s
 failures << "compatibility matrix adapter is missing" if adapter_path.empty?
 stdout, stderr, status = Open3.capture3("dora/bin/dora", "validate-adapter", adapter_path, chdir: ROOT)
 failures << "MuffinMan Dora adapter validation failed: #{[stdout, stderr].join("\n").strip}" unless status.success?
+adapter = YAML.load_file(File.join(ROOT, adapter_path)) if File.file?(File.join(ROOT, adapter_path))
+distribution = adapter.is_a?(Hash) ? adapter.fetch("distribution", {}) : {}
+%w[source_repository source_ref source_commit].each do |field|
+  failures << "MuffinMan Dora distribution is missing #{field}" if distribution[field].to_s.empty?
+end
+failures << "MuffinMan Dora distribution source_ref must be versioned" unless distribution["source_ref"].to_s.match?(/\Av\d+\.\d+\.\d+\z/)
+failures << "MuffinMan Dora distribution source_commit must be immutable" unless distribution["source_commit"].to_s.match?(/\A[0-9a-f]{40}\z/)
 
 entries = Array(matrix["entries"])
 failures << "compatibility matrix has no entries" if entries.empty?
