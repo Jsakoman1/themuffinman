@@ -1,0 +1,26 @@
+kind: work
+version: 1
+id: replace-me
+title: Replace me
+status: draft
+baseline: replace-with-git-revision
+strict_verification: true
+scope_control:
+  reused_verified_plans: []
+  baseline_only_surfaces: []
+  residual_scope: []
+  retest_triggers: []
+  non_duplication_rule: Prior verified evidence is reused as baseline and is not counted as new completion.
+tasks:
+  - id: task-1
+    title: Replace me
+    type: implementation
+    status: pending
+    observable_outcome: Replace with one independently verifiable outcome.
+    dependencies: []
+    evidence_boundary: [targeted test or explicit evidence type]
+    paths: []
+    required_paths: []
+    validation: replace-with-leaf-validation-command
+evidence: []
+

@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "yaml"
+
+ROOT = File.expand_path("..", __dir__)
+SCHEMA_PATH = File.join(ROOT, "project-adapter.schema.yaml")
+require File.join(ROOT, "lib/dora/adapter")
+require File.join(ROOT, "lib/dora/work_verifier")
+
+def fail!(message)
+  warn "Dora adapter validation failed: #{message}"
+  exit 1
+end
+
+def validate_adapter(path)
+  result = Dora::Adapter.validate!(path, SCHEMA_PATH)
+  puts "Dora adapter valid: #{result.fetch("project")} (#{result.fetch("extensions")} project extensions)."
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def validate_work_plan(adapter_path, plan_path)
+  result = Dora::WorkVerifier.validate_plan!(adapter_path, plan_path, SCHEMA_PATH)
+  puts "Dora work plan valid: #{result.fetch("project")}##{result.fetch("id")} (#{result.fetch("kind")})."
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+command = ARGV.shift
+case command
+when "validate-adapter"
+  fail!("usage: dora validate-adapter <adapter-path>") unless ARGV.length == 1
+  validate_adapter(ARGV.first)
+when "validate-work-plan"
+  fail!("usage: dora validate-work-plan <adapter-path> <work-plan-path>") unless ARGV.length == 2
+  validate_work_plan(ARGV[0], ARGV[1])
+else
+  fail!("usage: dora validate-adapter <adapter-path> | dora validate-work-plan <adapter-path> <work-plan-path>")
+end

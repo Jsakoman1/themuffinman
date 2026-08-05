@@ -1,0 +1,24 @@
+kind: dora_project_adapter
+version: 1
+project:
+  id: muffinman
+  root: ../..
+paths:
+  docs: docs
+  work_plans: docs/work
+  audit_output: docs/audit-output
+  runtime_evidence: docs/runtime-evidence
+commands:
+  work_start: make work-start plan=<work-plan> task=<task-id>
+  work_verify: make work-verify plan=<work-plan> task=<task-id>
+  control_check: make control-check
+extensions:
+  - id: muffinman-domain-audits
+    category: audit
+    paths: [scripts/audits, docs/capability-inventory.yaml, docs/runtime-acceptance-matrix.yaml]
+    invocation: make audit-backend && make audit-frontend
+  - id: muffinman-runtime-evidence
+    category: runtime
+    paths: [apps/themuffinman/frontend/scripts, docs/runtime-evidence]
+    invocation: make dev
+

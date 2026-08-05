@@ -1,0 +1,16 @@
+kind: work
+version: 1
+id: standalone-fixture-example
+title: Standalone fixture work plan
+status: draft
+baseline: 1234567
+tasks:
+  - id: verify-local-contract
+    title: Verify the fixture contract
+    observable_outcome: The standalone project exposes one locally verifiable work outcome.
+    dependencies: []
+    evidence_boundary: [fixture test]
+    paths: [docs/product.md]
+    required_paths: [docs/product.md]
+    validation: fixture docs-check
+
