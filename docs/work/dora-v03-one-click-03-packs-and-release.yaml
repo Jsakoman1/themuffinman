@@ -1,0 +1,200 @@
+kind: work
+version: 1
+id: dora-v03-one-click-03-packs-and-release
+title: Deliver optional starter packs and Dora v0.3
+status: active
+baseline: 835cbd2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v03-one-click-execution-inventory.yaml
+master_plan: docs/work/dora-v03-one-click-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-tooling-extraction-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan application source
+  - CI state
+  - runtime evidence
+  - and v0.2 release
+  residual_scope:
+  - optional Spring/Vue pack
+  - optional GitHub Actions pack
+  - and reviewed v0.3 release/pin
+  retest_triggers:
+  - changed pack template
+  - generated workflow
+  - release tag
+  - or adapter pin
+  non_duplication_rule: Generated pack files prove setup only; they never prove application
+    behaviour or runtime acceptance.
+hardening_review:
+  state: ready_for_execution
+  reviewed_at: 2026-08-05
+  findings:
+  - Each optional pack has independent fixture proof; remote Dora release and local
+    MuffinMan pin remain separate tasks.
+tasks:
+- id: add-spring-vue-pack
+  title: Add an optional Spring and Vue starter pack
+  type: implementation
+  status: done
+  inventory_item: dora-spring-vue-pack
+  observable_outcome: dora init --stack spring-vue generates only declared source
+    roots validation commands and plugin configuration
+  dependencies:
+  - define-configured-repository-map-output
+  evidence_boundary:
+  - generated Spring/Vue pack fixture test
+  paths:
+  - dora/packs/spring-vue.yaml
+  - dora/lib/dora/stack_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/test/spring_vue_pack_test.rb
+  required_paths:
+  - dora/packs/spring-vue.yaml
+  - dora/lib/dora/stack_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/test/spring_vue_pack_test.rb
+  validation: ruby dora/test/spring_vue_pack_test.rb
+  started_at: '2026-08-05T10:51:20Z'
+  start_fingerprints:
+    dora/packs/spring-vue.yaml: __missing__
+    dora/lib/dora/stack_pack.rb: __missing__
+    dora/lib/dora/project_initializer.rb: 830c75496440e2038cd6e5602f580db263545cd4c282f874acb51fb02ce55691
+    dora/bin/dora: c66af7fca5a3c10bf399e156de2bc6ec005013c1f356f53a7db3b779375c0a23
+    dora/test/spring_vue_pack_test.rb: __missing__
+- id: add-github-actions-pack
+  title: Add an optional GitHub Actions control pack
+  type: implementation
+  status: done
+  inventory_item: dora-ci-pack
+  observable_outcome: Dora generates a project-configured CI workflow that runs doctor
+    adapter validation project tests and build commands without making release or
+    runtime claims
+  dependencies:
+  - add-spring-vue-pack
+  evidence_boundary:
+  - workflow pack fixture test
+  paths:
+  - dora/packs/github-actions.yaml
+  - dora/lib/dora/ci_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/templates/github-actions-control.yml
+  - dora/test/github_actions_pack_test.rb
+  required_paths:
+  - dora/packs/github-actions.yaml
+  - dora/lib/dora/ci_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/templates/github-actions-control.yml
+  - dora/test/github_actions_pack_test.rb
+  validation: ruby dora/test/github_actions_pack_test.rb
+  started_at: '2026-08-05T10:52:34Z'
+  start_fingerprints:
+    dora/packs/github-actions.yaml: __missing__
+    dora/lib/dora/ci_pack.rb: __missing__
+    dora/lib/dora/project_initializer.rb: 5a1ea9ed8f71c3f92e32b1d70a04da0bd1177cd9be0f8311d7935962295bfe96
+    dora/bin/dora: 7352a4b1108c6ef8bdedc542844b15a0e6354c60aef5c5aacc2711f0eaa533f8
+    dora/templates/github-actions-control.yml: __missing__
+    dora/test/github_actions_pack_test.rb: __missing__
+- id: publish-dora-v03-release
+  title: Publish immutable Dora v0.3 release
+  type: implementation
+  status: in_progress
+  inventory_item: dora-v03-release
+  observable_outcome: Reviewed Dora v0.3 is exported as an immutable private tag with
+    no consuming-project product paths
+  dependencies:
+  - add-github-actions-pack
+  evidence_boundary:
+  - remote tag resolution and release handoff
+  requires_external_approval: true
+  paths:
+  - docs/dora-release-handoff-v03.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  required_paths:
+  - docs/dora-release-handoff-v03.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v03.yaml --expected-version v0.3.0
+  started_at: '2026-08-05T10:53:48Z'
+  start_fingerprints:
+    docs/dora-release-handoff-v03.yaml: __missing__
+    docs/dora-extraction-manifest.yaml: 97e949c712a5c1936c471ab2a9ec2f2a66e5615f18e826f12ea54ec489902b41
+    scripts/audits/audit-dora-extraction-manifest.rb: 461105cb2e5874e04ab37f484580f5d8b61797132ec2af303a88cfcc93e25e86
+- id: pin-muffinman-to-dora-v03
+  title: Pin MuffinMan to the reviewed Dora v0.3 release
+  type: implementation
+  status: pending
+  inventory_item: muffinman-v03-pin
+  observable_outcome: MuffinMan records the reviewed v0.3 commit in its adapter and
+    retains reversible compatible work commands
+  dependencies:
+  - publish-dora-v03-release
+  evidence_boundary:
+  - adapter validation compatibility audit and release handoff pin
+  paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v03.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v03.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+evidence:
+- task: add-spring-vue-pack
+  command: ruby dora/test/spring_vue_pack_test.rb
+  ranAt: '2026-08-05T10:52:03Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/project_initializer.rb
+  - dora/lib/dora/stack_pack.rb
+  - dora/packs/spring-vue.yaml
+  - dora/test/spring_vue_pack_test.rb
+  output: "Dora Spring/Vue pack test passed (declared roots, commands, and plugins
+    only).\n\n"
+  requiredPaths: &1
+  - dora/packs/spring-vue.yaml
+  - dora/lib/dora/stack_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/test/spring_vue_pack_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:51:20Z'
+  changedAfterStart: *1
+- task: add-github-actions-pack
+  command: ruby dora/test/github_actions_pack_test.rb
+  ranAt: '2026-08-05T10:53:24Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/ci_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/packs/github-actions.yaml
+  - dora/templates/github-actions-control.yml
+  - dora/test/github_actions_pack_test.rb
+  output: "Dora GitHub Actions pack test passed (project-configured control workflow).\n\n"
+  requiredPaths: &2
+  - dora/packs/github-actions.yaml
+  - dora/lib/dora/ci_pack.rb
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/templates/github-actions-control.yml
+  - dora/test/github_actions_pack_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:52:34Z'
+  changedAfterStart: *2

@@ -1,0 +1,17 @@
+kind: dora_work_artifact_schema
+version: 1
+artifacts:
+  master:
+    kind: master
+    required_fields: [kind, version, id, title, status, children]
+  work:
+    kind: work
+    required_fields: [kind, version, id, title, status, baseline, tasks]
+    task_required_fields: [id, title, observable_outcome, dependencies, evidence_boundary, paths, required_paths, validation]
+  execution_inventory:
+    kind: execution_inventory
+    required_fields: [kind, version, id, master_plan, items]
+    item_required_fields: [id, order, plan, task, status]
+rules:
+  - Artifact ids and paths are project-owned declarations.
+  - The schema records structure only; it makes no product, runtime, or release claim.

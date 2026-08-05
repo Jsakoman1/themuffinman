@@ -7,11 +7,12 @@ require "yaml"
 ROOT = File.expand_path("../..", __dir__)
 MANIFEST_PATH = File.join(ROOT, "docs/dora-extraction-manifest.yaml")
 require_approved_release = ARGV.delete("--require-approved-release")
+check_handoff_draft = ARGV.delete("--check-handoff-draft")
 handoff_option = ARGV.index("--handoff")
 handoff_path = handoff_option ? ARGV.slice!(handoff_option, 2).last : "docs/dora-release-handoff.yaml"
 version_option = ARGV.index("--expected-version")
 expected_version = version_option ? ARGV.slice!(version_option, 2).last : nil
-abort "usage: ruby scripts/audits/audit-dora-extraction-manifest.rb [--require-approved-release] [--handoff <path>] [--expected-version <version>]" unless ARGV.empty? && !handoff_path.to_s.empty?
+abort "usage: ruby scripts/audits/audit-dora-extraction-manifest.rb [--require-approved-release|--check-handoff-draft] [--handoff <path>] [--expected-version <version>]" unless ARGV.empty? && !handoff_path.to_s.empty? && !(require_approved_release && check_handoff_draft)
 HANDOFF_PATH = File.join(ROOT, handoff_path)
 
 def repository_paths
@@ -57,15 +58,19 @@ prohibited = Array(manifest.dig("preservation", "prohibited_before_approval"))
 failures << "pre-approval deletion is not prohibited" unless prohibited.include?("deleting source-repository paths")
 failures << "pre-approval history rewrite is not prohibited" unless prohibited.include?("rewriting source-repository history")
 
-if require_approved_release
+if require_approved_release || check_handoff_draft
   handoff = YAML.load_file(HANDOFF_PATH)
-  failures << "release handoff kind is invalid" unless handoff["kind"] == "dora_release_handoff" && handoff["status"] == "published"
+  expected_status = require_approved_release ? "published" : "awaiting_external_approval"
+  failures << "release handoff kind or status is invalid" unless handoff["kind"] == "dora_release_handoff" && handoff["status"] == expected_status
   release = handoff.fetch("release", {})
   consumption = handoff.fetch("consumption", {})
   %w[repository version immutable_commit].each { |field| failures << "release handoff is missing #{field}" if release[field].to_s.empty? }
   failures << "release handoff version differs from expected version" if expected_version && release["version"] != expected_version
   failures << "release handoff does not declare git_subtree" unless consumption["method"] == "git_subtree"
-  if consumption["status"] == "pinned"
+  if check_handoff_draft
+    failures << "draft release handoff must retain pending immutable commit" unless release["immutable_commit"] == "pending_external_release"
+    failures << "draft release handoff must be unpinned" unless consumption["status"] == "release_published_unpinned"
+  elsif consumption["status"] == "pinned"
     failures << "release handoff pin differs from immutable commit" unless consumption["pinned_commit"] == release["immutable_commit"]
     adapter = YAML.load_file(File.join(ROOT, ".dora/project.yaml"))
     distribution = adapter.fetch("distribution", {})
@@ -74,8 +79,10 @@ if require_approved_release
   else
     failures << "published release handoff must explicitly be unpinned or pinned" unless consumption["status"] == "release_published_unpinned"
   end
-  remote_output, remote_status = Open3.capture2e("git", "ls-remote", release["repository"], "refs/tags/#{release["version"]}^{}")
-  failures << "published Dora tag is not reachable" unless remote_status.success? && remote_output.include?(release["immutable_commit"])
+  if require_approved_release
+    remote_output, remote_status = Open3.capture2e("git", "ls-remote", release["repository"], "refs/tags/#{release["version"]}^{}")
+    failures << "published Dora tag is not reachable" unless remote_status.success? && remote_output.include?(release["immutable_commit"])
+  end
 end
 
 abort "Dora extraction manifest audit failed:\n- #{failures.join("\n- ")}" unless failures.empty?

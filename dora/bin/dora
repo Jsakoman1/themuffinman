@@ -8,6 +8,12 @@ SCHEMA_PATH = File.join(ROOT, "project-adapter.schema.yaml")
 require File.join(ROOT, "lib/dora/adapter")
 require File.join(ROOT, "lib/dora/work_verifier")
 require File.join(ROOT, "lib/dora/work_execution")
+require File.join(ROOT, "lib/dora/project_initializer")
+require File.join(ROOT, "lib/dora/project_doctor")
+require File.join(ROOT, "lib/dora/command_registry")
+require File.join(ROOT, "lib/dora/tool_selection_commands")
+require File.join(ROOT, "lib/dora/discovery_commands")
+require File.join(ROOT, "lib/dora/analysis_commands")
 
 def fail!(message)
   warn "Dora adapter validation failed: #{message}"
@@ -34,6 +40,73 @@ rescue Dora::WorkExecution::Error, ArgumentError => error
   fail!(error.message)
 end
 
+def initialize_project(destination, project_id, stack = nil, ci = nil)
+  manifest = File.join(ROOT, "templates/init-manifest.yaml")
+  pack = stack && File.join(ROOT, "packs/#{stack}.yaml")
+  ci_pack = ci && File.join(ROOT, "packs/#{ci}.yaml")
+  fail!("unknown stack pack: #{stack}") if pack && !File.file?(pack)
+  fail!("unknown CI pack: #{ci}") if ci_pack && !File.file?(ci_pack)
+  files = Dora::ProjectInitializer.initialize!(destination, project_id: project_id, manifest_path: manifest, stack_pack_path: pack, ci_pack_path: ci_pack, ci_template_path: File.join(ROOT, "templates/github-actions-control.yml"))
+  puts "Dora project initialized: #{File.expand_path(destination)} (#{files.length} control files)."
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def diagnose_project(adapter_path)
+  control_schema = File.join(ROOT, "project-control.schema.yaml")
+  report = Dora::ProjectDoctor.run(adapter_path, schema_path: SCHEMA_PATH, control_schema_path: control_schema)
+  report.fetch("checks").each { |check| puts "#{check.fetch("status").upcase} #{check.fetch("id")}: #{check.fetch("detail")}" }
+  return if report.fetch("healthy")
+
+  exit 1
+end
+
+def show_help(adapter_path = nil)
+  puts Dora::CommandRegistry.render(adapter_path: adapter_path, schema_path: SCHEMA_PATH)
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def list_tools(adapter_path)
+  Dora::ToolSelectionCommands.catalog(adapter_path, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml")).each { |line| puts line }
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def route_changes(adapter_path, paths)
+  result = Dora::ToolSelectionCommands.route(adapter_path, paths, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml"))
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def search_context(adapter_path, query)
+  Dora::DiscoveryCommands.search(adapter_path, query, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml")).each { |path| puts path }
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def inventory_paths(adapter_path, paths)
+  result = Dora::DiscoveryCommands.inventory(adapter_path, paths, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml"))
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def review_evidence(adapter_path)
+  result = Dora::AnalysisCommands.evidence(adapter_path, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml"))
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def map_impact(adapter_path, ids)
+  result = Dora::AnalysisCommands.impact(adapter_path, ids, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml"))
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
 command = ARGV.shift
 case command
 when "validate-adapter"
@@ -48,6 +121,46 @@ when "work-start"
 when "work-verify"
   fail!("usage: dora work-verify <adapter-path> plan=<path> [task=<id>]") if ARGV.length < 2
   execute_work(ARGV.shift, ARGV)
+when "init"
+  destination = ARGV.shift
+  project_option = ARGV.index("--project")
+  stack_option = ARGV.index("--stack")
+  ci_option = ARGV.index("--ci")
+  project_id = project_option ? ARGV[project_option + 1] : nil
+  stack = stack_option ? ARGV[stack_option + 1] : nil
+  ci = ci_option ? ARGV[ci_option + 1] : nil
+  expected_length = 2 + (stack_option ? 2 : 0) + (ci_option ? 2 : 0)
+  fail!("usage: dora init <destination> --project <project-id> [--stack <stack-id>] [--ci <ci-id>]") unless destination && project_option && ARGV.length == expected_length && project_id && (!stack_option || stack) && (!ci_option || ci)
+  initialize_project(destination, project_id, stack, ci)
+when "help"
+  fail!("usage: dora help [adapter-path]") unless ARGV.length <= 1
+  show_help(ARGV.first)
+when "doctor"
+  fail!("usage: dora doctor <adapter-path>") unless ARGV.length == 1
+  diagnose_project(ARGV.first)
+when "tools"
+  fail!("usage: dora tools <adapter-path>") unless ARGV.length == 1
+  list_tools(ARGV.first)
+when "route"
+  adapter_path = ARGV.shift
+  fail!("usage: dora route <adapter-path> <changed-path>...") unless adapter_path && !ARGV.empty?
+  route_changes(adapter_path, ARGV)
+when "search"
+  adapter_path = ARGV.shift
+  fail!("usage: dora search <adapter-path> <query>") unless adapter_path && ARGV.length == 1
+  search_context(adapter_path, ARGV.first)
+when "inventory"
+  adapter_path = ARGV.shift
+  fail!("usage: dora inventory <adapter-path> <path>...") unless adapter_path && !ARGV.empty?
+  inventory_paths(adapter_path, ARGV)
+when "evidence"
+  fail!("usage: dora evidence <adapter-path>") unless ARGV.length == 1
+  review_evidence(ARGV.first)
+when "impact"
+  adapter_path = ARGV.shift
+  fail!("usage: dora impact <adapter-path> <node-id>...") unless adapter_path && !ARGV.empty?
+  map_impact(adapter_path, ARGV)
 else
-  fail!("usage: dora validate-adapter <adapter-path> | dora validate-work-plan <adapter-path> <work-plan-path> | dora work-start <adapter-path> plan=<path> task=<id> | dora work-verify <adapter-path> plan=<path> [task=<id>]")
+  show_help
+  exit 1
 end

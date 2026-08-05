@@ -11,10 +11,13 @@ ownership:
     - dora/bin/
     - dora/lib/
     - dora/project-adapter.schema.yaml
+    - dora/project-control.schema.yaml
+    - dora/packs/
     - dora/templates/
     - dora/README.md
     - dora/test/
     - dora/fixtures/standalone-project/
+    - dora/fixtures/initialized-project/
   muffinman_retained_prefixes: [.dora/, apps/, docs/, frontend/, scripts/, services/, .gitignore, AGENTS.md, Makefile, README.md, package.json, package-lock.json, custom, open]
   repository_operational_prefixes: [.agents/, .codex/, .github/, .idea/, .run/]
 preservation:

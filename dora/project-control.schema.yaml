@@ -1,0 +1,10 @@
+kind: dora_project_control_schema
+version: 1
+purpose: Declare the project-owned configuration files consumed by Dora control commands without embedding project paths in Dora core.
+required_fields: [kind, version, controls]
+controls:
+  required_keys: [tool_catalog, change_routing, context_search, workspace_inventory, documentation_evidence, system_map, artifact_policy, backlog]
+  rules:
+    - Every value is a non-empty path relative to project.root.
+    - Every configured control file must exist inside project.root.
+    - Control file contents and their product decisions remain owned by the consuming project.

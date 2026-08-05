@@ -1,0 +1,204 @@
+kind: execution_inventory
+version: 1
+id: dora-v03-one-click-execution-inventory
+master_plan: docs/work/dora-v03-one-click-master.yaml
+status: draft
+items:
+- id: dora-v03-harden
+  order: 1
+  plan: docs/work/dora-v03-one-click-atomic-task-hardening.yaml
+  task: harden-v03-one-click-plan
+  status: verified
+  started_at: '2026-08-05T10:32:33Z'
+  verified_at: '2026-08-05T10:33:32Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-atomic-task-hardening.yaml
+    task: harden-v03-one-click-plan
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-config-bundle
+  order: 2
+  plan: docs/work/dora-v03-one-click-01-bootstrap.yaml
+  task: define-unified-project-control-config
+  status: verified
+  started_at: '2026-08-05T10:36:26Z'
+  verified_at: '2026-08-05T10:37:34Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-01-bootstrap.yaml
+    task: define-unified-project-control-config
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-init-core
+  order: 3
+  plan: docs/work/dora-v03-one-click-01-bootstrap.yaml
+  task: implement-dora-init-core
+  status: verified
+  started_at: '2026-08-05T10:37:40Z'
+  verified_at: '2026-08-05T10:38:36Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-01-bootstrap.yaml
+    task: implement-dora-init-core
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-init-fixture
+  order: 4
+  plan: docs/work/dora-v03-one-click-01-bootstrap.yaml
+  task: prove-init-on-standalone-project
+  status: verified
+  started_at: '2026-08-05T10:39:13Z'
+  verified_at: '2026-08-05T10:40:34Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-01-bootstrap.yaml
+    task: prove-init-on-standalone-project
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-doctor
+  order: 5
+  plan: docs/work/dora-v03-one-click-01-bootstrap.yaml
+  task: implement-dora-doctor
+  status: verified
+  started_at: '2026-08-05T10:40:42Z'
+  verified_at: '2026-08-05T10:42:03Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-01-bootstrap.yaml
+    task: implement-dora-doctor
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-cli-help
+  order: 6
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: add-cli-command-registry-and-help
+  status: verified
+  started_at: '2026-08-05T10:42:20Z'
+  verified_at: '2026-08-05T10:42:52Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: add-cli-command-registry-and-help
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-cli-tool-selection
+  order: 7
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: expose-tool-selection-commands-through-cli
+  status: verified
+  started_at: '2026-08-05T10:42:58Z'
+  verified_at: '2026-08-05T10:44:22Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: expose-tool-selection-commands-through-cli
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-cli-discovery
+  order: 8
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: expose-discovery-commands-through-cli
+  status: verified
+  started_at: '2026-08-05T10:44:28Z'
+  verified_at: '2026-08-05T10:45:22Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: expose-discovery-commands-through-cli
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-cli-analysis
+  order: 9
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: expose-analysis-commands-through-cli
+  status: verified
+  started_at: '2026-08-05T10:45:28Z'
+  verified_at: '2026-08-05T10:46:22Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: expose-analysis-commands-through-cli
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-work-artifact-schema
+  order: 10
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: port-generic-work-artifact-schema
+  status: verified
+  started_at: '2026-08-05T10:46:30Z'
+  verified_at: '2026-08-05T10:47:16Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: port-generic-work-artifact-schema
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-serial-plan-integrity
+  order: 11
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: port-serial-plan-integrity
+  status: verified
+  started_at: '2026-08-05T10:47:22Z'
+  verified_at: '2026-08-05T10:48:18Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: port-serial-plan-integrity
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-retention-review
+  order: 12
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: implement-configured-retention-review
+  status: verified
+  started_at: '2026-08-05T10:48:24Z'
+  verified_at: '2026-08-05T10:48:57Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: implement-configured-retention-review
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-policy-cleanup
+  order: 13
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: implement-policy-bound-cleanup
+  status: verified
+  started_at: '2026-08-05T10:49:03Z'
+  verified_at: '2026-08-05T10:49:26Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: implement-policy-bound-cleanup
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-template-check
+  order: 14
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: implement-configured-template-freshness-check
+  status: verified
+  started_at: '2026-08-05T10:49:32Z'
+  verified_at: '2026-08-05T10:50:15Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: implement-configured-template-freshness-check
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-repository-map
+  order: 15
+  plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  task: define-configured-repository-map-output
+  status: verified
+  started_at: '2026-08-05T10:50:22Z'
+  verified_at: '2026-08-05T10:50:54Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+    task: define-configured-repository-map-output
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-spring-vue-pack
+  order: 16
+  plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
+  task: add-spring-vue-pack
+  status: verified
+  started_at: '2026-08-05T10:51:20Z'
+  verified_at: '2026-08-05T10:52:03Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
+    task: add-spring-vue-pack
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-ci-pack
+  order: 17
+  plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
+  task: add-github-actions-pack
+  status: verified
+  started_at: '2026-08-05T10:52:34Z'
+  verified_at: '2026-08-05T10:53:24Z'
+  evidence:
+    plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
+    task: add-github-actions-pack
+    revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+- id: dora-v03-release
+  order: 18
+  plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
+  task: publish-dora-v03-release
+  status: in_progress
+  started_at: '2026-08-05T10:53:48Z'
+- id: muffinman-v03-pin
+  order: 19
+  plan: docs/work/dora-v03-one-click-03-packs-and-release.yaml
+  task: pin-muffinman-to-dora-v03
+  status: pending

@@ -1,0 +1,9 @@
+kind: dora_template_freshness
+version: 1
+templates:
+  - path: templates/example.md
+    required_references: [docs/current.md]
+    retired_references: [docs/retired.md]
+rules:
+  - Each template and required reference is project-relative.
+  - A retired reference must not appear in the declared template.

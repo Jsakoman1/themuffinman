@@ -1,0 +1,19 @@
+name: Dora control
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  control:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dora doctor
+        run: "{{doctor}}"
+      - name: Validate Dora adapter
+        run: "{{adapter_validation}}"
+      - name: Project tests
+        run: "{{project_tests}}"
+      - name: Project build
+        run: "{{project_build}}"

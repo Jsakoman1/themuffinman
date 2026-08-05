@@ -1,0 +1,488 @@
+kind: work
+version: 1
+id: dora-v03-one-click-02-cli-and-controls
+title: Expose Dora control mechanics through a consistent CLI
+status: verified
+baseline: 835cbd2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v03-one-click-execution-inventory.yaml
+master_plan: docs/work/dora-v03-one-click-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-tooling-extraction-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan product audits and existing Ruby primitive tests
+  residual_scope:
+  - CLI registry
+  - independent tool-selection/discovery/analysis command groups
+  - generic control audits
+  - policy-bound cleanup
+  - template check
+  - and configured repository map
+  retest_triggers:
+  - changed CLI dispatch
+  - generic audit policy
+  - generated output
+  - or source-map plugin
+  non_duplication_rule: Product audits remain consumer extensions and are not Dora
+    CLI completion evidence.
+hardening_review:
+  state: ready_for_execution
+  reviewed_at: 2026-08-05
+  findings:
+  - CLI groups are split by independent configured engine families; schema
+  - serial integrity
+  - retention
+  - and cleanup have separate evidence boundaries.
+tasks:
+- id: add-cli-command-registry-and-help
+  title: Add discoverable Dora CLI command registry
+  type: implementation
+  status: done
+  inventory_item: dora-cli-help
+  observable_outcome: dora help lists only available generic commands and declared
+    project extensions
+  dependencies:
+  - implement-dora-doctor
+  evidence_boundary:
+  - CLI help integration test
+  paths:
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/command_registry_test.rb
+  required_paths:
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/command_registry_test.rb
+  validation: ruby dora/test/command_registry_test.rb
+  started_at: '2026-08-05T10:42:20Z'
+  start_fingerprints:
+    dora/lib/dora/command_registry.rb: __missing__
+    dora/bin/dora: 0fbf7d8309b97c2ad442dc3cae4e713e8dead8914fa3a034cb65f1699c6923e0
+    dora/test/command_registry_test.rb: __missing__
+- id: expose-tool-selection-commands-through-cli
+  title: Expose tool catalog and validation routing through CLI
+  type: implementation
+  status: done
+  inventory_item: dora-cli-tool-selection
+  observable_outcome: Dora runs project-configured tool catalog and validation routing
+    commands from the unified control configuration
+  dependencies:
+  - add-cli-command-registry-and-help
+  evidence_boundary:
+  - two-project tool-selection CLI integration test
+  paths:
+  - dora/lib/dora/tool_selection_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/tool_selection_commands_test.rb
+  required_paths:
+  - dora/lib/dora/tool_selection_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/tool_selection_commands_test.rb
+  validation: ruby dora/test/tool_selection_commands_test.rb
+  started_at: '2026-08-05T10:42:58Z'
+  start_fingerprints:
+    dora/lib/dora/tool_selection_commands.rb: __missing__
+    dora/lib/dora/command_registry.rb: c6aa6634a56524c4323a72293d9356c94bc48955f9271e8973dbc192daa8419e
+    dora/bin/dora: 5556228afbf4c35fc2aab5726904b36a0316689490580428e2399e93e140036e
+    dora/test/tool_selection_commands_test.rb: __missing__
+- id: expose-discovery-commands-through-cli
+  title: Expose bounded search and workspace inventory through CLI
+  type: implementation
+  status: done
+  inventory_item: dora-cli-discovery
+  observable_outcome: Dora runs project-configured bounded context search and workspace
+    inventory commands without consumer path assumptions
+  dependencies:
+  - expose-tool-selection-commands-through-cli
+  evidence_boundary:
+  - two-project discovery CLI integration test
+  paths:
+  - dora/lib/dora/discovery_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/discovery_commands_test.rb
+  required_paths:
+  - dora/lib/dora/discovery_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/discovery_commands_test.rb
+  validation: ruby dora/test/discovery_commands_test.rb
+  started_at: '2026-08-05T10:44:28Z'
+  start_fingerprints:
+    dora/lib/dora/discovery_commands.rb: __missing__
+    dora/lib/dora/command_registry.rb: 76f9371311015f5cdad61b4b355328f3aeecdd427ae6387286e5222faddb5d71
+    dora/bin/dora: 11d1845a23335d3108fecfbf60dfe84475954ae8bc9ca5ac86838b2d1ba42db4
+    dora/test/discovery_commands_test.rb: __missing__
+- id: expose-analysis-commands-through-cli
+  title: Expose documentation evidence and System Map commands through CLI
+  type: implementation
+  status: done
+  inventory_item: dora-cli-analysis
+  observable_outcome: Dora runs project-configured documentation evidence and System
+    Map analysis commands without product-status claims
+  dependencies:
+  - expose-discovery-commands-through-cli
+  evidence_boundary:
+  - two-project analysis CLI integration test
+  paths:
+  - dora/lib/dora/analysis_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/analysis_commands_test.rb
+  required_paths:
+  - dora/lib/dora/analysis_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/analysis_commands_test.rb
+  validation: ruby dora/test/analysis_commands_test.rb
+  started_at: '2026-08-05T10:45:28Z'
+  start_fingerprints:
+    dora/lib/dora/analysis_commands.rb: __missing__
+    dora/lib/dora/command_registry.rb: 544ef7b7196a102026686f64e9783a48c6213f1a8923f840bf8676d2c3411f65
+    dora/bin/dora: c8d1ae20291f75b5147ae46ab1e20b23d79c83973459f1efb49c134931b5bd64
+    dora/test/analysis_commands_test.rb: __missing__
+- id: port-generic-work-artifact-schema
+  title: Move generic work artifact schema validation into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-work-artifact-schema
+  observable_outcome: Dora validates portable work master and execution-inventory
+    artifact shapes without project status vocabulary
+  dependencies:
+  - expose-analysis-commands-through-cli
+  evidence_boundary:
+  - portable work artifact schema fixture tests
+  paths:
+  - dora/lib/dora/work_artifact_schema.rb
+  - dora/test/work_artifact_schema_test.rb
+  - dora/templates/work-artifact-schema.yaml
+  required_paths:
+  - dora/lib/dora/work_artifact_schema.rb
+  - dora/test/work_artifact_schema_test.rb
+  - dora/templates/work-artifact-schema.yaml
+  validation: ruby dora/test/work_artifact_schema_test.rb
+  started_at: '2026-08-05T10:46:30Z'
+  start_fingerprints:
+    dora/lib/dora/work_artifact_schema.rb: __missing__
+    dora/test/work_artifact_schema_test.rb: __missing__
+    dora/templates/work-artifact-schema.yaml: __missing__
+- id: port-serial-plan-integrity
+  title: Move serial plan ordering and recursion checks into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-serial-plan-integrity
+  observable_outcome: Dora validates one ordered inventory mapping and rejects recursive
+    verifier leaf commands
+  dependencies:
+  - port-generic-work-artifact-schema
+  evidence_boundary:
+  - portable serial plan integrity fixture test
+  paths:
+  - dora/lib/dora/serial_plan_integrity.rb
+  - dora/test/serial_plan_integrity_test.rb
+  required_paths:
+  - dora/lib/dora/serial_plan_integrity.rb
+  - dora/test/serial_plan_integrity_test.rb
+  validation: ruby dora/test/serial_plan_integrity_test.rb
+  started_at: '2026-08-05T10:47:22Z'
+  start_fingerprints:
+    dora/lib/dora/serial_plan_integrity.rb: __missing__
+    dora/test/serial_plan_integrity_test.rb: __missing__
+- id: implement-configured-retention-review
+  title: Add configured non-destructive retention review
+  type: implementation
+  status: done
+  inventory_item: dora-retention-review
+  observable_outcome: Dora classifies project-declared artifacts as retained or cleanup
+    candidates without deleting any file
+  dependencies:
+  - port-serial-plan-integrity
+  evidence_boundary:
+  - retention review fixture test
+  paths:
+  - dora/lib/dora/retention_review.rb
+  - dora/templates/retention-policy.yaml
+  - dora/test/retention_review_test.rb
+  required_paths:
+  - dora/lib/dora/retention_review.rb
+  - dora/templates/retention-policy.yaml
+  - dora/test/retention_review_test.rb
+  validation: ruby dora/test/retention_review_test.rb
+  started_at: '2026-08-05T10:48:24Z'
+  start_fingerprints:
+    dora/lib/dora/retention_review.rb: __missing__
+    dora/templates/retention-policy.yaml: __missing__
+    dora/test/retention_review_test.rb: __missing__
+- id: implement-policy-bound-cleanup
+  title: Add policy-bound cleanup with dry-run protection
+  type: implementation
+  status: done
+  inventory_item: dora-policy-cleanup
+  observable_outcome: Dora removes only explicitly policy-declared generated files
+    after a dry-run reports the exact targets
+  dependencies:
+  - implement-configured-retention-review
+  evidence_boundary:
+  - cleanup safety fixture test
+  paths:
+  - dora/lib/dora/policy_cleanup.rb
+  - dora/test/policy_cleanup_test.rb
+  required_paths:
+  - dora/lib/dora/policy_cleanup.rb
+  - dora/test/policy_cleanup_test.rb
+  validation: ruby dora/test/policy_cleanup_test.rb
+  started_at: '2026-08-05T10:49:03Z'
+  start_fingerprints:
+    dora/lib/dora/policy_cleanup.rb: __missing__
+    dora/test/policy_cleanup_test.rb: __missing__
+- id: implement-configured-template-freshness-check
+  title: Add configured template reference checking
+  type: implementation
+  status: done
+  inventory_item: dora-template-check
+  observable_outcome: Dora checks project-declared templates for missing or retired
+    references without requiring MuffinMan canonical documents
+  dependencies:
+  - implement-policy-bound-cleanup
+  evidence_boundary:
+  - two-project template freshness tests
+  paths:
+  - dora/lib/dora/template_freshness.rb
+  - dora/templates/template-freshness.yaml
+  - dora/test/template_freshness_test.rb
+  required_paths:
+  - dora/lib/dora/template_freshness.rb
+  - dora/templates/template-freshness.yaml
+  - dora/test/template_freshness_test.rb
+  validation: ruby dora/test/template_freshness_test.rb
+  started_at: '2026-08-05T10:49:32Z'
+  start_fingerprints:
+    dora/lib/dora/template_freshness.rb: __missing__
+    dora/templates/template-freshness.yaml: __missing__
+    dora/test/template_freshness_test.rb: __missing__
+- id: define-configured-repository-map-output
+  title: Define project-configured repository map output
+  type: implementation
+  status: done
+  inventory_item: dora-repository-map
+  observable_outcome: Dora emits a bounded source and relationship map from declared
+    source roots and installed plugins without capability inventory assumptions
+  dependencies:
+  - implement-configured-template-freshness-check
+  evidence_boundary:
+  - two-stack repository-map fixture tests
+  paths:
+  - dora/lib/dora/repository_map.rb
+  - dora/templates/repository-map.yaml
+  - dora/test/repository_map_test.rb
+  required_paths:
+  - dora/lib/dora/repository_map.rb
+  - dora/templates/repository-map.yaml
+  - dora/test/repository_map_test.rb
+  validation: ruby dora/test/repository_map_test.rb
+  started_at: '2026-08-05T10:50:22Z'
+  start_fingerprints:
+    dora/lib/dora/repository_map.rb: __missing__
+    dora/templates/repository-map.yaml: __missing__
+    dora/test/repository_map_test.rb: __missing__
+evidence:
+- task: add-cli-command-registry-and-help
+  command: ruby dora/test/command_registry_test.rb
+  ranAt: '2026-08-05T10:42:52Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/command_registry_test.rb
+  output: "Dora command registry test passed (generic commands and declared extensions).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/command_registry_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:42:20Z'
+  changedAfterStart: *1
+- task: expose-tool-selection-commands-through-cli
+  command: ruby dora/test/tool_selection_commands_test.rb
+  ranAt: '2026-08-05T10:44:21Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/tool_selection_commands.rb
+  - dora/test/tool_selection_commands_test.rb
+  output: "Dora tool-selection command test passed (two isolated projects).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/tool_selection_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/tool_selection_commands_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:42:58Z'
+  changedAfterStart: *2
+- task: expose-discovery-commands-through-cli
+  command: ruby dora/test/discovery_commands_test.rb
+  ranAt: '2026-08-05T10:45:22Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/discovery_commands.rb
+  - dora/test/discovery_commands_test.rb
+  output: "Dora discovery command test passed (two bounded project configurations).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/discovery_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/discovery_commands_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:44:28Z'
+  changedAfterStart: *3
+- task: expose-analysis-commands-through-cli
+  command: ruby dora/test/analysis_commands_test.rb
+  ranAt: '2026-08-05T10:46:22Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/analysis_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/test/analysis_commands_test.rb
+  output: "Dora analysis command test passed (two isolated projects).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/analysis_commands.rb
+  - dora/lib/dora/command_registry.rb
+  - dora/bin/dora
+  - dora/test/analysis_commands_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:45:28Z'
+  changedAfterStart: *4
+- task: port-generic-work-artifact-schema
+  command: ruby dora/test/work_artifact_schema_test.rb
+  ranAt: '2026-08-05T10:47:16Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/work_artifact_schema.rb
+  - dora/templates/work-artifact-schema.yaml
+  - dora/test/work_artifact_schema_test.rb
+  output: "Dora work-artifact schema test passed (portable master, work, and inventory
+    fixtures).\n\n"
+  requiredPaths: &5
+  - dora/lib/dora/work_artifact_schema.rb
+  - dora/test/work_artifact_schema_test.rb
+  - dora/templates/work-artifact-schema.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:46:30Z'
+  changedAfterStart: *5
+- task: port-serial-plan-integrity
+  command: ruby dora/test/serial_plan_integrity_test.rb
+  ranAt: '2026-08-05T10:48:18Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/serial_plan_integrity.rb
+  - dora/test/serial_plan_integrity_test.rb
+  output: "Dora serial plan integrity test passed (one-to-one mapping and recursion
+    rejection).\n\n"
+  requiredPaths: &6
+  - dora/lib/dora/serial_plan_integrity.rb
+  - dora/test/serial_plan_integrity_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:47:22Z'
+  changedAfterStart: *6
+- task: implement-configured-retention-review
+  command: ruby dora/test/retention_review_test.rb
+  ranAt: '2026-08-05T10:48:56Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/retention_review.rb
+  - dora/templates/retention-policy.yaml
+  - dora/test/retention_review_test.rb
+  output: "Dora retention review test passed (read-only retained and cleanup classifications).\n\n"
+  requiredPaths: &7
+  - dora/lib/dora/retention_review.rb
+  - dora/templates/retention-policy.yaml
+  - dora/test/retention_review_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:48:24Z'
+  changedAfterStart: *7
+- task: implement-policy-bound-cleanup
+  command: ruby dora/test/policy_cleanup_test.rb
+  ranAt: '2026-08-05T10:49:26Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/policy_cleanup.rb
+  - dora/test/policy_cleanup_test.rb
+  output: "Dora policy cleanup test passed (exact dry-run confirmation and retained-file
+    protection).\n\n"
+  requiredPaths: &8
+  - dora/lib/dora/policy_cleanup.rb
+  - dora/test/policy_cleanup_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:49:03Z'
+  changedAfterStart: *8
+- task: implement-configured-template-freshness-check
+  command: ruby dora/test/template_freshness_test.rb
+  ranAt: '2026-08-05T10:50:15Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/template_freshness.rb
+  - dora/templates/template-freshness.yaml
+  - dora/test/template_freshness_test.rb
+  output: "Dora template freshness test passed (two independent project configurations).\n\n"
+  requiredPaths: &9
+  - dora/lib/dora/template_freshness.rb
+  - dora/templates/template-freshness.yaml
+  - dora/test/template_freshness_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:49:32Z'
+  changedAfterStart: *9
+- task: define-configured-repository-map-output
+  command: ruby dora/test/repository_map_test.rb
+  ranAt: '2026-08-05T10:50:54Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/repository_map.rb
+  - dora/templates/repository-map.yaml
+  - dora/test/repository_map_test.rb
+  output: "Dora repository-map test passed (two configured stacks).\n\n"
+  requiredPaths: &10
+  - dora/lib/dora/repository_map.rb
+  - dora/templates/repository-map.yaml
+  - dora/test/repository_map_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:50:22Z'
+  changedAfterStart: *10

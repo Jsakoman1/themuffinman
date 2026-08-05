@@ -1,0 +1,222 @@
+kind: work
+version: 1
+id: dora-v03-one-click-01-bootstrap
+title: Bootstrap a new Dora-controlled project
+status: verified
+baseline: 835cbd2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v03-one-click-execution-inventory.yaml
+master_plan: docs/work/dora-v03-one-click-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-tooling-extraction-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.2 adapter and work executor
+  residual_scope:
+  - unified config
+  - init command
+  - fixture proof
+  - and environment doctor
+  retest_triggers:
+  - changed init template
+  - schema
+  - command
+  - or fixture
+  non_duplication_rule: Existing adapter tests do not prove one-click initialisation.
+hardening_review:
+  state: ready_for_execution
+  reviewed_at: 2026-08-05
+  findings:
+  - Configuration
+  - init
+  - fixture proof
+  - and doctor are separately verifiable bootstrap outcomes.
+tasks:
+- id: define-unified-project-control-config
+  title: Define one validated Dora control configuration bundle
+  type: implementation
+  status: done
+  inventory_item: dora-config-bundle
+  observable_outcome: A project declares all Dora primitive configuration files through
+    one schema-backed control bundle
+  dependencies:
+  - harden-v03-one-click-plan
+  evidence_boundary:
+  - two-project config bundle test
+  paths:
+  - dora/lib/dora/project_control.rb
+  - dora/project-control.schema.yaml
+  - dora/templates/project-control.yaml
+  - dora/test/project_control_test.rb
+  required_paths:
+  - dora/lib/dora/project_control.rb
+  - dora/project-control.schema.yaml
+  - dora/templates/project-control.yaml
+  - dora/test/project_control_test.rb
+  validation: ruby dora/test/project_control_test.rb
+  started_at: '2026-08-05T10:36:26Z'
+  start_fingerprints:
+    dora/project-control.schema.yaml: __missing__
+    dora/templates/project-control.yaml: __missing__
+    dora/test/project_control_test.rb: __missing__
+- id: implement-dora-init-core
+  title: Implement deterministic Dora project initialisation
+  type: implementation
+  status: done
+  inventory_item: dora-init-core
+  observable_outcome: dora init creates only a declared control structure and adapter
+    without product source or status claims
+  dependencies:
+  - define-unified-project-control-config
+  evidence_boundary:
+  - init unit test and generated file manifest
+  paths:
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/templates/init-manifest.yaml
+  - dora/test/project_initializer_test.rb
+  required_paths:
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/templates/init-manifest.yaml
+  - dora/test/project_initializer_test.rb
+  validation: ruby dora/test/project_initializer_test.rb
+  started_at: '2026-08-05T10:37:40Z'
+  start_fingerprints:
+    dora/lib/dora/project_initializer.rb: __missing__
+    dora/bin/dora: 8b7263e26680682e0976f946366d449fd5cdc19a13e930b264b947b891b9c64a
+    dora/templates/init-manifest.yaml: __missing__
+    dora/test/project_initializer_test.rb: __missing__
+- id: prove-init-on-standalone-project
+  title: Prove core init in an empty standalone fixture
+  type: implementation
+  status: done
+  inventory_item: dora-init-fixture
+  observable_outcome: An empty fixture becomes a valid Dora-controlled project through
+    dora init with no MuffinMan reference
+  dependencies:
+  - implement-dora-init-core
+  evidence_boundary:
+  - standalone init integration test
+  paths:
+  - dora/fixtures/initialized-project/.dora/project.yaml
+  - dora/fixtures/initialized-project/.dora/project-control.yaml
+  - dora/test/initialized_project_fixture_test.rb
+  required_paths:
+  - dora/fixtures/initialized-project/.dora/project.yaml
+  - dora/fixtures/initialized-project/.dora/project-control.yaml
+  - dora/test/initialized_project_fixture_test.rb
+  validation: ruby dora/test/initialized_project_fixture_test.rb
+  started_at: '2026-08-05T10:39:13Z'
+  start_fingerprints:
+    dora/fixtures/initialized-project/.dora/project.yaml: __missing__
+    dora/fixtures/initialized-project/.dora/project-control.yaml: __missing__
+    dora/test/initialized_project_fixture_test.rb: __missing__
+- id: implement-dora-doctor
+  title: Implement project environment diagnosis
+  type: implementation
+  status: done
+  inventory_item: dora-doctor
+  observable_outcome: dora doctor reports missing declared paths commands and required
+    executables without modifying a project
+  dependencies:
+  - prove-init-on-standalone-project
+  evidence_boundary:
+  - healthy and unhealthy doctor fixture tests
+  paths:
+  - dora/lib/dora/project_doctor.rb
+  - dora/bin/dora
+  - dora/test/project_doctor_test.rb
+  required_paths:
+  - dora/lib/dora/project_doctor.rb
+  - dora/bin/dora
+  - dora/test/project_doctor_test.rb
+  validation: ruby dora/test/project_doctor_test.rb
+  started_at: '2026-08-05T10:40:42Z'
+  start_fingerprints:
+    dora/lib/dora/project_doctor.rb: __missing__
+    dora/bin/dora: e13816b40536852bbcb69bf1fe548d56afa07d046aad0f790bd0285a7a551a6f
+    dora/test/project_doctor_test.rb: __missing__
+evidence:
+- task: define-unified-project-control-config
+  command: ruby dora/test/project_control_test.rb
+  ranAt: '2026-08-05T10:37:34Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_control.rb
+  - dora/project-control.schema.yaml
+  - dora/templates/project-control.yaml
+  - dora/test/project_control_test.rb
+  output: "Dora project control test passed (two isolated control bundles).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/project_control.rb
+  - dora/project-control.schema.yaml
+  - dora/templates/project-control.yaml
+  - dora/test/project_control_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:36:26Z'
+  changedAfterStart: *1
+- task: implement-dora-init-core
+  command: ruby dora/test/project_initializer_test.rb
+  ranAt: '2026-08-05T10:38:36Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/project_initializer.rb
+  - dora/templates/init-manifest.yaml
+  - dora/test/project_initializer_test.rb
+  output: "Dora project initializer test passed (control-only project scaffold).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/project_initializer.rb
+  - dora/bin/dora
+  - dora/templates/init-manifest.yaml
+  - dora/test/project_initializer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:37:40Z'
+  changedAfterStart: *2
+- task: prove-init-on-standalone-project
+  command: ruby dora/test/initialized_project_fixture_test.rb
+  ranAt: '2026-08-05T10:40:34Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/fixtures/initialized-project/.dora/project-control.yaml
+  - dora/fixtures/initialized-project/.dora/project.yaml
+  - dora/test/initialized_project_fixture_test.rb
+  output: "Dora standalone initialized-project fixture test passed.\n\n"
+  requiredPaths: &3
+  - dora/fixtures/initialized-project/.dora/project.yaml
+  - dora/fixtures/initialized-project/.dora/project-control.yaml
+  - dora/test/initialized_project_fixture_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:39:13Z'
+  changedAfterStart: *3
+- task: implement-dora-doctor
+  command: ruby dora/test/project_doctor_test.rb
+  ranAt: '2026-08-05T10:42:02Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/project_doctor.rb
+  - dora/test/project_doctor_test.rb
+  output: "Dora project doctor test passed (healthy and unhealthy projects).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/project_doctor.rb
+  - dora/bin/dora
+  - dora/test/project_doctor_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:40:42Z'
+  changedAfterStart: *4

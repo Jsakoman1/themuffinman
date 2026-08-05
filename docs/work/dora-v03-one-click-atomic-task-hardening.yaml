@@ -1,0 +1,92 @@
+kind: work
+version: 1
+id: dora-v03-one-click-atomic-task-hardening
+title: Harden the Dora v0.3 one-click queue
+status: verified
+baseline: 835cbd2
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v03-one-click-execution-inventory.yaml
+master_plan: docs/work/dora-v03-one-click-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-tooling-extraction-master.yaml
+  baseline_only_surfaces:
+  - verified Dora v0.2 queue
+  residual_scope:
+  - one bounded task per v0.3 bootstrap outcome
+  retest_triggers:
+  - changed task path
+  - dependency
+  - evidence boundary
+  - or inventory mapping
+  non_duplication_rule: v0.2 evidence remains baseline context.
+hardening_review:
+  state: verifier_candidate
+  reviewed_at: 2026-08-05
+  findings:
+  - Nineteen tasks map one-to-one to the serialized inventory
+  - including three independently closable CLI groups.
+tasks:
+- id: harden-v03-one-click-plan
+  title: Verify the complete v0.3 queue before implementation
+  type: docs-only
+  status: done
+  inventory_item: dora-v03-harden
+  observable_outcome: Every v0.3 task has one observable outcome, exact required paths,
+    one leaf validation, explicit dependency position, and one inventory mapping.
+  dependencies: []
+  evidence_boundary:
+  - passing atomic-task hardening audit
+  paths:
+  - docs/work/dora-v03-one-click-master.yaml
+  - docs/work/dora-v03-one-click-execution-inventory.yaml
+  - docs/work/dora-v03-one-click-atomic-task-hardening.yaml
+  - docs/work/dora-v03-one-click-01-bootstrap.yaml
+  - docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  - docs/work/dora-v03-one-click-03-packs-and-release.yaml
+  required_paths:
+  - docs/work/dora-v03-one-click-master.yaml
+  - docs/work/dora-v03-one-click-execution-inventory.yaml
+  - docs/work/dora-v03-one-click-atomic-task-hardening.yaml
+  - docs/work/dora-v03-one-click-01-bootstrap.yaml
+  - docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  - docs/work/dora-v03-one-click-03-packs-and-release.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v03-one-click-master.yaml
+    docs/work/dora-v03-one-click-execution-inventory.yaml
+  started_at: '2026-08-05T10:32:33Z'
+  start_fingerprints:
+    docs/work/dora-v03-one-click-master.yaml: '0378ac0b12b5ac5194a5a70b5e805ef80329c5685cb0b3a38f4faa2d904cf4fe'
+    docs/work/dora-v03-one-click-execution-inventory.yaml: 9b19eff76e311b3112df26356987539060a4a1ee20530f8c35d28b091f165114
+    docs/work/dora-v03-one-click-atomic-task-hardening.yaml: 8607376fc93abfe779c3f12209c882231dd36e10e98639980c4e67589e7e7ad4
+    docs/work/dora-v03-one-click-01-bootstrap.yaml: 0f1557e31cf8c188eff05878b5bd08ef94a11a801d41fae0f2789eee1c16f6d0
+    docs/work/dora-v03-one-click-02-cli-and-controls.yaml: 9463ec30826c4e7bef502ab71fc00f359e625a21f385a459de8e9b245dbbfbd8
+    docs/work/dora-v03-one-click-03-packs-and-release.yaml: 6dfed37a2cb8bc6be114623637796617afa33712fecfef8c9984479da0868dc1
+evidence:
+- task: harden-v03-one-click-plan
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v03-one-click-master.yaml
+    docs/work/dora-v03-one-click-execution-inventory.yaml
+  ranAt: '2026-08-05T10:33:31Z'
+  revision: 835cbd2fe8a5db6cd4fce47612c17563464a6a84
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v03-one-click-01-bootstrap.yaml
+  - docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  - docs/work/dora-v03-one-click-03-packs-and-release.yaml
+  - docs/work/dora-v03-one-click-atomic-task-hardening.yaml
+  - docs/work/dora-v03-one-click-execution-inventory.yaml
+  - docs/work/dora-v03-one-click-master.yaml
+  output: "Atomic task hardening audit passed (19 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v03-one-click-master.yaml
+  - docs/work/dora-v03-one-click-execution-inventory.yaml
+  - docs/work/dora-v03-one-click-atomic-task-hardening.yaml
+  - docs/work/dora-v03-one-click-01-bootstrap.yaml
+  - docs/work/dora-v03-one-click-02-cli-and-controls.yaml
+  - docs/work/dora-v03-one-click-03-packs-and-release.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:32:33Z'
+  changedAfterStart: *1
