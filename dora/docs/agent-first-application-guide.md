@@ -2,14 +2,19 @@
 
 This is the one route for a beginner working with Codex and Dora. Dora is the operating system for disciplined delivery; it is not the authority for your product decisions.
 
-1. Complete the explicit `project-new.yaml` answers: product brief, domain library, agent profile, reviewed local Dora source, and first bounded work. Then run `dora new <destination> --answers <project-new.yaml>`. This copies the declared verified local Dora package, creates knowledge and project memory, and does not create product implementation.
-2. Read the generated product brief, domain library, project memory, and agent project profile. They tell Codex which sources are canonical, which commands are allowed, what evidence is required, and which external actions require approval.
-3. Preserve open decisions in product memory rather than guessing them. Dora treats them as unresolved product-owned questions.
+1. Conduct the Codex idea interview in [`codex-idea-interview.md`](codex-idea-interview.md). Record only user-confirmed answers and explicit open decisions in `idea-interview.yaml`.
+2. Review a local Dora source descriptor, then run `dora create-app <destination> --interview idea-interview.yaml --source bootstrap-source.yaml [--starter <starter-id>] [--codex-integrate]`. For a confirmed Java, Vue, and PostgreSQL direction, select `--starter spring-vue-postgres-buildable`. This copies a checksum-verified package, creates knowledge, project memory, a first capability package, first work, and a local Git baseline. It does not create product implementation.
+3. Read the generated product brief, domain library, project memory, capability package, and agent project profile. Preserve open decisions rather than guessing them.
 4. Choose a neutral architecture capability blueprint. Put business rules, permissions, validation, and state transitions in the service owner; keep the client responsible for presentation and declared interactions.
 5. If voice is needed, use the voice blueprint. Audio and interpretation are inputs only; deterministic validation, review, explicit confirmation, consent, and retention rules come before execution.
-6. Create one atomic plan item with a bounded outcome, exact changed paths, a leaf validation command, and an evidence boundary. Start it before editing, implement it, then verify it.
-7. Run the declared tests and collect runtime evidence where a real user flow matters. Static analysis, automated tests, and runtime observations are different evidence types.
-8. Update product and domain documentation with the implementation. Hand off only the verified evidence and unresolved decisions; do not call a product complete merely because Dora commands pass.
+6. For one confirmed capability, create a `dora_confirmed_capability_context` containing only the confirmed data-safety, workflow, permission, and technical decisions. Dora's vertical-slice generator creates a proposal for migration, backend, API, frontend, tests, runtime evidence, documentation, and one atomic work declaration. Review it with the readiness gate. If it reports a gap, ask the user; never infer the missing rule.
+7. A vertical-slice proposal is not source code, SQL, a database migration, or an implementation command. Only after the proposal is ready and the product owner has reviewed it may Codex create one atomic plan item with a bounded outcome, exact changed paths, a leaf validation command, and an evidence boundary. Start it before editing, implement it, then verify it.
+8. Run the declared tests and collect runtime evidence where a real user flow matters. Static analysis, automated tests, and runtime observations are different evidence types.
+9. Update product and domain documentation with the implementation. Hand off only the verified evidence and unresolved decisions; do not call a product complete merely because Dora commands pass.
+
+The PostgreSQL starter deliberately defers authentication, authorization policy,
+retention, backup, domain schema, API behavior, production hosting, and release
+approval. It offers technical wiring, not a safe or complete product.
 
 Use this public command surface to give Codex only declared project context and guidance:
 
@@ -21,7 +26,7 @@ dora impact <adapter-path> <node-id>...
 dora agent-closeout <adapter-path> <work-plan-path> <task-id> <change-impact-path> <changed-path>...
 ```
 
-`dora new` creates `AGENTS.md`, `docs/product-brief.yaml`, `docs/domain-library.yaml`, `docs/project-memory.yaml`, and `.dora/agent-project-profile.yaml`. Run `dora doctor <adapter-path>` before work; it fails closed if that context is missing or inconsistent.
+`dora create-app` creates `AGENTS.md`, `docs/product-brief.yaml`, `docs/domain-library.yaml`, `docs/project-memory.yaml`, `docs/capability-package.yaml`, and `.dora/agent-project-profile.yaml`. Run `dora doctor <adapter-path>` before work; it fails closed if that context is missing or inconsistent.
 
 Before `work-start`, run `dora readiness <project-root>`. Its default response is
 read-only and tells Codex whether a Git baseline exists. Only the explicit

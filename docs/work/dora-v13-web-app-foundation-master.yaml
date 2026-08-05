@@ -1,0 +1,110 @@
+kind: master
+version: 1
+id: dora-v13-web-app-foundation-master
+title: Make Dora a controlled foundation for a new Spring Boot, Vue, and PostgreSQL
+  web application
+status: verified
+implementation_ready: true
+baseline: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+target_release: v1.3.0
+objective: Let Codex take a user-confirmed product idea to a first proposed vertical
+  web-application capability with minimal setup, while keeping product decisions,
+  source application, production operations, and approval authority outside Dora.
+analysis_source: docs/work/dora-web-app-readiness-temporary-analysis.md
+plan_analysis_source: docs/work/dora-v13-web-app-foundation-analysis.md
+preflight_source: docs/work/dora-v13-web-app-foundation-preflight.md
+goal_readiness_source: docs/work/dora-v13-web-app-foundation-goal-readiness.md
+decision_default: narrow_web_app_foundation
+decision_boundary: This plan deliberately excludes production deployment, offline
+  synchronization, product-specific UI, automatic destructive database operations,
+  and automatic business-rule invention.
+principles:
+- Codex conducts a human-readable interview and Dora records only confirmed user intent.
+- Dora technical starters are neutral and never include a product entity, role, API
+  resource, seed data, or business screen.
+- A generated vertical-slice proposal is a reviewable starting artifact, not silently
+  applied application code.
+- Database migrations are append-only and use Flyway; reset or deletion is never an
+  implicit starter command.
+- Authentication, retention, backup, and external integration remain explicit product
+  decisions.
+- Every implementation item must have exact paths, a leaf validation command, evidence
+  boundaries, and an independent-consumer proof where reusable behavior changes.
+- Remote publication, deployment, secret changes, database destruction, and consumer
+  pins require explicit approval.
+success_criteria:
+- A beginner can describe an idea to Codex and receive a cited Dora interview without
+  manually composing project-control YAML.
+- Dora can create a new project using one reviewed source and one neutral Spring/Vue/PostgreSQL
+  starter.
+- The selected starter has local setup, test, build, health, and database configuration
+  commands that pass in an independent consumer.
+- A confirmed capability package can produce a reviewable vertical-slice proposal
+  covering migration, backend, API, frontend, tests, runtime evidence, documentation,
+  and atomic work.
+- The proposal fails closed when a required domain, permission, workflow, data-safety,
+  or technical decision is absent.
+- Dora documentation makes the interview-based `create-app` route the primary beginner
+  and Codex path.
+- Dora remains independent of MuffinMan and contains no DoomsDayStorage product terminology
+  or behavior.
+non_goals:
+- Build or deploy DoomsDayStorage itself.
+- Generate final production code without a reviewed atomic implementation task.
+- Choose authentication, offline synchronization, retention, backup policy, or hosting
+  without user confirmation.
+- Promise security certification, backup correctness, or production readiness from
+  starter generation.
+workstreams:
+- docs/work/dora-v13-interview-and-guidance-scope.yaml
+- docs/work/dora-v13-postgres-starter-scope.yaml
+- docs/work/dora-v13-vertical-slice-scope.yaml
+- docs/work/dora-v13-proof-and-docs-scope.yaml
+children:
+- docs/work/dora-v13-atomic-hardening.yaml
+- docs/work/dora-v13-interview-and-guidance.yaml
+- docs/work/dora-v13-postgres-starter.yaml
+- docs/work/dora-v13-vertical-slice.yaml
+- docs/work/dora-v13-proof-and-docs.yaml
+execution_inventory: docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v13-atomic-hardening.yaml
+strict_verification: true
+serial_task_execution: true
+hardening_review:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v13-web-app-foundation-master.yaml
+    docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+  state: audit_passed_execution_started_pending_work_verifier
+  boundary: Atomic hardening proves planning precision only; it does not prove v1.3
+    implementation.
+sequencing:
+- Interview and guidance contract before project creation UX changes.
+- Postgres starter before vertical-slice proposal paths and commands are finalized.
+- Vertical-slice proposal and readiness checks before consumer proof.
+- Independent consumer proof and documentation closeout before any release decision.
+required_before_goal_pursuit:
+- Convert every scope item into one atomic implementation task with bounded paths
+  and a leaf validation command.
+- Create one globally serial execution inventory and direct predecessor dependencies.
+- Define exact ownership of generated proposal artifacts versus user-owned application
+  code.
+- Define starter support assumptions for Java, Node, Docker, PostgreSQL, Flyway, and
+  local ports.
+- Define an independent-consumer proof that does not rely on MuffinMan data or services.
+- Decide whether authentication/data-safety profiles stay deferred or enter a separate
+  following plan.
+release_boundary:
+- No v1.3.0 tag, remote publication, or MuffinMan pin is authorized by this draft.
+- A later release task must require an explicit user approval record and a reachable
+  immutable Dora tag.
+completion_boundary: This master plan defines proposed reusable delivery work only.
+  It does not authorize implementation, create an application, or prove that a generated
+  application is secure or production-ready.
+evidence:
+- verifiedAt: '2026-08-05T18:57:15Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  children:
+  - docs/work/dora-v13-atomic-hardening.yaml
+  - docs/work/dora-v13-interview-and-guidance.yaml
+  - docs/work/dora-v13-postgres-starter.yaml
+  - docs/work/dora-v13-vertical-slice.yaml
+  - docs/work/dora-v13-proof-and-docs.yaml

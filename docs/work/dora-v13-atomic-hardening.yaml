@@ -1,0 +1,57 @@
+kind: work
+version: 1
+id: dora-v13-atomic-hardening
+title: Verify v1.3 web-app foundation task precision before implementation
+status: verified
+baseline: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+tasks:
+- id: harden-v13-program
+  inventory_item: v13-harden
+  title: Record and audit the exact v1.3 execution inventory
+  type: planning
+  observable_outcome: The v1.3 master, child plans, and inventory pass the atomic-task
+    hardening audit with one serial mapping per implementation task.
+  dependencies: []
+  paths:
+  - docs/work/dora-v13-web-app-foundation-master.yaml
+  - docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+  - docs/work/dora-v13-atomic-hardening.yaml
+  required_paths:
+  - docs/work/dora-v13-web-app-foundation-master.yaml
+  - docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+  - docs/work/dora-v13-atomic-hardening.yaml
+  evidence_boundary:
+  - passing atomic-task hardening audit for the v1.3 master and inventory
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v13-web-app-foundation-master.yaml
+    docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-05T18:05:34Z'
+  start_fingerprints:
+    docs/work/dora-v13-web-app-foundation-master.yaml: 104724f08fa9b4a7ba2bc20c34b1adabdb9f30d2c533378a85a33bd3caa0bf95
+    docs/work/dora-v13-web-app-foundation-execution-inventory.yaml: 8056b57ac7e1a8fac1fd8712f0e99e42c73b1f1a68d2ef7a0d8944b0494320f3
+    docs/work/dora-v13-atomic-hardening.yaml: 001211b5334a1f2a9f4ea6c7420024be38b4bc90ec39ff852b5529e4767a4c40
+evidence:
+- task: harden-v13-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v13-web-app-foundation-master.yaml
+    docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+  ranAt: '2026-08-05T18:07:31Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v13-atomic-hardening.yaml
+  - docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+  - docs/work/dora-v13-web-app-foundation-master.yaml
+  output: "Atomic task hardening audit passed (12 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v13-web-app-foundation-master.yaml
+  - docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+  - docs/work/dora-v13-atomic-hardening.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:05:34Z'
+  changedAfterStart: *1

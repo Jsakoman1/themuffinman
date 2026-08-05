@@ -1,0 +1,18 @@
+kind: execution_inventory
+version: 1
+id: dora-v13-postgres-executable-consumer-proof-inventory
+master_plan: docs/work/dora-v13-postgres-executable-consumer-proof.yaml
+status: prepared
+execution_mode: strict_serial
+items:
+- id: v13-postgres-executable-consumer
+  order: 1
+  plan: docs/work/dora-v13-postgres-executable-consumer-proof.yaml
+  task: execute-postgres-starter-consumer-commands
+  status: verified
+  started_at: '2026-08-05T18:28:49Z'
+  verified_at: '2026-08-05T18:30:31Z'
+  evidence:
+    plan: docs/work/dora-v13-postgres-executable-consumer-proof.yaml
+    task: execute-postgres-starter-consumer-commands
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962

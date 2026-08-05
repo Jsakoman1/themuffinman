@@ -1,0 +1,19 @@
+kind: scope
+version: 1
+id: dora-v13-interview-and-guidance
+title: Make the confirmed interview route the primary Codex and beginner entrypoint
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+outcomes:
+  - A compact Codex interview guide produces the existing provenance-preserving idea interview contract.
+  - "create-app --interview --source is documented as the primary route and keeps source review explicit."
+  - Guidance explains open decisions, omissions, side effects, and non-authorized actions in plain language.
+planned_surfaces:
+  - dora/docs/
+  - dora/README.md
+  - dora/templates/codex-integration/
+  - dora/test/
+boundaries:
+  - No conversational model, remote service, or user-answer inference is introduced into Dora.
+  - Codex may ask questions; only user-confirmed answers enter the interview artifact.
+dependencies: []
+completion_boundary: Documentation and contracts guide project creation; they do not implement an application.

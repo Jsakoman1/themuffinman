@@ -1,0 +1,57 @@
+kind: work
+version: 1
+id: dora-v13-proof-and-docs
+title: Close out v1.3 web-app foundation guidance and proof
+status: verified
+baseline: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+tasks:
+- id: publish-web-app-foundation-guidance
+  inventory_item: v13-guidance-closeout
+  title: Close out current web-app foundation documentation
+  type: implementation
+  observable_outcome: Dora operator and Codex guides state the supported web-app foundation,
+    deferred safety decisions, proposal-only boundary, and independent proof commands.
+  dependencies:
+  - v13-slice-consumer
+  paths:
+  - dora/docs/operator-guide.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/web_app_foundation_guidance_test.rb
+  required_paths:
+  - dora/docs/operator-guide.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/web_app_foundation_guidance_test.rb
+  evidence_boundary:
+  - current-route, deferral, and proposal-boundary documentation assertions
+  validation: ruby dora/test/web_app_foundation_guidance_test.rb
+  status: done
+  started_at: '2026-08-05T18:24:05Z'
+  start_fingerprints:
+    dora/docs/operator-guide.md: 2e2a6749c7315e71a8692d8c19a583ddd0ebc7de24d998b4e8f5198253307018
+    dora/docs/agent-first-application-guide.md: 67ac05982bf7f5b18c185060630e28365a29e6ac70e1d65d8cc263694fda9dd5
+    dora/test/web_app_foundation_guidance_test.rb: __missing__
+evidence:
+- task: publish-web-app-foundation-guidance
+  command: ruby dora/test/web_app_foundation_guidance_test.rb
+  ranAt: '2026-08-05T18:24:53Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/docs/agent-first-application-guide.md
+  - dora/docs/operator-guide.md
+  - dora/test/web_app_foundation_guidance_test.rb
+  output: "Dora web-app foundation guidance test passed (current route, deferred decisions,
+    proposal boundary, and independent proof commands are documented).\n\n"
+  requiredPaths: &1
+  - dora/docs/operator-guide.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/web_app_foundation_guidance_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:24:05Z'
+  changedAfterStart: *1

@@ -1,0 +1,150 @@
+kind: execution_inventory
+version: 1
+id: dora-v13-web-app-foundation-execution-inventory
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+status: prepared
+execution_mode: strict_serial
+ownership_boundary: Dora owns neutral delivery mechanics; consumer applications own
+  product meaning, source code, runtime authority, and external side effects.
+planning_audit: atomic_hardening_passed_after_work_start
+hardening_contract:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v13-web-app-foundation-master.yaml
+    docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+  mapping: Every item maps once to one exact atomic task.
+  dependency: Every implementation item directly depends on its immediately preceding
+    inventory item.
+  execution_gate: No implementation item may start before v13-harden is verifier-marked
+    verified.
+items:
+- id: v13-harden
+  order: 1
+  plan: docs/work/dora-v13-atomic-hardening.yaml
+  task: harden-v13-program
+  status: verified
+  started_at: '2026-08-05T18:05:34Z'
+  verified_at: '2026-08-05T18:07:31Z'
+  evidence:
+    plan: docs/work/dora-v13-atomic-hardening.yaml
+    task: harden-v13-program
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-interview-guide
+  order: 2
+  plan: docs/work/dora-v13-interview-and-guidance.yaml
+  task: define-codex-interview-guide
+  status: verified
+  started_at: '2026-08-05T18:07:37Z'
+  verified_at: '2026-08-05T18:07:58Z'
+  evidence:
+    plan: docs/work/dora-v13-interview-and-guidance.yaml
+    task: define-codex-interview-guide
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-create-app-guidance
+  order: 3
+  plan: docs/work/dora-v13-interview-and-guidance.yaml
+  task: promote-interview-create-app-route
+  status: verified
+  started_at: '2026-08-05T18:08:11Z'
+  verified_at: '2026-08-05T18:08:51Z'
+  evidence:
+    plan: docs/work/dora-v13-interview-and-guidance.yaml
+    task: promote-interview-create-app-route
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-postgres-contract
+  order: 4
+  plan: docs/work/dora-v13-postgres-starter.yaml
+  task: define-postgres-starter-contract
+  status: verified
+  started_at: '2026-08-05T18:08:56Z'
+  verified_at: '2026-08-05T18:09:26Z'
+  evidence:
+    plan: docs/work/dora-v13-postgres-starter.yaml
+    task: define-postgres-starter-contract
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-postgres-starter
+  order: 5
+  plan: docs/work/dora-v13-postgres-starter.yaml
+  task: add-postgres-buildable-starter
+  status: verified
+  started_at: '2026-08-05T18:15:24Z'
+  verified_at: '2026-08-05T18:17:28Z'
+  evidence:
+    plan: docs/work/dora-v13-postgres-starter.yaml
+    task: add-postgres-buildable-starter
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-postgres-catalog
+  order: 6
+  plan: docs/work/dora-v13-postgres-starter.yaml
+  task: register-postgres-starter
+  status: verified
+  started_at: '2026-08-05T18:17:34Z'
+  verified_at: '2026-08-05T18:17:55Z'
+  evidence:
+    plan: docs/work/dora-v13-postgres-starter.yaml
+    task: register-postgres-starter
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-postgres-consumer
+  order: 7
+  plan: docs/work/dora-v13-postgres-starter.yaml
+  task: prove-postgres-starter-consumer
+  status: verified
+  started_at: '2026-08-05T18:18:01Z'
+  verified_at: '2026-08-05T18:18:55Z'
+  evidence:
+    plan: docs/work/dora-v13-postgres-starter.yaml
+    task: prove-postgres-starter-consumer
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-slice-contract
+  order: 8
+  plan: docs/work/dora-v13-vertical-slice.yaml
+  task: define-vertical-slice-proposal-contract
+  status: verified
+  started_at: '2026-08-05T18:19:25Z'
+  verified_at: '2026-08-05T18:21:23Z'
+  evidence:
+    plan: docs/work/dora-v13-vertical-slice.yaml
+    task: define-vertical-slice-proposal-contract
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-slice-generator
+  order: 9
+  plan: docs/work/dora-v13-vertical-slice.yaml
+  task: generate-vertical-slice-proposal
+  status: verified
+  started_at: '2026-08-05T18:21:36Z'
+  verified_at: '2026-08-05T18:22:22Z'
+  evidence:
+    plan: docs/work/dora-v13-vertical-slice.yaml
+    task: generate-vertical-slice-proposal
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-slice-readiness
+  order: 10
+  plan: docs/work/dora-v13-vertical-slice.yaml
+  task: add-vertical-slice-readiness-gate
+  status: verified
+  started_at: '2026-08-05T18:22:36Z'
+  verified_at: '2026-08-05T18:22:59Z'
+  evidence:
+    plan: docs/work/dora-v13-vertical-slice.yaml
+    task: add-vertical-slice-readiness-gate
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-slice-consumer
+  order: 11
+  plan: docs/work/dora-v13-vertical-slice.yaml
+  task: prove-vertical-slice-consumers
+  status: verified
+  started_at: '2026-08-05T18:23:11Z'
+  verified_at: '2026-08-05T18:23:40Z'
+  evidence:
+    plan: docs/work/dora-v13-vertical-slice.yaml
+    task: prove-vertical-slice-consumers
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-guidance-closeout
+  order: 12
+  plan: docs/work/dora-v13-proof-and-docs.yaml
+  task: publish-web-app-foundation-guidance
+  status: verified
+  started_at: '2026-08-05T18:24:05Z'
+  verified_at: '2026-08-05T18:24:53Z'
+  evidence:
+    plan: docs/work/dora-v13-proof-and-docs.yaml
+    task: publish-web-app-foundation-guidance
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962

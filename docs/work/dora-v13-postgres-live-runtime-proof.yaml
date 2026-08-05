@@ -1,0 +1,122 @@
+kind: work
+version: 1
+id: dora-v13-postgres-live-runtime-proof
+title: Prove the neutral PostgreSQL starter against a live temporary Docker database
+status: verified
+baseline: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v13-postgres-live-runtime-proof-inventory.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v13-postgres-executable-consumer-proof.yaml
+  baseline_only_surfaces:
+  - The prior proof executes setup
+  - test
+  - and build but does not start Docker or a backend process.
+  residual_scope:
+  - Neutral HTTP health support and one isolated live PostgreSQL runtime proof.
+  retest_triggers:
+  - Starter command or backend dependency change
+  - Docker Compose change
+  - or runtime-test cleanup change.
+  non_duplication_rule: Prior executable build evidence remains baseline-only; this
+    plan records only live database and health evidence.
+tasks:
+- id: enable-neutral-http-health-starter
+  inventory_item: v13-postgres-http-health
+  title: Enable the neutral HTTP health starter contract
+  type: implementation
+  observable_outcome: The neutral starter declares a local backend run command and
+    includes only the technical Spring Web dependency required to expose the configured
+    Actuator health endpoint.
+  dependencies: []
+  paths:
+  - dora/starters/spring-vue-postgres-buildable.yaml
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/spring_vue_postgres_buildable_starter_test.rb
+  required_paths:
+  - dora/starters/spring-vue-postgres-buildable.yaml
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/spring_vue_postgres_buildable_starter_test.rb
+  evidence_boundary:
+  - Neutral starter declaration and static absence-of-product-behavior assertions.
+  validation: ruby dora/test/spring_vue_postgres_buildable_starter_test.rb
+  status: done
+  started_at: '2026-08-05T18:39:35Z'
+  start_fingerprints:
+    dora/starters/spring-vue-postgres-buildable.yaml: dcfd6d70e82ad150621b09a8da9f40bf779b6d06df4566e42195bda6e4b31c1d
+    dora/templates/starters/spring-vue-postgres/backend/pom.xml: 2923b67de1f01b01208e889a90f75c6a9f152e2f58f78cc636034a728ae8264e
+    dora/test/spring_vue_postgres_buildable_starter_test.rb: b487a177f5a0464a1921231144bb7bb8a92ad90024750a5ac36632db7af403f1
+- id: prove-live-postgres-health-consumer
+  inventory_item: v13-postgres-live-health
+  title: Prove live PostgreSQL and health in an isolated consumer
+  type: implementation
+  observable_outcome: A fresh temporary consumer starts its own Compose PostgreSQL
+    database and backend, receives a passed Actuator health response, and removes
+    only its own temporary Compose resources.
+  dependencies:
+  - v13-postgres-http-health
+  paths:
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/independent_postgres_starter_runtime_test.rb
+  - dora/docs/operator-guide.md
+  required_paths:
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/independent_postgres_starter_runtime_test.rb
+  - dora/docs/operator-guide.md
+  evidence_boundary:
+  - Temporary consumer Compose logs
+  - HTTP health response
+  - and scoped cleanup; no product schema
+  - data
+  - or shared container is used.
+  validation: ruby dora/test/independent_postgres_starter_runtime_test.rb
+  status: done
+  started_at: '2026-08-05T18:40:42Z'
+  start_fingerprints:
+    dora/test/independent_postgres_starter_runtime_test.rb: f0f34dc4d4acde5716a032935bac536358bcdc20d39967a9e4fbdb9e3d81bf20
+    dora/docs/operator-guide.md: 5efba80ab7ca035d75dfca31597bfa48e7c8c1ca590a5130188083f9f6dc00f4
+evidence:
+- task: enable-neutral-http-health-starter
+  command: ruby dora/test/spring_vue_postgres_buildable_starter_test.rb
+  ranAt: '2026-08-05T18:40:02Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/starters/spring-vue-postgres-buildable.yaml
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/spring_vue_postgres_buildable_starter_test.rb
+  output: "Dora Spring/Vue/Postgres buildable starter test passed (technical PostgreSQL,
+    Flyway, health, and no product behavior).\n\n"
+  requiredPaths: &1
+  - dora/starters/spring-vue-postgres-buildable.yaml
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/spring_vue_postgres_buildable_starter_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:39:35Z'
+  changedAfterStart: *1
+- task: prove-live-postgres-health-consumer
+  command: ruby dora/test/independent_postgres_starter_runtime_test.rb
+  ranAt: '2026-08-05T18:50:05Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/docs/operator-guide.md
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/independent_postgres_starter_runtime_test.rb
+  output: "Dora executable Postgres consumer test passed (fresh temporary PostgreSQL,
+    generated backend, and declared health command passed; scoped resources were cleaned
+    up).\n\n"
+  requiredPaths: &2
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/independent_postgres_starter_runtime_test.rb
+  - dora/docs/operator-guide.md
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:40:42Z'
+  changedAfterStart: *2

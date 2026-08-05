@@ -1,0 +1,4 @@
+kind: dora_starter_template
+version: 1
+id: spring-vue-postgres-buildable
+description: Domain-free Spring Boot, Vue, PostgreSQL, and Flyway application skeleton.

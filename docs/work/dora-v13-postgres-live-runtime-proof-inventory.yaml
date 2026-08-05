@@ -1,0 +1,29 @@
+kind: execution_inventory
+version: 1
+id: dora-v13-postgres-live-runtime-proof-inventory
+master_plan: docs/work/dora-v13-postgres-live-runtime-proof.yaml
+status: prepared
+execution_mode: strict_serial
+items:
+- id: v13-postgres-http-health
+  order: 1
+  plan: docs/work/dora-v13-postgres-live-runtime-proof.yaml
+  task: enable-neutral-http-health-starter
+  status: verified
+  started_at: '2026-08-05T18:39:35Z'
+  verified_at: '2026-08-05T18:40:02Z'
+  evidence:
+    plan: docs/work/dora-v13-postgres-live-runtime-proof.yaml
+    task: enable-neutral-http-health-starter
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+- id: v13-postgres-live-health
+  order: 2
+  plan: docs/work/dora-v13-postgres-live-runtime-proof.yaml
+  task: prove-live-postgres-health-consumer
+  status: verified
+  started_at: '2026-08-05T18:40:42Z'
+  verified_at: '2026-08-05T18:50:11Z'
+  evidence:
+    plan: docs/work/dora-v13-postgres-live-runtime-proof.yaml
+    task: prove-live-postgres-health-consumer
+    revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962

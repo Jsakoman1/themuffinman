@@ -1,0 +1,20 @@
+kind: scope
+version: 1
+id: dora-v13-proof-and-docs
+title: Prove the web-app foundation in independent consumers and publish clear operating guidance
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+outcomes:
+  - Two independent consumers use distinct product intent and retain isolated user instructions.
+  - Starter commands, proposal validation, readiness gaps, and evidence boundaries are proven without MuffinMan data.
+  - README and operator/Codex guides describe the current v1.3 route and its deferrals.
+planned_surfaces:
+  - dora/test/fixtures/
+  - dora/test/
+  - dora/README.md
+  - dora/docs/
+boundaries:
+  - Independent consumer proof does not deploy, publish, or create a real product database outside its temporary test environment.
+  - Release work is separate and requires a later explicit approval task.
+dependencies:
+  - docs/work/dora-v13-vertical-slice-scope.yaml
+completion_boundary: Consumer proof demonstrates reusable control behavior only; it does not certify a consuming application for production.

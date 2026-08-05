@@ -1,0 +1,179 @@
+kind: work
+version: 1
+id: dora-v13-vertical-slice
+title: Produce a reviewable vertical-slice proposal from confirmed capability intent
+status: verified
+baseline: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+tasks:
+- id: define-vertical-slice-proposal-contract
+  inventory_item: v13-slice-contract
+  title: Define the reviewable vertical-slice proposal contract
+  type: implementation
+  observable_outcome: Dora validates a proposal linking one confirmed capability to
+    migration, backend, API, frontend, tests, runtime evidence, documentation, and
+    atomic work without generated source code.
+  dependencies:
+  - v13-postgres-consumer
+  paths:
+  - dora/vertical-slice-proposal.schema.yaml
+  - dora/lib/dora/vertical_slice_proposal.rb
+  - dora/test/vertical_slice_proposal_test.rb
+  required_paths:
+  - dora/vertical-slice-proposal.schema.yaml
+  - dora/lib/dora/vertical_slice_proposal.rb
+  - dora/test/vertical_slice_proposal_test.rb
+  evidence_boundary:
+  - complete and incomplete proposal fixtures
+  validation: ruby dora/test/vertical_slice_proposal_test.rb
+  status: done
+  started_at: '2026-08-05T18:19:25Z'
+  start_fingerprints:
+    dora/vertical-slice-proposal.schema.yaml: __missing__
+    dora/lib/dora/vertical_slice_proposal.rb: __missing__
+    dora/test/vertical_slice_proposal_test.rb: __missing__
+- id: generate-vertical-slice-proposal
+  inventory_item: v13-slice-generator
+  title: Generate a proposal from confirmed capability context
+  type: implementation
+  observable_outcome: Dora derives only neutral proposed paths and task declarations
+    from confirmed capability context and records every omitted decision as a gap.
+  dependencies:
+  - v13-slice-contract
+  paths:
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/test/vertical_slice_generator_test.rb
+  required_paths:
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/test/vertical_slice_generator_test.rb
+  evidence_boundary:
+  - confirmed and missing-decision generation fixtures
+  validation: ruby dora/test/vertical_slice_generator_test.rb
+  status: done
+  started_at: '2026-08-05T18:21:36Z'
+  start_fingerprints:
+    dora/lib/dora/vertical_slice_generator.rb: __missing__
+    dora/test/vertical_slice_generator_test.rb: __missing__
+- id: add-vertical-slice-readiness-gate
+  inventory_item: v13-slice-readiness
+  title: Add explicit vertical-slice decision gating
+  type: implementation
+  observable_outcome: Dora reports exact missing data-safety, workflow, permission,
+    and technical decisions before a proposed slice can be handed to implementation
+    planning.
+  dependencies:
+  - v13-slice-generator
+  paths:
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/vertical_slice_readiness_test.rb
+  required_paths:
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/vertical_slice_readiness_test.rb
+  evidence_boundary:
+  - ready and blocked vertical-slice fixtures with cited blockers
+  validation: ruby dora/test/vertical_slice_readiness_test.rb
+  status: done
+  started_at: '2026-08-05T18:22:36Z'
+  start_fingerprints:
+    dora/lib/dora/vertical_slice_readiness.rb: __missing__
+    dora/test/vertical_slice_readiness_test.rb: __missing__
+- id: prove-vertical-slice-consumers
+  inventory_item: v13-slice-consumer
+  title: Prove vertical-slice proposal isolation
+  type: implementation
+  observable_outcome: Two temporary consumers receive only their own proposed paths,
+    work, and blockers without product inference or cross-project leakage.
+  dependencies:
+  - v13-slice-readiness
+  paths:
+  - dora/test/fixtures/vertical-slice-consumers.yaml
+  - dora/test/independent_vertical_slice_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/vertical-slice-consumers.yaml
+  - dora/test/independent_vertical_slice_consumer_test.rb
+  evidence_boundary:
+  - two-consumer proposal and blocker isolation proof
+  validation: ruby dora/test/independent_vertical_slice_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T18:23:11Z'
+  start_fingerprints:
+    dora/test/fixtures/vertical-slice-consumers.yaml: __missing__
+    dora/test/independent_vertical_slice_consumer_test.rb: __missing__
+evidence:
+- task: define-vertical-slice-proposal-contract
+  command: ruby dora/test/vertical_slice_proposal_test.rb
+  ranAt: '2026-08-05T18:21:23Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/vertical_slice_proposal.rb
+  - dora/test/vertical_slice_proposal_test.rb
+  - dora/vertical-slice-proposal.schema.yaml
+  output: "Dora vertical-slice proposal test passed (one confirmed capability links
+    all review surfaces without generated implementation).\n\n"
+  requiredPaths: &1
+  - dora/vertical-slice-proposal.schema.yaml
+  - dora/lib/dora/vertical_slice_proposal.rb
+  - dora/test/vertical_slice_proposal_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:19:25Z'
+  changedAfterStart: *1
+- task: generate-vertical-slice-proposal
+  command: ruby dora/test/vertical_slice_generator_test.rb
+  ranAt: '2026-08-05T18:22:22Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/test/vertical_slice_generator_test.rb
+  output: "Dora vertical-slice generator test passed (confirmed context creates proposals
+    while missing decisions remain explicit gaps).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/test/vertical_slice_generator_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:21:36Z'
+  changedAfterStart: *2
+- task: add-vertical-slice-readiness-gate
+  command: ruby dora/test/vertical_slice_readiness_test.rb
+  ranAt: '2026-08-05T18:22:59Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/vertical_slice_readiness_test.rb
+  output: "Dora vertical-slice readiness test passed (exact data-safety, workflow,
+    permission, and technical blockers remain visible before planning).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/vertical_slice_readiness_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:22:36Z'
+  changedAfterStart: *3
+- task: prove-vertical-slice-consumers
+  command: ruby dora/test/independent_vertical_slice_consumer_test.rb
+  ranAt: '2026-08-05T18:23:40Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/vertical-slice-consumers.yaml
+  - dora/test/independent_vertical_slice_consumer_test.rb
+  output: "Dora independent vertical-slice consumer test passed (two projects receive
+    isolated proposals and explicit blockers without product inference).\n\n"
+  requiredPaths: &4
+  - dora/test/fixtures/vertical-slice-consumers.yaml
+  - dora/test/independent_vertical_slice_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:23:11Z'
+  changedAfterStart: *4

@@ -1,0 +1,21 @@
+kind: scope
+version: 1
+id: dora-v13-vertical-slice
+title: Turn a confirmed capability into a reviewable vertical-slice proposal
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+outcomes:
+  - Dora validates a proposal that links one capability to migration, backend, API, frontend, tests, runtime evidence, documentation, and atomic work.
+  - The proposal reports exact missing domain, permission, workflow, safety, and technical decisions without repairing them by inference.
+  - Codex receives bounded proposed paths and tasks but no automatic source-code overwrite.
+planned_surfaces:
+  - dora/lib/dora/
+  - dora/*.schema.yaml
+  - dora/templates/
+  - dora/test/
+boundaries:
+  - A proposal is never an implementation command.
+  - A product chooses entity names, fields, roles, retention, external integrations, and UI behavior.
+  - No database migration or source file is applied without a started project-owned atomic task.
+dependencies:
+  - docs/work/dora-v13-postgres-starter-scope.yaml
+completion_boundary: A valid proposal makes intended work reviewable; it does not prove code, tests, runtime behavior, or acceptance.

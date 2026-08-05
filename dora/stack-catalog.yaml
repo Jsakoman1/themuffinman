@@ -13,3 +13,7 @@ stacks:
     starter_pack: starters/spring-vue-buildable.yaml
     capabilities: [Neutral buildable Spring and Vue skeleton with declared local commands.]
     exclusions: [No product domain, users, permissions, workflows, or application content.]
+  - id: spring-vue-postgres-buildable
+    starter_pack: starters/spring-vue-postgres-buildable.yaml
+    capabilities: [Neutral buildable Spring Boot, Vue, PostgreSQL, Flyway, health, and Compose skeleton with declared local commands.]
+    exclusions: [No product domain, users, permissions, workflows, application content, deployment, or production credentials.]

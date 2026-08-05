@@ -1,0 +1,19 @@
+kind: dora_starter_pack
+version: 1
+id: spring-vue-postgres-buildable
+technical_only: true
+template_root: templates/starters/spring-vue-postgres
+commands:
+  setup: npm --prefix frontend install --ignore-scripts
+  database: docker compose --env-file .env up -d postgres
+  run_backend: set -a && . ./.env && set +a && mvn -q -f backend/pom.xml spring-boot:run
+  test: mvn -q -f backend/pom.xml test && npm --prefix frontend run test
+  build: mvn -q -f backend/pom.xml package && npm --prefix frontend run build
+  health: curl --fail http://localhost:${SERVER_PORT:-8080}/actuator/health
+directories: []
+files:
+  README.md: "# Spring, Vue, PostgreSQL, and Flyway technical starter\n\nThis starter contains no product entity, database schema, authentication, API resource, or business feature.\n"
+postgres: Local Docker Compose configuration with environment variables only.
+flyway: Append-only migration configuration; no product migration is generated.
+health: Spring Boot actuator health endpoint is configured.
+boundaries: [No product domain, entity, authentication, database schema, API resource, seed data, or user-facing business feature is generated.]

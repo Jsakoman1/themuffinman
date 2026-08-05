@@ -1,0 +1,186 @@
+kind: work
+version: 1
+id: dora-v13-postgres-starter
+title: Add a neutral Spring Boot, Vue, PostgreSQL, and Flyway starter
+status: verified
+baseline: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+tasks:
+- id: define-postgres-starter-contract
+  inventory_item: v13-postgres-contract
+  title: Define the neutral Postgres starter contract
+  type: implementation
+  observable_outcome: Dora validates a starter declaration that requires Spring, Vue,
+    PostgreSQL, Flyway, health, environment examples, and explicit non-goals.
+  dependencies:
+  - v13-create-app-guidance
+  paths:
+  - dora/postgres-starter.schema.yaml
+  - dora/lib/dora/postgres_starter.rb
+  - dora/test/postgres_starter_contract_test.rb
+  required_paths:
+  - dora/postgres-starter.schema.yaml
+  - dora/lib/dora/postgres_starter.rb
+  - dora/test/postgres_starter_contract_test.rb
+  evidence_boundary:
+  - valid neutral and invalid product-bearing starter fixtures
+  validation: ruby dora/test/postgres_starter_contract_test.rb
+  status: done
+  started_at: '2026-08-05T18:08:56Z'
+  start_fingerprints:
+    dora/postgres-starter.schema.yaml: __missing__
+    dora/lib/dora/postgres_starter.rb: __missing__
+    dora/test/postgres_starter_contract_test.rb: __missing__
+- id: add-postgres-buildable-starter
+  inventory_item: v13-postgres-starter
+  title: Add the neutral buildable Postgres starter assets
+  type: implementation
+  observable_outcome: Dora contains an opt-in Spring/Vue/Postgres/Flyway starter with
+    declared local setup, test, build, health, and Compose configuration commands.
+  dependencies:
+  - v13-postgres-contract
+  paths:
+  - dora/starters/spring-vue-postgres-buildable.yaml
+  - dora/templates/starters/spring-vue-postgres/docker-compose.yml
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/spring_vue_postgres_buildable_starter_test.rb
+  required_paths:
+  - dora/starters/spring-vue-postgres-buildable.yaml
+  - dora/templates/starters/spring-vue-postgres/docker-compose.yml
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/spring_vue_postgres_buildable_starter_test.rb
+  evidence_boundary:
+  - starter artifact and absence-of-product-behavior assertions
+  validation: ruby dora/test/spring_vue_postgres_buildable_starter_test.rb
+  status: done
+  started_at: '2026-08-05T18:15:24Z'
+  start_fingerprints:
+    dora/starters/spring-vue-postgres-buildable.yaml: __missing__
+    dora/templates/starters/spring-vue-postgres/: __missing__
+    dora/test/spring_vue_postgres_buildable_starter_test.rb: __missing__
+- id: register-postgres-starter
+  inventory_item: v13-postgres-catalog
+  title: Register the Postgres starter in the neutral catalog
+  type: implementation
+  observable_outcome: Create-app recognizes exactly one declared Spring/Vue/Postgres
+    starter and reports its technical boundaries.
+  dependencies:
+  - v13-postgres-starter
+  paths:
+  - dora/stack-catalog.yaml
+  - dora/test/postgres_stack_catalog_test.rb
+  required_paths:
+  - dora/stack-catalog.yaml
+  - dora/test/postgres_stack_catalog_test.rb
+  evidence_boundary:
+  - selected catalog entry and product-exclusion assertions
+  validation: ruby dora/test/postgres_stack_catalog_test.rb
+  status: done
+  started_at: '2026-08-05T18:17:34Z'
+  start_fingerprints:
+    dora/stack-catalog.yaml: 3caac74c392ef493d3c10c140cfd7eb2506b94fbb8633b485849477fdc63a569
+    dora/test/postgres_stack_catalog_test.rb: __missing__
+- id: prove-postgres-starter-consumer
+  inventory_item: v13-postgres-consumer
+  title: Prove the Postgres starter in an independent consumer
+  type: implementation
+  observable_outcome: A temporary independent project receives the Postgres starter
+    and validates its declared technical files and commands without MuffinMan data.
+  dependencies:
+  - v13-postgres-catalog
+  paths:
+  - dora/test/fixtures/postgres-starter-consumer.yaml
+  - dora/test/independent_postgres_starter_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/postgres-starter-consumer.yaml
+  - dora/test/independent_postgres_starter_consumer_test.rb
+  evidence_boundary:
+  - fresh consumer artifact, command declaration, and product-leakage assertions
+  validation: ruby dora/test/independent_postgres_starter_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T18:18:01Z'
+  start_fingerprints:
+    dora/test/fixtures/postgres-starter-consumer.yaml: __missing__
+    dora/test/independent_postgres_starter_consumer_test.rb: __missing__
+evidence:
+- task: define-postgres-starter-contract
+  command: ruby dora/test/postgres_starter_contract_test.rb
+  ranAt: '2026-08-05T18:09:26Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/postgres_starter.rb
+  - dora/postgres-starter.schema.yaml
+  - dora/test/postgres_starter_contract_test.rb
+  output: "Dora Postgres starter contract test passed (technical database setup is
+    required and product behavior is rejected).\n\n"
+  requiredPaths: &1
+  - dora/postgres-starter.schema.yaml
+  - dora/lib/dora/postgres_starter.rb
+  - dora/test/postgres_starter_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:08:56Z'
+  changedAfterStart: *1
+- task: add-postgres-buildable-starter
+  command: ruby dora/test/spring_vue_postgres_buildable_starter_test.rb
+  ranAt: '2026-08-05T18:17:28Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/starters/spring-vue-postgres-buildable.yaml
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/templates/starters/spring-vue-postgres/docker-compose.yml
+  - dora/test/spring_vue_postgres_buildable_starter_test.rb
+  output: "Dora Spring/Vue/Postgres buildable starter test passed (technical PostgreSQL,
+    Flyway, health, and no product behavior).\n\n"
+  requiredPaths: &2
+  - dora/starters/spring-vue-postgres-buildable.yaml
+  - dora/templates/starters/spring-vue-postgres/docker-compose.yml
+  - dora/templates/starters/spring-vue-postgres/backend/pom.xml
+  - dora/test/spring_vue_postgres_buildable_starter_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:15:24Z'
+  changedAfterStart: *2
+- task: register-postgres-starter
+  command: ruby dora/test/postgres_stack_catalog_test.rb
+  ranAt: '2026-08-05T18:17:54Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/stack-catalog.yaml
+  - dora/test/postgres_stack_catalog_test.rb
+  output: "Dora Postgres stack catalog test passed (the neutral technical starter
+    is registered with explicit boundaries).\n\n"
+  requiredPaths: &3
+  - dora/stack-catalog.yaml
+  - dora/test/postgres_stack_catalog_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:17:34Z'
+  changedAfterStart: *3
+- task: prove-postgres-starter-consumer
+  command: ruby dora/test/independent_postgres_starter_consumer_test.rb
+  ranAt: '2026-08-05T18:18:55Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/postgres-starter-consumer.yaml
+  - dora/test/independent_postgres_starter_consumer_test.rb
+  output: "Dora independent Postgres starter consumer test passed (fresh technical
+    consumer, declared commands, and no product leakage).\n\n"
+  requiredPaths: &4
+  - dora/test/fixtures/postgres-starter-consumer.yaml
+  - dora/test/independent_postgres_starter_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:18:01Z'
+  changedAfterStart: *4

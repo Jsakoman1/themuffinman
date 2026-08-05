@@ -36,7 +36,9 @@ step.
 
 Use `blank` for an empty technical skeleton and `spring-vue` for empty backend and
 frontend roots. Use `spring-vue-buildable` for a domain-free Spring application and
-a minimal Vue browser surface whose commands already run:
+a minimal Vue browser surface whose commands already run. Use
+`spring-vue-postgres-buildable` when a new application explicitly needs a neutral
+Spring Boot, Vue, PostgreSQL, Flyway, health, and Compose foundation:
 
 ```text
 /absolute/path/to/dora/bin/dora bootstrap my-app --project my-app --source bootstrap-source.yaml --starter spring-vue-buildable --ci github-actions
@@ -45,6 +47,53 @@ npm --prefix frontend install --ignore-scripts
 mvn -q -f backend/pom.xml test && npm --prefix frontend run test
 mvn -q -f backend/pom.xml package && npm --prefix frontend run build
 ```
+
+For the PostgreSQL foundation, choose the starter explicitly through `create-app` or
+`bootstrap`, then create a local `.env` from the example before starting the local
+database. Do not commit `.env`.
+
+```text
+/absolute/path/to/dora/bin/dora create-app my-app --interview idea-interview.yaml --source bootstrap-source.yaml --starter spring-vue-postgres-buildable --codex-integrate
+cd my-app
+cp .env.example .env
+# Set a local POSTGRES_PASSWORD in .env.
+docker compose --env-file .env up -d postgres
+npm --prefix frontend install --ignore-scripts
+mvn -q -f backend/pom.xml test && npm --prefix frontend run test
+mvn -q -f backend/pom.xml package && npm --prefix frontend run build
+# With the backend running locally: curl --fail http://localhost:8080/actuator/health
+```
+
+This foundation provides technical wiring only. It does not choose authentication,
+product permissions, data retention, backups, schema fields, domain entities, API
+resources, production hosting, or a release process. Confirm those decisions in the
+product before asking Codex to plan implementation.
+
+## Review a first vertical slice before implementation
+
+After the idea interview, Codex can form a confirmed capability context and use
+Dora's vertical-slice proposal and readiness checks. The proposal lists only the
+candidate migration, backend, API, frontend, test, runtime-evidence, documentation,
+and atomic-work paths. It is not source code, SQL, a generated database change, or an
+implementation command.
+
+If data safety, workflow, permission, or technical decisions are missing, the
+readiness result is blocked and names each missing decision. Confirm it with the
+product owner first; do not let Codex fill it in by inference.
+
+Maintainers can repeat the independent proof from the Dora package with:
+
+```text
+ruby test/independent_postgres_starter_consumer_test.rb
+ruby test/independent_postgres_starter_runtime_test.rb
+ruby test/independent_vertical_slice_consumer_test.rb
+```
+
+`independent_postgres_starter_runtime_test.rb` creates a fresh temporary consumer,
+starts its own scoped Compose PostgreSQL container, starts the generated backend, and
+executes the declared health command. Its cleanup removes only that temporary Compose
+project and its volume. Docker Desktop must be running; this test does not use a
+shared database or generate product data.
 
 The same commands are declared in `.dora/project-commands.yaml`; the generated CI
 workflow uses them. Before adding any feature, replace or extend those commands only
@@ -107,11 +156,12 @@ that review. Dora does not silently upgrade an existing project.
 
 ## What Dora owns and what the product retains
 
-Dora owns reusable mechanics: starter generation, work-plan contracts, serial
-verification, adapters, control schemas, portable plugins, report writing, and CI
-templates. A consuming application owns its product meaning: entities, permissions,
-workflows, API behavior, user-facing copy, runtime and browser evidence, production
-operations, and release approval.
+Dora owns reusable mechanics: starter generation, reviewable vertical-slice
+proposals, readiness gates, work-plan contracts, serial verification, adapters,
+control schemas, portable plugins, report writing, and CI templates. A consuming
+application owns its product meaning: entities, permissions, workflows, API behavior,
+user-facing copy, runtime and browser evidence, production operations, and release
+approval.
 
 For MuffinMan specifically, `docs/dora-muffinman-tool-ownership.yaml` classifies
 each local audit as delegated or extracted reusable mechanics, or as product-retained

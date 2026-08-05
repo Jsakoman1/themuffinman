@@ -1,0 +1,99 @@
+kind: work
+version: 1
+id: dora-v13-interview-and-guidance
+title: Make the current interview route clear and Codex-friendly
+status: verified
+baseline: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v13-web-app-foundation-execution-inventory.yaml
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+tasks:
+- id: define-codex-interview-guide
+  inventory_item: v13-interview-guide
+  title: Define a compact confirmed-answer interview guide
+  type: implementation
+  observable_outcome: Dora documents a Codex interview sequence that maps only user-confirmed
+    answers and open decisions to the existing idea-interview contract.
+  dependencies:
+  - v13-harden
+  paths:
+  - dora/docs/codex-idea-interview.md
+  - dora/test/codex_idea_interview_guide_test.rb
+  required_paths:
+  - dora/docs/codex-idea-interview.md
+  - dora/test/codex_idea_interview_guide_test.rb
+  evidence_boundary:
+  - guide fixture showing required questions, provenance, and no-inference boundary
+  validation: ruby dora/test/codex_idea_interview_guide_test.rb
+  status: done
+  started_at: '2026-08-05T18:07:37Z'
+  start_fingerprints:
+    dora/docs/codex-idea-interview.md: __missing__
+    dora/test/codex_idea_interview_guide_test.rb: __missing__
+- id: promote-interview-create-app-route
+  inventory_item: v13-create-app-guidance
+  title: Promote interview-based create-app guidance
+  type: implementation
+  observable_outcome: Dora README and agent-first guide present create-app with interview
+    and reviewed source as the primary new-project route while retaining older compatibility
+    guidance.
+  dependencies:
+  - v13-interview-guide
+  paths:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/create_app_guidance_test.rb
+  required_paths:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/create_app_guidance_test.rb
+  evidence_boundary:
+  - documentation assertions for interview route, source review, starter boundary,
+    and non-implementation boundary
+  validation: ruby dora/test/create_app_guidance_test.rb
+  status: done
+  started_at: '2026-08-05T18:08:11Z'
+  start_fingerprints:
+    dora/README.md: 1f8f71bfd46f58fb713a3419ed9d89b1ef46ad2e542e03412a0c86be397db617
+    dora/docs/agent-first-application-guide.md: c0de0a0daf00ee5493b09da93c6e25e64eb66717eb2ea1d4a225befb4bf5dc77
+    dora/test/create_app_guidance_test.rb: __missing__
+evidence:
+- task: define-codex-interview-guide
+  command: ruby dora/test/codex_idea_interview_guide_test.rb
+  ranAt: '2026-08-05T18:07:58Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/docs/codex-idea-interview.md
+  - dora/test/codex_idea_interview_guide_test.rb
+  output: "Dora Codex idea interview guide test passed (required user provenance,
+    open decisions, and no-inference boundary are explicit).\n\n"
+  requiredPaths: &1
+  - dora/docs/codex-idea-interview.md
+  - dora/test/codex_idea_interview_guide_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:07:37Z'
+  changedAfterStart: *1
+- task: promote-interview-create-app-route
+  command: ruby dora/test/create_app_guidance_test.rb
+  ranAt: '2026-08-05T18:08:50Z'
+  revision: 90f1e3f513e3a0a8941b2a5720d8bd8395f54962
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/create_app_guidance_test.rb
+  output: "Dora create-app guidance test passed (interview route, reviewed source,
+    starter, readiness, and non-implementation boundaries are current).\n\n"
+  requiredPaths: &2
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/create_app_guidance_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T18:08:11Z'
+  changedAfterStart: *2

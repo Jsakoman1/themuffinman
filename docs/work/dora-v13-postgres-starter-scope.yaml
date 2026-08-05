@@ -1,0 +1,20 @@
+kind: scope
+version: 1
+id: dora-v13-postgres-starter
+title: Add a neutral buildable Spring Boot, Vue, PostgreSQL, and Flyway starter
+master_plan: docs/work/dora-v13-web-app-foundation-master.yaml
+outcomes:
+  - One opt-in technical starter creates backend, frontend, local PostgreSQL, Flyway, typed configuration, and declared local commands.
+  - The starter proves setup, test, build, and health behavior in a fresh independent consumer.
+  - Environment examples contain no credentials and database destructive actions remain explicit and absent by default.
+planned_surfaces:
+  - dora/starters/
+  - dora/templates/starters/
+  - dora/stack-catalog.yaml
+  - dora/test/
+boundaries:
+  - No product schema, entity, authentication mechanism, API resource, seed business data, or user-facing feature is included.
+  - Docker and PostgreSQL are declared development dependencies, not a deployment promise.
+dependencies:
+  - docs/work/dora-v13-interview-and-guidance-scope.yaml
+completion_boundary: A technical starter is buildable setup only; it does not prove application behavior, data safety, or production readiness.

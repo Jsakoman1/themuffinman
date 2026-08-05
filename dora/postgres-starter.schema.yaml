@@ -1,0 +1,4 @@
+kind: dora_postgres_starter_schema
+version: 1
+required_fields: [kind, version, id, technical_only, template_root, commands, postgres, flyway, health, boundaries]
+boundary: A Postgres starter declares technical setup only and must not declare product behavior.

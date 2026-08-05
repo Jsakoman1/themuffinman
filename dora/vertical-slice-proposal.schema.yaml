@@ -1,0 +1,6 @@
+kind: dora_vertical_slice_proposal_schema
+version: 1
+required_fields: [kind, version, capability, surfaces, atomic_work, gaps]
+required_surfaces: [migration, backend, api, frontend, tests, runtime_evidence, documentation]
+capability_rule: A proposal may reference only one explicitly confirmed capability.
+boundary: A proposal declares reviewable paths and work; it does not contain source code, SQL, product fields, or an implementation command.

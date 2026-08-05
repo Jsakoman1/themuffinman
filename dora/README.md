@@ -11,16 +11,26 @@ verification, documentation contracts, and controlled project extensions.
 
 ## Start a new project
 
-For a new product, complete `templates/project-new.yaml` with the product brief,
-domain library, agent profile, reviewed local Dora source, and first bounded work
-item. Then use the one public entrypoint. Dora copies the checksum-verified local
-package into the project and writes only neutral control artifacts, declared
-knowledge, project memory, and the first work declaration; it does not invent product
-behavior or code.
+For a new product, the primary Codex and beginner route is a confirmed idea
+interview plus a reviewed local Dora source. Codex records only user-confirmed
+answers and explicit open decisions in `idea-interview.yaml`; Dora then creates
+neutral project context, a first capability package, a first work declaration,
+and a local Git baseline. It does not invent product rules or implementation.
 
 ```text
-/absolute/path/to/dora/bin/dora new my-app --answers project-new.yaml
+/absolute/path/to/dora/bin/dora create-app my-app \
+  --interview idea-interview.yaml \
+  --source bootstrap-source.yaml \
+  --starter spring-vue-buildable \
+  --codex-integrate
 ```
+
+The starter is optional and technical only. `--source` must be a reviewed local
+source descriptor with an immutable ref and checksum. `--codex-integrate` adds
+project-local Dora navigation without overwriting `AGENTS.md`.
+
+`dora new <destination> --answers project-new.yaml` remains available for
+explicit compatibility workflows that already own complete product knowledge.
 
 For a project-local Dora package, reviewed immutable source, technical starter, or
 CI pack, use `dora bootstrap`. Dora never downloads code during bootstrap. The
@@ -30,6 +40,11 @@ Before starting controlled work, inspect baseline readiness with
 `dora readiness <project-root>`. It never changes Git by default. Use
 `--initialize-git` only when you explicitly want Dora to create the local initial
 commit for a new project.
+
+After project creation, read the generated product/domain knowledge, run
+`dora diagnose .dora/project.yaml`, use `dora next` for the declared inventory,
+and start only one bounded work task at a time. A generated capability package is
+starting context, not implementation or release proof.
 
 It owns reusable protocols and command mechanics. A consuming project owns its
 domain behavior, source code, tests, runtime evidence, documentation, and
