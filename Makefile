@@ -184,10 +184,8 @@ master-create:
 
 work-verify:
 	@if [ -z "$(plan)" ]; then echo "usage: make work-verify plan=<work-plan>"; exit 1; fi
-	@dora/bin/dora validate-work-plan .dora/project.yaml "$(plan)"
-	@if [ -n "$(task)" ]; then ruby scripts/verify-work.rb plan="$(plan)" task="$(task)"; else ruby scripts/verify-work.rb plan="$(plan)"; fi
+	@if [ -n "$(task)" ]; then dora/bin/dora work-verify .dora/project.yaml plan="$(plan)" task="$(task)"; else dora/bin/dora work-verify .dora/project.yaml plan="$(plan)"; fi
 
 work-start:
 	@if [ -z "$(plan)" ] || [ -z "$(task)" ]; then echo "usage: make work-start plan=<work-plan> task=<task-id>"; exit 1; fi
-	@dora/bin/dora validate-work-plan .dora/project.yaml "$(plan)"
-	ruby scripts/verify-work.rb action=start plan="$(plan)" task="$(task)"
+	dora/bin/dora work-start .dora/project.yaml plan="$(plan)" task="$(task)"

@@ -1,0 +1,188 @@
+kind: work
+version: 1
+id: dora-tooling-extraction-01-execution-core
+title: Extract Dora execution core
+status: verified
+baseline: 35093d9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-tooling-extraction-execution-inventory.yaml
+master_plan: docs/work/dora-tooling-extraction-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-muffinman-separation-master.yaml
+  baseline_only_surfaces:
+  - existing MuffinMan verifier evidence and product leaf validations
+  residual_scope:
+  - adapter-resolved project context
+  - stateful Dora verifier
+  - and compatible MuffinMan delegation
+  retest_triggers:
+  - changed verifier protocol
+  - adapter paths
+  - or work command
+  non_duplication_rule: Existing task evidence is preserved and not re-awarded by
+    a new Dora runner.
+hardening_review:
+  state: ready_for_execution
+  reviewed_at: 2026-08-05
+  findings:
+  - The retained root verifier wrapper is an explicit compatibility path in the stateful
+    verifier task.
+tasks:
+- id: define-dora-project-context
+  title: Define project-root, command, and artifact context for Dora engines
+  type: implementation
+  status: done
+  inventory_item: dora-project-context
+  observable_outcome: Dora loads one typed project context from the adapter and exposes
+    only declared roots, commands, and generated-output locations to core engines.
+  dependencies:
+  - harden-tooling-extraction-plan
+  evidence_boundary:
+  - unit tests for two distinct project contexts
+  paths:
+  - dora/lib/dora/project_context.rb
+  - dora/lib/dora/adapter.rb
+  - dora/test/project_context_test.rb
+  - dora/project-adapter.schema.yaml
+  required_paths:
+  - dora/lib/dora/project_context.rb
+  - dora/lib/dora/adapter.rb
+  - dora/test/project_context_test.rb
+  - dora/project-adapter.schema.yaml
+  validation: ruby dora/test/project_context_test.rb
+  started_at: '2026-08-05T10:05:31Z'
+  start_fingerprints:
+    dora/lib/dora/project_context.rb: __missing__
+    dora/lib/dora/adapter.rb: e9b3e13721ac2807a236cc9f2494a18f8001c2b9ec84298b307b67774a9b9172
+    dora/test/project_context_test.rb: __missing__
+    dora/project-adapter.schema.yaml: f4801f2e863d070fe28365ef0498ff44ac6d771ea18265b27d0b88c131cd82b0
+- id: port-stateful-work-verifier
+  title: Move serial task execution and evidence recording into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-full-work-verifier
+  observable_outcome: Dora can start and verify a serial work task against an adapter-declared
+    project root while preserving strict required-path and evidence rules, and the
+    retained MuffinMan verifier wrapper delegates to that core.
+  dependencies:
+  - define-dora-project-context
+  evidence_boundary:
+  - portable verifier regression tests and standalone fixture evidence
+  paths:
+  - dora/lib/dora/work_execution.rb
+  - dora/bin/dora
+  - dora/test/work_execution_test.rb
+  - dora/fixtures/standalone-project/docs/work/execution.yaml
+  - scripts/verify-work.rb
+  required_paths:
+  - dora/lib/dora/work_execution.rb
+  - dora/bin/dora
+  - dora/test/work_execution_test.rb
+  - dora/fixtures/standalone-project/docs/work/execution.yaml
+  - scripts/verify-work.rb
+  validation: ruby dora/test/work_execution_test.rb
+  started_at: '2026-08-05T10:07:12Z'
+  start_fingerprints:
+    dora/lib/dora/work_execution.rb: __missing__
+    dora/bin/dora: 42c4e4d892d244fb0a8571f7f1789447d57c104009faa6a9ffbde978ed26dd0d
+    dora/test/work_execution_test.rb: __missing__
+    dora/fixtures/standalone-project/docs/work/execution.yaml: __missing__
+    scripts/verify-work.rb: 290fc9384343b2e15a926f030244e584c07fa0e46ebd55cb7c34f8167e51843b
+- id: delegate-muffinman-work-commands
+  title: Delegate retained MuffinMan work commands to the Dora executor
+  type: implementation
+  status: done
+  inventory_item: muffinman-verifier-delegate
+  observable_outcome: MuffinMan root work-start and work-verify commands invoke Dora
+    execution through its adapter while retaining the same plan evidence destinations.
+  dependencies:
+  - port-stateful-work-verifier
+  evidence_boundary:
+  - MuffinMan compatibility audit and one fixture work-task trace
+  paths:
+  - Makefile
+  - ".dora/project.yaml"
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - Makefile
+  - ".dora/project.yaml"
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  started_at: '2026-08-05T10:10:19Z'
+  start_fingerprints:
+    Makefile: 98fdff20edc8746d6222c8cc8a70f3e594be2be571b01189e6697a67cd927a77
+    ".dora/project.yaml": ae88038327709a39194ecea55575805775678ce01f432ac244ca21d41835c386
+    docs/dora-muffinman-compatibility-matrix.yaml: b8d947470d20d52bfa65f13b51784a934a1b96df4b2fdce2fa2bd90909977e4c
+    scripts/audits/audit-dora-muffinman-compatibility.rb: 9e4953907fb0d51cc1399d7fd809e8980eccd578061535d570f21a065ac026b7
+evidence:
+- task: define-dora-project-context
+  command: ruby dora/test/project_context_test.rb
+  ranAt: '2026-08-05T10:07:05Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/adapter.rb
+  - dora/project-adapter.schema.yaml
+  - dora/lib/dora/project_context.rb
+  - dora/test/project_context_test.rb
+  output: "Dora project context test passed (two declared project contexts).\n\n"
+  startedAt: '2026-08-05T10:05:31Z'
+  changedAfterStart: &1
+  - dora/lib/dora/project_context.rb
+  - dora/lib/dora/adapter.rb
+  - dora/test/project_context_test.rb
+  - dora/project-adapter.schema.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+- task: port-stateful-work-verifier
+  command: ruby dora/test/work_execution_test.rb
+  ranAt: '2026-08-05T10:09:54Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - scripts/verify-work.rb
+  - dora/fixtures/standalone-project/docs/work/execution.yaml
+  - dora/lib/dora/work_execution.rb
+  - dora/test/work_execution_test.rb
+  output: "Dora work execution test passed (standalone serial fixture).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/work_execution.rb
+  - dora/bin/dora
+  - dora/test/work_execution_test.rb
+  - dora/fixtures/standalone-project/docs/work/execution.yaml
+  - scripts/verify-work.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:07:12Z'
+  changedAfterStart: *2
+- task: delegate-muffinman-work-commands
+  command: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  ranAt: '2026-08-05T10:11:05Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/project.yaml"
+  - Makefile
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  output: "Dora/MuffinMan compatibility audit passed (work-start, work-verify delegate
+    through Dora with a standalone fixture trace).\n\n"
+  requiredPaths: &3
+  - Makefile
+  - ".dora/project.yaml"
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:10:19Z'
+  changedAfterStart: *3

@@ -1,0 +1,8 @@
+kind: dora_tool_catalog
+version: 1
+commands:
+  - id: project-check
+    target: check
+    purpose: Run the project-owned compact validation command.
+    preconditions: [project dependencies are available]
+    expected_cost: short

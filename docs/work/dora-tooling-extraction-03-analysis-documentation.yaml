@@ -1,0 +1,127 @@
+kind: work
+version: 1
+id: dora-tooling-extraction-03-analysis-documentation
+title: Extract generic documentation and relationship analysis engines
+status: verified
+baseline: 35093d9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-tooling-extraction-execution-inventory.yaml
+master_plan: docs/work/dora-tooling-extraction-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-muffinman-separation-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan product docs
+  - truth registry
+  - capability inventory
+  - and system-map assertions
+  residual_scope:
+  - generic documentation evidence matching and configuration-driven relationship
+    traversal
+  retest_triggers:
+  - changed canonical-source declaration
+  - evidence corpus
+  - relationship registry
+  - or impact configuration
+  non_duplication_rule: Dora analysis remains advisory and cannot promote any product
+    status.
+hardening_review:
+  state: ready_for_execution
+  reviewed_at: 2026-08-05
+  findings:
+  - Documentation evidence and system-map traversal have distinct configured inputs
+  - outputs
+  - and fixture tests.
+tasks:
+- id: port-documentation-evidence-engine
+  title: Move generic documentation-to-evidence matching into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-docs-evidence
+  observable_outcome: Dora checks project-declared documentation statements against
+    project-declared evidence sources and produces advisory findings without product
+    vocabulary.
+  dependencies:
+  - port-configurable-discovery-tools
+  evidence_boundary:
+  - standalone documentation evidence fixture test
+  paths:
+  - dora/lib/dora/documentation_evidence.rb
+  - dora/templates/documentation-evidence.yaml
+  - dora/test/documentation_evidence_test.rb
+  required_paths:
+  - dora/lib/dora/documentation_evidence.rb
+  - dora/templates/documentation-evidence.yaml
+  - dora/test/documentation_evidence_test.rb
+  validation: ruby dora/test/documentation_evidence_test.rb
+  started_at: '2026-08-05T10:14:09Z'
+  start_fingerprints:
+    dora/lib/dora/documentation_evidence.rb: __missing__
+    dora/templates/documentation-evidence.yaml: __missing__
+    dora/test/documentation_evidence_test.rb: __missing__
+- id: port-configurable-system-map-engine
+  title: Move generic System Map impact traversal into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-system-map-engine
+  observable_outcome: Dora traverses adapter-declared module, registry, and evidence
+    relationships without hard-coded MuffinMan domain names.
+  dependencies:
+  - port-documentation-evidence-engine
+  evidence_boundary:
+  - two project-map fixture tests with distinct module names
+  paths:
+  - dora/lib/dora/system_map_impact.rb
+  - dora/templates/system-map-impact.yaml
+  - dora/test/system_map_impact_test.rb
+  required_paths:
+  - dora/lib/dora/system_map_impact.rb
+  - dora/templates/system-map-impact.yaml
+  - dora/test/system_map_impact_test.rb
+  validation: ruby dora/test/system_map_impact_test.rb
+  started_at: '2026-08-05T10:14:33Z'
+  start_fingerprints:
+    dora/lib/dora/system_map_impact.rb: __missing__
+    dora/templates/system-map-impact.yaml: __missing__
+    dora/test/system_map_impact_test.rb: __missing__
+evidence:
+- task: port-documentation-evidence-engine
+  command: ruby dora/test/documentation_evidence_test.rb
+  ranAt: '2026-08-05T10:14:29Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/documentation_evidence.rb
+  - dora/templates/documentation-evidence.yaml
+  - dora/test/documentation_evidence_test.rb
+  output: "Dora documentation evidence test passed (two project evidence sets).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/documentation_evidence.rb
+  - dora/templates/documentation-evidence.yaml
+  - dora/test/documentation_evidence_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:14:09Z'
+  changedAfterStart: *1
+- task: port-configurable-system-map-engine
+  command: ruby dora/test/system_map_impact_test.rb
+  ranAt: '2026-08-05T10:14:51Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/system_map_impact.rb
+  - dora/templates/system-map-impact.yaml
+  - dora/test/system_map_impact_test.rb
+  output: "Dora system map impact test passed (two project maps).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/system_map_impact.rb
+  - dora/templates/system-map-impact.yaml
+  - dora/test/system_map_impact_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:14:33Z'
+  changedAfterStart: *2

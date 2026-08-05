@@ -7,6 +7,7 @@ ROOT = File.expand_path("..", __dir__)
 SCHEMA_PATH = File.join(ROOT, "project-adapter.schema.yaml")
 require File.join(ROOT, "lib/dora/adapter")
 require File.join(ROOT, "lib/dora/work_verifier")
+require File.join(ROOT, "lib/dora/work_execution")
 
 def fail!(message)
   warn "Dora adapter validation failed: #{message}"
@@ -27,6 +28,12 @@ rescue ArgumentError => error
   fail!(error.message)
 end
 
+def execute_work(adapter_path, arguments)
+  puts Dora::WorkExecution.run(adapter_path: adapter_path, schema_path: SCHEMA_PATH, arguments: arguments)
+rescue Dora::WorkExecution::Error, ArgumentError => error
+  fail!(error.message)
+end
+
 command = ARGV.shift
 case command
 when "validate-adapter"
@@ -35,6 +42,12 @@ when "validate-adapter"
 when "validate-work-plan"
   fail!("usage: dora validate-work-plan <adapter-path> <work-plan-path>") unless ARGV.length == 2
   validate_work_plan(ARGV[0], ARGV[1])
+when "work-start"
+  fail!("usage: dora work-start <adapter-path> plan=<path> task=<id>") if ARGV.length < 3
+  execute_work(ARGV.shift, ["action=start", *ARGV])
+when "work-verify"
+  fail!("usage: dora work-verify <adapter-path> plan=<path> [task=<id>]") if ARGV.length < 2
+  execute_work(ARGV.shift, ARGV)
 else
-  fail!("usage: dora validate-adapter <adapter-path> | dora validate-work-plan <adapter-path> <work-plan-path>")
+  fail!("usage: dora validate-adapter <adapter-path> | dora validate-work-plan <adapter-path> <work-plan-path> | dora work-start <adapter-path> plan=<path> task=<id> | dora work-verify <adapter-path> plan=<path> [task=<id>]")
 end

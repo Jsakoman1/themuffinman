@@ -1,0 +1,6 @@
+kind: dora_change_routing
+version: 1
+rules:
+  - id: source
+    path_prefixes: [src/]
+    commands: [make test]

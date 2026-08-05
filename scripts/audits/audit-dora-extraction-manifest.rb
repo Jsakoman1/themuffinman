@@ -6,9 +6,13 @@ require "yaml"
 
 ROOT = File.expand_path("../..", __dir__)
 MANIFEST_PATH = File.join(ROOT, "docs/dora-extraction-manifest.yaml")
-HANDOFF_PATH = File.join(ROOT, "docs/dora-release-handoff.yaml")
 require_approved_release = ARGV.delete("--require-approved-release")
-abort "usage: ruby scripts/audits/audit-dora-extraction-manifest.rb [--require-approved-release]" unless ARGV.empty?
+handoff_option = ARGV.index("--handoff")
+handoff_path = handoff_option ? ARGV.slice!(handoff_option, 2).last : "docs/dora-release-handoff.yaml"
+version_option = ARGV.index("--expected-version")
+expected_version = version_option ? ARGV.slice!(version_option, 2).last : nil
+abort "usage: ruby scripts/audits/audit-dora-extraction-manifest.rb [--require-approved-release] [--handoff <path>] [--expected-version <version>]" unless ARGV.empty? && !handoff_path.to_s.empty?
+HANDOFF_PATH = File.join(ROOT, handoff_path)
 
 def repository_paths
   tracked, tracked_status = Open3.capture2("git", "-C", ROOT, "ls-files")
@@ -59,6 +63,7 @@ if require_approved_release
   release = handoff.fetch("release", {})
   consumption = handoff.fetch("consumption", {})
   %w[repository version immutable_commit].each { |field| failures << "release handoff is missing #{field}" if release[field].to_s.empty? }
+  failures << "release handoff version differs from expected version" if expected_version && release["version"] != expected_version
   failures << "release handoff does not declare git_subtree" unless consumption["method"] == "git_subtree"
   failures << "release handoff pin differs from immutable commit" unless consumption["pinned_commit"] == release["immutable_commit"]
   adapter = YAML.load_file(File.join(ROOT, ".dora/project.yaml"))

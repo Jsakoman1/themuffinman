@@ -28,6 +28,14 @@ module Dora
       commands = adapter.fetch("commands")
       required_fields!(commands, commands_schema.fetch("required_fields"), "commands")
 
+      context_schema = schema.fetch("project_context")
+      context = adapter.fetch("context", {})
+      fail!("context must be a mapping") unless context.is_a?(Hash)
+      generated_output_paths = context.fetch("generated_output_paths", context_schema.fetch("default_generated_output_paths"))
+      fail!("context.generated_output_paths must be a non-empty list") unless generated_output_paths.is_a?(Array) && !generated_output_paths.empty?
+      unknown_output_paths = generated_output_paths.map(&:to_s) - paths.keys
+      fail!("context.generated_output_paths has unknown path keys: #{unknown_output_paths.join(", ")}") unless unknown_output_paths.empty?
+
       extensions = adapter.fetch("extensions")
       fail!("extensions must be a non-empty list") unless extensions.is_a?(Array) && !extensions.empty?
       extension_ids = extensions.map do |extension|
@@ -46,8 +54,15 @@ module Dora
         "root" => project_root,
         "paths" => paths,
         "commands" => commands,
+        "context" => {"generated_output_paths" => generated_output_paths.map(&:to_s)},
         "extensions" => extensions.length
       }
+    end
+
+    def self.load_context!(path, schema_path)
+      require_relative "project_context"
+
+      ProjectContext.from_validated_adapter(validate!(path, schema_path))
     end
 
     def self.required_fields!(value, fields, label)

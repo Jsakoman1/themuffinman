@@ -1,0 +1,305 @@
+kind: work
+version: 1
+id: dora-tooling-extraction-02-local-tooling
+title: Extract configurable local tooling primitives
+status: verified
+baseline: 35093d9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-tooling-extraction-execution-inventory.yaml
+master_plan: docs/work/dora-tooling-extraction-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-muffinman-separation-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan tool catalog entries
+  - cleanup policy
+  - backlog
+  - and path routing
+  residual_scope:
+  - generic tool catalog
+  - artifact lifecycle
+  - backlog linkage
+  - validation routing
+  - bounded search
+  - and workspace classification
+  retest_triggers:
+  - changed tool metadata
+  - cleanup paths
+  - route class
+  - or query source roots
+  non_duplication_rule: Existing tool and documentation evidence remains product-owned
+    baseline.
+hardening_review:
+  state: ready_for_execution
+  reviewed_at: 2026-08-05
+  findings:
+  - Each extracted local-tool primitive has its own fixture test and adapter-declared
+    data boundary.
+tasks:
+- id: port-tool-catalog-and-help
+  title: Move generic tool catalog and help metadata into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-tool-catalog-help
+  observable_outcome: Dora validates and renders a project-declared tool catalog without
+    embedding MuffinMan tool names or commands.
+  dependencies:
+  - delegate-muffinman-work-commands
+  evidence_boundary:
+  - standalone tool-catalog fixture test
+  paths:
+  - dora/lib/dora/tool_catalog.rb
+  - dora/test/tool_catalog_test.rb
+  - dora/templates/tool-catalog.yaml
+  required_paths:
+  - dora/lib/dora/tool_catalog.rb
+  - dora/test/tool_catalog_test.rb
+  - dora/templates/tool-catalog.yaml
+  validation: ruby dora/test/tool_catalog_test.rb
+  started_at: '2026-08-05T10:11:13Z'
+  start_fingerprints:
+    dora/lib/dora/tool_catalog.rb: __missing__
+    dora/test/tool_catalog_test.rb: __missing__
+    dora/templates/tool-catalog.yaml: __missing__
+- id: port-artifact-lifecycle
+  title: Move generic artifact lifecycle mechanics into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-artifact-lifecycle
+  observable_outcome: Dora validates adapter-declared generated-output retention and
+    cleanup policy without embedding MuffinMan artifact paths.
+  dependencies:
+  - port-tool-catalog-and-help
+  evidence_boundary:
+  - standalone artifact-policy fixture test
+  paths:
+  - dora/lib/dora/artifact_policy.rb
+  - dora/test/artifact_policy_test.rb
+  - dora/templates/artifact-policy.yaml
+  required_paths:
+  - dora/lib/dora/artifact_policy.rb
+  - dora/test/artifact_policy_test.rb
+  - dora/templates/artifact-policy.yaml
+  validation: ruby dora/test/artifact_policy_test.rb
+  started_at: '2026-08-05T10:11:47Z'
+  start_fingerprints:
+    dora/lib/dora/artifact_policy.rb: __missing__
+    dora/test/artifact_policy_test.rb: __missing__
+    dora/templates/artifact-policy.yaml: __missing__
+- id: port-todo-backlog-linkage
+  title: Move TODO-to-backlog linkage mechanics into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-todo-backlog-linkage
+  observable_outcome: Dora checks project-declared TODO identifiers against adapter-declared
+    backlog sources without product-specific backlog semantics.
+  dependencies:
+  - port-artifact-lifecycle
+  evidence_boundary:
+  - standalone TODO-backlog fixture test
+  paths:
+  - dora/lib/dora/backlog_todo.rb
+  - dora/test/backlog_todo_test.rb
+  - dora/templates/backlog.yaml
+  required_paths:
+  - dora/lib/dora/backlog_todo.rb
+  - dora/test/backlog_todo_test.rb
+  - dora/templates/backlog.yaml
+  validation: ruby dora/test/backlog_todo_test.rb
+  started_at: '2026-08-05T10:12:19Z'
+  start_fingerprints:
+    dora/lib/dora/backlog_todo.rb: __missing__
+    dora/test/backlog_todo_test.rb: __missing__
+    dora/templates/backlog.yaml: __missing__
+- id: port-change-validation-routing
+  title: Move configurable validation route selection into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-change-validation-routing
+  observable_outcome: Dora derives advisory validation routes from project-declared
+    path classes and command groups.
+  dependencies:
+  - port-todo-backlog-linkage
+  evidence_boundary:
+  - two-project validation-routing fixture tests
+  paths:
+  - dora/lib/dora/change_routing.rb
+  - dora/test/change_routing_test.rb
+  - dora/templates/change-routing.yaml
+  required_paths:
+  - dora/lib/dora/change_routing.rb
+  - dora/test/change_routing_test.rb
+  - dora/templates/change-routing.yaml
+  validation: ruby dora/test/change_routing_test.rb
+  started_at: '2026-08-05T10:12:47Z'
+  start_fingerprints:
+    dora/lib/dora/change_routing.rb: __missing__
+    dora/test/change_routing_test.rb: __missing__
+    dora/templates/change-routing.yaml: __missing__
+- id: port-bounded-context-search
+  title: Move bounded context search into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-bounded-context-search
+  observable_outcome: Dora searches only adapter-declared roots and exclusions, returning
+    no MuffinMan-specific canonical sources.
+  dependencies:
+  - port-change-validation-routing
+  evidence_boundary:
+  - two-project bounded-search fixture tests
+  paths:
+  - dora/lib/dora/context_search.rb
+  - dora/test/context_search_test.rb
+  - dora/templates/context-search.yaml
+  required_paths:
+  - dora/lib/dora/context_search.rb
+  - dora/test/context_search_test.rb
+  - dora/templates/context-search.yaml
+  validation: ruby dora/test/context_search_test.rb
+  started_at: '2026-08-05T10:13:14Z'
+  start_fingerprints:
+    dora/lib/dora/context_search.rb: __missing__
+    dora/test/context_search_test.rb: __missing__
+    dora/templates/context-search.yaml: __missing__
+- id: port-workspace-change-inventory
+  title: Move workspace change classification into Dora
+  type: implementation
+  status: done
+  inventory_item: dora-workspace-change-inventory
+  observable_outcome: Dora classifies changed paths using adapter-declared category
+    roots without MuffinMan path assumptions.
+  dependencies:
+  - port-bounded-context-search
+  evidence_boundary:
+  - two-project workspace-inventory fixture tests
+  paths:
+  - dora/lib/dora/workspace_inventory.rb
+  - dora/test/workspace_inventory_test.rb
+  - dora/templates/workspace-inventory.yaml
+  required_paths:
+  - dora/lib/dora/workspace_inventory.rb
+  - dora/test/workspace_inventory_test.rb
+  - dora/templates/workspace-inventory.yaml
+  validation: ruby dora/test/workspace_inventory_test.rb
+  started_at: '2026-08-05T10:13:40Z'
+  start_fingerprints:
+    dora/lib/dora/workspace_inventory.rb: __missing__
+    dora/test/workspace_inventory_test.rb: __missing__
+    dora/templates/workspace-inventory.yaml: __missing__
+evidence:
+- task: port-tool-catalog-and-help
+  command: ruby dora/test/tool_catalog_test.rb
+  ranAt: '2026-08-05T10:11:38Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/tool_catalog.rb
+  - dora/templates/tool-catalog.yaml
+  - dora/test/tool_catalog_test.rb
+  output: "Dora tool catalog test passed (two project catalogs).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/tool_catalog.rb
+  - dora/test/tool_catalog_test.rb
+  - dora/templates/tool-catalog.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:11:13Z'
+  changedAfterStart: *1
+- task: port-artifact-lifecycle
+  command: ruby dora/test/artifact_policy_test.rb
+  ranAt: '2026-08-05T10:12:04Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/artifact_policy.rb
+  - dora/templates/artifact-policy.yaml
+  - dora/test/artifact_policy_test.rb
+  output: "Dora artifact policy test passed (two project policies).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/artifact_policy.rb
+  - dora/test/artifact_policy_test.rb
+  - dora/templates/artifact-policy.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:11:47Z'
+  changedAfterStart: *2
+- task: port-todo-backlog-linkage
+  command: ruby dora/test/backlog_todo_test.rb
+  ranAt: '2026-08-05T10:12:42Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/backlog_todo.rb
+  - dora/templates/backlog.yaml
+  - dora/test/backlog_todo_test.rb
+  output: "Dora backlog TODO test passed (two project backlogs).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/backlog_todo.rb
+  - dora/test/backlog_todo_test.rb
+  - dora/templates/backlog.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:12:19Z'
+  changedAfterStart: *3
+- task: port-change-validation-routing
+  command: ruby dora/test/change_routing_test.rb
+  ranAt: '2026-08-05T10:13:08Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/change_routing.rb
+  - dora/templates/change-routing.yaml
+  - dora/test/change_routing_test.rb
+  output: "Dora change routing test passed (two project configurations).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/change_routing.rb
+  - dora/test/change_routing_test.rb
+  - dora/templates/change-routing.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:12:47Z'
+  changedAfterStart: *4
+- task: port-bounded-context-search
+  command: ruby dora/test/context_search_test.rb
+  ranAt: '2026-08-05T10:13:34Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/context_search.rb
+  - dora/templates/context-search.yaml
+  - dora/test/context_search_test.rb
+  output: "Dora context search test passed (two bounded project roots).\n\n"
+  requiredPaths: &5
+  - dora/lib/dora/context_search.rb
+  - dora/test/context_search_test.rb
+  - dora/templates/context-search.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:13:14Z'
+  changedAfterStart: *5
+- task: port-workspace-change-inventory
+  command: ruby dora/test/workspace_inventory_test.rb
+  ranAt: '2026-08-05T10:13:58Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/workspace_inventory.rb
+  - dora/templates/workspace-inventory.yaml
+  - dora/test/workspace_inventory_test.rb
+  output: "Dora workspace inventory test passed (two project category sets).\n\n"
+  requiredPaths: &6
+  - dora/lib/dora/workspace_inventory.rb
+  - dora/test/workspace_inventory_test.rb
+  - dora/templates/workspace-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:13:40Z'
+  changedAfterStart: *6

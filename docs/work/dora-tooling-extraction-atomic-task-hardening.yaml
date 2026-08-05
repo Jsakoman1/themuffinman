@@ -1,0 +1,104 @@
+kind: work
+version: 1
+id: dora-tooling-extraction-atomic-task-hardening
+title: Harden the Dora tooling extraction plan
+status: verified
+baseline: 35093d9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-tooling-extraction-execution-inventory.yaml
+master_plan: docs/work/dora-tooling-extraction-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-muffinman-separation-master.yaml
+  baseline_only_surfaces:
+  - all current Dora v0.1.0 and MuffinMan product behavior
+  residual_scope:
+  - one bounded serial task per extraction outcome
+  retest_triggers:
+  - changed task path
+  - dependency
+  - evidence boundary
+  - or inventory mapping
+  non_duplication_rule: Previous Dora separation evidence remains baseline context.
+hardening_review:
+  state: verified_queue_candidate
+  reviewed_at: 2026-08-05
+  findings:
+  - All implementation outcomes have one inventory item
+  - bounded paths
+  - dependencies
+  - and leaf validation commands.
+tasks:
+- id: harden-tooling-extraction-plan
+  title: Validate the complete Dora extraction queue before implementation
+  type: docs-only
+  status: done
+  inventory_item: dora-tooling-harden
+  observable_outcome: Every planned extraction has one bounded outcome, exact required
+    paths, leaf validation, dependency position, and inventory mapping.
+  dependencies: []
+  evidence_boundary:
+  - passing atomic-task hardening audit
+  paths:
+  - docs/work/dora-tooling-extraction-master.yaml
+  - docs/work/dora-tooling-extraction-execution-inventory.yaml
+  - docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
+  - docs/work/dora-tooling-extraction-01-execution-core.yaml
+  - docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  - docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+  - docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+  - docs/work/dora-tooling-extraction-05-release-closeout.yaml
+  required_paths:
+  - docs/work/dora-tooling-extraction-master.yaml
+  - docs/work/dora-tooling-extraction-execution-inventory.yaml
+  - docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
+  - docs/work/dora-tooling-extraction-01-execution-core.yaml
+  - docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  - docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+  - docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+  - docs/work/dora-tooling-extraction-05-release-closeout.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-tooling-extraction-master.yaml
+    docs/work/dora-tooling-extraction-execution-inventory.yaml
+  started_at: '2026-08-05T10:01:47Z'
+  start_fingerprints:
+    docs/work/dora-tooling-extraction-master.yaml: bb47ffc5326e5b266b46efd3946e349d8f8a3b18cebfb81c01fc5e5479f68cbc
+    docs/work/dora-tooling-extraction-execution-inventory.yaml: 4e732bb5734b3b5dddce4741d9527c172458d2788bbed3b2a9b7d9b10d506d53
+    docs/work/dora-tooling-extraction-atomic-task-hardening.yaml: 1fa390e390472b873c5a2287489284589d841f59c02c4bbeae53148674073524
+    docs/work/dora-tooling-extraction-01-execution-core.yaml: 46d6432749e0dfd1750ac454e0d364a6246eaf74a1117241eca64715dda46627
+    docs/work/dora-tooling-extraction-02-local-tooling.yaml: aa2265d6ec0320a548a75f236703cff208ac974ffcf518852fa624421127c738
+    docs/work/dora-tooling-extraction-03-analysis-documentation.yaml: 45ad9e9d554cf9c3ee16b3984ce5b2ae5ac6d9c103d1ffbf168ae83e5a221414
+    docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml: 59ad3fea6e5dc45461639d120303223bce54d9be7eb30b0fb10f8da8eba5ef43
+    docs/work/dora-tooling-extraction-05-release-closeout.yaml: 2f99c99b6c1421e53414a46cdcd6661d5fa1083e6854fada5d24c74c28cc6ea8
+evidence:
+- task: harden-tooling-extraction-plan
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-tooling-extraction-master.yaml
+    docs/work/dora-tooling-extraction-execution-inventory.yaml
+  ranAt: '2026-08-05T10:03:37Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-tooling-extraction-01-execution-core.yaml
+  - docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  - docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+  - docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+  - docs/work/dora-tooling-extraction-05-release-closeout.yaml
+  - docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
+  - docs/work/dora-tooling-extraction-execution-inventory.yaml
+  - docs/work/dora-tooling-extraction-master.yaml
+  output: "Atomic task hardening audit passed (18 inventory items).\n\n"
+  startedAt: '2026-08-05T10:01:47Z'
+  changedAfterStart: &1
+  - docs/work/dora-tooling-extraction-master.yaml
+  - docs/work/dora-tooling-extraction-execution-inventory.yaml
+  - docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
+  - docs/work/dora-tooling-extraction-01-execution-core.yaml
+  - docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  - docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+  - docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+  - docs/work/dora-tooling-extraction-05-release-closeout.yaml
+  requiredPaths: *1
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []

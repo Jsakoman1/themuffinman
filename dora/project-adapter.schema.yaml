@@ -26,6 +26,13 @@ commands:
     work_start: Project command that starts one serial work item.
     work_verify: Project command that verifies one selected work item.
     control_check: Project command that runs the compact retained control check.
+project_context:
+  default_generated_output_paths: [audit_output, runtime_evidence]
+  rules:
+    generated_output_paths: Optional project-owned path keys that Dora may treat as disposable or retained generated output. Values must reference declared paths.
+  invariants:
+    - ProjectContext exposes only the declared roots, commands, extension count, and generated-output roots.
+    - ProjectContext rejects undeclared path and command access.
 extensions:
   item_required_fields: [id, category, paths, invocation]
   allowed_categories: [audit, documentation, runtime, build, product_contract]
@@ -37,4 +44,3 @@ invariants:
   - Dora core receives no product-domain, route, entity, capability, credential, or deployment rule through this schema.
   - Product extension commands and their evidence remain owned by the consuming project.
   - The adapter does not make capability, implementation, runtime, or release status claims.
-

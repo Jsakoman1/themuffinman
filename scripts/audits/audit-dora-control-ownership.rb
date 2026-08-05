@@ -68,6 +68,10 @@ bindings.each do |binding|
   adapter = YAML.load_file(File.join(ROOT, adapter_path))
   failures << "consumer adapter kind is invalid: #{adapter_path}" unless adapter["kind"] == "dora_project_adapter"
   failures << "consumer adapter project id does not match binding: #{adapter_path}" unless adapter.dig("project", "id") == binding["project"]
+  extension_ids = Array(adapter["extensions"]).map { |extension| extension["id"] }
+  required_extension_ids = %w[muffinman-java-spring-source-map muffinman-typescript-vue-source-map muffinman-runtime-harness]
+  missing_extensions = required_extension_ids - extension_ids
+  failures << "consumer adapter is missing declared product extensions: #{missing_extensions.join(", ")}" unless missing_extensions.empty?
 end
 
 subjects = scripts + targets

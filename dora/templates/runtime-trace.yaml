@@ -1,0 +1,5 @@
+kind: dora_runtime_trace
+version: 1
+command: npm run runtime-check
+evidence_path: docs/runtime-evidence/runtime-check.json
+viewport: desktop

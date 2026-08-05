@@ -1,0 +1,216 @@
+kind: work
+version: 1
+id: dora-tooling-extraction-04-language-runtime-plugins
+title: Define optional source-map and runtime plugin boundaries
+status: verified
+baseline: 35093d9
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-tooling-extraction-execution-inventory.yaml
+master_plan: docs/work/dora-tooling-extraction-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-muffinman-separation-master.yaml
+  baseline_only_surfaces:
+  - MuffinMan Java/Spring modules
+  - Vue routes
+  - browser scenarios
+  - screenshots
+  - seed data
+  - and runtime evidence
+  residual_scope:
+  - plugin contracts and explicit MuffinMan extension declarations
+  retest_triggers:
+  - changed language source root
+  - parser plugin
+  - runtime artifact protocol
+  - or extension manifest
+  non_duplication_rule: Plugin discovery and traces are mechanics; they never prove
+    product behavior alone.
+hardening_review:
+  state: ready_for_execution
+  reviewed_at: 2026-08-05
+  findings:
+  - Language-specific source-map adapters are split after the shared plugin contract
+  - with runtime mechanics remaining separate.
+tasks:
+- id: create-java-spring-source-map-plugin
+  title: Define the Dora Java/Spring source-map plugin
+  type: implementation
+  status: done
+  inventory_item: dora-java-spring-source-map-plugin
+  observable_outcome: Dora defines its shared source-map plugin contract and a fixture-tested
+    Java/Spring adapter without MuffinMan module names.
+  dependencies:
+  - port-configurable-system-map-engine
+  evidence_boundary:
+  - Java/Spring source-map fixture test
+  paths:
+  - dora/lib/dora/plugins/source_map.rb
+  - dora/lib/dora/plugins/java_spring.rb
+  - dora/test/java_spring_source_map_plugin_test.rb
+  required_paths:
+  - dora/lib/dora/plugins/source_map.rb
+  - dora/lib/dora/plugins/java_spring.rb
+  - dora/test/java_spring_source_map_plugin_test.rb
+  validation: ruby dora/test/java_spring_source_map_plugin_test.rb
+  started_at: '2026-08-05T10:14:56Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/source_map.rb: __missing__
+    dora/lib/dora/plugins/java_spring.rb: __missing__
+    dora/test/java_spring_source_map_plugin_test.rb: __missing__
+- id: create-typescript-vue-source-map-plugin
+  title: Define the Dora TypeScript/Vue source-map plugin
+  type: implementation
+  status: done
+  inventory_item: dora-typescript-vue-source-map-plugin
+  observable_outcome: Dora provides a fixture-tested TypeScript/Vue source-map adapter
+    through the shared source-map plugin contract without MuffinMan module names.
+  dependencies:
+  - create-java-spring-source-map-plugin
+  evidence_boundary:
+  - TypeScript/Vue source-map fixture test
+  paths:
+  - dora/lib/dora/plugins/source_map.rb
+  - dora/lib/dora/plugins/typescript_vue.rb
+  - dora/test/typescript_vue_source_map_plugin_test.rb
+  required_paths:
+  - dora/lib/dora/plugins/source_map.rb
+  - dora/lib/dora/plugins/typescript_vue.rb
+  - dora/test/typescript_vue_source_map_plugin_test.rb
+  validation: ruby dora/test/typescript_vue_source_map_plugin_test.rb
+  started_at: '2026-08-05T10:15:17Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/source_map.rb: 54b9ad9af383ea3b074ffbbdccf4777673f89965a283ad33ceb30fd7da0b7229
+    dora/lib/dora/plugins/typescript_vue.rb: __missing__
+    dora/test/typescript_vue_source_map_plugin_test.rb: __missing__
+- id: create-runtime-harness-plugin-contract
+  title: Define Dora browser runtime harness mechanics
+  type: implementation
+  status: done
+  inventory_item: dora-runtime-plugin
+  observable_outcome: Dora defines a project-configured browser trace contract for
+    command execution, viewport capture, console failures, and retained artifact paths.
+  dependencies:
+  - create-typescript-vue-source-map-plugin
+  evidence_boundary:
+  - runtime harness contract fixture test
+  paths:
+  - dora/lib/dora/plugins/runtime_harness.rb
+  - dora/templates/runtime-trace.yaml
+  - dora/test/runtime_harness_plugin_test.rb
+  required_paths:
+  - dora/lib/dora/plugins/runtime_harness.rb
+  - dora/templates/runtime-trace.yaml
+  - dora/test/runtime_harness_plugin_test.rb
+  validation: ruby dora/test/runtime_harness_plugin_test.rb
+  started_at: '2026-08-05T10:15:52Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/runtime_harness.rb: __missing__
+    dora/templates/runtime-trace.yaml: __missing__
+    dora/test/runtime_harness_plugin_test.rb: __missing__
+- id: declare-muffinman-product-extensions
+  title: Declare retained MuffinMan source and runtime extensions
+  type: implementation
+  status: done
+  inventory_item: muffinman-extension-manifests
+  observable_outcome: MuffinMan declares Java/Spring, TypeScript/Vue, browser scenarios,
+    and product audit ownership as extensions without moving product contracts into
+    Dora.
+  dependencies:
+  - create-runtime-harness-plugin-contract
+  evidence_boundary:
+  - adapter validation and extension ownership audit
+  paths:
+  - ".dora/project.yaml"
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  required_paths:
+  - ".dora/project.yaml"
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  validation: ruby scripts/audits/audit-dora-control-ownership.rb
+  started_at: '2026-08-05T10:16:17Z'
+  start_fingerprints:
+    ".dora/project.yaml": b664dc60ea1a4db53f9326ded29ffac8c8e093758119b6242a10ea8d9ea24df0
+    docs/dora-control-ownership-inventory.yaml: 1ceddea1bd684c0d4b026b061bd4db2aea4f27b2db0974de993691831d533528
+    scripts/audits/audit-dora-control-ownership.rb: a73014a579a0b18a4e6966fbcf85c337e3064b2d1460dd17bedb09284dc84965
+evidence:
+- task: create-java-spring-source-map-plugin
+  command: ruby dora/test/java_spring_source_map_plugin_test.rb
+  ranAt: '2026-08-05T10:15:12Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugins/java_spring.rb
+  - dora/lib/dora/plugins/source_map.rb
+  - dora/test/java_spring_source_map_plugin_test.rb
+  output: "Dora Java/Spring source-map plugin test passed.\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/plugins/source_map.rb
+  - dora/lib/dora/plugins/java_spring.rb
+  - dora/test/java_spring_source_map_plugin_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:14:56Z'
+  changedAfterStart: *1
+- task: create-typescript-vue-source-map-plugin
+  command: ruby dora/test/typescript_vue_source_map_plugin_test.rb
+  ranAt: '2026-08-05T10:15:47Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugins/source_map.rb
+  - dora/lib/dora/plugins/typescript_vue.rb
+  - dora/test/typescript_vue_source_map_plugin_test.rb
+  output: "Dora TypeScript/Vue source-map plugin test passed.\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/plugins/source_map.rb
+  - dora/lib/dora/plugins/typescript_vue.rb
+  - dora/test/typescript_vue_source_map_plugin_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:15:17Z'
+  changedAfterStart: *2
+- task: create-runtime-harness-plugin-contract
+  command: ruby dora/test/runtime_harness_plugin_test.rb
+  ranAt: '2026-08-05T10:16:12Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugins/runtime_harness.rb
+  - dora/templates/runtime-trace.yaml
+  - dora/test/runtime_harness_plugin_test.rb
+  output: "Dora runtime harness plugin test passed (two project contracts).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/plugins/runtime_harness.rb
+  - dora/templates/runtime-trace.yaml
+  - dora/test/runtime_harness_plugin_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:15:52Z'
+  changedAfterStart: *3
+- task: declare-muffinman-product-extensions
+  command: ruby scripts/audits/audit-dora-control-ownership.rb
+  ranAt: '2026-08-05T10:16:39Z'
+  revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/project.yaml"
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  output: "Dora control ownership audit passed (131 subjects; dora_adapter=38, dora_core=8,
+    muffinman_extension=85).\n\n"
+  requiredPaths: &4
+  - ".dora/project.yaml"
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T10:16:17Z'
+  changedAfterStart: *4

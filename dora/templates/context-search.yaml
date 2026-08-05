@@ -1,0 +1,4 @@
+kind: dora_context_search
+version: 1
+roots: [src, docs]
+exclusions: [vendor/**, build/**]

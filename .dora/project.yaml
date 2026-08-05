@@ -9,10 +9,12 @@ paths:
   audit_output: docs/audit-output
   runtime_evidence: docs/runtime-evidence
 commands:
-  work_start: make work-start plan=<work-plan> task=<task-id>
-  work_verify: make work-verify plan=<work-plan> task=<task-id>
+  work_start: dora/bin/dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>
+  work_verify: dora/bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>
   control_check: make control-check
   work_plan_preflight: dora/bin/dora validate-work-plan .dora/project.yaml <work-plan>
+context:
+  generated_output_paths: [audit_output, runtime_evidence]
 distribution:
   method: git_subtree
   source_repository: https://github.com/Jsakoman1/dora.git
@@ -38,3 +40,15 @@ extensions:
     category: product_contract
     paths: [apps/themuffinman/pom.xml, apps/themuffinman/frontend/package.json]
     invocation: make backend-test && make frontend-type-check
+  - id: muffinman-java-spring-source-map
+    category: product_contract
+    paths: [apps/themuffinman/src/main/java, apps/themuffinman/src/test/java]
+    invocation: Dora JavaSpring source-map plugin with MuffinMan-declared source roots
+  - id: muffinman-typescript-vue-source-map
+    category: product_contract
+    paths: [apps/themuffinman/frontend/src]
+    invocation: Dora TypeScriptVue source-map plugin with MuffinMan-declared source roots
+  - id: muffinman-runtime-harness
+    category: runtime
+    paths: [apps/themuffinman/frontend/scripts/runtime-harness.mjs, docs/runtime-evidence]
+    invocation: Project-owned browser command writes declared runtime evidence; Dora records only the trace contract.

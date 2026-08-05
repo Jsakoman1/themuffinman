@@ -1,0 +1,4 @@
+kind: dora_system_map
+version: 1
+nodes: [{id: source}, {id: documentation}]
+edges: [{from: source, to: documentation}]

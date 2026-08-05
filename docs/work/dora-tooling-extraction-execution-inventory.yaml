@@ -1,0 +1,193 @@
+kind: execution_inventory
+version: 1
+id: dora-tooling-extraction-execution-inventory
+master_plan: docs/work/dora-tooling-extraction-master.yaml
+status: draft
+items:
+- id: dora-tooling-harden
+  order: 1
+  plan: docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
+  task: harden-tooling-extraction-plan
+  status: verified
+  started_at: '2026-08-05T10:01:47Z'
+  verified_at: '2026-08-05T10:03:37Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-atomic-task-hardening.yaml
+    task: harden-tooling-extraction-plan
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-project-context
+  order: 2
+  plan: docs/work/dora-tooling-extraction-01-execution-core.yaml
+  task: define-dora-project-context
+  status: verified
+  started_at: '2026-08-05T10:05:31Z'
+  verified_at: '2026-08-05T10:07:05Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-01-execution-core.yaml
+    task: define-dora-project-context
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-full-work-verifier
+  order: 3
+  plan: docs/work/dora-tooling-extraction-01-execution-core.yaml
+  task: port-stateful-work-verifier
+  status: verified
+  started_at: '2026-08-05T10:07:12Z'
+  verified_at: '2026-08-05T10:09:55Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-01-execution-core.yaml
+    task: port-stateful-work-verifier
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: muffinman-verifier-delegate
+  order: 4
+  plan: docs/work/dora-tooling-extraction-01-execution-core.yaml
+  task: delegate-muffinman-work-commands
+  status: verified
+  started_at: '2026-08-05T10:10:19Z'
+  verified_at: '2026-08-05T10:11:05Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-01-execution-core.yaml
+    task: delegate-muffinman-work-commands
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-tool-catalog-help
+  order: 5
+  plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  task: port-tool-catalog-and-help
+  status: verified
+  started_at: '2026-08-05T10:11:13Z'
+  verified_at: '2026-08-05T10:11:38Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+    task: port-tool-catalog-and-help
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-artifact-lifecycle
+  order: 6
+  plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  task: port-artifact-lifecycle
+  status: verified
+  started_at: '2026-08-05T10:11:47Z'
+  verified_at: '2026-08-05T10:12:04Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+    task: port-artifact-lifecycle
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-todo-backlog-linkage
+  order: 7
+  plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  task: port-todo-backlog-linkage
+  status: verified
+  started_at: '2026-08-05T10:12:19Z'
+  verified_at: '2026-08-05T10:12:42Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+    task: port-todo-backlog-linkage
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-change-validation-routing
+  order: 8
+  plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  task: port-change-validation-routing
+  status: verified
+  started_at: '2026-08-05T10:12:47Z'
+  verified_at: '2026-08-05T10:13:08Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+    task: port-change-validation-routing
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-bounded-context-search
+  order: 9
+  plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  task: port-bounded-context-search
+  status: verified
+  started_at: '2026-08-05T10:13:14Z'
+  verified_at: '2026-08-05T10:13:35Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+    task: port-bounded-context-search
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-workspace-change-inventory
+  order: 10
+  plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+  task: port-workspace-change-inventory
+  status: verified
+  started_at: '2026-08-05T10:13:40Z'
+  verified_at: '2026-08-05T10:13:58Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-02-local-tooling.yaml
+    task: port-workspace-change-inventory
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-docs-evidence
+  order: 11
+  plan: docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+  task: port-documentation-evidence-engine
+  status: verified
+  started_at: '2026-08-05T10:14:09Z'
+  verified_at: '2026-08-05T10:14:29Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+    task: port-documentation-evidence-engine
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-system-map-engine
+  order: 12
+  plan: docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+  task: port-configurable-system-map-engine
+  status: verified
+  started_at: '2026-08-05T10:14:33Z'
+  verified_at: '2026-08-05T10:14:51Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-03-analysis-documentation.yaml
+    task: port-configurable-system-map-engine
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-java-spring-source-map-plugin
+  order: 13
+  plan: docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+  task: create-java-spring-source-map-plugin
+  status: verified
+  started_at: '2026-08-05T10:14:56Z'
+  verified_at: '2026-08-05T10:15:12Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+    task: create-java-spring-source-map-plugin
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-typescript-vue-source-map-plugin
+  order: 14
+  plan: docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+  task: create-typescript-vue-source-map-plugin
+  status: verified
+  started_at: '2026-08-05T10:15:17Z'
+  verified_at: '2026-08-05T10:15:47Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+    task: create-typescript-vue-source-map-plugin
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-runtime-plugin
+  order: 15
+  plan: docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+  task: create-runtime-harness-plugin-contract
+  status: verified
+  started_at: '2026-08-05T10:15:52Z'
+  verified_at: '2026-08-05T10:16:12Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+    task: create-runtime-harness-plugin-contract
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: muffinman-extension-manifests
+  order: 16
+  plan: docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+  task: declare-muffinman-product-extensions
+  status: verified
+  started_at: '2026-08-05T10:16:17Z'
+  verified_at: '2026-08-05T10:16:39Z'
+  evidence:
+    plan: docs/work/dora-tooling-extraction-04-language-runtime-plugins.yaml
+    task: declare-muffinman-product-extensions
+    revision: 35093d9a85d435cc2a5ca73a1b956899b0e28108
+- id: dora-v02-release
+  order: 17
+  plan: docs/work/dora-tooling-extraction-05-release-closeout.yaml
+  task: publish-dora-v02-release
+  status: in_progress
+  started_at: '2026-08-05T10:16:54Z'
+- id: muffinman-v02-pin
+  order: 18
+  plan: docs/work/dora-tooling-extraction-05-release-closeout.yaml
+  task: pin-and-verify-muffinman-dora-update
+  status: pending

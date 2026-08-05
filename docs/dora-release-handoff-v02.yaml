@@ -1,0 +1,27 @@
+kind: dora_release_handoff
+version: 1
+status: awaiting_external_publish
+release:
+  repository: https://github.com/Jsakoman1/dora.git
+  visibility: private
+  default_branch: main
+  version: v0.2.0
+  immutable_commit: pending_subtree_export
+  source_parent_commit: pending_muffinman_commit
+consumption:
+  project: muffinman
+  method: git_subtree
+  subtree_prefix: dora
+  pinned_ref: v0.2.0
+  pinned_commit: pending_subtree_export
+  local_adapter: .dora/project.yaml
+  update_rule: Export the reviewed Dora subtree to the private repository, create immutable v0.2.0, then record its exact commit before a separate MuffinMan subtree pin update.
+preservation:
+  - MuffinMan remains the owner of application source, product documentation, work plans, runtime evidence, and .dora/project.yaml.
+  - Dora export contains only dora/ package paths; no source-repository product path is deleted or rewritten.
+rollback:
+  - Do not publish until the current MuffinMan changes are committed and reviewed.
+  - Revert the separate MuffinMan subtree update to return to v0.1.0 if v0.2.0 is unsuitable.
+verification:
+  - ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release --handoff docs/dora-release-handoff-v02.yaml --expected-version v0.2.0
+  - ruby scripts/audits/audit-dora-muffinman-compatibility.rb

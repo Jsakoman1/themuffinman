@@ -26,7 +26,7 @@ consumer_adapter_bindings:
   - project: muffinman
     adapter: .dora/project.yaml
     dora_entrypoint: dora/bin/dora
-    rule: MuffinMan owns every path and extension declared by its adapter; Dora validates declarations and never promotes their product status.
+    rule: MuffinMan owns every path and extension declared by its adapter, including Java/Spring and TypeScript/Vue source maps and the browser runtime harness; Dora validates declarations and never promotes their product status.
 rules:
   - id: dora-core-work-protocol
     owner: dora_core
@@ -95,4 +95,5 @@ invariants:
   - A Dora core subject may not directly name apps/themuffinman or a MuffinMan domain registry.
   - Dora adapter subjects are not Dora core until their path and command inputs are declared by an adapter contract.
   - MuffinMan extensions remain local even when invoked by a generic root Make target.
+  - Source-map plugins and runtime-trace contracts describe project structure only; MuffinMan owns parser roots, browser scenarios, evidence, and all product conclusions.
   - Adding a control script or Make target requires updating baseline_counts and an explicit ownership rule before this audit can pass.
