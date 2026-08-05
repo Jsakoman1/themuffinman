@@ -91,8 +91,8 @@ children:
 - docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
 - docs/work/dora-v07-complete-product-boundary-04-release.yaml
 evidence:
-- verifiedAt: '2026-08-05T13:19:54Z'
-  revision: 92bc93b5ef1230e663d353780e73ce01343af1e0
+- verifiedAt: '2026-08-05T13:20:45Z'
+  revision: 05e6658caab162b494451951a82d72c4abc186af
   children:
   - docs/work/dora-v07-complete-product-boundary-atomic-hardening.yaml
   - docs/work/dora-v07-complete-product-boundary-01-core.yaml
