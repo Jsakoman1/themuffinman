@@ -1,0 +1,235 @@
+kind: work
+version: 1
+id: dora-v11-agent-cockpit-and-contracts
+title: Give Codex stable session and command contracts
+status: verified
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+tasks:
+- id: add-command-envelope-contract
+  inventory_item: v11-envelope-contract
+  title: Define stable command envelopes
+  type: implementation
+  observable_outcome: Dora defines machine-readable success error citation and side-effect
+    envelopes
+  dependencies:
+  - v11-foundation-consumer
+  evidence_boundary:
+  - success and malformed-input envelope fixture
+  paths:
+  - dora/command-envelope.schema.yaml
+  - dora/lib/dora/command_envelope.rb
+  - dora/test/command_envelope_test.rb
+  required_paths:
+  - dora/command-envelope.schema.yaml
+  - dora/lib/dora/command_envelope.rb
+  - dora/test/command_envelope_test.rb
+  validation: ruby dora/test/command_envelope_test.rb
+  status: done
+  started_at: '2026-08-05T16:16:27Z'
+  start_fingerprints:
+    dora/command-envelope.schema.yaml: __missing__
+    dora/lib/dora/command_envelope.rb: __missing__
+    dora/test/command_envelope_test.rb: __missing__
+- id: expose-command-formats
+  inventory_item: v11-command-formats
+  title: Expose compatible command formats
+  type: implementation
+  observable_outcome: Public commands offer declared JSON or YAML envelopes while
+    preserving existing YAML consumers
+  dependencies:
+  - v11-envelope-contract
+  evidence_boundary:
+  - format compatibility CLI fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/command_format_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/command_format_test.rb
+  validation: ruby dora/test/command_format_test.rb
+  status: done
+  started_at: '2026-08-05T16:17:22Z'
+  start_fingerprints:
+    dora/bin/dora: fb202d360590bf89d52994f1c911dcc0e4f77a90a968f16336d5d414bd89d4a6
+    dora/lib/dora/command_registry.rb: fef60b7ff560aeaac23bde679c4ef717bc120c31be34e51fe944b20cadcd8463
+    dora/test/command_format_test.rb: __missing__
+- id: add-agent-session-contract
+  inventory_item: v11-session-contract
+  title: Define bounded agent session payload
+  type: implementation
+  observable_outcome: One session contract joins declared work context health tools
+    gaps decisions and approval boundary with citations
+  dependencies:
+  - v11-command-formats
+  evidence_boundary:
+  - bounded session contract fixture
+  paths:
+  - dora/agent-session.schema.yaml
+  - dora/lib/dora/agent_context.rb
+  - dora/lib/dora/agent_session.rb
+  - dora/test/agent_session_test.rb
+  required_paths:
+  - dora/agent-session.schema.yaml
+  - dora/lib/dora/agent_context.rb
+  - dora/lib/dora/agent_session.rb
+  - dora/test/agent_session_test.rb
+  validation: ruby dora/test/agent_session_test.rb
+  status: done
+  started_at: '2026-08-05T16:18:19Z'
+  start_fingerprints:
+    dora/agent-session.schema.yaml: __missing__
+    dora/lib/dora/agent_session.rb: __missing__
+    dora/test/agent_session_test.rb: __missing__
+- id: expose-agent-session-command
+  inventory_item: v11-session-command
+  title: Expose agent session through CLI
+  type: implementation
+  observable_outcome: Codex requests one cited agent-session command without starting
+    or completing work
+  dependencies:
+  - v11-session-contract
+  evidence_boundary:
+  - agent-session CLI fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_session_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_session_command_test.rb
+  validation: ruby dora/test/agent_session_command_test.rb
+  status: done
+  started_at: '2026-08-05T16:19:20Z'
+  start_fingerprints:
+    dora/bin/dora: 1756eefdb3ce25a1cceef272f5edf0aecf430803a9d474a0722b1da1b2fc59f0
+    dora/lib/dora/command_registry.rb: 68a213a9bfa6306dec62b8cf2a5ba001256ebd8e3da2f309dbf5c379e9342ba7
+    dora/test/agent_session_command_test.rb: __missing__
+- id: prove-agent-cockpit-consumer
+  inventory_item: v11-cockpit-consumer
+  title: Prove session isolation across projects
+  type: implementation
+  observable_outcome: Two independent projects receive only their own bounded agent
+    sessions and remediation
+  dependencies:
+  - v11-session-command
+  evidence_boundary:
+  - two-project agent cockpit consumer
+  paths:
+  - dora/test/independent_agent_cockpit_consumer_test.rb
+  - dora/test/fixtures/agent-cockpit-projects.yaml
+  required_paths:
+  - dora/test/independent_agent_cockpit_consumer_test.rb
+  - dora/test/fixtures/agent-cockpit-projects.yaml
+  validation: ruby dora/test/independent_agent_cockpit_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:20:03Z'
+  start_fingerprints:
+    dora/test/independent_agent_cockpit_consumer_test.rb: __missing__
+    dora/test/fixtures/agent-cockpit-projects.yaml: __missing__
+evidence:
+- task: add-command-envelope-contract
+  command: ruby dora/test/command_envelope_test.rb
+  ranAt: '2026-08-05T16:17:01Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/command-envelope.schema.yaml
+  - dora/lib/dora/command_envelope.rb
+  - dora/test/command_envelope_test.rb
+  output: "Dora command envelope test passed (stable success, error, citation, and
+    side-effect contracts).\n\n"
+  requiredPaths: &1
+  - dora/command-envelope.schema.yaml
+  - dora/lib/dora/command_envelope.rb
+  - dora/test/command_envelope_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:16:27Z'
+  changedAfterStart: *1
+- task: expose-command-formats
+  command: ruby dora/test/command_format_test.rb
+  ranAt: '2026-08-05T16:18:04Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/command_format_test.rb
+  output: "Dora command format test passed (explicit JSON/YAML envelopes preserve
+    default output).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/command_format_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:17:22Z'
+  changedAfterStart: *2
+- task: add-agent-session-contract
+  command: ruby dora/test/agent_session_test.rb
+  ranAt: '2026-08-05T16:19:14Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/agent_context.rb
+  - dora/agent-session.schema.yaml
+  - dora/lib/dora/agent_session.rb
+  - dora/test/agent_session_test.rb
+  output: "Dora agent session test passed (bounded work, health, tools, gaps, decisions,
+    and approval boundary).\n\n"
+  requiredPaths: &3
+  - dora/agent-session.schema.yaml
+  - dora/lib/dora/agent_context.rb
+  - dora/lib/dora/agent_session.rb
+  - dora/test/agent_session_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:18:19Z'
+  changedAfterStart: *3
+- task: expose-agent-session-command
+  command: ruby dora/test/agent_session_command_test.rb
+  ranAt: '2026-08-05T16:19:49Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_session_command_test.rb
+  output: "Dora agent session command test passed (one read-only cited Codex session).\n\n"
+  requiredPaths: &4
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/agent_session_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:19:20Z'
+  changedAfterStart: *4
+- task: prove-agent-cockpit-consumer
+  command: ruby dora/test/independent_agent_cockpit_consumer_test.rb
+  ranAt: '2026-08-05T16:20:27Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/agent-cockpit-projects.yaml
+  - dora/test/independent_agent_cockpit_consumer_test.rb
+  output: "Dora independent agent cockpit consumer test passed (two projects receive
+    isolated bounded sessions).\n\n"
+  requiredPaths: &5
+  - dora/test/independent_agent_cockpit_consumer_test.rb
+  - dora/test/fixtures/agent-cockpit-projects.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:20:03Z'
+  changedAfterStart: *5

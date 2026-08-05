@@ -1,0 +1,371 @@
+kind: execution_inventory
+version: 1
+id: dora-v11-codex-first-ergonomics-execution-inventory
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+status: draft
+hardening_contract:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v11-codex-first-ergonomics-master.yaml
+    docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  mapping: Every item maps once to one exact atomic task; only one global item may
+    run.
+  dependency: Every item directly depends on the immediately preceding inventory item;
+    no parallel execution path exists.
+  ownership: Dora owns neutral delivery mechanics; consumers own product meaning,
+    runtime authority, source approval, and external side effects.
+  path_coverage: Every item has one declared implementation boundary and one matching
+    child task.
+  execution_gate: The first item must be verifier-marked verified before any v1.1
+    implementation item may start.
+items:
+- id: v11-harden
+  order: 1
+  plan: docs/work/dora-v11-atomic-hardening.yaml
+  task: harden-v11-program
+  status: verified
+  started_at: '2026-08-05T16:07:26Z'
+  verified_at: '2026-08-05T16:08:48Z'
+  evidence:
+    plan: docs/work/dora-v11-atomic-hardening.yaml
+    task: harden-v11-program
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-source-contract
+  order: 2
+  plan: docs/work/dora-v11-foundation-and-self-contained.yaml
+  task: add-self-contained-source-contract
+  status: verified
+  started_at: '2026-08-05T16:08:59Z'
+  verified_at: '2026-08-05T16:11:18Z'
+  evidence:
+    plan: docs/work/dora-v11-foundation-and-self-contained.yaml
+    task: add-self-contained-source-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-self-contained-new
+  order: 3
+  plan: docs/work/dora-v11-foundation-and-self-contained.yaml
+  task: create-self-contained-new-project
+  status: verified
+  started_at: '2026-08-05T16:11:33Z'
+  verified_at: '2026-08-05T16:13:52Z'
+  evidence:
+    plan: docs/work/dora-v11-foundation-and-self-contained.yaml
+    task: create-self-contained-new-project
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-project-readiness
+  order: 4
+  plan: docs/work/dora-v11-foundation-and-self-contained.yaml
+  task: add-project-readiness-contract
+  status: verified
+  started_at: '2026-08-05T16:14:02Z'
+  verified_at: '2026-08-05T16:15:04Z'
+  evidence:
+    plan: docs/work/dora-v11-foundation-and-self-contained.yaml
+    task: add-project-readiness-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-foundation-consumer
+  order: 5
+  plan: docs/work/dora-v11-foundation-and-self-contained.yaml
+  task: prove-self-contained-foundation-consumer
+  status: verified
+  started_at: '2026-08-05T16:15:11Z'
+  verified_at: '2026-08-05T16:16:20Z'
+  evidence:
+    plan: docs/work/dora-v11-foundation-and-self-contained.yaml
+    task: prove-self-contained-foundation-consumer
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-envelope-contract
+  order: 6
+  plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  task: add-command-envelope-contract
+  status: verified
+  started_at: '2026-08-05T16:16:27Z'
+  verified_at: '2026-08-05T16:17:01Z'
+  evidence:
+    plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+    task: add-command-envelope-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-command-formats
+  order: 7
+  plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  task: expose-command-formats
+  status: verified
+  started_at: '2026-08-05T16:17:22Z'
+  verified_at: '2026-08-05T16:18:05Z'
+  evidence:
+    plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+    task: expose-command-formats
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-session-contract
+  order: 8
+  plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  task: add-agent-session-contract
+  status: verified
+  started_at: '2026-08-05T16:18:19Z'
+  verified_at: '2026-08-05T16:19:14Z'
+  evidence:
+    plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+    task: add-agent-session-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-session-command
+  order: 9
+  plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  task: expose-agent-session-command
+  status: verified
+  started_at: '2026-08-05T16:19:20Z'
+  verified_at: '2026-08-05T16:19:49Z'
+  evidence:
+    plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+    task: expose-agent-session-command
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-cockpit-consumer
+  order: 10
+  plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  task: prove-agent-cockpit-consumer
+  status: verified
+  started_at: '2026-08-05T16:20:03Z'
+  verified_at: '2026-08-05T16:20:27Z'
+  evidence:
+    plan: docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+    task: prove-agent-cockpit-consumer
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-memory-drift
+  order: 11
+  plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  task: add-memory-drift-contract
+  status: verified
+  started_at: '2026-08-05T16:20:47Z'
+  verified_at: '2026-08-05T16:21:20Z'
+  evidence:
+    plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+    task: add-memory-drift-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-memory-refresh
+  order: 12
+  plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  task: expose-memory-refresh-proposal
+  status: verified
+  started_at: '2026-08-05T16:21:31Z'
+  verified_at: '2026-08-05T16:21:56Z'
+  evidence:
+    plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+    task: expose-memory-refresh-proposal
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-cache-identity
+  order: 13
+  plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  task: correct-plugin-cache-identity
+  status: verified
+  started_at: '2026-08-05T16:22:09Z'
+  verified_at: '2026-08-05T16:23:27Z'
+  evidence:
+    plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+    task: correct-plugin-cache-identity
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-approval-contract
+  order: 14
+  plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  task: add-approval-record-contract
+  status: verified
+  started_at: '2026-08-05T16:23:35Z'
+  verified_at: '2026-08-05T16:24:38Z'
+  evidence:
+    plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+    task: add-approval-record-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-guidance-consumer
+  order: 15
+  plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  task: prove-guidance-correctness-consumer
+  status: verified
+  started_at: '2026-08-05T16:24:50Z'
+  verified_at: '2026-08-05T16:25:05Z'
+  evidence:
+    plan: docs/work/dora-v11-knowledge-cache-and-approval.yaml
+    task: prove-guidance-correctness-consumer
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-upgrade-transaction
+  order: 16
+  plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  task: add-upgrade-apply-transaction
+  status: verified
+  started_at: '2026-08-05T16:25:14Z'
+  verified_at: '2026-08-05T16:28:34Z'
+  evidence:
+    plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+    task: add-upgrade-apply-transaction
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-upgrade-command
+  order: 17
+  plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  task: expose-upgrade-apply-command
+  status: verified
+  started_at: '2026-08-05T16:28:43Z'
+  verified_at: '2026-08-05T16:29:02Z'
+  evidence:
+    plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+    task: expose-upgrade-apply-command
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-upgrade-consumer
+  order: 18
+  plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  task: prove-upgrade-lifecycle-consumer
+  status: verified
+  started_at: '2026-08-05T16:29:11Z'
+  verified_at: '2026-08-05T16:29:24Z'
+  evidence:
+    plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+    task: prove-upgrade-lifecycle-consumer
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-plugin-policy
+  order: 19
+  plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  task: add-plugin-policy-contract
+  status: verified
+  started_at: '2026-08-05T16:30:51Z'
+  verified_at: '2026-08-05T16:32:11Z'
+  evidence:
+    plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+    task: add-plugin-policy-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-plugin-policy-runner
+  order: 20
+  plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  task: enforce-plugin-policy
+  status: verified
+  started_at: '2026-08-05T16:32:17Z'
+  verified_at: '2026-08-05T16:35:03Z'
+  evidence:
+    plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+    task: enforce-plugin-policy
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-plugin-safety-consumer
+  order: 21
+  plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  task: prove-plugin-safety-consumer
+  status: verified
+  started_at: '2026-08-05T16:35:12Z'
+  verified_at: '2026-08-05T16:35:51Z'
+  evidence:
+    plan: docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+    task: prove-plugin-safety-consumer
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-trace-contract
+  order: 22
+  plan: docs/work/dora-v11-traceability-and-coordination.yaml
+  task: add-capability-trace-contract
+  status: verified
+  started_at: '2026-08-05T16:35:59Z'
+  verified_at: '2026-08-05T16:37:27Z'
+  evidence:
+    plan: docs/work/dora-v11-traceability-and-coordination.yaml
+    task: add-capability-trace-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-trace-command
+  order: 23
+  plan: docs/work/dora-v11-traceability-and-coordination.yaml
+  task: expose-capability-trace-command
+  status: verified
+  started_at: '2026-08-05T16:37:34Z'
+  verified_at: '2026-08-05T16:38:27Z'
+  evidence:
+    plan: docs/work/dora-v11-traceability-and-coordination.yaml
+    task: expose-capability-trace-command
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-trace-consumer
+  order: 24
+  plan: docs/work/dora-v11-traceability-and-coordination.yaml
+  task: prove-capability-trace-consumers
+  status: verified
+  started_at: '2026-08-05T16:38:32Z'
+  verified_at: '2026-08-05T16:39:16Z'
+  evidence:
+    plan: docs/work/dora-v11-traceability-and-coordination.yaml
+    task: prove-capability-trace-consumers
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-lease-contract
+  order: 25
+  plan: docs/work/dora-v11-traceability-and-coordination.yaml
+  task: add-task-lease-contract
+  status: verified
+  started_at: '2026-08-05T16:39:22Z'
+  verified_at: '2026-08-05T16:41:32Z'
+  evidence:
+    plan: docs/work/dora-v11-traceability-and-coordination.yaml
+    task: add-task-lease-contract
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-lease-command
+  order: 26
+  plan: docs/work/dora-v11-traceability-and-coordination.yaml
+  task: expose-task-lease-commands
+  status: verified
+  started_at: '2026-08-05T16:41:49Z'
+  verified_at: '2026-08-05T16:43:26Z'
+  evidence:
+    plan: docs/work/dora-v11-traceability-and-coordination.yaml
+    task: expose-task-lease-commands
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-lease-consumer
+  order: 27
+  plan: docs/work/dora-v11-traceability-and-coordination.yaml
+  task: prove-coordination-consumers
+  status: verified
+  started_at: '2026-08-05T16:43:31Z'
+  verified_at: '2026-08-05T16:43:56Z'
+  evidence:
+    plan: docs/work/dora-v11-traceability-and-coordination.yaml
+    task: prove-coordination-consumers
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-codex-pack
+  order: 28
+  plan: docs/work/dora-v11-traceability-and-coordination.yaml
+  task: add-opt-in-codex-integration-pack
+  status: verified
+  started_at: '2026-08-05T16:44:02Z'
+  verified_at: '2026-08-05T16:45:03Z'
+  evidence:
+    plan: docs/work/dora-v11-traceability-and-coordination.yaml
+    task: add-opt-in-codex-integration-pack
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-codex-pack-consumer
+  order: 29
+  plan: docs/work/dora-v11-traceability-and-coordination.yaml
+  task: prove-codex-integration-consumers
+  status: verified
+  started_at: '2026-08-05T16:45:09Z'
+  verified_at: '2026-08-05T16:45:31Z'
+  evidence:
+    plan: docs/work/dora-v11-traceability-and-coordination.yaml
+    task: prove-codex-integration-consumers
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-approval-evidence
+  order: 30
+  plan: docs/work/dora-v11-pre-release-evidence.yaml
+  task: strengthen-approval-boundary-proof
+  status: verified
+  started_at: '2026-08-05T16:47:17Z'
+  verified_at: '2026-08-05T16:47:47Z'
+  evidence:
+    plan: docs/work/dora-v11-pre-release-evidence.yaml
+    task: strengthen-approval-boundary-proof
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-upgrade-evidence
+  order: 31
+  plan: docs/work/dora-v11-pre-release-evidence.yaml
+  task: strengthen-upgrade-lifecycle-proof
+  status: verified
+  started_at: '2026-08-05T16:47:52Z'
+  verified_at: '2026-08-05T16:50:14Z'
+  evidence:
+    plan: docs/work/dora-v11-pre-release-evidence.yaml
+    task: strengthen-upgrade-lifecycle-proof
+    revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+- id: v11-release
+  order: 32
+  plan: docs/work/dora-v11-release.yaml
+  task: publish-dora-v11
+  status: in_progress
+  started_at: '2026-08-05T16:52:49Z'
+- id: v11-pin
+  order: 33
+  plan: docs/work/dora-v11-release.yaml
+  task: pin-muffinman-v11
+  status: pending

@@ -6,6 +6,7 @@ required:
   - kind
   - version
   - source
+  - review
 properties:
   kind:
     const: dora_bootstrap_source
@@ -26,3 +27,16 @@ properties:
         type: string
         pattern: '^[0-9a-fA-F]{64}$'
         description: SHA-256 digest of the reviewed local Dora source content, excluding Git metadata.
+  review:
+    type: object
+    required: [id, reviewed_by, reviewed_at]
+    properties:
+      id:
+        type: string
+        description: Project-owned identifier for the source review record.
+      reviewed_by:
+        type: string
+        description: Person or approved local automation that reviewed the source descriptor.
+      reviewed_at:
+        type: string
+        description: Recorded review timestamp; Dora preserves it and does not infer approval.

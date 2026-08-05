@@ -1,0 +1,9 @@
+kind: dora_schema
+version: 1
+id: agent-session
+description: Bounded read-only Codex session assembled only from declared Dora project artifacts.
+required_fields: [kind, version, work, health, tools, gaps, decisions, approval_boundary, citations, omitted]
+invariants:
+  - The session does not start work, verify work, approve changes, or infer product behavior.
+  - Every section is derived from a declared artifact and its citation is returned.
+  - Approval boundary repeats declared authority limits; it is not an approval decision.

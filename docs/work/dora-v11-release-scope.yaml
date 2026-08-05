@@ -1,0 +1,17 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v11-release
+title: Publish Dora v1.1 only when core and selected experimental contracts are proven
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+status: draft
+outcomes:
+  - Release handoff records v1.1 immutable tag, exact source commit, checksums, consumer compatibility, and rollback.
+  - MuffinMan pin changes only after remote tag reachability and compatibility audit pass.
+decisions_required:
+  - Which optional v1.1 extensions reached independent-consumer proof and may be released.
+evidence_needed:
+  - reachable annotated tag
+  - published handoff and compatibility audit
+  - explicit publication and pin approval
+boundaries:
+  - Release and pin are separate external actions and never occur as part of local implementation verification.

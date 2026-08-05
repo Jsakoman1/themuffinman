@@ -1,11 +1,43 @@
 # frozen_string_literal: true
 
 require "digest"
+require "fileutils"
 require "yaml"
 require_relative "bootstrap_source"
+require_relative "approval_record"
 
 module Dora
   class ProjectUpgrade
+    def self.apply!(project_root:, source_descriptor_path:, approval:)
+      preview = preview!(project_root: project_root, source_descriptor_path: source_descriptor_path)
+      root = File.expand_path(project_root)
+      ApprovalRecord.validate!(approval, operation: "upgrade_apply", scope: root)
+      package = File.join(root, preview.dig("consumer", "package_path"))
+      backup = File.join(root, ".dora/backups", "upgrade-#{Time.now.utc.strftime('%Y%m%d%H%M%S')}")
+      FileUtils.mkdir_p(File.dirname(backup)); FileUtils.cp_r(package, backup)
+      target = BootstrapSource.load!(source_descriptor_path)
+      FileUtils.rm_rf(package); FileUtils.mkdir_p(package); FileUtils.cp_r(File.join(target.fetch("path"), "."), package)
+      {"kind" => "dora_project_upgrade_apply", "version" => 1, "applied" => true, "backup" => backup.delete_prefix("#{root}/"), "rollback" => "Restore the recorded backup directory explicitly.", "migrations" => preview.fetch("migrations")}.freeze
+    end
+
+    def self.rollback!(project_root:, backup:, approval:)
+      root = File.expand_path(project_root)
+      ApprovalRecord.validate!(approval, operation: "upgrade_rollback", scope: root)
+      fail!("upgrade rollback backup path is invalid") unless safe_relative_path?(backup)
+      source = File.expand_path(backup, root)
+      fail!("upgrade rollback backup escapes project root") unless source.start_with?("#{root}/")
+      fail!("upgrade rollback backup is missing") unless source.start_with?(File.join(root, ".dora/backups/")) && Dir.exist?(source)
+      record = YAML.load_file(File.join(root, ".dora/bootstrap-source.yaml"))
+      package_path = record.is_a?(Hash) && record["package_path"]
+      fail!("consumer Dora package path is invalid") unless safe_relative_path?(package_path)
+      package = File.join(root, package_path)
+      FileUtils.rm_rf(package)
+      FileUtils.mkdir_p(package)
+      FileUtils.cp_r(File.join(source, "."), package)
+      {"kind" => "dora_project_upgrade_rollback", "version" => 1, "rolled_back" => true, "backup" => backup, "restored_package" => package_path, "completion_boundary" => "Rollback restores only the recorded local Dora package and does not prove consumer compatibility or release readiness."}.freeze
+    rescue Psych::Exception => error
+      fail!("upgrade rollback YAML is invalid: #{error.message}")
+    end
     def self.preview!(project_root:, source_descriptor_path:)
       root = File.expand_path(project_root)
       record_path = File.join(root, ".dora/bootstrap-source.yaml")

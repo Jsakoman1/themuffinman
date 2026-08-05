@@ -1,0 +1,21 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v11-foundation-and-self-contained
+title: Make Dora project creation locally usable and explicitly sourced
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+status: draft
+outcomes:
+  - A supported `dora new` route creates a usable local launcher and verified local Dora package or refuses with a precise remediation.
+  - One explicit source descriptor records immutable ref, checksum, package path, and creation provenance.
+  - An explicit Git baseline readiness path reports or performs only approved local initialization.
+  - The completed v1.0 backlog item is closed without removing its historical release evidence.
+decisions_required:
+  - Whether `dora new` requires a reviewed source descriptor or permits a local package copy with generated provenance.
+  - Whether Git initialization remains separate, or is offered through an explicit `--init-git` approval flag.
+evidence_needed:
+  - fresh local-launcher consumer proof
+  - invalid source and missing-package rejection proof
+  - no-product-implementation boundary proof
+boundaries:
+  - Do not download source or initialize Git implicitly.
+  - Do not infer a stack, architecture, domain, or product behavior.

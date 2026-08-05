@@ -1,0 +1,58 @@
+kind: work
+version: 1
+id: dora-v11-release
+title: Publish and pin Dora v1.1 only after explicit approval
+status: active
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+tasks:
+- id: publish-dora-v11
+  inventory_item: v11-release
+  title: Publish immutable Dora v1.1 release
+  type: implementation
+  observable_outcome: Dora v1.1 is published as a reachable immutable tag only after
+    full proof and explicit approval
+  dependencies:
+  - v11-upgrade-evidence
+  evidence_boundary:
+  - reachable release tag and published handoff
+  requires_external_approval: true
+  paths:
+  - docs/dora-release-handoff-v11.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  required_paths:
+  - docs/dora-release-handoff-v11.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v11.yaml --expected-version v1.1.0
+  status: in_progress
+  started_at: '2026-08-05T16:52:49Z'
+  start_fingerprints:
+    docs/dora-release-handoff-v11.yaml: __missing__
+    docs/dora-extraction-manifest.yaml: 0e989d88bb1c31f3d53a372fff9fa97c0b3a6d97e31743663c232f8f7af750cc
+    scripts/audits/audit-dora-extraction-manifest.rb: de8188f4f8b1f23a7d68a9b745049086f5495f7c8659c2f4274228240878b175
+- id: pin-muffinman-v11
+  inventory_item: v11-pin
+  title: Pin MuffinMan to reviewed Dora v1.1
+  type: implementation
+  observable_outcome: MuffinMan records only the reachable reviewed v1.1 immutable
+    Dora commit
+  dependencies:
+  - v11-release
+  evidence_boundary:
+  - pinned handoff and compatibility audit
+  requires_external_approval: true
+  paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v11.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v11.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb

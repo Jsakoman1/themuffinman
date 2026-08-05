@@ -1,0 +1,96 @@
+kind: master
+version: 1
+id: dora-v11-codex-first-ergonomics-master
+title: Make Dora a low-friction, self-contained operating system for Codex-first delivery
+status: draft
+implementation_ready: true
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+target_release: v1.1.0
+objective: >-
+  Turn Dora v1.0's verified control mechanics into a self-contained, machine-readable,
+  low-friction Codex workflow while preserving explicit product ownership and approval gates.
+analysis_source: docs/work/dora-v11-codex-first-ergonomics-analysis.md
+preflight_source: docs/work/dora-v11-codex-first-ergonomics-preflight.md
+goal_readiness_source: docs/work/dora-v11-codex-first-ergonomics-goal-readiness.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/dora-v10-one-click-agent-operating-system-master.yaml
+    - docs/dora-release-handoff-v10.yaml
+  baseline_only_surfaces:
+    - v1.0 explicit intake, atomic work verification, agent context, next action, status,
+      findings, impact, source verification, upgrade preview, independent consumers, and release pin.
+  residual_scope:
+    - self-contained one-command project creation with immutable local Dora source evidence
+    - one bounded Codex agent-session payload and stable public command envelopes
+    - memory drift detection, cache correctness, approval records, and safe lifecycle apply
+    - trusted-plugin boundaries, capability traceability, optional coordination, and opt-in Codex integration
+  retest_triggers:
+    - changed project creation, bootstrap, launcher, source descriptor, or package-copy behavior
+    - changed agent context, status, command registry, output envelope, memory, or work contract
+    - changed plugin cache key, plugin execution policy, source upgrade, or approval behavior
+    - changed capability trace, coordination lease, Codex integration, or release distribution contract
+  non_duplication_rule: >-
+    v1.0 evidence proves the existing control mechanics. v1.1 counts only new independent
+    proof of self-contained creation, Codex ergonomics, correctness, and explicitly selected extensions.
+principles:
+  - Dora consumes declared inputs and proposes deterministic guidance; it never invents product behavior.
+  - Every Codex-facing response has a documented machine-readable contract, citations, omission boundary, and side-effect class.
+  - A newly created project is usable through its documented local launcher without an undeclared parent package.
+  - Cache output is valid only for the exact source roots, plugin entrypoint, declared inputs, and Dora implementation identity.
+  - Memory and decision records expose drift and unresolved state; they never silently resolve product meaning.
+  - External, destructive, and upgrade-apply operations require explicit project-owned approval records and rollback data.
+  - Optional coordination and Codex integration never overwrite user-owned configuration and require independent consumer proof.
+workstreams:
+  - docs/work/dora-v11-foundation-and-self-contained-scope.yaml
+  - docs/work/dora-v11-agent-cockpit-and-contract-scope.yaml
+  - docs/work/dora-v11-knowledge-cache-and-approval-scope.yaml
+  - docs/work/dora-v11-lifecycle-and-plugin-safety-scope.yaml
+  - docs/work/dora-v11-traceability-and-coordination-scope.yaml
+  - docs/work/dora-v11-pre-release-evidence.yaml
+  - docs/work/dora-v11-release-scope.yaml
+children:
+  - docs/work/dora-v11-atomic-hardening.yaml
+  - docs/work/dora-v11-foundation-and-self-contained.yaml
+  - docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  - docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  - docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  - docs/work/dora-v11-traceability-and-coordination.yaml
+  - docs/work/dora-v11-pre-release-evidence.yaml
+  - docs/work/dora-v11-release.yaml
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v11-atomic-hardening.yaml
+strict_verification: true
+serial_task_execution: true
+hardening_review:
+  verifier: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v11-codex-first-ergonomics-master.yaml docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  agent_boundary: Commands use declared project knowledge and explicit records only; they never infer product meaning or completion.
+  evidence_boundary: Cache, trace, coordination, and session output remain advisory until project verification records evidence.
+  lifecycle_boundary: Apply, publication, and pinning are local or external mutations only behind scoped approval records and explicit user approval.
+  review_state: Active hardening task will record leaf-audit evidence before v1.1 implementation begins.
+required_before_goal_pursuit:
+  - Record an architecture decision for self-contained `dora new` versus explicit source descriptor input.
+  - Define public JSON/YAML envelope, error, remediation, citation, and side-effect contracts before command changes.
+  - Define cache implementation identity and backward-compatibility invalidation behavior before touching PluginRunner.
+  - Define memory refresh as proposal or explicit apply; it must not overwrite product-owned knowledge silently.
+  - Define approval artifact ownership, expiration, scope, and audit behavior before an apply command exists.
+  - Define plugin trust classes and platform-safe timeout behavior before process-policy implementation.
+  - Obtain two non-MuffinMan consumer fixtures before capability trace, coordination, or Codex integration can be promoted from experimental.
+  - Create a hardened atomic-task plan, one global serial execution inventory, exact paths, leaf validations, and evidence boundaries.
+success_criteria:
+  - A beginner or Codex can create a self-contained neutral project through one supported explicit route and run its local launcher.
+  - Codex can obtain one cited session payload that identifies safe next work, constraints, tools, evidence, and approval state without repository inference.
+  - Public commands offer stable machine-readable success and error envelopes without changing existing YAML consumers unexpectedly.
+  - Memory drift, plugin-entrypoint changes, and Dora implementation changes invalidate stale guidance or cache output deterministically.
+  - A source-pinned upgrade can be previewed and, only with an explicit approval record, applied with backup and rollback evidence.
+  - Plugin execution exposes declared trust and resource policy; unsupported guarantees remain explicit.
+  - Two independent consumer projects prove selected traceability, coordination, and Codex integration features without MuffinMan data.
+  - v1.1 is published and pinned only after all new contracts, consumer proofs, compatibility audits, and explicit approval pass.
+release_boundary:
+  - No `upgrade-apply`, source publication, tag, remote write, or consumer pin occurs without explicit user approval.
+  - v1.1 release may include only workstreams with verified independent consumer proof; experimental extensions remain unpinned.
+readiness:
+  execution_mode: strict_serial
+  atomic_inventory_items: 31
+  first_item: v11-harden
+  decision: Ready to create a goal and execute only atomic-task hardening; no v1.1 implementation may begin before its verifier evidence passes.

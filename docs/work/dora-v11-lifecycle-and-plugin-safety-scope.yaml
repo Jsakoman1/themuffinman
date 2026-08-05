@@ -1,0 +1,21 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v11-lifecycle-and-plugin-safety
+title: Apply reviewed Dora upgrades and plugins through explicit safety boundaries
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+status: draft
+outcomes:
+  - "upgrade-preview remains read-only and reports deterministic migration selections."
+  - "upgrade-apply requires verified source, explicit approval record, backup, selected migrations, post-check, and rollback record."
+  - Plugin manifests declare trust class, supported runtime, timeout, source boundaries, and unsupported guarantees.
+  - Dora fails closed when a requested resource or isolation guarantee cannot be provided on the local platform.
+decisions_required:
+  - Backup location, apply transaction boundary, and rollback command.
+  - Trust classes and platform portability of timeout/resource controls.
+evidence_needed:
+  - two-consumer approved apply and rollback fixture
+  - missing/expired approval rejection fixture
+  - plugin timeout and unsupported-policy rejection fixture
+boundaries:
+  - No network download, package replacement, or upgrade apply by default.
+  - Trusted local plugin execution is not represented as sandboxing unless independently enforced.

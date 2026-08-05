@@ -12,11 +12,15 @@ require File.join(ROOT, "lib/dora/work_execution")
 require File.join(ROOT, "lib/dora/project_initializer")
 require File.join(ROOT, "lib/dora/project_new")
 require File.join(ROOT, "lib/dora/project_memory")
+require File.join(ROOT, "lib/dora/project_readiness")
 require File.join(ROOT, "lib/dora/project_bootstrap")
 require File.join(ROOT, "lib/dora/project_upgrade")
+require File.join(ROOT, "lib/dora/capability_trace")
+require File.join(ROOT, "lib/dora/task_lease")
 require File.join(ROOT, "lib/dora/project_doctor")
 require File.join(ROOT, "lib/dora/project_knowledge")
 require File.join(ROOT, "lib/dora/agent_context")
+require File.join(ROOT, "lib/dora/agent_session")
 require File.join(ROOT, "lib/dora/agent_next")
 require File.join(ROOT, "lib/dora/agent_closeout")
 require File.join(ROOT, "lib/dora/project_status")
@@ -32,10 +36,31 @@ require File.join(ROOT, "lib/dora/atomic_plan_contract")
 require File.join(ROOT, "lib/dora/plan_coverage")
 require File.join(ROOT, "lib/dora/plugin_contract")
 require File.join(ROOT, "lib/dora/plugin_runner")
+require File.join(ROOT, "lib/dora/command_envelope")
+
+format_index = ARGV.index("--format")
+OUTPUT_FORMAT = if format_index
+  value = ARGV[format_index + 1]
+  ARGV.slice!(format_index, 2)
+  value
+end
 
 def fail!(message)
+  if defined?(OUTPUT_FORMAT) && %w[json yaml].include?(OUTPUT_FORMAT)
+    envelope = Dora::CommandEnvelope.error(message: message, remediation: "Use dora help for the declared command syntax.")
+    puts OUTPUT_FORMAT == "json" ? JSON.generate(envelope) : YAML.dump(envelope).sub(/\A---\n/, "")
+    exit 1
+  end
   warn "Dora adapter validation failed: #{message}"
   exit 1
+end
+
+def emit_envelope(payload, citations: [], side_effect: "read_only")
+  return unless OUTPUT_FORMAT
+  fail!("--format must be json or yaml") unless %w[json yaml].include?(OUTPUT_FORMAT)
+  envelope = Dora::CommandEnvelope.success(payload: payload, citations: citations, side_effect: side_effect)
+  puts OUTPUT_FORMAT == "json" ? JSON.generate(envelope) : YAML.dump(envelope).sub(/\A---\n/, "")
+  true
 end
 
 def validate_adapter(path)
@@ -99,8 +124,10 @@ end
 
 def create_project_from_answers(destination, answers_path)
   answers = Dora::ProjectNew.validate!(YAML.load_file(answers_path))
+  verified_source = Dora::BootstrapSource.validate!(answers.fetch("dora_source"))
+  source = answers.fetch("dora_source").merge("source" => verified_source)
   root = File.expand_path(destination)
-  Dora::ProjectInitializer.initialize!(root, project_id: answers.fetch("project_id"), manifest_path: File.join(ROOT, "templates/init-manifest.yaml"))
+  Dora::ProjectInitializer.initialize!(root, project_id: answers.fetch("project_id"), manifest_path: File.join(verified_source.fetch("path"), "templates/init-manifest.yaml"), dora_source: source)
   knowledge = answers.fetch("intake")
   write_yaml(File.join(root, "docs/product-brief.yaml"), knowledge.fetch("product_brief"))
   write_yaml(File.join(root, "docs/domain-library.yaml"), knowledge.fetch("domain_library"))
@@ -112,7 +139,7 @@ def create_project_from_answers(destination, answers_path)
   write_yaml(File.join(root, plan_path), plan)
   write_yaml(File.join(root, "docs/work/execution-inventory.yaml"), inventory)
   write_yaml(File.join(root, "docs/project-memory.yaml"), project_memory(knowledge, first_work, plan_path))
-  puts "Dora project created: #{root} (explicit knowledge and first work declaration; create a Git baseline before work-start)."
+  puts "Dora project created: #{root} (reviewed local Dora package, explicit knowledge, and first work declaration; create a Git baseline before work-start)."
 rescue ArgumentError, Psych::Exception => error
   fail!(error.message)
 end
@@ -157,6 +184,20 @@ rescue ArgumentError, Psych::Exception => error
   fail!(error.message)
 end
 
+def apply_project_upgrade(project_root, source_descriptor_path, approval_path)
+  approval = YAML.load_file(approval_path)
+  puts YAML.dump(Dora::ProjectUpgrade.apply!(project_root: project_root, source_descriptor_path: source_descriptor_path, approval: approval)).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def rollback_project_upgrade(project_root, backup, approval_path)
+  approval = YAML.load_file(approval_path)
+  puts YAML.dump(Dora::ProjectUpgrade.rollback!(project_root: project_root, backup: backup, approval: approval)).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
 def diagnose_project(adapter_path)
   control_schema = File.join(ROOT, "project-control.schema.yaml")
   report = Dora::ProjectDoctor.run(adapter_path, schema_path: SCHEMA_PATH, control_schema_path: control_schema)
@@ -164,6 +205,66 @@ def diagnose_project(adapter_path)
   return if report.fetch("healthy")
 
   exit 1
+end
+
+def show_project_readiness(project_root, initialize_git: false)
+  report = Dora::ProjectReadiness.report!(project_root: project_root, initialize_git: initialize_git)
+  return if emit_envelope(report, citations: [".dora/project.yaml"], side_effect: initialize_git ? "local_mutation" : "read_only")
+
+  puts YAML.dump(report).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def show_memory_refresh(project_root)
+  proposal = Dora::ProjectMemory.drift!(project_root: project_root)
+  proposal = proposal.merge("kind" => "dora_memory_refresh_proposal", "apply" => "not available; review and edit project-owned memory explicitly")
+  return if emit_envelope(proposal, citations: ["docs/project-memory.yaml", "docs/product-brief.yaml"])
+  puts YAML.dump(proposal).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_capability_trace(trace_path)
+  trace = Dora::CapabilityTrace.load!(trace_path, project_root: Dir.pwd)
+  citations = trace.fetch("capability").fetch("product_references") + trace.fetch("capability").fetch("domain_references") + [trace.fetch("work").fetch("plan")] + trace.fetch("implementation_references") + trace.fetch("validation_evidence").map { |entry| entry.fetch("path") } + trace.fetch("runtime_evidence").map { |entry| entry.fetch("path") }
+  payload = trace.merge("citations" => citations.uniq)
+  return if emit_envelope(payload, citations: citations.uniq)
+
+  puts YAML.dump(payload).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def lease_citation(path)
+  path.is_a?(String) && !path.start_with?("/") && !path.split("/").include?("..") ? [path] : []
+end
+
+def show_task_leases(path)
+  report = Dora::TaskLease.inspect!(path)
+  return if emit_envelope(report, citations: lease_citation(path))
+
+  puts YAML.dump(report).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def acquire_task_lease(path, work_plan, task, holder, expires_at)
+  report = Dora::TaskLease.acquire!(path: path, work_plan: work_plan, task: task, holder: holder, expires_at: expires_at)
+  return if emit_envelope(report, citations: lease_citation(path), side_effect: "local_mutation")
+
+  puts YAML.dump(report).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def handoff_task_lease(path, lease_id, holder, reason)
+  report = Dora::TaskLease.handoff!(path: path, lease_id: lease_id, to: holder, reason: reason)
+  return if emit_envelope(report, citations: lease_citation(path), side_effect: "local_mutation")
+
+  puts YAML.dump(report).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
 end
 
 def show_project_knowledge(adapter_path)
@@ -186,6 +287,15 @@ def show_agent_context(adapter_path, work_plan, task_id)
   adapter = YAML.load_file(adapter_path)
   root = File.expand_path(adapter.fetch("project").fetch("root"), File.dirname(File.expand_path(adapter_path)))
   puts YAML.dump(Dora::AgentContext.build!(project_root: root, work_plan: work_plan, task_id: task_id)).sub(/\A---\n/, "")
+rescue ArgumentError, KeyError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def show_agent_session(adapter_path, inventory_path, work_plan, task_id)
+  session = Dora::AgentSession.build!(adapter_path: adapter_path, inventory_path: inventory_path, work_plan: work_plan, task_id: task_id, adapter_schema_path: SCHEMA_PATH, control_schema_path: File.join(ROOT, "project-control.schema.yaml"))
+  return if emit_envelope(session, citations: session.fetch("citations").map { |citation| citation.fetch("path") })
+
+  puts YAML.dump(session).sub(/\A---\n/, "")
 rescue ArgumentError, KeyError, Psych::Exception => error
   fail!(error.message)
 end
@@ -219,6 +329,9 @@ rescue ArgumentError, Psych::Exception => error
 end
 
 def show_help(adapter_path = nil)
+  registry = Dora::CommandRegistry.list(adapter_path: adapter_path, schema_path: SCHEMA_PATH)
+  return if emit_envelope(registry, citations: ["command-envelope.schema.yaml"])
+
   puts Dora::CommandRegistry.render(adapter_path: adapter_path, schema_path: SCHEMA_PATH)
 rescue ArgumentError => error
   fail!(error.message)
@@ -279,6 +392,7 @@ rescue ArgumentError => error
 end
 
 command = ARGV.shift
+fail!("--format must be json or yaml") if OUTPUT_FORMAT && !%w[json yaml].include?(OUTPUT_FORMAT)
 case command
 when "validate-adapter"
   fail!("usage: dora validate-adapter <adapter-path>") unless ARGV.length == 1
@@ -342,6 +456,18 @@ when "upgrade-preview"
   source_descriptor_path = source_option ? ARGV[source_option + 1] : nil
   fail!("usage: dora upgrade-preview <consumer-root> --source <bootstrap-source.yaml>") unless project_root && source_option == 0 && ARGV.length == 2 && source_descriptor_path
   preview_project_upgrade(project_root, source_descriptor_path)
+when "upgrade-apply"
+  project_root = ARGV.shift
+  source_option = ARGV.index("--source"); approval_option = ARGV.index("--approval")
+  source = source_option && ARGV[source_option + 1]; approval = approval_option && ARGV[approval_option + 1]
+  fail!("usage: dora upgrade-apply <consumer-root> --source <bootstrap-source.yaml> --approval <approval-record.yaml>") unless project_root && source && approval
+  apply_project_upgrade(project_root, source, approval)
+when "upgrade-rollback"
+  project_root = ARGV.shift
+  backup_option = ARGV.index("--backup"); approval_option = ARGV.index("--approval")
+  backup = backup_option && ARGV[backup_option + 1]; approval = approval_option && ARGV[approval_option + 1]
+  fail!("usage: dora upgrade-rollback <consumer-root> --backup <recorded-backup-path> --approval <approval-record.yaml>") unless project_root && backup && approval
+  rollback_project_upgrade(project_root, backup, approval)
 when "configure"
   adapter_path = ARGV.shift
   control_option = ARGV.index("--control")
@@ -371,6 +497,37 @@ when "help"
 when "doctor"
   fail!("usage: dora doctor <adapter-path>") unless ARGV.length == 1
   diagnose_project(ARGV.first)
+when "readiness"
+  project_root = ARGV.shift
+  initialize_git = ARGV.delete("--initialize-git")
+  fail!("usage: dora readiness <project-root> [--initialize-git]") unless project_root && ARGV.empty?
+  show_project_readiness(project_root, initialize_git: !initialize_git.nil?)
+when "memory-refresh"
+  fail!("usage: dora memory-refresh <project-root> [--format json|yaml]") unless ARGV.length == 1
+  show_memory_refresh(ARGV.first)
+when "capability-trace"
+  fail!("usage: dora capability-trace <trace-path> [--format json|yaml]") unless ARGV.length == 1
+  show_capability_trace(ARGV.first)
+when "lease-inspect"
+  fail!("usage: dora lease-inspect <lease-registry-path> [--format json|yaml]") unless ARGV.length == 1
+  show_task_leases(ARGV.first)
+when "lease-acquire"
+  registry_path = ARGV.shift
+  work_plan = ARGV.shift
+  task = ARGV.shift
+  holder = ARGV.shift
+  expires_option = ARGV.index("--expires-at")
+  expires_at = expires_option && ARGV[expires_option + 1]
+  fail!("usage: dora lease-acquire <lease-registry-path> <work-plan> <task> <holder> --expires-at <ISO-8601>") unless registry_path && work_plan && task && holder && expires_option == 0 && ARGV.length == 2 && expires_at
+  acquire_task_lease(registry_path, work_plan, task, holder, expires_at)
+when "lease-handoff"
+  registry_path = ARGV.shift
+  lease_id = ARGV.shift
+  holder = ARGV.shift
+  reason_option = ARGV.index("--reason")
+  reason = reason_option && ARGV[reason_option + 1]
+  fail!("usage: dora lease-handoff <lease-registry-path> <lease-id> <holder> --reason <reason>") unless registry_path && lease_id && holder && reason_option == 0 && ARGV.length == 2 && reason
+  handoff_task_lease(registry_path, lease_id, holder, reason)
 when "knowledge"
   fail!("usage: dora knowledge <adapter-path>") unless ARGV.length == 1
   show_project_knowledge(ARGV.first)
@@ -380,6 +537,9 @@ when "agent-next"
 when "agent-context"
   fail!("usage: dora agent-context <adapter-path> <work-plan-path> <task-id>") unless ARGV.length == 3
   show_agent_context(ARGV[0], ARGV[1], ARGV[2])
+when "agent-session"
+  fail!("usage: dora agent-session <adapter-path> <execution-inventory-path> <work-plan-path> <task-id> [--format json|yaml]") unless ARGV.length == 4
+  show_agent_session(ARGV[0], ARGV[1], ARGV[2], ARGV[3])
 when "agent-closeout"
   adapter_path = ARGV.shift
   work_plan = ARGV.shift

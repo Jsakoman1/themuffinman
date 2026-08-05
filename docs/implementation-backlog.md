@@ -6,7 +6,7 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
-- DORA-V10-ONE-CLICK-AGENT-OPERATING-SYSTEM-001: turn Dora v0.9's verified but separate agent, intake, evidence, cache, and release capabilities into one discoverable Codex-first project workflow. Prioritize a no-invention `dora new` path, a complete public agent command surface, a unified evidence pipeline, reviewed release-source upgrade flow, and independent consumer proof. Plan: `docs/work/dora-v10-one-click-agent-operating-system-master.yaml`.
+- DORA-V11-CODEX-FIRST-ERGONOMICS-001: make Dora v1.0 self-contained and low-friction for Codex-first delivery. Prioritize a usable local launcher from `dora new`, cache identity correctness, memory drift, one bounded agent session, stable machine command contracts, approval records, safe upgrade apply, plugin policy, and independently proven optional traceability, coordination, and Codex integration. Plan: `docs/work/dora-v11-codex-first-ergonomics-master.yaml`.
 
 - UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,

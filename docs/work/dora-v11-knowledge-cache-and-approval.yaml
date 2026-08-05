@@ -1,0 +1,231 @@
+kind: work
+version: 1
+id: dora-v11-knowledge-cache-and-approval
+title: Keep guidance current and approvals explicit
+status: verified
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+tasks:
+- id: add-memory-drift-contract
+  inventory_item: v11-memory-drift
+  title: Detect declared project memory drift
+  type: implementation
+  observable_outcome: Dora reports differences between memory knowledge decisions
+    capability intent and work without overwriting them
+  dependencies:
+  - v11-cockpit-consumer
+  evidence_boundary:
+  - stale-memory no-overwrite fixture
+  paths:
+  - dora/project-memory.schema.yaml
+  - dora/lib/dora/project_memory.rb
+  - dora/test/project_memory_drift_test.rb
+  required_paths:
+  - dora/project-memory.schema.yaml
+  - dora/lib/dora/project_memory.rb
+  - dora/test/project_memory_drift_test.rb
+  validation: ruby dora/test/project_memory_drift_test.rb
+  status: done
+  started_at: '2026-08-05T16:20:47Z'
+  start_fingerprints:
+    dora/project-memory.schema.yaml: 708cc4f30bb77dd511567f843170aed01eab4a5fabf94a6b4337f57db4abcf88
+    dora/lib/dora/project_memory.rb: 88409b52da88ee2c6289b1d5733f94d770408dc310c5fe838ea6c562b997cfa3
+    dora/test/project_memory_drift_test.rb: __missing__
+- id: expose-memory-refresh-proposal
+  inventory_item: v11-memory-refresh
+  title: Expose reviewable memory refresh proposal
+  type: implementation
+  observable_outcome: Dora emits a non-mutating memory refresh proposal through a
+    documented command
+  dependencies:
+  - v11-memory-drift
+  evidence_boundary:
+  - memory proposal CLI fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_memory_refresh_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_memory_refresh_command_test.rb
+  validation: ruby dora/test/project_memory_refresh_command_test.rb
+  status: done
+  started_at: '2026-08-05T16:21:31Z'
+  start_fingerprints:
+    dora/bin/dora: 1a096e6ac9801a40b1a6db31c869497aa331c9ed751d3fb6e4392638a01ca3aa
+    dora/lib/dora/command_registry.rb: e92e26ca7df07d4e7bf30e74fd9f5cb95fbc44b485f25bdffa5a18f4f8aa400e
+    dora/test/project_memory_refresh_command_test.rb: __missing__
+- id: correct-plugin-cache-identity
+  inventory_item: v11-cache-identity
+  title: Include plugin and Dora identity in cache key
+  type: implementation
+  observable_outcome: Cache misses deterministically when custom entrypoint or Dora
+    implementation identity changes
+  dependencies:
+  - v11-memory-refresh
+  evidence_boundary:
+  - entrypoint and Dora identity invalidation fixture
+  paths:
+  - dora/lib/dora/analysis_cache.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_cache_identity_test.rb
+  required_paths:
+  - dora/lib/dora/analysis_cache.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_cache_identity_test.rb
+  validation: ruby dora/test/plugin_cache_identity_test.rb
+  status: done
+  started_at: '2026-08-05T16:22:09Z'
+  start_fingerprints:
+    dora/lib/dora/analysis_cache.rb: 7d6cb7e4bf2ed4472a78e651647e410b223744c1bf6aeabd89409ee13929a736
+    dora/lib/dora/plugin_runner.rb: 58fad828b983ab504ecaab72495450e93d99e9a23eaecca02469a43785faff84
+    dora/test/plugin_cache_identity_test.rb: __missing__
+- id: add-approval-record-contract
+  inventory_item: v11-approval-contract
+  title: Define scoped approval records
+  type: implementation
+  observable_outcome: Dora validates operation-specific approval records with actor
+    scope expiry evidence and rollback requirements
+  dependencies:
+  - v11-cache-identity
+  evidence_boundary:
+  - valid expired and scope-mismatch approval fixtures
+  paths:
+  - dora/approval-record.schema.yaml
+  - dora/lib/dora/approval_record.rb
+  - dora/test/approval_record_test.rb
+  required_paths:
+  - dora/approval-record.schema.yaml
+  - dora/lib/dora/approval_record.rb
+  - dora/test/approval_record_test.rb
+  validation: ruby dora/test/approval_record_test.rb
+  status: done
+  started_at: '2026-08-05T16:23:35Z'
+  start_fingerprints:
+    dora/approval-record.schema.yaml: __missing__
+    dora/lib/dora/approval_record.rb: __missing__
+    dora/test/approval_record_test.rb: __missing__
+- id: prove-guidance-correctness-consumer
+  inventory_item: v11-guidance-consumer
+  title: Prove memory cache and approval boundaries
+  type: implementation
+  observable_outcome: An independent project proves drift cache invalidation and approval
+    rejection without completion inference
+  dependencies:
+  - v11-approval-contract
+  evidence_boundary:
+  - independent guidance correctness consumer
+  paths:
+  - dora/test/independent_guidance_correctness_consumer_test.rb
+  - dora/test/fixtures/guidance-correctness-project.yaml
+  required_paths:
+  - dora/test/independent_guidance_correctness_consumer_test.rb
+  - dora/test/fixtures/guidance-correctness-project.yaml
+  validation: ruby dora/test/independent_guidance_correctness_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:24:50Z'
+  start_fingerprints:
+    dora/test/independent_guidance_correctness_consumer_test.rb: __missing__
+    dora/test/fixtures/guidance-correctness-project.yaml: __missing__
+evidence:
+- task: add-memory-drift-contract
+  command: ruby dora/test/project_memory_drift_test.rb
+  ranAt: '2026-08-05T16:21:20Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_memory.rb
+  - dora/project-memory.schema.yaml
+  - dora/test/project_memory_drift_test.rb
+  output: "Dora project memory drift test passed (stale memory is reported without
+    overwrite).\n\n"
+  requiredPaths: &1
+  - dora/project-memory.schema.yaml
+  - dora/lib/dora/project_memory.rb
+  - dora/test/project_memory_drift_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:20:47Z'
+  changedAfterStart: *1
+- task: expose-memory-refresh-proposal
+  command: ruby dora/test/project_memory_refresh_command_test.rb
+  ranAt: '2026-08-05T16:21:56Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_memory_refresh_command_test.rb
+  output: "Dora memory refresh command test passed (reviewable proposal without memory
+    mutation).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_memory_refresh_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:21:31Z'
+  changedAfterStart: *2
+- task: correct-plugin-cache-identity
+  command: ruby dora/test/plugin_cache_identity_test.rb
+  ranAt: '2026-08-05T16:23:27Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/analysis_cache.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_cache_identity_test.rb
+  output: "Dora plugin cache identity test passed (entrypoint and Dora runner identities
+    invalidate stale cache).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/analysis_cache.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_cache_identity_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:22:09Z'
+  changedAfterStart: *3
+- task: add-approval-record-contract
+  command: ruby dora/test/approval_record_test.rb
+  ranAt: '2026-08-05T16:24:38Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/approval-record.schema.yaml
+  - dora/lib/dora/approval_record.rb
+  - dora/test/approval_record_test.rb
+  output: "Dora approval record test passed.\n\n"
+  requiredPaths: &4
+  - dora/approval-record.schema.yaml
+  - dora/lib/dora/approval_record.rb
+  - dora/test/approval_record_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:23:35Z'
+  changedAfterStart: *4
+- task: prove-guidance-correctness-consumer
+  command: ruby dora/test/independent_guidance_correctness_consumer_test.rb
+  ranAt: '2026-08-05T16:25:05Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/guidance-correctness-project.yaml
+  - dora/test/independent_guidance_correctness_consumer_test.rb
+  output: "Dora independent guidance correctness consumer test passed (expired approval
+    is rejected without completion inference).\n\n"
+  requiredPaths: &5
+  - dora/test/independent_guidance_correctness_consumer_test.rb
+  - dora/test/fixtures/guidance-correctness-project.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:24:50Z'
+  changedAfterStart: *5

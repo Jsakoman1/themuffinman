@@ -1,0 +1,273 @@
+kind: work
+version: 1
+id: dora-v11-lifecycle-and-plugin-safety
+title: Apply approved upgrades and plugins through explicit safety boundaries
+status: verified
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+tasks:
+- id: add-upgrade-apply-transaction
+  inventory_item: v11-upgrade-transaction
+  title: Define approved upgrade transaction
+  type: implementation
+  observable_outcome: Project upgrade apply verifies source approval backup selection
+    and rollback before changing a consumer
+  dependencies:
+  - v11-guidance-consumer
+  evidence_boundary:
+  - transaction and rejected-approval fixtures
+  paths:
+  - dora/lib/dora/project_upgrade.rb
+  - dora/lib/dora/approval_record.rb
+  - dora/test/project_upgrade_apply_test.rb
+  required_paths:
+  - dora/lib/dora/project_upgrade.rb
+  - dora/lib/dora/approval_record.rb
+  - dora/test/project_upgrade_apply_test.rb
+  validation: ruby dora/test/project_upgrade_apply_test.rb
+  status: done
+  started_at: '2026-08-05T16:25:14Z'
+  start_fingerprints:
+    dora/lib/dora/project_upgrade.rb: 4e01fc61f0853484306695c2893d55d0c93b78b980a78a4ab1e139b37c1cf808
+    dora/lib/dora/approval_record.rb: 0a92602ed267d9b2c1fa3a2091ae34e2707d257f1f04c86cbc1baa8a6132f449
+    dora/test/project_upgrade_apply_test.rb: __missing__
+- id: expose-upgrade-apply-command
+  inventory_item: v11-upgrade-command
+  title: Expose explicit upgrade apply command
+  type: implementation
+  observable_outcome: Dora applies only selected preview migrations with an explicit
+    approval record and emits rollback evidence
+  dependencies:
+  - v11-upgrade-transaction
+  evidence_boundary:
+  - approved upgrade apply CLI fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_upgrade_apply_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_upgrade_apply_command_test.rb
+  validation: ruby dora/test/project_upgrade_apply_command_test.rb
+  status: done
+  started_at: '2026-08-05T16:28:43Z'
+  start_fingerprints:
+    dora/bin/dora: 4413b431abe6472e02c3519f868a8bcd0e46cced9bd58add78e37641b6d53e75
+    dora/lib/dora/command_registry.rb: 7ff665cd05102f5305f7d94fdef8aa75e1877fca485d288b7594cdeaa82b6011
+    dora/test/project_upgrade_apply_command_test.rb: __missing__
+- id: prove-upgrade-lifecycle-consumer
+  inventory_item: v11-upgrade-consumer
+  title: Prove upgrade apply and rollback consumer
+  type: implementation
+  observable_outcome: Two consumers apply only approved migrations and restore their
+    recorded backup without MuffinMan data
+  dependencies:
+  - v11-upgrade-command
+  evidence_boundary:
+  - two-consumer upgrade and rollback fixture
+  paths:
+  - dora/test/independent_upgrade_apply_consumer_test.rb
+  - dora/test/fixtures/upgrade-apply-consumers.yaml
+  required_paths:
+  - dora/test/independent_upgrade_apply_consumer_test.rb
+  - dora/test/fixtures/upgrade-apply-consumers.yaml
+  validation: ruby dora/test/independent_upgrade_apply_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:29:11Z'
+  start_fingerprints:
+    dora/test/independent_upgrade_apply_consumer_test.rb: __missing__
+    dora/test/fixtures/upgrade-apply-consumers.yaml: __missing__
+- id: add-plugin-policy-contract
+  inventory_item: v11-plugin-policy
+  title: Define plugin trust and timeout policy
+  type: implementation
+  observable_outcome: Plugin manifests declare trusted execution class supported runtime
+    timeout and explicit unsupported guarantees
+  dependencies:
+  - v11-upgrade-consumer
+  evidence_boundary:
+  - valid and unsupported plugin-policy fixtures
+  paths:
+  - dora/plugin.schema.yaml
+  - dora/lib/dora/plugin_contract.rb
+  - dora/test/plugin_policy_contract_test.rb
+  required_paths:
+  - dora/plugin.schema.yaml
+  - dora/lib/dora/plugin_contract.rb
+  - dora/test/plugin_policy_contract_test.rb
+  validation: ruby dora/test/plugin_policy_contract_test.rb
+  status: done
+  started_at: '2026-08-05T16:30:51Z'
+  start_fingerprints:
+    dora/plugin.schema.yaml: 2e074ff9011b047995a4a6583ec1e83fb170005798cf4b0b435afead0307402c
+    dora/lib/dora/plugin_contract.rb: 4eae9cbd807d57b6c3a12e3fce1e44584e916cca4e2f00e4501142c90b6caef8
+    dora/test/plugin_policy_contract_test.rb: __missing__
+- id: enforce-plugin-policy
+  inventory_item: v11-plugin-policy-runner
+  title: Enforce declared plugin policy
+  type: implementation
+  observable_outcome: Plugin execution honors supported timeout policy and fails closed
+    for unsupported isolation guarantees
+  dependencies:
+  - v11-plugin-policy
+  evidence_boundary:
+  - timeout and unsupported-policy runner fixture
+  paths:
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/test/plugin_policy_runner_test.rb
+  required_paths:
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/test/plugin_policy_runner_test.rb
+  validation: ruby dora/test/plugin_policy_runner_test.rb
+  status: done
+  started_at: '2026-08-05T16:32:17Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_runner.rb: 2b5526b7b8cd1bfbe1e4f282432116205a23f27fdd73346dd4fbf365b5ca3cd8
+    dora/lib/dora/plugin_report.rb: 0d1a948c8bc512e85c9172b02225b7069647b2377a389a39ce956cd1f5622ac2
+    dora/test/plugin_policy_runner_test.rb: __missing__
+- id: prove-plugin-safety-consumer
+  inventory_item: v11-plugin-safety-consumer
+  title: Prove declared plugin safety boundary
+  type: implementation
+  observable_outcome: Two independent projects expose trusted policy timeout behavior
+    and no false sandbox claim
+  dependencies:
+  - v11-plugin-policy-runner
+  evidence_boundary:
+  - two-project plugin safety consumer
+  paths:
+  - dora/test/independent_plugin_safety_consumer_test.rb
+  - dora/test/fixtures/plugin-safety-consumers.yaml
+  required_paths:
+  - dora/test/independent_plugin_safety_consumer_test.rb
+  - dora/test/fixtures/plugin-safety-consumers.yaml
+  validation: ruby dora/test/independent_plugin_safety_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:35:12Z'
+  start_fingerprints:
+    dora/test/independent_plugin_safety_consumer_test.rb: __missing__
+    dora/test/fixtures/plugin-safety-consumers.yaml: __missing__
+evidence:
+- task: add-upgrade-apply-transaction
+  command: ruby dora/test/project_upgrade_apply_test.rb
+  ranAt: '2026-08-05T16:28:34Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/project_upgrade.rb
+  - dora/lib/dora/approval_record.rb
+  - dora/test/project_upgrade_apply_test.rb
+  output: "Dora project upgrade apply test passed.\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/project_upgrade.rb
+  - dora/lib/dora/approval_record.rb
+  - dora/test/project_upgrade_apply_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:25:14Z'
+  changedAfterStart: *1
+- task: expose-upgrade-apply-command
+  command: ruby dora/test/project_upgrade_apply_command_test.rb
+  ranAt: '2026-08-05T16:29:02Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_upgrade_apply_command_test.rb
+  output: |+
+    Dora project upgrade apply test passed.
+    Dora project upgrade apply command test passed (transaction contract is callable through Dora CLI).
+
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/project_upgrade_apply_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:28:43Z'
+  changedAfterStart: *2
+- task: prove-upgrade-lifecycle-consumer
+  command: ruby dora/test/independent_upgrade_apply_consumer_test.rb
+  ranAt: '2026-08-05T16:29:24Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/upgrade-apply-consumers.yaml
+  - dora/test/independent_upgrade_apply_consumer_test.rb
+  output: "Dora independent upgrade apply consumer test passed (two declared consumers
+    retain explicit upgrade and rollback boundaries).\n\n"
+  requiredPaths: &3
+  - dora/test/independent_upgrade_apply_consumer_test.rb
+  - dora/test/fixtures/upgrade-apply-consumers.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:29:11Z'
+  changedAfterStart: *3
+- task: add-plugin-policy-contract
+  command: ruby dora/test/plugin_policy_contract_test.rb
+  ranAt: '2026-08-05T16:32:11Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugin_contract.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_policy_contract_test.rb
+  output: "Dora plugin policy contract test passed (versioned trust, timeout, and
+    no-sandbox limits are explicit).\n\n"
+  requiredPaths: &4
+  - dora/plugin.schema.yaml
+  - dora/lib/dora/plugin_contract.rb
+  - dora/test/plugin_policy_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:30:51Z'
+  changedAfterStart: *4
+- task: enforce-plugin-policy
+  command: ruby dora/test/plugin_policy_runner_test.rb
+  ranAt: '2026-08-05T16:35:02Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugin_report.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/test/plugin_policy_runner_test.rb
+  output: "Dora plugin policy runner test passed (declared timeout is enforced and
+    unsupported sandbox claims fail closed).\n\n"
+  requiredPaths: &5
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/test/plugin_policy_runner_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:32:17Z'
+  changedAfterStart: *5
+- task: prove-plugin-safety-consumer
+  command: ruby dora/test/independent_plugin_safety_consumer_test.rb
+  ranAt: '2026-08-05T16:35:50Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/plugin-safety-consumers.yaml
+  - dora/test/independent_plugin_safety_consumer_test.rb
+  output: "Dora independent plugin safety consumer test passed (two standalone consumers
+    prove trusted timeout enforcement and no sandbox claim).\n\n"
+  requiredPaths: &6
+  - dora/test/independent_plugin_safety_consumer_test.rb
+  - dora/test/fixtures/plugin-safety-consumers.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:35:12Z'
+  changedAfterStart: *6

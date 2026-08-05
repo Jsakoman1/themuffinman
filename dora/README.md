@@ -12,9 +12,11 @@ verification, documentation contracts, and controlled project extensions.
 ## Start a new project
 
 For a new product, complete `templates/project-new.yaml` with the product brief,
-domain library, agent profile, and first bounded work item. Then use the one public
-entrypoint. Dora writes only neutral control artifacts, declared knowledge, project
-memory, and the first work declaration; it does not invent product behavior or code.
+domain library, agent profile, reviewed local Dora source, and first bounded work
+item. Then use the one public entrypoint. Dora copies the checksum-verified local
+package into the project and writes only neutral control artifacts, declared
+knowledge, project memory, and the first work declaration; it does not invent product
+behavior or code.
 
 ```text
 /absolute/path/to/dora/bin/dora new my-app --answers project-new.yaml
@@ -23,6 +25,11 @@ memory, and the first work declaration; it does not invent product behavior or c
 For a project-local Dora package, reviewed immutable source, technical starter, or
 CI pack, use `dora bootstrap`. Dora never downloads code during bootstrap. The
 complete beginner path is in [`docs/new-project.md`](docs/new-project.md).
+
+Before starting controlled work, inspect baseline readiness with
+`dora readiness <project-root>`. It never changes Git by default. Use
+`--initialize-git` only when you explicitly want Dora to create the local initial
+commit for a new project.
 
 It owns reusable protocols and command mechanics. A consuming project owns its
 domain behavior, source code, tests, runtime evidence, documentation, and

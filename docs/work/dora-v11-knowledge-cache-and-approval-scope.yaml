@@ -1,0 +1,22 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v11-knowledge-cache-and-approval
+title: Keep Codex guidance current, traceable, and explicitly authorized
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+status: draft
+outcomes:
+  - Dora reports memory drift between declared knowledge, decisions, capability intent, and work state.
+  - Refresh produces a reviewable proposal; apply requires explicit project-owned confirmation.
+  - Plugin cache fingerprints include source content, entrypoint content, declared inputs, and Dora implementation identity.
+  - Approval records declare actor, scope, operation, expiry, evidence, and rollback requirement.
+decisions_required:
+  - Memory refresh ownership and conflict resolution.
+  - Cache identity source and invalidation compatibility policy.
+  - Approval schema, expiry, and revocation semantics.
+evidence_needed:
+  - stale memory detection and no-overwrite fixture
+  - changed custom plugin and Dora identity cache invalidation fixture
+  - expired and out-of-scope approval rejection fixture
+boundaries:
+  - Dora cannot infer approval from a comment, commit message, or previous unrelated approval.
+  - Cache hits remain diagnostic and never prove product behavior or release readiness.

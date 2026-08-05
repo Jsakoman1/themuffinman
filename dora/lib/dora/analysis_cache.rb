@@ -6,7 +6,7 @@ require "json"
 
 module Dora
   class AnalysisCache
-    def self.fetch!(cache_root:, key:, input:, version: 1)
+    def self.fetch!(cache_root:, key:, input:, version: 2)
       fail!("cache key is invalid") unless key.is_a?(String) && key.match?(/\A[a-z][a-z0-9_-]*\z/)
       fail!("cache version is invalid") unless version.is_a?(Integer) && version.positive?
       digest = Digest::SHA256.hexdigest(JSON.generate(canonical(input)))

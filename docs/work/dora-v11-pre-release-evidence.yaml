@@ -1,0 +1,119 @@
+kind: work
+version: 1
+id: dora-v11-pre-release-evidence
+title: Strengthen pre-release evidence where prior fixtures were too indirect
+status: verified
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+tasks:
+- id: strengthen-approval-boundary-proof
+  inventory_item: v11-approval-evidence
+  title: Prove approval scope and expiry rejection
+  type: implementation
+  observable_outcome: Approval records reject an incorrect scope and invalid expiry
+    before any lifecycle operation can rely on them.
+  dependencies:
+  - v11-codex-pack-consumer
+  evidence_boundary:
+  - valid
+  - expired
+  - and scope-mismatch approval fixtures
+  paths:
+  - dora/test/approval_record_test.rb
+  - dora/test/independent_guidance_correctness_consumer_test.rb
+  required_paths:
+  - dora/test/approval_record_test.rb
+  - dora/test/independent_guidance_correctness_consumer_test.rb
+  validation: ruby dora/test/approval_record_test.rb && ruby dora/test/independent_guidance_correctness_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:47:17Z'
+  start_fingerprints:
+    dora/test/approval_record_test.rb: cb92eb455e9abb4bec6111813de3a502b9245bb8e1a9def3770672f33996498a
+    dora/test/independent_guidance_correctness_consumer_test.rb: 4d674c1f6d311d69920c71570398357c81e39c77b13c6663b9020a7919ff491f
+- id: strengthen-upgrade-lifecycle-proof
+  inventory_item: v11-upgrade-evidence
+  title: Prove actual upgrade CLI and rollback lifecycle
+  type: implementation
+  observable_outcome: Two independent consumers execute the Dora CLI upgrade only
+    with scoped approval, receive a backup, and can restore the recorded prior package.
+  dependencies:
+  - v11-approval-evidence
+  evidence_boundary:
+  - two-consumer CLI apply
+  - rejected approval
+  - backup
+  - and rollback fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/project_upgrade.rb
+  - dora/test/project_upgrade_apply_command_test.rb
+  - dora/test/independent_upgrade_apply_consumer_test.rb
+  - dora/test/fixtures/upgrade-apply-consumers.yaml
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/project_upgrade.rb
+  - dora/test/project_upgrade_apply_command_test.rb
+  - dora/test/independent_upgrade_apply_consumer_test.rb
+  - dora/test/fixtures/upgrade-apply-consumers.yaml
+  validation: ruby dora/test/project_upgrade_apply_command_test.rb && ruby dora/test/independent_upgrade_apply_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:47:52Z'
+  start_fingerprints:
+    dora/lib/dora/project_upgrade.rb: 154e0d8d30eb4953fb347da87488696e938cc024252a5e494ec0a5907564dad9
+    dora/test/project_upgrade_apply_command_test.rb: 93a488ae89153513ff47dc6af337e720a3d6652703d23bcfbed82c7d6c136915
+    dora/test/independent_upgrade_apply_consumer_test.rb: df6e6d8bcc844f72a87e0bc256b3d2f5acadca741b9b9c46e367377f977c46ff
+    dora/test/fixtures/upgrade-apply-consumers.yaml: 1d4d8597e062f29f88e6f2264854e40e4f4ab98ab502d84a437a390b5a2d8608
+evidence:
+- task: strengthen-approval-boundary-proof
+  command: ruby dora/test/approval_record_test.rb && ruby dora/test/independent_guidance_correctness_consumer_test.rb
+  ranAt: '2026-08-05T16:47:47Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/approval_record_test.rb
+  - dora/test/independent_guidance_correctness_consumer_test.rb
+  output: |+
+    Dora approval record test passed (valid, scope-mismatch, expired, and invalid-time records).
+    Dora independent guidance correctness consumer test passed (expired and wrongly scoped approvals are rejected without completion inference).
+
+  requiredPaths: &1
+  - dora/test/approval_record_test.rb
+  - dora/test/independent_guidance_correctness_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:47:17Z'
+  changedAfterStart: *1
+- task: strengthen-upgrade-lifecycle-proof
+  command: ruby dora/test/project_upgrade_apply_command_test.rb && ruby dora/test/independent_upgrade_apply_consumer_test.rb
+  ranAt: '2026-08-05T16:50:13Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/project_upgrade.rb
+  - dora/test/fixtures/upgrade-apply-consumers.yaml
+  - dora/test/independent_upgrade_apply_consumer_test.rb
+  - dora/test/project_upgrade_apply_command_test.rb
+  output: |+
+    Dora project upgrade apply command test passed (actual CLI apply rejects bad scope, records backup, and explicitly rolls back).
+    Dora independent upgrade apply consumer test passed (two consumers execute scoped CLI apply, backup, and rollback without product data).
+
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/project_upgrade.rb
+  - dora/test/project_upgrade_apply_command_test.rb
+  - dora/test/independent_upgrade_apply_consumer_test.rb
+  - dora/test/fixtures/upgrade-apply-consumers.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:47:52Z'
+  changedAfterStart: *2

@@ -1,0 +1,85 @@
+kind: work
+version: 1
+id: dora-v11-atomic-hardening
+title: Harden Dora v1.1 into exact serial work
+status: verified
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+tasks:
+- id: harden-v11-program
+  inventory_item: v11-harden
+  title: Verify v1.1 atomic execution inventory
+  type: docs-only
+  observable_outcome: Every v1.1 task has exact paths one leaf validation direct serial
+    dependency and explicit ownership boundary
+  dependencies: []
+  evidence_boundary:
+  - atomic hardening audit
+  paths:
+  - docs/work/dora-v11-codex-first-ergonomics-master.yaml
+  - docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  - docs/work/dora-v11-atomic-hardening.yaml
+  - docs/work/dora-v11-foundation-and-self-contained.yaml
+  - docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  - docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  - docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  - docs/work/dora-v11-traceability-and-coordination.yaml
+  - docs/work/dora-v11-release.yaml
+  required_paths:
+  - docs/work/dora-v11-codex-first-ergonomics-master.yaml
+  - docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  - docs/work/dora-v11-atomic-hardening.yaml
+  - docs/work/dora-v11-foundation-and-self-contained.yaml
+  - docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  - docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  - docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  - docs/work/dora-v11-traceability-and-coordination.yaml
+  - docs/work/dora-v11-release.yaml
+  verification_required_paths:
+  - docs/work/dora-v11-codex-first-ergonomics-master.yaml
+  - docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  - docs/work/dora-v11-atomic-hardening.yaml
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v11-codex-first-ergonomics-master.yaml
+    docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-05T16:07:26Z'
+  start_fingerprints:
+    docs/work/dora-v11-codex-first-ergonomics-master.yaml: b2094b6a5aabe2077ef221f3484614a1388dbaf4125558ce15c13f90d74d879f
+    docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml: 200555d47504ae2fce96977bfcefc83f5871aeddbae4aacb68ceaf29b827192f
+    docs/work/dora-v11-atomic-hardening.yaml: 0ec54779abc0b15f8910d6a784241e2c6f4346fddb6c0ea820edcc487c26f6a5
+    docs/work/dora-v11-foundation-and-self-contained.yaml: e5379c9e5575904c2e1e1780325d9b61c8d3eca8911f934a5069f4376dcbcc52
+    docs/work/dora-v11-agent-cockpit-and-contracts.yaml: ca361a33be7d8a9ed649fb827775b648c2a6688b9fc3808dc8000f56bf9ebc70
+    docs/work/dora-v11-knowledge-cache-and-approval.yaml: b29a6aac05e5da4b0d801b95f9b9ed3da8796411cc182a71f77e714dcfef6fe0
+    docs/work/dora-v11-lifecycle-and-plugin-safety.yaml: 01d6c65bec4b0c960bf8b40c6b03b1ced04bf6ef505effda0bcf15bea82b8e56
+    docs/work/dora-v11-traceability-and-coordination.yaml: 17a866ad34ecab8bcc9d7fd9104eb3710ea37002ac95dc3859f50eead82def51
+    docs/work/dora-v11-release.yaml: 1aef67b03404b10aa963c2502722e52c5ab50f7aaba369d852507476f39f18ac
+evidence:
+- task: harden-v11-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v11-codex-first-ergonomics-master.yaml
+    docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  ranAt: '2026-08-05T16:08:48Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v11-agent-cockpit-and-contracts.yaml
+  - docs/work/dora-v11-atomic-hardening.yaml
+  - docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  - docs/work/dora-v11-codex-first-ergonomics-master.yaml
+  - docs/work/dora-v11-foundation-and-self-contained.yaml
+  - docs/work/dora-v11-knowledge-cache-and-approval.yaml
+  - docs/work/dora-v11-lifecycle-and-plugin-safety.yaml
+  - docs/work/dora-v11-release.yaml
+  - docs/work/dora-v11-traceability-and-coordination.yaml
+  output: "Atomic task hardening audit passed (31 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v11-codex-first-ergonomics-master.yaml
+  - docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+  - docs/work/dora-v11-atomic-hardening.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:07:26Z'
+  changedAfterStart: *1

@@ -5,6 +5,7 @@ require "open3"
 require "tmpdir"
 require "yaml"
 require_relative "../lib/dora/project_memory"
+require_relative "../lib/dora/bootstrap_source"
 
 ROOT = File.expand_path("..", __dir__)
 
@@ -15,7 +16,8 @@ def valid_answers
   domain.merge!("vocabulary" => [{"id" => "planting-note", "description" => "A record of one planting decision."}], "entities" => [{"id" => "planting-note", "description" => "A group-owned note."}], "invariants" => [{"id" => "group-owner", "description" => "A note belongs to one group."}], "permission_rules" => [{"id" => "record", "actor" => "member", "action" => "record", "boundary" => "their group"}], "workflows" => [{"id" => "planting-note", "initial_state" => "draft", "transitions" => [{"from" => "draft", "to" => "recorded", "action" => "record"}]}], "acceptance_scenarios" => [{"id" => "record", "given" => "a member", "when" => "they record a note", "then" => "their group can read it"}])
   profile = YAML.load_file(File.join(ROOT, "templates/agent-project-profile.yaml"))
   profile["stack_commands"] = [{"id" => "test", "command" => "true", "purpose" => "Run the declared fixture test."}]
-  {"kind" => "dora_project_new", "version" => 1, "project_id" => "garden-journal", "intake" => {"kind" => "dora_project_intake", "version" => 1, "product_brief" => product, "domain_library" => domain, "agent_profile" => profile}, "first_work" => {"id" => "record-note", "title" => "Record a planting note", "observable_outcome" => "A planting-note guide exists.", "required_paths" => ["docs/planting-note.md"], "validation" => "true", "evidence_boundary" => ["planting note fixture"]}}
+  source = {"kind" => "dora_bootstrap_source", "version" => 1, "source" => {"path" => ROOT, "ref" => "a" * 40, "checksum" => Dora::BootstrapSource.send(:checksum_for, ROOT)}, "review" => {"id" => "review-1", "reviewed_by" => "fixture", "reviewed_at" => "2026-08-05T00:00:00Z"}}
+  {"kind" => "dora_project_new", "version" => 1, "project_id" => "garden-journal", "intake" => {"kind" => "dora_project_intake", "version" => 1, "product_brief" => product, "domain_library" => domain, "agent_profile" => profile}, "dora_source" => source, "first_work" => {"id" => "record-note", "title" => "Record a planting note", "observable_outcome" => "A planting-note guide exists.", "required_paths" => ["docs/planting-note.md"], "validation" => "true", "evidence_boundary" => ["planting note fixture"]}}
 end
 
 Dir.mktmpdir("dora-project-new-command") do |sandbox|
@@ -31,6 +33,7 @@ Dir.mktmpdir("dora-project-new-command") do |sandbox|
   abort "project new did not link first work in project memory" unless memory.dig("current_work", "task") == "record-note"
   abort "project new memory made a completion claim" unless memory.fetch("completion_boundary").include?("does not prove")
   abort "project new produced product implementation" if File.exist?(File.join(destination, "docs/planting-note.md"))
+  abort "project new did not copy the reviewed Dora package" unless File.executable?(File.join(destination, "dora/bin/dora"))
 end
 
 puts "Dora project new command test passed (explicit answers create neutral knowledge, project memory, and first work without product implementation)."

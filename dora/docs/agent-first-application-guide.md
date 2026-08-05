@@ -2,7 +2,7 @@
 
 This is the one route for a beginner working with Codex and Dora. Dora is the operating system for disciplined delivery; it is not the authority for your product decisions.
 
-1. Complete the explicit `project-new.yaml` answers: product brief, domain library, agent profile, and first bounded work. Then run `dora new <destination> --answers <project-new.yaml>`. This creates knowledge and project memory, not product implementation.
+1. Complete the explicit `project-new.yaml` answers: product brief, domain library, agent profile, reviewed local Dora source, and first bounded work. Then run `dora new <destination> --answers <project-new.yaml>`. This copies the declared verified local Dora package, creates knowledge and project memory, and does not create product implementation.
 2. Read the generated product brief, domain library, project memory, and agent project profile. They tell Codex which sources are canonical, which commands are allowed, what evidence is required, and which external actions require approval.
 3. Preserve open decisions in product memory rather than guessing them. Dora treats them as unresolved product-owned questions.
 4. Choose a neutral architecture capability blueprint. Put business rules, permissions, validation, and state transitions in the service owner; keep the client responsible for presentation and declared interactions.
@@ -22,3 +22,7 @@ dora agent-closeout <adapter-path> <work-plan-path> <task-id> <change-impact-pat
 ```
 
 `dora new` creates `AGENTS.md`, `docs/product-brief.yaml`, `docs/domain-library.yaml`, `docs/project-memory.yaml`, and `.dora/agent-project-profile.yaml`. Run `dora doctor <adapter-path>` before work; it fails closed if that context is missing or inconsistent.
+
+Before `work-start`, run `dora readiness <project-root>`. Its default response is
+read-only and tells Codex whether a Git baseline exists. Only the explicit
+`--initialize-git` option creates a local repository and initial baseline commit.

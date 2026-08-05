@@ -52,6 +52,16 @@ if expected_version == "v1.0.0"
     dora/lib/dora/project_upgrade.rb
   ].each { |path| failures << "Dora v1.0 release artifact is missing: #{path}" unless File.file?(File.join(ROOT, path)) }
 end
+if expected_version == "v1.1.0"
+  %w[
+    dora/capability-trace.schema.yaml
+    dora/task-lease.schema.yaml
+    dora/lib/dora/capability_trace.rb
+    dora/lib/dora/task_lease.rb
+    dora/lib/dora/codex_integration.rb
+    dora/lib/dora/project_upgrade.rb
+  ].each { |path| failures << "Dora v1.1 release artifact is missing: #{path}" unless File.file?(File.join(ROOT, path)) }
+end
 retained = Array(ownership["muffinman_retained_prefixes"])
 operational = Array(ownership["repository_operational_prefixes"])
 unclassified = repository_paths.reject do |path|

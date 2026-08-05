@@ -7,6 +7,17 @@ intake:
   product_brief: Replace with all explicit fields from product-brief.yaml.
   domain_library: Replace with all explicit fields from domain-library.yaml.
   agent_profile: Replace with all explicit fields from agent-project-profile.yaml.
+dora_source:
+  kind: dora_bootstrap_source
+  version: 1
+  source:
+    path: /absolute/path/to/reviewed/dora
+    ref: replace-with-a-40-character-reviewed-source-ref
+    checksum: replace-with-a-64-character-source-checksum
+  review:
+    id: replace-with-a-project-owned-source-review-id
+    reviewed_by: replace-with-a-person-or-approved-local-automation
+    reviewed_at: replace-with-an-explicit-review-timestamp
 first_work:
   id: replace-with-a-lowercase-work-id
   title: Replace with a short bounded work title.

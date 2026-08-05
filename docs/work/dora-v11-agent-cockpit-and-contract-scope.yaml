@@ -1,0 +1,21 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v11-agent-cockpit-and-contracts
+title: Give Codex one stable working payload and predictable command contracts
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+status: draft
+outcomes:
+  - "dora agent-session returns cited project health, relevant knowledge, decisions, active or next work, tools, evidence gaps, and approval boundaries."
+  - Public commands support a stable structured envelope and documented format negotiation without breaking current consumers.
+  - Failures expose stable error IDs, remediation, side-effect class, and safe retry guidance.
+  - Task context can cite declared domain and decision references rather than relying only on broad project summaries.
+decisions_required:
+  - Minimal session payload, context-budget levels, and omission policy.
+  - JSON/YAML compatibility strategy and public error schema.
+evidence_needed:
+  - two-project session isolation fixture
+  - malformed-input error-envelope fixture
+  - output compatibility fixture for existing commands
+boundaries:
+  - Session output may recommend but cannot start, verify, approve, or complete work.
+  - Do not include undeclared files or private product data by discovery alone.

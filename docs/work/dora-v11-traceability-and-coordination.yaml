@@ -1,0 +1,361 @@
+kind: work
+version: 1
+id: dora-v11-traceability-and-coordination
+title: Prove optional traceability coordination and Codex integration
+status: verified
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+tasks:
+- id: add-capability-trace-contract
+  inventory_item: v11-trace-contract
+  title: Define declared capability trace
+  type: implementation
+  observable_outcome: Dora validates links from product and domain intent through
+    work implementation validation and runtime evidence
+  dependencies:
+  - v11-plugin-safety-consumer
+  evidence_boundary:
+  - complete and unresolved trace fixtures
+  paths:
+  - dora/capability-trace.schema.yaml
+  - dora/lib/dora/capability_trace.rb
+  - dora/test/capability_trace_test.rb
+  required_paths:
+  - dora/capability-trace.schema.yaml
+  - dora/lib/dora/capability_trace.rb
+  - dora/test/capability_trace_test.rb
+  validation: ruby dora/test/capability_trace_test.rb
+  status: done
+  started_at: '2026-08-05T16:35:59Z'
+  start_fingerprints:
+    dora/capability-trace.schema.yaml: __missing__
+    dora/lib/dora/capability_trace.rb: __missing__
+    dora/test/capability_trace_test.rb: __missing__
+- id: expose-capability-trace-command
+  inventory_item: v11-trace-command
+  title: Expose read-only capability trace
+  type: implementation
+  observable_outcome: Codex requests a cited declared capability trace without inferring
+    implementation completeness
+  dependencies:
+  - v11-trace-contract
+  evidence_boundary:
+  - capability trace CLI fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/capability_trace_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/capability_trace_command_test.rb
+  validation: ruby dora/test/capability_trace_command_test.rb
+  status: done
+  started_at: '2026-08-05T16:37:34Z'
+  start_fingerprints:
+    dora/bin/dora: 182609032111db5b6599824358fd7d32e6f88c6b62270a823e06509d62623526
+    dora/lib/dora/command_registry.rb: 07ac6ee28b7c37ece8af5590985e7da7c5daf3bff3796b9d9ec2a9f34ea18a42
+    dora/test/capability_trace_command_test.rb: __missing__
+- id: prove-capability-trace-consumers
+  inventory_item: v11-trace-consumer
+  title: Prove trace isolation in two consumers
+  type: implementation
+  observable_outcome: Two projects expose only their own declared trace and unresolved
+    evidence boundary
+  dependencies:
+  - v11-trace-command
+  evidence_boundary:
+  - two-consumer trace fixture
+  paths:
+  - dora/test/independent_capability_trace_consumer_test.rb
+  - dora/test/fixtures/capability-trace-consumers.yaml
+  required_paths:
+  - dora/test/independent_capability_trace_consumer_test.rb
+  - dora/test/fixtures/capability-trace-consumers.yaml
+  validation: ruby dora/test/independent_capability_trace_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:38:32Z'
+  start_fingerprints:
+    dora/test/independent_capability_trace_consumer_test.rb: __missing__
+    dora/test/fixtures/capability-trace-consumers.yaml: __missing__
+- id: add-task-lease-contract
+  inventory_item: v11-lease-contract
+  title: Define task lease and handoff records
+  type: implementation
+  observable_outcome: Dora validates optional task ownership leases conflicts expiry
+    and explicit handoff without granting mutation authority
+  dependencies:
+  - v11-trace-consumer
+  evidence_boundary:
+  - conflict expiry and handoff fixtures
+  paths:
+  - dora/task-lease.schema.yaml
+  - dora/lib/dora/task_lease.rb
+  - dora/test/task_lease_test.rb
+  required_paths:
+  - dora/task-lease.schema.yaml
+  - dora/lib/dora/task_lease.rb
+  - dora/test/task_lease_test.rb
+  validation: ruby dora/test/task_lease_test.rb
+  status: done
+  started_at: '2026-08-05T16:39:22Z'
+  start_fingerprints:
+    dora/task-lease.schema.yaml: __missing__
+    dora/lib/dora/task_lease.rb: __missing__
+    dora/test/task_lease_test.rb: __missing__
+- id: expose-task-lease-commands
+  inventory_item: v11-lease-command
+  title: Expose explicit task lease commands
+  type: implementation
+  observable_outcome: Codex can inspect acquire and hand off a declared lease only
+    through explicit project-local records
+  dependencies:
+  - v11-lease-contract
+  evidence_boundary:
+  - lease command fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/task_lease_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/task_lease_command_test.rb
+  validation: ruby dora/test/task_lease_command_test.rb
+  status: done
+  started_at: '2026-08-05T16:41:49Z'
+  start_fingerprints:
+    dora/bin/dora: 827744acb77d6c662229a2da83005479d7057b50da61eb7e5cf50cc99d2e0487
+    dora/lib/dora/command_registry.rb: d20ccc6eb38d060a0dc3db61fc7243d78c71f9b8a763b3191ed5fc0f83b669db
+    dora/test/task_lease_command_test.rb: __missing__
+- id: prove-coordination-consumers
+  inventory_item: v11-lease-consumer
+  title: Prove coordination conflict handling
+  type: implementation
+  observable_outcome: Two independent consumers reject conflicting lease claims and
+    preserve explicit handoff records
+  dependencies:
+  - v11-lease-command
+  evidence_boundary:
+  - two-consumer lease fixture
+  paths:
+  - dora/test/independent_task_lease_consumer_test.rb
+  - dora/test/fixtures/task-lease-consumers.yaml
+  required_paths:
+  - dora/test/independent_task_lease_consumer_test.rb
+  - dora/test/fixtures/task-lease-consumers.yaml
+  validation: ruby dora/test/independent_task_lease_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:43:31Z'
+  start_fingerprints:
+    dora/test/independent_task_lease_consumer_test.rb: __missing__
+    dora/test/fixtures/task-lease-consumers.yaml: __missing__
+- id: add-opt-in-codex-integration-pack
+  inventory_item: v11-codex-pack
+  title: Add non-overwriting Codex integration pack
+  type: implementation
+  observable_outcome: Dora generates opt-in project-local Codex guidance and session
+    discovery without overwriting user-owned instructions
+  dependencies:
+  - v11-lease-consumer
+  evidence_boundary:
+  - existing-guidance preservation fixture
+  paths:
+  - dora/templates/codex-integration/README.md
+  - dora/templates/codex-integration/session-discovery.md
+  - dora/lib/dora/codex_integration.rb
+  - dora/test/codex_integration_test.rb
+  required_paths:
+  - dora/templates/codex-integration/README.md
+  - dora/templates/codex-integration/session-discovery.md
+  - dora/lib/dora/codex_integration.rb
+  - dora/test/codex_integration_test.rb
+  validation: ruby dora/test/codex_integration_test.rb
+  status: done
+  started_at: '2026-08-05T16:44:02Z'
+  start_fingerprints:
+    dora/templates/codex-integration: __missing__
+    dora/lib/dora/codex_integration.rb: __missing__
+    dora/test/codex_integration_test.rb: __missing__
+- id: prove-codex-integration-consumers
+  inventory_item: v11-codex-pack-consumer
+  title: Prove opt-in Codex integration across consumers
+  type: implementation
+  observable_outcome: Two projects receive bounded Dora guidance while preserving
+    different user-owned Codex instructions
+  dependencies:
+  - v11-codex-pack
+  evidence_boundary:
+  - two-consumer Codex integration fixture
+  paths:
+  - dora/test/independent_codex_integration_consumer_test.rb
+  - dora/test/fixtures/codex-integration-consumers.yaml
+  required_paths:
+  - dora/test/independent_codex_integration_consumer_test.rb
+  - dora/test/fixtures/codex-integration-consumers.yaml
+  validation: ruby dora/test/independent_codex_integration_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:45:09Z'
+  start_fingerprints:
+    dora/test/independent_codex_integration_consumer_test.rb: __missing__
+    dora/test/fixtures/codex-integration-consumers.yaml: __missing__
+evidence:
+- task: add-capability-trace-contract
+  command: ruby dora/test/capability_trace_test.rb
+  ranAt: '2026-08-05T16:37:27Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/capability-trace.schema.yaml
+  - dora/lib/dora/capability_trace.rb
+  - dora/test/capability_trace_test.rb
+  output: "Dora capability trace test passed (declared intent, work, implementation,
+    validation, runtime evidence, and unresolved boundaries).\n\n"
+  requiredPaths: &1
+  - dora/capability-trace.schema.yaml
+  - dora/lib/dora/capability_trace.rb
+  - dora/test/capability_trace_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:35:59Z'
+  changedAfterStart: *1
+- task: expose-capability-trace-command
+  command: ruby dora/test/capability_trace_command_test.rb
+  ranAt: '2026-08-05T16:38:27Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/capability_trace_command_test.rb
+  output: "Dora capability trace command test passed (read-only cited trace without
+    completion inference).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/capability_trace_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:37:34Z'
+  changedAfterStart: *2
+- task: prove-capability-trace-consumers
+  command: ruby dora/test/independent_capability_trace_consumer_test.rb
+  ranAt: '2026-08-05T16:39:15Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/capability-trace-consumers.yaml
+  - dora/test/independent_capability_trace_consumer_test.rb
+  output: "Dora independent capability trace consumer test passed (two isolated traces
+    preserve evidence state and unresolved boundaries).\n\n"
+  requiredPaths: &3
+  - dora/test/independent_capability_trace_consumer_test.rb
+  - dora/test/fixtures/capability-trace-consumers.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:38:32Z'
+  changedAfterStart: *3
+- task: add-task-lease-contract
+  command: ruby dora/test/task_lease_test.rb
+  ranAt: '2026-08-05T16:41:31Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/task_lease.rb
+  - dora/task-lease.schema.yaml
+  - dora/test/task_lease_test.rb
+  output: "Dora task lease test passed (advisory ownership, conflict rejection, expiry,
+    and explicit handoff).\n\n"
+  requiredPaths: &4
+  - dora/task-lease.schema.yaml
+  - dora/lib/dora/task_lease.rb
+  - dora/test/task_lease_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:39:22Z'
+  changedAfterStart: *4
+- task: expose-task-lease-commands
+  command: ruby dora/test/task_lease_command_test.rb
+  ranAt: '2026-08-05T16:43:26Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/task_lease_command_test.rb
+  output: "Dora task lease command test passed (inspect, conflict-safe acquire, and
+    explicit handoff records).\n\n"
+  requiredPaths: &5
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/test/task_lease_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:41:49Z'
+  changedAfterStart: *5
+- task: prove-coordination-consumers
+  command: ruby dora/test/independent_task_lease_consumer_test.rb
+  ranAt: '2026-08-05T16:43:55Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/task-lease-consumers.yaml
+  - dora/test/independent_task_lease_consumer_test.rb
+  output: "Dora independent task lease consumer test passed (two isolated projects
+    reject conflicts and retain explicit handoffs).\n\n"
+  requiredPaths: &6
+  - dora/test/independent_task_lease_consumer_test.rb
+  - dora/test/fixtures/task-lease-consumers.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:43:31Z'
+  changedAfterStart: *6
+- task: add-opt-in-codex-integration-pack
+  command: ruby dora/test/codex_integration_test.rb
+  ranAt: '2026-08-05T16:45:03Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/codex_integration.rb
+  - dora/templates/codex-integration/README.md
+  - dora/templates/codex-integration/session-discovery.md
+  - dora/test/codex_integration_test.rb
+  output: "Dora Codex integration test passed (opt-in navigation guidance preserves
+    user-owned instructions).\n\n"
+  requiredPaths: &7
+  - dora/templates/codex-integration/README.md
+  - dora/templates/codex-integration/session-discovery.md
+  - dora/lib/dora/codex_integration.rb
+  - dora/test/codex_integration_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:44:02Z'
+  changedAfterStart: *7
+- task: prove-codex-integration-consumers
+  command: ruby dora/test/independent_codex_integration_consumer_test.rb
+  ranAt: '2026-08-05T16:45:31Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/codex-integration-consumers.yaml
+  - dora/test/independent_codex_integration_consumer_test.rb
+  output: "Dora independent Codex integration consumer test passed (two projects keep
+    distinct user guidance and receive bounded Dora navigation).\n\n"
+  requiredPaths: &8
+  - dora/test/independent_codex_integration_consumer_test.rb
+  - dora/test/fixtures/codex-integration-consumers.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:45:09Z'
+  changedAfterStart: *8

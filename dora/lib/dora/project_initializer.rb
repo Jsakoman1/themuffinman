@@ -8,17 +8,19 @@ require_relative "stack_pack"
 
 module Dora
   class ProjectInitializer
-    def self.initialize!(destination, project_id:, manifest_path:, stack_pack_path: nil, ci_pack_path: nil, ci_template_path: nil, ci_commands_path: nil)
+    def self.initialize!(destination, project_id:, manifest_path:, stack_pack_path: nil, ci_pack_path: nil, ci_template_path: nil, ci_commands_path: nil, dora_source: nil)
       manifest = YAML.load_file(manifest_path)
       fail!("init manifest kind is invalid") unless manifest["kind"] == "dora_init_manifest" && manifest["version"].to_i == 1
       fail!("project id is invalid") unless project_id.match?(/\A[a-z][a-z0-9-]*\z/)
       root = File.expand_path(destination)
       FileUtils.mkdir_p(root)
       fail!("Dora control directory already exists: #{root}/.dora") if Dir.exist?(File.join(root, ".dora"))
+      copy_dora_package!(root, dora_source) if dora_source
 
       Array(manifest.fetch("directories")).each { |relative| FileUtils.mkdir_p(File.join(root, relative)) }
       write_yaml(File.join(root, ".dora/project.yaml"), adapter(project_id))
       write_yaml(File.join(root, ".dora/project-control.yaml"), project_control)
+      write_yaml(File.join(root, ".dora/bootstrap-source.yaml"), {"kind" => "dora_bootstrap_record", "version" => 1, "source" => dora_source, "package_path" => "dora"}) if dora_source
       control_files.each { |relative, content| write_yaml(File.join(root, relative), content) }
       files = manifest.fetch("files").dup
       agent_knowledge_files.each do |relative, template|
@@ -36,6 +38,27 @@ module Dora
       end
       files
     end
+
+    def self.copy_dora_package!(root, source)
+      fail!("Dora source must declare a verified local path") unless source.is_a?(Hash) && source.dig("source", "path").is_a?(String)
+      source_root = File.realpath(source.dig("source", "path"))
+      package_root = File.join(root, "dora")
+      fail!("Dora package directory already exists: #{package_root}") if File.exist?(package_root)
+      fail!("project destination cannot contain its Dora source") if nested?(root, source_root) || nested?(source_root, root)
+
+      FileUtils.mkdir_p(package_root)
+      FileUtils.cp_r(File.join(source_root, "."), package_root)
+    rescue Errno::ENOENT
+      fail!("Dora source path does not exist")
+    end
+    private_class_method :copy_dora_package!
+
+    def self.nested?(candidate, parent)
+      expanded_candidate = File.expand_path(candidate)
+      expanded_parent = File.expand_path(parent)
+      expanded_candidate == expanded_parent || expanded_candidate.start_with?("#{expanded_parent}/")
+    end
+    private_class_method :nested?
 
     def self.adapter(project_id)
       {"kind" => "dora_project_adapter", "version" => 1, "project" => {"id" => project_id, "root" => ".."}, "paths" => {"docs" => "docs", "work_plans" => "docs/work", "audit_output" => "docs/audit-output", "runtime_evidence" => "docs/runtime-evidence"}, "commands" => {"work_start" => "./bin/dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>", "work_verify" => "./bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>", "control_check" => "./bin/dora doctor .dora/project.yaml"}, "extensions" => [{"id" => "project-documentation", "category" => "documentation", "paths" => ["docs"], "invocation" => "project-defined documentation checks"}]}

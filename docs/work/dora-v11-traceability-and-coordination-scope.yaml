@@ -1,0 +1,22 @@
+kind: dora_scope_plan
+version: 1
+id: dora-v11-traceability-and-coordination
+title: Prove optional traceability, coordination, and Codex integration across consumers
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+status: draft
+outcomes:
+  - A declared capability trace links product intent, domain rules, work, implementation paths, validation, and runtime evidence.
+  - Optional task leases and handoff records prevent concurrent agents from silently claiming the same declared task or paths.
+  - An opt-in Codex integration pack creates project-local guidance and command discovery without overwriting AGENTS.md or user configuration.
+  - Context-budget profiles keep agent payloads bounded while preserving citations and omission notices.
+decisions_required:
+  - Trace source of truth and relation schema.
+  - Lease ownership, expiry, recovery, and human override rules.
+  - Codex integration package boundary and overwrite policy.
+evidence_needed:
+  - two-consumer capability trace fixture
+  - conflicting lease and explicit handoff fixture
+  - existing user guidance preservation fixture
+boundaries:
+  - These capabilities remain experimental until two independent consumers prove them.
+  - Coordination does not grant authority to mutate, merge, publish, or override a human decision.

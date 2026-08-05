@@ -1,0 +1,12 @@
+kind: dora_task_lease_registry_schema
+version: 1
+purpose: Coordinate optional project-local task ownership claims and handoffs without granting implementation, verification, approval, or mutation authority.
+required_fields: [kind, version, leases]
+lease_required_fields: [id, work_plan, task, holder, acquired_at, expires_at, state]
+handoff_required_fields: [from, to, at, reason]
+lease_states: [active, handed_off, expired]
+invariants:
+  - A task lease is advisory coordination metadata only; project work controls remain authoritative.
+  - At most one non-expired active or handed-off lease may claim one work-plan and task pair.
+  - An active lease must expire in the future relative to validation time.
+  - A handoff records the previous and current holder explicitly and never changes task status or approval authority.

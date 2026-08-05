@@ -1,0 +1,223 @@
+kind: work
+version: 1
+id: dora-v11-foundation-and-self-contained
+title: Create self-contained Dora projects without implicit source or Git mutation
+status: verified
+baseline: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v11-codex-first-ergonomics-execution-inventory.yaml
+master_plan: docs/work/dora-v11-codex-first-ergonomics-master.yaml
+tasks:
+- id: add-self-contained-source-contract
+  inventory_item: v11-source-contract
+  title: Define source-backed new-project input
+  type: implementation
+  observable_outcome: A new-project request declares a reviewed local Dora source
+    with immutable provenance
+  dependencies:
+  - v11-harden
+  evidence_boundary:
+  - valid and tampered source-backed new-request fixture
+  paths:
+  - dora/lib/dora/project_new.rb
+  - dora/project-new.schema.yaml
+  - dora/bootstrap-source.schema.yaml
+  - dora/templates/project-new.yaml
+  - dora/test/project_new_test.rb
+  - dora/test/project_new_command_test.rb
+  - dora/test/self_contained_source_contract_test.rb
+  required_paths:
+  - dora/lib/dora/project_new.rb
+  - dora/project-new.schema.yaml
+  - dora/bootstrap-source.schema.yaml
+  - dora/templates/project-new.yaml
+  - dora/test/project_new_test.rb
+  - dora/test/project_new_command_test.rb
+  - dora/test/self_contained_source_contract_test.rb
+  validation: ruby dora/test/self_contained_source_contract_test.rb
+  status: done
+  started_at: '2026-08-05T16:08:59Z'
+  start_fingerprints:
+    dora/project-new.schema.yaml: b65ac2cb90c4d0509168351d92cc9d250ba0c5b4fde398d2c815a010335993ae
+    dora/bootstrap-source.schema.yaml: a677f96a04e8b7bc9a88eaca730a7c21e18d402518cb857ba01c97ac5cdfad8e
+    dora/test/self_contained_source_contract_test.rb: __missing__
+- id: create-self-contained-new-project
+  inventory_item: v11-self-contained-new
+  title: Copy reviewed Dora package during new project creation
+  type: implementation
+  observable_outcome: One explicit new-project command creates a usable local Dora
+    launcher and recorded source provenance
+  dependencies:
+  - v11-source-contract
+  evidence_boundary:
+  - fresh local-launcher consumer fixture
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/project_initializer.rb
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/project_new_command_test.rb
+  - dora/test/self_contained_new_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/project_initializer.rb
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/project_new_command_test.rb
+  - dora/test/self_contained_new_test.rb
+  validation: ruby dora/test/self_contained_new_test.rb
+  status: done
+  started_at: '2026-08-05T16:11:33Z'
+  start_fingerprints:
+    dora/bin/dora: 11d138305b771b43705d923cec49dcac6904c926fc2c5cd755ab07688a906ce3
+    dora/lib/dora/project_initializer.rb: a5e0c5c5488f438ae8b79cbd823c7e125c9525da3f5f74a6a9e8f29771bdddf2
+    dora/test/self_contained_new_test.rb: __missing__
+- id: add-project-readiness-contract
+  inventory_item: v11-project-readiness
+  title: Add explicit project baseline readiness guidance
+  type: implementation
+  observable_outcome: Dora reports Git baseline readiness and performs initialization
+    only through an explicit local request
+  dependencies:
+  - v11-self-contained-new
+  evidence_boundary:
+  - ready missing-baseline and explicit-init fixtures
+  paths:
+  - dora/lib/dora/project_readiness.rb
+  - dora/bin/dora
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/project_readiness_test.rb
+  required_paths:
+  - dora/lib/dora/project_readiness.rb
+  - dora/bin/dora
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/project_readiness_test.rb
+  validation: ruby dora/test/project_readiness_test.rb
+  status: done
+  started_at: '2026-08-05T16:14:02Z'
+  start_fingerprints:
+    dora/lib/dora/project_readiness.rb: __missing__
+    dora/bin/dora: 565db5d7d39652fba388fb16afaadb53710da863421a1b6b2fc8e3525d8016a2
+    dora/test/project_readiness_test.rb: __missing__
+- id: prove-self-contained-foundation-consumer
+  inventory_item: v11-foundation-consumer
+  title: Prove a generated local project is usable
+  type: implementation
+  observable_outcome: A fresh non-MuffinMan project runs its generated local launcher
+    and preserves the no-product-code boundary
+  dependencies:
+  - v11-project-readiness
+  evidence_boundary:
+  - independent self-contained consumer
+  paths:
+  - dora/test/independent_self_contained_consumer_test.rb
+  - dora/test/fixtures/self-contained-project-answers.yaml
+  required_paths:
+  - dora/test/independent_self_contained_consumer_test.rb
+  - dora/test/fixtures/self-contained-project-answers.yaml
+  validation: ruby dora/test/independent_self_contained_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T16:15:11Z'
+  start_fingerprints:
+    dora/test/independent_self_contained_consumer_test.rb: __missing__
+    dora/test/fixtures/self-contained-project-answers.yaml: __missing__
+evidence:
+- task: add-self-contained-source-contract
+  command: ruby dora/test/self_contained_source_contract_test.rb
+  ranAt: '2026-08-05T16:11:18Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bootstrap-source.schema.yaml
+  - dora/lib/dora/project_new.rb
+  - dora/project-new.schema.yaml
+  - dora/templates/project-new.yaml
+  - dora/test/project_new_command_test.rb
+  - dora/test/project_new_test.rb
+  - dora/test/self_contained_source_contract_test.rb
+  output: "Dora self-contained source contract test passed (reviewed local source
+    and immutable provenance are explicit).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/project_new.rb
+  - dora/project-new.schema.yaml
+  - dora/bootstrap-source.schema.yaml
+  - dora/templates/project-new.yaml
+  - dora/test/project_new_test.rb
+  - dora/test/project_new_command_test.rb
+  - dora/test/self_contained_source_contract_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:08:59Z'
+  changedAfterStart: *1
+- task: create-self-contained-new-project
+  command: ruby dora/test/self_contained_new_test.rb
+  ranAt: '2026-08-05T16:13:51Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/bin/dora
+  - dora/docs/agent-first-application-guide.md
+  - dora/lib/dora/project_initializer.rb
+  - dora/test/project_new_command_test.rb
+  - dora/test/self_contained_new_test.rb
+  output: "Dora self-contained new test passed (generated project has a usable local
+    launcher and recorded source provenance).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/project_initializer.rb
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/project_new_command_test.rb
+  - dora/test/self_contained_new_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:11:33Z'
+  changedAfterStart: *2
+- task: add-project-readiness-contract
+  command: ruby dora/test/project_readiness_test.rb
+  ranAt: '2026-08-05T16:15:03Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/bin/dora
+  - dora/docs/agent-first-application-guide.md
+  - dora/lib/dora/project_readiness.rb
+  - dora/test/project_readiness_test.rb
+  output: "Dora project readiness test passed (read-only diagnosis and explicit local
+    Git initialization).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/project_readiness.rb
+  - dora/bin/dora
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/test/project_readiness_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:14:02Z'
+  changedAfterStart: *3
+- task: prove-self-contained-foundation-consumer
+  command: ruby dora/test/independent_self_contained_consumer_test.rb
+  ranAt: '2026-08-05T16:16:19Z'
+  revision: 25a1425b9d245627c15f3c4927e52dea96eccc4d
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/self-contained-project-answers.yaml
+  - dora/test/independent_self_contained_consumer_test.rb
+  output: "Dora independent self-contained consumer test passed (local launcher, explicit
+    baseline, provenance, and no product dependency).\n\n"
+  requiredPaths: &4
+  - dora/test/independent_self_contained_consumer_test.rb
+  - dora/test/fixtures/self-contained-project-answers.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T16:15:11Z'
+  changedAfterStart: *4

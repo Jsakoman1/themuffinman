@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require_relative "project_knowledge"
 
 module Dora
   class ProjectMemory
@@ -35,6 +36,22 @@ module Dora
         "current_work" => current_work,
         "completion_boundary" => "Project memory is declared navigation context only and does not prove implementation, runtime acceptance, or release readiness."
       }.freeze
+    end
+
+    def self.drift!(project_root:, memory_path: "docs/project-memory.yaml")
+      root = File.expand_path(project_root)
+      path = File.expand_path(memory_path, root)
+      fail!("project memory path is invalid") unless path.start_with?("#{root}/")
+      memory = load!(path)
+      knowledge = ProjectKnowledge.validate!(root)
+      differences = []
+      memory.fetch("canonical_knowledge").each { |entry| differences << {"kind" => "missing_knowledge_path", "id" => entry.fetch("id"), "path" => entry.fetch("path")} unless File.file?(File.join(root, entry.fetch("path"))) }
+      declared = memory.fetch("open_decisions").map { |entry| entry.fetch("statement") }.sort
+      canonical = knowledge.dig("product_brief", "unanswered_decisions").sort
+      differences << {"kind" => "open_decisions", "memory" => declared, "canonical" => canonical} unless declared == canonical
+      work_path = File.join(root, memory.dig("current_work", "plan"))
+      differences << {"kind" => "missing_work_plan", "path" => memory.dig("current_work", "plan")} unless File.file?(work_path)
+      {"kind" => "dora_project_memory_drift", "version" => 1, "drifted" => !differences.empty?, "differences" => differences, "memory_path" => memory_path, "mutation" => "none", "completion_boundary" => "Drift is diagnostic only; Dora does not overwrite product-owned memory or infer completion."}.freeze
     end
 
     def self.validate_project_intent!(intent)
