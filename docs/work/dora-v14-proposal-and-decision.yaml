@@ -1,0 +1,161 @@
+kind: work
+version: 1
+id: dora-v14-proposal-and-decision
+title: Expose proposal and decision controls to Codex
+status: verified
+baseline: d52ab8dc077c78790488803cc0e18bcdf5726337
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v14-agent-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v14-slice-cli
+  - v14-authoring-trace
+  - v14-decision-cli
+  boundary: Proposal, citation, and append-only decision controls only; no source
+    generation or inferred decision.
+tasks:
+- id: expose-vertical-slice-cli
+  inventory_item: v14-slice-cli
+  title: Expose vertical-slice proposal and readiness commands
+  type: implementation
+  observable_outcome: Codex can submit a confirmed capability context to Dora and
+    receive a proposal plus exact readiness blockers through declared read-only CLI
+    output.
+  dependencies:
+  - v14-authoring-next
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/vertical_slice_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/vertical_slice_command_test.rb
+  evidence_boundary:
+  - Ready and blocked context command output; no proposal writes source code or product
+    files.
+  validation: ruby dora/test/vertical_slice_command_test.rb
+  status: done
+  started_at: '2026-08-05T19:27:46Z'
+  start_fingerprints:
+    dora/bin/dora: 395ebaa83fb93a1743dc134b8e1a933cd6b0c45852d8e314777b4141d543f358
+    dora/lib/dora/vertical_slice_generator.rb: 3ebbeea6de0391c5ae2fec9c1d90fd3028dd5c9d7f060ed436d8f7a9041d61ad
+    dora/lib/dora/vertical_slice_readiness.rb: deb80ead039ed2a9a6c84dfcfd7a6c837ebf480d694c07f2f52e42ad7bba3c85
+    dora/test/vertical_slice_command_test.rb: __missing__
+- id: add-authoring-provenance-trace
+  inventory_item: v14-authoring-trace
+  title: Link interview, proposal, readiness, and decisions
+  type: implementation
+  observable_outcome: Dora produces a cited authoring trace that names confirmed interview
+    inputs, proposal paths, readiness gaps, and referenced decision records without
+    rewriting their product meaning.
+  dependencies:
+  - v14-slice-cli
+  paths:
+  - dora/lib/dora/authoring_trace.rb
+  - dora/test/authoring_trace_test.rb
+  required_paths:
+  - dora/lib/dora/authoring_trace.rb
+  - dora/test/authoring_trace_test.rb
+  evidence_boundary:
+  - Ready and blocked trace fixtures; citations and omissions only
+  - no source generation.
+  validation: ruby dora/test/authoring_trace_test.rb
+  status: done
+  started_at: '2026-08-05T19:28:27Z'
+  start_fingerprints:
+    dora/lib/dora/authoring_trace.rb: __missing__
+    dora/test/authoring_trace_test.rb: __missing__
+- id: expose-decision-record-cli
+  inventory_item: v14-decision-cli
+  title: Expose cited decision-record commands
+  type: implementation
+  observable_outcome: Codex can append one cited proposed or accepted decision to
+    a project-local Dora decision log without replacing prior records or resolving
+    an open decision by inference.
+  dependencies:
+  - v14-authoring-trace
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/decision_record.rb
+  - dora/test/decision_record_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/decision_record.rb
+  - dora/test/decision_record_command_test.rb
+  evidence_boundary:
+  - Fresh log append
+  - duplicate rejection
+  - and existing-record preservation assertions.
+  validation: ruby dora/test/decision_record_command_test.rb
+  status: done
+  started_at: '2026-08-05T19:29:07Z'
+  start_fingerprints:
+    dora/bin/dora: 48331e427de64f2449dc26d4937c2a4e6e46fbe591ccdd76bf721941b036d775
+    dora/lib/dora/decision_record.rb: __missing__
+    dora/test/decision_record_command_test.rb: __missing__
+evidence:
+- task: expose-vertical-slice-cli
+  command: ruby dora/test/vertical_slice_command_test.rb
+  ranAt: '2026-08-05T19:28:21Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/vertical_slice_command_test.rb
+  output: "Dora vertical slice command test passed (read-only proposal output preserves
+    exact readiness blockers).\n\n"
+  requiredPaths: &1
+  - dora/bin/dora
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/vertical_slice_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:27:46Z'
+  changedAfterStart: *1
+- task: add-authoring-provenance-trace
+  command: ruby dora/test/authoring_trace_test.rb
+  ranAt: '2026-08-05T19:28:52Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/authoring_trace.rb
+  - dora/test/authoring_trace_test.rb
+  output: "Dora authoring trace test passed (confirmed inputs, unresolved decisions,
+    proposal gaps, and citations remain distinct).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/authoring_trace.rb
+  - dora/test/authoring_trace_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:28:27Z'
+  changedAfterStart: *2
+- task: expose-decision-record-cli
+  command: ruby dora/test/decision_record_command_test.rb
+  ranAt: '2026-08-05T19:29:47Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/decision_record.rb
+  - dora/test/decision_record_command_test.rb
+  output: "Dora decision record command test passed (cited append-only records preserve
+    prior decisions and reject duplicates).\n\n"
+  requiredPaths: &3
+  - dora/bin/dora
+  - dora/lib/dora/decision_record.rb
+  - dora/test/decision_record_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:29:07Z'
+  changedAfterStart: *3

@@ -1,0 +1,264 @@
+kind: work
+version: 1
+id: dora-v14-runtime-proof-profile
+title: Add a neutral Playwright runtime-proof profile
+status: verified
+baseline: d52ab8dc077c78790488803cc0e18bcdf5726337
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v14-agent-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v14-runtime-contract
+  - v14-runtime-assets
+  - v14-profile-apply
+  - v14-runtime-consumer
+  - v14-runtime-execution
+  boundary: The browser is never installed or started until the separately approved
+    final runtime task.
+tasks:
+- id: define-runtime-proof-profile-contract
+  inventory_item: v14-runtime-contract
+  title: Define the opt-in runtime-proof profile contract
+  type: implementation
+  observable_outcome: Dora validates a neutral runtime-proof profile that declares
+    browser installation, test command, evidence destination, and explicit non-guarantees
+    without product scenarios.
+  dependencies:
+  - v14-decision-cli
+  paths:
+  - dora/runtime-proof-profile.schema.yaml
+  - dora/lib/dora/runtime_proof_profile.rb
+  - dora/test/runtime_proof_profile_test.rb
+  required_paths:
+  - dora/runtime-proof-profile.schema.yaml
+  - dora/lib/dora/runtime_proof_profile.rb
+  - dora/test/runtime_proof_profile_test.rb
+  evidence_boundary:
+  - Valid neutral and invalid product-bearing profile fixtures.
+  validation: ruby dora/test/runtime_proof_profile_test.rb
+  status: done
+  started_at: '2026-08-05T19:29:53Z'
+  start_fingerprints:
+    dora/runtime-proof-profile.schema.yaml: __missing__
+    dora/lib/dora/runtime_proof_profile.rb: __missing__
+    dora/test/runtime_proof_profile_test.rb: __missing__
+- id: add-playwright-runtime-proof-assets
+  inventory_item: v14-runtime-assets
+  title: Add neutral Playwright runtime-proof assets
+  type: implementation
+  observable_outcome: Dora supplies an opt-in Playwright profile with technical health
+    assertions, declared browser setup, and no product action, seed data, or production
+    endpoint.
+  dependencies:
+  - v14-runtime-contract
+  paths:
+  - dora/packs/playwright-runtime-proof.yaml
+  - dora/templates/runtime-profiles/playwright/package.json
+  - dora/templates/runtime-profiles/playwright/playwright.config.mjs
+  - dora/templates/runtime-profiles/playwright/tests/technical-health.spec.mjs
+  - dora/test/playwright_runtime_profile_assets_test.rb
+  required_paths:
+  - dora/packs/playwright-runtime-proof.yaml
+  - dora/templates/runtime-profiles/playwright/package.json
+  - dora/templates/runtime-profiles/playwright/playwright.config.mjs
+  - dora/templates/runtime-profiles/playwright/tests/technical-health.spec.mjs
+  - dora/test/playwright_runtime_profile_assets_test.rb
+  evidence_boundary:
+  - Static technical profile assertions and explicit product-exclusion checks.
+  validation: ruby dora/test/playwright_runtime_profile_assets_test.rb
+  status: done
+  started_at: '2026-08-05T19:30:28Z'
+  start_fingerprints:
+    dora/packs/playwright-runtime-proof.yaml: __missing__
+    dora/templates/runtime-profiles/playwright/package.json: __missing__
+    dora/templates/runtime-profiles/playwright/playwright.config.mjs: __missing__
+    dora/templates/runtime-profiles/playwright/tests/technical-health.spec.mjs: __missing__
+    dora/test/playwright_runtime_profile_assets_test.rb: __missing__
+- id: add-safe-runtime-profile-apply
+  inventory_item: v14-profile-apply
+  title: Add a dry-run and non-overwrite runtime profile apply route
+  type: implementation
+  observable_outcome: Dora can preview and explicitly apply the neutral runtime profile
+    to an empty declared destination while rejecting path traversal, non-empty destinations,
+    and file overwrite.
+  dependencies:
+  - v14-runtime-assets
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/runtime_proof_profile_apply.rb
+  - dora/test/runtime_proof_profile_apply_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/runtime_proof_profile_apply.rb
+  - dora/test/runtime_proof_profile_apply_test.rb
+  evidence_boundary:
+  - Dry-run
+  - explicit apply
+  - path-escape rejection
+  - and user-file preservation fixtures.
+  validation: ruby dora/test/runtime_proof_profile_apply_test.rb
+  status: done
+  started_at: '2026-08-05T19:31:00Z'
+  start_fingerprints:
+    dora/bin/dora: 1ae08e2a97d23b047bf895579abb247e6445ce434814ace092012e32695848a9
+    dora/lib/dora/runtime_proof_profile_apply.rb: __missing__
+    dora/test/runtime_proof_profile_apply_test.rb: __missing__
+- id: prove-runtime-proof-profile-consumer
+  inventory_item: v14-runtime-consumer
+  title: Prove the runtime-proof profile in an independent consumer
+  type: implementation
+  observable_outcome: A temporary independent consumer receives the opt-in profile
+    through its declared safe apply route and validates its declared commands and
+    boundaries without launching a browser, contacting an endpoint, or carrying product
+    data.
+  dependencies:
+  - v14-profile-apply
+  paths:
+  - dora/test/fixtures/runtime-proof-profile-consumer.yaml
+  - dora/test/independent_runtime_proof_profile_consumer_test.rb
+  required_paths:
+  - dora/test/fixtures/runtime-proof-profile-consumer.yaml
+  - dora/test/independent_runtime_proof_profile_consumer_test.rb
+  evidence_boundary:
+  - Fresh consumer artifact
+  - command declaration
+  - and product-leakage assertions; browser execution stays explicitly unproved.
+  validation: ruby dora/test/independent_runtime_proof_profile_consumer_test.rb
+  status: done
+  started_at: '2026-08-05T19:31:46Z'
+  start_fingerprints:
+    dora/test/fixtures/runtime-proof-profile-consumer.yaml: __missing__
+    dora/test/independent_runtime_proof_profile_consumer_test.rb: __missing__
+- id: execute-neutral-playwright-runtime-proof
+  inventory_item: v14-runtime-execution
+  title: Execute a neutral browser runtime proof
+  type: implementation
+  observable_outcome: With explicit user approval to install a browser binary, Dora
+    runs its neutral temporary Playwright technical-health scenario against a temporary
+    local server and records one fresh runtime trace.
+  dependencies:
+  - v14-runtime-consumer
+  paths:
+  - dora/test/playwright_runtime_execution_test.rb
+  - dora/test/fixtures/playwright-runtime-execution.yaml
+  required_paths:
+  - dora/test/playwright_runtime_execution_test.rb
+  - dora/test/fixtures/playwright-runtime-execution.yaml
+  runtime_evidence_paths: &5
+  - dora/test/runtime-evidence/playwright-technical-health.json
+  evidence_boundary:
+  - Temporary local server
+  - explicit Playwright browser installation
+  - fresh runtime trace
+  - and scoped cleanup; no consumer endpoint or product data is contacted.
+  validation: ruby dora/test/playwright_runtime_execution_test.rb
+  external_approval_required: Playwright browser binary installation and temporary
+    local server execution require explicit user approval at task time.
+  status: done
+  started_at: '2026-08-05T19:32:34Z'
+  start_fingerprints:
+    dora/test/playwright_runtime_execution_test.rb: __missing__
+    dora/test/fixtures/playwright-runtime-execution.yaml: __missing__
+evidence:
+- task: define-runtime-proof-profile-contract
+  command: ruby dora/test/runtime_proof_profile_test.rb
+  ranAt: '2026-08-05T19:30:23Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/runtime_proof_profile.rb
+  - dora/runtime-proof-profile.schema.yaml
+  - dora/test/runtime_proof_profile_test.rb
+  output: "Dora runtime proof profile test passed (neutral technical proof requires
+    explicit browser opt-in and rejects product behavior).\n\n"
+  requiredPaths: &1
+  - dora/runtime-proof-profile.schema.yaml
+  - dora/lib/dora/runtime_proof_profile.rb
+  - dora/test/runtime_proof_profile_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:29:53Z'
+  changedAfterStart: *1
+- task: add-playwright-runtime-proof-assets
+  command: ruby dora/test/playwright_runtime_profile_assets_test.rb
+  ranAt: '2026-08-05T19:30:56Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/packs/playwright-runtime-proof.yaml
+  - dora/templates/runtime-profiles/playwright/package.json
+  - dora/templates/runtime-profiles/playwright/playwright.config.mjs
+  - dora/templates/runtime-profiles/playwright/tests/technical-health.spec.mjs
+  - dora/test/playwright_runtime_profile_assets_test.rb
+  output: "Dora Playwright runtime proof assets test passed (static opt-in technical-health
+    assets exclude product behavior).\n\n"
+  requiredPaths: &2
+  - dora/packs/playwright-runtime-proof.yaml
+  - dora/templates/runtime-profiles/playwright/package.json
+  - dora/templates/runtime-profiles/playwright/playwright.config.mjs
+  - dora/templates/runtime-profiles/playwright/tests/technical-health.spec.mjs
+  - dora/test/playwright_runtime_profile_assets_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:30:28Z'
+  changedAfterStart: *2
+- task: add-safe-runtime-profile-apply
+  command: ruby dora/test/runtime_proof_profile_apply_test.rb
+  ranAt: '2026-08-05T19:31:36Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/runtime_proof_profile_apply.rb
+  - dora/test/runtime_proof_profile_apply_test.rb
+  output: "Dora runtime profile apply test passed (dry-run, safe apply, traversal
+    rejection, and preservation).\n\n"
+  requiredPaths: &3
+  - dora/bin/dora
+  - dora/lib/dora/runtime_proof_profile_apply.rb
+  - dora/test/runtime_proof_profile_apply_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:31:00Z'
+  changedAfterStart: *3
+- task: prove-runtime-proof-profile-consumer
+  command: ruby dora/test/independent_runtime_proof_profile_consumer_test.rb
+  ranAt: '2026-08-05T19:32:02Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/runtime-proof-profile-consumer.yaml
+  - dora/test/independent_runtime_proof_profile_consumer_test.rb
+  output: "Dora independent runtime proof profile consumer test passed (fresh consumer
+    receives declared neutral assets without browser execution or product leakage).\n\n"
+  requiredPaths: &4
+  - dora/test/fixtures/runtime-proof-profile-consumer.yaml
+  - dora/test/independent_runtime_proof_profile_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:31:46Z'
+  changedAfterStart: *4
+- task: execute-neutral-playwright-runtime-proof
+  command: ruby dora/test/playwright_runtime_execution_test.rb
+  ranAt: '2026-08-05T19:38:57Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/test/fixtures/playwright-runtime-execution.yaml
+  - dora/test/playwright_runtime_execution_test.rb
+  output: "Dora Playwright runtime execution test passed (approved isolated browser
+    proof recorded fresh technical-health evidence).\n\n"
+  requiredPaths: &6
+  - dora/test/playwright_runtime_execution_test.rb
+  - dora/test/fixtures/playwright-runtime-execution.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: *5
+  startedAt: '2026-08-05T19:32:34Z'
+  changedAfterStart: *6

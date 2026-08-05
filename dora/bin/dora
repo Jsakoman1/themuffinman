@@ -4,6 +4,7 @@
 require "yaml"
 require "json"
 require "tmpdir"
+require "fileutils"
 
 ROOT = File.expand_path("..", __dir__)
 SCHEMA_PATH = File.join(ROOT, "project-adapter.schema.yaml")
@@ -43,6 +44,13 @@ require File.join(ROOT, "lib/dora/plan_coverage")
 require File.join(ROOT, "lib/dora/plugin_contract")
 require File.join(ROOT, "lib/dora/plugin_runner")
 require File.join(ROOT, "lib/dora/command_envelope")
+require File.join(ROOT, "lib/dora/starter_compatibility")
+require File.join(ROOT, "lib/dora/idea_interview_session")
+require File.join(ROOT, "lib/dora/authoring_next")
+require File.join(ROOT, "lib/dora/vertical_slice_generator")
+require File.join(ROOT, "lib/dora/vertical_slice_readiness")
+require File.join(ROOT, "lib/dora/decision_record")
+require File.join(ROOT, "lib/dora/runtime_proof_profile_apply")
 
 format_index = ARGV.index("--format")
 OUTPUT_FORMAT = if format_index
@@ -263,6 +271,92 @@ def diagnose_project_compact(adapter_path)
   return if emit_envelope(payload, citations: [".dora/project.yaml"])
 
   puts YAML.dump(payload).sub(/\A---\n/, "")
+end
+
+def show_app_readiness(compatibility_path)
+  result = Dora::StarterCompatibility.readiness!(compatibility_path)
+  citation = compatibility_path.start_with?("/") ? File.basename(compatibility_path) : compatibility_path
+  return if emit_envelope(result, citations: [citation])
+
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def write_interview_session(path, session, overwrite: false)
+  fail!("interview session already exists: #{path}") if File.exist?(path) && !overwrite
+  FileUtils.mkdir_p(File.dirname(File.expand_path(path)))
+  File.write(path, YAML.dump(session))
+end
+
+def start_interview_session(path, project_id)
+  session = Dora::IdeaInterviewSession.new!(project_id: project_id)
+  write_interview_session(path, session)
+  return if emit_envelope({"session" => path, "next_question" => Dora::IdeaInterviewSession.next_question!(session), "completion_boundary" => "Starting an interview creates only its session file; it does not create product knowledge or implementation."}, citations: [File.basename(path)], side_effect: "local_mutation")
+  puts "Dora interview session started: #{path}."
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def show_interview_question(path)
+  session = Dora::IdeaInterviewSession.load!(path)
+  result = {"session" => path, "next_question" => Dora::IdeaInterviewSession.next_question!(session), "completion_boundary" => "This reports one declared question only; it does not infer an answer."}
+  return if emit_envelope(result, citations: [File.basename(path)])
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def record_interview_answer(path, id, value)
+  session = Dora::IdeaInterviewSession.record_answer!(Dora::IdeaInterviewSession.load!(path), id: id, value: value)
+  write_interview_session(path, session, overwrite: true)
+  result = {"session" => path, "recorded_answer" => id, "next_question" => Dora::IdeaInterviewSession.next_question!(session), "completion_boundary" => "A recorded confirmed answer is interview context only; it does not resolve other decisions or authorize implementation."}
+  return if emit_envelope(result, citations: [File.basename(path)], side_effect: "local_mutation")
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def show_authoring_next(session_path, readiness_path = nil)
+  result = Dora::AuthoringNext.report!(session_path: session_path, readiness_path: readiness_path)
+  citations = result.fetch("citations").map { |path| File.basename(path) }
+  return if emit_envelope(result, citations: citations)
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def show_vertical_slice(context_path)
+  report = Dora::VerticalSliceGenerator.generate_report!(YAML.load_file(context_path))
+  payload = report.merge("readiness" => Dora::VerticalSliceReadiness.evaluate_report!(report))
+  citation = context_path.start_with?("/") ? File.basename(context_path) : context_path
+  return if emit_envelope(payload, citations: [citation])
+  puts YAML.dump(payload).sub(/\A---\n/, "")
+rescue ArgumentError, Psych::Exception => error
+  fail!(error.message)
+end
+
+def append_decision_record(path, arguments)
+  values = {}
+  %w[id decision status domain-ref plan-ref evidence-ref].each do |name|
+    index = arguments.index("--#{name}")
+    values[name] = index && arguments[index + 1]
+  end
+  fail!("usage: dora decision-record <log.yaml> --id <id> --decision <text> --status <proposed|accepted|superseded> --domain-ref <path> --plan-ref <path> --evidence-ref <path> [--format json|yaml]") unless values.values.all?
+  entry = {"id" => values["id"], "decision" => values["decision"], "status" => values["status"], "domain_references" => [values["domain-ref"]], "plan_references" => [values["plan-ref"]], "evidence_references" => [values["evidence-ref"]]}
+  result = Dora::DecisionRecord.append!(path: path, entry: entry)
+  return if emit_envelope(result, citations: [File.basename(path)], side_effect: "local_mutation")
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def apply_runtime_profile(destination, dry_run)
+  result = Dora::RuntimeProofProfileApply.apply!(destination: destination, dry_run: dry_run)
+  return if emit_envelope(result, citations: ["packs/playwright-runtime-proof.yaml"], side_effect: dry_run ? "read_only" : "local_mutation")
+  puts YAML.dump(result).sub(/\A---\n/, "")
+rescue ArgumentError => error
+  fail!(error.message)
 end
 
 def explain_revision_evidence(trace_path)
@@ -596,6 +690,45 @@ when "next"
 when "diagnose"
   fail!("usage: dora diagnose <adapter-path> [--format json|yaml]") unless ARGV.length == 1
   diagnose_project_compact(ARGV.first)
+when "app-readiness"
+  fail!("usage: dora app-readiness <starter-compatibility.yaml> [--format json|yaml]") unless ARGV.length == 1
+  show_app_readiness(ARGV.first)
+when "interview-start"
+  session_path = ARGV.shift
+  project_option = ARGV.index("--project")
+  project_id = project_option && ARGV[project_option + 1]
+  fail!("usage: dora interview-start <session.yaml> --project <project-id> [--format json|yaml]") unless session_path && project_option == 0 && ARGV.length == 2 && project_id
+  start_interview_session(session_path, project_id)
+when "interview-next"
+  fail!("usage: dora interview-next <session.yaml> [--format json|yaml]") unless ARGV.length == 1
+  show_interview_question(ARGV.first)
+when "interview-answer"
+  session_path = ARGV.shift
+  id_option = ARGV.index("--id")
+  value_option = ARGV.index("--value")
+  id = id_option && ARGV[id_option + 1]
+  value = value_option && ARGV[value_option + 1]
+  fail!("usage: dora interview-answer <session.yaml> --id <answer-id> --value <user-confirmed-value> [--format json|yaml]") unless session_path && id && value && ARGV.length == 4
+  record_interview_answer(session_path, id, value)
+when "authoring-next"
+  session_path = ARGV.shift
+  readiness_option = ARGV.index("--readiness")
+  readiness_path = readiness_option && ARGV[readiness_option + 1]
+  fail!("usage: dora authoring-next <session.yaml> [--readiness <starter-compatibility.yaml>] [--format json|yaml]") unless session_path && (!readiness_option || ARGV.length == 2)
+  show_authoring_next(session_path, readiness_path)
+when "vertical-slice"
+  fail!("usage: dora vertical-slice <confirmed-capability-context.yaml> [--format json|yaml]") unless ARGV.length == 1
+  show_vertical_slice(ARGV.first)
+when "decision-record"
+  path = ARGV.shift
+  fail!("usage: dora decision-record <log.yaml> --id <id> --decision <text> --status <proposed|accepted|superseded> --domain-ref <path> --plan-ref <path> --evidence-ref <path> [--format json|yaml]") unless path && ARGV.length == 12
+  append_decision_record(path, ARGV)
+when "runtime-profile-apply"
+  destination = ARGV.shift
+  dry_run = ARGV.delete("--dry-run")
+  apply = ARGV.delete("--apply")
+  fail!("usage: dora runtime-profile-apply <relative-destination> --dry-run|--apply [--format json|yaml]") unless destination && ARGV.empty? && (!!dry_run ^ !!apply)
+  apply_runtime_profile(destination, !dry_run.nil?)
 when "evidence-explain"
   fail!("usage: dora evidence-explain <revision-evidence-trace.yaml> [--format json|yaml]") unless ARGV.length == 1
   explain_revision_evidence(ARGV.first)

@@ -1,0 +1,6 @@
+kind: dora_runtime_proof_profile_consumer
+version: 1
+id: neutral-runtime-consumer
+destination: runtime-proof
+expected_files: [package.json, playwright.config.mjs, tests/technical-health.spec.mjs]
+boundary: The consumer receives only a neutral technical runtime profile; browser execution and product behavior remain unproved.

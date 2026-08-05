@@ -1,0 +1,5 @@
+kind: dora_runtime_proof_profile_schema
+version: 1
+required_fields: [kind, version, id, browser_installation, test_command, evidence_destination, non_guarantees, product_boundary]
+product_boundary: A runtime-proof profile contains technical health checks only and must not declare product actions, data, or endpoints.
+completion_boundary: A profile declaration does not install a browser, run a server, or prove a consumer application.

@@ -23,6 +23,11 @@ module Dora
       VerticalSliceProposal.validate!(proposal)
     end
 
+    def self.generate_report!(context)
+      proposal = generate!(context)
+      {"kind" => "dora_vertical_slice_report", "version" => 1, "proposal" => proposal, "completion_boundary" => "A vertical-slice report proposes declared technical surfaces only; it does not create source code, a work plan, or implementation evidence."}.freeze
+    end
+
     def self.proposed_surfaces(id)
       {
         "migration" => ["backend/src/main/resources/db/migration/V__#{id.tr('-', '_')}.sql"],

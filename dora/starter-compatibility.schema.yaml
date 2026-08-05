@@ -1,0 +1,7 @@
+kind: dora_starter_compatibility_schema
+version: 1
+required_fields: [kind, version, starter_id, requirements, observation_boundary, completion_boundary]
+required_requirement_ids: [java, maven, node, npm, docker, compose]
+optional_requirement_ids: [playwright-browser]
+observation_boundary: Compatibility declarations identify prerequisites only. They do not probe, install, configure, or change a host.
+completion_boundary: A compatibility declaration is not proof that a host is ready or that a starter has been applied.

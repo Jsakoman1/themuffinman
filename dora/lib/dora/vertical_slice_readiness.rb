@@ -17,10 +17,17 @@ module Dora
       }
     end
 
+    def self.evaluate_report!(report)
+      fail!("vertical slice report is invalid") unless report.is_a?(Hash) && report["kind"] == "dora_vertical_slice_report" && report["version"].to_i == 1
+      evaluate!(report.fetch("proposal"))
+    end
+
     def self.blocker_for(gap)
       category = DECISION_CATEGORIES.find { |_id, label| gap.downcase.include?(label) }&.first || "other"
       {"category" => category, "detail" => gap, "source" => "proposal.gaps"}
     end
     private_class_method :blocker_for
+    def self.fail!(message); raise ArgumentError, message; end
+    private_class_method :fail!
   end
 end

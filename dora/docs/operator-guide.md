@@ -112,6 +112,27 @@ Run `./bin/dora help` to see the project-local commands. The usual loop is:
 `work-verify` records command output and changed-path evidence. It is a delivery
 control, not proof that a product feature is safe to release.
 
+## Codex-first guided authoring
+
+For a new idea, start `dora interview-start <session.yaml> --project <id>` and let
+Codex use `dora interview-next` to ask one required question at a time. Record an
+answer only with `dora interview-answer`; its provenance is `user_confirmed`.
+`dora authoring-next` returns one deterministic next action and never fills an open
+decision by inference.
+
+Use `dora app-readiness <starter-compatibility.yaml>` before a starter to inspect
+only declared local tool versions. `dora vertical-slice <context.yaml>` returns a
+read-only proposal plus decision blockers. `dora decision-record <log.yaml> ...`
+appends a cited record and preserves earlier records. None of these commands
+implements product code or grants release approval.
+
+`dora runtime-profile-apply <destination> --dry-run` previews the neutral
+Playwright technical-health profile; `--apply` requires an empty destination and
+does not install a browser. A browser installation or runtime execution is an
+explicit-approval action. Its evidence covers only the temporary local technical
+health marker, never a consumer flow, authorization, data safety, deployment, or
+production readiness.
+
 ## Add a portable plugin and read its report
 
 Declare a plugin in `.dora/plugins.yaml`. A plugin has a project-relative entrypoint,

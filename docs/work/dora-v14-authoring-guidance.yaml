@@ -1,0 +1,70 @@
+kind: work
+version: 1
+id: dora-v14-authoring-guidance
+title: Publish Dora v1.4 Codex authoring guidance
+status: verified
+baseline: d52ab8dc077c78790488803cc0e18bcdf5726337
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v14-agent-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v14-guidance
+  boundary: Documents proven commands and current deferrals; it cannot promote release
+    or consumer readiness.
+tasks:
+- id: publish-agent-authoring-guidance
+  inventory_item: v14-guidance
+  title: Document the guided authoring route and deferrals
+  type: implementation
+  observable_outcome: Dora guides state the exact interview, proposal, decision, and
+    runtime-profile commands plus their non-inference, browser, auth, and production
+    boundaries.
+  dependencies:
+  - v14-runtime-execution
+  paths:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/docs/operator-guide.md
+  - dora/test/agent_authoring_guidance_test.rb
+  required_paths:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/docs/operator-guide.md
+  - dora/test/agent_authoring_guidance_test.rb
+  evidence_boundary:
+  - Current command
+  - deferral
+  - and no-product-inference guidance assertions.
+  validation: ruby dora/test/agent_authoring_guidance_test.rb
+  status: done
+  started_at: '2026-08-05T19:39:06Z'
+  start_fingerprints:
+    dora/README.md: ad855c7818189eb5f85a4ec8ded6806de67c8280cdb1f2c8d94c782b3d233a17
+    dora/docs/agent-first-application-guide.md: 9a653a07f01fde1f44b5a6b42847729856513a27ca1cd33a9368e47113dc4d88
+    dora/docs/operator-guide.md: 4338739d5e2e25391105982c0e633f959dd10d2b2b148dc2a49ace01a6acfeca
+    dora/test/agent_authoring_guidance_test.rb: __missing__
+evidence:
+- task: publish-agent-authoring-guidance
+  command: ruby dora/test/agent_authoring_guidance_test.rb
+  ranAt: '2026-08-05T19:40:00Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/docs/operator-guide.md
+  - dora/test/agent_authoring_guidance_test.rb
+  output: "Dora agent authoring guidance test passed (guided commands, non-inference,
+    browser approval, and product boundaries are documented).\n\n"
+  requiredPaths: &1
+  - dora/README.md
+  - dora/docs/agent-first-application-guide.md
+  - dora/docs/operator-guide.md
+  - dora/test/agent_authoring_guidance_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:39:06Z'
+  changedAfterStart: *1

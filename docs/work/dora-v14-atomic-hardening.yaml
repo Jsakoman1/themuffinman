@@ -1,0 +1,78 @@
+kind: work
+version: 1
+id: dora-v14-atomic-hardening
+title: Harden the Dora v1.4 agent authoring program
+status: verified
+baseline: d52ab8dc077c78790488803cc0e18bcdf5726337
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v14-agent-authoring-master.yaml
+tasks:
+- id: harden-v14-program
+  inventory_item: v14-harden
+  title: Verify v1.4 atomic task precision
+  type: implementation
+  observable_outcome: Every v1.4 delivery item has one bounded outcome, exact required
+    paths, a direct predecessor dependency, a leaf validation command, and a defined
+    evidence boundary.
+  dependencies: []
+  paths:
+  - docs/work/dora-v14-agent-authoring-master.yaml
+  - docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+  - docs/work/dora-v14-starter-readiness.yaml
+  - docs/work/dora-v14-guided-interview.yaml
+  - docs/work/dora-v14-proposal-and-decision.yaml
+  - docs/work/dora-v14-runtime-proof-profile.yaml
+  - docs/work/dora-v14-authoring-guidance.yaml
+  required_paths:
+  - docs/work/dora-v14-agent-authoring-master.yaml
+  - docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+  - docs/work/dora-v14-starter-readiness.yaml
+  - docs/work/dora-v14-guided-interview.yaml
+  - docs/work/dora-v14-proposal-and-decision.yaml
+  - docs/work/dora-v14-runtime-proof-profile.yaml
+  - docs/work/dora-v14-authoring-guidance.yaml
+  evidence_boundary:
+  - Atomic-task hardening audit only; no v1.4 product or runtime behavior is proved.
+  validation: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v14-agent-authoring-master.yaml
+    docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+  status: done
+  started_at: '2026-08-05T19:20:11Z'
+  start_fingerprints:
+    docs/work/dora-v14-agent-authoring-master.yaml: 6b09051c5a9db387f7a01dfb6cdeb5fc13ebc1a23552012fcc0cf345f4822921
+    docs/work/dora-v14-agent-authoring-execution-inventory.yaml: 8e99be7fc4d6d4f1f914daf4ea09802478360bcd7403f484ec62404cb0dd5b55
+    docs/work/dora-v14-starter-readiness.yaml: 55d341bfe9a9d7016324ae9b9c052a87e86ec5e5186fbba4b29abb4708d6321b
+    docs/work/dora-v14-guided-interview.yaml: a2f4abfb56ad623ce9e9bacaed49a703cf68804d7eb82051819d2ae03bb2b438
+    docs/work/dora-v14-proposal-and-decision.yaml: 5d6694e125af9d0104cac202b2c15521daf30d21a27a5932c55fa3da0dd8f7fb
+    docs/work/dora-v14-runtime-proof-profile.yaml: ca4dfb8992bc4cea5138f6ed7312979a2427b2884d1d372b66991976bf8224d0
+    docs/work/dora-v14-authoring-guidance.yaml: a77b040beceacdc5c2de64ae8a9222d2d267f10c699cf8569ae864501dc795cb
+evidence:
+- task: harden-v14-program
+  command: ruby scripts/audits/audit-atomic-task-hardening.rb docs/work/dora-v14-agent-authoring-master.yaml
+    docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+  ranAt: '2026-08-05T19:20:47Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+  - docs/work/dora-v14-agent-authoring-master.yaml
+  - docs/work/dora-v14-authoring-guidance.yaml
+  - docs/work/dora-v14-guided-interview.yaml
+  - docs/work/dora-v14-proposal-and-decision.yaml
+  - docs/work/dora-v14-runtime-proof-profile.yaml
+  - docs/work/dora-v14-starter-readiness.yaml
+  output: "Atomic task hardening audit passed (15 inventory items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v14-agent-authoring-master.yaml
+  - docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+  - docs/work/dora-v14-starter-readiness.yaml
+  - docs/work/dora-v14-guided-interview.yaml
+  - docs/work/dora-v14-proposal-and-decision.yaml
+  - docs/work/dora-v14-runtime-proof-profile.yaml
+  - docs/work/dora-v14-authoring-guidance.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:20:11Z'
+  changedAfterStart: *1

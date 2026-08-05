@@ -1,0 +1,9 @@
+kind: dora_idea_interview_session_schema
+version: 1
+required_fields: [kind, version, project_id, answers, open_decisions, completion_boundary]
+answer_required_fields: [id, value, source]
+open_decision_required_fields: [id, question, source, status]
+allowed_answer_source: user_confirmed
+allowed_open_decision_source: user_confirmed
+required_answer_ids: [target_users, first_problem, first_capability, domain_concepts, permission_intent, workflow_intent, forbidden_outcomes]
+completion_boundary: A guided session records confirmed answers and explicit open decisions only; it does not infer product rules or prove readiness.

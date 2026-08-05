@@ -1,0 +1,114 @@
+kind: work
+version: 1
+id: dora-v14-starter-readiness
+title: Add preflight compatibility and readiness for Dora starters
+status: verified
+baseline: d52ab8dc077c78790488803cc0e18bcdf5726337
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+master_plan: docs/work/dora-v14-agent-authoring-master.yaml
+atomic_task_contract:
+  queue_position:
+  - v14-starter-contract
+  - v14-app-readiness
+  boundary: Compatibility declarations and read-only local observation; neither task
+    installs or creates anything.
+tasks:
+- id: define-starter-compatibility-contract
+  inventory_item: v14-starter-contract
+  title: Define declared starter compatibility requirements
+  type: implementation
+  observable_outcome: Dora validates neutral starter requirements for local Java,
+    Maven, Node, npm, Docker, Compose, and optional browser tooling without probing
+    or changing the host.
+  dependencies:
+  - v14-harden
+  paths:
+  - dora/starter-compatibility.schema.yaml
+  - dora/lib/dora/starter_compatibility.rb
+  - dora/test/starter_compatibility_test.rb
+  required_paths:
+  - dora/starter-compatibility.schema.yaml
+  - dora/lib/dora/starter_compatibility.rb
+  - dora/test/starter_compatibility_test.rb
+  evidence_boundary:
+  - Valid and invalid technical compatibility declarations only; no host tool is installed
+    or changed.
+  validation: ruby dora/test/starter_compatibility_test.rb
+  status: done
+  started_at: '2026-08-05T19:20:54Z'
+  start_fingerprints:
+    dora/starter-compatibility.schema.yaml: __missing__
+    dora/lib/dora/starter_compatibility.rb: __missing__
+    dora/test/starter_compatibility_test.rb: __missing__
+- id: expose-app-readiness-cli
+  inventory_item: v14-app-readiness
+  title: Expose declared and observed app readiness
+  type: implementation
+  observable_outcome: Codex can request a read-only readiness report that compares
+    one declared starter profile with the locally observable toolchain and names exact
+    missing prerequisites.
+  dependencies:
+  - v14-starter-contract
+  paths:
+  - dora/bin/dora
+  - dora/lib/dora/starter_compatibility.rb
+  - dora/test/app_readiness_command_test.rb
+  required_paths:
+  - dora/bin/dora
+  - dora/lib/dora/starter_compatibility.rb
+  - dora/test/app_readiness_command_test.rb
+  evidence_boundary:
+  - Present and missing-tool command fixtures; no package
+  - browser
+  - container
+  - or project file is created.
+  validation: ruby dora/test/app_readiness_command_test.rb
+  status: done
+  started_at: '2026-08-05T19:22:00Z'
+  start_fingerprints:
+    dora/bin/dora: fb654cb79cdffd6d70225a860b1ee363cbc9e0bad1bdaaf0b30551b1b8122019
+    dora/lib/dora/starter_compatibility.rb: e0cb453f57e2b636898ef0705549cfb9969896670748a2836596de04c0f59e73
+    dora/test/app_readiness_command_test.rb: __missing__
+evidence:
+- task: define-starter-compatibility-contract
+  command: ruby dora/test/starter_compatibility_test.rb
+  ranAt: '2026-08-05T19:21:54Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/starter_compatibility.rb
+  - dora/starter-compatibility.schema.yaml
+  - dora/test/starter_compatibility_test.rb
+  output: "Dora starter compatibility test passed (declared technical prerequisites
+    are validated without host probing or mutation).\n\n"
+  requiredPaths: &1
+  - dora/starter-compatibility.schema.yaml
+  - dora/lib/dora/starter_compatibility.rb
+  - dora/test/starter_compatibility_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:20:54Z'
+  changedAfterStart: *1
+- task: expose-app-readiness-cli
+  command: ruby dora/test/app_readiness_command_test.rb
+  ranAt: '2026-08-05T19:23:37Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/starter_compatibility.rb
+  - dora/test/app_readiness_command_test.rb
+  output: "Dora app readiness command test passed (declared local prerequisites are
+    observed without installation or project mutation).\n\n"
+  requiredPaths: &2
+  - dora/bin/dora
+  - dora/lib/dora/starter_compatibility.rb
+  - dora/test/app_readiness_command_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T19:22:00Z'
+  changedAfterStart: *2

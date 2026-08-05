@@ -1,0 +1,181 @@
+kind: execution_inventory
+version: 1
+id: dora-v14-agent-authoring-execution-inventory
+master_plan: docs/work/dora-v14-agent-authoring-master.yaml
+status: prepared
+execution_mode: strict_serial
+atomic_hardening:
+  task_count: 15
+  task_shape: One observable outcome, bounded required paths, direct dependency, leaf
+    validation, and evidence boundary.
+  queue_rule: A later item cannot start until its direct predecessor is verifier-marked
+    verified.
+ownership_boundary: Dora owns neutral authoring mechanics and technical proof profiles;
+  a consumer owns product meaning, source code, runtime authority, and all external
+  side effects.
+items:
+- id: v14-harden
+  order: 1
+  plan: docs/work/dora-v14-atomic-hardening.yaml
+  task: harden-v14-program
+  status: verified
+  started_at: '2026-08-05T19:20:11Z'
+  verified_at: '2026-08-05T19:20:47Z'
+  evidence:
+    plan: docs/work/dora-v14-atomic-hardening.yaml
+    task: harden-v14-program
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-starter-contract
+  order: 2
+  plan: docs/work/dora-v14-starter-readiness.yaml
+  task: define-starter-compatibility-contract
+  status: verified
+  started_at: '2026-08-05T19:20:54Z'
+  verified_at: '2026-08-05T19:21:54Z'
+  evidence:
+    plan: docs/work/dora-v14-starter-readiness.yaml
+    task: define-starter-compatibility-contract
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-app-readiness
+  order: 3
+  plan: docs/work/dora-v14-starter-readiness.yaml
+  task: expose-app-readiness-cli
+  status: verified
+  started_at: '2026-08-05T19:22:00Z'
+  verified_at: '2026-08-05T19:23:38Z'
+  evidence:
+    plan: docs/work/dora-v14-starter-readiness.yaml
+    task: expose-app-readiness-cli
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-interview-contract
+  order: 4
+  plan: docs/work/dora-v14-guided-interview.yaml
+  task: define-guided-interview-session
+  status: verified
+  started_at: '2026-08-05T19:23:45Z'
+  verified_at: '2026-08-05T19:25:45Z'
+  evidence:
+    plan: docs/work/dora-v14-guided-interview.yaml
+    task: define-guided-interview-session
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-interview-cli
+  order: 5
+  plan: docs/work/dora-v14-guided-interview.yaml
+  task: expose-guided-interview-cli
+  status: verified
+  started_at: '2026-08-05T19:25:52Z'
+  verified_at: '2026-08-05T19:26:40Z'
+  evidence:
+    plan: docs/work/dora-v14-guided-interview.yaml
+    task: expose-guided-interview-cli
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-authoring-next
+  order: 6
+  plan: docs/work/dora-v14-guided-interview.yaml
+  task: expose-authoring-next
+  status: verified
+  started_at: '2026-08-05T19:26:50Z'
+  verified_at: '2026-08-05T19:27:25Z'
+  evidence:
+    plan: docs/work/dora-v14-guided-interview.yaml
+    task: expose-authoring-next
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-slice-cli
+  order: 7
+  plan: docs/work/dora-v14-proposal-and-decision.yaml
+  task: expose-vertical-slice-cli
+  status: verified
+  started_at: '2026-08-05T19:27:46Z'
+  verified_at: '2026-08-05T19:28:22Z'
+  evidence:
+    plan: docs/work/dora-v14-proposal-and-decision.yaml
+    task: expose-vertical-slice-cli
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-authoring-trace
+  order: 8
+  plan: docs/work/dora-v14-proposal-and-decision.yaml
+  task: add-authoring-provenance-trace
+  status: verified
+  started_at: '2026-08-05T19:28:27Z'
+  verified_at: '2026-08-05T19:28:52Z'
+  evidence:
+    plan: docs/work/dora-v14-proposal-and-decision.yaml
+    task: add-authoring-provenance-trace
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-decision-cli
+  order: 9
+  plan: docs/work/dora-v14-proposal-and-decision.yaml
+  task: expose-decision-record-cli
+  status: verified
+  started_at: '2026-08-05T19:29:07Z'
+  verified_at: '2026-08-05T19:29:48Z'
+  evidence:
+    plan: docs/work/dora-v14-proposal-and-decision.yaml
+    task: expose-decision-record-cli
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-runtime-contract
+  order: 10
+  plan: docs/work/dora-v14-runtime-proof-profile.yaml
+  task: define-runtime-proof-profile-contract
+  status: verified
+  started_at: '2026-08-05T19:29:53Z'
+  verified_at: '2026-08-05T19:30:23Z'
+  evidence:
+    plan: docs/work/dora-v14-runtime-proof-profile.yaml
+    task: define-runtime-proof-profile-contract
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-runtime-assets
+  order: 11
+  plan: docs/work/dora-v14-runtime-proof-profile.yaml
+  task: add-playwright-runtime-proof-assets
+  status: verified
+  started_at: '2026-08-05T19:30:28Z'
+  verified_at: '2026-08-05T19:30:56Z'
+  evidence:
+    plan: docs/work/dora-v14-runtime-proof-profile.yaml
+    task: add-playwright-runtime-proof-assets
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-profile-apply
+  order: 12
+  plan: docs/work/dora-v14-runtime-proof-profile.yaml
+  task: add-safe-runtime-profile-apply
+  status: verified
+  started_at: '2026-08-05T19:31:00Z'
+  verified_at: '2026-08-05T19:31:37Z'
+  evidence:
+    plan: docs/work/dora-v14-runtime-proof-profile.yaml
+    task: add-safe-runtime-profile-apply
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-runtime-consumer
+  order: 13
+  plan: docs/work/dora-v14-runtime-proof-profile.yaml
+  task: prove-runtime-proof-profile-consumer
+  status: verified
+  started_at: '2026-08-05T19:31:46Z'
+  verified_at: '2026-08-05T19:32:02Z'
+  evidence:
+    plan: docs/work/dora-v14-runtime-proof-profile.yaml
+    task: prove-runtime-proof-profile-consumer
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-runtime-execution
+  order: 14
+  plan: docs/work/dora-v14-runtime-proof-profile.yaml
+  task: execute-neutral-playwright-runtime-proof
+  status: verified
+  started_at: '2026-08-05T19:32:34Z'
+  verified_at: '2026-08-05T19:39:00Z'
+  evidence:
+    plan: docs/work/dora-v14-runtime-proof-profile.yaml
+    task: execute-neutral-playwright-runtime-proof
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+- id: v14-guidance
+  order: 15
+  plan: docs/work/dora-v14-authoring-guidance.yaml
+  task: publish-agent-authoring-guidance
+  status: verified
+  started_at: '2026-08-05T19:39:06Z'
+  verified_at: '2026-08-05T19:40:00Z'
+  evidence:
+    plan: docs/work/dora-v14-authoring-guidance.yaml
+    task: publish-agent-authoring-guidance
+    revision: d52ab8dc077c78790488803cc0e18bcdf5726337

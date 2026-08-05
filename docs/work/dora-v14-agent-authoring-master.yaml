@@ -1,0 +1,139 @@
+kind: master
+version: 1
+id: dora-v14-agent-authoring-master
+title: Make Dora's authoring, readiness, and runtime-proof controls directly usable
+  by Codex
+status: verified
+implementation_ready: true
+baseline: d52ab8dc077c78790488803cc0e18bcdf5726337
+target_release: v1.4.0
+objective: Give Codex a guided path from user-confirmed idea to verified technical
+  readiness, interview, proposal, decision record, and opt-in neutral browser proof
+  by exposing Dora's existing validated primitives as small public commands and safe
+  profiles.
+analysis_source: docs/work/dora-v14-agent-authoring-analysis.md
+principles:
+- Record user-confirmed statements and open decisions; never convert a guess into
+  a fact.
+- Reuse the existing interview, capability package, domain compiler, readiness, and
+  decision-log contracts.
+- Proposal and browser-proof profiles are technical support only, never product implementation
+  authority.
+- Do not generate domain entities, fields, roles, permissions, state transitions,
+  API behavior, or user-facing UI by inference.
+- Every reusable command and profile needs independent-consumer evidence.
+- Remote publication, deployment, secret creation, and consumer pinning require later
+  explicit approval.
+workstreams:
+- id: guided-interview
+  outcome: Codex can request the next required question and record only confirmed
+    answers in an interview session.
+  surfaces:
+  - dora/bin/dora
+  - dora/lib/dora/idea_interview.rb
+  - dora/test/
+- id: proposal-cli
+  outcome: Codex can produce a validated vertical-slice proposal and exact readiness
+    blockers through a public CLI command.
+  surfaces:
+  - dora/bin/dora
+  - dora/lib/dora/vertical_slice_generator.rb
+  - dora/lib/dora/vertical_slice_readiness.rb
+  - dora/test/
+- id: decision-record
+  outcome: A project-safe command creates or validates a cited decision record using
+    Dora's existing decision-log schema.
+  surfaces:
+  - dora/bin/dora
+  - dora/lib/dora/decision_log.rb
+  - dora/test/
+- id: runtime-profile
+  outcome: An opt-in neutral Playwright runtime-proof profile is generated and independently
+    exercised without product data.
+  surfaces:
+  - dora/starters/
+  - dora/templates/
+  - dora/packs/
+  - dora/test/
+- id: authoring-proof-and-guidance
+  outcome: A fresh consumer and Codex guide demonstrate the supported route and all
+    remaining decision boundaries.
+  surfaces:
+  - dora/docs/
+  - dora/test/
+- id: starter-readiness
+  outcome: Codex can check declared local toolchain requirements before a starter
+    is selected or a technical profile is applied.
+  surfaces:
+  - dora/bin/dora
+  - dora/lib/dora/
+  - dora/*.schema.yaml
+  - dora/test/
+- id: authoring-trace
+  outcome: Dora shows cited links from confirmed interview answers through proposal,
+    readiness, and decision records.
+  surfaces:
+  - dora/bin/dora
+  - dora/lib/dora/
+  - dora/test/
+- id: safe-profile-apply
+  outcome: An opt-in runtime profile has a dry-run and non-overwrite apply route for
+    existing consumer projects.
+  surfaces:
+  - dora/bin/dora
+  - dora/lib/dora/
+  - dora/templates/
+  - dora/test/
+non_goals:
+- Generate product source code from a brief or an inferred domain model.
+- Add authentication, authorization, ownership, retention, backup, production deployment,
+  or business audit semantics.
+- Create a DoomsDayStorage application or product-specific browser scenario.
+- Replace project-owned tests, runtime evidence, or release approval.
+required_before_goal_pursuit:
+- Split every workstream into independent atomic tasks with exact paths and leaf validation
+  commands.
+- Define the on-disk session state and non-overwrite behavior for the guided interview.
+- Define CLI input/output schemas for proposal and decision-record commands.
+- Select an opt-in Playwright installation and execution model that never silently
+  downloads or runs a browser in a consumer project.
+- Define temporary browser evidence and cleanup boundaries for independent-consumer
+  proof.
+- Require explicit user approval before the Playwright task downloads a browser binary
+  or starts a temporary local web server.
+- Create one serial execution inventory and verifier-verified atomic hardening task.
+completion_boundary: This is a design plan only. It does not authorize implementation,
+  release, source generation, browser execution, deployment, or a v1.4.0 tag.
+children:
+- docs/work/dora-v14-atomic-hardening.yaml
+- docs/work/dora-v14-starter-readiness.yaml
+- docs/work/dora-v14-guided-interview.yaml
+- docs/work/dora-v14-proposal-and-decision.yaml
+- docs/work/dora-v14-runtime-proof-profile.yaml
+- docs/work/dora-v14-authoring-guidance.yaml
+execution_inventory: docs/work/dora-v14-agent-authoring-execution-inventory.yaml
+atomic_task_hardening_plan: docs/work/dora-v14-atomic-hardening.yaml
+strict_verification: true
+serial_task_execution: true
+atomic_task_contract:
+  required_fields:
+  - observable_outcome
+  - dependencies
+  - required_paths
+  - evidence_boundary
+  - validation
+  execution_rule: Start exactly one inventory item only after its predecessor is verifier-marked
+    verified.
+  validation_rule: Leaf validation commands must not invoke a work-plan verifier.
+preflight_source: docs/work/dora-v14-agent-authoring-preflight.md
+goal_readiness_source: docs/work/dora-v14-agent-authoring-goal-readiness.md
+evidence:
+- verifiedAt: '2026-08-05T19:40:00Z'
+  revision: d52ab8dc077c78790488803cc0e18bcdf5726337
+  children:
+  - docs/work/dora-v14-atomic-hardening.yaml
+  - docs/work/dora-v14-starter-readiness.yaml
+  - docs/work/dora-v14-guided-interview.yaml
+  - docs/work/dora-v14-proposal-and-decision.yaml
+  - docs/work/dora-v14-runtime-proof-profile.yaml
+  - docs/work/dora-v14-authoring-guidance.yaml

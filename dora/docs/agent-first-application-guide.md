@@ -31,3 +31,27 @@ dora agent-closeout <adapter-path> <work-plan-path> <task-id> <change-impact-pat
 Before `work-start`, run `dora readiness <project-root>`. Its default response is
 read-only and tells Codex whether a Git baseline exists. Only the explicit
 `--initialize-git` option creates a local repository and initial baseline commit.
+
+## Guided authoring commands
+
+Use a resumable session when the user is still describing an idea:
+
+```text
+dora interview-start docs/idea-session.yaml --project my-app
+dora interview-next docs/idea-session.yaml
+dora interview-answer docs/idea-session.yaml --id target_users --value "Confirmed user answer"
+dora authoring-next docs/idea-session.yaml
+```
+
+Only record `user_confirmed` answers. Keep unresolved questions explicit, and do
+not convert them into permissions, workflow rules, or implementation tasks. Before
+selecting a technical starter, use `dora app-readiness starter-compatibility.yaml`.
+For a confirmed capability, use `dora vertical-slice context.yaml`; it returns a
+proposal and readiness blockers, not source code. Use `dora decision-record` only
+to append a cited proposed or accepted decision.
+
+The optional runtime profile is deliberately separate:
+`dora runtime-profile-apply runtime-proof --dry-run` previews it and `--apply`
+creates it only in an empty destination. Do not install a browser or run its proof
+without explicit user approval. Even a passing neutral health proof does not prove
+product behavior, security, production readiness, or release approval.

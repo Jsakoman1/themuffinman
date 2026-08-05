@@ -1,0 +1,11 @@
+{
+  "name": "dora-playwright-runtime-proof",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:runtime": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.52.0"
+  }
+}

@@ -87,3 +87,18 @@ dora status <adapter-path> <execution-inventory-path>
 dora impact <adapter-path> <node-id>...
 dora agent-closeout <adapter-path> <work-plan-path> <task-id> <change-impact-path> <changed-path>...
 ```
+
+## Guided authoring and technical proof
+
+Codex can begin with a resumable, user-confirmed (`user_confirmed`) interview rather than hand-writing
+YAML. Use `dora interview-start`, `dora interview-next`, and
+`dora interview-answer`; then use `dora authoring-next` for one declared next
+action. Check local prerequisites with `dora app-readiness`, obtain a read-only
+proposal with `dora vertical-slice`, and append cited choices with
+`dora decision-record`. These commands never infer business rules or create
+product source code.
+
+The optional `dora runtime-profile-apply <destination> --dry-run|--apply` profile
+contains only a neutral technical health check. Browser installation and runtime
+execution require explicit user approval; the profile is not authentication,
+authorization, backup, deployment, or production readiness.
