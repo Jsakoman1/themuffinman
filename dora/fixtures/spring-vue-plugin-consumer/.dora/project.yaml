@@ -1,0 +1,19 @@
+kind: dora_project_adapter
+version: 1
+project:
+  id: spring-vue-plugin-consumer
+  root: ..
+paths:
+  docs: docs
+  work_plans: docs/work
+  audit_output: docs/audit-output
+  runtime_evidence: docs/runtime-evidence
+commands:
+  work_start: ./bin/dora work-start .dora/project.yaml plan=<work-plan> task=<task-id>
+  work_verify: ./bin/dora work-verify .dora/project.yaml plan=<work-plan> task=<task-id>
+  control_check: true
+extensions:
+  - id: static-stack-analysis
+    category: audit
+    paths: [backend, frontend]
+    invocation: ./bin/dora plugin-contract plugins.yaml

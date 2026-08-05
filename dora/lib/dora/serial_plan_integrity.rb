@@ -14,17 +14,23 @@ module Dora
       items = Array(inventory["items"])
       fail!("master must declare child plans") if children.empty?
       fail!("execution inventory must declare items") if items.empty?
-      fail!("inventory order must be contiguous from 1") unless items.map { |item| item["order"] } == (1..items.length).to_a
+      sequence = items.map { |item| item["sequence"] || item["order"] }
+      fail!("inventory sequence must be contiguous from 1") unless sequence == (1..items.length).to_a
       ids = items.map { |item| item["id"] }
       fail!("inventory ids are duplicated") unless ids.uniq.length == ids.length
 
-      mapped_tasks = items.map do |item|
+      mapped_tasks = items.each_with_index.map do |item, index|
         plan_path = item.fetch("plan")
         fail!("inventory references non-child plan: #{plan_path}") unless children.include?(plan_path)
         plan = YAML.load_file(resolve_under!(project_root, plan_path))
         task = Array(plan["tasks"]).find { |candidate| candidate["id"] == item["task"] }
         fail!("inventory task is missing: #{plan_path}##{item["task"]}") unless task
         fail!("task inventory mapping differs: #{item["id"]}") unless task["inventory_item"] == item["id"]
+        expected_dependencies = index.zero? ? [] : [items[index - 1]["id"]]
+        fail!("task serial dependencies differ: #{item["id"]}") unless Array(task["dependencies"]) == expected_dependencies
+        required_paths = Array(task["required_paths"])
+        fail!("task required paths are missing: #{item["id"]}") if required_paths.empty? || Array(task["paths"]) != required_paths
+        fail!("task evidence boundary is missing: #{item["id"]}") if Array(task["evidence_boundary"]).empty?
         fail!("task has recursive validation: #{item["id"]}") if recursive_validation?(task["validation"])
         [plan_path, task.fetch("id")]
       end

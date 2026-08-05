@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "yaml"
+require_relative "../../dora/lib/dora/plugins/architecture_integrity"
 
 ROOT = File.expand_path("../..", __dir__)
 REGISTRY_PATH = File.join(ROOT, "docs/module-dependency-registry.yaml")
@@ -25,6 +26,11 @@ backend_files = Dir[File.join(backend_root, "**/*.java")]
 frontend_files = Dir[File.join(frontend_root, "**/*")].select { |path| File.file?(path) }
 
 violations = []
+
+violations.concat(Dora::Plugins::ArchitectureIntegrity.scan_forbidden!(root: ROOT, rules: [
+  {"id" => "domain_to_frontend", "source_glob" => "apps/themuffinman/src/main/java/**/*.java", "forbidden_pattern" => "import\\s+.*(?:frontend|apps\\.themuffinman\\.frontend)"},
+  {"id" => "frontend_feature_to_backend_internals", "source_glob" => "apps/themuffinman/frontend/src/**/*.{ts,vue}", "forbidden_pattern" => "(?:import|from)\\s+['\\\"](?:com\\.themuffinman\\.app|\\.\\.\\/.*backend)"}
+]).map { |entry| "#{entry.fetch("rule")}: #{entry.fetch("path")}" })
 
 backend_files.each do |path|
   content = File.read(path)

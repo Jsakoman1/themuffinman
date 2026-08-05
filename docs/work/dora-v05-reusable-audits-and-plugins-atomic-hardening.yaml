@@ -1,0 +1,88 @@
+kind: work
+version: 1
+id: dora-v05-reusable-audits-and-plugins-atomic-hardening
+title: Harden the Dora v0.5 reusable-audits and plugins plan
+status: verified
+baseline: 8349ce4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+master_plan: docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v04-operational-one-click-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.4 planning and independent-consumer evidence
+  residual_scope:
+  - v0.5 atomic task boundaries
+  - one-to-one inventory mapping
+  - and plugin isolation rules
+  retest_triggers:
+  - changed v0.5 master
+  - child task
+  - inventory mapping
+  - or hardening audit
+  non_duplication_rule: v0.4 hardening evidence does not validate new v0.5 extraction
+    tasks.
+tasks:
+- id: harden-v05-reusable-audits-plan
+  title: Verify every v0.5 queue item is atomic and has an isolated evidence boundary
+  type: docs-only
+  status: done
+  inventory_item: dora-v05-harden
+  observable_outcome: The v0.5 master, children, and inventory are accepted only when
+    every queue item has one bounded outcome, exact paths, serial dependency, leaf
+    validation, and a plugin-or-consumer evidence boundary.
+  dependencies: []
+  evidence_boundary:
+  - Dora v0.5 plan hardening audit
+  paths:
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+  - scripts/audits/audit-dora-v05-reusable-plan.rb
+  required_paths:
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+  - scripts/audits/audit-dora-v05-reusable-plan.rb
+  validation: ruby scripts/audits/audit-dora-v05-reusable-plan.rb
+  started_at: '2026-08-05T11:49:44Z'
+  start_fingerprints:
+    docs/work/dora-v05-reusable-audits-and-plugins-master.yaml: 0b5c3beeff491c783628e8df9a3ee1aa91829ed53b84f93ed813264aecfc4103
+    docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml: 0ec5cf319c7d64f3753a5890f3414b9cc80284689a19ead69b754f3d0f237104
+    docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml: a8f1827d9ee442eeccd176a58b80281a14b901a34eceef56f45c55c2d243b6ef
+    docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml: 01f1b0a9b6b866200569a2c8393db3bf0dff9d71cb8ddf98e8ce81c51e5f723a
+    docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml: 9527f90851fef78025255483ceb7a002e89ef6c0c7748855780ec77bf7f3d8b7
+    scripts/audits/audit-dora-v05-reusable-plan.rb: __missing__
+evidence:
+- task: harden-v05-reusable-audits-plan
+  command: ruby scripts/audits/audit-dora-v05-reusable-plan.rb
+  ranAt: '2026-08-05T11:50:36Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  - scripts/audits/audit-dora-v05-reusable-plan.rb
+  output: "Dora v0.5 reusable plan audit passed (16 atomic serial items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+  - scripts/audits/audit-dora-v05-reusable-plan.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:49:44Z'
+  changedAfterStart: *1

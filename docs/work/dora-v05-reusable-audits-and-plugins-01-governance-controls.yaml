@@ -1,0 +1,235 @@
+kind: work
+version: 1
+id: dora-v05-reusable-audits-and-plugins-01-governance-controls
+title: Extract configurable Dora plan-governance controls
+status: verified
+baseline: 8349ce4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+master_plan: docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v04-operational-one-click-master.yaml
+  baseline_only_surfaces:
+  - existing Dora work verifier and MuffinMan product plan registry
+  residual_scope:
+  - configurable atomic-plan contract
+  - plan coverage registry
+  - serial-wrapper parity
+  - and control ownership contract
+  retest_triggers:
+  - changed work-plan schema
+  - control schema
+  - plan registry
+  - or ownership configuration
+  non_duplication_rule: Existing MuffinMan audit success is compatibility baseline,
+    not Dora v0.5 control evidence.
+hardening_review:
+  state: in_progress
+  contract: Each governance extraction must be independently fixture-tested before
+    its MuffinMan wrapper changes.
+tasks:
+- id: extract-configured-atomic-plan-contract
+  title: Extract a project-configured atomic-plan hardening control
+  type: implementation
+  status: done
+  inventory_item: dora-v05-plan-contract
+  observable_outcome: Dora validates the declared atomic-plan fields for one project
+    plan and reports only contract violations without product-specific assumptions.
+  dependencies:
+  - dora-v05-harden
+  evidence_boundary:
+  - portable atomic-plan control test
+  paths:
+  - dora/lib/dora/atomic_plan_contract.rb
+  - dora/test/atomic_plan_contract_test.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  required_paths:
+  - dora/lib/dora/atomic_plan_contract.rb
+  - dora/test/atomic_plan_contract_test.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  validation: ruby dora/test/atomic_plan_contract_test.rb
+  started_at: '2026-08-05T11:50:44Z'
+  start_fingerprints:
+    dora/lib/dora/atomic_plan_contract.rb: __missing__
+    dora/test/atomic_plan_contract_test.rb: __missing__
+    dora/bin/dora: 7a87cd5f1f8bf4dd76a64bb80b680ea76c0eec5814e6fd75b3fb18629007d782
+    dora/lib/dora/command_registry.rb: 744b3bdc287f88a791658d97c3ef652ac4d1c4f4af55026b8a6a56c1b3688772
+- id: extract-configured-plan-coverage-control
+  title: Extract a declared open-plan coverage control
+  type: implementation
+  status: done
+  inventory_item: dora-v05-plan-coverage
+  observable_outcome: Dora validates a project-owned plan registry with no capability-inventory
+    or MuffinMan path dependency.
+  dependencies:
+  - dora-v05-plan-contract
+  evidence_boundary:
+  - two-project plan coverage fixture test
+  paths:
+  - dora/lib/dora/plan_coverage.rb
+  - dora/templates/plan-registry.yaml
+  - dora/test/plan_coverage_test.rb
+  - dora/bin/dora
+  required_paths:
+  - dora/lib/dora/plan_coverage.rb
+  - dora/templates/plan-registry.yaml
+  - dora/test/plan_coverage_test.rb
+  - dora/bin/dora
+  validation: ruby dora/test/plan_coverage_test.rb
+  started_at: '2026-08-05T11:52:19Z'
+  start_fingerprints:
+    dora/lib/dora/plan_coverage.rb: __missing__
+    dora/templates/plan-registry.yaml: __missing__
+    dora/test/plan_coverage_test.rb: __missing__
+    dora/bin/dora: b39103ea5da55a8df0bfc914453985a9f15348e7fb0ddd2882586942502263e8
+- id: reconcile-serial-inventory-consumer-wrapper
+  title: Reconcile the legacy serial-inventory audit with Dora core parity
+  type: implementation
+  status: done
+  inventory_item: dora-v05-serial-parity
+  observable_outcome: MuffinMan's serial-inventory wrapper delegates only reusable
+    checks to Dora while retaining any consumer-specific rule explicitly.
+  dependencies:
+  - dora-v05-plan-coverage
+  evidence_boundary:
+  - Dora serial parity test and retained MuffinMan wrapper audit
+  paths:
+  - dora/lib/dora/serial_plan_integrity.rb
+  - dora/test/serial_plan_integrity_test.rb
+  - scripts/audits/audit-serial-execution-inventory.rb
+  - docs/dora-audit-extraction-classification.yaml
+  required_paths:
+  - dora/lib/dora/serial_plan_integrity.rb
+  - dora/test/serial_plan_integrity_test.rb
+  - scripts/audits/audit-serial-execution-inventory.rb
+  - docs/dora-audit-extraction-classification.yaml
+  validation: ruby dora/test/serial_plan_integrity_test.rb
+  started_at: '2026-08-05T11:53:37Z'
+  start_fingerprints:
+    dora/lib/dora/serial_plan_integrity.rb: 164e10cdf95165ee991a8ebb49c7265741b89be22f53b288148b314e996d368f
+    dora/test/serial_plan_integrity_test.rb: 229ab9dc59549994d87ee61bdeff2e155ae95c9d7b57d9f330c4502dddebb29c
+    scripts/audits/audit-serial-execution-inventory.rb: c6a66ffe59c3d72398a86a332eed0b46d13e8206ce1c1c64d51b53fcb7c7193e
+    docs/dora-audit-extraction-classification.yaml: 4e966e6b0f1d293753db0f5793ed2844dc0c092381bd2c11117cbf57ce1d1685
+- id: extract-configured-control-ownership-control
+  title: Extract a project-configured control ownership control
+  type: implementation
+  status: done
+  inventory_item: dora-v05-control-ownership
+  observable_outcome: Dora checks a declared ownership inventory without expecting
+    MuffinMan scripts, counts, or extension IDs.
+  dependencies:
+  - dora-v05-serial-parity
+  evidence_boundary:
+  - two-project ownership control test and MuffinMan compatibility wrapper audit
+  paths:
+  - dora/lib/dora/control_ownership.rb
+  - dora/templates/control-ownership.yaml
+  - dora/test/control_ownership_test.rb
+  - scripts/audits/audit-dora-control-ownership.rb
+  - docs/dora-control-ownership-inventory.yaml
+  required_paths:
+  - dora/lib/dora/control_ownership.rb
+  - dora/templates/control-ownership.yaml
+  - dora/test/control_ownership_test.rb
+  - scripts/audits/audit-dora-control-ownership.rb
+  - docs/dora-control-ownership-inventory.yaml
+  validation: ruby dora/test/control_ownership_test.rb
+  started_at: '2026-08-05T11:54:29Z'
+  start_fingerprints:
+    dora/lib/dora/control_ownership.rb: __missing__
+    dora/templates/control-ownership.yaml: __missing__
+    dora/test/control_ownership_test.rb: __missing__
+    scripts/audits/audit-dora-control-ownership.rb: dedf4fff1b44ad25532f2a0a93b54098940267fcf0e3d7b7f87f10e161d87379
+evidence:
+- task: extract-configured-atomic-plan-contract
+  command: ruby dora/test/atomic_plan_contract_test.rb
+  ranAt: '2026-08-05T11:52:10Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/atomic_plan_contract.rb
+  - dora/test/atomic_plan_contract_test.rb
+  output: "Dora atomic plan contract test passed (portable CLI and invalid-plan rejection).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/atomic_plan_contract.rb
+  - dora/test/atomic_plan_contract_test.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:50:44Z'
+  changedAfterStart: *1
+- task: extract-configured-plan-coverage-control
+  command: ruby dora/test/plan_coverage_test.rb
+  ranAt: '2026-08-05T11:53:24Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/plan_coverage.rb
+  - dora/templates/plan-registry.yaml
+  - dora/test/plan_coverage_test.rb
+  output: "Dora plan coverage test passed (two declared project registries).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/plan_coverage.rb
+  - dora/templates/plan-registry.yaml
+  - dora/test/plan_coverage_test.rb
+  - dora/bin/dora
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:52:19Z'
+  changedAfterStart: *2
+- task: reconcile-serial-inventory-consumer-wrapper
+  command: ruby dora/test/serial_plan_integrity_test.rb
+  ranAt: '2026-08-05T11:54:21Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-audit-extraction-classification.yaml
+  - dora/lib/dora/serial_plan_integrity.rb
+  - dora/test/serial_plan_integrity_test.rb
+  - scripts/audits/audit-serial-execution-inventory.rb
+  output: "Dora serial plan integrity test passed (strict serial mapping and recursion
+    rejection).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/serial_plan_integrity.rb
+  - dora/test/serial_plan_integrity_test.rb
+  - scripts/audits/audit-serial-execution-inventory.rb
+  - docs/dora-audit-extraction-classification.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:53:37Z'
+  changedAfterStart: *3
+- task: extract-configured-control-ownership-control
+  command: ruby dora/test/control_ownership_test.rb
+  ranAt: '2026-08-05T11:56:35Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-control-ownership-inventory.yaml
+  - scripts/audits/audit-dora-control-ownership.rb
+  - dora/lib/dora/control_ownership.rb
+  - dora/templates/control-ownership.yaml
+  - dora/test/control_ownership_test.rb
+  output: "Dora control ownership test passed (two declared ownership models).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/control_ownership.rb
+  - dora/templates/control-ownership.yaml
+  - dora/test/control_ownership_test.rb
+  - scripts/audits/audit-dora-control-ownership.rb
+  - docs/dora-control-ownership-inventory.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:54:29Z'
+  changedAfterStart: *4

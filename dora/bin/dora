@@ -16,6 +16,9 @@ require File.join(ROOT, "lib/dora/discovery_commands")
 require File.join(ROOT, "lib/dora/analysis_commands")
 require File.join(ROOT, "lib/dora/project_configurator")
 require File.join(ROOT, "lib/dora/control_commands")
+require File.join(ROOT, "lib/dora/atomic_plan_contract")
+require File.join(ROOT, "lib/dora/plan_coverage")
+require File.join(ROOT, "lib/dora/plugin_contract")
 
 def fail!(message)
   warn "Dora adapter validation failed: #{message}"
@@ -32,6 +35,26 @@ end
 def validate_work_plan(adapter_path, plan_path)
   result = Dora::WorkVerifier.validate_plan!(adapter_path, plan_path, SCHEMA_PATH)
   puts "Dora work plan valid: #{result.fetch("project")}##{result.fetch("id")} (#{result.fetch("kind")})."
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def validate_atomic_plan_contract(plan_path)
+  result = Dora::AtomicPlanContract.validate!(plan_path)
+  puts "Dora atomic plan contract valid: #{result.fetch("id")} (#{result.fetch("tasks")} tasks)."
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def review_plan_coverage(registry_path)
+  Dora::PlanCoverage.review!(registry_path).each { |row| puts "#{row.fetch("id")}: #{row.fetch("status")} (#{row.fetch("path")})" }
+rescue ArgumentError => error
+  fail!(error.message)
+end
+
+def validate_plugin_contract(manifest_path)
+  result = Dora::PluginContract.validate!(manifest_path)
+  puts "Dora plugin contract valid: #{result.fetch("plugins").join(", ")}."
 rescue ArgumentError => error
   fail!(error.message)
 end
@@ -131,6 +154,15 @@ when "validate-adapter"
 when "validate-work-plan"
   fail!("usage: dora validate-work-plan <adapter-path> <work-plan-path>") unless ARGV.length == 2
   validate_work_plan(ARGV[0], ARGV[1])
+when "plan-contract"
+  fail!("usage: dora plan-contract <work-plan-path>") unless ARGV.length == 1
+  validate_atomic_plan_contract(ARGV.first)
+when "plan-coverage"
+  fail!("usage: dora plan-coverage <plan-registry-path>") unless ARGV.length == 1
+  review_plan_coverage(ARGV.first)
+when "plugin-contract"
+  fail!("usage: dora plugin-contract <plugin-manifest-path>") unless ARGV.length == 1
+  validate_plugin_contract(ARGV.first)
 when "work-start"
   fail!("usage: dora work-start <adapter-path> plan=<path> task=<id>") if ARGV.length < 3
   execute_work(ARGV.shift, ["action=start", *ARGV])

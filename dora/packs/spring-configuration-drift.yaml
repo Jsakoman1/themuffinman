@@ -1,0 +1,12 @@
+kind: dora_optional_plugin_pack
+version: 1
+id: spring-configuration-drift
+entrypoint: dora/lib/dora/plugins/spring_configuration_drift.rb
+inputs:
+  required: [properties_path, property_prefixes]
+output:
+  kind: configuration-environment-drift-report
+invariants:
+  - The consumer declares the properties path and tracked prefixes.
+  - Secret values are never emitted.
+  - The plugin reports static configuration only and does not claim deployment state.

@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "yaml"
+require_relative "../../dora/lib/dora/plugins/architecture_integrity"
 
 ROOT = File.expand_path("../..", __dir__)
 TRUTH_PATH = File.join(ROOT, "docs/system-truth-registry.yaml")
@@ -21,6 +22,7 @@ fact_classes.each do |fact|
     missing_sources << "#{fact.fetch('id')}: #{source}" unless File.exist?(File.join(ROOT, source))
   end
 end
+Dora::Plugins::ArchitectureIntegrity.validate_paths!(root: ROOT, paths: fact_classes.flat_map { |fact| fact.fetch("canonical_sources") }.reject { |path| path.include?("*") })
 unless missing_sources.empty?
   warn "Canonical source integrity audit failed: missing canonical sources"
   missing_sources.each { |source| warn "  #{source}" }

@@ -1,0 +1,10 @@
+kind: dora_plugin_manifest_schema
+version: 1
+purpose: Declare optional stack plugins without Dora inferring source roots, product behavior, or completion status.
+plugin_required_fields: [id, entrypoint, source_roots, inputs, output]
+source_root_required_fields: [id, path]
+output_required_fields: [kind]
+invariants:
+  - Plugin source roots are project-owned relative paths.
+  - Inputs describe only static analysis configuration supplied by the consuming project.
+  - Plugin output is a report contract, never a capability, runtime, or release conclusion.

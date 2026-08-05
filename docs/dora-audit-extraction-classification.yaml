@@ -5,7 +5,7 @@ allowed_classifications: [generic_core, optional_stack_plugin, product_owned]
 entries:
   - {path: scripts/audits/audit-atomic-task-hardening.rb, classification: generic_core, disposition: candidate_after_v04}
   - {path: scripts/audits/audit-plan-coverage.rb, classification: generic_core, disposition: candidate_after_v04}
-  - {path: scripts/audits/audit-serial-execution-inventory.rb, classification: generic_core, disposition: candidate_after_v04}
+  - {path: scripts/audits/audit-serial-execution-inventory.rb, classification: generic_core, disposition: delegated_to_dora_serial_plan_integrity}
   - {path: scripts/audits/audit-work-artifact-retention.rb, classification: generic_core, disposition: superseded_by_dora_retention_review}
   - {path: scripts/audits/audit-work-artifact-schema.rb, classification: generic_core, disposition: superseded_by_dora_work_artifact_schema}
   - {path: scripts/audits/audit-work-plan-recursion.rb, classification: generic_core, disposition: superseded_by_dora_serial_plan_integrity}

@@ -2,7 +2,7 @@ kind: execution_inventory
 version: 1
 id: dora-muffinman-separation-execution-inventory
 master_plan: docs/work/dora-muffinman-separation-master.yaml
-status: active
+status: verified
 hardening_review:
   reviewed_at: 2026-08-05
   mapping_rule: Each item maps to one strict serial child task; sequence is the only

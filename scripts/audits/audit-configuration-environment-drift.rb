@@ -4,18 +4,15 @@ require "json"
 require "fileutils"
 require "time"
 
+require_relative "../../dora/lib/dora/plugins/spring_configuration_drift"
+
 ROOT = File.expand_path("../..", __dir__)
 PROPERTIES = File.join(ROOT, "apps/themuffinman/src/main/resources/application.properties")
 REGISTRY = File.join(ROOT, "docs/security-operations-recovery-registry.yaml")
-lines = File.readlines(PROPERTIES, chomp: true)
-properties = lines.reject { |line| line.strip.empty? || line.lstrip.start_with?("#") }.each_with_object([]) do |line, result|
-  key, value = line.split("=", 2)
-  next if key.to_s.empty?
-  env = value.to_s[/\$\{([^}:]+)(?::[^}]*)?\}/, 1]
-  result << {"name" => key, "environment_name" => env, "secret" => key.match?(/password|secret|api-key|access-key|secret-key/i)}
-end
+analysis = Dora::Plugins::SpringConfigurationDrift.analyze!(root: ROOT, properties_path: "apps/themuffinman/src/main/resources/application.properties", property_prefixes: ["app."])
+properties = analysis.fetch("properties")
 secret_names = properties.select { |property| property["secret"] }.map { |property| property["name"] }
-unmapped = properties.select { |property| property["name"].start_with?("app.") && property["environment_name"].nil? }
+unmapped = analysis.fetch("unmapped")
 
 unless File.file?(REGISTRY)
   abort "Configuration environment drift audit failed: security registry is missing"

@@ -1,0 +1,49 @@
+kind: master
+version: 1
+id: dora-v05-reusable-audits-and-plugins-master
+title: Extract reusable plan controls and optional stack plugins into Dora
+status: draft
+baseline: 8349ce4
+strict_verification: true
+serial_task_execution: true
+atomic_task_hardening_plan: docs/work/dora-v05-reusable-audits-and-plugins-atomic-hardening.yaml
+execution_inventory: docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+objective: Deliver configurable reusable plan-governance controls and optional Spring/Vue static-analysis plugins in Dora, prove two independent consumer paths, and publish a reversible v0.5 release without moving MuffinMan product authority.
+analysis_source: docs/work/dora-v05-reusable-audits-and-plugins-analysis.md
+preflight_source: docs/work/dora-v05-reusable-audits-and-plugins-preflight.md
+goal_readiness_source: docs/work/dora-v05-reusable-audits-and-plugins-goal-readiness.md
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+    - docs/work/dora-v04-operational-one-click-master.yaml
+    - Dora v0.4.0 independent-consumer fixture and release handoff
+  baseline_only_surfaces:
+    - Dora v0.4 launcher, generic CLI, CI bootstrap, workspace snapshot, and provenance
+    - MuffinMan capability, permission, runtime, product-documentation, and business audits
+    - existing MuffinMan product runtime evidence
+  residual_scope:
+    - configurable generic plan-governance controls
+    - project-configured control ownership model
+    - optional plugin manifest and static-analysis plugin packs
+    - independent generic and Spring/Vue consumer adoption fixtures
+    - Dora v0.5 release and separate MuffinMan pin
+  retest_triggers:
+    - changed Dora plan execution or control schema
+    - changed plugin contract, declared source-root rule, or legacy audit wrapper
+    - changed consumer fixture, release handoff, or adapter pin
+  non_duplication_rule: Dora v0.4 evidence remains baseline-only; v0.5 completion counts only new configured-control, plugin-fixture, release, and pin evidence.
+principles:
+  - Dora validates only declared contracts and never infers product completion.
+  - A plugin is optional, stack-scoped, and backed by an isolated fixture.
+  - MuffinMan wrappers remain until portable parity and retained product assumptions are explicit.
+  - Release and consumption pin remain separate, reversible, approval-gated tasks.
+hardening_review:
+  state: in_progress
+  reviewed_at: 2026-08-05
+  contract: Every inventory item must map one-to-one to an atomic task with declared paths, evidence, a leaf validation, and the preceding serial dependency.
+children:
+  - docs/work/dora-v05-reusable-audits-and-plugins-atomic-hardening.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  - docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+evidence: []

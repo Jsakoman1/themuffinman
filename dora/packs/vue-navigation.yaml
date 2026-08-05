@@ -1,0 +1,11 @@
+kind: dora_optional_plugin_pack
+version: 1
+id: vue-navigation
+entrypoint: dora/lib/dora/plugins/vue_navigation.rb
+inputs:
+  required: [router_path, navigation_paths, required_surfaces]
+output:
+  kind: static-navigation-report
+invariants:
+  - Routes and navigation sources are declared by the consumer.
+  - Route presence is not browser runtime or user-flow proof.

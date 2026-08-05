@@ -4,8 +4,8 @@
 require "yaml"
 
 ROOT = File.expand_path("../..", __dir__)
+require File.join(ROOT, "dora/lib/dora/control_ownership")
 INVENTORY_PATH = File.join(ROOT, "docs/dora-control-ownership-inventory.yaml")
-ALLOWED_OWNERS = %w[dora_core dora_adapter muffinman_extension historical_retention].freeze
 
 def relative(path)
   path.delete_prefix("#{ROOT}/")
@@ -27,25 +27,11 @@ def discovered_make_targets
   end
 end
 
-def rule_matches?(rule, subject)
-  Array(rule["subjects"]).include?(subject) ||
-    Array(rule["patterns"]).any? { |pattern| File.fnmatch?(pattern, subject, File::FNM_PATHNAME | File::FNM_EXTGLOB) }
-end
-
 inventory = YAML.load_file(INVENTORY_PATH)
 abort "Dora ownership inventory kind is invalid" unless inventory["kind"] == "dora_control_ownership_inventory"
 abort "Dora ownership inventory version is invalid" unless inventory["version"].to_i == 1
 
-rules = Array(inventory["rules"])
-abort "Dora ownership inventory has no rules" if rules.empty?
 failures = []
-rule_ids = rules.map { |rule| rule["id"] }
-failures << "ownership rule ids are duplicated" unless rule_ids.uniq.length == rule_ids.length
-rules.each do |rule|
-  failures << "ownership rule lacks id" if rule["id"].to_s.empty?
-  failures << "ownership rule #{rule["id"]} has invalid owner" unless ALLOWED_OWNERS.include?(rule["owner"])
-  failures << "ownership rule #{rule["id"]} has no subjects or patterns" if Array(rule["subjects"]).empty? && Array(rule["patterns"]).empty?
-end
 
 scripts = discovered_scripts
 targets = discovered_make_targets
@@ -75,16 +61,12 @@ bindings.each do |binding|
 end
 
 subjects = scripts + targets
-classifications = subjects.map do |subject|
-  matching_rules = rules.select { |rule| rule_matches?(rule, subject) }
-  if matching_rules.empty?
-    failures << "unclassified control subject: #{subject}"
-    next
-  end
-
-  selected = matching_rules.first
-  {"subject" => subject, "owner" => selected.fetch("owner"), "rule" => selected.fetch("id"), "match_count" => matching_rules.length}
-end.compact
+begin
+  classifications = Dora::ControlOwnership.classify!(inventory, subjects)
+rescue ArgumentError => error
+  failures << error.message
+  classifications = []
+end
 
 missing_owners = %w[dora_core dora_adapter muffinman_extension] - classifications.map { |row| row["owner"] }.uniq
 failures << "ownership classes have no current subject: #{missing_owners.join(", ")}" unless missing_owners.empty?

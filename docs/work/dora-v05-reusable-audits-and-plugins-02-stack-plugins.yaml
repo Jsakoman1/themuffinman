@@ -1,0 +1,413 @@
+kind: work
+version: 1
+id: dora-v05-reusable-audits-and-plugins-02-stack-plugins
+title: Create optional Dora Spring and Vue static-analysis plugins
+status: verified
+baseline: 8349ce4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+master_plan: docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v04-operational-one-click-master.yaml
+  baseline_only_surfaces:
+  - current JavaSpring
+  - TypeScriptVue
+  - runtime-harness Dora plugins and MuffinMan static audits
+  residual_scope:
+  - optional plugin contract and classified Spring
+  - Vue
+  - and cross-stack static-analysis migrations
+  retest_triggers:
+  - changed plugin manifest
+  - declared source root
+  - static-analysis rule
+  - or legacy audit wrapper
+  non_duplication_rule: Existing MuffinMan static audits are parity baselines; only
+    isolated plugin fixtures count as new Dora evidence.
+hardening_review:
+  state: in_progress
+  contract: Each plugin task must define declared inputs, one bounded analysis outcome,
+    an isolated fixture, and a retained-wrapper parity boundary.
+tasks:
+- id: define-optional-plugin-contract
+  title: Define a declared optional-plugin manifest and execution contract
+  type: implementation
+  status: done
+  inventory_item: dora-v05-plugin-contract
+  observable_outcome: A consuming project can declare an optional plugin, bounded
+    source roots, inputs, and output contract without Dora inferring a stack or project
+    path.
+  dependencies:
+  - dora-v05-control-ownership
+  evidence_boundary:
+  - portable plugin manifest validation test
+  paths:
+  - dora/lib/dora/plugin_contract.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_contract_test.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  required_paths:
+  - dora/lib/dora/plugin_contract.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_contract_test.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  validation: ruby dora/test/plugin_contract_test.rb
+  started_at: '2026-08-05T11:56:42Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_contract.rb: __missing__
+    dora/plugin.schema.yaml: __missing__
+    dora/test/plugin_contract_test.rb: __missing__
+    dora/bin/dora: 07cca7c7629ad3bc34aeee38c86336f2e28637d82fdfa101275de1351ccbe730
+    dora/lib/dora/command_registry.rb: 8e3b9a2270aeeb3594294e2e530d04dc438dbe304353aad640fc67fe119dda69
+- id: extract-spring-configuration-plugin
+  title: Extract Spring configuration-environment drift as an optional plugin
+  type: implementation
+  status: done
+  inventory_item: dora-v05-spring-config
+  observable_outcome: A declared Spring plugin reports configuration-environment drift
+    from configured roots and does not contain MuffinMan configuration names.
+  dependencies:
+  - dora-v05-plugin-contract
+  evidence_boundary:
+  - isolated Spring configuration plugin fixture and retained wrapper audit
+  paths:
+  - dora/lib/dora/plugins/spring_configuration_drift.rb
+  - dora/packs/spring-configuration-drift.yaml
+  - dora/test/spring_configuration_drift_plugin_test.rb
+  - scripts/audits/audit-configuration-environment-drift.rb
+  required_paths:
+  - dora/lib/dora/plugins/spring_configuration_drift.rb
+  - dora/packs/spring-configuration-drift.yaml
+  - dora/test/spring_configuration_drift_plugin_test.rb
+  - scripts/audits/audit-configuration-environment-drift.rb
+  validation: ruby dora/test/spring_configuration_drift_plugin_test.rb
+  started_at: '2026-08-05T11:57:35Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/spring_configuration_drift.rb: __missing__
+    dora/packs/spring-configuration-drift.yaml: __missing__
+    dora/test/spring_configuration_drift_plugin_test.rb: __missing__
+    scripts/audits/audit-configuration-environment-drift.rb: 0f9a9df151801824c2ead0cb425d3dae384b6f7c4e8221a3eb187ad7c9db3a7c
+- id: extract-spring-mapping-plugin
+  title: Extract Spring mapper-usage analysis as an optional plugin
+  type: implementation
+  status: done
+  inventory_item: dora-v05-spring-mapping
+  observable_outcome: A declared Spring plugin validates configured mapper and read-model
+    usage roots without MuffinMan class-name assumptions.
+  dependencies:
+  - dora-v05-spring-config
+  evidence_boundary:
+  - isolated Spring mapper plugin fixture and retained wrapper audit
+  paths:
+  - dora/lib/dora/plugins/spring_mapper_usage.rb
+  - dora/packs/spring-mapper-usage.yaml
+  - dora/test/spring_mapper_usage_plugin_test.rb
+  - scripts/audits/audit-mapper-usage.rb
+  required_paths:
+  - dora/lib/dora/plugins/spring_mapper_usage.rb
+  - dora/packs/spring-mapper-usage.yaml
+  - dora/test/spring_mapper_usage_plugin_test.rb
+  - scripts/audits/audit-mapper-usage.rb
+  validation: ruby dora/test/spring_mapper_usage_plugin_test.rb
+  started_at: '2026-08-05T11:58:26Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/spring_mapper_usage.rb: __missing__
+    dora/packs/spring-mapper-usage.yaml: __missing__
+    dora/test/spring_mapper_usage_plugin_test.rb: __missing__
+    scripts/audits/audit-mapper-usage.rb: '07195ae4085af1c06e4d9f31375940cd2fcaccd2e32675b3b44889271d54ec7e'
+- id: extract-spring-vue-http-contract-plugin
+  title: Extract declared Spring/Vue HTTP contract linkage analysis
+  type: implementation
+  status: done
+  inventory_item: dora-v05-http-contract
+  observable_outcome: A cross-stack plugin compares only declared endpoint and client
+    roots and emits unmatched contract records without product capability claims.
+  dependencies:
+  - dora-v05-spring-mapping
+  evidence_boundary:
+  - isolated HTTP contract plugin fixture and retained wrapper audits
+  paths:
+  - dora/lib/dora/plugins/http_contract_linker.rb
+  - dora/packs/spring-vue-http-contract.yaml
+  - dora/test/http_contract_linker_plugin_test.rb
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  required_paths:
+  - dora/lib/dora/plugins/http_contract_linker.rb
+  - dora/packs/spring-vue-http-contract.yaml
+  - dora/test/http_contract_linker_plugin_test.rb
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  validation: ruby dora/test/http_contract_linker_plugin_test.rb
+  started_at: '2026-08-05T11:59:25Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/http_contract_linker.rb: __missing__
+    dora/packs/spring-vue-http-contract.yaml: __missing__
+    dora/test/http_contract_linker_plugin_test.rb: __missing__
+    scripts/audits/audit-api-contract-drift.rb: e826ee0f20ca7253743e8b0669f0c2bb8725cbb650c311c569f91395cafb932f
+    scripts/audits/audit-endpoint-callsite-linker.rb: c85c30a04dc8b9b07fab22ff050827f217d97391f91c370b802c82ffc9f393f6
+- id: extract-vue-navigation-plugin
+  title: Extract Vue route and entrypoint analysis as an optional plugin
+  type: implementation
+  status: done
+  inventory_item: dora-v05-vue-navigation
+  observable_outcome: A declared Vue plugin reports configured route and entrypoint
+    linkage without treating route presence as runtime acceptance.
+  dependencies:
+  - dora-v05-http-contract
+  evidence_boundary:
+  - isolated Vue navigation fixture and retained wrapper audits
+  paths:
+  - dora/lib/dora/plugins/vue_navigation.rb
+  - dora/packs/vue-navigation.yaml
+  - dora/test/vue_navigation_plugin_test.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  required_paths:
+  - dora/lib/dora/plugins/vue_navigation.rb
+  - dora/packs/vue-navigation.yaml
+  - dora/test/vue_navigation_plugin_test.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  validation: ruby dora/test/vue_navigation_plugin_test.rb
+  started_at: '2026-08-05T12:01:50Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/vue_navigation.rb: __missing__
+    dora/packs/vue-navigation.yaml: __missing__
+    dora/test/vue_navigation_plugin_test.rb: __missing__
+    scripts/audits/audit-frontend-route-surfaces.rb: 63a41093336d4a08360d118c263cf41b6660cc88e4834ca92f980d31f36eb36a
+    scripts/audits/audit-ui-entrypoints.rb: 134d9ea5f3195be8356b8399e989e07c85f3791961eda126eab0ed7d55afc651
+- id: extract-vue-surface-hygiene-plugin
+  title: Extract Vue surface hygiene analysis as an optional plugin
+  type: implementation
+  status: done
+  inventory_item: dora-v05-vue-surface
+  observable_outcome: A declared Vue plugin reports stale, interaction, and read-surface
+    static patterns without asserting usability or business completion.
+  dependencies:
+  - dora-v05-vue-navigation
+  evidence_boundary:
+  - isolated Vue surface fixture and retained wrapper audits
+  paths:
+  - dora/lib/dora/plugins/vue_surface_hygiene.rb
+  - dora/packs/vue-surface-hygiene.yaml
+  - dora/test/vue_surface_hygiene_plugin_test.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  required_paths:
+  - dora/lib/dora/plugins/vue_surface_hygiene.rb
+  - dora/packs/vue-surface-hygiene.yaml
+  - dora/test/vue_surface_hygiene_plugin_test.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  validation: ruby dora/test/vue_surface_hygiene_plugin_test.rb
+  started_at: '2026-08-05T12:02:45Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/vue_surface_hygiene.rb: __missing__
+    dora/packs/vue-surface-hygiene.yaml: __missing__
+    dora/test/vue_surface_hygiene_plugin_test.rb: __missing__
+    scripts/audits/audit-frontend-interaction-contract.rb: d8a3adfed5cff516d3df1039a78e1d56094e8b61979e54260db42a8989ca27a1
+    scripts/audits/audit-frontend-stale-surfaces.rb: 94173398ca9ae4e0c12d96eafcbf8943a0e131b93db569faa0dbd9a43b158181
+    scripts/audits/audit-read-surface-inventory.rb: c3916df061db25bc2c44224dd0dbd68e5b1423da92c1e745020b3c51e5586173
+- id: extract-architecture-integrity-plugin
+  title: Extract declared architecture integrity analysis as an optional plugin
+  type: implementation
+  status: done
+  inventory_item: dora-v05-architecture
+  observable_outcome: A declared architecture plugin checks configured canonical-source
+    and dependency-direction rules without product-owned mappings.
+  dependencies:
+  - dora-v05-vue-surface
+  evidence_boundary:
+  - isolated architecture plugin fixture and retained wrapper audits
+  paths:
+  - dora/lib/dora/plugins/architecture_integrity.rb
+  - dora/packs/architecture-integrity.yaml
+  - dora/test/architecture_integrity_plugin_test.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  required_paths:
+  - dora/lib/dora/plugins/architecture_integrity.rb
+  - dora/packs/architecture-integrity.yaml
+  - dora/test/architecture_integrity_plugin_test.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  validation: ruby dora/test/architecture_integrity_plugin_test.rb
+  started_at: '2026-08-05T12:03:32Z'
+  start_fingerprints:
+    dora/lib/dora/plugins/architecture_integrity.rb: __missing__
+    dora/packs/architecture-integrity.yaml: __missing__
+    dora/test/architecture_integrity_plugin_test.rb: __missing__
+    scripts/audits/audit-canonical-source-integrity.rb: 44ac19e2f1f60d9241aaac73b61153d22549874bcc58ca2be977f0b99879160c
+    scripts/audits/audit-module-dependency-direction.rb: 2f84e0fa510904e82226f712b3fbff7127a41e5e529e548b5fe4b7d55ed34a86
+evidence:
+- task: define-optional-plugin-contract
+  command: ruby dora/test/plugin_contract_test.rb
+  ranAt: '2026-08-05T11:57:29Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  - dora/lib/dora/plugin_contract.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_contract_test.rb
+  output: "Dora plugin contract test passed (two isolated manifests and root safety).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/plugin_contract.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_contract_test.rb
+  - dora/bin/dora
+  - dora/lib/dora/command_registry.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:56:42Z'
+  changedAfterStart: *1
+- task: extract-spring-configuration-plugin
+  command: ruby dora/test/spring_configuration_drift_plugin_test.rb
+  ranAt: '2026-08-05T11:58:21Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - dora/lib/dora/plugins/spring_configuration_drift.rb
+  - dora/packs/spring-configuration-drift.yaml
+  - dora/test/spring_configuration_drift_plugin_test.rb
+  output: "Dora Spring configuration drift plugin test passed (declared properties
+    root and redacted parsing).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/plugins/spring_configuration_drift.rb
+  - dora/packs/spring-configuration-drift.yaml
+  - dora/test/spring_configuration_drift_plugin_test.rb
+  - scripts/audits/audit-configuration-environment-drift.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:57:35Z'
+  changedAfterStart: *2
+- task: extract-spring-mapping-plugin
+  command: ruby dora/test/spring_mapper_usage_plugin_test.rb
+  ranAt: '2026-08-05T11:59:19Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-mapper-usage.rb
+  - dora/lib/dora/plugins/spring_mapper_usage.rb
+  - dora/packs/spring-mapper-usage.yaml
+  - dora/test/spring_mapper_usage_plugin_test.rb
+  output: "Dora Spring mapper usage plugin test passed (declared mapper and source
+    roots).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/plugins/spring_mapper_usage.rb
+  - dora/packs/spring-mapper-usage.yaml
+  - dora/test/spring_mapper_usage_plugin_test.rb
+  - scripts/audits/audit-mapper-usage.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:58:26Z'
+  changedAfterStart: *3
+- task: extract-spring-vue-http-contract-plugin
+  command: ruby dora/test/http_contract_linker_plugin_test.rb
+  ranAt: '2026-08-05T12:01:44Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  - dora/lib/dora/plugins/http_contract_linker.rb
+  - dora/packs/spring-vue-http-contract.yaml
+  - dora/test/http_contract_linker_plugin_test.rb
+  output: "Dora HTTP contract linker plugin test passed (declared DTO, endpoint, and
+    client roots).\n\n"
+  requiredPaths: &4
+  - dora/lib/dora/plugins/http_contract_linker.rb
+  - dora/packs/spring-vue-http-contract.yaml
+  - dora/test/http_contract_linker_plugin_test.rb
+  - scripts/audits/audit-api-contract-drift.rb
+  - scripts/audits/audit-endpoint-callsite-linker.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T11:59:25Z'
+  changedAfterStart: *4
+- task: extract-vue-navigation-plugin
+  command: ruby dora/test/vue_navigation_plugin_test.rb
+  ranAt: '2026-08-05T12:02:39Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  - dora/lib/dora/plugins/vue_navigation.rb
+  - dora/packs/vue-navigation.yaml
+  - dora/test/vue_navigation_plugin_test.rb
+  output: "Dora Vue navigation plugin test passed (declared router and navigation
+    sources).\n\n"
+  requiredPaths: &5
+  - dora/lib/dora/plugins/vue_navigation.rb
+  - dora/packs/vue-navigation.yaml
+  - dora/test/vue_navigation_plugin_test.rb
+  - scripts/audits/audit-frontend-route-surfaces.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:01:50Z'
+  changedAfterStart: *5
+- task: extract-vue-surface-hygiene-plugin
+  command: ruby dora/test/vue_surface_hygiene_plugin_test.rb
+  ranAt: '2026-08-05T12:03:24Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - dora/lib/dora/plugins/vue_surface_hygiene.rb
+  - dora/packs/vue-surface-hygiene.yaml
+  - dora/test/vue_surface_hygiene_plugin_test.rb
+  output: "Dora Vue surface hygiene plugin test passed (declared sources and markers).\n\n"
+  requiredPaths: &6
+  - dora/lib/dora/plugins/vue_surface_hygiene.rb
+  - dora/packs/vue-surface-hygiene.yaml
+  - dora/test/vue_surface_hygiene_plugin_test.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:02:45Z'
+  changedAfterStart: *6
+- task: extract-architecture-integrity-plugin
+  command: ruby dora/test/architecture_integrity_plugin_test.rb
+  ranAt: '2026-08-05T12:04:18Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - dora/lib/dora/plugins/architecture_integrity.rb
+  - dora/packs/architecture-integrity.yaml
+  - dora/test/architecture_integrity_plugin_test.rb
+  output: "Dora architecture integrity plugin test passed (declared paths and rules).\n\n"
+  requiredPaths: &7
+  - dora/lib/dora/plugins/architecture_integrity.rb
+  - dora/packs/architecture-integrity.yaml
+  - dora/test/architecture_integrity_plugin_test.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:03:32Z'
+  changedAfterStart: *7

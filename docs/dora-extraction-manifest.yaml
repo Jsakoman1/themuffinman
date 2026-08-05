@@ -12,12 +12,12 @@ ownership:
     - dora/lib/
     - dora/project-adapter.schema.yaml
     - dora/project-control.schema.yaml
+    - dora/plugin.schema.yaml
     - dora/packs/
     - dora/templates/
     - dora/README.md
     - dora/test/
-    - dora/fixtures/standalone-project/
-    - dora/fixtures/initialized-project/
+    - dora/fixtures/
   muffinman_retained_prefixes: [.dora/, apps/, docs/, frontend/, scripts/, services/, .gitignore, AGENTS.md, Makefile, README.md, package.json, package-lock.json, custom, open]
   repository_operational_prefixes: [.agents/, .codex/, .github/, .idea/, .run/]
 preservation:
@@ -34,6 +34,6 @@ release_gate:
   required_decisions: [remote destination and owner, Dora version and immutable revision, MuffinMan consumption and pinning method, reviewed history-preservation procedure]
   current_state: approved_and_published
 next_release:
-  version: v0.4.0
-  handoff: docs/dora-release-handoff-v04.yaml
-  state: published_pinned
+  version: v0.5.0
+  handoff: docs/dora-release-handoff-v05.yaml
+  state: awaiting_external_approval

@@ -1,0 +1,6 @@
+kind: dora_plan_registry
+version: 1
+plans:
+  - id: current-delivery
+    path: docs/work/current-delivery.yaml
+    allowed_statuses: [draft, active, planned]

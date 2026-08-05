@@ -1,0 +1,11 @@
+kind: dora_optional_plugin_pack
+version: 1
+id: spring-mapper-usage
+entrypoint: dora/lib/dora/plugins/spring_mapper_usage.rb
+inputs:
+  required: [mapper_glob, source_root]
+output:
+  kind: mapper-usage-report
+invariants:
+  - Mapper and source paths are declared by the consuming project.
+  - The plugin reports static callsites only.

@@ -23,6 +23,8 @@ module Dora
       {"usage" => "dora repository-map <adapter-path> --config <path>", "purpose" => "Emit a configured source and relationship map."},
       {"usage" => "dora validate-adapter <adapter-path>", "purpose" => "Validate a project adapter."},
       {"usage" => "dora validate-work-plan <adapter-path> <work-plan-path>", "purpose" => "Validate a project work plan."},
+      {"usage" => "dora plan-contract <work-plan-path>", "purpose" => "Validate reusable atomic task fields without project assumptions."},
+      {"usage" => "dora plugin-contract <plugin-manifest-path>", "purpose" => "Validate declared optional plugin roots, inputs, and report contract."},
       {"usage" => "dora work-start <adapter-path> plan=<path> task=<id>", "purpose" => "Start one project-owned work item."},
       {"usage" => "dora work-verify <adapter-path> plan=<path> [task=<id>]", "purpose" => "Verify one project-owned work item."}
     ].freeze

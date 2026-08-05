@@ -1,0 +1,164 @@
+kind: work
+version: 1
+id: dora-v05-reusable-audits-and-plugins-03-adoption-and-release
+title: Prove Dora v0.5 adoption and publish a reversible release
+status: active
+baseline: 8349ce4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v05-reusable-audits-and-plugins-execution-inventory.yaml
+master_plan: docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v04-operational-one-click-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.4 independent consumer fixture
+  - v0.4.0 release
+  - and MuffinMan v0.4 pin
+  residual_scope:
+  - generic governance adoption
+  - Spring/Vue plugin adoption
+  - v0.5 release handoff
+  - and v0.5 pin
+  retest_triggers:
+  - changed generic control
+  - plugin contract
+  - consumer fixture
+  - release handoff
+  - or distribution adapter
+  non_duplication_rule: v0.4 adoption and release evidence is baseline-only; v0.5
+    needs new fixture and immutable-tag evidence.
+hardening_review:
+  state: in_progress
+  contract: Adoption fixtures are isolated from MuffinMan and release publication
+    precedes the separate reversible pin.
+tasks:
+- id: prove-generic-governance-consumer-adoption
+  title: Prove a clean consumer can use Dora governance controls
+  type: implementation
+  status: done
+  inventory_item: dora-v05-generic-adoption
+  observable_outcome: A clean consumer fixture configures and runs the new plan-governance
+    and ownership controls through its project-local Dora launcher without MuffinMan
+    references.
+  dependencies:
+  - dora-v05-architecture
+  evidence_boundary:
+  - end-to-end generic consumer fixture test
+  paths:
+  - dora/fixtures/independent-governance-consumer/.dora/project.yaml
+  - dora/test/independent_governance_consumer_test.rb
+  required_paths:
+  - dora/fixtures/independent-governance-consumer/.dora/project.yaml
+  - dora/test/independent_governance_consumer_test.rb
+  validation: ruby dora/test/independent_governance_consumer_test.rb
+  started_at: '2026-08-05T12:04:24Z'
+  start_fingerprints:
+    dora/fixtures/independent-governance-consumer/.dora/project.yaml: __missing__
+    dora/test/independent_governance_consumer_test.rb: __missing__
+- id: prove-spring-vue-plugin-consumer-adoption
+  title: Prove a clean declared Spring/Vue consumer can run optional plugins
+  type: implementation
+  status: done
+  inventory_item: dora-v05-stack-adoption
+  observable_outcome: An isolated Spring/Vue fixture runs every selected v0.5 plugin
+    from declared roots and contains no MuffinMan path or product-rule reference.
+  dependencies:
+  - dora-v05-generic-adoption
+  evidence_boundary:
+  - end-to-end Spring/Vue plugin consumer fixture test
+  paths:
+  - dora/fixtures/spring-vue-plugin-consumer/.dora/project.yaml
+  - dora/test/spring_vue_plugin_consumer_test.rb
+  required_paths:
+  - dora/fixtures/spring-vue-plugin-consumer/.dora/project.yaml
+  - dora/test/spring_vue_plugin_consumer_test.rb
+  validation: ruby dora/test/spring_vue_plugin_consumer_test.rb
+  started_at: '2026-08-05T12:05:26Z'
+  start_fingerprints:
+    dora/fixtures/spring-vue-plugin-consumer/.dora/project.yaml: __missing__
+    dora/test/spring_vue_plugin_consumer_test.rb: __missing__
+- id: publish-dora-v05-release
+  title: Publish immutable Dora v0.5 release
+  type: implementation
+  status: in_progress
+  inventory_item: dora-v05-release
+  observable_outcome: The reviewed Dora v0.5 package is exported to the private Dora
+    repository as an immutable tag without MuffinMan product paths.
+  dependencies:
+  - dora-v05-stack-adoption
+  evidence_boundary:
+  - remote tag resolution and v0.5 release handoff
+  requires_external_approval: true
+  paths:
+  - docs/dora-release-handoff-v05.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  required_paths:
+  - docs/dora-release-handoff-v05.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v05.yaml --expected-version v0.5.0
+  started_at: '2026-08-05T12:06:41Z'
+  start_fingerprints:
+    docs/dora-release-handoff-v05.yaml: __missing__
+    docs/dora-extraction-manifest.yaml: d33f88ed6dad7e590a3607ee0b37e02d34393ebb91b4253b21ccf531f3ca1194
+    scripts/audits/audit-dora-extraction-manifest.rb: dc77818ffcc4ffdbca46f834cda52e8789ab43b8187a4042f6102a529430c21f
+- id: pin-muffinman-to-dora-v05
+  title: Pin MuffinMan to reviewed Dora v0.5
+  type: implementation
+  status: pending
+  inventory_item: muffinman-v05-pin
+  observable_outcome: MuffinMan records the reviewed Dora v0.5 tag commit in a separate
+    reversible adapter pin.
+  dependencies:
+  - dora-v05-release
+  evidence_boundary:
+  - adapter compatibility audit and pinned v0.5 release handoff
+  paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v05.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v05.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+evidence:
+- task: prove-generic-governance-consumer-adoption
+  command: ruby dora/test/independent_governance_consumer_test.rb
+  ranAt: '2026-08-05T12:05:16Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/fixtures/independent-governance-consumer/.dora/project.yaml
+  - dora/test/independent_governance_consumer_test.rb
+  output: "Dora independent governance consumer test passed (local launcher and declared
+    governance controls).\n\n"
+  requiredPaths: &1
+  - dora/fixtures/independent-governance-consumer/.dora/project.yaml
+  - dora/test/independent_governance_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:04:24Z'
+  changedAfterStart: *1
+- task: prove-spring-vue-plugin-consumer-adoption
+  command: ruby dora/test/spring_vue_plugin_consumer_test.rb
+  ranAt: '2026-08-05T12:06:00Z'
+  revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/fixtures/spring-vue-plugin-consumer/.dora/project.yaml
+  - dora/test/spring_vue_plugin_consumer_test.rb
+  output: "Dora Spring/Vue plugin consumer test passed (all declared v0.5 static plugins).\n\n"
+  requiredPaths: &2
+  - dora/fixtures/spring-vue-plugin-consumer/.dora/project.yaml
+  - dora/test/spring_vue_plugin_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:05:26Z'
+  changedAfterStart: *2

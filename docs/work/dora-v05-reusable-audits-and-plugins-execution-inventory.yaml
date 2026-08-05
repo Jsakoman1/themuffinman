@@ -1,0 +1,192 @@
+kind: execution_inventory
+version: 1
+id: dora-v05-reusable-audits-and-plugins-execution-inventory
+master_plan: docs/work/dora-v05-reusable-audits-and-plugins-master.yaml
+status: draft
+hardening_review:
+  state: in_progress
+  reviewed_at: 2026-08-05
+  contract: This is the sole serial queue. Each item maps to one task and the first
+    item must verify before any extraction work starts.
+items:
+- id: dora-v05-harden
+  sequence: 1
+  order: 1
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-atomic-hardening.yaml
+  task: harden-v05-reusable-audits-plan
+  status: verified
+  started_at: '2026-08-05T11:49:44Z'
+  verified_at: '2026-08-05T11:50:37Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-atomic-hardening.yaml
+    task: harden-v05-reusable-audits-plan
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-plan-contract
+  sequence: 2
+  order: 2
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  task: extract-configured-atomic-plan-contract
+  status: verified
+  started_at: '2026-08-05T11:50:44Z'
+  verified_at: '2026-08-05T11:52:10Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+    task: extract-configured-atomic-plan-contract
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-plan-coverage
+  sequence: 3
+  order: 3
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  task: extract-configured-plan-coverage-control
+  status: verified
+  started_at: '2026-08-05T11:52:19Z'
+  verified_at: '2026-08-05T11:53:24Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+    task: extract-configured-plan-coverage-control
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-serial-parity
+  sequence: 4
+  order: 4
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  task: reconcile-serial-inventory-consumer-wrapper
+  status: verified
+  started_at: '2026-08-05T11:53:37Z'
+  verified_at: '2026-08-05T11:54:21Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+    task: reconcile-serial-inventory-consumer-wrapper
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-control-ownership
+  sequence: 5
+  order: 5
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+  task: extract-configured-control-ownership-control
+  status: verified
+  started_at: '2026-08-05T11:54:29Z'
+  verified_at: '2026-08-05T11:56:35Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-01-governance-controls.yaml
+    task: extract-configured-control-ownership-control
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-plugin-contract
+  sequence: 6
+  order: 6
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  task: define-optional-plugin-contract
+  status: verified
+  started_at: '2026-08-05T11:56:42Z'
+  verified_at: '2026-08-05T11:57:29Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+    task: define-optional-plugin-contract
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-spring-config
+  sequence: 7
+  order: 7
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  task: extract-spring-configuration-plugin
+  status: verified
+  started_at: '2026-08-05T11:57:35Z'
+  verified_at: '2026-08-05T11:58:21Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+    task: extract-spring-configuration-plugin
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-spring-mapping
+  sequence: 8
+  order: 8
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  task: extract-spring-mapping-plugin
+  status: verified
+  started_at: '2026-08-05T11:58:26Z'
+  verified_at: '2026-08-05T11:59:19Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+    task: extract-spring-mapping-plugin
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-http-contract
+  sequence: 9
+  order: 9
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  task: extract-spring-vue-http-contract-plugin
+  status: verified
+  started_at: '2026-08-05T11:59:25Z'
+  verified_at: '2026-08-05T12:01:44Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+    task: extract-spring-vue-http-contract-plugin
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-vue-navigation
+  sequence: 10
+  order: 10
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  task: extract-vue-navigation-plugin
+  status: verified
+  started_at: '2026-08-05T12:01:50Z'
+  verified_at: '2026-08-05T12:02:39Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+    task: extract-vue-navigation-plugin
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-vue-surface
+  sequence: 11
+  order: 11
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  task: extract-vue-surface-hygiene-plugin
+  status: verified
+  started_at: '2026-08-05T12:02:45Z'
+  verified_at: '2026-08-05T12:03:24Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+    task: extract-vue-surface-hygiene-plugin
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-architecture
+  sequence: 12
+  order: 12
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+  task: extract-architecture-integrity-plugin
+  status: verified
+  started_at: '2026-08-05T12:03:32Z'
+  verified_at: '2026-08-05T12:04:18Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-02-stack-plugins.yaml
+    task: extract-architecture-integrity-plugin
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-generic-adoption
+  sequence: 13
+  order: 13
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+  task: prove-generic-governance-consumer-adoption
+  status: verified
+  started_at: '2026-08-05T12:04:24Z'
+  verified_at: '2026-08-05T12:05:17Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+    task: prove-generic-governance-consumer-adoption
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-stack-adoption
+  sequence: 14
+  order: 14
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+  task: prove-spring-vue-plugin-consumer-adoption
+  status: verified
+  started_at: '2026-08-05T12:05:26Z'
+  verified_at: '2026-08-05T12:06:00Z'
+  evidence:
+    plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+    task: prove-spring-vue-plugin-consumer-adoption
+    revision: 8349ce4de30a6a995bd0f3c1d978fcafcb84228e
+- id: dora-v05-release
+  sequence: 15
+  order: 15
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+  task: publish-dora-v05-release
+  status: in_progress
+  started_at: '2026-08-05T12:06:41Z'
+- id: muffinman-v05-pin
+  sequence: 16
+  order: 16
+  plan: docs/work/dora-v05-reusable-audits-and-plugins-03-adoption-and-release.yaml
+  task: pin-muffinman-to-dora-v05
+  status: pending

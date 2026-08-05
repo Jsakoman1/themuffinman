@@ -61,6 +61,7 @@ next_release = manifest["next_release"]
 if next_release
   failures << "next release handoff is missing" unless next_release["handoff"].is_a?(String) && File.file?(File.join(ROOT, next_release["handoff"]))
   failures << "next release version is invalid" unless next_release["version"].to_s.match?(/\Av\d+\.\d+\.\d+\z/)
+  failures << "next release state is invalid" unless %w[awaiting_external_approval published_unpinned published_pinned].include?(next_release["state"])
 end
 
 if require_approved_release || check_handoff_draft
