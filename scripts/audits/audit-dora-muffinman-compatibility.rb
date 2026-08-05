@@ -7,7 +7,7 @@ require "yaml"
 
 ROOT = File.expand_path("../..", __dir__)
 MATRIX_PATH = File.join(ROOT, "docs/dora-muffinman-compatibility-matrix.yaml")
-V03_HANDOFF_PATH = File.join(ROOT, "docs/dora-release-handoff-v03.yaml")
+CURRENT_HANDOFF_PATH = File.join(ROOT, "docs/dora-release-handoff-v04.yaml")
 
 def target_body(target)
   lines = File.readlines(File.join(ROOT, "Makefile"), chomp: true)
@@ -31,12 +31,12 @@ distribution = adapter.is_a?(Hash) ? adapter.fetch("distribution", {}) : {}
 end
 failures << "MuffinMan Dora distribution source_ref must be versioned" unless distribution["source_ref"].to_s.match?(/\Av\d+\.\d+\.\d+\z/)
 failures << "MuffinMan Dora distribution source_commit must be immutable" unless distribution["source_commit"].to_s.match?(/\A[0-9a-f]{40}\z/)
-handoff = YAML.load_file(V03_HANDOFF_PATH)
+handoff = YAML.load_file(CURRENT_HANDOFF_PATH)
 release = handoff.fetch("release", {})
 consumption = handoff.fetch("consumption", {})
-failures << "Dora v0.3 handoff is not published and pinned" unless handoff["status"] == "published" && consumption["status"] == "pinned"
-failures << "MuffinMan adapter ref differs from Dora v0.3 handoff" unless distribution["source_ref"] == release["version"] && distribution["source_ref"] == consumption["pinned_ref"]
-failures << "MuffinMan adapter commit differs from Dora v0.3 handoff" unless distribution["source_commit"] == release["immutable_commit"] && distribution["source_commit"] == consumption["pinned_commit"]
+failures << "current Dora handoff is not published and pinned" unless handoff["status"] == "published" && consumption["status"] == "pinned"
+failures << "MuffinMan adapter ref differs from current Dora handoff" unless distribution["source_ref"] == release["version"] && distribution["source_ref"] == consumption["pinned_ref"]
+failures << "MuffinMan adapter commit differs from current Dora handoff" unless distribution["source_commit"] == release["immutable_commit"] && distribution["source_commit"] == consumption["pinned_commit"]
 
 entries = Array(matrix["entries"])
 failures << "compatibility matrix has no entries" if entries.empty?

@@ -145,10 +145,21 @@ items:
   order: 13
   plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
   task: publish-dora-v04-release
-  status: in_progress
+  status: verified
   started_at: '2026-08-05T11:33:59Z'
+  verified_at: '2026-08-05T11:37:55Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+    task: publish-dora-v04-release
+    revision: 0d4dfc30c48c7268ed1f5d3182a4aac4a63190ad
 - id: muffinman-v04-pin
   order: 14
   plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
   task: pin-muffinman-to-dora-v04
-  status: pending
+  status: verified
+  started_at: '2026-08-05T11:37:58Z'
+  verified_at: '2026-08-05T11:38:21Z'
+  evidence:
+    plan: docs/work/dora-v04-operational-one-click-03-generic-audits-and-adoption.yaml
+    task: pin-muffinman-to-dora-v04
+    revision: 0d4dfc30c48c7268ed1f5d3182a4aac4a63190ad
