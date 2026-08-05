@@ -1,8 +1,10 @@
 # Dora
 
 Bootstrap a local project from a reviewed local Dora source with `dora bootstrap`.
-Choose `--starter blank` for a neutral skeleton or `--starter spring-vue` for empty
-backend and frontend roots. Starters do not create product behavior.
+Choose `--starter blank` for a neutral skeleton, `--starter spring-vue` for empty
+backend and frontend roots, or `--starter spring-vue-buildable` for a domain-free
+Spring and Vue technical application with real setup, test, and build commands.
+Starters do not create product behavior.
 
 Dora is a portable delivery-control package for implementation planning,
 verification, documentation contracts, and controlled project extensions.
@@ -20,8 +22,11 @@ cd my-app
 ```
 
 The `blank` starter creates a neutral technical skeleton. The `spring-vue` starter
-creates only empty backend and frontend roots. Both leave product domains,
-authentication, data schemas, and user-facing features for deliberate project work.
+creates only empty backend and frontend roots. The `spring-vue-buildable` starter
+adds a compilable Spring application and a dependency-free Vue browser surface so
+the declared project commands can run immediately. All starters leave product
+domains, authentication, data schemas, and user-facing features for deliberate
+project work.
 
 It owns reusable protocols and command mechanics. A consuming project owns its
 domain behavior, source code, tests, runtime evidence, documentation, and
@@ -44,3 +49,7 @@ product paths or completion status from an adapter.
 `bin/`, `lib/`, and `templates/` contain portable Dora behavior. `fixtures/`
 contains consumer examples and is deliberately outside the portable package
 boundary audit.
+
+For a complete beginner and operator workflow—including plugins, reports,
+upgrades, and the boundary between Dora and a product—read
+[`docs/operator-guide.md`](docs/operator-guide.md).

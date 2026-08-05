@@ -1,0 +1,195 @@
+kind: work
+version: 1
+id: dora-v07-complete-product-boundary-02-delegation
+title: Delegate every reusable MuffinMan static audit through Dora
+status: verified
+baseline: 55b4fc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+master_plan: docs/work/dora-v07-complete-product-boundary-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+  atomicity_contract: Delegate only classified reusable wrappers and leave product-retained
+    audits explicit.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  baseline_only_surfaces:
+  - v0.6 six-plugin manifest
+  residual_scope:
+  - portable adapters
+  - coverage
+  - remaining wrappers
+  retest_triggers:
+  - changed wrapper
+  - plugin
+  - manifest
+  - or ownership classification
+  non_duplication_rule: v0.6 wrapper parity is baseline only.
+tasks:
+- id: add-portable-static-plugin-adapters
+  title: Add adapters for reusable static plugins
+  type: implementation
+  status: done
+  inventory_item: dora-v07-plugin-adapters
+  observable_outcome: Architecture configuration mapper HTTP navigation and Vue-hygiene
+    analysis expose one portable adapter contract independent of MuffinMan reports.
+  dependencies:
+  - dora-v07-plugin-v2
+  evidence_boundary:
+  - multi-plugin independent fixture
+  paths:
+  - dora/lib/dora/plugin_adapter.rb
+  - dora/plugin-adapter.schema.yaml
+  - dora/test/plugin_adapter_test.rb
+  required_paths:
+  - dora/lib/dora/plugin_adapter.rb
+  - dora/plugin-adapter.schema.yaml
+  - dora/test/plugin_adapter_test.rb
+  validation: ruby dora/test/plugin_adapter_test.rb
+  started_at: '2026-08-05T12:51:43Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_adapter.rb: __missing__
+    dora/plugin-adapter.schema.yaml: __missing__
+    dora/test/plugin_adapter_test.rb: __missing__
+- id: enforce-manifest-coverage-and-retention
+  title: Enforce manifest coverage and retained-audit registry
+  type: implementation
+  status: done
+  inventory_item: dora-v07-manifest-coverage
+  observable_outcome: Every reusable wrapper has a declared Dora plugin and every
+    product-retained audit has a documented ownership reason.
+  dependencies:
+  - dora-v07-plugin-adapters
+  evidence_boundary:
+  - manifest and retention coverage audit
+  paths:
+  - ".dora/plugins.yaml"
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  required_paths:
+  - ".dora/plugins.yaml"
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  started_at: '2026-08-05T12:52:19Z'
+  start_fingerprints:
+    ".dora/plugins.yaml": a860ebe2b99b8f28df100fdb233d41b504f2a82aa56a83d9a809842babc69b48
+    docs/dora-muffinman-tool-ownership.yaml: 1aad4a09368482eb21ceeeb4df551624b6d67e7914450d8773b3a5cc2bb7254f
+    scripts/audits/audit-dora-muffinman-tool-ownership.rb: c1eb4acf93210b109445f618d893a59032f5b5d22ad391e32da323c0b165a6c3
+- id: delegate-all-reusable-muffinman-wrappers
+  title: Delegate all reusable local wrappers
+  type: implementation
+  status: done
+  inventory_item: dora-v07-wrapper-delegation
+  observable_outcome: MuffinMan reusable wrappers only declare inputs and route product
+    report destinations while product-retained audits stay explicit and untouched.
+  dependencies:
+  - dora-v07-manifest-coverage
+  evidence_boundary:
+  - complete wrapper delegation audit
+  paths:
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - scripts/audits/audit-mapper-usage.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - scripts/audits/audit-mapper-usage.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  started_at: '2026-08-05T12:54:05Z'
+  start_fingerprints:
+    scripts/audits/audit-configuration-environment-drift.rb: 7ab7b3ac117888a992622dd81befa022a852b22ab78c8f75764e5a79df6eb4a2
+    scripts/audits/audit-mapper-usage.rb: 8754f798cc97fea41a55fc9680da71ba1c3f1be182d932e34711cd720c0a34ab
+    scripts/audits/audit-ui-entrypoints.rb: cc97104499d4a8e838a5a79c840fd773aaded50064528dc2a0488a430ab100ec
+    scripts/audits/audit-frontend-interaction-contract.rb: 4d9248ab6b28c27c86abfd40d0067b1b8cd44721c653452cb86db81bef9cda65
+    scripts/audits/audit-frontend-stale-surfaces.rb: dd0fe51572b697fe8248679a0fa46bbd0e3dbada02b5af9289ea861e7ca8a3dc
+    scripts/audits/audit-canonical-source-integrity.rb: 98c8799f3a2df161eb02edf4f47414dc260148c43d6129497dc3313cdb704d0d
+    scripts/audits/audit-module-dependency-direction.rb: 58adf08faa89eec06aaadc2b8b6acc7fd99c0a721127fbea1b852d26d3c42d3b
+    scripts/audits/audit-read-surface-inventory.rb: 8b2077d9ea6d5f02c61e6fbc24781125bac90d4d029fc3f3344302aa3ab0832f
+    scripts/audits/audit-dora-muffinman-compatibility.rb: 57cdfea8ffe114f3d4f476951391485e8ff5902899e7344b7b6193fdece26c96
+evidence:
+- task: add-portable-static-plugin-adapters
+  command: ruby dora/test/plugin_adapter_test.rb
+  ranAt: '2026-08-05T12:52:13Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugin_adapter.rb
+  - dora/plugin-adapter.schema.yaml
+  - dora/test/plugin_adapter_test.rb
+  output: "Dora plugin adapter test passed (portable static-analysis adapters).\n\n"
+  requiredPaths: &1
+  - dora/lib/dora/plugin_adapter.rb
+  - dora/plugin-adapter.schema.yaml
+  - dora/test/plugin_adapter_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:51:43Z'
+  changedAfterStart: *1
+- task: enforce-manifest-coverage-and-retention
+  command: ruby scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  ranAt: '2026-08-05T12:53:19Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - ".dora/plugins.yaml"
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  output: "Dora/MuffinMan tool ownership audit passed (45 local audits classified).\n\n"
+  requiredPaths: &2
+  - ".dora/plugins.yaml"
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:52:19Z'
+  changedAfterStart: *2
+- task: delegate-all-reusable-muffinman-wrappers
+  command: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+  ranAt: '2026-08-05T12:55:22Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-mapper-usage.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  output: "Dora/MuffinMan compatibility audit passed (work-start, work-verify delegate
+    through Dora with a standalone fixture trace).\n\n"
+  requiredPaths: &3
+  - scripts/audits/audit-configuration-environment-drift.rb
+  - scripts/audits/audit-mapper-usage.rb
+  - scripts/audits/audit-ui-entrypoints.rb
+  - scripts/audits/audit-frontend-interaction-contract.rb
+  - scripts/audits/audit-frontend-stale-surfaces.rb
+  - scripts/audits/audit-canonical-source-integrity.rb
+  - scripts/audits/audit-module-dependency-direction.rb
+  - scripts/audits/audit-read-surface-inventory.rb
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:54:05Z'
+  changedAfterStart: *3

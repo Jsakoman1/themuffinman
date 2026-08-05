@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+exec("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", "architecture-integrity") unless ENV["DORA_PLUGIN_RUNNER"] == "1"
+
 require "yaml"
 require_relative "../../dora/lib/dora/plugins/architecture_integrity"
 

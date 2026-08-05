@@ -9,6 +9,7 @@ module Dora
     def self.apply!(path, project_root:)
       pack = load!(path)
       Array(pack["directories"]).each { |relative| FileUtils.mkdir_p(File.join(project_root, relative)) }
+      apply_template!(path, pack, project_root)
       pack.fetch("files").each do |relative, content|
         destination = File.join(project_root, relative)
         FileUtils.mkdir_p(File.dirname(destination))
@@ -18,6 +19,18 @@ module Dora
       File.write(File.join(project_root, ".dora/project-commands.yaml"), YAML.dump(commands).sub(/\A---\n/, ""))
       {"id" => pack.fetch("id"), "files" => pack.fetch("files").keys}
     end
+
+    def self.apply_template!(pack_path, pack, project_root)
+      template_root = pack["template_root"]
+      return unless template_root
+
+      fail!("starter pack template root is invalid") unless safe_relative_path?(template_root)
+      package_root = File.expand_path("..", File.dirname(pack_path))
+      source = File.expand_path(template_root, package_root)
+      fail!("starter pack template root is missing") unless source.start_with?("#{package_root}/") && Dir.exist?(source)
+      Dir.children(source).reject { |name| name == "template.yaml" }.each { |name| FileUtils.cp_r(File.join(source, name), project_root) }
+    end
+    private_class_method :apply_template!
 
     def self.load!(path)
       pack = YAML.load_file(path)
@@ -46,10 +59,15 @@ module Dora
       files = pack["files"] || {}
       fail!("starter pack files must be a mapping") unless files.is_a?(Hash)
       (directories + files.keys).each do |path|
-        fail!("starter pack path must be project-relative") unless path.is_a?(String) && !path.empty? && !path.start_with?("/") && !path.split("/").include?("..")
+        fail!("starter pack path must be project-relative") unless safe_relative_path?(path)
       end
     end
     private_class_method :validate_paths!
+
+    def self.safe_relative_path?(path)
+      path.is_a?(String) && !path.empty? && !path.start_with?("/") && !path.split("/").include?("..")
+    end
+    private_class_method :safe_relative_path?
 
     def self.fail!(message)
       raise ArgumentError, message

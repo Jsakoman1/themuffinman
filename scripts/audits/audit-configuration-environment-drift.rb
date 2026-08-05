@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+exec("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", "spring-configuration-drift") unless ENV["DORA_PLUGIN_RUNNER"] == "1"
+
 require "json"
 require "fileutils"
 require "time"

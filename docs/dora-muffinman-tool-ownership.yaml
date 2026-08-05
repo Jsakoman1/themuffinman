@@ -1,0 +1,36 @@
+kind: dora_muffinman_tool_ownership
+version: 1
+policy: Every local audit is classified; extract moves reusable mechanics to Dora, delegate keeps only MuffinMan inputs and destinations, and product_retained keeps product truth or repository-specific evidence authority.
+groups:
+  - id: reusable_static_analysis
+    decision: delegate
+    reason: Algorithms are Dora plugins; MuffinMan supplies roots, configuration, and report destinations.
+    dora_surfaces: [dora/lib/dora/plugin_runner.rb, dora/lib/dora/plugin_adapter.rb]
+    manifest_required: true
+    manifest_path: .dora/plugins.yaml
+    audits: [audit-api-contract-drift.rb, audit-canonical-source-integrity.rb, audit-configuration-environment-drift.rb, audit-endpoint-callsite-linker.rb, audit-frontend-interaction-contract.rb, audit-frontend-route-surfaces.rb, audit-frontend-stale-surfaces.rb, audit-mapper-usage.rb, audit-module-dependency-direction.rb, audit-read-surface-inventory.rb, audit-ui-entrypoints.rb]
+  - id: reusable_control_mechanics
+    decision: extract
+    reason: Plan contracts, serial integrity, package boundaries, templates, tool catalogues, and work artifacts are portable control mechanisms.
+    dora_surfaces: [dora/bin/dora, dora/lib/dora/atomic_plan_contract.rb, dora/lib/dora/plan_coverage.rb, dora/lib/dora/serial_plan_integrity.rb, dora/lib/dora/template_freshness.rb, dora/lib/dora/tool_catalog.rb, dora/lib/dora/work_artifact_schema.rb, dora/lib/dora/work_execution.rb, dora/lib/dora/workspace_snapshot.rb]
+    audits: [audit-atomic-task-hardening.rb, audit-dora-control-ownership.rb, audit-dora-package-boundary.rb, audit-plan-coverage.rb, audit-serial-execution-inventory.rb, audit-template-freshness.rb, audit-tool-catalog.rb, audit-work-artifact-schema.rb, audit-work-plan-recursion.rb, audit-workspace-change-inventory.rb]
+  - id: release_and_adapter_controls
+    decision: delegate
+    reason: Dora supplies release and compatibility mechanics while MuffinMan owns its chosen remote, adapter, and evidence locations.
+    dora_surfaces: [dora/lib/dora/project_bootstrap.rb, dora/lib/dora/adapter.rb, dora/lib/dora/work_execution.rb]
+    audits: [audit-dora-extraction-manifest.rb, audit-dora-muffinman-compatibility.rb]
+  - id: historical_or_plan_specific_controls
+    decision: product_retained
+    reason: These scripts verify historical MuffinMan plan records or the current repository-specific v0.7 graph and are not a reusable product capability.
+    retention_basis: historical_product_record
+    audits: [audit-dora-v04-operational-plan.rb, audit-dora-v05-reusable-plan.rb, audit-dora-v06-bootstrap-plan.rb, audit-dora-v07-product-boundary-plan.rb, audit-dora-muffinman-product-boundary.rb, audit-dora-muffinman-tool-ownership.rb]
+  - id: muffinman_product_truth_and_evidence
+    decision: product_retained
+    reason: These audits own MuffinMan capability, entity, permission, workflow, documentation, runtime, native, or registry meaning.
+    retention_basis: product_meaning_or_runtime_authority
+    audits: [audit-capability-evidence-freshness.rb, audit-data-workflow-impact.rb, audit-delivery-provenance.rb, audit-docs-as-tests.rb, audit-interface-evidence-reconciliation.rb, audit-inventory-freshness.rb, audit-main-surfaces-plan-preflight.rb, audit-mutation-safety.rb, audit-native-client-handoff.rb, audit-repository-fetch.rb, audit-runtime-acceptance.rb, audit-runtime-tools.rb, audit-target-capability-catalog.rb, audit-target-capability-coverage.rb, audit-truth-registry-integrity.rb, audit-work-artifact-retention.rb]
+  - id: project_environment_and_discovery
+    decision: product_retained
+    reason: These scripts are configured around this repository's IDE routing, generated slices, and System Map registries; Dora provides generic primitives but not their MuffinMan inputs.
+    retention_basis: project_specific_operational_input
+    audits: [audit-intellij-mcp-routing.rb]

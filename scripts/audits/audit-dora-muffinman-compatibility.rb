@@ -29,7 +29,15 @@ failures << "MuffinMan Dora plugin manifest validation failed: #{[stdout, stderr
 {
   "scripts/audits/audit-api-contract-drift.rb" => "http-contract-drift",
   "scripts/audits/audit-endpoint-callsite-linker.rb" => "http-contract-linker",
-  "scripts/audits/audit-frontend-route-surfaces.rb" => "vue-navigation"
+  "scripts/audits/audit-frontend-route-surfaces.rb" => "vue-navigation",
+  "scripts/audits/audit-configuration-environment-drift.rb" => "spring-configuration-drift",
+  "scripts/audits/audit-mapper-usage.rb" => "spring-mapper-usage",
+  "scripts/audits/audit-ui-entrypoints.rb" => "vue-ui-entrypoints",
+  "scripts/audits/audit-frontend-interaction-contract.rb" => "vue-interaction-hygiene",
+  "scripts/audits/audit-frontend-stale-surfaces.rb" => "vue-stale-surface-hygiene",
+  "scripts/audits/audit-canonical-source-integrity.rb" => "canonical-source-integrity",
+  "scripts/audits/audit-module-dependency-direction.rb" => "architecture-integrity",
+  "scripts/audits/audit-read-surface-inventory.rb" => "vue-read-surface-hygiene"
 }.each do |path, plugin_id|
   wrapper = File.read(File.join(ROOT, path))
   failures << "#{path} does not delegate through its declared Dora plugin" unless wrapper.include?("plugin-run") && wrapper.include?(plugin_id)

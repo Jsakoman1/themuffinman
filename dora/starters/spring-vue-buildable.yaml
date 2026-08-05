@@ -1,0 +1,13 @@
+kind: dora_starter_pack
+version: 1
+id: spring-vue-buildable
+technical_only: true
+template_root: templates/starters/spring-vue
+commands:
+  setup: npm --prefix frontend install --ignore-scripts
+  test: mvn -q -f backend/pom.xml test && npm --prefix frontend run test
+  build: mvn -q -f backend/pom.xml package && npm --prefix frontend run build
+directories: []
+files:
+  README.md: "# Buildable Spring and Vue starter\n\nThis technical starter has no product domain, authentication, persistence schema, or user-facing business feature.\n"
+boundaries: [No product domain, authentication, database schema, API resource, or user-facing business feature is generated.]

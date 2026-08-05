@@ -1,0 +1,167 @@
+kind: work
+version: 1
+id: dora-v07-complete-product-boundary-01-core
+title: Extract portable reporting and plugin execution core
+status: verified
+baseline: 55b4fc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+master_plan: docs/work/dora-v07-complete-product-boundary-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+  atomicity_contract: Catalogue ownership before extracting generic report and plugin
+    mechanics.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  baseline_only_surfaces:
+  - v0.6 runner
+  residual_scope:
+  - catalog
+  - report writer
+  - plugin v2
+  retest_triggers:
+  - changed report or plugin contract
+  non_duplication_rule: v0.6 raw runner output is baseline only.
+tasks:
+- id: publish-extract-delegate-retain-catalog
+  title: Publish complete local-tool ownership catalogue
+  type: docs-only
+  status: done
+  inventory_item: dora-v07-catalog
+  observable_outcome: Every MuffinMan local audit is classified as extract delegate
+    or product-retained with a concrete reason and no unclassified script remains.
+  dependencies:
+  - dora-v07-harden
+  evidence_boundary:
+  - ownership catalogue audit
+  paths:
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  required_paths:
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  started_at: '2026-08-05T12:49:17Z'
+  start_fingerprints:
+    docs/dora-muffinman-tool-ownership.yaml: __missing__
+    scripts/audits/audit-dora-muffinman-tool-ownership.rb: __missing__
+- id: extract-portable-report-writer
+  title: Extract portable report writing
+  type: implementation
+  status: done
+  inventory_item: dora-v07-report-writer
+  observable_outcome: Dora writes safe declared JSON and Markdown diagnostic reports
+    without MuffinMan paths or product claims and MuffinMan AuditSupport no longer
+    owns that reusable mechanism.
+  dependencies:
+  - dora-v07-catalog
+  evidence_boundary:
+  - portable report writer fixture
+  paths:
+  - dora/lib/dora/report_writer.rb
+  - dora/report-writer.schema.yaml
+  - dora/test/report_writer_test.rb
+  - scripts/audit_support.rb
+  required_paths:
+  - dora/lib/dora/report_writer.rb
+  - dora/report-writer.schema.yaml
+  - dora/test/report_writer_test.rb
+  - scripts/audit_support.rb
+  validation: ruby dora/test/report_writer_test.rb
+  started_at: '2026-08-05T12:50:14Z'
+  start_fingerprints:
+    dora/lib/dora/report_writer.rb: __missing__
+    dora/report-writer.schema.yaml: __missing__
+    dora/test/report_writer_test.rb: __missing__
+    scripts/audit_support.rb: 1dd26d957b55e1df117a48110e6e9e0f840dc0bbb282b421c66b26f41cacddf0
+- id: make-plugin-runner-write-portable-reports
+  title: Make runner emit declared portable reports
+  type: implementation
+  status: done
+  inventory_item: dora-v07-plugin-v2
+  observable_outcome: Each declared plugin run writes a validated report with inputs
+    findings output destination and non-completion boundary.
+  dependencies:
+  - dora-v07-report-writer
+  evidence_boundary:
+  - plugin v2 fixture
+  paths:
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_runner_test.rb
+  required_paths:
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_runner_test.rb
+  validation: ruby dora/test/plugin_runner_test.rb
+  started_at: '2026-08-05T12:50:53Z'
+  start_fingerprints:
+    dora/lib/dora/plugin_runner.rb: 004cb73c813fa7660dc3c25b806332ad916ef180d7bee534d017fc36d74499ff
+    dora/lib/dora/plugin_report.rb: 6814ee1a4f082fd1a9b5da07d694914d24f6b04dca9ba35e84e30b18e6357131
+    dora/plugin.schema.yaml: fd69b561dcef781a0b89ec6c72a34f781ba52cbf90077e5a44c2ce2c84c57032
+    dora/test/plugin_runner_test.rb: a702717220a3562a529b126faeb85fc9c2270c90598874b94679674710f2a284
+evidence:
+- task: publish-extract-delegate-retain-catalog
+  command: ruby scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  ranAt: '2026-08-05T12:50:08Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  output: "Dora/MuffinMan tool ownership audit passed (45 local audits classified).\n\n"
+  requiredPaths: &1
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-tool-ownership.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:49:17Z'
+  changedAfterStart: *1
+- task: extract-portable-report-writer
+  command: ruby dora/test/report_writer_test.rb
+  ranAt: '2026-08-05T12:50:46Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - scripts/audit_support.rb
+  - dora/lib/dora/report_writer.rb
+  - dora/report-writer.schema.yaml
+  - dora/test/report_writer_test.rb
+  output: "Dora report writer test passed (portable atomic diagnostic reports).\n\n"
+  requiredPaths: &2
+  - dora/lib/dora/report_writer.rb
+  - dora/report-writer.schema.yaml
+  - dora/test/report_writer_test.rb
+  - scripts/audit_support.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:50:14Z'
+  changedAfterStart: *2
+- task: make-plugin-runner-write-portable-reports
+  command: ruby dora/test/plugin_runner_test.rb
+  ranAt: '2026-08-05T12:51:36Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/plugin_report.rb
+  - dora/lib/dora/plugin_runner.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_runner_test.rb
+  output: "Dora plugin runner test passed (declared local plugins only).\n\n"
+  requiredPaths: &3
+  - dora/lib/dora/plugin_runner.rb
+  - dora/lib/dora/plugin_report.rb
+  - dora/plugin.schema.yaml
+  - dora/test/plugin_runner_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:50:53Z'
+  changedAfterStart: *3

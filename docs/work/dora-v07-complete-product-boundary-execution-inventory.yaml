@@ -1,0 +1,157 @@
+kind: execution_inventory
+version: 1
+id: dora-v07-complete-product-boundary-execution-inventory
+master_plan: docs/work/dora-v07-complete-product-boundary-master.yaml
+status: draft
+hardening_contract:
+  item_count: 13
+  mapping: Every item maps exactly once to a child task.
+  dependency: Each item after the first directly depends on its immediate predecessor.
+  ownership: Extraction, delegation, and product retention must be explicit rather
+    than inferred from file location.
+items:
+- id: dora-v07-harden
+  sequence: 1
+  order: 1
+  plan: docs/work/dora-v07-complete-product-boundary-atomic-hardening.yaml
+  task: harden-v07-product-boundary-plan
+  status: verified
+  started_at: '2026-08-05T12:47:13Z'
+  verified_at: '2026-08-05T12:49:11Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-atomic-hardening.yaml
+    task: harden-v07-product-boundary-plan
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-catalog
+  sequence: 2
+  order: 2
+  plan: docs/work/dora-v07-complete-product-boundary-01-core.yaml
+  task: publish-extract-delegate-retain-catalog
+  status: verified
+  started_at: '2026-08-05T12:49:17Z'
+  verified_at: '2026-08-05T12:50:08Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-01-core.yaml
+    task: publish-extract-delegate-retain-catalog
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-report-writer
+  sequence: 3
+  order: 3
+  plan: docs/work/dora-v07-complete-product-boundary-01-core.yaml
+  task: extract-portable-report-writer
+  status: verified
+  started_at: '2026-08-05T12:50:14Z'
+  verified_at: '2026-08-05T12:50:46Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-01-core.yaml
+    task: extract-portable-report-writer
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-plugin-v2
+  sequence: 4
+  order: 4
+  plan: docs/work/dora-v07-complete-product-boundary-01-core.yaml
+  task: make-plugin-runner-write-portable-reports
+  status: verified
+  started_at: '2026-08-05T12:50:53Z'
+  verified_at: '2026-08-05T12:51:36Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-01-core.yaml
+    task: make-plugin-runner-write-portable-reports
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-plugin-adapters
+  sequence: 5
+  order: 5
+  plan: docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+  task: add-portable-static-plugin-adapters
+  status: verified
+  started_at: '2026-08-05T12:51:43Z'
+  verified_at: '2026-08-05T12:52:13Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+    task: add-portable-static-plugin-adapters
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-manifest-coverage
+  sequence: 6
+  order: 6
+  plan: docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+  task: enforce-manifest-coverage-and-retention
+  status: verified
+  started_at: '2026-08-05T12:52:19Z'
+  verified_at: '2026-08-05T12:53:19Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+    task: enforce-manifest-coverage-and-retention
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-wrapper-delegation
+  sequence: 7
+  order: 7
+  plan: docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+  task: delegate-all-reusable-muffinman-wrappers
+  status: verified
+  started_at: '2026-08-05T12:54:05Z'
+  verified_at: '2026-08-05T12:55:25Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+    task: delegate-all-reusable-muffinman-wrappers
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-buildable-starter
+  sequence: 8
+  order: 8
+  plan: docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  task: add-buildable-domain-free-spring-vue-starter
+  status: verified
+  started_at: '2026-08-05T12:55:34Z'
+  verified_at: '2026-08-05T13:04:17Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+    task: add-buildable-domain-free-spring-vue-starter
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-independent-consumer
+  sequence: 9
+  order: 9
+  plan: docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  task: prove-independent-buildable-consumer
+  status: verified
+  started_at: '2026-08-05T13:04:21Z'
+  verified_at: '2026-08-05T13:05:58Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+    task: prove-independent-buildable-consumer
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-product-boundary
+  sequence: 10
+  order: 10
+  plan: docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  task: prove-muffinman-product-boundary
+  status: verified
+  started_at: '2026-08-05T13:05:58Z'
+  verified_at: '2026-08-05T13:07:31Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+    task: prove-muffinman-product-boundary
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-onboarding
+  sequence: 11
+  order: 11
+  plan: docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  task: publish-complete-dora-operator-guide
+  status: verified
+  started_at: '2026-08-05T13:07:31Z'
+  verified_at: '2026-08-05T13:08:45Z'
+  evidence:
+    plan: docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+    task: publish-complete-dora-operator-guide
+    revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+- id: dora-v07-release
+  sequence: 12
+  order: 12
+  plan: docs/work/dora-v07-complete-product-boundary-04-release.yaml
+  task: publish-dora-v07-release
+  status: in_progress
+  started_at: '2026-08-05T13:09:26Z'
+- id: muffinman-v07-pin
+  sequence: 13
+  order: 13
+  plan: docs/work/dora-v07-complete-product-boundary-04-release.yaml
+  task: pin-muffinman-to-dora-v07
+  status: pending

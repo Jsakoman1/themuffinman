@@ -9,6 +9,7 @@ require "open3"
 require "tempfile"
 require "time"
 require "yaml"
+require_relative "../dora/lib/dora/report_writer"
 
 module AuditSupport
   REPO_ROOT = File.expand_path("..", __dir__)
@@ -29,15 +30,11 @@ module AuditSupport
   end
 
   def write_json(relative_path, payload)
-    absolute_path = File.join(REPO_ROOT, relative_path)
-    FileUtils.mkdir_p(File.dirname(absolute_path))
-    atomic_write(absolute_path, JSON.pretty_generate(payload) + "\n")
+    Dora::ReportWriter.write_json!(root: REPO_ROOT, relative_path: relative_path, payload: payload)
   end
 
   def write_text(relative_path, content)
-    absolute_path = File.join(REPO_ROOT, relative_path)
-    FileUtils.mkdir_p(File.dirname(absolute_path))
-    atomic_write(absolute_path, content)
+    Dora::ReportWriter.write_text!(root: REPO_ROOT, relative_path: relative_path, content: content)
   end
 
   def atomic_write(absolute_path, content)

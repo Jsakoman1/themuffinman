@@ -1,0 +1,6 @@
+kind: dora_schema
+version: 1
+id: plugin-adapter
+description: Maps declared portable static-analysis plugin ids and project-owned inputs to structured findings.
+supported_ids: [architecture-integrity, spring-configuration-drift, spring-mapper-usage, http-contract-linker, vue-navigation, vue-surface-hygiene]
+invariants: [Inputs remain consumer-owned, Findings are diagnostic only, No adapter contains product domain rules.]

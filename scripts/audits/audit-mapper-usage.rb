@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+exec("dora/bin/dora", "plugin-run", ".dora/plugins.yaml", "spring-mapper-usage") unless ENV["DORA_PLUGIN_RUNNER"] == "1"
+
 require "time"
 require_relative "../audit_support"
 require_relative "../../dora/lib/dora/plugins/spring_mapper_usage"

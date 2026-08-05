@@ -1,0 +1,77 @@
+kind: work
+version: 1
+id: dora-v07-complete-product-boundary-04-release
+title: Publish complete Dora boundary and pin MuffinMan
+status: active
+baseline: 55b4fc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+master_plan: docs/work/dora-v07-complete-product-boundary-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+  atomicity_contract: Publication and consumer pin remain separately approved operations
+    after all local proof.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  baseline_only_surfaces:
+  - Dora v0.6 release and pin
+  residual_scope:
+  - v0.7 handoff and pin
+  retest_triggers:
+  - changed release
+  - handoff
+  - or pin
+  non_duplication_rule: v0.6 tag evidence cannot close v0.7.
+tasks:
+- id: publish-dora-v07-release
+  title: Publish immutable Dora v0.7 release
+  type: implementation
+  status: in_progress
+  inventory_item: dora-v07-release
+  observable_outcome: Dora v0.7 is published after independent buildable-consumer
+    and product-boundary proof with approved immutable handoff.
+  dependencies:
+  - dora-v07-onboarding
+  evidence_boundary:
+  - remote tag and v0.7 handoff
+  requires_external_approval: true
+  paths:
+  - docs/dora-release-handoff-v07.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  required_paths:
+  - docs/dora-release-handoff-v07.yaml
+  - docs/dora-extraction-manifest.yaml
+  - scripts/audits/audit-dora-extraction-manifest.rb
+  validation: ruby scripts/audits/audit-dora-extraction-manifest.rb --require-approved-release
+    --handoff docs/dora-release-handoff-v07.yaml --expected-version v0.7.0
+  started_at: '2026-08-05T13:09:26Z'
+  start_fingerprints:
+    docs/dora-release-handoff-v07.yaml: __missing__
+    docs/dora-extraction-manifest.yaml: d0977a0800b4656e4f649e927bbd70a04dcd3d3e3d6d597666d2d4d2a0346dd7
+    scripts/audits/audit-dora-extraction-manifest.rb: 5c60d8204f942c3f56f2cadc8045253cf5191c00a86dc1d77475210dc6c63120
+- id: pin-muffinman-to-dora-v07
+  title: Pin MuffinMan to reviewed Dora v0.7
+  type: implementation
+  status: pending
+  inventory_item: muffinman-v07-pin
+  observable_outcome: MuffinMan records the reviewed v0.7 commit only after its immutable
+    tag is published and handoff is approved.
+  dependencies:
+  - dora-v07-release
+  evidence_boundary:
+  - MuffinMan compatibility audit and pinned handoff
+  requires_external_approval: true
+  paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v07.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  required_paths:
+  - ".dora/project.yaml"
+  - docs/dora-release-handoff-v07.yaml
+  - scripts/audits/audit-dora-muffinman-compatibility.rb
+  validation: ruby scripts/audits/audit-dora-muffinman-compatibility.rb
+evidence: []

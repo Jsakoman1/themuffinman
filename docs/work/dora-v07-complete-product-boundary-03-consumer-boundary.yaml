@@ -1,0 +1,215 @@
+kind: work
+version: 1
+id: dora-v07-complete-product-boundary-03-consumer-boundary
+title: Prove complete Dora consumer and MuffinMan product boundary
+status: verified
+baseline: 55b4fc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+master_plan: docs/work/dora-v07-complete-product-boundary-master.yaml
+execution_readiness:
+  queue_authority: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+  atomicity_contract: A buildable independent consumer must prove Dora completeness
+    before the product boundary claim.
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  baseline_only_surfaces:
+  - v0.6 technical skeleton
+  residual_scope:
+  - buildable starter
+  - independent proof
+  - product boundary
+  - operator guide
+  retest_triggers:
+  - changed starter
+  - fixture
+  - boundary catalogue
+  - or guide
+  non_duplication_rule: v0.6 zero-knowledge proof does not prove buildable consumption.
+tasks:
+- id: add-buildable-domain-free-spring-vue-starter
+  title: Add buildable domain-free Spring and Vue starter
+  type: implementation
+  status: done
+  inventory_item: dora-v07-buildable-starter
+  observable_outcome: A selected Spring/Vue starter has real setup test and build
+    commands and compiles without business entities APIs authentication or persistence
+    schema.
+  dependencies:
+  - dora-v07-wrapper-delegation
+  evidence_boundary:
+  - buildable starter test
+  paths:
+  - dora/starters/spring-vue-buildable.yaml
+  - dora/templates/starters/spring-vue/template.yaml
+  - dora/lib/dora/starter_pack.rb
+  - dora/test/buildable_spring_vue_starter_test.rb
+  required_paths:
+  - dora/starters/spring-vue-buildable.yaml
+  - dora/templates/starters/spring-vue/template.yaml
+  - dora/lib/dora/starter_pack.rb
+  - dora/test/buildable_spring_vue_starter_test.rb
+  validation: ruby dora/test/buildable_spring_vue_starter_test.rb
+  started_at: '2026-08-05T12:55:34Z'
+  start_fingerprints:
+    dora/starters/spring-vue-buildable.yaml: __missing__
+    dora/templates/starters/spring-vue/template.yaml: __missing__
+    dora/lib/dora/starter_pack.rb: 5fceb3a821236e917a2e6d200d2e8b329c140ce88e0581f370bfce2cbc40894a
+    dora/test/buildable_spring_vue_starter_test.rb: __missing__
+- id: prove-independent-buildable-consumer
+  title: Prove an independent buildable Dora consumer
+  type: implementation
+  status: done
+  inventory_item: dora-v07-independent-consumer
+  observable_outcome: A fixture uses only a released local Dora source and buildable
+    starter then runs setup test build doctor CI generation and a portable plugin
+    without MuffinMan paths.
+  dependencies:
+  - dora-v07-buildable-starter
+  evidence_boundary:
+  - independent buildable consumer fixture
+  paths:
+  - dora/fixtures/independent-buildable-consumer/README.md
+  - dora/test/independent_buildable_consumer_test.rb
+  required_paths:
+  - dora/fixtures/independent-buildable-consumer/README.md
+  - dora/test/independent_buildable_consumer_test.rb
+  validation: ruby dora/test/independent_buildable_consumer_test.rb
+  started_at: '2026-08-05T13:04:21Z'
+  start_fingerprints:
+    dora/fixtures/independent-buildable-consumer/README.md: __missing__
+    dora/test/independent_buildable_consumer_test.rb: __missing__
+- id: prove-muffinman-product-boundary
+  title: Prove MuffinMan retains only product-owned controls
+  type: docs-only
+  status: done
+  inventory_item: dora-v07-product-boundary
+  observable_outcome: The boundary audit proves every remaining MuffinMan audit is
+    catalogued as delegated reusable mechanics or product-retained meaning evidence
+    or runtime authority.
+  dependencies:
+  - dora-v07-independent-consumer
+  evidence_boundary:
+  - MuffinMan product-boundary audit
+  paths:
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  required_paths:
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  validation: ruby scripts/audits/audit-dora-muffinman-product-boundary.rb
+  started_at: '2026-08-05T13:05:58Z'
+  start_fingerprints:
+    docs/dora-muffinman-tool-ownership.yaml: 1a092a61786b407235703eb86fca55590609d1ff58282148115014e6d0e8df3c
+    scripts/audits/audit-dora-muffinman-product-boundary.rb: __missing__
+    docs/dora-muffinman-compatibility-matrix.yaml: 1c6b67a720123dafbf40d3531913e541825718cc0e1eb2cfba5f7fc5909bb43b
+- id: publish-complete-dora-operator-guide
+  title: Publish complete Dora operator guide
+  type: docs-only
+  status: done
+  inventory_item: dora-v07-onboarding
+  observable_outcome: Dora documentation explains bootstrap starter plugin report
+    upgrade boundary and product-retained audit decisions for a beginner and an operator.
+  dependencies:
+  - dora-v07-product-boundary
+  evidence_boundary:
+  - operator guide coverage test
+  paths:
+  - dora/README.md
+  - dora/docs/operator-guide.md
+  - dora/test/operator_guide_test.rb
+  required_paths:
+  - dora/README.md
+  - dora/docs/operator-guide.md
+  - dora/test/operator_guide_test.rb
+  validation: ruby dora/test/operator_guide_test.rb
+  started_at: '2026-08-05T13:07:31Z'
+  start_fingerprints:
+    dora/README.md: ec639d68e5cdb1b8015cb698b79c01e97dad5dad6bf1d50f43e69ffa7cbcb7c0
+    dora/docs/operator-guide.md: __missing__
+    dora/test/operator_guide_test.rb: __missing__
+evidence:
+- task: add-buildable-domain-free-spring-vue-starter
+  command: ruby dora/test/buildable_spring_vue_starter_test.rb
+  ranAt: '2026-08-05T13:04:15Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/lib/dora/starter_pack.rb
+  - dora/starters/spring-vue-buildable.yaml
+  - dora/templates/starters/spring-vue/template.yaml
+  - dora/test/buildable_spring_vue_starter_test.rb
+  output: "Dora buildable Spring/Vue starter test passed (domain-free real build commands).\n\n"
+  requiredPaths: &1
+  - dora/starters/spring-vue-buildable.yaml
+  - dora/templates/starters/spring-vue/template.yaml
+  - dora/lib/dora/starter_pack.rb
+  - dora/test/buildable_spring_vue_starter_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:55:34Z'
+  changedAfterStart: *1
+- task: prove-independent-buildable-consumer
+  command: ruby dora/test/independent_buildable_consumer_test.rb
+  ranAt: '2026-08-05T13:05:52Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/fixtures/independent-buildable-consumer/README.md
+  - dora/test/independent_buildable_consumer_test.rb
+  output: "Dora independent buildable consumer test passed (released local source,
+    buildable starter, CI, doctor, and portable plugin).\n\n"
+  requiredPaths: &2
+  - dora/fixtures/independent-buildable-consumer/README.md
+  - dora/test/independent_buildable_consumer_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:04:21Z'
+  changedAfterStart: *2
+- task: prove-muffinman-product-boundary
+  command: ruby scripts/audits/audit-dora-muffinman-product-boundary.rb
+  ranAt: '2026-08-05T13:07:31Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  output: "Dora/MuffinMan product-boundary audit passed (46 audits classified; reusable
+    mechanics route to Dora and retained controls keep product authority).\n\n"
+  requiredPaths: &3
+  - docs/dora-muffinman-tool-ownership.yaml
+  - scripts/audits/audit-dora-muffinman-product-boundary.rb
+  - docs/dora-muffinman-compatibility-matrix.yaml
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:05:58Z'
+  changedAfterStart: *3
+- task: publish-complete-dora-operator-guide
+  command: ruby dora/test/operator_guide_test.rb
+  ranAt: '2026-08-05T13:08:45Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - dora/README.md
+  - dora/docs/operator-guide.md
+  - dora/test/operator_guide_test.rb
+  output: "Dora operator guide test passed (bootstrap, starter, plugin, upgrade, and
+    product-boundary guidance).\n\n"
+  requiredPaths: &4
+  - dora/README.md
+  - dora/docs/operator-guide.md
+  - dora/test/operator_guide_test.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T13:07:31Z'
+  changedAfterStart: *4

@@ -3,6 +3,8 @@
 require "open3"
 require "yaml"
 require_relative "plugin_contract"
+require_relative "plugin_report"
+require_relative "report_writer"
 
 module Dora
   class PluginRunner
@@ -20,7 +22,10 @@ module Dora
 
       output, status = Open3.capture2e({"DORA_PLUGIN_RUNNER" => "1"}, "ruby", path, chdir: root)
       fail!("plugin failed: #{plugin_id}\n#{output}") unless status.success?
-      {"id" => plugin_id, "entrypoint" => entrypoint, "source_roots" => plugin.fetch("source_roots"), "output" => output}
+      report_path = plugin.fetch("output").fetch("path", "docs/audit-output/dora-plugin-#{plugin_id}.json")
+      report = PluginReport.build!(plugin_id: plugin_id, inputs: plugin.fetch("inputs"), findings: [{"id" => "plugin-process", "output" => output}], output: plugin.fetch("output").merge("path" => report_path))
+      ReportWriter.write_json!(root: root, relative_path: report_path, payload: report)
+      report.merge("entrypoint" => entrypoint, "source_roots" => plugin.fetch("source_roots"))
     end
 
     def self.safe_relative_path?(path)

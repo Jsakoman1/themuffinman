@@ -3,6 +3,8 @@ version: 1
 status: active
 purpose: Define retained MuffinMan root work commands that execute through Dora without changing MuffinMan-owned evidence locations.
 adapter: .dora/project.yaml
+ownership_catalog: docs/dora-muffinman-tool-ownership.yaml
+product_boundary_audit: scripts/audits/audit-dora-muffinman-product-boundary.rb
 fixture_trace: ruby dora/test/work_execution_test.rb
 entries:
   - target: work-start
@@ -17,3 +19,5 @@ invariants:
   - Dora command dispatch is fail-closed and uses the project adapter before work-plan state changes.
   - Dora does not create or relocate MuffinMan verification evidence.
   - Product-specific audit, runtime, and capability evidence remains outside this compatibility surface.
+  - Every MuffinMan audit is classified as delegated reusable mechanics, extracted reusable mechanics, or product-retained authority in the ownership catalog.
+  - A product-retained audit remains because it owns product meaning, product runtime authority, historical product record, or project-specific operational input.

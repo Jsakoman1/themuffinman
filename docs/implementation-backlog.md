@@ -6,7 +6,7 @@ listed in `docs/implementation-control.md`.
 
 ## Open follow-ups
 
-- DORA-V06-STANDALONE-BOOTSTRAP-001: execute `docs/work/dora-v06-standalone-bootstrap-master.yaml` to add an explicit-source bootstrap, optional starter packs, a declared plugin runner, full MuffinMan manifest adoption, a zero-knowledge fixture, and release/pin evidence; Dora must not infer product behavior or silently download code.
+- DORA-V07-COMPLETE-PRODUCT-BOUNDARY-001: execute `docs/work/dora-v07-complete-product-boundary-master.yaml` to extract every verified reusable delivery mechanism from MuffinMan into Dora, classify every remaining local audit as delegate or product-retained, provide a buildable technical starter, and prove a clean product/Dora boundary before a separately approved release and pin.
 
 - UI-HUMAN-FIRST-SIMPLIFICATION-001: execute `docs/work/human-first-ui-simplification-master.yaml` to replace ambiguous module language with clear user intentions, make Home and Vision more contextual, and simplify Calendar orientation with fresh desktop and mobile evidence.
 - BUSINESS-UX-HUMAN-FIRST-001: simplify the owner setup, service configuration,

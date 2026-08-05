@@ -1,0 +1,87 @@
+kind: work
+version: 1
+id: dora-v07-complete-product-boundary-atomic-hardening
+title: Harden the Dora v0.7 product-boundary plan
+status: verified
+baseline: 55b4fc4
+strict_verification: true
+serial_task_execution: true
+execution_inventory: docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+master_plan: docs/work/dora-v07-complete-product-boundary-master.yaml
+scope_control:
+  standard: docs/plan-scope-control-standard.yaml
+  reused_verified_plans:
+  - docs/work/dora-v06-standalone-bootstrap-master.yaml
+  baseline_only_surfaces:
+  - v0.6 delivery
+  residual_scope:
+  - v0.7 atomic boundaries
+  retest_triggers:
+  - changed v0.7 plan or inventory
+  non_duplication_rule: v0.6 hardening does not validate v0.7 tasks.
+tasks:
+- id: harden-v07-product-boundary-plan
+  title: Verify every v0.7 item has an exact product-boundary outcome
+  type: docs-only
+  status: done
+  inventory_item: dora-v07-harden
+  observable_outcome: Every inventory item maps exactly once to bounded paths, one
+    direct serial predecessor, a leaf validation, and an extract/delegate/retain evidence
+    boundary.
+  dependencies: []
+  evidence_boundary:
+  - v0.7 semantic plan hardening audit
+  paths:
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  - docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+  - docs/work/dora-v07-complete-product-boundary-01-core.yaml
+  - docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+  - docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  - docs/work/dora-v07-complete-product-boundary-04-release.yaml
+  - scripts/audits/audit-dora-v07-product-boundary-plan.rb
+  required_paths:
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  - docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+  - docs/work/dora-v07-complete-product-boundary-01-core.yaml
+  - docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+  - docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  - docs/work/dora-v07-complete-product-boundary-04-release.yaml
+  - scripts/audits/audit-dora-v07-product-boundary-plan.rb
+  validation: ruby scripts/audits/audit-dora-v07-product-boundary-plan.rb
+  started_at: '2026-08-05T12:47:13Z'
+  start_fingerprints:
+    docs/work/dora-v07-complete-product-boundary-master.yaml: d005a7d013f61884c8b137f8af5b1ecd7bc686a3a78b4aff3d93e09975d950c0
+    docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml: 7918f3f4e7e820d27966e91b4b4560c690eecf5e83fc714be0ac3e6a372fa0dc
+    docs/work/dora-v07-complete-product-boundary-01-core.yaml: 0fbadaed338ef1128c7e360ae0713c09bcb201c25c85d0be1e15715faa749dd6
+    docs/work/dora-v07-complete-product-boundary-02-delegation.yaml: a7b5c555e0d0311ed3427056efc73d91a085550cc4a5f3178e451a019705e7d6
+    docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml: 33d7eb082e7c4033d25b02eb0d6b3cf42bdd430ec47c62ccdaf00744a2b20a91
+    docs/work/dora-v07-complete-product-boundary-04-release.yaml: a24fb6c55aab67bb649fd9d29c63617578bdee5fb8b8dbf3ee0480c280c02ac2
+    scripts/audits/audit-dora-v07-product-boundary-plan.rb: __missing__
+evidence:
+- task: harden-v07-product-boundary-plan
+  command: ruby scripts/audits/audit-dora-v07-product-boundary-plan.rb
+  ranAt: '2026-08-05T12:49:11Z'
+  revision: 55b4fc4a0798dd9ccfd075d3cdf37e840fc9707a
+  exitCode: 0
+  result: passed
+  changedFiles:
+  - docs/work/dora-v07-complete-product-boundary-01-core.yaml
+  - docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+  - docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  - docs/work/dora-v07-complete-product-boundary-04-release.yaml
+  - docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  - scripts/audits/audit-dora-v07-product-boundary-plan.rb
+  output: "Dora v0.7 product-boundary plan audit passed (13 atomic serial items).\n\n"
+  requiredPaths: &1
+  - docs/work/dora-v07-complete-product-boundary-master.yaml
+  - docs/work/dora-v07-complete-product-boundary-execution-inventory.yaml
+  - docs/work/dora-v07-complete-product-boundary-01-core.yaml
+  - docs/work/dora-v07-complete-product-boundary-02-delegation.yaml
+  - docs/work/dora-v07-complete-product-boundary-03-consumer-boundary.yaml
+  - docs/work/dora-v07-complete-product-boundary-04-release.yaml
+  - scripts/audits/audit-dora-v07-product-boundary-plan.rb
+  visualEvidencePaths: []
+  runtimeEvidencePaths: []
+  startedAt: '2026-08-05T12:47:13Z'
+  changedAfterStart: *1

@@ -1,0 +1,4 @@
+kind: dora_starter_template
+version: 1
+id: spring-vue-buildable
+description: Domain-free Spring Boot and Vue/Vite application skeleton.
